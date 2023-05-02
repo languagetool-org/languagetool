@@ -3055,6 +3055,32 @@ USA
         </rule>
 
 
+        <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
+        <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM_V2' name="[Simplificar] 'Quando se V.Tipo.Abre(m)' → 'Ao [se] V.Tipo.Abrir(em)'" type="style">
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-26 + 2023-05-01 (2-MAR-2023+) -->
+            <!--
+      Quando se abre a definição em Modo Avançado. → Ao abrir a definição em Modo Avançado.
+      Quando se abrem várias definições em Modo Avançado. → Ao abrirem várias definições em Modo Avançado.
+      -->
+            <pattern>
+                <marker>
+                    <token>quando
+                        <exception scope="previous" postag_regexp='yes' postag='V.+|SPS00|SP000'/>
+                    </token>
+                    <token>se</token>
+                    <token postag='VMIP3.+' postag_regexp='yes'/>
+                </marker>
+                <token postag='DA.+|DI.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+|V.+|DA.+|DI.+|CS' postag_regexp='yes'/>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion>ao <match no='3' postag='VMIP3(.).' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+            <suggestion>ao se <match no='3' postag='VMIP3(.).' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+            <example correction="Ao abrir|Ao se abrir"><marker>Quando se abre</marker> a definição em Modo Avançado.</example>
+            <example correction="Ao abrirem|Ao se abrirem"><marker>Quando se abrem</marker> várias definições em Modo Avançado.</example>
+        </rule>
+
+
         <!-- QUANDO TEMOS DE LIDAR ao lidarmos -->
         <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="[Simplificar] 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-10 (2-MAR-2023+) -->
