@@ -188,6 +188,7 @@ public class Dutch extends Language {
       case "KOMMA_ONTBR": return -1;   // see https://github.com/languagetool-org/languagetool/issues/7644
       case "KOMMA_AANH": return -1; // needs higher priority than DOUBLE_PUNCTUATION
       case "KOMMA_KOMMA": return -1; // needs higher priority than DOUBLE_PUNCTUATION
+      case "HET_FIETS": return -2; // first let other rules check for compound words
       case "WIJ_ZIJ_MIJ": return -2;  // needs higher priority than JOU_JOUW
       case "JOU_JOUW": return -3;
       case "DOUBLE_PUNCTUATION": return -3;
