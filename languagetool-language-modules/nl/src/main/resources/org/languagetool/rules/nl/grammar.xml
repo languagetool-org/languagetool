@@ -24410,14 +24410,16 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
                 <pattern case_sensitive="yes">
                     <token/>
-                    <token postag_regexp="yes" postag="BNW:.*:IET"><exception postag_regexp="yes" postag="ZNW.*|BYW|WKW.*|BNW:.*:(ONV|VRB)"/><exception regexp="yes">slechts|nieuws|langs|wees|straks|limes|anders|wijds|stuks|.*isch</exception></token>
+                    <marker>
+                        <token postag_regexp="yes" postag="BNW:.*:IET"><exception postag_regexp="yes" postag="ZNW.*|BYW|WKW.*|BNW:.*:(ONV|VRB)"/><exception regexp="yes">slechts|nieuws|langs|wees|straks|limes|anders|wijds|stuks|.*isch</exception></token>
+                    </marker>
                 </pattern>
                 <message>Dit lijkt niet correct te zijn.</message>
                 <suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace=""/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace="e"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace="st"/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no="2" regexp_match="s$" regexp_replace="ste"/></suggestion>
-                <example correction="klein|kleine|kleinst|kleinste">De correcties <marker>blijven kleins</marker>.</example>
+                <example correction="klein|kleine|kleinst|kleinste">De correcties blijven <marker>kleins</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GRAND_PRIX" name="Grand Prix-iets / grand-prixiets" >
