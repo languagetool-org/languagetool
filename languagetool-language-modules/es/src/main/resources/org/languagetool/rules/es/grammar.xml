@@ -12906,6 +12906,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- ambiguous
             pero si hay vida y aún es posible escucharla,-->
                 <antipattern>
+                    <token>si</token>
+                    <token>no</token>
+                    <example>Pero si no sabes leer.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">si</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <example>Pero si lo hace...</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">si</token>
+                    <token regexp="yes">…|¿|\?</token>
+                    <example>Si puedo acompañarte un trocito...</example>
+                </antipattern>
+                <antipattern>
                     <token>pero</token>
                     <token skip="20">si</token>
                     <token skip="-1" postag="V.[IS].*" postag_regexp="yes"><exception scope="next" postag_regexp="yes" postag="CS|PR.*"/></token>
