@@ -12111,7 +12111,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='CRASE_CONFUSION' name="Erros de crase">
       <!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
 <!--      <short>Erro de crase</short> - REMMED BY MARCOAGPINTO 2022-10-20 -->
-      <!-- MARCOAGPINTO inserted global antipatterns for all subrules on top -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
+      -->
+
+      <!-- MARCOAGPINTO 2023-05-02 (2-MAR-2023+) *START* -->
+      <antipattern>
+        <token postag='V.+' postag_regexp="yes"/>
+        <token regexp='no'>como</token>
+        <token regexp='yes'>as?</token>
+        <token postag='Z0.+' postag_regexp="yes"/>
+        <token regexp='yes'>&expressoes_de_tempo;</token>
+        <token postag='V.+' postag_regexp="yes">
+          <exception regexp='no'>é</exception>
+        </token>
+        <example>Mas não explica como as 6 horas estão distribuídas.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-05-02 (2-MAR-2023+) *END* -->
 
       <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
