@@ -838,6 +838,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Fast immer bezieht es sich auf deren erste <marker>Bedeutung</marker> der physischen Position.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SUB.*|EIG.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="SENT_END">…</token>
+                </pattern>
+                <example correction="">Erfahren Sie in diesem <marker>Artikel</marker> …</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
