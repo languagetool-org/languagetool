@@ -451,6 +451,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("r ") &&
                    !k.getReplacement().toLowerCase().startsWith("s ") &&
                    !k.getReplacement().toLowerCase().startsWith("t ") &&
+                   !k.getReplacement().toLowerCase().startsWith("u ") &&
                    !k.getReplacement().toLowerCase().startsWith("w ") &&
                    !k.getReplacement().toLowerCase().startsWith("um ") &&
                    !k.getReplacement().toLowerCase().startsWith("oft ") &&
