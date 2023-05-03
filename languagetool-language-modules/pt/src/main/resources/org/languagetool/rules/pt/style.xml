@@ -3241,6 +3241,37 @@ USA
         </rule>
 
 
+        <!-- AMBIENTE QUE SE VIVE ambiente vivido -->
+        <rule id='QUE_SE_VERBO_TIPO_VIVE_PART_PASSADO' name="[Simplificar] 'Que se V.Tipo.Vive(m)' → 'V.Part.Pass.'" type="style" default="temp_off">
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-03 (2-MAR-2023+) -->
+            <!--
+      O ambiente que se vive na escola é péssimo. → O ambiente vivido na escola é péssimo.
+      Os ambientes que se vivem na escola são péssimos. → Os ambientes vividos na escola são péssimos.
+      -->
+            <pattern>
+                <token postag='DA.+|DI.+|CC' postag_regexp='yes'>
+                    <exception postag_regexp='no' postag='SPS00'/>
+                </token>
+                <token postag='NC[FM][SP].+' postag_regexp='yes'/>
+                <marker>
+                    <token>que</token>
+                    <token>se</token>
+                    <token postag='VMIP3.+' postag_regexp='yes'/>
+                </marker>
+                <token postag='SPS00:DA.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='V.+'/>
+                </token>
+                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+                <token postag='NC.+|AQ.+|NP.+|DI.+' postag_regexp='yes'/>
+            </pattern>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:V.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:VMP00[\b2N][\b1C]" />
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction="vivido">O ambiente <marker>que se vive</marker> na escola é péssimo.</example>
+            <example correction="vividos">Os ambientes <marker>que se vivem</marker> na escola são péssimos.</example>
+        </rule>
+
+
         <!-- QUE EU TENHO A FAZER a fazer -->
         <rule id='QUE_PRONOMERETO_VERBOTER_A_VERBO_A_VERBO' name="[Simplificar] que + [Pronome Reto] + V.Ter + a + Verbo → a + verbo" type="style" tags="picky">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-26 (25-JUL-2022+) -->
