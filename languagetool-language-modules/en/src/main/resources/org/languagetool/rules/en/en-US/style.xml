@@ -325,5 +325,252 @@ USA
                 <example correction="restroom|washroom|bathroom|powder room">I need to go to the <marker>toilet</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="IVE_I_HAVE_AMERICAN_STYLE" name="I've (I have) two tickets to see the Dodgers tonight" tags="clarity professional">
+            <antipattern>
+                <token>'ve</token>
+                <token>at</token>
+                <token>least</token>
+                <token postag="VBN" />
+                <example>Until now, everything that's come out I've at least heard of or had some idea of what they were from the company's filings or discussions.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">'ve</token>
+                <token postag="VBN" />
+                <example>I've fact checked the IM and have a couple of questions for you and some language suggestions.</example>
+                <example>I've hand selected these 10 matches below with you in mind.</example>
+            </antipattern>
+            <antipattern>
+                <token>'ve</token>
+                <token regexp="yes" postag="NN:UN">.+e</token>  <!-- because they're not tagged as VB -->
+                <example>I've place electronic copies of the Desert Sky warranty agreement on the service2 network under the TSA_and_aggreement folder for Desert Sky.</example>
+                <example>In addition, I've note "Other Risks/Opportunities" for the quarter that could have significant impacts on our ultimate results.</example>
+                <example>I've place another call into David and let him know that the information we received included most points except for Tomcat.</example>
+                <example>As I am sure you've notice, this is not a textbook.</example>
+            </antipattern>
+            <antipattern>
+                <token>'ve</token>
+                <token min="0" postag="DT" />
+                <token min="0" postag="J.*|RB" postag_regexp="yes" />
+                <token postag="VBN" />
+                <example>I've clean forgotten.</example>
+                <example>You've all underestimated Tom.</example>
+                <example>I've already seen it.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">I|you|we|they</token>
+                    <token>'ve</token>
+                </marker>
+                <token chunk_re="B-NP.*" />
+            </pattern>
+            <message>In American English, "\1" and "have" do not usually form a contraction unless they're followed by a past participle.</message>
+            <suggestion>\1 have</suggestion>
+            <url>https://languagetool.org/insights/post/grammar-contractions/</url>
+            <example correction="I have"><marker>I've</marker> two tickets to see the Dodgers tonight.</example>
+            <example correction="you have">I've got more pounds to my name than <marker>you've</marker> hairs on your head.</example>
+            <example correction="We have"><marker>We've</marker> a lot to thank Tom for.</example>
+            <example correction="they have">Seeing as they're poor, <marker>they've</marker> no choice but to work their hardest.</example>
+        </rule>
+        <rule id="SAY_SORRY" name="say sorry (apologize)">
+            <antipattern>
+                <token postag="PCT|SENT_START" postag_regexp="yes" />
+                <token>say</token>
+                <token>sorry</token>
+                <token>!</token>
+            </antipattern>
+            <antipattern>
+                <token>wanna</token>
+                <token>say</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected="yes">say</token>
+                    <token>sorry</token>
+                </marker>
+            </pattern>
+            <message>Consider using <suggestion><match no="1" postag=".*" postag_regexp="yes">apologize</match></suggestion> to improve your wording.</message>
+            <example correction="apologize">I just wanted to <marker>say sorry</marker> for everything I did.</example>
+        </rule>
+        <rulegroup id="THANKS_FOR_CONTACTING_ME" name="Thanks for contacting us (reaching out to us)">
+            <!-- TODO: maybe picky -->
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">contacting|e-?mailing</token>
+                        <token regexp="yes">us|me</token>
+                    </marker>
+                    <token>
+                        <exception regexp="yes">about|with</exception>
+                    </token>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording. The verb "\4" is considered neutral, while "reach out" is about seeking a positive relationship.</message>
+                <suggestion>reaching out to \5</suggestion>
+                <example correction="reaching out to us">Thank you for <marker>contacting us</marker>.</example>
+                <example>Anne, Thanks for contacting me about this.</example>
+            </rule>
+            <rule default="off">
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <marker>
+                        <token>your</token>
+                        <token regexp="yes">e-?mail|message</token>
+                    </marker>
+                    <token postag="CC|PCT|TO" postag_regexp="yes" />
+                </pattern>
+                <message>Consider an alternative to improve your overall wording.</message>
+                <suggestion>reaching out</suggestion>
+                <suggestion>reaching out to us</suggestion>
+                <example correction="reaching out|reaching out to us">Thank you for <marker>your email</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <marker>
+                        <token regexp="yes">getting|stepping</token>
+                        <token>in</token>
+                        <token>contact</token>
+                        <token>with</token>
+                        <token regexp="yes">us|me</token>
+                    </marker>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording.</message>
+                <suggestion>reaching out to \7</suggestion>
+                <example correction="reaching out to us">Thank you for <marker>getting in contact with us</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <marker>
+                        <token regexp="yes">getting|stepping</token>
+                        <token>in</token>
+                        <token>contact</token>
+                    </marker>
+                    <token postag="CC|PCT|TO" postag_regexp="yes" />
+                </pattern>
+                <message>Consider an alternative to improve your overall wording.</message>
+                <suggestion>reaching out</suggestion>
+                <example correction="reaching out">Thank you for <marker>getting in contact</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">will|'ll</token>
+                    <marker>
+                        <token>contact</token>
+                        <token regexp="yes">you|me</token>
+                    </marker>
+                    <token regexp="yes">regarding|to|\.</token>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording. The verb "\2" is considered neutral, while "reach out" is about seeking a positive relationship.</message>
+                <suggestion>reach out to \3</suggestion>
+                <suggestion>inform \3</suggestion>
+                <suggestion>let \3 know</suggestion>
+                <example correction="reach out to you|inform you|let you know">I will <marker>contact you</marker> regarding next week's meeting.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">can|could</token>
+                    <token>you</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>contact</token>
+                        <token regexp="yes">him|her|you|them|my|y?our|their|his</token>
+                    </marker>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording. The verb "contact" is considered neutral, while "reach out" is about seeking a positive relationship.</message>
+                <suggestion>reach out to \5</suggestion>
+                <suggestion>inform \5</suggestion>
+                <example correction="reach out to our|inform our">Could you please <marker>contact our</marker> lawyer?</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="PER_CENT" name="per cent (percent)">
+            <url>https://www.merriam-webster.com/dictionary/percent</url>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>cent</token>
+                </pattern>
+                <message>In American English, <suggestion>percent</suggestion> is the recommended spelling.</message>
+                <example correction="percent">He increased the revenue by 100 <marker>per cent</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per-cent</token>
+                </pattern>
+                <message>In American English, <suggestion>percent</suggestion> is the recommended spelling.</message>
+                <example correction="percent">He increased the revenue by 100 <marker>per-cent</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="MISSING_PERIOD_AFTER_ABBREVIATION" name="Missing period after an abbreviation" tags="picky">
+            <url>https://www.quickanddirtytips.com/education/grammar/when-you-need-periods-after-abbreviations</url>
+            <short>Missing period</short>
+            <antipattern><!-- https://www.drpepper.com/en -->
+                <token>Dr</token>
+                <token>Pepper</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Dr|Mrs?|Prof|St|Capt<exception scope="next" spacebefore="no">.</exception></token>
+                </pattern>
+                <message>In American English, use a period after an abbreviation.</message>
+                <suggestion>\1.</suggestion>
+                <example correction="Mr."><marker>Mr</marker> Peters told me so.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>Jan</token>
+                    <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token>Mar</token>
+                    <token regexp="yes">del?</token>
+                </antipattern>
+                <antipattern>
+                    <token>Mar</token>
+                    <token>a</token>
+                    <token>Lago</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Sun|We</token>
+                </antipattern>
+                <pattern>
+                    <token postag="IN"/>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">&abbrevWeekdays;|&abbrevMonths;
+                            <exception regexp="yes">mo|su|tu</exception>
+                            <exception scope="next" spacebefore="no" regexp="yes">\.|['’].*</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>In American English, use a period after an abbreviation.</message>
+                <suggestion>\2.</suggestion>
+                <example correction="Fri.">See me on <marker>Fri</marker> 27 at 10:00.</example>
+                <example correction="Jan.">See you next year in <marker>Jan</marker>!</example><!-- Not sure whether AmE has a period for the abbreviation. -->
+                <example>See me on <marker>Fri.</marker> 27 at 10:00.</example>
+                <example>Did you see <marker>Jan</marker> at the party?</example>
+                <example>I saw Peter on <marker>Jan's</marker> birthday.</example>
+                <example>It was created by Jan Luyken and his son.</example>
+                <example>He lives in Mar del Plata.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[a-z0-9].*</token>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">vs</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="yes">.*[a-z0-9].*</token>
+                </pattern>
+                <message>In American English, use a period after an abbreviation.</message>
+                <suggestion>vs.</suggestion>
+                <example correction="vs.">In the end, it's you <marker>vs</marker> me.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
