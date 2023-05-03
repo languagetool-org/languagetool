@@ -168,7 +168,7 @@ public class SentenceAnnotator {
         if (quit) {
           break;
         }
-        if (response.startsWith(">>")) { // alternative suggestion
+        if (response.startsWith(">>") && match != null) { // alternative suggestion
           formattedCorrectedSentence = sentence.substring(0, match.getErrorOffset()) + "___" + response.substring(2)
               + "___" + sentence.substring(match.getErrorOffset() + match.getErrorLength());
           sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
@@ -206,7 +206,7 @@ public class SentenceAnnotator {
               suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
-          if (errorType.equals("OK") || errorType.equals("IG") ) {
+          if (errorType.equals("OK") || errorType.equals("IG")) {
             writeToOutputFile(cfg);
             cfg.outStrB = new StringBuilder();
           }
