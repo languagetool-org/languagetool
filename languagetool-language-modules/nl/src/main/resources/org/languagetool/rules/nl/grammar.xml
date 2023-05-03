@@ -229,8 +229,23 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <antipattern>
                     <token>het</token>
-                    <token regexp="yes">was|kan|vlucht|leest|verving|stelt|gooi|wil|won|regent|staat|stond|punt|leek|kost|moet|moest|plaats|neer|toegang|zit|zo|weg|vaart|weet|cv|spijt|schreef|pijn|meet|overal|dienst|zonde</token>
+                    <token postag="ZNW:EKV:DE_"></token>
+                    <token>en</token>
+                    <example>Wij zitten in het pizza en pastarestaurant.</example>
+                    <example>Vandaag is het zaterdag en morgen zal het zondag zijn.</example>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token regexp="yes">was|kan|vlucht|leest|verving|stelt|gooi|wil|won|regent|staat|stond|punt|leek|kost|moet|moest|plaats|neer|toegang|zit|zo|weg|vaart|weet|cv|spijt|schreef|pijn|meet|overal|dienst|zonde|beet|schoot|schonk|rook|las|smelt|speet|tocht|zet|haast|haat|hen|zin|zeg|vraag</token>
                     <example>Het regent dat het giet.</example>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token postag="ZNW:EKV:DE_"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV:HET|WKW:TGW:INF"/>
+                    <example>Het controle paneel is in een versperde zone.</example>
+                    <example>Het Butterfly gezondheidskussen is leverbaar in diverse hoogtes en hardheden.</example>
+                    <example>Het aandacht trekken is nogal irritant.</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -238,8 +253,8 @@ regexp case-insensitive maken: (?i)
                         <token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW:EKV:HET|GET:TXT.*"></exception></token>
                     </marker>
                 </pattern>
-                <message>\2 is hier waarschijnlijk niet het juiste lidwoord omdat \3 een de-woord is.</message>
-                <suggestion>de \3</suggestion>
+                <message>'\1' is hier waarschijnlijk niet het juiste lidwoord omdat \2 een de-woord is.</message>
+                <suggestion>de \2</suggestion>
                 <example correction="de fiets">Ik heb <marker>het fiets</marker> op slot gezet.</example>
                 <example>Is het angst dat je voelt?</example>
             </rule>
