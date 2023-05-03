@@ -118,6 +118,54 @@ USA
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
+        <!-- CAIXA embalagem -->
+        <rule id='CONFUSÃO_CAIXA_EMBALAGEM' name="[Confusão] Caixa/embalagem">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-05-05 (1-JAN-2022+)      -->
+            <!--
+      Vou tomar uma caixa de Xanax. → Vou tomar uma embalagem de Xanax.
+      Vou tomar várias caixas de Xanax. → Vou tomar várias embalagens de Xanax.
+      -->
+            <pattern>
+                <token inflected='yes'>tomar</token>
+                <token min="0" max="1" negate="yes" regexp='yes'>caixas?</token>
+                <marker>
+                    <token regexp='yes'>caixas?
+                        <exception scope='previous' postag='_PUNCT'/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Se estiver a referir-se a fármacos ou afins, empregue o termo 'embalagem'.</message>
+            <suggestion><match no='3' postag='NC.(.)000' postag_replace='NCF$1000'>embalagem</match></suggestion>
+            <example correction="embalagem">Vou tomar uma <marker>caixa</marker> de Xanax.</example>
+        </rule>
+        <rule id='PRAZER_EM_CONVIDAR' name="Gosto em convidar">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <marker>
+                    <token>prazer</token>
+                    <token>em</token>
+                    <token regexp='yes' inflected="yes">convidar|convidá</token>
+                </marker>
+                <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                <token regexp="yes" min='0'>los?|vos|te</token>
+            </pattern>
+            <message>Substitua por <suggestion>gosto \2 \3</suggestion>.</message>
+            <example correction="gosto em convidá">Terei o maior <marker>prazer em convidá</marker>-los para a festa.</example>
+        </rule>
+        <rule id='PÔR_FIM_À_VIDA' name="pôr termo à vida">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <token inflected='yes'>pôr</token>
+                <marker>
+                    <token>fim</token>
+                </marker>
+                <token>à</token>
+                <token>vida</token>
+            </pattern>
+            <message>Melhore a redação.</message>
+            <suggestion>termo</suggestion>
+            <example correction="termo">O Rui pôs <marker>fim</marker> à vida.</example>
+        </rule>
         <rule id='CICLO_VICIOSO' name="Calinada: Círculo vicioso" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>

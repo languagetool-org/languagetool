@@ -242,6 +242,1350 @@ USA
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <category id='STYLE' name="Estilo" type="style">
+        <!-- CAMINHAR CAMINHOS percorrer/trilhar caminhos -->
+        <rule id='ERRO_TRADUÇÃO_CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+            <pattern>
+                <marker>
+                    <token inflected='yes'>caminhar</token>
+                </marker>
+                <token>caminhos</token>
+            </pattern>
+            <message>Expressão não pode ser traduzida literalmente.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>percorrer</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>trilhar</match></suggestion>
+            <example correction="percorrer|trilhar">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
+        </rule>
+
+
+        <!-- TEMAS NÃO COBERTOS PELO ARTIGO temas não abrangidos pelo artigo -->
+        <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger">
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-02 (25-JUL-2022+) -->
+            <!--
+      Em relação a temas não cobertos por este documento. → Em relação a temas não abrangidos por este documento.
+      Temos assuntos cobertos pelo documento. → Temos assuntos abrangidos pelo documento.
+      Este tema não é coberto por este documento. → Este tema não é abrangido por este documento.
+      Este tema está coberto por este documento. → Este tema está abrangido por este documento.
+      -->
+            <pattern>
+                <token regexp='yes' inflected='yes'>alinha|artigo|assunto|matéria|ponto|problema|problemática|questão|tema|temática|termo|tópico</token>
+                <token min="0" max="1" postag="RN" postag_regexp="no"/> <!-- "não" -->
+                <token min="0" max="1" regexp='yes' inflected='yes'>ser|estar</token>
+                <marker>
+                    <token inflected='yes'>cobrir</token>
+                </marker>
+                <token postag="SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+" postag_regexp="yes"/>
+            </pattern>
+            <message>Expressão não pode ser traduzida literalmente.</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>abranger</match></suggestion>
+            <example correction="abrangidos">Em relação a temas não <marker>cobertos</marker> por este documento.</example>
+            <example correction="abrangidos">Temos assuntos <marker>cobertos</marker> pelo documento.</example>
+            <example correction="abrangido">Este tema não é <marker>coberto</marker> por este documento.</example>
+            <example correction="abrangido">Este tema está <marker>coberto</marker> por este documento.</example>
+        </rule>
+
+        <!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
+        <rule id='ERRO_TRADUÇÃO_TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+            <pattern>
+                <token regexp="yes">trazedora?|trazedor[ae]s</token>
+                <token regexp="yes">d[ae]</token>
+                <token>justiça</token>
+            </pattern>
+            <message>Expressão não pode ser traduzida literalmente.</message>
+            <suggestion><match no='1' postag='NC(..)000' postag_replace='NC$1000'>justiceiro</match></suggestion>
+            <example correction="justiceiro">O terrorista julga ser <marker>trazedor da justiça</marker>.</example>
+            <example correction="justiceiros">Os terroristas julgam ser <marker>trazedores da justiça</marker>.</example>
+        </rule>
+
+
+        <!-- UM TAMANHO DÁ/SERVE PARA TODOS tamanho único -->
+        <rule id='ERRO_TRADUÇÃO_UM_TAMANHO_SERVE_DÁ_PARA_TODOS' name="[Erro tradução] 'um tamanho dá para todos' → 'tamanho único'">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+            <pattern>
+                <token>um</token>
+                <token>tamanho</token>
+                <token regexp="yes" inflected='yes'>servir|dar</token>
+                <token regexp='yes'>pa?ra</token>
+                <token regexp='yes'>tod[ao]s</token>
+            </pattern>
+            <message>Expressão não pode ser traduzida literalmente.</message>
+            <suggestion>tamanho único</suggestion>
+            <example correction="tamanho único">As meias são <marker>um tamanho serve para todos</marker>.</example>
+        </rule>
+
+        <rulegroup id='INTERNET_ABBREVIATIONS' name="Erro ortográfico: Abreviaturas da internet" default="on">
+            <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-12 -->
+            <url>https://pt.wikipedia.org/wiki/Internet%C3%AAs</url>
+            <short>'Internetês'</short>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <token>n</token>
+                    <example>q = p + n</example>
+                    <example>[n + 2 = z]</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='_PUNCT'/>
+                    <token spacebefore='no'>n</token>
+                    <token spacebefore='no' postag='_PUNCT'/>
+                    <example>e,data:n,type:s,success:function</example>
+                </antipattern>
+                <antipattern>
+                    <token>n</token>
+                    <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <example>n = q + r</example>
+                    <example>[a + b = n].</example>
+                </antipattern>
+                <antipattern>
+                    <token>valor</token>
+                    <token min='0'>de</token>
+                    <token>n</token>
+                    <example>Encontre o valor de n.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&aspas;|&operadores_matematicos;|[«»“”"'‘’]</token>
+                    <token>n</token>
+                    <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;</token>
+                    <example>Neste caso "n" representa o número.</example>
+                    <example>Encontre o valor de [n].</example>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>n|ñ|naum<exception case_sensitive='yes'>N</exception></token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer "n", coloque entre aspas.</message>
+                <suggestion>"n"</suggestion>
+                <example correction='não|"n"'>Ele <marker>n</marker> me mandou mensagem ontem.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <token>q</token>
+                    <example>n = p + q</example>
+                    <example>[q + 2 = z]</example>
+                </antipattern>
+                <antipattern>
+                    <token>q</token>
+                    <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <example>q = n + r</example>
+                    <example>[n + 2 = q]</example>
+                </antipattern>
+                <antipattern>
+                    <token>valor</token>
+                    <token>de</token>
+                    <token>q</token>
+                    <example>Encontre o valor de q.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|“|”|\"|\'|[\(\)\[\]\{\}]</token>
+                    <token>q</token>
+                    <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|“|”|\"|\'|[\(\)\[\]\{\}]</token>
+                    <example>Neste caso "q" representa a quota.</example>
+                    <example>Encontre o valor de [q]</example>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive='yes'>q</token>
+                </pattern>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>que</suggestion> por extenso. Se quis dizer "q", coloque entre aspas.</message>
+                <suggestion>"q"</suggestion>
+                <example correction='que|"q"'>Ele <marker>q</marker> me mandou mensagem ontem.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>/</token>
+                    <token>p</token>
+                    <token>/</token>
+                    <example>Calcule o valor de /p/ de acordo com a equação.</example>
+                </antipattern>
+                <antipattern>
+                    <token>p</token>
+                    <token>/</token>
+                    <token regexp='yes'>[a-z]</token>
+                    <example>A redução de 30 p/s para 7,5 p/s resulta em uma economia de dose de 75%.</example>
+                </antipattern>
+                <antipattern>
+                    <token>p</token>
+                    <token>/</token>
+                    <token>mil</token>
+                    <example>Mortalidade infantil: 27,4 p/mil.</example>
+                </antipattern>
+                <antipattern>
+                    <token>p</token>
+                    <token>/</token>
+                    <token>b</token>
+                    <example>A foto deve ser p/b.</example>
+                </antipattern>
+                <pattern>
+                    <token>p<exception case_sensitive='yes'>P</exception></token>
+                    <token>/</token>
+                </pattern>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+                <suggestion>"p"</suggestion>
+                <example correction='para|por|pela|"p"'>A ação foi <marker>p/</marker> aumentar os lucros.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <token>p</token>
+                    <example>p = n + q</example>
+                    <example>[p + 2 = z]</example>
+                </antipattern>
+                <antipattern>
+                    <token>p</token>
+                    <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <example>p = n + r</example>
+                    <example>[n + 2 = p]</example>
+                </antipattern>
+                <antipattern>
+                    <token>valor</token>
+                    <token>de</token>
+                    <token>p</token>
+                    <example>Encontre o valor de p.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <token>p</token>
+                    <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+                    <example>Neste caso "p" representa a porcentagem.</example>
+                    <example>Encontre o valor de [p]</example>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive='yes'>p</token>
+                </pattern>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+                <suggestion>"p"</suggestion>
+                <example correction='para|por|pela|"p"'>A ação foi <marker>p</marker> aumentar os lucros.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <token regexp='yes'>lol|lmao|kk+|rotfl</token>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <example>Cada vez mais jovens utilizam "lol" para expressar risos.</example>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>lol|lmao|kk+|rotfl</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>haha</suggestion> por extenso.</message>
+                <example correction="haha">Haverá reunião aos sábados <marker>kkk</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <token>msg</token>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <example>Cada vez mais jovens utilizam "msg" como abreviatura.</example>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>\p{L}*</token>
+                    <marker>
+                        <token case_sensitive='yes'>msg</token>
+                    </marker>
+                    <or>
+                        <token regexp='yes'>\p{Ll}*</token>
+                        <token regexp='yes'>[!\?\.,;]</token>
+                    </or>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>mensagem</suggestion> por extenso.</message>
+                <example correction="mensagem">Mandei <marker>msg</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <token>msgs</token>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <example>Cada vez mais jovens utilizam "msgs" como abreviatura.</example>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>\p{L}*</token>
+                    <marker>
+                        <token case_sensitive='yes'>msgs</token>
+                    </marker>
+                    <or>
+                        <token regexp='yes'>\p{Ll}*</token>
+                        <token regexp='yes'>[!\?\.,;]</token>
+                    </or>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>mensagens</suggestion> por extenso.</message>
+                <example correction="mensagens">Você não lê minhas <marker>msgs</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <token>omg</token>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <example>Cada vez mais jovens utilizam "omg" em suas conversas.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>omg</token>
+                    </marker>
+                    <token postag='_PUNCT' min='0'/>
+                </pattern>
+                <message>Linguagem de Internet. Considere as alternativas.</message>
+                <suggestion>minha nossa</suggestion>
+                <suggestion>meu Deus</suggestion>
+                <suggestion>não acredito</suggestion>
+                <suggestion>nossa</suggestion>
+                <example correction="minha nossa|meu Deus|não acredito|nossa">Que novidade, <marker>omg</marker>!</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <token>wtf</token>
+                    <token regexp="yes">[«»“”"'‘’]</token>
+                    <example>Cada vez mais jovens utilizam "wtf" em suas conversas.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>wtf</token>
+                    </marker>
+                    <token postag='_PUNCT' min='0'/>
+                </pattern>
+                <message>Linguagem de Internet. Considere as alternativas.</message>
+                <suggestion>como assim</suggestion>
+                <suggestion>que diabos</suggestion>
+                <suggestion>não faz sentido</suggestion>
+                <suggestion>sem noção</suggestion>
+                <suggestion>não entendo</suggestion>
+                <suggestion>o que é isso</suggestion>
+                <example correction="como assim|que diabos|não faz sentido|sem noção|não entendo|o que é isso">É inacreditável, <marker>wtf</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vc</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>você</suggestion> por extenso.</message>
+                <example correction="você">Eu falei com <marker>vc</marker> ontem.</example>
+                <example correction="Você"><marker>Vc</marker> vai cuidar do projeto?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vcs</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>vocês</suggestion> por extenso.</message>
+                <example correction="vocês">Eu falei com <marker>vcs</marker> ontem.</example>
+                <example correction="Vocês"><marker>Vcs</marker> vão cuidar do projeto?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>qm</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>quem</suggestion> por extenso.</message>
+                <example correction="Quem"><marker>Qm</marker> vai à conferência?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hj</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>hoje</suggestion> por extenso.</message>
+                <example correction="hoje">Vou à reunião <marker>hj</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>blz</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>beleza</suggestion> por extenso.</message>
+                <example correction="beleza">Então <marker>blz</marker>, finalizo amanhã.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes' case_sensitive='yes'>qnd|qd</token>
+                </pattern>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>quando</suggestion> por extenso.</message>
+                <example correction="quando">Queria saber <marker>qnd</marker> vai ser o evento.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>qt</token>
+                    <token regexp='yes'>\d+|&operadores_matematicos;</token>
+                    <example>qt = 16</example>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes' case_sensitive='yes'>qnt|qt</token>
+                </pattern>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>quanto</suggestion> ou <suggestion>quantidade</suggestion> por extenso.</message>
+                <example correction="quanto|quantidade">Sabe dizer <marker>qnt</marker> está o lanche?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>qnts|qts</token>
+                </pattern>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>quantos</suggestion> ou <suggestion>quantidades</suggestion> por extenso.</message>
+                <example correction="quantos|quantidades">Sabe dizer <marker>qnts</marker> pessoas virão?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>bj|bjo</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>beijo</suggestion> por extenso.</message>         <example correction="beijo">Obrigada, <marker>bjo</marker>.</example>
+                <example correction="Beijo">Até mais. <marker>Bj</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive='yes'>BJ</token>
+                    <token case_sensitive='yes'>Penn</token>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>bjs|bjos</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>beijos</suggestion> por extenso.</message>
+                <example correction="beijos">Obrigada, <marker>bjos</marker>.</example>
+                <example correction="Beijos">Até mais. <marker>Bjs</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive='yes'>ABS</token>
+                </antipattern>
+                <pattern>
+                    <token>abs</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>abraços</suggestion> por extenso. Se for uma sigla, utilize <suggestion>ABS</suggestion> em letras maiúsculas.</message>
+                <example correction="abraços|ABS">Grato, <marker>abs</marker>.</example>
+                <example correction="Abraços|ABS"><marker>Abs</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag='Z.+|DA.+' postag_regexp='yes'/>
+                    <token case_sensitive='yes'>TB</token>
+                    <example>Armazenamento de 1 TB de rotação.</example>
+                    <example>O TB não ia dar esse mole.</example>
+                </antipattern>
+                <antipattern>
+                    <token>
+                        <exception postag='SENT_START'/>
+                    </token>
+                    <token case_sensitive='yes'>Tb</token>
+                    <example>O térbio é um elemento químico de símbolo Tb.</example>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>tb|tbm</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>também</suggestion> por extenso.</message>
+                <example correction="também">Eu <marker>tbm</marker>.</example>
+                <example correction="Também"><marker>Tb</marker> quero viajar.</example>
+                <example correction="também">O departamento financeiro <marker>tb</marker> vai participar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pfvr</token>
+                </pattern>
+                <message>Linguagem de Internet. Considere escrever <suggestion>por favor</suggestion> por extenso.</message>
+                <example correction="Por favor"><marker>Pfvr</marker> me liga.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
+                    <token>pq</token>
+                    <token regexp='yes'>[\.\?!;]</token>
+                    <example>Quero saber o pq.</example>
+                    <example>Isso não tem algum pq.</example>
+                    <example>Isso tem algum pq?</example>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp='yes' postag='NP.+'/>
+                    <token case_sensitive='yes'>Pq</token>
+                    <token>.</token>
+                    <example>Yoshi Pq.</example>
+                    <example>Mário Pq.</example>
+                </antipattern>
+                <pattern>
+                    <token>pq</token>
+                    <token regexp='yes'>[\.\?!;]</token>
+                </pattern>
+                <message>Linguagem de Internet. "Por quê" é utilizado no final de frases. Considere escrever <suggestion>por quê</suggestion> por extenso.</message>
+                <example correction="por quê">Quero saber <marker>pq.</marker></example>
+                <example correction="por quê">E tudo isso <marker>pq?</marker></example>
+                <example correction="Por quê">Eu não posso ir. <marker>Pq?</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
+                    <marker><token regexp='yes'>pq|pqs</token></marker>
+                    <token regexp='yes'>&pronomes_contracao;</token>
+                </pattern>
+                <message>Linguagem de Internet; escreva por extenso. A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
+                <example correction="porquê">Tem algum <marker>pq</marker> nisso tudo?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>pq</token></marker>
+                    <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
+                </pattern>
+                <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "por qual razão", deve utilizar <suggestion>por que</suggestion>.</message>
+                <example correction="por que">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
+                <example correction="por que">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>o|as|os|a|,</token>
+                    <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
+                    <marker><token>pq</token></marker>
+                </pattern>
+                <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "por qual razão", deve utilizar <suggestion>por que</suggestion>.</message>
+                <example correction="por que">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
+                <example correction="por que">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>pq</token>
+                    <token>?</token>
+                    <example>Pq?</example>
+                </antipattern>
+                <pattern>
+                    <token postag='_PUNCT'/>
+                    <marker>
+                        <token skip='-1'>pq</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
+                <example correction="por que">Se não houve erro algum, <marker>pq</marker> não entregou o documento?</example>
+                <example correction="por que">E faria tudo isso de novo, <marker>pq</marker> não?</example>
+                <example correction="por que">O relatório foi entregue; <marker>pq</marker> não houve mudanças?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>pq</token>
+                    <token>?</token>
+                    <example>Pq?</example>
+                </antipattern>
+                <pattern>
+                    <token postag='SENT_START'/>
+                    <marker>
+                        <token skip='-1'>pq</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
+                <example correction="Por que"><marker>Pq</marker> não entregou o documento?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>pq</token>
+                    <token postag='_PUNCT'/>
+                    <example>Ele não veio e eu nem sei pq.</example>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <marker>
+                        <token skip='-1'>pq</token>
+                    </marker>
+                    <token>?</token>
+                    <example>Ele não veio, pq?</example>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token skip='-1'>pq</token>
+                    </marker>
+                    <token postag='_PUNCT'/>
+                </pattern>
+                <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso.</message>
+                <example correction="porque">Ele não se importou, <marker>pq</marker> acabou voltando.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag='SENT_START'/>
+                    <marker>
+                        <token skip='-1'>pq</token>
+                    </marker>
+                    <token>?</token>
+                    <example>Pq ele não veio?</example>
+                </antipattern>
+                <pattern>
+                    <token postag='SENT_START'/>
+                    <marker>
+                        <token skip='-1'>pq</token>
+                    </marker>
+                    <token postag='_PUNCT'/>
+                </pattern>
+                <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for uma pergunta, utilize <suggestion>por que</suggestion>.</message>
+                <example correction="Porque|Por que"><marker>Pq</marker> ele não quis.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
+                    <marker><token regexp='yes'>pq|pqs</token></marker>
+                    <token regexp='yes'>&pronomes_contracao;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
+                    <token>pq</token>
+                    <example>Quero saber o pq.</example>
+                    <example>Isso não tem algum pq.</example>
+                </antipattern>
+                <antipattern>
+                    <token>pq</token>
+                    <token postag='_PUNCT'/>
+                    <example>Isso não tem pq.</example>
+                    <example>Sabe dizer pq?</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START'/>
+                    <marker>
+                        <token skip='-1'>pq</token>
+                    </marker>
+                    <token>?</token>
+                    <example>Pq ele não veio?</example>
+                </antipattern>
+                <pattern>
+                    <token>pq</token>
+                </pattern>
+                <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se se puder substituir por "por qual razão", utilize <suggestion>por que</suggestion>.</message>
+                <example correction="porque|por que">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
+                <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ADVERBIOS_MODO_EM_SEQUENCIA" name="Sintaxe: sequências de advérbio de modo">
+            <!--  Created by Tiago F. Santos, 2017-09-03      -->
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/adverbios-de-modo-coordenados/33758</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="RM" regexp="yes">.+mente</token>
+                    </marker>
+                    <token regexp='yes'>e|ou|nem</token>
+                    <token postag="RM" regexp="yes">.+mente</token>
+                </pattern>
+                <!-- FIXME: create correct form: diariamente -> diária -->
+                <!--<filter class="org.languagetool.rules.pt.PortugueseSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>-->
+                <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
+                <suggestion ><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+                <example correction="eficiente">O processo foi resolvido <marker>eficientemente</marker> e permanentemente.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="RM" regexp="yes">.+mente</token>
+                    </marker>
+                    <token>,</token>
+                    <token postag="RM" regexp="yes">.+mente</token>
+                    <token regexp='yes'>e|ou|nem</token>
+                </pattern>
+                <!--<filter class="org.languagetool.rules.pt.PortugueseSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>-->
+                <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
+                <suggestion suppress_misspelled="yes"><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+                <example correction="eficiente">O processo foi resolvido <marker>eficientemente</marker>, permanentemente e consistentemente.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id='À_MINHA-TUA-SUA-VOSSA_VERB' name="à + minha/tua/sua/vossa(s) + verbo" >
+            <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-07 (2-JUL-2020+) -->
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token>de</token>
+                    <token>mim</token>
+                </pattern>
+                <message>Substitua por <suggestion>à minha \2</suggestion>.</message>
+                <example correction="à minha procura">Eles andaram meses <marker>à procura de mim</marker>.</example>
+                <example>Eles andaram meses <marker>à minha procura</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token>de</token>
+                    <token>ti</token>
+                </pattern>
+                <message>Substitua por <suggestion>à tua \2</suggestion>.</message>
+                <example correction="à tua procura">Eles andaram meses <marker>à procura de ti</marker>.</example>
+                <example>Eles andaram meses <marker>à tua procura</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token>de</token>
+                    <token>si</token>
+                </pattern>
+                <message>Substitua por <suggestion>à sua \2</suggestion>.</message>
+                <example correction="à sua procura">Eles andaram meses <marker>à procura de si</marker>.</example>
+                <example>Eles andaram meses <marker>à sua procura</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token>de</token>
+                    <token>você</token>
+                </pattern>
+                <message>Substitua por </message>
+                <suggestion>à sua \2</suggestion>
+                <suggestion>à tua \2</suggestion>
+                <example correction="à sua procura|à tua procura">Eles andaram meses <marker>à procura de você</marker>.</example>
+                <example>Eles andaram meses <marker>à sua procura</marker>.</example>
+                <example>Eles andaram meses <marker>à tua procura</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token>de</token>
+                    <token>vocês</token>
+                </pattern>
+                <message>Substitua por <suggestion>à vossa \2</suggestion>.</message>
+                <example correction="à vossa procura">Eles andaram meses <marker>à procura de vocês</marker>.</example>
+                <example>Eles andaram meses <marker>à vossa procura</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <!-- 	AS COISAS NÃO VÃO VERBO_INF nada vai Verb_info -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 (21-OCT-2020+)     -->
+        <rule id='AS_COISAS_NÃO_VÃO_VERBO_INF' name="Nada vai + verb_inf">
+            <pattern>
+                <marker>
+                    <token>as</token>
+                    <token>coisas</token>
+                    <token>não</token>
+                    <token>vão</token>
+                </marker>
+                <token postag='VMN0000'/>
+            </pattern>
+            <message>Substitua por <suggestion>nada vai</suggestion>.</message>
+            <example correction="nada vai">Em princípio <marker>as coisas não vão</marker> melhorar.</example>
+        </rule>
+
+        <!-- 	ATENÇÃO QUE VERB_MERECER atenção devida-->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-23 (21-OCT-2020+)     -->
+        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="Atenção devida">
+            <pattern>
+                <token>atenção</token>
+                <marker>
+                    <token>que</token>
+                    <token inflected='yes'>merecer</token>
+                </marker>
+            </pattern>
+            <message>Substitua por <suggestion>devida</suggestion>.</message>
+            <example correction="devida">Não vos posso dar a atenção <marker>que merecem</marker>.</example>
+        </rule>
+
+        <!-- COM A MAIOR DAS CALMAS com a maior naturalidade -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-04 (2-JUL-2020+)     -->
+        <rule id='COM_A_MAIOR_DAS_CALMAS' name="Com a maior naturalidade">
+            <pattern>
+                <token>com</token>
+                <token>a</token>
+                <token>maior</token>
+                <marker>
+                    <token>das</token>
+                    <token>calmas</token>
+                </marker>
+            </pattern>
+            <message>Linguagem informal. Substitua por <suggestion>naturalidade</suggestion>.</message>
+            <example correction="naturalidade">O Rui surgiu com a maior <marker>das calmas</marker>.</example>
+        </rule>
+
+
+        <!-- DENOMINADA(O)(S) COMO SENDO denominada(o)(s) -->
+        <rule id='DENOMINADA' name="Denominada(o)(s)">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-10 (1-JAN-2021+)      -->
+            <!--
+            Por isso é denominada como sendo a resiliência.
+            -->
+            <pattern>
+                <marker>
+                    <token inflected="yes">ser</token>
+                    <token inflected="yes">denominar</token>
+                    <token>como</token>
+                    <token>sendo</token>
+                    <token min="0" max="1" regexp="yes">[ao]s?</token>
+                </marker>
+                <token negate="yes" regexp="yes">[ao]s?</token>
+            </pattern>
+            <message>Substitua por <suggestion>\1 \2</suggestion>.</message>
+            <example correction="é denominada">Por isso <marker>é denominada como sendo a</marker> resiliência.</example>
+        </rule>
+        <!-- 	DESCULPAR ESTE DESABAFO desculpar o desabafo -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-04 (21-OCT-2020+)     -->
+        <rule id='DESCULPAR_DESABAFO' name="Desculpar o desabafo">
+            <pattern>
+                <token inflected='yes'>desculpar</token>
+                <marker>
+                    <token postag='DD0MS0'/>
+                </marker>
+                <token>desabafo</token>
+            </pattern>
+            <message>Substitua por <suggestion>o</suggestion>.</message>
+            <example correction="o">Desculpem <marker>este</marker> desabafo.</example>
+        </rule>
+
+        <rule id='ENSINOS_SUPERIORES' name="Ensino superior">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <token>ensinos</token>
+                <token>superiores</token>
+            </pattern>
+            <message>Esta palavra é referida no singular.</message>
+            <suggestion>ensino superior</suggestion>
+            <example correction="ensino superior">Temos instituições de <marker>ensinos superiores</marker> muito prestigiadas.</example>
+        </rule>
+        <rule id='APRESENTAR_OS_MELHORES_CUMPRIMENTOS' name="Apresentar cumprimentos">
+            <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+            <pattern>
+                <token inflected='yes'>apresentar</token>
+                <token>os</token>
+                <token>melhores</token>
+                <token>cumprimentos</token>
+            </pattern>
+            <message>Substitua por <suggestion>\1 \4</suggestion>.</message>
+            <example correction="apresentar cumprimentos">Aproveito a oportunidade para <marker>apresentar os melhores cumprimentos</marker>.</example>
+        </rule>
+        <!-- MAIS REDUZIDA(O)(S) inferior(es) -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-25 (21-OCT-2020+)     -->
+        <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)/menor(es)/menos">
+            <rule>
+                <pattern>
+                    <token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
+                    <marker>
+                        <token>mais</token>
+                        <token regexp='yes'>reduzida|reduzido</token>
+                    </marker>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion>inferior</suggestion>
+                <suggestion>menor</suggestion>
+                <suggestion>menos</suggestion>
+                <example correction="inferior|menor|menos">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
+                    <marker>
+                        <token>mais</token>
+                        <token regexp='yes'>reduzidas|reduzidos</token>
+                    </marker>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion>inferiores</suggestion>
+                <suggestion>menores</suggestion>
+                <suggestion>menos</suggestion>
+                <example correction="inferiores|menores|menos">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
+            </rule>
+        </rulegroup>
+        <!-- NÃO HÁ/HAVIA MAIS NENHUM/NENHUNS -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
+        <rule id='NAO_HA-HAVIA_MAIS_NENHUM-NENHUNS' name="Ser único" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>não</token>
+                    <token regexp="yes">há|havia</token>
+                    <token>mais</token>
+                    <token regexp="yes">nenhum|nenhuns</token>
+                </marker>
+                <token negate_pos="yes" postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+            </pattern>
+            <message>Substitua por</message>
+            <suggestion>é único</suggestion>
+            <suggestion>era único</suggestion>
+            <example correction="é único|era único">Procurei e <marker>não havia mais nenhum</marker>.</example>
+            <example>Procurei e <marker>era único</marker>.</example>
+        </rule>
+        <!-- PARAR DE CHATEAR parar de incomodar/importunar -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-06 (2-JUL-2020+)     -->
+        <rule id='PARAR_DE_CHATEAR' name="Parar de incomodar/importunar" default="temp_off">
+            <pattern>
+                <token inflected='yes'>parar</token>
+                <token>de</token>
+                <token min="0" max="1" regexp="yes">as?|os?|me|te|lhes?|nos|vos</token>
+                <marker>
+                    <token inflected='yes'>chatear</token>
+                </marker>
+            </pattern>
+            <message>Expressão informal, pondere empregar:</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>incomodar</match></suggestion>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>importunar</match></suggestion>
+            <example correction="incomodar|importunar">Pare de <marker>chatear</marker> os vizinhos.</example>
+        </rule>
+        <rule id='PERSISTIR_AO_LONGO_DE_TEMPO' name="Persistir + há + tempo">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
+            <pattern>
+                <token inflected='yes'>persistir</token>
+                <marker>
+                    <token>ao</token>
+                    <token>longo</token>
+                    <token regexp='yes'>de|d[ao]s</token>
+                    <token min="0" max="1" postag='Z0.+|DI.+|AQ0.+|NC.+' postag_regexp='yes'/>
+                    <token regexp='yes'>segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milénios|gerações|tempos|sessões</token>
+                </marker>
+            </pattern>
+            <message>Substitua por</message>
+            <suggestion>há \5 \6</suggestion>
+            <suggestion>durante \5 \6</suggestion>
+            <example correction="há décadas|durante décadas">Estas deficiências persistem <marker>ao longo de décadas</marker>.</example>
+        </rule>
+        <!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
+        <rulegroup id='PRESENTE_PRESENCIAL' name="é presencial">
+
+            <rule>
+                <pattern>
+                    <token>é</token>
+                    <token>necessário</token>
+                    <token>estar</token>
+                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+                    <token>presente</token>
+                    <token regexp='yes'>[\.,!\?]</token>
+                </pattern>
+                <message>Substitua por <suggestion>é presencial\6</suggestion>.</message>
+                <example correction="É presencial?"><marker>É necessário estar presente?</marker></example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>é</token>
+                    <token>necessário</token>
+                    <token>estar</token>
+                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+                    <token>presente</token>
+                    <token>na</token>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Substitua por <suggestion>a \7 é presencial</suggestion>.</message>
+                <example correction="A reunião é presencial"><marker>É necessário estar presente na reunião</marker>?</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>é</token>
+                    <token>necessário</token>
+                    <token>estar</token>
+                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+                    <token>presente</token>
+                    <token>nas</token>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Substitua por <suggestion>as \7 são presenciais</suggestion>.</message>
+                <example correction="As aulas são presenciais"><marker>É necessário estar presente nas aulas</marker>?</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>é</token>
+                    <token>necessário</token>
+                    <token>estar</token>
+                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+                    <token>presente</token>
+                    <token>no</token>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Substitua por <suggestion>o \7 é presencial</suggestion>.</message>
+                <example correction="O curso é presencial"><marker>É necessário estar presente no curso</marker>?</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>é</token>
+                    <token>necessário</token>
+                    <token>estar</token>
+                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+                    <token>presente</token>
+                    <token>nos</token>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Substitua por <suggestion>os \7 são presenciais</suggestion>.</message>
+                <example correction="Os cursos são presenciais"><marker>É necessário estar presente nos cursos</marker>?</example>
+            </rule>
+
+        </rulegroup>
+
+        <rule id='PROBLEMA_BASILAR' name="problema básico">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <token>problema</token>
+                <marker>
+                    <token>basilar</token>
+                </marker>
+            </pattern>
+            <message>Substitua por <suggestion>básico</suggestion>.</message>
+            <example correction="básico">Este é o problema <marker>basilar</marker> da questão.</example>
+        </rule>
+        <!-- QUE NUNCA MAIS ACABA(M) sem fim -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-30 (21-OCT-2020+)     -->
+        <rule id='SEM_FIM' name="Sem fim">
+            <pattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <marker>
+                    <token>que</token>
+                    <token>nunca</token>
+                    <token>mais</token>
+                    <token regexp='yes'>acabam?</token>
+                </marker>
+            </pattern>
+            <message>Substitua por <suggestion>sem fim</suggestion>.</message>
+            <example correction="sem fim">Temos livros <marker>que nunca mais acabam</marker>.</example>
+        </rule>
+        <!-- SUBSTÂNCIA essência -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
+        <rule id='SUBSTANCIA_ESSENCIA' name="Substância -> Essência">
+            <pattern>
+                <token>a</token>
+                <token regexp='yes'>autêntica|genuína|real|verdadeira</token>
+                <marker>
+                    <token>substância</token>
+                </marker>
+                <token regexp='yes'>das?|dos?|de|delas?|deles?|destas?|destes?</token>
+                <token/>
+            </pattern>
+            <message>Substitua por <suggestion>essência</suggestion></message>
+            <example correction="essência">Nestes momentos vê-se a verdadeira <marker>substância</marker> das pessoas.</example>
+        </rule>
+
+
+        <rule id='TORNAR_MAIS_DIFICIL' name="Tornar mais difícil → Dificultar">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+      As regras vão tornar mais difícil o jogo. → As regras vão dificultar o jogo.
+      -->
+            <pattern>
+                <marker>
+                    <token inflected='yes'>tornar</token>
+                    <token min="0" max="1">mais</token>
+                    <token regexp='yes'>difícil|difíceis</token>
+                </marker>
+                <token><exception postag_regexp='no' postag='SPS00'/></token>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
+            <example correction="dificultar">As regras vão <marker>tornar mais difícil</marker> o jogo.</example>
+        </rule>
+
+        <rule id='TORNAR_MAIS_FACIL' name="Tornar mais fácil → Facilitar">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+      As regras vão tornar mais fácil o jogo. → As regras vão facilitar o jogo.
+      -->
+            <antipattern>
+                <token inflected='yes'>tornar</token>
+                <token min="0" max="1">mais</token>
+                <token regexp='yes'>fácil|fáceis</token>
+                <token regexp='yes'>,|e|ou</token>
+                <token postag='A.+' postag_regexp='yes'/>
+                <example>Torna mais fácil e acessível a todos.</example>
+            </antipattern>
+            <antipattern>
+                <token>se</token>
+                <token inflected='yes'>tornar</token>
+                <token min="0" max="1">mais</token>
+                <token regexp='yes'>fácil|fáceis</token>
+                <example>Assim, tudo se torna mais fácil.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected='yes'>tornar</token>
+                    <token min="0" max="1">mais</token>
+                    <token regexp='yes'>fácil|fáceis</token>
+                </marker>
+                <token><exception postag_regexp='no' postag='SPS00'/></token>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>facilitar</match></suggestion>
+            <example correction="facilitar">As regras vão <marker>tornar mais fácil</marker> o jogo.</example>
+        </rule>
+
+
+        <rule id='TORNAR_MAIS_FORTE' name="Tornar mais forte → Fortalecer">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+      As regras vão tornar mais forte o acordo. → As regras vão fortalecer o acordo.
+      -->
+            <pattern>
+                <marker>
+                    <token inflected='yes'>tornar</token>
+                    <token min="0" max="1">mais</token>
+                    <token regexp='yes'>fortes?</token>
+                </marker>
+                <token><exception postag_regexp='no' postag='SPS00'/></token>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fortalecer</match></suggestion>
+            <example correction="fortalecer">As regras vão <marker>tornar mais forte</marker> o acordo.</example>
+        </rule>
+
+
+        <rule id='TORNAR_MAIS_FRACO' name="Tornar mais fraco → Enfraquecer">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+      As regras vão tornar mais fraco o acordo. → As regras vão enfraquecer o acordo.
+      -->
+            <pattern>
+                <marker>
+                    <token inflected='yes'>tornar</token>
+                    <token min="0" max="1">mais</token>
+                    <token regexp='yes'>frac[ao]s?</token>
+                </marker>
+                <token><exception postag_regexp='no' postag='SPS00'/></token>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfraquecer</match></suggestion>
+            <example correction="enfraquecer">As regras vão <marker>tornar mais fraco</marker> o acordo.</example>
+        </rule>
+
+
+        <!-- TRABALHO MAL PAGO trabalho mal remunerado -->
+        <rule id='TRABALHO_PAGO_REMUNERADO' name="Trabalho 'pago'/'remunerado'">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+      O Rui faz trabalho não pago de noite. → O Rui faz trabalho não remunerado de noite.
+      O Rui faz trabalhos não pagos de noite. → O Rui faz trabalhos não remunerados de noite.
+      -->
+            <pattern>
+                <token inflected='yes' regexp="yes">ser|fazer|ter|conseguir</token>
+                <token min="0" max="1" regexp="yes">um|uns</token>
+                <token regexp="yes">trabalhos?</token>
+                <token min="0" max="1" postag='RG|RM' postag_regexp='yes'/>
+                <token min="0" max="1" regexp="yes">não|mal|bem</token>
+                <marker>
+                    <token regexp="yes">pagos?</token>
+                </marker>
+            </pattern>
+            <message>É mais correto empregar o termo 'remunerado'.</message>
+            <suggestion><match no='6' postag='VMP00(.)M' postag_replace='VMP00$1M'>remunerar</match></suggestion>
+            <example correction="remunerado">O Rui faz trabalho não <marker>pago</marker> de noite.</example>
+            <example correction="remunerados">O Rui faz trabalhos não <marker>pagos</marker> de noite.</example>
+        </rule>
+
+        <rulegroup id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: Causar dificuldade → Dificultar">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
+
+            <!--
+      A equação vai causar dificuldades na criação do algoritmo. → A equação vai dificultar na criação do algoritmo.
+      -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>causar</token>
+                        <token regexp="yes">dificuldades?</token>
+                    </marker>
+                    <token><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
+                <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> na criação do algoritmo.</example>
+            </rule>
+        </rulegroup>
+        <!-- ULTRAPASSAR superar/vencer	-->
+        <rule id='ULTRAPASSAR_SUPERAR_VENCER' name="Ultrapassar → superar/vencer">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+      A Ana vai ultrapassar a prova. → A Ana vai superar a prova.
+      A Ana vai ultrapassar a prova. → A Ana vai vencer a prova.
+      -->
+            <pattern>
+                <marker>
+                    <token inflected='yes'>ultrapassar</token>
+                </marker>
+                <token postag='D[AI].+|SPS00:D[AI].+|SPS00' postag_regexp='yes'/>
+                <token min="0" max="1" postag='DP.+' postag_regexp='yes'/> <!-- seu(s)/sua(s) -->
+                <token regexp="yes">provas?|desafios?|obstáculos?|dificuldades?</token>
+            </pattern>
+            <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>superar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>vencer</match></suggestion>
+            <example correction="superar|vencer">A Ana vai <marker>ultrapassar</marker> a prova.</example>
+            <example correction="superar|vencer">Se não conseguir <marker>ultrapassar</marker> o obstáculo, não tem problema, pode desviar e ir para o próximo.</example>
+        </rule>
+
+        <rule id='CÍRCULO_FECHADO' name="Calinada: Ciclo fechado">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <token>círculo</token>
+                <token>fechado</token>
+            </pattern>
+            <message>Substitua por <suggestion>ciclo fechado</suggestion>.</message>
+            <example correction="ciclo fechado">Uma produção de <marker>círculo fechado</marker>.</example>
+        </rule>
+
+        <!-- PORQUE + VERBO_EU_ELE + A(S)/O(S) por/ao verbo_inf a(s)/o(s) -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-17 (21-OCT-2020+)     -->
+        <rule id='PORQUE_VERBOEUELE_AS_OS_POR_AO_VERBOINF_AS_OS' name="Porque + Verbo Eu/ele + A(s)/O(s) > Por/Ao + Verbo_inf + a(s)/o(s)">
+            <pattern>
+                <marker>
+                    <token>porque</token>
+                    <token postag='VMIS1S0|VMIS3S0' postag_regexp='yes'/>
+                </marker>
+                <token regexp='yes'>as?|os?</token>
+            </pattern>
+            <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+            <suggestion>ao <match no='2' postag='VMIS1S0|VMIS3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+            <suggestion>por <match no='2' postag='VMIS1S0|VMIS3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+            <example correction="ao sentir|por sentir">Comentei o sucedido <marker>porque senti</marker> os efeitos rapidamente.</example>
+        </rule>
+        <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado'>
+            <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-16 (2-JUL-2020+)   -->
+
+            <!-- TENHO -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tenho</token>
+                        <and>
+                            <token postag='VMP00SM'/>
+                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+                        </and>
+                    </marker>
+                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
+                </pattern>
+                <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
+                <example correction='pesquiso'>Eu <marker>tenho pesquisado</marker> o assunto há décadas.</example>
+                <example>Eu <marker>pesquiso</marker> o assunto há décadas.</example>
+            </rule>
+
+            <!-- TENS -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tens</token>
+                        <and>
+                            <token postag='VMP00SM'/>
+                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+                        </and>
+                    </marker>
+                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
+                </pattern>
+                <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>
+                <example correction='pesquisas'>Tu <marker>tens pesquisado</marker> o assunto há décadas.</example>
+                <example>Tu <marker>pesquisas</marker> o assunto há décadas.</example>
+            </rule>
+
+            <!-- TEM -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tem</token>
+                        <and>
+                            <token postag='VMP00SM'>
+                                <exception inflected="yes">ser</exception></token>
+                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+                        </and>
+                    </marker>
+                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
+                </pattern>
+                <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3S0'/></suggestion>
+                <example correction='pesquisa'>O professor <marker>tem pesquisado</marker> o assunto há décadas.</example>
+                <example>O professor <marker>pesquisa</marker> o assunto há décadas.</example>
+            </rule>
+
+            <!-- TEMOS -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>temos</token>
+                        <and>
+                            <token postag='VMP00SM'/>
+                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+                        </and>
+                    </marker>
+                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
+                </pattern>
+                <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
+                <example correction='pesquisamos'>Nós <marker>temos pesquisado</marker> o assunto há décadas.</example>
+                <example>Nós <marker>pesquisamos</marker> o assunto há décadas.</example>
+            </rule>
+
+            <!-- TÊM -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>têm</token>
+                        <and>
+                            <token postag='VMP00SM'/>
+                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
+                        </and>
+                    </marker>
+                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
+                </pattern>
+                <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>
+                <example correction='pesquisam'>Os senhores <marker>têm pesquisado</marker> o assunto há décadas.</example>
+                <example>Os senhores <marker>pesquisam</marker> o assunto há décadas.</example>
+                <example>Eles <marker>pesquisam</marker> o assunto há décadas.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id='MEDICINA_TRADICIONAL_CHINESA' name="Calinada: 'medicina tradicional chinesa'">
+            <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
+            <short>Erro de tradução</short>
+            <rule>
+                <pattern>
+                    <token>medicina</token>
+                    <token>antiga</token>
+                    <token>chinesa</token>
+                </pattern>
+                <message>Expressão não pode ser traduzida literalmente.</message>
+                <suggestion>medicina tradicional chinesa</suggestion>
+                <example correction="medicina tradicional chinesa">A <marker>medicina antiga chinesa</marker> é milenar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>medicina</token>
+                    <token>chinesa</token>
+                    <token>antiga</token>
+                </pattern>
+                <message>Expressão não pode ser traduzida literalmente.</message>
+                <suggestion>medicina tradicional chinesa</suggestion>
+                <example correction="medicina tradicional chinesa">A <marker>medicina chinesa antiga</marker> é milenar.</example>
+            </rule>
+        </rulegroup>
+
+        <!-- DIFERENÇA NO DINHEIRO diferença no valor -->
+        <rule id='CONFUSÃO_DINHEIRO_VALOR' name="[Confusão] Diferença no 'dinheiro'/valor">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-21 (25-JUL-2022+) -->
+            <!--
+      Qual é a diferença no dinheiro? → Qual é a diferença no valor?
+      A diferença no dinheiro é mínima. → A diferença no valor é mínima.
+      -->
+            <pattern>
+                <token regexp='yes'>diferenças?</token>
+                <token regexp='yes'>de|nos?</token>
+                <marker>
+                    <token regexp='yes'>dinheiros?</token>
+                </marker>
+            </pattern>
+            <message>Possível confusão de termos.</message>
+            <suggestion><match no='3' postag='NCM(.)000' postag_replace='NCM$1000'>valor</match></suggestion>
+            <example correction="valor">Qual é a diferença no <marker>dinheiro</marker>?</example>
+            <example correction="valor">A diferença no <marker>dinheiro</marker> é mínima.</example>
+        </rule>
+        <rule id="DE_MANEIRA_ADVERBIO_MODO" name="Sintaxe: 'de modo' + advérbio de modo">
+            <!--  Based on Catalan grammar.xml by Tiago F. Santos, 2017-06-30      -->
+            <pattern>
+                <marker>
+                    <token regexp='yes'>de|d?uma?</token>
+                    <token regexp="yes">maneira|forma|modo|jeito</token>
+                    <token postag="RM" regexp="yes">.+mente</token><!-- XXX RG and UNKNOWN are included in the disambiguation step -->
+                </marker>
+                <token>
+                    <exception postag="AQ.[CF][SN].|V.P..SF." postag_regexp="yes"/></token>
+            </pattern>
+            <message>Construção incorreta.</message>
+            <suggestion>\3</suggestion>
+            <suggestion>\1 \2 <match no='3' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
+            <example correction="Permanentemente|De forma permanente"><marker>De forma permanentemente</marker>.</example>
+            <example correction="Permanentemente|De modo permanente"><marker>De modo permanentemente</marker>.</example>
+            <example>De um modo directamente proporcional.</example>
+            <example>De uma forma directamente proporcional.</example>
+            <example>Duma forma racionalmente sustentável.</example>
+            <example>De maneira minimamente ordenada.</example>
+        </rule>
+
+        <!-- PRA para -->
+        <rule id='FORMAL_PRA_PARA' name="Linguagem informal: pra → para">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+            Tudo isso pra quê? → Tudo isso para quê?
+            -->
+            <pattern>
+                <token>pra</token>
+            </pattern>
+            <message>Linguagem informal. Substitua por <suggestion>para</suggestion>.</message>
+            <example correction="para">Tudo isso <marker>pra</marker> quê?</example>
+        </rule>
         <rule id='ESTAR_DE_ACORDO' name="concordar/corresponder/validar/confirmar" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 + 2020-12-14 (2-JUL-2020+)     -->
             <pattern>

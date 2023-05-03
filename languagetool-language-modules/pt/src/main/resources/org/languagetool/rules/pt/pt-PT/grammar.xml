@@ -2669,7 +2669,39 @@
       <example>Assim, com a divisão de valores mais próximos do zero, o resultado será o zero absoluto.</example>
       <example>Teoricamente, ao cessar a agitação térmica das moléculas a pressão é nula, e atinge-se o zero absoluto.</example>
     </rule>
-
+    <rulegroup id='AUTO-FALANTE' name="Altifalante">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <rule>
+        <pattern>
+          <token>auto</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
+          <token>falante</token>
+        </pattern>
+        <message>Substitua por <suggestion>altifalante</suggestion>.</message>
+        <example correction="altifalante">O <marker>auto-falante</marker> está avariado.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>auto</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
+          <token>falantes</token>
+        </pattern>
+        <message>Substitua por <suggestion>altifalantes</suggestion>.</message>
+        <example correction="altifalantes">Os <marker>auto-falantes</marker> estão avariados.</example>
+      </rule>
+    </rulegroup>
+    <rule id='DAÍ' name="Contração: de aí">
+      <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+      <pattern>
+        <marker>
+          <token postag="VMN0000"/>
+          <token>daí</token>
+        </marker>
+        <token postag="VMN0000"/>
+      </pattern>
+      <message>Será que quis dizer <suggestion>\1 de aí</suggestion>?</message>
+      <example correction="partir de aí">A <marker>partir daí</marker> deduzir o que fazer.</example>
+    </rule>
 
   </category>
 
@@ -3853,18 +3885,6 @@
     </rulegroup>
 
 
-    <rule id="AO45_MUITO_PELO_É" name="[pt-PT][AO45][Confusão] pelo/pêlo">
-      <!-- Created by Marco A.G. Pinto   -->
-      <pattern>
-        <token>muito</token>
-        <token>pelo</token>
-        <token inflected='yes'>ser</token>
-      </pattern>
-      <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
-      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
-    </rule>
-
-
   </category>
 
 
@@ -3917,5 +3937,17 @@
 
     </rulegroup>
 
+  </category>
+  <category id="AO45" name="style rules" type="style" default="off">
+    <rule id="AO45_MUITO_PELO_É" name="[pt-PT][AO45][Confusão] pelo/pêlo">
+      <!-- Created by Marco A.G. Pinto   -->
+      <pattern>
+        <token>muito</token>
+        <token>pelo</token>
+        <token inflected='yes'>ser</token>
+      </pattern>
+      <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
+      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+    </rule>
   </category>
 </rules>
