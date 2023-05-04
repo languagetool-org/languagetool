@@ -165,6 +165,16 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       new PatternTokenBuilder().token("weist").setSkip(8).build(),
       token("den"),
       csToken("Weg")
+    ),
+    Arrays.asList(
+      // "Der im Sockel platzierte Tank fasst 0,5ml"
+      regex(".*tank|.*bus|.*zug|.*flieger|.*flugzeug|.*container|.*behälter|.*schüssel|.*festplatte|Platte|SSD|.*speicher|.*glas|.*tasse|.*batterie"),
+      token("fasst")
+    ),
+    Arrays.asList(
+      // "Diese persönliche Finanzübersicht fasst Ihre Ziele und Wünsche zusammen."
+      new PatternTokenBuilder().token("fasst").setSkip(-1).build(),
+      token("zusammen")
     )
   );
 
