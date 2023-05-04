@@ -705,6 +705,7 @@ public class English extends Language implements AutoCloseable {
       for (SuggestedReplacement s : replacements) {
         String newReplStr = s.getReplacement();
         if (errorStr.length() > 2) {
+          // add a whitespace when the error is in a contraction and the suggestion is not
           if (errorStr.startsWith("'") && !newReplStr.startsWith("'")) {
             newReplStr = " " + newReplStr;
           }
