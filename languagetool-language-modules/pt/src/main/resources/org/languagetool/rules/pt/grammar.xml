@@ -13372,17 +13372,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token negate='yes' regexp='yes'>&hifen;</token>
                     <marker>
                         <token>da</token>
-                        <token regexp='yes'>uma?s?|el[ae]s?|est[ae]s?|ess[ae]s?|aquel[ae]s?|isto|isso|aquilo
+                        <token regexp='yes'>uma?s?|el[ae]s?|est[ae]s?|ess[ae]s?|aquel[ae]s?|isto|isso|aquilo|[ao]s?
                             <exception regexp="yes">duma?s?</exception></token>
                     </marker>
                 </pattern>
                 <message>Possível fragmento.</message>
                 <suggestion>dá \3</suggestion>
+                <suggestion>dar \3</suggestion>
                 <suggestion>d<match no="3" case_conversion="alllower"/></suggestion>
                 <suggestion>\2</suggestion>
                 <suggestion>\3</suggestion>
-                <suggestion>\2, \3</suggestion>
-                <example correction='dá aquela|daquela|da|aquela|da, aquela'>Foi o que fiz <marker>da aquela</marker> vez.</example>
+                <example correction='dá aquela|dar aquela|daquela|da|aquela'>Foi o que fiz <marker>da aquela</marker> vez.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -13399,7 +13399,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token negate='yes' regexp='yes'>&hifen;</token>
                     <marker>
                         <token regexp='yes'>n[ao]s?|dos?</token>
-                        <token regexp='yes'>uma?s?|el[ae]s?|est[ae]s?|ess[ae]s?|aquel[ae]s?|isto|isso|aquilo
+                        <token regexp='yes'>uma?s?|el[ae]s?|est[ae]s?|ess[ae]s?|aquel[ae]s?|isto|isso|aquilo|[ao]s?
                             <exception regexp="yes">duma?s?</exception></token>
                     </marker>
                 </pattern>
@@ -13407,8 +13407,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no="2" regexp_match="(n|d)(.s?)" regexp_replace="$1"/><match no="3" case_conversion="alllower"/></suggestion>
                 <suggestion>\2</suggestion>
                 <suggestion>\3</suggestion>
-                <suggestion>\2, \3</suggestion>
-                <example correction='naquela|na|aquela|na, aquela'>Foi o que fiz <marker>na aquela</marker> hora.</example>
+                <suggestion>\2… <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction='naquela|na|aquela|na… Aquela'>Foi o que fiz <marker>na aquela</marker> hora.</example>
             </rule>
             <rule>
                 <antipattern>
