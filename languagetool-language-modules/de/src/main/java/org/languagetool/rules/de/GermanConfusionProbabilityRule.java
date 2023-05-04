@@ -42,6 +42,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     Pattern.compile("(regnet|schneit)e? es (im|jeden) [A-ZÄÖÜ][a-zäöü\\-ß]+ viel"), // In Hamburg regnet es im August viel.
     Pattern.compile("viel in [A-ZÄÖÜ][a-zäöü\\-ß]+ unterwegs"), // "sodass Sie viel in Tirol unterwegs ist"
     Pattern.compile("viel am [A-ZÄÖÜ][a-zäöü\\-ß]+"), // "sodass Sie viel am Lernen ist"
+    Pattern.compile("[Ii]hr .* seht"), // vs "sieht"
     Pattern.compile("fiel .*in die Kategorie"), // vs "viel"
     Pattern.compile("wie fiel das ins Gewicht") // vs "viel"
   );
@@ -49,6 +50,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "seht ihr",
     "viel hin und her",
     "möglichkeit weißt",
     "du doch trotzdem",
