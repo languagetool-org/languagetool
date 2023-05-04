@@ -847,6 +847,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Erfahren Sie in diesem <marker>Artikel</marker> …</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">anfangen|angefangen</token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Das sollte nach dem Sommer <marker>anfangen</marker> zu fruchten.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
