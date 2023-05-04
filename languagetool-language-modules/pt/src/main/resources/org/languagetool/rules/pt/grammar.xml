@@ -37334,9 +37334,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>na</token>
                 <token regexp='yes'>quel[ea]s?</token>
             </pattern>
-            <message>Verifique se não falta um espaço</message>
+            <message>Verifique se não falta um espaço.</message>
             <suggestion>\1\2</suggestion>
             <example correction="naquela">Isso foi <marker>na quela</marker> época.</example>
+        </rule>
+        <rule id='CONTA_TO' name="Correção de escrita" default='temp_off'>
+            <pattern>
+                <token>conta</token>
+                <token spacebefore='yes'>to</token>
+            </pattern>
+            <message>Verifique se não falta um espaço.</message>
+            <suggestion>\1\2</suggestion>
+            <suggestion>\1 tô</suggestion>
+            <suggestion>\1, tô</suggestion>
+            <example correction="contato|conta tô|conta, tô">procurou <marker>conta to</marker> visual.</example>
         </rule>
 
         <rule id='PRE_POS' name="Correção de escrita" default='on'>
