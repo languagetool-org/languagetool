@@ -302,7 +302,10 @@ public class Catalan extends Language {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      String sentence = rm.getSentence().getText();
+      String sentence = "";
+      if (rm.getSentence() != null) {
+        sentence = rm.getSentence().getText();  
+      }
       String errorStr = "";
       if (rm.getToPos() < sentence.length()) {
         errorStr = sentence.substring(rm.getFromPos(), rm.getToPos());

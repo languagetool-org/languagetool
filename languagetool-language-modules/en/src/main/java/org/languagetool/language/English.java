@@ -51,8 +51,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 
 import static java.util.Arrays.asList;
 
@@ -684,6 +686,41 @@ public class English extends Language implements AutoCloseable {
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
       return new MorfologikAmericanSpellerRule(messages, this, null, Collections.emptyList());
+  }
+  
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      String sentence = "";
+      if (rm.getSentence() != null) {
+        sentence = rm.getSentence().getText();  
+      }
+      String errorStr = "";
+      if (rm.getToPos() < sentence.length()) {
+        errorStr = sentence.substring(rm.getFromPos(), rm.getToPos());
+      }
+      List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+      List<SuggestedReplacement> newReplacements = new ArrayList<>();
+      for (SuggestedReplacement s : replacements) {
+        String newReplStr = s.getReplacement();
+        if (errorStr.length() > 2) {
+          if (errorStr.startsWith("'") && !newReplStr.startsWith("'")) {
+            newReplStr = " " + newReplStr;
+          }
+          if (errorStr.startsWith("n't") && !newReplStr.startsWith("n't")) {
+            newReplStr = " " + newReplStr;
+          }
+        }
+        SuggestedReplacement newRepl = new SuggestedReplacement(newReplStr);
+        if (!newReplacements.contains(newRepl)) {
+          newReplacements.add(newRepl);
+        }
+      }
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      newRuleMatches.add(newMatch);
+    }
+    return newRuleMatches;
   }
 
 }
