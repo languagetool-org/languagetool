@@ -540,16 +540,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- CONFUNDIR ANEXOS POR ANEXO QUANDO É PLURAL -->
 
     <rule id="ANEXO_P_BR" name="Anexos">
-        <pattern>
-          <token negate="yes">em</token>
-          <marker>
-            <token>anexo</token>
-            <token>os</token>
-          </marker>
-        </pattern>
-        <message>Anexo é um adjetivo e deve concordar em gênero e número. Substitua «anexo os» por <suggestion>anexos os</suggestion>.</message>
-        <example correction="anexos os">Segue <marker>anexo os</marker> documentos solicitados.</example>
-      </rule>
+      <pattern>
+        <token negate="yes">em</token>
+        <marker>
+          <token>anexo</token>
+          <token>os</token>
+        </marker>
+      </pattern>
+      <message>Anexo é um adjetivo e deve concordar em gênero e número. Substitua «anexo os» por <suggestion>anexos os</suggestion>.</message>
+      <example correction="anexos os">Segue <marker>anexo os</marker> documentos solicitados.</example>
+    </rule>
 
     <!-- FIM ANEXOS POR ANEXO QUANDO É PLURAL -->
     <!-- ********************************************************** -->
@@ -597,8 +597,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="CHEGARAM_EM_BR" name="Chegaram a">
       <pattern>
-        <token>chegaram</token>
-        <token>em</token>
+        <marker>
+          <token>chegaram</token>
+          <token>em</token>
+        </marker>
+        <token postag="NP..G.." postag_regexp="yes"/>
       </pattern>
       <message>Verbos de movimento exigem a preposição A. Substitua «chegaram em» por <suggestion>chegaram a</suggestion>.</message>
       <example correction="chegaram a">Os atletas <marker>chegaram em</marker> Curitiba na noite passada.</example>
@@ -631,24 +634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>O verbo assistir no sentido de ver exige a preposição a. Substitua «assistiu o» por <suggestion>assistiu ao</suggestion>.</message>
       <example correction="assistiu ao">Ele <marker>assistiu o</marker> o filme.</example>
     </rule>
-
-    <!-- FIM ASSISTIU AO (SENTIDO DE VER) ASSISTIU O -->
-    <!-- ********************************************************** -->
-    <!-- CONFUNDIR ENTRAR COM ENTRAR DENTRO -->
-
-    <rule id="ENTRAR_DENTRO_BR" name="Entrar">
-      <pattern>
-        <token>entrar</token>
-        <token>dentro</token>
-      </pattern>
-      <message>Substitua «entrar dentro» por <suggestion>entrar</suggestion>.</message>
-      <example correction="Entrar"><marker>Entrar dentro</marker> na casa.</example>
-    </rule>
-
-    <!-- FIM ENTRAR COM ENTRAR DENTRO -->
-    <!-- ********************************************************** -->
     <!-- CONFUNDIR HAVIA MUITAS COM HAVIAM MUITAS -->
-
     <rule id="HAVIAM_MUITAS_BR" name="Havia muitas">
       <pattern>
         <token>haviam</token>
@@ -760,21 +746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ********************************************************** -->
     <!-- CONFUNDIR MAIS INFORMAÇÕES COM MAIORES INFORMAÇÕES  -->
 
-    <rule id="MAIORES_INFORMACOES_BR" name="Mais informações">
-      <pattern>
-        <token>maiores</token>
-        <token>informações</token>
-      </pattern>
-      <message>O termo maior é um comparativo. Substitua «maiores informações» por <suggestion>mais informações</suggestion>.</message>
-      <example correction="mais informações">Para <marker>maiores informações</marker>.</example>
-    </rule>
 
-    <!-- FIM MAIS INFORMAÇÕES COM MAIORES INFORMAÇÕES  -->
-    <!-- ********************************************************** -->
-    <!-- CONFUNDIR AVISO PRÉVIO COM AVISO BREVE -->
-
-    <!-- FIM AVISO PRÉVIO COM AVISO BREVE -->
-    <!-- ********************************************************** -->
     <!-- CONFUNDIR DUZENTOS GRAMAS NUMERAL COM DUZENTAS GRAMAS -->
 
     <rule id="DUZENTAS_GRAMAS_NUMERAL" name="Duzentos gramas">
@@ -785,8 +757,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Se grama se refere a peso substitua «duzentas gramas» por <suggestion>duzentos gramas</suggestion>.</message>
       <example correction="duzentos gramas">Comprei <marker>duzentas gramas</marker> de carne.</example>
     </rule>
-
-    <!-- FIM DUZENTOS GRAMAS NUMERAL COM DUZENTAS GRAMAS -->
     <!-- ********************************************************** -->
     <!-- VERBO FAZER SENTIDO TEMPORAL É IMPESSOAL-->
 
@@ -868,7 +838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern case_sensitive='yes'>
         <token postag='_PUNCT'>
           <exception regexp="yes">[,;]</exception></token>
-          <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
+        <token regexp='yes'>(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)s?|(Jan|Fev|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov)|Invernos?|Primaveras?|Ver(ão|ões)|Outonos?</token><!-- TODO |Mar|Dez create subrule for these cases -->
         <example>Mês da fatura: Setembro</example>
       </antipattern>
       <pattern case_sensitive='yes'>

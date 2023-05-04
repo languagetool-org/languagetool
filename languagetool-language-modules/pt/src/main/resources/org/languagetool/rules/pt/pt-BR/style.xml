@@ -42,7 +42,39 @@ USA
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="Style" type="style">
-        <!-- E QUE ESTÁ FELIZ e está feliz -->
+
+        <!-- FIM ASSISTIU AO (SENTIDO DE VER) ASSISTIU O -->
+        <!-- ********************************************************** -->
+        <!-- CONFUNDIR ENTRAR COM ENTRAR DENTRO -->
+
+        <rule id="ENTRAR_DENTRO_BR" name="Entrar">
+            <pattern>
+                <token>entrar</token>
+                <token>dentro</token>
+            </pattern>
+            <message>Substitua «entrar dentro» por <suggestion>entrar</suggestion>.</message>
+            <example correction="Entrar"><marker>Entrar dentro</marker> na casa.</example>
+        </rule>
+
+        <!-- FIM ENTRAR COM ENTRAR DENTRO -->
+        <!-- ********************************************************** -->
+        <!-- FIM DUZENTOS GRAMAS NUMERAL COM DUZENTAS GRAMAS -->
+        <rule id="MAIORES_INFORMACOES_BR" name="Mais informações">
+            <pattern>
+                <token>maiores</token>
+                <token>informações</token>
+            </pattern>
+            <message>O termo maior é um comparativo. Substitua «maiores informações» por <suggestion>mais informações</suggestion>.</message>
+            <example correction="mais informações">Para <marker>maiores informações</marker>.</example>
+        </rule>
+
+        <!-- FIM MAIS INFORMAÇÕES COM MAIORES INFORMAÇÕES  -->
+        <!-- ********************************************************** -->
+        <!-- CONFUNDIR AVISO PRÉVIO COM AVISO BREVE -->
+
+        <!-- FIM AVISO PRÉVIO COM AVISO BREVE -->
+        <!-- ********************************************************** -->
+
         <rule id='E_QUE_VERBO_REMOVER_QUE_PT_BR' name="Simplificar: E que → e" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-05 (25-JUL-2022+) -->
             <!--
