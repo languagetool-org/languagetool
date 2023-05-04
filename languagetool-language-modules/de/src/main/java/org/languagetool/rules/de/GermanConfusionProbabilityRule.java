@@ -154,6 +154,17 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("viel"),
       new PatternTokenBuilder().posRegex("ADJ.*").min(0).build(),
       posRegex("SUB.*")
+    ),
+    Arrays.asList(
+      // "Wie haben ihr die Blumen gefallen?"
+      csToken("Wie"),
+      posRegex("VER.*")  // might also hide real alarms, but avoids false positives
+    ),
+    Arrays.asList(
+      // "Weist du uns den Weg?"
+      new PatternTokenBuilder().token("weist").setSkip(8).build(),
+      token("den"),
+      csToken("Weg")
     )
   );
 
