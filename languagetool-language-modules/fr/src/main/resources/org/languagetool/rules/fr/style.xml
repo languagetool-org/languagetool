@@ -19895,6 +19895,468 @@ USA
             <example correction="Fields">Il a remporté la médaille <marker>Field</marker>.</example>
             <example>Il a remporté la médaille Fields.</example>
         </rule>
+        <rulegroup id="PRES_FUTU" name="confusion présent/futur" tags="picky">
+            <antipattern>
+                <token skip="5" postag="V.*futu.*" postag_regexp="yes"/>
+                <!-- next token needs better disambiguation -->
+                <token postag="V.* ind pres.*" postag_regexp="yes"/>
+                <example>Vous serez tout à fait remise dans quelques jours.</example>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token skip="3">si</token>
+                    <token postag="V.* ind pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="V.* imp pres.*" postag_regexp="yes" skip="1"/>
+                    <token>et</token>
+                    <token postag="V.* ind pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                </antipattern>
+                <antipattern>
+                    <token>lui</token>
+                    <token>on</token>
+                    <token postag="V.* ind pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                </antipattern>
+                <antipattern>
+                    <token>c'</token>
+                    <token postag="V etre ind pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* ind pres.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="M nonfin"/>
+                    <token min="0" max="1" regexp="yes">et|ou</token>
+                    <token postag="V.* imp pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                    <example>Vois donc si cette grosse jeune fille au mouchoir vert consent à se marier avec toi, et reviens demain.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* imp pres.*" postag_regexp="yes" skip="5"/>
+                    <token postag="M nonfin" min="0" max="1"/>
+                    <token regexp="yes">et|ou</token>
+                    <token postag="V.* imp pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                    <example>Viens aujourd'hui ou viens demain matin, fais comme tu veux.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.* ind pres.*" postag_regexp="yes">
+                            <exception regexp="yes">cours|disons|départ|voile|jeûne|google</exception>
+                            <exception regexp="yes" inflected="yes">attendre|commencer|faire|pleuvoir|visiter|aller</exception>
+                            <exception scope="previous" postag="SENT_START"/></token>
+                    </marker>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>demain</token>
+                </pattern>
+                <message>Le futur semble plus approprié dans un contexte formel pour annoncer une action future.</message>
+                <suggestion><match no="1" postag="V (etre )?(avoir )?(ind) (pres) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ind futu $5 $6"/></suggestion>
+                <example correction="arriverai">J'<marker>arrive</marker> demain.</example>
+                <example>Disons Demain.</example>
+                <example>Si ça chute demain, ça aura descendu depuis une semaine.</example>
+                <example>Arrêtons là et continuons demain.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>c'</token>
+                    <token postag="V etre ind pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>dans</token>
+                    <token regexp="yes">plusieurs|quelques|\d.*</token>
+                    <token regexp="yes">secondes?|minutes?|heures?|jours|semaines?|mois|années?|instants?|min|h</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="[JN].*" postag_regexp="yes"/>
+                    <token postag="V.* ind pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>dans</token>
+                    <token regexp="yes">plusieurs|quelques|\d.*</token>
+                    <token regexp="yes">secondes?|minutes?|heures?|jours|semaines?|mois|années?|instants?|min|h</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="V.* ind pres.*" postag_regexp="yes"/>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3"/>
+                    <token>dans</token>
+                    <token regexp="yes">plusieurs|quelques|\d.*</token>
+                    <token regexp="yes">secondes?|minutes?|heures?|jours|semaines?|mois|années?|instants?|min|h</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.* ind pres.*" postag_regexp="yes">
+                            <exception regexp="yes">cours|disons|départ|jeûne|google</exception>
+                            <exception regexp="yes" inflected="yes">attendre|(?-i)[A-Z].*|commencer|faire|pleuvoir|visiter|aller</exception></token>
+                    </marker>
+                    <token postag="A|J.*" postag_regexp="yes" min="0" max="3">
+                        <exception regexp="yes">oui|non</exception></token>
+                    <token>dans</token>
+                    <token regexp="yes">plusieurs|quelques|\d.*</token>
+                    <token regexp="yes">secondes?|minutes?|heures?|jours|semaines?|mois|années?|instants?|min|h</token>
+                </pattern>
+                <message>Le futur semble plus approprié dans un contexte formel pour annoncer une action future.</message>
+                <suggestion><match no="1" postag="V (etre )?(avoir )?(ind) (pres) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ind futu $5 $6"/></suggestion>
+                <example correction="arriverai">J'<marker>arrive</marker> dans quelques jours.</example>
+            </rule>
+        </rulegroup>
+        <rule id="VISITER" name="confusion visiter/voir">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">visiter</token>
+                </marker>
+                <token postag="A" min="0" max="3"/>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes">grand-pères?|grand-mères?|parents|pères?|mères?|frères?|soeurs?|maman|papa|sœurs?|tontons?|familles?|copains?|copines?|filles?|fils?|amie?s?|collègues?|oncles?|tantes?|petit-fils|petites?-filles?|cousins?|cousines?|nièces?|neveux?</token>
+            </pattern>
+            <message>Une autre structure semble plus appropriée.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">voir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">rendre</match> visite à</suggestion>
+            <example correction="voyait|rendait visite à">Il <marker>visitait</marker> sa grand-mère.</example>
+        </rule>
+        <rulegroup id="QUOI_FAIRE" name="quoi faire" tags="picky">
+            <rule>
+                <pattern>
+                    <token>quoi
+                        <exception scope="previous" regexp="yes">[aà]|pas</exception>
+                        <exception scope="previous" postag="P"/></token>
+                    <token postag="V.* inf" postag_regexp="yes">
+                        <exception regexp="yes">[àâaéêèeiîoôòóöŌuœäìø].*</exception></token>
+                </pattern>
+                <message>Cette structure peut sembler familière dans un contexte formel.</message>
+                <suggestion>que \2</suggestion>
+                <suggestion>comment \2</suggestion>
+                <example correction="que faire|comment faire">Il se demande <marker>quoi faire</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pas</token>
+                    <token>quoi
+                        <exception scope="previous" postag="P"/></token>
+                    <token postag="V.* inf" postag_regexp="yes" regexp="yes">[àâaéêèeiîoôòóöŌuœäìø].*</token>
+                </pattern>
+                <message>Cette structure peut sembler familière dans un contexte formel.</message>
+                <suggestion>qu'\3</suggestion>
+                <example correction="qu'avoir">Il ne sait <marker>pas quoi avoir</marker> pour son anniversaire.</example>
+            </rule>
+        </rulegroup>
+        <rule id="NEGATION_PLUS_OU_DAVANTAGE" name="n'a plus ou a davantage" tags="picky">
+            <antipattern>
+                <token inflected="yes">ne</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>plus</token>
+                <token regexp="yes">[ao][ùu]</token>
+                <token>moins</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>plus</token>
+                <token inflected="yes">que</token>
+                <token>
+                    <exception postag="[JD].*|R pers obj.*" postag_regexp="yes"/></token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">être|sembler|(ap)?paraitre|devenir</token>
+                <token>plus</token>
+                <token min="0" max="1" regexp="yes">["«]</token>
+                <token postag="J.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="8">plus</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token>allez</token>
+                <token>plus</token>
+                <token inflected="yes">que</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[aeiouéèâûîôê].*</token>
+                <token>plus</token>
+                <token inflected="yes">que</token>
+                <token postag="V.* ppa.*|J.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="R pes obj.*" postag_regexp="yes"/>
+                <token postag="V avoir (ind|con|sub).*" postag_regexp="yes"/>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ce</token>
+                <token postag="V etre (ind|con|sub).*" postag_regexp="yes"/>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token>n</token>
+                <token regexp="yes">[´,]</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token>qui</token>
+                <token regexp="yes">[mt]'|lui|leur|[nv]ous</token>
+                <token postag="V avoir (ind|con|sub).* 3 ." postag_regexp="yes"/>
+                <token>plus</token>
+                <example>Je me souviens d'une scene qui m'a plus.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">aimer|adorer</token>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token>j'</token>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[aeiouéèâûîôê].*</token>
+                <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[aeiouéèâûîôê].*</token>
+                <token>plus</token>
+                <token>en</token>
+                <token regexp="yes">détails?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes" regexp="yes">[aeiouéèâûîôê].*
+                        <exception scope="previous" postag="R pers obj.*" postag_regexp="yes"/>
+                        <exception postag="[NJ].*|V.* ppa.*" postag_regexp="yes"/></token>
+                    <token>plus
+                        <exception scope="next" regexp="yes">de|d'|à|pour|du|peut|avant|sur</exception>
+                        <exception scope="next" postag="[NJ].*|V.* ppa.*|A" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Un marqueur de négation ou un autre adverbe formel semble plus approprié.</message>
+            <suggestion>n'\1 \2</suggestion>
+            <suggestion>\1 davantage</suggestion>
+            <example correction="n'a plus|a davantage">Il <marker>a plus</marker> que sa maison.</example>
+        </rule>
+        <rulegroup id="ETRE_ALLE_A" name="être allé à">
+            <rule>
+                <antipattern>
+                    <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    <token regexp="yes">à|au</token>
+                    <token regexp="yes">moyen-âge|gouvernement|blé|commandement|coeur|cœur|niveau|chant|égalité|catalogue|leur|part|sens|service|début|risque|menu|classement|programme|pouvoir|centre|siècle|talon|palmarès|bonne|chaque|premiers?|premières?|pied|disposition|rendez-vous|proximité|départ|contraire|top|téléphone|tord|prédominance|moyen|diverse?s?|titre|plusieurs|travers|sommet|fond</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">l(&apostrophe;)|la|lui|leur</token>
+                    <token postag="A" postag_regexp="yes" min="0"/>
+                    <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    <token regexp="yes">à|au</token>
+                    <token postag="[NZD].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    <token regexp="yes" skip="-1">à|au</token>
+                    <token regexp="yes">de|d(&apostrophe;)|du|des</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    <token regexp="yes">à|au</token>
+                    <token postag="[NZD].*" postag_regexp="yes" skip="-1"/>
+                    <token postag="V ppa.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    <token>au</token>
+                    <token regexp="yes">le|les|l(&apostrophe;)</token>
+                </antipattern>
+                <antipattern>
+                    <token>ce</token>
+                    <token skip="-1" regexp="yes">qu[ei]?</token>
+                    <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    <token regexp="yes">à|au</token>
+                    <token postag="[NZD].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
+                    <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    <token>à</token>
+                    <token postag="[NZD].*" postag_regexp="yes"/>
+                    <token regexp="yes">hauteur|peine|étude|place|avantage|transition|tour|mode|hausse|œuvre|apogée|moment|honneur|direction|suite|titre|côtés|fins|rue|époque|premières?|premiers?|initiative|fin|oeuvre|jour|tête|affiche|reprises?|essai|radio|télévision|charge|base|blé</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir
+                            <exception scope="previous" postag="J.*" postag_regexp="yes"/></token>
+                        <token postag="V etre ppa.*" postag_regexp="yes" inflected="yes">être</token>
+                    </marker>
+                    <token regexp="yes">à|au</token>
+                    <token postag="[NZD].*" postag_regexp="yes">
+                        <exception>de</exception></token>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="(V etre) $2 $3">être</match> <match no="1" postag="(V avoir) (.* [123]) ([sp])" postag_regexp="yes" postag_replace="V ppa . $3">aller</match></suggestion>
+                <url> https://www.projet-voltaire.fr/regles-orthographe/j-ai-ete-ou-je-suis-alle/</url>
+                <example correction="sont allées|sont allés">Elles <marker>ont été</marker> à la boulangerie.</example>
+                <example>J'<marker>ai été</marker> au gouvernement en 1987.</example>
+                <example>Lui aussi <marker>a été</marker> à la direction de l'entreprise.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">je</token>
+                    <token min="0" max="1">n'</token>
+                    <token>ai</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>été</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir
+                            <exception scope="previous" postag="J.*" postag_regexp="yes"/></token>
+                        <token postag="A" min="0" max="3"/>
+                        <token>été</token>
+                    </marker>
+                    <token regexp="yes">la|le|les|[mts]e|[mts]'|[nv]ous|leur|lui|y|en</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="(V etre) $2 $3">être</match> \2 <match no="1" postag="(V avoir) (.* [123]) ([sp])" postag_regexp="yes" postag_replace="V ppa . $3">aller</match></suggestion>
+                <example correction="sont allées|sont allés">Ils <marker>ont été</marker> la chercher à la gare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>j'</token>
+                        <token>ai</token>
+                        <token postag="A" min="0" max="3"/>
+                        <token>été</token>
+                    </marker>
+                    <token regexp="yes">la|le|les|[mts]e|[mts]'|[nv]ous|leur|lui|y|en</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion>je suis \3 allée</suggestion>
+                <suggestion>je suis \3 allé</suggestion>
+                <example correction="Je suis allée|Je suis allé"><marker>J'ai été</marker> la chercher à la gare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">je</token>
+                        <token>n'</token>
+                        <token>ai</token>
+                        <token postag="A" min="0" max="3"/>
+                        <token>été</token>
+                    </marker>
+                    <token regexp="yes">la|le|les|[mts]e|[mts]'|[nv]ous|leur|lui|y|en</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion>je ne suis \4 allée</suggestion>
+                <suggestion>je ne suis \4 allé</suggestion>
+                <example correction="Je ne suis pas allée|Je ne suis pas allé"><marker>Je n'ai pas été</marker> la chercher à la gare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir
+                            <exception scope="previous" postag="J.*" postag_regexp="yes"/></token>
+                        <token postag="R pers suj.*" postag_regexp="yes"/>
+                        <token>été</token>
+                    </marker>
+                    <token regexp="yes">la|le|les|[mts]e|[mts]'|[nv]ous|leur|lui|y|en</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion><match no="1" postag="(V avoir) (ind) (.*)" postag_regexp="yes" postag_replace="(V etre) $2 $3">être</match>\2 <match no="1" postag="(V avoir) (.* [123]) ([sp])" postag_regexp="yes" postag_replace="V ppa . $3">aller</match></suggestion>
+                <example correction="Sont-ils allées|Sont-ils allés"><marker>Ont-ils été</marker> la chercher à la gare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">cela|ça</token>
+                        <token inflected="yes" min="0" max="1">ne</token>
+                        <token>a</token>
+                        <token>été</token>
+                    </marker>
+                    <token postag="A" min="0" max="3"/>
+                    <token>vite</token>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion>c'est allé</suggestion>
+                <example correction="c'est allé">Alors, <marker>ça a été</marker> vite.</example>
+            </rule>
+            <rule tags="picky">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">cela|ça|ç'</token>
+                        <token inflected="yes" min="0" max="1">ne</token>
+                        <token>a</token>
+                        <token>été
+                            <exception scope="next">?</exception></token>
+                    </marker>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion>ce \2 fut</suggestion>
+                <suggestion>c'était</suggestion>
+                <example correction="ce fut|c'était">Alors, <marker>ça a été</marker> une expérience cruciale.</example>
+            </rule>
+            <rule tags="picky">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">cela|ça</token>
+                        <token inflected="yes" min="0" max="1">ne</token>
+                        <token>a</token>
+                        <token>été</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Cette formulation peut être considérée comme familière dans un contexte formel.</message>
+                <suggestion>cela s'est bien passé</suggestion>
+                <example correction="cela s'est bien passé">Alors, <marker>ça a été</marker> ?</example>
+            </rule>
+        </rulegroup>
+        <rule id="RESOUDRE_OU_SOLUTIONNER" name="résoudre ou solutionner">
+            <antipattern>
+                <token postag="UNKNOWN"/>
+                <token inflected="yes">solutionner</token>
+            </antipattern>
+            <antipattern>
+                <token>«</token>
+                <token inflected="yes">solutionner</token>
+                <token>»</token>
+            </antipattern>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">solutionner</token>
+            </pattern>
+            <message>Ce terme peut être considéré comme familier. Souhaitez-vous écrire <suggestion><match no="1" postag=".*">résoudre</match></suggestion> employé dans le langage formel ?</message>
+            <example correction="résoudre">Il a réussi à <marker>solutionner</marker> le problème.</example>
+            <example>Il a réussi avec Galinette <marker>Solutionnée</marker> à résoudre le problème.</example>
+        </rule>
+        <rule id="S_EN_RAPPELER" name="s'en rappeler (style)">
+            <pattern>
+                <token regexp="yes">[mts]'</token>
+                <token>en</token>
+                <token inflected="yes">rappeler</token>
+            </pattern>
+            <message>Cette structure peut sembler familière dans le langage formel.</message>
+            <suggestion><match no="1" regexp_match="(?iu)'" regexp_replace="e"/> le \3</suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)'" regexp_replace="e"/> \3</suggestion>
+            <example correction="me le rappelle|me rappelle">Je <marker>m'en rappelle</marker> bien !</example>
+        </rule>
     </category>
     <category id="REPETITIONS_STYLE" name="repetitions style" type="style">
         <rule id="REP_MAINTENANT" name="maintenant" min_prev_matches="2" tags="picky" default="off">
