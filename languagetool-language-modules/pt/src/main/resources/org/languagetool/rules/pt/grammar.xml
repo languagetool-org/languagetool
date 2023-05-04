@@ -2608,6 +2608,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp='yes'>&nomes_de_instituicoes_final;</token>
                     <example>Faz parte da Walt Disney Studios</example>
                 </antipattern>
+                <antipattern>
+                    <token>na</token>
+                    <token>quele</token>
+                </antipattern>
                 <pattern>
                     <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
                     <marker>
@@ -37325,6 +37329,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
+        <rule id='NA_QUELE' name="Correção de escrita" default='on'>
+            <pattern>
+                <token>na</token>
+                <token regexp='yes'>quel[ea]s?</token>
+            </pattern>
+            <message>Verifique se não falta um espaço</message>
+            <suggestion>\1\2</suggestion>
+            <example correction="naquela">Isso foi <marker>na quela</marker> época.</example>
+        </rule>
 
         <rule id='PRE_POS' name="Correção de escrita" default='on'>
             <pattern>
