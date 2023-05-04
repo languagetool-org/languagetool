@@ -142,6 +142,18 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       // "Im nur wenige Meter entfernten Schergenturm"
       new PatternTokenBuilder().token("im").setSkip(8).build(),
       posRegex("PA[12].*")
+    ),
+    Arrays.asList(
+      // "Du forderst viel in einer kurzen Zeit.", "Schneit es viel im Winter?"
+      posRegex("VER.*"),
+      new PatternTokenBuilder().token("es").min(0).build(),
+      token("viel")
+    ),
+    Arrays.asList(
+      // "Warum viel graue Energie in neue Fenster investieren"
+      token("viel"),
+      new PatternTokenBuilder().posRegex("ADJ.*").min(0).build(),
+      posRegex("SUB.*")
     )
   );
 
