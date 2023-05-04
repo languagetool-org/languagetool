@@ -29201,6 +29201,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O Tom não faz nada além de assistir à TV o dia inteiro.</example>
                 <example>Assistir à TV é um dos meus passatempos favoritos.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>a</token>
+                    <token min="0" postag="RG|DI.+" postag_regexp='yes'/>
+                    <token min="0" postag="SPS00"/>
+                    <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+                    <token regexp="yes">&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</token>
+                    <and>
+                        <token postag_regexp="yes" postag="SPS.+"/>
+                        <token regexp="yes">d.*</token>
+                    </and>
+                    <example>O evento fica a algumas horas dali.</example>
+                </antipattern>
+                <pattern>
+                    <token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+|PI0NN000' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='SPS.+'/>
+                    </token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token min="0" postag="RG|DI.+" postag_regexp='yes'/>
+                    <token min="0" postag="SPS00"/>
+                    <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+                    <token regexp="yes">&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;
+                        <exception postag_regexp='yes' postag='SPS.+|NP.+'/>
+                        <exception regexp='yes'>noite|tarde</exception>
+                    </token>
+                </pattern>
+                <message>Para expressões no passado ou se pretende utilizar o verbo "haver", substitua por <suggestion>há</suggestion>.</message>
+                <example correction="há">Foi <marker>a</marker> duas horas.</example>
+                <example correction="há">Namoro um cara <marker>a</marker> quase nove meses.</example>
+            </rule>
         </rulegroup>
 
 
