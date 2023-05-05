@@ -19607,6 +19607,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="passeja_i_repasseja" name="passeja i repasseja">
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>i</token>
+                <marker>
+                    <token>re<match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="&pronom_feble;" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>i</token>
+                <marker>
+                    <token><match no="0"/></token>
+                    <token>re<match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
     <rule id="IGNORE_SPELLING_LE" name="ignorar le">
         <pattern>
             <marker>
