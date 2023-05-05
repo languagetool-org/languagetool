@@ -8441,14 +8441,21 @@ USA
             <short>Redundant phrase</short>
             <example correction='charged with'>The Magistrate's Court in Kuala Lumpur today decided that a former model <marker>accused of a charge of</marker> public indecency is fit to stand trial.</example>
         </rule>
-        <rule id="CIRCUMSTANCES_SURROUNDING" name="circumstances surrounding (circumstances of)">
-         <pattern>
-          <token>circumstances</token>
-          <token>surrounding</token>
-         </pattern>
-         <message>This phrase is redundant. Consider writing <suggestion><match no="1"/> of</suggestion>.</message>
-         <short>Redundant phrase</short>
-         <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>
+        <rule id="CIRCUMSTANCES_SURROUNDING" name="circumstances surrounding (circumstances of)" tags="picky">
+            <antipattern>
+                <token regexp="yes">t?here</token>
+                <token min="0" postag="RB" />
+                <token skip="3" inflected="yes">be</token>
+                <token>circumstances</token>
+                <example>But there are tragic circumstances surrounding this nomination... which takes it out of the usual business and sets it deeply... into the conscience of each senator.</example>
+            </antipattern>
+            <pattern>
+                <token>circumstances</token>
+                <token>surrounding</token>
+            </pattern>
+            <message>This phrase is redundant. Consider writing <suggestion><match no="1"/> of</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>
         </rule>
         <rulegroup id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
         <url>https://languagetool.org/insights/post/wordy-phrases-style/#correcting-wordy-phrases</url>
