@@ -915,11 +915,16 @@ public class JLanguageTool {
   }
 
   public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
-                             Mode mode, Level level, @Nullable Long textSessionID) throws IOException {
+                             Mode mode, Level level, @Nullable Long textSessionID)throws IOException {
+    return check2(annotatedText, tokenizeText, paraMode, listener, mode, level, Collections.emptySet(), textSessionID); 
+  }
+  
+  public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
+                             Mode mode, Level level, @NotNull Set<ToneTag> toneTags, @Nullable Long textSessionID) throws IOException {
     annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
-    CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences);
+    CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, toneTags, textSessionID, sentences, analyzedSentences);
     checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(annotatedText, sentences));
     return checkResults;
   }
@@ -962,7 +967,13 @@ public class JLanguageTool {
   protected CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
                                      Mode mode, Level level,
                                      @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
-    RuleSet rules = getActiveRulesForLevel(level);
+    return checkInternal(annotatedText, paraMode, listener, mode, level, Collections.emptySet(), textSessionID, sentences, analyzedSentences);
+  }
+
+  protected CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
+                                     Mode mode, Level level, @NotNull Set<ToneTag> toneTags,
+                                     @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
+    RuleSet rules = getActiveRulesForLevelAndToneTags(level, toneTags);
     if (printStream != null) {
       printIfVerbose(rules.allRules().size() + " rules activated for language " + language);
     }
@@ -1043,12 +1054,34 @@ public class JLanguageTool {
     return applyCustomFilters(ruleMatches, annotatedText);
   }
 
-  private final Map<Level, RuleSet> ruleSetCache = new ConcurrentHashMap<>();
+  private final Map<LevelToneTagCacheKey, RuleSet> ruleSetCache = new ConcurrentHashMap<>();
 
-  private RuleSet getActiveRulesForLevel(Level level) {
-    return ruleSetCache.computeIfAbsent(level, l -> {
-      List<Rule> allRules = getAllActiveRules();
-      return RuleSet.textLemmaHinted(l == Level.DEFAULT ? allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList()) : allRules);
+  private RuleSet getActiveRulesForLevelAndToneTags(Level level, Set<ToneTag> toneTags) {
+    LevelToneTagCacheKey key = new LevelToneTagCacheKey(level, toneTags);
+    return ruleSetCache.computeIfAbsent(key, levelToneTagCacheKey -> {
+      List<Rule> allRules = new ArrayList<>(getAllActiveRules());
+      List<ToneTag> localToneTags;
+      if (toneTags.isEmpty()) {
+        localToneTags = Collections.singletonList(ToneTag.clarity); //If no tone tag is set always use clarity.
+      } else if (toneTags.contains(ToneTag.NO_TONE_RULE)) {
+        localToneTags = Collections.emptyList(); //Even clarity rules will be disabled.
+      } else {
+        localToneTags = new ArrayList<>(toneTags);
+      }
+      allRules.removeIf(rule -> {
+        if (rule.getToneTags().isEmpty()) {
+          return false;
+        }
+        boolean removeRule = true;
+        for (ToneTag toneTag : localToneTags) {
+          if (rule.hasToneTag(toneTag)) {
+            removeRule = false;
+            break;
+          }
+        }
+        return removeRule;
+      });
+      return RuleSet.textLemmaHinted(levelToneTagCacheKey.getLevel() == Level.DEFAULT ? allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList()) : allRules);
     });
   }
 
