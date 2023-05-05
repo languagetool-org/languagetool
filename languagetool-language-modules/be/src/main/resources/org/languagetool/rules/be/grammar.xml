@@ -34,7 +34,7 @@
         <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
             <rule>
                 <antipattern>
-                    <token regexp='yes'>(прэзідыум|кансіліум|радыус|страус|соус|трыумф|трыумфальн|трыумфава|трыумфатар|іуд|іудзейск|іудзейств|іудзе|іудзейк|іудаізм|калегіум|вакуум|траур|ноу-хау|ток-шоу|фрау|шоу|Ландау|Каратау|Дахау|Цеміртау|аул|баул|аука)[аеёзійкмнсуўхыюя]{0,3}</token>
+                    <token regexp='yes'>(прэзідыум|кансіліум|радыус|страус|соус|трыумф|трыумфальн|трыумфава|трыумфатар|калегіум|вакуум|траур|ноу-хау|ток-шоу|фрау|шоу|Ландау|Каратау|Дахау|Цеміртау|аул|баул|аука)[агеёзійкмнсуўхьыюя]{0,3}</token>
                 </antipattern>
                 <antipattern>
                     <token regexp='yes' case_sensitive="yes">.*[АЕЁІОУЫЭЮЯаеёіоуыэюя][-]?У.*</token>
@@ -53,7 +53,7 @@
                 <antipattern>
                     <token regexp='yes'>.*[аеёіоуыэюя]</token>
                     <token regexp="yes" min="0">[«»„“"]</token>
-                    <token regexp='yes'>(унія|унію|уніі|урн|унтэр-афіцэр|унтэр|уйма|унікум)[аеёзійкмнсуўхыюя]{0,3}</token>
+                    <token regexp='yes'>(унія|унію|уніі|урн|унтэр-афіцэр|унтэр|уйма|унікум)[агеёзійкмнсуўхьыюя]{0,3}</token>
                 </antipattern>
                 <pattern>
                     <token regexp='yes'>.*[аеёіоуыэюя]</token>
@@ -291,7 +291,20 @@
                 <example>Не стаўце два «іх» запар.</example>
                 <example correction="">Гэта іх ідэя перавезці <marker>іх</marker> машыну.</example>
             </rule>
-        </rulegroup> 
+        </rulegroup>
+        <rule id="Va_usialiakim_vypadku" name="Ва ўсякім разе" tags="picky">
+            <pattern>
+                <token regexp="yes">[уў]?ва</token>
+                <marker>
+                    <token>ўсялякім</token>
+                </marker>
+                <token regexp="yes">выпадку|разе</token>
+            </pattern>
+            <message>Рэкамендуецца выкарыстоўваць займеннік: <suggestion>ўсякім</suggestion>.</message>
+            <short>Устойлівы выраз «ва ўсякім разе»</short>
+            <example>Ва ўсякім разе.</example>
+            <example correction="ўсякім">Ва <marker>ўсялякім</marker> выпадку.</example>
+        </rule>
         <rulegroup id="NI_NA_HRAN" name="Цэльны выраз: «ні на гран»">
             <rule>
                 <pattern>
@@ -321,7 +334,7 @@
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(пад?)?(пяч|пяк|печ|пёк|смаж|палі|паля|палю|праж|прэг|праг|прог|смал)[а-яёіў]{0,3}</token>
+                        <token regexp="yes">(пад?|да)?(пяч|пяк|печ|пёк|смаж|палі|паля|палю|праж|прэг|праг|прог|смал|жар)[а-яёіў]{0,3}</token>
                     </marker>
                     <token min="0" max="2"></token>
                     <token>сала</token>
@@ -334,7 +347,7 @@
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(пад?)?(пяч|пяк|печ|пёк|смаж|палі|паля|палю|сквар|смал)[а-яёіў]{0,3}</token>
+                        <token regexp="yes">(пад?|да)?(пяч|пяк|печ|пёк|смаж|палі|паля|палю|сквар|смал|жар)[а-яёіў]{0,3}</token>
                     </marker>
                     <token min="0" max="2"></token>
                     <token regexp="yes">(кав|насенне|арэх|зерн)[а-яёіў]{0,2}<exception regexp="yes">кавун</exception></token>
@@ -361,6 +374,18 @@
                 <example correction="">З такой <marker>кропкі</marker> гледжання.</example>
             </rule>
         </rulegroup>
+        <rule id="Vialikaja_litara" name="Памылка ў выразе «вялікая літара»">
+            <pattern>
+                <marker>
+                    <token regexp="yes">загаловачн[а-яіў]{0,3}</token>
+                </marker>
+                <token regexp="yes">літар[а-яіў]{0,3}</token>
+            </pattern>
+            <message>Літара можа быць толькі «вялікай.</message>
+            <short>Устойлівы выраз «ва ўсякім разе»</short>
+            <example>Вялікая літара.</example>
+            <example correction="">З <marker>загаловачнай</marker> літары.</example>
+        </rule>
     </category>
     <category id="CAT5" name="Семантычныя памылкі">
         <rulegroup id="INVALID_DATE" name="Няправільная дата, напр.: «31 лютага 2014»">
@@ -803,6 +828,34 @@
                 <example correction="ЕАЭС">Сустрэча кіраўнікоў дзяржаў <marker>ЕўрАзЭС</marker> адбудзецца ў снежні 2022 г.</example>
                 <example>Сустрэча кіраўнікоў дзяржаў ЕАЭС адбудзецца ў снежні 2022 г.</example>
             </rule>
-        </rulegroup>                                                
+        </rulegroup>
+	    <rulegroup id="Praduktyuny" name="Прадуктыўны" tags="picky">
+            <rule>
+                <pattern>
+                    <token skip="5" regexp="yes" negate="yes">(суфікс|словаўтваральн|фінал|мадэл)[агеёзійкмнсуўхьыюя]{0,3}</token>
+                    <marker>
+                        <token regexp="yes">прадуктыўн[агеёзійкмнсуўхьыюя]{0,3}</token>
+                    </marker>
+                <token skip="5" regexp="yes" negate="yes">(суфікс|словаўтваральн|фінал|мадэл)[агеёзійкмнсуўхьыюя]{0,3}</token>
+                </pattern>
+                <message>Мабыць вы хацелі ўжыць прыметнік «прадукцыйны»? «Прадуктыўны» — гэта той, што ўтварае новыя словы ці граматычныя формы слоў (напр. суфікс).</message>
+                <short>Мелася на ўвазе «прадукцыйны»?</short>
+                <example correction="">Спадар андрэй быў <marker>прадуктыўным</marker> працоўнікам.</example>
+                <example>Беларускае слова атрымала прадуктыўны суфікс назваў асоб.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="5" regexp="yes" negate="yes">(суфікс|словаўтваральн|фінал|мадэл)[агеёзійкмнсуўхьыюя]{0,3}</token>
+                    <marker>
+                        <token regexp="yes">прадуктыўнасц[агеёзійкмнсуўхьыюя]{0,3}</token>
+                    </marker>
+                <token skip="5" regexp="yes" negate="yes">(суфікс|словаўтваральн|фінал|мадэл)[агеёзійкмнсуўхьыюя]{0,3}</token>
+                </pattern>
+                <message>Мабыць вы хацелі ўжыць прыметнік «прадукцыйнасць»? «Прадуктыўнасць» уласціва таму, што ўтварае новыя словы ці граматычныя формы слоў (напр. суфіксам).</message>
+                <short>Мелася на ўвазе «прадукцыйнасць»?</short>
+                <example correction=""><marker>Прадуктыўнасць</marker> гэтага прадпрыемства толькі ўзрасла.</example>
+                <example>Аднак, прымаючы пад увагу прадуктыўнасць суфікса ‑ina (гл. Слаўскі, SP, 120–123), не выключана магчымасць самастойнага ўтварэння..</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
