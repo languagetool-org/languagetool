@@ -29207,12 +29207,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token min="0" postag="RG|DI.+" postag_regexp='yes'/>
                     <token min="0" postag="SPS00"/>
                     <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
-                    <token regexp="yes">&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</token>
+                    <token regexp="yes">&expressoes_de_tempo;</token>
                     <and>
                         <token postag_regexp="yes" postag="SPS.+"/>
                         <token regexp="yes">d.*</token>
                     </and>
                     <example>O evento fica a algumas horas dali.</example>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="N..S.+" postag_regexp='yes'/>
+                    <example>Isso inclui a era Vargas.</example>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="N..S.+" postag_regexp='yes'/>
+                    <example>Isso inclui a era Vargas.</example>
                 </antipattern>
                 <pattern>
                     <token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+|PI0NN000' postag_regexp='yes'>
@@ -29221,17 +29231,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <marker>
                         <token>a</token>
                     </marker>
-                    <token min="0" postag="RG|DI.+" postag_regexp='yes'/>
+                    <token min="0" postag="RG|DI.+" postag_regexp='yes'>
+                        <exception regexp="yes">qualquer|cada|tod[oa]s?|outr[oa]s?</exception></token>
                     <token min="0" postag="SPS00"/>
                     <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
-                    <token regexp="yes">&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;
+                    <token regexp="yes">yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia)s?|se(?:gundo|mana|mestre)s?|(?:bi|tri|quadri)mestres?|anos?|d(?:écada|ecénio)s?|mil[éê]nios?|temp(?:o|orada)s?|m(?:ês|eses)|eras?|instantes?|momentos?|quinzenas?|séculos?
                         <exception postag_regexp='yes' postag='SPS.+|NP.+'/>
-                        <exception regexp='yes'>noite|tarde</exception>
                     </token>
                 </pattern>
                 <message>Para expressões no passado ou se pretende utilizar o verbo "haver", substitua por <suggestion>há</suggestion>.</message>
                 <example correction="há">Foi <marker>a</marker> duas horas.</example>
                 <example correction="há">Namoro um cara <marker>a</marker> quase nove meses.</example>
+                <example correction="há">Eu conheci Isabella <marker>a</marker> alguns anos</example>
             </rule>
         </rulegroup>
 
