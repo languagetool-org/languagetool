@@ -12628,6 +12628,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>à</suggestion>
                 <example correction='à'>Estou <marker>a</marker> sua disposição. </example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>em</token>
+                    <token>direção</token>
+                    <marker>
+                        <token regexp="yes">as?</token>
+                    </marker>
+                    <token postag='N.F.+' postag_regexp='yes'>
+                        <exception negate_pos="yes" postag='N.F.+|A..F.+' postag_regexp='yes'/></token>
+                </pattern>
+                <message>Esta expressão requer o uso da crase.</message>
+                <suggestion><match no="3" regexp_match="a" regexp_replace="à"/></suggestion>
+                <example correction='à'>Correu em direção <marker>a</marker> saída. </example>
+            </rule>
         </rulegroup>
 
 
