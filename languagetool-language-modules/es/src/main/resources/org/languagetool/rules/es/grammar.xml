@@ -23972,29 +23972,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception inflected="yes">tener</exception></token>
                 <token>que</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="4">trabajo|profesión|ocupación</token>
+                <token inflected="yes">ser</token>
+                <token postag="NC.S.*" postag_regexp="yes"/>
+                <example>Su profesión es médico.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+                <token postag="D..MS.|PI0MS000" postag_regexp="yes"/>
+                <example>Costa Rica es considerado uno de los 20 países con mayor biodiversidad.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="3">ser</token>
+                <token regexp="yes">falta|sinónimo|mineral</token>
+                <token>de</token>
+            </antipattern>
+            <antipattern>
+                <!-- ambiguous -->
+                <token inflected="yes" skip="3">ser</token>
+                <token regexp="yes">hechos?|hartos?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="4">&partes_dia;|&meses_ano;|&estaciones_ano;</token>
+                <token inflected="yes">estar</token>
+                <example>Esta mañana estaba estreñido y ahora tengo diarrea.</example>
+                <example>La mañana siguiente estábamos muy somnolientos.</example>
+            </antipattern>
+            <antipattern>
+                <token><exception inflected="yes">haber</exception></token>
+                <token>de</token>
+            </antipattern>
+            <antipattern>
+                <!-- probably nouns -->
+                <token regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?|mamíferos?|anfibios?|dispositivos?|pescados?</token>
+            </antipattern>
+            <antipattern>
+                <!-- RG -->
+                <token>alerta</token>
+            </antipattern>
+            <antipattern>
+                <token>justo</token>
+                <token postag="SP.*|RG|LOC_PREP" postag_regexp="yes"/>
+                <example>La casa está justo enfrente de la plaza.</example>
+                <example>La casa está justo arriba.</example>
+                <example>La casa está justo al lado.</example>
+                <example>La casa está justo en la plaza.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START.*" postag_regexp="yes"/>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*"><exception postag="_loc_unavez"/><exception regexp="yes">.*%</exception></token>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*"><exception postag="_loc_unavez|SP:DA" postag_regexp="yes"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
                             <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
                             <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
                         </unify-ignore>
                         <marker>
-                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
-                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:V.P..\b2\b1|A..[\b1C]\b2."/>
                 <message>Posible error de concordancia.</message>
                 <example correction="bonita">La casa es <marker>bonito</marker>.</example>
                 <example correction="bonita">La casa no es <marker>bonitos</marker>.</example>
                 <example correction="alta">La calidad parecía <marker>altos</marker>.</example>
                 <example correction="casada">Su madre no estaba <marker>casado</marker>.</example>
+                <example correction="guais">Los dragones son <marker>guay</marker>.</example>
                 <example>El barco fue abandonado.</example>
+                <example>La sola idea de ser enviados al extranjero les llenaba de alegría.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24006,10 +24056,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <unify-ignore>
                             <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
                             <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
-                            <token postag="RG_before"><exception>algo</exception></token>
+                            <token postag="RG_before"><exception regexp="yes">algo|nada</exception></token>
                         </unify-ignore>
                         <marker>
-                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -24032,7 +24082,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
                         </unify-ignore>
                         <marker>
-                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -24054,7 +24104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token postag="RG_before"><exception>algo</exception></token>
                         </unify-ignore>
                         <marker>
-                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/><exception regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?</exception></token>
+                            <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_NP|_GN_.*" postag_regexp="yes"/></token>
                         </marker>
                     </unify>
                 </pattern>
