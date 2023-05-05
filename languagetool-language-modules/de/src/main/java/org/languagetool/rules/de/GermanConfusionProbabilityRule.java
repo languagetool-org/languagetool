@@ -55,6 +55,11 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
     "seht ihr",
+    "seht zu, dass",
+    "seht zu dass",
+    "seht es euch",
+    "seht selbst",
+    "seht an",
     "viel hin und her",
     "möglichkeit weißt",
     "du doch trotzdem",
