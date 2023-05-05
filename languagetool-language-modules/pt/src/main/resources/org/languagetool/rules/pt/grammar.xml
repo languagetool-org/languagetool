@@ -13395,6 +13395,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Dizem que acabou apenas uma das obras a tempo.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="RG"/>
+                    <token>da</token>
+                    <token>uma</token>
+                    <token>hora</token>
+                    <example>Um pouco antes da uma hora da tarde.</example>
+                </antipattern>
+                <antipattern>
+                    <token>por</token>
+                    <token>volta</token>
+                    <token>da</token>
+                    <token>uma</token>
+                    <token>hora</token>
+                    <example>Por volta da uma hora da tarde.</example>
+                </antipattern>
                 <pattern>
                     <token negate='yes' regexp='yes'>&hifen;</token>
                     <marker>
@@ -13506,26 +13521,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </antipattern>
                 <antipattern>
                     <token postag="SPS00:P.+|SPS00:DD.+" postag_regexp="yes"/>
-                    <token postag="D[AI].+" postag_regexp="yes"/>
-                    <example>Não queria que nessa alguma coisa acontecesse</example>
+                    <token>no</token>
+                    <token>caso</token>
+                    <example>Quanto ao contato deles no caso de erro na ficha</example>
                 </antipattern>
                 <antipattern>
                     <token regexp='yes'>uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|n[ao]</token>
                     <token postag="SPS00:[PD].+|P.+" postag_regexp="yes"/>
                     <example>e não há problema algum nisso.</example>
                 </antipattern>
+                <antipattern>
+                    <token postag="SPS00:P.+|SPS00:DD.+" postag_regexp="yes"/>
+                    <token postag="D[AI].+" postag_regexp="yes"/>
+                    <example>Não queria que nessa alguma coisa acontecesse</example>
+                </antipattern>
                 <pattern>
                     <token negate='yes' regexp='yes'>&hifen;</token>
                     <marker>
-                        <token regexp='yes'>d(?:uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|duns|n([ao]|uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|nuns|alguma?s?|pelos|alguns</token>
-                        <token regexp='yes'>d(?:uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|duns|n([ao]|uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|nuns|alguma?s?|pelos|alguns</token>
+                        <token regexp='yes'>d(?:uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|duns|n([ao]|uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|nuns|alguma?s?|alguns</token>
+                        <token regexp='yes'>d(?:uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|duns|n([ao]|uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao])s?|nuns|alguma?s?|alguns</token>
                     </marker>
                 </pattern>
                 <message>Possível fragmento.</message>
                 <suggestion>\2</suggestion>
                 <suggestion>\3</suggestion>
-                <suggestion>\2, \3</suggestion>
-                <example correction='dele|dela|dele, dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
+                <suggestion>\2… <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction='dele|dela|dele… Dela'>A irmã <marker>dele dela</marker> saiu de casa.</example>
                 <example>Alguns destes animais são efetivamente mortos, e outros são pos…</example>
                 <example>Eu não quero perder as minhas ideias, mesmo que algumas delas sejam um pouco extremas.</example>
                 <example>O guarani é falado por alguns no nordeste, especialmente em Corrientes (onde possu…</example>
