@@ -3265,6 +3265,33 @@ USA
         </rulegroup>
 
 
+        <!-- DOS MESMOS destes DAS MESMAS destas -->
+        <rule id='DOS_MESMOS_DESTES_DAS_MESMAS_DESTAS' name="[Simplificar] 'dos mesmos'/'das mesmas' → 'destes'/'destas'" type="style" default='temp_off'>
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-05 (2-MAR-2023+) -->
+            <!--
+      O estudo dos conflitos permite perceber os motivos DOS MESMOS ocorrerem. → O estudo dos conflitos permite perceber os motivos DESTES ocorrerem.
+      O estudo das guerras permite perceber os motivos DAS MESMAS ocorrerem. → O estudo das guerras permite perceber os motivos DESTAS ocorrerem.
+      -->
+            <pattern>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <marker>
+                    <token regexp='yes'>d[ao]s?</token>
+                    <token regexp='yes'>mesm[ao]s?</token>
+                </marker>
+                <or>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+                    </token>
+                    <token regexp='no'>ser</token>
+                </or>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion><match no='3' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
+            <example correction="destes">O estudo dos conflitos permite perceber os motivos <marker>dos mesmos</marker> ocorrerem.</example>
+            <example correction="destas">O estudo das guerras permite perceber os motivos <marker>das mesmas</marker> ocorrerem.</example>
+        </rule>
+
+
         <!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
         <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="[Simplificar] E é/são/foi/foram + V. → [sendo/sido/e] + V." type="style" tags='picky'>
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-04-25 (Checked/Enhanced) (1-JAN-2022+)      -->
