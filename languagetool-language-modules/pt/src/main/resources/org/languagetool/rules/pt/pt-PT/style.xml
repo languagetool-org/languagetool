@@ -86,7 +86,7 @@ USA
 
 
         <!ENTITY gerundio_verbos "acabar|acontecer|afundar|ajudar|aumentar|criar|degradar|diminuir|disparar|elaborar|fazer|fluir|instalar|ir|lesar|quebrar|ser|travar|vir">
-        <!ENTITY gerundio_excecoes "abandonando|acelerando|acrescentando|acumulando|adicionando|alimentando|alterando|alternando|aperfeiçoando|apresentando|armazenando|aumentando|baixando|bebendo|beneficiando|caindo|causando|chegando|conquistando|conseguindo|consolidando|consumindo|crescendo|criando|decrescendo|desaparecendo|emergindo|empregando|envolvendo|fazendo|ficando|ganhando|habituando|havendo|jogando|levantando|libertando|matando|morrendo|mudando|originando|partindo|passando|perdendo|permitindo|pressionando|procurando|progredindo|propagando|publicando|querendo|recorrendo|reduzindo|repetindo|revendo|sabendo|saindo|sendo|subindo|surgindo|usando">
+        <!ENTITY gerundio_excecoes "abandonando|acelerando|acrescentando|acumulando|adicionando|alimentando|alterando|alternando|aperfeiçoando|apresentando|armazenando|aumentando|baixando|bebendo|beneficiando|caindo|causando|chegando|conquistando|conseguindo|consolidando|consumindo|crescendo|criando|decrescendo|desaparecendo|emergindo|empregando|envolvendo|fazendo|ficando|ganhando|habituando|havendo|jogando|levantando|libertando|matando|morrendo|mudando|originando|partindo|passando|perdendo|permitindo|pressionando|procurando|progredindo|propagando|publicando|querendo|recorrendo|reduzindo|repetindo|revendo|sabendo|safando|saindo|sendo|subindo|surgindo|usando">
 
 
         <!ENTITY cores_invariaveis "açafrão|água|alizarina|âmbar|ameixa|amêndoa|ametista|aspargo|bordô|borgonha|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|cenoura|cereja|chocolate|ciano|cinza|cobre|concha|creme|dainise|ébano|eminência|esmeralda|eucalipto|feldspato|ferrugem|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|milho|mocassim|mostarda|neve|nyanza|ocre|oliva|orquídea|ouro|pêssego|prata|púrpura|quantum|quartz|renda|rosa|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|vinho|violeta|xanadu|zaffre">
@@ -117,8 +117,56 @@ USA
         <!ENTITY MSG_ECV "Possível erro de concordância verbal.">
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <category id="STYLE" name="style rules" type="style">
-        <rule id='CICLO_VICIOSO' name="Calinada: Círculo vicioso" tags="picky">
+    <category id="STYLE" name="[pt-PT] Regras de Estilo" type="style">
+        <!-- CAIXA embalagem -->
+        <rule id='CONFUSÃO_CAIXA_EMBALAGEM' name="[pt-PT][Confusão] Caixa/embalagem">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-05-05 (1-JAN-2022+)      -->
+            <!--
+      Vou tomar uma caixa de Xanax. → Vou tomar uma embalagem de Xanax.
+      Vou tomar várias caixas de Xanax. → Vou tomar várias embalagens de Xanax.
+      -->
+            <pattern>
+                <token inflected='yes'>tomar</token>
+                <token min="0" max="1" negate="yes" regexp='yes'>caixas?</token>
+                <marker>
+                    <token regexp='yes'>caixas?
+                        <exception scope='previous' postag='_PUNCT'/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Se estiver a referir-se a fármacos ou afins, empregue o termo 'embalagem'.</message>
+            <suggestion><match no='3' postag='NC.(.)000' postag_replace='NCF$1000'>embalagem</match></suggestion>
+            <example correction="embalagem">Vou tomar uma <marker>caixa</marker> de Xanax.</example>
+        </rule>
+        <rule id='PRAZER_EM_CONVIDAR' name="[pt-PT] Gosto em convidar">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <marker>
+                    <token>prazer</token>
+                    <token>em</token>
+                    <token regexp='yes' inflected="yes">convidar|convidá</token>
+                </marker>
+                <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                <token regexp="yes" min='0'>los?|vos|te</token>
+            </pattern>
+            <message>Substitua por <suggestion>gosto \2 \3</suggestion>.</message>
+            <example correction="gosto em convidá">Terei o maior <marker>prazer em convidá</marker>-los para a festa.</example>
+        </rule>
+        <rule id='PÔR_FIM_À_VIDA' name="[pt-PT] pôr termo à vida">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <token inflected='yes'>pôr</token>
+                <marker>
+                    <token>fim</token>
+                </marker>
+                <token>à</token>
+                <token>vida</token>
+            </pattern>
+            <message>Melhore a redação.</message>
+            <suggestion>termo</suggestion>
+            <example correction="termo">O Rui pôs <marker>fim</marker> à vida.</example>
+        </rule>
+        <rule id='CICLO_VICIOSO' name="[pt-PT] Calinada: Círculo vicioso" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
                 <token regexp='yes'>ciclos?</token>
@@ -2464,7 +2512,7 @@ USA
         </rule>
         <!-- VELHA ESCOLA velha guarda -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
-        <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="Velha escola → Velha guarda">
+        <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha escola → Velha guarda">
             <pattern>
                 <token inflected='yes'>ser</token>
                 <token>da</token>
@@ -3189,34 +3237,6 @@ USA
         </rulegroup>
 
 
-        <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
-        <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM' name="[pt-PT][Simplificar] 'Quando se V.Tipo.Abre(m)' → 'Ao [se] V.Tipo.Abrir(em)'" type="style">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-26 + 2023-05-01 (2-MAR-2023+) -->
-            <!--
-      Quando se abre a definição em Modo Avançado. → Ao abrir a definição em Modo Avançado.
-      Quando se abrem várias definições em Modo Avançado. → Ao abrirem várias definições em Modo Avançado.
-      -->
-            <pattern>
-                <marker>
-                    <token>quando
-                        <exception scope="previous" postag_regexp='yes' postag='V.+|SPS00|SP000'/>
-                    </token>
-                    <token>se</token>
-                    <token postag='VMIP3.+' postag_regexp='yes'/>
-                </marker>
-                <token postag='DA.+|DI.+' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+|NP.+|V.+|DA.+|DI.+|CS' postag_regexp='yes'/>
-            </pattern>
-            <message>Esta perífrase poderá ser simplificada.</message>
-            <suggestion>ao <match no='3' postag='VMIP3(.).' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <suggestion>ao se <match no='3' postag='VMIP3(.).' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <example correction="Ao abrir|Ao se abrir"><marker>Quando se abre</marker> a definição em Modo Avançado.</example>
-            <example correction="Ao abrirem|Ao se abrirem"><marker>Quando se abrem</marker> várias definições em Modo Avançado.</example>
-        </rule>
-
-
-
-
         <!-- QUE ATUA/ATUAM a atuar -->
         <rule id='SIMPLIFICAR_QUE_VERBO_A_VERBOINFINITIVO' name="[pt-PT][Simplificar] Que + V. → A + V. Infinitivo" type="style">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -3600,8 +3620,21 @@ USA
         <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
 
         <!--
-             MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (27-FEB-2023+)
+             MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
         -->
+
+        <!-- MARCOAGPINTO 2023-05-05 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+        <antipattern>
+            <token postag='PP3.PA.+' postag_regexp='yes'/>
+            <token postag='VMSP2S0' postag_regexp='no'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+            <example>Embora nem sempre nas melhores condições.</example>
+            <example>Eu as vezes tomo ele indo pra academia com gengibre agente sua mais que ”tampa de marmita” kkkkkkkkkk.</example>
+            <example>Acidentes acontecem até nas melhores famílias.</example>
+            <example>...e R$ 28.000 foi distribuído em premiações, tanto para os primeiros colocados gerais como também nas metas volantes da prova.</example>
+            <example>... e investiu fortemente nesse tipo de rifle contribuindo para as tecnologias que conhecemos hoje nos rifles esportivos.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2023-05-05 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
         <!-- MARCOAGPINTO 2023-02-27 (Checked/Enhanced) (27-FEB-2023+) *START* -->
         <antipattern>

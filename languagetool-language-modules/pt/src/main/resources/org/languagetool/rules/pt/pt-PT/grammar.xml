@@ -2669,7 +2669,39 @@
       <example>Assim, com a divisão de valores mais próximos do zero, o resultado será o zero absoluto.</example>
       <example>Teoricamente, ao cessar a agitação térmica das moléculas a pressão é nula, e atinge-se o zero absoluto.</example>
     </rule>
-
+    <rulegroup id='AUTO-FALANTE' name="[pt-PT] Altifalante">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <rule>
+        <pattern>
+          <token>auto</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
+          <token>falante</token>
+        </pattern>
+        <message>Substitua por <suggestion>altifalante</suggestion>.</message>
+        <example correction="altifalante">O <marker>auto-falante</marker> está avariado.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>auto</token>
+          <token regexp='yes' min='0'>&tracos_de_separacao;</token>
+          <token>falantes</token>
+        </pattern>
+        <message>Substitua por <suggestion>altifalantes</suggestion>.</message>
+        <example correction="altifalantes">Os <marker>auto-falantes</marker> estão avariados.</example>
+      </rule>
+    </rulegroup>
+    <rule id='DAÍ' name="[pt-PT] Contração: de aí">
+      <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+      <pattern>
+        <marker>
+          <token postag="VMN0000"/>
+          <token>daí</token>
+        </marker>
+        <token postag="VMN0000"/>
+      </pattern>
+      <message>Será que quis dizer <suggestion>\1 de aí</suggestion>?</message>
+      <example correction="partir de aí">A <marker>partir daí</marker> deduzir o que fazer.</example>
+    </rule>
 
   </category>
 
@@ -2762,7 +2794,7 @@
     </rulegroup>
 
 
-    <rulegroup id='O_FACTO_DA_AÇÃO' name="Contração: expressão invariável com contração (p.ex. o facto da/de a)" default='off'>
+    <rulegroup id='O_FACTO_DA_AÇÃO' name="[pt-PT] Contração: expressão invariável com contração (p.ex. o facto da/de a)" default='off'>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/preposicao-seguida-de-artigo-definido-sem-contracao/32586</url>
       <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <rule>
@@ -3015,9 +3047,9 @@
 
 
     <rulegroup id='AO90_COMPOUNDS_GENERIC_PREFIX' name='[pt-PT][AO90] Hifenizador de palavras'>
-      <!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
+      <!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO          -->
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-02 -->
-      <!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
+      <!--  <url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
       <url>http://pucrs.br/gpt/hifen.php</url>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/prefixos-e-hifen/17908</url>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>-->
@@ -3853,18 +3885,6 @@
     </rulegroup>
 
 
-    <rule id="AO45_MUITO_PELO_É" name="[pt-PT][AO45][Confusão] pelo/pêlo">
-      <!-- Created by Marco A.G. Pinto   -->
-      <pattern>
-        <token>muito</token>
-        <token>pelo</token>
-        <token inflected='yes'>ser</token>
-      </pattern>
-      <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
-      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
-    </rule>
-
-
   </category>
 
 
@@ -3917,5 +3937,17 @@
 
     </rulegroup>
 
+  </category>
+  <category id="AO45" name="[pt-PT] Regras de Estilo AO45" type="style" default="off">
+    <rule id="AO45_MUITO_PELO_É" name="[pt-PT][AO45][Confusão] pelo/pêlo">
+      <!-- Created by Marco A.G. Pinto   -->
+      <pattern>
+        <token>muito</token>
+        <token>pelo</token>
+        <token inflected='yes'>ser</token>
+      </pattern>
+      <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
+      <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+    </rule>
   </category>
 </rules>

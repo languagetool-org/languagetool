@@ -59,6 +59,11 @@ public class MissingCommaRelativeClauseRule extends Rule {
         regex("diese[rs]")
       ),
       Arrays.asList(
+        token("im"),
+        token("Zuge"),
+        token("dessen")
+      ),
+      Arrays.asList(
         csToken("mit"),
         regex("de[mr]"),
         regex("de[mrs]"),

@@ -22,12 +22,16 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
  * @since 3.1
@@ -42,6 +46,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     Pattern.compile("(regnet|schneit)e? es (im|jeden) [A-ZÄÖÜ][a-zäöü\\-ß]+ viel"), // In Hamburg regnet es im August viel.
     Pattern.compile("viel in [A-ZÄÖÜ][a-zäöü\\-ß]+ unterwegs"), // "sodass Sie viel in Tirol unterwegs ist"
     Pattern.compile("viel am [A-ZÄÖÜ][a-zäöü\\-ß]+"), // "sodass Sie viel am Lernen ist"
+    Pattern.compile("[Ii]hr .* seht"), // vs "sieht"
     Pattern.compile("fiel .*in die Kategorie"), // vs "viel"
     Pattern.compile("wie fiel das ins Gewicht") // vs "viel"
   );
@@ -49,6 +54,12 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "seht ihr",
+    "seht zu, dass",
+    "seht zu dass",
+    "seht es euch",
+    "seht selbst",
+    "seht an",
     "viel hin und her",
     "möglichkeit weißt",
     "du doch trotzdem",
@@ -131,12 +142,53 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "Vorgestern und Gestern" // vs Gesten
   );
 
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // "Im nur wenige Meter entfernten Schergenturm"
+      new PatternTokenBuilder().token("im").setSkip(8).build(),
+      posRegex("PA[12].*")
+    ),
+    Arrays.asList(
+      // "Du forderst viel in einer kurzen Zeit.", "Schneit es viel im Winter?"
+      posRegex("VER.*"),
+      new PatternTokenBuilder().token("es").min(0).build(),
+      token("viel")
+    ),
+    Arrays.asList(
+      // "Warum viel graue Energie in neue Fenster investieren"
+      token("viel"),
+      new PatternTokenBuilder().posRegex("ADJ.*").min(0).build(),
+      posRegex("SUB.*")
+    ),
+    Arrays.asList(
+      // "Wie haben ihr die Blumen gefallen?"
+      csToken("Wie"),
+      posRegex("VER.*")  // might also hide real alarms, but avoids false positives
+    ),
+    Arrays.asList(
+      // "Weist du uns den Weg?"
+      new PatternTokenBuilder().token("weist").setSkip(8).build(),
+      token("den"),
+      csToken("Weg")
+    ),
+    Arrays.asList(
+      // "Der im Sockel platzierte Tank fasst 0,5ml"
+      regex(".*tank|.*bus|.*zug|.*flieger|.*flugzeug|.*container|.*behälter|.*schüssel|.*festplatte|Platte|SSD|.*speicher|.*glas|.*tasse|.*batterie"),
+      token("fasst")
+    ),
+    Arrays.asList(
+      // "Diese persönliche Finanzübersicht fasst Ihre Ziele und Wünsche zusammen."
+      new PatternTokenBuilder().token("fasst").setSkip(-1).build(),
+      token("zusammen")
+    )
+  );
+
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
-    super(messages, languageModel, language, grams, EXCEPTIONS);
+    super(messages, languageModel, language, grams, EXCEPTIONS, ANTI_PATTERNS);
     addExamplePair(Example.wrong("Während Sie das Ganze <marker>mir</marker> einem Holzlöffel rühren…"),
                    Example.fixed("Während Sie das Ganze <marker>mit</marker> einem Holzlöffel rühren…"));
   }

@@ -244,6 +244,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "BIASED_OPINION_WORDS":      return -31;
       case "WEAK_WORDS":                return -32;
       case "PT_AGREEMENT_REPLACE":      return -35;
+      case "CONTA_TO":      return -44;
       case "PT_DIACRITICS_REPLACE":     return -45;   // prefer over spell checker
       case "DIACRITICS":     return -45;
       case "PT_COMPOUNDS_POST_REFORM":     return -45;
@@ -251,6 +252,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "HUNSPELL_RULE":             return -50;
       case "CRASE_CONFUSION":           return -54;
       case "NAO_MILITARES":           return -54;
+      case "NA_QUELE":           return -54;
       case "GENERAL_VERB_AGREEMENT_ERRORS":           return -55;
       case "GENERAL_NUMBER_AGREEMENT_ERRORS":           return -56;
       case "GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS":           return -56;

@@ -132,7 +132,7 @@
         </rulegroup>
         <rule id="Non-cyrillic" name="Выкарыстанне аналагічных па абрысе некірылічных літар">
             <antipattern>
-                <token regexp="yes">[а-яёіїäѣs’*қәңөєүўҰαΔӀғʌјЂћњљƣ]+</token>
+                <token regexp="yes">[а-яёіїäѣs’*қәңөєүўҰαΔӀғʌјЂћњљƣʼ]+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">[а-яёіў]*[^\p{L}][а-яёіў]+|[а-яёіў]+[^\p{L}][а-яёіў]*</token>
@@ -156,6 +156,7 @@
             <example>«New York Times» была створана ў 1851-м годзе.</example>
             <example>У XII стагоддзі.</example>
             <example>мікрахва́леўка</example>
+            <example>З'ява, зʼява, з’ява</example>	    
             <example>У яго тэмпература каля 37,8 ºC.</example>
             <example correction=""> <marker>Pаніцай</marker> было суха.</example>
             <example correction=""> <marker>Tак</marker> не пойдзе...</example>
@@ -237,7 +238,7 @@
             <rule default="on" id="dvukossi" name="Словазлучэнне: «у двукоссі»">
                 <pattern>
                     <token regexp="yes">[уў]</token>
-                    <token regexp="yes">двукоссях</token>
+                    <token>двукоссях</token>
                 </pattern>
                 <message>Назоўнік «двукоссе», ад яго вытворны ўстойлівы выраз «у двукоссі»: <suggestion>\1 двукоссі</suggestion></message>
                 <short>«У двукоссі», а не «ў двукоссях»</short>  
@@ -350,7 +351,7 @@
                         <token regexp="yes">(пад?|да)?(пяч|пяк|печ|пёк|смаж|палі|паля|палю|сквар|смал|жар)[а-яёіў]{0,3}</token>
                     </marker>
                     <token min="0" max="2"></token>
-                    <token regexp="yes">(кав|насенне|арэх|зерн)[а-яёіў]{0,2}<exception regexp="yes">кавун</exception></token>
+                    <token regexp="yes">(кав|насенне|арэх|зерн)[а-яёіў]{0,2}<exception>кавун</exception></token>
                 </pattern>
                 <message>Каву, зерне, арэхі і падобнае звычайна пра́жаць або прагу́ць, але выкарыстоўваецца іншы дзеяслоў. Мабыць у дадзеным выпадку будзе слушней памяняць дзеяслоў.</message>
                 <short>Каву, зерне і пад. звычайна пражаць або прагуць</short>
