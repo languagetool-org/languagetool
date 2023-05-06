@@ -706,10 +706,10 @@ public class English extends Language implements AutoCloseable {
         String newReplStr = s.getReplacement();
         if (errorStr.length() > 2) {
           // add a whitespace when the error is in a contraction and the suggestion is not
-          if (errorStr.startsWith("'") && !newReplStr.startsWith("'")) {
+          if (errorStr.startsWith("'") && !newReplStr.startsWith("'") && !newReplStr.startsWith("’")) {
             newReplStr = " " + newReplStr;
           }
-          if (errorStr.startsWith("n't") && !newReplStr.startsWith("n't")) {
+          if (errorStr.startsWith("n't") && !newReplStr.startsWith("n't") && !newReplStr.startsWith("n’t")) {
             newReplStr = " " + newReplStr;
           }
         }
