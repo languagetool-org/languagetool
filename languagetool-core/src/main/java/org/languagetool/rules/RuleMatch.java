@@ -643,4 +643,25 @@ public class RuleMatch implements Comparable<RuleMatch> {
     }
   }
   
+  /**
+   * Get the underlined string in the original sentence.
+   * So far, only available for sentence-level rules 
+   * after adjustRuleMatchPos() has been applied.
+   * Returns an empty string if not available.
+   * @since 6.2
+   */
+  public String getUnderlinedStr() {
+    String sentenceStr = "";
+    String errorStr = "";
+    int fromPos = this.getFromPosSentence();
+    int toPos = this.getToPosSentence();
+    if (this.getSentence() != null && fromPos > -1 && toPos > -1) {
+      sentenceStr = this.getSentence().getText();
+      if (!sentenceStr.isEmpty()) {
+        errorStr = sentenceStr.substring(fromPos, toPos);
+      }
+    }
+    return errorStr;
+  }
+  
 }

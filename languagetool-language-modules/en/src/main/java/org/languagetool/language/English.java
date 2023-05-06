@@ -692,15 +692,7 @@ public class English extends Language implements AutoCloseable {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      String sentence = "";
-      String errorStr = "";
-      //Use only positions that have been adjusted with adjustRuleMatchPos(), i.e. only sentence-level rules
-      int fromPos = rm.getFromPosSentence();
-      int toPos = rm.getToPosSentence();
-      if (rm.getSentence() != null && fromPos> -1 && toPos > -1) {
-        sentence = rm.getSentence().getText();
-        errorStr = sentence.substring(fromPos,toPos);
-      }
+      String errorStr = rm.getUnderlinedStr();
       List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
       for (SuggestedReplacement s : replacements) {
