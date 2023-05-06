@@ -711,6 +711,12 @@ class CheckRequestAnalysis {
         startTime1 = System.currentTimeMillis();
       }
       nPara = flatPara.getCurNumFlatParagraph();
+      if (nPara < 0) {
+        nPara = flatPara.resetFlatParagraphsAndGetCurNum(true);
+        if (debugMode > 0) {
+          MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: nPara < 0 reset flatparas, new npara: " + nPara);
+        }
+      }
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime1;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -797,7 +803,7 @@ class CheckRequestAnalysis {
               + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
               + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
     }
-//    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
+    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
     docCache.setFlatParagraph(nPara, chPara, locale);
     docCache.setFlatParagraphFootnotes(nPara, footnotePos);
     docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
@@ -806,7 +812,6 @@ class CheckRequestAnalysis {
       changedParas.put(nPara, chPara);
       singleDocument.removeResultCache(nPara, true);
       for (int i = 1; i < minToCheckPara.size(); i++) {
-//        singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, checkOnlyPara, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
         singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
       }
     } else {

@@ -19,11 +19,15 @@
 package org.languagetool.openoffice;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -139,9 +143,15 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
         if (!spellingCheckRule.isMisspelled(word)) {
           return true;
         }
-        if (word.endsWith(".") && !spellingCheckRule.isMisspelled(word.substring(0, word.length() - 1))) {
+        List<RuleMatch> matches = lt.check(word,true, ParagraphHandling.ONLYNONPARA);
+//        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: advanced check: word: " + word + ", matches: " + matches.size());
+        if (matches == null || matches.size() == 0) {
           return true;
         }
+//        if (word.endsWith(".") && !spellingCheckRule.isMisspelled(word.substring(0, word.length() - 1))) {
+//          return true;
+//        }
+//        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: misspelled word: " + word);
         return false;
       }
     } catch (IOException e) {
@@ -171,7 +181,9 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
         for (Rule rule : lt.getAllRules()) {
           if (rule.isDictionaryBasedSpellingRule()) {
             spellingCheckRule = (SpellingCheckRule) rule;
-            break;
+//            break;
+          } else {
+            lt.disableRule(rule.getId());
           }
         }
       }

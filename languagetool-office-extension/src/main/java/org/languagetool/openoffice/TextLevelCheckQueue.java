@@ -184,7 +184,7 @@ public class TextLevelCheckQueue {
       }
       textRuleQueue.add(0, queueEntry);
     }
-    wakeupQueue();
+//    wakeupQueue();
   }
   
   /**
@@ -198,6 +198,9 @@ public class TextLevelCheckQueue {
       queueEntry.setReset();
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: setReset: reset queue");
+      }
+      synchronized(textRuleQueue) {
+        textRuleQueue.clear();
       }
       textRuleQueue.add(queueEntry);
     }
@@ -514,10 +517,21 @@ public class TextLevelCheckQueue {
         while (numCheck < MAX_CHECK_PER_THREAD) {
 //          queueWaits = false;
           if (interruptCheck) {
+/*            
             MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt check - queue ended");
             textRuleQueue.clear();
             interruptCheck = false;
+            queueRuns = false;
+            queueIterator = null;
             return;
+*/
+            try {
+              Thread.sleep(50);
+            } catch (InterruptedException e) {
+              MessageHandler.printException(e);
+            }
+            interruptCheck = false;
+            continue;
           }
           if (textRuleQueue.isEmpty()) {
             synchronized(textRuleQueue) {
