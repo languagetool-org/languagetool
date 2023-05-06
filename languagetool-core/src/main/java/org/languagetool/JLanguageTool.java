@@ -1439,6 +1439,8 @@ public class JLanguageTool {
     }
     RuleMatch thisMatch = new RuleMatch(match);
     thisMatch.setOffsetPosition(fromPos, toPos);
+    //keep the positions with respect to sentence start
+    thisMatch.setSentencePosition(match.getFromPos(), match.getToPos());
 
     int startPos = match.getPatternFromPos() + charCount;
     int endPos = match.getPatternToPos() + charCount;

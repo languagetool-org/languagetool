@@ -303,18 +303,20 @@ public class Catalan extends Language {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
       String sentence = "";
-      if (rm.getSentence() != null) {
-        sentence = rm.getSentence().getText();  
-      }
       String errorStr = "";
-      if (rm.getToPos() < sentence.length()) {
-        errorStr = sentence.substring(rm.getFromPos(), rm.getToPos());
+      // Use only positions that have been adjusted with adjustRuleMatchPos(), i.e. only sentence-level rules
+      int fromPos = rm.getFromPosSentence();
+      int toPos = rm.getToPosSentence();
+      if (rm.getSentence() != null && fromPos> -1 && toPos > -1) {
+        sentence = rm.getSentence().getText();
+        errorStr = sentence.substring(fromPos,toPos);
       }
       List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
       for (SuggestedReplacement s : replacements) {
         String newReplStr = s.getReplacement();
-        if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'")) {
+        if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")
+            && !newReplStr.endsWith(" ")) {
           newReplStr = newReplStr + " ";
         }
         if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.getReplacement().length() > 1) {
