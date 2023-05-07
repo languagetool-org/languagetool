@@ -1740,7 +1740,8 @@ public class DocumentCache implements Serializable {
       return true;
     }
     for (int n = 0; n < chapterBegins.get(textParagraph.type).size(); n++) {
-      if (textParagraph.number == chapterBegins.get(textParagraph.type).get(n)) {
+      if (textParagraph.number == 0 ||
+          textParagraph.number == chapterBegins.get(textParagraph.type).get(n)) {
         if (n == chapterBegins.get(textParagraph.type).size() - 1 || 
             chapterBegins.get(textParagraph.type).get(n + 1) == textParagraph.number + 1) {
           return true;
