@@ -111,6 +111,7 @@ class CheckRequestAnalysis {
   int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
     //  test if doc cache has changed --> actualize
     if (!docCache.isActual(documentElementsCount)) {
+      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromSortedTextId: cache actualized, documentElementsCount: " + documentElementsCount);
@@ -119,6 +120,7 @@ class CheckRequestAnalysis {
     int paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
     //  if number of paragraph < 0 --> actualize doc cache and try again
     if (paraNum < 0) {
+      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
       paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
       if (debugMode > 0) {
@@ -133,6 +135,7 @@ class CheckRequestAnalysis {
       List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara);
       
       if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
+        singleDocument.getFlatParagraphTools().getFlatParagraphAt(paraNum);
         handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
       }
     }
