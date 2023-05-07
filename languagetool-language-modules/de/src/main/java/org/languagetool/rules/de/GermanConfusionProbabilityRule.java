@@ -41,13 +41,14 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
     Pattern.compile("wir \\("),  // "Hallo, wir (die Dingsbums Gmbh)"
     Pattern.compile("Wie .*?en Sie"),  // "Wie heizen Sie das Haus?"
-    Pattern.compile("fiel(e|en)? .* (aus|auf)"),
+    Pattern.compile("fiel(e|en)? .* (aus|auf|anheim)"),
     Pattern.compile("(regnet|schneit)e? es viel"), // Schneit es viel im Herbst?
     Pattern.compile("(regnet|schneit)e? es (im|jeden) [A-ZÄÖÜ][a-zäöü\\-ß]+ viel"), // In Hamburg regnet es im August viel.
     Pattern.compile("viel in [A-ZÄÖÜ][a-zäöü\\-ß]+ unterwegs"), // "sodass Sie viel in Tirol unterwegs ist"
     Pattern.compile("viel am [A-ZÄÖÜ][a-zäöü\\-ß]+"), // "sodass Sie viel am Lernen ist"
     Pattern.compile("[Ii]hr .* seht"), // vs "sieht"
     Pattern.compile("fiel .*in die Kategorie"), // vs "viel"
+    Pattern.compile("fiel .*nicht leicht"), // vs "viel"
     Pattern.compile("wie fiel das ins Gewicht") // vs "viel"
   );
 
@@ -139,6 +140,11 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "so viel", // vs fiel
     "viel laenger", // vs fiel
     "voll viel", // vs fiel
+    "fasst nichts an", // vs fast
+    "fasst mit an", // vs fast
+    "fasst keiner an", // vs fast
+    "fasst keine mehr an", // vs fast
+    "fasst keiner mehr an", // vs fast
     "Vorgestern und Gestern" // vs Gesten
   );
 
@@ -180,6 +186,18 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       // "Diese persönliche Finanzübersicht fasst Ihre Ziele und Wünsche zusammen."
       new PatternTokenBuilder().token("fasst").setSkip(-1).build(),
       token("zusammen")
+    ),
+    Arrays.asList(
+      // "„Wer’s glaubt, wird selig.“"
+      token("wer"),
+      regex("['’`´‘]"),
+      token("s"),
+      regex("glaubt|will|mag")
+    ),
+    Arrays.asList(
+      // "Die Kommission sieht ihr Vorgehen indes durch die klaren Regularien gedeckt."
+      new PatternTokenBuilder().token("sieht").setSkip(-1).build(),
+      regex("gedeckt|bestätigt|aus")
     )
   );
 
