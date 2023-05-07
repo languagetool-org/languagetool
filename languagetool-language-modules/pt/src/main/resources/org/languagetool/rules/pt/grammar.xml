@@ -29295,6 +29295,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>tempos</token>
                 </antipattern>
                 <antipattern>
+                    <token>ano</token>
+                    <token>a</token>
+                    <token>ano</token>
+                </antipattern>
+                <antipattern>
                     <token postag="Z.+" postag_regexp="yes"/>
                     <token>a</token>
                     <token postag="Z.+" postag_regexp="yes"/>
@@ -29337,6 +29342,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>a</token>
                     <token>pé</token>
                     <example>A estação fica a cinco minutos a pé</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">inferior|superior</token>
+                    <token>a</token>
+                    <token min="0" postag="RG|DI.+" postag_regexp='yes'/>
+                    <token min="0" postag="SPS00"/>
+                    <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+                    <token regexp="yes">&expressoes_de_tempo;</token>
+                    <example>Por um período inferior a seis meses</example>
                 </antipattern>
                 <pattern>
                     <token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+|PI0NN000' postag_regexp='yes'>
