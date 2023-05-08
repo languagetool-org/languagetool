@@ -1444,19 +1444,20 @@ USA
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
         </rule>
         <rulegroup id="PRP_WAS_WO" name="Standardsprache: 'woran' statt 'an was'" tags="clarity">
-            <rule>
+            <rule><!--1-->
                 <pattern>
-                    <token regexp="yes">,|und</token>
+                    <token regexp="yes">,|und|aber</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">an|aus|in|unter|über</token>
+                        <token regexp="yes" case_sensitive="yes">an|aus|in|unter|über|um</token>
                         <token>was</token>
                     </marker>
                     <token><exception>für</exception></token>
                 </pattern>
                 <message>Möchten Sie das standardsprachliche <suggestion>wor\2</suggestion> verwenden oder fehlt ein Komma nach '\1'?</message>
                 <example correction="woraus">Sie fragte ihn, <marker>aus was</marker> es bestünde.</example>
+                <example correction="worum">Ich weiß nicht, <marker>um was</marker> es geht.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">An|Au[fs]|Unter|Über</token>
@@ -1467,7 +1468,7 @@ USA
                 <message>Möchten Sie das standardsprachliche <suggestion>Wor<match no="1" case_conversion="startlower"/></suggestion> verwenden?</message>
                 <example correction="Woraus"><marker>Aus was</marker> besteht es?</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <antipattern>
                     <token regexp="yes" case_sensitive="yes">bei|für|gegen|hinter|mit|nach|neben|vo[nr]|zu|zwischen</token>
                     <token case_sensitive="yes">was</token>
@@ -1572,13 +1573,26 @@ USA
                 <example>Wieso riecht es nach was verbrannten?</example>
                 <example>Warum schaust du dich also nicht mal woanders um und machst deinen Städtetrip zu was besonderem?</example>
             </rule>
-            <rule>
+            <rule><!--4-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Bei|Für|Gegen|Hinter|Mit|Nach|Neben|Über|Vo[nr]|Zu|Zwischen</token>
                     <token>was</token>
                 </pattern>
                 <message>Möchten Sie das standardsprachliche <suggestion>Wo<match no="1" case_conversion="startlower"/></suggestion> verwenden?</message>
                 <example correction="Wofür"><marker>Für was</marker> kämpft er?</example>
+            </rule>
+            <rule default="temp_off"><!--5-->
+                <pattern>
+                    <token regexp="yes">,|und|aber</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">durch</token>
+                        <token>was
+                            <exception scope="next">für</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Möchten Sie das standardsprachliche <suggestion>wo\2</suggestion> verwenden?</message>
+                <example correction="wodurch">Sie fragte ihn, <marker>durch was</marker> das Problem entstanden sei.</example>
             </rule>
         </rulegroup>
         <rulegroup id="UST_ID" name="Empfohlene Schreibweise für Umsatzsteuer-Identifikationsnummer">
