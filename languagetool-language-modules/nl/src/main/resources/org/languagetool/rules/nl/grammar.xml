@@ -693,6 +693,17 @@ regexp case-insensitive maken: (?i)
         Mark: Expanded the rule and suggestions for each number for now, so we can collect more detailed disable statistics.
         To simplify with something like suggested above
         -->
+        <rule id="GETALLEN_UITSCHRIJVEN_TEST" name="Test: Getallen onder 20 en ronde getallen uitschrijven" tags="picky" default="temp_off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker><token regexp="yes">1?\d|20</token></marker>
+            </pattern>
+            <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message>
+            <suggestion><match no="2" postag="_spell_number_" case_conversion="firstupper"/></suggestion>
+            <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
+            <example correction="Een"><marker>1</marker> keer is genoeg.</example>
+            <example correction="Vijftien"><marker>15</marker> keer is genoeg.</example>
+        </rule>
         <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
             <antipattern>
                 <!-- v1.0 -->
