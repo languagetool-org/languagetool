@@ -12072,16 +12072,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aún">Para que la semejanza sea <marker>aun</marker> mayor.</example>
             </rule>
             <rule>
-                <!-- <antipattern>
+                 <antipattern>
+                    <token postag="SENT_START"/>
                     <token>aun</token>
-                    <token skip="5" postag="V.S.*" postag_regexp="yes"/>
-                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.S.*" postag_regexp="yes"/>
                     <example>Aun estuviera nevando, era un día precioso.</example>
                     <example>aun sea su fuente la sociedad o la evolución, es objetiva en su sentido</example>
                 </antipattern>
-                <antipattern>
+               <!-- <antipattern>
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
-                    <token skip="3">aun</token>
+                    <token>aun</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                     <token postag="V.S.*" postag_regexp="yes"/>
                     <example>Nunca dejaré esta casa, aun tenga que ir por ello a los tribunales.</example>
                 </antipattern>-->
