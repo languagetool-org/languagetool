@@ -693,10 +693,10 @@ public class English extends Language implements AutoCloseable {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
       String errorStr = rm.getUnderlinedStr();
-      List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+      List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
-      for (SuggestedReplacement s : replacements) {
-        String newReplStr = s.getReplacement();
+      for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {
+        String newReplStr = suggestedReplacement.getReplacement();
         if (errorStr.length() > 2) {
           // add a whitespace when the error is in a contraction and the suggestion is not
           if (errorStr.startsWith("'") && !newReplStr.startsWith("'") && !newReplStr.startsWith("’")
@@ -707,9 +707,10 @@ public class English extends Language implements AutoCloseable {
             newReplStr = " " + newReplStr;
           }
         }
-        SuggestedReplacement newRepl = new SuggestedReplacement(newReplStr);
-        if (!newReplacements.contains(newRepl)) {
-          newReplacements.add(newRepl);
+        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+        newSuggestedReplacement.setReplacement(newReplStr);
+        if (!newReplacements.contains(newSuggestedReplacement)) {
+          newReplacements.add(newSuggestedReplacement);
         }
       }
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);

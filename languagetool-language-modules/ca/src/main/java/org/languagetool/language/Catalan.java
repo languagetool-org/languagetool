@@ -303,30 +303,30 @@ public class Catalan extends Language {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
       String errorStr = rm.getUnderlinedStr();
-      List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+      List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
-      for (SuggestedReplacement s : replacements) {
-        String newReplStr = s.getReplacement();
+      for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {
+        String newReplStr = suggestedReplacement.getReplacement();
         if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")
             && !newReplStr.endsWith(" ")) {
           newReplStr = newReplStr + " ";
         }
-        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.getReplacement().length() > 1) {
-          newReplStr = s.getReplacement().replace("'", "’");
+        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
+          newReplStr = newReplStr.replace("'", "’");
         }
         // s = adaptContractionsApostrophes(s);
-        Matcher m5 = CA_OLD_DIACRITICS.matcher(s.getReplacement());
+        Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
         if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
-          SuggestedReplacement newRepl = new SuggestedReplacement(s);
-          newRepl.setReplacement(removeOldDiacritics(newReplStr));
-          if (!newReplacements.contains(newRepl)) {
-            newReplacements.add(newRepl);
+          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+          newSuggestedReplacement.setReplacement(removeOldDiacritics(newReplStr));
+          if (!newReplacements.contains(newSuggestedReplacement)) {
+            newReplacements.add(newSuggestedReplacement);
           }
         } else {
-          SuggestedReplacement newRepl = new SuggestedReplacement(s);
-          newRepl.setReplacement(newReplStr);
-          if (!newReplacements.contains(newRepl)) {
-            newReplacements.add(newRepl);
+          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+          newSuggestedReplacement.setReplacement(newReplStr);
+          if (!newReplacements.contains(newSuggestedReplacement)) {
+            newReplacements.add(newSuggestedReplacement);
           }
         }
       }
