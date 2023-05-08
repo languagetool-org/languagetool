@@ -161,6 +161,12 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("viel")
     ),
     Arrays.asList(
+      // "Geht Tom viel fort?"
+      posRegex("VER.*"),
+      posRegex("(EIG|SUB).*"),
+      token("viel")
+    ),
+    Arrays.asList(
       // "Warum viel graue Energie in neue Fenster investieren"
       token("viel"),
       new PatternTokenBuilder().posRegex("ADJ.*").min(0).build(),
