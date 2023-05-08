@@ -25,7 +25,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
     <!ENTITY elements_perifrasis_verbals "a|acostumar|acabar|amb|anar|aplegar|arribar|començar|continuar|de|deixar|deure|en|estar|haver|intentar|mirar|parar|pas|pensar|poder|provar|prosseguir|prou|seguir|soler|tenir|tornar|tractar|venir|voler">
     <!ENTITY elements_perifrasis_verbals2 "aprendre|impedir|aspirar|saber|decidir|proposar|suggerir|semblar|parèixer|aconseguir|recomanar|procurar|tendir|acordar|optar|disposar|resistir|evitar|tardar|trigar|afanyar|fer|bé|consistir">
-    <!ENTITY expressio_DOS_NOMS "format|proporció|aliatge|antagonisme|associació|binomi|cicle|concordança|connexió|contraposició|corpus|correcció|corrector|debat|diccionari|dualitat|eix|figura|interpretació|paral·lel|parell|parella|raó|relació|ràtio|taula|traducció|traductor|equivalent|equivalència|columna|mobilitat|reacció|dicotomia|confusió|interacció">
+    <!ENTITY expressio_DOS_NOMS "balanç|format|proporció|aliatge|antagonisme|associació|binomi|cicle|concordança|connexió|contraposició|corpus|correcció|corrector|debat|diccionari|dualitat|eix|figura|interpretació|paral·lel|parell|parella|raó|relació|ràtio|taula|traducció|traductor|equivalent|equivalència|columna|mobilitat|reacció|dicotomia|confusió|interacció">
 ]>
 <rules lang="ca" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="nombre">
@@ -298,7 +298,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">lletra|secció|apartat</token>
+                <token regexp="yes" inflected="yes">lletra|secció|apartat|panell</token>
                 <token regexp="yes">[a-z]</token>
                 <token regexp="yes">,|i|o|ni</token>
                 <marker>
@@ -311,7 +311,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">lletra|secció|apartat</token>
+                <token regexp="yes" inflected="yes">lletra|secció|apartat|panell</token>
                 <marker>
                     <token regexp="yes">[a-z]</token>
                 </marker>
@@ -5357,7 +5357,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="N.*" postag_regexp="yes"><exception postag="[NA].*|_GN_.*|VMIP1S0B" postag_regexp="yes" negate_pos="yes"/><exception regexp="yes">gran|possible|major|petit</exception></token>
+                <token postag="N.*" postag_regexp="yes"><exception postag="[NA].*|_GN_.*|VMIP1S0B" postag_regexp="yes" negate_pos="yes"/><exception regexp="yes">gran|possible|major|petit|propi|pròpia</exception></token>
                 <marker>
                     <token regexp="yes" postag="NC.*" postag_regexp="yes">consort|mare|web|alfa|beta|gamma|lambda|font|hivernacle|euro|tipus|clau|membre|núm|número|matriu|estàndard|estrella|estrela|model|hoste|base|pont|sulfat|fosfat|calci|gas|satèl·lit|gel</token>
                 </marker>
@@ -6749,7 +6749,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token inflected="yes" regexp="yes">posar|ficar</token>
                 <token>en</token>
                 <marker>
-                    <token regexp="yes">dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|camí</token>
+                    <token regexp="yes">dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|camí|funcionament</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -14329,7 +14329,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_GV" name="neteja GV">
         <rule>
             <pattern>
-                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">acord|banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta</exception></token>
+                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">acord|banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta|funcionament</exception></token>
             </pattern>
             <disambig action="remove">
                 <wd pos="_GV_"/>
