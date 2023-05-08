@@ -463,7 +463,7 @@ abstract class TextChecker {
     String[] toneTagNames = params.get("toneTags") != null ? params.get("toneTags").split(",") : null;
     Set<ToneTag> toneTags = new HashSet<>(ToneTag.values().length);
     if (toneTagNames != null) {
-      if (toneTagNames.length == 1 && toneTagNames[0] == "") { //toneTags=
+      if (toneTagNames.length == 1 && toneTagNames[0].isEmpty()) { //toneTags=
         toneTags.add(ToneTag.NO_TONE_RULE);
       } else {
         for (String toneTagName : toneTagNames) {
