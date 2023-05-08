@@ -27782,8 +27782,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='LP_PARONYMS' name='Paranónimos especiais'>
             <!-- Based on Lightproof by Tiago F. Santos, 2017-07-03 -->
+        <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
+        -->
+
             <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
             <short>Nesta situação acentua-se a palavra.</short>
+
+            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+            <antipattern>
+                <token postag='CS' postag_regexp='no'>
+                    <exception postag_regexp='yes' postag='AQ.+|NC.+|RG|V.+'/>
+                </token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SPS00|(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='_PUNCT|RG|RM|CS|CC' postag_regexp='yes'/>
+                <example>É uma reação egoísta que magoa a malta, sempre.</example>
+                <example>E' no livro que copia da verdade, e castiga o crime que raras vezes a sociedade censura ?</example>
+            </antipattern>
+            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *END* -->
+
+            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+            <antipattern>
+                <token postag='CS' postag_regexp='no'>
+                    <exception postag_regexp='yes' postag='AQ.+|NC.+|RG|V.+'/>
+                </token>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token min="0" max="1" postag='SPS00|(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <example>Com que frequência praticas esportes?</example>
+                <example>Com que frequência praticas esses esportes?</example>
+            </antipattern>
+            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
             <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
             <!-- This is a rulegroup antipattern that fixes false positives in paronyms.
