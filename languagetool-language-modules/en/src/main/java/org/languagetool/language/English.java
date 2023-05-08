@@ -563,7 +563,6 @@ public class English extends Language implements AutoCloseable {
       case "CANT_JJ":                   return -2;  // prefer other more specific rules
       case "WOULD_A":                   return -2;  // prefer other more specific rules
       case "I_AM_VB":                   return -2;  // prefer other rules
-      case "BE_VBP_IN":                 return -2;  // prefer over BEEN_PART_AGREEMENT
       case "VBP_VBP":                 return -2;  // prefer more specific rules
       case "GONNA_TEMP":                return -3;
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
@@ -584,8 +583,6 @@ public class English extends Language implements AutoCloseable {
       case "LEMME":                     return -4;  // prefer over spelling rules
       case "EN_GB_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
       case "EN_US_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
-      case "HAVE_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
-      case "BEEN_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority
@@ -593,11 +590,14 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
-      case "BE_WITH_WRONG_VERB_FORM":   return -11;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
+      case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
       case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
+      case "HAVE_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
+      case "BEEN_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
+      case "BE_WITH_WRONG_VERB_FORM":   return -14;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "PRP_NO_ADVERB_VERB":        return -15;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
@@ -650,13 +650,10 @@ public class English extends Language implements AutoCloseable {
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
         return 2;
       }
-      if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {
-        return -8; // higher prio than BEEN_PART_AGREEMENT and HAVE_BEEN_AGREEMENT
-      }
       return -11;
     }
     if (id.startsWith("AI_EN_LECTOR")) { // prefer more specific rules (also speller)
-      return -21;
+      return -11;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
       return -21;
