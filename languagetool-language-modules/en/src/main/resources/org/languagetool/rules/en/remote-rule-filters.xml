@@ -32,6 +32,48 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_TENSE" name="">
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <marker>
+                        <token postag="VB." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">You like... <marker>ate</marker> my emotions?</example>
+                <example correction="">I... <marker>write</marker> all that intense poetry about the end, and here I am again.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>did</token>
+                    <token chunk_re="B-NP-.*"/>
+                    <token min="0" chunk_re="I-NP-.*"/>
+                    <token min="0" chunk_re="E-NP-.*"/>
+                    <marker>
+                        <token postag="VB"/>
+                    </marker>
+                </pattern>
+                <example correction="">Did you <marker>pick</marker> one yet?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">it|that|this/</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                    <token regexp="yes">n.t</token>
+                    <token>what</token>
+                    <token postag="PRP"/>
+                    <token>was</token>
+                    <token>looking</token>
+                    <token postag="IN"/>
+                </pattern>
+                <example correction="">It <marker>is</marker>n't what I was looking for.</example>
+                <example correction="">That <marker>is</marker>n't what I was looking at.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
             <rule>
                 <pattern>
