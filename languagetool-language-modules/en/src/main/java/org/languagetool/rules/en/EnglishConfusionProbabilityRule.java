@@ -532,6 +532,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       tokenRegex("turn|walk|go|drive")
     ),
     Arrays.asList(
+      // "They told me that they got there first."
+      posRegex("VB.*"),
+      token("there"),
+      token("first")
+    ),
+    Arrays.asList(
       // Or go to the individual site and then click on the icon, from there turn it to standard.
       posRegex("IN|CC"),
       token("there"), // vs their
