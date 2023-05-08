@@ -17649,6 +17649,13 @@ regexp case-insensitive maken: (?i)
             <antipattern><token>de</token><token regexp="yes" skip="1">duizend|honderd</token><token postag_regexp="yes" postag=".*MRV.*"/></antipattern> <!-- de paar woningen -->
             <antipattern case_sensitive="yes"><token regexp="yes">[dD]e</token><token regexp="yes">[A-Z][a-z]+</token><token/></antipattern> <!-- de Laar etc. -->
             <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
+            <antipattern>
+                <token>de</token>
+                <token postag="ZNW:EKV:HET"/>
+                <token regexp="yes">en|of</token>
+                <token postag_regexp="yes" postag="ZNW.*"/>
+                <example>De hoofd en bijzaken.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
