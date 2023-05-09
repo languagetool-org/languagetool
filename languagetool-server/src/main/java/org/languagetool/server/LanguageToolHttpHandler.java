@@ -186,8 +186,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (path.startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
           String pathWithoutVersion = path.substring("/v2/".length());
-          Map<String, String> finalParameters = parameters;
-          String finalRemoteAddress = remoteAddress;
+          final Map<String, String> finalParameters = parameters;
+          final String finalRemoteAddress = remoteAddress;
           Attributes attributes = Attributes.builder()
                   .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
                   .build();

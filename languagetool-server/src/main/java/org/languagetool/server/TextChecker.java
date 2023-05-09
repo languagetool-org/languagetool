@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
+import io.opentelemetry.api.common.Attributes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -35,6 +36,7 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.languagetool.server.utils.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
 import org.slf4j.MDC;
@@ -61,6 +63,7 @@ abstract class TextChecker {
 
   private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
   private static final int PINGS_MAX_SIZE = 5000;
+  private static final String SPAN_NAME_PREFIX = "/v2/check-";
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -276,35 +279,34 @@ abstract class TextChecker {
     }
     // static because we can't rely on errorRequestLimiter, null when timeoutRequestLimit option not set
     if (!config.isLocalApiMode()) {
-      
-    try {
-      RequestLimiter.checkUserLimit(referrer, userAgent, limits);
-    } catch(TooManyRequestsException e) {
-      String response = "Error: Access denied: " + e.getMessage();
-      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, response.getBytes(ENCODING).length);
-      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-      String message = "Blocked request from uid:" + userId + " because user limit is reached: ";
-      message += "limit = " + limits.getRequestsPerDay() + ", mode = " + limits.getLimitEnforcementMode() + ". ";
-      message += "Access from " + remoteAddress + ", ";
-      message += "HTTP user agent: " + userAgent + ", ";
-      message += "User agent param: " + params.get("useragent") + ", ";
-      message += "Referrer: " + referrer + ", ";
-      message += "language: " + params.get("language") + ", ";
-      message += "h: " + reqCounter.getHandleCount() + ", ";
-      message += "r: " + reqCounter.getRequestCount();
-      if (params.get("username") != null) {
-        message += ", user: " + params.get("username");
+      try {
+        RequestLimiter.checkUserLimit(referrer, userAgent, limits);
+      } catch (TooManyRequestsException e) {
+        String response = "Error: Access denied: " + e.getMessage();
+        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, response.getBytes(ENCODING).length);
+        httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+        String message = "Blocked request from uid:" + userId + " because user limit is reached: ";
+        message += "limit = " + limits.getRequestsPerDay() + ", mode = " + limits.getLimitEnforcementMode() + ". ";
+        message += "Access from " + remoteAddress + ", ";
+        message += "HTTP user agent: " + userAgent + ", ";
+        message += "User agent param: " + params.get("useragent") + ", ";
+        message += "Referrer: " + referrer + ", ";
+        message += "language: " + params.get("language") + ", ";
+        message += "h: " + reqCounter.getHandleCount() + ", ";
+        message += "r: " + reqCounter.getRequestCount();
+        if (params.get("username") != null) {
+          message += ", user: " + params.get("username");
+        }
+        if (params.get("apiKey") != null) {
+          message += ", apiKey: " + params.get("apiKey");
+        }
+        String text = params.get("text");
+        if (text != null) {
+          message += ", text length: " + text.length();
+        }
+        log.warn(message);
+        return;
       }
-      if (params.get("apiKey") != null) {
-        message += ", apiKey: " + params.get("apiKey");
-      }
-      String text = params.get("text");
-      if (text != null) {
-        message += ", text length: " + text.length();
-      }
-      log.warn(message);
-      return;
-    }
     }
     List<String> dictGroups = null;
     String dictName = "default";
@@ -313,8 +315,9 @@ abstract class TextChecker {
       dictGroups.sort(Comparator.naturalOrder());
       dictName = "groups_" + String.join(",", dictGroups);
     }
+    final List<String> finalDictGroups = dictGroups;
     List<String> dictWords = limits.getPremiumUid() != null ?
-      getUserDictWords(limits, dictGroups) : Collections.emptyList();
+            (List<String>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX +"GetUserDictWords", Attributes.empty(), () -> getUserDictWords(limits, finalDictGroups)) : Collections.emptyList();
 
     boolean filterDictionaryMatches = "true".equals(params.getOrDefault("filterDictionaryMatches", "true"));
 
@@ -380,11 +383,11 @@ abstract class TextChecker {
             Arrays.asList(params.get("noopLanguages").split(",")) : Collections.emptyList();
     List<String> preferredLangs = params.get("preferredLanguages") != null ?
             Arrays.asList(params.get("preferredLanguages").split(",")) : Collections.emptyList();
-    DetectedLanguage detLang = getLanguage(aText.getPlainText(), params, preferredVariants, noopLangs, preferredLangs,
-      params.getOrDefault("ld", "control").equalsIgnoreCase("test"));
+    DetectedLanguage detLang = (DetectedLanguage) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "DetetectLanguage", Attributes.empty(), () -> getLanguage(aText.getPlainText(), params, preferredVariants, noopLangs, preferredLangs,
+      params.getOrDefault("ld", "control").equalsIgnoreCase("test")));
     Language lang = detLang.getGivenLanguage();
 
-    List<Rule> userRules = getUserRules(limits, lang, dictGroups);
+    List<Rule> userRules = (List<Rule>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
     boolean isMultiLangEnabled = false;
     //only enable this feature with parameter
     if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
@@ -511,9 +514,9 @@ abstract class TextChecker {
     List<CheckResults> res;
     try {
       if (limits.getMaxCheckTimeMillis() < 0) {
-        res = future.get();
+        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", Attributes.empty(), () -> future.get());
       } else {
-        res = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
+        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", Attributes.empty(), () -> future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS));
       }
     } catch (ExecutionException e) {
       future.cancel(true);

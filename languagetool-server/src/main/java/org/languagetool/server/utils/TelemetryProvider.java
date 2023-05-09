@@ -20,22 +20,14 @@
 
 package org.languagetool.server.utils;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.Scope;
-import io.opentelemetry.context.propagation.ContextPropagators;
-import io.opentelemetry.exporter.logging.LoggingSpanExporter;
-import io.opentelemetry.exporter.logging.otlp.OtlpJsonLoggingSpanExporter;
-import io.opentelemetry.sdk.OpenTelemetrySdk;
-import io.opentelemetry.sdk.common.Clock;
-import io.opentelemetry.sdk.resources.Resource;
-import io.opentelemetry.sdk.trace.SdkTracerProvider;
-import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor;
-import io.opentelemetry.sdk.trace.samplers.Sampler;
-import io.opentelemetry.semconv.resource.attributes.ResourceAttributes;
+
+import java.util.Optional;
 
 public enum TelemetryProvider {
 
@@ -45,23 +37,7 @@ public enum TelemetryProvider {
   private final Tracer tracer;
 
   TelemetryProvider() {
-    Resource resource = Resource
-            .getDefault()
-            .merge(Resource.create(Attributes.of(ResourceAttributes.SERVICE_NAME, "languagetool-server")));
-
-    SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder()
-            .addSpanProcessor(SimpleSpanProcessor.create(LoggingSpanExporter.create()))
-            .addSpanProcessor(SimpleSpanProcessor.create(OtlpJsonLoggingSpanExporter.create()))
-//            .addSpanProcessor(BatchSpanProcessor.builder(OtlpGrpcSpanExporter.builder().build()).build())
-            .setResource(resource)
-            .setClock(Clock.getDefault())
-            .setSampler(Sampler.alwaysOn())
-            .build();
-
-    openTelemetry = OpenTelemetrySdk.builder()
-            .setTracerProvider(sdkTracerProvider)
-            .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
-            .buildAndRegisterGlobal();
+    openTelemetry = GlobalOpenTelemetry.get();
     tracer = openTelemetry.getTracer("LanguageTool-Server");
   }
 
@@ -87,7 +63,7 @@ public enum TelemetryProvider {
    * @param wrappedVoid function called within the span
    * @since 6.2
    */
-  public void createSpan(String spanName, Attributes attributes, WrappedVoid wrappedVoid) throws Exception{
+  public void createSpan(String spanName, Attributes attributes, WrappedVoid wrappedVoid) throws Exception {
     Span span = createSpan(spanName, attributes);
     try (Scope scope = span.makeCurrent()) {
       wrappedVoid.call();
@@ -96,8 +72,12 @@ public enum TelemetryProvider {
     }
   }
 
-  public OpenTelemetry getOpenTelemetry() {
-    return openTelemetry;
+  /**
+   * To use the openTelemetry instance directly without the helper functions
+   * @return a opentelemetry instance
+   */
+  public Optional<OpenTelemetry> getOpenTelemetry() {
+    return Optional.ofNullable(openTelemetry);
   }
 
   private Span createSpan(String spanName, Attributes attributes) {
