@@ -593,7 +593,7 @@ public class English extends Language implements AutoCloseable {
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
-      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO
+      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO and lector
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "HAVE_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
       case "BEEN_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
@@ -649,6 +649,9 @@ public class English extends Language implements AutoCloseable {
       }
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
         return 2;
+      }
+      if (id.startsWith("AI_HYDRA_LEO_MISSING_TO")) {
+        return -14; // prefer lector, HAVE_PART_AGREEMENT and BEEN_PART_AGREEMENT
       }
       return -11;
     }
