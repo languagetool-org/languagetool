@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -36,6 +37,14 @@ public class SentenceAnnotator {
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
+      String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
+      if (!enabledOnlyRulesStr.isEmpty()) {
+        cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
+      }
+      String disabledRulesStr = prop.getProperty("disabledRules", "").trim();
+      if (!disabledRulesStr.isEmpty()) {
+        cfg.disabledRules = Arrays.asList(disabledRulesStr.split(","));
+      }
       // defaultColor="\u001B[0m"
       // highlightColor="\u001B[97m"
       cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replaceAll("\"", "");
@@ -367,15 +376,24 @@ public class SentenceAnnotator {
     StringBuilder outStrB;
     String ansiDefault = "";
     String ansiHighlight = "";
+    List<String> enabledOnlyRules = new ArrayList<String>();
+    List<String> disabledRules = new ArrayList<String>();
 
     void prepareConfiguration() throws IOException {
-      if (!userName.isEmpty() && !apiKey.isEmpty()) {
-        ltConfig = new CheckConfigurationBuilder(languageCode).disabledRuleIds("WHITESPACE_RULE").textSessionID("-2")
-            .username(userName).apiKey(apiKey).build();
+      CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);
+      cfgBuilder.textSessionID("-2");
+      if (enabledOnlyRules.isEmpty()) {
+        cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
+        if (!disabledRules.isEmpty()) {
+          cfgBuilder.disabledRuleIds(disabledRules);
+        }
       } else {
-        ltConfig = new CheckConfigurationBuilder(languageCode).disabledRuleIds("WHITESPACE_RULE").textSessionID("-2")
-            .build();
+        cfgBuilder.enabledRuleIds(enabledOnlyRules).enabledOnly();
       }
+      if (!userName.isEmpty() && !apiKey.isEmpty()) {
+        cfgBuilder.username(userName).apiKey(apiKey).build();
+      }
+      ltConfig = cfgBuilder.build();
       inputFile = new File(inputFilePath);
       if (!inputFile.exists() || inputFile.isDirectory()) {
         throw new IOException("File not found: " + inputFile);
