@@ -78,6 +78,7 @@ public class ArtificialErrorEval {
   static int maxCheckedSentences = 1000000; // decrease this number for testing
   static List<String> onlyRules = new ArrayList<String>();
   static List<String> disabledRules = new ArrayList<String>();
+  static List<String> enabledOnlyRules = new ArrayList<String>();
   static String summaryOutputFilename = "";
   static String verboseOutputFilename = "";
   static String errorCategory = "";
@@ -109,6 +110,10 @@ public class ArtificialErrorEval {
       boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty("printSummaryDetails", "true"));
       boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
       remoteServer = prop.getProperty("remoteServer", "http://localhost:8081");
+      String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
+      if (!enabledOnlyRulesStr.isEmpty()) {
+        enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
+      }
       String disabledRulesStr = prop.getProperty("disabledRules", "");
       if (!disabledRulesStr.isEmpty()) {
         disabledRules = Arrays.asList(disabledRulesStr.split(","));  
@@ -318,20 +323,20 @@ public class ArtificialErrorEval {
     fakeRuleIDs[0] = "rules_" + words[0] + "->" + words[1]; // rules in one direction
     fakeRuleIDs[1] = "rules_" + words[1] + "->" + words[0]; // rules in the other direction
     CheckConfiguration config;
-    if (!userName.isEmpty() && !apiKey.isEmpty()) {
-      config = new CheckConfigurationBuilder(langCode)
-          .disabledRuleIds("WHITESPACE_RULE")
-          .textSessionID("-2")
-          .username(userName)
-          .apiKey(apiKey)
-          .build();  
+    CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(langCode);
+    cfgBuilder.textSessionID("-2");
+    if (enabledOnlyRules.isEmpty()) {
+      cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
+      if (!disabledRules.isEmpty()) {
+        cfgBuilder.disabledRuleIds(disabledRules);
+      }
     } else {
-      config = new CheckConfigurationBuilder(langCode)
-          .disabledRuleIds("WHITESPACE_RULE")
-          .textSessionID("-2")
-          .build();
+      cfgBuilder.enabledRuleIds(enabledOnlyRules).enabledOnly();
     }
-    
+    if (!userName.isEmpty() && !apiKey.isEmpty()) {
+      cfgBuilder.username(userName).apiKey(apiKey).build();
+    }
+    config = cfgBuilder.build();
     long start = System.currentTimeMillis();
     List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
     if (!inflected && !isDoubleLetters && !isDiacritics && !isParallelCorpus) {
