@@ -232,6 +232,11 @@ public class FlatParagraphTools {
    * Returns -1 if it fails
    */
   public int getCurNumFlatParagraph() {
+    return resetFlatParagraphsAndGetCurNum(true);
+  }
+  
+  /* This doesn't work as assumed
+  public int getCurNumFlatParagraph() {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getCurrentFlatParagraph();
@@ -254,7 +259,7 @@ public class FlatParagraphTools {
       isBusy--;
     }
   }
-
+*/
   /**
    * get all XFlatParagraphs of Document
    * and write it into array

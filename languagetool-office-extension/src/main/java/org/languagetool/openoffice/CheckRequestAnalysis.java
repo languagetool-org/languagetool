@@ -119,6 +119,7 @@ class CheckRequestAnalysis {
     }
     int paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
     //  if number of paragraph < 0 --> actualize doc cache and try again
+//    if (paraNum < 0 || docCache.nearestParagraphHasChanged(paraNum, singleDocument.getFlatParagraphTools())) {
     if (paraNum < 0) {
       singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
@@ -389,6 +390,7 @@ class CheckRequestAnalysis {
     if (debugModeTm) {
       startTime = System.currentTimeMillis();
     }
+/*    
     // try to get next position from last FlatParagraph position (for performance reasons)
     if (startPos != 0 && proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
       if (debugMode > 0) {
@@ -424,9 +426,9 @@ class CheckRequestAnalysis {
       MessageHandler.printToLogFile("Old Para: " + docCache.getFlatParagraph(numLastFlPara.get(numLastFlPara.size() - 1)));
       MessageHandler.printToLogFile("New Para: " + chPara);
     }
-    
+*/  
     // number of paragraphs has changed? --> Update the internal information
-    nPara = changesInNumberOfParagraph(true);
+    int nPara = changesInNumberOfParagraph(true);
     if (debugMode > 0) {
       MessageHandler.printToLogFile("New Para Number: " + nPara + ", Type: " + docCache.getNumberOfTextParagraph(nPara).type);
     }
@@ -714,12 +716,14 @@ class CheckRequestAnalysis {
         startTime1 = System.currentTimeMillis();
       }
       nPara = flatPara.getCurNumFlatParagraph();
+/*
       if (nPara < 0) {
         nPara = flatPara.resetFlatParagraphsAndGetCurNum(true);
         if (debugMode > 0) {
           MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: nPara < 0 reset flatparas, new npara: " + nPara);
         }
       }
+*/
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime1;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -747,8 +751,9 @@ class CheckRequestAnalysis {
         MessageHandler.printToLogFile("Time to run changesInNumberOfParagraph (docCache.isEqualCacheSize): " + runTime);
       }
     }
-    if (nFParas == docCache.size()) {
+//    if (nFParas == docCache.size() && !docCache.nearestParagraphHasChanged(nPara, flatPara)) {
 //    if (isEqualCache) {
+    if (nFParas == docCache.size()) {
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
