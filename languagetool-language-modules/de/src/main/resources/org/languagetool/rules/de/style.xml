@@ -1445,6 +1445,30 @@ USA
         </rule>
         <rulegroup id="PRP_WAS_WO" name="Standardsprache: 'woran' statt 'an was'" tags="clarity">
             <rule><!--1-->
+                <antipattern>
+                    <token regexp="yes">,|und|aber</token>
+                    <token case_sensitive="yes">um</token>
+                    <token>was</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]*</token>
+                    <example>1928 geboren als Tochter eines Charlottenburger Bankangestellten, besuchte sie im zerbombten Berlin eine Haushaltsschule, um was Solides zu haben.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|und|aber</token>
+                    <token case_sensitive="yes">um</token>
+                    <token skip="-1">was</token>
+                    <token postag="VER:EIZ:.*" postag_regexp="yes"/>
+                    <token regexp="yes">\.|!|\?|und|oder|aber|,</token>
+                    <example>Als er dann mit anderen ein Gebäude suchte, um was aufzubauen, passte der leere Kindergarten optimal.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|und|aber</token>
+                    <token case_sensitive="yes">um</token>
+                    <token skip="-1">was</token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                    <token regexp="yes">\.|!|\?|und|oder|aber|,</token>
+                    <example>Wir sind nur hergekommen, um was zu essen.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">,|und|aber</token>
                     <marker>
