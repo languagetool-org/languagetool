@@ -77,6 +77,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
             <rule>
                 <pattern>
+                    <token regexp="yes">is|['a]re|was|were</token>
+                    <marker>
+                        <token postag="VBP?" postag_regexp="yes">
+                            <exception negate_pos="yes" postag="VBP?" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">Each terms are <marker>correspond</marker> to the points 15° points along the ecliptic. </example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START" />
                     <token chunk="B-NP-singular">
                         <exception postag="MD" />
