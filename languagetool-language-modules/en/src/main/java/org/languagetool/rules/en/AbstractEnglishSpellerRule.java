@@ -68,6 +68,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "coon ass",
     "coon asses",
     "cunt",
+    "germane", // confused with German
     "double check",
     "java script",
     "fine tune",
