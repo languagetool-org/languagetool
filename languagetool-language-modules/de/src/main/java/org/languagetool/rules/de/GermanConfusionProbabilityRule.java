@@ -167,6 +167,11 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("viel")
     ),
     Arrays.asList(
+      // "Zumal das Label viel in die Mainstreamisierung von Unheilig investiert hat."
+      new PatternTokenBuilder().token("viel").setSkip(8).build(),
+      posRegex("PA2.*")
+    ),
+    Arrays.asList(
       // "Warum viel graue Energie in neue Fenster investieren"
       token("viel"),
       new PatternTokenBuilder().posRegex("ADJ.*").min(0).build(),
