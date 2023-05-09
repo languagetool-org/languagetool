@@ -73,31 +73,32 @@ class ApiV2 {
 
   void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
                      String remoteAddress, HTTPServerConfig config) throws Exception {
+    String spanName = "/v2/" + path;
     if (path.equals("languages")) {
-      TelemetryProvider.INSTANCE.createSpan("/languages", Attributes.empty(), () -> handleLanguagesRequest(httpExchange));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleLanguagesRequest(httpExchange));
     } else if (path.equals("maxtextlength")) {
-      TelemetryProvider.INSTANCE.createSpan("/maxtextlength", Attributes.empty(), () -> handleMaxTextLengthRequest(httpExchange, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleMaxTextLengthRequest(httpExchange, config));
     } else if (path.equals("configinfo")) {
-      TelemetryProvider.INSTANCE.createSpan("/configinfo", Attributes.empty(), () -> handleGetConfigurationInfoRequest(httpExchange, parameters, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleGetConfigurationInfoRequest(httpExchange, parameters, config));
     } else if (path.equals("info")) {
-      TelemetryProvider.INSTANCE.createSpan("/info", Attributes.empty(), () -> handleSoftwareInfoRequest(httpExchange));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleSoftwareInfoRequest(httpExchange));
     } else if (path.equals("check")) {
-      TelemetryProvider.INSTANCE.createSpan("/check", Attributes.empty(), () -> handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config));
     } else if (path.equals("words")) {
-      TelemetryProvider.INSTANCE.createSpan("/words", Attributes.empty(), () -> handleWordsRequest(httpExchange, parameters, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleWordsRequest(httpExchange, parameters, config));
     } else if (path.equals("words/add")) {
-      TelemetryProvider.INSTANCE.createSpan("/words/add", Attributes.empty(), () -> handleWordAddRequest(httpExchange, parameters, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleWordAddRequest(httpExchange, parameters, config));
     } else if (path.equals("words/delete")) {
-      TelemetryProvider.INSTANCE.createSpan("/words/delete", Attributes.empty(), () -> handleWordDeleteRequest(httpExchange, parameters, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleWordDeleteRequest(httpExchange, parameters, config));
     //} else if (path.equals("rule/examples")) {
     //  // private (i.e. undocumented) API for our own use only
     //  handleRuleExamplesRequest(httpExchange, parameters);
     } else if (path.equals("admin/refreshUser")) {
       // private (i.e. undocumented) API for our own use only
-      TelemetryProvider.INSTANCE.createSpan("/admin/refreshUser", Attributes.empty(), () -> handleRefreshUserInfoRequest(httpExchange, parameters, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleRefreshUserInfoRequest(httpExchange, parameters, config));
     } else if (path.equals("users/me")) {
       // private (i.e. undocumented) API for our own use only
-      TelemetryProvider.INSTANCE.createSpan("/users/me", Attributes.empty(), () -> handleGetUserInfoRequest(httpExchange, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleGetUserInfoRequest(httpExchange, config));
     } else {
       throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
