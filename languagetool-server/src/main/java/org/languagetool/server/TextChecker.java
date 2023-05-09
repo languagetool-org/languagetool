@@ -460,12 +460,32 @@ abstract class TextChecker {
     boolean allowIncompleteResults = "true".equals(params.get("allowIncompleteResults"));
     JLanguageTool.Mode mode = ServerTools.getMode(params);
     JLanguageTool.Level level = ServerTools.getLevel(params);
+    String[] toneTagNames = params.get("toneTags") != null ? params.get("toneTags").split(",") : null;
+    Set<ToneTag> toneTags = new HashSet<>(ToneTag.values().length);
+    if (toneTagNames != null) {
+      if (toneTagNames.length == 1 && toneTagNames[0].isEmpty()) { //toneTags=
+        toneTags.add(ToneTag.NO_TONE_RULE);
+      } else {
+        for (String toneTagName : toneTagNames) {
+          if (toneTagName.equals("NO_TONE_RULE")) {
+            log.warn("NO_TONE_RULE will be ignored if more than one toneTag is in params.");
+            continue;
+          }
+          try {
+            toneTags.add(ToneTag.valueOf(toneTagName));
+          } catch (IllegalArgumentException ex) {
+            //just ignore unsupported toneTags
+            log.warn("Unsupported toneTag found in params: {}", toneTagName);
+          }
+        }
+      }
+    }
     String callback = params.get("callback");
     // allowed to log input on errors?
     boolean inputLogging = !params.getOrDefault("inputLogging", "").equals("no");
     QueryParams qParams = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, callback, inputLogging);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, toneTags, callback, inputLogging);
 
     int textSize = length;
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
@@ -834,7 +854,7 @@ abstract class TextChecker {
         textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models
       }
       res.add(lt.check2(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
-        params.mode, params.level, textSessionId));
+        params.mode, params.level, params.toneTags, textSessionId));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);
@@ -939,6 +959,7 @@ abstract class TextChecker {
     final boolean enableTempOffRules;
     final JLanguageTool.Mode mode;
     final JLanguageTool.Level level;
+    final Set<ToneTag> toneTags;
     final String callback;
     /** allowed to log input with stack traces to reproduce errors? */
     final boolean inputLogging;
@@ -957,6 +978,11 @@ abstract class TextChecker {
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
                 boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback, boolean inputLogging) {
+      this(altLanguages, enabledRules, disabledRules, enabledCategories,disabledCategories,useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, premium, enableTempOffRules, mode, level, null, callback, inputLogging);
+    }
+
+    QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, Set<ToneTag> toneTags, @Nullable String callback, boolean inputLogging) {
       this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
@@ -971,6 +997,7 @@ abstract class TextChecker {
       this.regressionTestMode = enableTempOffRules;
       this.mode = Objects.requireNonNull(mode);
       this.level = Objects.requireNonNull(level);
+      this.toneTags = toneTags;
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
         throw new BadRequestException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
       }

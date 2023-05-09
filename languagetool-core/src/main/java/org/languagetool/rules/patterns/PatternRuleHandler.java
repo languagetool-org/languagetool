@@ -55,7 +55,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private final List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
   private final List<String> categoryTags = new ArrayList<>();
   private final List<String> ruleGroupTags = new ArrayList<>();
+  private final List<String> ruleGroupToneTags = new ArrayList<>();
   private final List<String> ruleTags = new ArrayList<>();
+  private final List<String> ruleToneTags = new ArrayList<>();
 
   private int subId;
   private boolean interpretPosTagsPreDisambiguation;
@@ -240,6 +242,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue("tags") != null) {
           ruleTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
         }
+        if (attrs.getValue("tone_tags") != null) {
+          ruleToneTags.addAll(Arrays.asList(attrs.getValue("tone_tags").split(" ")));
+        }
         break;
       case PATTERN:
         startPattern(attrs);
@@ -371,6 +376,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue("tags") != null) {
           ruleGroupTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
         }
+        if (attrs.getValue("tone_tags") != null) {
+          ruleGroupToneTags.addAll(Arrays.asList(attrs.getValue("tone_tags").split(" ")));
+        }
         String minPrevMatchesStr2 = attrs.getValue(MINPREVMATCHES);
         if (minPrevMatchesStr2 != null) {
           ruleGroupMinPrevMatches = Integer.parseInt(minPrevMatchesStr2);  
@@ -474,6 +482,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         minPrevMatches = 0;
         distanceTokens = 0;
         ruleTags.clear();
+        ruleToneTags.clear();
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -619,6 +628,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupMinPrevMatches = 0;
         ruleGroupDistanceTokens = 0;
         ruleGroupTags.clear();
+        ruleToneTags.clear();
         antipatternForRuleGroupsExamples.clear();
         break;
       case MARKER:
@@ -700,6 +710,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.addTags(ruleTags);
         rule.addTags(ruleGroupTags);
         rule.addTags(categoryTags);
+        rule.addToneTags(ruleToneTags);
+        rule.addToneTags(ruleGroupToneTags);
         rule.setSourceFile(sourceFile);
         rule.setPremium(isPremiumRule);
         rule.setMinPrevMatches(minPrevMatches);
@@ -802,6 +814,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
     rule.addTags(ruleTags);
     rule.addTags(ruleGroupTags);
     rule.addTags(categoryTags);
+    rule.addToneTags(ruleToneTags);
+    rule.addToneTags(ruleGroupToneTags);
     if (inRuleGroup) {
       rule.setSubId(internString(Integer.toString(subId)));
     } else {
