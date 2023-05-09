@@ -12072,15 +12072,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aún">Para que la semejanza sea <marker>aun</marker> mayor.</example>
             </rule>
             <rule>
-                 <antipattern>
+                <antipattern>
                     <token postag="SENT_START"/>
                     <token>aun</token>
-                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
-                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
                     <example>Aun estuviera nevando, era un día precioso.</example>
                     <example>aun sea su fuente la sociedad o la evolución, es objetiva en su sentido</example>
                 </antipattern>
-               <!-- <antipattern>
+                <!-- <antipattern>
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
                     <token>aun</token>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
@@ -12912,6 +12912,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             pero si hay vida y aún es posible escucharla,-->
                 <antipattern>
                     <token>si</token>
+                    <token regexp="yes">solo|sólo|todavía|aún|aun|ya</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="10">si</token>
+                    <token skip="2">,</token>
+                    <token regexp="yes">también|sí</token>
+                    <example>Pero si es feliz, yo también.</example>
+                    <example>Tengo que ganarme su confianza, pero si tengo suerte, sí.</example>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
                     <token>no</token>
                     <example>Pero si no sabes leer.</example>
                 </antipattern>
@@ -12932,6 +12943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="20">si</token>
                     <token skip="-1" postag="V.[IS].*" postag_regexp="yes"><exception scope="next" postag_regexp="yes" postag="CS|PR.*"/></token>
                     <token postag="V.[ISM].*" postag_regexp="yes"/>
+                    <example>Apenas estaba hablando generalmente, no de ti en concreto, pero si el zapato cabe, úsalo.</example>
                 </antipattern>
                 <antipattern>
                     <token>pero</token>
@@ -12965,7 +12977,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pero si de repente un día quieres llamarme papá, hazlo.</example>
                 <example>Pero si explicas que alguien ha muerto, te lo entregan de inmediato.</example>
                 <example>¡Pero si fueron ellos los que se independizaron!</example>
-                <!--<example>Apenas estaba hablando generalmente, no de ti en concreto, pero si el zapato cabe, úsalo. </example>-->
+                <example>Apenas estaba hablando generalmente, no de ti en concreto, pero si el zapato cabe, úsalo. </example>
+                <example>Como ahora 7/8 horas diarias, pero si te digo la verdad no lo sé.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PASO" name="paso/pasó">
