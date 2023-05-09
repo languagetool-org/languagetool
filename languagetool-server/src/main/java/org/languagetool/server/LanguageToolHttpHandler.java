@@ -20,11 +20,15 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import io.opentelemetry.api.common.Attributes;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.semconv.trace.attributes.SemanticAttributes;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
+import org.languagetool.server.utils.TelemetryProvider;
 import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
@@ -182,7 +186,12 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (path.startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
           String pathWithoutVersion = path.substring("/v2/".length());
-          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
+          Map<String, String> finalParameters = parameters;
+          String finalRemoteAddress = remoteAddress;
+          Attributes attributes = Attributes.builder()
+                  .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
+                  .build();
+          TelemetryProvider.INSTANCE.createSpan("/v2", attributes, () -> apiV2.handleRequest(pathWithoutVersion, httpExchange, finalParameters, errorRequestLimiter, finalRemoteAddress, config));
         } else if (path.endsWith("/Languages")) {
           throw new BadRequestException("You're using an old version of our API that's not supported anymore. Please see " + API_DOC_URL);
         } else if (path.equals("/")) {
