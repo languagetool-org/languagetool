@@ -12921,7 +12921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">Pasó esto, <marker>si</marker>, ¿y ahora qué hacemos?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- ambiguous
             pero si hay vida y aún es posible escucharla,-->
                 <antipattern>
@@ -12971,9 +12971,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>si</token>
                 </antipattern>
                 <antipattern>
+                    <token>pero</token>
+                    <token skip="-1">si</token>
+                    <token>!</token>
+                    <example>¡Pero si están vacías!</example>
+                </antipattern>
+                <antipattern>
                     <token postag="SENT_START"/>
                     <token>pero</token>
                     <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ah|oh|eh</token>
+                    <token min="0">,</token>
+                    <token>pero</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>pero</token>
+                    <token skip="-1">si</token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token>pero</token>
@@ -12993,6 +13010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Pero si fueron ellos los que se independizaron!</example>
                 <example>Apenas estaba hablando generalmente, no de ti en concreto, pero si el zapato cabe, úsalo. </example>
                 <example>Como ahora 7/8 horas diarias, pero si te digo la verdad no lo sé.</example>
+                <example>Pero si le mentí a Jerri eso no me preocupa.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PASO" name="paso/pasó">
