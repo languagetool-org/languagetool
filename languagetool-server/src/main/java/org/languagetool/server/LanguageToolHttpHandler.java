@@ -256,11 +256,11 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
       globalSpan.recordException(e);
       globalSpan.setStatus(StatusCode.ERROR);
-      globalSpan.setAttribute(SemanticAttributes.HTTP_STATUS_CODE, errorCode);
     } finally {
       logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
       mdcRequestID.close();
+      globalSpan.setAttribute(SemanticAttributes.HTTP_STATUS_CODE, httpExchange.getResponseCode());
       globalSpan.end();
       if (incrementHandleCount) {
         reqCounter.decrementHandleCount(reqId);
