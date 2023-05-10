@@ -233,6 +233,109 @@ USA
             </rulegroup>
         </category>
 
+        <category id="COMPOUNDING" name="Compounding">
+            <rule id="STREET_LIGHTS_COMPOUND" name="street light (streetlight)">
+                <pattern>
+                    <token>street</token>
+                    <token regexp="yes">lights?|lamps?</token>
+                </pattern>
+                <message>In American English this noun is spelled as one word.</message>
+                <suggestion>street<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/streetlight</url>
+                <example correction="streetlights">I only go out once the <marker>street lights</marker> are turned on.</example>
+            </rule>
+
+            <rule id="SHIT_SHOW_COMPOUND" name="shit show (shitshow)">
+                <pattern>
+                    <token regexp="yes">an?</token>
+                    <token postag="JJ" min="0" />
+                    <marker>
+                        <token>shit</token>
+                        <token>show</token>
+                    </marker>
+                </pattern>
+                <message>The noun <suggestion>shitshow</suggestion> is spelled as one word.</message>
+                <url>https://www.dictionary.com/browse/shitshow</url>
+                <example correction="shitshow">The TV debate was an absolute <marker>shit show</marker>.</example>
+            </rule>
+
+            <rule id="HOME_COMPOUNDS_EN_US" name="home town (hometown)">
+                <pattern>
+                    <token>home</token>
+                    <token regexp="yes">towns?</token>
+                </pattern>
+                <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
+                <example correction="hometown">He came to visit her <marker>home town</marker>.</example>
+            </rule>
+
+            <rule id="ANY_MORE" name="any more (anymore)">
+                <antipattern><!-- Tom could not have been any more helpful. -->
+                    <token>more</token>
+                    <token postag="JJ"/>
+                </antipattern>
+                <antipattern><!-- #2985 any more random lag spikes -->
+                    <token chunk="B-NP-plural">any</token>
+                    <token chunk="I-NP-plural">more</token>
+                    <token min="0" max="4" chunk="I-NP-plural"/>
+                    <token postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #3057 have any more unless -->
+                    <token postag_regexp="yes" postag="VB.*"/>
+                    <token>any</token>
+                    <token>more</token>
+                    <token regexp="yes">&subordinating_conjunctions;</token>
+                </antipattern>
+                <antipattern><!-- #3057 want any more because -->
+                    <token postag_regexp="yes" postag="VB.*"/>
+                    <token>any</token>
+                    <token>more</token>
+                    <token postag="CC"/>
+                </antipattern>
+                <antipattern><!-- if you need any more, let me know -->
+                    <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">need|want|demand|require</token>
+                    <token>any</token>
+                    <token>more</token>
+                </antipattern>
+                <antipattern><!-- I couldn't ask any more of him -->
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>any</token>
+                    <token>more</token>
+                    <token regexp="yes">from|of</token>
+                    <token postag="NNP|PRP" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>any</token>
+                        <token>more
+                            <exception scope="next" regexp="yes">of|than|often</exception>
+                            <exception scope="next" postag="NN.*" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adverb <suggestion>\1\2</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/anymore</url>
+                <short>American English, possible typo</short>
+                <example correction="anymore">I couldn't find my way around it <marker>any more</marker>.</example>
+                <example correction="anymore">You're not sure <marker>any more</marker>, are you?</example>
+                <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example><!-- #2309. -->
+                <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
+                <example correction="anymore">You don't have to take care of them <marker>any more</marker>   </example><!-- #2779. Extra spaces -->
+                <example>I couldn't find my way around it <marker>anymore</marker>.</example>
+                <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
+                <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
+                <example>Do it so that there aren't any more random lag spikes.</example><!-- #2985 -->
+                <example>There aren't any more random spikes.</example><!-- #2985 -->
+                <example>We probably should tell him that we don't have any more unless New Albany is enough.</example><!-- #3057 -->
+                <example>Tell her that we don't really want any more because we have sufficient.</example><!-- #3057 -->
+                <example>If we had bought any more while prices were high, we would have lose money.</example><!-- #3057 -->
+                <example>I know that Tom isn't any more likely to do that today than he was yesterday.</example>
+                <example>Tom could not have been any more helpful.</example>
+                <example>Those people do not visit emergency rooms any more often than the general population.</example>
+                <example>I'll let you know if I need any more from you.</example>
+                <example>If you ask any more of me, I won't be able to comply.</example>
+            </rule>
+        </category>
+
         <category id="PUNCTUATION" name="Punctuation" type="typographical">
         <rule id="QUOTATION_MARKS_COMMA" name="rearranges final comma in reported speech">
         <!-- TODO: should be part of larger rule group for punctuating reported speech -->
@@ -342,107 +445,6 @@ USA
                 <example>Megan Thee Stallion is an American pop singer.</example>
             </rule>
         </rulegroup>
-        <rule id="STREET_LIGHTS_COMPOUND" name="street light (streetlight)">
-            <pattern>
-                <token>street</token>
-                <token regexp="yes">lights?|lamps?</token>
-            </pattern>
-            <message>In American English this noun is spelled as one word.</message>
-            <suggestion>street<match no="2" case_conversion="alllower" /></suggestion>
-            <url>https://www.merriam-webster.com/dictionary/streetlight</url>
-            <example correction="streetlights">I only go out once the <marker>street lights</marker> are turned on.</example>
-        </rule>
-
-        <rule id="SHIT_SHOW_COMPOUND" name="shit show (shitshow)">
-            <pattern>
-                <token regexp="yes">an?</token>
-                <token postag="JJ" min="0" />
-                <marker>
-                    <token>shit</token>
-                    <token>show</token>
-                </marker>
-            </pattern>
-            <message>The noun <suggestion>shitshow</suggestion> is spelled as one word.</message>
-            <url>https://www.dictionary.com/browse/shitshow</url>
-            <example correction="shitshow">The TV debate was an absolute <marker>shit show</marker>.</example>
-        </rule>
-
-        <rule id="HOME_COMPOUNDS_EN_US" name="home town (hometown)">
-            <pattern>
-                <token>home</token>
-                <token regexp="yes">towns?</token>
-            </pattern>
-            <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
-            <example correction="hometown">He came to visit her <marker>home town</marker>.</example>
-        </rule>
-
-          <rule id="ANY_MORE" name="any more (anymore)">
-              <antipattern><!-- Tom could not have been any more helpful. -->
-                 <token>more</token>
-                 <token postag="JJ"/>
-              </antipattern>
-              <antipattern><!-- #2985 any more random lag spikes -->
-                 <token chunk="B-NP-plural">any</token>
-                 <token chunk="I-NP-plural">more</token>
-                 <token min="0" max="4" chunk="I-NP-plural"/>
-                 <token postag="NNS"/>
-              </antipattern>
-              <antipattern><!-- #3057 have any more unless -->
-                 <token postag_regexp="yes" postag="VB.*"/>
-                 <token>any</token>
-                 <token>more</token>
-                 <token regexp="yes">&subordinating_conjunctions;</token>
-              </antipattern>
-              <antipattern><!-- #3057 want any more because -->
-                 <token postag_regexp="yes" postag="VB.*"/>
-                 <token>any</token>
-                 <token>more</token>
-                 <token postag="CC"/>
-              </antipattern>
-              <antipattern><!-- if you need any more, let me know -->
-                  <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">need|want|demand|require</token>
-                  <token>any</token>
-                  <token>more</token>
-              </antipattern>
-              <antipattern><!-- I couldn't ask any more of him -->
-                  <token postag="V.*" postag_regexp="yes"/>
-                  <token>any</token>
-                  <token>more</token>
-                  <token regexp="yes">from|of</token>
-                  <token postag="NNP|PRP" postag_regexp="yes"/>
-              </antipattern>
-              <pattern>
-                  <marker>
-                     <token>any</token>
-                     <token>more
-                         <exception scope="next" regexp="yes">of|than|often</exception>
-                         <exception scope="next" postag="NN.*" postag_regexp="yes"/>
-                         </token>
-                  </marker>
-              </pattern>
-              <message>Did you mean the adverb <suggestion>\1\2</suggestion>?</message>
-              <url>https://www.merriam-webster.com/dictionary/anymore</url>
-              <short>American English, possible typo</short>
-              <example correction="anymore">I couldn't find my way around it <marker>any more</marker>.</example>
-              <example correction="anymore">You're not sure <marker>any more</marker>, are you?</example>
-              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example><!-- #2309. -->
-              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
-              <example correction="anymore">You don't have to take care of them <marker>any more</marker>   </example><!-- #2779. Extra spaces -->
-              <example>I couldn't find my way around it <marker>anymore</marker>.</example>
-              <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
-              <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
-              <example>Do it so that there aren't any more random lag spikes.</example><!-- #2985 -->
-              <example>There aren't any more random spikes.</example><!-- #2985 -->
-              <example>We probably should tell him that we don't have any more unless New Albany is enough.</example><!-- #3057 -->
-              <example>Tell her that we don't really want any more because we have sufficient.</example><!-- #3057 -->
-              <example>If we had bought any more while prices were high, we would have lose money.</example><!-- #3057 -->
-              <example>I know that Tom isn't any more likely to do that today than he was yesterday.</example>
-              <example>Tom could not have been any more helpful.</example>
-              <example>Those people do not visit emergency rooms any more often than the general population.</example>
-              <example>I'll let you know if I need any more from you.</example>
-              <example>If you ask any more of me, I won't be able to comply.</example>
-          </rule>
-
     </category>
 
     <category id="BRITISH_ENGLISH" name="British English phrases" type="locale-violation">
