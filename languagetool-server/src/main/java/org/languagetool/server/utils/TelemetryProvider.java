@@ -28,8 +28,6 @@ import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 
-import java.util.Optional;
-
 public enum TelemetryProvider {
 
   INSTANCE;
@@ -85,13 +83,20 @@ public enum TelemetryProvider {
 
   /**
    * To use the openTelemetry instance directly without the helper functions
+   * @since 6.2
    * @return a opentelemetry instance
    */
-  public Optional<OpenTelemetry> getOpenTelemetry() {
-    return Optional.ofNullable(openTelemetry);
+  public OpenTelemetry getOpenTelemetry() {
+    return openTelemetry;
   }
 
-  private Span createSpan(String spanName, Attributes attributes) {
+  /**
+   * @param spanName
+   * @param attributes
+   * @return a Span
+   * @since 6.2
+   */
+  public Span createSpan(String spanName, Attributes attributes) {
     return tracer.spanBuilder(spanName)
             .setAllAttributes(attributes)
             .startSpan();

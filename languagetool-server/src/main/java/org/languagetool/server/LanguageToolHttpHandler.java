@@ -21,7 +21,9 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import io.opentelemetry.api.common.Attributes;
-import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.context.Scope;
 import io.opentelemetry.semconv.trace.attributes.SemanticAttributes;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -95,7 +97,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     boolean incrementHandleCount = false;
     String requestId = getRequestId(httpExchange);
     MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
-    try {
+    Attributes attributes = Attributes.builder()
+                  .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
+                  .put("request.id", requestId)
+                  .build();
+    Span globalSpan = TelemetryProvider.INSTANCE.createSpan("handle-http-request", attributes);
+    try (Scope scope = globalSpan.makeCurrent()) {
       URI requestedUri = httpExchange.getRequestURI();
       String path = requestedUri.getRawPath();
       logger.info("Handling {} {}", httpExchange.getRequestMethod(), path);
@@ -188,11 +195,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           String pathWithoutVersion = path.substring("/v2/".length());
           final Map<String, String> finalParameters = parameters;
           final String finalRemoteAddress = remoteAddress;
-          Attributes attributes = Attributes.builder()
-                  .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
-                  .put("request.id", requestId)
-                  .build();
-          TelemetryProvider.INSTANCE.createSpan("/v2", attributes, () -> apiV2.handleRequest(pathWithoutVersion, httpExchange, finalParameters, errorRequestLimiter, finalRemoteAddress, config));
+          TelemetryProvider.INSTANCE.createSpan("/v2", Attributes.empty(), () -> apiV2.handleRequest(pathWithoutVersion, httpExchange, finalParameters, errorRequestLimiter, finalRemoteAddress, config));
         } else if (path.endsWith("/Languages")) {
           throw new BadRequestException("You're using an old version of our API that's not supported anymore. Please see " + API_DOC_URL);
         } else if (path.equals("/")) {
@@ -251,11 +254,14 @@ class LanguageToolHttpHandler implements HttpHandler {
       long endTime = System.currentTimeMillis();
       logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace, endTime-startTime);
       sendError(httpExchange, errorCode, "Error: " + response);
-
+      globalSpan.recordException(e);
+      globalSpan.setStatus(StatusCode.ERROR);
+      globalSpan.setAttribute(SemanticAttributes.HTTP_STATUS_CODE, errorCode);
     } finally {
       logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
       mdcRequestID.close();
+      globalSpan.end();
       if (incrementHandleCount) {
         reqCounter.decrementHandleCount(reqId);
       }
