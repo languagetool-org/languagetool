@@ -3907,6 +3907,202 @@ USA
         </rulegroup>
 
 
+        <!-- O DESENVOLVIMENTO DE desenvolver -->
+        <rulegroup id="VERBAL_NOUNS_TO_VERB" name="[Simplificar] NC Verbais para V.Inf.: 'o -mento de'/'a -ção de' → '-ar/-er/-ir'" type="style" default='temp_off'>
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-09/10 (2-MAR-2023+) -->
+            <!--
+
+            Subrule 1.1:
+             -mento → ar
+            Propomos O DESENCADEAMENTO DE uma fórmula. → Propomos DESENCADEAR uma fórmula.
+
+            Subrule 1.2:
+             -mento → er
+            Propomos O DESENVOLVIMENTO DE uma fórmula. → Propomos DESENVOLVER uma fórmula.
+
+            Subrule 1.3:
+             -mento → ir
+            Vimos O SURGIMENTO DE uma fórmula. -> Vimos SURGIR uma fórmula.
+
+            Subrule 2.1:
+             -ação → ar
+            Propomos A CRIAÇÃO DE uma fórmula. → Propomos criar uma fórmula.
+
+            Subrule 2.2:
+             -ução → ir
+            Propomos A CONSTRUÇÃO DE uma ponte. → Propomos CONSTRUIR uma ponte.
+
+            Subrule 2.3:
+             -ução → zir
+            Propomos A TRADUÇÃO DE um livro. → Propomos TRADUZIR um livro.
+
+
+            NOTICE:
+            Rules 1.x: Hard-coded list of accepted verbs.
+            Rules 2.x: Accept any verbs.
+            Rules 1.x & 2.x: Hard-coded list of exception -mento/-ção verbal nouns.
+
+            -->
+
+            <!-- Subrule 1.1: -->
+            <!-- -mento → ar -->
+            <rule>
+                <pattern>
+                    <and>
+                       <token postag='VMIP.+' postag_regexp='yes'>
+                           <exception postag_regexp='yes' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|AQ.+|NC.+|CS|RG|xxxVMM02S0'/>
+                       </token>
+                       <token regexp='yes' inflected='yes'>anunciar|aprovar|enfatizar|exigir|lembrar|permitir|planear|possibilitar|promover|propor|proporcionar|querer|saber|ser|valorizar|ver</token> <!-- Added valid verbs here -->
+                    </and>
+                    <marker>
+                        <token regexp='yes'>[ao]</token>
+                        <and>
+                            <token regexp="yes">.+amento
+                               <exception regexp='yes'>cruzamento|departamento|pensamento|regulamento|temperamento</exception> <!-- Verbal Nouns that cause issues -->
+                            </token>
+                            <token postag='NC.+' postag_regexp='yes'/>
+                        </and>
+                        <token regexp='no'>de</token>
+                    </marker>
+                    <token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion ><match no='3' regexp_match="(.+)amento" regexp_replace="$1"/>ar</suggestion>
+                <example correction="desencadear">Propomos <marker>o desencadeamento de</marker> uma fórmula.</example>
+            </rule>
+
+            <!-- Subrule 1.2: -->
+            <!-- -mento → er -->
+            <rule>
+                <pattern>
+                    <and>
+                       <token postag='VMIP.+' postag_regexp='yes'>
+                           <exception postag_regexp='yes' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|AQ.+|NC.+|CS|RG|xxxVMM02S0'/>
+                       </token>
+                       <token regexp='yes' inflected='yes'>anunciar|aprovar|enfatizar|exigir|lembrar|permitir|planear|possibilitar|promover|propor|proporcionar|querer|saber|ser|valorizar|ver</token> <!-- Added valid verbs here -->
+                    </and>
+                    <marker>
+                        <token regexp='yes'>[ao]</token>
+                        <and>
+                            <token regexp="yes">.+[eiou]mento
+                               <exception regexp='yes'>.+gimento</exception> <!-- -ir -->
+                               <exception regexp='yes'>comprimento|crescimento</exception> <!-- Verbal Nouns that cause issues -->
+                            </token>
+                            <token postag='NC.+' postag_regexp='yes'/>
+                        </and>
+                        <token regexp='no'>de</token>
+                    </marker>
+                    <token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion ><match no='3' regexp_match="(.+)[aeiou]mento" regexp_replace="$1"/>er</suggestion>
+                <example correction="desenvolver">Propomos <marker>o desenvolvimento de</marker> uma fórmula.</example>
+            </rule>
+
+            <!-- Subrule 1.3: -->
+            <!-- -mento → ir -->
+            <rule>
+                <pattern>
+                    <and>
+                       <token postag='VMIP.+' postag_regexp='yes'>
+                           <exception postag_regexp='yes' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|AQ.+|NC.+|CS|RG|xxxVMM02S0'/>
+                       </token>
+                       <token regexp='yes' inflected='yes'>anunciar|aprovar|enfatizar|exigir|lembrar|permitir|planear|possibilitar|promover|propor|proporcionar|querer|saber|ser|valorizar|ver</token> <!-- Added valid verbs here -->
+                    </and>
+                    <marker>
+                        <token regexp='yes'>[ao]</token>
+                        <and>
+                            <token regexp="yes">.+imento
+                               <exception regexp='yes'>crescimento|comprimento</exception> <!-- Verbal Nouns that cause issues -->
+                            </token>
+                            <token postag='NC.+' postag_regexp='yes'/>
+                        </and>
+                        <token regexp='no'>de</token>
+                    </marker>
+                    <token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion ><match no='3' regexp_match="(.+)imento" regexp_replace="$1"/>ir</suggestion>
+                <example correction="surgir">Vimos <marker>o surgimento de</marker> uma fórmula.</example>
+            </rule>
+
+            <!-- Subrule 2.1: -->
+            <!-- -ação → ar -->
+            <rule>
+                <pattern>
+                    <token postag='VMIP.+' postag_regexp='yes'>
+                        <exception regexp='yes' inflected='yes'>contender|ser</exception> <!-- The verbs that are false positives -->
+                        <exception postag_regexp='yes' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|AQ.+|NC.+|CS|RG|VMM02S0'/>
+                        <exception postag_regexp='yes' scope='previous' postag='CS|CC'/> <!-- que, também -->
+                    </token>
+                    <marker>
+                        <token regexp='yes'>[ao]</token>
+                        <and>
+                            <token regexp="yes">.+ação
+                               <exception regexp='yes'>acumulação|aproximação|circulação|coração|decoração|implantação|internalização|relação|situação</exception> <!-- Verbal Nouns that cause issues -->
+                            </token>
+                            <token postag='NC.+' postag_regexp='yes'/>
+                        </and>
+                        <token regexp='no'>de</token>
+                    </marker>
+                    <token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion ><match no='3' regexp_match="(.+)ação" regexp_replace="$1"/>ar</suggestion>
+                <example correction="criar">Propomos <marker>a criação de</marker> uma fórmula.</example>
+            </rule>
+
+            <!-- Subrule 2.2: -->
+            <!-- -ução → ir -->
+            <rule>
+                <pattern>
+                    <token postag='VMIP.+' postag_regexp='yes'>
+                        <exception regexp='yes' inflected='yes'>contender|ser</exception> <!-- The verbs that are false positives -->
+                        <exception postag_regexp='yes' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|AQ.+|NC.+|CS|RG|VMM02S0'/>
+                        <exception postag_regexp='yes' scope='previous' postag='CS|CC'/> <!-- que, também -->
+                    </token>
+                    <marker>
+                        <token regexp='yes'>[ao]</token>
+                        <and>
+                            <token regexp="yes">.+[^d]ução</token>
+                            <token postag='NC.+' postag_regexp='yes'/>
+                        </and>
+                        <token regexp='no'>de</token>
+                    </marker>
+                    <token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion ><match no='3' regexp_match="(.+)(.)ção" regexp_replace="$1$2"/>ir</suggestion>
+                <example correction="construir">Propomos <marker>a construção de</marker> uma ponte.</example>
+            </rule>
+
+            <!-- Subrule 2.3: -->
+            <!-- -ução → zir -->
+            <rule>
+                <pattern>
+                    <token postag='VMIP.+' postag_regexp='yes'>
+                        <exception regexp='yes' inflected='yes'>contender|ser</exception> <!-- The verbs that are false positives -->
+                        <exception postag_regexp='yes' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|AQ.+|NC.+|CS|RG|VMM02S0'/>
+                        <exception postag_regexp='yes' scope='previous' postag='CS|CC'/> <!-- que, também -->
+                    </token>
+                    <marker>
+                        <token regexp='yes'>[ao]</token>
+                        <and>
+                            <token regexp="yes">.+ução</token>
+                            <token postag='NC.+' postag_regexp='yes'/>
+                        </and>
+                        <token regexp='no'>de</token>
+                    </marker>
+                    <token postag='AQ..P.+|NC.P.+|DI.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion ><match no='3' regexp_match="(.+)(.)ção" regexp_replace="$1$2"/>zir</suggestion>
+                <example correction="traduzir">Propomos <marker>a tradução de</marker> um livro.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <!-- O QUE ESTÁ ESTIPULADO o estipulado -->
         <rule id='O_QUE_ESTAR_SER_PARTICIPIOPASSADO' name="[Simplificar] O que V.Estar/Ser + V.Part.Pass. → o + V.Part.Pass." type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-04/5 + 2023-01-19/20 (25-JUL-2022+) -->
