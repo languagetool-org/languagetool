@@ -512,11 +512,17 @@ abstract class TextChecker {
     }
     String incompleteResultReason = null;
     List<CheckResults> res;
+    Attributes textCheckingAttributes = Attributes.builder()
+            .put("text.language", lang.getShortCode())
+            .put("text.size", textSize)
+            .put("userRules.size", userRules.size())
+            .put("dictionary.size", dictWords.size())
+            .build();
     try {
       if (limits.getMaxCheckTimeMillis() < 0) {
-        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", Attributes.empty(), () -> future.get());
+        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", textCheckingAttributes, () -> future.get());
       } else {
-        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", Attributes.empty(), () -> future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS));
+        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", textCheckingAttributes, () -> future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS));
       }
     } catch (ExecutionException e) {
       future.cancel(true);
