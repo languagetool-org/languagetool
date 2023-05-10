@@ -1623,6 +1623,20 @@ regexp case-insensitive maken: (?i)
                 <example>Want hij of <marker>zij</marker> moet gewoon een goede luisteraar zijn.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>jouw</token>
+                    <token regexp="yes">beurt|fout|geval|keus|manier|mening|opinie|opvatting|probleem|schuld|stijl|visie</token>
+                    <token postag="SENT_END"></token>
+                    <example>Dat is toch echt jouw schuld.</example>
+                    <example>Je doet alles toch op jouw manier!</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">wat|dat|het|wie</token>
+                    <token>is</token>
+                    <token>jouw</token>
+                    <example>Wat is jouw mening hierover?</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>jouw</token>
@@ -15920,6 +15934,23 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="U" name="u">
             <!-- 2014-08-20 TaalTik -->
             <rule>
+                <antipattern>
+                    <token skip="5">God</token>
+                    <token case_sensitive="yes">U</token>
+                    <example>Grote God, wij loven U</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN"></token>
+                    <token case_sensitive="yes">U</token>
+                    <example>Oh well, damn U</example>
+                </antipattern>
+                <antipattern>
+                    <token/>
+                    <token/>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token case_sensitive="yes">U</token>
+                    <example>Dat is de Hyper U</example>
+                </antipattern>
                 <antipattern case_sensitive="yes">
                     <token>uur</token>
                     <token>U</token>
@@ -15933,7 +15964,6 @@ regexp case-insensitive maken: (?i)
                     <marker>
                         <token spacebefore="yes">U</token>
                     </marker>
-                    <token spacebefore="yes"/>
                 </pattern>
                 <message>Alleen bij heilige begrippen een hoofdletter, anders <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/821/</url>
@@ -15947,6 +15977,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="u">Puur natuur, als <marker>U</marker> wilt.</example>
                 <example correction="u">Informateur zult <marker>U</marker> bedoelen?</example>
                 <example correction="u">Daar kan ik <marker>U</marker> in volgen.</example>
+                <example correction="u">Ik dank <marker>U</marker>.</example>
                 <example>Ik zou graag een Wii U willen kopen.</example>
             </rule>
         </rulegroup>
