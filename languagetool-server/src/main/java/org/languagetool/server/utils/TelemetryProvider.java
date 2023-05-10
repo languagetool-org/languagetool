@@ -24,6 +24,7 @@ import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 
@@ -50,9 +51,14 @@ public enum TelemetryProvider {
    */
   public Object createSpan(String spanName, Attributes attributes, WrappedValue<?> wrappedValue) throws Exception {
     Span span = createSpan(spanName, attributes);
+    span.setStatus(StatusCode.OK);
     try (Scope scope = span.makeCurrent()) {
       return wrappedValue.call();
-    } finally {
+    } catch (Exception ex) {
+      span.recordException(ex);
+      span.setStatus(StatusCode.ERROR);
+      throw ex;
+    } finally{
       span.end();
     }
   }
@@ -65,8 +71,13 @@ public enum TelemetryProvider {
    */
   public void createSpan(String spanName, Attributes attributes, WrappedVoid wrappedVoid) throws Exception {
     Span span = createSpan(spanName, attributes);
+    span.setStatus(StatusCode.OK);
     try (Scope scope = span.makeCurrent()) {
       wrappedVoid.call();
+    } catch (Exception ex) {
+      span.recordException(ex);
+      span.setStatus(StatusCode.ERROR);
+      throw ex;
     } finally {
       span.end();
     }

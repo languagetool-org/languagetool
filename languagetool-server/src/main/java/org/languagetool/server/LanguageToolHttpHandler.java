@@ -190,6 +190,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           final String finalRemoteAddress = remoteAddress;
           Attributes attributes = Attributes.builder()
                   .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
+                  .put("request.id", requestId)
                   .build();
           TelemetryProvider.INSTANCE.createSpan("/v2", attributes, () -> apiV2.handleRequest(pathWithoutVersion, httpExchange, finalParameters, errorRequestLimiter, finalRemoteAddress, config));
         } else if (path.endsWith("/Languages")) {
