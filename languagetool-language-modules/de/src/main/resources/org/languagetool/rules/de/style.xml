@@ -1979,14 +1979,30 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="UND_SOWIE" name="'und sowie'" tags="clarity professional">
-            <rule>
+            <rule><!--1-->
+                <antipattern>
+                    <token skip="-1">sowie</token>
+                    <token>und</token>
+                    <token>sowie</token>
+                    <example>Lass uns das Beet zusammen bepflanzen, sowie ich von der Arbeit komme und sowie du die Erde besorgt hast.</example>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token>und</token>
+                    <token>sowie</token>
+                </pattern>
+                <message>Mögliche Verdoppelung.</message>
+                <suggestion>und</suggestion>
+                <suggestion>sowie</suggestion>
+                <example correction="und|sowie">Bund <marker>und sowie</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
+            </rule>
+            <rule default="temp_off"><!--2--> <!--trying a different rule structure - see rule above-->
                 <regexp case_sensitive='yes'>\bund sowie\b</regexp>
                 <message>Mögliche Verdoppelung.</message>
                 <suggestion>und</suggestion>
                 <suggestion>sowie</suggestion>
                 <example correction="und|sowie">Bund <marker>und sowie</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <regexp case_sensitive='yes'>\bsowie und\b</regexp>
                 <message>Mögliche Verdoppelung.</message>
                 <suggestion>und</suggestion>
