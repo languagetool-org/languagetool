@@ -2684,6 +2684,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
       case "up-to-date": return topMatch("up to date");
       case "falscherweise": return topMatch("fälschlicherweise");
+      case "schliesslich": return topMatch("schließlich");
+      case "Schliesslich": return topMatch("Schließlich");
       case "daß": return topMatch("dass");
       case "Daß": return topMatch("Dass");
       case "mußt": return topMatch("musst");
@@ -2727,6 +2729,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
       case "ausserdem": return topMatch("außerdem");
       case "Ausserdem": return topMatch("Außerdem");
+      case "ausser": return topMatch("außer");
+      case "Ausser": return topMatch("Außer");
       case "bischen": return topMatch("bisschen");
       case "bißchen": return topMatch("bisschen");
       case "meißt": return topMatch("meist");
