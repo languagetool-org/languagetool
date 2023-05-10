@@ -23988,9 +23988,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me han gustado mucho más los batidos.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONCORDANCIAS_ATRIBUTO" name="Concordancias entre sujeto y atributo en frases copulativas" default="temp_off">
+        <rulegroup id="CONCORDANCIAS_ATRIBUTO" name="Concordancias entre sujeto y atributo en frases copulativas">
             <antipattern>
-                <token regexp="yes" inflected="yes">resto|mayoría|vez|&dias_semana;|&meses_ano;|&unidades_tiempo;|&expresiones_tiempo;|\d{3,4}</token>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <token postag="V.P.*|A.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="CC"/>
+                    </unify-ignore>
+                    <token postag="V.P.*|A.*" postag_regexp="yes"/>
+                </unify>
+                <example>Los cisnes son hermosas y elegantes aves,</example>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token>blanco</token>
+                <token>y</token>
+                <token>negro</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token regexp="yes">mala|buena</token>
+                <token regexp="yes">hierba|cosa</token>
+            </antipattern>
+            <!--FIXME: ambiguous
+                <antipattern>
+                <token inflected="yes" regexp="yes">ser|parecer</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <example>Un tropezón no es caída.</example>
+                <example>Esas chicas parecen chicos.</example>
+            </antipattern>-->
+            <antipattern>
+                <token regexp="yes" inflected="yes">resto|mayoría|vez|&partes_dia;|&dias_semana;|&meses_ano;|&unidades_tiempo;|&expresiones_tiempo;|\d{3,4}</token>
+                <example>Esta noche fui purificado.</example>
             </antipattern>
             <antipattern>
                 <token>derecho</token>
@@ -24056,11 +24087,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- probably nouns -->
-                <token regexp="yes">escritos|individuos?|derivados?|compuestos?|resultados?|mamíferos?|anfibios?|dispositivos?|pescados?</token>
+                <token regexp="yes">pecados?|crustáceos?|escritos|individuos?|derivados?|compuestos?|resultados?|mamíferos?|anfibios?|dispositivos?|pescados?</token>
             </antipattern>
             <antipattern>
                 <!-- RG -->
-                <token>alerta</token>
+                <token regexp="yes">alerta|primero</token>
             </antipattern>
             <antipattern>
                 <!-- RG -->
@@ -24074,6 +24105,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La casa está justo arriba.</example>
                 <example>La casa está justo al lado.</example>
                 <example>La casa está justo en la plaza.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token postag="RG"/>
+                <token postag="V.P.*|A.*" postag_regexp="yes"/>
+                <token postag="V.N.*" postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <pattern>
@@ -24098,6 +24135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="alta">La calidad parecía <marker>altos</marker>.</example>
                 <example correction="casada">Su madre no estaba <marker>casado</marker>.</example>
                 <example correction="guais">Los dragones son <marker>guay</marker>.</example>
+                <example correction="traducida">Su obra ha sido <marker>traducido</marker> al sueco.</example>
                 <example>El barco fue abandonado.</example>
                 <example>La sola idea de ser enviados al extranjero les llenaba de alegría.</example>
             </rule>
@@ -24118,12 +24156,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </unify>
                 </pattern>
-                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:V.P..\b2\b1|A..[C\b1]\b2."/>
                 <message>Posible error de concordancia.</message>
                 <example correction="bonita">La casa es muy <marker>bonito</marker>.</example>
                 <example correction="bonita">La casa no es demasiado <marker>bonitos</marker>.</example>
                 <example correction="alta">La calidad parecía muy <marker>altos</marker>.</example>
                 <example correction="casada">Su madre estaba felizmente <marker>casado</marker>.</example>
+                <example>Las manzanas es más sano comerlas sin pelar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24131,7 +24170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavez"/><exception regexp="yes">.*%</exception></token>
+                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavez|V.I.*|RG" postag_regexp="yes"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
                             <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
                             <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
@@ -24141,10 +24180,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </unify>
                 </pattern>
-                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:N.(.)(.).* postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:N.(.)(.).* postagReplace:V.P..\b2\b1|A..[\b1C]\b2."/>
                 <message>Posible error de concordancia.</message>
                 <example correction="bonita">África es <marker>bonito</marker>.</example>
                 <example>Mira que es raro.</example>
+                <example>Odio estar soltera.</example>
+                <example>Procura no quedarte dormido.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24152,7 +24193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavez"/><exception regexp="yes">.*%</exception></token>
+                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavez|V.I.*|RG" postag_regexp="yes"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
                             <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
                             <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
@@ -24166,6 +24207,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:N.(.)(.).* postagReplace:V.P..\b2\b1|A..\b1\b2."/>
                 <message>Posible error de concordancia.</message>
                 <example correction="bonita">Gambia no es muy <marker>bonito</marker>.</example>
+                <example>Igual estáis tan perdidos como yo.</example>
+                <example>Y es muy extraño.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_SUBJECT_VERB" name="concordancia sujeto/verbo" default="off">
