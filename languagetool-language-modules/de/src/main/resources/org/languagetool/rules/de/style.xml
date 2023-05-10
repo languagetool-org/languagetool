@@ -414,7 +414,7 @@ USA
                 <example correction="tatsächlich|ernsthaft|wirklich|etwa">Willst du mich <marker>allen Ernstes</marker> hinausschmeißen?</example>
             </rule>
         </rulegroup>
-        <rule id="VERSEHENTLICHERWEISE" name="versehentlicherweise (versehentlich)" tags="professional clarity">
+        <rule id="VERSEHENTLICHERWEISE" name="versehentlicherweise (versehentlich)">
             <pattern>
                 <token>versehentlicherweise</token>
             </pattern>
@@ -423,7 +423,7 @@ USA
             <suggestion>aus Versehen</suggestion>
             <example correction="versehentlich|aus Versehen">Ich habe es <marker>versehentlicherweise</marker> kaputtgemacht.</example>
         </rule>
-        <rulegroup id="ICH_LIEBS" name="ich liebs (liebe es)" tags="professional clarity">
+        <rulegroup id="ICH_LIEBS" name="ich liebs (liebe es)">
             <!-- TODO:
             * gibs
             * gibts
@@ -486,7 +486,7 @@ USA
                 <example correction="gefällt es">Dir <marker>gefällts</marker>, oder?</example>
             </rule>
         </rulegroup>
-        <rule id="INS_FITNESS" name="ins Fitness (Fitnessstudio)" tags="clarity professional">
+        <rule id="INS_FITNESS" name="ins Fitness (Fitnessstudio)">
             <antipattern>
                 <token skip="1">Fitness</token>
                 <token>studio</token>
@@ -502,7 +502,7 @@ USA
             <message>Diese Redewendung ist umgangssprachlich. Meinten Sie <suggestion>ins Fitnessstudio</suggestion>?</message>
             <example correction="ins Fitnessstudio">Ich gehe <marker>ins Fitness</marker>.</example>
         </rule>
-        <rule id="ARGUMENT_ANBRINGEN" name="ein Argument anbringen" tags="professional">
+        <rule id="ARGUMENT_ANBRINGEN" name="ein Argument anbringen">
             <antipattern>
                 <token inflected="yes" skip="-1">bringen</token>
                 <token inflected="yes" skip="-1">führen</token>
@@ -523,7 +523,7 @@ USA
             <example correction="führen">Die Autoren des Artikels <marker>bringen</marker> geschickt mehrere Argumente zum Thema an.</example>
             <example>Sie bringen sich ein und führen überzeugende Argumente an.</example>
         </rule>
-        <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur" tags="clarity">
+        <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur">
             <short>Semantischer Fehler</short>
             <rule>
                 <pattern>
@@ -599,7 +599,7 @@ USA
                 <example>Das Buch handelt darum nur von Natur und Tieren.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SOWOHL_UND" name="sowohl ... und (als auch)" tags="clarity professional objective">
+        <rulegroup id="SOWOHL_UND" name="sowohl ... und (als auch)">
             <rule><!--1 und auch-->
                 <antipattern>
                     <token skip="-1">sowohl</token>
@@ -746,7 +746,7 @@ USA
                 <example correction="als auch">Ich möchte sowohl heute <marker>sowie auch</marker> morgen nicht ins Schwimmbad.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SICH_GEGENSEITIG" name="gegenseitig (einander)" tags="picky professional">
+        <rulegroup id="SICH_GEGENSEITIG" name="gegenseitig (einander)" tags="picky">
             <rule>
                 <antipattern>
                     <token skip="-1" postag="PRO:REF.*" postag_regexp="yes"/>
@@ -776,7 +776,7 @@ USA
                 <example correction="">Meine Eltern regen sich immer <marker>gegenseitig</marker> übereinander auf.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tags="picky professional" default="temp_off">
+        <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tags="picky" default="temp_off">
             <rule><!--1-->
                 <antipattern>
                     <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
@@ -918,7 +918,7 @@ USA
                 <example correction="Gleichgültig"><marker>Egal</marker> ist mir die Prüfung nicht.</example>
             </rule>
         </rulegroup>
-        <rule id="EXTRA_STIL" name="extra" tags="professional clarity" default="temp_off">
+        <rule id="EXTRA_STIL" name="extra" default="temp_off">
             <antipattern>
                 <token regexp="yes">[skm]?ein</token>
                 <token postag="(ADJ|PA[12]).*NEU.*" postag_regexp="yes" min="0" />
@@ -939,7 +939,7 @@ USA
             <suggestion>mit Absicht</suggestion>
             <example correction="vorsätzlich|gezielt|absichtlich|willentlich|mit Absicht">Ich weiß genau, dass er das <marker>extra</marker> gemacht hat.</example>
         </rule>
-        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." tags="objective clarity" >
+        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen).">
             <rule><!--1-->
                 <antipattern>
                     <token>am</token>
@@ -977,7 +977,7 @@ USA
                 <example correction="Optimal"><marker>Am optimalsten</marker> wäre es, wenn wir alle zusammen auf die Feier gehen würden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DAUERN_TUT" name="dauern tut -> dauert" tags="professional clarity">
+        <rulegroup id="DAUERN_TUT" name="dauern tut -> dauert">
             <rule>
                 <pattern>
                     <token regexp="yes">.*[a-z].*</token>
@@ -1012,7 +1012,7 @@ USA
                 <example correction="dauert">Kann ja wohl nich sein, dass das so lange <marker>dauern tut</marker></example>
             </rule>
         </rulegroup>
-        <rule id="OEFTESTEN" name="öftesten (häufigsten)" tags="professional objective">
+        <rule id="OEFTESTEN" name="öftesten (häufigsten)">
             <pattern>
                 <token>öftesten</token>
             </pattern>
@@ -1021,7 +1021,7 @@ USA
             <url>http://mediawiki.ids-mannheim.de/VarGra/index.php/Am_h%C3%A4ufigsten_/_am_%C3%B6ftesten</url>
             <example correction="häufigsten">Ich habe am <marker>öftesten</marker> das Ziel getroffen.</example>
         </rule>
-        <rulegroup id="AUF_ARBEIT" name="Auf (der) Arbeit" tags="professional clarity">
+        <rulegroup id="AUF_ARBEIT" name="Auf (der) Arbeit">
             <url>https://languagetool.org/insights/de/beitrag/in-auf-der-arbeit/</url>
             <antipattern>
                 <token regexp="yes" skip="5">.*Recht[es]?|Anspruchs?|Ansprüche|Chancen?|Lust|Bock</token>
@@ -1064,7 +1064,7 @@ USA
                 <example>Meist gut qualifizierte junge Talente ohne eine Chance auf Arbeit.</example>
             </rule>
         </rulegroup>
-        <rule id="DRUEBER" name="drüber (darüber)" tags="professional clarity">
+        <rule id="DRUEBER" name="drüber (darüber)">
             <antipattern>
                 <token skip="-1" regexp="yes">da|hier|dort|Schwamm|drunter|drauf|oben</token>
                 <token>drüber</token>
@@ -1077,7 +1077,7 @@ USA
             <example correction="darüber">Ich schaue später mal <marker>drüber</marker></example>
             <example>Ich schaue da später mal drüber</example>
         </rule>
-        <rule id="DRUNTER" name="drunter (darunter)" tags="professional clarity">
+        <rule id="DRUNTER" name="drunter (darunter)">
             <antipattern>
                 <token skip="-1" regexp="yes">da|hier|dort|Schwamm|drauf|unten|drüber</token>
                 <token>drunter</token>
@@ -1095,7 +1095,7 @@ USA
             <example>Alles geht drunter und drüber.</example>
             <example>Der Benzintank war unten drunter.</example>
         </rule>
-        <rule id="DADRAUS" name="dadraus" tags="professional clarity">
+        <rule id="DADRAUS" name="dadraus">
             <pattern>
                 <token>dadraus</token>
             </pattern>
@@ -1104,7 +1104,7 @@ USA
             <suggestion>hieraus</suggestion>
             <example correction="daraus|hieraus">Was machen wir jetzt <marker>dadraus</marker>?</example>
         </rule>
-        <rule id="DADRAN" name="dadran" tags="professional clarity">
+        <rule id="DADRAN" name="dadran">
             <pattern>
                 <token>dadran</token>
             </pattern>
@@ -1114,7 +1114,7 @@ USA
             <suggestion>dort dran</suggestion>
             <example correction="daran|da dran|dort dran">Ich bin <marker>dadran</marker> gescheitert.</example>
         </rule>
-        <rule id="DADRAUF" name="dadrauf" tags="professional clarity">
+        <rule id="DADRAUF" name="dadrauf">
             <pattern>
                 <token>dadrauf</token>
             </pattern>
@@ -1123,7 +1123,7 @@ USA
             <suggestion>dort hinauf</suggestion>
             <example correction="darauf|dort hinauf">Er ist von alleine <marker>dadrauf</marker> gekommen.</example>
         </rule>
-        <rule id="DADRINNEN" name="dadrinnen" tags="professional clarity">
+        <rule id="DADRINNEN" name="dadrinnen">
             <pattern>
                 <token>dadrinnen</token>
             </pattern>
@@ -1132,7 +1132,7 @@ USA
             <suggestion>dort drinnen</suggestion>
             <example correction="darin|dort drinnen">Er ist <marker>dadrinnen</marker> gefangen.</example>
         </rule>
-        <rule id="DADRIN" name="dadrin" tags="professional clarity">
+        <rule id="DADRIN" name="dadrin">
             <pattern>
                 <token>dadrin</token>
             </pattern>
@@ -1141,7 +1141,7 @@ USA
             <suggestion>dort drinnen</suggestion>
             <example correction="darin|dort drinnen">Er ist <marker>dadrin</marker> gefangen.</example>
         </rule>
-        <rule id="DADRUNTER" name="dadrunter" tags="professional clarity">
+        <rule id="DADRUNTER" name="dadrunter">
             <pattern>
                 <token>dadrunter</token>
             </pattern>
@@ -1151,7 +1151,7 @@ USA
             <suggestion>dort hinunter</suggestion>
             <example correction="darunter|dort drunter|dort hinunter">Ich werde mal <marker>dadrunter</marker> gucken.</example>
         </rule>
-        <rule id="DADRUEBER" name="dadrüber" tags="professional clarity">
+        <rule id="DADRUEBER" name="dadrüber">
             <pattern>
                 <token>dadrüber</token>
             </pattern>
@@ -1160,7 +1160,7 @@ USA
             <suggestion>dort drüber</suggestion>
             <example correction="darüber|dort drüber">Ich werde mal <marker>dadrüber</marker> gucken.</example>
         </rule>
-        <rule id="DADRUM" name="dadrum" tags="professional clarity">
+        <rule id="DADRUM" name="dadrum">
             <pattern>
                 <token>dadrum</token>
             </pattern>
@@ -1170,7 +1170,7 @@ USA
             <suggestion>dort drum</suggestion>
             <example correction="darum|dort herum|dort drum">Wir sollten es <marker>dadrum</marker> anders lösen.</example>
         </rule>
-        <rule id="MEHR_LIEB_ALS" name="mehr lieb -> lieber" tags="professional clarity">
+        <rule id="MEHR_LIEB_ALS" name="mehr lieb -> lieber">
             <antipattern>
                 <token>mehr</token>
                 <token regexp="yes">und|&amp;</token>
@@ -1222,7 +1222,7 @@ USA
             <example correction="lieber">Wen hast du <marker>mehr lieb</marker>, deine Mutter oder deinen Vater?</example>
             <example>Niemand hat dich mehr lieb als ich.</example>
         </rule>
-        <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen" tags="clarity objective">
+        <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen">
             <pattern>
                 <token postag="VER:MOD:.*" postag_regexp="yes" />
                 <token postag="PRO:PER.*|EIG:.*" postag_regexp="yes" min="0" />
@@ -1234,7 +1234,7 @@ USA
             <message>Standardsprachlich wird hier <suggestion>beim Suchen</suggestion> empfohlen.</message>
             <example correction="beim Suchen">Wir müssen Peter <marker>suchen</marker> helfen.</example>
         </rule>
-        <rule id="SIEBEN_TAGES_INZIDENZ" name="7-Tage-Inzidenz" tags="clarity">
+        <rule id="SIEBEN_TAGES_INZIDENZ" name="7-Tage-Inzidenz">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">(Sieben|7)-Tages-(Inzidenz(en)?|Trends?|Wochen?)</token>
             </pattern>
@@ -1242,7 +1242,7 @@ USA
             <url>https://languagetool.org/insights/de/beitrag/bindestrich-corona/#der-bindestrich-dient-zur-besseren-lesbarkeit-%E2%80%93-auch-bei-coronabegriffen</url>
             <example correction="7-Tage-Inzidenz">Die <marker>7-Tages-Inzidenz</marker> ist stark gesunken.</example>
         </rule>
-        <rulegroup id="AN_FUER_SICH" name="an für sich (an und für sich)" tags="clarity">
+        <rulegroup id="AN_FUER_SICH" name="an für sich (an und für sich)">
             <rule><!--1-->
                 <antipattern>
                     <token>sich</token>
@@ -1326,7 +1326,7 @@ USA
                 <example>Der Lösungsweg ist an und für sich schon in Ordnung.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)" tags="clarity objective">
+        <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)">
             <rule>
                 <pattern>
                     <token>mehr</token>
@@ -1358,7 +1358,7 @@ USA
                 <example correction="20.000">Wir machen mehr als <marker>20.000+</marker> Euro Umsatz.</example>
             </rule>
         </rulegroup>
-        <rule id="NIX" name="nix (nichts)" tags="professional">
+        <rule id="NIX" name="nix (nichts)">
             <!-- https://de.wikipedia.org/wiki/Nix -->
             <antipattern>
                 <token regexp="yes">Herr|Frau|SMS</token>
@@ -1386,7 +1386,7 @@ USA
             <example correction="nichts">Das ist <marker>nix</marker> für mich.</example>
             <example>Jochen Nix ist ein deutscher Schauspieler, Theaterregisseur und Hörspielsprecher.</example>
         </rule>
-        <rule id="ALLEINE" name="alleine (allein)" default="temp_off" tags="picky objective">
+        <rule id="ALLEINE" name="alleine (allein)" default="temp_off" tags="picky">
             <pattern>
                 <marker>
                     <token>alleine</token>
@@ -1397,7 +1397,7 @@ USA
             <url>https://languagetool.org/insights/de/beitrag/stil-allein-alleine/</url>
             <example correction="allein">Er lebt <marker>alleine</marker>.</example>
         </rule>
-        <rule id="NICHTSDESTOTROTZ_II" name="nichtsdestotrotz (nichtsdestoweniger)" tags="picky objective professional">
+        <rule id="NICHTSDESTOTROTZ_II" name="nichtsdestotrotz (nichtsdestoweniger)" tags="picky">
             <pattern>
                 <token>nichtsdestotrotz</token>
             </pattern>
@@ -1405,7 +1405,7 @@ USA
             <url>https://gfds.de/nichtsdestotrotz/</url>
             <example correction="Nichtsdestoweniger|Dennoch|Trotzdem"><marker>Nichtsdestotrotz</marker> ist das Thema umstritten.</example>
         </rule>
-        <rule id="DIESEN_JAHRES" name="diesen (dieses) Jahres" tags="professional objective">
+        <rule id="DIESEN_JAHRES" name="diesen (dieses) Jahres">
             <!-- eigentlich Grammatik, aber so verbreitet, dass wir es "nur" als Stilfehler sehen -->
             <pattern>
                 <token>diesen</token>
@@ -1415,7 +1415,7 @@ USA
             <url>https://languagetool.org/insights/de/beitrag/diesen-jahres/</url>
             <example correction="dieses Jahres">Im April <marker>diesen Jahres</marker> ist Ostern.</example>
         </rule>
-        <rule id="FEHLERHAFTER_SUPERLATIV" name="nicht-steigerbares Adjektiv 'ideal'" tags="clarity">
+        <rule id="FEHLERHAFTER_SUPERLATIV" name="nicht-steigerbares Adjektiv 'ideal'">
             <pattern>
                 <token regexp="yes">idealste.?</token>
             </pattern>
@@ -1423,7 +1423,7 @@ USA
             <suggestion><match no="1" regexp_match="st" regexp_replace=""/></suggestion>
             <example correction="ideale">Die <marker>idealste</marker> Lösung ist das nicht.</example>
         </rule>
-        <rule id="FEHLERHAFTER_SUPERLATIV_PREFEKT" name="nicht-steigerbares Adjektiv 'perfekt'" tags="clarity">
+        <rule id="FEHLERHAFTER_SUPERLATIV_PREFEKT" name="nicht-steigerbares Adjektiv 'perfekt'">
             <pattern>
                 <token regexp="yes">perfekteste.?</token>
             </pattern>
@@ -1431,19 +1431,19 @@ USA
             <suggestion><match no="1" regexp_match="ste" regexp_replace=""/></suggestion>
             <example correction="perfekte">Die <marker>perfekteste</marker> Lösung ist das nicht.</example>
         </rule>
-        <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'" tags="clarity objective">
+        <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'">
             <regexp>\bnicht adäquat genug\b</regexp>
             <message>Meinten Sie <suggestion>nicht adäquat</suggestion>, <suggestion>inadäquat</suggestion> oder <suggestion>unpassend</suggestion>?</message>
             <example>Das schien mir <marker>nicht adäquat</marker> (unpassend).</example>
             <example correction="nicht adäquat|inadäquat|unpassend">Das schien mir <marker>nicht adäquat genug</marker>.</example>
         </rule>
-        <rule id="MEISTE_ALLER" name="'die meisten aller ...'" tags="clarity">
+        <rule id="MEISTE_ALLER" name="'die meisten aller ...'">
             <regexp>\b(den|die) (meisten) (aller)\b</regexp>
             <message>Was halten Sie von der Formulierung: <suggestion>\1 \2 der</suggestion>?</message>
             <example correction="Die meisten der"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
         </rule>
-        <rulegroup id="PRP_WAS_WO" name="Standardsprache: 'woran' statt 'an was'" tags="clarity">
+        <rulegroup id="PRP_WAS_WO" name="Standardsprache: 'woran' statt 'an was'">
             <rule><!--1-->
                 <antipattern>
                     <token regexp="yes">,|und|aber</token>
@@ -1661,7 +1661,7 @@ USA
                 <example correction="USt-IdNr."><marker>Ust.-Id</marker>: DEXXXXXXX</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZWISCHEN_SEIT_BIS" name="'Zwischen ... bis ...'" tags="clarity professional">
+        <rulegroup id="ZWISCHEN_SEIT_BIS" name="'Zwischen ... bis ...'">
             <rule>
                 <pattern>
                     <marker>
@@ -1697,7 +1697,7 @@ USA
                 <example correction="Zwischen März und Juli|Von März bis Juli"><marker>Seit März bis Juli</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ADWORDS" name="AdWords (umbenannt zu Google Ads)" tags="clarity">
+        <rulegroup id="ADWORDS" name="AdWords (umbenannt zu Google Ads)">
             <rule>
                 <pattern>
                     <token regexp="yes">Googles?</token>
@@ -1716,7 +1716,7 @@ USA
                 <example correction="Google Ads">Wir müssen Werbung bei <marker>AdWords</marker> schalten.</example>
             </rule>
         </rulegroup>
-        <rule id="MYTAXI" name="MyTaxi (umbenannt zu Free Now)" tags="clarity">
+        <rule id="MYTAXI" name="MyTaxi (umbenannt zu Free Now)">
             <antipattern>
                 <token regexp="yes" skip="3">früher|vorher|damals|davor|ehemals|bekannt|umbenannt|hie(ß|ss)</token>
                 <token>mytaxi</token>
@@ -1746,7 +1746,7 @@ USA
             <example correction="Free Now"><marker>MyTaxi</marker> ist ein Taxi-Vermittler.</example>
             <example>Die App hieß Mytaxi bis sie Anfang Juli 2019 in „Free Now“ umbenannt wurde.</example>
         </rule>
-        <rule id="SPACEX" name="SpaceX" tags="clarity">
+        <rule id="SPACEX" name="SpaceX">
             <pattern>
                 <token>Space</token>
                 <token>X</token>
@@ -1791,7 +1791,7 @@ USA
     </category>
 
     <category id="REDUNDANCY" name="Redundanz" type="style">
-        <rule id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" tags="picky clarity">
+        <rule id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" tags="picky">
             <pattern>
                 <token inflected="yes">Hauptprotagonist</token>
             </pattern>
@@ -1802,7 +1802,7 @@ USA
             <example correction="Protagonisten|Hauptcharaktere">Die <marker>Hauptprotagonisten</marker> verlieren den Kampf um das goldene Zepter.</example>
             <example correction="Protagonisten|Hauptcharakters">Der König vereitelte die Pläne des <marker>Hauptprotagonisten</marker>.</example>
         </rule>
-        <rule id="TAEGLICHER_ALLTAG" name="täglicher Alltag" tags="clarity">
+        <rule id="TAEGLICHER_ALLTAG" name="täglicher Alltag">
             <pattern>
                 <token inflected="yes" regexp="yes">(all)?täglich</token>
                 <token>Alltag</token>
@@ -1811,7 +1811,7 @@ USA
             <suggestion>\2</suggestion>
             <example correction="Alltag">Im <marker>täglichen Alltag</marker> kommt es häufig vor.</example>
         </rule>
-        <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt" tags="clarity professional">
+        <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt">
             <pattern>
                 <token skip="-1">weltweit
                     <exception scope="next" regexp="yes">,|und|&amp;</exception>
@@ -1826,7 +1826,7 @@ USA
             <example correction="">Italdesign, eines der weltweit besten Designbüros <marker>der Welt</marker>.</example>
             <example>Sie verkaufte 300 Millionen Tonträger weltweit, damit ist sie die kommerziell erfolgreichste Sängerin der Welt.</example>
         </rule>
-        <rule id="ZENTRALER_KERNBAUSTEIN" name="zentraler Kernbaustein" tags="clarity">
+        <rule id="ZENTRALER_KERNBAUSTEIN" name="zentraler Kernbaustein">
             <pattern>
                 <token inflected="yes">zentral</token>
                 <token inflected="yes">Kernbaustein</token>
@@ -1836,7 +1836,7 @@ USA
             <suggestion>\1 <match no="2" regexp_match="Kernb" regexp_replace="B"/></suggestion>
             <example correction="Kernbausteinen|zentralen Bausteinen">Das Modul besteht aus drei <marker>zentralen Kernbausteinen</marker>.</example>
         </rule>
-        <rule id="NEBEN_MIT" name="neben mit" tags="clarity professional objective">
+        <rule id="NEBEN_MIT" name="neben mit">
             <antipattern>
                 <token>neben</token>
                 <token skip="-1">mit</token>
@@ -1850,7 +1850,7 @@ USA
             <example correction="neben|mit">Dort der Altberliner <marker>neben mit</marker> einer Flasche Bier.</example>
             <example>Neben mit einer Schwangerschaft koinzidentell in Erscheinung tretenden Zuständen wie Thromboembolie...</example>
         </rule>
-        <rulegroup id="HEILIGER_SANKT_X" name="Der heilige Sankt Peter etc." tags="professional objective">
+        <rulegroup id="HEILIGER_SANKT_X" name="Der heilige Sankt Peter etc.">
             <rule>
                 <pattern>
                     <marker>
@@ -1896,7 +1896,7 @@ USA
                 <example correction="Sankt|hl.">Die <marker>hl. Sankt</marker> Johanna der Schlachthöfe.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CA_ETWA" name="'ca. etwa'" tags="clarity">
+        <rulegroup id="CA_ETWA" name="'ca. etwa'">
             <rule>
                 <pattern>
                     <token>ca</token>
@@ -1919,7 +1919,7 @@ USA
                 <example correction="circa|etwa">Ein Würfel mit 46 Millimeter Kantenlänge und einem Abstand von <marker>zirka etwa</marker> 38 cm.</example>
             </rule>
         </rulegroup>
-        <rule id="UEBER_DARUEBER" name="'über darüber'" tags="clarity">
+        <rule id="UEBER_DARUEBER" name="'über darüber'">
             <pattern>
                 <token>über</token>
                 <token>darüber</token>
@@ -1929,7 +1929,7 @@ USA
             <suggestion>darüber</suggestion>
             <example correction="über|darüber">Und <marker>über darüber</marker> geht sein Bericht.</example>
         </rule>
-        <rule id="EHEMALIG_EX" name="ehemaliger Ex- ..." tags="clarity professional">
+        <rule id="EHEMALIG_EX" name="ehemaliger Ex- ...">
             <pattern>
                 <token regexp="yes">ehemalige[rns]?</token>
                 <token regexp="yes">Ex-.*</token>
@@ -1937,7 +1937,7 @@ USA
             <message>Mögliche Doppelung, meinten Sie <suggestion>\2</suggestion>?</message>
             <example correction="Ex-Weltmeister">Darunter auch <marker>ehemalige Ex-Weltmeister</marker>.</example>
         </rule>
-        <rule id="INNEN_HOHL" name="'innen hohl'" tags="clarity">
+        <rule id="INNEN_HOHL" name="'innen hohl'">
             <pattern>
                 <token>innen</token>
                 <token inflected="yes">hohl</token>
@@ -1945,7 +1945,7 @@ USA
             <message>&redundanz; Ein Körper kann ausschließlich auf der Innenseite hohl sein. Meinten Sie nur <suggestion>\2</suggestion>?</message>
             <example correction="hohl">Der Stamm war <marker>innen hohl</marker>.</example>
         </rule>
-        <rule id="FALSCHER_TRUGSCHLUSS" name="'falscher Trugschluss'" tags="clarity">
+        <rule id="FALSCHER_TRUGSCHLUSS" name="'falscher Trugschluss'">
             <pattern>
                 <token inflected="yes">falsch</token>
                 <token inflected="yes">Trugschluss</token>
@@ -1953,7 +1953,7 @@ USA
             <message>Ein Trugschluss ist eine falsche Annahme. Meinten Sie nur <suggestion>\2</suggestion>?</message>
             <example correction="Trugschluss">Das ist ein <marker>falscher Trugschluss</marker>.</example>
         </rule>
-        <rulegroup id="UND_ETC" name="'und etc.'" tags="clarity professional">
+        <rulegroup id="UND_ETC" name="'und etc.'">
             <rule>
                 <antipattern>
                     <token>usw</token>
@@ -1978,7 +1978,7 @@ USA
                 <example correction="et cetera">Rasenmäher <marker>und et cetera</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="UND_SOWIE" name="'und sowie'" tags="clarity professional">
+        <rulegroup id="UND_SOWIE" name="'und sowie'">
             <rule><!--1-->
                 <antipattern>
                     <token skip="-1">sowie</token>
@@ -2010,7 +2010,7 @@ USA
                 <example correction="und|sowie">Bund <marker>sowie und</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DOPPELUNG_YYXXER_JAHRE" name="19XXer Jahre des zwanzigsten Jahrhunderts" tags="clarity">
+        <rulegroup id="DOPPELUNG_YYXXER_JAHRE" name="19XXer Jahre des zwanzigsten Jahrhunderts">
             <rule><!--1-->
                 <pattern>
                     <token regexp="yes">19[1-9]0er</token>
@@ -2079,7 +2079,7 @@ USA
                 <example>In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ETC_PUNKTE" name="'etc. …'" tags="clarity">
+        <rulegroup id="ETC_PUNKTE" name="'etc. …'">
             <rule>
                 <regexp>(etc|usw)\. (…)</regexp>
                 <message>&redundanz; Ersetzen durch <suggestion>\1.</suggestion> oder <suggestion>\2</suggestion>?</message>
@@ -2087,7 +2087,7 @@ USA
                 <example correction="etc.|…">Da ist einiges zu tun <marker>etc. …</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="SCHEINT_ANSCHEINEND" name="'scheint anscheinend'" tags="clarity professional">
+        <rulegroup id="SCHEINT_ANSCHEINEND" name="'scheint anscheinend'">
             <rule>
                 <pattern>
                     <marker>
@@ -2102,7 +2102,7 @@ USA
                 <example correction="scheint">Das <marker>scheint anscheinend</marker> zu stimmen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZEITLICH_SYNCHRON" name="'zeitlich synchron'" tags="clarity">
+        <rulegroup id="ZEITLICH_SYNCHRON" name="'zeitlich synchron'">
             <rule>
                 <pattern>
                     <token>zeitlich</token>
@@ -2120,7 +2120,7 @@ USA
                 <example correction="Synchronität">Die <marker>zeitliche Synchronität</marker> herzustellen ist nicht ganz leicht.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VERDOPPELUNG" name="'meistens immer', 'schon bereits' etc." tags="clarity">
+        <rulegroup id="VERDOPPELUNG" name="'meistens immer', 'schon bereits' etc.">
             <!-- Jan: TODO – organize this into smaller rulegroups? Make a Java rule with pairs of words similar to coherency.txt? -->
             <rule><!--1-->
                 <pattern>
@@ -2352,7 +2352,7 @@ USA
                 <example correction="jederzeit|immer">Ich gehe <marker>immer jederzeit</marker> samstags einkaufen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SEMANTISCHE_BEDEUTUNG" name="'semantische Bedeutung'" tags="clarity">
+        <rulegroup id="SEMANTISCHE_BEDEUTUNG" name="'semantische Bedeutung'">
             <rule>
                 <pattern>
                     <token regexp="yes">semantische[nr]?</token>
@@ -2378,7 +2378,7 @@ USA
                 <example correction="bedeutet">Das <marker>bedeutet semantisch</marker> gar nichts.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KLEINE_-CHEN" name="'kleines Häuschen' etc." type="style" tags="clarity">
+        <rulegroup id="KLEINE_-CHEN" name="'kleines Häuschen' etc." type="style">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">kleine[ns]?</token>
@@ -2395,7 +2395,7 @@ USA
                 <example>Ich hab ein kleines Lebenszeichen gesehen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SELTENE_RARITAET" name="seltene Rarität" type="style" tags="clarity">
+        <rulegroup id="SELTENE_RARITAET" name="seltene Rarität" type="style">
             <rule>
                 <pattern>
                     <token regexp="yes">seltene[rn]?</token>
@@ -2408,7 +2408,7 @@ USA
                 <example>Eine <marker>seltene Tugend</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZEITLICHE_VERZOEGERUNG" name="zeitliche Verzögerung" type="style" tags="clarity">
+        <rulegroup id="ZEITLICHE_VERZOEGERUNG" name="zeitliche Verzögerung" type="style">
             <rule>
                 <pattern>
                     <token regexp="yes">zeitliche[rn]?</token>
@@ -2438,7 +2438,7 @@ USA
                 <example correction="verzögert">Er reagierte <marker>zeitlich verzögert</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WERTLOSER_BALLAST" name="wertloser Ballast" type="style" tags="clarity">
+        <rulegroup id="WERTLOSER_BALLAST" name="wertloser Ballast" type="style">
             <rule>
                 <pattern>
                     <token regexp="yes">(überflüssig|unnötig|unnütz|wertlos)e[mnr]?</token>
@@ -2450,7 +2450,7 @@ USA
                 <example correction="Ballast">Das ist bloß <marker>überflüssiger Ballast</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WEIBLICHE_-INNEN" name="'weibliche Benutzerin' etc." tags="clarity">
+        <rulegroup id="WEIBLICHE_-INNEN" name="'weibliche Benutzerin' etc.">
             <!-- TODO 'Magd', 'Hexe', 'Schwester', 'Tante' etc. -->
             <rule>
                 <pattern case_sensitive="yes">
@@ -2481,7 +2481,7 @@ USA
                 <example correction="Schülerinnen|Frauen|Mädchen">Die <marker>weiblichen Schülerinnen</marker> haben Sport bei Frau Müller.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="RUNDE_KUGEL" name="'runde Kugel' etc. (nur für wenige Fälle)" tags="clarity">
+        <rulegroup id="RUNDE_KUGEL" name="'runde Kugel' etc. (nur für wenige Fälle)">
             <rule>
                 <regexp>(finanzielle[mnrs]?|monetäre[mnrs]?) (Geld\w*)</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
@@ -2646,7 +2646,7 @@ USA
                 <example correction="Rappen">Die <marker>schwarzen Rappen</marker> galoppierten.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VON_WOHER" name="'von woher'" tags="clarity professional">
+        <rulegroup id="VON_WOHER" name="'von woher'">
             <rule>
                 <regexp>\b(von) (woher)\b</regexp>
                 <message>&redundanz;</message>
@@ -2657,7 +2657,7 @@ USA
                 <example>Man merkte gleich, <marker>woher</marker> sie kam.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WOHIN_HIN" name="'wohin ... hin'" tags="clarity professional">
+        <rulegroup id="WOHIN_HIN" name="'wohin ... hin'">
             <!-- TODO expect some false pos. Not covered: 'wohin ist er hingegangen' etc. – reg. expr. -->
             <rule>
                 <pattern>
@@ -2756,7 +2756,7 @@ USA
                 <example correction="Da kam er her|Daher kam er"><marker>Daher kam er her</marker>?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WAEHREND_DES_VERLAUFS" name="'während des Verlaufs'" tags="clarity">
+        <rulegroup id="WAEHREND_DES_VERLAUFS" name="'während des Verlaufs'">
             <rule>
                 <pattern>
                     <marker>
@@ -2772,7 +2772,7 @@ USA
                 <example correction="Während|Im Verlauf"><marker>Während des Verlaufs</marker> des Krieges wechselte er mehrfach die Seiten.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KAUSAL_VERURSACHT" name="'kausal verursachen'" tags="clarity">
+        <rulegroup id="KAUSAL_VERURSACHT" name="'kausal verursachen'">
             <rule>
                 <pattern>
                     <token inflected="yes">verursachen</token>
@@ -2795,7 +2795,7 @@ USA
                 <example correction="verursacht">Das hat den Unfall <marker>kausal verursacht</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ERHOEHTER_HOCHDRUCK" name="'erhöhter Bluthochdruck'" tags="clarity professional">
+        <rulegroup id="ERHOEHTER_HOCHDRUCK" name="'erhöhter Bluthochdruck'">
             <rule>
                 <regexp case_sensitive='yes'>(erhöhte[mnr]?) (Bluthochdrucks?)</regexp>
                 <message>&redundanz;</message>
@@ -2804,7 +2804,7 @@ USA
                 <example>Er leidet unter <marker>Bluthochdruck</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SYNONYME_BEDEUTUNG" name="'synonyme Bedeutung'" tags="clarity">
+        <rulegroup id="SYNONYME_BEDEUTUNG" name="'synonyme Bedeutung'">
             <rule>
                 <regexp case_sensitive='yes'>(synonyme[nr]?) (Bedeutung(en)?)</regexp>
                 <message>&unstimmig; Nicht Bedeutungen, sondern Ausdrücke sind synonym, nämlich dann, wenn sie dieselbe Bedeutung haben.</message>
@@ -2814,7 +2814,7 @@ USA
                 <example>Diese Wörter haben <marker>dieselbe Bedeutung</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ANONYMER_NAME" name="'anonymer Name'" tags="clarity">
+        <rulegroup id="ANONYMER_NAME" name="'anonymer Name'">
             <rule>
                 <regexp>anonyme[mnr]? Namen?</regexp>
                 <message>&unstimmig; Nicht Namen, sondern Personen sind anonym, nämlich dann, wenn sie ihren Namen verschweigen.</message>
@@ -2831,7 +2831,7 @@ USA
                 <example>Der <marker>Name bleibt ungenannt</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KMH_PRO_STUNDE" name="'km/h (Kilometer) pro Stunde'" tags="clarity professional">
+        <rulegroup id="KMH_PRO_STUNDE" name="'km/h (Kilometer) pro Stunde'">
             <rule>
                 <pattern>
                     <token>km</token>
@@ -2845,7 +2845,7 @@ USA
                 <example correction="km/h|Kilometer pro Stunde">Der Wagen fährt maximal 210 <marker>km/h pro Stunde</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="RECHTLICH_LEGAL" name="'rechtlich/juristisch legal'" tags="clarity">
+        <rulegroup id="RECHTLICH_LEGAL" name="'rechtlich/juristisch legal'">
             <rule>
                 <pattern>
                     <token regexp="yes">rechtlich|juristisch</token>
@@ -2860,7 +2860,7 @@ USA
                 <example>Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ENTSTAMMEN_AUS" name="'entstammt aus (entstammt)'" tags="clarity professional">
+        <rulegroup id="ENTSTAMMEN_AUS" name="'entstammt aus (entstammt)'">
             <rule>
                 <pattern>
                     <token inflected="yes">entstammen</token>
@@ -2872,7 +2872,7 @@ USA
                 <example>Sie <marker>entstammt</marker> einem guten Haus.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INMITTEN_IN_DER" name="'inmitten in der (inmitten der)'" tags="clarity">
+        <rulegroup id="INMITTEN_IN_DER" name="'inmitten in der (inmitten der)'">
             <rule>
                 <regexp>inmitten in</regexp>
                 <message>'inmitten in' ist eine Doppelung – meinten Sie <suggestion>inmitten</suggestion>?</message>
@@ -2881,7 +2881,7 @@ USA
                 <example correction="Inmitten"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ISBN-NUMMER" name="Verdoppelung bei Komposita: 'ISBN-Nummer (ISBN)' etc." tags="picky clarity">
+        <rulegroup id="ISBN-NUMMER" name="Verdoppelung bei Komposita: 'ISBN-Nummer (ISBN)' etc." tags="picky">
             <rule>
                 <regexp>SMS-Services?</regexp>
                 <message>&redundanz; 'SMS' steht u.&nbsp;a. für 'Short Message Service' – ersetzen durch <suggestion>SMS</suggestion>?</message>
@@ -2987,7 +2987,7 @@ USA
             </rule>
         </rulegroup>
         <!-- Redundante Komposita ohne Bindestrich -->
-        <rulegroup id="TROMMELREVOLVER" name="Verdoppelung bei Komposita: 'Trommelrevolver (Revolver)' etc." tags="clarity">
+        <rulegroup id="TROMMELREVOLVER" name="Verdoppelung bei Komposita: 'Trommelrevolver (Revolver)' etc.">
             <rule>
                 <regexp>Trommelrevolver[ns]?</regexp>
                 <message>Redundantes Kompositum: Ein Revolver (von engl. 'to revolve' [drehen]) zeichnet sich gerade dadurch aus, dass er im Unterschied zur Pistole über eine drehbare Trommel als Munitionskammer verfügt. Ersetzen durch <suggestion><match no="0" regexp_replace="R" regexp_match="^Trommelr"/></suggestion>?</message>
@@ -3162,7 +3162,7 @@ USA
         </rulegroup>
     </category>
     <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
-        <rule id="ERSTSEMESTERIN" name="die Erstsemesterin (das Erstsemester)" tags="objective">
+        <rule id="ERSTSEMESTERIN" name="die Erstsemesterin (das Erstsemester)">
             <pattern>
                 <marker>
                     <token postag_regexp="yes" postag="ART:(DEF|IND):(AKK|NOM|DAT):SIN:FEM"/>
@@ -3176,7 +3176,7 @@ USA
             <example correction="Ein Erstsemester"><marker>Eine Erstsemesterin</marker> stellte schüchtern eine Frage.</example>
             <example correction="ein Erstsemester">Ich bin <marker>eine Erstsemesterin</marker>.</example>
         </rule>
-        <rule id="MAENNER_VS_LEUTE" name="'Kaufmänner' etc. statt 'Kaufleute'" tags="objective professional">
+        <rule id="MAENNER_VS_LEUTE" name="'Kaufmänner' etc. statt 'Kaufleute'">
             <antipattern>
                 <token regexp="yes">zwei|beiden?</token>
                 <token regexp="yes">&maennerleute;</token>
@@ -3197,14 +3197,14 @@ USA
             <example correction="Wahlleutegremium">Die Entscheidung fällt im <marker>Wahlmännergremium</marker>.</example>
             <example>Sie hat die beiden Geschäftsmänner und weitere Personen angeklagt.</example>
         </rule>
-        <rule id="MANNSTUNDE" name="'Mannstunde' etc. statt 'Personenstunde'" tags="objective">
+        <rule id="MANNSTUNDE" name="'Mannstunde' etc. statt 'Personenstunde'">
             <pattern>
                 <token regexp="yes">Mann(stunde|tage?|wochen?|monate?|jahre?)n?|Mann(tage?s|monats|jahre?s)</token>
             </pattern>
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mann" regexp_replace="Personen"/></suggestion> besser.</message>
             <example correction="Personenstunden">Das dauert geschätzt fünf <marker>Mannstunden</marker>.</example>
         </rule>
-        <rule id="MAEDCHENNAME" name="'Mädchenname' statt 'Geburtsname'" tags="objective professional">
+        <rule id="MAEDCHENNAME" name="'Mädchenname' statt 'Geburtsname'">
             <antipattern>
                 <token postag="EIG:NOM:SIN:.+:VOR" postag_regexp="yes" skip="-1"/>
                 <token inflected="yes">Mädchenname</token>
@@ -3216,7 +3216,7 @@ USA
             <example correction="Geburtsname">Der <marker>Mädchenname</marker> meiner Mutter ist Müller.</example>
             <example>Saskia ist ein schöner Mädchenname.</example>
         </rule>
-        <rule id="PUTZFRAU" name="'Reinigungskraft' statt 'Putzfrau'" tags="objective professional clarity">
+        <rule id="PUTZFRAU" name="'Reinigungskraft' statt 'Putzfrau'">
             <pattern>
                 <token inflected="yes">Putzfrau</token>
             </pattern>
@@ -3225,7 +3225,7 @@ USA
             <example correction="Reinigungskräften">Zahlt den <marker>Putzfrauen</marker> mehr Geld!</example>
             <example correction="Reinigungskräfte">Ich hatte bisher immer nur tolle <marker>Putzfrauen</marker>.</example>
         </rule>
-        <rule id="GLEICHBEHANDLUNG" name="Gleichbehandlung: (m/w) -> (m/w/x)" tags="objective">
+        <rule id="GLEICHBEHANDLUNG" name="Gleichbehandlung: (m/w) -> (m/w/x)">
             <pattern>
                 <token>(</token>
                 <marker>
@@ -3272,7 +3272,7 @@ USA
             <url>https://www.korrekturen.de/wortliste/weitreichend.shtml</url>
             <example correction="weitreichende"> Mit seiner Amtsführung legte Adenauer den Grundstein für eine sehr <marker>weit reichende</marker> Interpretation dieses Begriffes.</example>
         </rule>
-        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren" tags="professional">
+        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren">
             <antipattern case_sensitive="yes">
                 <token>Probieren</token>
                 <token min="0">geht</token>
@@ -3304,7 +3304,7 @@ USA
                 <example correction="Probieren über Studieren">Am Ende geht <marker>probieren über studieren</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EVTL_ABK" name="Schreibweise der Abkürzung 'evtl.'" tags="professional clarity">
+        <rulegroup id="EVTL_ABK" name="Schreibweise der Abkürzung 'evtl.'">
             <url>https://www.duden.de/rechtschreibung/evtl_</url>
             <rule>
                 <pattern>
@@ -3331,7 +3331,7 @@ USA
                 <example correction="vllt.|vlt.|vl.|vll.">Aber <marker>villt.</marker> hast du recht.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GGF_ABK" name="Schreibweise der Abkürzung 'ggf.'" tags="professional clarity">
+        <rulegroup id="GGF_ABK" name="Schreibweise der Abkürzung 'ggf.'">
             <url>https://de.wiktionary.org/wiki/ggf.</url>
             <rule>
                 <pattern>
@@ -3342,7 +3342,7 @@ USA
                 <example correction="ggf.">Wir werden uns <marker>ggfs.</marker> dazu noch mal melden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GEFEATURED" name="gefeatured -> gefeaturt" tags="professional clarity">
+        <rulegroup id="GEFEATURED" name="gefeatured -> gefeaturt">
             <url>https://languagetool.org/insights/de/beitrag/englische-worter-meeten-deutsche-grammatik/</url>
             <antipattern><!-- Englische Sätze -->
                 <token regexp="yes">.+ed</token>
@@ -3390,7 +3390,7 @@ USA
                 <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'" tags="professional clarity">
+        <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'">
             <rule>
                 <pattern>
                     <token>bezgl</token>
@@ -3407,7 +3407,7 @@ USA
                 <example correction="bzgl.">Er wollte nichts sagen <marker>bezgl</marker> ihrer Frage.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AB_TEST" name="A/B-Test" tags="professional">
+        <rulegroup id="AB_TEST" name="A/B-Test">
             <url>https://de.wikipedia.org/wiki/A/B-Test</url>
             <rule>
                 <pattern case_sensitive="no">
@@ -3438,7 +3438,7 @@ USA
                 <example correction="A/B-Tester">Wir schicken das Release an all <marker>A-B-Tester</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="F_ANSTATT_PH" name="Worte mit F anstatt Ph" tags="professional clarity">
+        <rulegroup id="F_ANSTATT_PH" name="Worte mit F anstatt Ph">
             <antipattern>
                 <token skip="1" regexp="yes">the|of</token>
                 <token regexp="yes">.*ph.*</token>
@@ -3539,7 +3539,7 @@ USA
                 <example correction="Familienfotografien">Ihr gelangen immer wieder wundervolle <marker>Familienphotographien</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F" tags="professional clarity">
+        <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F">
             <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
             <rule>
                 <antipattern>
@@ -3576,7 +3576,7 @@ USA
                 <example>https://unsplash.com/photos/xxxxx</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PH_ANSTATT_F" name="Worte mit Ph anstatt F" tags="professional clarity">
+        <rulegroup id="PH_ANSTATT_F" name="Worte mit Ph anstatt F">
             <rule>
                 <antipattern>
                     <token regexp="yes">Fonograf.*</token>
@@ -3613,7 +3613,7 @@ USA
                 <example correction="phonographisches">Ein <marker>fonografisches</marker> System bietet gegenüber einem logografischen den Vorteil eines kleinen Zeicheninventars und somit der verhältnismäßig leichten Erlernung.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="I_ANSTATT_Y" name="Worte mit I anstatt Y" tags="professional clarity">
+        <rulegroup id="I_ANSTATT_Y" name="Worte mit I anstatt Y">
             <rule>
                 <pattern>
                     <token regexp="yes">[\wäöüÄÖÜß-]*oxyd[\wäöüÄÖÜß-]*</token>
@@ -3623,7 +3623,7 @@ USA
                 <example correction="Kohlendioxidvergiftung">Er zog sich eine <marker>Kohlendioxydvergiftung</marker> zu.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Z_ANSTATT_T" name="Worte mit Z anstatt T" tags="professional clarity">
+        <rulegroup id="Z_ANSTATT_T" name="Worte mit Z anstatt T">
             <url>https://languagetool.org/insights/de/beitrag/potenzial-potential-potenziell-potentiell/</url>
             <antipattern>
                 <token regexp="yes">high|low|the|an?|full|your</token>
@@ -3651,7 +3651,7 @@ USA
                 <example correction="Potenzial">Diese Erfindung hat viel <marker>Potential</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung" tags="professional clarity">
+        <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">verloreng(eh(en?|s?t)|ing(en)?|egangen(e[nrs]?)?)</token>
@@ -3792,7 +3792,7 @@ USA
                 <example correction="neu eröffnete">Ich habe mir das <marker>neueröffnete</marker> Museum angeschaut.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung" tags="professional clarity">
+        <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung">
             <rule><!--1-->
                 <pattern>
                     <marker>
@@ -4106,7 +4106,7 @@ USA
                 <example><marker>Zufrieden stellte</marker> sie das Glas auf den Tisch.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen" tags="professional clarity">
+        <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen">
             <rule>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">Nicosia.*</token>
@@ -4290,7 +4290,7 @@ USA
                 <example correction="Pfälzer Wald"><marker>Pfälzerwald</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="EMPFOHLENE_GROSS_KLEINSCHREIBUNG" name="Empfohlene Groß-/Kleinschreibung" tags="professional clarity">
+        <rulegroup id="EMPFOHLENE_GROSS_KLEINSCHREIBUNG" name="Empfohlene Groß-/Kleinschreibung">
             <url>https://languagetool.org/insights/de/beitrag/zu-recht-zurecht/</url>
             <rule>
                 <antipattern>
