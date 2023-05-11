@@ -18475,6 +18475,24 @@ regexp case-insensitive maken: (?i)
                 <example correction="WK">Het duurt een <marker>wk</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="IK_DUBBELE_HOOFDLETTER" name="IK (Ik) wil me graag aanmelden." default="temp_off">
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes">IK</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z]{1,50}</token>
+                    <example>IK DACHT HET NIET!</example>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token case_sensitive="yes">IK</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="WKW.*"></token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u <suggestion>Ik</suggestion>.</message>
+                <example correction="Ik"><marker>IK</marker> ben ziek.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VE" name="ve / van een" >
             <rule>
                 <antipattern><token postag="UNKNOWN"/><token>ve</token><token postag="UNKNOWN"/></antipattern>
