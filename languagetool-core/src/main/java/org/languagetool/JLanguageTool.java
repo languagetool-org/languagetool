@@ -981,7 +981,7 @@ public class JLanguageTool {
     }
 
     List<RuleMatch> remoteMatches = new LinkedList<>();
-    List<FutureTask<RemoteRuleResult>> remoteRuleTasks = null;
+    List<FutureTask<RemoteRuleResult>> remoteRuleTasks;
 
     List<RemoteRule> remoteRules = rules.allRules().stream()
       .filter(RemoteRule.class::isInstance).map(RemoteRule.class::cast)
@@ -1002,6 +1002,8 @@ public class JLanguageTool {
       remoteRuleTasks = new ArrayList<>();
       checkRemoteRules(remoteRules, analyzedSentences, mode, level,
         remoteRuleTasks, requestSize, cachedResults, matchOffset, textSessionID, remoteRulesThreadPool);
+    } else {
+      remoteRuleTasks = null;
     }
 
     long deadlineStartNanos = System.nanoTime();
@@ -1009,8 +1011,15 @@ public class JLanguageTool {
             paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
     long textCheckEnd = System.nanoTime();
 
-    fetchRemoteRuleResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, requestSize,
-      cachedResults, matchOffset, annotatedText, textSessionID);
+    try {
+      TelemetryProvider.INSTANCE.createSpan("fetch-remote-rules",
+        Attributes.builder().put("check.remote_rules.count", remoteRules.size()).build(),
+        () -> fetchRemoteRuleResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, requestSize,
+        cachedResults, matchOffset, annotatedText, textSessionID));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+
     long remoteRuleCheckEnd = System.nanoTime();
     if (remoteRules.size() > 0) {
       long wait = TimeUnit.NANOSECONDS.toMillis(remoteRuleCheckEnd - textCheckEnd);
