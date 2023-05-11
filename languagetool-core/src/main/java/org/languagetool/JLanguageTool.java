@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.opentelemetry.api.common.Attributes;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,6 +36,7 @@ import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.LtThreadPoolFactory;
+import org.languagetool.tools.TelemetryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -1020,8 +1022,18 @@ public class JLanguageTool {
     // decide if this should be done right after performCheck, before waiting for remote rule results
     // better for latency, remote rules probably don't need resorting
     // complications with application of other filters?
-    for (GRPCPostProcessing postProcessing : GRPCPostProcessing.get(language)) {
-      ruleMatches = postProcessing.filter(analyzedSentences, ruleMatches, textSessionID, inputLogging);
+    List<GRPCPostProcessing> postProcessingRules = GRPCPostProcessing.get(language);
+    List<RuleMatch> finalRuleMatches = ruleMatches;
+    try {
+      ruleMatches = TelemetryProvider.INSTANCE.createSpan("grpc-postprocessing", Attributes.builder().put("check.post_processing.rule_count", postProcessingRules.size()).build(), () -> {
+        List<RuleMatch> localMatches = finalRuleMatches;
+        for (GRPCPostProcessing postProcessing : postProcessingRules) {
+          localMatches = postProcessing.filter(analyzedSentences, localMatches, textSessionID, inputLogging);
+        }
+        return localMatches;
+      });
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
 
     return new CheckResults(ruleMatches, res.getIgnoredRanges());
