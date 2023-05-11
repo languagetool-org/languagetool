@@ -21,6 +21,8 @@
 
 package org.languagetool.server;
 
+import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.common.Attributes;
 import org.apache.commons.pool2.KeyedObjectPool;
 import org.apache.commons.pool2.KeyedPooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
@@ -30,6 +32,7 @@ import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.*;
+import org.languagetool.server.utils.TelemetryProvider;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,79 +117,87 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
   Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig,
                           UserConfig userConfig, List<String> disabledRuleIds)
     throws Exception { // package-private for mocking
-    Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);
-    lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
-    lt.disableRules(disabledRuleIds);
-    if (config.getLanguageModelDir() != null) {
-      lt.activateLanguageModelRules(config.getLanguageModelDir());
-    }
-    if (config.getRulesConfigFile() != null) {
-      configureFromRulesFile(lt, lang);
-    } else {
-      configureFromGUI(lt, lang);
-    }
-    if (params.regressionTestMode) {
-      List<RemoteRuleConfig> rules = Collections.emptyList();
-      try {
-        if (config.getRemoteRulesConfigFile() != null) {
-          rules = RemoteRuleConfig.load(config.getRemoteRulesConfigFile());
-        }
-      } catch (Exception e) {
-        logger.error("Could not load remote rule configuration", e);
+    Attributes attributes = Attributes.builder()
+        .put("text.language", lang.getShortCode())
+        .put("check.premium", params.premium)
+        .put("check.mode", params.mode.name())
+        .put("check.level", params.level.name())
+        .build();
+    return TelemetryProvider.INSTANCE.createSpan("createPipeline", attributes, () -> {
+      Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);
+      lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
+      lt.disableRules(disabledRuleIds);
+      if (config.getLanguageModelDir() != null) {
+        lt.activateLanguageModelRules(config.getLanguageModelDir());
       }
-      // modify remote rule configuration to avoid timeouts
-
-      // temporary workaround: don't run into check timeout, causes limit enforcement;
-      // extend timeout as long as possible instead
-      long timeout = Math.max(config.getMaxCheckTimeMillisAnonymous() - 1, 0);
-      rules = rules.stream().map(c -> {
-        RemoteRuleConfig config = new RemoteRuleConfig(c);
-        config.baseTimeoutMilliseconds = timeout;
-        config.timeoutPerCharacterMilliseconds = 0f;
-        return config;
-      }).collect(Collectors.toList());
-      lt.activateRemoteRules(rules);
-    } else {
-      lt.activateRemoteRules(config.getRemoteRulesConfigFile());
-    }
-    if (params.useQuerySettings) {
-      Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
-        new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly, params.enableTempOffRules);
-    }
-    if (userConfig.filterDictionaryMatches()) {
-      lt.addMatchFilter(new DictionaryMatchFilter(userConfig));
-    }
-    lt.addMatchFilter(new DictionarySpellMatchFilter(userConfig));
-
-    Premium premium = Premium.get();
-    if (config.isPremiumOnly()) {
-      //System.out.println("Enabling ONLY premium rules.");
-      int premiumEnabled = 0;
-      int otherDisabled = 0;
-      for (Rule rule : lt.getAllActiveRules()) {
-        if (premium.isPremiumRule(rule)) {
-          lt.enableRule(rule.getFullId());
-          premiumEnabled++;
-        } else {
-          lt.disableRule(rule.getFullId());
-          otherDisabled++;
-        }
+      if (config.getRulesConfigFile() != null) {
+        configureFromRulesFile(lt, lang);
+      } else {
+        configureFromGUI(lt, lang);
       }
-      //System.out.println("Enabled " + premiumEnabled + " premium rules, disabled " + otherDisabled + " non-premium rules.");
-    } else if (!params.premium && !params.enableHiddenRules) { // compute premium matches locally to use as hidden matches
-      if (!(premium instanceof PremiumOff)) {
+      if (params.regressionTestMode) {
+        List<RemoteRuleConfig> rules = Collections.emptyList();
+        try {
+          if (config.getRemoteRulesConfigFile() != null) {
+            rules = RemoteRuleConfig.load(config.getRemoteRulesConfigFile());
+          }
+        } catch (Exception e) {
+          logger.error("Could not load remote rule configuration", e);
+        }
+        // modify remote rule configuration to avoid timeouts
+
+        // temporary workaround: don't run into check timeout, causes limit enforcement;
+        // extend timeout as long as possible instead
+        long timeout = Math.max(config.getMaxCheckTimeMillisAnonymous() - 1, 0);
+        rules = rules.stream().map(c -> {
+          RemoteRuleConfig config = new RemoteRuleConfig(c);
+          config.baseTimeoutMilliseconds = timeout;
+          config.timeoutPerCharacterMilliseconds = 0f;
+          return config;
+        }).collect(Collectors.toList());
+        lt.activateRemoteRules(rules);
+      } else {
+        lt.activateRemoteRules(config.getRemoteRulesConfigFile());
+      }
+      if (params.useQuerySettings) {
+        Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
+          new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly, params.enableTempOffRules);
+      }
+      if (userConfig.filterDictionaryMatches()) {
+        lt.addMatchFilter(new DictionaryMatchFilter(userConfig));
+      }
+      lt.addMatchFilter(new DictionarySpellMatchFilter(userConfig));
+
+      Premium premium = Premium.get();
+      if (config.isPremiumOnly()) {
+        //System.out.println("Enabling ONLY premium rules.");
+        int premiumEnabled = 0;
+        int otherDisabled = 0;
         for (Rule rule : lt.getAllActiveRules()) {
           if (premium.isPremiumRule(rule)) {
+            lt.enableRule(rule.getFullId());
+            premiumEnabled++;
+          } else {
             lt.disableRule(rule.getFullId());
+            otherDisabled++;
+          }
+        }
+        //System.out.println("Enabled " + premiumEnabled + " premium rules, disabled " + otherDisabled + " non-premium rules.");
+      } else if (!params.premium && !params.enableHiddenRules) { // compute premium matches locally to use as hidden matches
+        if (!(premium instanceof PremiumOff)) {
+          for (Rule rule : lt.getAllActiveRules()) {
+            if (premium.isPremiumRule(rule)) {
+              lt.disableRule(rule.getFullId());
+            }
           }
         }
       }
-    }
 
-    if (pool != null) {
-      lt.setupFinished();
-    }
-    return lt;
+      if (pool != null) {
+        lt.setupFinished();
+      }
+      return lt;
+    });
   }
 
   private void configureFromRulesFile(JLanguageTool lt, Language lang) throws IOException {
