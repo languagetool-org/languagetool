@@ -21,7 +21,6 @@
 
 package org.languagetool.server;
 
-import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import org.apache.commons.pool2.KeyedObjectPool;
 import org.apache.commons.pool2.KeyedPooledObjectFactory;
@@ -32,7 +31,7 @@ import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.*;
-import org.languagetool.server.utils.TelemetryProvider;
+import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

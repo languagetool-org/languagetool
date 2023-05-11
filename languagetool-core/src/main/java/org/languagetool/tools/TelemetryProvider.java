@@ -18,7 +18,7 @@
  *  USA
  */
 
-package org.languagetool.server.utils;
+package org.languagetool.tools;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;

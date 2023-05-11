@@ -18,8 +18,10 @@
  *  USA
  */
 
-package org.languagetool.server.utils;
+package org.languagetool.tools;
 
-public interface WrappedValue <T> {
-  T call() throws Exception;
+import io.opentelemetry.api.trace.Span;
+
+public interface TracedFunction<T> {
+  T call(Span span) throws Exception;
 }
