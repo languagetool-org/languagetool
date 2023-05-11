@@ -43,11 +43,33 @@ public enum TelemetryProvider {
   /**
    * @param spanName     unique name of the span
    * @param attributes   custom attributes
+   * @param tracedFunction function called within the span
+   * @return the return value of wrappedValue function
+   * @since 6.2   * @param spanName
+   */
+  public <T> T createSpan(String spanName, Attributes attributes, TracedFunction<T> tracedFunction) throws Exception {
+    Span span = createSpan(spanName, attributes);
+    span.setStatus(StatusCode.OK);
+    try (Scope scope = span.makeCurrent()) {
+      return tracedFunction.call(span);
+    } catch (Exception ex) {
+      span.recordException(ex);
+      span.setStatus(StatusCode.ERROR);
+      throw ex;
+    } finally{
+      span.end();
+    }
+  }
+
+
+  /**
+   * @param spanName     unique name of the span
+   * @param attributes   custom attributes
    * @param wrappedValue function called within the span
    * @return the return value of wrappedValue function
    * @since 6.2   * @param spanName
    */
-  public Object createSpan(String spanName, Attributes attributes, WrappedValue<?> wrappedValue) throws Exception {
+  public <T> T createSpan(String spanName, Attributes attributes, WrappedValue<T> wrappedValue) throws Exception {
     Span span = createSpan(spanName, attributes);
     span.setStatus(StatusCode.OK);
     try (Scope scope = span.makeCurrent()) {
