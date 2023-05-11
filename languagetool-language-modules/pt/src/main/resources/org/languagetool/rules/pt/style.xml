@@ -3908,8 +3908,8 @@ USA
 
 
         <!-- O DESENVOLVIMENTO DE desenvolver -->
-        <rulegroup id="VERBAL_NOUNS_TO_VERB" name="[Simplificar] NC Verbais para V.Inf.: 'o -mento de'/'a -ção de' → '-ar/-er/-ir'" type="style" default='temp_off'>
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-09/10 (2-MAR-2023+) -->
+        <rulegroup id="VERBAL_NOUNS_TO_VERB" name="[Simplificar] NC Verbais para V.Inf.: 'o -mento de'/'a -ção de' → '-ar/-er/-ir'" type="style">
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-09/10/11 (2-MAR-2023+) -->
             <!--
 
             Subrule 1.1:
@@ -3985,8 +3985,8 @@ USA
                         <token regexp='yes'>[ao]</token>
                         <and>
                             <token regexp="yes">.+[eiou]mento
-                               <exception regexp='yes'>.+gimento</exception> <!-- -ir -->
-                               <exception regexp='yes'>comprimento|crescimento</exception> <!-- Verbal Nouns that cause issues -->
+                               <exception regexp='yes'>.+[gu]imento</exception> <!-- -ir -->
+                               <exception regexp='yes'>comprimento|crescimento|movimento</exception> <!-- Verbal Nouns that cause issues -->
                             </token>
                             <token postag='NC.+' postag_regexp='yes'/>
                         </and>
@@ -4031,7 +4031,7 @@ USA
             <rule>
                 <pattern>
                     <token postag='VMIP.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>contender|ser</exception> <!-- The verbs that are false positives -->
+                        <exception regexp='yes' inflected='yes'>contender|encontrar|provocar|ser</exception> <!-- The verbs that are false positives -->
                         <exception postag_regexp='yes' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|AQ.+|NC.+|CS|RG|VMM02S0'/>
                         <exception postag_regexp='yes' scope='previous' postag='CS|CC'/> <!-- que, também -->
                     </token>
