@@ -36,7 +36,7 @@ import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
-import org.languagetool.server.utils.TelemetryProvider;
+import org.languagetool.tools.TelemetryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

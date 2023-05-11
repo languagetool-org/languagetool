@@ -18,7 +18,7 @@
  *  USA
  */
 
-package org.languagetool.server.utils;
+package org.languagetool.tools;
 
 public interface WrappedVoid {
   void call() throws Exception;
