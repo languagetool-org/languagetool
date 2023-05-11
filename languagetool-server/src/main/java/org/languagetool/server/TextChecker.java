@@ -317,7 +317,7 @@ abstract class TextChecker {
     }
     final List<String> finalDictGroups = dictGroups;
     List<String> dictWords = limits.getPremiumUid() != null ?
-            (List<String>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX +"GetUserDictWords", Attributes.empty(), () -> getUserDictWords(limits, finalDictGroups)) : Collections.emptyList();
+      TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX +"GetUserDictWords", Attributes.empty(), () -> getUserDictWords(limits, finalDictGroups)) : Collections.emptyList();
 
     boolean filterDictionaryMatches = "true".equals(params.getOrDefault("filterDictionaryMatches", "true"));
 
@@ -383,11 +383,11 @@ abstract class TextChecker {
             Arrays.asList(params.get("noopLanguages").split(",")) : Collections.emptyList();
     List<String> preferredLangs = params.get("preferredLanguages") != null ?
             Arrays.asList(params.get("preferredLanguages").split(",")) : Collections.emptyList();
-    DetectedLanguage detLang = (DetectedLanguage) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "DetetectLanguage", Attributes.empty(), () -> getLanguage(aText.getPlainText(), params, preferredVariants, noopLangs, preferredLangs,
+    DetectedLanguage detLang = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "DetetectLanguage", Attributes.empty(), () -> getLanguage(aText.getPlainText(), params, preferredVariants, noopLangs, preferredLangs,
       params.getOrDefault("ld", "control").equalsIgnoreCase("test")));
     Language lang = detLang.getGivenLanguage();
 
-    List<Rule> userRules = (List<Rule>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
+    List<Rule> userRules = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
     boolean isMultiLangEnabled = false;
     //only enable this feature with parameter
     if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
@@ -498,56 +498,65 @@ abstract class TextChecker {
             .put("userRules.size", userRules.size())
             .put("dictionary.size", dictWords.size())
             .build();
-    try {
-      if (limits.getMaxCheckTimeMillis() < 0) {
-        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", textCheckingAttributes, () -> future.get());
-      } else {
-        res = (List<CheckResults>) TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", textCheckingAttributes, () -> future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS));
-      }
-    } catch (ExecutionException e) {
-      future.cancel(true);
-      if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
-      }
-      if (qParams.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
-          "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
-          params, System.currentTimeMillis()-timeStart, reqCounter));
-        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-        incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
-      } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
-        throw (OutOfMemoryError)e.getCause();
-      } else {
-        throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + ", detected: " + detLang, e);
-      }
-    } catch (TimeoutException e) {
-      boolean cancelled = future.cancel(true);
-      Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
-      String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
-      if (errorRequestLimiter != null) {
-        errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), params);
-      }
-      String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
-                       " milliseconds (cancelled: " + cancelled +
-                       ", lang: " + lang.getShortCodeWithCountryAndVariant() +
-                       ", detected: " + detLang +
-                       ", #" + count +
-                       ", " + length + " characters of text" +
-                       ", mode: " + mode.toString().toLowerCase() +
-                       ", h: " + reqCounter.getHandleCount() +
-                       ", r: " + reqCounter.getRequestCount() +
-                       ", requestId: " + requestId +
-                       ", system load: " + loadInfo + ")";
-      if (qParams.allowIncompleteResults) {
-        log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
-        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-        incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
-                String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
-      } else {
-        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
-        throw new RuntimeException(message, e);
-      }
-    }
+    Integer finalCount = count;
+    Map.Entry<List<CheckResults>, String> resAndReason = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", textCheckingAttributes, (span) -> {
+        List<CheckResults> localRes;
+        String localReason = null;
+        try {
+          if (limits.getMaxCheckTimeMillis() < 0) {
+            localRes = future.get();
+          } else {
+            localRes = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
+          }
+        } catch (ExecutionException e) {
+          future.cancel(true);
+          if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+            ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
+          }
+          if (qParams.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+            log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
+              "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
+              params, System.currentTimeMillis() - timeStart, reqCounter));
+            localRes = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+            localReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
+          } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
+            throw (OutOfMemoryError) e.getCause();
+          } else {
+            throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + ", detected: " + detLang, e);
+          }
+        } catch (TimeoutException e) {
+          boolean cancelled = future.cancel(true);
+          Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
+          String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
+          if (errorRequestLimiter != null) {
+            errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), params);
+          }
+          String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
+            " milliseconds (cancelled: " + cancelled +
+            ", lang: " + lang.getShortCodeWithCountryAndVariant() +
+            ", detected: " + detLang +
+            ", #" + finalCount +
+            ", " + length + " characters of text" +
+            ", mode: " + mode.toString().toLowerCase() +
+            ", h: " + reqCounter.getHandleCount() +
+            ", r: " + reqCounter.getRequestCount() +
+            ", requestId: " + requestId +
+            ", system load: " + loadInfo + ")";
+          if (qParams.allowIncompleteResults) {
+            log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+            localRes = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+            localReason = "Results are incomplete: text checking took longer than allowed maximum of " +
+              String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis() / 1000.0) + " seconds";
+            span.setAttribute("incompleteResults", true);
+          } else {
+            ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
+            throw new RuntimeException(message, e);
+          }
+        }
+        return new AbstractMap.SimpleEntry(localRes, localReason);
+      });
+    res = resAndReason.getKey();
+    incompleteResultReason = resAndReason.getValue();
 
     // no lazy computation at later points (outside of timeout enforcement)
     // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
