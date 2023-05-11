@@ -43,7 +43,9 @@ public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRul
     assertNoMatch("Eins zwei drei vier fünf sechs.", rule, lt);
     //  Words after colon are treated like a separate sentence
     assertNoMatch("Ich zähle jetzt: \"Eins zwei drei vier fünf sechs.\"", rule, lt);
-    
+    assertNoMatch("Peter, bist du bereit?” Er nickte nur.\n", rule, lt);
+    assertNoMatch("Peter, du bist bereit.” Er nickte nur.\n", rule, lt);
+
     assertMatch("Eins zwei drei vier fünf sechs sieben.", 0, 37, rule, lt);
     assertMatch("Eins zwei drei vier fünf (sechs sieben) acht.", 0, 44, rule, lt);
     assertMatch("Ich zähle jetzt: Eins zwei drei vier fünf sechs sieben.", 0, 54, rule, lt);

@@ -22,7 +22,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.UserConfig;
-import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -30,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * A rule that warns on long sentences.
@@ -38,7 +38,9 @@ import java.util.ResourceBundle;
 public class LongSentenceRule extends TextLevelRule {
 
   public static final String RULE_ID = "TOO_LONG_SENTENCE";
-  
+
+  private static final Pattern QUOTED_SENT_END = Pattern.compile("[?!.][\"“”„»«]", Pattern.DOTALL);
+
   private final ResourceBundle messages;
   private final int maxWords;
 
@@ -89,6 +91,10 @@ public class LongSentenceRule extends TextLevelRule {
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
       if (tokens.length < maxWords) {   // just a short-circuit
+        pos += sentence.getCorrectedTextLength();
+        continue;
+      }
+      if (QUOTED_SENT_END.matcher(sentence.getText()).find()) {
         pos += sentence.getCorrectedTextLength();
         continue;
       }
