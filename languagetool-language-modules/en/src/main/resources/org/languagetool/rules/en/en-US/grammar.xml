@@ -644,6 +644,7 @@ USA
         </rule>
 
         <rulegroup id="HAVE_A_LOOK" name="have a look → take a look">
+            <short>British spelling</short>
             <antipattern>
                 <token skip="5">on</token>
                 <token inflected="yes" regexp="yes">face|eye</token>
@@ -652,9 +653,28 @@ USA
             <antipattern>
                 <token>look</token>
                 <token>on</token>
+                <token min="0">,</token>
                 <token regexp="yes">that|which</token>
                 <example>She had a look on that nobody will ever forget.</example>
             </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="CC|PCT|SENT_START" postag_regexp="yes" />
+                    <token regexp="yes">have|has|had</token>
+                    <token min="0">n't</token>
+                    <token postag="PRP_S.*|NNP" postag_regexp="yes" />
+                    <marker>
+                        <token chunk_re=".-VP">had</token>
+                        <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
+                        <token chunk_re="E-NP.*">look</token>
+                    </marker>
+                    <token regexp="yes" skip="-1">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
+                </pattern>
+                <message>In American English, "take a look" is more commonly used.</message>
+                <suggestion>taken \6 \7 \8</suggestion>
+                <example correction="taken a look">Have you <marker>had a look</marker>?</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token inflected="yes" regexp="yes" skip="5">have|be</token>
@@ -667,31 +687,28 @@ USA
                     <marker>
                         <token chunk_re=".-VP">had</token>
                         <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
                         <token chunk_re="E-NP.*">look</token>
                     </marker>
                     <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
                 </pattern>
                 <message>In American English, "take a look" is more commonly used.</message>
-                <suggestion>took \4 \5</suggestion>
+                <suggestion>took \4 \5 \6</suggestion>
                 <example correction="took a look">I recently <marker>had a look</marker> at it.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token inflected="yes" regexp="yes" skip="5">have|be</token>
-                    <token skip="2">had</token>
-                    <token>look</token>
-                </antipattern>
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
                         <token chunk_re=".-VP">had</token>
                         <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
                         <token chunk_re="E-NP.*">look</token>
                     </marker>
                     <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
                 </pattern>
                 <message>In American English, "take a look" is more commonly used.</message>
-                <suggestion>took \3 \4</suggestion>
+                <suggestion>took \3 \4 \5</suggestion>
                 <example correction="Took a look"><marker>Had a look</marker> at it and agree that it doesn't work.</example>
             </rule>
             <rule>
@@ -701,12 +718,13 @@ USA
                     <marker>
                         <token chunk_re=".-VP">had</token>
                         <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
                         <token chunk_re="E-NP.*">look</token>
                     </marker>
                     <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
                 </pattern>
                 <message>In American English, "take a look" is more commonly used.</message>
-                <suggestion>taken \4 \5</suggestion>
+                <suggestion>taken \4 \5 \6</suggestion>
                 <example correction="taken a look">I've <marker>had a look</marker> at it.</example>
             </rule>
             <rule>
@@ -717,12 +735,13 @@ USA
                             <exception>had</exception><!-- see rules above -->
                         </token>
                         <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
                         <token chunk_re="E-NP.*">look</token>
                     </marker>
                     <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
                 </pattern>
                 <message>In American English, "take a look" is more commonly used.</message>
-                <suggestion><match no="1" postag="VB.*" postag_regexp="yes">take</match> \2 \3</suggestion>
+                <suggestion><match no="1" postag="VB.*" postag_regexp="yes">take</match> \2 \3 \4</suggestion>
                 <example correction="take a look">I promise that I will <marker>have a look</marker> later.</example>
             </rule>
         </rulegroup>
