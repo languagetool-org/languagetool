@@ -307,9 +307,12 @@ public class Catalan extends Language {
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
       for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {
         String newReplStr = suggestedReplacement.getReplacement();
-        if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")
-            && !newReplStr.endsWith(" ")) {
+        if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
           newReplStr = newReplStr + " ";
+        }
+        if (errorStr.length() > 2 && (errorStr.startsWith("l ")
+            || errorStr.startsWith("ls ")) && (newReplStr.startsWith("la ") || newReplStr.startsWith("les"))) {
+          newReplStr = " " + newReplStr;
         }
         if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
           newReplStr = newReplStr.replace("'", "’");
