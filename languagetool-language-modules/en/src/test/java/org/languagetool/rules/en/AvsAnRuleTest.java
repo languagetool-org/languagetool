@@ -169,6 +169,14 @@ public class AvsAnRuleTest {
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
 
+    matches = rule.match(lt.getAnalyzedSentence("a “industry standard”."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("a ‘industry standard’."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+
     matches = rule.match(lt.getAnalyzedSentence("a - industry standard\"."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
