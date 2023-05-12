@@ -18362,6 +18362,45 @@ USA
         </rulegroup>
 
 
+        <rulegroup id="AJUDAR_AUXILIAR" name="[Universitário][Científico] ajudar → auxiliar" type='style' tags='picky' default='temp_off'>
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-12 (2-MAR-2023+) -->
+            <!--
+            SUBRULE 1:
+            Agradecemos a todos pela ajuda dada/prestada. → Agradecemos a todos pelo auxílio prestado.
+
+            SUBRULE 2:
+            Isto serve para ajudar na tomada de decisão. → Isto serve para auxiliar na tomada de decisão. 
+            -->
+
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>pela</token>
+                        <token>ajuda</token>
+                        <token regexp='yes'>dada|prestada</token>
+                    </marker>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
+                <suggestion>pelo auxílio prestado</suggestion>
+                <example correction="pelo auxílio prestado">Agradecemos a todos <marker>pela ajuda dada</marker>.</example>
+                <example correction="pelo auxílio prestado">Agradecemos a todos <marker>pela ajuda prestada</marker>.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>para</token>
+                    <marker>
+                        <token inflected='yes'>ajudar</token>
+                    </marker>
+                    <token regexp='yes'>[ao]s?|n[ao]s?</token>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
+                <suggestion><match no='2' postag='V.+' postag_regexp='yes'>auxiliar</match></suggestion>
+                <example correction="auxiliar">Isto serve para <marker>ajudar</marker> na tomada de decisão.</example>
+            </rule>
+        </rulegroup>
+
+
         <rulegroup id='PHD_TESE_PERÍFRASES_AFIRMATIVAS' name="[Universitário] Perífrases afirmativas: 'o que pretendemos saber é a' → 'o objetivo é saber a'" type='style'>
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-19 (2-MAR-2023+) -->
             <!--
