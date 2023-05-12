@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.CircuitBreakers;
 import org.languagetool.tools.LtThreadPoolFactory;
@@ -64,8 +65,13 @@ public abstract class RemoteRule extends Rule {
   protected final JLanguageTool lt;
   protected final Pattern suppressMisspelledMatch;
   protected final Pattern suppressMisspelledSuggestions;
-
+  protected final UserConfig userConfig;
+  
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
+    this(language, messages, config, inputLogging, ruleId, null);
+  }
+
+  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId, UserConfig userConfig) {
     super(messages);
     serviceConfiguration = config;
     this.ruleLanguage = language;
@@ -96,6 +102,7 @@ public abstract class RemoteRule extends Rule {
     } catch(PatternSyntaxException e) {
       throw new IllegalArgumentException("suppressMisspelledSuggestions must be a valid regex", e);
     }
+    this.userConfig = userConfig;
   }
 
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
