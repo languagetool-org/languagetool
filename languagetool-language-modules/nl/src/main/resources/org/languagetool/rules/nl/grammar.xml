@@ -18124,6 +18124,10 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rulegroup id="DE_IPV_HET" name="De i.p.v. het">
+            <antipattern>
+                <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:EKV"/><token spacebefore="no">(</token>
+                <example>De bestand(en)</example>
+            </antipattern>
             <antipattern><token>de</token><token regexp="yes">begin|eind|medio</token><token regexp="yes">[12][0-9]{3}</token><token postag="WKW:VTD:VRB"/></antipattern>
             <antipattern><token>de</token><token>nummer</token><token regexp="yes">(één|een).*</token></antipattern>
             <antipattern><token>de</token><token case_sensitive="yes">EEG</token></antipattern><!-- het eeg vs de EEG -->
