@@ -167,6 +167,7 @@ public class WordListValidatorTest {
           "Łódź",
           "Ørsted",
           "Samsø/S",
+          "Kılıçdaroğlu/S",
           "Sønderborg/S",
           "Sønderborg",
           "Mirotić",
