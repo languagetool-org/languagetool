@@ -1672,6 +1672,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
+                <pattern>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <example correction="">In the current release we are limited to values up <marker>to</marker> 65535 I believe.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token skip="-1">but</token>
                     <token postag="PRP_R.*" postag_regexp="yes" />
