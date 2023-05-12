@@ -1614,6 +1614,19 @@ class CaseRuleAntiPatterns {
       csRegex("Inneren|Äu(ss|ß)eren")
     ),
     Arrays.asList(
+      // denke aber, dass die das machen werden.
+      csRegex("ob|dass|weswegen|damit|sofern"),
+      csRegex("wir|[Ss]ie|ich|er|die|der|es|du|ihr"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      csRegex("ob|dass|weswegen|damit|sofern"),
+      posRegex("EIG.*|UNKNOWN"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
       // Filme drehen muss mir Spaß machen, und das machen Organisation, Finanzierung, Logistik nicht, deswegen sind meine Filme nicht aufwändig.
       csRegex("und|oder|&"),
       csToken("das"),
