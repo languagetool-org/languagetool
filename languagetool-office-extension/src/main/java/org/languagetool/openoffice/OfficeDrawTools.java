@@ -144,6 +144,9 @@ public class OfficeDrawTools {
    */
   public static boolean isImpressDocument(XComponent xComponent) {
     XServiceInfo xInfo = UnoRuntime.queryInterface(XServiceInfo.class, xComponent);
+    if (xInfo == null) {
+      return false;
+    }
     return xInfo.supportsService("com.sun.star.presentation.PresentationDocument");
   }
 

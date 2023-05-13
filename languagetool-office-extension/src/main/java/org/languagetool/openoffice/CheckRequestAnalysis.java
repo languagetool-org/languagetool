@@ -111,7 +111,7 @@ class CheckRequestAnalysis {
   int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
     //  test if doc cache has changed --> actualize
     if (!docCache.isActual(documentElementsCount)) {
-      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
+//      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromSortedTextId: cache actualized, documentElementsCount: " + documentElementsCount);
@@ -119,8 +119,9 @@ class CheckRequestAnalysis {
     }
     int paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
     //  if number of paragraph < 0 --> actualize doc cache and try again
+//    if (paraNum < 0 || docCache.nearestParagraphHasChanged(paraNum, singleDocument.getFlatParagraphTools())) {
     if (paraNum < 0) {
-      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
+//      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
       paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
       if (debugMode > 0) {
@@ -135,7 +136,7 @@ class CheckRequestAnalysis {
       List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara);
       
       if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
-        singleDocument.getFlatParagraphTools().getFlatParagraphAt(paraNum);
+//        singleDocument.getFlatParagraphTools().getFlatParagraphAt(paraNum);
         handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
       }
     }
@@ -714,12 +715,14 @@ class CheckRequestAnalysis {
         startTime1 = System.currentTimeMillis();
       }
       nPara = flatPara.getCurNumFlatParagraph();
+/*
       if (nPara < 0) {
         nPara = flatPara.resetFlatParagraphsAndGetCurNum(true);
         if (debugMode > 0) {
           MessageHandler.printToLogFile("CheckRequestAnalysis: changesInNumberOfParagraph: nPara < 0 reset flatparas, new npara: " + nPara);
         }
       }
+*/
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime1;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -747,8 +750,9 @@ class CheckRequestAnalysis {
         MessageHandler.printToLogFile("Time to run changesInNumberOfParagraph (docCache.isEqualCacheSize): " + runTime);
       }
     }
-    if (nFParas == docCache.size()) {
+//    if (nFParas == docCache.size() && !docCache.nearestParagraphHasChanged(nPara, flatPara)) {
 //    if (isEqualCache) {
+    if (nFParas == docCache.size()) {
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -875,7 +879,7 @@ class CheckRequestAnalysis {
         return startPara;
       }
     } else if (startPos == 0) {
-      startPara = startPara >= docCache.size() ? 0 : startPara + 1;
+      startPara = startPara >= docCache.size() - 1 ? 0 : startPara + 1;
       if (startPara >= 0 && startPara < docCache.size() && docCache.isEqual(startPara, paraStr, locale)) {
         TextParagraph tPara = docCache.getNumberOfTextParagraph(startPara);
         if (tPara != null && tPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN && tPara.number >= 0) {
@@ -887,7 +891,7 @@ class CheckRequestAnalysis {
       //  check if paragraph is next shape, text or table
       for (int type = 3; type < numLastFlPara.size() - 1; type++) {
         int docPara = numLastFlPara.get(type);
-        docPara = docPara >= docCache.textSize(type) ? 0 : docPara + 1;
+        docPara = docPara >= docCache.textSize(type) - 1 ? 0 : docPara + 1;
         startPara = docCache.getFlatParagraphNumber(new TextParagraph(type, docPara));
         if (startPara >= 0 && startPara < docCache.size() && docCache.isEqual(startPara, paraStr, locale)) {
           numLastFlPara.set(type, docPara);
