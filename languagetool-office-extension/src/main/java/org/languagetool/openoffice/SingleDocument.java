@@ -1312,7 +1312,7 @@ class SingleDocument {
       }
     }
   }
-  
+/*  
   public void resetCheck(XProofreadingIterator xProofreadingIterator) {
     if (docType == DocumentType.WRITER) {
       try {
@@ -1323,7 +1323,7 @@ class SingleDocument {
       }
     }
   }
-  
+*/  
   private void setDokumentListener(XComponent xComponent) {
     try {
       if (!disposed && xComponent != null && eventListener == null) {
