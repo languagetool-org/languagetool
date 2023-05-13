@@ -490,6 +490,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rulegroup id="RESPUESTO" name="repuesto -> respondido, respuesta">
+            <url>https://www.rae.es/dpd/responder#1</url>
+            <rule>
+                <pattern>
+                    <or>
+                        <token inflected="yes">haber</token>
+                        <token>lo</token>
+                    </or>
+                    <marker>
+                        <token>respuesto</token>
+                    </marker>
+                </pattern>
+                <message>El participio de responder es <suggestion>respondido</suggestion>.</message>
+                <example correction="respondido">Aún no me ha <marker>respuesto</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..[FC][SN]." postag_regexp="yes"><exception>lo</exception></token>
+                    <marker>
+                        <token>respuesto</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>respuesta</suggestion> (sustantivo femenino)?</message>
+                <example correction="respuesta">Su <marker>respuesto</marker> es absurda.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>respuesto</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>respondido</suggestion> (participio) o <suggestion>respuesta</suggestion> (sustantivo femenino)?</message>
+                <example correction="Respondido|Respuesta"><marker>Respuesto</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="ENMEDIO" name="enmedio">
             <antipattern case_sensitive="yes">
                 <token><exception postag="SENT_START"/></token>
@@ -24032,7 +24065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes" regexp="yes">ser|parecer</token>
                 <token postag="N.*" postag_regexp="yes"/>
-                <token postag="A.*|V.P.*"/>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 <example>Esas chicas parecen chicos malos.</example>
                 <example>Los activos financieros son medidas cuantitativas.</example>
             </antipattern>
