@@ -4811,11 +4811,22 @@ USA
 
         <!-- AMBIENTE QUE SE VIVE ambiente vivido -->
         <rule id='QUE_SE_VERBO_TIPO_VIVE_PART_PASSADO' name="[Simplificar] 'Que se V.Tipo.Vive(m)' → 'V.Part.Pass.'" type="style">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-03 (2-MAR-2023+) -->
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-03/14 (2-MAR-2023+) -->
             <!--
       O ambiente que se vive na escola é péssimo. → O ambiente vivido na escola é péssimo.
       Os ambientes que se vivem na escola são péssimos. → Os ambientes vividos na escola são péssimos.
       -->
+
+            <antipattern>
+                <token>que</token>
+                <token>se</token>
+                <token postag='VMIP3.+' postag_regexp='yes'/>
+                <token regexp='yes'>às?</token>
+                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>Temos as leoas que se movem à procura de alimento.</example>
+            </antipattern>
+
             <pattern>
                 <token postag='DA.+|DI.+|CC' postag_regexp='yes'>
                     <exception postag_regexp='no' postag='SPS00'/>
