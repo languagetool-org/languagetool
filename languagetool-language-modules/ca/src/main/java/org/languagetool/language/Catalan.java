@@ -310,12 +310,14 @@ public class Catalan extends Language {
         if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
           newReplStr = newReplStr + " ";
         }
-        if (errorStr.length() > 2 && (errorStr.startsWith("l ")
-            || errorStr.startsWith("ls ")) && (newReplStr.startsWith("la ") || newReplStr.startsWith("les"))) {
-          newReplStr = " " + newReplStr;
-        }
         if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
           newReplStr = newReplStr.replace("'", "’");
+        }
+        if (enabledRules.contains("EXIGEIX_POSSESSIUS_U") && newReplStr.length() > 3) {
+          Matcher m = POSSESSIUS_v.matcher(newReplStr);
+          newReplStr = m.replaceAll("$1u$2");
+          Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
+          newReplStr = m2.replaceAll("$1U$2");
         }
         // s = adaptContractionsApostrophes(s);
         Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
@@ -367,6 +369,10 @@ public class Catalan extends Language {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES6 = Pattern.compile("\\bs'e(ns|ls)\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern POSSESSIUS_v = Pattern.compile("\\b([mtsMTS]e)v(a|es)\\b",
+      Pattern.UNICODE_CASE);
+  private static final Pattern POSSESSIUS_V = Pattern.compile("\\b([MTS]E)V(A|ES)\\b",
+      Pattern.UNICODE_CASE);
 
   @Override
   public String adaptSuggestion(String s) {
