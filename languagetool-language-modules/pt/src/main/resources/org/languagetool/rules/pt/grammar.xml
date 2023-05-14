@@ -13026,6 +13026,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <message>Erro de concordância de número: <suggestion><match no='2' postag_regexp= "yes" postag="(N.)FP(.+)" postag_replace="$1FS$2"/></suggestion></message>
       <example correction="vaca">A <marker>vacas</marker> está no pasto.</example>
       </rule-->
+
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
+      -->
+
+            <!-- MARCOAGPINTO 2023-05-14 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+            <antipattern>
+                <token postag='(SPS00:)?[DP][ADIPRT]..[SN].+' postag_regexp='yes'/>
+                <token postag='NP.S.+' postag_regexp='yes'/>
+                <token postag='VM[FIMS]..S.+' postag_regexp='yes'/>
+                <example>O Boids peca por ser interessante.</example>
+                <example>Se fosse disputado por pontos corridos, o Santos estava bem à frente de seus concorrentes.</example>
+                <example>O Fransérgio estava no banco e o Novais titular, o Fransérgio pegou no lugar, jogou bem e não saiu.</example>
+                <example>O Santos fazia excursões semestrais à Europa, em detrimento a Libertadores.</example>
+                <example>O Marcos conhecia bem o aeroporto. Ele foi direto até a alfândega.</example>
+                <example>Desde quando o Marcos mora aqui?</example>
+                <example>Se o CD contém código inicializável, o BIOS designará um número de dispositivo para o drive de CD.</example>
+            </antipattern>
+            <!-- MARCOAGPINTO 2023-05-14 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+
             <rule>
                 <pattern>
                     <token>as</token>
