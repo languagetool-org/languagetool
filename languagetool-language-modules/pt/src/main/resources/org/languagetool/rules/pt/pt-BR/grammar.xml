@@ -728,12 +728,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <!-- MARCOAGPINTO 2021-04-05 (17-MAR-2021+) *END* -->
       <pattern>
         <marker>
-          <token>daqui</token>
+          <token skip="3">daqui</token>
         </marker>
-        <token negate="yes">a
-          <exception postag="C.+" postag_regexp="yes"/>
-          <exception regexp='yes'>[.,!?;():]|são|o</exception> <!-- MARCOAGPINTO 2021-04-05 (Enhanced) (17-MAR-2021+) -->
-        </token>
+        <token postag="Z.+|DI.+" postag_regexp="yes">
+          <exception regexp="yes">tod[ao]s?</exception></token>
       </pattern>
       <message>O advérbio daqui é usado para indicar lugar ou tempo e pede a preposição a. Substitua &quot;daqui&quot; por <suggestion>daqui a</suggestion>.</message>
       <example correction="daqui a">Farei o pagamento <marker>daqui</marker> 5 dias.</example>
