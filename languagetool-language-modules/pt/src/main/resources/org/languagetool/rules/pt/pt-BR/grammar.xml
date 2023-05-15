@@ -521,8 +521,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="CHEGAMOS_EM_BR" name="Chegamos a">
       <pattern>
-        <token>chegamos</token>
-        <token>em</token>
+        <marker>
+          <token>chegamos</token>
+          <token>em</token>
+        </marker>
+        <token regexp="yes">\p{Lu}\p{Ll}.*</token>
       </pattern>
       <message>O verbo de movimento chegar exige a preposição A. Substitua &quot;chegamos em&quot; por <suggestion>chegamos a</suggestion>.</message>
       <example correction="chegamos a">Nós <marker>chegamos em</marker> São Paulo.</example>
