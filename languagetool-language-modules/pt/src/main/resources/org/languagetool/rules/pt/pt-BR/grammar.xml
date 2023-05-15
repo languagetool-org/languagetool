@@ -599,8 +599,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="SOMOS_EM_BR" name="Somos">
       <pattern>
-        <token>Somos</token>
-        <token>em</token>
+        <marker>
+          <token>Somos</token>
+          <token>em</token>
+        </marker>
+        <or>
+          <token postag="Z.+" postag_regexp="yes"/>
+          <token regexp="yes">\d.+</token>
+        </or>
       </pattern>
       <message>Substitua &quot;somos em&quot; por <suggestion>somos</suggestion>.</message>
       <example correction="Somos"><marker>Somos em</marker> cinco auditores na empresa.</example>
