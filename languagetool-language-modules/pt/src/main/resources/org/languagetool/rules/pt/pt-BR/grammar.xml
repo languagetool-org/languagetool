@@ -423,7 +423,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="ALERTAS_BR" name="Alerta">
       <pattern>
-        <token>alertas</token>
+        <token negate_pos="yes" postag="D...P.+|SPS00:....P.+" postag_regexp="yes"/>
+        <marker>
+          <token>alertas</token>
+        </marker>
+        <token negate_pos="yes" postag="A...P.+" postag_regexp="yes"/>
       </pattern>
       <message>Alerta é invariável para indicar número ou gênero com exceção de quando está acompanhado de um artigo (Ex: os).
         Substitua &quot;alertas&quot; por <suggestion>alerta</suggestion>.</message>
