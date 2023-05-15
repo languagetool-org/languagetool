@@ -29312,7 +29312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O Tom não faz nada além de assistir à TV o dia inteiro.</example>
                 <example>Assistir à TV é um dos meus passatempos favoritos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>a</token>
                     <token min="0" postag="RG|DI.+" postag_regexp='yes'/>
@@ -29352,6 +29352,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>dia</token>
                 </antipattern>
                 <antipattern>
+                    <token>passo</token>
+                    <token>a</token>
+                    <token>passo</token>
+                </antipattern>
+                <antipattern>
                     <token>tempos</token>
                     <token>a</token>
                     <token>tempos</token>
@@ -29361,6 +29366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>a</token>
                     <token>ano</token>
                 </antipattern>
+
                 <antipattern>
                     <token postag="Z.+" postag_regexp="yes"/>
                     <token>a</token>
@@ -29377,14 +29383,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </antipattern>
                 <antipattern>
                     <token>a</token>
+                    <token min="0">seu</token>
                     <token>tempo</token>
+                </antipattern>
+                <antipattern>
+                    <token>mês</token>
+                    <token>a</token>
+                    <token>mês</token>
                 </antipattern>
                 <antipattern>
                     <token>a</token>
                     <token>um</token>
                     <token>segundo</token>
-                    <token postag="N.+" postag_regexp="yes"/>
+                    <token postag="N.+|AQ0MS0" postag_regexp="yes"/>
                     <example>Se candidatou a um segundo mandato</example>
+                    <example>Dizendo que "passaria a um segundo plano no âmbito público"</example>
                 </antipattern>
                 <antipattern>
                     <token>a</token>
@@ -29413,6 +29426,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
                     <token regexp="yes">&expressoes_de_tempo;</token>
                     <example>Por um período inferior a seis meses</example>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token min="0" postag="RG|DI.+" postag_regexp='yes'/>
+                    <token min="0" postag="SPS00"/>
+                    <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+                    <token regexp="yes">anos?</token>
+                    <token min="0">-</token>
+                    <token>luz</token>
+                    <example>Um parsec corresponde a 3,26 anos-luz.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="6">reduzir|limitar|submeter|corresponder</token>
+                    <token>a</token>
+                    <example>Até que os séculos se reduzem a segundos</example>
+                    <example>submeter-se-á o processo a tempos sociais prescritivos</example>
+                    <example>sua pena acaba por ser reduzida a oito anos</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='Z0.+' postag_regexp='yes'/>
+                    <token regexp="yes">&expressoes_de_tempo;</token>
+                    <token>a</token>
+                    <token postag='Z0.+' postag_regexp='yes'/>
+                    <token regexp="yes">&expressoes_de_tempo;</token>
+                    <example>variam de cinco anos e quatro meses a seis anos e quatro meses.</example>
                 </antipattern>
                 <pattern>
                     <token postag='SENT_START|_PUNCT|NC.+|AQ.+|NP.+|RG|PP.+|V.+|PI0NN000' postag_regexp='yes'>
