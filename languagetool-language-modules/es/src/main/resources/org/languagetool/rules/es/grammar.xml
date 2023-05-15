@@ -1835,10 +1835,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Al menos legitima una decisión.</example>
             </rule>
             <rule>
-                <!-- El termino. Avoids rule EL_TILDE -->
+                <!-- El termino. Avoids rule EL_TILDE, TU_TILDE -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">el|maldito|buen</token>
+                        <token regexp="yes">el|maldito|buen|tu</token>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -1857,6 +1857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="El público"><marker>El publico</marker> deberá tener.</example>
                 <example correction="el auténtico">Se puede observar <marker>el autentico</marker> y sincero compromiso.</example>
                 <example correction="el Ejército">Muchos abandonaban <marker>el Ejercito</marker> y se iban a buscar la vida.</example>
+                <example correction="tu número">Si me das <marker>tu numero</marker>, te llamaré mañana.</example>
                 <example>Indíqueme el camino hasta la estación.</example>
                 <example>Esto también pasa en el Echo Show.</example>
             </rule>
@@ -13086,11 +13087,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ex alto">Un <marker>exalto</marker> cargo de Rabat, detenido por apropiación de relojes</example>
         </rule>
         <rule id="CLICK_CLIC" name="click -> clic">
-            <url>https://languagetool.org/insights/es/publicacion/wasapear-y-wasap/#ejemplos-de-adaptaciones-al-espa%C3%B1ol-como-%E2%80%9Cwasap%E2%80%9D-o-%E2%80%9Cwasapear%E2%80%9D</url>
             <pattern>
                 <token regexp="yes">clicks?</token>
             </pattern>
             <message>La grafía adecuada es <suggestion><match no="1" regexp_match="(?iu)k" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
+            <url>https://languagetool.org/insights/es/publicacion/wasapear-y-wasap/#ejemplos-de-adaptaciones-al-espa%C3%B1ol-como-%E2%80%9Cwasap%E2%80%9D-o-%E2%80%9Cwasapear%E2%80%9D</url>
             <example correction="clic">Haz <marker>click</marker> en el enlace siguiente.</example>
             <example correction="clics">Contamos los <marker>clicks</marker> en el enlace.</example>
             <example correction="CLIC">HAZ <marker>CLICK</marker> AQUÍ.</example>
