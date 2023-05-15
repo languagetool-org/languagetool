@@ -6481,14 +6481,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
-    <rule id="seu_episcopal" name="seu: nom">
-        <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes">seus?</token>
-            <token postag="AQ.[CF].*" postag_regexp="yes" regexp="yes" inflected="yes">episcopal|territorial|arquebisbal|catòlic</token>
-            <token postag="AQ.[CF].*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
+    <rulegroup id="seu_episcopal" name="seu: nom">
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">seus?</token>
+                <token postag="AQ.[CF].*" postag_regexp="yes" regexp="yes" inflected="yes">episcopal|territorial|arquebisbal|catòlic|electrònic</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">seus?</token>
+                <token postag="AQ.[CF].*" postag_regexp="yes" regexp="yes" inflected="yes">episcopal|territorial|arquebisbal|catòlic|electrònic</token>
+                <token postag="AQ.[CF].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rule id="de_manera_adj" name="de manera expressa">
         <pattern>
             <token>de</token>
