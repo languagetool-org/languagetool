@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY enderecos "Alameda|Avenida|Largo|Praça|Praceta|Rua|Terreiro|Travessa|Via|Estrada|Piso">
         <!ENTITY nomes_de_instituicoes "Anuário|Jardim|Aeroporto|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
         <!ENTITY palavras_estrangeiras "up|welcome|these|but|top|too|in|return|go|goes|baby|shop|appeal|trade|toys?|or|who|of|years|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|games?|are|by|couldn?|can|wouldn?|might|the|is|and|for|your|back|that|you|he|she|it|we|they|him|her|them|good|bad|les?|chicos?|novi[oa]s?|herman[oa]s?|ballo|y|del|abrazo|una|besot?e?|con|placer|on|peut|dans|tout|vous|je|chaque|lui|avec|pas|du|aus|den|der|die|écoles?|une|ont|féderations?|thêatres?|des|qui|au|societés?|académies?|pour|notre|sur|institute?|ich|sie|weil|wir|mio?|degli|della|di|tuo|tra">
+        <!ENTITY vocativos "bispos?|equipes?|alun[oa]s?|estudantes?|anfitrião|anfitriã|moç[ao]s?|jovem|jovens|velh[oa]s?|idos[oa]s?|garçom|garçons|atendentes?|tod[oa]s?|membros?|sóci[oa]s?|companheir[oa]s?|parceir[oa]s?|departament[oa]s?|desenvolvedora?e?s?|fornecedora?e?s?|times?|turmas?|pai|papai|mãe|mamãe|irmão?s?|ti[oa]s?|titi[oa]s?|a?v[ôó]s?|vov[ôó]s?|prim[oa]s?|noiv[oa]s?|marido?|espos[ao]s?|namorad[oa]s?|net[oa]s?|netinh[oa]s?|cunhad[oa]s?|sogr[ao]s?|genros?|noras?|entead[oa]s?|padres?|pastora?e?s?|president[ae]s?|amig[ao]s?|filh[oa]s?|pessoal|pessoas?|povo|gente|família|man[oa]s?|maninh[ao]s?|professora?s?|professores|doutor[ea]?s?|médic[oa]s?|advogad[oa]s?|menin[oa]s?|mulher|mulheres|homem|homens|crianças?|bebês?|agricultora?e?s?|construtora?e?s?|engenheir[oa]s?|mineradora?e?s?|silvicultora?e?s?|biomédic[oa]s?|dentistas?|educadora?e?s?|enfermeir[oa]s?|esteticistas?|farmacêutic[oa]s?|fisioterapeutas?|fonoaudiólog[oa]s?|gerontólog[oa]s?|musicoterapeutas?|nutricionistas?|psicólog[ao]s?|radiologistas?|terapeutas?|cardiologistas?|cirurgião?s?|cirurgiões|clínic[oa]s?|dermatologistas?|endocrinologistas?|gastroenterologistas?|geneticistas?|ginecologistas?|obstetras?|infectologistas?|garis?|faxineir[oa]s?|funcionári[oa]s?|diaristas?|porteir[oa]s?|mordomos?|damas?|senhor[ea]?s?|nefrologistas?|neurologistas?|oftalmologistas?|oncologistas?|ortopedistas?|otorrinolaringologistas?|otorrinos?|pediatras?|pneumologistas?|psiquiatras?|reumatologistas?|geriatras?">
 
         ]>
 
@@ -629,8 +630,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="ASSISTIU_O_BR" name="Assistiu ao">
       <pattern>
-        <token>assistiu</token>
-        <token>o</token>
+        <marker>
+          <token>assistiu</token>
+          <token>o</token>
+        </marker>
+        <token negate="yes" regexp="yes">&vocativos;</token>
       </pattern>
       <message>O verbo assistir no sentido de ver exige a preposição a. Substitua &quot;assistiu o&quot; por <suggestion>assistiu ao</suggestion>.</message>
       <example correction="assistiu ao">Ele <marker>assistiu o</marker> o filme.</example>
