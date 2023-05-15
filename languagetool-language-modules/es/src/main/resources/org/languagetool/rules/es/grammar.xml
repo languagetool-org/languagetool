@@ -13086,6 +13086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ex alto">Un <marker>exalto</marker> cargo de Rabat, detenido por apropiación de relojes</example>
         </rule>
         <rule id="CLICK_CLIC" name="click -> clic">
+            <url>https://languagetool.org/insights/es/publicacion/wasapear-y-wasap/#ejemplos-de-adaptaciones-al-espa%C3%B1ol-como-%E2%80%9Cwasap%E2%80%9D-o-%E2%80%9Cwasapear%E2%80%9D</url>
             <pattern>
                 <token regexp="yes">clicks?</token>
             </pattern>
@@ -15789,6 +15790,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Voy a contárselo"><marker>Voy contárselo</marker> todo.</example>
         </rule>
         <rulegroup id="ECHO_HECHO" name="*echo/hecho">
+            <url>https://languagetool.org/insights/es/publicacion/diferencias-hecho-y-echo/</url>
             <antipattern case_sensitive="yes">
                 <token>Echo</token>
                 <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
@@ -15796,6 +15798,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="NPMSO00">Echo</token>
             </antipattern>
+            <rule>
+                <!-- de echo-->
+                <pattern>
+                    <token postag="SPS00|SP:DA|LOC_PREP" postag_regexp="yes"><exception postag="RG|_possible_NP" postag_regexp="yes"/></token>
+                    <token postag="D[AI].*" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token>echo</token>
+                    </marker>
+                </pattern>
+                <message>Si es un nombre, se escribe con hache.</message>
+                <suggestion>hecho</suggestion>
+                <example correction="hecho">De <marker>echo</marker>, este es el mejor.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">ser|estar|parecer|resultar|este</token>
@@ -15843,6 +15858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="HECHO_ECHO" name="*hecho/echo" default="on">
+            <url>https://languagetool.org/insights/es/publicacion/diferencias-hecho-y-echo/</url>
             <antipattern>
                 <token>lo</token>
                 <token>hecho</token>
