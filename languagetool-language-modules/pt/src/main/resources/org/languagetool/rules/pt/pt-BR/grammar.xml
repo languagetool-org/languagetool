@@ -675,8 +675,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="CAIU_EM_BR" name="Caiu">
       <pattern>
-        <token>caiu</token>
-        <token>em</token>
+        <marker>
+          <token>caiu</token>
+          <token>em</token>
+        </marker>
+        <or>
+          <token postag="Z.+" postag_regexp="yes"/>
+          <token regexp="yes">\d.+</token>
+        </or>
       </pattern>
       <message>O verbo cair no sentido aumentar e diminuir não admite a preposição em. Substitua &quot;caiu em&quot; por <suggestion>caiu</suggestion>.</message>
       <example correction="caiu">O lucro <marker>caiu em</marker> 10%.</example>
