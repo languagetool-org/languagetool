@@ -18538,7 +18538,7 @@ USA
             <example correction="casier|remise|débarras|armoire extérieure"><marker>locker</marker></example>
             <example><marker>remise</marker></example>
         </rule>
-        <rule id="VISIO" name="raccourci visio">
+        <rule id="VISIO" name="raccourci visio" tone_tags="formal">
             <antipattern>
                 <token>visio</token>
                 <token>raconte</token>
@@ -18584,7 +18584,7 @@ USA
         </rule>
     </category>
     <category id="CAT_REGLES_DE_BASE" name="Règles de base" type="style">
-        <rulegroup id="C_EST_QUOI" name="c'est quoi">
+        <rulegroup id="C_EST_QUOI" name="c'est quoi" tone_tags="formal">
             <rule>
                 <antipattern>
                     <token>c'</token>
@@ -18739,7 +18739,7 @@ USA
                 <example correction="ce que c'est|quel est|qu'est-ce que c'est que">Je ne sais pas <marker>c'est quoi</marker> ça.</example>
             </rule>
         </rulegroup>
-        <rule id="OU_PAS" name="ou pas → ou non">
+        <rule id="OU_PAS" name="ou pas → ou non" tone_tags="formal">
             <pattern>
                 <marker>
                     <token>ou</token>
@@ -19728,7 +19728,7 @@ USA
                 <example correction="ne|n'|je n'|ce n'|ne m'">Je <marker>ne n'</marker>ai pas de colle.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DISPO" name="Dispo">
+        <rulegroup id="DISPO" name="Dispo" tone_tags="formal">
             <rule>
                 <pattern>
                     <token>dispo
@@ -20012,7 +20012,7 @@ USA
                 <example correction="arriverai">J'<marker>arrive</marker> dans quelques jours.</example>
             </rule>
         </rulegroup>
-        <rule id="VISITER" name="confusion visiter/voir">
+        <rule id="VISITER" name="confusion visiter/voir" tone_tags="formal">
             <pattern>
                 <marker>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">visiter</token>
@@ -20147,7 +20147,7 @@ USA
             <suggestion>\1 davantage</suggestion>
             <example correction="n'a plus|a davantage">Il <marker>a plus</marker> que sa maison.</example>
         </rule>
-        <rulegroup id="ETRE_ALLE_A" name="être allé à">
+        <rulegroup id="ETRE_ALLE_A" name="être allé à" tone_tags="formal">
             <rule>
                 <antipattern>
                     <token postag="V avoir ind.*" postag_regexp="yes" inflected="yes">avoir</token>
@@ -20329,7 +20329,7 @@ USA
                 <example correction="cela s'est bien passé">Alors, <marker>ça a été</marker> ?</example>
             </rule>
         </rulegroup>
-        <rule id="RESOUDRE_OU_SOLUTIONNER" name="résoudre ou solutionner">
+        <rule id="RESOUDRE_OU_SOLUTIONNER" name="résoudre ou solutionner" tone_tags="clarity">
             <antipattern>
                 <token postag="UNKNOWN"/>
                 <token inflected="yes">solutionner</token>
@@ -20346,7 +20346,7 @@ USA
             <example correction="résoudre">Il a réussi à <marker>solutionner</marker> le problème.</example>
             <example>Il a réussi avec Galinette <marker>Solutionnée</marker> à résoudre le problème.</example>
         </rule>
-        <rule id="S_EN_RAPPELER" name="s'en rappeler (style)">
+        <rule id="S_EN_RAPPELER" name="s'en rappeler (style)" tone_tags="formal">
             <pattern>
                 <token regexp="yes">[mts]'</token>
                 <token>en</token>
@@ -20456,7 +20456,7 @@ USA
                 <example correction="afin de|pour|de façon à|ainsi">Il le dit <marker>de manière à</marker> réussir son projet.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_CONCEQUENCE" name="conséquence (style)" min_prev_matches="1">
+        <rulegroup id="REP_CONCEQUENCE" name="conséquence (style)" min_prev_matches="1" tone_tags="clarity">
             <antipattern>
                 <token regexp="yes">voies?</token>
                 <token>de</token>
@@ -20698,7 +20698,7 @@ USA
                 <example correction="en théorie|normalement|si possible|supposément|sûrement">Il est <marker>en principe</marker> grand.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_JUSTE" name="juste" min_prev_matches="1">
+        <rule id="REP_JUSTE" name="juste" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>juste
@@ -20713,7 +20713,7 @@ USA
             <suggestion>uniquement</suggestion>
             <example correction="seulement|uniquement">C'est <marker>juste</marker> qu'il est grand.</example>
         </rule>
-        <rule id="REP_EN_PARTICULIER_TEST" name="en particulier (style)" min_prev_matches="1">
+        <rule id="REP_EN_PARTICULIER_TEST" name="en particulier (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>en</token>
@@ -20728,7 +20728,7 @@ USA
             <suggestion>notamment</suggestion>
             <example correction="nommément|particulièrement|spécialement|surtout|notamment">J’adore l’esprit et le son de cette guitare qui convient à tous les styles et <marker>en particulier</marker> à ce que j’ai envie faire !</example>
         </rule>
-        <rule id="REP_TOUT_D_ABORD_TEST" name="tout d'abord (style)" min_prev_matches="2">
+        <rule id="REP_TOUT_D_ABORD_TEST" name="tout d'abord (style)" min_prev_matches="2" tone_tags="clarity">
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -20743,7 +20743,7 @@ USA
             <suggestion>préalablement</suggestion>
             <example correction="En premier lieu|Principalement|Préalablement"><marker>Tout d'abord</marker> parce qu'autour de moi des pilotes ont réussi leurs PPL-H et surtout CPL-H sur cette interface.</example>
         </rule>
-        <rulegroup id="REP_HEUREUSEMENT" name="heureusement (style)" min_prev_matches="1">
+        <rulegroup id="REP_HEUREUSEMENT" name="heureusement (style)" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <marker>
@@ -20781,7 +20781,7 @@ USA
                 <example correction="Par chance |Bien sûr "><marker>Heureusement qu'</marker>il ont réussi leurs PPL-H.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_POUR_TOUJOURS" name="pour toujours" min_prev_matches="1">
+        <rule id="REP_POUR_TOUJOURS" name="pour toujours" min_prev_matches="1" tone_tags="clarity">
             <antipattern>
                 <token>pour</token>
                 <token>toujours</token>
@@ -20802,7 +20802,7 @@ USA
             <suggestion>à jamais</suggestion>
             <example correction="définitivement|éternellement|à jamais">Je veux <marker>pour toujours</marker> quitter l'école.</example>
         </rule>
-        <rulegroup id="REP_SEULEMENT" name="seulement" min_prev_matches="1">
+        <rulegroup id="REP_SEULEMENT" name="seulement" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <marker>
@@ -20974,7 +20974,7 @@ USA
             <suggestion>dès que</suggestion>
             <example correction="car|puisque|lorsque|à quel moment|dès que">Il est grand <marker>quand</marker> il le dit.</example>
         </rule>
-        <rulegroup id="REP_PUISQUE" name="puisque" min_prev_matches="1">
+        <rulegroup id="REP_PUISQUE" name="puisque" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <marker>
@@ -21000,7 +21000,7 @@ USA
                 <example correction="parce que|comme|car">Il est grand <marker>puisque</marker> son père le dit.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_CAR" name="car" min_prev_matches="1">
+        <rulegroup id="REP_CAR" name="car" min_prev_matches="1" tone_tags="clarity">
             <antipattern>
                 <token case_sensitive="yes">CAR</token>
             </antipattern>
@@ -21072,7 +21072,7 @@ USA
             <suggestion>à l'avenir</suggestion>
             <example correction="prochainement|sous peu|à l'avenir">Il viendra <marker>bientôt</marker>.</example>
         </rule>
-        <rule id="REP_A_PEINE" name="à peine" min_prev_matches="1">
+        <rule id="REP_A_PEINE" name="à peine" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>à</token>
@@ -21559,7 +21559,7 @@ USA
             <suggestion><match no="1" postag="J (.*)" postag_regexp="yes" postag_replace="J $1">évident</match></suggestion>
             <example correction="certain|évident">Il est <marker>sûr</marker> qu'il viendra.</example>
         </rule>
-        <rulegroup id="REP_POTENTIEL" name="potentiel" min_prev_matches="3">
+        <rulegroup id="REP_POTENTIEL" name="potentiel" min_prev_matches="3" tone_tags="clarity">
             <rule>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes">
@@ -21614,7 +21614,7 @@ USA
             <suggestion><match no="1" postag="J (.*)" postag_regexp="yes" postag_replace="J $1">réaliste</match></suggestion>
             <example correction="prévisible|convenable|réaliste">C'est <marker>possible</marker>.</example>
         </rule>
-        <rule id="REP_PENDANT" name="pendant" min_prev_matches="1">
+        <rule id="REP_PENDANT" name="pendant" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>pendant
@@ -21661,7 +21661,7 @@ USA
                 <example correction="de nécessaire">C'est quelque chose <marker>d'indispensable</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_CONTRAIRE" name="contraire" min_prev_matches="1">
+        <rulegroup id="REP_CONTRAIRE" name="contraire" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <marker>
@@ -21710,7 +21710,7 @@ USA
                 <example correction="l'inverse">Ne dis pas <marker>le contraire</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_TOUJOURS" name="toujours" min_prev_matches="3">
+        <rule id="REP_TOUJOURS" name="toujours" min_prev_matches="3" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>toujours</token>
@@ -21777,7 +21777,7 @@ USA
                 <example correction="si besoin">Il sera présent, <marker>si nécessaire</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_MAJORITAIRE" name="majoritaire" min_prev_matches="1">
+        <rulegroup id="REP_MAJORITAIRE" name="majoritaire" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <token postag="N m ." postag_regexp="yes"/>
@@ -21805,7 +21805,7 @@ USA
                 <example correction="prédominante|principale|représentative">C'est un part <marker>majoritaire</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_IDENTIQUE" name="identique" min_prev_matches="2">
+        <rule id="REP_IDENTIQUE" name="identique" min_prev_matches="2" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token postag="J (.*)" postag_regexp="yes" inflected="yes">identique
@@ -21870,7 +21870,7 @@ USA
             <suggestion><match no="1" postag="J (.*)" postag_regexp="yes" postag_replace="J $1">banal</match></suggestion>
             <example correction="global|habituel|banal">C'est un milieu <marker>commun</marker>.</example>
         </rule>
-        <rulegroup id="REP_PEU_IMPORTE" name="peu importe" min_prev_matches="1">
+        <rulegroup id="REP_PEU_IMPORTE" name="peu importe" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <marker>
@@ -21922,7 +21922,7 @@ USA
                 <example correction="quelles que soit">Il viendra <marker>peu importe</marker> les conditions.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_AFIN_DE" name="afin de" min_prev_matches="1">
+        <rulegroup id="REP_AFIN_DE" name="afin de" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <marker>
@@ -22218,7 +22218,7 @@ USA
                 <example correction="différents sujets|divers sujets">Non, je veux <marker>d'autres</marker> sujets.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_AUTREMENT" name="autrement" min_prev_matches="1">
+        <rulegroup id="REP_AUTREMENT" name="autrement" min_prev_matches="1" tone_tags="clarity">
             <antipattern>
                 <token>autrement</token>
                 <token>dit</token>
@@ -22253,7 +22253,7 @@ USA
                 <example correction="différement">Il faut agir <marker>autrement</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_BREF" name="bref" min_prev_matches="1">
+        <rule id="REP_BREF" name="bref" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
                 <marker>
@@ -22266,7 +22266,7 @@ USA
             <suggestion>rapidement</suggestion>
             <example correction="Sinon|En résumé|Rapidement"><marker>Bref</marker>, j'ai fini de toute façon.</example>
         </rule>
-        <rule id="REP_SANS_DOUTE" name="sans doute" min_prev_matches="1">
+        <rule id="REP_SANS_DOUTE" name="sans doute" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>sans</token>
@@ -22718,7 +22718,7 @@ USA
                 <example correction="contentes|joyeuses|satisfaites|comblées">Elles sont <marker>heureuses</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_CONTENT" name="content" min_prev_matches="1">
+        <rulegroup id="REP_CONTENT" name="content" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <pattern>
                     <marker>
@@ -22827,7 +22827,7 @@ USA
                 <example correction="des actrices imbattables|des actrices incroyables|des actrices extraordinaires">Ce sont <marker>les meilleures actrices</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_QUAND_MEME" name="quand même" min_prev_matches="1">
+        <rule id="REP_QUAND_MEME" name="quand même" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <token>quand</token>
                 <token>même</token>
@@ -22837,7 +22837,7 @@ USA
             <suggestion>malgré tout</suggestion>
             <example correction="tout de même|malgré tout">Il a <marker>quand même</marker> été renvoyé chez lui.</example>
         </rule>
-        <rule id="REP_EN_VRAI" name="en vrai" min_prev_matches="1">
+        <rule id="REP_EN_VRAI" name="en vrai" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <token>en</token>
                 <token>vrai</token>
@@ -22848,7 +22848,7 @@ USA
             <suggestion>réellement</suggestion>
             <example correction="en réalité|à vrai dire|réellement">Alors, <marker>en vrai</marker> nous étudierons le rapport à l'art.</example>
         </rule>
-        <rule id="REP_EN_REALITE1" name="en réalité" min_prev_matches="1">
+        <rule id="REP_EN_REALITE1" name="en réalité" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <token>en</token>
                 <token>réalité
@@ -22875,7 +22875,7 @@ USA
             <suggestion>vraiment</suggestion>
             <example correction="réellement|très|extrêmement|excessivement|vraiment">Alors, il est <marker>trop</marker> grand.</example>
         </rule>
-        <rule id="REP_ADORABLE" name="adorable" min_prev_matches="1">
+        <rule id="REP_ADORABLE" name="adorable" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <token regexp="yes">adorables?
                     <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
@@ -22890,7 +22890,7 @@ USA
             <example correction="mignon|charmant|craquant|mignonne|charmante">Alors, c'est <marker>adorable</marker>.</example>
             <example correction="Mignon|Charmant|Craquant|Mignonne|Charmante">Alors, c'est <marker>Adorable</marker>.</example>
         </rule>
-        <rule id="REP_D_ABORD" name="d'abord (style)" min_prev_matches="2">
+        <rule id="REP_D_ABORD" name="d'abord (style)" min_prev_matches="2" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>d'
@@ -22935,7 +22935,7 @@ USA
             <suggestion>au contraire</suggestion>
             <example correction="cependant|or|de plus|néanmoins|au contraire">Il est <marker>par ailleurs</marker> important.</example>
         </rule>
-        <rule id="REP_DE_MEME" name="de même (style)" min_prev_matches="1">
+        <rule id="REP_DE_MEME" name="de même (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>de</token>
@@ -22949,7 +22949,7 @@ USA
             <suggestion>aussi</suggestion>
             <example correction="pareillement|simillairement|aussi">Il est, <marker>de même,</marker> important.</example>
         </rule>
-        <rule id="REP_PAR_LA_SUITE" name="par la suite (style)" min_prev_matches="1">
+        <rule id="REP_PAR_LA_SUITE" name="par la suite (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>par</token>
@@ -22963,7 +22963,7 @@ USA
             <suggestion>ultérieurement</suggestion>
             <example correction="ensuite|plus tard|ultérieurement">Il est devenu <marker>par la suite</marker> important.</example>
         </rule>
-        <rule id="REP_TOUT_DE_SUITE" name="tout de suite (style)" min_prev_matches="1">
+        <rule id="REP_TOUT_DE_SUITE" name="tout de suite (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>tout</token>
@@ -22991,7 +22991,7 @@ USA
             <suggestion>concrètement</suggestion>
             <example correction="en réalité|réellement|concrètement">Il est devenu <marker>en fait,</marker> important.</example>
         </rule>
-        <rule id="REP_D_APRES" name="d'après (style)" min_prev_matches="1">
+        <rule id="REP_D_APRES" name="d'après (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <token postag="SENT_START|J.*|C sub|M nonfin" postag_regexp="yes"/>
                 <marker>
@@ -23290,7 +23290,7 @@ USA
                 <example correction="Il est question de|Cela concerne les|Nous parlons de"><marker>Il s'agit de</marker> sondages frauduleux.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_EN_D_AUTRES_TERMES" name="en d'autres termes (style)" min_prev_matches="1">
+        <rule id="REP_EN_D_AUTRES_TERMES" name="en d'autres termes (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>en</token>
@@ -23305,7 +23305,7 @@ USA
             <suggestion>de façon différente</suggestion>
             <example correction="autrement dit|c'est-à-dire|de façon différente">Alors, <marker>en d'autres termes</marker> ce sont des sondages frauduleux.</example>
         </rule>
-        <rule id="REP_DANS_CERTAINS_CAS" name="en d'autres termes (style)" min_prev_matches="1">
+        <rule id="REP_DANS_CERTAINS_CAS" name="en d'autres termes (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>dans</token>
@@ -23319,7 +23319,7 @@ USA
             <suggestion>occasionnellement</suggestion>
             <example correction="parfois|occasionnellement">Alors, <marker>dans certains cas</marker>, ce sont des sondages frauduleux.</example>
         </rule>
-        <rule id="REP_EN_SOIT" name="en soit (style)" min_prev_matches="1">
+        <rule id="REP_EN_SOIT" name="en soit (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>en
@@ -23350,7 +23350,7 @@ USA
             <url>https://languagetool.org/insights/fr/poste/en-tout-cas-ou-en-tous-cas/#quels-synonymes-peut-on-utiliser-pour-remplacer-le-mot-%C2%AB-en-tous-cas-%C2%BB</url>
             <example correction="bien sûr|à vrai dire|par contre|véritablement|vraisemblablement">Alors, <marker>en tout cas</marker>, ce sont des sondages frauduleux.</example>
         </rule>
-        <rule id="REP_DE_FAIT" name="de fait (style)" min_prev_matches="1">
+        <rule id="REP_DE_FAIT" name="de fait (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>de</token>
@@ -23364,7 +23364,7 @@ USA
             <suggestion>donc,</suggestion>
             <example correction="ainsi,|alors,|donc,">Alors, <marker>de fait,</marker> ce sont des sondages frauduleux.</example>
         </rule>
-        <rule id="REP_TOUT_A_COUP" name="tout à coup (style)" min_prev_matches="1">
+        <rule id="REP_TOUT_A_COUP" name="tout à coup (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>tout</token>
@@ -23438,7 +23438,7 @@ USA
                 <example correction="après ">Il s'est levé <marker>plus tard qu'</marker>Anna.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_BIEN_SUR" name="bien sûr (style)" min_prev_matches="1">
+        <rule id="REP_BIEN_SUR" name="bien sûr (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>bien</token>
@@ -23451,7 +23451,7 @@ USA
             <suggestion>bien entendu</suggestion>
             <example correction="certainement|assurément|bien entendu">Alors, <marker>bien sûr</marker> ce seront des sondages frauduleux.</example>
         </rule>
-        <rule id="REP_BIEN_ENTENDU" name="bien entendu (style)" min_prev_matches="1">
+        <rule id="REP_BIEN_ENTENDU" name="bien entendu (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token>bien</token>
@@ -23536,7 +23536,7 @@ USA
                 <example correction="avant ">Il s'est levé <marker>plus tôt qu'</marker>Anna.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_QUEL_QUE_SOIT" name="quel que soit (style)" min_prev_matches="1">
+        <rule id="REP_QUEL_QUE_SOIT" name="quel que soit (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <marker>
                     <token regexp="yes">quel(le)?s?</token>
@@ -24127,7 +24127,7 @@ USA
                 <example correction="erronées|irréelles|incorrectes">Alors, elles sont <marker>fausses</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_EN_MESURE_DE" name="en mesure (style)" min_prev_matches="1">
+        <rulegroup id="REP_EN_MESURE_DE" name="en mesure (style)" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <antipattern>
                     <token postag="V etre.*" postag_regexp="yes"/>
@@ -24579,7 +24579,7 @@ USA
                 <example correction="J'affirmai|Je demandai|Je révélai|Je prononçai|J'exprimai"><marker>Je dis</marker> toujours la même chose.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_MALHEUREUSEMENT" name="malheureusement (style)" min_prev_matches="2">
+        <rule id="REP_MALHEUREUSEMENT" name="malheureusement (style)" min_prev_matches="2" tone_tags="clarity">
             <pattern>
                 <token>malheureusement</token>
                 <token min="0" max="1">,</token>
@@ -24651,7 +24651,7 @@ USA
             <example correction="deux autres|deux|celles-ci|elles">Exemple : <marker>deux clés</marker> identiques.</example>
         </rule>
         </rulegroup>-->
-        <rulegroup id="REP_CONCERNANT" name="concernant (style)" min_prev_matches="1">
+        <rulegroup id="REP_CONCERNANT" name="concernant (style)" min_prev_matches="1" tone_tags="clarity">
             <rule>
                 <antipattern>
                     <token postag="R pers obj.*" postag_regexp="yes"/>
@@ -24798,7 +24798,7 @@ USA
                 <example correction="Joignables|Libres|Accessibles|Proposés|Offerts">Voici toutes nos offres <marker>Disponibles</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_TRES" name="très (style)" min_prev_matches="5">
+        <rule id="REP_TRES" name="très (style)" min_prev_matches="5" tone_tags="clarity">
             <antipattern>
                 <token>très</token>
                 <token>peu</token>
@@ -25082,7 +25082,7 @@ USA
             <example correction="bien|sinon|alors|soit|le cas échéant">Alors, ou le chat est parti, ou tu l'as fait sortir, ou il est mort, ou tu mens, <marker>ou</marker> tu me cache quelque chose.</example>
             <example>Il est grand et beau et fort.</example>
         </rule>
-        <rule id="REP_OR" name="or (style)" min_prev_matches="3">
+        <rule id="REP_OR" name="or (style)" min_prev_matches="3" tone_tags="clarity">
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -25115,7 +25115,7 @@ USA
             <example correction="présentement|actuellement|en ce jour|maintenant|désormais">Il est <marker>aujourd'hui</marker> très demandé par les consommateurs.</example>
             <example>Il est grand et beau et fort.</example>
         </rule>
-        <rule id="REP_ENSEMBLE" name="ensemble (style)" min_prev_matches="1">
+        <rule id="REP_ENSEMBLE" name="ensemble (style)" min_prev_matches="1" tone_tags="clarity">
             <pattern>
                 <token postag="V.*" postag_regexp="yes"/>
                 <token postag="A" min="0" max="4"/>
@@ -25131,7 +25131,7 @@ USA
             <suggestion>en groupe</suggestion>
             <example correction="conjointement|simultanément|de conserve|à deux|en groupe">Ils ont créé <marker>ensemble</marker> ce quartier.</example>
         </rule>
-        <rule id="REP_PRECISER" name="préciser (style)" min_prev_matches="1">
+        <rule id="REP_PRECISER" name="préciser (style)" min_prev_matches="1" tone_tags="clarity">
             <antipattern>
                 <token regexp="yes">précises?</token>
             </antipattern>
@@ -25148,7 +25148,7 @@ USA
             <suggestion><match no="1" postag="V .*" postag_regexp="yes">nuancer</match></suggestion>
             <example correction="mentionnais|certifiais|spécifiais|clarifiais|nuançais">Je <marker>précisais</marker> le lieu du rendez-vous.</example>
         </rule>
-        <rulegroup id="EVIDENT" name="évident" min_prev_matches="1">
+        <rulegroup id="EVIDENT" name="évident" min_prev_matches="1" tone_tags="clarity">
             <antipattern>
                 <token>pas</token>
                 <token postag="A" min="0" max="3"/>
