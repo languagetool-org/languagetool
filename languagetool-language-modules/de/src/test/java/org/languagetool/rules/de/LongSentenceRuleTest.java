@@ -23,15 +23,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.UserConfig;
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
-
-import java.io.IOException;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRuleTest {
 
@@ -52,17 +43,4 @@ public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRul
     assertMatch("Ein Satz. Eins zwei drei vier fünf sechs sieben.", 10, 47, rule, lt);
   }
 
-  protected void assertNoMatch(String input, TextLevelRule rule, JLanguageTool lt) throws IOException {
-    AnnotatedText aText = new AnnotatedTextBuilder().addText(input).build();
-    assertThat(rule.match(lt.analyzeText(input), aText).length, is(0));
-  }
-
-  protected void assertMatch(String input, int from, int to, TextLevelRule rule, JLanguageTool lt) throws IOException {
-    AnnotatedText aText = new AnnotatedTextBuilder().addText(input).build();
-    RuleMatch[] matches = rule.match(lt.analyzeText(input), aText);
-    assertThat(matches.length, is(1));
-    assertThat(matches[0].getFromPos(), is(from));
-    assertThat(matches[0].getToPos(), is(to));
-  }
-  
 }
