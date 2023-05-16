@@ -3266,35 +3266,80 @@ USA
 
 
         <!-- DOS MESMOS destes DAS MESMAS destas -->
-        <rule id='DOS_MESMOS_DESTES_DAS_MESMAS_DESTAS' name="[Simplificar] 'dos mesmos'/'das mesmas' → 'destes'/'destas'" type="style" tags="picky">
+        <rulegroup id='DOS_MESMOS_DESTES_DAS_MESMAS_DESTAS' name="[Simplificar] 'dos mesmos'/'das mesmas' → 'destes'/'destas'" type="style" tags="picky">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-05 (2-MAR-2023+) -->
             <!--
       O estudo dos conflitos permite perceber os motivos DOS MESMOS ocorrerem. → O estudo dos conflitos permite perceber os motivos DESTES ocorrerem.
       O estudo das guerras permite perceber os motivos DAS MESMAS ocorrerem. → O estudo das guerras permite perceber os motivos DESTAS ocorrerem.
       -->
-            <pattern>
-                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                <marker>
-                    <token regexp='yes'>d[ao]s?</token>
-                    <token regexp='yes'>mesm[ao]s?</token>
-                </marker>
-                <or>
-                    <token postag='V.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
-                    </token>
-                    <token regexp='no'>ser</token>
-                </or>
-            </pattern>
-            <message>Esta perífrase poderá ser simplificada.</message>
-            <suggestion><match no='3' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-            <example correction="destes">O estudo dos conflitos permite perceber os motivos <marker>dos mesmos</marker> ocorrerem.</example>
-            <example correction="destas">O estudo das guerras permite perceber os motivos <marker>das mesmas</marker> ocorrerem.</example>
-        </rule>
-
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes' max="2"/>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes'>mesm[ao]s?</token>
+                    </marker>
+                    <or>
+                        <token postag='V.+' postag_regexp='yes'>
+                            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+                        </token>
+                        <token regexp='no'>ser</token>
+                    </or>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion><match no='1' postag='DA.(..).|SPS00:DA.(..).' postag_replace='DA0$10'>o</match> <match no='1' postag='DA.(..).|SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
+                <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
+                <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <example correction="o seu motivo|o motivo destes|o motivo deles">O estudo dos conflitos permite perceber <marker>o motivo dos mesmos</marker> ocorrerem.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate_pos="yes" postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes' max="2"/>
+                    <marker>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes'>mesm[ao]s?</token>
+                    </marker>
+                    <or>
+                        <token postag='V.+' postag_regexp='yes'>
+                            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+                        </token>
+                        <token regexp='no'>ser</token>
+                    </or>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
+                <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <example correction="destes|deles">sem perder a essência de homenagem <marker>dos mesmos</marker> ocorrerem.</example>
+                <example correction="destas|delas">sem perder a essência de homenagem <marker>das mesmas</marker> ocorrerem.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ou|e</token>
+                    <marker>
+                        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes'>mesm[ao]s?</token>
+                    </marker>
+                    <or>
+                        <token postag='V.+' postag_regexp='yes'>
+                            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+                        </token>
+                        <token regexp='no'>ser</token>
+                    </or>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion><match no='2' postag='N.(..)...|A..(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
+                <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
+                <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <example correction="seus excrementos|excrementos deste|excrementos dele">O contato com o inseto ou <marker>excrementos do mesmo</marker> é prejudicial.</example>
+            </rule>
+        </rulegroup>
 
         <!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
         <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="[Simplificar] E é/são/foi/foram + V. → [sendo/sido/e] + V." type="style" tags='picky'>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-04-25 (Checked/Enhanced) (1-JAN-2022+)      -->
+            <!--      Created byMarco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-04-25 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
       Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em maio.
       Einstein é um génio e é considerado o pai da relatividade. → Einstein é um génio considerado o pai da relatividade.
