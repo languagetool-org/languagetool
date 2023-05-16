@@ -106,8 +106,6 @@ USA
             <example>Pocos días antes, todo estaba tranquilo.</example>
             <example>Antes de descansar, hay que trabajar.</example>
         </rule>
-    </category>
-    <category id="ESTILO" name="Estilo" type="style">
         <rulegroup id="REPEATED_WORDS" name="palabras repetidas (test)" default="off">
             <rule>
                 <pattern>
@@ -140,6 +138,8 @@ USA
                 <example correction="">Las casas eran rojas, pero aquel árbol también era <marker>rojo</marker>.</example>
             </rule>
         </rulegroup>
+    </category>
+    <category id="PREFERABLE_EXPRESSIONS" name="expresiones preferibles" type="style">
         <rulegroup id="PER_CAPITA" name="per cápita">
             <rule>
                 <pattern>
@@ -213,33 +213,6 @@ USA
             <message>Forma vulgar.</message>
             <suggestion>nadie</suggestion>
             <example correction="nadie"><marker>naide</marker></example>
-        </rule>
-        <rule id="A_NIVEL_DE" name="a nivel de">
-            <antipattern>
-                <token>nivel</token>
-                <token>de</token>
-                <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">tierra|mar|agua|galería|tejado|terraza</token>
-            </antipattern>
-            <pattern>
-                <token>a</token>
-                <token>nivel</token>
-                <token>de</token>
-            </pattern>
-            <message>En sentido figurado es preferible usar otras expresiones.</message>
-            <suggestion>en</suggestion>
-            <suggestion>entre</suggestion>
-            <suggestion>con respecto a</suggestion>
-            <suggestion>en el ámbito de</suggestion>
-            <suggestion>en cuanto a</suggestion>
-            <suggestion>a escala de</suggestion>
-            <suggestion>en la esfera de</suggestion>
-            <suggestion>en el terreno de</suggestion>
-            <suggestion>en lo relativo a</suggestion>
-            <suggestion>en términos de</suggestion>
-            <url>http://www.fundeu.es/recomendacion/a-nivel-de-usos-correctos-e-incorrectos-1054/</url>
-            <example correction="En|Entre|Con respecto a|En el ámbito de|En cuanto a|A escala de|En la esfera de|En el terreno de|En lo relativo a|En términos de"><marker>A nivel de</marker> actores.</example>
-            <example>A nivel de mar.</example>
         </rule>
     </category>
 </rules>
