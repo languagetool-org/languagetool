@@ -186,6 +186,12 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <antipattern>
                     <token>het</token>
+                    <token regexp="yes">mevrouw|meneer</token>
+                    <token postag_regexp="yes" postag="UNKNOWN|VRZ|ENM.*"/>
+                    <example>Toch kon het meneer van Vliet weinig schelen.</example>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
                     <token>dag</token>
                     <token>en</token>
                     <token>nacht</token>
@@ -200,7 +206,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token skip="-1" regexp="yes" inflected="yes">betekenen|noemen|heten</token>
                     <token>het</token>
-                    <token postag="ZNW:EKV:DE_"></token>
+                    <token postag="ZNW:EKV:DE_"/>
                     <example>Hoewel het duidelijk brood was, noemde de peuter het koek.</example>
                 </antipattern>
                 <antipattern>
@@ -213,30 +219,33 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
                     <token regexp="yes" case_sensitive="yes">[A-Z][a-z].*|[0-9].*</token>
                     <example>Het Koningin Paola Kinderziekenhuis</example>
-                    <example>Het is het begin van een het Formule 1-seizoen.</example>
+                    <example>Het is het begin van het Formule 1-seizoen.</example>
                 </antipattern>
                 <antipattern>
-                    <token>geef</token>
+                    <token inflected="yes">geven</token>
                     <token>het</token>
                     <token>tijd</token>
                 </antipattern>
+                <antipattern><token inflected="yes">lopen</token><token>het</token><token>spaak</token></antipattern>
+                <antipattern><token inflected="yes">vereisen</token><token>het</token><token>consistentie</token></antipattern>
+                <antipattern><token inflected="yes">bieden</token><token>het</token><token>zekerheid</token></antipattern>
                 <antipattern>
-                    <token postag="VGW"></token>
+                    <token postag="VGW"/>
                     <token>het</token>
-                    <token postag="ZNW:EKV:DE_"></token>
+                    <token postag="ZNW:EKV:DE_"/>
                     <example>Als het reclame is mag je de hele bende weer meenemen.</example>
                     <example>Dit is wegbereidend omdat het vrijheid nastreeft.</example>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
-                    <token postag="ZNW:EKV:DE_"></token>
+                    <token postag="ZNW:EKV:DE_"/>
                     <token regexp="yes">en|of</token>
                     <example>Wij zitten in het pizza en pastarestaurant.</example>
                     <example>Vandaag is het zaterdag en morgen zal het zondag zijn.</example>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
-                    <token regexp="yes">was|kan|vlucht|leest|verving|stelt|gooi|wil|won|regent|staat|stond|punt|leek|kost|moet|moest|plaats|neer|toegang|zit|zo|weg|vaart|weet|cv|spijt|schreef|pijn|meet|overal|dienst|zonde|beet|schoot|schonk|rook|las|smelt|speet|tocht|zet|haast|haat|hen|zin|zeg|vraag|staart|tast|test|horen|keer|koop|koers|mede|mijn|morgen|onze|pas|schoppen|snap|stap|tijd|varen|wagen|aanleiding|meent|&weekdays;</token>
+                    <token regexp="yes">was|kan|vlucht|leest|verving|stelt|gooi|wil|verkoop|haal|krijg|invloed|won|regent|staat|stond|punt|leek|kost|moet|moest|plaats|neer|toegang|rust|zit|zo|weg|vaart|weet|cv|spijt|schreef|pijn|meet|overal|dienst|zonde|beet|schoot|schonk|rook|las|smelt|speet|tocht|zet|haast|haat|hen|zin|zeg|vraag|staart|tast|test|horen|keer|koop|koers|mede|mijn|morgen|onze|pas|schoppen|snap|stap|tijd|varen|wagen|aanleiding|meent|&weekdays;|invloed</token>
                     <example>Het regent dat het giet.</example>
                 </antipattern>
                 <antipattern>
