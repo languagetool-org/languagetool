@@ -606,6 +606,51 @@ public final class StringTools {
     return NOT_WORD_CHARACTER.matcher(input).matches();
   }
   
+  
+  /**
+   * Difference between two strings (only one difference)
+   * @return: List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
+   * @since 6.2
+   */
+  
+  public static List<String> getDifference(String s1, String s2) {
+    List<String> results = new ArrayList<>();
+    if (s1.equals(s2)) {
+      results.add(s1);
+      results.add("");
+      results.add("");
+      results.add("");
+      return results;
+    }
+    int l1 = s1.length();
+    int l2 = s2.length();
+    int fromStart = 0;
+    while (fromStart < l1 && fromStart < l2 && s1.charAt(fromStart) == s2.charAt(fromStart)) {
+      fromStart++;
+    }
+    int fromEnd = 0;
+    while (fromEnd < l1 && fromEnd < l2 && s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
+      fromEnd++;
+    }
+    // corrections (e.g. stress vs stresses)
+    while (fromStart > l1 - fromEnd) {
+      fromEnd--;
+    }
+    while (fromStart > l2 - fromEnd) {
+      fromEnd--;
+    }
+    // common string at start
+    results.add(s1.substring(0, fromStart));
+    // diff in string1
+    results.add(s1.substring(fromStart, l1 - fromEnd));
+    // diff in string2
+    results.add(s2.substring(fromStart, l2 - fromEnd));
+    // common string at end
+    results.add(s1.substring(l1 - fromEnd, l1));
+    return results;
+  }
+  
+  
   /*
    * Invent a wrong word to find possible replacements. 
    */

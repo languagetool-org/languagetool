@@ -421,7 +421,7 @@ public class ArtificialErrorEval {
           ignoredLines++;
           continue;
         }
-        List<String> diffs = differences(correctSentence, incorrectSentence);
+        List<String> diffs = StringTools.getDifference(correctSentence, incorrectSentence);
         int posError = diffs.get(0).length();
         words[1] = diffs.get(1);
         words[0] = diffs.get(2);
@@ -784,44 +784,6 @@ public class ArtificialErrorEval {
         + " <language code> <input file>");
     System.out.println("Usage 2: " + ArtificialErrorEval.class.getSimpleName()
         + " <configuration file>");
-  }
-  
-  private static List<String> differences(String s1, String s2) {
-    List<String> results = new ArrayList<>();
-    if (s1.equals(s2)) {
-      results.add(s1);
-      results.add("");
-      results.add("");
-      results.add("");
-      return results;
-    }
-    int l1 = s1.length();
-    int l2 = s2.length();
-    int fromStart = 0;
-    while (fromStart < l1 && fromStart < l2 && s1.charAt(fromStart) == s2.charAt(fromStart)) {
-      fromStart++;
-    }
-    int fromEnd = 0;
-    while (fromEnd < l1 && fromEnd < l2 && s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
-      fromEnd++;
-    }
-    // corrections (e.g. stress vs stresses)
-    while (fromStart > l1 - fromEnd) {
-      fromEnd--;
-    }
-    while (fromStart > l2 - fromEnd) {
-      fromEnd--;
-    }
-    // common string at start
-    results.add(s1.substring(0, fromStart));
-    // diff in sentence 1
-    results.add(s1.substring(fromStart, l1 - fromEnd));
-    // diff in sentence 2
-    results.add(s2.substring(fromStart, l2 - fromEnd));
-    // common string at end
-    results.add(s1.substring(l1 - fromEnd, l1));
-    return results;
-    
   }
   
   public static void wait(int ms) {
