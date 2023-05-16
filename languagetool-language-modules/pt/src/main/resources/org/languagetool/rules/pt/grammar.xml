@@ -29479,14 +29479,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rule id='À_QUE' name="[Confusão] 'à que'/'há que'">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
-                <token postag_regexp='yes' postag="SENT_START|_PUNCT|''|CC"/>
+                <token postag_regexp='yes' postag="SENT_START|_PUNCT|''|CC">
+                        <exception spacebefore="no">-</exception></token>
                 <marker>
                     <token>à</token>
                     <token>que</token>
                 </marker>
             </pattern>
             <message>Substitua por <suggestion>há que</suggestion>.</message>
-            <example correction="há que">Mas <marker>à que</marker> saber estudar.</example>
+            <suggestion>a que</suggestion>
+            <suggestion>à qual</suggestion>
+            <example correction="há que|a que|à qual">Mas <marker>à que</marker> saber estudar.</example>
         </rule>
 
 
