@@ -2693,6 +2693,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "müßt": return topMatch("müsst");
       case "Müßt": return topMatch("Müsst");
       case "heisst": return topMatch("heißt");
+      case "Heisst": return topMatch("Heißt");
       case "heissen": return topMatch("heißen");
       case "beisst": return topMatch("beißt");
       case "beissen": return topMatch("beißen");
@@ -3162,8 +3163,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ausgemahlt": return topMatch("ausgemalt");
       case "weisst": return topMatch("weißt");
       case "Weisst": return topMatch("Weißt");
-      case "heisst": return topMatch("heißt");
-      case "Heisst": return topMatch("Heißt");
       case "Rehgipsplatte": return topMatch("Rigipsplatte");
       case "Rehgipsplatten": return topMatch("Rigipsplatten");
       case "Rehgips-Platte": return topMatch("Rigips-Platte");
