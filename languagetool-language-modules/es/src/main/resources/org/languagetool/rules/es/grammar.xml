@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY common_english_nouns_feminine "School|Tower|University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force|Licence|License|Station">
 <!ENTITY common_english_nouns_masculine "Fest|Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy|Squadron">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
+<!ENTITY context_mama "ablación|adiposo|areola|arteria|bulto|calostro|carcinoma|carne|chupar|cirugía|culo|cáncer|célula|desarrollar|desarrollo|diagnóstico|embarazo|epitelio|estrógeno|femenino|ginecológico|ginecólogo|glandular|glándula|herida|hinchazón|hipertrofia|hormona|implante|inervación|infección|infectar|inflamación|lactancia|leche|lobulillo|mamario|mamífero|mastectomía|mastitis|mastología|neonato|parto|patológico|pecho|pectoral|pelvis|pezón|piel|progesterona|ptosis|pubertad|quirúrgico|sangre|sarcoma|seno|sexo|sexual|silicona|tejido|teta|tratamiento|turgencia|turgente|ubre|vena">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
 <!ENTITY wrong_as_pron_verb "estas|a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
 <!ENTITY wrong_as_pron_verb2 "de|e">
@@ -490,6 +491,107 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rulegroup id="CONTRACORRIENTE" name=" *contracorriente, *a contra corriente">
+            <url>http://www.fundeu.es/recomendacion/a-contracorrienteo-contra-corriente/</url>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">a|la</exception></token>
+                    <marker>
+                        <token>contracorriente</token>
+                    </marker>
+                </pattern>
+                <message>Expresión incorrecta.</message>
+                <suggestion>contra corriente</suggestion>
+                <suggestion>a contracorriente</suggestion>
+                <example correction="contra corriente|a contracorriente">Ir <marker>contracorriente</marker></example>
+                <example>a contracorriente</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>contra</token>
+                    <token>corriente</token>
+                </pattern>
+                <message>Expresión incorrecta.</message>
+                <suggestion>contra corriente</suggestion>
+                <suggestion>a contracorriente</suggestion>
+                <example correction="contra corriente|a contracorriente">Ir <marker>a contra corriente</marker></example>
+            </rule>
+        </rulegroup>
+        <rule id="EN_RELACION_A" name="en relación a -> en relación con">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token>en</token>
+                    <token>relación</token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <message>Es preferible usar otra expresión.</message>
+            <suggestion>en relación con</suggestion>
+            <suggestion>con relación a</suggestion>
+            <suggestion>en lo que se refiere a</suggestion>
+            <suggestion>sobre</suggestion>
+            <example correction="en relación con|con relación a|en lo que se refiere a|sobre">Es muy austero <marker>en relación a</marker> su indumentaria</example>
+            <example>Es muy austero en relación con su indumentaria</example>
+        </rule>
+        <rule id="EN_RELACION_AL" name="en relación al">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token>en</token>
+                    <token>relación</token>
+                    <token>al</token>
+                </marker>
+            </pattern>
+            <message>Es preferible usar otra expresión.</message>
+            <suggestion>en relación con el</suggestion>
+            <suggestion>con relación al</suggestion>
+            <suggestion>en lo que se refiere al</suggestion>
+            <example correction="en relación con el|con relación al|en lo que se refiere al">Es muy austero <marker>en relación al</marker> vestir.</example>
+        </rule>
+        <rulegroup id="RELACIONADO_A" name="relacionado a/con">
+            <antipattern>
+                <token regexp="yes" skip="8">relacionad[oa]s?</token>
+                <token>con</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">relacionad[oa]s?</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>La preposición adecuada es <suggestion>con</suggestion>.</message>
+                <example correction="con">Esa canción está relacionada <marker>a</marker> los Beatles.</example>
+                <example>Esa canción está relacionada con los Beatles.</example>
+                <example>Es relacinado a menudo con el punto medio.</example>
+                <example>Han relacionado a los agujeros negros y su entropía con la teoría de la información.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">relacionad[oa]s?</token>
+                    <marker>
+                        <token>al</token>
+                    </marker>
+                </pattern>
+                <message>La preposición adecuada es 'con'.</message>
+                <suggestion>con el</suggestion>
+                <example correction="con el">Esa canción está relacionada <marker>al</marker> amor.</example>
+                <example>Esa canción está relacionada con el amor.</example>
+            </rule>
+        </rulegroup>
+        <!-- LOOR : La forma preferida es OLOR (http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_014.htm)-->
+        <rule id="LOOR" name="Loor de multitudes">
+            <pattern>
+                <token>loor</token>
+                <token>de</token>
+                <token>multitudes</token>
+            </pattern>
+            <message>Se prefiere la expresión <suggestion>olor de multitudes</suggestion>.</message>
+            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_014.htm</url>
+            <short>Expresión incorrecta.</short>
+            <example correction="olor de multitudes">Entraron en <marker>loor de multitudes</marker></example>
+            <example>Entraron en olor de multiitudes</example>
+        </rule>
         <rulegroup id="RESPUESTO" name="repuesto -> respondido, respuesta">
             <url>https://www.rae.es/dpd/responder#1</url>
             <rule>
@@ -25407,6 +25509,102 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="PAPA" name="papa/papá">
+            <antipattern>
+                <token inflected="yes" skip="2">comer</token>
+                <token regexp="yes">papas?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>papa</token>
+                    </marker>
+                    <token regexp="yes">,|:</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>papá</suggestion> (más habitual en el sentido de 'padre')?</message>
+                <url>https://www.rae.es/dpd/pap%C3%A1</url>
+                <example correction="Papá">¡<marker>Papa</marker>, ven aquí!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>papa</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>papá</suggestion> (más habitual en el sentido de 'padre')?</message>
+                <url>https://www.rae.es/dpd/pap%C3%A1</url>
+                <example correction="papá">Mi <marker>papa</marker> dice que sí.</example>
+                <example>El papa de Roma.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>papas</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>papás</suggestion> (más habitual en el sentido de 'padres')?</message>
+                <url>https://www.rae.es/dpd/pap%C3%A1</url>
+                <example correction="papás">Mis <marker>papas</marker> dicen que sí.</example>
+                <example>Los papas de Roma.</example>
+                <example>Naide quiere comer mis papas.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MAMA" name="mama/mamá">
+            <url>https://www.rae.es/dpd/mam%C3%A1</url>
+            <antipattern>
+                <token>mama</token>
+                <token regexp="yes">izquierda|derecha</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>mama</token>
+                    </marker>
+                    <token regexp="yes">,|:</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
+                <example correction="Mamá">¡<marker>Mama</marker>, ven aquí!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>mama</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
+                <example correction="mamá">Mi <marker>mama</marker> dice que sí.</example>
+                <example>Una molestia en mi mama izquierda.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">&context_mama;</token>
+                    <token regexp="yes">mama|mamas</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">mama|mamas</token>
+                    <token inflected="yes" regexp="yes">&context_mama;</token>
+                </antipattern>
+                <pattern>
+                    <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">quien|que</exception></token>
+                    <token>la</token>
+                    <marker>
+                        <token>mama</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
+                <example correction="mamá">La <marker>mama</marker> dice que sí.</example>
+                <example>Una molestia en la mama izquierda.</example>
+                <example>Los sarcomas son producto de la transformación maligna de células del tejido conectivo de la mama.</example>
+                <example>Hinchazón de un brazo (próximo a la mama).</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ES_SPLIT_WORDS" name="palabras mal partidas">
             <antipattern>
                 <token regexp="yes">me|que|se</token>
