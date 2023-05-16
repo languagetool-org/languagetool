@@ -20520,13 +20520,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>A impressora tem várias funções: imprime, copia e até escaneia.</example>
                     <example>Tom fuma, bebe e joga.</example>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>bebe</token>
+                </antipattern>
+                <antipattern>
+                    <token>renuncia</token>
+                    <token>a</token>
+                </antipattern>
                 <!-- MARCOAGPINTO 2022-08-27 + 2022-10-01 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
                 <pattern>
                     <token><exception postag='NC.+|AQ.+|SPS00.PP.+|P[IP].+|Z0.+|NP.+|PR.*|CS' postag_regexp='yes'/></token>
                     <marker>
                         <token postag='VMIP[23]S.+' postag_regexp='yes'>
-                            <exception regexp="yes" case_sensitive="no">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}</exception>
+                            <exception regexp="yes" case_sensitive="no">\p{Lu}\p{Lu}+s|\p{Lu}\p{Lu}|varia|pratica|continua|manipula|indica|integra|opera|sofre|canta</exception>
                             <exception scope='previous' postag_regexp='yes' postag='VMP00SF|VMN02S0|DP.[^F]SP|RN'/>
                         </token>
                     </marker>
