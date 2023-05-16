@@ -3023,6 +3023,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "interesse": return topMatch("Interesse");
       case "moglich": return topMatch("möglich");
       case "zusammenfässt": return topMatch("zusammenfasst");
+      case "grosse": return topMatch("große");
+      case "grossen": return topMatch("großen");
+      case "grosser": return topMatch("großer");
+      case "grosses": return topMatch("großes");
+      case "geniesse": return topMatch("genieße");
+      case "geniessen": return topMatch("genießen");
       case "grossartig": return topMatch("großartig");
       case "grosszügig": return topMatch("großzügig");
       case "moeglich": return topMatch("möglich");
@@ -3154,6 +3160,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
       case "ausgemahlt": return topMatch("ausgemalt");
+      case "weisst": return topMatch("weißt");
+      case "Weisst": return topMatch("Weißt");
+      case "heisst": return topMatch("heißt");
+      case "Heisst": return topMatch("Heißt");
       case "Rehgipsplatte": return topMatch("Rigipsplatte");
       case "Rehgipsplatten": return topMatch("Rigipsplatten");
       case "Rehgips-Platte": return topMatch("Rigips-Platte");

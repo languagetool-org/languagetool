@@ -1615,13 +1615,13 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // denke aber, dass die das machen werden.
-      csRegex("ob|dass|weswegen|damit|sofern"),
+      csRegex("ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum"),
       csRegex("wir|[Ss]ie|ich|er|die|der|es|du|ihr"),
       csToken("das"),
       posRegex("VER:INF.*")
     ),
     Arrays.asList(
-      csRegex("ob|dass|weswegen|damit|sofern"),
+      csRegex("ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum"),
       posRegex("EIG.*|UNKNOWN"),
       csToken("das"),
       posRegex("VER:INF.*")
