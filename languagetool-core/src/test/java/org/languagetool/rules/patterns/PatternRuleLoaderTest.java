@@ -150,27 +150,33 @@ public class PatternRuleLoaderTest {
     PatternRuleLoader prg = new PatternRuleLoader();
     String styleRuleFile = "/xx/style.xml";
     List<AbstractPatternRule> styleRules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(styleRuleFile), styleRuleFile);
+    
     Rule formalClarityToneRule = getRuleById("Formal_Clarity_TONE_RULE", styleRules);
     assertTrue(formalClarityToneRule.hasToneTag(ToneTag.formal));
     assertTrue(formalClarityToneRule.hasToneTag(ToneTag.clarity));
     assertEquals(2, formalClarityToneRule.getToneTags().size());
+    
     Rule noToneRule = getRuleById("NO_TONE_RULE", styleRules);
     assertTrue(noToneRule.getToneTags().isEmpty());
+    
     Rule confidentAcademicScientificToneRule = getRuleById("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE", styleRules);
     assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.confident));
     assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.academic));
     assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.scientific));
     assertEquals(3, confidentAcademicScientificToneRule.getToneTags().size());
+    
     Rule confidentAcademicToneRule = getRuleById("CONFIDENT_ACADEMIC_TONE_RULE", styleRules);
     assertTrue(confidentAcademicToneRule.hasToneTag(ToneTag.confident));
     assertTrue(confidentAcademicToneRule.hasToneTag(ToneTag.academic));
     assertEquals(2, confidentAcademicToneRule.getToneTags().size());
+    
     Rule pickyClarityConfidentAcademicToneRule = getRuleById("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE",styleRules);
     assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.clarity));
     assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.confident));
     assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.academic));
     assertEquals(3, pickyClarityConfidentAcademicToneRule.getToneTags().size());
     assertTrue(pickyClarityConfidentAcademicToneRule.hasTag(Tag.picky));
+    
     Rule pickyClarityConfidentAcademicScientificToneRule = getRuleById("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE", styleRules);
     assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.clarity));
     assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.confident));
@@ -178,6 +184,17 @@ public class PatternRuleLoaderTest {
     assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.scientific));
     assertEquals(4, pickyClarityConfidentAcademicScientificToneRule.getToneTags().size());
     assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasTag(Tag.picky));
+
+    Rule persuasiveObjectiveToneRule = getRuleById("PERSUASIVE_OBJECTIVE_TONE_RULE", styleRules);
+    assertTrue(persuasiveObjectiveToneRule.hasToneTag(ToneTag.persuasive));
+    assertTrue(persuasiveObjectiveToneRule.hasToneTag(ToneTag.objective));
+    assertEquals(2, persuasiveObjectiveToneRule.getToneTags().size());
+    
+    Rule persuasiveObjectiveInformalToneRule = getRuleById("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE", styleRules);
+    assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.persuasive));
+    assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.objective));
+    assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.informal));
+    assertEquals(3, persuasiveObjectiveInformalToneRule.getToneTags().size());
   }
 
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {

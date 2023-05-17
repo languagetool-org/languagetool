@@ -56,6 +56,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private final List<String> categoryTags = new ArrayList<>();
   private final List<String> ruleGroupTags = new ArrayList<>();
   private final List<String> ruleGroupToneTags = new ArrayList<>();
+  private final List<String> categoryToneTags = new ArrayList<>();
   private final List<String> ruleTags = new ArrayList<>();
   private final List<String> ruleToneTags = new ArrayList<>();
 
@@ -128,6 +129,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         if (attrs.getValue("tags") != null) {
           categoryTags.addAll(Arrays.asList(attrs.getValue("tags").split(" ")));
+        }
+        if (attrs.getValue("tone_tags") != null) {
+          categoryToneTags.addAll(Arrays.asList(attrs.getValue("tone_tags").split(" ")));
         }
         break;
       case "rules":
@@ -440,6 +444,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case "category":
         categoryIssueType = null;
         categoryTags.clear();
+        categoryToneTags.clear();
         break;
       case "regexp":
         inRegex = false;
@@ -628,7 +633,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupMinPrevMatches = 0;
         ruleGroupDistanceTokens = 0;
         ruleGroupTags.clear();
-        ruleToneTags.clear();
+        ruleGroupToneTags.clear();
         antipatternForRuleGroupsExamples.clear();
         break;
       case MARKER:
@@ -816,6 +821,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     rule.addTags(categoryTags);
     rule.addToneTags(ruleToneTags);
     rule.addToneTags(ruleGroupToneTags);
+    rule.addToneTags(categoryToneTags);
     if (inRuleGroup) {
       rule.setSubId(internString(Integer.toString(subId)));
     } else {
