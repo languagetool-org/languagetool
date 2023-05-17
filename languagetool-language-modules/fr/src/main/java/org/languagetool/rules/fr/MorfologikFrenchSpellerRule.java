@@ -31,69 +31,56 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.util.regex.Pattern.*;
+
 public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
 
   private static final String SPELLING_FILE = "/fr/hunspell/spelling.txt";
 
-  private static final Pattern PARTICULA_INICIAL = Pattern.compile(
-      "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs|ce|cet) (..+)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CAMEL_CASE = Pattern.compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", Pattern.UNICODE_CASE);
-  private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
+  private static final int flags = CASE_INSENSITIVE | UNICODE_CASE;
+  private static final Pattern PARTICULA_INICIAL = compile(
+      "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs|ce|cet) (..+)$", flags);
+  private static final Pattern CAMEL_CASE = compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", UNICODE_CASE);
+  private static final Pattern PREFIX_AMB_ESPAI = compile(
       "^(agro|anti|archi|auto|aéro|cardio|co|cyber|demi|ex|extra|géo|hospitalo|hydro|hyper|hypo|infra|inter|macro|mega|meta|mi|micro|mini|mono|multi|musculo|méga|méta|néo|omni|pan|para|pluri|poly|post|prim|pro|proto|pré|pseudo|psycho|péri|re|retro|ré|semi|simili|socio|super|supra|sus|trans|tri|télé|ultra|uni|vice|éco|[^ayà\\P{L}]) (..+)$",
       //grand, haut, nord, sud, sous, sur l|d|s|t
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      flags);
 
-  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)(h?[aeiouàéèíòóú].*[^è])$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_VERBS_C = Pattern.compile("^(c)([eiéèê].*)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú]...+)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_VERBS_INF = Pattern.compile("^([lntsmd]|nous|vous)(h?[aeiouàéèíòóú].*[^è])$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_INICI_VERBS = compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$", flags);
+  private static final Pattern APOSTROF_INICI_VERBS_M = compile("^(m)(h?[aeiouàéèíòóú].*[^è])$", flags);
+  private static final Pattern APOSTROF_INICI_VERBS_C = compile("^(c)([eiéèê].*)$", flags);
+  private static final Pattern APOSTROF_INICI_NOM_SING = compile("^([ld])(h?[aeiouàéèíòóú]...+)$", flags);
+  private static final Pattern APOSTROF_INICI_NOM_PLURAL = compile("^(d)(h?[aeiouàéèíòóú].+)$", flags);
+  private static final Pattern APOSTROF_INICI_VERBS_INF = compile("^([lntsmd]|nous|vous)(h?[aeiouàéèíòóú].*[^è])$", flags);
   //je, tu, il, elle, ce, on, nous, vous, ils
-  private static final Pattern HYPHEN_ON = Pattern.compile("^([\\p{L}]+[^aeiou])[’']?(il|elle|ce|on)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern HYPHEN_JE = Pattern.compile("^([\\p{L}]+[^e])[’']?(je)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern HYPHEN_TU = Pattern.compile("^([\\p{L}]+)[’']?(tu)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern HYPHEN_NOUS = Pattern.compile("^([\\p{L}]+)[’']?(nous)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern HYPHEN_VOUS = Pattern.compile("^([\\p{L}]+)[’']?(vous)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern HYPHEN_ILS = Pattern.compile("^([\\p{L}]+)[’']?(ils|elles)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|et|ou|de|en|à|aux|des)(\\d+)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  
-  private static final Pattern IMPERATIVE_HYPHEN = Pattern.compile(
-      "^([\\p{L}]+)[’']?(moi|toi|le|la|lui|nous|vous|les|leur|y|en)$", //|vs|y
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  
+  private static final Pattern HYPHEN_ON = compile("^([\\p{L}]+[^aeiou])[’']?(il|elle|ce|on)$", flags);
+  private static final Pattern HYPHEN_JE = compile("^([\\p{L}]+[^e])[’']?(je)$", flags);
+  private static final Pattern HYPHEN_TU = compile("^([\\p{L}]+)[’']?(tu)$", flags);
+  private static final Pattern HYPHEN_NOUS = compile("^([\\p{L}]+)[’']?(nous)$", flags);
+  private static final Pattern HYPHEN_VOUS = compile("^([\\p{L}]+)[’']?(vous)$", flags);
+  private static final Pattern HYPHEN_ILS = compile("^([\\p{L}]+)[’']?(ils|elles)$", flags);
+  private static final Pattern SPLIT_SUGGESTIONS = compile("^(..+\\p{L}|et|ou|de|en|à|aux|des)(\\d+)$", flags);
+  private static final Pattern IMPERATIVE_HYPHEN = compile(
+      "^([\\p{L}]+)[’']?(moi|toi|le|la|lui|nous|vous|les|leur|y|en)$", flags); //|vs|y
+
   //private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern VERB_INDSUBJ = Pattern.compile("V .*(ind|sub).*");
-  private static final Pattern VERB_IMP = Pattern.compile("V.* imp .*");
-  private static final Pattern VERB_INF = Pattern.compile("V.* inf");
-  private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V .* [123] s|V .* [23] p");
-  private static final Pattern VERB_INDSUBJ_C = Pattern.compile("V .* 3 s");
-  private static final Pattern NOM_SING = Pattern.compile("[NJZ] .* (s|sp)|V .inf|V .*ppa.* s");
-  private static final Pattern NOM_PLURAL = Pattern.compile("[NJZ] .* (p|sp)|V .*ppa.* p");
+  private static final Pattern VERB_INDSUBJ = compile("V .*(ind|sub).*");
+  private static final Pattern VERB_IMP = compile("V.* imp .*");
+  private static final Pattern VERB_INF = compile("V.* inf");
+  private static final Pattern VERB_INDSUBJ_M = compile("V .* [123] s|V .* [23] p");
+  private static final Pattern VERB_INDSUBJ_C = compile("V .* 3 s");
+  private static final Pattern NOM_SING = compile("[NJZ] .* (s|sp)|V .inf|V .*ppa.* s");
+  private static final Pattern NOM_PLURAL = compile("[NJZ] .* (p|sp)|V .*ppa.* p");
   //private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   //private static final Pattern VERB_INF = Pattern.compile("V.N.*");
-  private static final Pattern ANY_TAG = Pattern.compile("[NAZJPD].*");
+  private static final Pattern ANY_TAG = compile("[NAZJPD].*");
   
-  private static final Pattern VERB_1S = Pattern.compile("V .*(ind).* 1 s");
-  private static final Pattern VERB_2S = Pattern.compile("V .*(ind).* 2 s");
-  private static final Pattern VERB_3S = Pattern.compile("V .*(ind).* 3 s");
-  private static final Pattern VERB_1P = Pattern.compile("V .*(ind).* 1 p");
-  private static final Pattern VERB_2P = Pattern.compile("V .*(ind).* 2 p");
-  private static final Pattern VERB_3P = Pattern.compile("V .*(ind).* 3 p");
+  private static final Pattern VERB_1S = compile("V .*(ind).* 1 s");
+  private static final Pattern VERB_2S = compile("V .*(ind).* 2 s");
+  private static final Pattern VERB_3S = compile("V .*(ind).* 3 s");
+  private static final Pattern VERB_1P = compile("V .*(ind).* 1 p");
+  private static final Pattern VERB_2P = compile("V .*(ind).* 2 p");
+  private static final Pattern VERB_3P = compile("V .*(ind).* 3 p");
 
   private final String dictFilename;
 
@@ -180,28 +167,28 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(suggestionsList, word));
   }
 
-  private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
+  private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) {
     if (word.equals("voulai")) {
       return Arrays.asList("voulais", "voulait");
-    } else if (word.toLowerCase().equals("mm2")) {
+    } else if (word.equalsIgnoreCase("mm2")) {
       return Arrays.asList("mm²");
-    } else if (word.toLowerCase().equals("cm2")) {
+    } else if (word.equalsIgnoreCase("cm2")) {
       return Arrays.asList("cm²");
-    } else if (word.toLowerCase().equals("dm2")) {
+    } else if (word.equalsIgnoreCase("dm2")) {
       return Arrays.asList("dm²");
-    } else if (word.toLowerCase().equals("m2")) {
+    } else if (word.equalsIgnoreCase("m2")) {
       return Arrays.asList("m²");
-    } else if (word.toLowerCase().equals("km2")) {
+    } else if (word.equalsIgnoreCase("km2")) {
       return Arrays.asList("km²");
-    } else if (word.toLowerCase().equals("mm3")) {
+    } else if (word.equalsIgnoreCase("mm3")) {
       return Arrays.asList("mm³");
-    } else if (word.toLowerCase().equals("cm3")) {
+    } else if (word.equalsIgnoreCase("cm3")) {
       return Arrays.asList("cm³");
-    } else if (word.toLowerCase().equals("dm3")) {
+    } else if (word.equalsIgnoreCase("dm3")) {
       return Arrays.asList("dm³");
-    } else if (word.toLowerCase().equals("m3")) {
+    } else if (word.equalsIgnoreCase("m3")) {
       return Arrays.asList("m³");
-    } else if (word.toLowerCase().equals("km3")) {
+    } else if (word.equalsIgnoreCase("km3")) {
       return Arrays.asList("km³");
     }
     /*
@@ -227,8 +214,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     newSuggestions.addAll(findSuggestion(word, HYPHEN_NOUS, VERB_1P, 1, "-", true));
     newSuggestions.addAll(findSuggestion(word, HYPHEN_VOUS, VERB_2P, 1, "-", true));
     newSuggestions.addAll(findSuggestion(word, HYPHEN_ILS, VERB_3P, 1, "-", true));
-    
-    
+
     if (!newSuggestions.isEmpty()) {
       return newSuggestions;
     }
