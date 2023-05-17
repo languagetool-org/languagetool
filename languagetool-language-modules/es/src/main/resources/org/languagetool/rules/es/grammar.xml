@@ -24037,6 +24037,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" regexp="yes">gustar|agradar|encantar</token>
                 <token>mas</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">lo|la</token>
+                <token>que</token>
+                <token regexp="yes">más|menos</token>
+                <token regexp="yes">me|te|se|le|nos|os|les</token>
+                <token postag="V.[MSI].3S." postag_regexp="yes" inflected="yes" regexp="yes">gustar|agradar|encantar</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">me|te|se|le|nos|os|les</token>
@@ -24050,6 +24057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(V...3)S(.)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
                 <example correction="gustan">Me <marker>gusta</marker> las manzanas.</example>
                 <example correction="gustaban">Me <marker>gustaba</marker> mucho más las verdes.</example>
+                <example>Lo que más le gustaba los fines de semana era ir de “clubs”</example>
             </rule>
             <rule>
                 <antipattern>
