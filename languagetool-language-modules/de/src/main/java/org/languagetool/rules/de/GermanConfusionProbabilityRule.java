@@ -55,6 +55,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "wir bei der",
     "seht ihr",
     "seht zu, dass",
     "seht zu dass",
