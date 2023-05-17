@@ -3276,7 +3276,7 @@ USA
                 <pattern>
                     <marker>
                         <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
-                        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes' max="2"/>
+                        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                         <token regexp='yes'>d[ao]s?</token>
                         <token regexp='yes'>mesm[ao]s?</token>
                     </marker>
@@ -3289,10 +3289,35 @@ USA
                     </or>
                 </pattern>
                 <message>Esta perífrase poderá ser simplificada.</message>
-                <suggestion>\1 <match no='1' postag='DA.(..).|SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
+                <suggestion suppress_misspelled="yes">\1 <match no='1' postag='DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
+                <suggestion suppress_misspelled="yes">\1 <match no='1' postag='SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
                 <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
                 <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
                 <example correction="o seu motivo|o motivo destes|o motivo deles">O estudo dos conflitos permite perceber <marker>o motivo dos mesmos</marker> ocorrerem.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                        <token postag='AQ.+' postag_regexp='yes'/>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes'>mesm[ao]s?</token>
+                    </marker>
+                    <or>
+                        <token postag='V.+' postag_regexp='yes'>
+                            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+                            <exception>via</exception>
+                        </token>
+                        <token regexp='no'>ser</token>
+                    </or>
+                </pattern>
+                <message>Esta perífrase poderá ser simplificada.</message>
+                <suggestion suppress_misspelled="yes">\1 <match no='1' postag='DA.(..).' postag_replace='DP3$1S'>seu</match> \2 \3</suggestion>
+                <suggestion suppress_misspelled="yes">\1 <match no='1' postag='SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2 \3</suggestion>
+                <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
+                <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <example correction="o seu motivo justificável|o motivo justificável destes|o motivo justificável deles">O estudo dos conflitos permite perceber <marker>o motivo justificável dos mesmos</marker> ocorrerem.</example>
             </rule>
             <rule>
                 <pattern>
