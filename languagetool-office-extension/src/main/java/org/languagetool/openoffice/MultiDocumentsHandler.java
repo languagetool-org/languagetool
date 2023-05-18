@@ -750,7 +750,7 @@ public class MultiDocumentsHandler {
   /**
    * Get language from locale
    */
-  public Language getLanguage(Locale locale) {
+  public static Language getLanguage(Locale locale) {
     try {
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
         return Languages.getLanguageForShortCode(locale.Variant);

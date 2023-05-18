@@ -189,7 +189,7 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
       if (lastLocale == null || !OfficeTools.isEqualLocale(lastLocale, locale)) {
         if (hasLocale(locale)) {
           lastLocale = locale;
-          Language lang = Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
+          Language lang = MultiDocumentsHandler.getLanguage(locale);
           lt = new JLanguageTool(lang);
           for (Rule rule : lt.getAllRules()) {
             if (rule.isDictionaryBasedSpellingRule()) {
