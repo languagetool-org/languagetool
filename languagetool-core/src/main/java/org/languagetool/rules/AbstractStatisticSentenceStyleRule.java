@@ -48,6 +48,8 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private final int minPercent;
+  private int sentenceCount = 0;
+  private int numMatches = 0;
 
   /**
    * Condition to generate a hint (possibly including all exceptions)
@@ -130,6 +132,14 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
     return 100;
   }
 
+  public int getSentenceCount() {
+    return sentenceCount;
+  }
+
+  public int getNumberOfMatches() {
+    return numMatches;
+  }
+
   /* (non-Javadoc)
    * @see org.languagetool.rules.TextLevelRule#match(java.util.List)
    */
@@ -141,7 +151,7 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
     List<AnalyzedSentence> relevantSentences = new ArrayList<>();
     double percent;
     int pos = 0;
-    int sentenceCount = 0;
+    sentenceCount = 0;
     boolean excludeDirectSpeech = excludeDirectSpeech();
     boolean isDirectSpeech = false;
     for (AnalyzedSentence sentence : sentences) {
@@ -182,8 +192,9 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
       }
       pos += sentence.getCorrectedTextLength();
     }
+    numMatches = startPos.size();
     if (sentenceCount > 0) {
-      percent = (startPos.size() * denominator()) / sentenceCount;
+      percent = (numMatches * denominator()) / sentenceCount;
     } else {
       percent = 0;
     }

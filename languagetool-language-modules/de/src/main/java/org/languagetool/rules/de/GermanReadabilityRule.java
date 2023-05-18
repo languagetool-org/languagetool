@@ -124,7 +124,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
   }
 
   @Override
-  protected double getFleschReadingEase(double asl, double asw) {
+  public double getFleschReadingEase(double asl, double asw) {
     return 180 - asl - ( 58.5 * asw );  //  German
   }
   

@@ -132,7 +132,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
    * http://ridi.ibict.br/bitstream/123456789/273/1/EnyIS2007.pdf
    */
   @Override
-  protected double getFleschReadingEase(double asl, double asw) {
+  public double getFleschReadingEase(double asl, double asw) {
     return 206.84 - (1.02 * asl) - ( 60.0 * asw);  //  Portuguese
   }
   
