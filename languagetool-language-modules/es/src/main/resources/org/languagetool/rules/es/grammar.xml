@@ -22471,6 +22471,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN_AREA" name="*el mismo área">
             <url>https://www.fundeu.es/recomendacion/el-area-pero-la-otra-area/</url>
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">manera|forma</token>
+                <token min="0" postag="RG.*" postag_regexp="yes"/>
+                <token postag_regexp="yes" postag="V.P..SF|A..[FC]S."/>
+            </antipattern>
             <rule>
                 <pattern>
                     <unify negate="yes">
@@ -22614,7 +22620,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>de</token>
                 <token regexp="yes">forma|manera</token>
+                <token min="0" postag="RG.*" postag_regexp="yes"/>
                 <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                <example>Para expresar de manera más sencilla oraciones que contienen hipérboles.</example>
             </antipattern>
             <antipattern>
                 <token>de</token>
