@@ -42,7 +42,17 @@ USA
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="Style" type="style">
-
+        <rule id="RETO_POSSESSIVO_BR" name="Substituição de pronome reto por pronome possessivo">
+            <pattern>
+                <token>à</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token>de</token>
+                <token>vocês</token>
+            </pattern>
+            <message>Substitua por <suggestion>à sua \2</suggestion> ou <suggestion>à vossa procura</suggestion>.</message>
+            <example correction="à sua procura|à vossa procura">Eles andaram meses <marker>à procura de vocês</marker>.</example>
+            <example>Eles andaram meses <marker>à vossa procura</marker>.</example>
+        </rule>
         <!-- FIM ASSISTIU AO (SENTIDO DE VER) ASSISTIU O -->
         <!-- ********************************************************** -->
         <!-- CONFUNDIR ENTRAR COM ENTRAR DENTRO -->
