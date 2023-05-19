@@ -15138,10 +15138,25 @@ regexp case-insensitive maken: (?i)
                     </and>
                 </antipattern>
                 <antipattern>
-                    <token spacebefore="yes" case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token><exception postag="SENT_START"/></token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
                     <token regexp="yes">[,]</token>
                     <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
                     <example>Dan moet je bij het ministerie van Landbouw, Veeteelt en Visserij zijn.</example>
+                    <example>(SketchUp, Fusion 360, OnShape)</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[,]</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token postag_regexp="yes" postag="GET:ARA.*"/>
+                    <example>Dat draait nog op de oude versie, Word 1.0.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[,]</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token regexp="yes">en|van</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <example>Het andere ministerie, Justitie en Veiligheid geloof ik.</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[,;]</token>
@@ -15158,11 +15173,11 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="DUBBELOP" name="Voorlopig concept" tags="picky">
             <rule>
                 <pattern><token>voorlopig</token><token>concept</token></pattern>
-                    <message>Een concept is toch altijd voorlopig? U kunt ook alleen <suggestion>\1</suggestion> of <suggestion>\2</suggestion> gebruiken.</message>
-                    <example correction="voorlopig|concept">Dit is een <marker>voorlopig concept</marker>.</example>
-                    <example>Dit is een <marker>concept</marker>.</example>
-                </rule>
-            </rulegroup>
+                <message>Een concept is toch altijd voorlopig? U kunt ook alleen <suggestion>\1</suggestion> of <suggestion>\2</suggestion> gebruiken.</message>
+                <example correction="voorlopig|concept">Dit is een <marker>voorlopig concept</marker>.</example>
+                <example>Dit is een <marker>concept</marker>.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="SPELDE_MOUW" name="spelde/speldde op mouw" type="misspelling" >
             <rule>
@@ -24440,6 +24455,11 @@ regexp case-insensitive maken: (?i)
             <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern>
             <antipattern><token spacebefore="yes">-</token><token regexp="yes" spacebefore="yes">en|of</token></antipattern>
             <antipattern><token regexp="yes" spacebefore="yes">en|of</token><token spacebefore="yes">-</token></antipattern>
+            <antipattern>
+                <token spacebefore="yes" regexp="yes">[-—]</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                <example>AMSTERDAM (ANP/AFP) - De Nederlandse...</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -24516,7 +24536,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="?">Hoe kan dat<marker>???????</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="_2_AANH_A" name="Twee enkele aanhalingstekens" tags="picky">
+        <rulegroup id="_2_AANH_A" name="Twee enkele aanhalingstekens" tags="picky" default="off">
+            <!-- MB 19-05-23 | rule does the same as "_2_AANH_B" -->
             <rule>
                 <pattern>
                     <token regexp="yes">'|‘|’</token>
@@ -24527,7 +24548,8 @@ regexp case-insensitive maken: (?i)
                 <example>Zie je je fout?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KOMMA_AANH" name="Komma als aanhalingsteken" tags="picky">
+        <rulegroup id="KOMMA_AANH" name="Komma als aanhalingsteken" tags="picky" default="off">
+            <!-- MB 19-05-23 | rule does the same as "KOMMA_KOMMA" -->
             <!-- 2014-08-20 TaalTik -->
             <rule>
                 <pattern>
@@ -24572,21 +24594,25 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">&APOSTROPH;</token>
                     <token spacebefore="no" regexp="yes">&APOSTROPH;</token>
                 </pattern>
-                <message>Waarschijnlijk bedoelt u dit leesteken: <suggestion>"</suggestion>.</message>
-                <example correction="&quot;">Ik lees een <marker>''</marker>lekker.</example>
+                <message>Waarschijnlijk bedoelt u een van deze leestekens: <suggestion>"</suggestion> of <suggestion><match no="1"/></suggestion>.</message>
+                <example correction="&quot;|'">Ik lees een <marker>''</marker>lekker.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_KOMMA" name="dubbele komma i.p.v. aanhalingsteken onder">
             <rule>
                 <pattern>
-                    <token spacebefore="yes">,</token>
-                    <token spacebefore="no">,</token>
+                    <marker>
+                        <token spacebefore="yes">,</token>
+                        <token spacebefore="no">,</token>
+                    </marker>
+                    <token><exception spacebefore="no">,</exception></token>
                 </pattern>
-                <message>Waarschijnlijk bedoelt u hier dubbele aanhalingstekens.</message>
+                <message>Bedoelt u misschien dubbele aanhalingstekens?</message>
                 <suggestion>„</suggestion>
                 <suggestion>"</suggestion>
                 <example correction="„|&quot;">Ik lees een <marker>,,</marker>lekker.</example>
                 <example>Ik lees een <marker>„</marker>lekker".</example>
+                <example>Rare zin ,,,,, maar geen aanhalingstekens.</example>
             </rule>
         </rulegroup>
     </category>
