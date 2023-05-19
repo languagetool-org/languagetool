@@ -32447,11 +32447,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       No CD temos sou algumas fotos. → No CD temos só algumas fotos.
       No CD temos sou uma foto. → No CD temos só uma foto.
       -->
+            <antipattern>
+                 <token postag='N.+' postag_regexp='yes'>
+                 <exception>são</exception></token>
+                 <token>sou</token>
+            </antipattern>
             <pattern>
                 <marker>
                 <token postag='V.+' postag_regexp='yes'>
                     <exception>nada</exception>
-                    <exception postag_regexp='yes' postag='CS|CC|RG|VMN0000|N.+|VMP.+'/>
+                    <exception postag_regexp='yes' postag='CS|CC|RG|VMN0000|VMP.+'/>
                 </token>
                     <token>sou</token>
                 </marker>
