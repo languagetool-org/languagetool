@@ -32448,10 +32448,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       No CD temos sou uma foto. → No CD temos só uma foto.
       -->
             <pattern>
-                <token postag='V.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='CS|CC|RG|VMN0000'/>
-                </token>
                 <marker>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception>nada</exception>
+                    <exception postag_regexp='yes' postag='CS|CC|RG|VMN0000|N.+|VMP.+'/>
+                </token>
                     <token>sou</token>
                 </marker>
                 <token min="0" max="1"><exception postag='NC.+|AQ.+' postag_regexp='yes'/></token>
@@ -32460,11 +32461,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </token>
             </pattern>
             <message>Possível confusão de termos.</message>
-            <suggestion>só</suggestion>
-            <example correction="só">Abri o álbum, é <marker>sou</marker> fotos de carros.</example>
-            <example correction="só">Abri o álbum, são <marker>sou</marker> fotos de carros.</example>
-            <example correction="só">No CD temos <marker>sou</marker> algumas fotos.</example>
-            <example correction="só">No CD temos <marker>sou</marker> uma foto.</example>
+            <suggestion>\1, \2</suggestion>
+            <suggestion>\1 só</suggestion>
+            <example correction="é, sou|é só">Abri o álbum, é <marker>é sou</marker> fotos de carros.</example>
+            <example correction="são, sou|são só">Abri o álbum, são <marker>são sou</marker> fotos de carros.</example>
+            <example correction="temos, sou|temos só">No CD <marker>temos sou</marker> algumas fotos.</example>
+            <example correction="temos, sou|temos só">No CD <marker>temos sou</marker> uma foto.</example>
         </rule>
 
 
