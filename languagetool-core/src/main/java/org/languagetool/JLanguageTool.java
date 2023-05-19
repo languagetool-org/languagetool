@@ -1177,7 +1177,9 @@ public class JLanguageTool {
     }
     RemoteRuleMetrics.RequestResult loggedResult = result.isSuccess() ?
       RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.ERROR;
-    RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, loggedResult);
+    if (result.isRemote()) {
+      RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, loggedResult);
+    }
     for (int sentenceIndex = 0; sentenceIndex < analyzedSentences.size(); sentenceIndex++) {
       AnalyzedSentence sentence = analyzedSentences.get(sentenceIndex);
       List<RuleMatch> matches = result.matchesForSentence(sentence);
