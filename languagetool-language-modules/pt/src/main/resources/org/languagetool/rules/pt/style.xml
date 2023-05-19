@@ -1681,34 +1681,16 @@ USA
         Precisamos que nos dê o maior feedback necessário.
         Precisamos que nos dê feedback.
         -->
-        <rulegroup id='FEEDBACK' name="feedback" tags="picky">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token skip="2">fornecer</token>
-                    </marker>
-                    <token regexp='yes'>feedbacks?</token>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion>dar</suggestion>
-                <example correction="dar">para <marker>fornecer</marker> o feedback necessário.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token skip="2" inflected='yes'>fornecer</token>
-                    </marker>
-                    <token regexp='yes'>feedbacks?</token>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match></suggestion>
-                <example correction="dê">Precisamos que nos <marker>forneça</marker> o feedback necessário.</example>
-                <example>Precisamos que nos <marker>dê</marker> o feedback necessário.</example>
-                <example>Precisamos que nos <marker>dê</marker> o maior feedback necessário.</example>
-                <example>Precisamos que nos <marker>dê</marker> feedback.</example>
-            </rule>
+        <rule id='FEEDBACK' name="feedback" tags="picky">
+            <pattern>
+                <token skip="2" inflected="yes">fornecer</token>
+                <token regexp='yes'>feedbacks?</token>
+            </pattern>
+            <message>O verbo "fornecer" é sinônimo de "abastecer" ou "proporcionar". Neste contexto, é preferível utilizar o verbo "dar".</message>
+            <suggestion><match no='1' include_skipped='all' postag_regexp='yes' postag='V.+'>dar</match> \2</suggestion>
+            <example correction="dar o feedback">para <marker>fornecer o feedback</marker> necessário.</example>
+        </rule>
 
-        </rulegroup>
         <!-- NUM não -->
         <rule id='NUM_NÃO' name="[Confusão] num/não" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
@@ -6059,7 +6041,7 @@ USA
 
 
         <!-- UNS COM OS OUTROS entre si/nós/vocês/vós -->
-        <rulegroup id='UNS_COM_OS_OUTROS_ENTRE_SI_NÓS_VÓS_VOCÊS' name="[Simplificar] Uns com os outros → entre si/nós/vós/vocês" type="style">
+        <rulegroup id='UNS_COM_OS_OUTROS_ENTRE_SI_NÓS_VÓS_VOCÊS' name="[Simplificar] Uns com os outros → entre si/nós/vós/vocês" type="style" tags="picky">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-31 + 2023-01-01 (25-JUL-2022+) -->
             <!--
       As culturas estabeleceram regras em como os habitantes se relacionam uns com os outros. → As culturas estabeleceram regras em como os habitantes se relacionam entre si.
