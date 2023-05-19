@@ -232,7 +232,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token>het</token>
                     <token postag="ZNW:EKV:DE_"/>
-                    <token postag="UNKNOWN"></token>
+                    <token regexp="yes">[/-]</token>
                     <example>Het koffie / thee-momentje.</example>
                 </antipattern>
                 <antipattern>
@@ -247,6 +247,13 @@ regexp case-insensitive maken: (?i)
                     <token postag="ZNW:EKV:DE_"/>
                     <token regexp="yes">de|het|een</token>
                     <example>Het kaart de problemen aan.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="WKW.*"></token>
+                    <token>het</token>
+                    <token postag="ZNW:EKV:DE_"/>
+                    <token postag="SENT_END"/>
+                    <example>Toch blijft het theorie.</example>
                 </antipattern>
                 <antipattern>
                     <token postag="VGW"/>
