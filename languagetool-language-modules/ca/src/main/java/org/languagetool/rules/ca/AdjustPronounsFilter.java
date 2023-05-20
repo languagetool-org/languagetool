@@ -103,7 +103,35 @@ public class AdjustPronounsFilter extends RuleFilter {
     removeReflexive.put("se'ns", "ens");
     removeReflexive.put("se us", "us");
     removeReflexive.put("se'ls", "els");
+  }
 
+  private static Map<String, String> addReflexiveVowel = new HashMap<>();
+  static {
+    addReflexiveVowel.put("1S", "m'");
+    addReflexiveVowel.put("2S", "t'");
+    addReflexiveVowel.put("3S", "s'");
+    addReflexiveVowel.put("1P", "ens ");
+    addReflexiveVowel.put("2P", "us ");
+    addReflexiveVowel.put("3P", "s'");
+  }
+
+  private static Map<String, String> addReflexiveConsonant = new HashMap<>();
+  static {
+    addReflexiveConsonant.put("1S", "em ");
+    addReflexiveConsonant.put("2S", "et ");
+    addReflexiveConsonant.put("3S", "es ");
+    addReflexiveConsonant.put("1P", "ens ");
+    addReflexiveConsonant.put("2P", "us ");
+    addReflexiveConsonant.put("3P", "es ");
+  }
+
+  private static Map<String, String> addReflexiveImperative = new HashMap<>();
+  static {
+    addReflexiveImperative.put("2S", "'t");
+    addReflexiveImperative.put("3S", "'s");
+    addReflexiveImperative.put("1P", "-nos");
+    addReflexiveImperative.put("2P", "-vos");
+    addReflexiveImperative.put("3P", "-se");
   }
 
   @Override
@@ -121,6 +149,8 @@ public class AdjustPronounsFilter extends RuleFilter {
     int toLeft = 0;
     boolean done = false;
     String firstVerb = "";
+    String firstVerbPersonaNumber = "";
+    String firstVerbPersonaNumberImperative = "";
     int firstVerbPos = 0;
     boolean inPronouns = false;
     boolean firstVerbValid = false;
@@ -138,6 +168,12 @@ public class AdjustPronounsFilter extends RuleFilter {
           firstVerb = currentTknStr;
           firstVerbPos = toLeft;
           firstVerbValid = currentTkn.matchesPosTagRegex("V.[SI].*");
+          if (firstVerbValid) {
+            firstVerbPersonaNumber = currentTkn.readingWithTagRegex("V.[SI].*").getPOSTag().substring(4, 6);
+          }
+          if (currentTkn.matchesPosTagRegex("V.M.*")) {
+            firstVerbPersonaNumberImperative = currentTkn.readingWithTagRegex("V.M.*").getPOSTag().substring(4, 6);
+          }
         }
         toLeft++;
       } else {
@@ -177,6 +213,13 @@ public class AdjustPronounsFilter extends RuleFilter {
         break;
       case "replaceEmEn":
         replacement = doReplaceEmEn(firstVerb, pronounsStr, verbStr);
+        break;
+      case "addPronounReflexive":
+        replacement = doAddPronounReflexive(firstVerb, pronounsStr, verbStr, firstVerbPersonaNumber);
+        break;
+      case "addPronounReflexiveImperative":
+        replacement = doAddPronounReflexiveImperative(firstVerb, pronounsStr, verbStr,
+            firstVerbPersonaNumberImperative);
         break;
       }
       if (!replacement.isEmpty()) {
@@ -221,6 +264,37 @@ public class AdjustPronounsFilter extends RuleFilter {
     }
     return replacement;
   }
+
+  private String doAddPronounReflexive(String firstVerb, String pronounsStr, String verbStr,
+      String firstVerbPersonaNumber) {
+    String pronounToAdd = "";
+    String replacement = "";
+    if (pronounsStr.isEmpty()) {
+      if (pApostropheNeeded.matcher(verbStr).matches()) {
+        pronounToAdd = addReflexiveVowel.get(firstVerbPersonaNumber);
+      } else {
+        pronounToAdd = addReflexiveConsonant.get(firstVerbPersonaNumber);
+      }
+      if (pronounToAdd != null) {
+        replacement = StringTools.preserveCase(pronounToAdd + verbStr, verbStr).trim().replaceAll("' ", "'");
+      }
+    }
+    return replacement;
+  }
+
+  private String doAddPronounReflexiveImperative(String firstVerb, String pronounsStr, String verbStr,
+      String firstVerbPersonaNumber) {
+    String pronounToAdd = "";
+    String replacement = "";
+    if (pronounsStr.isEmpty()) {
+      pronounToAdd = addReflexiveImperative.get(firstVerbPersonaNumber);
+      if (pronounToAdd != null) {
+        replacement = StringTools.preserveCase(verbStr + pronounToAdd, verbStr).trim();
+      }
+    }
+    return replacement;
+  }
+
   private String doReplaceEmEn(String firstVerb, String pronounsStr, String verbStr) {
     String replacement = "";
     if (pronounsStr.equalsIgnoreCase("em")) {
