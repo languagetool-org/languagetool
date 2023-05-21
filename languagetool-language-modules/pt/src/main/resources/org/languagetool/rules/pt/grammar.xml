@@ -30778,13 +30778,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <!-- PARA FICA para ficar -->
-        <rule id='PARA_FICA' name="[Confusão] fica/ficar">
+        <rule id='PARA_FICA' name="[Confusão] Expressões do tipo: fica/ficar">
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-05-21 (Checked/Enhanced) (2-MAR-2023+) -->
+            <!--
+      Esforça-te para FICA bem. → Esforça-te para FICAR bem.
+      -->
+
+            <antipattern>
+                <token regexp='yes'>pa?ra</token>
+                <token postag='VMM02S0' postag_regexp='no'/>
+                <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+                <token regexp='yes' spacebefore='no'>&pronomes_obliquos;</token>
+                <example>Mas o mundo ao seu redor estará diferente e espero que você possa crescer e contribuir para melhora-lo ainda mais.</example>
+                <example>Estou fazendo um tratamento intensivo para recupera-las!!</example>
+                <example>Branca chama Vini para ajuda-la a cuidar de Mirela.</example>
+                <example>Devemos nos preparar para barra-los na Copa e nas Olimpíadas.</example>
+                <example>Eles só contam conosco para protege-los e ajuda-los.</example>
+                <example>Clique nas imagens para conhece-las!!</example>
+            </antipattern>
+
             <pattern>
                 <token regexp='yes'>pa?ra</token>
-                <token>fica</token>
+                <marker>
+                    <token postag='VMM02S0' postag_regexp='no'>
+                        <exception postag_regexp='yes' postag='NC.+|AQ.+|RG|RN|SPS00|CC|[ADP].+'/>
+                    </token>
+                </marker>
+                <token postag='NC.+|AQ.+|V.+|SPS00|(SPS00:)?D[ADI].+|CC|_PUNCT|RG' postag_regexp='yes'>
+                    <exception regexp='no'>de</exception>
+                </token>
             </pattern>
-            <message>Substitua por <suggestion>para ficar</suggestion>.</message>
-            <example correction="para ficar">Esforça-te <marker>para fica</marker> bem.</example>
+            <message>Possível confusão de termos.</message>
+            <suggestion><match no='2' postag='VMN0000' postag_regexp="no" postag_replace='VMM02S0'/></suggestion>
+            <example correction="ficar">Esforça-te para <marker>fica</marker> bem.</example>
         </rule>
 
 
