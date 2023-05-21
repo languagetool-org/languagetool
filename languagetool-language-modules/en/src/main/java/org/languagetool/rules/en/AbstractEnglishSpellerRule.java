@@ -77,6 +77,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "with holdings",
     "hard coded",
     "hands free",
+    "screens hare", // suggestion to screenshare
+    "screens hares", // suggestion to screenshare
+    "screens hared", // suggestion to screenshare
+    "screens haring", // suggestion to screenshare
     "in flight",
     "in car",
     "client side",
