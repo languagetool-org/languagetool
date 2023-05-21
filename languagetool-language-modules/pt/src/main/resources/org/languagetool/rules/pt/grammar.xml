@@ -30757,6 +30757,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+    <!-- FAZES fases -->
+    <rule id='CONFUSÃO_FAZES_FASES' name="[Confusão] fazes/fases" default='temp_off'>
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-05-21 (2-MAR-2023+) -->
+            <!--
+      Todas as FAZES da vida têm que ser desfrutadas. → Todas as FASES da vida têm que ser desfrutadas.
+      -->
+      <pattern>
+        <token>as</token>
+        <marker>
+          <token>fazes</token>
+        </marker>
+        <token>da</token>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>fases</suggestion>
+      <example correction="fases">Todas as <marker>fazes</marker> da vida têm que ser desfrutadas.</example>
+    </rule>
+
+
         <!-- PARA FICA para ficar -->
         <rule id='PARA_FICA' name="[Confusão] fica/ficar">
             <pattern>
