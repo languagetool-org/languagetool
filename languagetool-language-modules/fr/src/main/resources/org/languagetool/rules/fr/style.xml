@@ -718,7 +718,7 @@ USA
                 <example correction="desquels">Ce sont les rois <marker>de lesquels</marker> il apprécié la bravoure.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" type="style">
+        <rulegroup id="HISTOIRE_DE_V" name="histoire de (afin de)" type="style" tone_tags="formal">
             <antipattern>
                 <token>histoire</token>
                 <token inflected="yes">de</token>
@@ -786,7 +786,7 @@ USA
                 <example correction="afin d'|pour ">...des crampons, du piolet, de la corde, etc ... <marker>histoire d'</marker>être autonome.</example>
             </rule>
         </rulegroup>
-        <rule id="DE_MANIERE_A_CE_QUE" name="de manière à ce que" type="style">
+        <rule id="DE_MANIERE_A_CE_QUE" name="de manière à ce que" type="style" tone_tags="formal">
             <pattern>
                 <marker>
                     <token>de</token>
@@ -800,7 +800,7 @@ USA
             <suggestion>\1 \2 \5</suggestion>
             <example correction="de manière que">Faites bien votre travail <marker>de manière à ce que</marker> vous soyez récompensé.</example>
         </rule>
-        <rulegroup id="JE_M_EXCUSE" name="Je m’excuse" type="style">
+        <rulegroup id="JE_M_EXCUSE" name="Je m’excuse" type="style" tone_tags="formal">
             <rule>
                 <pattern>
                     <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
@@ -830,7 +830,7 @@ USA
                 <example correction="excuse-moi">Je ne voulais pas te déranger, <marker>je m'excuse</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="LE_COVID" name="la Covid et le Covid" type="style">
+        <rule id="LE_COVID" name="la Covid et le Covid" type="style" tone_tags="clarity">
             <pattern>
                 <token postag="(P\+)?D m s" postag_regexp="yes"/>
                 <token regexp="yes">covid(-19)?</token>
@@ -844,7 +844,7 @@ USA
             <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
         </rule>
     </category>
-    <category id="CAT_PLEONASMES" name="Pléonasmes" type="style">
+    <category id="CAT_PLEONASMES" name="Pléonasmes" type="style" tone_tags="clarity">
         <!--The following rules were created by Hugo Voisard
         (the rule on "ajouter en plus"
         was already there before the category was created,
@@ -3464,7 +3464,7 @@ USA
             <example correction="semblant">faire <marker>assemblant</marker></example>
             <example><marker>faire semblant</marker></example>
         </rule>
-        <rule id="CENNE" name="cenne">
+        <rule id="CENNE" name="cenne" tone_tags="formal">
             <pattern>
                 <token regexp="yes">cennes?</token>
             </pattern>
@@ -19122,7 +19122,7 @@ USA
                 <example>Il détient le plus grand nombre de Coupe UEFA (3) avec l'Inter Milan, Valence CF, Liverpool FC et la Juventus Turin.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)">
+        <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)" tone_tags="clarity">
             <antipattern>
                 <token>wild</token>
                 <token>wild</token>
@@ -20360,7 +20360,7 @@ USA
             <example correction="me le rappelle|me rappelle">Je <marker>m'en rappelle</marker> bien !</example>
         </rule>
     </category>
-    <category id="REPETITIONS_STYLE" name="repetitions style" type="style">
+    <category id="REPETITIONS_STYLE" name="repetitions style" type="style" tone_tags="clarity">
         <rule id="REP_MAINTENANT" name="maintenant" min_prev_matches="2" tags="picky" default="off">
             <pattern>
                 <token>maintenant</token>
