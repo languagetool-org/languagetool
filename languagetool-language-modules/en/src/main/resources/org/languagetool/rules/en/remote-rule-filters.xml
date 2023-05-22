@@ -2508,6 +2508,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <suggestion>, but</suggestion>
                 <example correction=", but">I have not been following this proceeding at all<marker> but</marker> feel we should watch closely.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="CC|SENT_START|PCT" postag_regexp="yes" />
+                    <marker>
+                        <token>attached</token>
+                    </marker>
+                    <token regexp="yes">you|they</token>
+                </pattern>
+                <example correction=""><marker>Attached</marker> you can find all details.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
