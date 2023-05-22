@@ -1638,8 +1638,23 @@ regexp case-insensitive maken: (?i)
                     <token skip="7" regexp="yes">u(w)?</token>
                     <example>Vijftien dagen geleden hebben wij uw verzoek ontvangen.</example>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">[wjz]ij</token>
+                    <token inflected="yes">zijn</token>
+                    <token regexp="yes">degene[n]?</token>
+                    <example>Zij waren degenen die het vuur aanstaken.</example>
+                    <example>Jij was degene die het veroorzaakte.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="2" postag="SENT_START"/>
+                    <token regexp="yes">[.!?]</token>
+                    <example>Wij?</example>
+                    <example>Zij wel.</example>
+                    <example>Wat jij?</example>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
+                    <token regexp="yes" case_sensitive="yes">[JWZMjwzm]ij<exception postag="UNKNOWN"/></token>
                 </pattern>
                 <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="(?i)ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
@@ -1649,6 +1664,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
                 <example><marker>Wij</marker> als parlementsleden zouden zo iets niet toelaten.</example>
                 <example><marker>Jij</marker> slimme mensen vinden zeker een oplossing.</example>
+                <example>Dat is waar JIJ het over hebt!</example>
                 <example>Ze kozen haar over <marker>mij</marker>.</example>
                 <example><marker>Mij</marker> is meegedeeld dat u op zoek naar werk bent.</example>
                 <example>Ik vond het leuk, en <marker>jij</marker>?</example>
