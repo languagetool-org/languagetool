@@ -11758,20 +11758,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='arrasou'>Ele <marker>arrasou com</marker> a concorrência.</example>
                 <example>Ele <marker>arrasou com facilidade</marker> a concorrência.</example>
             </rule>
-            <rule id='PHRASAL_VERB_COM_2' name='Regência verbal: VERBO + com (a)'>
-                <!--                     Loosely based on CoGrOO rules                 -->
-                <pattern>
-                    <token min='0' regexp='yes'>me|te|se|vos</token>
-                    <token inflected='yes'>habituar</token>
-                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
-                    <token>com</token>
-                </pattern>
-                <message>Neste contexto o verbo "habituar" rege-se com a preposição "a".</message>
-                <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/><match no='3' include_skipped='all'/><match no='4' include_skipped='all'/> a</suggestion>
-                <example correction='habituar-te a'>Conseguiste <marker>habituar-te com</marker> o clima?</example>
-                <example>Consegues <marker>habituar-te com calma</marker> ao clima.</example>
-            </rule>
             <rule id='PHRASAL_VERB_EM' name='Regência verbal: VERBO + em ()'>
                 <!--                     Loosely based on CoGrOO rules                 -->
                 <pattern>
@@ -11836,17 +11822,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>…rimeira é eleita por sufrágio universal directo e tem poderes fundamentalmente legislativos, além de fiscalizar…</example>
                 <example>Que mal tem <marker>fazer chichi</marker> na piscina?</example>
             </rule>
-
-            <rule id='PHRASAL_VERB_SOBREPOR_SOBRE' name='Regência verbal: Sobrepor sobre/a'>
-                <!--      Created by Tiago F. Santos, 2019-09-21      -->
-                <pattern>
-                    <token inflected='yes' regexp='yes'>sobrep[oô]r</token>
-                    <token>sobre</token>
-                </pattern>
-                <message>O verbo 'sobrepor' rege-se com a preposição 'a'.</message>
-                <suggestion>\1 a</suggestion>
-                <example correction='sobrepôs a'>Ele <marker>sobrepôs sobre</marker>...</example>
-            </rule>
         </rulegroup>
 
         <rulegroup id='PHRASAL_VERB_A' name='Regência verbal: VERBO + a'>
@@ -11906,9 +11881,208 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Torna-se necessário obedecer a normas de conduta.</example>
                 <example>A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento.</example>
             </rule>
-        </rulegroup>
+            <!-- Moved from the PHRASAL_VERBS_ERRORS rulegroup above and split to handle contractions. -->
+            <rule default="temp_off">
+                <antipattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <token>com</token>
+                    <token regexp="yes">a(quel[ea])?s?|os?</token>
+                    <example>Já me habituei com a mudança.</example>
+                    <example>Já me habituei com as mudanças.</example>
+                    <example>Você vai se habituar com o novo comandante.</example>
+                    <example>Você vai se habituar com os novos recrutas.</example>
+                    <example>Nós nos habituamos com aquela rotina.</example>
+                    <example>Nós nos habituamos com aquelas pessoas.</example>
+                    <example>Nós nos habituamos com aquele equipamento.</example>
+                    <example>Nós nos habituamos com aqueles computadores.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <token regexp="yes">co(m|n[st])igo|conv?osco</token>
+                    <example>Ela já se habituou comigo.</example>
+                    <example>Ela já se habituou contigo.</example>
+                    <example>Ela já se habituou consigo.</example>
+                    <example>Ela já se habituou conosco.</example>
+                    <example>Ela já se habituou convosco.</example>
+                </antipattern>
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>com</token>
+                    </marker>
+                    <!-- A few adverbial phrases we'd like to avoid -->
+                    <token regexp="yes" negate="yes">calma|pressa|paciência|vontade|certeza|tempo</token>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion>a</suggestion>
+                <example correction='a'>Ainda não me habituei <marker>com</marker> ele.</example>
+                <example correction='a'>Tenho dificuldades em habituar-me <marker>com</marker> novas rotinas.</example>
+                <example>Consegues habituar-te com calma ao clima.</example>
+                <example>Vou me habituar com certeza aos seus caprichos.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>com</token>
+                        <token regexp="yes">a(quel[ea])?s?</token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion><match no="6" regexp_match="a(.*)" regexp_replace="à$1"/></suggestion>
+                <example correction='à'>Você conseguiu se habituar <marker>com a</marker> nova regra?</example>
+                <example correction='àquele'>Eles já se habituaram <marker>com aquele</marker> professor.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>com</token>
+                        <token regexp="yes">os?</token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion>a\6</suggestion>
+                <example correction='ao'>Você conseguiu se habituar <marker>com o</marker> clima?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>comigo</token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion>a mim</suggestion>
+                <example correction='a mim'>Os alunos ainda não se habituaram <marker>comigo</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>contigo</token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion>a ti</suggestion>
+                <example correction='a ti'>Os alunos ainda não se habituaram <marker>contigo</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>consigo</token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion>a si</suggestion>
+                <example correction='a si'>Em seu novo corpo, já se habituou <marker>consigo</marker> mesmo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>conosco</token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion>a nós</suggestion>
+                <example correction='a nós'>Os alunos ainda não se habituaram <marker>conosco</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected='yes'>habituar</token>
+                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+                    <token min='0' regexp='yes'>me|te|se|nos|vos</token>
+                    <marker>
+                        <token>convosco</token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, o verbo &quot;habituar&quot; rege-se com a preposição &quot;a&quot;.</message>
+                <suggestion>a vós</suggestion>
+                <example correction='a vós'>Os alunos ainda não se habituaram <marker>convosco</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <!-- Add a skip of 3, running this on our corpora seems to have given me the best results. -->
+                    <token inflected='yes' regexp='yes' skip="3">
+                            sobrep[oô]r
+                        <exception scope="next" postag_regexp="yes" postag="SP.*">a</exception>
+                        <exception scope="next">,</exception>
+                    </token>
+                    <token>sobre</token>
+                    <token regexp="yes">a(quel[ea])?s?|os?</token>
+                    <example>Está sobreposto sobre a segunda camada.</example>
+                    <example>Eu a sobrepus sobre as outras.</example>
+                    <example>Agora sobreponha esta sobre aquela.</example>
+                    <example>Devemos sobrepor o primeiro círculo sobre aquele quadrado.</example>
+                </antipattern>
+                <pattern>
+                    <token inflected='yes' regexp='yes' skip="3">sobrep[oô]r
+                    <exception scope="next" postag_regexp="yes" postag="SP.*">a</exception>
+                    <exception scope="next">,</exception>
+                </token>
+                <marker>
+                    <token>sobre</token>
+                </marker>
+            </pattern>
+            <message>O verbo &quot;sobrepor&quot; rege-se com a preposição &quot;a&quot;.</message>
+            <suggestion>a</suggestion>
+            <example correction='a'>Ele sobrepôs luzes azuis <marker>sobre</marker> luzes amarelas.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token inflected='yes' regexp='yes' skip="3">
+                        sobrep[oô]r
+                    <exception scope="next" postag_regexp="yes" postag="SP.*">a</exception>
+                    <exception scope="next">,</exception>
+                </token>
+                <marker>
+                    <token>sobre</token>
+                    <token regexp="yes">a(quel[ea])?s?</token>
+                </marker>
+            </pattern>
+            <message>O verbo &quot;sobrepor&quot; rege-se com a preposição &quot;a&quot;.</message>
+            <suggestion><match no="3" regexp_match="a(.*)" regexp_replace="à$1"/></suggestion>
+            <example correction='à'>Ele sobrepôs a luz azul <marker>sobre a</marker> amarela.</example>
+        </rule>
+        <rule default="temp_off">
+            <pattern>
+                <token inflected='yes' regexp='yes' skip="3">
+                        sobrep[oô]r
+                    <exception scope="next" postag_regexp="yes" postag="SP.*">a</exception>
+                    <exception scope="next">,</exception>
+                </token>
+                <marker>
+                    <token>sobre</token>
+                    <token regexp="yes">os?</token>
+                </marker>
+            </pattern>
+            <message>O verbo &quot;sobrepor&quot; rege-se com a preposição &quot;a&quot;.</message>
+            <suggestion>a\3</suggestion>
+            <example correction='ao'>Ele sobrepôs luzes azuis <marker>sobre o</marker> fundo amarelo.</example>
+        </rule>
+    </rulegroup>
 
-        <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
+<rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
             <!--       Created by Tiago F. Santos, 2017-01-27 -->
             <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
             <short>Erro de colocação pronominal</short>
