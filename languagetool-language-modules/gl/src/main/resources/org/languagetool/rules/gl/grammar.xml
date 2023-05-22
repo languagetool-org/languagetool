@@ -2490,17 +2490,20 @@
           <token>Linux</token>
       </antipattern>
       <pattern>
-          <token negate="yes" regexp="yes">e|&hifen;</token>
+        <token negate="yes" regexp="yes">e|&hifen;</token>
         <marker>
           <token postag="(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+" postag_regexp="yes">
             <exception postag="(?:D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00" postag_regexp="yes" />
             <exception regexp="yes">.+[°′″]</exception></token>
           <token regexp="yes" min="0">&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag="(?:N.|A..|Z.)[FC]S.+" postag_regexp="yes">
-            <exception postag="(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*" postag_regexp="yes" /></token>
+            <exception postag="(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*" postag_regexp="yes" />
+            <exception>estándar</exception>
+          </token>
         </marker>
-          <token>
-            <exception postag_regexp="yes" postag="[^Z].+" regexp="yes">e|&hifen;</exception></token>
+        <token>
+          <exception postag_regexp="yes" postag="[^Z].+" regexp="yes">e|&hifen;</exception>
+        </token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace="$1[FC]S$2" postag_regexp="yes" /> <match no="3" include_skipped="all" /> <match no="4" include_skipped="all" /></suggestion>
@@ -2511,6 +2514,7 @@
       <example correction="situación máis preocupante|situacións máis preocupantes">A <marker>situacións máis preocupante</marker> é esta.</example>
       <example>Conforme máis datos van sendo acumulados de persoas de todas as idades.</example>
       <example>Colle a chave das <marker>fechaduras grande</marker>.</example>
+      <example>Pezas estándar.</example>
     </rule>
     <rule>
       <antipattern>
