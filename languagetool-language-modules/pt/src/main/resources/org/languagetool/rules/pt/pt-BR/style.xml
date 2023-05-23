@@ -42,7 +42,8 @@ USA
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="Style" type="style">
-        <rule id="RETO_POSSESSIVO_BR" name="Substituição de pronome reto por pronome possessivo">
+        <rule id="RETO_POSSESSIVO_PT" name="Substituição de pronome reto por pronome possessivo" tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>à</token>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -57,7 +58,8 @@ USA
         <!-- ********************************************************** -->
         <!-- CONFUNDIR ENTRAR COM ENTRAR DENTRO -->
 
-        <rule id="ENTRAR_DENTRO_BR" name="Entrar">
+        <rule id="ENTRAR_DENTRO_BR" name="Entrar" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>entrar</token>
                 <token>dentro</token>
@@ -69,7 +71,7 @@ USA
         <!-- FIM ENTRAR COM ENTRAR DENTRO -->
         <!-- ********************************************************** -->
         <!-- FIM DUZENTOS GRAMAS NUMERAL COM DUZENTAS GRAMAS -->
-        <rule id="MAIORES_INFORMACOES_BR" name="Mais informações">
+        <rule id="MAIORES_INFORMACOES_BR" name="Mais informações" tone_tags="formal objective">
             <pattern>
                 <token>maiores</token>
                 <token>informações</token>
@@ -85,7 +87,8 @@ USA
         <!-- FIM AVISO PRÉVIO COM AVISO BREVE -->
         <!-- ********************************************************** -->
 
-        <rule id='E_QUE_VERBO_REMOVER_QUE_PT_BR' name="Simplificar: E que → e" type="style">
+        <rule id='E_QUE_VERBO_REMOVER_QUE_PT_BR' name="Simplificar: E que → e" type="style" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-05 (25-JUL-2022+) -->
             <!--
             Ele disse que vai sair e que está feliz. → Ele disse que vai sair e está feliz.
@@ -125,7 +128,8 @@ USA
             <suggestion>, \3</suggestion>
             <example correction=" e|, e| que|, que">Um romance eterno, perfeito para adolescentes<marker> e que</marker> conta com um jovem elenco.</example>
         </rule>
-        <rule id="EXPORTOU_PARA_FORA" name="Exportou ">
+        <rule id="EXPORTOU_PARA_FORA" name="Exportou " tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token regexp="yes">exporto|exportou|exportava|exportei|exportarei|exporte</token>
                 <token>para</token>
@@ -139,7 +143,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDÂNCIA ENCAROU DE FRENTE -->
 
-        <rule id="ENCAROU_DE_FRENTE" name="Encarou ">
+        <rule id="ENCAROU_DE_FRENTE" name="Encarou" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token regexp="yes">encarou|encaramos|encarei</token>
                 <token>de</token>
@@ -153,7 +158,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDANCIA GELO GELADO -->
 
-        <rule id="GELO_GELADO" name="Gelo ">
+        <rule id="GELO_GELADO" name="Gelo" tone_tags="clarity">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>gelo</token>
                 <token>gelado</token>
@@ -166,7 +172,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDANCIA GANHAR GRÁTIS -->
 
-        <rule id="GANHAR_Gratis" name="Ganhar ">
+        <rule id="GANHAR_Gratis" name="Ganhar" tone_tags="clarity">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>ganhar</token>
                 <token>grátis</token>
@@ -179,7 +186,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDANCIA REPETIR DE NOVO -->
 
-        <rule id="REPETIR_De_Novo" name="Repetir ">
+        <rule id="REPETIR_De_Novo" name="Repetir" tone_tags="clarity">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>repetir</token>
                 <token>de</token>
@@ -193,7 +201,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDANCIA PLANEJAR ANTECIPADAMENTE -->
 
-        <rule id="PLANEJAR_Antecipadamente" name="Planejar ">
+        <rule id="PLANEJAR_Antecipadamente" name="Planejar" tone_tags="clarity objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>planejar</token>
                 <token>antecipadamente</token>
@@ -206,7 +215,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDANCIA PEQUENOS DETALHES -->
 
-        <rule id="PEQUENOS_Detalhes" name="Pequenos ">
+        <rule id="PEQUENOS_Detalhes" name="Pequenos" tone_tags="clarity objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>pequenos</token>
                 <token>detalhes</token>
@@ -219,7 +229,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDANCIA ELO DE LIGAÇÃO -->
 
-        <rule id="ELO_De_Ligacao" name="Elo ">
+        <rule id="ELO_De_Ligacao" name="Elo" tone_tags="clarity objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>elo</token>
                 <token>de</token>
@@ -233,7 +244,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REDUNDANCIA ANTECIPAR PARA ANTES -->
 
-        <rule id="ANTECIPAR_Para_Antes" name="Antecipar ">
+        <rule id="ANTECIPAR_Para_Antes" name="Antecipar" tone_tags="clarity objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <marker>
                     <token>antecipar</token>
@@ -250,7 +262,8 @@ USA
         <!-- ********************************************************** -->
         <!-- REGRA PARA EVITAR REDUNDANCIA - SUBIR PARA CIMA -->
 
-        <rule id="SUBIR_para_cima" name="Subir ">
+        <rule id="SUBIR_para_cima" name="Subir" tone_tags="clarity objective">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>subir</token>
                 <token>para</token>
@@ -261,16 +274,16 @@ USA
         </rule>
 
         <!-- FIM SUBIR PARA CIMA -->
-        <rule id="AVISO_BREVE" name="Aviso prévio">
+        <rule id="AVISO_BREVE" name="Aviso prévio" tone_tags="professional">
             <pattern>
                 <token>aviso</token>
                 <token>breve</token>
             </pattern>
-            <message>Se «aviso breve» se refere a comunicação da rescisão do contrato de trabalho o substitua por <suggestion>aviso prévio</suggestion>.</message>
+            <message>Se "aviso breve" se refere a comunicação da rescisão do contrato de trabalho o substitua por <suggestion>aviso prévio</suggestion>.</message>
             <example correction="aviso prévio">O <marker>aviso breve</marker> é um direito.</example>
         </rule>
         <!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
-        <rule id='ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_BR' name="Erro de tradução: 'estimação máxima verosimilhança(PT)/verossimilhança(BR)'">
+        <rule id='ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_BR' name="Erro de tradução: 'estimação máxima verosimilhança(PT)/verossimilhança(BR)'" tone_tags="professional academic">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 + 2023-01-05 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
             IN pt_PT: verosimilhança
@@ -291,6 +304,7 @@ USA
 
         <!-- TAMBÉM VERBO NOME_COMUM também é -->
         <rule id='TAMBÉM_O_VERBO_PT_BR' name="Evitar redundância de adjetivos">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
             <!--
             Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também é?
@@ -317,7 +331,7 @@ USA
         <!-- ################################################################################## -->
 
         <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
-        <rule id='LHE_S_ME_TE_VOS_VERB' name="Lhe(s)/me/te/vos + Verbo">
+        <rule id='LHE_S_ME_TE_VOS_VERB' name="Lhe(s)/me/te/vos + Verbo" tone_tags="formal">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 + 2021-02-16 (1-JAN-2021+)      -->
             <!--
             Lhe amo muito. → Amo-lhe muito.
@@ -335,7 +349,7 @@ USA
             <message>Substitua por <suggestion><match no='3' case_conversion='startupper'/>-<match no="2" case_conversion="alllower"/></suggestion>.</message>
             <example correction="Amo-lhes"><marker>Lhes amo</marker> muito.</example>
         </rule>
-        <rule id='FAZER_DESPORTO' name="Praticar desporto">
+        <rule id='FAZER_DESPORTO' name="Praticar desporto" tone_tags="formal">
             <!--      Created by Marco A.G.Pinto     -->
             <pattern>
                 <marker>
@@ -348,7 +362,7 @@ USA
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
             <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
         </rule>
-        <rule id='FAZER_ESPORTE' name="Praticar esporte">
+        <rule id='FAZER_ESPORTE' name="Praticar esporte" tone_tags="formal">
             <!--      Created by Marco A.G.Pinto     -->
             <pattern>
                 <marker>
@@ -361,7 +375,7 @@ USA
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
             <example correction="praticar">Vou <marker>fazer</marker> muito esporte.</example>
         </rule>
-        <rulegroup id="EMAIL" name="E-mail (correio eletrônico)">
+        <rulegroup id="EMAIL" name="E-mail (correio eletrônico)" tone_tags="formal">
             <rule>
                 <pattern>
                     <token>e-book</token>
@@ -396,10 +410,10 @@ USA
             </rule>
         </rulegroup>
     </category>
-    <category id='FORMAL_SPEECH_PT_BR' name="Linguagem Formal" type="register">
-
+    <category id='FORMAL_SPEECH_PT_BR' name="Linguagem Formal" type="register" tone_tags="formal">
         <!-- COM A GENTE connosco/conosco -->
         <rule id='COM_A_GENTE_CONNOSCO_CONOSCO_PT_BR' name="Com a gente → Conosco" tags="picky">
+            <!-- IDEA shorten_it -->
             <!--      Created by Tiago Santos and localised by Marco A.G.Pinto, Portuguese rule 2021-06-03 (17-MAR-2021+)      -->
             <!--
             Tu vens com a gente? → Tu vens conosco?
@@ -417,6 +431,7 @@ USA
         </rule>
 
         <rule id='FORMAL_COM_NÓS_PT_BR' name="Expressões 'com nós'">
+            <!-- IDEA shorten_it -->
             <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
             <!-- MARCOAGPINTO 2021-06-09 (17-MAR-2021+) *START* -->
             <!--
@@ -439,32 +454,8 @@ USA
             <example correction="conosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
         </rule>
 
-        <!-- PUTO (BAD LANGUAGE IN pt-BR) -->
-        <rule id='PUTO_PT_BR' name="Puto (baixo calão pt_BR)">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-10 (17-MAR-2021+)      -->
-            <!--
-            O puto é bom.  → O homosexual é bom.
-            -->
-            <!-- MARCOAGPINTO 2021-06-15 (17-MAR-2021+) *START* -->
-            <!--
-            O Rui está puto da vida.
-            -->
-            <antipattern>
-                <token inflected='yes'>estar</token>
-                <token>puto</token>
-                <token>da</token>
-                <token>vida</token>
-            </antipattern>
-            <!-- MARCOAGPINTO 2021-06-15 (17-MAR-2021+) *END* -->
-            <pattern>
-                <token regexp="yes">putos?</token>
-            </pattern>
-            <message>Esta palavra é de baixo calão. Considere as alternativas.</message>
-            <suggestion>#¿$?%!¡</suggestion>
-            <example correction="#¿$?%!¡">O <marker>puto</marker> é bom!</example>
-        </rule>
-
         <rulegroup id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" tags="picky">
+            <!-- IDEA inclusive -->
             <rule>
                 <antipattern>
                     <token negate_pos="yes" postag="SENT_START"/>
