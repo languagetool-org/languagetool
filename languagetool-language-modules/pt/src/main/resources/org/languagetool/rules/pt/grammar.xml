@@ -26777,7 +26777,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule id='PARONYM_MUSICA_498_bis' name='Parónimo: musica'>
                 <antipattern>
-                    <token>musica</token>
+                    <token regexp="yes">musicas?</token>
                     <token postag="D.*" postag_regexp="yes"/>
                     <token min="0" postag="A.*|V.P.*" postag_regexp="yes"/>
                     <token postag="NC.*" postag_regexp="yes"/>
@@ -26792,12 +26792,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>musica</token>
                 </antipattern>
                 <pattern>
-                    <token>musica</token>
+                    <token regexp="yes">musicas?</token>
                 </pattern>
                 <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-                <suggestion>música</suggestion>
+                <suggestion>música<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
                 <url>https://pt.wiktionary.org/wiki/música</url>
                 <example correction='música'>Vídeo, <marker>musica</marker>.</example>
+                <example correction='músicas'>mas tem <marker>musicas</marker> evangelicas</example>
                 <example>Sérgio musica a tradução literal do texto bíblico.</example>
                 <example>Sérgio musica um belo poema.</example>
                 <example>Dramma per musica</example>
