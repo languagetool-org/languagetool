@@ -237,23 +237,16 @@ public class HTTPServerTest {
     String test1 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation");
     assertTrue(test1.contains("Formal_Clarity_TONE_RULE"));
     assertTrue(test1.contains("NO_TONE_RULE"));
-    //assertFalse(test1.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
-    //assertFalse(test1.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertTrue(test1.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test1.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test1.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test1.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
-    //assertFalse(test1.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
-    //assertFalse(test1.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
     assertTrue(test1.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertTrue(test1.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
 
     String test2 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=");
-    //assertFalse(test2.contains("Formal_Clarity_TONE_RULE")); //Clarity is disabled if toneTags params are explizit empty
     assertTrue(test2.contains("Formal_Clarity_TONE_RULE"));
     assertTrue(test2.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
-    //assertFalse(test2.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
-    //assertFalse(test2.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertTrue(test2.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test2.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test2.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
