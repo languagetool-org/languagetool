@@ -20273,7 +20273,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-
+        <!-- My assumption here is that these are mostly typos since they're pretty obvious ungrammatical,
+             from the descriptive point of view. So it doesn't seem to be worthwhile to account for non-3SG
+             inflections. I mean, 'dever' -> 'deve' is pretty straightforward, but 'dever' -> 'devo' less so.  -->
+        <rulegroup id="DOUBLE_INFINITIVE" name="Infinitivo duplo">
+            <short>Possível erro de digitação.</short>
+            <!-- This contains the original structure as described in premium issue 5538
+                 All sentences herein are of the shape: 'dever ter feito', and as such will usually indicate
+                 some kind of past tense epistemic modality, for which the double infinitive is very probably ungrammatical. -->
+            <rule default="temp_off">
+                <!-- The only antipattern here refers to constructions of the type 'the fact that...', for which
+                     a personal (i.e. inflected) infinitive can be used. -->
+                <antipattern>
+                    <token regexp="yes">fato|questão|possibilidade</token>
+                    <token regexp="yes" skip="-1">
+                        d[eoa]
+                        <exception postag_regexp="yes" postag="V.+"/>
+                    </token>
+                    <token postag_regexp="yes" postag="VMN.+" regexp="yes">dever|poder</token>
+                    <token>ter</token>
+                    <token postag_regexp="yes" postag="V.P.+"/>
+                    <example>A questão de o segredo dever ter sido revelado não nos afeta.</example>
+                    <example>O fato do contrato já dever ter sido assinado é irrelevante.</example>
+                    <example>A possibilidade de ele poder ter ido mais cedo certamente existe.</example>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="SENT_START|[DNPARZ].+" min="1"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="VMN.+" regexp="yes">dever|poder</token>
+                    </marker>
+                    <token>ter</token>
+                    <token postag_regexp="yes" postag="V.P.+"/>
+                </pattern>
+                <message>O duplo infinitivo em &quot;<match no="2"/> <match no="3"/> <match no="4"/>&quot; parece indicar um error de digitação. Se for o caso, substituta &quot;<match no="2"/>&quot; por &quot;<suggestion><match no="2" postag_regexp="yes" postag="VMN.+" postag_replace="VMIP3S0"/></suggestion>&quot;.</message>
+                <example correction="deve">Ele já <marker>dever</marker> ter ido embora.</example>
+                <example correction="Deve"><marker>Dever</marker> ter chovido mais cedo.</example>
+                <example correction="Pode"><marker>Poder</marker> ter chovido mais cedo.</example>
+                <example correction="deve">Acho que o meu pai ainda não <marker>dever</marker> ter chegado lá.</example>
+                <example correction="pode">Ele já <marker>poder</marker> ter instalado o programa de antemão.</example>
+            </rule>
+        </rulegroup>
     </category>
 
 
