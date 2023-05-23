@@ -11571,6 +11571,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="R.*"/>
     </rule>
+    <rule id="desperta_adj" name="desperta (adj)">
+        <pattern>
+            <token postag="V.[ISPN].*" postag_regexp="yes"/>
+            <token min="1" max="3" postag_regexp="yes" postag="RG|LOC_ADV"/>
+            <marker>
+                <token postag="AQ0FS0">desperta</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"></disambig>
+    </rule>
     <rule id="amic_nom0" name="amic nom davant d'adjectiu">
         <pattern>
             <unify>
@@ -12737,6 +12747,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token inflected="yes">un</token>
             <token inflected="yes">poc</token>
             <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">uns|unes</token>
+            <token postag="DN.*" postag_regexp="yes"/>
         </antipattern>
         <rule>
             <pattern>
