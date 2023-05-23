@@ -62,7 +62,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
@@ -3185,6 +3185,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Laola-Welle": return topMatch("La-Ola-Welle");
       case "Laola-Wellen": return topMatch("La-Ola-Wellen");
       case "BayArea": return topMatch("Bay Area");
+      case "kontaktfreundlich": return topMatch("kontaktfreudig");
+      case "kontaktfreundliche": return topMatch("kontaktfreudige");
+      case "kontaktfreundlicher": return topMatch("kontaktfreudiger");
+      case "kontaktfreundliches": return topMatch("kontaktfreudiges");
+      case "kontaktfreundlichen": return topMatch("kontaktfreudigen");
+      case "kontaktfreundlichem": return topMatch("kontaktfreudigem");
     }
     return Collections.emptyList();
   }
