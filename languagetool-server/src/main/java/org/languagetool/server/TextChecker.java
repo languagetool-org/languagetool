@@ -467,11 +467,12 @@ abstract class TextChecker {
     Set<ToneTag> toneTags = new HashSet<>(ToneTag.values().length);
     if (toneTagNames != null) {
       if (toneTagNames.length == 1 && toneTagNames[0].isEmpty()) { //toneTags=
-        toneTags.add(ToneTag.NO_TONE_RULE);
+        //toneTags.add(ToneTag.NO_TONE_RULE); //disabled for now
+        toneTags.add(ToneTag.ALL_TONE_RULES);
       } else {
         for (String toneTagName : toneTagNames) {
-          if (toneTagName.equals("NO_TONE_RULE")) {
-            log.warn("NO_TONE_RULE will be ignored if more than one toneTag is in params.");
+          if (toneTagName.equals("NO_TONE_RULE") || toneTagName.equals("ALL_TONE_RULES")) {
+            log.warn("NO_TONE_RULE and ALL_TONE_RULES will be ignored if more than one toneTag is in params.");
             continue;
           }
           try {
