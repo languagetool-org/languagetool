@@ -55,6 +55,7 @@
     <!ENTITY puntos_cardeais "(?:n(?:acente|or(?:te|[do]este))|su(?:r|(?:ro)este)|este|o(?:este|ccidente|riente)|poñente)">
     <!ENTITY adverbios_de_intensidade "bastante|ben|demasiado|moitísimo|máis|menos|moi|nada|pouco|canto|case|tanto|tan|todo"><!-- XXX untranslated assaz|demais|*«quão -->
     <!ENTITY adverbios_de_lugar "abaixo|enriba|dentro|adiante|fóra|aí|aquí|alén|aquén|atrás|acá|acó|dentro|embaixo|externamente|alí|lonxe|preto"><!-- XXX *algures|*alhures|*nenhures -->
+    <!ENTITY adxectivos_invariabeis "clave|estándar">
     <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|iuans|iens|[€£¥$₽])">
 
@@ -2307,7 +2308,9 @@
           <token regexp="yes" min="0">&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag="(?:N.|A..|Z.)[MC]S.+" postag_regexp="yes">
             <exception postag="(?:N.|A..|Z.)[MC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*|VMG0000" postag_regexp="yes" />
-            <exception regexp="yes">hai|son|ser|deber|van|serán</exception></token>
+            <exception regexp="yes">hai|son|ser|deber|van|serán</exception>
+            <exception regexp="yes">&adxectivos_invariabeis;</exception>
+          </token>
         </marker>
           <token>
             <exception postag_regexp="yes" postag="[^Z].+" regexp="yes">e|&hifen;</exception></token>
@@ -2324,6 +2327,7 @@
       <example>Pantalóns, os máis estragados posíbel!</example>
       <example>Os montes Everest, K2 e Kanchenjunga son os máis altos do mundo.</example>
       <example>As cores son: Ás de Copas vermello, Ás de Ouros vermello, Ás de Bastos negro e Ás de Espadas negro.</example>
+      <example>Fixo nacer as criaturas forestais estándar: teixugo e oso.</example>
     </rule>
     <rule>
       <antipattern>
@@ -2490,17 +2494,20 @@
           <token>Linux</token>
       </antipattern>
       <pattern>
-          <token negate="yes" regexp="yes">e|&hifen;</token>
+        <token negate="yes" regexp="yes">e|&hifen;</token>
         <marker>
           <token postag="(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+" postag_regexp="yes">
             <exception postag="(?:D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00" postag_regexp="yes" />
             <exception regexp="yes">.+[°′″]</exception></token>
           <token regexp="yes" min="0">&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag="(?:N.|A..|Z.)[FC]S.+" postag_regexp="yes">
-            <exception postag="(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*" postag_regexp="yes" /></token>
+            <exception postag="(?:N.|A..|Z.)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*" postag_regexp="yes" />
+            <exception regexp="yes">&adxectivos_invariabeis;</exception>
+          </token>
         </marker>
-          <token>
-            <exception postag_regexp="yes" postag="[^Z].+" regexp="yes">e|&hifen;</exception></token>
+        <token>
+          <exception postag_regexp="yes" postag="[^Z].+" regexp="yes">e|&hifen;</exception>
+        </token>
       </pattern>
       <message>&MSG_ECN;</message>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace="$1[FC]S$2" postag_regexp="yes" /> <match no="3" include_skipped="all" /> <match no="4" include_skipped="all" /></suggestion>
@@ -2511,6 +2518,7 @@
       <example correction="situación máis preocupante|situacións máis preocupantes">A <marker>situacións máis preocupante</marker> é esta.</example>
       <example>Conforme máis datos van sendo acumulados de persoas de todas as idades.</example>
       <example>Colle a chave das <marker>fechaduras grande</marker>.</example>
+      <example>Pezas estándar.</example>
     </rule>
     <rule>
       <antipattern>
