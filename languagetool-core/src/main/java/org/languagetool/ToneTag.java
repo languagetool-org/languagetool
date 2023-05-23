@@ -20,6 +20,13 @@
 
 package org.languagetool;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum ToneTag {
-  clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, informal, povadd, positive, NO_TONE_RULE;
+
+  clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, informal, povadd, positive, NO_TONE_RULE, ALL_TONE_RULES;
+
+  public static List<ToneTag> REAL_TONE_TAGS = Arrays.asList(clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, informal, povadd, positive);
 }

@@ -1082,8 +1082,9 @@ public class JLanguageTool {
     return ruleSetCache.computeIfAbsent(key, levelToneTagCacheKey -> {
       List<Rule> allRules = new ArrayList<>(getAllActiveRules());
       List<ToneTag> localToneTags;
-      if (toneTags.isEmpty()) {
-        localToneTags = Collections.singletonList(ToneTag.clarity); //If no tone tag is set always use clarity.
+      if (toneTags.isEmpty() || toneTags.contains(ToneTag.ALL_TONE_RULES)) {
+        //localToneTags = Collections.singletonList(ToneTag.clarity); //If no tone tag is set always use clarity. -> disabled for now
+        localToneTags = ToneTag.REAL_TONE_TAGS;
       } else if (toneTags.contains(ToneTag.NO_TONE_RULE)) {
         localToneTags = Collections.emptyList(); //Even clarity rules will be disabled.
       } else {
