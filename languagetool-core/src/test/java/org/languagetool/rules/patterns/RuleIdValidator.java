@@ -42,6 +42,7 @@ public class RuleIdValidator {
     List<String> fileNames = lang.getRuleFileNames();
     Map<String, String> idsToFile = new HashMap<>();
     List<Rule> allRules = new JLanguageTool(lang).getAllRules();
+    System.out.println("Loaded " + allRules.size() + " rules...");
     for (Rule rule : allRules) {
       if (!(rule instanceof AbstractPatternRule || rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule)) {
         idsToFile.put(rule.getId(), "Java (" + rule.getClass().getName() + ")");
