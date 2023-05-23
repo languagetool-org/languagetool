@@ -53,8 +53,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
     super(messages, new Belarusian());
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCategory(new Category(new CategoryId("MISC"), "Агульныя правілы"));
-  addExamplePair(Example.wrong("<marker>З большага</marker>, гэта быў добры дзень."),
-                 Example.fixed("<marker>Збольшага</marker>, гэта быў добры дзень."));
+    addExamplePair(Example.wrong("<marker>З большага</marker>, гэта быў добры дзень."),
+                   Example.fixed("<marker>Збольшага</marker>, гэта быў добры дзень."));
   }
 
   @Override

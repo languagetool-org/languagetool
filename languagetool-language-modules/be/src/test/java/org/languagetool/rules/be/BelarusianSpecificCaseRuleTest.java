@@ -45,7 +45,7 @@ public class BelarusianSpecificCaseRuleTest {
     assertThat(matches1[0].getFromPos(), is(15));
     assertThat(matches1[0].getToPos(), is(25));
     assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Air France]"));
-    assertThat(matches1[0].getMessage(), is("Для спецыяльных найменняў выкарыстоўвайце вялікую літару на пачатку."));
+    assertThat(matches1[0].getMessage(), is("Уласныя імёны і назвы пішуцца з вялікай літары."));
   }
 
   private void assertGood(String input) throws IOException {
