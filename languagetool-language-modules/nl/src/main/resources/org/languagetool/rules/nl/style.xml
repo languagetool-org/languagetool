@@ -15501,6 +15501,360 @@ USA
 				<example correction="zo">Heerlijk kabbelend water <marker>zodoende</marker> te horen en zien.</example>
 			</rule>
 		</rulegroup>
+		<!-- earlier removed rules, put back with tone_tag informal -->
+		<rulegroup id="WELKE" name="Welke → die" default="off">
+            <!-- 2014-09-08 TaalTik -->
+            <rule>
+				<antipattern><token>de</token><token>vraag</token><token>welke</token><token>andere</token></antipattern>
+				<antipattern><token>vermelden</token><token>welke</token><token>persoonlijke</token><token>gegevens</token></antipattern>
+				<antipattern><token>welke</token><token postag=".*DE_.*" postag_regexp="yes"><exception>een</exception></token></antipattern>
+				<pattern>
+                    <token postag_regexp="yes" postag=".*DE_.*"><exception regexp="yes">van|niet|over</exception></token>
+                    <marker>
+                        <token skip="-1">welke</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.!]</token>
+				</pattern>
+				<message>'Welke' wordt afgeraden als het niet vragend bedoeld is. Gebruik <suggestion>die</suggestion> of <suggestion>dat</suggestion> waar dat kan.</message>
+				<url>https://onzetaal.nl/taaladvies/welke-die/</url>
+				<short>Ouderwets</short>
+				<example correction="die|dat">De man <marker>welke</marker> een fout maakte.</example>
+				<example correction="die|dat">We herinneren nogmaals aan de nieuwjaarsreceptie <marker>welke</marker> doorgaat op 16 januari 2003.</example>
+				<example correction="die|dat">Een model cv ketel <marker>welke</marker> energiezuiniger is.</example>
+				<example correction="die|dat">Je kan de Gps track <marker>welke</marker> het Vlaamse gedeelte aandoet downloaden via deze » link!</example>
+				<example correction="die|dat">De porseleinen plaat zit vast in een slede <marker>welke</marker> tussen twee geleiders beweegt.</example>
+            </rule>
+		</rulegroup>
+		<rulegroup id="BETREFFENDE" name="Betreffende → over" default="off">
+			<!-- 2014-09-08 TaalTik -->
+			<rule>
+				<pattern>
+					<token><exception regexp="yes">de|het</exception></token>
+					<marker>
+						<token>betreffende</token>
+					</marker>
+				</pattern>
+				<message>Als u dit ouderwets woord niet voor het stilistisch effect heeft gekozen, gebruik dan liever <suggestion>over</suggestion>, <suggestion>deze</suggestion> of herschrijf de zin zonder.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
+				<example correction="over|deze">Hieronder zijn er resultaten <marker>betreffende</marker> snoeker spelen.</example>
+				<example correction="over|deze">Voor de tweedemaal een incident <marker>betreffende</marker> het schaken van mij.</example>
+				<example correction="over|deze">Ik wil nog niet concreet op het denkspoor <marker>betreffende</marker> de werkzekerheid ingaan.</example>
+				<example correction="over|deze">Al uw vragen <marker>betreffende</marker> de LHC zijn trouwens hier al beantwoord.</example>
+				<example correction="over|deze">Waar op het Internet vind ik nog extra informatie <marker>betreffende</marker> dit verschijnsel?</example>
+				<example correction="over|deze">Voor informatie <marker>betreffende</marker> de sportraad kan u de sportdienst contacteren.</example>
+				<example correction="over|deze">Ben er al over <marker>betreffende</marker> de klassementen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="CONFORM" name="Conform" default="off">
+			<rule>
+				<!-- 2014-09-08 TaalTik -->
+				<pattern>
+					<token>conform</token>
+				</pattern>
+				<message>Als u dit ouderwets woord niet voor het stilistisch effect heeft gekozen, gebruik dan liever <suggestion>in overeenstemming met</suggestion>, <suggestion>zoals</suggestion>, <suggestion>volgens</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
+				<example correction="in overeenstemming met|zoals|volgens">Dit is niet <marker>conform</marker> de eisen.</example>
+				<example correction="in overeenstemming met|zoals|volgens">Hij wil weten of de manier waarop de school werkt wel <marker>conform</marker> de regelgeving is.</example>
+				<example correction="in overeenstemming met|zoals|volgens">Daarenboven weet u dat u in een gebouw zal wonen <marker>conform</marker> de eisen van deze overheid.</example>
+				<example correction="in overeenstemming met|zoals|volgens">Ik zal er kunnen vanuit gaan dat deze <marker>conform</marker> zijn.</example>
+				<example correction="in overeenstemming met|zoals|volgens">Eens temeer blijkt wel hoe moeilijk het is om <marker>conform</marker> alle regels te handelen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="AAN_DE_HAND_VAN" name="aan de hand van" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>aan</token><token>de</token><token>hand</token><token>van</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>met</suggestion> of <suggestion>door</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="met|door">Dit gebeurt <marker>aan de hand van</marker> isolatie.</example>
+				<example correction="met|door">Leg uit <marker>aan de hand van</marker> de theorie omtrent kwaliteitsbeleid.</example>
+				<example correction="met|door">Dat beslis ik <marker>aan de hand van</marker> beterschap zien of niet.</example>
+				<example correction="met|door">Dit gebeurt <marker>aan de hand van</marker> productieplannen.</example>
+				<example correction="met|door">Maar de beste gemeente, <marker>aan de hand van</marker> verscheidene factoren?</example>
+				<example correction="met|door">Wij stellen een rapport op <marker>aan de hand van</marker> onze plaatsbezoeken.</example>
+				<example correction="met|door">Dit kan <marker>aan de hand van</marker> lokale opslag.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="BOVENSTAAND" name="bovenstaand" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token inflected="yes">bovenstaand</token>
+				</pattern>
+				<message>&vlotter_mess; 'deze', 'dit' of 'wat hierboven staat'.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction=""><marker>Bovenstaand</marker> kan klopppen.</example>
+				<example correction="">Nu, meen je <marker>bovenstaande</marker> echt?</example>
+				<example correction="">Pas op, <marker>bovenstaand</marker> is geen verwijt.</example>
+				<example correction="">En het nieuwe logje van NA de <marker>bovenstaande</marker> fix.</example>
+				<example correction="">Op <marker>bovenstaande</marker> foto zie je mij tijdens de landing.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="CATEGORIE" name="categorie" tags="picky" default="off">
+			<rule>
+				<!-- Wikipedia -->
+				<antipattern>
+					<token>Categorie</token>
+					<token spacebefore="no">:</token>
+					<token spacebefore="no"/>
+				</antipattern>
+				<pattern>
+					<token inflected="yes">categorie</token>
+				</pattern>
+				<message>&vlotter_mess; 'soort' of <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">rubriek</match></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="rubrieken">Er zijn 4 <marker>categorieën</marker>.</example>
+				<example correction="Rubriek"><marker>Categorie</marker> C betreft een Citroën C4 of gelijkwaardig.</example>
+				<example correction="rubriek">Met voor elke <marker>categorie</marker> specifieke verplichtingen.</example>
+				<example correction="rubrieken">Stel vervolgens de <marker>categorieën</marker> in voor je site.</example>
+				<example correction="rubriek">Per <marker>categorie</marker> zijn er telkens vier oefenbladen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="CONCEPT" name="concept" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token inflected="yes">concept</token>
+				</pattern>
+				<message>&vlotter_mess; 'ontwerp', 'schets', 'opzet' of 'plan'.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="">Volkomen neutrale <marker>concepten</marker> bestaan niet.</example>
+				<example correction=""><marker>Concepten</marker> bedenken en schetsen kwam pas later.</example>
+				<example correction="">Leuk <marker>concept</marker>, en tijdelijk, dus grijp uw kans!</example>
+				<example correction="">Ventilatie is een sterk punt in dit <marker>concept</marker>.</example>
+				<example correction="">Dit <marker>concept</marker> is zeer gegeerd bij de studenten.</example>
+				<example correction="">Een uniek <marker>concept</marker>, het schoolorkest!</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="CONCREET" name="concreet" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token inflected="yes">concreet</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">praktisch</match></suggestion> of <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">duidelijk</match></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="Praktisch|Duidelijk"><marker>Concreet</marker>; wat moet ik nu doen?</example>
+				<example correction="praktisch|duidelijks">Toch heb ik wel iets <marker>concreets</marker> gedaan.</example>
+				<example correction="Praktische|Duidelijke"><marker>Concrete</marker> acties volgen doorheen het jaar.</example>
+				<example correction="praktisch|duidelijk">Mijn vraag is dus zeer <marker>concreet</marker>.</example>
+				<example correction="praktische|duidelijke">Geen <marker>concrete</marker> plannen op korte termijn.</example>
+				<example correction="praktisch|duidelijk">Kort en bondig, weinig <marker>concreet</marker>.</example>
+				<example correction="praktisch|duidelijk">Ze doen zelfs een <marker>concreet</marker> voorstel.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="CREËREN" name="creëren" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token inflected="yes">creëren</token>
+				</pattern>
+				<message>&vlotter_mess; 'maken' of 'scheppen'.</message>
+				<!-- suggestie voor scheppen niet mogelijk! -->
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="">Ze wilde <marker>creëren</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DOOR_MIDDEL_VAN" name="door middel van" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>door</token><token>middel</token><token>van</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>door</suggestion> of <suggestion>met</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="door|met">QQ <marker>door middel van</marker> QQQ.</example>
+				<example correction="door|met">Dit kan <marker>door middel van</marker> een forum.</example>
+				<example correction="door|met">Dit team wordt samengesteld <marker>door middel van</marker> een auditie.</example>
+				<example correction="door|met">De druk komt tot stand <marker>door middel van</marker> een stempel.</example>
+				<example correction="door|met">Kan je water uit kelder krijgen <marker>door middel van</marker> drainageput?</example>
+				<example correction="door|met">Vermeerdering geschiedt <marker>door middel van</marker> stekken en zaaien.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GELIEVE" name="gelieve" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>gelieve</token>
+				</pattern>
+				<message>&vlotter_mess; 'wilt u'.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="">Te koop, nieuwe klinkers, bij interesse <marker>gelieve</marker> te bellen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GEREALISEERD" name="gerealiseerd" default="off">
+			<rule>
+				<pattern>
+					<token>gerealiseerd</token>
+				</pattern>
+				<message>Wanneer u 'maken' bedoelt, schrijf dan vlotter: 'gemaakt', 'gebouwd', 'besloten', 'afgesproken' of nog iets anders.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="">Dat is niet <marker>gerealiseerd</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>gerealiseerde</token>
+				</pattern>
+				<message>Wanneer u 'maken' bedoelt, schrijf dan vlotter: 'gemaakte', 'gebouwde', 'besloten', 'afgesproken' of nog iets anders.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="">Dat is de <marker>gerealiseerde</marker> zaak.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="HOEWEL" name="hoewel" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>hoewel</token>
+				</pattern>
+				<message>&vlotter_mess; 'maar toch' of iets anders.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction=""><marker>Hoewel</marker> ik het zo veel mogelijk probeer te vermijden.</example>
+				<example correction="">Het is wat ik doe, <marker>hoewel</marker> de titel me weinig zegt.</example>
+				<example correction=""><marker>Hoewel</marker> ik aanvankelijk twijfelde.</example>
+				<example correction=""><marker>Hoewel</marker> dat weer kan veranderen!</example>
+				<example correction="">Dat is altijd zo geweest, <marker>hoewel</marker> we dat niet beseffen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="LOCATIE" name="locatie" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>locatie</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>plaats</suggestion> of <suggestion>gebouw</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="plaats|gebouw">Ook de gekozen <marker>locatie</marker> was knap.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>locaties</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>plaatsen</suggestion> of <suggestion>gebouwen</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="plaatsen|gebouwen">QQ <marker>locaties</marker> QQQ.</example>
+				<example>QQ <marker>plaatsen</marker>.</example>
+				<example correction="plaatsen|gebouwen">Zo kun je op afgelegen <marker>locaties</marker> toch comfortabel wonen.</example>
+				<example correction="plaatsen|gebouwen">Op één van die <marker>locaties</marker> werd effectief een vervuiling vastgesteld.</example>
+				<example correction="plaatsen|gebouwen">Deze voorwaarden gelden op alle <marker>locaties</marker>.</example>
+				<example correction="plaatsen|gebouwen">Voor beide <marker>locaties</marker> sloot Zingem een convenant af.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NAAR_AANLEIDING_VAN" name="naar aanleiding van" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>naar</token><token>aanleiding</token><token>van</token>
+				</pattern>
+				<message>De tekst wordt vlotter als u deze woordgroep vermijdt.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="">Ik heb die zeker <marker>naar aanleiding van</marker> de evolutie van de afgelopen maanden.</example>
+				<example correction="">Dat zei de staatssecretaris <marker>naar aanleiding van</marker> een werkbezoek aan Kortrijk.</example>
+				<example correction="">De Pauw <marker>naar aanleiding van</marker> de belofte heelhuids uit het oorlogsgeweld te komen.</example>
+				<example correction="">De discussie <marker>naar aanleiding van</marker> het interview van aartsbisschop Léonard.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="OP_BASIS_VAN" name="op basis van" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+					<marker>
+						<token>op</token><token>basis</token><token>van</token>
+					</marker>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>gemaakt met</suggestion>, <suggestion>met</suggestion> of nog anders.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="gemaakt met|met">Inkt <marker>op basis van</marker> water.</example>
+				<example>Hij zegt dat <marker>op basis van</marker> zijn ervaring.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="OP_HET_GEBIED_VAN" name="op het gebied van" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>op</token><token>het</token><token>gebied</token><token>van</token>
+				</pattern>
+				<message>Als 'gebied' hier niet letterlijk is kunt u het misschien herschrijven met <suggestion>over</suggestion> of <suggestion>voor</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="Over|Voor"><marker>Op het gebied van</marker> toerisme is er veel gelinkt met cultuur.</example>
+				<example correction="over|voor">Peggy Porschen is dé autoriteit <marker>op het gebied van</marker> patisserie.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="OPTIMALISEREN" name="optimaliseren" tags="picky" default="off">
+			<!-- Disabled, commonly used word in professional context and unpopular rule -->
+			<rule>
+				<pattern>
+					<token inflected="yes">optimaliseren<exception>geoptimaliseerde</exception></token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">verbeteren</match></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="Verbeteren"><marker>Optimaliseren</marker> is daarom ook een must.</example>
+				<example correction="verbetert">U <marker>optimaliseert</marker> uw werkstijl en -houding.</example>
+				<example correction="Verbeterd"><marker>Geoptimaliseerd</marker> kun je het nog niet noemen.</example>
+				<example correction="Verbeter"><marker>Optimaliseer</marker> de processen en kies dan pas voor technologie.</example>
+				<example correction="verbeterden">Op die manier <marker>optimaliseerden</marker> we alle transatlantische vluchten."</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="RESPECTIEVELIJK" name="respectievelijk" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>respectievelijk</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>en</suggestion> of <suggestion>of</suggestion> of laat het weg.</message>
+				<suggestion/>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="en|of|">Zaterdag en zondag dan nog <marker>respectievelijk</marker> een fiets- en looptraining afgewerkt.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="SLECHTS" name="slechts" tags="picky" default="off">
+			<rule>
+				<antipattern><token>iets</token><token>slechts</token></antipattern>
+				<pattern>
+					<token>slechts</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>alleen</suggestion>, <suggestion>maar</suggestion> of <suggestion>alleen maar</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="alleen|maar|alleen maar">Nu <marker>slechts</marker> 9,00.</example>
+				<example correction="alleen|maar|alleen maar">Moe ben ik <marker>slechts</marker> zelden.</example>
+				<example correction="alleen|maar|alleen maar">Dit is <marker>slechts</marker> 1 van de 5 trends.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TENZIJ" name="tenzij" tags="picky" default="off">
+			<rule>
+				<pattern>
+					<token>tenzij</token>
+				</pattern>
+				<message>&vlotter_mess; <suggestion>maar niet als</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="Maar niet als"><marker>Tenzij</marker> de arts anders voorschrijft.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="WAT_BETREFT" name="wat betreft" tags="picky" default="off">
+			<rule>
+				<antipattern><token>wat</token><token regexp="yes">mij|hem|u</token><token>betreft</token></antipattern>
+				<pattern>
+					<token skip="5">wat</token><token>betreft</token>
+				</pattern>
+				<message>&vlotter_mess; 'over'.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction=""><marker>Wat betreft</marker> de Roma.</example>
+				<example correction="">En <marker>wat de religie betreft</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="WERKZAAM_ZIJN" name="werkzaam zijn" tags="picky" default="off">
+			<!-- Disabled, still very common to use in professional context. Unpopular rule -->
+			<rule>
+				<pattern>
+					<token skip="3">werkzaam</token><token inflected="yes">zijn</token>
+				</pattern>
+				<message>&vlotter_mess; 'werken'.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction=""><marker>Werkzaam geweest</marker> als monteur.</example>
+				<example correction="">Hij is er meer dan 40 jaar <marker>werkzaam geweest</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes" skip="3">zijn</token>
+					<token>werkzaam</token>
+				</pattern>
+				<message>&vlotter_mess; 'werken'.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction=""><marker>Was werkzaam</marker> van 1600 tot 1907.</example>
+				<example correction="">Dirk <marker>was werkzaam</marker> als adj. corr.</example>
+				<example correction="">Er <marker>zijn zo’n 200 mensen werkzaam</marker>.</example>
+				<example correction=""><marker>Ben je werkzaam</marker> in de ledersector?</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="LEENWOORDEN" name="Leenwoorden met een gangbaar alternatief" type="style">
 		<rulegroup id="GOAL" name="goal → doel(punt)" tags="picky">
