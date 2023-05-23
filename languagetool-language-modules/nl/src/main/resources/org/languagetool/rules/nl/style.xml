@@ -15502,6 +15502,29 @@ USA
 			</rule>
 		</rulegroup>
 		<!-- earlier removed rules, put back with tone_tag informal -->
+		<rulegroup id="WELKE" name="Welke → die" default="off">
+		  <!-- 2014-09-08 TaalTik -->
+		  <rule>
+			<antipattern><token>de</token><token>vraag</token><token>welke</token><token>andere</token></antipattern>
+			<antipattern><token>vermelden</token><token>welke</token><token>persoonlijke</token><token>gegevens</token></antipattern>
+			<antipattern><token>welke</token><token postag=".*DE_.*" postag_regexp="yes"><exception>een</exception></token></antipattern>
+			<pattern>
+			  <token postag_regexp="yes" postag=".*DE_.*"><exception regexp="yes">van|niet|over</exception></token>
+			  <marker>
+				<token skip="-1">welke</token>
+			  </marker>
+			  <token postag="SENT_END" regexp="yes">[.!]</token>
+			</pattern>
+			<message>'Welke' wordt afgeraden als het niet vragend bedoeld is. Gebruik <suggestion>die</suggestion> of <suggestion>dat</suggestion> waar dat kan.</message>
+			<url>https://onzetaal.nl/taaladvies/welke-die/</url>
+			<short>Ouderwets</short>
+			<example correction="die|dat">De man <marker>welke</marker> een fout maakte.</example>
+			<example correction="die|dat">We herinneren nogmaals aan de nieuwjaarsreceptie <marker>welke</marker> doorgaat op 16 januari 2003.</example>
+			<example correction="die|dat">Een model cv ketel <marker>welke</marker> energiezuiniger is.</example>
+			<example correction="die|dat">Je kan de Gps track <marker>welke</marker> het Vlaamse gedeelte aandoet downloaden via deze » link!</example>
+			<example correction="die|dat">De porseleinen plaat zit vast in een slede <marker>welke</marker> tussen twee geleiders beweegt.</example>
+		  </rule>
+		</rulegroup>
 		<rulegroup id="BETREFFENDE" name="Betreffende → over" default="off">
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
