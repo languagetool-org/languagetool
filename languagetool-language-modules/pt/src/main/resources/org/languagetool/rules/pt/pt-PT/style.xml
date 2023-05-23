@@ -119,7 +119,7 @@ USA
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="[pt-PT] Regras de Estilo" type="style">
         <!-- CAIXA embalagem -->
-        <rule id='CONFUSÃO_CAIXA_EMBALAGEM' name="[pt-PT][Confusão] Caixa/embalagem">
+        <rule id='CONFUSÃO_CAIXA_EMBALAGEM' name="[pt-PT][Confusão] Caixa/embalagem" tone_tags="objective">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-05-05 (1-JAN-2022+)      -->
             <!--
       Vou tomar uma caixa de Xanax. → Vou tomar uma embalagem de Xanax.
@@ -138,7 +138,7 @@ USA
             <suggestion><match no='3' postag='NC.(.)000' postag_replace='NCF$1000'>embalagem</match></suggestion>
             <example correction="embalagem">Vou tomar uma <marker>caixa</marker> de Xanax.</example>
         </rule>
-        <rule id='PRAZER_EM_CONVIDAR' name="[pt-PT] Gosto em convidar">
+        <rule id='PRAZER_EM_CONVIDAR' name="[pt-PT] Gosto em convidar" tone_tags="formal">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
                 <marker>
@@ -152,7 +152,7 @@ USA
             <message>Substitua por <suggestion>gosto \2 \3</suggestion>.</message>
             <example correction="gosto em convidá">Terei o maior <marker>prazer em convidá</marker>-los para a festa.</example>
         </rule>
-        <rule id='PÔR_FIM_À_VIDA' name="[pt-PT] pôr termo à vida">
+        <rule id='PÔR_FIM_À_VIDA' name="[pt-PT] pôr termo à vida" tone_tags="formal">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
                 <token inflected='yes'>pôr</token>
@@ -166,7 +166,7 @@ USA
             <suggestion>termo</suggestion>
             <example correction="termo">O Rui pôs <marker>fim</marker> à vida.</example>
         </rule>
-        <rule id='CICLO_VICIOSO' name="[pt-PT] Calinada: Círculo vicioso" tags="picky">
+        <rule id='CICLO_VICIOSO' name="[pt-PT] Calinada: Círculo vicioso" tags="picky" tone_tags="clarity objective">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
                 <token regexp='yes'>ciclos?</token>
@@ -177,7 +177,7 @@ USA
             <example correction="círculo vicioso">O <marker>ciclo vicioso</marker> da pobreza.</example>
         </rule>
         <!-- TIVER estiver -->
-        <rule id='TIVER_ESTIVER' name='[pt-PT][Confusão] tiver/estiver'>
+        <rule id='TIVER_ESTIVER' name='[pt-PT][Confusão] tiver/estiver' tone_tags="formal">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
             Quando tiver a ver TV. → Quando estiver a ver TV.
@@ -205,7 +205,7 @@ USA
             <example>Quando tiver a ver com isso.</example>
         </rule>
 
-        <rulegroup id='AVOID_GERUND' name='[pt-PT] Evitar o Gerúndio (perifrásico)' default='on' type='style'>
+        <rulegroup id='AVOID_GERUND' name='[pt-PT] Evitar o Gerúndio (perifrásico)' default='on' type='style' tone_tags="formal objective">
             <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
             <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
             <short>Possível gerundismo.</short>
@@ -311,7 +311,7 @@ USA
 
         <!-- EVITAR O GERÚNDIO Evitar o gerúndio em pt-PT	       -->
         <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
-        <rule id='AVOID_GERUND_ALL' name='[pt-PT] Evitar o Gerúndio (completo)' default='off' type='style'>
+        <rule id='AVOID_GERUND_ALL' name='[pt-PT] Evitar o Gerúndio (completo)' default='off' type='style' tone_tags="formal objective">
             <pattern>
                 <token postag='V.G0+' postag_regexp='yes'>
                     <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
@@ -323,7 +323,8 @@ USA
             <example correction='a acender'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
         </rule>
         <!-- DEPOIS É QUE LI depois li -->
-        <rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT][Simplificar] Depois é que + Verbo → Depois + Verbo" type='style'>
+        <rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT][Simplificar] Depois é que + Verbo → Depois + Verbo" type='style' tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-05 (25-JUL-2022+) -->
             <!--
             Estava a fazer exercício e só/somente/apenas/unicamente depois é que li o texto dela. → Estava a fazer exercício e só/somente/apenas/unicamente depois li o texto dela.
@@ -346,6 +347,7 @@ USA
         </rule>
         <!-- DO QUE AQUELE QUE àquele que -->
         <rulegroup id='DO_QUE_AQUELE_QUE_ÀQUELE_QUE_PT_PT' name="[pt-PT][Simplificar] do que aquel[ae](s) que → àquel[ae](s) que" type='style'>
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-01 (25-JUL-2022+) -->
             <!--
             Esta equação é muito mais rápida do que aquela que tínhamos. → Esta equação é muito mais rápida àquela que tínhamos.
@@ -391,6 +393,7 @@ USA
         </rulegroup>
         <!-- TRANSMITE E QUE PERMITE transmite que permite -->
         <rule id='E_QUE_VERBO_REMOVER_E_PT_PT' name="[pt-PT][Simplificar] E que → que" type="style">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-06 (25-JUL-2022+) -->
             <!--
             Atenção àquilo que transmite e que permite ao recetor agir corretamente. → Atenção àquilo que transmite que permite ao recetor agir corretamente.
@@ -461,15 +464,16 @@ USA
             </pattern>
             <message>Em português (europeu) poderá omitir a conjunção 'e'.</message>
             <suggestion>\2</suggestion>
-            <example correction="que">Atenção àquilo que transmite <marker>e que</marker> permite ao recetor agir corretamente.</example>
-            <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
+            <suggestion>\1</suggestion>
+            <example correction="que|e">Atenção àquilo que transmite <marker>e que</marker> permite ao recetor agir corretamente.</example>
+            <example correction="que|e">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
             <example>Algo pelo qual você pode se guiar, se orientar e que é algo compartilhado.</example>
             <example>Bolsonaro possui alguém que se comporta dessa maneira e que age conforme os requisitos para o cargo – tanto que foi devidamente reconhecido pelo filho do deput...</example>
 
         </rule>
 
         <!-- EM DETALHE detalhadamente -->
-        <rule id='EM_DETALHE_DETALHADAMENTE_PT_PT' name="[pt-PT][Simplificar] 'em detalhe' → detalhadamente" type='style'>
+        <rule id='EM_DETALHE_DETALHADAMENTE_PT_PT' name="[pt-PT][Simplificar] 'em detalhe' → detalhadamente" type='style' tone_tags="objective">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-10 (2-MAR-2023+) -->
             <!--
             Queira explicar em detalhe o tema. → Queira explicar detalhadamente o tema.
@@ -492,7 +496,7 @@ USA
 
 
         <!-- EM RELAÇÃO À SITUAÇÃO relativamente à situação -->
-        <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="[pt-PT][Simplificar] Em relação a/à(s)/ao(s) → relativamente a/à(s)/ao(s)" type='style'>
+        <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="[pt-PT][Simplificar] Em relação a/à(s)/ao(s) → relativamente a/à(s)/ao(s)" type='style' tone_tags="objective">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 + 2023-02-14 (25-JUL-2022+) -->
             <!--
             O que fazer em relação a esta situação? → O que fazer relativamente a esta situação?
@@ -551,7 +555,7 @@ USA
 
         </rulegroup>
         <!-- EDUCAÇÃO SUPERIOR Ensino Superior -->
-        <rule id='ENSINO_SUPERIOR' name="[pt-PT] 'Educação' Superior → 'Ensino'" type="style">
+        <rule id='ENSINO_SUPERIOR' name="[pt-PT] 'Educação' Superior → 'Ensino'" type="style" tone_tags="academic">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13/16 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
             O ISCTE é uma instituição de Educação Superior. → O ISCTE é uma instituição de Ensino Superior.
@@ -574,7 +578,7 @@ USA
             <example>O estabelecimento é de Ensino Superior.</example>
             <example>Um homem que nunca foi à escola pode roubar de um vagão de carga; mas, se ele tiver educação superior, ele pode roubar toda a ferrovia.</example>
         </rule>
-        <rule id='FAZER_DESPORTO' name="[pt-PT] 'Fazer' desporto → 'Praticar'">
+        <rule id='FAZER_DESPORTO' name='Fazer desporto → Praticar' tone_tags="formal objective">
             <!--      Created by Marco A.G.Pinto     -->
             <pattern>
                 <marker>
@@ -589,7 +593,7 @@ USA
         </rule>
 
 
-        <rulegroup id='INFORMALITIES' name="[pt-PT] Linguagem informal" default="on" tags="picky">
+        <rulegroup id='INFORMALITIES' name="[pt-PT] Linguagem informal" default="on" tags="picky" tone_tags="formal">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-09 -->
             <url>https://pt.wiktionary.org/wiki/Categoria:Coloquialismo_(Portugu%C3%AAs)</url>
             <rule>
@@ -2069,7 +2073,8 @@ USA
             </rule>
         </rulegroup>
         <!-- TELEFONO PARA TI telefono-te -->
-        <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="[pt-PT][Simplificar] Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style">
+        <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="[pt-PT][Simplificar] Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style" tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-17 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
             Telefonei para si. → Telefonei-lhe.
@@ -2413,7 +2418,8 @@ USA
 
         </rulegroup>
         <!-- CHAMAR/DENOMINAR DE chamar/denominar -->
-        <rulegroup id='VERBO_PRONOMINAL_DE_V2' name="[pt-PT] V. Pronominal + de → V. Pronominal" type="style">
+        <rulegroup id='VERBO_PRONOMINAL_DE_V2' name="[pt-PT] V. Pronominal + de → V. Pronominal" type="style" tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-02 (25-JUL-2022+) -->
             <!--
             Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
@@ -2492,7 +2498,8 @@ USA
 
         </rulegroup>
         <!-- AVIÃO DE COMBATE caça -->
-        <rule id='AVIÃO_DE_COMBATE_PT_PT' name="[pt-PT] Avião(ões) de combate → caça(s)">
+        <rule id='AVIÃO_DE_COMBATE_PT_PT' name="[pt-PT] Avião(ões) de combate → caça(s)" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-01 (25-JUL-2022+) -->
             <!--
             O avião de combate é muito rápido. → O caça é muito rápido.
@@ -2512,7 +2519,7 @@ USA
         </rule>
         <!-- VELHA ESCOLA velha guarda -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
-        <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha escola → Velha guarda">
+        <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha escola → Velha guarda" tone_tags="formal">
             <pattern>
                 <token inflected='yes'>ser</token>
                 <token>da</token>
@@ -2524,7 +2531,7 @@ USA
             <message>Se for uma frase idiomática, utilize <suggestion>guarda</suggestion>.</message>
             <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
         </rule>
-        <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal" type="style">
+        <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal" type="style" tone_tags="formal">
             <!--  Localized from French, by Tiago F. Santos, 2017-10-01      -->
             <rule>
                 <regexp type="exact" mark="1">\b(?:Rua|R\.|Arruamento|Avenida|Av\.|Praça|Pr\.|Cruzamento|Caminho|Via|Estrada|Piso)[  ][^,\n]+\s*[,\n]\s*(\p{Lu}[^,%\d\n]+[  ]\d{4}(?:\-\d{3})?)\s*[,\n]\s*(?:PORTUGAL|PORTOGALLO|PORTOGALIA)\b</regexp>
@@ -2554,7 +2561,8 @@ USA
             </rule>
         </rulegroup>
         <!-- CHEGAR AO FIM findar/terminar -->
-        <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT] Chegar ao fim → findar/terminar/acabar" type="style">
+        <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT] Chegar ao fim → findar/terminar/acabar" type="style" tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
             <!--
             Outro ano que chega ao fim. → Outro ano que finda/termina.
@@ -2579,7 +2587,8 @@ USA
 
 
         <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
-        <rulegroup id='SIMPLIFICAR_PP_OBJ_IND_V2' name="[pt-PT][Simplificar] Pronome pessoal no dativo" type='style'>
+        <rulegroup id='SIMPLIFICAR_PP_OBJ_IND_V2' name="[pt-PT][Simplificar] Pronome pessoal no dativo" type='style' tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-09-16/20 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
             O Rui pediu a ele. → O Rui pediu-lhe.
@@ -2700,6 +2709,7 @@ USA
 
         <!-- POR ISSO aí/assim/daí/isso -->
         <rulegroup id='SIMPLIFICAR_POR_ISSO_AÍ_ASSIM_DAÍ_ISSO_PT' name="[pt-PT][Simplificar] por isso → aí/assim/daí/isso" type='style'>
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
             Queria por isso ter informado a chefe. → Queria daí ter informado a chefe.
@@ -2748,7 +2758,8 @@ USA
 
 
         <!-- É DE VOCÊS é vossa -->
-        <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="[pt-PT][Simplificar] de você(s) → vossa(s)/vosso(s)/sua(s)/seu(s)" type='style'>
+        <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="[pt-PT][Simplificar] de você(s) → vossa(s)/vosso(s)/sua(s)/seu(s)" type='style' tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
             A sorte é de você. → A sorte é sua.
@@ -2800,6 +2811,7 @@ USA
 
         <!-- É NECESSÁRIO TER requer -->
         <rule id='SIMPLIFICAR_É_NECESSÁRIO_TER_REQUER' name="[pt-PT][Simplificar] é necessário ter → requer" type='style'>
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-16 (2-MAR-2023+) -->
             <!--
             Para executar a app é necessário ter no mínimo um sistema operativo 64-bit. → Executar a app requer no mínimo um sistema operativo 64-bit.
@@ -2822,6 +2834,7 @@ USA
 
 
         <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' casa → 'arrendar'" type='style'>
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
                 <token inflected='yes'>alugar</token>
@@ -2835,7 +2848,7 @@ USA
         </rule>
 
 
-        <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] 'acabar/terminar' um curso → 'concluir'" type='style'>
+        <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] 'acabar/terminar' um curso → 'concluir'" type='style' tone_tags="formal academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
             <!--
             Vou acabar o meu doutoramento. → Vou concluir o meu doutoramento.
@@ -2858,6 +2871,7 @@ USA
 
         <!-- À PROCURA DE a procurar -->
         <rule id='SIMPLIFICAR_À_VERBO_DE' name="[pt-PT][Simplificar] À + Verbo + De → A + Verbo Infinitivo" type="style">
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-11/12/15 (25-JUN-2021+)      -->
             <!--
             O Rui anda à procura de material científico. → O Rui anda a procurar material científico.
@@ -2957,7 +2971,8 @@ USA
 
 
         <!-- O QUE ME FOI DITO FOI foi-me dito -->
-        <rulegroup id='SIMPLIFICAR_REPETICAO_AUXILIAR_VERBO' name="[pt-PT][Simplificar] Eliminação da redundância de auxiliar" type='style'>
+        <rulegroup id='SIMPLIFICAR_REPETICAO_AUXILIAR_VERBO' name="[pt-PT][Simplificar] Eliminação da redundância de auxiliar" type='style' tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-14 (25-JUL-2022+) -->
             <!--
             Após eu insistir muito, o que me foi dito foi para aguardar. → Após eu insistir muito, foi-me dito para aguardar.
@@ -3010,6 +3025,7 @@ USA
 
         <!-- É IGUAL iguala -->
         <rulegroup id='SIMPLIFICAR_SER_IGUAL_IGUALAR' name="[pt-PT][Simplificar] Ser igual a → igualar" type='style'>
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-15 (25-JUL-2022+) -->
             <!--
             A soma tem de ser igual a zero. → A soma tem de igualar zero.
@@ -3162,6 +3178,7 @@ USA
 
         <!-- E EST(A/E)(S) que -->
         <rulegroup id='SIMPLIFICAR_E_ESTAS_ESTES_QUE_PT_PT' name="[pt-PT][Simplificar] E est(a/e)(s) → que" type='style'>
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-12 (25-JUL-2022+) -->
             <!--
             A equação é fulcral no nosso estudo e este suporta diversas variáveis. → A equação é fulcral no nosso estudo que suporta diversas variáveis.
@@ -3239,6 +3256,7 @@ USA
 
         <!-- QUE ATUA/ATUAM a atuar -->
         <rule id='SIMPLIFICAR_QUE_VERBO_A_VERBOINFINITIVO' name="[pt-PT][Simplificar] Que + V. → A + V. Infinitivo" type="style">
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
             Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as forças a atuar sobre o objeto.
@@ -3265,7 +3283,8 @@ USA
         </rule>
 
 
-        <rulegroup id='SIMPLIFICAR_A_XXX_DE_VOCÊS' name="[pt-PT][Simplificar] A XXX de vocês → a vossa XXX">
+        <rulegroup id='SIMPLIFICAR_A_XXX_DE_VOCÊS' name="[pt-PT][Simplificar] A XXX de vocês → a vossa XXX" tone_tags="formal objective">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->
             <rule>
                 <pattern>
@@ -3297,6 +3316,7 @@ USA
 
         <!-- ESTRANGEIRISMOS ESPECÍFICOS pt_PT -->
         <rule id='BARBARISMS_PT_PT_V3' name="[pt-PT] Estrangeirismos específicos pt_PT" type="style">
+            <!-- IDEA foreign_terms -->
             <!--      Created by Tiago F. Santos (2017-02-09) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-26 + 2022-10-03 (Checked/Enhanced) (25-JUL-2022+)      -->
             <!--
             This rule is only available to pt-PT. Dissertations, theses and academic papers in European Portuguese use this.
@@ -3402,7 +3422,7 @@ USA
         </rule>
 
 
-        <rulegroup id='ORDINAL_ABREVIATION' name="[pt-PT] Abreviatura de ordinais: 1º → 1.º">
+        <rulegroup id='ORDINAL_ABREVIATION' name="[pt-PT] Abreviatura de ordinais: 1º → 1.º" tone_tags="formal">
             <!--  Created by Tiago F. Santos, 20-07-2017 -->
             <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
             <antipattern>
@@ -3488,7 +3508,8 @@ USA
 
 
         <!-- TAMBÉM VERBO NOME_COMUM também o é -->
-        <rule id='SIMPLIFICAR_TAMBÉM_O_VERBO_PT_PT' name="[pt-PT][Simplificar] Evitar redundância de adjetivos">
+        <rule id='SIMPLIFICAR_TAMBÉM_O_VERBO_PT_PT' name="[pt-PT][Simplificar] Evitar redundância de adjetivos" tone_tags="clarity">
+            <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
             <!--
             Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também o é?
@@ -3515,7 +3536,7 @@ USA
 
 
         <!-- PARA DESEMPENHAR DETERMINADAS FUNÇÕES para desempenhar funções específicas -->
-        <rule id='CIENTÍFICO_DETERMINADAS_ESPECÍFICAS' name="[pt-PT][Científico] Determinados → Específicos" type="style">
+        <rule id='CIENTÍFICO_DETERMINADAS_ESPECÍFICAS' name="[pt-PT][Científico] Determinados → Específicos" type="style" tone_tags="academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-13 (2-MAR-2023+) -->
             <!--
             Estes foram criados para desempenhar determinadas funções. → Estes foram criados para desempenhar funções específicas.
@@ -3596,9 +3617,10 @@ USA
 
     </category>
 
-    <category id='FORMAL_SPEECH_PT_PT' name='[pt-PT] Linguagem Formal' type='register'>
+    <category id='FORMAL_SPEECH_PT_PT' name='[pt-PT] Linguagem Formal' type='register' tone_tags="formal">
     <!-- TERMOS DEPRECIATIVOS -->
     <rule id='FORMAL_DEPRECIATIVO' name="[pt-PT][Formal] Termos depreciativos">
+        <!-- IDEA inclusive -->
         <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-18/19 + 2022-08-17 (1-JAN-2022+)      -->
         <!--
         Vou à loja do monhé. → Vou à loja do indiano.
@@ -4719,7 +4741,8 @@ USA
 
 
     </category>
-    <category id='REDUNDANCY_PT_PT' name="[pt-PT] Redundância">
+    <category id='REDUNDANCY_PT_PT' name="[pt-PT] Redundância" tone_tags="clarity">
+        <!-- IDEA shorten_it -->
 
 
         <rule id='REDUNDANCY_24' name="[pt-PT][Pleonasmo] 24 horas por dia">
@@ -5118,7 +5141,8 @@ USA
             <example correction='viver'><marker>viver a vida</marker>.</example>
         </rule>
     </category>
-    <category id='TRANSLATION_ERRORS_PT_PT' name="[pt-PT] Erros de Tradução" type="mistranslation">
+    <category id='TRANSLATION_ERRORS_PT_PT' name="[pt-PT] Erros de Tradução" type="mistranslation" tone_tags="formal academic">
+        <!-- IDEA foreign_terms -->
 
 
         <!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
