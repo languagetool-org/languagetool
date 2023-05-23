@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">O. Dat is vreemd.</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Het is 9 °C overdag en de temperatuur 's nachts daalt tot 3 °C. De wind is matig, windkracht 3 .</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1652,6 +1652,10 @@
 <rule break="no">
 <beforebreak>\b(prov|pseud|psych|qty|red|ref|resp|soc|st|tab|tel|temp|prof|tk)\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>°C\.\s</beforebreak>
+<afterbreak>[A-Z][a-z]</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b([A-Z]|Adr|Chr|Fr|Fred|IJ|Jac|Joh|Ph|St|Th|Tj|v|v\.(\s)?d)\.(\s)?</beforebreak>

@@ -353,6 +353,8 @@ public class German extends Language implements AutoCloseable {
       case "TAG_EIN_TAG_AUS": return 1; // prefer over agreement rules
       case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
+      case "DA_DRAUS": return 1;
+      case "AUSSER_ORDENTLICH": return 1;
       case "IN_UND_AUSWENDIG": return 1; // prefer over DE_CASE
       case "HIER_MIT": return 1; // prefer over agreement rules
       case "HIER_FUER": return 1; // prefer over agreement rules
@@ -462,6 +464,7 @@ public class German extends Language implements AutoCloseable {
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "VON_LEBENSLAEUFE": return -12; // less prio than AI
+      case "VER123_VERAUXMOD_TEST1": return -12; // less prio than AI to produce a single suggestion
       case "ZUSAMMENGESETZTE_VERBEN": return -12; // less prio than most more specific rules and AI
       case "PRP_VER_PRGK": return -13; // lower prio than ZUSAMMENGESETZTE_VERBEN
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style

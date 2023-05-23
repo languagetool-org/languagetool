@@ -80,7 +80,8 @@ public class GermanReadabilityRule extends ReadabilityRule {
     }
   }
 
-  private static String printMessageLevel(int level) {
+  @Override
+  public String printMessageLevel(int level) {
     String sLevel = null;
     if (level == 0) {
       sLevel = "Sehr schwer";
@@ -124,7 +125,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
   }
 
   @Override
-  protected double getFleschReadingEase(double asl, double asw) {
+  public double getFleschReadingEase(double asl, double asw) {
     return 180 - asl - ( 58.5 * asw );  //  German
   }
   

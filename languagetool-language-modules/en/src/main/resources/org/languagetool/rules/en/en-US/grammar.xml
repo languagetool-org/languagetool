@@ -233,31 +233,216 @@ USA
             </rulegroup>
         </category>
 
+        <category id="COMPOUNDING" name="Compounding">
+            <rulegroup id="PER_CENT" name="per cent (percent)">
+                <url>https://www.merriam-webster.com/dictionary/percent</url>
+                <rule>
+                    <pattern>
+                        <token>per</token>
+                        <token>cent</token>
+                    </pattern>
+                    <message>In American English, <suggestion>percent</suggestion> is the recommended spelling.</message>
+                    <example correction="percent">He increased the revenue by 100 <marker>per cent</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token>per-cent</token>
+                    </pattern>
+                    <message>In American English, <suggestion>percent</suggestion> is the recommended spelling.</message>
+                    <example correction="percent">He increased the revenue by 100 <marker>per-cent</marker>.</example>
+                </rule>
+            </rulegroup>
+            <rule id="STREET_LIGHTS_COMPOUND" name="street light (streetlight)">
+                <pattern>
+                    <token>street</token>
+                    <token regexp="yes">lights?|lamps?</token>
+                </pattern>
+                <message>In American English this noun is spelled as one word.</message>
+                <suggestion>street<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/streetlight</url>
+                <example correction="streetlights">I only go out once the <marker>street lights</marker> are turned on.</example>
+            </rule>
+
+            <rule id="SHIT_SHOW_COMPOUND" name="shit show (shitshow)">
+                <pattern>
+                    <token regexp="yes">an?</token>
+                    <token postag="JJ" min="0" />
+                    <marker>
+                        <token>shit</token>
+                        <token>show</token>
+                    </marker>
+                </pattern>
+                <message>The noun <suggestion>shitshow</suggestion> is spelled as one word.</message>
+                <url>https://www.dictionary.com/browse/shitshow</url>
+                <example correction="shitshow">The TV debate was an absolute <marker>shit show</marker>.</example>
+            </rule>
+
+            <rule id="HOME_COMPOUNDS_EN_US" name="home town (hometown)">
+                <pattern>
+                    <token>home</token>
+                    <token regexp="yes">towns?</token>
+                </pattern>
+                <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
+                <example correction="hometown">He came to visit her <marker>home town</marker>.</example>
+            </rule>
+
+            <rule id="ANY_MORE" name="any more (anymore)">
+                <antipattern><!-- Tom could not have been any more helpful. -->
+                    <token>more</token>
+                    <token postag="JJ"/>
+                </antipattern>
+                <antipattern><!-- #2985 any more random lag spikes -->
+                    <token chunk="B-NP-plural">any</token>
+                    <token chunk="I-NP-plural">more</token>
+                    <token min="0" max="4" chunk="I-NP-plural"/>
+                    <token postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #3057 have any more unless -->
+                    <token postag_regexp="yes" postag="VB.*"/>
+                    <token>any</token>
+                    <token>more</token>
+                    <token regexp="yes">&subordinating_conjunctions;</token>
+                </antipattern>
+                <antipattern><!-- #3057 want any more because -->
+                    <token postag_regexp="yes" postag="VB.*"/>
+                    <token>any</token>
+                    <token>more</token>
+                    <token postag="CC"/>
+                </antipattern>
+                <antipattern><!-- if you need any more, let me know -->
+                    <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">need|want|demand|require</token>
+                    <token>any</token>
+                    <token>more</token>
+                </antipattern>
+                <antipattern><!-- I couldn't ask any more of him -->
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>any</token>
+                    <token>more</token>
+                    <token regexp="yes">from|of</token>
+                    <token postag="NNP|PRP" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>any</token>
+                        <token>more
+                            <exception scope="next" regexp="yes">of|than|often</exception>
+                            <exception scope="next" postag="NN.*" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adverb <suggestion>\1\2</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/anymore</url>
+                <short>American English, possible typo</short>
+                <example correction="anymore">I couldn't find my way around it <marker>any more</marker>.</example>
+                <example correction="anymore">You're not sure <marker>any more</marker>, are you?</example>
+                <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example><!-- #2309. -->
+                <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
+                <example correction="anymore">You don't have to take care of them <marker>any more</marker>   </example><!-- #2779. Extra spaces -->
+                <example>I couldn't find my way around it <marker>anymore</marker>.</example>
+                <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
+                <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
+                <example>Do it so that there aren't any more random lag spikes.</example><!-- #2985 -->
+                <example>There aren't any more random spikes.</example><!-- #2985 -->
+                <example>We probably should tell him that we don't have any more unless New Albany is enough.</example><!-- #3057 -->
+                <example>Tell her that we don't really want any more because we have sufficient.</example><!-- #3057 -->
+                <example>If we had bought any more while prices were high, we would have lose money.</example><!-- #3057 -->
+                <example>I know that Tom isn't any more likely to do that today than he was yesterday.</example>
+                <example>Tom could not have been any more helpful.</example>
+                <example>Those people do not visit emergency rooms any more often than the general population.</example>
+                <example>I'll let you know if I need any more from you.</example>
+                <example>If you ask any more of me, I won't be able to comply.</example>
+            </rule>
+        </category>
+
         <category id="PUNCTUATION" name="Punctuation" type="typographical">
-        <rule id="QUOTATION_MARKS_COMMA" name="rearranges final comma in reported speech">
-        <!-- TODO: should be part of larger rule group for punctuating reported speech -->
-            <antipattern>
-                <token regexp="yes">\?|!</token>
-                <token postag="''"/>
-                <token postag=","/>
-            <example>Asked to explain the meaning of "Ut!", he stated</example>
-            </antipattern>
-            <pattern>
-                <marker>
+            <rulegroup id="MISSING_PERIOD_AFTER_ABBREVIATION" name="Missing period after an abbreviation" tags="picky">
+                <url>https://www.quickanddirtytips.com/education/grammar/when-you-need-periods-after-abbreviations</url>
+                <short>Missing period</short>
+                <antipattern><!-- https://www.drpepper.com/en -->
+                    <token>Dr</token>
+                    <token>Pepper</token>
+                </antipattern>
+                <rule>
+                    <pattern>
+                        <token case_sensitive="yes" regexp="yes">Dr|Mrs?|Prof|St|Capt<exception scope="next" spacebefore="no">.</exception></token>
+                    </pattern>
+                    <message>In American English, use a period after an abbreviation.</message>
+                    <suggestion>\1.</suggestion>
+                    <example correction="Mr."><marker>Mr</marker> Peters told me so.</example>
+                </rule>
+                <rule>
+                    <antipattern>
+                        <token>Jan</token>
+                        <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z].*</token>
+                    </antipattern>
+                    <antipattern>
+                        <token>Mar</token>
+                        <token regexp="yes">del?</token>
+                    </antipattern>
+                    <antipattern>
+                        <token>Mar</token>
+                        <token>a</token>
+                        <token>Lago</token>
+                    </antipattern>
+                    <antipattern>
+                        <token case_sensitive="yes" regexp="yes">Sun|We</token>
+                    </antipattern>
+                    <pattern>
+                        <token postag="IN"/>
+                        <marker>
+                            <token case_sensitive="yes" regexp="yes">&abbrevWeekdays;|&abbrevMonths;
+                                <exception regexp="yes">mo|su|tu</exception>
+                                <exception scope="next" spacebefore="no" regexp="yes">\.|['’].*</exception>
+                            </token>
+                        </marker>
+                    </pattern>
+                    <message>In American English, use a period after an abbreviation.</message>
+                    <suggestion>\2.</suggestion>
+                    <example correction="Fri.">See me on <marker>Fri</marker> 27 at 10:00.</example>
+                    <example correction="Jan.">See you next year in <marker>Jan</marker>!</example><!-- Not sure whether AmE has a period for the abbreviation. -->
+                    <example>See me on <marker>Fri.</marker> 27 at 10:00.</example>
+                    <example>Did you see <marker>Jan</marker> at the party?</example>
+                    <example>I saw Peter on <marker>Jan's</marker> birthday.</example>
+                    <example>It was created by Jan Luyken and his son.</example>
+                    <example>He lives in Mar del Plata.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">.*[a-z0-9].*</token>
+                        <marker>
+                            <token case_sensitive="yes" spacebefore="yes">vs</token>
+                        </marker>
+                        <token regexp="yes" spacebefore="yes">.*[a-z0-9].*</token>
+                    </pattern>
+                    <message>In American English, use a period after an abbreviation.</message>
+                    <suggestion>vs.</suggestion>
+                    <example correction="vs.">In the end, it's you <marker>vs</marker> me.</example>
+                </rule>
+            </rulegroup>
+            <rule id="QUOTATION_MARKS_COMMA" name="rearranges final comma in reported speech">
+            <!-- TODO: should be part of larger rule group for punctuating reported speech -->
+                <antipattern>
+                    <token regexp="yes">\?|!</token>
                     <token postag="''"/>
                     <token postag=","/>
-                </marker>
-                <token min="1" chunk_re=".-NP-.*"/>
-                <and>
-                    <token inflected="yes" regexp="yes">say|tell|add|admit|advise|agree|announce|answer|ask|claim|comment|complain|confess|confirm|continue|cry|demand|enquire|explain|hint|inform|insist|interrupt|maintain|note|observe|offer|order|point out|promise|protest|repeat|reply|shout|state|suggest|threaten|warn|wonder|question|yell|whisper|share|exclaim|ramble|chime|bemoan|scold</token>
-                    <token chunk_re="B-VP"/>
-                </and>
-            </pattern>
-            <message>When punctuating reported speech in US English, the comma is usually placed before the closing quotation mark.</message>
-            <suggestion>,"</suggestion>
-            <example correction=',"'>"I'd like to explore this with you<marker>",</marker> Fergus replied.</example>
-        </rule>
-    </category>
+                    <example>Asked to explain the meaning of "Ut!", he stated</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="''"/>
+                        <token postag=","/>
+                    </marker>
+                    <token min="1" chunk_re=".-NP-.*"/>
+                    <and>
+                        <token inflected="yes" regexp="yes">say|tell|add|admit|advise|agree|announce|answer|ask|claim|comment|complain|confess|confirm|continue|cry|demand|enquire|explain|hint|inform|insist|interrupt|maintain|note|observe|offer|order|point out|promise|protest|repeat|reply|shout|state|suggest|threaten|warn|wonder|question|yell|whisper|share|exclaim|ramble|chime|bemoan|scold</token>
+                        <token chunk_re="B-VP"/>
+                    </and>
+                </pattern>
+                <message>When punctuating reported speech in US English, the comma is usually placed before the closing quotation mark.</message>
+                <suggestion>,"</suggestion>
+                <example correction=',"'>"I'd like to explore this with you<marker>",</marker> Fergus replied.</example>
+            </rule>
+        </category>
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
@@ -342,107 +527,6 @@ USA
                 <example>Megan Thee Stallion is an American pop singer.</example>
             </rule>
         </rulegroup>
-        <rule id="STREET_LIGHTS_COMPOUND" name="street light (streetlight)">
-            <pattern>
-                <token>street</token>
-                <token regexp="yes">lights?|lamps?</token>
-            </pattern>
-            <message>In American English this noun is spelled as one word.</message>
-            <suggestion>street<match no="2" case_conversion="alllower" /></suggestion>
-            <url>https://www.merriam-webster.com/dictionary/streetlight</url>
-            <example correction="streetlights">I only go out once the <marker>street lights</marker> are turned on.</example>
-        </rule>
-
-        <rule id="SHIT_SHOW_COMPOUND" name="shit show (shitshow)">
-            <pattern>
-                <token regexp="yes">an?</token>
-                <token postag="JJ" min="0" />
-                <marker>
-                    <token>shit</token>
-                    <token>show</token>
-                </marker>
-            </pattern>
-            <message>The noun <suggestion>shitshow</suggestion> is spelled as one word.</message>
-            <url>https://www.dictionary.com/browse/shitshow</url>
-            <example correction="shitshow">The TV debate was an absolute <marker>shit show</marker>.</example>
-        </rule>
-
-        <rule id="HOME_COMPOUNDS_EN_US" name="home town (hometown)">
-            <pattern>
-                <token>home</token>
-                <token regexp="yes">towns?</token>
-            </pattern>
-            <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
-            <example correction="hometown">He came to visit her <marker>home town</marker>.</example>
-        </rule>
-
-          <rule id="ANY_MORE" name="any more (anymore)">
-              <antipattern><!-- Tom could not have been any more helpful. -->
-                 <token>more</token>
-                 <token postag="JJ"/>
-              </antipattern>
-              <antipattern><!-- #2985 any more random lag spikes -->
-                 <token chunk="B-NP-plural">any</token>
-                 <token chunk="I-NP-plural">more</token>
-                 <token min="0" max="4" chunk="I-NP-plural"/>
-                 <token postag="NNS"/>
-              </antipattern>
-              <antipattern><!-- #3057 have any more unless -->
-                 <token postag_regexp="yes" postag="VB.*"/>
-                 <token>any</token>
-                 <token>more</token>
-                 <token regexp="yes">&subordinating_conjunctions;</token>
-              </antipattern>
-              <antipattern><!-- #3057 want any more because -->
-                 <token postag_regexp="yes" postag="VB.*"/>
-                 <token>any</token>
-                 <token>more</token>
-                 <token postag="CC"/>
-              </antipattern>
-              <antipattern><!-- if you need any more, let me know -->
-                  <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">need|want|demand|require</token>
-                  <token>any</token>
-                  <token>more</token>
-              </antipattern>
-              <antipattern><!-- I couldn't ask any more of him -->
-                  <token postag="V.*" postag_regexp="yes"/>
-                  <token>any</token>
-                  <token>more</token>
-                  <token regexp="yes">from|of</token>
-                  <token postag="NNP|PRP" postag_regexp="yes"/>
-              </antipattern>
-              <pattern>
-                  <marker>
-                     <token>any</token>
-                     <token>more
-                         <exception scope="next" regexp="yes">of|than|often</exception>
-                         <exception scope="next" postag="NN.*" postag_regexp="yes"/>
-                         </token>
-                  </marker>
-              </pattern>
-              <message>Did you mean the adverb <suggestion>\1\2</suggestion>?</message>
-              <url>https://www.merriam-webster.com/dictionary/anymore</url>
-              <short>American English, possible typo</short>
-              <example correction="anymore">I couldn't find my way around it <marker>any more</marker>.</example>
-              <example correction="anymore">You're not sure <marker>any more</marker>, are you?</example>
-              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example><!-- #2309. -->
-              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
-              <example correction="anymore">You don't have to take care of them <marker>any more</marker>   </example><!-- #2779. Extra spaces -->
-              <example>I couldn't find my way around it <marker>anymore</marker>.</example>
-              <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
-              <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
-              <example>Do it so that there aren't any more random lag spikes.</example><!-- #2985 -->
-              <example>There aren't any more random spikes.</example><!-- #2985 -->
-              <example>We probably should tell him that we don't have any more unless New Albany is enough.</example><!-- #3057 -->
-              <example>Tell her that we don't really want any more because we have sufficient.</example><!-- #3057 -->
-              <example>If we had bought any more while prices were high, we would have lose money.</example><!-- #3057 -->
-              <example>I know that Tom isn't any more likely to do that today than he was yesterday.</example>
-              <example>Tom could not have been any more helpful.</example>
-              <example>Those people do not visit emergency rooms any more often than the general population.</example>
-              <example>I'll let you know if I need any more from you.</example>
-              <example>If you ask any more of me, I won't be able to comply.</example>
-          </rule>
-
     </category>
 
     <category id="BRITISH_ENGLISH" name="British English phrases" type="locale-violation">
@@ -558,6 +642,109 @@ USA
             <example>If your home has a shower</example>
             <example>My bathroom has a spacious shower.</example>
         </rule>
+
+        <rulegroup id="HAVE_A_LOOK" name="have a look → take a look">
+            <short>British spelling</short>
+            <antipattern>
+                <token skip="5">on</token>
+                <token inflected="yes" regexp="yes">face|eye</token>
+                <example>She was perspiring profusely and had a look on her face that was very unusual.</example>
+            </antipattern>
+            <antipattern>
+                <token>look</token>
+                <token>on</token>
+                <token min="0">,</token>
+                <token regexp="yes">that|which</token>
+                <example>She had a look on that nobody will ever forget.</example>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="CC|PCT|SENT_START" postag_regexp="yes" />
+                    <token regexp="yes">have|has|had</token>
+                    <token min="0">n't</token>
+                    <token postag="PRP_S.*|NNP" postag_regexp="yes" />
+                    <marker>
+                        <token chunk_re=".-VP">had</token>
+                        <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
+                        <token chunk_re="E-NP.*">look</token>
+                    </marker>
+                    <token regexp="yes" skip="-1">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
+                </pattern>
+                <message>In American English, "take a look" is more commonly used.</message>
+                <suggestion>taken \6 \7 \8</suggestion>
+                <example correction="taken a look">Have you <marker>had a look</marker>?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="5">have|be</token>
+                    <token skip="2">had</token>
+                    <token>look</token>
+                </antipattern>
+                <pattern>
+                    <token chunk_re="E-NP.*" />
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token chunk_re=".-VP">had</token>
+                        <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
+                        <token chunk_re="E-NP.*">look</token>
+                    </marker>
+                    <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
+                </pattern>
+                <message>In American English, "take a look" is more commonly used.</message>
+                <suggestion>took \4 \5 \6</suggestion>
+                <example correction="took a look">I recently <marker>had a look</marker> at it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token chunk_re=".-VP">had</token>
+                        <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
+                        <token chunk_re="E-NP.*">look</token>
+                    </marker>
+                    <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
+                </pattern>
+                <message>In American English, "take a look" is more commonly used.</message>
+                <suggestion>took \3 \4 \5</suggestion>
+                <example correction="Took a look"><marker>Had a look</marker> at it and agree that it doesn't work.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">have|'ve</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token chunk_re=".-VP">had</token>
+                        <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
+                        <token chunk_re="E-NP.*">look</token>
+                    </marker>
+                    <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
+                </pattern>
+                <message>In American English, "take a look" is more commonly used.</message>
+                <suggestion>taken \4 \5 \6</suggestion>
+                <example correction="taken a look">I've <marker>had a look</marker> at it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" chunk_re=".-VP">
+                            have
+                            <exception>had</exception><!-- see rules above -->
+                        </token>
+                        <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
+                        <token chunk_re="E-NP.*">look</token>
+                    </marker>
+                    <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
+                </pattern>
+                <message>In American English, "take a look" is more commonly used.</message>
+                <suggestion><match no="1" postag="VB.*" postag_regexp="yes">take</match> \2 \3 \4</suggestion>
+                <example correction="take a look">I promise that I will <marker>have a look</marker> later.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">

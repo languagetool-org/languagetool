@@ -61,8 +61,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
-    "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt)";
+    "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
@@ -2684,6 +2684,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
       case "up-to-date": return topMatch("up to date");
       case "falscherweise": return topMatch("fälschlicherweise");
+      case "schliesslich": return topMatch("schließlich");
+      case "Schliesslich": return topMatch("Schließlich");
       case "daß": return topMatch("dass");
       case "Daß": return topMatch("Dass");
       case "mußt": return topMatch("musst");
@@ -2691,6 +2693,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "müßt": return topMatch("müsst");
       case "Müßt": return topMatch("Müsst");
       case "heisst": return topMatch("heißt");
+      case "Heisst": return topMatch("Heißt");
       case "heissen": return topMatch("heißen");
       case "beisst": return topMatch("beißt");
       case "beissen": return topMatch("beißen");
@@ -2727,6 +2730,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Triologie": return topMatch("Trilogie", "Werk (z.B. Film), das aus drei Teilen besteht");
       case "ausserdem": return topMatch("außerdem");
       case "Ausserdem": return topMatch("Außerdem");
+      case "ausser": return topMatch("außer");
+      case "Ausser": return topMatch("Außer");
       case "bischen": return topMatch("bisschen");
       case "bißchen": return topMatch("bisschen");
       case "meißt": return topMatch("meist");
@@ -3019,6 +3024,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "interesse": return topMatch("Interesse");
       case "moglich": return topMatch("möglich");
       case "zusammenfässt": return topMatch("zusammenfasst");
+      case "grosse": return topMatch("große");
+      case "grossen": return topMatch("großen");
+      case "grosser": return topMatch("großer");
+      case "grosses": return topMatch("großes");
+      case "geniesse": return topMatch("genieße");
+      case "geniessen": return topMatch("genießen");
       case "grossartig": return topMatch("großartig");
       case "grosszügig": return topMatch("großzügig");
       case "moeglich": return topMatch("möglich");
@@ -3150,6 +3161,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
       case "ausgemahlt": return topMatch("ausgemalt");
+      case "weisst": return topMatch("weißt");
+      case "Weisst": return topMatch("Weißt");
       case "Rehgipsplatte": return topMatch("Rigipsplatte");
       case "Rehgipsplatten": return topMatch("Rigipsplatten");
       case "Rehgips-Platte": return topMatch("Rigips-Platte");
@@ -3172,6 +3185,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Laola-Welle": return topMatch("La-Ola-Welle");
       case "Laola-Wellen": return topMatch("La-Ola-Wellen");
       case "BayArea": return topMatch("Bay Area");
+      case "kontaktfreundlich": return topMatch("kontaktfreudig");
+      case "kontaktfreundliche": return topMatch("kontaktfreudige");
+      case "kontaktfreundlicher": return topMatch("kontaktfreudiger");
+      case "kontaktfreundliches": return topMatch("kontaktfreudiges");
+      case "kontaktfreundlichen": return topMatch("kontaktfreudigen");
+      case "kontaktfreundlichem": return topMatch("kontaktfreudigem");
     }
     return Collections.emptyList();
   }

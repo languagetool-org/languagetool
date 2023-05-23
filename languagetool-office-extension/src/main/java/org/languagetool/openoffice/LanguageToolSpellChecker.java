@@ -19,11 +19,16 @@
 package org.languagetool.openoffice;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.JLanguageTool.ParagraphHandling;
+import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -57,10 +62,18 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   private static JLanguageTool lt = null;
   private static Locale lastLocale = null;                //  locale for spell check
   private static SpellingCheckRule spellingCheckRule = null;
+  private static XComponentContext xContext = null;
+  private static boolean noLtSpeller = false;
   
-  public LanguageToolSpellChecker(XComponentContext xcontext)
-  {
-  };
+  public LanguageToolSpellChecker(XComponentContext xContxt) {
+    if (xContext == null) {
+      xContext = xContxt;
+      OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
+      if (officeInfo == null || officeInfo.osArch.equals("x86")) {
+        noLtSpeller = true;
+      }
+    }
+  }
 
   /**
    * Get XSingleComponentFactory
@@ -134,17 +147,26 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
    */
   public boolean isValid(String word, Locale locale, PropertyValue[] Properties) throws IllegalArgumentException {
     try {
+      if (noLtSpeller) {
+        return false;
+      }
       initSpellChecker(locale);
       if (spellingCheckRule != null) {
         if (!spellingCheckRule.isMisspelled(word)) {
           return true;
         }
-        if (word.endsWith(".") && !spellingCheckRule.isMisspelled(word.substring(0, word.length() - 1))) {
+        List<RuleMatch> matches = lt.check(word,true, ParagraphHandling.ONLYNONPARA);
+//        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: advanced check: word: " + word + ", matches: " + matches.size());
+        if (matches == null || matches.size() == 0) {
           return true;
         }
+//        if (word.endsWith(".") && !spellingCheckRule.isMisspelled(word.substring(0, word.length() - 1))) {
+//          return true;
+//        }
+//        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: misspelled word: " + word);
         return false;
       }
-    } catch (IOException e) {
+    } catch (Throwable e) {
       MessageHandler.showError(e);
     }
     return true;
@@ -163,20 +185,25 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
    * Init spell checker for locale
    */
   private void initSpellChecker(Locale locale) {
-    if (lastLocale == null || !OfficeTools.isEqualLocale(lastLocale, locale)) {
-      if (hasLocale(locale)) {
-        lastLocale = locale;
-        Language lang = Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
-        lt = new JLanguageTool(lang);
-        for (Rule rule : lt.getAllRules()) {
-          if (rule.isDictionaryBasedSpellingRule()) {
-            spellingCheckRule = (SpellingCheckRule) rule;
-            break;
+    try {
+      if (lastLocale == null || !OfficeTools.isEqualLocale(lastLocale, locale)) {
+        if (hasLocale(locale)) {
+          lastLocale = locale;
+          Language lang = MultiDocumentsHandler.getLanguage(locale);
+          lt = new JLanguageTool(lang);
+          for (Rule rule : lt.getAllRules()) {
+            if (rule.isDictionaryBasedSpellingRule()) {
+              spellingCheckRule = (SpellingCheckRule) rule;
+  //            break;
+            } else {
+              lt.disableRule(rule.getId());
+            }
           }
         }
       }
+    } catch (Throwable e) {
+      MessageHandler.showError(e);
     }
-    
   }
   
   /**
@@ -201,6 +228,9 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
 
     @Override
     public String[] getAlternatives() {
+      if (noLtSpeller) {
+        return new String[0];
+      }
       try {
         if (mSpellRule != null) {
           return mSpellRule.getSpellingSuggestions(word).toArray(new String[0]);
@@ -216,6 +246,9 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
 
     @Override
     public short getAlternativesCount() {
+      if (noLtSpeller) {
+        return 0;
+      }
       try {
         if (mSpellRule != null) {
           return (short) mSpellRule.getSpellingSuggestions(word).size();

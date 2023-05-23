@@ -35,7 +35,7 @@
     <!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
     <!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
     <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|amanhãs?|datas?|eras?|horários?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
-
+    <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
     <!ENTITY paises_com_artigo "(?:Afeganistão|Albânia|Alemanha|Arábia|Argélia|Argentina|Austrália|Áustria|Barbados|Bélgica|Belize|Benim|Bielorrússia|Birmânia|Bolívia|Bósnia|Botsuana|Brasil|Bulgária|Burúndi|Butão|Camarões|Camboja|Canadá|Catar|Cazaquistão|Chade|Chile|China|Chipre|Colômbia|Comores|Congo|Coreia|Croácia|Dinamarca|Egito|Emirados|Equador|Eslováquia|Etiópia|EUA|Fiji|Filipinas|Finlândia|Gabão|Gâmbia|Gana|Geórgia|Grécia|Guatemala|Guiana|Guiné|Haiti|Honduras|Hungria|Ilhas|Índia|Indonésia|Irão|Iraque|Irlanda|Islândia|Jamaica|Japão|Jordânia|Laos|Lesoto|Líbano|Libéria|Líbia|Lituânia|Luxemburgo|Malásia|Malaui|Maldivas|Mali|Mauritânia|México|Micronésia|Moldávia|Mongólia|Namíbia|Nepal|Nicarágua|Nigéria|Noruega|Palestina|Panamá|Papua|Paquistão|Paraguai|Peru|Perú|Quirguistão|República|Ruanda|Rússia|Samoa|Seicheles|Senegal|Sérvia|Síria|Somália|Sri|Suazilândia|Sudão|Suécia|Suíça|Suriname|Tailândia|Tajiquistão|Tanzânia|Togo|Tonga|Tunísia|Turcomenistão|Turquia|Ucrânia|Uruguai|Usbequistão|Vaticano|Venezuela|Vietname|Zâmbia)">
     <!ENTITY paises_com_artigo_marcoagpinto_na "Espanha|França|Inglaterra|Itália|Madagáscar|Marrocos|Moçambique">
     <!ENTITY outros_toponimos_com_artigo "(?:Alameda|Algarve|Amadora|Avenida|Cairo|Caldas|Covilhã|Europa|Figueira|Furadouro|Guarda|Largo|Porto|Praceta|Rua|Terreiro)">
@@ -45,6 +45,7 @@
 
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
+    <!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)?|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
 
 
     <!ENTITY pontos_cardeais "este|nascente|nordeste|noroeste|norte|ocidente|oeste|oriente|poente|sudeste|sul">
@@ -112,7 +113,7 @@
     <!-- Estrangeirismos específicos pt_PT - the rule also tests with adding a "s" (plural) at the end of each word -->
     <!ENTITY barbarismos "accelerandos?|agitato|allegretto|allegro|amabile|apfelstrudel|backups?|badine|bavaroise|beagle|becquerel|bip|blague|blister|boate|bonsai|breakdance|brie|cache-sexe|calzone|camber|campus|caniche|cânon|cantabile|cantata|carpaccio|chaise-longue|charleston|chartreuse|cheddar|clarke|clear|clearance|cloisonné|códex|coloratura|continuum|cookies?|cordon-bleu|corpus|coulomb|crevasse|croissant|cumbia|czarina|datcha|debye|deficit|design|designers?|doping|doppler|drives?|duce|duplex|ecstasy|ensalada|ensemble|entente|evasé|fait-divers|fanfreluche|farads?|fatwa|fax|fermata|flamenco|flash|flashes|fondue|forint|fortran|fox|freeware|fugato|funk|gay|glamour|glide|gospel|gouda|grunge|guaracha|habanera|habitat|habitus|hip-hop|hippies?|homo|horseball|hype|ibidem|id|impedimenta|influenza|in-octavo|interferon|internet|item|jacuzzi|jamboree|jazz|joint-venture|joule|junkies?|kamikazes?|karaoke|karting|kasba|ketchup|kina|kitchenette|kuna|kwacha|kwanza|lamé|larghetto|leasing|legato|lingerie|locus|maestoso|majorette|mambo|managers?|maquis|marketing|maser|matrioska|maxwell|microfarad|milcurie|miserere|misters?|modems?|moderato|modus|mohair|muesli|mvdol|napalm|necessaire|net|new-age|noir|nomenklatura|nuance|nylon|offshores?|opus|origami|ossobuco|ouguiya|paanga|pahoehoe|paparazzi|parsec|patchouli|pecorino|pence|perestroika|petit-suisse|pianoforte|pickles?|piercing|pilé|pince-nez|pinscher|playboys?|poche|pogrom|poise|poodle|pop|posteriori|pot-pourri|práxis|priori|prise|promenade|punks?|putter|puzzle|quantum|quark|quiche|ralenti|rallentando|rave|ready-made|reggae|régie|reprise|reps|réveillon|rickettsia|rinforzando|ritardando|rocaille|rodeo|roentgen|rookie|rubato|samples?|sashimi|scherzando|scherzo|scone|set|setter|sexy|sfogato|sforzando|shareware|shar-pei|shiatsu|shopping|sic|sidecar|sievert|single|skates?|slalom|smorzando|socialite|sottovoce|soul|spas?|spins?|sprays?|sprue|staccato|stands?|stilb|stock|stop|stress|strippers?|superstars?|surf|sushi|tai-chi|tandem|tavolatura|techno|teflon|telex|terylene|tickets?|timeshare|tiramisu|tofu|toner|tópos|tops?|tori|trailer|tremolo|trial|triplex|tsunami|tupperware|tutilimúndi|tutti|tutu|vaudeville|velcro|vernissage|vibrato|vide|vides|vintage|vitae|vitrine|vivace|volte-face|waffle|web|weber|yang|yeti|yin|yuppie">
     <!ENTITY barbarismos_rev2 "abstracts?|apartheids?|applets?|apps?|baby-dolls?|backbones?|backdoors?|baconburgers?|banners?|bear|bestsellers?|bitcoins?|bloggers?|blueprints?|blues?|bluetooth|bogies?|boids?|boneheads?|boosts?|bots?|bottom-up|brainstorms?|bull|bullying|burnouts?|cameraman|carjacking|chairman|commodit(y|ies)|contactless|crackers?|cracking|cyberbullying|debugging|demands?|developers?|dildos?|dojos?|downgrades?|downloads?|downtimes?|drones?|drugstores?|e-bullying|e-commerce|e-learning|e-manuals?|e-newsletters?|e-readers?|exploits?|fair-plays?|feeders?|flats?|flyers?|forwarding|forwards?|führers?|gaming|gangbang|geeks?|goals?|gold|hardwares?|hits?|homebanking|homepages?|idem|idle|inputs?|items?|hacks?|hackers?|hacking|kits?|know-hows?|KOs?|lasers?|layers?|legacy|lags?|lob|logins?|loops?|lossless|mailbombings?|marines?|marketeers?|mayday|milkshakes?|mindsets?|nerds?|netiquette|networking|newsgroups?|off-label|offline|offsides?|on-label|outputs?|overbooking|overflows?|p-values?|palmiers?|papers?|patch(es)?|pens?|players?|ransomwares?|reboots?|red|reggaeton|restarts?|réveillons?|roadmaps?|royalt(y|ies)|screenshots?|scroll|seals?|shell|shelters?|shows?|slogans?|smartphones?|snobs?|sockets?|softwares?|spam|spammers?|sprites?|stalking|standards?|stealth|steps?|streaming|strogonoffs?|strings?|suspenses?|swarms?|tablets?|tagging|task-forces?|telemarketing|thresholds?|time-sharing|tips?|toolkits?|topless|triggers?|trolls?|tweeters?|on-line|online|underscores?|updates?|upgrades?|uptimes?|users?|wannabes|wargames?|webpages?|westerns?|wikis?|wireless|woofers?">
-    <!ENTITY barbarismos_rev3 "afición|aficiones|blockchains?|bodyboarders?|bolds?|buffers?|bugs?|builds?|bunkai|cents?|check-ins?|chipsets?|clusters?|cookie-cutters?|cover-ups?|crowdfundings?|crowdsourcings?|default|desktops?|drafts?|emojis?|emoticons?|fanzines?|flags?|footnotes?|frameworks?|franchisings?|friendly|futons?|gaps?|geocachers?|geocaching|gilberts?|health|heights?|hotspots?|hoverboards?|icebergs?|input-output|interfaces?|jetpacks?|knowing-doing|logs?|LEDs?|likes?|marketplaces?|nudes?|open-source|overclockings?|pidgins?|podcasts?|previews?|rankings?|rap|reviews?|scams?|scammers?|scripts?|skippers?|smileys?|snipers?|spoofing|spreads?|sticks?|sudokus?|takeovers?|tatamis?|tokens?|top-down|trackpads?|thrashers?|trackings?|tweets?|underground|Unicode|uploads?|walkie-talkies?|warm-ups?|webcams?|webinars?|webmail|webmasters?|whalewatching|widths?|woks?|yeah|yes-man|zen|zooms?">
+    <!ENTITY barbarismos_rev3 "afición|aficiones|blockchains?|bodyboarders?|bolds?|buffers?|bugs?|builds?|bunkai|cents?|check-ins?|chipsets?|clusters?|cookie-cutters?|cover-ups?|crowdfundings?|crowdsourcings?|default|desktops?|drafts?|emojis?|emoticons?|fanzines?|flags?|footnotes?|frameworks?|franchisings?|friendly|frontman|futons?|gaps?|geocachers?|geocaching|gilberts?|health|heights?|hotspots?|hoverboards?|icebergs?|input-output|interfaces?|jetpacks?|knowing-doing|logs?|LEDs?|likes?|marketplaces?|nudes?|open-source|overclockings?|pidgins?|podcasts?|previews?|rankings?|rap|reviews?|rockstars?|scams?|scammers?|scripts?|skippers?|smileys?|snipers?|spoofing|spreads?|sticks?|sudokus?|takeovers?|tatamis?|tokens?|top-down|trackpads?|thrashers?|trackings?|tweets?|underground|Unicode|uploads?|walkie-talkies?|warm-ups?|webcams?|webinars?|webmail|webmasters?|whalewatching|widths?|woks?|yeah|yes-man|zen|zooms?">
 
 
     <!ENTITY expressoes_invariaveis_pt_pt "algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere">
@@ -1673,10 +1674,45 @@
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
       <!-- Brazilian Portuguese has some inverted colocations  -->
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
       <short>Erro de colocação pronominal</short>
+
+        <!-- MARCOAGPINTO 2023-05-06 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+        <antipattern>
+          <token postag='RG' postag_regexp='no'/>
+          <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|NP.+|V.+' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='VMI[MPS]3.+|VMM03.+' postag_regexp='yes'/>
+          <example>Aproveitando para agradecer pois os kits me ajudaram bastante.</example>
+          <example>...ezes… Ele queria fazer uma coisa romântica e eu estragava os planos hehehe e um dia antes uma amiga me mandou mensagem perguntando do anel (detalhe: ela não sabia).</example>
+          <example>Uma vez uma empregada lhe pediu permissão para ir à festa de casamento...</example>
+          <example>Eu fiquei surpreso quando o Tom me contou por que ele fez aquilo.</example>
+          <example>Eu não me lembro de jamais me haver sentido cansado pelo trabalho, embora a ociosidade me esgote completamente.</example>
+          <example>Eu não gosto quando as pessoas me pedem para fazer coisas para elas.</example>
+          <example>Odeio quando o Tom me beija em público.</example>
+          <example>É muito triste quando as pessoas te excluem por causa da cor da tua pele.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2023-05-06 (Checked/Enhanced) (2-MAR-2023+) *END* -->
+
+        <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+        <antipattern>
+          <token regexp='yes'>nem|mas</token> <!-- Add words as found. Hardcoded because the POSes would remove valid results -->
+          <token postag='NC.+|AQ.+|NP.+|V.+' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='VMI[MPS]3.+' postag_regexp='yes'/>
+          <example>Não preciso de favores especiais, nem falta me fizeram.</example>
+          <example>Não preciso de favores especiais, mas falta me fizeram.</example>
+          <example>E de Epafrodito: Efésios 2:27 – “E, de fato esteve doente, e quase à morte, mas Deus se apiedou dele”.</example>
+          <example>Tom pensou que tinha terminado, mas Mary lhe disse que não.</example>
+          <example>Eu ia comprá-lo, mas Tom me disse que não o fizesse.</example>
+          <example>A operação foi muito séria, mas Tom se saiu bem.</example>
+          <example>Mas Labão lhe disse: Se mereço tua consideração, peço-te que fiques. Sem dúvida fui favorecido com tua presença: fiquei...</example>
+          <example>Não queria cantar, mas Tom me obrigou.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
         <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
@@ -3055,8 +3091,21 @@
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>-->
       <url>https://pt.wikipedia.org/wiki/Uso_do_h%C3%ADfen_conforme_o_Acordo_Ortogr%C3%A1fico_de_1990</url>
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
+
+      <!-- MARCOAGPINTO 2023-05-12 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+      <antipattern>
+        <token regexp='no'>extra</token>
+        <token postag='VMP00.+|SPS00|(SPS00:)?[DP][ADIPRT].+|Z0.+|RG|CC' postag_regexp='yes'/>
+        <example>A ferramenta tem regras gramaticais extra criadas por profissionais.</example>
+        <example>... ao chegar a essa conclusão, desenhar volta a ser um prazer, e a concentração no trabalho traz como extra uns quilinhos a menos.</example>
+        <example>Nick faz um salto perfeito por cima do avião Extra 300 pilotado pelo experiente Glen, que passa raspando pelo solo, entre as duas rampas que possibilitara...</example>
+        <example>Pra consumir mídia, jogos e redes sociais, ele pode ser uma boa e o valor extra só deve ser levado em conta se você quer ficar com o iPad por mais uns dois anos.</example>
+        <example>... Celebração de Harold Pinter foi bem recebido; Um teatro, o Irish Repertory Theatre, acrescentou um extra três semanas para a corrida do show.</example>
+        <example>... uma consequência direta do fato de três orbitais formula_2 combinam-se e espalham os seis elétrons extra sobre os seis átomos de carbono.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-05-12 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
       <!-- MARCOAGPINTO 2022-12-09 + 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
@@ -3890,7 +3939,31 @@
 
   <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
 
-
+    <rule id='PARONYM_PREMIO_252_PT' name='Parónimo: premio'>
+      <pattern>
+        <token regexp='yes'>&art_detecao_paronimos;</token>
+        <token min='0' postag='A.+' postag_regexp='yes'/>
+        <token regexp='yes'>premios?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+      <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> prémio<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/prémio</url>
+      <example correction='no prémio'><marker>no premio</marker>.</example>
+      <example correction='nos prémios'><marker>nos premios</marker>.</example>
+    </rule>
+    <rule id='PARONYM_PREMIO_252_PT2' name='Parónimo: premio'>
+      <pattern>
+        <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
+        <marker>
+          <token regexp='yes'>premios?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+      <suggestion>prémio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/prémio</url>
+      <example correction='prémio'>E tem <marker>premio</marker> para todos.</example>
+      <example correction='prémios'>E tem <marker>premios</marker> para todos.</example>
+    </rule>
     <!-- CRIAR querer -->
     <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-04-09 (Checked/Enhanced) (2-MAR-2023+) -->

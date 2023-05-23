@@ -287,6 +287,9 @@
     <disambig action="remove" postag="[NA].*"/>
   </rule>
   <rule id="USUAL" name="usual">
+    <antipattern>
+      <token>bebê</token>
+    </antipattern>
     <!-- TODO: exceptions -->
     <pattern>
       <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando|ver|dormir|entender|beber|esse</token>
@@ -1455,6 +1458,10 @@
     
     <rule id="INFINITIVE_NOUN" name="saber, comer (infinitive / noun)">
         <!-- exception to DET_VERBONOME -->
+      <antipattern>
+        <token>de</token>
+        <token regexp="yes">podere?s?</token>
+      </antipattern>
         <pattern>
             <token regexp="yes">para|de</token>
             <marker>
@@ -1612,6 +1619,10 @@
 
   <rulegroup id="DET_VERBONOME" name="Det + Ver/Nom">
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
+    <antipattern>
+      <token>de</token>
+      <token regexp="yes">podere?s?</token>
+    </antipattern>
     <rule>
       <pattern>
         <token postag="DA0MS0">o</token>  
@@ -2908,6 +2919,10 @@
   <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-11-23  	-->
     <rule>
+      <antipattern>
+        <token>dos</token>
+        <token>mesmos</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token postag='NP.+' postag_regexp='yes' regexp='yes'>\p{Lu}.+
             <exception scope='previous' postag='SENT_START' postag_regexp='yes'/></token>

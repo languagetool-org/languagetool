@@ -565,7 +565,7 @@ public class MultiDocumentsHandler {
   /**
    *  get LanguageTool
    */
-  SwJLanguageTool getLanguageTool() {
+  public SwJLanguageTool getLanguageTool() {
     if (lt == null) {
       if (docLanguage == null) {
         docLanguage = getLanguage();
@@ -750,7 +750,7 @@ public class MultiDocumentsHandler {
   /**
    * Get language from locale
    */
-  public Language getLanguage(Locale locale) {
+  public static Language getLanguage(Locale locale) {
     try {
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
         return Languages.getLanguageForShortCode(locale.Variant);
@@ -808,6 +808,7 @@ public class MultiDocumentsHandler {
             MessageHandler.printToLogFile("Different Doc IDs, but same xComponents!");
             String oldDocId = documents.get(i).getDocID();
             documents.get(i).setDocID(docID);
+            documents.get(i).setLanguage(docLanguage);
             MessageHandler.printToLogFile("MultiDocumentsHandler: getNumDoc: Document ID corrected: old: " + oldDocId + ", new: " + docID);
             if (useQueue && textLevelQueue != null) {
               MessageHandler.printToLogFile("MultiDocumentsHandler: getNumDoc: Interrupt text level queue for old document ID: " + oldDocId);

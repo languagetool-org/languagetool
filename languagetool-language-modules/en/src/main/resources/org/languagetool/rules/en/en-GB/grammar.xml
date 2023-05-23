@@ -94,6 +94,25 @@ USA
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
+        <rulegroup id="TAKE_A_LOOK" name="take a look → have a look">
+            <short>American spelling</short>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" chunk_re=".-VP">
+                            take
+                        </token>
+                        <token>a</token>
+                        <token min="0" regexp="yes">closer?|first|second|deeper|brief|quick|careful</token>
+                        <token chunk_re="E-NP.*">look</token>
+                    </marker>
+                    <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
+                </pattern>
+                <message>In American English, "take a look" is more commonly used.</message>
+                <suggestion><match no="1" postag="VB.*" postag_regexp="yes">have</match> \2 \3 \4</suggestion>
+                <example correction="have a look">I promise that I will <marker>take a look</marker> later.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LUNCH_ROOM" name="lunchroom">
             <rule>
                 <pattern>
@@ -352,7 +371,7 @@ USA
                     <token>a</token>
                     <token postag="PRP$"/>
                 </or>
-                <token regexp="yes">bath|nap|rest|vacation</token>
+                <token regexp="yes" chunk_re="E-NP.*">bath|nap|rest|vacation</token>
             </pattern>
             <message>In British English, the usual verb to go with '\3' is <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">have</match></suggestion>.</message>
             <url>http://dialectblog.com/2012/07/26/take-have-a-bath/</url>

@@ -1652,7 +1652,7 @@ public class ConfigurationDialog implements ActionListener {
     } else {
       panel.removeAll();
     }
-    panel.setBackground(Color.WHITE);
+    panel.setBackground(new Color(169,169,169));
     panel.setBorder(BorderFactory.createLineBorder(Color.black));
     panel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();

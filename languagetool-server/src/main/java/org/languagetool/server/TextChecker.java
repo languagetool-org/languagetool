@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
+import io.opentelemetry.api.common.Attributes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -35,6 +36,7 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
 import org.slf4j.MDC;
@@ -61,6 +63,7 @@ abstract class TextChecker {
 
   private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
   private static final int PINGS_MAX_SIZE = 5000;
+  private static final String SPAN_NAME_PREFIX = "/v2/check-";
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -276,35 +279,34 @@ abstract class TextChecker {
     }
     // static because we can't rely on errorRequestLimiter, null when timeoutRequestLimit option not set
     if (!config.isLocalApiMode()) {
-      
-    try {
-      RequestLimiter.checkUserLimit(referrer, userAgent, limits);
-    } catch(TooManyRequestsException e) {
-      String response = "Error: Access denied: " + e.getMessage();
-      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, response.getBytes(ENCODING).length);
-      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-      String message = "Blocked request from uid:" + userId + " because user limit is reached: ";
-      message += "limit = " + limits.getRequestsPerDay() + ", mode = " + limits.getLimitEnforcementMode() + ". ";
-      message += "Access from " + remoteAddress + ", ";
-      message += "HTTP user agent: " + userAgent + ", ";
-      message += "User agent param: " + params.get("useragent") + ", ";
-      message += "Referrer: " + referrer + ", ";
-      message += "language: " + params.get("language") + ", ";
-      message += "h: " + reqCounter.getHandleCount() + ", ";
-      message += "r: " + reqCounter.getRequestCount();
-      if (params.get("username") != null) {
-        message += ", user: " + params.get("username");
+      try {
+        RequestLimiter.checkUserLimit(referrer, userAgent, limits);
+      } catch (TooManyRequestsException e) {
+        String response = "Error: Access denied: " + e.getMessage();
+        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, response.getBytes(ENCODING).length);
+        httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+        String message = "Blocked request from uid:" + userId + " because user limit is reached: ";
+        message += "limit = " + limits.getRequestsPerDay() + ", mode = " + limits.getLimitEnforcementMode() + ". ";
+        message += "Access from " + remoteAddress + ", ";
+        message += "HTTP user agent: " + userAgent + ", ";
+        message += "User agent param: " + params.get("useragent") + ", ";
+        message += "Referrer: " + referrer + ", ";
+        message += "language: " + params.get("language") + ", ";
+        message += "h: " + reqCounter.getHandleCount() + ", ";
+        message += "r: " + reqCounter.getRequestCount();
+        if (params.get("username") != null) {
+          message += ", user: " + params.get("username");
+        }
+        if (params.get("apiKey") != null) {
+          message += ", apiKey: " + params.get("apiKey");
+        }
+        String text = params.get("text");
+        if (text != null) {
+          message += ", text length: " + text.length();
+        }
+        log.warn(message);
+        return;
       }
-      if (params.get("apiKey") != null) {
-        message += ", apiKey: " + params.get("apiKey");
-      }
-      String text = params.get("text");
-      if (text != null) {
-        message += ", text length: " + text.length();
-      }
-      log.warn(message);
-      return;
-    }
     }
     List<String> dictGroups = null;
     String dictName = "default";
@@ -313,8 +315,9 @@ abstract class TextChecker {
       dictGroups.sort(Comparator.naturalOrder());
       dictName = "groups_" + String.join(",", dictGroups);
     }
+    final List<String> finalDictGroups = dictGroups;
     List<String> dictWords = limits.getPremiumUid() != null ?
-      getUserDictWords(limits, dictGroups) : Collections.emptyList();
+      TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX +"GetUserDictWords", Attributes.empty(), () -> getUserDictWords(limits, finalDictGroups)) : Collections.emptyList();
 
     boolean filterDictionaryMatches = "true".equals(params.getOrDefault("filterDictionaryMatches", "true"));
 
@@ -380,11 +383,11 @@ abstract class TextChecker {
             Arrays.asList(params.get("noopLanguages").split(",")) : Collections.emptyList();
     List<String> preferredLangs = params.get("preferredLanguages") != null ?
             Arrays.asList(params.get("preferredLanguages").split(",")) : Collections.emptyList();
-    DetectedLanguage detLang = getLanguage(aText.getPlainText(), params, preferredVariants, noopLangs, preferredLangs,
-      params.getOrDefault("ld", "control").equalsIgnoreCase("test"));
+    DetectedLanguage detLang = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "DetetectLanguage", Attributes.empty(), () -> getLanguage(aText.getPlainText(), params, preferredVariants, noopLangs, preferredLangs,
+      params.getOrDefault("ld", "control").equalsIgnoreCase("test")));
     Language lang = detLang.getGivenLanguage();
 
-    List<Rule> userRules = getUserRules(limits, lang, dictGroups);
+    List<Rule> userRules = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
     boolean isMultiLangEnabled = false;
     //only enable this feature with parameter
     if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
@@ -460,12 +463,33 @@ abstract class TextChecker {
     boolean allowIncompleteResults = "true".equals(params.get("allowIncompleteResults"));
     JLanguageTool.Mode mode = ServerTools.getMode(params);
     JLanguageTool.Level level = ServerTools.getLevel(params);
+    String[] toneTagNames = params.get("toneTags") != null ? params.get("toneTags").split(",") : null;
+    Set<ToneTag> toneTags = new HashSet<>(ToneTag.values().length);
+    if (toneTagNames != null) {
+      if (toneTagNames.length == 1 && toneTagNames[0].isEmpty()) { //toneTags=
+        //toneTags.add(ToneTag.NO_TONE_RULE); //disabled for now
+        toneTags.add(ToneTag.ALL_TONE_RULES);
+      } else {
+        for (String toneTagName : toneTagNames) {
+          if (toneTagName.equals("NO_TONE_RULE") || toneTagName.equals("ALL_TONE_RULES")) {
+            log.warn("NO_TONE_RULE and ALL_TONE_RULES will be ignored if more than one toneTag is in params.");
+            continue;
+          }
+          try {
+            toneTags.add(ToneTag.valueOf(toneTagName));
+          } catch (IllegalArgumentException ex) {
+            //just ignore unsupported toneTags
+            log.warn("Unsupported toneTag found in params: {}", toneTagName);
+          }
+        }
+      }
+    }
     String callback = params.get("callback");
     // allowed to log input on errors?
     boolean inputLogging = !params.getOrDefault("inputLogging", "").equals("no");
     QueryParams qParams = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, callback, inputLogging);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, toneTags, callback, inputLogging);
 
     int textSize = length;
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
@@ -489,56 +513,71 @@ abstract class TextChecker {
     }
     String incompleteResultReason = null;
     List<CheckResults> res;
-    try {
-      if (limits.getMaxCheckTimeMillis() < 0) {
-        res = future.get();
-      } else {
-        res = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
-      }
-    } catch (ExecutionException e) {
-      future.cancel(true);
-      if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
-      }
-      if (qParams.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
-          "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
-          params, System.currentTimeMillis()-timeStart, reqCounter));
-        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-        incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
-      } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
-        throw (OutOfMemoryError)e.getCause();
-      } else {
-        throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + ", detected: " + detLang, e);
-      }
-    } catch (TimeoutException e) {
-      boolean cancelled = future.cancel(true);
-      Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
-      String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
-      if (errorRequestLimiter != null) {
-        errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), params);
-      }
-      String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
-                       " milliseconds (cancelled: " + cancelled +
-                       ", lang: " + lang.getShortCodeWithCountryAndVariant() +
-                       ", detected: " + detLang +
-                       ", #" + count +
-                       ", " + length + " characters of text" +
-                       ", mode: " + mode.toString().toLowerCase() +
-                       ", h: " + reqCounter.getHandleCount() +
-                       ", r: " + reqCounter.getRequestCount() +
-                       ", requestId: " + requestId +
-                       ", system load: " + loadInfo + ")";
-      if (qParams.allowIncompleteResults) {
-        log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
-        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-        incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
-                String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
-      } else {
-        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
-        throw new RuntimeException(message, e);
-      }
-    }
+    Attributes textCheckingAttributes = Attributes.builder()
+            .put("text.language", lang.getShortCode())
+            .put("text.size", textSize)
+            .put("userRules.size", userRules.size())
+            .put("dictionary.size", dictWords.size())
+            .build();
+    Integer finalCount = count;
+    Map.Entry<List<CheckResults>, String> resAndReason = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetRuleMatches", textCheckingAttributes, (span) -> {
+        List<CheckResults> localRes;
+        String localReason = null;
+        try {
+          if (limits.getMaxCheckTimeMillis() < 0) {
+            localRes = future.get();
+          } else {
+            localRes = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
+          }
+        } catch (ExecutionException e) {
+          future.cancel(true);
+          if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+            ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
+          }
+          if (qParams.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+            log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
+              "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
+              params, System.currentTimeMillis() - timeStart, reqCounter));
+            localRes = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+            localReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
+          } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
+            throw (OutOfMemoryError) e.getCause();
+          } else {
+            throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + ", detected: " + detLang, e);
+          }
+        } catch (TimeoutException e) {
+          boolean cancelled = future.cancel(true);
+          Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
+          String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
+          if (errorRequestLimiter != null) {
+            errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), params);
+          }
+          String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
+            " milliseconds (cancelled: " + cancelled +
+            ", lang: " + lang.getShortCodeWithCountryAndVariant() +
+            ", detected: " + detLang +
+            ", #" + finalCount +
+            ", " + length + " characters of text" +
+            ", mode: " + mode.toString().toLowerCase() +
+            ", h: " + reqCounter.getHandleCount() +
+            ", r: " + reqCounter.getRequestCount() +
+            ", requestId: " + requestId +
+            ", system load: " + loadInfo + ")";
+          if (qParams.allowIncompleteResults) {
+            log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+            localRes = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+            localReason = "Results are incomplete: text checking took longer than allowed maximum of " +
+              String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis() / 1000.0) + " seconds";
+            span.setAttribute("incompleteResults", true);
+          } else {
+            ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
+            throw new RuntimeException(message, e);
+          }
+        }
+        return new AbstractMap.SimpleEntry(localRes, localReason);
+      });
+    res = resAndReason.getKey();
+    incompleteResultReason = resAndReason.getValue();
 
     // no lazy computation at later points (outside of timeout enforcement)
     // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
@@ -834,7 +873,7 @@ abstract class TextChecker {
         textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models
       }
       res.add(lt.check2(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,
-        params.mode, params.level, textSessionId));
+        params.mode, params.level, params.toneTags, textSessionId));
     } finally {
       if (lt != null) {
         pipelinePool.returnPipeline(settings, lt);
@@ -939,6 +978,7 @@ abstract class TextChecker {
     final boolean enableTempOffRules;
     final JLanguageTool.Mode mode;
     final JLanguageTool.Level level;
+    final Set<ToneTag> toneTags;
     final String callback;
     /** allowed to log input with stack traces to reproduce errors? */
     final boolean inputLogging;
@@ -957,6 +997,11 @@ abstract class TextChecker {
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
                 boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback, boolean inputLogging) {
+      this(altLanguages, enabledRules, disabledRules, enabledCategories,disabledCategories,useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, premium, enableTempOffRules, mode, level, null, callback, inputLogging);
+    }
+
+    QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, Set<ToneTag> toneTags, @Nullable String callback, boolean inputLogging) {
       this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
@@ -971,6 +1016,7 @@ abstract class TextChecker {
       this.regressionTestMode = enableTempOffRules;
       this.mode = Objects.requireNonNull(mode);
       this.level = Objects.requireNonNull(level);
+      this.toneTags = toneTags;
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
         throw new BadRequestException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
       }

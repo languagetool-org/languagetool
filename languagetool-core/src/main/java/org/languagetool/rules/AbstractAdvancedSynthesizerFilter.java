@@ -50,7 +50,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("C'est une ville")) {
+//    if (match.getSentence().getText().contains("Jo pensem")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -137,7 +137,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           }
           String completeSuggestion = r.replace("{suggestion}", nr);
           completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
-          replacementsList.add(completeSuggestion);
+          if (!replacementsList.contains(completeSuggestion)) {
+            replacementsList.add(completeSuggestion);
+          }
         }
       }
       if (!suggestionUsed) {

@@ -4180,6 +4180,14 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rulegroup id="que_la_saque" name="que + pronombre verbo 3a persona sing">
+        <antipattern>
+            <token>la</token>
+            <token>persona</token>
+        </antipattern>
+        <antipattern>
+            <token>las</token>
+            <token>personas</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token><exception postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">hacer|conseguir</exception></token>
@@ -5273,7 +5281,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <!-- TODO: exceptions?-->
-                <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>
+                <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta|cabe</exception></token>
             </pattern>
             <disambig action="filter" postag="SPS00|_GV_"/>
             <example type="untouched">en mi contra.</example>
@@ -5422,7 +5430,7 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="Det_Noun" name="det + nombre">
         <antipattern>
             <token>demás</token>
-            <token postag="NC.S..|V.P..S.|A...S." postag_regexp="yes"></token>
+            <token postag="NC.S..|V.P..S.|A...S." postag_regexp="yes"/>
         </antipattern>
         <antipattern>
             <token regexp="yes">los|las</token>
@@ -5657,7 +5665,7 @@ Copyright (C) 2011 Juan Martorell
             <antipattern>
                 <!-- atención al cliente adecuada -->
                 <token postag="D..MS.|SP:DA" postag_regexp="yes"/>
-                <token postag="N.C[SN0].*" postag_regexp="yes"></token>
+                <token postag="N.C[SN0].*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <marker>
