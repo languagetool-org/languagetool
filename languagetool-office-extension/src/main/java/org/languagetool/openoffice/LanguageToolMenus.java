@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
+import org.languagetool.openoffice.stylestatistic.StatAnDialog;
 
 import com.sun.star.awt.MenuEvent;
 import com.sun.star.awt.MenuItemStyle;
@@ -116,6 +117,7 @@ public class LanguageToolMenus {
     private static final String TOOLS_COMMAND = ".uno:ToolsMenu";             //  Command to open tools menu
     private static final String COMMAND_BEFORE_LT_MENU = ".uno:LanguageMenu";   //  Command for Language Menu (LT menu is installed after)
                                                       //  Command to Switch Off/On LT
+    private static final String LT_STATISTICAL_ANALYSES_COMMAND = "service:org.languagetool.openoffice.Main?statisticalAnalyses";   
     private static final String LT_RESET_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?resetIgnorePermanent";   
     private static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleBackgroundCheck";   
     private static final String LT_Options_COMMAND = "service:org.languagetool.openoffice.Main?configure";   
@@ -177,6 +179,10 @@ public class LanguageToolMenus {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
       }
+      ltMenu.insertItem((short)(switchOffId + 1), MESSAGES.getString("loStatisticalAnalysis") + " ...", 
+          (short)0, switchOffPos);
+      ltMenu.setCommand(switchOffId, LT_STATISTICAL_ANALYSES_COMMAND);
+      switchOffPos++;
       ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuResetIgnorePermanent"), (short)0, switchOffPos);
       ltMenu.setCommand(switchOffId, LT_RESET_IGNORE_PERMANENT_COMMAND);
       switchOffId--;
@@ -354,6 +360,11 @@ public class LanguageToolMenus {
           }
         } else if (event.MenuId == switchOffId + 1) {
           document.resetIgnorePermanent();
+        } else if (event.MenuId == switchOffId + 2) {
+          StatAnDialog statAnDialog = new StatAnDialog(document);
+          statAnDialog.start();
+          return;
+//          MessageHandler.showMessage("Statistical Analyses is not installed now!");
         } else if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
           runProfileAction(null);
         } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF && event.MenuId <= switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {

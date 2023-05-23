@@ -150,7 +150,7 @@ public class ReadabilityRule extends TextLevelRule {
     return this.nAllSyllables;
   }
   
-  private static String printMessageLevel(int level) {
+  public String printMessageLevel(int level) {
     String sLevel = null;
     if (level == 0) {
       sLevel = "Very difficult";

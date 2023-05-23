@@ -61,7 +61,7 @@ import com.sun.star.uno.XComponentContext;
  * @since 4.3
  * @author Fred Kruse, Marcin Miłkowski
  */
-class SingleDocument {
+public class SingleDocument {
   
   /**
    * Full text Check:
@@ -466,7 +466,7 @@ class SingleDocument {
   /**
    * get language of the document
    */
-  Language getLanguage() {
+  public Language getLanguage() {
     return docLanguage;
   }
   
@@ -495,14 +495,14 @@ class SingleDocument {
   /**
    *  Get xComponent of the document
    */
-  XComponent getXComponent() {
+  public XComponent getXComponent() {
     return xComponent;
   }
   
   /**
    *  Get MultiDocumentsHandler
    */
-  MultiDocumentsHandler getMultiDocumentsHandler() {
+  public MultiDocumentsHandler getMultiDocumentsHandler() {
     return mDocHandler;
   }
   
@@ -551,7 +551,7 @@ class SingleDocument {
   /**
    *  Get document cache of the document
    */
-  DocumentCache getDocumentCache() {
+  public DocumentCache getDocumentCache() {
     return docCache;
   }
   

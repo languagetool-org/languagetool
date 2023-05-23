@@ -62,7 +62,7 @@ public class ViewCursorTools {
 
   private XComponent xComponent;
 
-  ViewCursorTools(XComponent xComponent) {
+  public ViewCursorTools(XComponent xComponent) {
     this.xComponent = xComponent;
   }
 
