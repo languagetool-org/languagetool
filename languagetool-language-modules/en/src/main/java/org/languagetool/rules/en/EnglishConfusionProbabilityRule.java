@@ -268,6 +268,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no everything fine",
       "no we don't",
       "no dont",
+      "which hat to buy", // vs had
+      "her hat", // vs had
+      "his hat", // vs had
+      "my hat", // vs had
+      "party hat", // vs had
       "95 theses", // vs these
       "ninety-five theses", // vs these
       "Ninety-five theses", // vs these
