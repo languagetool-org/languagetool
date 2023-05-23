@@ -139,7 +139,7 @@ USA
 <rules lang="de" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <category id="STYLE" name="Stil" type="style">
-        <rule id="NACH_HAUS" name="Ich gehe nach Haus (Hause)">
+        <rule id="NACH_HAUS" name="Ich gehe nach Haus (Hause)" tone_tags="formal">
             <antipattern>
                 <token>Kevin</token>
                 <token skip="-1"/>
@@ -176,7 +176,7 @@ USA
             <example>Die Folge kommt nach Haus des Geldes im TV.</example>
             <example>Wenn Sie mit dem Bus nach Haus Neuland fahren, steigen Sie in Bielefeld-Senne in die Linie 135.</example>
         </rule>
-        <rule id="KUDAMM" name="Ku'damm">
+        <rule id="KUDAMM" name="Ku'damm" tone_tags="formal">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">Kudamms?</token>
             </pattern>
@@ -185,7 +185,7 @@ USA
             <url>https://de.wikipedia.org/wiki/Kurf%C3%BCrstendamm</url>
             <example correction="Ku’damm">Ich fahre mit meinem Porsche über den <marker>Kudamm</marker>.</example>
         </rule>
-        <rulegroup id="MEINSTE" name="Meinste (Meinst du)">
+        <rulegroup id="MEINSTE" name="Meinste (Meinst du)" tone_tags="formal">
             <rule>
                 <pattern>
                     <token regexp="yes">was|wie|warum|wieso|weshalb|wen|wo(her|zu|mit)?|wann</token>
@@ -236,7 +236,7 @@ USA
                 <example correction="guckst du">Da <marker>guckste</marker>!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KATARI" name="Katari (Katarer)" >
+        <rulegroup id="KATARI" name="Katari (Katarer)" tone_tags="clarity"><!--inclusive-->
             <url>https://praxistipps.focus.de/katarer-kataris-katarerin-wie-nennt-man-menschen-aus-katar-richtig_152770</url>
             <rule><!--1-->
                 <antipattern>
@@ -279,7 +279,7 @@ USA
                 <example correction="Katarern">Wir schenken den <marker>Kataris</marker> Aufmerksamkeit.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CUM_EX" name="CumEx (Cum-Ex)">
+        <rulegroup id="CUM_EX" name="CumEx (Cum-Ex)" tone_tags="formal">
             <url>https://de.wikipedia.org/wiki/Dividendenstripping</url>
             <rule><!--1-->
                 <pattern>
@@ -308,7 +308,7 @@ USA
                 <example correction="Cum-Ex-Geschäften">Bei <marker>CumEx Geschäften</marker> kam es in der Vergangenheit in großem Umfang zu bewusst herbeigeführter mehrfacher Erstattung von nur einmal abgeführter Kapitalertragsteuer.</example>
             </rule>
         </rulegroup>
-        <rule id="WORTWIEDERHOLUNG_SEHR" name="Alternativen für Wortwiederholung von 'sehr'" tags="picky">
+        <rule id="WORTWIEDERHOLUNG_SEHR" name="Alternativen für Wortwiederholung von 'sehr'" tone_tags="clarity" tags="picky">
             <antipattern>
                 <token>sehr</token>
                 <token skip="-1">sehr</token>
@@ -378,7 +378,7 @@ USA
             <example correction="ausgesprochen|äußerst|außerordentlich">Ich finde das Tool sehr hilfreich und <marker>sehr</marker> einfach zu bedienen.</example>
             <example>Sehr geehrte Damen, sehr geehrte Herren, ich freue mich sehr, heute hier zu sein.</example>
         </rule>
-        <rulegroup id="ALLEN_ERNSTES_STIL" name="Alternativen für 'allen Ernstes'" tags="picky" >
+        <rulegroup id="ALLEN_ERNSTES_STIL" name="Alternativen für 'allen Ernstes'" tone_tags="formal" tags="picky" >
             <rule><!--1-->
                 <antipattern>
                     <token postag="SENT_START" />
@@ -414,7 +414,7 @@ USA
                 <example correction="tatsächlich|ernsthaft|wirklich|etwa">Willst du mich <marker>allen Ernstes</marker> hinausschmeißen?</example>
             </rule>
         </rulegroup>
-        <rule id="VERSEHENTLICHERWEISE" name="versehentlicherweise (versehentlich)">
+        <rule id="VERSEHENTLICHERWEISE" name="versehentlicherweise (versehentlich)" tone_tags="clarity">
             <pattern>
                 <token>versehentlicherweise</token>
             </pattern>
@@ -423,7 +423,7 @@ USA
             <suggestion>aus Versehen</suggestion>
             <example correction="versehentlich|aus Versehen">Ich habe es <marker>versehentlicherweise</marker> kaputtgemacht.</example>
         </rule>
-        <rulegroup id="ICH_LIEBS" name="ich liebs (liebe es)">
+        <rulegroup id="ICH_LIEBS" name="ich liebs (liebe es)" tone_tags="formal">
             <!-- TODO:
             * gibs
             * gibts
@@ -486,7 +486,7 @@ USA
                 <example correction="gefällt es">Dir <marker>gefällts</marker>, oder?</example>
             </rule>
         </rulegroup>
-        <rule id="INS_FITNESS" name="ins Fitness (Fitnessstudio)">
+        <rule id="INS_FITNESS" name="ins Fitness (Fitnessstudio)" tone_tags="formal">
             <antipattern>
                 <token skip="1">Fitness</token>
                 <token>studio</token>
@@ -502,7 +502,7 @@ USA
             <message>Diese Redewendung ist umgangssprachlich. Meinten Sie <suggestion>ins Fitnessstudio</suggestion>?</message>
             <example correction="ins Fitnessstudio">Ich gehe <marker>ins Fitness</marker>.</example>
         </rule>
-        <rule id="ARGUMENT_ANBRINGEN" name="ein Argument anbringen">
+        <rule id="ARGUMENT_ANBRINGEN" name="ein Argument anbringen" tone_tags="clarity">
             <antipattern>
                 <token inflected="yes" skip="-1">bringen</token>
                 <token inflected="yes" skip="-1">führen</token>
@@ -523,7 +523,7 @@ USA
             <example correction="führen">Die Autoren des Artikels <marker>bringen</marker> geschickt mehrere Argumente zum Thema an.</example>
             <example>Sie bringen sich ein und führen überzeugende Argumente an.</example>
         </rule>
-        <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur">
+        <rulegroup id="KALTE_TEMPERATUR" name="heiße / kalte (hohe / niedrige) Temperatur" tone_tags="clarity">
             <short>Semantischer Fehler</short>
             <rule>
                 <pattern>
@@ -551,7 +551,7 @@ USA
                 <example>Bei Temperaturen um 25° C ist es warm.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HANDELN_DARUM_DARÜBER" name="handeln darum/darüber (davon)" default="temp_off">
+        <rulegroup id="HANDELN_DARUM_DARÜBER" name="handeln darum/darüber (davon)" tone_tags="formal" default="temp_off">
             <rule>
                 <antipattern>
                     <token>es</token>
@@ -599,7 +599,7 @@ USA
                 <example>Das Buch handelt darum nur von Natur und Tieren.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SOWOHL_UND" name="sowohl ... und (als auch)">
+        <rulegroup id="SOWOHL_UND" name="sowohl ... und (als auch)" tone_tags="clarity">
             <rule><!--1 und auch-->
                 <antipattern>
                     <token skip="-1">sowohl</token>
@@ -746,7 +746,7 @@ USA
                 <example correction="als auch">Ich möchte sowohl heute <marker>sowie auch</marker> morgen nicht ins Schwimmbad.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SICH_GEGENSEITIG" name="gegenseitig (einander)" tags="picky">
+        <rulegroup id="SICH_GEGENSEITIG" name="gegenseitig (einander)" tone_tags="formal" tags="picky">
             <rule>
                 <antipattern>
                     <token skip="-1" postag="PRO:REF.*" postag_regexp="yes"/>
@@ -776,7 +776,7 @@ USA
                 <example correction="">Meine Eltern regen sich immer <marker>gegenseitig</marker> übereinander auf.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tags="picky" default="temp_off">
+        <rulegroup id="EGAL_STIL" name="egal (gleichgültig)" tone_tags="formal" tags="picky" default="temp_off">
             <rule><!--1-->
                 <antipattern>
                     <token postag="ART.*DAT.*|PRO.*DAT.*|SUB:DAT.*|EIG.*" postag_regexp="yes"></token>
@@ -918,7 +918,7 @@ USA
                 <example correction="Gleichgültig"><marker>Egal</marker> ist mir die Prüfung nicht.</example>
             </rule>
         </rulegroup>
-        <rule id="EXTRA_STIL" name="extra" default="temp_off">
+        <rule id="EXTRA_STIL" name="extra" tone_tags="formal" default="temp_off">
             <antipattern>
                 <token regexp="yes">[skm]?ein</token>
                 <token postag="(ADJ|PA[12]).*NEU.*" postag_regexp="yes" min="0" />
@@ -939,7 +939,7 @@ USA
             <suggestion>mit Absicht</suggestion>
             <example correction="vorsätzlich|gezielt|absichtlich|willentlich|mit Absicht">Ich weiß genau, dass er das <marker>extra</marker> gemacht hat.</example>
         </rule>
-        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen).">
+        <rulegroup id="WOERTER_OHNE_STEIGERUNG" name="Sie waren die Einzigsten (Einzigen)." tone_tags="formal">
             <rule><!--1-->
                 <antipattern>
                     <token>am</token>
@@ -977,7 +977,7 @@ USA
                 <example correction="Optimal"><marker>Am optimalsten</marker> wäre es, wenn wir alle zusammen auf die Feier gehen würden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DAUERN_TUT" name="dauern tut -> dauert">
+        <rulegroup id="DAUERN_TUT" name="dauern tut -> dauert" tone_tags="formal">
             <rule>
                 <pattern>
                     <token regexp="yes">.*[a-z].*</token>
@@ -1012,7 +1012,7 @@ USA
                 <example correction="dauert">Kann ja wohl nich sein, dass das so lange <marker>dauern tut</marker></example>
             </rule>
         </rulegroup>
-        <rule id="OEFTESTEN" name="öftesten (häufigsten)">
+        <rule id="OEFTESTEN" name="öftesten (häufigsten)" tone_tags="formal">
             <pattern>
                 <token>öftesten</token>
             </pattern>
@@ -1021,7 +1021,7 @@ USA
             <url>http://mediawiki.ids-mannheim.de/VarGra/index.php/Am_h%C3%A4ufigsten_/_am_%C3%B6ftesten</url>
             <example correction="häufigsten">Ich habe am <marker>öftesten</marker> das Ziel getroffen.</example>
         </rule>
-        <rulegroup id="AUF_ARBEIT" name="Auf (der) Arbeit">
+        <rulegroup id="AUF_ARBEIT" name="Auf (der) Arbeit" tone_tags="formal">
             <url>https://languagetool.org/insights/de/beitrag/in-auf-der-arbeit/</url>
             <antipattern>
                 <token regexp="yes" skip="5">.*Recht[es]?|Anspruchs?|Ansprüche|Chancen?|Lust|Bock</token>
@@ -1064,7 +1064,7 @@ USA
                 <example>Meist gut qualifizierte junge Talente ohne eine Chance auf Arbeit.</example>
             </rule>
         </rulegroup>
-        <rule id="DRUEBER" name="drüber (darüber)">
+        <rule id="DRUEBER" name="drüber (darüber)" tone_tags="formal">
             <antipattern>
                 <token skip="-1" regexp="yes">da|hier|dort|Schwamm|drunter|drauf|oben</token>
                 <token>drüber</token>
@@ -1077,7 +1077,7 @@ USA
             <example correction="darüber">Ich schaue später mal <marker>drüber</marker></example>
             <example>Ich schaue da später mal drüber</example>
         </rule>
-        <rule id="DRUNTER" name="drunter (darunter)">
+        <rule id="DRUNTER" name="drunter (darunter)" tone_tags="formal">
             <antipattern>
                 <token skip="-1" regexp="yes">da|hier|dort|Schwamm|drauf|unten|drüber</token>
                 <token>drunter</token>
@@ -1095,7 +1095,7 @@ USA
             <example>Alles geht drunter und drüber.</example>
             <example>Der Benzintank war unten drunter.</example>
         </rule>
-        <rule id="DADRAUS" name="dadraus">
+        <rule id="DADRAUS" name="dadraus" tone_tags="formal">
             <pattern>
                 <token>dadraus</token>
             </pattern>
@@ -1104,7 +1104,7 @@ USA
             <suggestion>hieraus</suggestion>
             <example correction="daraus|hieraus">Was machen wir jetzt <marker>dadraus</marker>?</example>
         </rule>
-        <rule id="DADRAN" name="dadran">
+        <rule id="DADRAN" name="dadran" tone_tags="formal">
             <pattern>
                 <token>dadran</token>
             </pattern>
@@ -1114,7 +1114,7 @@ USA
             <suggestion>dort dran</suggestion>
             <example correction="daran|da dran|dort dran">Ich bin <marker>dadran</marker> gescheitert.</example>
         </rule>
-        <rule id="DADRAUF" name="dadrauf">
+        <rule id="DADRAUF" name="dadrauf" tone_tags="formal">
             <pattern>
                 <token>dadrauf</token>
             </pattern>
@@ -1123,7 +1123,7 @@ USA
             <suggestion>dort hinauf</suggestion>
             <example correction="darauf|dort hinauf">Er ist von alleine <marker>dadrauf</marker> gekommen.</example>
         </rule>
-        <rule id="DADRINNEN" name="dadrinnen">
+        <rule id="DADRINNEN" name="dadrinnen" tone_tags="formal">
             <pattern>
                 <token>dadrinnen</token>
             </pattern>
@@ -1132,7 +1132,7 @@ USA
             <suggestion>dort drinnen</suggestion>
             <example correction="darin|dort drinnen">Er ist <marker>dadrinnen</marker> gefangen.</example>
         </rule>
-        <rule id="DADRIN" name="dadrin">
+        <rule id="DADRIN" name="dadrin" tone_tags="formal">
             <pattern>
                 <token>dadrin</token>
             </pattern>
@@ -1141,7 +1141,7 @@ USA
             <suggestion>dort drinnen</suggestion>
             <example correction="darin|dort drinnen">Er ist <marker>dadrin</marker> gefangen.</example>
         </rule>
-        <rule id="DADRUNTER" name="dadrunter">
+        <rule id="DADRUNTER" name="dadrunter" tone_tags="formal">
             <pattern>
                 <token>dadrunter</token>
             </pattern>
@@ -1151,7 +1151,7 @@ USA
             <suggestion>dort hinunter</suggestion>
             <example correction="darunter|dort drunter|dort hinunter">Ich werde mal <marker>dadrunter</marker> gucken.</example>
         </rule>
-        <rule id="DADRUEBER" name="dadrüber">
+        <rule id="DADRUEBER" name="dadrüber" tone_tags="formal">
             <pattern>
                 <token>dadrüber</token>
             </pattern>
@@ -1160,7 +1160,7 @@ USA
             <suggestion>dort drüber</suggestion>
             <example correction="darüber|dort drüber">Ich werde mal <marker>dadrüber</marker> gucken.</example>
         </rule>
-        <rule id="DADRUM" name="dadrum">
+        <rule id="DADRUM" name="dadrum" tone_tags="formal">
             <pattern>
                 <token>dadrum</token>
             </pattern>
@@ -1222,7 +1222,7 @@ USA
             <example correction="lieber">Wen hast du <marker>mehr lieb</marker>, deine Mutter oder deinen Vater?</example>
             <example>Niemand hat dich mehr lieb als ich.</example>
         </rule>
-        <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen">
+        <rule id="SUCHEN_HELFEN" name="suchen helfen -> beim Suchen helfen" tone_tags="formal">
             <pattern>
                 <token postag="VER:MOD:.*" postag_regexp="yes" />
                 <token postag="PRO:PER.*|EIG:.*" postag_regexp="yes" min="0" />
@@ -1234,7 +1234,7 @@ USA
             <message>Standardsprachlich wird hier <suggestion>beim Suchen</suggestion> empfohlen.</message>
             <example correction="beim Suchen">Wir müssen Peter <marker>suchen</marker> helfen.</example>
         </rule>
-        <rule id="SIEBEN_TAGES_INZIDENZ" name="7-Tage-Inzidenz">
+        <rule id="SIEBEN_TAGES_INZIDENZ" name="7-Tage-Inzidenz" tone_tags="formal">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">(Sieben|7)-Tages-(Inzidenz(en)?|Trends?|Wochen?)</token>
             </pattern>
@@ -1242,7 +1242,7 @@ USA
             <url>https://languagetool.org/insights/de/beitrag/bindestrich-corona/#der-bindestrich-dient-zur-besseren-lesbarkeit-%E2%80%93-auch-bei-coronabegriffen</url>
             <example correction="7-Tage-Inzidenz">Die <marker>7-Tages-Inzidenz</marker> ist stark gesunken.</example>
         </rule>
-        <rulegroup id="AN_FUER_SICH" name="an für sich (an und für sich)">
+        <rulegroup id="AN_FUER_SICH" name="an für sich (an und für sich)" tone_tags="formal">
             <rule><!--1-->
                 <antipattern>
                     <token>sich</token>
@@ -1326,7 +1326,7 @@ USA
                 <example>Der Lösungsweg ist an und für sich schon in Ordnung.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)">
+        <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)" tone_tags="clarity">
             <rule>
                 <pattern>
                     <token>mehr</token>
@@ -1358,7 +1358,7 @@ USA
                 <example correction="20.000">Wir machen mehr als <marker>20.000+</marker> Euro Umsatz.</example>
             </rule>
         </rulegroup>
-        <rule id="NIX" name="nix (nichts)">
+        <rule id="NIX" name="nix (nichts)" tone_tags="formal">
             <!-- https://de.wikipedia.org/wiki/Nix -->
             <antipattern>
                 <token regexp="yes">Herr|Frau|SMS</token>
@@ -1386,7 +1386,7 @@ USA
             <example correction="nichts">Das ist <marker>nix</marker> für mich.</example>
             <example>Jochen Nix ist ein deutscher Schauspieler, Theaterregisseur und Hörspielsprecher.</example>
         </rule>
-        <rule id="ALLEINE" name="alleine (allein)" default="temp_off" tags="picky">
+        <rule id="ALLEINE" name="alleine (allein)" tone_tags="formal" default="temp_off" tags="picky">
             <pattern>
                 <marker>
                     <token>alleine</token>
@@ -1397,7 +1397,7 @@ USA
             <url>https://languagetool.org/insights/de/beitrag/stil-allein-alleine/</url>
             <example correction="allein">Er lebt <marker>alleine</marker>.</example>
         </rule>
-        <rule id="NICHTSDESTOTROTZ_II" name="nichtsdestotrotz (nichtsdestoweniger)" tags="picky">
+        <rule id="NICHTSDESTOTROTZ_II" name="nichtsdestotrotz (nichtsdestoweniger)" tone_tags="formal" tags="picky">
             <pattern>
                 <token>nichtsdestotrotz</token>
             </pattern>
@@ -1405,7 +1405,7 @@ USA
             <url>https://gfds.de/nichtsdestotrotz/</url>
             <example correction="Nichtsdestoweniger|Dennoch|Trotzdem"><marker>Nichtsdestotrotz</marker> ist das Thema umstritten.</example>
         </rule>
-        <rule id="DIESEN_JAHRES" name="diesen (dieses) Jahres">
+        <rule id="DIESEN_JAHRES" name="diesen (dieses) Jahres" tone_tags="formal">
             <!-- eigentlich Grammatik, aber so verbreitet, dass wir es "nur" als Stilfehler sehen -->
             <pattern>
                 <token>diesen</token>
@@ -1415,7 +1415,7 @@ USA
             <url>https://languagetool.org/insights/de/beitrag/diesen-jahres/</url>
             <example correction="dieses Jahres">Im April <marker>diesen Jahres</marker> ist Ostern.</example>
         </rule>
-        <rule id="FEHLERHAFTER_SUPERLATIV" name="nicht-steigerbares Adjektiv 'ideal'">
+        <rule id="FEHLERHAFTER_SUPERLATIV" name="nicht-steigerbares Adjektiv 'ideal'" tone_tags="formal">
             <pattern>
                 <token regexp="yes">idealste.?</token>
             </pattern>
@@ -1423,7 +1423,7 @@ USA
             <suggestion><match no="1" regexp_match="st" regexp_replace=""/></suggestion>
             <example correction="ideale">Die <marker>idealste</marker> Lösung ist das nicht.</example>
         </rule>
-        <rule id="FEHLERHAFTER_SUPERLATIV_PREFEKT" name="nicht-steigerbares Adjektiv 'perfekt'">
+        <rule id="FEHLERHAFTER_SUPERLATIV_PREFEKT" name="nicht-steigerbares Adjektiv 'perfekt'" tone_tags="formal">
             <pattern>
                 <token regexp="yes">perfekteste.?</token>
             </pattern>
@@ -1431,19 +1431,19 @@ USA
             <suggestion><match no="1" regexp_match="ste" regexp_replace=""/></suggestion>
             <example correction="perfekte">Die <marker>perfekteste</marker> Lösung ist das nicht.</example>
         </rule>
-        <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'">
+        <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'" tone_tags="formal">
             <regexp>\bnicht adäquat genug\b</regexp>
             <message>Meinten Sie <suggestion>nicht adäquat</suggestion>, <suggestion>inadäquat</suggestion> oder <suggestion>unpassend</suggestion>?</message>
             <example>Das schien mir <marker>nicht adäquat</marker> (unpassend).</example>
             <example correction="nicht adäquat|inadäquat|unpassend">Das schien mir <marker>nicht adäquat genug</marker>.</example>
         </rule>
-        <rule id="MEISTE_ALLER" name="'die meisten aller ...'">
+        <rule id="MEISTE_ALLER" name="'die meisten aller ...'" tone_tags="clarity">
             <regexp>\b(den|die) (meisten) (aller)\b</regexp>
             <message>Was halten Sie von der Formulierung: <suggestion>\1 \2 der</suggestion>?</message>
             <example correction="Die meisten der"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
         </rule>
-        <rulegroup id="PRP_WAS_WO" name="Standardsprache: 'woran' statt 'an was'">
+        <rulegroup id="PRP_WAS_WO" name="Standardsprache: 'woran' statt 'an was'" tone_tags="formal">
             <rule><!--1-->
                 <antipattern>
                     <token regexp="yes">,|und|aber</token>
@@ -1620,7 +1620,7 @@ USA
                 <example correction="wodurch">Sie fragte ihn, <marker>durch was</marker> das Problem entstanden sei.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="UST_ID" name="Empfohlene Schreibweise für Umsatzsteuer-Identifikationsnummer">
+        <rulegroup id="UST_ID" name="Empfohlene Schreibweise für Umsatzsteuer-Identifikationsnummer" tone_tags="formal"><!-- RECOMMENDED -->
             <url>https://de.wikipedia.org/wiki/Umsatzsteuer-Identifikationsnummer</url>
             <rule>
                 <pattern>
@@ -1661,7 +1661,7 @@ USA
                 <example correction="USt-IdNr."><marker>Ust.-Id</marker>: DEXXXXXXX</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZWISCHEN_SEIT_BIS" name="'Zwischen ... bis ...'">
+        <rulegroup id="ZWISCHEN_SEIT_BIS" name="'Zwischen ... bis ...'" tone_tags="formal">
             <rule>
                 <pattern>
                     <marker>
@@ -1697,7 +1697,7 @@ USA
                 <example correction="Zwischen März und Juli|Von März bis Juli"><marker>Seit März bis Juli</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ADWORDS" name="AdWords (umbenannt zu Google Ads)">
+        <rulegroup id="ADWORDS" name="AdWords (umbenannt zu Google Ads)" tone_tags="clarity">
             <rule>
                 <pattern>
                     <token regexp="yes">Googles?</token>
@@ -1716,7 +1716,7 @@ USA
                 <example correction="Google Ads">Wir müssen Werbung bei <marker>AdWords</marker> schalten.</example>
             </rule>
         </rulegroup>
-        <rule id="MYTAXI" name="MyTaxi (umbenannt zu Free Now)">
+        <rule id="MYTAXI" name="MyTaxi (umbenannt zu Free Now)" tone_tags="clarity">
             <antipattern>
                 <token regexp="yes" skip="3">früher|vorher|damals|davor|ehemals|bekannt|umbenannt|hie(ß|ss)</token>
                 <token>mytaxi</token>
@@ -1746,7 +1746,7 @@ USA
             <example correction="Free Now"><marker>MyTaxi</marker> ist ein Taxi-Vermittler.</example>
             <example>Die App hieß Mytaxi bis sie Anfang Juli 2019 in „Free Now“ umbenannt wurde.</example>
         </rule>
-        <rule id="SPACEX" name="SpaceX">
+        <rule id="SPACEX" name="SpaceX" tone_tags="clarity">
             <pattern>
                 <token>Space</token>
                 <token>X</token>
@@ -1788,9 +1788,19 @@ USA
             </rule>
         </rulegroup>
         -->
+        <rule id="EUERM_EUERN" name="eurem/euerem und euren/eueren statt euerm und euern" tone_tags="formal">
+            <pattern>
+                <token regexp="yes">euern|euerm</token>
+            </pattern>
+            <message>Die Schreibweise '<match no="1"></match>' gilt als umgangssprachlich. Möchten Sie stattdessen die Schreibweise <suggestion><match no="1" regexp_match="er(.*)" regexp_replace="re$1"/></suggestion> oder <suggestion><match no="1" regexp_match="er(.*)" regexp_replace="ere$1"/></suggestion> verwenden?</message>
+            <example correction="eurem|euerem">Ich werde <marker>euerm</marker> Rat folgen.</example>
+            <example correction="Eurem|Euerem">Ich werde <marker>Euerm</marker> Rat folgen.</example>
+            <example correction="euren|eueren">Vielen Dank für <marker>euern</marker> Einsatz.</example>
+            <example correction="Euren|Eueren">Vielen Dank für <marker>Euern</marker> Einsatz.</example>
+        </rule>
     </category>
 
-    <category id="REDUNDANCY" name="Redundanz" type="style">
+    <category id="REDUNDANCY" name="Redundanz" tone_tags="clarity" type="style">
         <rule id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" tags="picky">
             <pattern>
                 <token inflected="yes">Hauptprotagonist</token>
@@ -2395,7 +2405,7 @@ USA
                 <example>Ich hab ein kleines Lebenszeichen gesehen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SELTENE_RARITAET" name="seltene Rarität" type="style">
+        <rulegroup id="SELTENE_RARITAET" name="seltene Rarität">
             <rule>
                 <pattern>
                     <token regexp="yes">seltene[rn]?</token>
@@ -2408,7 +2418,7 @@ USA
                 <example>Eine <marker>seltene Tugend</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZEITLICHE_VERZOEGERUNG" name="zeitliche Verzögerung" type="style">
+        <rulegroup id="ZEITLICHE_VERZOEGERUNG" name="zeitliche Verzögerung">
             <rule>
                 <pattern>
                     <token regexp="yes">zeitliche[rn]?</token>
@@ -3161,7 +3171,7 @@ USA
             </rule>
         </rulegroup>
     </category>
-    <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
+    <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style"><!--inclusive-->
         <rule id="ERSTSEMESTERIN" name="die Erstsemesterin (das Erstsemester)">
             <pattern>
                 <marker>
@@ -3272,7 +3282,7 @@ USA
             <url>https://www.korrekturen.de/wortliste/weitreichend.shtml</url>
             <example correction="weitreichende"> Mit seiner Amtsführung legte Adenauer den Grundstein für eine sehr <marker>weit reichende</marker> Interpretation dieses Begriffes.</example>
         </rule>
-        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren">
+        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren"><!-- REDEWENDUNGEN -->
             <antipattern case_sensitive="yes">
                 <token>Probieren</token>
                 <token min="0">geht</token>
@@ -4366,15 +4376,5 @@ USA
                 <example correction="Weiteres">Er bleibt bis auf <marker>weiteres</marker> dort.</example>
             </rule>
         </rulegroup>
-        <rule id="EUERM_EUERN" name="eurem/euerem und euren/eueren statt euerm und euern">
-            <pattern>
-                <token regexp="yes">euern|euerm</token>
-            </pattern>
-            <message>Die Schreibweise '<match no="1"></match>' gilt als umgangssprachlich. Möchten Sie stattdessen die Schreibweise <suggestion><match no="1" regexp_match="er(.*)" regexp_replace="re$1"/></suggestion> oder <suggestion><match no="1" regexp_match="er(.*)" regexp_replace="ere$1"/></suggestion> verwenden?</message>
-            <example correction="eurem|euerem">Ich werde <marker>euerm</marker> Rat folgen.</example>
-            <example correction="Eurem|Euerem">Ich werde <marker>Euerm</marker> Rat folgen.</example>
-            <example correction="euren|eueren">Vielen Dank für <marker>euern</marker> Einsatz.</example>
-            <example correction="Euren|Eueren">Vielen Dank für <marker>Euern</marker> Einsatz.</example>
-        </rule>
     </category>
 </rules>
