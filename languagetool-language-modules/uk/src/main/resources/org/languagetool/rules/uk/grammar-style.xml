@@ -2811,15 +2811,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="своєю чергою|і собі"><marker>в свою чергу</marker></example>
     </rule>
 
-    <rule id="sprytni_napoi" name="Спритні напої">
-      <pattern>
-        <token inflected="yes">спритний</token>
-        <token inflected="yes">напій</token>
-      </pattern>
-      <message>Можливо ви мали на увазі: <suggestion><match no="1" regexp_match="спритн(.*)" regexp_replace="спиртн$1"/> \2</suggestion></message>
-      <example correction="спиртними напоями"><marker>спритними напоями</marker></example>
-    </rule>
-
     <rule id="v_poriadku_chergy" name="В порядку черги">
       <pattern>
         <token regexp="yes">[ву]</token>
@@ -4034,6 +4025,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Коли йдеться про «у внутрішній частині» правильно: <suggestion>всередині</suggestion></message>
         <example correction="всередині">і <marker>у середині</marker> цього суспільства</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="po_v_mis_vs_z_v_rod" name="по + м.в. і з + р.в.">
+      <antipattern>
+        <token>відділенню</token>
+        <token>внутрішніх</token>
+        <token>справ</token>
+      </antipattern>
+
+      <rule>
+        <pattern>
+          <token>по</token>  
+          <token>замовчуванню</token>
+        </pattern>  
+        <message>Краще: <suggestion>типово</suggestion></message>
+        <example correction="типово">мова <marker>по замовчуванню</marker> англійська</example>
+      </rule>
+
+      <rule>
+        <!-- TODO: 
+        Після справа, рішення, постанова, договір, провадження, дані, документ, лист, наказ, вказівка, звернення, порада, резолюція, пропозиція, переговори, голосування, питання, діалог, порада, обіцянка
+          - рекомендувати "щодо", "про":
+        TODO:
+        Друг, подруга, колега, товариш, товаришка, партнер, партнерка, побратим, сусід, сусідка 
+          - мабуть, краще не виправляти на "з", бо звучить кострубато (інколи дуже, інколи більш-менш). 
+          Або взагалі не чіпати (пам'ятаючи про "родич по матері"), 
+          або пропонувати справді доречніші звороти (бойовий побратим, університетський/шкільний товариш тощо):
+        -->
+        <pattern>
+          <token postag_regexp="yes" postag="noun:(?!.*(abbr|pron|prop)).*">
+            <exception regexp="yes" inflected="yes">удар|брати</exception>
+            <exception regexp="yes" inflected="yes">друг|подруга|колега|товариш(ка)?|партнер(ка)?|побратим|сусід(ка)?|родич|син|донька|дочка|тато|мати|брат|сестра|кузена?</exception>
+            <!--
+            <exception postag_regexp="yes" postag="verb.*"/>
+            <exception regexp="yes" inflected="yes">день|тиждень|місяць</exception>
+            -->
+          </token>
+          <marker>
+            <token>по</token>
+            <token postag_regexp="yes" postag="noun:inanim:n:v_dav.*" inflected="yes" regexp="yes">.+ння
+              <exception regexp="yes">відношенню|зрівнянню|телебаченню|розташуванню|скупченню|запустінню|угруповання»|приміщенню|підвіконню|камінню|насінню|населенню</exception>
+              <!--
+              <exception regexp="yes">відношенню|завершенню|скінченню</exception>
+              -->
+            </token>
+          </marker>
+        </pattern>
+        <message>Прийменник "по" найпевніше вжито неправильно, в багатьох випадках (крім темпоральних) краще вжити інші варіанти (з прийм. з, за, на, про, щодо, при, для у, або без прийменника</message>
+        <suggestion>з <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>
+        <suggestion><match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>
+        <suggestion>за <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_zna$2"/></suggestion>
+        <suggestion>на <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_zna$2"/></suggestion>
+        <suggestion>про <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_zna$2"/></suggestion>
+        <suggestion>щодо <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>
+        <suggestion>при <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_mis$2"/></suggestion>
+        <suggestion>для <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>
+        <suggestion>у <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_mis$2"/></suggestion>
+        <suggestion>на основі <match no="3" postag_regexp="yes" postag="(noun:inanim:n):v_dav(.*)" postag_replace="$1:v_rod$2"/></suggestion>
+        <example correction="з розведення|розведення|за розведення|на розведення|про розведення|щодо розведення|при розведенню|при розведенні|для розведення|у розведенню|у розведенні|на основі розведення">спеціаліст <marker>по розведенню</marker>...</example>
+        <!-- відповідальність за ..., третє місце за чимось -->
+        <example correction="з реформування|реформування|за реформування|на реформування|про реформування|щодо реформування|при реформуванню|при реформуванні|для реформування|у реформуванню|у реформуванні|на основі реформування">відповідальність <marker>по реформуванню</marker></example>
+        <example correction="з посвідчення|посвідчення|за посвідчення|на посвідчення|про посвідчення|щодо посвідчення|при посвідченню|при посвідченні|для посвідчення|у посвідченню|у посвідченні|на основі посвідчення">видати безкоштовного квитка <marker>по посвідченню</marker></example>
+        <example>плескав людей по плечах</example>
+        <example>в ґайдлайні ВООЗ по лікуванню</example>
+        <example>несправедливість по відношенню</example>
+        <example>Сидів цей Іщук по обвинуваченню</example>
+        <example>якщо брати по навантаженню оподаткування</example>
+        <example>сусід по квартирі</example>
+        <example>потік шумів по камінні</example>
+        <example>черговому по відділенню внутрішніх справ</example>
+        <!--
+        TODO: колега/товариш по ...
+        <example>кілька тижнів по запровадженні такого режиму</example>
+        -->
       </rule>
     </rulegroup>
 
