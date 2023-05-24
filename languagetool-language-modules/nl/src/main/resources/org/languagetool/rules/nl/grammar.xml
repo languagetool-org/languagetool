@@ -20802,6 +20802,394 @@ regexp case-insensitive maken: (?i)
     </category>
     <category id="CONFUSED_WORDS" name="Woordverwarring">
 
+        <!-- Uit: Aarsrivalen, scheldkarbonades en terminale baden -->
+        <rulegroup id="VLUCHTHAVEN" name="vluchthaven → luchthaven">
+            <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(varen|eiland|kustwacht|anker|schip|scheep|misdaad|misdad|snelweg|vluchtstrook).*</token><token postag="SENT_END"/></antipattern>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">.*(vlieg|vlucht|terminal).*</token>
+                    <marker>
+                        <token>vluchthaven</token>
+                    </marker>
+                </pattern>
+                <message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilige haven (veilig adres)?</message>
+                <example correction="luchthaven">Het vliegtuig stond klaar op de <marker>vluchthaven</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1">vluchthaven</token>
+                    </marker>
+                    <token regexp="yes">.*(vlieg|vlucht|terminal).*</token>
+                </pattern>
+                <message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilige haven (veilig adres)?</message>
+                <example correction="luchthaven">Op de <marker>vluchthaven</marker> stond het vliegtuig klaar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="POSTALE_DEPRESSIE" name="Postale depressie → postnatale depressie">
+            <rule>
+                <pattern>
+                    <token>postale</token>
+                    <token>depressie</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>postnatale depressie</suggestion> (neerslachtig na een geboorte).</message>
+                <example correction="postnatale depressie">Haar <marker>postale depressie</marker> was hevig.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VISUELE_CIRKEL" name="Visuele cirkel → vicieuze cirkel">
+            <rule>
+                <pattern>
+                    <token>visuele</token>
+                    <token>cirkel</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>vicieuze cirkel</suggestion> (kring zonder uitweg).</message>
+                <example correction="vicieuze cirkel">Haar thema is 'Natuur': fascinatie voor de <marker>visuele cirkel</marker> in de natuur.</example>
+                <example correction="vicieuze cirkel">Het is een <marker>visuele cirkel</marker> waar ik niet uit kom.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FINALE_PLEITING" name="Finale pleiting → finale kwijting">
+            <rule>
+                <pattern>
+                    <token>finale</token>
+                    <token>pleiting</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1 kwijting</suggestion> (verklaring van afbetaald zijn).</message>
+                <example correction="finale kwijting">De <marker>finale pleiting</marker> ontbreekt.</example>
+                <example>De <marker>finale kwijting</marker> is aanwezig.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LASTIG_PAKKET" name="Lastig pakket → lastig parket">
+            <rule>
+                <!-- TaalTik, 2014-10-03, nieuw -->
+                <pattern>
+                    <token regexp="yes">lastig|moeilijk|vervelend</token>
+                    <token>pakket</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1 parket</suggestion> (situatie).</message>
+                <example correction="lastig parket">Hij zat in een <marker>lastig pakket</marker>.</example>
+                <example correction="lastig parket">Ze brengen de Triade in een zeer <marker>lastig pakket</marker>.</example>
+                <example correction="lastig parket">Ik heb daarna zeker kunnen concluderen dat een boer in een <marker>lastig pakket</marker> zit.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SURVEILLANCE_VAN_BETALING" name="Surveillance van betaling → surseance van betaling">
+            <rule>
+                <pattern>
+                    <token>surveillance</token>
+                    <token>van</token>
+                    <token>betaling</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>surseance \2 \3</suggestion> (uitstel van financiële verplichtingen).</message>
+                <example correction="surseance van betaling">De zaak kwam in <marker>surveillance van betaling</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZAAK_AANHANKELIJK" name="Zaak aanhankelijk maken → zaak aanhangig maken">
+            <rule>
+                <pattern>
+                    <token>zaak</token>
+                    <marker>
+                        <token regexp="yes">aanhanging|aanhankelijk</token>
+                    </marker>
+                    <token inflected="yes">maken</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>aanhangig</suggestion>.</message>
+                <example correction="aanhangig">Hij heeft de zaak <marker>aanhankelijk</marker> gemaakt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EIS_EN_WEDER_DIENENDE" name="Eis en weder → ijs en weder">
+            <rule>
+                <pattern>
+                    <token>eis</token>
+                    <token>en</token>
+                    <token>weder</token>
+                    <token regexp="yes">dienend|dienende</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>ijs \2 \3 \4</suggestion>.</message>
+                <example correction="Ijs en weder dienende"><marker>Eis en weder dienende</marker> komt het goed.</example>
+                <example><marker>IJs en weder dienende</marker> gaat het goed.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JAARGETAL" name="Jaargetal → jaartal">
+            <rule>
+                <antipattern><token>jaargetal</token><token regexp="yes">[1-9]</token></antipattern>
+                <pattern>
+                    <token>jaargetal</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>jaartal</suggestion> (als in 2014).</message>
+                <example correction="jaartal">Het <marker>jaargetal</marker> van de ramp is 2001.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIBER_AMORICUM" name="Liber amoricum → liber amicorum">
+            <rule>
+                <pattern>
+                    <token>liber</token>
+                    <token>amoricum</token>
+                </pattern>
+                <message>U bedoelt waarschijnlijk: <suggestion>\1 amicorum</suggestion> (vriendenboek in de wetenschappelijke wereld).</message>
+                <example correction="liber amicorum">Het <marker>liber amoricum</marker> was in leer gebonden.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VACCINEREND" name="vaccinerend → fascinerend">
+            <rule>
+                <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(arts|virus|verpleging|verpleeg|GGD).*</token><token postag="SENT_END"/></antipattern>
+                <pattern>
+                    <token skip="-1" postag_regexp="yes" postag="SENT_START|START"><exception scope="next" regexp="yes">.*(ije|ië)|.*(land|dokter|verpleeg|pest|personeel).*</exception></token>
+                    <marker>
+                        <token skip="-1" regexp="yes">vaccinerend|vaccinerende</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Wanneer u 'interessant' bedoelt, is juist: <suggestion>fascinerend</suggestion>.</message>
+                <example correction="fascinerend">Het is <marker>vaccinerend</marker> materiaal.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MOMENT_SUBLIEM" name="moment subliem → moment suprême">
+            <rule>
+                <antipattern><token>tot</token><token>dat</token><token>moment</token></antipattern>
+                <pattern>
+                    <token>moment</token>
+                    <token>subliem</token>
+                </pattern>
+                <message>U bedoelt waarschijnlijk: <suggestion>moment suprême</suggestion>.</message>
+                <example correction="moment suprême">Op het <marker>moment subliem</marker> ging het mis.</example>
+                <example>Op het <marker>moment suprême</marker> ging het goed.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EPISCH_CENTRUM" name="Episch centrum → epicentrum">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">episch</token>
+                    <token case_sensitive="yes">centrum</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>epicentrum</suggestion>, het hart van de aardbeving.</message>
+                <example correction="epicentrum">Het <marker>episch centrum</marker> lag vijf km uit de kust.</example>
+                <example correction="epicentrum">Het <marker>episch centrum</marker> van de beving lag in Oroszlány, ongeveer 70 km van Boedapest.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HEET_GEBLAKERD" name="Heet geblakerd → heetgebakerd">
+            <rule>
+                <pattern>
+                    <token>heet</token>
+                    <token>geblakerd</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>heetgebakerd</suggestion>, opvliegend.</message>
+                <example correction="heetgebakerd">Hij is <marker>heet geblakerd</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DRAADKRACHT" name="Draadkracht → daadkracht">
+            <rule>
+                <pattern>
+                    <token>draadkracht</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>daadkracht</suggestion>, doortastendheid.</message>
+                <example correction="daadkracht">Hij heeft <marker>draadkracht</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EXTRA_DEMENTIE" name="Extra dementie → extra dimensie">
+            <rule>
+                <pattern>
+                    <token>extra</token>
+                    <token>dementie</token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u: <suggestion>\1 dimensie</suggestion> (een extra denkrichting).</message>
+                <example correction="extra dimensie">Hij heeft een <marker>extra dementie</marker> toegevoegd.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TERMINALE_BADEN" name="Terminale baden → thermale baden">
+            <rule>
+                <pattern>
+                    <token>terminale</token>
+                    <token>baden</token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u: <suggestion>thermale \2</suggestion> (warme baden).</message>
+                <example correction="thermale baden">Hij zwom in de <marker>terminale baden</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MEDIA_MAAND" name="Media januari → medio januari">
+            <rule>
+                <pattern>
+                    <token>media</token>
+                    <token regexp="yes">januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december</token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u: <suggestion>medio \2</suggestion> (midden).</message>
+                <example correction="medio juli">Nederland is het warmst <marker>media juli</marker>.</example>
+                <example>Nederland is het warmst <marker>medio juli</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VOL_PENSIOEN" name="Vol pensioen → Vol pension">
+            <rule>
+                <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(AOW|6[0-9]).*</token><token postag="SENT_END"/></antipattern>
+                <pattern>
+                    <token regexp="yes">vol|half</token>
+                    <token>pensioen</token>
+                </pattern>
+                <message>Misschien bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>
+                <example correction="vol pension">We boekten <marker>vol pensioen</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BOVEN_HET_MAISVELD" name="Boven het maisveld → boven het maaiveld">
+            <rule>
+                <pattern>
+                    <token regexp="yes">boven|onder</token>
+                    <token>het</token>
+                    <marker>
+                        <token regexp="yes">ma[iï]sveld</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: boven het <suggestion>maaiveld</suggestion> (opvallen).</message>
+                <example correction="maaiveld">Kom nooit met je hoofd boven het <marker>maisveld</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SO_WIE_SO" name="Boven het maisveld → boven het maaiveld">
+            <rule>
+                <!-- TaalTik, 2014-10-02, nieuw -->
+                <pattern>
+                    <token regexp="yes">[sz]o</token>
+                    <token regexp="yes">wie|ie</token>
+                    <token regexp="yes">[sz]o</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>sowieso</suggestion> (<suggestion>hoe dan ook</suggestion>).</message>
+                <example correction="sowieso|hoe dan ook">Ik kom <marker>so ie zo</marker> niet uit.</example>
+                <example correction="Sowieso|Hoe dan ook"><marker>Zo ie zo</marker> gaat ze mee, en worden ze binnen 2 jaar wereldkampioen.</example>
+                <example correction="Sowieso|Hoe dan ook"><marker>Zo wie zo</marker> was er veel kerstsfeer om en langs de Moezel.</example>
+                <example correction="sowieso|hoe dan ook">Bruno was <marker>zo wie zo</marker> al van plan om bij de thuiskomst nieuwe banden te plaatsen.</example>
+                <example correction="sowieso|hoe dan ook">De app is <marker>so wie so</marker> niet meer toegankelijk als u gedurende drie minuten niets doet.</example>
+                <example correction="sowieso|hoe dan ook">En het gaat <marker>zo wie zo</marker> al niet al te schitterend dus.</example>
+                <example correction="sowieso|hoe dan ook">Anders kost het je je <marker>zo ie zo</marker> de baarmoeder.</example>
+                <example correction="sowieso|hoe dan ook">Ja die streek is <marker>zo wie zo</marker>, voor mij toch, onbetaalbaar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PUBERTIJD" name="Pubertijd → puberteit">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*pubertijd.*</token>
+                </pattern>
+                <message>Meestal wordt <suggestion><match no="1" regexp_match="pubertijd" regexp_replace="puberteit"/></suggestion> bedoeld (de toestand van puber zijn).</message>
+                <example correction="puberteit">Ik kom de <marker>pubertijd</marker> niet uit.</example>
+                <example>Ik kom de <marker>puberteit</marker> uit.</example>
+                <example correction="puberteit">Het is inderdaad moeilijk als ze in de <marker>pubertijd</marker> zitten.</example>
+                <example correction="puberteit">Tijdens de <marker>pubertijd</marker> valt de ouderlijke controle grotendeels weg.</example>
+                <example correction="puberteit">Het is belangrijk te weten dat een kinderwens een natuurlijk verschijnsel is vanaf de <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">Medisch gezien is een operatie perfect te verantwoorden zodra de <marker>pubertijd</marker> voltooid is.</example>
+                <example correction="puberteit">De astma verdween in de <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">Vooral reuen kunnen tijdens de <marker>pubertijd</marker> koppig zijn als ze macht willen.</example>
+                <example correction="puberteit">En zijn op het actiefst tijdens de <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">Niet abnormaal natuurlijk tijdens deze <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">De <marker>pubertijd</marker> is een van die levensfasen waarin astmaklachten vaak verminderen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CHAMPIGNONS_LEAGUE" name="Chapignons league → Champions League">
+            <rule>
+                <pattern>
+                    <token>champignons</token>
+                    <token>league</token>
+                </pattern>
+                <message>U bedoelt vast de: <suggestion>Champions League</suggestion>.</message>
+                <example correction="Champions League">De <marker>champignons league</marker> was voorbij.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BEGAANDE_GROND" name="begaande grond → begane grond">
+            <rule>
+                <pattern>
+                    <token>begaande</token>
+                    <token>grond</token>
+                </pattern>
+                <message>U bedoelt vast de: <suggestion>begane grond</suggestion>.</message>
+                <example correction="begane grond">De brasserie op de <marker>begaande grond</marker> is alle dagen geopend voor lunch en diner vanaf 10.00 uur.</example>
+                <example correction="begane grond">Hierdoor wordt het plafond en in het bijzonder de typerende plafondbalken, goed zichtbaar vanaf de <marker>begaande grond</marker>.</example>
+                <example correction="begane grond">Deze kamers bevinden zich allemaal op de <marker>begaande grond</marker> met een terras met zitje.</example>
+                <example correction="begane grond">De carport op de <marker>begaande grond</marker> biedt ruimte voor twee tot drie auto’s.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AANGEDAAN_WORDT" name="vang">
+            <rule>
+                <pattern>
+                    <token skip="1">er</token>
+                    <marker>
+                        <token>aangedaan</token>
+                    </marker>
+                    <token inflected="yes">worden</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion>aan gedaan</suggestion>.</message>
+                <example correction="aan gedaan">Als er iets <marker>aangedaan</marker> wordt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ONTROEREND_GOED" name="Ontroerend goed → onroerend goed">
+            <rule>
+                <antipattern case_sensitive="yes"><token>Ontroerend</token><token>Goed</token></antipattern> <!-- Gents toneelgezelschap -->
+                <pattern>
+                    <token>ontroerend</token>
+                    <token>goed</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>onroerend goed</suggestion> (gebouwen), of toch 'emotionerend'?</message>
+                <example correction="onroerend goed">Het <marker>ontroerend goed</marker> is onbetaalbaar.</example>
+                <example correction="onroerend goed">Een “getopte” boom kan zelfs de <marker>ontroerend goed</marker> waarde naar beneden brengen.</example> <!-- spatiefout ook! -->
+                <example correction="onroerend goed">Mulder voelde zich bij Anderlecht <marker>ontroerend goed</marker> in zijn vel.</example> <!-- false positive -->
+            </rule>
+        </rulegroup>
+        <rulegroup id="OP_DE_KEEPER_BESCHOUWD" name="Op de keeper beschouwd → op de keper beschouwd">
+            <rule>
+                <pattern>
+                    <token>op</token>
+                    <token>de</token>
+                    <marker>
+                        <token>keeper</token>
+                    </marker>
+                    <token regexp="yes">beschouw.*</token>
+                </pattern>
+                <message>U bedoelt vast: op de <suggestion>keper</suggestion> beschouwd (nauwkeurig bekeken).</message>
+                <example correction="keper">Op de <marker>keeper</marker> beschouwd, welke "toegevoegde waarde" hebben deze jaartallen?</example>
+                <example correction="keper">Ze worden daarin bijgestaan door de pers - op de <marker>keeper</marker> beschouwd is dat een vorm van sociale tewerkstelling.</example>
+                <example correction="keper">Op de <marker>keeper</marker> beschouwd is er amper verschil tussen die twee.</example>
+                <example correction="keper">Hij twijfelde nog of hij het had gezien, terwijl hij op de <marker>keeper</marker> beschouwd natuurlijk niets had gezien.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WENDT_OF_KEERT" name="Went of keert → wendt of keert">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>went</token>
+                    </marker>
+                    <token>of</token>
+                    <token>keert</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>wendt</suggestion> of keert.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/wendt-of-keert-went-of-keert</url>
+                <example correction="wendt">Hoe je het <marker>went</marker> of keert, geld is nu eenmaal waar we ons huis van betalen.</example>
+                <example correction="wendt">Want hoe je het ook <marker>went</marker> of keert, Kaya is intussen natuurlijk al 12.5 jaar!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INVALIDE_TOILET" name="Invalide toilet → invalidentoilet">
+            <!-- TaalTik, 2014-10-02, nieuw -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(minder|in)valide</token>
+                        <token inflected="yes">toilet</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1n\2</suggestion>.</message>
+                <example correction="invalidentoilet">Het <marker>invalide toilet</marker> was net schoongemaakt.</example>
+                <example correction="mindervalidentoilet">Omdat wij met iedereen wensen rekening te houden, hebben wij vanaf nu een <marker>mindervalide toilet</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HEUR_HAAR" name="Heur haar → haar haar">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>heur</token>
+                    </marker>
+                </pattern>
+                <message>Altijd beter is: <suggestion>haar</suggestion>, ook in 'haar haar'.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/heur-haar</url>
+                <example correction="haar">De kapper deed <marker>heur</marker> haar.</example>
+                <example correction="haar">Maar laten zij na den oorlog voorgoed met <marker>heur</marker> slavenhandelaars afrekenen.</example>
+                <example correction="haar">'t scheen dat de zon <marker>heur</marker> laaiende gloed spuwde uit duizend vuurmonden.</example>
+                <example correction="haar">Maar grootmoeder op <marker>heur</marker> lage stoeltje bij haar snorkend spinnewiel</example>
+                <example correction="Haar"><marker>Heur</marker> gevoel is sterker dan haar wil.</example>
+            </rule>
+        </rulegroup>
+        <!-- end of Aarsrivalen, scheldkarbonades en terminale baden -->
+
         <rulegroup id="VERIJZEN" name="Verijzen/verwijzen/verrijzen">
             <rule>
                 <pattern>
