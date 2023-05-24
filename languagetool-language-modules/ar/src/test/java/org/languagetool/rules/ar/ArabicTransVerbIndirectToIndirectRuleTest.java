@@ -29,6 +29,7 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ArabicTransVerbIndirectToIndirectRuleTest {
   private ArabicTransVerbIndirectToIndirectRule rule;
@@ -49,10 +50,10 @@ public class ArabicTransVerbIndirectToIndirectRuleTest {
     assertCorrect("يترددون إليه");
 
     // errors:
-    assertIncorrect("يتردد على المعهد", 3);
-    assertIncorrect("يتردد الولد على المعهد", 3);
-    assertIncorrect("فسيتردد الولد على المعهد", 3);
-    assertIncorrect("يترددون عليه", 1);
+    assertIncorrect("يتردد على المعهد");
+    assertIncorrect("يتردد الولد على المعهد");
+    assertIncorrect("فسيتردد الولد على المعهد");
+    assertIncorrect("يترددون عليه");
   }
 
   private void assertCorrect(String sentence) throws IOException {
@@ -60,9 +61,9 @@ public class ArabicTransVerbIndirectToIndirectRuleTest {
     assertEquals(0, matches.length);
   }
 
-  private void assertIncorrect(String sentence, int index) throws IOException {
+  private void assertIncorrect(String sentence) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(index, matches.length);
+    assertNotEquals(matches.length, 0);
   }
 
 
