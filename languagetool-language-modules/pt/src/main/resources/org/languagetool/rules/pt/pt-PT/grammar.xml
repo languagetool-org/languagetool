@@ -35,7 +35,7 @@
     <!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
     <!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
     <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|amanhãs?|datas?|eras?|horários?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
-
+    <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
     <!ENTITY paises_com_artigo "(?:Afeganistão|Albânia|Alemanha|Arábia|Argélia|Argentina|Austrália|Áustria|Barbados|Bélgica|Belize|Benim|Bielorrússia|Birmânia|Bolívia|Bósnia|Botsuana|Brasil|Bulgária|Burúndi|Butão|Camarões|Camboja|Canadá|Catar|Cazaquistão|Chade|Chile|China|Chipre|Colômbia|Comores|Congo|Coreia|Croácia|Dinamarca|Egito|Emirados|Equador|Eslováquia|Etiópia|EUA|Fiji|Filipinas|Finlândia|Gabão|Gâmbia|Gana|Geórgia|Grécia|Guatemala|Guiana|Guiné|Haiti|Honduras|Hungria|Ilhas|Índia|Indonésia|Irão|Iraque|Irlanda|Islândia|Jamaica|Japão|Jordânia|Laos|Lesoto|Líbano|Libéria|Líbia|Lituânia|Luxemburgo|Malásia|Malaui|Maldivas|Mali|Mauritânia|México|Micronésia|Moldávia|Mongólia|Namíbia|Nepal|Nicarágua|Nigéria|Noruega|Palestina|Panamá|Papua|Paquistão|Paraguai|Peru|Perú|Quirguistão|República|Ruanda|Rússia|Samoa|Seicheles|Senegal|Sérvia|Síria|Somália|Sri|Suazilândia|Sudão|Suécia|Suíça|Suriname|Tailândia|Tajiquistão|Tanzânia|Togo|Tonga|Tunísia|Turcomenistão|Turquia|Ucrânia|Uruguai|Usbequistão|Vaticano|Venezuela|Vietname|Zâmbia)">
     <!ENTITY paises_com_artigo_marcoagpinto_na "Espanha|França|Inglaterra|Itália|Madagáscar|Marrocos|Moçambique">
     <!ENTITY outros_toponimos_com_artigo "(?:Alameda|Algarve|Amadora|Avenida|Cairo|Caldas|Covilhã|Europa|Figueira|Furadouro|Guarda|Largo|Porto|Praceta|Rua|Terreiro)">
@@ -45,6 +45,7 @@
 
     <!ENTITY hifen "[-‑]">
     <!ENTITY tracos_de_separacao "[-‑]|–|—">
+    <!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)?|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
 
 
     <!ENTITY pontos_cardeais "este|nascente|nordeste|noroeste|norte|ocidente|oeste|oriente|poente|sudeste|sul">
@@ -3938,7 +3939,31 @@
 
   <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
 
-
+    <rule id='PARONYM_PREMIO_252_PT' name='Parónimo: premio'>
+      <pattern>
+        <token regexp='yes'>&art_detecao_paronimos;</token>
+        <token min='0' postag='A.+' postag_regexp='yes'/>
+        <token regexp='yes'>premios?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+      <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> prémio<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/prémio</url>
+      <example correction='no prémio'><marker>no premio</marker>.</example>
+      <example correction='nos prémios'><marker>nos premios</marker>.</example>
+    </rule>
+    <rule id='PARONYM_PREMIO_252_PT2' name='Parónimo: premio'>
+      <pattern>
+        <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
+        <marker>
+          <token regexp='yes'>premios?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+      <suggestion>prémio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/prémio</url>
+      <example correction='prémio'>E tem <marker>premio</marker> para todos.</example>
+      <example correction='prémios'>E tem <marker>premios</marker> para todos.</example>
+    </rule>
     <!-- CRIAR querer -->
     <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-04-09 (Checked/Enhanced) (2-MAR-2023+) -->

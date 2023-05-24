@@ -1410,6 +1410,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="a tocar" pos="LOC_ADV"/>
         </disambig>
     </rule>
+    <rule id="D_ACORD" name="d'acord (adv)">
+        <pattern>
+            <token regexp="yes" inflected="yes">restar|quedar|estar|posar</token>
+            <token min="0" max="3" postag="LOC_ADV|RG" postag_regexp="yes"/>
+            <marker>
+                <token>d'</token>
+                <token>acord</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="d'acord" pos="LOC_ADV"/>
+            <wd lemma="d'acord" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
     <rule id="A_BAIX" name="a baix">
         <pattern>
             <token>a</token>
@@ -11557,6 +11571,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="R.*"/>
     </rule>
+    <rule id="desperta_adj" name="desperta (adj)">
+        <pattern>
+            <token postag="V.[ISPN].*" postag_regexp="yes"/>
+            <token min="1" max="3" postag_regexp="yes" postag="RG|LOC_ADV"/>
+            <marker>
+                <token postag="AQ0FS0">desperta</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"></disambig>
+    </rule>
     <rule id="amic_nom0" name="amic nom davant d'adjectiu">
         <pattern>
             <unify>
@@ -12723,6 +12747,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token inflected="yes">un</token>
             <token inflected="yes">poc</token>
             <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">uns|unes</token>
+            <token postag="DN.*" postag_regexp="yes"/>
         </antipattern>
         <rule>
             <pattern>

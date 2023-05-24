@@ -20,6 +20,13 @@
 
 package org.languagetool;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum ToneTag {
-  clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, informal, povadd, positive, NO_TONE_RULE;
+
+  clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, informal, povadd, positive, NO_TONE_RULE, ALL_TONE_RULES;
+
+  public static final List<ToneTag> REAL_TONE_TAGS = Arrays.stream(ToneTag.values()).filter(toneTag -> toneTag != NO_TONE_RULE && toneTag != ALL_TONE_RULES).collect(Collectors.toList());
 }

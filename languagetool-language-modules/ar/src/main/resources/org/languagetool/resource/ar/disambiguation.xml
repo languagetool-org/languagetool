@@ -75,4 +75,34 @@ outputform="عامل[عامل/NA-;M1--;---,عامل/NA-;M1A-;---,عامل/NA-;M1
 type="ambiguous">
 -رأيت التفاني  في <marker>عامل</marker> النظافة.</example>
         </rule>
+    <rule name="Numeric_Word_tags" id="Numeric_phrase_tags">
+        <!-- work with numeric phrases (exclude non numeric tags -->
+        <pattern>
+            <token postag="NN.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig><match no="2" postag="NN.*" postag_regexp="yes" /></disambig>
+        <example
+                inputform="وثلاثون[ثلاث/NJ-;-3--;W--,ثلاث/NJ-;M3--;W--,ثلاثون/NND;-3U-;W--]"
+                outputform="وثلاثون[ثلاثون/NND;-3U-;W--]"
+                type="ambiguous">
+            ثلاثة <marker>وثلاثون</marker>.</example>
+    </rule>
+    <rule name="Numeric_Word_tags2" id="Numeric_phrase_tags2">
+        <!-- work with numeric phrases (exclude non numeric tags -->
+        <pattern>
+            <marker><token postag="NN.*" postag_regexp="yes"/>
+            </marker>
+            <token postag="NN.*" postag_regexp="yes"/>
+
+        </pattern>
+        <disambig><match no="1" postag="NN.*" postag_regexp="yes" /></disambig>
+        <example
+                inputform="ثلاثون[ثلاث/NJ-;-3--;---,ثلاث/NJ-;M3--;---,ثلاثون/NND;-3U-;---]"
+                outputform="ثلاثون[ثلاثون/NND;-3U-;---]"
+                type="ambiguous">
+            <marker>ثلاثون</marker> ألف.</example>
+    </rule>
 </rules>

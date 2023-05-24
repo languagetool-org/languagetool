@@ -4183,6 +4183,30 @@ USA
         </rule>
 
 
+        <!-- O QUE TEM DE MAL que mal tem -->
+        <rule id='O_QUE_TEM_DE_MAL_QUE_MAL_TEM' name="[Simplificar] 'o que tem de mal' → 'que mal tem'" type="style">
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-23 (2-MAR-2023+) -->
+            <!--
+      O que tem de mal partir o spaghetti antes de cozer? → Que mal tem partir o spaghetti antes de cozer?
+      O que tem de mal a abordagem holística? → Que mal tem a abordagem holística?
+      -->
+            <pattern>
+                <marker>
+                    <token>o</token>
+                    <token>que</token>
+                    <token>tem</token>
+                    <token>de</token>
+                    <token>mal</token>
+                </marker>
+                <token postag='V.+|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion>que mal tem</suggestion>
+            <example correction="Que mal tem"><marker>O que tem de mal</marker> partir o spaghetti antes de cozer?</example>
+            <example correction="Que mal tem"><marker>O que tem de mal</marker> a abordagem holística?</example>
+        </rule>
+
+
         <!-- DE SOFTWARE PARA O PÚBLICO de software público -->
         <rule id='PARA_O_PÚBLICO_PÚBLICO_PÚBLICA' name="[Simplificar] Para o público → público(a)" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-17 (25-JUL-2022+) -->

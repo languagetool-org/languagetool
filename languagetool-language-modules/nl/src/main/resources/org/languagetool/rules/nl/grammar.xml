@@ -728,709 +728,6 @@ regexp case-insensitive maken: (?i)
         Mark: Expanded the rule and suggestions for each number for now, so we can collect more detailed disable statistics.
         To simplify with something like suggested above
         -->
-        <rule id="GETALLEN_UITSCHRIJVEN_TEST" name="Test: Getallen onder 20 en ronde getallen uitschrijven" tags="picky" default="temp_off">
-            <pattern>
-                <token postag="SENT_START"/>
-                <marker><token regexp="yes">1?\d|20</token></marker>
-            </pattern>
-            <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message>
-            <suggestion><match no="2" postag="_spell_number_" case_conversion="firstupper"/></suggestion>
-            <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-            <example correction="Een"><marker>1</marker> keer is genoeg.</example>
-            <example correction="Vijftien"><marker>15</marker> keer is genoeg.</example>
-        </rule>
-        <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
-            <antipattern>
-                <!-- v1.0 -->
-                <token regexp="yes">v[0-9]+</token>
-                <token>.</token>
-                <token regexp="yes">[0-9]+</token>
-            </antipattern>
-            <antipattern>
-                <!-- page number -->
-                <token postag="SENT_START"/>
-                <token postag="SENT_END" regexp="yes">[0-9]+</token>
-                <example>1</example>
-            </antipattern>
-            <antipattern>
-                <!-- phone number etc. -->
-                <token regexp="yes">[1-9][0-9]{1,2}</token>
-                <token regexp="yes">[0-9]{3}</token>
-                <example>13 000</example>
-            </antipattern>
-            <antipattern>
-                <!-- number of item -->
-                <token case_sensitive="yes" regexp="yes">[A-Z].*(straat|plein|weg|straße|vest|singel)|[Gg]etal|[Jj]aren|[Jjaar]|[Bb]ladzijde|[Kk]wartaal|[Oo]pgave|AVI|thema|procent|type|:|[Vv]oorbeeld|[Aa]rt.|[Ll]ijn|Win|[Ww]indows|[Ii][Pp]hone|[Cc]ategorie|[Pp]art|[Ll]eerdoel|[Ff]ase|Formule|[Ss]eizoen|[Aa]flevering|[Ww]eek|[Ss]lide|[Uu]nit|Radio|[Dd]al|[hm]avo</token>
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <example>Dat is een iPhone 14</example>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">van|tegen</token>
-                <token regexp="yes">[0-9]+</token>
-                <example>Deel 2 van 2.</example>
-            </antipattern>
-            <antipattern>
-                <!-- page number -->
-                <token>pagina</token>
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <token>van</token>
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-            </antipattern>
-            <antipattern>
-                <!-- before/after Christ -->
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <token regexp="yes">v|n</token>
-                <token>.</token>
-                <token>Chr</token>
-                <token>.</token>
-            </antipattern>
-            <antipattern>
-                <!-- abbreviation + number -->
-                <token regexp="yes">blz|pag|nr|no|art|p</token>
-                <token spacebefore="no">.</token>
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-            </antipattern>
-            <antipattern>
-                <!-- calculation -->
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">[×*]</token>
-            </antipattern>
-            <antipattern>
-                <!-- number range -->
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">[0-9]+|en|of|tot</token>
-                <token regexp="yes">[0-9]+</token>
-                <example>Telefoonnummer 070 320 123 456.</example>
-                <example>Nummers 1 en 2 zijn goed.</example>
-            </antipattern>
-            <antipattern>
-                <!-- number range -->
-                <token regexp="yes">[0-9]+</token>
-                <token>t</token>
-                <token>/</token>
-                <token>m</token>
-                <token regexp="yes">[0-9]+</token>
-                <example>Blad 5 t/m 6 zijn fout.</example>
-            </antipattern>
-            <antipattern>
-                <!-- number range -->
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">a|à|&amp;</token>
-                <token regexp="yes">[0-9]+</token>
-                <example>Maar 5 a 6 zijn er goed.</example>
-            </antipattern>
-            <antipattern>
-                <!-- number range -->
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <token regexp="yes">van|op</token>
-                <token>de</token>
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <example>Het loopt van 5 tot en met 6.</example>
-            </antipattern>
-            <antipattern>
-                <!-- number range -->
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <token>tot</token>
-                <token>en</token>
-                <token>met</token>
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <example>Het loopt van 5 tot en met 6.</example>
-            </antipattern>
-            <antipattern>
-                <!-- chance -->
-                <token regexp="yes">[0-9]+</token>
-                <token>op</token>
-                <token regexp="yes">[0-9]+</token>
-                <example>wel 1 op 10 mensen zet het aan.</example>
-            </antipattern>
-            <antipattern>
-                <!-- before units of measurement -->
-                <token regexp="yes">[0-9]+|\p{L}|\p{InLetterlike_Symbols}|\p{Pe}</token>
-                <token regexp="yes">\p{Sm}|[\-\–\/x,.]</token>
-                <token regexp="yes" case_sensitive="yes">[0-9]+(&measurementUnitsAll;|[%\-\–\/x])?</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
-                <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
-                <token>procent</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">bij|en|tot</token>
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|&months;|&abbrevMonths;|[%/]|\p{Sc}|euro|dollars?</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
-                <token regexp="yes">bij|en|tot</token>
-                <token regexp="yes">([0-9]|1[0-9]|[2-9]0)(&measurementUnitsAngles;|[%/+])</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">\.|,</token>
-                <token regexp="yes">[0-9]{1,2}|-|–</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">[0-9]+</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">1?[0-9]</token>
-                <token regexp="yes">[.;:]</token>
-            </antipattern>
-            <antipattern>
-                <token postag_regexp="yes" postag="SENT_START|START"/>
-                <token regexp="yes">1?[0-9]</token>
-                <token regexp="yes">[:;\-\–]</token>
-                <token spacebefore="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]{1,2}</token>
-                <token regexp="yes">&abbrevMonths;|&months;</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[1-3]</token>
-                <token regexp="yes">Sam(u(e|ë)l)?|Kon(ingen)?|Kron(ieken)?|Kor(intiërs)?|Th?es?s(alonicenzen)?|Tim(oteüs)?|Petr?(us)|Joh(annes)?</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
-                <token>v</token>
-                <token>.</token>
-                <token regexp="yes">Chr|Christ|Christus</token>
-                <token min="0">.</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|euro|groep|kaliber|poort(en)?|psalm|stap|tip|top|afb|no|nr|p|#</token>
-                <token min="0">.</token>
-                <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|euro|groep(en)?|kaliber|poort(en)?|psalm(en)?|stap(en)?|tip|top|afb|no|nr|p|#</token>
-                <token min="0">.</token>
-                <token regexp="yes">[0-9]+</token>
-                <token regexp="yes">en|of|tot</token>
-                <token regexp="yes">[0-9]+</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">air|bloedgroep|fase|model|niveau|pro|ISBN|ISSN|RAID</token>
-                <token regexp="yes">[1-2]?[0-9]</token>
-            </antipattern>
-            <antipattern>
-                <token case_sensitive="yes" regexp="yes">&abbrevBibleBooks;|&fullBibleBooks;</token>
-                <token min="0">.</token>
-                <token regexp="yes">[0-9]{1,2}</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\p{Ps}</token>
-                <token regexp="yes">[0-9]{1,2}</token>
-                <token regexp="yes">\p{Pe}</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">[0-9]{1,2}</token>
-                <token>:</token>
-                <token regexp="yes">[0-9]{1,2}</token>
-            </antipattern>
-            <antipattern>
-                <!-- eigennamen -->
-                <token postag_regexp="yes" postag="ENM.*|UNKNOWN"></token>
-                <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                <example>Leopold 2, koning der Belgen.</example>
-                <example>Het fonds kreeg grote bekendheid toen in 1995 de film Free Willy 2 werd uitgebracht.</example>
-                <example>De Queen Mary 2 is een passagiersschip.</example>
-                <example>De Gemini 5 zette een minisatellietje uit.</example>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>1</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>een</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="een">We hebben het al <marker>1</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>1</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Een</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Een"><marker>1</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>2</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>twee</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="twee">We hebben het al <marker>2</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>2</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Twee</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Twee"><marker>2</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>3</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>drie</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="drie">We hebben het al <marker>3</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>3</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Drie</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Drie"><marker>3</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>4</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>vier</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="vier">We hebben het al <marker>4</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>4</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Vier</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Vier"><marker>4</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>5</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>vijf</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="vijf">We hebben het al <marker>5</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>5</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Vijf</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Vijf"><marker>5</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>6</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>zes</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="zes">We hebben het al <marker>6</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>6</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Zes</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Zes"><marker>6</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>7</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>zeven</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="zeven">We hebben het al <marker>7</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>7</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Zeven</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Zeven"><marker>7</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>8</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>acht</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="acht">We hebben het al <marker>8</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>8</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Acht</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Acht"><marker>8</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>9</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>negen</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="negen">We hebben het al <marker>9</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>9</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Negen</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Negen"><marker>9</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>10</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>tien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="tien">We hebben het al <marker>10</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>10</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Tien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Tien"><marker>10</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>11</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>elf</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="elf">We hebben het al <marker>11</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>11</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Elf</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Elf"><marker>11</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>12</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>twaalf</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="twaalf">We hebben het al <marker>12</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>12</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Twaalf</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Twaalf"><marker>12</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>13</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>dertien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="dertien">We hebben het al <marker>13</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>13</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Dertien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Dertien"><marker>13</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>14</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>veertien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="veertien">We hebben het al <marker>14</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>14</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Veertien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Veertien"><marker>14</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>15</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>vijftien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="vijftien">We hebben het al <marker>15</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>15</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Vijftien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Vijftien"><marker>15</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>16</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>zestien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="zestien">We hebben het al <marker>16</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>16</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Zestien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Zestien"><marker>16</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>17</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>zeventien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="zeventien">We hebben het al <marker>17</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>17</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Zeventien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Zeventien"><marker>17</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>18</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>achttien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="achttien">We hebben het al <marker>18</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>18</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Achttien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Achttien"><marker>18</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>19</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>negentien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="negentien">We hebben het al <marker>19</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>19</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Negentien</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Negentien"><marker>19</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>20</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>twintig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="twintig">We hebben het al <marker>20</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>20</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Twintig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Twintig"><marker>20</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>30</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>dertig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="dertig">We hebben het al <marker>30</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>30</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Dertig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Dertig"><marker>30</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>40</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>veertig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="veertig">We hebben het al <marker>40</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>40</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Veertig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Veertig"><marker>40</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>50</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>vijftig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="vijftig">We hebben het al <marker>50</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>50</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Vijftig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Vijftig"><marker>50</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>60</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>zestig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="zestig">We hebben het al <marker>60</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>60</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Zestig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Zestig"><marker>60</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>70</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>zeventig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="zeventig">We hebben het al <marker>70</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>70</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Zeventig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Zeventig"><marker>70</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>80</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>tachtig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="tachtig">We hebben het al <marker>80</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>80</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Tachtig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Tachtig"><marker>80</marker> keer is genoeg.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="SENT_START"/></token>
-                    <marker><token>90</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>negentig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="negentig">We hebben het al <marker>90</marker> keer gezegd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker><token>90</token></marker>
-                </pattern>
-                <message>Getallen onder de twintig en ronde getallen onder de honderd schrijven we in lopende tekst bij voorkeur uit.</message><suggestion>Negentig</suggestion>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url><short>Uitschrijven</short>
-                <example correction="Negentig"><marker>90</marker> keer is genoeg.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="SPATIE_GETALLEN" name="Spatie tussen getal en meeteenheid" tags="picky">
             <rule>
                 <pattern>
@@ -1462,274 +759,6 @@ regexp case-insensitive maken: (?i)
                 <url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
                 <short>Spatie</short>
                 <example correction="100 cm³">De inhoud is <marker>100cm3</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rule id="INSPECIFIEK_2" name="bijna zeker/altijd" tags="picky" default="off">
-            <!-- Disabled. Unpopular rule with high disable rate. This is a suggestion in rule "IN_DE_MEESTE_GEVALLEN" -->
-            <pattern>
-                <token>bijna</token>
-                <token regexp="yes">zeker|altijd</token>
-            </pattern>
-            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' sterk verschillend wordt geïnterpreteerd.</message>
-            <example correction="">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
-        </rule>
-        <rule id="INSPECIFIEK_3" name="zeer waarschijnlijk" tags="picky">
-            <pattern>
-                <token>zeer</token>
-                <token>waarschijnlijk</token>
-            </pattern>
-            <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-            <example correction="">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
-        </rule>
-        <rule id="INSPECIFIEK_4" name="heel vaak" tags="picky" default="off">
-            <!-- Disabled. Unpopular rule with high disable rate, common to use. -->
-            <pattern>
-                <token>heel</token>
-                <token>vaak</token>
-            </pattern>
-            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-            <example correction="">Dit is <marker>heel vaak</marker> onduidelijk.</example>
-        </rule>
-        <rule id="INSPECIFIEK_5" name="grote/kleine kans" tags="picky" default="off">
-            <!-- Disabled. Unpopular rule with high disable rate. This specific wording is used in our own messages.-->
-            <pattern>
-                <token regexp="yes">grote|kleine</token>
-                <token>kans</token>
-            </pattern>
-            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-            <example correction="">Dit is <marker>grote kans</marker> onduidelijk.</example>
-        </rule>
-        <rule id="INSPECIFIEK_6" name="te verwachten" tags="picky">
-            <pattern>
-                <token>te</token>
-                <token>verwachten</token>
-            </pattern>
-            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-            <example correction="">Dit is <marker>te verwachten</marker>.</example>
-        </rule>
-        <rule id="INSPECIFIEK_7" name="kunnen gebeuren" tags="picky" default="off">
-            <!-- Unpopular rule -->
-            <pattern>
-                <token inflected="yes">kunnen</token>
-                <token>gebeuren</token>
-            </pattern>
-            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-            <example correction="">Dit <marker>kan gebeuren</marker>.</example>
-        </rule>
-        <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky">
-            <rule>
-                <antipattern><token regexp="yes">ook|tussen</token><token regexp="yes">[jwmz]ij</token></antipattern>
-                <antipattern>
-                    <token postag_regexp="yes" postag="SENT_START|START"/>
-                    <token>Jij</token>
-                    <token/>
-                    <token postag="SENT_END">!</token>
-                </antipattern>
-                <antipattern>
-                    <token>waar</token>
-                    <token regexp="yes">wij|jij</token>
-                    <token>als</token>
-                    <token postag_regexp="yes" postag="ZNW.*"></token>
-                    <example>Dat is waar jij als techneut in excelleert.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag_regexp="yes" postag="SENT_START|START"/>
-                    <token regexp="yes">Wij|Zij|Jij</token>
-                    <token postag="BNW:STL:ONV"/>
-                </antipattern>
-                <antipattern>
-                    <token postag_regexp="yes" postag="SENT_START|START"/>
-                    <token regexp="yes">Wij|Zij|Jij</token>
-                    <token regexp="yes">van|en|als</token>
-                </antipattern>
-                <antipattern>
-                    <token postag_regexp="yes" postag="SENT_START|START"/>
-                    <token regexp="yes">Wij|Jij</token>
-                    <token postag="BNW:STL:VRB" min="0" max="1"/>
-                    <token postag_regexp="yes" postag="ZNW:MRV.*"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">bovenover|door|over|tegen|volgens|voor|zonder</token>
-                    <token>mij</token>
-                </antipattern>
-                <antipattern>
-                    <token postag_regexp="yes" postag="SENT_START|START"/>
-                    <token>mij</token>
-                    <token postag_regexp="yes" postag="WKW.*"/>
-                </antipattern>
-                <antipattern>
-                    <token>zoals</token>
-                    <token regexp="yes">jij|wij|zij|mij</token>
-                </antipattern>
-                <antipattern>
-                    <token>en</token>
-                    <token regexp="yes">jij|wij|zij</token>
-                    <token>?</token>
-                </antipattern>
-                <antipattern>
-                    <token postag_regexp="yes" postag="SENT_START|START"/>
-                    <token>voor</token>
-                    <token>mij</token>
-                </antipattern>
-                <antipattern>
-                    <token>je</token>
-                    <token>je</token>
-                    <token>mij</token>
-                </antipattern>
-                <antipattern>
-                    <token>zij</token>
-                    <token>het</token>
-                </antipattern>
-                <antipattern>
-                    <token>zij</token>
-                    <token>'</token>
-                    <token>t</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">ten|dank</token>
-                    <token>zij</token>
-                </antipattern>
-                <antipattern>
-                    <token>God</token>
-                    <token>zij</token>
-                    <token>dank</token>
-                </antipattern>
-                <antipattern>
-                    <token>zij</token>
-                    <token>mij</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">niet|van</token>
-                    <token regexp="yes">jij|mij</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">met|bij</token>
-                    <token>mij</token>
-                    <token postag_regexp="yes" postag="WKW.*"/>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">hij|jij|wij|zij|mij</token>
-                    <token>of</token>
-                    <token regexp="yes">jij|wij|zij|mij</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">aan|bij|op</token>
-                    <token regexp="yes">jij|mij</token>
-                </antipattern>
-                <antipattern>
-                    <token>zij</token>
-                    <token>die</token>
-                    <example>Perspectief van zij die zich uitgesloten voelen.</example>
-                </antipattern>
-                <antipattern>
-                    <token>mij</token>
-                    <token regexp="yes">betreft|vraagt</token>
-                    <example>Wat mij betreft wel.</example>
-                    <example>Als je het mij vraagt wel.</example>
-                </antipattern>
-                <antipattern>
-                    <token skip="7" regexp="yes">u(w)?</token>
-                    <token regexp="yes">[wmz]ij</token>
-                    <example>Kunt u mij een voorbeeld geven?</example>
-                    <example>Vreemd, uw melding is uiteindelijk niet bij mij terechtgekomen.</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[wmz]ij</token>
-                    <token skip="7" regexp="yes">u(w)?</token>
-                    <example>Vijftien dagen geleden hebben wij uw verzoek ontvangen.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">[wjz]ij</token>
-                    <token inflected="yes">zijn</token>
-                    <token regexp="yes">degene[n]?</token>
-                    <example>Zij waren degenen die het vuur aanstaken.</example>
-                    <example>Jij was degene die het veroorzaakte.</example>
-                </antipattern>
-                <antipattern>
-                    <token skip="2" postag="SENT_START"/>
-                    <token regexp="yes">[.!?]</token>
-                    <example>Wij?</example>
-                    <example>Zij wel.</example>
-                    <example>Wat jij?</example>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes" case_sensitive="yes">[JWZMjwzm]ij<exception postag="UNKNOWN"/></token>
-                </pattern>
-                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="(?i)ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
-                <short>Nadruk?</short>
-                <example correction="We"><marker>Wij</marker> vinden het fout.</example>
-                <example correction="We"><marker>Wij</marker> geven u een schatting van de kosten.</example>
-                <example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
-                <example><marker>Wij</marker> als parlementsleden zouden zo iets niet toelaten.</example>
-                <example><marker>Jij</marker> slimme mensen vinden zeker een oplossing.</example>
-                <example>Dat is waar JIJ het over hebt!</example>
-                <example>Ze kozen haar over <marker>mij</marker>.</example>
-                <example><marker>Mij</marker> is meegedeeld dat u op zoek naar werk bent.</example>
-                <example>Ik vond het leuk, en <marker>jij</marker>?</example>
-                <example>Voor <marker>mij</marker> hoeft het niet, hoor.</example>
-                <example>Ik wou dat zij <marker>mij</marker> een verklaring zou geven.</example>
-                <example>Wil je met <marker>mij</marker> dansen?</example>
-                <example>Want hij of <marker>zij</marker> moet gewoon een goede luisteraar zijn.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>jouw</token>
-                    <token regexp="yes">beurt|fout|geval|keus|manier|mening|opinie|opvatting|probleem|schuld|stijl|visie</token>
-                    <token postag="SENT_END"></token>
-                    <example>Dat is toch echt jouw schuld.</example>
-                    <example>Je doet alles toch op jouw manier!</example>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">wat|dat|het|wie</token>
-                    <token>is</token>
-                    <token>jouw</token>
-                    <example>Wat is jouw mening hierover?</example>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>jouw</token>
-                    </marker>
-                    <token postag_regexp="yes" postag="BNW.*|ZNW.*"/>
-                </pattern>
-                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
-                <short>Nadruk?</short>
-                <example correction="je">Ik zie <marker>jouw</marker> auto</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>als</token>
-                    <token>ik</token>
-                    <token>jou</token>
-                    <token>was</token>
-                    <example>Als ik jou was zou ik dat niet doen.</example>
-                </antipattern>
-                <antipattern>
-                    <token skip="1" postag="SENT_START"></token>
-                    <token>jou</token>
-                    <example>Voor jou.</example>
-                    <example>Aan jou heb ik tenminste iets.</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">door|volgens|voor</token>
-                    <token>jou</token>
-                    <example>Klopt dat volgens jou?</example>
-                    <example>Dat komt door jou!</example>
-                    <example>Werkt deze methode voor jou wel?</example>
-                </antipattern>
-                <pattern>
-                    <token><exception postag="SENT_START"></exception></token>
-                    <marker>
-                        <token>jou</token>
-                    </marker>
-                </pattern>
-                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
-                <short>Nadruk?</short>
-                <example correction="je">Ik zie <marker>jou</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEEST_GEWOON" name="Meest gewoon/gewoonst" tags="picky">
@@ -11118,7 +10147,6 @@ regexp case-insensitive maken: (?i)
                 <short>ongepast</short>
                 <example correction="">Hij heeft een <marker>aarsgewei</marker>.</example>
             </rule>
-
         </rulegroup>
     </category>
     <category id="CONSTRUCTIEFOUT" name="Constructiefout">
@@ -11592,22 +10620,6 @@ regexp case-insensitive maken: (?i)
                 <short>hem</short>
                 <example correction="Hem mankeert wat"><marker>Hij mankeert wat</marker>.</example>
                 <example><marker>Hem mankeert niets</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="WAT_SCHETST" name="wat schetst">
-            <!-- 2014-08-19 TaalTik: regel werkt goed, url toegevoegd -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>wat</token>
-                        <token>schetst</token>
-                    </marker>
-                    <token regexp="yes">mijn|zijn|haar|uw|hun</token>
-                    <token>verbazing</token>
-                </pattern>
-                <message>Als u het wat formeler wilt schrijven kunt u <suggestion>wie schetst</suggestion> gebruiken.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wie-schetst-mijn-verbazing-wat-schetst-mijn-verbazing</url>
-                <example correction="Wie schetst"><marker>Wat schetst</marker> mijn verbazing en opluchting.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CORDON_BLUE" name="cordon bleu">
@@ -20801,6 +19813,394 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
     </category>
     <category id="CONFUSED_WORDS" name="Woordverwarring">
+
+        <!-- Uit: Aarsrivalen, scheldkarbonades en terminale baden -->
+        <rulegroup id="VLUCHTHAVEN" name="vluchthaven → luchthaven">
+            <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(varen|eiland|kustwacht|anker|schip|scheep|misdaad|misdad|snelweg|vluchtstrook).*</token><token postag="SENT_END"/></antipattern>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">.*(vlieg|vlucht|terminal).*</token>
+                    <marker>
+                        <token>vluchthaven</token>
+                    </marker>
+                </pattern>
+                <message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilige haven (veilig adres)?</message>
+                <example correction="luchthaven">Het vliegtuig stond klaar op de <marker>vluchthaven</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1">vluchthaven</token>
+                    </marker>
+                    <token regexp="yes">.*(vlieg|vlucht|terminal).*</token>
+                </pattern>
+                <message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilige haven (veilig adres)?</message>
+                <example correction="luchthaven">Op de <marker>vluchthaven</marker> stond het vliegtuig klaar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="POSTALE_DEPRESSIE" name="Postale depressie → postnatale depressie">
+            <rule>
+                <pattern>
+                    <token>postale</token>
+                    <token>depressie</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>postnatale depressie</suggestion> (neerslachtig na een geboorte).</message>
+                <example correction="postnatale depressie">Haar <marker>postale depressie</marker> was hevig.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VISUELE_CIRKEL" name="Visuele cirkel → vicieuze cirkel">
+            <rule>
+                <pattern>
+                    <token>visuele</token>
+                    <token>cirkel</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>vicieuze cirkel</suggestion> (kring zonder uitweg).</message>
+                <example correction="vicieuze cirkel">Haar thema is 'Natuur': fascinatie voor de <marker>visuele cirkel</marker> in de natuur.</example>
+                <example correction="vicieuze cirkel">Het is een <marker>visuele cirkel</marker> waar ik niet uit kom.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FINALE_PLEITING" name="Finale pleiting → finale kwijting">
+            <rule>
+                <pattern>
+                    <token>finale</token>
+                    <token>pleiting</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1 kwijting</suggestion> (verklaring van afbetaald zijn).</message>
+                <example correction="finale kwijting">De <marker>finale pleiting</marker> ontbreekt.</example>
+                <example>De <marker>finale kwijting</marker> is aanwezig.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LASTIG_PAKKET" name="Lastig pakket → lastig parket">
+            <rule>
+                <!-- TaalTik, 2014-10-03, nieuw -->
+                <pattern>
+                    <token regexp="yes">lastig|moeilijk|vervelend</token>
+                    <token>pakket</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1 parket</suggestion> (situatie).</message>
+                <example correction="lastig parket">Hij zat in een <marker>lastig pakket</marker>.</example>
+                <example correction="lastig parket">Ze brengen de Triade in een zeer <marker>lastig pakket</marker>.</example>
+                <example correction="lastig parket">Ik heb daarna zeker kunnen concluderen dat een boer in een <marker>lastig pakket</marker> zit.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SURVEILLANCE_VAN_BETALING" name="Surveillance van betaling → surseance van betaling">
+            <rule>
+                <pattern>
+                    <token>surveillance</token>
+                    <token>van</token>
+                    <token>betaling</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>surseance \2 \3</suggestion> (uitstel van financiële verplichtingen).</message>
+                <example correction="surseance van betaling">De zaak kwam in <marker>surveillance van betaling</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZAAK_AANHANKELIJK" name="Zaak aanhankelijk maken → zaak aanhangig maken">
+            <rule>
+                <pattern>
+                    <token>zaak</token>
+                    <marker>
+                        <token regexp="yes">aanhanging|aanhankelijk</token>
+                    </marker>
+                    <token inflected="yes">maken</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>aanhangig</suggestion>.</message>
+                <example correction="aanhangig">Hij heeft de zaak <marker>aanhankelijk</marker> gemaakt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EIS_EN_WEDER_DIENENDE" name="Eis en weder → ijs en weder">
+            <rule>
+                <pattern>
+                    <token>eis</token>
+                    <token>en</token>
+                    <token>weder</token>
+                    <token regexp="yes">dienend|dienende</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>ijs \2 \3 \4</suggestion>.</message>
+                <example correction="Ijs en weder dienende"><marker>Eis en weder dienende</marker> komt het goed.</example>
+                <example><marker>IJs en weder dienende</marker> gaat het goed.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JAARGETAL" name="Jaargetal → jaartal">
+            <rule>
+                <antipattern><token>jaargetal</token><token regexp="yes">[1-9]</token></antipattern>
+                <pattern>
+                    <token>jaargetal</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>jaartal</suggestion> (als in 2014).</message>
+                <example correction="jaartal">Het <marker>jaargetal</marker> van de ramp is 2001.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIBER_AMORICUM" name="Liber amoricum → liber amicorum">
+            <rule>
+                <pattern>
+                    <token>liber</token>
+                    <token>amoricum</token>
+                </pattern>
+                <message>U bedoelt waarschijnlijk: <suggestion>\1 amicorum</suggestion> (vriendenboek in de wetenschappelijke wereld).</message>
+                <example correction="liber amicorum">Het <marker>liber amoricum</marker> was in leer gebonden.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VACCINEREND" name="vaccinerend → fascinerend">
+            <rule>
+                <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(arts|virus|verpleging|verpleeg|GGD).*</token><token postag="SENT_END"/></antipattern>
+                <pattern>
+                    <token skip="-1" postag_regexp="yes" postag="SENT_START|START"><exception scope="next" regexp="yes">.*(ije|ië)|.*(land|dokter|verpleeg|pest|personeel).*</exception></token>
+                    <marker>
+                        <token skip="-1" regexp="yes">vaccinerend|vaccinerende</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Wanneer u 'interessant' bedoelt, is juist: <suggestion>fascinerend</suggestion>.</message>
+                <example correction="fascinerend">Het is <marker>vaccinerend</marker> materiaal.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MOMENT_SUBLIEM" name="moment subliem → moment suprême">
+            <rule>
+                <antipattern><token>tot</token><token>dat</token><token>moment</token></antipattern>
+                <pattern>
+                    <token>moment</token>
+                    <token>subliem</token>
+                </pattern>
+                <message>U bedoelt waarschijnlijk: <suggestion>moment suprême</suggestion>.</message>
+                <example correction="moment suprême">Op het <marker>moment subliem</marker> ging het mis.</example>
+                <example>Op het <marker>moment suprême</marker> ging het goed.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EPISCH_CENTRUM" name="Episch centrum → epicentrum">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">episch</token>
+                    <token case_sensitive="yes">centrum</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>epicentrum</suggestion>, het hart van de aardbeving.</message>
+                <example correction="epicentrum">Het <marker>episch centrum</marker> lag vijf km uit de kust.</example>
+                <example correction="epicentrum">Het <marker>episch centrum</marker> van de beving lag in Oroszlány, ongeveer 70 km van Boedapest.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HEET_GEBLAKERD" name="Heet geblakerd → heetgebakerd">
+            <rule>
+                <pattern>
+                    <token>heet</token>
+                    <token>geblakerd</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>heetgebakerd</suggestion>, opvliegend.</message>
+                <example correction="heetgebakerd">Hij is <marker>heet geblakerd</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DRAADKRACHT" name="Draadkracht → daadkracht">
+            <rule>
+                <pattern>
+                    <token>draadkracht</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>daadkracht</suggestion>, doortastendheid.</message>
+                <example correction="daadkracht">Hij heeft <marker>draadkracht</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EXTRA_DEMENTIE" name="Extra dementie → extra dimensie">
+            <rule>
+                <pattern>
+                    <token>extra</token>
+                    <token>dementie</token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u: <suggestion>\1 dimensie</suggestion> (een extra denkrichting).</message>
+                <example correction="extra dimensie">Hij heeft een <marker>extra dementie</marker> toegevoegd.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TERMINALE_BADEN" name="Terminale baden → thermale baden">
+            <rule>
+                <pattern>
+                    <token>terminale</token>
+                    <token>baden</token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u: <suggestion>thermale \2</suggestion> (warme baden).</message>
+                <example correction="thermale baden">Hij zwom in de <marker>terminale baden</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MEDIA_MAAND" name="Media januari → medio januari">
+            <rule>
+                <pattern>
+                    <token>media</token>
+                    <token regexp="yes">januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december</token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u: <suggestion>medio \2</suggestion> (midden).</message>
+                <example correction="medio juli">Nederland is het warmst <marker>media juli</marker>.</example>
+                <example>Nederland is het warmst <marker>medio juli</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VOL_PENSIOEN" name="Vol pensioen → Vol pension">
+            <rule>
+                <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(AOW|6[0-9]).*</token><token postag="SENT_END"/></antipattern>
+                <pattern>
+                    <token regexp="yes">vol|half</token>
+                    <token>pensioen</token>
+                </pattern>
+                <message>Misschien bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>
+                <example correction="vol pension">We boekten <marker>vol pensioen</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BOVEN_HET_MAISVELD" name="Boven het maisveld → boven het maaiveld">
+            <rule>
+                <pattern>
+                    <token regexp="yes">boven|onder</token>
+                    <token>het</token>
+                    <marker>
+                        <token regexp="yes">ma[iï]sveld</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: boven het <suggestion>maaiveld</suggestion> (opvallen).</message>
+                <example correction="maaiveld">Kom nooit met je hoofd boven het <marker>maisveld</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SO_WIE_SO" name="Boven het maisveld → boven het maaiveld">
+            <rule>
+                <!-- TaalTik, 2014-10-02, nieuw -->
+                <pattern>
+                    <token regexp="yes">[sz]o</token>
+                    <token regexp="yes">wie|ie</token>
+                    <token regexp="yes">[sz]o</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>sowieso</suggestion> (<suggestion>hoe dan ook</suggestion>).</message>
+                <example correction="sowieso|hoe dan ook">Ik kom <marker>so ie zo</marker> niet uit.</example>
+                <example correction="Sowieso|Hoe dan ook"><marker>Zo ie zo</marker> gaat ze mee, en worden ze binnen 2 jaar wereldkampioen.</example>
+                <example correction="Sowieso|Hoe dan ook"><marker>Zo wie zo</marker> was er veel kerstsfeer om en langs de Moezel.</example>
+                <example correction="sowieso|hoe dan ook">Bruno was <marker>zo wie zo</marker> al van plan om bij de thuiskomst nieuwe banden te plaatsen.</example>
+                <example correction="sowieso|hoe dan ook">De app is <marker>so wie so</marker> niet meer toegankelijk als u gedurende drie minuten niets doet.</example>
+                <example correction="sowieso|hoe dan ook">En het gaat <marker>zo wie zo</marker> al niet al te schitterend dus.</example>
+                <example correction="sowieso|hoe dan ook">Anders kost het je je <marker>zo ie zo</marker> de baarmoeder.</example>
+                <example correction="sowieso|hoe dan ook">Ja die streek is <marker>zo wie zo</marker>, voor mij toch, onbetaalbaar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PUBERTIJD" name="Pubertijd → puberteit">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*pubertijd.*</token>
+                </pattern>
+                <message>Meestal wordt <suggestion><match no="1" regexp_match="pubertijd" regexp_replace="puberteit"/></suggestion> bedoeld (de toestand van puber zijn).</message>
+                <example correction="puberteit">Ik kom de <marker>pubertijd</marker> niet uit.</example>
+                <example>Ik kom de <marker>puberteit</marker> uit.</example>
+                <example correction="puberteit">Het is inderdaad moeilijk als ze in de <marker>pubertijd</marker> zitten.</example>
+                <example correction="puberteit">Tijdens de <marker>pubertijd</marker> valt de ouderlijke controle grotendeels weg.</example>
+                <example correction="puberteit">Het is belangrijk te weten dat een kinderwens een natuurlijk verschijnsel is vanaf de <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">Medisch gezien is een operatie perfect te verantwoorden zodra de <marker>pubertijd</marker> voltooid is.</example>
+                <example correction="puberteit">De astma verdween in de <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">Vooral reuen kunnen tijdens de <marker>pubertijd</marker> koppig zijn als ze macht willen.</example>
+                <example correction="puberteit">En zijn op het actiefst tijdens de <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">Niet abnormaal natuurlijk tijdens deze <marker>pubertijd</marker>.</example>
+                <example correction="puberteit">De <marker>pubertijd</marker> is een van die levensfasen waarin astmaklachten vaak verminderen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CHAMPIGNONS_LEAGUE" name="Chapignons league → Champions League">
+            <rule>
+                <pattern>
+                    <token>champignons</token>
+                    <token>league</token>
+                </pattern>
+                <message>U bedoelt vast de: <suggestion>Champions League</suggestion>.</message>
+                <example correction="Champions League">De <marker>champignons league</marker> was voorbij.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BEGAANDE_GROND" name="begaande grond → begane grond">
+            <rule>
+                <pattern>
+                    <token>begaande</token>
+                    <token>grond</token>
+                </pattern>
+                <message>U bedoelt vast de: <suggestion>begane grond</suggestion>.</message>
+                <example correction="begane grond">De brasserie op de <marker>begaande grond</marker> is alle dagen geopend voor lunch en diner vanaf 10.00 uur.</example>
+                <example correction="begane grond">Hierdoor wordt het plafond en in het bijzonder de typerende plafondbalken, goed zichtbaar vanaf de <marker>begaande grond</marker>.</example>
+                <example correction="begane grond">Deze kamers bevinden zich allemaal op de <marker>begaande grond</marker> met een terras met zitje.</example>
+                <example correction="begane grond">De carport op de <marker>begaande grond</marker> biedt ruimte voor twee tot drie auto’s.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AANGEDAAN_WORDT" name="vang">
+            <rule>
+                <pattern>
+                    <token skip="1">er</token>
+                    <marker>
+                        <token>aangedaan</token>
+                    </marker>
+                    <token inflected="yes">worden</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion>aan gedaan</suggestion>.</message>
+                <example correction="aan gedaan">Als er iets <marker>aangedaan</marker> wordt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ONTROEREND_GOED" name="Ontroerend goed → onroerend goed">
+            <rule>
+                <antipattern case_sensitive="yes"><token>Ontroerend</token><token>Goed</token></antipattern> <!-- Gents toneelgezelschap -->
+                <pattern>
+                    <token>ontroerend</token>
+                    <token>goed</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>onroerend goed</suggestion> (gebouwen), of toch 'emotionerend'?</message>
+                <example correction="onroerend goed">Het <marker>ontroerend goed</marker> is onbetaalbaar.</example>
+                <example correction="onroerend goed">Een “getopte” boom kan zelfs de <marker>ontroerend goed</marker> waarde naar beneden brengen.</example> <!-- spatiefout ook! -->
+                <example correction="onroerend goed">Mulder voelde zich bij Anderlecht <marker>ontroerend goed</marker> in zijn vel.</example> <!-- false positive -->
+            </rule>
+        </rulegroup>
+        <rulegroup id="OP_DE_KEEPER_BESCHOUWD" name="Op de keeper beschouwd → op de keper beschouwd">
+            <rule>
+                <pattern>
+                    <token>op</token>
+                    <token>de</token>
+                    <marker>
+                        <token>keeper</token>
+                    </marker>
+                    <token regexp="yes">beschouw.*</token>
+                </pattern>
+                <message>U bedoelt vast: op de <suggestion>keper</suggestion> beschouwd (nauwkeurig bekeken).</message>
+                <example correction="keper">Op de <marker>keeper</marker> beschouwd, welke "toegevoegde waarde" hebben deze jaartallen?</example>
+                <example correction="keper">Ze worden daarin bijgestaan door de pers - op de <marker>keeper</marker> beschouwd is dat een vorm van sociale tewerkstelling.</example>
+                <example correction="keper">Op de <marker>keeper</marker> beschouwd is er amper verschil tussen die twee.</example>
+                <example correction="keper">Hij twijfelde nog of hij het had gezien, terwijl hij op de <marker>keeper</marker> beschouwd natuurlijk niets had gezien.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WENDT_OF_KEERT" name="Went of keert → wendt of keert">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>went</token>
+                    </marker>
+                    <token>of</token>
+                    <token>keert</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>wendt</suggestion> of keert.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/wendt-of-keert-went-of-keert</url>
+                <example correction="wendt">Hoe je het <marker>went</marker> of keert, geld is nu eenmaal waar we ons huis van betalen.</example>
+                <example correction="wendt">Want hoe je het ook <marker>went</marker> of keert, Kaya is intussen natuurlijk al 12.5 jaar!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INVALIDE_TOILET" name="Invalide toilet → invalidentoilet">
+            <!-- TaalTik, 2014-10-02, nieuw -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(minder|in)valide</token>
+                        <token inflected="yes">toilet</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1n\2</suggestion>.</message>
+                <example correction="invalidentoilet">Het <marker>invalide toilet</marker> was net schoongemaakt.</example>
+                <example correction="mindervalidentoilet">Omdat wij met iedereen wensen rekening te houden, hebben wij vanaf nu een <marker>mindervalide toilet</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HEUR_HAAR" name="Heur haar → haar haar">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>heur</token>
+                    </marker>
+                </pattern>
+                <message>Altijd beter is: <suggestion>haar</suggestion>, ook in 'haar haar'.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/heur-haar</url>
+                <example correction="haar">De kapper deed <marker>heur</marker> haar.</example>
+                <example correction="haar">Maar laten zij na den oorlog voorgoed met <marker>heur</marker> slavenhandelaars afrekenen.</example>
+                <example correction="haar">'t scheen dat de zon <marker>heur</marker> laaiende gloed spuwde uit duizend vuurmonden.</example>
+                <example correction="haar">Maar grootmoeder op <marker>heur</marker> lage stoeltje bij haar snorkend spinnewiel</example>
+                <example correction="Haar"><marker>Heur</marker> gevoel is sterker dan haar wil.</example>
+            </rule>
+        </rulegroup>
+        <!-- end of Aarsrivalen, scheldkarbonades en terminale baden -->
 
         <rulegroup id="VERIJZEN" name="Verijzen/verwijzen/verrijzen">
             <rule>

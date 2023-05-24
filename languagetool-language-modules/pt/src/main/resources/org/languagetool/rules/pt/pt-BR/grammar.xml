@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY hifen "(?:[-‑])">
         <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
         <!ENTITY aspas "(«“‘’”»)">
+        <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
+        <!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)?|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
 
         <!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
         <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
@@ -1087,7 +1089,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 
   <category id="BR_SPELLING" name="ortografia brasileira" type="misspelling">
-
+    <rule id='PARONYM_PREMIO_252_PT' name='Parónimo: premio'>
+      <pattern>
+        <token regexp='yes'>&art_detecao_paronimos;</token>
+        <token min='0' postag='A.+' postag_regexp='yes'/>
+        <token regexp='yes'>premios?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+      <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> prêmio<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/prémio</url>
+      <example correction='no prêmio'><marker>no premio</marker>.</example>
+      <example correction='nos prêmios'><marker>nos premios</marker>.</example>
+    </rule>
+    <rule id='PARONYM_PREMIO_252_PT2' name='Parónimo: premio'>
+      <pattern>
+        <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
+        <marker>
+          <token regexp='yes'>premios?</token>
+        </marker>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+      <suggestion>prêmio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <url>https://pt.wiktionary.org/wiki/prémio</url>
+      <example correction='prêmio'>E tem <marker>premio</marker> para todos.</example>
+      <example correction='prêmios'>E tem <marker>premios</marker> para todos.</example>
+    </rule>
     <rule id="PRETERITO_PERFEITO" name="Pretérito perfeito: provámos -> provamos" default="on">
       <pattern>
         <token postag="VMIS1P0P" regexp="yes">.*ámos</token>

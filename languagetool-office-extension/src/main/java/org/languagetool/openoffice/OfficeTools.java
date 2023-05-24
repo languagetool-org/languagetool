@@ -31,6 +31,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.AbstractStatisticSentenceStyleRule;
+import org.languagetool.rules.AbstractStatisticStyleRule;
+import org.languagetool.rules.ReadabilityRule;
+import org.languagetool.rules.Rule;
 
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XPopupMenu;
@@ -62,7 +67,7 @@ import com.sun.star.uno.XComponentContext;
  * @since 4.3
  * @author Fred Kruse
  */
-class OfficeTools {
+public class OfficeTools {
   
   public enum DocumentType {
     WRITER,       //  Writer document
@@ -119,6 +124,7 @@ class OfficeTools {
   public  static final String OOO_CONFIG_FILE = "Languagetool-ooo.cfg";
   private static final String OLD_CONFIG_FILE = ".languagetool-ooo.cfg";
   private static final String LOG_FILE = "LanguageTool.log";
+  public  static final String STATISTICAL_ANALYZES_CONFIG_FILE = "LT_Statistical_Analyzes.cfg";
 
   private static final String VENDOR_ID = "languagetool.org";
   private static final String APPLICATION_ID = "LanguageTool";
@@ -168,7 +174,7 @@ class OfficeTools {
    * Returns null if it fails
    */
   @Nullable
-  static XComponent getCurrentComponent(XComponentContext xContext) {
+  public static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getDesktop(xContext);
       if (xdesktop == null) {
@@ -520,6 +526,13 @@ class OfficeTools {
 
   public static String getLogFilePath(XComponentContext xContext) {
     return new File(getLOConfigDir(xContext), LOG_FILE).getAbsolutePath();
+  }
+  
+  /**
+   * Returns statistical analyzes configuration file 
+   */
+  public static String getStatisticalConfigFilePath() {
+    return new File(getLOConfigDir(), STATISTICAL_ANALYZES_CONFIG_FILE).getAbsolutePath();
   }
 
   /**

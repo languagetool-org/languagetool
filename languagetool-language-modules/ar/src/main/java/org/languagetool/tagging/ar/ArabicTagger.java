@@ -23,7 +23,6 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Arabic;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.ArabicStringTools;
 
@@ -73,14 +72,15 @@ public class ArabicTagger extends BaseTagger {
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     String striped = ArabicStringTools.removeTashkeel(word);
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    List<Integer> prefix_index_list = getPrefixIndexList(striped);
-    List<Integer> suffix_index_list = getSuffixIndexList(striped);
+    List<Integer> prefixIndexList = getPrefixIndexList(striped);
+    List<Integer> suffixIndexList = getSuffixIndexList(striped);
 
-    for (int i : prefix_index_list) {
-      for (int j : suffix_index_list) {
+    for (int i : prefixIndexList) {
+      for (int j : suffixIndexList) {
         // avoid default case of returned word as it
-        if ((i == 0) && (j == striped.length()))
+        if ((i == 0) && (j == striped.length())) {
           continue;
+        }
         // get stem return a list, to generate some variants for stems.
         List<String> stemsList = getStem(striped, i, j);
         List<String> tags = getTags(striped, i, j);
@@ -94,8 +94,9 @@ public class ArabicTagger extends BaseTagger {
             // modify tags in postag, return null if not compatible
             posTag = tagmanager.modifyPosTag(posTag, tags);
 
-            if (posTag != null)
+            if (posTag != null) {
               additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
+            }
           } // for taggerToken
         } // for stem in stems
       } // for j
@@ -111,9 +112,9 @@ public class ArabicTagger extends BaseTagger {
 
 
   private List<Integer> getSuffixIndexList(String possibleWord) {
-    List<Integer> suffix_indexes = new ArrayList<>();
-    suffix_indexes.add(possibleWord.length());
-    int suffix_pos = possibleWord.length();
+    List<Integer> suffixIndexes = new ArrayList<>();
+    suffixIndexes.add(possibleWord.length());
+    int suffixPos = possibleWord.length();
     if (possibleWord.endsWith("ك")
       || possibleWord.endsWith("ها")
       || possibleWord.endsWith("هما")
@@ -124,21 +125,22 @@ public class ArabicTagger extends BaseTagger {
       || possibleWord.endsWith("كن")
       || possibleWord.endsWith("نا")
     ) {
-      if (possibleWord.endsWith("ك"))
-        suffix_pos -= 1;
-      else if (possibleWord.endsWith("هما") || possibleWord.endsWith("كما"))
-        suffix_pos -= 3;
-      else
-        suffix_pos -= 2;
-      suffix_indexes.add(suffix_pos);
+      if (possibleWord.endsWith("ك")) {
+        suffixPos -= 1;
+      } else if (possibleWord.endsWith("هما") || possibleWord.endsWith("كما")) {
+        suffixPos -= 3;
+      } else {
+        suffixPos -= 2;
+      }
+      suffixIndexes.add(suffixPos);
     }
-    return suffix_indexes;
+    return suffixIndexes;
   }
 
   private List<Integer> getPrefixIndexList(String possibleWord) {
-    List<Integer> prefix_indexes = new ArrayList<>();
-    prefix_indexes.add(0);
-    int prefix_pos;
+    List<Integer> prefixIndexes = new ArrayList<>();
+    prefixIndexes.add(0);
+    int prefixPos;
 
     // four letters
     if (possibleWord.startsWith("وكال")
@@ -146,8 +148,8 @@ public class ArabicTagger extends BaseTagger {
       || possibleWord.startsWith("فكال")
       || possibleWord.startsWith("فبال")
     ) {
-      prefix_pos = 4;
-      prefix_indexes.add(prefix_pos);
+      prefixPos = 4;
+      prefixIndexes.add(prefixPos);
     }
 
     // three letters
@@ -158,8 +160,8 @@ public class ArabicTagger extends BaseTagger {
       || possibleWord.startsWith("بال")
       || possibleWord.startsWith("كال")
     ) {
-      prefix_pos = 3;
-      prefix_indexes.add(prefix_pos);
+      prefixPos = 3;
+      prefixIndexes.add(prefixPos);
     }
 
     // two letters
@@ -182,8 +184,8 @@ public class ArabicTagger extends BaseTagger {
       || possibleWord.startsWith("وست")
 
     ) {
-      prefix_pos = 2;
-      prefix_indexes.add(prefix_pos);
+      prefixPos = 2;
+      prefixIndexes.add(prefixPos);
     }
 
     // one letter
@@ -197,12 +199,12 @@ public class ArabicTagger extends BaseTagger {
       || possibleWord.startsWith("سي")
       || possibleWord.startsWith("ست")
     ) {
-      prefix_pos = 1;
-      prefix_indexes.add(prefix_pos);
+      prefixPos = 1;
+      prefixIndexes.add(prefixPos);
     }
 
     // get prefixe
-    return prefix_indexes;
+    return prefixIndexes;
   }
 
 
@@ -340,5 +342,160 @@ public class ArabicTagger extends BaseTagger {
   public void enableNewStylePronounTag() {
     newStylePronounTag = true;
   }
-}
 
+
+  /**
+   * @return if have a flag which is a noun/verb and has proclitics, return the first prefix named procletic letters for this case
+   */
+  public String getProclitic(AnalyzedToken token) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return "";
+    // if the word is Verb
+    // extract conjuction and IStiqbal procletic
+    String prefix = "";
+    if (tagmanager.isVerb(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char istqbalflag = tagmanager.getFlag(postag, "ISTIQBAL");
+      // if the two flags are set, return 2 letters prefix
+      int prefixLength = 0;
+      if (conjflag == 'W')
+        prefixLength += 1;
+      if (istqbalflag == 'S')
+        prefixLength += 1;
+      prefix = getPrefix(word, prefixLength);
+    } else if (tagmanager.isNoun(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char jarflag = tagmanager.getFlag(postag, "JAR");
+      // if the two flags are set, return 2 letters prefix
+      int prefixLength = 0;
+      if (conjflag != '-')
+        prefixLength += 1;
+      if (jarflag != '-')
+        prefixLength += 1;
+      //
+      if (tagmanager.isDefinite(postag)) {
+        if (jarflag == 'L') {
+          // case of لل+بيت
+          prefixLength += 1;
+        } else {
+          // case of ال+بيت
+          prefixLength += 2;
+        }
+      }
+      prefix = getPrefix(word, prefixLength);
+    }
+    return prefix;
+  }
+
+  /**
+   * @return if have a flag which is a noun and has pronoun, return the suffix letters for this case
+   */
+  public String getEnclitic(AnalyzedToken token) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty()) {
+      return "";
+    }
+    char flag = tagmanager.getFlag(postag, "PRONOUN");
+    String suffix = "";
+    if (flag != '-') {
+      if (word.endsWith("ه")) {
+        suffix = "ه";
+      } else if (word.endsWith("ها")) {
+        suffix = "ها";
+      } else if (word.endsWith("هما")) {
+        suffix = "هما";
+      } else if (word.endsWith("هم")) {
+        suffix = "هم";
+      } else if (word.endsWith("هن")) {
+        suffix = "هن";
+      } else if (word.endsWith("ك")) {
+        suffix = "ك";
+      } else if (word.endsWith("كما")) {
+        suffix = "كما";
+      } else if (word.endsWith("كم")) {
+        suffix = "كم";
+      } else if (word.endsWith("كن")) {
+        suffix = "كن";
+      } else if (word.endsWith("ني")) {
+        suffix = "ني";
+      } else if (word.endsWith("نا")) {
+        suffix = "نا";
+      }
+      // case of some prepositon like مني منا، عني عنّا
+      else if ((word.equals("عني") || word.equals("مني")) && word.endsWith("ني")) {
+        suffix = "ني";
+      } else if ((word.equals("عنا") || word.equals("منا")) && word.endsWith("نا")) {
+        suffix = "نا";
+      } else {
+        suffix = "";
+      }
+    } else {
+      return tagmanager.getPronounSuffix(postag);
+    }
+
+    return suffix;
+  }
+
+  /**
+   * @return if have a flag which is a noun and has proclitics, return the first prefix named procletic letters for this case
+   */
+  public String getJarProclitic(AnalyzedToken token) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty()) {
+      return "";
+    }
+    // if the word is Verb
+    // extract conjuction and IStiqbal procletic
+    String prefix = "";
+    if (tagmanager.isNoun(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char jarflag = tagmanager.getFlag(postag, "JAR");
+      // if the two flags are set, return 2 letters prefix
+      int prefixLength = 0;
+      if (conjflag != '-') {
+        prefixLength += 1;
+      }
+      if (jarflag != '-') {
+        prefixLength += 1;
+      }
+
+      if (prefixLength > 0) {
+        prefix = word.substring(prefixLength - 1, prefixLength);
+      }
+    }
+    return prefix;
+  }
+
+  /* tag a single word */
+  public AnalyzedTokenReadings tag(String word) {
+    List<String> wordlist = new ArrayList<>();
+    wordlist.add(word);
+
+    List<AnalyzedTokenReadings> ATR = tag(wordlist);
+    return ATR.get(0);
+  }
+
+  /* return lemmas for reading tokens by position */
+  public List<String> getLemmas(AnalyzedTokenReadings patternTokens, String type) {
+    List<String> lemmaList = new ArrayList<>();
+    // for test get the first
+    for (AnalyzedToken tok : patternTokens.getReadings()) {
+
+      if ((tagmanager.isVerb(tok.getPOSTag()) && type.equals("verb"))
+        || (tagmanager.isAdj(tok.getPOSTag()) && type.equals("adj"))
+        || (tagmanager.isMasdar(tok.getPOSTag()) && type.equals("masdar"))
+      ) {
+        //ensure non duplicate
+        if (!lemmaList.contains(tok.getLemma())) {
+          lemmaList.add(tok.getLemma());
+        }
+      }
+    }
+    return lemmaList;
+  }
+
+}

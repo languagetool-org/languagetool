@@ -47,8 +47,10 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private final int minPercent;
+  private final int defaultMinPercent;
   private int wordCount = 0;
   private int numMatches = 0;
+  private boolean withoutDirectSpeech = false;
 
   /**
    * Condition to generate a hint (possibly including all exceptions)
@@ -91,6 +93,7 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
     if (!defaultActive) {
       setDefaultOff();
     }
+    defaultMinPercent = minPercent;
     this.minPercent = getMinPercent(userConfig, minPercent);
     setLocQualityIssueType(ITSIssueType.Style);
   }
@@ -123,7 +126,7 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
 
   @Override
   public int getDefaultValue() {
-    return minPercent;
+    return defaultMinPercent;
   }
 
   @Override
@@ -142,6 +145,10 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
 
   public int getNumberOfMatches() {
     return numMatches;
+  }
+
+  public void setWithoutDirectSpeech(boolean withoutDirectSpeech) {
+    this.withoutDirectSpeech = withoutDirectSpeech;
   }
 
   /* (non-Javadoc)
@@ -167,7 +174,7 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
           isDirectSpeech = true;
         } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
-        } else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {
+        } else if ((!isDirectSpeech || (minPercent == 0 && !withoutDirectSpeech)) && !token.isWhitespace() && !token.isNonWord()) {
           wordCount++;
           int nEnd = conditionFulfilled(tokens, n);
           if (nEnd >= n) {

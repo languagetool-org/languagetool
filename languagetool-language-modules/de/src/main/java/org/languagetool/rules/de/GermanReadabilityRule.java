@@ -80,7 +80,8 @@ public class GermanReadabilityRule extends ReadabilityRule {
     }
   }
 
-  private static String printMessageLevel(int level) {
+  @Override
+  public String printMessageLevel(int level) {
     String sLevel = null;
     if (level == 0) {
       sLevel = "Sehr schwer";

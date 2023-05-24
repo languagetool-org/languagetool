@@ -265,6 +265,21 @@ public class SwJLanguageTool {
   }
 
   /**
+   * Analyze text
+   * This Method may be used only for local checks
+   * use local lt for remote checks
+   */
+  public List<AnalyzedSentence> analyzeText(String text) throws IOException {
+    if (isRemote) {
+      return lt.analyzeText(text);
+    } else if (isMultiThread) {
+        return mlt.analyzeText(text); 
+    } else {
+      return lt.analyzeText(text); 
+    }
+  }
+
+  /**
    * get the lemmas of a word
    * @throws IOException 
    */
