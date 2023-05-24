@@ -33,6 +33,12 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
 //  private transient org.languagetool.openoffice.Main instance;
   private static org.languagetool.openoffice.Main instance = null;
+//  private static org.languagetool.openoffice.LanguageToolSpellChecker spellInstance = null;
+  private boolean isSpellChecker = false;
+  
+  SingletonFactory(boolean isSpChecker) {
+    isSpellChecker = isSpChecker;
+  }
 
   @Override
   public final Object createInstanceWithArgumentsAndContext(Object[] arguments, 
@@ -41,18 +47,26 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
   }
 
   @Override
-  public final Object createInstanceWithContext(XComponentContext xContext) {    
-    if (instance == null) {     
-      instance = new org.languagetool.openoffice.Main(xContext);      
-    } else {  
-      instance.changeContext(xContext);      
+  public final Object createInstanceWithContext(XComponentContext xContext) {
+    if (isSpellChecker) {
+      return new org.languagetool.openoffice.LanguageToolSpellChecker(xContext);
+//      if (spellInstance == null) {     
+//        spellInstance = new org.languagetool.openoffice.LanguageToolSpellChecker(xContext);
+//      }
+//      return spellInstance;
+    } else {
+      if (instance == null) {     
+        instance = new org.languagetool.openoffice.Main(xContext);      
+      } else {  
+        instance.changeContext(xContext);      
+      }
+      return instance;
     }
-    return instance;
   }  
 
   @Override
   public final String getImplementationName() {
-    return Main.class.getName();
+    return isSpellChecker ? LanguageToolSpellChecker.class.getName() : Main.class.getName();
   }
 
   @Override
@@ -67,6 +81,6 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
   @Override
   public final String[] getSupportedServiceNames() {
-    return Main.getServiceNames();
+    return isSpellChecker ? LanguageToolSpellChecker.getServiceNames() : Main.getServiceNames();
   }
 }

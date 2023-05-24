@@ -32,7 +32,60 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_TENSE" name="">
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <marker>
+                        <token postag="VB." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">You like... <marker>ate</marker> my emotions?</example>
+                <example correction="">I... <marker>write</marker> all that intense poetry about the end, and here I am again.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>did</token>
+                    <token chunk_re="B-NP-.*"/>
+                    <token min="0" chunk_re="I-NP-.*"/>
+                    <token min="0" chunk_re="E-NP-.*"/>
+                    <marker>
+                        <token postag="VB"/>
+                    </marker>
+                </pattern>
+                <example correction="">Did you <marker>pick</marker> one yet?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">it|that|this/</token>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                    <token regexp="yes">n.t</token>
+                    <token>what</token>
+                    <token postag="PRP"/>
+                    <token>was</token>
+                    <token>looking</token>
+                    <token postag="IN"/>
+                </pattern>
+                <example correction="">It <marker>is</marker>n't what I was looking for.</example>
+                <example correction="">That <marker>is</marker>n't what I was looking at.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">is|['a]re|was|were</token>
+                    <marker>
+                        <token postag="VBP?" postag_regexp="yes">
+                            <exception negate_pos="yes" postag="VBP?" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">Each terms are <marker>correspond</marker> to the points 15° points along the ecliptic. </example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
@@ -462,11 +515,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
                     <token>did</token>
-                    <token chunk_re="B-NP-.*"/>
+                    <token min="0" chunk_re="B-NP-.*"/>
                     <token min="0" chunk_re="I-NP-.*"/>
-                    <token min="0" chunk_re="E-NP-.*"/>
+                    <token chunk_re="E-NP-.*"/>
                     <token min="0" postag="RB"/>
                     <marker>
                         <token postag="VB|VBP" postag_regexp="yes"/>
@@ -474,6 +526,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Did you already <marker>try</marker> that original password?</example>
                 <example correction="">Did the man already <marker>see</marker> the film?</example>
+                <example correction="">Hello there, did you already <marker>contact</marker> our customer support?</example>
             </rule>
             <rule>
                 <pattern>
@@ -1551,6 +1604,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">At approximately the same time as Ney's combined-arms assault on the centre-right of Wellington's line, rallied elements of D'Erlon's I Corps, spearheaded by the 13th Légère, renewed the attack on La Haye Sainte, and this time were successful (partly because <marker>the</marker> defenders' ammunition ran out).</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>course</token>
+                    </marker>
+                    <token>hero</token>
+                </pattern>
+                <example correction=""><marker>Course</marker> Hero</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_THE" name="">
             <rule>
@@ -1609,6 +1671,84 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <example correction="">In the current release we are limited to values up <marker>to</marker> 65535 I believe.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">but</token>
+                    <token postag="PRP_R.*" postag_regexp="yes" />
+                    <example>We came to realize that the problem isn't just a few bad corporations but the entire system itself.</example>
+                </antipattern>
+                <antipattern>
+                    <token>but</token>
+                    <token>far</token>
+                    <token>from</token>
+                    <example>Eric Moulds and Peerless Price are good gambles but far from sure things.</example>
+                </antipattern>
+                <antipattern>
+                    <token>but</token>
+                    <token>to</token>
+                    <token>no</token>
+                    <example>Tom asked for help but to no avail.</example>
+                </antipattern>
+                <antipattern>   <!-- all "but"s except if followed by verb chunk -->
+                    <token skip="-1">but</token>
+                    <token chunk="B-VP" />
+                    <example>We have concluded there is limited value in Enron pursuing the regulated wires business but also that there is potential value in Epec's generation assets such as the Rio Grande Peaking Unit and other commercial opportunities in Cordoba.</example>
+                </antipattern>
+                <antipattern>   <!-- all "but"s except if followed by "not" -->
+                    <token skip="-1">but</token>
+                    <token inflected="yes">not</token>
+                    <example>He needs the box that he's in but not right now.</example>
+                </antipattern>
+                <antipattern>   <!-- all "but"s except if followed by a verb that is tagged as a verb only -->
+                    <token skip="-1">but</token>
+                    <token postag="VB[PZ]" postag_regexp="yes">
+                        <exception postag="V.*" postag_regexp="yes" negate_pos="yes" />
+                    </token>
+                    <example>This alignment is not indicated by an artificial structure but gains plausibility from the other two indicated lines.</example>
+                    <example>Misfortune arrives on horseback but departs on foot.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token skip="10" chunk="B-VP" />
+                    <token>but</token>
+                    <example>Do it in haste but with care.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">not</token>
+                    <token skip="3">just</token>
+                    <token>but</token>
+                    <token>also</token>
+                    <example>The lotus has not just a flower but also a fruit.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="1" regexp="yes">more|less</token>
+                    <token skip="5">than</token>
+                    <token>but</token>
+                    <token skip="1" regexp="yes">more|less</token>
+                    <token>than</token>
+                    <example>A second-degree burn is more dangerous than a first-degree burn but less dangerous than a third-degree burn.</example>
+                </antipattern>
+                <pattern>
+                    <!-- slightly redundant, but apparently you need a token before the marker for generic pattern to match -->
+                    <token postag="IN|(J|N|RB).*|RP|TO|VB[GN]" postag_regexp="yes" />
+                    <marker>
+                        <token>but</token>
+                    </marker>
+                </pattern>
+                <suggestion>, but</suggestion>
+                <example correction=", but">It's boring<marker> but</marker> less prone to bad surprises.</example>
+                <example correction=", but">The toilet paper is soft<marker> but</marker> strong.</example>
+                <example>John loves pizza but he loves ice-cream too.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" chunk_re=".-VP">help</token>
@@ -2367,6 +2507,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <suggestion>, but</suggestion>
                 <example correction=", but">I have not been following this proceeding at all<marker> but</marker> feel we should watch closely.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="CC|SENT_START|PCT" postag_regexp="yes" />
+                    <marker>
+                        <token>attached</token>
+                    </marker>
+                    <token regexp="yes">you|they</token>
+                </pattern>
+                <example correction=""><marker>Attached</marker> you can find all details.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">

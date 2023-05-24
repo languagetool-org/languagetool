@@ -337,6 +337,16 @@ class ResultCache implements Serializable {
   }
 
   /**
+   * true if entry has no error
+   */
+  static boolean isEmptyEntry(SerialCacheEntry entry) {
+    if (entry == null || entry.errorArray == null || entry.errorArray.length == 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Compares a paragraph cache with another cache.
    * Gives back a list of entries for every paragraph: true if the both entries are identically
    */

@@ -479,4 +479,23 @@ public class ArabicTagger extends BaseTagger {
     return ATR.get(0);
   }
 
+  /* return lemmas for reading tokens by position */
+  public List<String> getLemmas(AnalyzedTokenReadings patternTokens, String type) {
+    List<String> lemmaList = new ArrayList<>();
+    // for test get the first
+    for (AnalyzedToken tok : patternTokens.getReadings()) {
+
+      if ((tagmanager.isVerb(tok.getPOSTag()) && type.equals("verb"))
+        || (tagmanager.isAdj(tok.getPOSTag()) && type.equals("adj"))
+        || (tagmanager.isMasdar(tok.getPOSTag()) && type.equals("masdar"))
+      ) {
+        //ensure non duplicate
+        if (!lemmaList.contains(tok.getLemma())) {
+          lemmaList.add(tok.getLemma());
+        }
+      }
+    }
+    return lemmaList;
+  }
+
 }

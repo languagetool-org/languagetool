@@ -56,6 +56,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private PatternPosition patternPosition;
   private OffsetPosition offsetPosition;
+  // Position from the sentence start, to keep this value
+  // when the offsetPosition is adjusted with JLanguageTool.adjustRuleMatchPos()
+  private SentencePosition sentencePosition = new SentencePosition(-1, -1);
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private Supplier<List<SuggestedReplacement>> suggestedReplacements;
@@ -198,6 +201,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.setColumn(clone.getColumn());
     this.setEndColumn(clone.getEndColumn());
     this.setSpecificRuleId(clone.getSpecificRuleId());
+    this.setSentencePosition(clone.getFromPosSentence(), clone.getToPosSentence());
   }
   
   //clone with new replacements
@@ -214,6 +218,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.setColumn(clone.getColumn());
     this.setEndColumn(clone.getEndColumn());
     this.setSpecificRuleId(clone.getSpecificRuleId());
+    this.setSentencePosition(clone.getFromPosSentence(), clone.getToPosSentence());
   }
 
   // for compatibility
@@ -334,12 +339,35 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public int getToPos() {
     return offsetPosition.getEnd();
   }
+  
+  /**
+   * Position of the start of the error (in characters, zero-based, relative to the original sentence).
+   * This value is used to keep the position in the sentence when the offsetPosition is adjusted to the whole text
+   */
+  public int getFromPosSentence() {
+    return sentencePosition.getStart();
+  }
+
+  /**
+   * Position of the end of the error (in characters, zero-based, relative to the original sentence).
+   * This value is used to keep the position in the sentence when the offsetPosition is adjusted to the whole text
+   */
+  public int getToPosSentence() {
+    return sentencePosition.getEnd();
+  }
 
   public void setOffsetPosition(int fromPos, int toPos) {
     if (toPos <= fromPos) {
       throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ") for match: <sentcontent>" + this + "</sentcontent>");
     }
     offsetPosition = new OffsetPosition(fromPos, toPos);
+  }
+  
+  public void setSentencePosition(int fromPos, int toPos) {
+    if (toPos > -1 && fromPos > -1 && toPos <= fromPos) {
+      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ") for match: <sentcontent>" + this + "</sentcontent>");
+    }
+    sentencePosition = new SentencePosition(fromPos, toPos);
   }
 
   /**
@@ -574,6 +602,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
       super(start, end);
     }
   }
+  
+  static class SentencePosition extends MatchPosition {
+    SentencePosition(int start, int end) {
+      super(start, end);
+    }
+  }
 
   static class LinePosition extends MatchPosition {
     LinePosition(int start, int end) {
@@ -607,6 +641,27 @@ public class RuleMatch implements Comparable<RuleMatch> {
     } else {
       return specificRuleId;
     }
+  }
+  
+  /**
+   * Get the underlined string in the original sentence.
+   * So far, only available for sentence-level rules 
+   * after adjustRuleMatchPos() has been applied.
+   * Returns an empty string if not available.
+   * @since 6.2
+   */
+  public String getUnderlinedStr() {
+    String sentenceStr = "";
+    String errorStr = "";
+    int fromPos = this.getFromPosSentence();
+    int toPos = this.getToPosSentence();
+    if (this.getSentence() != null && fromPos > -1 && toPos > -1) {
+      sentenceStr = this.getSentence().getText();
+      if (!sentenceStr.isEmpty()) {
+        errorStr = sentenceStr.substring(fromPos, toPos);
+      }
+    }
+    return errorStr;
   }
   
 }

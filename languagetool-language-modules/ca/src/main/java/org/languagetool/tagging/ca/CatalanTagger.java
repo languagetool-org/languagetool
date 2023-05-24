@@ -45,6 +45,7 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern ADJECTIU_COMPOST = Pattern.compile("(.*)o-(.*.*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final List<String> ALLUPPERCASE_EXCEPTIONS = Arrays.asList("ARNAU", "CRISTIAN", "TOMÀS");
   private String variant;
     
@@ -171,6 +172,33 @@ public class CatalanTagger extends BaseTagger {
       }
       return additionalTaggedTokens;
     }
+    // folklòrico-popular
+    matcher = ADJECTIU_COMPOST.matcher(word);
+    if (matcher.matches()) {
+      final String adj1 = matcher.group(1).toLowerCase();
+      List<AnalyzedToken> atl1 = asAnalyzedTokenList(adj1, dictLookup.lookup(adj1));
+      boolean isValid = false;
+      for (AnalyzedToken at : atl1) {
+        if (at.getPOSTag() != null && at.getPOSTag().equals("AQ0MS0")) {
+          isValid = true;
+          break;
+        }
+      }
+      if (isValid) {
+        isValid = false;
+        final String adj2 = matcher.group(2).toLowerCase();
+        List<AnalyzedToken> atl2 = asAnalyzedTokenList(adj2, dictLookup.lookup(adj2));
+        for (AnalyzedToken at : atl2) {
+          if (at.getPOSTag() != null && at.getPOSTag().startsWith("A")) {
+            isValid = true;
+            additionalTaggedTokens.add(new AnalyzedToken(word, at.getPOSTag(), adj1 + "o-" + at.getLemma()));
+            break;
+          }
+        }
+      }
+      return additionalTaggedTokens;
+    }
+    
     // Any well-formed noun with prefix ex- is tagged as a noun copying the original tags
     /*if (word.startsWith("ex")) {
       final String lowerWord = word.toLowerCase(conversionLocale);

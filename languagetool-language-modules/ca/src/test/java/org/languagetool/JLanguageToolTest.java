@@ -23,7 +23,6 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -70,5 +69,17 @@ public class JLanguageToolTest {
 
   }
 
-}
+  @Test
+  public void testAdaptSuggestions() throws IOException {
+    JLanguageTool tool = new JLanguageTool(new Catalan());
+    List<RuleMatch> matches = tool.check(
+        "Els valencians hem sigut valencians des que Jaume I creà el regne de València i poc a poc es conformà una nova identitat política (que en l'edat mitjana, per exemple, no entrava en contradicció amb la consciència clara que teníem un origen i una llengua comuns amb els catalans).");
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[a poc a poc]");
 
+    matches = tool.check("A nivell d'ensenyament superior.");
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(),
+        "[En l'àmbit d', A escala d', A , En , Pel que fa a , Quant a ]");
+
+  }
+
+}

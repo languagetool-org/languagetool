@@ -1,0 +1,101 @@
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
+        title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+  ~ LanguageTool, a natural language style checker 
+  ~ Copyright (c) 2023.  Stefan Viol (https://stevio.de)
+  ~  
+  ~  This library is free software; you can redistribute it and/or
+  ~  modify it under the terms of the GNU Lesser General Public
+  ~  License as published by the Free Software Foundation; either
+  ~  version 2.1 of the License, or (at your option) any later version.
+  ~  
+  ~  This library is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~  Lesser General Public License for more details.
+  ~  
+  ~  You should have received a copy of the GNU Lesser General Public
+  ~  License along with this library; if not, write to the Free Software
+  ~  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+  ~  USA
+  -->
+
+<rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../main/resources/org/languagetool/rules/rules.xsd">
+
+    <category id="TONE_TAGE_TEST_STYLE_CATEGORY" name="TONE_TAGE_TEST_STYLE_CATEGORY">
+        <rulegroup id="NO_TONE_TAG_GROUP" name="NO_TONE_TAG_GROUP">
+            <rule id="Formal_Clarity_TONE_RULE" tone_tags="formal clarity">
+                <pattern>
+                    <token>Formal-Clarity-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>Formal-Clarity-Match-Fixed</suggestion></message>
+                <example correction="Formal-Clarity-Match-Fixed">This is an example for a <marker>Formal-Clarity-Match</marker>.</example>
+                <example>This is an example for a Formal-Clarity-Match-Fixed.</example>
+            </rule>
+            <rule id="NO_TONE_RULE">
+                <pattern>
+                    <token>No-Tone-Needed-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>No-Tone-Needed-Match-Fixed</suggestion>?</message>
+                <example correction="No-Tone-Needed-Match-Fixed">This is an example for a <marker>No-Tone-Needed-Match</marker>.</example>
+                <example>This is an example for a No-Tone-Needed-Match-Fixed.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TONE_TAG_GROUP" name="TONE_TAG_GROUP" tone_tags="confident academic">
+            <rule id="CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE" tone_tags="confident scientific">
+                <pattern>
+                    <token>Confident-Academic-Scientific-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>Confident-Academic-Scientific-Match-Fixed</suggestion>?</message>
+                <example correction="Confident-Academic-Scientific-Match-Fixed">This is an example for a <marker>Confident-Academic-Scientific-Match</marker>.</example>
+                <example>This is an example for a Confident-Academic-Scientific-Match-Fixed</example>
+            </rule>
+            <rule id="CONFIDENT_ACADEMIC_TONE_RULE">
+                <pattern>
+                    <token>Confident-Academic-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>Confident-Academic-Match-Fixed</suggestion>?</message>
+                <example correction="Confident-Academic-Match-Fixed">This is an example for a <marker>Confident-Academic-Match</marker>.</example>
+                <example>This is an example for a Confident-Academic-Match-Fixed</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PICKY_TONE_TAG_GROUP" name="PICKY_TONE_TAG_GROUP" tags="picky" tone_tags="clarity confident academic">
+            <rule id="PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE">
+                <pattern>
+                    <token>Picky-Clarity-Confident-Academic-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>Picky-Clarity-Confident-Academic-Match-Fixed</suggestion>?</message>
+                <example correction="Picky-Clarity-Confident-Academic-Match-Fixed">This is an example for a <marker>Picky-Clarity-Confident-Academic-Match</marker>.</example>
+                <example>this is an example for a Picky-Clarity-Confident-Academic-Match-Fixed</example>
+            </rule>
+            <rule id="PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE" tone_tags="scientific">
+                <pattern>
+                    <token>Picky-Clarity-Confident-Academic-Scientific-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>Picky-Clarity-Confident-Academic-Scientific-Match-Fixed</suggestion>?</message>
+                <example correction="Picky-Clarity-Confident-Academic-Scientific-Match-Fixed">This is an example for a <marker>Picky-Clarity-Confident-Academic-Scientific-Match</marker>.</example>
+                <example>this is an example for a Picky-Clarity-Confident-Academic-Scientific-Match-Fixed</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category name="TONE_TAGE_TEST_STYLE_CATEGORY_CAT_TAGGED" id="TONE_TAGE_TEST_STYLE_CATEGORY_CAT_TAGGED" tone_tags="persuasive objective">
+        <rule id="PERSUASIVE_OBJECTIVE_TONE_RULE" name="PERSUASIVE_OBJECTIVE_TONE_RULE">
+                <pattern>
+                    <token>Persuasive-Objective-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>Persuasive-Objective-Match-Fixed</suggestion>?</message>
+                <example correction="Persuasive-Objective-Match-Fixed">This is an example for a <marker>Persuasive-Objective-Match</marker>.</example>
+                <example>This is an example for a Persuasive-Objective-Match-Fixed.</example>
+        </rule>
+        <rule id="PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE" name="PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE" tone_tags="informal">
+                <pattern>
+                    <token>Persuasive-Objective-Informal-Match</token>
+                </pattern>
+                <message>Do you mean <suggestion>Persuasive-Objective-Informal-Match-Fixed</suggestion>?</message>
+                <example correction="Persuasive-Objective-Informal-Match-Fixed">This is an example for a <marker>Persuasive-Objective-Informal-Match</marker>.</example>
+                <example>This is an example for a Persuasive-Objective-Match-Informal-Fixed.</example>
+        </rule>
+    </category>
+</rules>

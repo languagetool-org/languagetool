@@ -42,7 +42,7 @@ import com.sun.star.uno.XComponentContext;
  * @since 4.3
  * @author Fred Kruse, Marcin Miłkowski
  */
-class MessageHandler {
+public class MessageHandler {
   
   private static final String logLineBreak = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
@@ -89,7 +89,7 @@ class MessageHandler {
   /**
    * Show an error in a dialog
    */
-  static void showError(Throwable e) {
+  public static void showError(Throwable e) {
     printException(e);
     if (testMode) {
       throw new RuntimeException(e);
@@ -110,7 +110,7 @@ class MessageHandler {
   /**
    * Write to log-file
    */
-  static void printToLogFile(String str) {
+  public static void printToLogFile(String str) {
     try (OutputStream stream = new FileOutputStream(OfficeTools.getLogFilePath(), true);
         OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
         BufferedWriter br = new BufferedWriter(writer)
@@ -139,7 +139,7 @@ class MessageHandler {
    * Shows a message in a dialog box
    * @param txt message to be shown
    */
-  static void showMessage(String txt) {
+  public static void showMessage(String txt) {
     showMessage(txt, true);
   }
 

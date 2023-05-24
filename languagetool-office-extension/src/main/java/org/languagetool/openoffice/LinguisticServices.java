@@ -53,6 +53,7 @@ import com.sun.star.uno.XComponentContext;
 public class LinguisticServices extends LinguServices {
   
   private static boolean isSetLt = false;
+  private static boolean spellerIsOn = true;
 //  private XThesaurus thesaurus = null;
 //  private XSpellChecker spellChecker = null;
 //  private XHyphenator hyphenator = null;
@@ -92,7 +93,7 @@ public class LinguisticServices extends LinguServices {
    * Get the LinguServiceManager to be used for example 
    * to access spell checker, thesaurus and hyphenator
    */
-  private XLinguServiceManager getLinguSvcMgr(XComponentContext xContext) {
+  private static XLinguServiceManager getLinguSvcMgr(XComponentContext xContext) {
     try {
       XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
           xContext.getServiceManager());
@@ -434,6 +435,54 @@ public class LinguisticServices extends LinguServices {
     return true;
   }
 
+  /**
+   * Set LT as spell checker for all supported languages
+   * is normally used deactivate lightproof 
+   *//*
+  public static boolean setLtAsSpellService(XComponentContext xContext, boolean doSet) {
+    if ((doSet && spellerIsOn) || (!doSet && !spellerIsOn)) {
+      return false;
+    }
+    if (xContext == null) {
+      return false;
+    }
+    XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
+    if (mxLinguSvcMgr == null) {
+      MessageHandler.printToLogFile("LinguisticServices: setLtAsSpellService: XLinguServiceManager == null");
+      return false;
+    }
+    Locale[] locales = MultiDocumentsHandler.getLocales();
+    MessageHandler.printToLogFile("LinguisticServices: setLtAsSpellService: Number locales: " + locales.length);
+    for (Locale locale : locales) {
+      String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.SpellChecker", locale);
+      MessageHandler.printToLogFile("Configured Linguistic Service: NUmber: " + serviceNames.length + ", " + OfficeTools.localeToString(locale));
+//      for (String service : serviceNames) {
+//        MessageHandler.printToLogFile("Configured Linguistic Service: " + service + ", " + OfficeTools.localeToString(locale));
+//      }
+      if (!doSet) {
+        serviceNames = new String[0];
+      } else {
+        serviceNames = new String[1];
+        serviceNames[0] = new String("org.languagetool.openoffice.Main");
+      }
+      mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.SpellChecker", locale, serviceNames);
+      spellerIsOn = !spellerIsOn;
+/*      
+      if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
+        String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
+        for (String service : aServiceNames) {
+          MessageHandler.printToLogFile("Available Linguistic Service: " + service + ", " + OfficeTools.localeToString(locale));
+        }
+        String[] configuredServices = new String[1];
+        configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
+        mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
+        MessageHandler.printToLogFile("LT set as configured Service for Language: " + OfficeTools.localeToString(locale));
+      }
+*//*      
+    }
+    return true;
+  }
+*/
   /**
    * Set a thesaurus relevant rule
    */

@@ -246,6 +246,7 @@ public class FlatParagraphTools {
         tmpXFlatPara = xFlatParaIter.getParaBefore(tmpXFlatPara);
         pos++;
       }
+      xFlatParaIter = getXFlatParagraphIterator(xComponent);
       return pos;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -307,6 +308,7 @@ public class FlatParagraphTools {
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
+      xFlatParaIter = getXFlatParagraphIterator(xComponent);
       return new FlatParagraphContainer(allParas, locales, footnotePositions, sortedTextIds, documentElementsCount);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -400,7 +402,7 @@ public class FlatParagraphTools {
    * Get the main language of paragraph 
    * @throws IllegalArgumentException 
    */
-  public Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
+  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
       Locale lastLocale, boolean onlyPrimary) throws IllegalArgumentException {
     isBusy++;
     try {
@@ -788,6 +790,7 @@ public class FlatParagraphTools {
       if (debugMode && tmpFlatPara == null) {
         MessageHandler.printToLogFile("FlatParagraphTools: markParagraphs: tmpFlatParagraph == null");
       }
+      xFlatParaIter = getXFlatParagraphIterator(xComponent);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     } finally {

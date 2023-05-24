@@ -317,4 +317,12 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language’s</suggestion> (curly apostrophe) or <suggestion>Language's</suggestion> (straight apostrophe)?"), "Did you mean “Language’s” (curly apostrophe) or “Language's” (straight apostrophe)?");
     assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>|?</suggestion>"), "Did you mean “|?”");
   }
+  
+  @Test 
+  public void testAdaptSuggestions() throws IOException {
+    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+    List<RuleMatch> matches = tool.check("Whatever their needs, we doesn't never disappoint them.");
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[n't,  never]");
+    
+  }
 }

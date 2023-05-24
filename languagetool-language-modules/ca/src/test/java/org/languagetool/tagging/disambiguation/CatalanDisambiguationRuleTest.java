@@ -116,12 +116,12 @@ public class CatalanDisambiguationRuleTest {
     TestTools
         .myAssert(
             "A costa d'ell",
-            "/[null]SENT_START A/[a costa d']LOC_PREP  /[null]null costa/[a costa d']LOC_PREP  /[null]null d'/[a costa d']LOC_PREP ell/[ell]PP3MS000",
+            "/[null]SENT_START A/[a costa d']LOC_PREP  /[null]null costa/[a costa d']LOC_PREP  /[null]null d'/[a costa d']LOC_PREP ell/[ell]PP3MSN00",
             tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools
         .myAssert(
             "A costa d’ell",
-            "/[null]SENT_START A/[a costa d']LOC_PREP  /[null]null costa/[a costa d']LOC_PREP  /[null]null d'/[a costa d']LOC_PREP ell/[ell]PP3MS000",
+            "/[null]SENT_START A/[a costa d']LOC_PREP  /[null]null costa/[a costa d']LOC_PREP  /[null]null d'/[a costa d']LOC_PREP ell/[ell]PP3MSN00",
             tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools
     .myAssert(

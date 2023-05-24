@@ -1,6 +1,5 @@
 package org.languagetool.remote;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -10,6 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,6 +37,18 @@ public class SentenceAnnotator {
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
+      String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
+      if (!enabledOnlyRulesStr.isEmpty()) {
+        cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
+      }
+      String disabledRulesStr = prop.getProperty("disabledRules", "").trim();
+      if (!disabledRulesStr.isEmpty()) {
+        cfg.disabledRules = Arrays.asList(disabledRulesStr.split(","));
+      }
+      // defaultColor="\u001B[0m"
+      // highlightColor="\u001B[97m"
+      cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replaceAll("\"", "");
+      cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replaceAll("\"", "");
       cfg.prepareConfiguration();
       runAnnotation(cfg);
     } else {
@@ -89,10 +101,10 @@ public class SentenceAnnotator {
         String formattedSentence = formatedSentence(sentence, match);
         String formattedCorrectedSentence = formattedSentence;
         String detectedErrorStr = "";
-        System.out.println("=============================================");
+        System.out.println(cfg.ansiDefault + "=============================================");
         System.out.println("Sentence no. " + String.valueOf(numSentence));
         System.out.println("---------------------------------------------");
-        System.out.println(formattedSentence);
+        System.out.println(cfg.ansiHighlight + formattedSentence + cfg.ansiDefault);
         System.out.println("---------------------------------------------");
         if (match != null) {
           System.out.println(match.getMessage());
@@ -109,20 +121,32 @@ public class SentenceAnnotator {
         String errorType = "";
         int suggestionPos = -1;
         String suggestionApplied = "";
+        int suggestionsTotal = 0;
+        if (match != null) {
+          suggestionsTotal = match.getReplacements().get().size();
+        }
         switch (response) {
+        case "r":
+          sentence = line;
+          cfg.outStrB = new StringBuilder();
+          break;
         case "q":
           done = true;
           quit = true;
+          writeToOutputFile(cfg);
           break;
         case "d":
           done = true;
           if (annotationsPerSentence == 0) {
             errorType = "OK";
           }
+          writeToOutputFile(cfg);
           break;
         case "g":
           done = true;
           errorType = "IG";
+          cfg.outStrB = new StringBuilder();
+          match = null;
           break;
         case "i":
           fpMatches.add(getMatchIdentifier(sentence, match));
@@ -132,16 +156,13 @@ public class SentenceAnnotator {
           fpMatches.add(getMatchIdentifier(sentence, match));
           errorType = "FP";
           break;
-        case "t":
-          errorType = "TPno";
-          break;
         case "1":
         case "2":
         case "3":
         case "4":
         case "5":
           errorType = "TP";
-          if (match.getReplacements().get().size() > 1) {
+          if (suggestionsTotal > 1) {
             errorType = "TPmultiple";
           }
           int r = Integer.valueOf(response);
@@ -150,19 +171,22 @@ public class SentenceAnnotator {
             sentence = replaceSuggestion(sentence, match, r);
             suggestionPos = r;
             suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);
-
           }
           break;
         }
         if (quit) {
           break;
         }
-        if (response.startsWith(">>")) { // alternative suggestion
+        if (response.startsWith(">>") && match != null) { // alternative suggestion
           formattedCorrectedSentence = sentence.substring(0, match.getErrorOffset()) + "___" + response.substring(2)
               + "___" + sentence.substring(match.getErrorOffset() + match.getErrorLength());
           sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
               + sentence.substring(match.getErrorOffset() + match.getErrorLength());
-          errorType = "TPwrong";
+          if (suggestionsTotal == 0) {
+            errorType = "TPno";
+          } else {
+            errorType = "TPwrong";
+          }
           suggestionApplied = response.substring(2);
         } else if (response.contains(">>")) {
           String[] parts = response.split(">>");
@@ -182,32 +206,38 @@ public class SentenceAnnotator {
               errorType = "FN";
               suggestionApplied = replacement;
               detectedErrorStr = toReplace;
-
             }
           }
         }
-        int suggestionsTotal = 0;
-        if (match != null) {
-          suggestionsTotal = match.getReplacements().get().size();
-        }
+
         if (!errorType.isEmpty()) {
           printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
-              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match));
+              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
+              getRuleType(match));
           annotationsPerSentence++;
+          if (errorType.equals("OK") || errorType.equals("IG")) {
+            writeToOutputFile(cfg);
+            cfg.outStrB = new StringBuilder();
+          }
         }
       }
     }
     sc.close();
     cfg.out.close();
-
   }
 
   static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
       String correctedSentence, String errorType, String detectedErrorStr, String suggestion, int suggestionPos,
-      int suggestionsTotal, String ruleId) throws IOException {
-    cfg.out.write(String.valueOf(numSentence) + "\t" + errorSentence + "\t" + correctedSentence + "\t" + errorType
+      int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
+    cfg.outStrB.append(String.valueOf(numSentence) + "\t" + errorSentence + "\t" + correctedSentence + "\t" + errorType
         + "\t" + detectedErrorStr + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\t"
-        + String.valueOf(suggestionsTotal) + "\n");
+        + String.valueOf(suggestionsTotal) + "\t" + ruleCategory + "\t" + ruleType + "\n");
+  }
+
+  static private void writeToOutputFile(AnnotatorConfig cfg) throws IOException {
+    cfg.out.write(cfg.outStrB.toString());
+    cfg.out.flush();
+    cfg.outStrB = new StringBuilder();
   }
 
   static private String getMatchIdentifier(String sentence, RemoteRuleMatch match) {
@@ -235,19 +265,39 @@ public class SentenceAnnotator {
     return ruleId;
   }
 
+  static private String getRuleCategoryId(RemoteRuleMatch match) {
+    String categoryId = "";
+    if (match != null) {
+      try {
+        categoryId = match.getCategoryId().get();
+      } catch (NoSuchElementException e) {
+      }
+    }
+    return categoryId;
+  }
+
+  static private String getRuleType(RemoteRuleMatch match) {
+    String ruleType = "";
+    if (match != null) {
+      try {
+        ruleType = match.getLocQualityIssueType().get().toString();
+      } catch (NoSuchElementException e) {
+      }
+    }
+    return ruleType;
+  }
+
   static private String listSuggestions(RemoteRuleMatch match) {
     StringBuilder sb = new StringBuilder();
-    sb.append("(Q)uit (D)one (G)arbled ");
+    sb.append("(Q)uit (D)one (G)arbled (R)estartSentence ");
     if (match == null) {
       sb.append("NO MATCHES");
       return sb.toString();
     }
-    sb.append("(I)gnore_Word ");
+    sb.append("(I)gnoreMatch ");
     sb.append("(F)P ");
     if (match.getReplacements().get().size() > 0) {
-      sb.append("SUGGESTIONS: ");
-    } else {
-      sb.append("(T)Pno NO SUGGESTIONS ");
+      sb.append("\nSUGGESTIONS: ");
     }
     int i = 1;
     for (String suggestion : match.getReplacements().get()) {
@@ -322,16 +372,28 @@ public class SentenceAnnotator {
     File outputFile;
     CheckConfiguration ltConfig;
     RemoteLanguageTool lt;
-    BufferedWriter out;
+    FileWriter out;
+    StringBuilder outStrB;
+    String ansiDefault = "";
+    String ansiHighlight = "";
+    List<String> enabledOnlyRules = new ArrayList<String>();
+    List<String> disabledRules = new ArrayList<String>();
 
     void prepareConfiguration() throws IOException {
-      if (!userName.isEmpty() && !apiKey.isEmpty()) {
-        ltConfig = new CheckConfigurationBuilder(languageCode).disabledRuleIds("WHITESPACE_RULE").textSessionID("-2")
-            .username(userName).apiKey(apiKey).build();
+      CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);
+      cfgBuilder.textSessionID("-2");
+      if (enabledOnlyRules.isEmpty()) {
+        cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
+        if (!disabledRules.isEmpty()) {
+          cfgBuilder.disabledRuleIds(disabledRules);
+        }
       } else {
-        ltConfig = new CheckConfigurationBuilder(languageCode).disabledRuleIds("WHITESPACE_RULE").textSessionID("-2")
-            .build();
+        cfgBuilder.enabledRuleIds(enabledOnlyRules).enabledOnly();
       }
+      if (!userName.isEmpty() && !apiKey.isEmpty()) {
+        cfgBuilder.username(userName).apiKey(apiKey).build();
+      }
+      ltConfig = cfgBuilder.build();
       inputFile = new File(inputFilePath);
       if (!inputFile.exists() || inputFile.isDirectory()) {
         throw new IOException("File not found: " + inputFile);
@@ -344,7 +406,8 @@ public class SentenceAnnotator {
       } else {
         outputFile = new File(outputFilePath);
       }
-      out = new BufferedWriter(new FileWriter(outputFile, true));
+      outStrB = new StringBuilder();
+      out = new FileWriter(outputFile, true);
       cachedMatches = new HashMap<>();
       lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));
     }

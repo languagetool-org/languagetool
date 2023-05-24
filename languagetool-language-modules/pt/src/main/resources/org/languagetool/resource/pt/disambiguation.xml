@@ -254,6 +254,10 @@
       <disambig action="remove" postag="V.[SIM].*"></disambig>
     </rule>
     <rule>
+      <antipattern>
+        <token postag="V.+" postag_regexp="yes"/>
+        <token regexp="yes">aceit[oa]s?|cãos|falh[oa]s?|festival|festivais</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">aceit[oa]s?|cãos|durante|falh[oa]s?|festival|festivais</token>
       </pattern>
@@ -283,6 +287,9 @@
     <disambig action="remove" postag="[NA].*"/>
   </rule>
   <rule id="USUAL" name="usual">
+    <antipattern>
+      <token>bebê</token>
+    </antipattern>
     <!-- TODO: exceptions -->
     <pattern>
       <token inflected="yes" regexp="yes">usual|embriagado|escasso|essa|observando|ver|dormir|entender|beber|esse</token>
@@ -1079,7 +1086,10 @@
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
     <rule>
       <pattern>
-          <token>tal</token>
+        <and>
+          <token postag="RG">tal</token>
+          <token postag="RG" negate_pos="yes"/>
+        </and>
       </pattern>
       <disambig action="remove" postag="RG"/>
     </rule>
@@ -1190,7 +1200,8 @@
       <pattern>
           <!-- exception to DAN -->
           <!-- TODO: more general disambiguation rules for verb/noun -->
-          <token postag="N.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes">
+            <exception postag="V.+" postag_regexp="yes"/></token>
           <marker>
               <token postag_regexp="yes" postag="V.*" regexp="yes">fala|nada|dança</token>
           </marker>
@@ -1288,6 +1299,11 @@
           <token postag="D.+" postag_regexp="yes"/> <!-- it was D[^P].+ -->
           <token postag="A.+" postag_regexp="yes"/>
           <token postag="N.+" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token postag="D.+" postag_regexp="yes"/>
+        <token postag="D.+" postag_regexp="yes"/>
+        <token>como</token>
       </antipattern>
       <pattern>
         <marker>
@@ -1442,6 +1458,10 @@
     
     <rule id="INFINITIVE_NOUN" name="saber, comer (infinitive / noun)">
         <!-- exception to DET_VERBONOME -->
+      <antipattern>
+        <token>de</token>
+        <token regexp="yes">podere?s?</token>
+      </antipattern>
         <pattern>
             <token regexp="yes">para|de</token>
             <marker>
@@ -1599,6 +1619,10 @@
 
   <rulegroup id="DET_VERBONOME" name="Det + Ver/Nom">
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
+    <antipattern>
+      <token>de</token>
+      <token regexp="yes">podere?s?</token>
+    </antipattern>
     <rule>
       <pattern>
         <token postag="DA0MS0">o</token>  
@@ -1731,7 +1755,7 @@
       <pattern>
           <token postag="V.+" postag_regexp="yes">
             <exception regexp="yes">para|como</exception>
-            <exception inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|ele|comprar</exception></token>
+            <exception inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|ele|comprar|abrir</exception></token>
           <token min='0' postag='R.' postag_regexp='yes'/>
         <marker>
           <token>a</token>
@@ -2895,6 +2919,10 @@
   <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-11-23  	-->
     <rule>
+      <antipattern>
+        <token>dos</token>
+        <token>mesmos</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token postag='NP.+' postag_regexp='yes' regexp='yes'>\p{Lu}.+
             <exception scope='previous' postag='SENT_START' postag_regexp='yes'/></token>

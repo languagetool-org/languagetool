@@ -179,6 +179,25 @@ public class Catalan extends Language {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
   }
+  
+  @Override
+  public int getRulePriority(Rule rule) {
+    int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
+    int rulePriority = this.getPriorityForId(rule.getId());
+    // if there is a priority defined for the rule,
+    // it takes precedence over category priority
+    if (rulePriority != 0) {
+      return rulePriority;
+    }
+    if (categoryPriority != 0) {
+      return categoryPriority;
+    }
+    if (rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {
+      // don't let style issues hide more important errors
+      return -50;
+    }
+    return 0;
+  }
 
   @Override
   protected int getPriorityForId(String id) {
@@ -226,10 +245,13 @@ public class Catalan extends Language {
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
+      case "COMMA_IJ": return 10;
+      case "AVIS": return 10;
       case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
       case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
       case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
+      case "SELS_EN_VA": return 10;
       case "CA_SIMPLE_REPLACE_ANGLICISM": return 10;
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
@@ -281,26 +303,36 @@ public class Catalan extends Language {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+      String errorStr = rm.getUnderlinedStr();
+      List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
-      for (SuggestedReplacement s : replacements) {
-        String newReplStr = s.getReplacement();
-        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.getReplacement().length() > 1) {
-          newReplStr = s.getReplacement().replace("'", "’");
+      for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {
+        String newReplStr = suggestedReplacement.getReplacement();
+        if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
+          newReplStr = newReplStr + " ";
         }
-        //s = adaptContractionsApostrophes(s);
-        Matcher m5 = CA_OLD_DIACRITICS.matcher(s.getReplacement());
+        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
+          newReplStr = newReplStr.replace("'", "’");
+        }
+        if (enabledRules.contains("EXIGEIX_POSSESSIUS_U") && newReplStr.length() > 3) {
+          Matcher m = POSSESSIUS_v.matcher(newReplStr);
+          newReplStr = m.replaceAll("$1u$2");
+          Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
+          newReplStr = m2.replaceAll("$1U$2");
+        }
+        // s = adaptContractionsApostrophes(s);
+        Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
         if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
-          SuggestedReplacement newRepl = new SuggestedReplacement(s);
-          newRepl.setReplacement(removeOldDiacritics(newReplStr));
-          if (!newReplacements.contains(newRepl)) {
-            newReplacements.add(newRepl);
+          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+          newSuggestedReplacement.setReplacement(removeOldDiacritics(newReplStr));
+          if (!newReplacements.contains(newSuggestedReplacement)) {
+            newReplacements.add(newSuggestedReplacement);
           }
         } else {
-          SuggestedReplacement newRepl = new SuggestedReplacement(s);
-          newRepl.setReplacement(newReplStr);
-          if (!newReplacements.contains(newRepl)) {
-            newReplacements.add(newRepl);
+          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+          newSuggestedReplacement.setReplacement(newReplStr);
+          if (!newReplacements.contains(newSuggestedReplacement)) {
+            newReplacements.add(newSuggestedReplacement);
           }
         }
       }
@@ -338,6 +370,10 @@ public class Catalan extends Language {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES6 = Pattern.compile("\\bs'e(ns|ls)\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern POSSESSIUS_v = Pattern.compile("\\b([mtsMTS]e)v(a|es)\\b",
+      Pattern.UNICODE_CASE);
+  private static final Pattern POSSESSIUS_V = Pattern.compile("\\b([MTS]E)V(A|ES)\\b",
+      Pattern.UNICODE_CASE);
 
   @Override
   public String adaptSuggestion(String s) {

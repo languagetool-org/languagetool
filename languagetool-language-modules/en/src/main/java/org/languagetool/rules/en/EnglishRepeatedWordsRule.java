@@ -28,6 +28,7 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.Tools;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -184,6 +185,10 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     super(messages, new AmericanEnglish());
     setTags(Collections.singletonList(Tag.picky));
     antiPatterns = cacheAntiPatterns(new AmericanEnglish(), ANTI_PATTERNS);
+    String id = this.getId();
+    if (id.equals("EN_REPEATEDWORDS_DEFINITELY")){
+      this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/i-agree-synonyms/"));
+    }
     //super.setDefaultTempOff();
   }
   

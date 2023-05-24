@@ -265,6 +265,16 @@
         </rule>
         <rule>
             <pattern>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="yes"/>
+            </pattern>
+            <disambig action="replace"><wd pos="CC" lemma="and"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">an|gangsta|jus|o|slo|tho|tol|ya</token>
                 <marker>
                     <token spacebefore="no" regexp="yes">['’]</token>    
@@ -955,17 +965,36 @@
       <example type="ambiguous" inputform="Out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="Out[out/UH]"><marker>Out</marker>!</example>
     </rule>
 
-      <rule id="OUT_not_VERB" name="VB_OUT => not a verb">
-          <pattern>
-            <token postag="VB.*" postag_regexp="yes"/>
-            <marker>
-                <token postag="VB.*" postag_regexp="yes">out</token>
-            </marker>
-          </pattern>
-          <disambig action="filter" postag="[IN]N|R[BP]|UH"/>
-          <example type="untouched">He always left himself an out.</example>
-          <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
-      </rule>
+      <rulegroup id="OUT_not_VERB" name="VB_OUT => not a verb">
+        <rule>
+            <pattern>
+                <token postag="VB.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="VB.*" postag_regexp="yes">out</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[IN]N|R[BP]|UH"/>
+            <example type="untouched">He always left himself an out.</example>
+            <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
+        </rule>
+        <rule><!-- out of order -->
+            <antipattern>
+                <token postag="MD" />
+                <token inflected="yes" min="0">not</token>
+                <token>out</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>out</token>
+                </marker>
+                <token>of</token>
+                <token chunk_re=".-NP.*">
+                    <exception>course</exception>
+                </token>
+            </pattern>
+            <disambig action="remove" postag="VB.*"/>
+        </rule>
+    </rulegroup>
 
         <rule id="EXCEPT_NOT_VERB" name="VB_EXCEPT => not a verb">
           <pattern>
@@ -1380,7 +1409,7 @@
         <token postag="NN.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="IN"/>
-        <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN]">It's all <marker>out</marker> of kilter.</example>
+        <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]" outputform="out[out/IN]">It's all <marker>out</marker> of kilter.</example>
       </rule>
     </rulegroup>
 
@@ -3949,6 +3978,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" min="0" />
             <token postag="VB" chunk_re=".-VP" />
         </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">do|must|will|can|should</token>
+            <token min="0">n't</token>
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token>other</token>
+            <token postag="VBP?" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3966,6 +4002,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A few buzz at the highest levels in certain fixtures.</example>
         <example type="untouched">The public demands answers.</example>
         <example type="untouched">The world may never know.</example>
+        <example type="untouched">Will the other respond?</example>
         <example type="untouched">The following outlines routes and their stands.</example>
         <example type="untouched">In the winter will he live?</example>
         <example type="untouched">Where a woman rules, bad is the end.</example>
@@ -4391,7 +4428,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="NNP" regexp="yes">
                 \p{Lu}\p{Ll}+
-                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had|Be|Radical|Him</exception><!-- uncommon NNPs -->
+                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had|Be|Radical|Him|Down</exception><!-- uncommon NNPs -->
             </token>
         </pattern>
         <disambig postag="NNP"/>
@@ -4490,7 +4527,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" />
         </antipattern>
         <antipattern>
-            <token case_sensitive="yes" regexp="yes" postag="NNP">Wear|Radical</token>
+            <token case_sensitive="yes" regexp="yes" postag="NNP">Wear|Radical|Down</token>
         </antipattern>
         <antipattern>
             <token>How</token>
@@ -16863,4 +16900,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="IN_VITRO_NO_PREPOSITION" name="in vitro (in = no preposition)">
+        <pattern>
+            <marker>
+                <token>in</token>
+            </marker>
+            <token>vitro</token>
+        </pattern>
+        <disambig action="remove" postag="IN" />
+    </rule>
 </rules>

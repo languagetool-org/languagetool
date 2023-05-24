@@ -31,6 +31,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.AbstractStatisticSentenceStyleRule;
+import org.languagetool.rules.AbstractStatisticStyleRule;
+import org.languagetool.rules.ReadabilityRule;
+import org.languagetool.rules.Rule;
 
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XPopupMenu;
@@ -50,6 +55,7 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XMultiServiceFactory;
+import com.sun.star.linguistic2.XProofreadingIterator;
 import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.XUIElement;
@@ -61,7 +67,7 @@ import com.sun.star.uno.XComponentContext;
  * @since 4.3
  * @author Fred Kruse
  */
-class OfficeTools {
+public class OfficeTools {
   
   public enum DocumentType {
     WRITER,       //  Writer document
@@ -118,6 +124,7 @@ class OfficeTools {
   public  static final String OOO_CONFIG_FILE = "Languagetool-ooo.cfg";
   private static final String OLD_CONFIG_FILE = ".languagetool-ooo.cfg";
   private static final String LOG_FILE = "LanguageTool.log";
+  public  static final String STATISTICAL_ANALYZES_CONFIG_FILE = "LT_Statistical_Analyzes.cfg";
 
   private static final String VENDOR_ID = "languagetool.org";
   private static final String APPLICATION_ID = "LanguageTool";
@@ -167,7 +174,7 @@ class OfficeTools {
    * Returns null if it fails
    */
   @Nullable
-  static XComponent getCurrentComponent(XComponentContext xContext) {
+  public static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getDesktop(xContext);
       if (xdesktop == null) {
@@ -231,6 +238,32 @@ class OfficeTools {
         return null;
       }
       return UnoRuntime.queryInterface(XSearchableDictionaryList.class, dictionaryList);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+  }
+
+  /**
+   * Returns the searchable dictionary list
+   * Returns null if it fails
+   */
+  @Nullable
+  static XProofreadingIterator getProofreadingIterator(XComponentContext xContext) {
+    try {
+      if (xContext == null) {
+        return null;
+      }
+      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+              xContext.getServiceManager());
+      if (xMCF == null) {
+        return null;
+      }
+      Object proofreadingIterator = xMCF.createInstanceWithContext("com.sun.star.linguistic2.ProofreadingIterator", xContext);
+      if (proofreadingIterator == null) {
+        return null;
+      }
+      return UnoRuntime.queryInterface(XProofreadingIterator.class, proofreadingIterator);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -493,6 +526,13 @@ class OfficeTools {
 
   public static String getLogFilePath(XComponentContext xContext) {
     return new File(getLOConfigDir(xContext), LOG_FILE).getAbsolutePath();
+  }
+  
+  /**
+   * Returns statistical analyzes configuration file 
+   */
+  public static String getStatisticalConfigFilePath() {
+    return new File(getLOConfigDir(), STATISTICAL_ANALYZES_CONFIG_FILE).getAbsolutePath();
   }
 
   /**

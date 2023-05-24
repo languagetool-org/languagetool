@@ -40,6 +40,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
       // Use all-lowercase, matches will be case-insensitive.
       // See https://github.com/languagetool-org/languagetool/issues/1678
+      "on a bye",   // vs buy
       "your (",   // ... so your (English) signature gets ...
       "your slack profile",
       "host to five",   // "... is host to five classical music orchestras"
@@ -267,6 +268,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no everything fine",
       "no we don't",
       "no dont",
+      "which hat to buy", // vs had
+      "her hat", // vs had
+      "his hat", // vs had
+      "my hat", // vs had
+      "party hat", // vs had
       "95 theses", // vs these
       "ninety-five theses", // vs these
       "Ninety-five theses", // vs these
@@ -529,6 +535,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("from"),
       token("there"),
       tokenRegex("turn|walk|go|drive")
+    ),
+    Arrays.asList(
+      // "They told me that they got there first."
+      posRegex("VB.*"),
+      token("there"),
+      token("first")
     ),
     Arrays.asList(
       // Or go to the individual site and then click on the icon, from there turn it to standard.

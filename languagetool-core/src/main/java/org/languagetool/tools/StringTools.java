@@ -510,12 +510,13 @@ public final class StringTools {
     if (modelString.isEmpty()) {
       return inputString; 
     }
-    if (isAllUppercase(modelString)) {
-      return inputString.toUpperCase(); 
-    }
+    // modelString="L'" is ambiguous, apply capitalization
     if (isCapitalizedWord(modelString)) {
       return uppercaseFirstChar(inputString.toLowerCase()); 
     }
+    if (isAllUppercase(modelString)) {
+      return inputString.toUpperCase(); 
+    }  
 //    if (!isNotAllLowercase(modelString)) {
 //      return inputString.toLowerCase();
 //    }
@@ -605,6 +606,51 @@ public final class StringTools {
     return NOT_WORD_CHARACTER.matcher(input).matches();
   }
   
+  
+  /**
+   * Difference between two strings (only one difference)
+   * @return: List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
+   * @since 6.2
+   */
+  
+  public static List<String> getDifference(String s1, String s2) {
+    List<String> results = new ArrayList<>();
+    if (s1.equals(s2)) {
+      results.add(s1);
+      results.add("");
+      results.add("");
+      results.add("");
+      return results;
+    }
+    int l1 = s1.length();
+    int l2 = s2.length();
+    int fromStart = 0;
+    while (fromStart < l1 && fromStart < l2 && s1.charAt(fromStart) == s2.charAt(fromStart)) {
+      fromStart++;
+    }
+    int fromEnd = 0;
+    while (fromEnd < l1 && fromEnd < l2 && s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
+      fromEnd++;
+    }
+    // corrections (e.g. stress vs stresses)
+    while (fromStart > l1 - fromEnd) {
+      fromEnd--;
+    }
+    while (fromStart > l2 - fromEnd) {
+      fromEnd--;
+    }
+    // common string at start
+    results.add(s1.substring(0, fromStart));
+    // diff in string1
+    results.add(s1.substring(fromStart, l1 - fromEnd));
+    // diff in string2
+    results.add(s2.substring(fromStart, l2 - fromEnd));
+    // common string at end
+    results.add(s1.substring(l1 - fromEnd, l1));
+    return results;
+  }
+  
+  
   /*
    * Invent a wrong word to find possible replacements. 
    */
@@ -660,4 +706,27 @@ public final class StringTools {
     }
     return s + "-";
   }
+
+  /**
+    * Return <code>str</code> without tashkeel characters
+    * @param str input str
+    */
+   public static String removeTashkeel(String str) {
+     String striped = str.replaceAll("["
+       + "\u064B"  // Fathatan
+       + "\u064C"  // Dammatan
+       + "\u064D"  // Kasratan
+       + "\u064E"  // Fatha
+       + "\u064F"  // Damma
+       + "\u0650"  // Kasra
+       + "\u0651"  // Shadda
+       + "\u0652"  // Sukun
+       + "\u0653"  // Maddah Above
+       + "\u0654"  // Hamza Above
+       + "\u0655"  // Hamza Below
+       + "\u0656"  // Subscript Alef
+       + "\u0640"  // Tatweel
+       + "]", "");
+      return striped;
+    }
 }

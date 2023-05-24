@@ -53,10 +53,10 @@ public class InterrogativeVerbFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("intelligence-je")) {
-//      int ii=0;
-//      ii++;
-//    }
+    if (match.getSentence().getText().contains("repondit-on")) {
+      int ii=0;
+      ii++;
+    }
 
     List<String> replacements = new ArrayList<>();
     String pronounFrom = getRequired("PronounFrom", arguments);
@@ -104,7 +104,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
       else if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
         desiredPostag = "V .*(ind|cond).* 2 s";
       }
-      else if (atrPronoun.matchesPosTagRegex(".* 3( [mf])? s")) {
+      else if (atrPronoun.matchesPosTagRegex(".* 3( [mfe])? s")) {
         desiredPostag = "V .*(ind|cond).* 3 s";
       }
       else if (atrPronoun.matchesPosTagRegex(".* 1 p")) {

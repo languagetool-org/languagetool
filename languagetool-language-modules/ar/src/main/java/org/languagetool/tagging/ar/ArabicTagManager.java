@@ -320,14 +320,35 @@ public class ArabicTagManager {
    * @return true if have flag noun
    */
   public boolean isNoun(String postag) {
-    return ((postag != null) && postag.startsWith("N"));
+    return (postag != null) && postag.startsWith("N");
+  }
+
+  /**
+   * @return true if have flag dual
+   */
+  public boolean isDual(String postag) {
+    return (postag != null) && getFlag(postag, "NUMBER") == '2';
   }
 
   /**
    * @return true if have flag verb
    */
   public boolean isVerb(String postag) {
-    return (postag != null && postag.startsWith("V"));
+    return postag != null && postag.startsWith("V");
+  }
+
+  /**
+   * @return true if have flag Adj
+   */
+  public boolean isAdj(String postag) {
+    return postag != null && postag.startsWith("NA");
+  }
+
+  /**
+   * @return true if have flag Adj
+   */
+  public boolean isMasdar(String postag) {
+    return postag != null && postag.startsWith("NM");
   }
 
 
@@ -336,6 +357,13 @@ public class ArabicTagManager {
    */
   public boolean isDefinite(String postag) {
     return isNoun(postag) && (getFlag(postag, "PRONOUN") == 'L');
+  }
+
+  /**
+   * @return true if have flag is feminine or masculine
+   */
+  public boolean isFeminin(String postag) {
+    return isNoun(postag) && (getFlag(postag, "GENDER") == 'F');
   }
 
   /**
@@ -359,7 +387,7 @@ public class ArabicTagManager {
    * @return true if the postag has a Jar
    */
   public boolean hasPronoun(String postag) {
-    return (getFlag(postag, "PRONOUN") == 'H');
+    return getFlag(postag, "PRONOUN") == 'H';
   }
 
   /**
@@ -573,7 +601,7 @@ public class ArabicTagManager {
       tmp.setCharAt(getFlagPos(postag, flagType), flag);
     } catch (StringIndexOutOfBoundsException e) {
       int pos = getFlagPos(postag, flagType);
-      logger.debug("ArabicTagmanager:Exception: pos flag" + pos + "flagtype:" + flagType + " postag:" + tmp + " len:" + tmp.length());
+      logger.debug("ArabicTagmanager:Exception: pos flag" + Integer.toString(pos) + "flagtype:" + flagType + " postag:" + tmp + " len:" + tmp.length());
     }
     return tmp.toString();
 
@@ -668,4 +696,166 @@ public class ArabicTagManager {
     return newposTag;
   }
 
+
+  /*
+  Add new tag manager functionalities to handle POS tag merging:
+
+        Need: When we replace a word 'w1' by another word 'w2', we need to inflect the new word according the replaced word tag.
+        POS Tag Structure:
+
+        3 parts:
+
+            word class and category
+            Conjugation ( suffixes used to conjugate words in dual form, feminin form).
+            Affixes ( prefixes and enclitics)
+
+        Example:
+
+            Example: replace "يعودون" by "يرجعون",
+                target lemma is رجع
+                lemma postag is different from source postag
+                    verb عاد : "VW1;--------;---"
+                    verb رجع : "V31;--------;---"
+                Inflected source postag: يعودون "VW1;M3H-faU;WS-"
+                The wanted target يرجعون"V31;M3H-faU;WS-"
+
+        Process
+        Same word type
+
+        if postags have the same word class,
+        it can be used to replace :
+        - a verb by new verb : يعتبرونه by يعدونه
+        - a preposition by a preposition: يتردد عليه by يتردد إليه
+        - a noun by a noun: بالمستهتر by بالمستهين
+        - replace Conjugation Part and Affixes part from the source postag to target postag
+        - merge(source: "VW1;M3H-faU;WS-", target: "V31;--------;---") => "V31;M3H-faU;WS-"
+        Different word type
+
+        if postags haven't the same word class,
+        it can be used to replace :
+        - a verb by new preposition : تحاشاه by تحاشى منه
+        - a preposition by a verb : تحاشاه by
+        - replace and Affixes part(only compatible flags) from the source postag to target postag
+        - change pronoun suffix
+        - verb specific features aren't borrowed
+        - merge(source: "VW1;M1H-pa-;--H", target: "PRD;---;---") => "PRD;---;--H"
+   */
+  public String mergePosTag(String sourcePosTag, String targetPosTag) {
+    // if the same word type
+    // noun vs noun
+    String tmp = sourcePosTag;
+    if (sourcePosTag == null || sourcePosTag.isEmpty()) {
+      return targetPosTag;
+    }
+    if (targetPosTag == null || targetPosTag.isEmpty()) {
+      return sourcePosTag;
+    }
+
+    if (isNoun(sourcePosTag) && isNoun(targetPosTag)) {
+      if (sourcePosTag.length() != targetPosTag.length()) {
+        return sourcePosTag;
+      }
+      // change only first part
+      // use the source Conjugation and affixes parts
+      // the third flag position is not implemented
+      // copy target category into Source,
+
+      tmp = setFlag(sourcePosTag, "CATEGORY", getFlag(targetPosTag, "CATEGORY"));
+      // second flag isn't implemented for nouns
+      return tmp;
+    } else if (isVerb(sourcePosTag) && isVerb(targetPosTag)) {
+      if (sourcePosTag.length() != targetPosTag.length()) {
+        return sourcePosTag;
+      }
+      // change only first part
+      // use the source Conjugation and affixes parts
+      // copy target category into Source,
+
+      tmp = setFlag(tmp, "CATEGORY", getFlag(targetPosTag, "CATEGORY"));
+
+      tmp = setFlag(tmp, "TRANS", getFlag(targetPosTag, "TRANS"));
+
+      return tmp;
+    } else if (isStopWord(sourcePosTag) && isStopWord(targetPosTag)) {
+      if (sourcePosTag.length() != targetPosTag.length())
+        return sourcePosTag;
+      // change only first part
+      // use the source Conjugation and affixes parts
+      // copy target category into Source,
+      tmp = setFlag(tmp, "CATEGORY", getFlag(targetPosTag, "CATEGORY"));
+      tmp = setFlag(tmp, "OPTION", getFlag(targetPosTag, "OPTION"));
+      return tmp;
+    }
+    // different
+    tmp = targetPosTag;
+    // Stopword to verb || noun
+    // Verb || noun to Stopword
+    if (isStopWord(sourcePosTag) && (isVerb(targetPosTag) || isNoun(targetPosTag)) ||
+      (isVerb(sourcePosTag) || isNoun(sourcePosTag)) && isStopWord(targetPosTag)) {
+      // change only first part
+      // use the compatible affixes parts (Pronoun only)
+      // the third flag position is not implemented
+      // copy target category into Source,
+      if (hasPronoun(sourcePosTag)) {
+        // only pronoun, not article defination
+        tmp = setFlag(tmp, "PRONOUN", getFlag(sourcePosTag, "PRONOUN"));
+      }
+      return tmp;
+    }
+
+    // Verb to noun
+    // Noun to Nouns
+    else if (isVerb(sourcePosTag) && (isNoun(targetPosTag)) ||
+      (isNoun(sourcePosTag)) && isVerb(targetPosTag)) {
+      // change only first part
+      // use the compatible affixes parts (Pronoun only)
+      // the third flag position is not implemented
+      // copy target category into Source,
+      if (hasPronoun(sourcePosTag)) {
+        tmp = setFlag(tmp, "PRONOUN", getFlag(sourcePosTag, "PRONOUN"));
+      }
+      tmp = setFlag(tmp, "CONJ", getFlag(sourcePosTag, "CONJ"));
+      return tmp;
+    }
+
+    return targetPosTag;
+
+  }
+
+  public String setSingle(String postag) {
+    return setFlag(postag, "NUMBER", '1');
+  }
+
+  public String setDual(String postag) {
+    return setFlag(postag, "NUMBER", '2');
+  }
+
+  public String setPlural(String postag) {
+    return setFlag(postag, "NUMBER", '3');
+  }
+
+  public String setMajrour(String postag) {
+    if (isNoun(postag)) {
+      if (isDual(postag)) {
+        return setFlag(postag, "CASE", 'A');
+      } else {
+        return setFlag(postag, "CASE", 'I');
+      }
+    } else {
+      return postag;
+    }
+
+  }
+
+  public String setMarfou3(String postag) {
+    return setFlag(postag, "CASE", 'U');
+  }
+
+  public String setMansoub(String postag) {
+    return setFlag(postag, "CASE", 'A');
+  }
+
+  public String setTanwin(String postag) {
+    return setFlag(postag, "PRONOUN", 'n');
+  }
 }

@@ -51,8 +51,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 
 import static java.util.Arrays.asList;
 
@@ -287,6 +289,25 @@ public class English extends Language implements AutoCloseable {
       languageModel.close();
     }
   }
+  
+  @Override
+  public int getRulePriority(Rule rule) {
+    int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
+    int rulePriority = this.getPriorityForId(rule.getId());
+    // if there is a priority defined for the rule,
+    // it takes precedence over category priority
+    if (rulePriority != 0) {
+      return rulePriority;
+    }
+    if (categoryPriority != 0) {
+      return categoryPriority;
+    }
+    if (rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {
+      // don't let style issues hide more important errors
+      return -50;
+    }
+    return 0;
+  }
 
   @Override
   protected int getPriorityForId(String id) {
@@ -438,6 +459,7 @@ public class English extends Language implements AutoCloseable {
       case "PROFANITY_TYPOS":           return 2;   // prefer over PROFANITY
       case "THE_THEM":                  return 1;   // prefer over TO_TWO
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
+      case "TO_WORRIED_ABOUT":          return 1;   // higher prio than TO_TOO
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "TO_NIGHT_TO_DAY":           return 1;   // prefer over TOO_JJ_TO
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
@@ -452,6 +474,7 @@ public class English extends Language implements AutoCloseable {
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
       case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
+      case "EVERY_NOW_AND_THEN":        return 0;
       case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
       case "FASTLY":                    return -1;   // higher prio than spell checker
@@ -540,7 +563,6 @@ public class English extends Language implements AutoCloseable {
       case "CANT_JJ":                   return -2;  // prefer other more specific rules
       case "WOULD_A":                   return -2;  // prefer other more specific rules
       case "I_AM_VB":                   return -2;  // prefer other rules
-      case "BE_VBP_IN":                 return -2;  // prefer over BEEN_PART_AGREEMENT
       case "VBP_VBP":                 return -2;  // prefer more specific rules
       case "GONNA_TEMP":                return -3;
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
@@ -561,8 +583,6 @@ public class English extends Language implements AutoCloseable {
       case "LEMME":                     return -4;  // prefer over spelling rules
       case "EN_GB_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
       case "EN_US_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
-      case "HAVE_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
-      case "BEEN_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
       case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority
@@ -570,17 +590,21 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
-      case "BE_WITH_WRONG_VERB_FORM":   return -11;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
+      case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
-      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO
+      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO and lector
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
+      case "HAVE_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
+      case "BEEN_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
+      case "BE_WITH_WRONG_VERB_FORM":   return -14;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "PRP_NO_ADVERB_VERB":        return -15;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
       case "IN_DT_IN": return -15; // prefer AI and comma rules
       case "MISSING_SUBJECT":           return -15;  // prefer other more specific rules
       case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
+      case "PLEASE_DO_NOT_THE_CAT":     return -15; // prefer AI and comma rules
       case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
@@ -626,16 +650,13 @@ public class English extends Language implements AutoCloseable {
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
         return 2;
       }
-      if (id.startsWith("AI_HYDRA_LEO_SCY_IT_S")) {
-        return 3;
-      }
-      if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {
-        return -8; // higher prio than BEEN_PART_AGREEMENT and HAVE_BEEN_AGREEMENT
+      if (id.startsWith("AI_HYDRA_LEO_MISSING_TO")) {
+        return -14; // prefer lector, HAVE_PART_AGREEMENT and BEEN_PART_AGREEMENT
       }
       return -11;
     }
     if (id.startsWith("AI_EN_LECTOR")) { // prefer more specific rules (also speller)
-      return -21;
+      return -11;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
       return -21;
@@ -665,6 +686,37 @@ public class English extends Language implements AutoCloseable {
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
       return new MorfologikAmericanSpellerRule(messages, this, null, Collections.emptyList());
+  }
+  
+  @Override
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      String errorStr = rm.getUnderlinedStr();
+      List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
+      List<SuggestedReplacement> newReplacements = new ArrayList<>();
+      for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {
+        String newReplStr = suggestedReplacement.getReplacement();
+        if (errorStr.length() > 2) {
+          // add a whitespace when the error is in a contraction and the suggestion is not
+          if (errorStr.startsWith("'") && !newReplStr.startsWith("'") && !newReplStr.startsWith("’")
+              && !newReplStr.startsWith(" ")) {
+            newReplStr = " " + newReplStr;
+          }
+          if (errorStr.startsWith("n't") && !newReplStr.startsWith("n't") && !newReplStr.startsWith("n’t")) {
+            newReplStr = " " + newReplStr;
+          }
+        }
+        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+        newSuggestedReplacement.setReplacement(newReplStr);
+        if (!newReplacements.contains(newSuggestedReplacement)) {
+          newReplacements.add(newSuggestedReplacement);
+        }
+      }
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      newRuleMatches.add(newMatch);
+    }
+    return newRuleMatches;
   }
 
 }

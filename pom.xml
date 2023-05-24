@@ -175,6 +175,8 @@
         <io.prometheus.simpleclient.version>0.12.0</io.prometheus.simpleclient.version>
         <io.github.resilience4j.version>1.7.1</io.github.resilience4j.version>
         <io.micrometer.micrometer-prometheus.version>1.7.1</io.micrometer.micrometer-prometheus.version>
+        <io.opentelemetry.version>1.26.0</io.opentelemetry.version>
+        <io.opentelemetry.semconv.version>1.26.0-alpha</io.opentelemetry.semconv.version>
         <io.lettuce.version>6.1.9.RELEASE</io.lettuce.version>
 
         <javax.activation.javax.activation-api.version>1.2.0</javax.activation.javax.activation-api.version>
@@ -501,6 +503,18 @@
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-registry-prometheus</artifactId>
                 <version>${io.micrometer.micrometer-prometheus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom</artifactId>
+                <version>${io.opentelemetry.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-semconv</artifactId>
+                <version>${io.opentelemetry.semconv.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.prometheus</groupId>

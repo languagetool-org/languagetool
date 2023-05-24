@@ -118,7 +118,7 @@ public class AvsAnRule extends Rule {
       }
       if (token.hasPosTag("DT")) {
         prevTokenIndex = i;
-      } else if (token.getToken().matches("[-\"()\\[\\]]+") && nextToken.length() > 1) {
+      } else if (token.getToken().matches("[-\"“'‘()\\[\\]]+") && nextToken.length() > 1) {
         // skip e.g. the quote in >>an "industry party"<<
       } else {
         prevTokenIndex = 0;

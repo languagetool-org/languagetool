@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Spanish Style Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2001-2023 Daniel Naber (http://www.danielnaber.de),
+  Marcin Miłkowski, and the LanguageTool contributors
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+<!DOCTYPE rules [
+    <!ENTITY msg_repeated_pattern "Esta expresión ya ha aparecido antes. Puede sustituirla por otra para hacer más variado el texto.">
+    <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
+    <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
+]>
+<rules lang="es" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style">
+        <rule id="REP_POR_LO_TANTO" name="repetición: por lo tanto" min_prev_matches="1">
+            <pattern>
+                <token>por</token>
+                <token min="0">lo</token>
+                <token>tanto</token>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>en consecuencia</suggestion>
+            <suggestion>pues</suggestion>
+            <suggestion>como resultado</suggestion>
+            <example correction="En consecuencia|Pues|Como resultado"><marker>Por lo tanto</marker>, ganó el partido.</example>
+        </rule>
+        <rule id="REP_YA_QUE" name="repetición: ya que" min_prev_matches="1">
+            <pattern>
+                <token>ya</token>
+                <token>que</token>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>porque</suggestion>
+            <suggestion>puesto que</suggestion>
+            <suggestion>por el hecho de que</suggestion>
+            <suggestion>pues</suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/uso-correcto-de-porque-o-por-que/</url>
+            <example correction="porque|puesto que|por el hecho de que|pues">La solución era buena, <marker>ya que</marker> gustaba a todos.</example>
+        </rule>
+        <rule id="REP_DESPUES" name="repetición: después" min_prev_matches="1" distance_tokens="20">
+            <antipattern>
+                <token>después</token>
+                <token regexp="yes">de|del|que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo|instante|momento|rato</token>
+                <token>después</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>después</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>posteriormente</suggestion>
+            <suggestion>más tarde</suggestion>
+            <example correction="Posteriormente|Más tarde"><marker>Después</marker> lo arreglaremos.</example>
+            <example>Pocos días después, todo estaba resuelto.</example>
+            <example>Después del descanso, siguió la reunión.</example>
+        </rule>
+        <rule id="REP_ANTES" name="repetición: antes" min_prev_matches="2">
+            <antipattern>
+                <token>cuanto</token>
+                <token>antes</token>
+            </antipattern>
+            <antipattern>
+                <token>lo</token>
+                <token>antes</token>
+            </antipattern>
+            <antipattern>
+                <token>antes</token>
+                <token regexp="yes">de|del|que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo|instante|momento|rato</token>
+                <token>antes</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>antes</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>previamente</suggestion>
+            <suggestion>antiguamente</suggestion>
+            <suggestion>con antelación</suggestion>
+            <suggestion>con anterioridad</suggestion>
+            <example correction="Previamente|Antiguamente|Con antelación|Con anterioridad"><marker>Antes</marker> lo arreglaremos.</example>
+            <example>Pocos días antes, todo estaba tranquilo.</example>
+            <example>Antes de descansar, hay que trabajar.</example>
+        </rule>
+        <rulegroup id="REPEATED_WORDS" name="palabras repetidas (test)" default="off">
+            <rule>
+                <pattern>
+                    <token postag="VM.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="VM.*" postag_regexp="yes" inflected="yes"><match no="0" postag="VM.*" postag_regexp="yes" postag_replace="VMN...."/></token>
+                    </marker>
+                </pattern>
+                <message>Verbo repetido.</message>
+                <example correction="">Cantaba muy bien, pero desafinó cuando <marker>cantó</marker> la última.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NC.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes"><match no="0" postag="NC.*" postag_regexp="yes" postag_replace="NC.[SN]..."/></token>
+                    </marker>
+                </pattern>
+                <message>Nombre repetido.</message>
+                <example correction="">Las casas eran rojas, pero aquella <marker>casa</marker> era verde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes"><match no="0" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][SN]."/></token>
+                    </marker>
+                </pattern>
+                <message>Adjetivo repetido.</message>
+                <example correction="">Las casas eran rojas, pero aquel árbol también era <marker>rojo</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="PREFERABLE_EXPRESSIONS" name="expresiones preferibles" type="style">
+        <rulegroup id="PER_CAPITA" name="per cápita">
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>capita</token>
+                </pattern>
+                <message>Esta expresión latina se suele escribir adaptada (sin comillas ni cursiva).</message>
+                <suggestion>per cápita</suggestion>
+                <example correction="per cápita">La renta <marker>per capita</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>por</token>
+                    <token regexp="yes">capita|cápita</token>
+                </pattern>
+                <message>Esta expresión latina se suele escribir adaptada (sin comillas ni cursiva).</message>
+                <suggestion>per cápita</suggestion>
+                <example correction="per cápita">La renta <marker>por capita</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="COMPLEJIZAR" name="complejizar/complicar">
+            <pattern>
+                <token inflected="yes">complejizar</token>
+            </pattern>
+            <message>Excepto en usos especializados, es preferible utilizar otro verbo.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">complicar</match></suggestion>
+            <url>https://www.fundeu.es/recomendacion/complicar-complejizar/</url>
+            <example correction="complicó">Se <marker>complejizó</marker>.</example>
+        </rule>
+        <rule id="MEXICO" name="México/Méjico" default="on">
+            <antipattern case_sensitive="yes">
+                <token>Tejas</token>
+                <token>Verdes</token>
+                <example>Ana de las Tejas Verdes.</example>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">.*mejic.*|Méjico|Tejas<exception postag="NCFP000">tejas</exception></token>
+            </pattern>
+            <message>Grafía recomendada.</message>
+            <suggestion><match no="1" regexp_match="(?iu)(.*)j(.*)" regexp_replace="$1x$2"/></suggestion>
+            <url>https://www.rae.es/dpd/M%C3%A9xico</url>
+            <example correction="México">Soy de <marker>Méjico</marker>.</example>
+            <example correction="mexicanas">Son <marker>mejicanas</marker>.</example>
+            <example>No me quedan tejas.</example>
+            <example>Me compré unos tejanos.</example>
+        </rule>
+        <rule id="ASI" name="así/asín/asina">
+            <pattern>
+                <token regexp="yes">asín|asina<exception postag="_possible_NP"/></token>
+            </pattern>
+            <message>Forma coloquial del adverbio <suggestion>así</suggestion>.</message>
+            <example correction="así">Hazlo <marker>asín</marker>.</example>
+            <example correction="Así"><marker>Asín</marker> no puede ser.</example>
+            <example>Fernando Asín.</example>
+        </rule>
+        <rule id="PA_PARA" name="pa -> para">
+            <pattern>
+                <marker>
+                    <token>pa</token>
+                </marker>
+                <token postag="V.N.*|[DP][TE].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Forma coloquial de <suggestion>para</suggestion>.</message>
+            <example correction="Para">¿<marker>Pa</marker> qué lo quieres?</example>
+            <example correction="Para"><marker>Pa</marker> preparar la sopa, necesitas cebollas.</example>
+        </rule>
+        <rule id="NADIE" name="nadie/naide">
+            <pattern>
+                <token regexp="yes">naide|naiden|nadien|nadies</token>
+            </pattern>
+            <message>Forma vulgar.</message>
+            <suggestion>nadie</suggestion>
+            <example correction="nadie"><marker>naide</marker></example>
+        </rule>
+    </category>
+</rules>

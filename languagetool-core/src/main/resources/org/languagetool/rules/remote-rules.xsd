@@ -102,6 +102,7 @@
 					<xs:element ref="pattern" />
 					<xs:element ref="regexp" />
 				</xs:choice>
+				<xs:element ref="suggestion" minOccurs="0" maxOccurs="5" />
 				<xs:element ref="example" maxOccurs="unbounded" />
 			</xs:sequence>
 			<xs:attribute name="default">
@@ -172,6 +173,7 @@
 				<xs:element ref="and" />
 				<xs:element ref="unify" />
 				<xs:element ref="marker" />
+				<xs:element ref="example" minOccurs="0" maxOccurs="unbounded" /><!-- we don't require that, but this element should appear at the end -->
 			</xs:choice>
 			<xs:attribute name="case_sensitive" type="binaryYesNo"/>
 		</xs:complexType>
@@ -208,6 +210,14 @@
 			</xs:simpleType>
 			</xs:attribute>
 		<xs:attribute name="reason" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="suggestion">
+		<xs:complexType mixed="true">
+			<xs:sequence minOccurs='0' maxOccurs='unbounded'>
+				<xs:element ref="match" />
+			</xs:sequence>
+			<xs:attribute name="suppress_misspelled" type="binaryYesNo"/>
 		</xs:complexType>
 	</xs:element>
 

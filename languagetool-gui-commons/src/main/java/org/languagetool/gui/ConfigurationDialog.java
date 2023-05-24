@@ -232,7 +232,7 @@ public class ConfigurationDialog implements ActionListener {
       Collections.sort(rules, new CategoryComparator());
       if(i == 0) {
         rootNode[i] = createTree(rules, false, null, null);   //  grammar options
-      } else if(i ==1 ) {
+      } else if(i == 1) {
         rootNode[i] = createTree(rules, true, null, null);    //  Style options
       } else {
         rootNode[i] = createTree(rules, true, specialTabNames[i - 2], null);    //  Special tab options
@@ -1625,7 +1625,7 @@ public class ConfigurationDialog implements ActionListener {
     for (int i = 0; i < numConfigTrees; i++) {
       if(i == 0) {
         rootNode[i] = createTree(rules, false, null, rootNode[i]);   //  grammar options
-      } else if(i ==1 ) {
+      } else if(i == 1) {
         rootNode[i] = createTree(rules, true, null, rootNode[i]);    //  Style options
       } else {
         rootNode[i] = createTree(rules, true, specialTabNames[i - 2], rootNode[i]);    //  Special tab options
@@ -1652,7 +1652,7 @@ public class ConfigurationDialog implements ActionListener {
     } else {
       panel.removeAll();
     }
-    panel.setBackground(Color.WHITE);
+    panel.setBackground(new Color(169,169,169));
     panel.setBorder(BorderFactory.createLineBorder(Color.black));
     panel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
@@ -1677,8 +1677,8 @@ public class ConfigurationDialog implements ActionListener {
         String ruleDescription = null;
         for (Rule rule : rules) {
           if (rule.getId().equals(ruleId)) {
-            if ((enabledRules && rule.isDefaultOff() && !rule.isOfficeDefaultOn()) ||
-                (!enabledRules && (!rule.isDefaultOff() || rule.isOfficeDefaultOn()))) {
+            if ((enabledRules && (rule.getCategory().isDefaultOff() || (rule.isDefaultOff() && !rule.isOfficeDefaultOn()))) ||
+                (!enabledRules && !rule.getCategory().isDefaultOff() && (!rule.isDefaultOff() || rule.isOfficeDefaultOn()))) {
               ruleDescription = rule.getDescription();
             } else {
               if (enabledRules) {

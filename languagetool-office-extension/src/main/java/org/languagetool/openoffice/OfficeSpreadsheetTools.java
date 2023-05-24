@@ -53,6 +53,9 @@ public class OfficeSpreadsheetTools {
    */
   public static boolean isSpreadsheetDocument(XComponent xComponent) {
     XServiceInfo xInfo = UnoRuntime.queryInterface(XServiceInfo.class, xComponent);
+    if (xInfo == null) {
+      return false;
+    }
     return xInfo.supportsService("com.sun.star.sheet.SpreadsheetDocument");
   }
 

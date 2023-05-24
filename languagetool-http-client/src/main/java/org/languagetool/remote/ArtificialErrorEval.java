@@ -39,6 +39,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,6 +78,7 @@ public class ArtificialErrorEval {
   static int maxCheckedSentences = 1000000; // decrease this number for testing
   static List<String> onlyRules = new ArrayList<String>();
   static List<String> disabledRules = new ArrayList<String>();
+  static List<String> enabledOnlyRules = new ArrayList<String>();
   static String summaryOutputFilename = "";
   static String verboseOutputFilename = "";
   static String errorCategory = "";
@@ -107,6 +110,10 @@ public class ArtificialErrorEval {
       boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty("printSummaryDetails", "true"));
       boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
       remoteServer = prop.getProperty("remoteServer", "http://localhost:8081");
+      String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
+      if (!enabledOnlyRulesStr.isEmpty()) {
+        enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
+      }
       String disabledRulesStr = prop.getProperty("disabledRules", "");
       if (!disabledRulesStr.isEmpty()) {
         disabledRules = Arrays.asList(disabledRulesStr.split(","));  
@@ -316,20 +323,20 @@ public class ArtificialErrorEval {
     fakeRuleIDs[0] = "rules_" + words[0] + "->" + words[1]; // rules in one direction
     fakeRuleIDs[1] = "rules_" + words[1] + "->" + words[0]; // rules in the other direction
     CheckConfiguration config;
-    if (!userName.isEmpty() && !apiKey.isEmpty()) {
-      config = new CheckConfigurationBuilder(langCode)
-          .disabledRuleIds("WHITESPACE_RULE")
-          .textSessionID("-2")
-          .username(userName)
-          .apiKey(apiKey)
-          .build();  
+    CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(langCode);
+    cfgBuilder.textSessionID("-2");
+    if (enabledOnlyRules.isEmpty()) {
+      cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
+      if (!disabledRules.isEmpty()) {
+        cfgBuilder.disabledRuleIds(disabledRules);
+      }
     } else {
-      config = new CheckConfigurationBuilder(langCode)
-          .disabledRuleIds("WHITESPACE_RULE")
-          .textSessionID("-2")
-          .build();
+      cfgBuilder.enabledRuleIds(enabledOnlyRules).enabledOnly();
     }
-    
+    if (!userName.isEmpty() && !apiKey.isEmpty()) {
+      cfgBuilder.username(userName).apiKey(apiKey).build();
+    }
+    config = cfgBuilder.build();
     long start = System.currentTimeMillis();
     List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
     if (!inflected && !isDoubleLetters && !isDiacritics && !isParallelCorpus) {
@@ -414,7 +421,7 @@ public class ArtificialErrorEval {
           ignoredLines++;
           continue;
         }
-        List<String> diffs = differences(correctSentence, incorrectSentence);
+        List<String> diffs = StringTools.getDifference(correctSentence, incorrectSentence);
         int posError = diffs.get(0).length();
         words[1] = diffs.get(1);
         words[0] = diffs.get(2);
@@ -558,6 +565,7 @@ public class ArtificialErrorEval {
       }
       
       resultsString.append(printTimeFromStart(start, ""));
+      resultsString.append("\n" + printCurrentDateTime() + "\n");
       appendToFile(verboseOutputFilename, resultsString.toString());
       
       if (printSummaryDetails) {
@@ -778,49 +786,17 @@ public class ArtificialErrorEval {
         + " <configuration file>");
   }
   
-  private static List<String> differences(String s1, String s2) {
-    List<String> results = new ArrayList<>();
-    if (s1.equals(s2)) {
-      results.add(s1);
-      results.add("");
-      results.add("");
-      results.add("");
-      return results;
-    }
-    int l1 = s1.length();
-    int l2 = s2.length();
-    int fromStart = 0;
-    while (fromStart < l1 && fromStart < l2 && s1.charAt(fromStart) == s2.charAt(fromStart)) {
-      fromStart++;
-    }
-    int fromEnd = 0;
-    while (fromEnd < l1 && fromEnd < l2 && s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
-      fromEnd++;
-    }
-    // corrections (e.g. stress vs stresses)
-    while (fromStart > l1 - fromEnd) {
-      fromEnd--;
-    }
-    while (fromStart > l2 - fromEnd) {
-      fromEnd--;
-    }
-    // common string at start
-    results.add(s1.substring(0, fromStart));
-    // diff in sentence 1
-    results.add(s1.substring(fromStart, l1 - fromEnd));
-    // diff in sentence 2
-    results.add(s2.substring(fromStart, l2 - fromEnd));
-    // common string at end
-    results.add(s1.substring(l1 - fromEnd, l1));
-    return results;
-    
-  }
-  
   public static void wait(int ms) {
     try {
       Thread.sleep(ms);
     } catch (InterruptedException ex) {
       Thread.currentThread().interrupt();
     }
+  }
+
+  private static String printCurrentDateTime() {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
+    return dtf.format(now);
   }
 }

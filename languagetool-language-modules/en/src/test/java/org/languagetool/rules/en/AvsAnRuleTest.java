@@ -64,6 +64,8 @@ public class AvsAnRuleTest {
     assertCorrect("See http://www.an.com");
     assertCorrect("Station A equals station B.");
     assertCorrect("e.g., the case endings -a -i -u and mood endings -u -a");
+    assertCorrect("A'ight, y'all.");
+    assertCorrect("He also wrote the comic strips Abbie an' Slats.");
 
     // errors:
     assertIncorrect("It was a hour ago.");
@@ -166,6 +168,14 @@ public class AvsAnRuleTest {
 
     // quotes..
     matches = rule.match(lt.getAnalyzedSentence("a \"industry standard\"."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("a “industry standard”."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("a ‘industry standard’."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
 

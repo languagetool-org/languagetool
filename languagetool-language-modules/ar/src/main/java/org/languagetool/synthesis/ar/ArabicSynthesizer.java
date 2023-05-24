@@ -21,6 +21,7 @@ package org.languagetool.synthesis.ar;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
@@ -28,9 +29,12 @@ import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.languagetool.tools.ArabicConstants.*;
 
 /**
  * Arabic word form synthesizer.
@@ -245,7 +249,91 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     }
     return wordlist;
   }
+  
+  /* 
+   * generate a new form according to a specific postag, this form is Attached
+   */
+  public List<String> inflectLemmaLike(String targetLemma, AnalyzedToken sourcetoken) {
+    // make a token with the lemma
+    AnalyzedTokenReadings tokenReadList = tagger.tag(targetLemma);
+    List<String> wordlist = new ArrayList<String>();
 
+    if (!tokenReadList.hasLemma(targetLemma)) {
+      wordlist.add("[" + targetLemma + "]");
+      return wordlist;
+    }
+    String sourcePostag = sourcetoken.getPOSTag();
+    // get affixes
+    String prefix = tagger.getProclitic(sourcetoken);
+    String suffix = tagger.getEnclitic(sourcetoken);
+
+    List<AnalyzedToken> tokenListFiltred = new ArrayList<AnalyzedToken>();
+
+    // if the lemma is not equals to given one, continue
+    // how can a lemma not the same,
+    // if we tag a diacritized verb, the tagger remove diacritics and can generate other cases
+    for (AnalyzedToken currentToken : tokenReadList.getReadings()) {
+      if (targetLemma.equals(currentToken.getLemma())) {
+        tokenListFiltred.add(currentToken);
+      }
+    }
+
+    for (AnalyzedToken currentToken : tokenListFiltred) {
+      // if the lemma is not equals to given one, continue
+      // how can a lemma not the same,
+      // if we tag a diacritized verb, the tagger remove diacritics and can generate other cases
+      // merge postag
+      String postagLemma = currentToken.getPOSTag();
+      String mergedPostag = tagmanager.mergePosTag(sourcePostag, postagLemma);
+
+      // construct word
+      String word = prefix + targetLemma;
+      AnalyzedToken token = new AnalyzedToken(word, mergedPostag, targetLemma);
+      List<String> wordlist2 = setEncliticMultiple(token, suffix);
+      wordlist.addAll(wordlist2);
+    }
+    // remove dupplicates
+    List<String> resultWordlist = new ArrayList<String>(new HashSet<>(wordlist));
+    return resultWordlist;
+  }
+
+
+  /* genarate Mafoul Mutlaq from masdar */
+  public static String inflectMafoulMutlq(String word) {
+    if (word == null) {
+      return word;
+    }
+    String newword = word;
+    if (word.endsWith(Character.toString(TEH_MARBUTA))) {
+      newword += FATHATAN;
+    } else {
+      newword += FATHATAN + "" + ALEF;
+    }
+    return newword;
+  }
+
+  /* genarate Mafoul Mutlaq from masdar */
+  public static String inflectAdjectiveTanwinNasb(String word, boolean feminin) {
+    if (word == null) {
+      return word;
+    }
+    String newword = word;
+    if (feminin) {
+      if (word.endsWith(Character.toString(TEH_MARBUTA))) {
+        newword += FATHATAN;
+      } else {
+        newword += Character.toString(TEH_MARBUTA) + FATHATAN;
+      }
+    } else { // if masculine, remove teh marbuta
+      if (word.endsWith(Character.toString(TEH_MARBUTA))) {
+        newword = word.replaceAll(Character.toString(TEH_MARBUTA), "");
+      } else {
+        newword += Character.toString(FATHATAN) + ALEF;
+      }
+    }
+    return newword;
+  }
+  
   /**
    * @return set a new procletic for the given word,
    */

@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.languagetool.JLanguageTool;
@@ -73,6 +74,7 @@ public class DocumentCache implements Serializable {
   private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;                 // stores the document type (Writer, Impress, Calc)
   private List<Integer> sortedTextIds = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)
+  private Map<Integer, Integer> headingMap;
   private boolean isReset = false;
   private boolean isDirty = false;
   private int documentElementsCount = -1;
@@ -232,9 +234,15 @@ public class DocumentCache implements Serializable {
       FlatParagraphContainer paragraphContainer = null;
       List<List<List<Integer>>> deletedChars = new ArrayList<>();
       for (DocumentText documentText : documentTexts) {
-        chapterBegins.add(documentText.headingNumbers);
+        List<Integer> hNumbers = new ArrayList<>();
+        for (int n : documentText.headingNumbers.keySet()) {
+          hNumbers.add(n);
+        }
+        hNumbers.sort(null);
+        chapterBegins.add(hNumbers);
         deletedChars.add(documentText.deletedCharacters);
       }
+      headingMap = documentTexts.get(CURSOR_TYPE_TEXT).headingNumbers;
       if (flatPara == null) {
         flatPara = document.getFlatParagraphTools();
       }
@@ -1740,7 +1748,8 @@ public class DocumentCache implements Serializable {
       return true;
     }
     for (int n = 0; n < chapterBegins.get(textParagraph.type).size(); n++) {
-      if (textParagraph.number == chapterBegins.get(textParagraph.type).get(n)) {
+      if (textParagraph.number == 0 ||
+          textParagraph.number == chapterBegins.get(textParagraph.type).get(n)) {
         if (n == chapterBegins.get(textParagraph.type).size() - 1 || 
             chapterBegins.get(textParagraph.type).get(n + 1) == textParagraph.number + 1) {
           return true;
@@ -2061,6 +2070,53 @@ public class DocumentCache implements Serializable {
     }
   }
   
+  /**
+   * has nearest paragraph changed
+   *//*
+  public boolean nearestParagraphHasChanged(int numberOfFlatParagraph, FlatParagraphTools flatPara) {
+    if (flatPara == null || numberOfFlatParagraph < 0 || numberOfFlatParagraph > paragraphs.size() - 1) {
+      return true;
+    }
+    if (paragraphs.size() == 1) {
+      return false;
+    }
+    int pNum = numberOfFlatParagraph == paragraphs.size() - 1 ? numberOfFlatParagraph - 1 : numberOfFlatParagraph + 1;
+    if (!flatPara.getFlatParagraphAt(pNum).getText().equals(paragraphs.get(pNum))) {
+      return true;
+    }
+    return false;
+  }
+*/
+  /**
+   * Get Map of Headings (only cursor type text)
+   */
+  public Map<Integer, Integer> getHeadingMap() {
+    return headingMap;
+  }
+  
+  /**
+   * Return nearest sorted text Id
+   */
+  public int getNearestSortedTextId(int sortedTextId) {
+    rwLock.readLock().lock();
+    try {
+      if (sortedTextIds == null) {
+        return -1;
+      }
+      for (int i = 0; i < sortedTextIds.size(); i++) {
+        if (sortedTextIds.get(i) == sortedTextId) {
+          if (i == sortedTextIds.size() - 1) {
+            return sortedTextIds.get(i - 1);
+          } else {
+            return sortedTextIds.get(i + 1);
+          }
+        }
+      }
+      return -1;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
   
   /**
    * Return Number of flat Paragraph from node index
@@ -2111,12 +2167,12 @@ public class DocumentCache implements Serializable {
     }
   }
 
-  static class TextParagraph implements Serializable {
+  public static class TextParagraph implements Serializable {
     private static final long serialVersionUID = 1L;
     int type;
     int number;
 
-    TextParagraph(int type, int number) {
+    public TextParagraph(int type, int number) {
       this.type = type;
       this.number = number;
     }

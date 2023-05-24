@@ -23,15 +23,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.UserConfig;
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
-
-import java.io.IOException;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRuleTest {
 
@@ -43,24 +34,13 @@ public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRul
     assertNoMatch("Eins zwei drei vier fünf sechs.", rule, lt);
     //  Words after colon are treated like a separate sentence
     assertNoMatch("Ich zähle jetzt: \"Eins zwei drei vier fünf sechs.\"", rule, lt);
-    
+    assertNoMatch("Peter, bist du bereit?” Er nickte nur.\n", rule, lt);
+    assertNoMatch("Peter, du bist bereit.” Er nickte nur.\n", rule, lt);
+
     assertMatch("Eins zwei drei vier fünf sechs sieben.", 0, 37, rule, lt);
     assertMatch("Eins zwei drei vier fünf (sechs sieben) acht.", 0, 44, rule, lt);
     assertMatch("Ich zähle jetzt: Eins zwei drei vier fünf sechs sieben.", 0, 54, rule, lt);
     assertMatch("Ein Satz. Eins zwei drei vier fünf sechs sieben.", 10, 47, rule, lt);
   }
 
-  protected void assertNoMatch(String input, TextLevelRule rule, JLanguageTool lt) throws IOException {
-    AnnotatedText aText = new AnnotatedTextBuilder().addText(input).build();
-    assertThat(rule.match(lt.analyzeText(input), aText).length, is(0));
-  }
-
-  protected void assertMatch(String input, int from, int to, TextLevelRule rule, JLanguageTool lt) throws IOException {
-    AnnotatedText aText = new AnnotatedTextBuilder().addText(input).build();
-    RuleMatch[] matches = rule.match(lt.analyzeText(input), aText);
-    assertThat(matches.length, is(1));
-    assertThat(matches[0].getFromPos(), is(from));
-    assertThat(matches[0].getToPos(), is(to));
-  }
-  
 }
