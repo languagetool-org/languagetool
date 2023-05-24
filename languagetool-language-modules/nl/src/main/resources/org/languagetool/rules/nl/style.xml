@@ -138,7 +138,7 @@ USA
 
 <rules lang="nl" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<category id="STYLE" name="Stijl" type="style">
-		<rulegroup id="ZOVEEL_DAN" name="In/over" tags="picky">
+		<rulegroup id="ZOVEEL_DAN" name="In/over" tags="picky" tone_tags="clarity">
 			<rule>
 				<antipattern><token skip="-1">zoveel</token><token>,</token></antipattern>
 				<antipattern><token skip="-1" postag_regexp="yes" postag="BNW:VGR.*"/><token>dan</token></antipattern>
@@ -155,7 +155,7 @@ USA
 				<example correction="als">Er waren nog nooit zoveel besmettingen per dag geteld zijn <marker>dan</marker> vandaag.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ZO_OPTIMAAL_MOGELIJK" name="zo optimaal mogelijk">
+		<rulegroup id="ZO_OPTIMAAL_MOGELIJK" name="zo optimaal mogelijk" tone_tags="clarity">
 			<rule>
 				<pattern>
 					<token>zo</token>
@@ -168,7 +168,7 @@ USA
 				<example correction="optimaal|zo goed mogelijk">Om de website <marker>zo optimaal mogelijk</marker> vorm te geven en voortdurend te kunnen verbeteren, gebruikt Festool cookies.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="OPTIMAAL" name="optimaal" tags="picky">
+		<rulegroup id="OPTIMAAL" name="optimaal" tags="picky" tone_tags="clarity">
 			<rule>
 				<pattern>
 					<token regexp="yes">optimaler|optimaalst|optimaalste|optimalere</token>
@@ -178,6 +178,7 @@ USA
 			</rule>
 		</rulegroup>
 		<rulegroup id="IN_X_MINUTEN" name="In/over" tags="picky">
+			<!-- toneTag foreign_terms -->
 			<rule>
 				<pattern>
 					<token inflected="yes">vertrekken</token>
@@ -190,7 +191,7 @@ USA
 				<example correction="vertrekt over 5 minuten">De bus <marker>vertrekt in 5 minuten</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VAN_BETEKENIS" name="Van betekenis/belangrijk" tags="picky">
+		<rulegroup id="VAN_BETEKENIS" name="Van betekenis/belangrijk" tags="picky" tone_tags="clarity">
 			<rule>
 				<pattern>
 					<token>van</token>
@@ -202,7 +203,7 @@ USA
 				<example correction="belangrijk">De fout is <marker>van grote betekenis</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HEEFT_ALLES_TE_MAKEN_MET" name="Heeft alles te maken met / komt door" tags="picky">
+		<rulegroup id="HEEFT_ALLES_TE_MAKEN_MET" name="Heeft alles te maken met / komt door" tags="picky" tone_tags="clarity">
 			<rule>
 				<pattern>
 					<token>heeft</token>
@@ -216,7 +217,7 @@ USA
 				<example correction="komt door">De fout <marker>heeft alles te maken met</marker> slordigheid.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BINNEN_NU_EN_X_MAANDEN" name="Binnen nu en/binnen">
+		<rulegroup id="BINNEN_NU_EN_X_MAANDEN" name="Binnen nu en/binnen" tone_tags="clarity">
 			<rule>
 				<pattern>
 					<marker>
@@ -232,12 +233,12 @@ USA
 				<example correction="binnen">De fout treedt op <marker>binnen nu en</marker> 5 jaar.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter">
+		<rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter" tone_tags="formal">
 			<rule>
 				<antipattern><token>het</token><token>IJ</token></antipattern>
 				<pattern>
 					<marker>
-						<token  case_sensitive="yes" regexp="yes">Adr|Fr|IJ|Jac|Joh|Ph|Th|Tj</token>
+						<token case_sensitive="yes" regexp="yes">Adr|Fr|IJ|Jac|Joh|Ph|Th|Tj</token>
 						<token spacebefore="no">.</token>
 					</marker>
 					<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
@@ -247,7 +248,7 @@ USA
 				<example correction="T.">De naam is <marker>Th.</marker> Janssen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KAN_KUN" name="kan vs kun" tags="picky">
+		<rulegroup id="KAN_KUN" name="kan vs kun" tags="picky" tone_tags="formal">
 			<antipattern>
 				<token postag_regexp="yes" postag="SENT_START|START"/>
 				<token regexp="yes">wat|wie</token>
@@ -319,7 +320,7 @@ USA
 				<example>Uw kinderbijslagfonds kan u vertellen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ZAL_ZUL" name="zal of zul" tags="picky">
+		<rulegroup id="ZAL_ZUL" name="zal of zul" tags="picky" tone_tags="clarity">
 			<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">ik|men|hij|zij|ze</token><token postag="SENT_END"/></antipattern>
 			<antipattern><token regexp="yes">het|dit|dat</token><token>zal</token></antipattern>
 			<antipattern><token postag="VRZ"/><token>je</token><token>zal</token></antipattern>
@@ -390,7 +391,7 @@ USA
 				<example>Elke arts zal je</example>
 			</rule>
 		</rulegroup>
-		<rule id="MITS_TENZIJ" name="verwarring mits en tenzij">
+		<rule id="MITS_TENZIJ" name="verwarring mits en tenzij" tone_tags="clarity">
 			<pattern>
 				<token case_sensitive="yes" regexp="yes">[Mm]its</token>
 			</pattern>
@@ -398,7 +399,7 @@ USA
 			<url>https://taaladvies.net/taal/advies/vraag/555</url>
 			<example correction="als|op voorwaarde dat">De aanschaf kan worden voltooid, <marker>mits</marker> er voldoende budget is.</example>
 		</rule>
-		<rule id="NIET_ON" name="Niet ondenkbeeldig">
+		<rule id="NIET_ON" name="Niet ondenkbeeldig" tone_tags="clarity">
 			<pattern>
 				<token>niet</token>
 				<token regexp="yes">ondenkbeeldig|ondenkbaar</token>
@@ -409,7 +410,7 @@ USA
 			<url>https://taaladvies.net/taal/advies/vraag/580</url>
 			<example correction="ondenkbeeldig|niet denkbeeldig">Taaladvies over <marker>niet ondenkbeeldig</marker>.</example>
 		</rule>
-		<rulegroup id="ER_MIST" name="Er mist → Er ontbreekt">
+		<rulegroup id="ER_MIST" name="Er mist → Er ontbreekt" tone_tags="formal">
 			<rule>
 				<pattern>
 					<token regexp="yes">er|hier|daar</token>
@@ -424,7 +425,7 @@ USA
 				<example correction="ontbraken">Er <marker>misten</marker> nogal wat dingen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VAAG" name="vage taal" tags="picky">
+		<rulegroup id="VAAG" name="vage taal" tags="picky" tone_tags="formal">
 			<rule>
 				<antipattern><token>dan</token><token>ooit</token></antipattern>
 				<pattern>
@@ -434,14 +435,14 @@ USA
 				<example correction="">Ik ga <marker>ooit</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rule id="VAAG_2" name="men is niemand" default="off">
+		<rule id="VAAG_2" name="men is niemand" default="off" tone_tags="clarity">
 			<pattern>
 				<token>men</token>
 			</pattern>
 			<message>&vaag_mess;</message>
 			<example correction=""><marker>Men</marker> is niemand.</example>
 		</rule>
-		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky">
+		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky" tone_tags="formal">
 			<rule>
 				<pattern>
 					<token inflected="yes">gigantisch</token>
@@ -450,7 +451,7 @@ USA
 				<example correction=""><marker>Gigantisch</marker> gebouw.</example>
 			</rule>
 		</rulegroup>
-		<rule id="OVERDRIJVING_2" name="vreselijk mooi (mooi)" tags="picky">
+		<rule id="OVERDRIJVING_2" name="vreselijk mooi (mooi)" tags="picky" tone_tags="formal">
 			<pattern>
 				<token regexp="yes">vreselijk|super|mega</token>
 				<token postag_regexp="yes" postag="BNW.*"/>
@@ -458,7 +459,7 @@ USA
 			<message>Misschien kan dit ook gezegd worden met alleen <suggestion>\2</suggestion>.</message>
 			<example correction="Mooi"><marker>Vreselijk mooi</marker>."</example>
 		</rule>
-		<rule id="OVERDRIJVING_3" name="heel erg saai (erg saai)" tags="picky">
+		<rule id="OVERDRIJVING_3" name="heel erg saai (erg saai)" tags="picky" tone_tags="formal">
 			<pattern>
 				<token>heel</token>
 				<token>erg</token>
@@ -486,6 +487,7 @@ USA
         </rulegroup>
 	</category>
 	<category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven" type="style">
+		<!-- toneTag "inclusive" -->
 		<rulegroup id="SEKSE_VOLGORDE" name="misschien volgorde omdraaien" tags="picky" default="off">
 			<!-- 3% apply rate, 10% temp disable -->
 			<rule>
