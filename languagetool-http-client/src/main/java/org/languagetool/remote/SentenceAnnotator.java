@@ -381,7 +381,7 @@ public class SentenceAnnotator {
 
     void prepareConfiguration() throws IOException {
       CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);
-      cfgBuilder.textSessionID("-2");
+      //cfgBuilder.textSessionID("-2");
       if (enabledOnlyRules.isEmpty()) {
         cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
         if (!disabledRules.isEmpty()) {
