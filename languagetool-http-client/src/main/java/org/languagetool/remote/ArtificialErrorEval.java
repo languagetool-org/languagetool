@@ -324,7 +324,7 @@ public class ArtificialErrorEval {
     fakeRuleIDs[1] = "rules_" + words[1] + "->" + words[0]; // rules in the other direction
     CheckConfiguration config;
     CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(langCode);
-    cfgBuilder.textSessionID("-2");
+    //cfgBuilder.textSessionID("-2");
     if (enabledOnlyRules.isEmpty()) {
       cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
       if (!disabledRules.isEmpty()) {
