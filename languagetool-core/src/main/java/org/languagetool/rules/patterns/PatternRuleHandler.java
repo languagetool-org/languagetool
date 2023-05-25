@@ -718,7 +718,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.addToneTags(ruleToneTags);
         rule.addToneTags(ruleGroupToneTags);
         rule.setSourceFile(sourceFile);
-        rule.setPremium(isPremiumRule);
         rule.setMinPrevMatches(minPrevMatches);
         rule.setDistanceTokens(distanceTokens);
         rule.setXmlLineNumber(xmlLineNumber);
@@ -788,6 +787,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
 
   protected void prepareRule(AbstractPatternRule rule) {
+    rule.setPremium(isPremiumRule);
     rule.setSourceFile(sourceFile);
     if (startPos != -1 && endPos != -1) {
       rule.setStartPositionCorrection(startPos);
