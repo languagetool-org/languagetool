@@ -17413,6 +17413,48 @@ USA
             <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
         </rule>
 
+
+    <!-- DE PROPÓSITO deliberadamente -->
+    <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky" default='temp_off'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-25 (2-MAR-2023+) -->
+      <!--
+      Eles fizeram de propósito. → Eles fizeram deliberadamente.
+      Eles fizeram aquilo de propósito. → Eles fizeram aquilo deliberadamente.
+      Eles fizeram-no de propósito. → Eles fizeram-no deliberadamente.
+      -->
+      <rule>
+        <pattern>
+          <token inflected='yes'>fazer</token>
+          <token min='0' max='1' postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+          <marker>
+            <token>de</token>
+            <token>propósito</token>
+          </marker>
+        </pattern>
+        <message>Num contexto formal/científico, é preferível escrever 'deliberadamente'.</message>
+        <suggestion>deliberadamente</suggestion>
+        <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
+        <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected='yes'>fazer</token>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes' spacebefore='no'>&pronomes_obliquos;</token>
+          <marker>
+            <token>de</token>
+            <token>propósito</token>
+          </marker>
+        </pattern>
+        <message>Num contexto formal/científico, é preferível escrever 'deliberadamente'.</message>
+        <suggestion>deliberadamente</suggestion>
+        <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
+      </rule>
+
+    </rulegroup>
+
+
         <!-- USAR empregar -->
         <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-31 (Enhanced) (17-MAR-2021+) *START* -->
