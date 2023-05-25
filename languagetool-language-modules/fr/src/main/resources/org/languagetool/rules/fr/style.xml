@@ -843,6 +843,21 @@ USA
             <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
             <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
         </rule>
+        <rule id="FILER_PARTIR" name="filer au lieu de partir" tone_tags="formal">
+            <antipattern>
+                <token inflected="yes" case_sensitive="yes">filer</token>
+                <token regexp="yes">un|du</token>
+                <token>mauvais</token>
+                <token>coton</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" case_sensitive="yes">filer</token>
+            </pattern>
+            <message>Le verbe est familier.</message>
+            <suggestion>courir</suggestion>
+            <suggestion>partir</suggestion>
+            <example correction="courir|partir">Il est venu pour finalement <marker>filer</marker> une heure après.</example>
+        </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style" tone_tags="clarity">
         <!--The following rules were created by Hugo Voisard
