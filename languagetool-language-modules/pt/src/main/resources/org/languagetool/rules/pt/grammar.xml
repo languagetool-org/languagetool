@@ -20273,7 +20273,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-
+        <!-- My assumption here is that these are mostly typos since they're pretty obvious ungrammatical,
+             from the descriptive point of view. So it doesn't seem to be worthwhile to account for non-3SG
+             inflections. I mean, 'dever' -> 'deve' is pretty straightforward, but 'dever' -> 'devo' less so.  -->
+        <rulegroup id="DOUBLE_INFINITIVE" name="Infinitivo duplo">
+            <short>Possível erro de digitação.</short>
+            <!-- This contains the original structure as described in premium issue 5538
+                 All sentences herein are of the shape: 'dever ter feito', and as such will usually indicate
+                 some kind of past tense epistemic modality, for which the double infinitive is very probably ungrammatical. -->
+            <rule default="temp_off">
+                <!-- This antipattern refers to constructions of the type 'the fact that...', for which
+                     a personal (i.e. inflected) infinitive can be used. -->
+                <antipattern>
+                    <token regexp="yes">fac?to|questão|possibilidade|hipótese|apesar</token>
+                    <token regexp="yes" skip="-1" postag_regexp="yes" postag="SPS00(:.+)?">
+                        d([eoa]|es[st][ea]|aquel[ea]|uma?|is[st]o|aquilo)
+                        <exception postag_regexp="yes" postag="V.+"/>
+                    </token>
+                    <token postag_regexp="yes" postag="VMN.+">dever</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token>ter</token>
+                    <token postag_regexp="yes" postag="V.P.+"/>
+                    <example>A questão de o segredo dever ter sido revelado não nos afeta.</example>
+                    <example>O fato do contrato já dever ter sido assinado é irrelevante.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="CS"/>
+                    <token postag="CS" skip="-1">
+                        de
+                        <exception postag_regexp="yes" postag="V.+"/>
+                    </token>
+                    <token postag_regexp="yes" postag="VMN.+">dever</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token>ter</token>
+                    <token postag_regexp="yes" postag="V.P.+"/>
+                    <example>Apesar de ele dever já ter entrado, tranquei a porta.</example>
+                </antipattern>
+                <!-- A pesky little case, where 'a' + inf. actually generally fits..? -->
+                <antipattern>
+                    <token postag="SPS00">a</token>
+                    <token postag_regexp="yes" postag="VMN.+">dever</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token>ter</token>
+                    <token postag_regexp="yes" postag="V.P.+"/>
+                    <example>A cidade ficou-lhe a dever não ter sido invadida.</example>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="SENT_START|[DNPARZ].+"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="VMN.+">dever</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token>ter</token>
+                    <token postag_regexp="yes" postag="V.P.+"/>
+                </pattern>
+                <message>O duplo infinitivo parece indicar um error de digitação. Se for o caso, substituta &quot;\2&quot; por <suggestion><match no="2" postag_regexp="yes" postag="VMN.+" postag_replace="VMIP3S0"/></suggestion>.</message>
+                <example correction="deve">Ele já <marker>dever</marker> ter ido embora.</example>
+                <example correction="Deve"><marker>Dever</marker> ter chovido mais cedo.</example>
+                <example correction="deve">Acho que o meu pai ainda não <marker>dever</marker> ter chegado lá.</example>
+            </rule>
+        </rulegroup>
     </category>
 
 
