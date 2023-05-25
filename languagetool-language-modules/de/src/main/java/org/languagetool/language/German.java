@@ -414,7 +414,8 @@ public class German extends Language implements AutoCloseable {
       case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
       case "VERSEHENTLICHERWEISE": return -1; // higher prio than spell checker
       case "VERMOD_SKIP_VER_PKT": return -1; // less prio than casing rules
-      case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
+      case "N_NETTER_TYP": return -1; // higher prio than EINZELBUCHSTABE_PREMIUM and speller
+      case "EINZELBUCHSTABE_PREMIUM": return -2;  // lower prio than "A_LA_CARTE"
       case "ART_IND_ADJ_SUB": return -2;  // prefer DE_AGREEMENT rules
       case "KATARI": return -2; // higher prio than spell checker
       case "SCHOENE_WETTER": return -2; // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)

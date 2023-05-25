@@ -3191,6 +3191,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "kontaktfreundliches": return topMatch("kontaktfreudiges");
       case "kontaktfreundlichen": return topMatch("kontaktfreudigen");
       case "kontaktfreundlichem": return topMatch("kontaktfreudigem");
+      case "Wirtschaftsingenieurswesen": return topMatch("Wirtschaftsingenieurwesen");
+      case "Wirtschaftsingenieurswesens": return topMatch("Wirtschaftsingenieurwesens");
+      case "wiederspiegeln": return topMatch("widerspiegeln");
+      case "wiederspiegelt": return topMatch("widerspiegelt");
+      case "wiederspiegelst": return topMatch("widerspiegelst");
+      case "wiedergespiegelt": return topMatch("widergespiegelt");
+      case "Wiederhall": return topMatch("Widerhall");
+      case "Wiederhalls": return topMatch("Widerhalls");
     }
     return Collections.emptyList();
   }

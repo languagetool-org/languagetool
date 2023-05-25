@@ -711,6 +711,7 @@ public class CaseRule extends Rule {
     "Euch",
     "Euer",
     "Eure",
+    "Euern",
     "Eurem",
     "Euren",
     "Eures",

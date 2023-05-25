@@ -1807,7 +1807,86 @@ USA
     <!-- Umgangssprache -->
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
-            <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+        <rulegroup id="N_NETTER_TYP" name="n (ein) netter Typ" default="temp_off" tags="professional objective academic">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">n</token>
+                    </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">sehr|ziemlich|äu(ß|ss)erst|ganz|wirklich|total|richtig|verdammt|unglaublich|echt|so|voll</token>
+                    <token regexp="yes" postag="(ADJ|PA[12]).*" postag_regexp="yes">[a-zäöüß\-]+er</token>
+                    <token postag="SUB.*SIN.*MAS" postag_regexp="yes" />
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>ein</suggestion> eleganter. Falls Sie umgangssprachlich formulieren, setzen Sie einen Apostroph.</message>
+                <suggestion>’n</suggestion>
+                <example correction="ein|’n">Du bist <marker>n</marker> netter Typ.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">n</token>
+                    </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">sehr|ziemlich|äu(ß|ss)erst|ganz|wirklich|total|richtig|verdammt|unglaublich|echt|so|voll</token>
+                    <token regexp="yes" postag="(ADJ|PA[12]).*" postag_regexp="yes">[a-zäöüß\-]+es</token>
+                    <token postag="SUB.*SIN.*NEU" postag_regexp="yes" />
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>ein</suggestion> eleganter. Falls Sie umgangssprachlich formulieren, setzen Sie einen Apostroph.</message>
+                <suggestion>’n</suggestion>
+                <example correction="ein|’n">Du bist <marker>n</marker> nettes Mädchen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">ne</token>
+                    </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">sehr|ziemlich|äu(ß|ss)erst|ganz|wirklich|total|richtig|verdammt|unglaublich|echt|so|voll</token>
+                    <token regexp="yes" postag="(ADJ|PA[12]).*" postag_regexp="yes">[a-zäöüß\-]+e</token>
+                    <token postag="SUB.*SIN.*FEM" postag_regexp="yes" />
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>eine</suggestion> eleganter. Falls Sie umgangssprachlich formulieren, setzen Sie einen Apostroph.</message>
+                <suggestion>’ne</suggestion>
+                <example correction="eine|’ne">Du bist <marker>ne</marker> nette Frau.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">nem</token>
+                    </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">sehr|ziemlich|äu(ß|ss)erst|ganz|wirklich|total|richtig|verdammt|unglaublich|echt|so|voll</token>
+                    <token regexp="yes" postag="(ADJ|PA[12]).*" postag_regexp="yes">[a-zäöüß\-]+en</token>
+                    <token postag="SUB.*SIN.*(MAS|NEU)" postag_regexp="yes" />
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>einem</suggestion> eleganter. Falls Sie umgangssprachlich formulieren, setzen Sie einen Apostroph.</message>
+                <suggestion>’nem</suggestion>
+                <example correction="einem|’nem">Ich komme mit <marker>nem</marker> schönen Bier vorbei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">nen</token>
+                    </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">sehr|ziemlich|äu(ß|ss)erst|ganz|wirklich|total|richtig|verdammt|unglaublich|echt|so|voll</token>
+                    <token regexp="yes" postag="(ADJ|PA[12]).*" postag_regexp="yes">[a-zäöüß\-]+en</token>
+                    <token postag="SUB.*SIN.*MAS" postag_regexp="yes" />
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>einen</suggestion> eleganter. Falls Sie umgangssprachlich formulieren, setzen Sie einen Apostroph.</message>
+                <suggestion>’nen</suggestion>
+                <example correction="einen|’nen">Ich brauche <marker>nen</marker> neuen Tisch.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">ner</token>
+                    </marker>
+                    <token regexp="yes" min="0" case_sensitive="yes">sehr|ziemlich|äu(ß|ss)erst|ganz|wirklich|total|richtig|verdammt|unglaublich|echt|so|voll</token>
+                    <token regexp="yes" postag="(ADJ|PA[12]).*" postag_regexp="yes">[a-zäöüß\-]+en</token>
+                    <token postag="SUB.*SIN.*FEM" postag_regexp="yes" />
+                </pattern>
+                <message>Standardsprachlich ist <suggestion>einer</suggestion> eleganter. Falls Sie umgangssprachlich formulieren, setzen Sie einen Apostroph.</message>
+                <suggestion>’ner</suggestion>
+                <example correction="einer|’ner">Ich komme mit <marker>ner</marker> neuen Frisur.</example>
+            </rule>
+        </rulegroup>
             <rulegroup id="ERSTE_PERSON_SIN_OHNE_E" name="ich kauf (ich kaufe)" tags="professional objective academic">
                 <url>https://languagetool.org/insights/de/beitrag/stil-ich-habe-hab/</url>
                 <rule><!--1-->
@@ -2732,7 +2811,7 @@ USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
                     <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2746,7 +2825,7 @@ USA
                 <pattern>
                     <token>machte</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|natürlich|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
                     <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2760,7 +2839,7 @@ USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|dringend|grammatikalisch|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|dringend|grammatikalisch|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -2773,7 +2852,7 @@ USA
                 <pattern>
                     <token>machte</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|dringend|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|dringend|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -2787,7 +2866,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>macht</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
+                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
                         <token>Sinn</token>
                     </marker>
                 </pattern>
@@ -2802,7 +2881,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>machte</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|natürlich|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
+                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
                         <token>Sinn</token>
                     </marker>
                 </pattern>
@@ -2817,7 +2896,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|natürlich|durchaus|allerdings|wohl|viel|eigentlich|wahrscheinlich|vermutlich|natürlich</token>
+                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|durchaus|allerdings|wohl|viel|eigentlich|wahrscheinlich|vermutlich|natürlich</token>
                         <token>Sinn</token>
                         <token>machen</token>
                     </marker>
@@ -2832,7 +2911,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>macht</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
+                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
                         <token regexp="yes">keinen|wenig|kaum|nicht</token>
                         <token>Sinn</token>
                     </marker>
@@ -2849,7 +2928,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>machte</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|natürlich|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
+                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
                         <token regexp="yes">keinen|wenig|kaum|nicht</token>
                         <token>Sinn</token>
                     </marker>
@@ -2889,7 +2968,7 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">es|das|dies</token>
-                        <token regexp="yes" min="0">definitiv|irgendwie|grundsätzlich|wirklich|trotzdem|häufig|oft|meist(ens)?|immer|überhaupt|wohl|natürlich|doch|kaum|durchaus|möglicherweise|jetzt|nun|total|eigentlich|natürlich</token>
+                        <token regexp="yes" min="0">definitiv|irgendwie|grundsätzlich|wirklich|trotzdem|häufig|oft|meist(ens)?|immer|überhaupt|wohl|doch|kaum|durchaus|möglicherweise|jetzt|nun|total|eigentlich|natürlich</token>
                         <token>Sinn</token>
                         <token>macht</token>
                     </marker>
@@ -2954,7 +3033,7 @@ USA
                     <token>macht</token>
                     <token>für</token>
                     <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|auch|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|auch|natürlich</token>
                     <token regexp="yes">nicht|wenig|keinen|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2970,7 +3049,7 @@ USA
                     <token>machte</token>
                     <token>für</token>
                     <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|echt|auch|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|echt|auch|natürlich</token>
                     <token regexp="yes">nicht|wenig|keinen|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2984,7 +3063,7 @@ USA
             <rule><!-- [21] -->
                 <pattern>
                     <token>macht</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
                     <token>keinen</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2999,7 +3078,7 @@ USA
             <rule><!-- [22] -->
                 <pattern>
                     <token>machte</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|natürlich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
                     <token>keinen</token>
                     <token>Sinn</token>
                 </pattern>
@@ -3031,7 +3110,7 @@ USA
                 <pattern>
                     <token>mache</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -3043,7 +3122,7 @@ USA
             <rule><!-- [25] -->
                 <pattern>
                     <token>machen</token>
-                    <token min="0" regexp="yes">definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|natürlich|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
