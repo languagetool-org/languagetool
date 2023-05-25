@@ -3200,7 +3200,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Wiederhall": return topMatch("Widerhall");
       case "Wiederhalls": return topMatch("Widerhalls");
       case "Ebensowenig": return topMatch("Ebenso wenig");
-      case "ebensowenig": return topMatch("ebenso wenig");
       case "Ebensooft": return topMatch("Ebenso oft");
       case "ebensooft": return topMatch("ebenso oft");
       case "Ebensogut": return topMatch("Ebenso gut");
