@@ -734,7 +734,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule = new RegexPatternRule(id, name, message.toString(), shortMessage, suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
         rule.setSourceFile(sourceFile);
       } else {
-        throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
+        throw new IllegalStateException("Neither '<pattern>' tokens nor '<regexp>' is set in rule '" + id + "'");
       }
       setRuleFilter(filterClassName, filterArgs, rule);
       prepareRule(rule);
