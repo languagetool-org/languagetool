@@ -495,6 +495,7 @@ public class German extends Language implements AutoCloseable {
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules
       case "INF_VER_MOD": return -53; // prefer case, spelling and AI rules
+      case "DOPPELTES_VERB": return -53; // prefer comma rules (including AI)
       case "VERB_FEM_SUBST": return -54; // prefer comma rules (including AI)
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
       case "DOPPELUNG_GLEICHES_VERB": return -55; // prefer comma rules
