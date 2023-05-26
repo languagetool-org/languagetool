@@ -16910,4 +16910,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="IN" />
     </rule>
+
+    <rule id="PRAIA_DA" name="ignore spelling of 'Praia da Luz'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Praia</token>
+                <token regexp="yes">d[oa]</token>
+                <token regexp="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
