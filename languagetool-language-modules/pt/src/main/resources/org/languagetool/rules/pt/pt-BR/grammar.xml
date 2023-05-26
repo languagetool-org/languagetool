@@ -710,12 +710,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- CONFUNDIR CONSISTE EM POR CONSISTE DE -->
 
     <rule id="CONSISTE_DE_BR" name="Consiste em">
-      <pattern>
-        <token>consiste</token>
-        <token>de</token>
-      </pattern>
-      <message>Consistir é um verbo transitivo indireto e requer a preposição em. Substitua &quot;consiste de&quot; por <suggestion>consiste em</suggestion>.</message>
-      <example correction="consiste em">A seleção <marker>consiste de</marker> cinco etapas.</example>
+        <antipattern>
+            <token inflected="yes">consistir</token>
+            <token postag_regexp="yes" postag="R.">de</token>
+            <token postag_regexp="yes" postag="R." min="1"/>
+            <example>O revestimento consistia de fato em duas camadas distintas.</example>
+        </antipattern>
+        <pattern>
+            <token inflected="yes">consistir</token>
+            <token postag_regexp="yes" postag="R." min="0"/>
+            <marker>
+                <token>de</token>
+            </marker>
+        </pattern>
+        <message>Consistir é um verbo transitivo indireto e requer a preposição em. Substitua &quot;de&quot; por <suggestion>em</suggestion>.</message>
+        <example correction="em">A seleção consiste <marker>de</marker> cinco etapas.</example>
+        <example correction="em">O time consistirá primariamente <marker>de</marker> seis jogadores.</example>
     </rule>
 
     <!-- FIM CONSISTE EM POR CONSISTE DE -->
