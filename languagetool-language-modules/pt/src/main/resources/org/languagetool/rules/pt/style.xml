@@ -244,7 +244,7 @@ USA
 
     <category id='STYLE' name="Estilo" type="style">
         <!-- CAMINHAR CAMINHOS percorrer/trilhar caminhos -->
-        <rule id='ERRO_TRADUÇÃO_CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'">
+        <rule id='ERRO_TRADUÇÃO_CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'" tone_tags="clarity">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
             <pattern>
                 <marker>
@@ -260,7 +260,7 @@ USA
 
 
         <!-- TEMAS NÃO COBERTOS PELO ARTIGO temas não abrangidos pelo artigo -->
-        <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger">
+        <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger" tone_tags="academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-02 (25-JUL-2022+) -->
             <!--
       Em relação a temas não cobertos por este documento. → Em relação a temas não abrangidos por este documento.
@@ -286,7 +286,8 @@ USA
         </rule>
 
         <!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
-        <rule id='ERRO_TRADUÇÃO_TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'">
+        <rule id='ERRO_TRADUÇÃO_TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'" tone_tags="objective">
+            <!-- IDEA shorten_it formal-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
             <pattern>
                 <token regexp="yes">trazedora?|trazedor[ae]s</token>
@@ -302,6 +303,7 @@ USA
 
         <!-- UM TAMANHO DÁ/SERVE PARA TODOS tamanho único -->
         <rule id='ERRO_TRADUÇÃO_UM_TAMANHO_SERVE_DÁ_PARA_TODOS' name="[Erro tradução] 'um tamanho dá para todos' → 'tamanho único'">
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
             <pattern>
                 <token>um</token>
@@ -315,7 +317,8 @@ USA
             <example correction="tamanho único">As meias são <marker>um tamanho serve para todos</marker>.</example>
         </rule>
 
-        <rulegroup id='INTERNET_ABBREVIATIONS' name="Erro ortográfico: Abreviaturas da internet" default="on">
+        <rulegroup id='INTERNET_ABBREVIATIONS' name="Erro ortográfico: Abreviaturas da internet" default="on" tone_tags="formal">
+            <!--IDEA professional-->
             <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-12 -->
             <url>https://pt.wikipedia.org/wiki/Internet%C3%AAs</url>
             <short>'Internetês'</short>
@@ -839,7 +842,8 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id="ADVERBIOS_MODO_EM_SEQUENCIA" name="Sintaxe: sequências de advérbio de modo">
+        <rulegroup id="ADVERBIOS_MODO_EM_SEQUENCIA" name="Sintaxe: sequências de advérbio de modo" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <!--  Created by Tiago F. Santos, 2017-09-03      -->
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/adverbios-de-modo-coordenados/33758</url>
             <rule>
@@ -871,7 +875,7 @@ USA
                 <example correction="eficiente">O processo foi resolvido <marker>eficientemente</marker>, permanentemente e consistentemente.</example>
             </rule>
         </rulegroup>
-        <rulegroup id='À_MINHA-TUA-SUA-VOSSA_VERB' name="à + minha/tua/sua/vossa(s) + verbo" tags="picky">
+        <rulegroup id='À_MINHA-TUA-SUA-VOSSA_VERB' name="à + minha/tua/sua/vossa(s) + verbo" tags="picky" tone_tags="objective">
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-07 (2-JUL-2020+) -->
             <rule>
                 <pattern>
@@ -925,6 +929,7 @@ USA
         <!-- 	AS COISAS NÃO VÃO VERBO_INF nada vai Verb_info -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 (21-OCT-2020+)     -->
         <rule id='AS_COISAS_NÃO_VÃO_VERBO_INF' name="Nada vai + verb_inf">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <marker>
                     <token>as</token>
@@ -940,7 +945,8 @@ USA
 
         <!-- 	ATENÇÃO QUE VERB_MERECER atenção devida-->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-23 (21-OCT-2020+)     -->
-        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="Atenção devida">
+        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="Atenção devida" tone_tags="academic">
+            <!-- IDEA shorten_it -->
             <pattern>
                 <token>atenção</token>
                 <marker>
@@ -952,25 +958,10 @@ USA
             <example correction="devida">Não vos posso dar a atenção <marker>que merecem</marker>.</example>
         </rule>
 
-        <!-- COM A MAIOR DAS CALMAS com a maior naturalidade -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-04 (2-JUL-2020+)     -->
-        <rule id='COM_A_MAIOR_DAS_CALMAS' name="Com a maior naturalidade">
-            <pattern>
-                <token>com</token>
-                <token>a</token>
-                <token>maior</token>
-                <marker>
-                    <token>das</token>
-                    <token>calmas</token>
-                </marker>
-            </pattern>
-            <message>Linguagem informal. Substitua por <suggestion>naturalidade</suggestion>.</message>
-            <example correction="naturalidade">O Rui surgiu com a maior <marker>das calmas</marker>.</example>
-        </rule>
-
 
         <!-- DENOMINADA(O)(S) COMO SENDO denominada(o)(s) -->
-        <rule id='DENOMINADA' name="Denominada(o)(s)">
+        <rule id='DENOMINADA' name="Denominada(o)(s)" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-10 (1-JAN-2021+)      -->
             <!--
             Por isso é denominada como sendo a resiliência.
@@ -1002,7 +993,8 @@ USA
             <example correction="o">Desculpem <marker>este</marker> desabafo.</example>
         </rule>
 
-        <rule id='ENSINOS_SUPERIORES' name="Ensino superior">
+        <rule id='ENSINOS_SUPERIORES' name="Ensino superior" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
                 <token>ensinos</token>
@@ -1025,7 +1017,8 @@ USA
         </rule>
         <!-- MAIS REDUZIDA(O)(S) inferior(es) -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-25 (21-OCT-2020+)     -->
-        <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)/menor(es)/menos">
+        <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)/menor(es)/menos" tone_tags="objective">
+            <!-- IDEA shorten_it -->
             <rule>
                 <pattern>
                     <token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
@@ -1055,27 +1048,9 @@ USA
                 <example correction="inferiores|menores|menos">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
             </rule>
         </rulegroup>
-        <!-- NÃO HÁ/HAVIA MAIS NENHUM/NENHUNS -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
-        <rule id='NAO_HA-HAVIA_MAIS_NENHUM-NENHUNS' name="Ser único" default="temp_off">
-            <pattern>
-                <marker>
-                    <token>não</token>
-                    <token regexp="yes">há|havia</token>
-                    <token>mais</token>
-                    <token regexp="yes">nenhum|nenhuns</token>
-                </marker>
-                <token negate_pos="yes" postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
-            </pattern>
-            <message>Substitua por</message>
-            <suggestion>é único</suggestion>
-            <suggestion>era único</suggestion>
-            <example correction="é único|era único">Procurei e <marker>não havia mais nenhum</marker>.</example>
-            <example>Procurei e <marker>era único</marker>.</example>
-        </rule>
         <!-- PARAR DE CHATEAR parar de incomodar/importunar -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-06 (2-JUL-2020+)     -->
-        <rule id='PARAR_DE_CHATEAR' name="Parar de incomodar/importunar" default="temp_off">
+        <rule id='PARAR_DE_CHATEAR' name="Parar de incomodar/importunar" default="temp_off" tone_tags="formal">
             <pattern>
                 <token inflected='yes'>parar</token>
                 <token>de</token>
@@ -1089,7 +1064,7 @@ USA
             <suggestion><match no='4' postag='V.+' postag_regexp='yes'>importunar</match></suggestion>
             <example correction="incomodar|importunar">Pare de <marker>chatear</marker> os vizinhos.</example>
         </rule>
-        <rule id='PERSISTIR_AO_LONGO_DE_TEMPO' name="Persistir + há + tempo">
+        <rule id='PERSISTIR_AO_LONGO_DE_TEMPO' name="Persistir + há + tempo" tone_tags="academic">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
             <pattern>
                 <token inflected='yes'>persistir</token>
@@ -1109,7 +1084,7 @@ USA
         <!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
         <rulegroup id='PRESENTE_PRESENCIAL' name="é presencial">
-
+            <!--IDEA shorten_it-->
             <rule>
                 <pattern>
                     <token>é</token>
@@ -1181,20 +1156,10 @@ USA
 
         </rulegroup>
 
-        <rule id='PROBLEMA_BASILAR' name="problema básico">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token>problema</token>
-                <marker>
-                    <token>basilar</token>
-                </marker>
-            </pattern>
-            <message>Substitua por <suggestion>básico</suggestion>.</message>
-            <example correction="básico">Este é o problema <marker>basilar</marker> da questão.</example>
-        </rule>
         <!-- QUE NUNCA MAIS ACABA(M) sem fim -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-30 (21-OCT-2020+)     -->
-        <rule id='SEM_FIM' name="Sem fim">
+        <rule id='SEM_FIM' name="Sem fim" tags="picky" tone_tags="objective">
+            <!--IDEA shorten_it-->
             <pattern>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <marker>
@@ -1205,26 +1170,14 @@ USA
                 </marker>
             </pattern>
             <message>Substitua por <suggestion>sem fim</suggestion>.</message>
-            <example correction="sem fim">Temos livros <marker>que nunca mais acabam</marker>.</example>
-        </rule>
-        <!-- SUBSTÂNCIA essência -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
-        <rule id='SUBSTANCIA_ESSENCIA' name="Substância -> Essência">
-            <pattern>
-                <token>a</token>
-                <token regexp='yes'>autêntica|genuína|real|verdadeira</token>
-                <marker>
-                    <token>substância</token>
-                </marker>
-                <token regexp='yes'>das?|dos?|de|delas?|deles?|destas?|destes?</token>
-                <token/>
-            </pattern>
-            <message>Substitua por <suggestion>essência</suggestion></message>
-            <example correction="essência">Nestes momentos vê-se a verdadeira <marker>substância</marker> das pessoas.</example>
+            <suggestion>inacabável</suggestion>
+            <suggestion>inacabáveis</suggestion>
+            <example correction="sem fim|inacabável|inacabáveis">Temos livros <marker>que nunca mais acabam</marker>.</example>
         </rule>
 
 
-        <rule id='TORNAR_MAIS_DIFICIL' name="Tornar mais difícil → Dificultar">
+        <rule id='TORNAR_MAIS_DIFICIL' name="Tornar mais difícil → Dificultar" tone_tags="objective">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       As regras vão tornar mais difícil o jogo. → As regras vão dificultar o jogo.
@@ -1242,7 +1195,8 @@ USA
             <example correction="dificultar">As regras vão <marker>tornar mais difícil</marker> o jogo.</example>
         </rule>
 
-        <rule id='TORNAR_MAIS_FACIL' name="Tornar mais fácil → Facilitar">
+        <rule id='TORNAR_MAIS_FACIL' name="Tornar mais fácil → Facilitar" tone_tags="objective">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       As regras vão tornar mais fácil o jogo. → As regras vão facilitar o jogo.
@@ -1276,7 +1230,8 @@ USA
         </rule>
 
 
-        <rule id='TORNAR_MAIS_FORTE' name="Tornar mais forte → Fortalecer">
+        <rule id='TORNAR_MAIS_FORTE' name="Tornar mais forte → Fortalecer" tone_tags="objective">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       As regras vão tornar mais forte o acordo. → As regras vão fortalecer o acordo.
@@ -1295,7 +1250,8 @@ USA
         </rule>
 
 
-        <rule id='TORNAR_MAIS_FRACO' name="Tornar mais fraco → Enfraquecer">
+        <rule id='TORNAR_MAIS_FRACO' name="Tornar mais fraco → Enfraquecer" tone_tags="objective">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       As regras vão tornar mais fraco o acordo. → As regras vão enfraquecer o acordo.
@@ -1315,7 +1271,7 @@ USA
 
 
         <!-- TRABALHO MAL PAGO trabalho mal remunerado -->
-        <rule id='TRABALHO_PAGO_REMUNERADO' name="Trabalho 'pago'/'remunerado'">
+        <rule id='TRABALHO_PAGO_REMUNERADO' name="Trabalho 'pago'/'remunerado'" tone_tags="objective">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       O Rui faz trabalho não pago de noite. → O Rui faz trabalho não remunerado de noite.
@@ -1337,7 +1293,8 @@ USA
             <example correction="remunerados">O Rui faz trabalhos não <marker>pagos</marker> de noite.</example>
         </rule>
 
-        <rulegroup id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: Causar dificuldade → Dificultar">
+        <rulegroup id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: Causar dificuldade → Dificultar" tone_tags="objective">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
 
             <!--
@@ -1357,7 +1314,7 @@ USA
             </rule>
         </rulegroup>
         <!-- ULTRAPASSAR superar/vencer	-->
-        <rule id='ULTRAPASSAR_SUPERAR_VENCER' name="Ultrapassar → superar/vencer">
+        <rule id='ULTRAPASSAR_SUPERAR_VENCER' name="Ultrapassar → superar/vencer" tags="picky" tone_tags="formal">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       A Ana vai ultrapassar a prova. → A Ana vai superar a prova.
@@ -1378,19 +1335,9 @@ USA
             <example correction="superar|vencer">Se não conseguir <marker>ultrapassar</marker> o obstáculo, não tem problema, pode desviar e ir para o próximo.</example>
         </rule>
 
-        <rule id='CÍRCULO_FECHADO' name="Calinada: Ciclo fechado">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token>círculo</token>
-                <token>fechado</token>
-            </pattern>
-            <message>Substitua por <suggestion>ciclo fechado</suggestion>.</message>
-            <example correction="ciclo fechado">Uma produção de <marker>círculo fechado</marker>.</example>
-        </rule>
-
         <!-- PORQUE + VERBO_EU_ELE + A(S)/O(S) por/ao verbo_inf a(s)/o(s) -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-17 (21-OCT-2020+)     -->
-        <rule id='PORQUE_VERBOEUELE_AS_OS_POR_AO_VERBOINF_AS_OS' name="Porque + Verbo Eu/ele + A(s)/O(s) > Por/Ao + Verbo_inf + a(s)/o(s)">
+        <rule id='PORQUE_VERBOEUELE_AS_OS_POR_AO_VERBOINF_AS_OS' name="Porque + Verbo Eu/ele + A(s)/O(s) > Por/Ao + Verbo_inf + a(s)/o(s)" tags="picky" tone_tags="objective">
             <pattern>
                 <marker>
                     <token>porque</token>
@@ -1403,7 +1350,7 @@ USA
             <suggestion>por <match no='2' postag='VMIS1S0|VMIS3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
             <example correction="ao sentir|por sentir">Comentei o sucedido <marker>porque senti</marker> os efeitos rapidamente.</example>
         </rule>
-        <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado'>
+        <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado' tone_tags="objective" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-16 (2-JUL-2020+)   -->
 
             <!-- TENHO -->
@@ -1498,33 +1445,9 @@ USA
                 <example>Eles <marker>pesquisam</marker> o assunto há décadas.</example>
             </rule>
         </rulegroup>
-        <rulegroup id='MEDICINA_TRADICIONAL_CHINESA' name="Calinada: 'medicina tradicional chinesa'">
-            <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
-            <short>Erro de tradução</short>
-            <rule>
-                <pattern>
-                    <token>medicina</token>
-                    <token>antiga</token>
-                    <token>chinesa</token>
-                </pattern>
-                <message>Expressão não pode ser traduzida literalmente.</message>
-                <suggestion>medicina tradicional chinesa</suggestion>
-                <example correction="medicina tradicional chinesa">A <marker>medicina antiga chinesa</marker> é milenar.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>medicina</token>
-                    <token>chinesa</token>
-                    <token>antiga</token>
-                </pattern>
-                <message>Expressão não pode ser traduzida literalmente.</message>
-                <suggestion>medicina tradicional chinesa</suggestion>
-                <example correction="medicina tradicional chinesa">A <marker>medicina chinesa antiga</marker> é milenar.</example>
-            </rule>
-        </rulegroup>
 
         <!-- DIFERENÇA NO DINHEIRO diferença no valor -->
-        <rule id='CONFUSÃO_DINHEIRO_VALOR' name="[Confusão] Diferença no 'dinheiro'/valor">
+        <rule id='CONFUSÃO_DINHEIRO_VALOR' name="[Confusão] Diferença no 'dinheiro'/valor" tone_tags="formal" tags="picky">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-21 (25-JUL-2022+) -->
             <!--
       Qual é a diferença no dinheiro? → Qual é a diferença no valor?
@@ -3643,7 +3566,8 @@ USA
         </rule>
 
 
-        <rule id='EM_QUE_NAO_HA_PRONOME-INDEFINIDO' name="[Simplificar] Em que não há + Pron.Indef. → Sem Pron.Indef." type="style">
+        <rule id='EM_QUE_NAO_HA_PRONOME-INDEFINIDO' name="[Simplificar] Em que não há + Pron.Indef. → Sem Pron.Indef." type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-31 (Checked/Enhanced) (2-MAR-2023+) -->
             <!--
       Temos um período em que não há qualquer registo histórico. → Temos um período sem qualquer registo histórico.
@@ -3658,22 +3582,6 @@ USA
             <message>Esta perífrase poderá ser simplificada.</message>
             <suggestion>sem \5</suggestion>
             <example correction="sem qualquer">Temos um período <marker>em que não há qualquer</marker> registo histórico.</example>
-        </rule>
-
-
-        <!-- EM QUE _verboeu_ EM a _verboinfinitivo_ em -->
-        <rule id='EM_QUE_VERBOEU_EM' name="[Simplificar] Em que [eu] + Verbo → A + V.Inf. + em" type="style">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-26 (21-OCT-2020+)     -->
-            <pattern>
-                <token>em</token>
-                <token>que</token>
-                <token min="0" max="1">eu</token>
-                <token postag='VMIP1S0'/>
-                <token>em</token>
-            </pattern>
-            <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-            <suggestion>a <match no='4' postag='VMIP1S0' postag_regexp="yes" postag_replace='VMN0000'/> em</suggestion>
-            <example correction="a morar em">Foram bons os 20 anos <marker>em que moro em</marker> Lisboa.</example>
         </rule>
 
 
@@ -6171,7 +6079,8 @@ USA
 
 
         <!-- FAZER CONJECTURAS conjecturar -->
-        <rule id='FAZER_VERBO_VERBO_INFINITIVO' name="[Simplificar] V.Fazer + V. → V.Inf." type="style">
+        <rule id='FAZER_VERBO_VERBO_INFINITIVO' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
             <!--
       Fazer somas é o melhor que há. → Somar é o melhor que há.
@@ -17375,7 +17284,7 @@ USA
 
 
         <!-- CONTRÁRIO oposto -->
-        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style" tags="picky">
+        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style" tags="picky" tone_tags="academic">
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
             <!--
             A Ana percebeu exatamente o contrário! → A Ana percebeu exatamente o oposto!
@@ -17395,7 +17304,7 @@ USA
 
 
         <!-- CORRIGIR ERROS/FALHAS corrigir imprecisões -->
-        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="[Científico] Corrigir 'erros/falhas' → 'imprecisões'" type="style">
+        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="[Científico] Corrigir 'erros/falhas' → 'imprecisões'" type="style" tone_tags="academic" default="temp_off">
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-03 (1-JAN-2022+)      -->
             <!--
             Vou corrigir pequenos erros no texto. → Vou corrigir pequenas imprecisões no texto.
@@ -18237,7 +18146,7 @@ USA
 
 
         <!-- PARA CONCLUIR em suma -->
-        <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky'>
+        <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky' tone_tags="academic">
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13/19 (5-JUN-2022+)      -->
             <!--
             E, para concluir: os valores batem bem. → E, em suma: os valores batem bem.
