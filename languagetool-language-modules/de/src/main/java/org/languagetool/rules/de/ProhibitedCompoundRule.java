@@ -159,6 +159,18 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Putzgewebe", "Putzgeweben", "Putzgewebes",
+          "Tiefbass",
+          "Geldtyp", "Geldtyps",
+          "Kaffeepresse", "Kaffeepressen",
+          "Schlüsselfinder", "Schlüsselfindern", "Schlüsselfinders",
+          "Reislöffel", "Reislöffeln", "Reislöffels",
+          "Projektkonto", "Projektkonten",
+          "Leitungslücke", "Leitungslücken",
+          "Suchthema", "Suchthemen",
+          "Sicherheitspanne", "Sicherheitspanne",
+          "Bauregion", "Bauregionen",
+          "Miettag", "Miettage", "Miettagen",
           "Goldroute",
           "Handmodel", "Handmodels",
           "Modelmädchen", "Modelmädchens",
