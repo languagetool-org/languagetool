@@ -71,6 +71,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "germane", // confused with German
     "double check",
     "java script",
+    "hard coding",
+    "hard coded",
     "fine tune",
     "fine tuned",
     "fine tuning",
@@ -447,6 +449,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
                    !k.getReplacement().toLowerCase().startsWith("l ") &&
+                   !k.getReplacement().toLowerCase().startsWith("b ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
                    !k.getReplacement().toLowerCase().startsWith("p ") &&
