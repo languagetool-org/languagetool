@@ -11330,14 +11330,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example reason="triggers another rule">El te lo quería explicar.</example>
             </rule>
             <rule id="TE_TILDE2" name="te tilde (test)">
-                <url>https://languagetool.org/insights/es/publicacion/te-con-tilde-o-sin-tilde/</url>
                 <antipattern>
                     <token>te</token>
                     <token postag="UNKNOWN|V.N.*|V.P.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>te</token>
+                    <token min="0" regexp="yes">lo|la|los|las</token>
                     <token regexp="yes">&wrong_as_pron_verb;|&wrong_as_pron_verb2;</token>
+                    <example>te tenias que esperar</example>
+                    <example>te las tenias que esperar</example>
                 </antipattern>
                 <antipattern>
                     <token>te</token>
@@ -11346,9 +11348,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>-</token>
                     <token>te</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_QM_OPEN"/>
+                    <token>te</token>
+                    <token postag="_QM_CLOSE"/>
                 </antipattern>
                 <pattern>
-                    <token>te<exception scope="previous">no</exception></token>
+                    <token>te<exception scope="previous">no</exception><exception postag="SENT_END|_possible_NP" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible confusión. Si es un sustantivo (bebida), lleva tilde.</message>
                 <suggestion>de</suggestion>
