@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Het is 9 °C overdag en de temperatuur 's nachts daalt tot 3 °C. De wind is matig, windkracht 3 .</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">'Wat bedoel je: hoe hij is?' vroeg ik. ik begrijp je niet.'</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1704,6 +1704,10 @@
 <rule break="no">
 <beforebreak>\b\p{L}\.</beforebreak>
 <afterbreak>\p{L}\.</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\sik\.\s</beforebreak>
+<afterbreak>ik\s</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
