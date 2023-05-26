@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
         <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
         <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
+        <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|amanhãs?|datas?|eras?|horários?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
         <!ENTITY enderecos "Alameda|Avenida|Largo|Praça|Praceta|Rua|Terreiro|Travessa|Via|Estrada|Piso">
         <!ENTITY nomes_de_instituicoes "Anuário|Jardim|Aeroporto|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
         <!ENTITY palavras_estrangeiras "up|welcome|these|but|top|too|in|return|go|goes|baby|shop|appeal|trade|toys?|or|who|of|years|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|games?|are|by|couldn?|can|wouldn?|might|the|is|and|for|your|back|that|you|he|she|it|we|they|him|her|them|good|bad|les?|chicos?|novi[oa]s?|herman[oa]s?|ballo|y|del|abrazo|una|besot?e?|con|placer|on|peut|dans|tout|vous|je|chaque|lui|avec|pas|du|aus|den|der|die|écoles?|une|ont|féderations?|thêatres?|des|qui|au|societés?|académies?|pour|notre|sur|institute?|ich|sie|weil|wir|mio?|degli|della|di|tuo|tra">
@@ -527,17 +528,193 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ********************************************************** -->
     <!-- CONFUNDIR CHEGAMOS A POR CHEGAMOS EM -->
 
-    <rule id="CHEGAMOS_EM_BR" name="Chegamos a">
-      <pattern>
-        <marker>
-          <token>chegamos</token>
-          <token>em</token>
-        </marker>
-        <token regexp="yes">\p{Lu}\p{Ll}.*</token>
-      </pattern>
-      <message>O verbo de movimento chegar exige a preposição A. Substitua &quot;chegamos em&quot; por <suggestion>chegamos a</suggestion>.</message>
-      <example correction="chegamos a">Nós <marker>chegamos em</marker> São Paulo.</example>
-    </rule>
+    <!-- We should consider moving this to formal style; using 'a' with 'chegar' feels purist-y. -->
+    <rulegroup id="VERBOS_DE_MOVIMENTO_EM_BR" name="Verbos de movimento com a preposição em">
+        <!-- TODO -->
+        <!-- * work out what other verbs we may need -->
+        <!-- remove sub-rule IDs -->
+        <rule id="CHEGAR_EM">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token postag_regexp="yes" postag="SP.+">em</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion>a</suggestion>
+            <example correction="a">Nós vamos chegar <marker>em</marker> São Paulo bem tarde.</example>
+            <example correction="a">Quando vocês chegam <marker>em</marker> Lisboa?</example>
+            <example correction="a">Vou chegar amanhã <marker>em</marker> Nova Iorque.</example>
+            <example correction="a">Cheguei ontem <marker>em</marker> Niterói.</example>
+            <example correction="a">Chegamos na quarta-feira <marker>em</marker> Madri.</example>
+            <!-- // example from CHEGARAM_EM_BR -->
+            <example correction="a">Os atletas chegaram <marker>em</marker> Curitiba na noite passada.</example>
+        </rule>
+
+        <rule id="CHEGAR_NO">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token regexp="yes" postag_regexp="yes" postag="SP.+">nos?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion><match no="2" regexp_match="n(.+)" regexp_replace="a$1"/></suggestion>
+            <example correction="ao">Nós vamos chegar <marker>no</marker> Rio de Janeiro bem tarde.</example>
+            <example correction="ao">Quando vocês chegam <marker>no</marker> Porto?</example>
+            <example correction="aos">Vou chegar amanhã <marker>nos</marker> Estados Unidos.</example>
+        </rule>
+
+        <rule id="CHEGAR_NA">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token regexp="yes" postag_regexp="yes" postag="SP.+">nas?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion><match no="2" regexp_match="na(.*)" regexp_replace="à$1"/></suggestion>
+            <example correction="à">Nós vamos chegar <marker>na</marker> Argentina bem tarde.</example>
+            <example correction="à">Quando vocês chegam <marker>na</marker> Cidade do México?</example>
+            <example correction="à">Vou chegar amanhã <marker>na</marker> China.</example>
+        </rule>
+
+        <rule id="CHEGAR_EM_MES_EM">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <token postag_regexp="yes" postag="SP.+">em</token>
+                <!-- TODO year regex is a bit naïve -->
+                <token regexp="yes">&meses_ano;|[12]?[0-9]{3}</token>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token postag_regexp="yes" postag="SP.+">em</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion>a</suggestion>
+            <example correction="a">Chego em abril <marker>em</marker> Belo Horizonte.</example>
+            <example correction="a">Chegamos em 2003 <marker>em</marker> Porto Alegre.</example>
+        </rule>
+
+        <rule id="CHEGAR_EM_DATA_EM">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <token postag_regexp="yes" postag="SP.+">em</token>
+                <token postag_regexp="yes" postag="Z.+"/>
+                <token>de</token>
+                <token skip="-1" regexp="yes">
+                    &meses_ano;
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token postag_regexp="yes" postag="SP.+">em</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion>a</suggestion>
+            <example correction="a">Chegou em 25 de novembro de 1883 <marker>em</marker> Düsseldorf.</example>
+            <example correction="a">Chegaremos em 14 de julho <marker>em</marker> Lyon.</example>
+        </rule>
+
+        <rule id="CHEGAR_EM_X_MINS_EM">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <token postag_regexp="yes" postag="SP.+">em</token>
+                <token postag_regexp="yes" postag="D.+|Z0C[NP]0"/>
+                <token regexp="yes">&expressoes_de_tempo;</token>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token postag_regexp="yes" postag="SP.+">em</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion>a</suggestion>
+            <example correction="a">Chegarei em quatro horas <marker>em</marker> Curitiba.</example>
+            <example correction="a">Vamos chegar em algumas semanas <marker>em</marker> Campinas.</example>
+        </rule>
+
+        <rule id="CHEGAR_NO_SABADO_NO">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <token regexp="yes" postag_regexp="yes" postag="SP.+">nos?</token>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+                <token regexp="yes">&dias_semana;</token>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token regexp="yes" postag_regexp="yes" postag="SP.+">nos?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion><match no="6" regexp_match="n(.+)" regexp_replace="a$1"/></suggestion>
+            <example correction="ao">Nós vamos chegar no domingo <marker>no</marker> Rio Grande do Norte.</example>
+            <example correction="aos">Vou chegar no próximo domingo <marker>nos</marker> Emirados Árabes.</example>
+        </rule>
+
+        <rule id="CHEGAR_NA_XX_FEIRA_NA">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="-1">
+                    chegar
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
+                </token>
+                <token regexp="yes" postag_regexp="yes" postag="SP.+">nas?</token>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+                <token regexp="yes">&dias_semana;</token>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+                <marker>
+                    <!-- already blocks 'em'-initial AdvPs, i.e. R.+ -->
+                    <token regexp="yes" postag_regexp="yes" postag="SP.+">nas?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot;.</message>
+            <suggestion><match no="6" regexp_match="na(.*)" regexp_replace="à$1"/></suggestion>
+            <example correction="à">Nós vamos chegar na quarta-feira <marker>na</marker> Suécia.</example>
+            <example correction="à">Vou chegar na sexta <marker>na</marker> Austrália.</example>
+            <example correction="à">Ela chegará na próxima quinta-feira <marker>na</marker> Inglaterra.</example>
+        </rule>
+    </rulegroup>
 
     <!-- FIM CHEGAMOS A POR CHEGAMOS EM -->
     <!-- ********************************************************** -->
@@ -618,7 +795,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ********************************************************** -->
     <!-- CONFUNDIR CHEGARAM A POR CHEGARAM EM (VERBO DE MOVIMENTO EXIGE A) -->
 
-    <rule id="CHEGARAM_EM_BR" name="Chegaram a">
+    <!-- Comment out by p-goulart to avoid double coverage; this is now covered in VERBOS_DE_MOVIMENTO_EM_BR -->
+    <!-- <rule id="CHEGARAM_EM_BR" name="Chegaram a">
       <pattern>
         <marker>
           <token>chegaram</token>
@@ -628,7 +806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Verbos de movimento exigem a preposição A. Substitua &quot;chegaram em&quot; por <suggestion>chegaram a</suggestion>.</message>
       <example correction="chegaram a">Os atletas <marker>chegaram em</marker> Curitiba na noite passada.</example>
-    </rule>
+    </rule> -->
 
     <!-- FIM CHEGARAM A POR CHEGARAM EM (VERBO DE MOVIMENTO EXIGE A) -->
     <!-- ********************************************************** -->
