@@ -20,6 +20,7 @@ package org.languagetool.openoffice.stylestatistic;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,11 @@ public class StatAnConfiguration {
   }
 
   List<String> getExcludedWords(TextLevelRule rule) {
-    return excludedWords.get(rule.getId());
+    List<String> exWords = excludedWords.get(rule.getId());
+    if (exWords == null) {
+      return new ArrayList<>();
+    }
+    return exWords;
   }
 
   void setAllExcludedWords(TextLevelRule rule, List<String> words) {
@@ -79,7 +84,10 @@ public class StatAnConfiguration {
   }
 
   void removeAllExcludedWords(TextLevelRule rule) {
-    excludedWords.get(rule.getId()).clear();
+    List<String> exWords = excludedWords.get(rule.getId());
+    if (exWords != null) {
+      excludedWords.get(rule.getId()).clear();
+    }
   }
 
   void addExcludedWord(TextLevelRule rule, String word) {

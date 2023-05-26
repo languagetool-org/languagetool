@@ -184,7 +184,10 @@ public class German extends Language implements AutoCloseable {
             new CompoundInfinitivRule(messages, this, userConfig),
             new StyleRepeatedVeryShortSentences(messages, this),
             new StyleRepeatedSentenceBeginning(messages),
-            new GermanRepeatedWordsRule(messages)
+            new GermanRepeatedWordsRule(messages),
+            new StyleTooOftenUsedVerbRule(messages, this, userConfig),
+            new StyleTooOftenUsedNounRule(messages, this, userConfig),
+            new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig)
     );
   }
 

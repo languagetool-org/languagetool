@@ -62,6 +62,7 @@ import org.languagetool.openoffice.stylestatistic.StatAnCache.Paragraph;
 import org.languagetool.openoffice.SingleDocument;
 import org.languagetool.rules.AbstractStatisticSentenceStyleRule;
 import org.languagetool.rules.AbstractStatisticStyleRule;
+import org.languagetool.rules.AbstractStyleTooOftenUsedWordRule;
 import org.languagetool.rules.ReadabilityRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
@@ -120,7 +121,6 @@ public class StatAnDialog extends Thread  {
   private SingleDocument document;
   private int method = 0;
   private boolean isLevelRule = true;
-//  private List<WordFrequency> mostUsed;
   
   public StatAnDialog(SingleDocument document) {
     xComponent = document.getXComponent();
@@ -131,14 +131,14 @@ public class StatAnDialog extends Thread  {
       Map<String, Integer> ruleValues = new HashMap<>();
       for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, lang, null)) {
         if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
-            rule instanceof ReadabilityRule) {
+            rule instanceof ReadabilityRule || rule instanceof AbstractStyleTooOftenUsedWordRule) {
           ruleValues.put(rule.getId(), 0);
         }
       }
       UserConfig userConfig = new UserConfig(ruleValues);
       for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), userConfig, lang, null)) {
         if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
-            (rule instanceof ReadabilityRule && !hasReadabilityRule())) {
+            (rule instanceof ReadabilityRule && !hasReadabilityRule()) || rule instanceof AbstractStyleTooOftenUsedWordRule) {
           rules.add((TextLevelRule)rule);
         }
       }
@@ -181,7 +181,7 @@ public class StatAnDialog extends Thread  {
       if (isLevelRule) {
         levelRule.generateBasicNumbers(cache);
       } else {
-        //  TODO: usedWordRule.generateBasicNumbers(cache);
+        usedWordRule.generateBasicNumbers(cache);
       }
       if (debugMode) {
         MessageHandler.printToLogFile("Init done");
@@ -213,7 +213,7 @@ public class StatAnDialog extends Thread  {
     } else {
       usedWordRule = new UsedWordRule(selectedRule, cache);
       configRule();
-//    TODO: usedWordRule.generateBasicNumbers(cache);
+      usedWordRule.generateBasicNumbers(cache);
       setLeftUsedWordRulePanel();
       setRightUsedWordRulePanel();
     }
@@ -259,7 +259,7 @@ public class StatAnDialog extends Thread  {
             } else {
               usedWordRule = new UsedWordRule(selectedRule, cache);
               configRule();
-//            TODO: usedWordRule.generateBasicNumbers(cache);
+              usedWordRule.generateBasicNumbers(cache);
               setLeftUsedWordRulePanel();
               setRightUsedWordRulePanel();
             }
@@ -362,7 +362,7 @@ public class StatAnDialog extends Thread  {
   }
   
   private void setLeftUsedWordRulePanel() {
-    usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule));
+    usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
     usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
     //  Define left panel
     leftPanel.removeAll();
@@ -380,7 +380,7 @@ public class StatAnDialog extends Thread  {
     usedWords.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     String[] mostUsedWords = null;
     try {
-      mostUsedWords = getMostUsedWords(usedWordRule);
+      mostUsedWords = usedWordRule.getMostUsedWords();
     } catch (Throwable e1) {
       MessageHandler.showError(e1);
     }
@@ -578,11 +578,11 @@ public class StatAnDialog extends Thread  {
     ignore.addActionListener(e -> {
       if (!usedWords.isSelectionEmpty()) {
         try {
-          String word = getMostUsedWord(usedWords.getSelectedIndex());
+          String word = usedWordRule.getMostUsedWord(usedWords.getSelectedIndex());
           config.addExcludedWord(selectedRule, word);
           config.saveConfiguration();
           usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
-          usedWords.setListData(getMostUsedWords(usedWordRule));
+          usedWords.setListData(usedWordRule.getMostUsedWords());
           usedWords.setSelectedIndex(0);
           removeAllIgnored.setEnabled(true);
         } catch (Throwable t) {
@@ -595,7 +595,7 @@ public class StatAnDialog extends Thread  {
         config.removeAllExcludedWords(selectedRule);
         config.saveConfiguration();
         usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
-        usedWords.setListData(getMostUsedWords(usedWordRule));
+        usedWords.setListData(usedWordRule.getMostUsedWords());
         usedWords.setSelectedIndex(0);
         removeAllIgnored.setEnabled(false);
       } catch (Throwable t) {
@@ -607,9 +607,10 @@ public class StatAnDialog extends Thread  {
       config.setWithoutDirectSpeech(selectedRule, withoutDirectSpeech.isSelected());
       try {
         config.saveConfiguration();
-        usedWordRule.setWithDirectSpeach(!withoutDirectSpeech.isSelected());
-        usedWords.setListData(getMostUsedWords(usedWordRule));
+        usedWordRule.setWithDirectSpeach(!withoutDirectSpeech.isSelected(), cache);
+        usedWords.setListData(usedWordRule.getMostUsedWords());
         usedWords.setSelectedIndex(0);
+//        usedWords.revalidate();
       } catch (Throwable t) {
         MessageHandler.showError(t);
       }
@@ -620,8 +621,8 @@ public class StatAnDialog extends Thread  {
         config.setWithoutDirectSpeech(selectedRule, !usedWordRule.getDefaultDirectSpeach());
         try {
           config.saveConfiguration();
-          usedWordRule.setWithDirectSpeach(usedWordRule.getDefaultDirectSpeach());
-          usedWords.setListData(getMostUsedWords(usedWordRule));
+          usedWordRule.setWithDirectSpeach(usedWordRule.getDefaultDirectSpeach(), cache);
+          usedWords.setListData(usedWordRule.getMostUsedWords());
           usedWords.setSelectedIndex(0);
         } catch (Throwable t) {
           MessageHandler.showError(t);
@@ -656,7 +657,7 @@ public class StatAnDialog extends Thread  {
       MessageHandler.printToLogFile("New configuration set");
     }
     if (UsedWordRule.isUsedWordRule(selectedRule)) {
-      usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule));
+      usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
       usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
     } else if (LevelRule.isLevelRule(selectedRule) && LevelRule.hasStatisticalOptions(selectedRule)) {
       int step = config.getLevelStep(selectedRule);
@@ -686,24 +687,6 @@ public class StatAnDialog extends Thread  {
     cache = new StatAnCache(document.getDocumentCache(), document.getMultiDocumentsHandler().getLanguageTool());
   }
   
-  private String[] getMostUsedWords(UsedWordRule usedWordRule) throws Throwable {
-/*  TODO: this should be a method of UsedWordRule
-    mostUsed = usedWordRule.getMostUsed(cache.getAllParagraphs(), 100);
-    String[] words = new String[mostUsed.size()];
-    for (int i = 0; i < mostUsed.size(); i++) {
-      words[i] = String.format("%s (%.1f%%)", mostUsed.get(i).word, mostUsed.get(i).percent);
-    }
-    return words;
-*/  
-    return null;
-  }
-
-  private String getMostUsedWord(int n) throws Throwable {
-//  TODO: this should be a method of UsedWordRule
-//    return mostUsed.get(n).word;
-    return null;
-  }
-
   private void runLevelSubDialog(Chapter chapter) throws Throwable {
     if (chapter != null && chapter.hierarchy < 0) {
       ViewCursorTools viewCursor = new ViewCursorTools(xComponent);

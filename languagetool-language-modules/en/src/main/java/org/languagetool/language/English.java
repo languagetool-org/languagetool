@@ -54,7 +54,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import java.util.regex.Matcher;
 
 import static java.util.Arrays.asList;
 
@@ -208,7 +207,10 @@ public class English extends Language implements AutoCloseable {
         new SimpleReplaceRule(messages, this),
         new ReadabilityRule(messages, this, userConfig, false),
         new ReadabilityRule(messages, this, userConfig, true), 
-        new EnglishRepeatedWordsRule(messages)
+        new EnglishRepeatedWordsRule(messages),
+        new StyleTooOftenUsedVerbRule(messages, this, userConfig),
+        new StyleTooOftenUsedNounRule(messages, this, userConfig),
+        new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig)
     ));
     return allRules;
   }

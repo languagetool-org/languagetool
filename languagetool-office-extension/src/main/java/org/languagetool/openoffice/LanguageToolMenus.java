@@ -179,10 +179,12 @@ public class LanguageToolMenus {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
       }
-      ltMenu.insertItem((short)(switchOffId + 1), MESSAGES.getString("loStatisticalAnalysis") + " ...", 
-          (short)0, switchOffPos);
-      ltMenu.setCommand(switchOffId, LT_STATISTICAL_ANALYSES_COMMAND);
-      switchOffPos++;
+      if (OfficeTools.hasStatisticalStyleRules(document.getLanguage())) {
+        ltMenu.insertItem((short)(switchOffId + 1), MESSAGES.getString("loStatisticalAnalysis") + " ...", 
+            (short)0, switchOffPos);
+        ltMenu.setCommand(switchOffId, LT_STATISTICAL_ANALYSES_COMMAND);
+        switchOffPos++;
+      }
       ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuResetIgnorePermanent"), (short)0, switchOffPos);
       ltMenu.setCommand(switchOffId, LT_RESET_IGNORE_PERMANENT_COMMAND);
       switchOffId--;
@@ -364,7 +366,6 @@ public class LanguageToolMenus {
           StatAnDialog statAnDialog = new StatAnDialog(document);
           statAnDialog.start();
           return;
-//          MessageHandler.showMessage("Statistical Analyses is not installed now!");
         } else if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
           runProfileAction(null);
         } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF && event.MenuId <= switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
