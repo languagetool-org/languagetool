@@ -1465,27 +1465,6 @@ USA
             <example correction="valor">Qual é a diferença no <marker>dinheiro</marker>?</example>
             <example correction="valor">A diferença no <marker>dinheiro</marker> é mínima.</example>
         </rule>
-        <rule id="DE_MANEIRA_ADVERBIO_MODO" name="Sintaxe: 'de modo' + advérbio de modo">
-            <!--  Based on Catalan grammar.xml by Tiago F. Santos, 2017-06-30      -->
-            <pattern>
-                <marker>
-                    <token regexp='yes'>de|d?uma?</token>
-                    <token regexp="yes">maneira|forma|modo|jeito</token>
-                    <token postag="RM" regexp="yes">.+mente</token><!-- XXX RG and UNKNOWN are included in the disambiguation step -->
-                </marker>
-                <token>
-                    <exception postag="AQ.[CF][SN].|V.P..SF." postag_regexp="yes"/></token>
-            </pattern>
-            <message>Construção incorreta.</message>
-            <suggestion>\3</suggestion>
-            <suggestion>\1 \2 <match no='3' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
-            <example correction="Permanentemente|De forma permanente"><marker>De forma permanentemente</marker>.</example>
-            <example correction="Permanentemente|De modo permanente"><marker>De modo permanentemente</marker>.</example>
-            <example>De um modo directamente proporcional.</example>
-            <example>De uma forma directamente proporcional.</example>
-            <example>Duma forma racionalmente sustentável.</example>
-            <example>De maneira minimamente ordenada.</example>
-        </rule>
 
         <!-- PRA para -->
         <rule id='FORMAL_PRA_PARA' name="Linguagem informal: pra → para">
