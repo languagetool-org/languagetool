@@ -1771,6 +1771,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüßA-ZÄÖÜ]-[a-zäöüßA-ZÄÖÜ\\-]+")   // e.g. "Linke d-In-Artikel"
         && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüß\\-]+-[A-ZÄÖÜ][a-zäöüß\\-]+")   // e.g. "Sachsen hausend-Süd"
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
+        && !s.matches("[a-zöäüß]{3,20} [A-ZÄÖÜ][a-zäöüß]{2,20}liche[rnsm]")   // e.g. "trage Freundlich"
         && !s.matches("[A-ZÄÖÜ][a-zäöüß]{2,20}-[a-zäöüß]{2,20}-")   // prevent Xx-zzz-
         && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ][a-zäöüß\\-]{2,20}")   // prevent "testen-Gut"
         && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ\\-]{2,20}")   // prevent "testen-URL"
@@ -3204,6 +3205,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ebensooft": return topMatch("ebenso oft");
       case "Ebensogut": return topMatch("Ebenso gut");
       case "ebensogut": return topMatch("ebenso gut");
+      case "Ebensoleicht": return topMatch("Ebenso leicht");
+      case "ebensoleicht": return topMatch("ebenso leicht");
     }
     return Collections.emptyList();
   }

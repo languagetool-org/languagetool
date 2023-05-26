@@ -936,6 +936,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_HYDRA_LEO_CASING_LOWER_TO_UPPER" name="">
             <rule>
                 <pattern>
+                    <token>ein</token>
+                    <marker>
+                        <token case_sensitive="yes">klein</token>
+                    </marker>
+                    <token regexp="yes">bisschen|wenig</token>
+                </pattern>
+                <example correction="">Können wir diesen Text ein <marker>klein</marker> wenig suchmaschinenfreundlicher machen?</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">und|oder|aber</token>
                     <marker>
                         <token postag="VER:IMP:SIN.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-zäöü].*</token>
