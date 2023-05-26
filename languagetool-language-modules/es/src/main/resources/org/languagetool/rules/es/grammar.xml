@@ -13183,6 +13183,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rule id="AVER_A_VER" name="aver -> a ver">
+            <pattern>
+                <token>aver</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>a ver</suggestion> o <suggestion>haber</suggestion>?</message>
+            <suggestion>ver</suggestion>
+            <suggestion>aves</suggestion>
+            <suggestion>saber</suggestion>
+            <example correction="a ver|haber|ver|aves|saber">Voy <marker>aver</marker> qué pasa.</example>
+        </rule>
+        <rule id="AGUSTO" name="agusto -> a gusto">
+            <pattern>
+                <token>agusto</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>a gusto</suggestion>?</message>
+            <url>https://languagetool.org/insights/es/publicacion/agusto-o-a-gusto/</url>
+            <example correction="a gusto">¿Estás <marker>agusto</marker>?</example>
+        </rule>
         <rule id="EX_ALTO_CARGO" name="exalto cargo (ex alto cargo)">
             <pattern>
                 <marker>
@@ -15879,6 +15897,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Quería decir <suggestion>has</suggestion> (del v. 'haber')?</message>
                 <example correction="Has"><marker>Haz</marker> de venir enseguida.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <marker>
+                        <token>haz</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>has</suggestion> (del verbo 'haber')?</message>
+                <example correction="has">¿Te <marker>haz</marker> hecho daño?</example>
             </rule>
         </rulegroup>
         <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
