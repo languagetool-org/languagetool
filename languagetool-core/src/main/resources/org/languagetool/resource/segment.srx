@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">'Wat bedoel je: hoe hij is?' vroeg ik. ik begrijp je niet.'</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Dit mandje kan in de machine gewassen worden op 30 graden C. Doorsnede: 48 cm .</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1652,6 +1652,10 @@
 <rule break="no">
 <beforebreak>\b(prov|pseud|psych|qty|red|ref|resp|soc|st|tab|tel|temp|prof|tk)\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\sgraden C\.\s</beforebreak>
+<afterbreak>[A-Z]</afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>°C\.\s</beforebreak>
