@@ -17303,7 +17303,7 @@ USA
 
 
     <!-- DE PROPÓSITO deliberadamente -->
-    <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky" default='temp_off'>
+    <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-25 (2-MAR-2023+) -->
       <!--
       Eles fizeram de propósito. → Eles fizeram deliberadamente.
@@ -18423,7 +18423,7 @@ USA
 
 
         <rulegroup id="AJUDAR_AUXILIAR" name="[Universitário][Científico] ajudar → auxiliar" type='style' tags='picky'>
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-12/26 (2-MAR-2023+) -->
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-12/26/27 (2-MAR-2023+) -->
             <!--
             SUBRULE 1:
             Agradecemos a todos pela ajuda dada/prestada. → Agradecemos a todos pelo auxílio prestado.
@@ -18453,6 +18453,7 @@ USA
                         <token inflected='yes'>ajudar</token>
                     </marker>
                     <token regexp='yes'>[ao]s?|n[ao]s?</token>
+					<token><exception postag_regexp='no' postag='VMN0000'/></token>
                 </pattern>
                 <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>auxiliar</match></suggestion>
