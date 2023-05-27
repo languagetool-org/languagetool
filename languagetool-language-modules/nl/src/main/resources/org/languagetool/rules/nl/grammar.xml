@@ -17504,7 +17504,28 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
     </category>
-    <category id="TYPOS" name="Spellingcontrole" type="misspelling">
+    <category id="TYPOS" name="Spellingcontrole" type="misspelling" >
+        <rulegroup id="IJ_HFDLTRS" name="Ij / IJ" default="temp_off">
+            <rule>
+                <pattern>
+                    <token spacebefore="yes" regexp="yes" case_sensitive="yes">Ij.*</token>
+                </pattern>
+                <message>Een ij is in hoofdletters IJ niet Ij.</message>
+                <suggestion><match no="1" regexp_match="^Ij" regexp_replace="IJ"/></suggestion>
+                <example correction="IJsbrand">Hij heet <marker>Ijsbrand</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Ij.*</token>
+                    </marker>
+                </pattern>
+                <message>Een ij is in hoofdletters IJ niet Ij.</message>
+                <suggestion><match no="2" regexp_match="^Ij" regexp_replace="IJ"/></suggestion>
+                <example correction="IJzer"><marker>Ijzer</marker> is een metaal.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VOLGEND_VOLGENS" name="volgend / volgens">
             <rule>
                 <pattern>

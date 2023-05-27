@@ -17303,7 +17303,7 @@ USA
 
 
     <!-- DE PROPÓSITO deliberadamente -->
-    <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky" default='temp_off'>
+    <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-25 (2-MAR-2023+) -->
       <!--
       Eles fizeram de propósito. → Eles fizeram deliberadamente.
@@ -18423,13 +18423,16 @@ USA
 
 
         <rulegroup id="AJUDAR_AUXILIAR" name="[Universitário][Científico] ajudar → auxiliar" type='style' tags='picky'>
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-12/26 (2-MAR-2023+) -->
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-12/26/27 (2-MAR-2023+) -->
             <!--
             SUBRULE 1:
             Agradecemos a todos pela ajuda dada/prestada. → Agradecemos a todos pelo auxílio prestado.
 
             SUBRULE 2:
-            Isto serve para ajudar na tomada de decisão. → Isto serve para auxiliar na tomada de decisão. 
+            Isto serve para ajudar na tomada de decisão. → Isto serve para auxiliar na tomada de decisão.
+
+            SUBRULE 3:
+            Eles querem ajuda na tomada de decisão. → Eles querem auxílio na tomada de decisão.
             -->
 
             <rule>
@@ -18448,16 +18451,35 @@ USA
 
             <rule>
                 <pattern>
-                    <token regexp='yes'>e|para</token>
+                    <token postag='CC|SPS00|(SPS00:)?D[AI].+|(SPS00:)?PP.+|V.+|CS|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
                     <marker>
-                        <token inflected='yes'>ajudar</token>
+                        <token inflected='yes'>ajudar
+                            <exception regexp='yes'>ajudas?</exception>
+                        </token>
                     </marker>
                     <token regexp='yes'>[ao]s?|n[ao]s?</token>
+                    <token><exception postag_regexp='no' postag='VMN0000'/></token>
                 </pattern>
                 <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
-                <suggestion><match no='2' postag='V.+' postag_regexp='yes'>auxiliar</match></suggestion>
+                <suggestion><match no='3' postag='V.+' postag_regexp='yes'>auxiliar</match></suggestion>
                 <example correction="auxiliar">Isto serve para <marker>ajudar</marker> na tomada de decisão.</example>
             </rule>
+
+            <rule>
+                <pattern>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>ajuda</token>
+                    </marker>
+                    <token regexp='yes'>[ao]s?|n[ao]s?</token>
+                    <token><exception postag_regexp='no' postag='VMN0000'/></token>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
+                <suggestion>auxílio</suggestion>
+                <example correction="auxílio">Eles querem <marker>ajuda</marker> na tomada de decisão.</example>
+            </rule>
+
         </rulegroup>
 
 
