@@ -19,7 +19,9 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.languagetool.AnalyzedTokenReadings;
@@ -29,7 +31,6 @@ public abstract class AbstractTextToNumberFilter extends RuleFilter {
 
   protected static Map<String, Float> numbers = new HashMap<String, Float>();
   protected static Map<String, Float> multipliers = new HashMap<String, Float>();
-
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -57,23 +58,27 @@ public abstract class AbstractTextToNumberFilter extends RuleFilter {
           posWord++;
           continue;
         }
-        if (!decimal) {
-          if (numbers.containsKey(form)) {
-            current += numbers.get(form);
-          } else if (multipliers.containsKey(form)) {
-            if (current == 0) {// mil
-              current = 1;
+        List<String> forms = tokenize(form);
+        for (String subForm : forms) {
+          if (!decimal) {
+            if (numbers.containsKey(subForm)) {
+              current += numbers.get(subForm);
+            } else if (multipliers.containsKey(subForm)) {
+              if (current == 0) {// mil
+                current = 1;
+              }
+              total += current * multipliers.get(subForm);
+              current = 0;
             }
-            total += current * multipliers.get(form);
-            current = 0;
+          } else {
+            if (numbers.containsKey(subForm)) {
+              int zerosToAdd = format((numbers.get(subForm)), false).length();
+              currentDecimal += numbers.get(subForm) / Math.pow(10, addedZeros + zerosToAdd);
+              addedZeros++;
+            } /* else: multipliers after the decimal comma are not expected */
           }
-        } else {
-          if (numbers.containsKey(form)) {
-            int zerosToAdd = format((numbers.get(form)), false).length();
-            currentDecimal += numbers.get(form) / Math.pow(10, addedZeros + zerosToAdd);
-            addedZeros++;
-          } /* else: multipliers after the decimal comma are not expected */
         }
+
       }
       posWord++;
     }
@@ -87,7 +92,7 @@ public abstract class AbstractTextToNumberFilter extends RuleFilter {
     return ruleMatch;
   }
 
-  private static String format(float d, boolean percentage) {
+  private String format(float d, boolean percentage) {
     String result;
     if (d == (long) d) {
       result = String.format("%d", (long) d);
@@ -97,11 +102,20 @@ public abstract class AbstractTextToNumberFilter extends RuleFilter {
     if (percentage) {
       result = result + "\u202F%"; // narrow non-breaking space + percentage
     }
-    return result;
+    return formatResult(result);
   }
   
   abstract protected boolean isComma(String s);
   
   abstract protected boolean isPercentage(AnalyzedTokenReadings[] patternTokens, int i);
+  
+  protected String formatResult(String s) {
+    return s;
+  };
+  
+  protected List<String> tokenize(String s) {
+    return Collections.singletonList(s);
+  };
+  
 
 }

@@ -857,6 +857,40 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="AO0MS0"/>
         </rule>
     </rulegroup>
+    <rulegroup id="MILIO_K" name="numerals especials: milió, coma">
+        <rule>
+            <pattern>
+                <token postag="DN.[MC].." postag_regexp="yes"/>
+                <token>i</token>
+                <marker>
+                    <token>mig</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="DN0MP0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="DN..P." postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes" inflected="yes">milió|bilió|trlió|coma1|zero|un</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="K"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">milió|bilió|trlió|coma1|zero|un</token>
+                </marker>
+                <token postag="DN..P." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="K"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="segon_ordinal" name="segon (ordinal) amb error de gènere">
         <pattern>
             <marker>
