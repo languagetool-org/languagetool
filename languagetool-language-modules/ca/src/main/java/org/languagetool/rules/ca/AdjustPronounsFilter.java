@@ -27,8 +27,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
 /*
@@ -39,6 +41,8 @@ import org.languagetool.tools.StringTools;
 public class AdjustPronounsFilter extends RuleFilter {
 
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
+
+  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
 
   private static Map<String, String> addEnApostrophe = new HashMap<>();
   static {
@@ -140,6 +144,7 @@ public class AdjustPronounsFilter extends RuleFilter {
 
     List<String> replacements = new ArrayList<>();
     List<String> actions = Arrays.asList(getRequired("actions", arguments).split(","));
+    String newLemma = getOptional("newLemma", arguments);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
@@ -151,12 +156,30 @@ public class AdjustPronounsFilter extends RuleFilter {
     String firstVerb = "";
     String firstVerbPersonaNumber = "";
     String firstVerbPersonaNumberImperative = "";
+    String replacementVerb = "";
     int firstVerbPos = 0;
     boolean inPronouns = false;
     boolean firstVerbValid = false;
     while (!done && posWord - toLeft > 0) {
       AnalyzedTokenReadings currentTkn = tokens[posWord - toLeft];
       String currentTknStr = currentTkn.getToken();
+      // change lemma if asked
+      if (toLeft == 0 && newLemma != null) {
+        List<String> postags = new ArrayList<>();
+        for (AnalyzedToken reading : currentTkn) {
+          if (reading.getPOSTag() != null && reading.getPOSTag().startsWith("V")) {
+            postags.add(reading.getPOSTag());
+          }
+        }
+        String targetPostag = synth.getTargetPosTag(postags, "");
+        if (!targetPostag.isEmpty()) {
+          AnalyzedToken at = new AnalyzedToken(currentTknStr, targetPostag, newLemma);
+          String[] synthForms = synth.synthesize(at, targetPostag);
+          if (synthForms != null && synthForms.length > 0) {
+            replacementVerb = synthForms[0];
+          }
+        }
+      }
       boolean isVerb = currentTkn.hasPosTagStartingWith("V");
       boolean isPronoun = currentTkn.matchesPosTagRegex("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
       if (isPronoun) {
@@ -196,7 +219,11 @@ public class AdjustPronounsFilter extends RuleFilter {
     String pronounsStr = sb.toString().trim();
     sb = new StringBuilder();
     for (int i = posWord - firstVerbPos; i <= posWord; i++) {
-      sb.append(tokens[i].getToken());
+      if (i == posWord && !replacementVerb.isEmpty()) {
+        sb.append(replacementVerb);
+      } else {
+        sb.append(tokens[i].getToken());
+      }
       if (i + 1 < tokens.length && tokens[i + 1].isWhitespaceBefore()) {
         sb.append(" ");
       }
