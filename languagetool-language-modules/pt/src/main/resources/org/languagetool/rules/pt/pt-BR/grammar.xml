@@ -169,17 +169,114 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- CONFUNDIR A GENTE POR AGENTE -->
 
-    <rule id="AGENTE_BR" name="a gente">
-      <pattern>
-        <token regexp="yes">com|como|quanto|mais|mas</token>
-        <marker>
-          <token>agente</token>
-        </marker>
-        <token negate_pos="yes" postag="SPS00|SPS00:DA.+|AQ.+" postag_regexp="yes"/>
-      </pattern>
-      <message>Substitua &quot;agente&quot; por <suggestion>a gente</suggestion>.</message>
-      <example correction="a gente">Você vai com <marker>agente</marker> naquela festa.</example>
-    </rule>
+    <rulegroup id="AGENTE_BR" name="Confusão entre 'agente' e 'a gente'">
+        <antipattern>
+            <token postag_regexp="yes" postag="(SP.+:)?D.+"/>
+            <token>agente</token>
+            <example>Um agente foi assassinado.</example>
+            <example>O treinamento do agente foi árduo.</example>
+            <example>Ele era um agente da KGB.</example>
+            <example>Esse agente não teve uma boa atuação.</example>
+        </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <token postag_regexp="yes" postag="R." min="0" max="-1"/>
+            <token postag_regexp="yes" postag="A.+|SP.+(:DA.+)|VMP.+"/>
+            <example>Um filme com agente secreto.</example>
+            <example>Ela era uma gente muito bem treinada.</example>
+            <example>Seu filho sempre foi um agente do caos.</example>
+        </antipattern>
+        <antipattern>
+            <token postag_regexp="yes" postag="A.+|SP.+(:DA.+)"/>
+            <token>agente</token>
+            <example>Ele sempre foi um excelente agente.</example>
+        </antipattern>
+        <!-- TODO improve disambiguator for basic ordinals -->
+        <antipattern>
+            <token regexp="yes">primeir[oa]|segund[oa]|melhor</token>
+            <token>agente</token>
+            <example>Sua primeira agente foi a poderosa.</example>
+        </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <!-- TODO turn this into an entity, it could yet prove useful -->
+            <token regexp="yes">\p{L}+([aei](nte|dor)|[âêô]nic[oa]|os[oa]|lógic[oa]|óide)</token>
+            <!-- TODO add to dictionary, but let's keep this here as
+            this derivation is relatively productive. -->
+            <example>Agente vitrificante.</example>
+            <example>Agente descolorizante.</example>
+            <example>Agente umidificador.</example>
+            <example>Agente infeccioso.</example>
+            <example>Agente etiológico.</example>
+            <example>Agente mutagênico.</example>
+        </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <token spacebefore="no" min="0">:</token>
+            <token regexp="yes">\p{Lu}[\p{L}\d]*|\d+[\p{L}\d]*</token>
+            <example>Agente Jack Bauer.</example>
+            <!-- <example>Agente K.D. Lang.</example> -->
+            <example>Agente 007.</example>
+        </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <token spacebefore="no">/</token>
+            <token postag_regexp="yes" postag="N.+"/>
+            <example>Agente/diretor Smith.</example>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">\p{Lu}\p{L}+</token>
+            <token spacebefore="no" min="0">,</token>
+            <token min="0">como</token>
+            <token>agente</token>
+            <example>Francisco Pestana, como Agente.</example>
+            <example>Frank Hubbard como agente número três.</example>
+            <example>Hank McGlaurie, agente e parceiro de Mala.</example>
+        </antipattern>
+        <antipattern>
+            <!-- TODO create/find entity with productive prefixes -->
+            <token regexp="yes">multi|semi|super|ultra|mega|macro|micro|mini|pseudo</token>
+            <token spacebefore="no" regexp="yes" min="0">&hifen;</token>
+            <token>agente</token>
+            <token>Multi-agente.</token>
+        </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <token regexp="yes">anti\p{L}+</token>
+            <example>Agente antichama.</example>
+        </antipattern>
+        <antipattern>
+            <token postag_regexp="yes" postag="SENT_START|_PUNCT"/>
+            <token spacebefore="no">agente</token>
+            <token postag_regexp="yes" postag="SENT_END|_PUNCT" spacebefore="no"/>
+            <example>David Zedeck (Agente)</example>
+            <example>Agente:</example>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token postag_regexp="yes" postag="SP.+"/>
+                <marker>
+                    <token>agente</token>
+                </marker>
+                <token negate_pos="yes" postag="SPS00(:DA.+)?|AQ.+" postag_regexp="yes"/>
+            </pattern>
+            <message>Substitua &quot;agente&quot; por <suggestion>a gente</suggestion>.</message>
+            <example correction="a gente">Você vai com <marker>agente</marker> naquela festa.</example>
+            <example correction="a gente">Não é a melhor situação para <marker>agente</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>agente</token>
+                </marker>
+                <token postag_regexp="yes" postag="R.+" min="0" max="-1"/>
+                <token postag_regexp="yes" postag="V.+"/>
+            </pattern>
+            <message>Substitua &quot;agente&quot; por <suggestion>a gente</suggestion>.</message>
+            <example correction="A gente"><marker>Agente</marker> vai junto ao parque?</example>
+            <example correction="a gente">Eu sei que <marker>agente</marker> ainda pode melhorar.</example>
+        </rule>
+    </rulegroup>
 
     <!-- FIM A GENTE POR AGENTE -->
     <!-- ********************************************************** -->
