@@ -18512,6 +18512,30 @@ USA
         </rulegroup>
 
 
+    <!-- NÃO SE PODE APAGAR é indelével -->
+    <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="[Universitário][Científico] 'não se pode apagar' → 'é indelével'" type="style" default='temp_off'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
+      <!--
+      Eu queria, mas não se pode apagar o passado. → Eu queria, mas o passado é indelével.
+      Eu queria, mas não se pode apagar os escritos. → Eu queria, mas os escritos são indeléveis.
+      -->
+      <pattern>
+        <marker>
+          <token>não</token>
+          <token>se</token>
+          <token>pode</token>
+          <token>apagar</token>
+          <token postag='DA.+' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Se for um texto científico/universitário, pondere empregar o termo 'indelével'.</message>
+      <suggestion>\5 \6 <match no='6' postag='NC.(.)000' postag_replace='VMIP3$10'>ser</match> <match no='6' postag='NC.(.)000' postag_replace='AQ0C$10'>indelével</match></suggestion>
+      <example correction="o passado é indelével">Eu queria, mas <marker>não se pode apagar o passado</marker>.</example>
+      <example correction="os escritos são indeléveis">Eu queria, mas <marker>não se pode apagar os escritos</marker>.</example>
+    </rule>
+
+
         <rulegroup id='PHD_TESE_PERÍFRASES_AFIRMATIVAS' name="[Universitário] Perífrases afirmativas: 'o que pretendemos saber é a' → 'o objetivo é saber a'" type='style'>
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-19 (2-MAR-2023+) -->
             <!--
