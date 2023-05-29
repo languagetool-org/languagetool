@@ -731,14 +731,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token spacebefore="no"/>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
+                    <token inflected="yes" regexp='yes'>
+                        &verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
                         <exception inflected='yes'>ser</exception>
                         <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
-                        <!--exception regexp='yes'>quer|fora</exception--></token>
+                        <!--exception regexp='yes'>quer|fora</exception-->
+                    </token>
                     <token postag="V.+" postag_regexp='yes'>
-                        <exception regexp='yes'>é|há</exception><!-- XXX informal and only usually only used in spoken language --> <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) - Added "há" -->
+                        <exception regexp='yes'>é|há|foi</exception><!-- XXX informal and only usually only used in spoken language --> <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) - Added "há" -->
                         <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes"/>
-                        <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
+                        <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
+                    </token>
                 </pattern>
                 <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
                 <suggestion>\1 <match no='2' postag='VMN0000'/></suggestion>
@@ -772,6 +775,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
                 <example>Qualquer um que queira vir será bem-vindo.</example>
                 <example>Até essa altura chegar decorrerão inúmeros conflitos.</example>
+
+                <example>Vocês virem foi um erro.</example>
             </rule>
 
             <rule>
