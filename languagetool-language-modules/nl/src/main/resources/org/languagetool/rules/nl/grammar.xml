@@ -15397,6 +15397,24 @@ regexp case-insensitive maken: (?i)
                     <token spacebefore="no" regexp="yes">[0-9].*|^[A-Z]</token>
                 </antipattern>
                 <antipattern>
+                    <!-- emojis with foreign names -->
+                    <token>:</token>
+                    <token spacebefore="no" postag="UNKNOWN"></token>
+                    <example>Dat was echt gaaf!:fire:</example>
+                </antipattern>
+                <antipattern>
+                    <!-- emojis with underscores -->
+                    <token>:</token>
+                    <token spacebefore="no"></token>
+                    <token spacebefore="no">_</token>
+                    <example>Wil je een handje meehelpen?:heart_eyes:</example>
+                </antipattern>
+                <antipattern>
+                    <token>:</token>
+                    <token spacebefore="no">\</token>
+                    <example>Dat staat in je c:\Windows map.</example>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes" postag="SENT_END" spacebefore="no">[:;]</token>
                     <example>Opsomming:</example>
                     <example>Punt 1;</example>
