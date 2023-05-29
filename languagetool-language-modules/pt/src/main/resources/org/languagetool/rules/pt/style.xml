@@ -3800,6 +3800,35 @@ USA
         </rulegroup>
 
 
+    <!-- QUE NÃO DÁ PARA VOLTAR ATRÁS irreversível -->
+    <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="[Simplificar] 'que não dá para voltar atrás' → 'irreversível'" type="style" default='temp_off'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
+      <!--
+      É uma situação que não dá para voltar atrás. → É uma situação irreversível.
+      É uma situação em que não dá para voltar atrás. → É uma situação irreversível.
+      São situações que não dá para voltar atrás. → São situações irreversíveis.
+      -->
+      <pattern>
+        <token postag='DA.+|DI.+|V.+' postag_regexp='yes'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+        <marker>
+          <token min='0' max='1'>em</token>
+          <token>que</token>
+          <token>não</token>
+          <token>dá</token>
+          <token>para</token>
+          <token>voltar</token>
+          <token>atrás</token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='2' postag='NC.(.)000' postag_replace='AQ0C$10'>irreversível</match></suggestion>
+      <example correction="irreversível">É uma situação <marker>que não dá para voltar atrás</marker>.</example>
+      <example correction="irreversível">É uma situação <marker>em que não dá para voltar atrás</marker>.</example>
+      <example correction="irreversíveis">São situações <marker>que não dá para voltar atrás</marker>.</example>
+    </rule>
+
+
         <!-- SEMANA QUE VEM próxima semana -->
         <rulegroup id='QUE_VEM_PROXIMA' name="[Simplificar] NC + que + vem → próxim(ao)(s) + NC" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-19 (25-JUL-2022+) -->
