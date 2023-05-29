@@ -530,12 +530,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- We should consider moving this to formal style; using 'a' with 'chegar' feels purist-y. -->
     <rulegroup id="VERBOS_DE_MOVIMENTO_EM_BR" name="Verbos de movimento com a preposição em">
+        <!-- * como vão as coisas em $place -->
+        <antipattern>
+            <token>como</token>
+            <token inflected="yes" postag_regexp="yes" postag="VM(I[^SM]|S[^IF]|[MPGN]).+">ir</token>
+            <example>Como vão as coisas em Boston?</example>
+            <example>E como vai tudo em Minas Gerais?</example>
+        </antipattern>
+
+        <!-- situar-se-ia em X: problems with mesoclisis, just being safe -->
+        <antipattern>
+            <token postag_regexp="yes" postag="VMN.+"/>
+            <token spacebefore="no" regexp="yes">&hifen;</token>
+            <token spacebefore="no" postag_regexp="yes" postag="PP.+"/>
+            <token spacebefore="no" regexp="yes">&hifen;</token>
+            <token spacebefore="no" inflected="yes" postag_regexp="yes" postag="VMII.+" skip="-1">
+                ir
+                <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">
+                    a(os?)?|à.*|para|pr[ao]s?
+                </exception>
+            </token>
+            <token regexp="yes">em|n[oa]s?</token>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            <example>Situar-se-ia em Marine Lines.</example>
+            <example>Alegrar-nos-íamos em Búzios.</example>
+            <example>O Charaka samhita basear-se-ia no Agnivesha samhita.</example>
+            <example>Com a pérola tornar-se-ia rei no Clube dos Caranguejos.</example>
+        </antipattern>
+
+        <!-- foi em $place que -->
+        <antipattern>
+            <token>foi</token>
+            <token>em</token>
+            <token regexp="yes" max="-1">\p{Lu}\p{Ll}+</token>
+            <token>que</token>
+            <example>Foi em Cuiabá que a banda se formou.</example>
+        </antipattern>
+
         <!-- TODO -->
         <!-- * work out what other verbs we may need -->
         <!-- remove sub-rule IDs -->
         <rule id="CHEGAR_EM">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -559,7 +597,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="CHEGAR_NO">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -579,7 +617,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="CHEGAR_NA">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -599,7 +637,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="CHEGAR_EM_MES_EM">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -621,7 +659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="CHEGAR_EM_DATA_EM">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -648,7 +686,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="CHEGAR_EM_X_MINS_EM">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -670,7 +708,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="CHEGAR_NO_SABADO_NO">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -693,7 +731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="CHEGAR_NA_XX_FEIRA_NA">
             <pattern>
-                <token regexp="yes" inflected="yes" skip="-1">
+                <token inflected="yes" skip="-1">
                     chegar
                     <exception scope="next" postag_regexp="yes" postag="V.+"/>
                     <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*</exception>
@@ -714,6 +752,153 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="à">Vou chegar na sexta <marker>na</marker> Austrália.</example>
             <example correction="à">Ela chegará na próxima quinta-feira <marker>na</marker> Inglaterra.</example>
         </rule>
+
+        <!-- We need to be really careful with 'ir' because of the suppletion of
+             some of its forms... An initial attempt here resulted in a far too
+             greedy rule. 'Foi em Taubaté que começaram...', 'foi médico por três
+             anos em Cuiabá' etc. -->
+        <!-- this is the rule without suppletive forms, with which we can
+             hopefully be a little less cautious -->
+            <!-- foi: VMIS.+ -->
+            <!-- fora: VMIM.+ -->
+            <!-- fosse: VMSI.+ -->
+            <!-- for: VMSF._-->
+
+        <rule id="IR_EM_NO_SUPPLETION">
+            <pattern>
+                <token inflected="yes" postag_regexp="yes" postag="VM(I[^SM]|S[^IF]|[MPGN]).+" skip="-1">
+                    ir
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*|para|pr[ao]s?</exception>
+                </token>
+                <marker>
+                    <token postag_regexp="yes" postag="SP.+">em</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot; ou &quot;para&quot;.</message>
+            <suggestion>a</suggestion>
+            <suggestion>para</suggestion>
+            <example correction="a|para">Eu vou <marker>em</marker> São José dos Campos amanhã.</example>
+            <example correction="a|para">Iremos <marker>em</marker> Manaus.</example>
+            <example correction="a|para">Eu iria <marker>em</marker> Parati se não fosse tão longe.</example>
+            <example>Eu fui em Moscou somente para encontrá-la.</example>
+        </rule>
+
+        <rule id="IR_NO_NO_SUPPLETION">
+            <pattern>
+                <token inflected="yes" postag_regexp="yes" postag="VM(I[^SM]|S[^IF]|[MPGN]).+" skip="-1">
+                    ir
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*|para|pr[ao]s?</exception>
+                </token>
+                <marker>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">nos?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot; ou &quot;para&quot;.</message>
+            <suggestion><match no="2" regexp_match="n(.+)" regexp_replace="a$1"/></suggestion>
+            <suggestion><match no="2" regexp_match="n(.+)" regexp_replace="para $1"/></suggestion>
+            <example correction="ao|para o">Eu vou <marker>no</marker> Rio amanhã.</example>
+            <example correction="aos|para os">Iremos <marker>nos</marker> Estados Unidos.</example>
+            <example correction="ao|para o">Eu iria <marker>no</marker> Cairo se não fosse tão longe.</example>
+            <example>Eu fui no Paraguai somente para encontrá-la.</example>
+        </rule>
+
+        <rule id="IR_NA_NO_SUPPLETION">
+            <pattern>
+                <token inflected="yes" postag_regexp="yes" postag="VM(I[^SM]|S[^IF]|[MPGN]).+" skip="-1">
+                    ir
+                    <exception scope="next" postag_regexp="yes" postag="V.+"/>
+                    <exception regexp="yes" scope="next" postag_regexp="yes" postag="SP.+(:.+)?">a(os?)?|à.*|para|pr[ao]s?</exception>
+                </token>
+                <marker>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">nas?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot; ou &quot;para&quot;.</message>
+            <suggestion><match no="2" regexp_match="na(.*)" regexp_replace="à$1"/></suggestion>
+            <suggestion><match no="2" regexp_match="n(.+)" regexp_replace="para $1"/></suggestion>
+            <example correction="à|para a">Eu vou <marker>na</marker> Alemanhã amanhã.</example>
+            <example correction="às|para as">Iremos <marker>nas</marker> Províncias Unidas.</example>
+            <example correction="à|para a">Eu iria <marker>na</marker> Glória se não fosse tão longe.</example>
+            <example>Eu fui na Cidade do Cabo somente para encontrá-la.</example>
+        </rule>
+
+        <!-- // really restrictive grammar here -->
+        <rule id="IR_EM_SUPPLETION">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="^[CRP].*" min="0" max="-1"/>
+                <token inflected="yes" postag_regexp="yes" postag="VM(I[SM]|S[IF]).+">ir</token>
+                <marker>
+                    <token postag_regexp="yes" postag="SP.+">em</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="3" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot; ou &quot;para&quot;.</message>
+            <suggestion>a</suggestion>
+            <suggestion>para</suggestion>
+            <example correction="a|para">Fui <marker>em</marker> Varsóvia.</example>
+            <!-- example from the original issue -->
+            <example correction="a|para">Nunca fui <marker>em</marker> Bonito.</example>
+            <example correction="a|para">Eu fui <marker>em</marker> Gdansk.</example>
+            <example correction="a|para">Se eu fosse <marker>em</marker> Cuiabá.</example>
+            <example correction="a|para">Ele fora <marker>em</marker> Riga já várias vezes antes.</example>
+            <example correction="a|para">Se eu for <marker>em</marker> Los Angeles...</example>
+            <example>Eu fui médico em Atlântis.</example>
+        </rule>
+
+        <!-- // really restrictive grammar here -->
+        <rule id="IR_NO_SUPPLETION">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="^[CRP].*" min="0" max="-1"/>
+                <token inflected="yes" postag_regexp="yes" postag="VM(I[SM]|S[IF]).+">ir</token>
+                <marker>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">nos?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="3" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot; ou &quot;para&quot;.</message>
+            <suggestion><match no="4" regexp_match="n(.+)" regexp_replace="a$1"/></suggestion>
+            <suggestion><match no="4" regexp_match="n(.+)" regexp_replace="para $1"/></suggestion>
+            <example correction="ao|para o">Fui <marker>no</marker> Leblon.</example>
+            <!-- example from the original issue -->
+            <example correction="aos|para os">Nunca fui <marker>nos</marker> Arcos da Lapa.</example>
+            <example correction="ao|para o">Eu fui <marker>no</marker> Porto.</example>
+            <example correction="ao|para o">Se eu fosse <marker>no</marker> Zaire.</example>
+            <example correction="ao|para o">Ele fora <marker>no</marker> Vietnã já várias vezes antes.</example>
+            <example correction="ao|para o">Se eu for <marker>no</marker> Equador...</example>
+            <example>Eu fui médico no Arizona.</example>
+        </rule>
+
+        <!-- // really restrictive grammar here -->
+        <rule id="IR_NA_SUPPLETION">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="^[CRP].*" min="0" max="-1"/>
+                <token inflected="yes" postag_regexp="yes" postag="VM(I[SM]|S[IF]).+">ir</token>
+                <marker>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">nas?</token>
+                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </pattern>
+            <message>O verbo de movimento &quot;<match no="3" postag_regexp="yes" postag="V.+" postag_replace="VMN0000"/>&quot; exige a preposição &quot;a&quot; ou &quot;para&quot;.</message>
+            <suggestion><match no="4" regexp_match="na(.*)" regexp_replace="à$1"/></suggestion>
+            <suggestion><match no="4" regexp_match="n(.+)" regexp_replace="para $1"/></suggestion>
+            <example correction="à|para a">Fui <marker>na</marker> Praia do Flamengo.</example>
+            <!-- example from the original issue -->
+            <example correction="às|para as">Nunca fui <marker>nas</marker> Ilhas Caimã.</example>
+            <example correction="à|para a">Eu fui <marker>na</marker> Jamaica.</example>
+            <example correction="à|para a">Se eu fosse <marker>na</marker> República Dominicana.</example>
+            <example correction="à|para a">Ele fora <marker>na</marker> Rocinha já várias vezes antes.</example>
+            <example correction="à|para a">Se eu for <marker>na</marker> Coreia do Sul...</example>
+            <example>Eu fui médico na Dakota do Sul.</example>
+        </rule>
+
     </rulegroup>
 
     <!-- FIM CHEGAMOS A POR CHEGAMOS EM -->
