@@ -3648,7 +3648,7 @@ USA
                 <example>Warum steht ihr hier alle so dumm 'rum?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER_NEU" name="'rauf (herauf)' etc. [unvollständig!]" default="temp_off">
+        <rulegroup id="RAN_RUM_RAUF_REIN_RAUS_RUNTER_NEU" name="'rauf (herauf)' etc. [unvollständig!]" tone_tags="formal">
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[1] -->
                 <antipattern>
                   <token skip="-1" regexp="yes">Handy|Telefon|Smartphone</token>
@@ -3659,10 +3659,24 @@ USA
                   <token skip="-1" inflected="yes">rangehen</token>
                   <token regexp="yes">Handy|Telefon|Smartphone</token>
                 </antipattern>
+                <antipattern>
+                  <token skip="-1" postag="PRO:REF.*" postag_regexp="yes"/>
+                  <token skip="-1">an</token>
+                  <token inflected="yes">ranmachen</token>
+                  <example>Du hättest dich heute Abend an ihn ranmachen sollen.</example>
+                </antipattern>
+                <antipattern>
+                  <token skip="-1">an</token>
+                  <token skip="-1" postag="PRO:REF.*" postag_regexp="yes"/>
+                  <token inflected="yes">ranmachen</token>
+                  <example>An sie hättest du dich heute Abend besser rangemacht.</example>
+                </antipattern>
                 <pattern>
                     <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">ran.+
+                      <exception postag="SUB.*(MAS|FEM|NEU)" postag_regexp="yes"/>
+                      <exception inflected="yes" regexp="yes">rangehen|ranhängen|ranklotzen</exception>
                       <exception inflected="yes" regexp="yes">randalieren|rangeln|rangieren|ranken|ranzen</exception>
-                      <exception inflected="yes" regexp="yes">rennen|ringen</exception>
+                      <exception inflected="yes" regexp="yes">rennen|ringen|rinnen</exception>
                     </token>
                 </pattern>
                 <message>'\1' wirkt umgangssprachlich. Je nach Situation klingt <suggestion><match no="1" regexp_match="^[Rr]an" regexp_replace="heran"/></suggestion> evtl. besser.</message>
@@ -3674,6 +3688,7 @@ USA
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[2] -->
                 <pattern>
                     <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">rauf.+
+                      <exception postag="SUB.*(MAS|FEM|NEU)" postag_regexp="yes"/>
                       <exception inflected="yes">raufen</exception>					  
                     </token>
                 </pattern>
@@ -3684,6 +3699,8 @@ USA
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[3] -->
                 <pattern>
                     <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">raus.+
+                        <exception postag="SUB.*(MAS|FEM|NEU)" postag_regexp="yes"/>
+                        <exception inflected="yes">rausgehen</exception>
                         <exception regexp="yes">[Rr]ausch.*</exception>
                     </token>
                 </pattern>
@@ -3705,7 +3722,10 @@ USA
             </rule>
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[5] -->
                 <pattern>
-                    <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">rüber.+</token>
+                    <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">rüber.+
+                      <exception postag="SUB.*(MAS|FEM|NEU)" postag_regexp="yes"/>
+                      <exception inflected="yes">rüberkippen</exception>
+                    </token>
                 </pattern>
                 <message>'\1' wirkt umgangssprachlich. Je nach Situation klingt <suggestion><match no="1" regexp_match="^[Rr]über" regexp_replace="herüber"/></suggestion> oder <suggestion><match no="1" regexp_match="^[Rr]über" regexp_replace="hinüber"/></suggestion> evtl. besser.</message>
                 <example correction="herüberbringen|hinüberbringen">Ich will das nicht später <marker>rüberbringen</marker> müssen.</example>
@@ -3713,7 +3733,8 @@ USA
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[6] -->
                 <pattern>
                     <token inflected="yes" postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">rum.+
-                        <exception inflected="yes" regexp="yes">rumpeln|rumsen</exception>
+                        <exception inflected="yes" regexp="yes">rumoren|rumpeln|rumsen</exception>
+                        <exception>rumpfheben</exception>
                     </token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
@@ -3724,6 +3745,17 @@ USA
                 <example>Ich bin es leid, mich damit <marker>herumzuärgern</marker>.</example>
             </rule>
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[7] -->
+                <antipattern>
+                  <token>eine</token>
+                  <token inflected="yes">runterhauen</token>		
+                  <example>Alice hätte Bob fast eine runtergehauen.</example>
+                </antipattern>
+                <antipattern>
+                  <token postag="PRO:REF.*" postag_regexp="yes"/>
+                  <token>einen</token>
+                  <token inflected="yes">runterholen</token>
+                  <example>Tom hat sich einen runtergeholt.</example>
+                </antipattern>
                 <pattern>
                     <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">runter.*</token>
                 </pattern>
@@ -3745,42 +3777,7 @@ USA
                 <example>Wir alberten <marker>herum</marker>.</example>
                 <example>Sie probieren Rum.</example>
             </rule>
-
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[9] -->
-                <antipattern>
-                    <token>[</token>
-                    <token>rum</token>
-                    <token>]</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">&apostrophe;</token>
-                    <token spacebefore="no">rum</token>
-                </antipattern>
-                <antipattern>
-                    <token case_sensitive="yes" regexp="yes">Rum|RUM</token>
-                </antipattern>
-                <antipattern>
-                    <token>rum</token>
-                    <token>und</token>
-                    <token>ehre</token>
-                </antipattern>
-                <antipattern>
-                    <token>rum</token>
-                    <token postag="VER.*" postag_regexp="yes" />
-                </antipattern>
-                <pattern>
-                    <token skip="-1" postag="VER:.+" postag_regexp="yes"/>
-                    <marker>
-                        <token>rum</token>
-                    </marker>
-                </pattern>
-                <message>Möchten Sie 'rum' durch eine Alternative ersetzen, um Ihren Text formeller zu machen?</message>
-                <suggestion>herum</suggestion>
-                <example correction="herum">Heute saßen wir den ganzen Tag nur <marker>rum</marker>.</example>
-                <example>In der Karibik Rum zu trinken, wäre ein Traum.</example>
-                <example>Warum steht ihr hier alle so dumm 'rum?</example>
-            </rule>
-            <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[10] -->
                 <pattern>
                     <token regexp="yes">(hoch|rauf)-</token>
                     <token skip="-1">und</token>
@@ -3792,7 +3789,7 @@ USA
                 <suggestion>herauf- <match no="2" include_skipped="all"/> <match no="3" regexp_match="^[Rr]unter" regexp_replace="herab"/></suggestion>
                 <example correction="auf- und abgelaufen|hinauf- und hinabgelaufen|herauf- und herabgelaufen">Dieses Lied ist im Radio ständig <marker>rauf- und runtergelaufen</marker>.</example>
             </rule>
-	        <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[11] -->
+	        <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[10] -->
                 <pattern>
                     <token>raus-</token>
                     <token skip="-1">und</token>
@@ -3802,7 +3799,7 @@ USA
                 <suggestion>aus- <match no="2" include_skipped="all"/> <match no="3" regexp_match="^[Rr]ein" regexp_replace="ein"/></suggestion>
                 <example correction="aus- und nach fünf Minuten wieder einstecken">Bei einer Störung das Kabel <marker>raus- und nach fünf Minuten wieder reinstecken</marker>.</example>
             </rule>
-	        <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[12] -->
+	        <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[11] -->
                 <pattern>
                     <token>rein-</token>
                     <token skip="-1">und</token>
@@ -3811,6 +3808,34 @@ USA
                 <message>'\1 \2 \3' ist umgangssprachlich.</message>
                 <suggestion>ein- <match no="2" include_skipped="all"/> <match no="3" regexp_match="^[Rr]aus" regexp_replace="aus"/></suggestion>
                 <example correction="ein- und erst dann ausstecken">Laden Sie vor dem ersten Gebrauch Ihr Gerät, indem Sie das Netzteil in die Steckdose <marker>rein- und erst dann rausstecken</marker>, wenn das grüne Licht leuchtet.</example>
+            </rule>
+	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[12] -->
+                <pattern>
+                    <token inflected="yes">rausgehen</token>
+                </pattern>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion>nach draußen <match no="1" postag="VER.*" postag_regexp="yes">gehen</match></suggestion>
+                <suggestion><match no="1" regexp_match="^[Rr]aus" regexp_replace="heraus"/></suggestion>
+                <suggestion><match no="1" regexp_match="^[Rr]aus" regexp_replace="hinaus"/></suggestion>
+                <example correction="nach draußen gehen|herausgehen|hinausgehen">Habt ihr Alice <marker>rausgehen</marker> sehen?</example>
+            </rule>
+	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[13] -->
+                <pattern>
+                    <token inflected="yes">rüberkippen</token>
+                </pattern>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion><match no="1" postag="VER.*" postag_regexp="yes">verschütten</match></suggestion>
+                <suggestion>darüber <match no="1" postag="(VER.*)(SFT)(:NEB)?" postag_replace="$1NON" postag_regexp="yes">gießen</match></suggestion>
+                <example correction="verschüttet|darüber gegossen">Die Stelle klebt, da hab ich leider mal Bier <marker>rübergekippt</marker>.</example>
+            </rule>
+	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[14] -->
+                <pattern>
+                  <token>eine</token>
+                  <token inflected="yes">runterhauen</token>
+                </pattern>
+                <message>'\1 \2' ist umgangssprachlich.</message>
+                <suggestion><match no="2" postag="(VER.*)NON(:NEB)?" postag_replace="$1SFT" postag_regexp="yes">ohrfeigen</match></suggestion>
+                <example correction="geohrfeigt">Ich hätte Tom fast <marker>eine runtergehauen</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="UND_SATZANFANG" name="'Und' am Satzanfang" default="off">
