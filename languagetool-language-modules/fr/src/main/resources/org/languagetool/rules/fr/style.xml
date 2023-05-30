@@ -3533,6 +3533,7 @@ USA
         <rule id="AVOIR_DE_BESOIN" name="avoir de besoin" default="temp_off" tone_tags="clarity">
             <pattern>
                 <token inflected="yes" skip="5">avoir
+                    <exception scope="next" postag="A"/>
                     <exception scope="next">pas</exception></token>
                 <token>de</token>
                 <token regexp="yes">besoins?</token>
@@ -4638,7 +4639,8 @@ USA
             <suggestion>poivron</suggestion>
             <example correction="poivron"><marker>piment doux</marker></example>
         </rule>
-        <rule id="LAISSEZ_MOI_VOUS_DIRE_QUE" name="laisse-moi te dire que" default="temp_off" tags="picky">
+        <rule id="LAISSEZ_MOI_VOUS_DIRE_QUE" name="laisse-moi te dire que" default="temp_off" tags="picky" tone_tags="clarity">
+        <!--This rule and the following one only need changes in the suggestions part-->
             <pattern>
                 <token>laisse</token>
                 <token>-moi</token>
@@ -4653,7 +4655,7 @@ USA
             <example correction="je t'assure que|crois-moi, tu|il faut dire que tu"><marker>laisse-moi te dire que</marker></example>
             <example><marker>il faut dire que</marker></example>
         </rule>
-        <rule id="LAISSEZ-MOI_VOUS_DIRE_QUE" name="laissez-moi vous dire que" default="temp_off" tags="picky">
+        <rule id="LAISSEZ-MOI_VOUS_DIRE_QUE" name="laissez-moi vous dire que" default="temp_off" tags="picky" tone_tags="clarity">
             <pattern>
                 <token>laissez</token>
                 <token>-moi</token>
@@ -12927,7 +12929,7 @@ USA
             <example correction="câble de batterie|câble de démarrage"><marker>câble à booster</marker></example>
             <example><marker>câble de démarrage</marker></example>
         </rule>
-        <rule id="COMMENCER_AVEC" name="commencer avec" default="temp_off">
+        <rule id="COMMENCER_AVEC" name="commencer avec" default="temp_off" tone_tags="formal">
             <!-- Disabled because of false positives (vkyfox) TODO: Adjust pattern and suggestions, add antipatterns -->
             <pattern>
                 <token inflected="yes" skip="1">
@@ -13168,7 +13170,7 @@ USA
                 <example>Il lui a adressé des compliments.</example>
             </rule>
         </rulegroup>
-        <rule id="ETRE_DAFFAIRES" name="être d’affaires" default="temp_off">
+        <rule id="ETRE_DAFFAIRES" name="être d’affaires" tone_tags="clarity">
             <pattern>
                 <token inflected="yes" skip="1">être
                     <exception regexp="yes" scope="next">tirée?s?|sortie?s?</exception></token>
@@ -14681,18 +14683,6 @@ USA
             <suggestion>à</suggestion>
             <example correction="à">Les femmes participent activement <marker>dans</marker> ce processus.</example>
             <example><marker>Les femmes participent activement à ce processus.</marker></example>
-        </rule>
-        <rule id="ETRE_JUSTIFIE_DE" name="être justifié de" default="temp_off">
-            <pattern>
-                <token inflected="yes" skip="1">être</token>
-                <token regexp="yes">justifiée?s?</token>
-                <token>de</token>
-            </pattern>
-            <message>« Être justifié de » peut être considéré comme un anglicisme (to be justified to).</message>
-            <suggestion>avoir raison de</suggestion>
-            <suggestion>\1 en droit de</suggestion>
-            <example correction="avoir raison de|être en droit de"><marker>être justifié de</marker></example>
-            <example><marker>être en droit de</marker></example>
         </rule>
         <rule id="BLANC_COMME_UN_DRAP" name="blanc comme un drap" tone_tags="clarity">
             <pattern>
@@ -18204,17 +18194,6 @@ USA
             <example correction="marée noire|nappe de pétrole"><marker>nappe d’huile</marker></example>
             <example><marker>nappe de pétrole</marker></example>
         </rule>
-        <rule id="FAIRE_APPLICATION" name="faire application" default="temp_off">
-            <pattern>
-                <token inflected="yes" skip="2">faire
-                    <exception scope="next">,</exception></token>
-                <token>application</token>
-            </pattern>
-            <message>« Faire application » peut être considéré comme un anglicisme (to make an application).</message>
-            <suggestion>poser sa candidature</suggestion>
-            <example correction="poser sa candidature"><marker>faire application</marker></example>
-            <example>Quoi que nous fassions, l'application est très importante.</example>
-        </rule>
         <rule id="FAIRE_SUR_QUE" name="faire sûr que" tone_tags="clarity">
             <pattern>
                 <token inflected="yes" skip="2">faire</token>
@@ -19615,7 +19594,7 @@ USA
                 <pattern>
                     <token>quoi
                         <exception scope="previous" regexp="yes">[aà]|pas</exception>
-                        <exception scope="previous" postag="P"/></token>
+                        <exception scope="previous" postag="P.*|R pers obj.*" postag_regexp="yes"/></token>
                     <token postag="V.* inf" postag_regexp="yes">
                         <exception regexp="yes">[àâaéêèeiîoôòóöŌuœäìø].*</exception></token>
                 </pattern>
@@ -19624,7 +19603,8 @@ USA
                 <suggestion>comment \2</suggestion>
                 <example correction="que faire|comment faire">Il se demande <marker>quoi faire</marker>.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <!--Temp_off should be removed once tone_tags are fully implemented-->
                 <pattern>
                     <token>pas</token>
                     <token>quoi
@@ -19636,7 +19616,7 @@ USA
                 <example correction="qu'avoir">Il ne sait <marker>pas quoi avoir</marker> pour son anniversaire.</example>
             </rule>
         </rulegroup>
-        <rule id="NEGATION_PLUS_OU_DAVANTAGE" name="n'a plus ou a davantage" tone_tags="formal">
+        <rule id="NEGATION_PLUS_OU_DAVANTAGE" name="n'a plus ou a davantage" default="temp_off" tone_tags="formal">
             <antipattern>
                 <token inflected="yes">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
