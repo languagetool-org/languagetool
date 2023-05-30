@@ -3207,6 +3207,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ebensogut": return topMatch("ebenso gut");
       case "Ebensoleicht": return topMatch("Ebenso leicht");
       case "ebensoleicht": return topMatch("ebenso leicht");
+      case "eigendlich": return topMatch("eigentlich");
+      case "eigendliche": return topMatch("eigentliche");
+      case "eigendlicher": return topMatch("eigentlicher");
+      case "eigendliches": return topMatch("eigentliches");
+      case "eigendlichen": return topMatch("eigentlichen");
+      case "eigendlichem": return topMatch("eigentlichem");
     }
     return Collections.emptyList();
   }
