@@ -859,6 +859,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="MILIO_K" name="numerals especials: milió, coma">
         <rule>
+            <antipattern>
+                <!-- és una any -->
+                <token regexp="yes">el|en|l</token>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>i</token>
+                <token>mig</token>
+            </antipattern>
             <pattern>
                 <token postag="DN.[MC].." postag_regexp="yes"/>
                 <token>i</token>
