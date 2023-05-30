@@ -1602,12 +1602,17 @@ USA
                 <example>Warum schaust du dich also nicht mal woanders um und machst deinen Städtetrip zu was besonderem?</example>
             </rule>
             <rule><!--4-->
+                <antipattern>
+                    <token>was</token>
+                    <token>für</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Bei|Für|Gegen|Hinter|Mit|Nach|Neben|Über|Vo[nr]|Zu|Zwischen</token>
                     <token>was</token>
                 </pattern>
                 <message>Möchten Sie das standardsprachliche <suggestion>Wo<match no="1" case_conversion="startlower"/></suggestion> verwenden?</message>
                 <example correction="Wofür"><marker>Für was</marker> kämpft er?</example>
+                <example>Von was für einem Defekt sprechen wir?</example>
             </rule>
             <rule default="temp_off"><!--5-->
                 <pattern>
