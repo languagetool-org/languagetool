@@ -831,7 +831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <!-- A À -->
-        <rulegroup id='ERROS_DE_CRASE_MARCOAGPINTO' name="Erros de crase (Marco A.G.Pinto)">
+        <rulegroup id='ERROS_DE_CRASE_MARCOAGPINTO' name="Erros de crase (Marco A.G.Pinto)" default="temp_off">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-17 (1-JAN-2022+)      -->
             <!--
       Logo a noite vou experimentar novamente. → Logo à noite vou experimentar novamente.
@@ -3939,6 +3939,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
 
             <!-- MARCOAGPINTO 2023-03-04 + 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+            <antipattern>
+                <token>home</token>
+                <token>runs</token>
+            </antipattern>
             <antipattern>
                 <token postag='SPS00|(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
                 <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
@@ -11882,7 +11886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento.</example>
             </rule>
             <!-- Moved from the PHRASAL_VERBS_ERRORS rulegroup above and split to handle contractions. -->
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -11926,7 +11930,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Consegues habituar-te com calma ao clima.</example>
                 <example>Vou me habituar com certeza aos seus caprichos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -11941,7 +11945,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='à'>Você conseguiu se habituar <marker>com a</marker> nova regra?</example>
                 <example correction='àquele'>Eles já se habituaram <marker>com aquele</marker> professor.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -11955,7 +11959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>a\6</suggestion>
                 <example correction='ao'>Você conseguiu se habituar <marker>com o</marker> clima?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -11968,7 +11972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>a mim</suggestion>
                 <example correction='a mim'>Os alunos ainda não se habituaram <marker>comigo</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -11981,7 +11985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>a ti</suggestion>
                 <example correction='a ti'>Os alunos ainda não se habituaram <marker>contigo</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -11994,7 +11998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>a si</suggestion>
                 <example correction='a si'>Em seu novo corpo, já se habituou <marker>consigo</marker> mesmo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -12007,7 +12011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>a nós</suggestion>
                 <example correction='a nós'>Os alunos ainda não se habituaram <marker>conosco</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected='yes'>habituar</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -12020,7 +12024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>a vós</suggestion>
                 <example correction='a vós'>Os alunos ainda não se habituaram <marker>convosco</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <!-- Add a skip of 3, running this on our corpora seems to have given me the best results. -->
                     <token inflected='yes' regexp='yes' skip="3">
@@ -12048,7 +12052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>a</suggestion>
             <example correction='a'>Ele sobrepôs luzes azuis <marker>sobre</marker> luzes amarelas.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token inflected='yes' regexp='yes' skip="3">
                         sobrep[oô]r
@@ -12064,7 +12068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion><match no="3" regexp_match="a(.*)" regexp_replace="à$1"/></suggestion>
             <example correction='à'>Ele sobrepôs a luz azul <marker>sobre a</marker> amarela.</example>
         </rule>
-        <rule default="temp_off">
+        <rule>
             <pattern>
                 <token inflected='yes' regexp='yes' skip="3">
                         sobrep[oô]r
@@ -31235,9 +31239,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </pattern>
                 <message>Confusão do advérbio com o adjetivo. Mau é adjetivo (tal como bom), mal é advérbio (tal como bem).</message>
                 <suggestion><match no='2' postag_regexp='yes' postag='(N.|A..)(..).+' postag_replace='AQ0$20'>mau</match> \2</suggestion>
+                <suggestion>\1, \2</suggestion>
                 <short>Confusão do adjetivo com o advérbio</short>
-                <example correction='mau princípio'>Isso é <marker>mal princípio</marker>.</example>
-                <example correction='maus conselhos'>Ignora os <marker>mal conselhos</marker>.</example>
+                <example correction='mau princípio|mal, princípio'>Isso é <marker>mal princípio</marker>.</example>
+                <example correction='maus conselhos|mal, conselhos'>Ignora os <marker>mal conselhos</marker>.</example>
             </rule>
             <rule>
                 <antipattern>

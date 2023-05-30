@@ -1467,7 +1467,7 @@ USA
         </rule>
 
         <!-- PRA para -->
-        <rule id='FORMAL_PRA_PARA' name="Linguagem informal: pra → para">
+        <rule id='FORMAL_PRA_PARA' name="Linguagem informal: pra → para" tone_tags="formal">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
             Tudo isso pra quê? → Tudo isso para quê?
@@ -1961,7 +1961,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" type="style" tags="picky" default='temp_off'>
+        <rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" type="style" tags="picky" tone_tags="academic" default='temp_off'>
             <rule>
                 <antipattern>
                     <token postag='SENT_START'/>
@@ -2159,7 +2159,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style'>
+        <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style' tone_tags="povrem">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <rule tags="picky">
                 <!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
@@ -4543,7 +4543,7 @@ USA
 
 
         <!-- PARA TER ACONTECIDO para acontecer -->
-        <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style">
+        <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 + 2023-02-26 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       Muitos fatores contribuíram para ter acontecido desse modo. → Muitos fatores contribuíram para acontecer desse modo.
@@ -15966,7 +15966,7 @@ USA
 
 
         <!-- NÃO SABIA/SABIAM NADA nada sabia/sabiam -->
-        <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky'>
+        <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic">
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 + 2022-07-06 + 2022-08-27 (5-JUN-2022+)      -->
             <!--
             O Rui não sabia nada do assunto. → O Rui nada sabia do assunto.
@@ -16775,7 +16775,7 @@ USA
 
 
         <!-- VER observar/constatar -->
-        <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky">
+        <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky" tone_tags="academic">
             <antipattern>
                 <token inflected='yes' skip='-1'>ver</token>
                 <token regexp='yes'>filmes?|vídeos?|séries?|mensagem|mensagens|cenas?|televisão|tv|lado</token>
@@ -17332,7 +17332,7 @@ USA
 
 
     <!-- DE PROPÓSITO deliberadamente -->
-    <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky">
+    <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky" tone_tags="formal">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-25 (2-MAR-2023+) -->
       <!--
       Eles fizeram de propósito. → Eles fizeram deliberadamente.
@@ -17407,7 +17407,7 @@ USA
 
 
         <!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
-        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky">
+        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic">
             <antipattern>
                 <token inflected='yes' skip='3'>fazer</token>
                 <token regexp='yes'>&vocativos;</token>
@@ -18206,7 +18206,7 @@ USA
 
 
         <!-- PENSAR EM ponderar -->
-        <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="[Científico] Pensar em → ponderar" type="style" tags="picky">
+        <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="[Científico] Pensar em → ponderar" type="style" tags="picky" tone_tags="academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 + 2022-02-08 (25-JUL-2022+) -->
             <!--
             Estou a pensar em comprar o PC da televisão. → Estou a ponderar comprar o PC da televisão.
@@ -18451,7 +18451,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id="AJUDAR_AUXILIAR" name="[Universitário][Científico] ajudar → auxiliar" type='style' tags='picky'>
+        <rulegroup id="AJUDAR_AUXILIAR" name="[Universitário][Científico] ajudar → auxiliar" type='style' tags='picky' tone_tags="academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-12/26/27 (2-MAR-2023+) -->
             <!--
             SUBRULE 1:
