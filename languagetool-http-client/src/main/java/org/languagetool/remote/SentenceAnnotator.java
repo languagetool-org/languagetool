@@ -150,7 +150,7 @@ public class SentenceAnnotator {
           break;
         case "i":
           fpMatches.add(getMatchIdentifier(sentence, match));
-          errorType = "IW";
+          errorType = "IM";
           break;
         case "f":
           fpMatches.add(getMatchIdentifier(sentence, match));
