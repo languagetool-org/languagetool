@@ -20870,7 +20870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Verifique se não quis escrever <suggestion>à</suggestion> ou <suggestion>a</suggestion>.</message>
                 <example correction='à|a'>Fui <marker>á</marker> feira ontem.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">ap[oô]s
                         <exception scope="previous" postag_regexp='yes' postag='D[AIP].MP.|SPS00:D..MP.|Z0MP0'/></token>
@@ -20879,13 +20879,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="após">Ficou cansado <marker>apos</marker> o expediente.</example>
                 <example correction="Após"><marker>Apôs</marker> 1990, as coisas se complicaram.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token>sera</token>
                 </pattern>
                 <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>será</suggestion>.</message>
                 <example correction="Será"><marker>Sera</marker> que ele vai?</example>
                 <example correction="será">Mês que vem ela <marker>sera</marker> reconhecida com um prêmio.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="NO_ACCENT_ON_VERBAL_E" name="Falta de acento agudo sobre 'é'." default="temp_off">
+            <!-- the only consistent false positive here refers to mathematical texts where
+                 'e' is used as a variable, or physics where it is a constant;
+                 IMO that's a an okay thing to have, as those are super specialised
+                 and those people will need to have all sorts of rules turned off
+                 anyway... -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">qu[eê]|quando|qual|onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                    <marker>
+                        <token case_sensitive="yes">e</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">qu[eê]|quando|qual|onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                </pattern>
+                <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>é</suggestion>.</message>
+                <example correction="é">Acha que <marker>e</marker> melhor?</example>
+                <example correction="é">O que <marker>e</marker> o problema?</example>
+                <example correction="é">Onde <marker>e</marker> a padaria?</example>
+                <example correction="é">Qual <marker>e</marker> o pior deles?</example>
+                <example correction="é">Quando <marker>e</marker> a festa?</example>
+                <example correction="é">Quanto <marker>e</marker> a medida ideal?</example>
+                <example correction="é">Por que <marker>e</marker> pior fazer do meu jeito?</example>
+                <example>Onde e como assinar?</example>
             </rule>
         </rulegroup>
 

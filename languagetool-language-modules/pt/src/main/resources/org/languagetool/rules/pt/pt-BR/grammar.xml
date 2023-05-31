@@ -889,7 +889,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- CONFUNDIR DUZENTOS GRAMAS NUMERAL COM DUZENTAS GRAMAS -->
 
-    <rule id="DUZENTAS_GRAMAS_NUMERAL" name="Duzentos gramas">
+    <rule id="DUZENTAS_GRAMAS_NUMERAL" name="Duzentos gramas" default="temp_off">
         <pattern>
             <token regexp="yes">(duz|trez|quatroc|quinh|seic|setec|oitoc|novec)entas</token>
             <token>gramas</token>
@@ -901,7 +901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ********************************************************** -->
 
     <!-- VERBO FAZER SENTIDO TEMPORAL É IMPESSOAL-->
-    <rule id="FAZEM_TEMPO" name="Faz tempo">
+    <rule id="FAZEM_TEMPO" name="Faz tempo" default="temp_off">
         <antipattern>
             <token postag_regexp="yes" postag="N..P.+|PP3.P.+"/>
             <token inflected="yes" postag_regexp="yes" postag="VM..3P.">fazer</token>
@@ -934,7 +934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="fizesse">Achei que <marker>fizessem</marker> algumas décadas!</example>
     </rule>
 
-    <rule id="VAO_FAZER_TEMPO" name="Vai fazer tempo">
+    <rule id="VAO_FAZER_TEMPO" name="Vai fazer tempo" default="temp_off">
         <antipattern>
             <token postag_regexp="yes" postag="N..P.+|PP3.P.+"/>
             <token inflected="yes" postag_regexp="yes" postag="VMI.3P.">ir</token>
@@ -968,7 +968,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <!-- FIM VERBO FAZER SENTIDO TEMPORAL É IMPESSOAL-->
 
-    <rule id="NAO_E_ADJ" name="Não e + adjetivo, falta de acento">
+    <rule id="NAO_E_ADJ" name="Não e + adjetivo, falta de acento" default="temp_off">
         <pattern>
             <token>não</token>
             <marker>
