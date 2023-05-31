@@ -20872,11 +20872,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule>
                 <pattern>
-                    <token>apos
+                    <token regexp="yes">ap[oô]s
                         <exception scope="previous" postag_regexp='yes' postag='D[AIP].MP.|SPS00:D..MP.|Z0MP0'/></token>
                 </pattern>
                 <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>após</suggestion>.</message>
                 <example correction="após">Ficou cansado <marker>apos</marker> o expediente.</example>
+                <example correction="Após"><marker>Apôs</marker> 1990, as coisas se complicaram.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sera</token>
+                </pattern>
+                <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>será</suggestion>.</message>
+                <example correction="Será"><marker>Sera</marker> que ele vai?</example>
+                <example correction="será">Mês que vem ela <marker>sera</marker> reconhecida com um prêmio.</example>
             </rule>
         </rulegroup>
 
