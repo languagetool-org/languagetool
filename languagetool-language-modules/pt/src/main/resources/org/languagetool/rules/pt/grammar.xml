@@ -28086,18 +28086,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id='LP_PARONYMS' name='Paranónimos especiais'>
+        <rulegroup id='LP_PARONYMS' name='Parônimos especiais'>
             <!-- Based on Lightproof by Tiago F. Santos, 2017-07-03 -->
-        <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-        -->
 
             <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
             <short>Nesta situação acentua-se a palavra.</short>
 
-            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *START* -->
             <antipattern>
-                <token postag='CS' postag_regexp='no'>
+                <token postag='P[TR]|CS|SENT_START' postag_regexp='yes'>
                     <exception postag_regexp='yes' postag='AQ.+|NC.+|RG|V.+'/>
                 </token>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -28107,36 +28103,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>É uma reação egoísta que magoa a malta, sempre.</example>
                 <example>E' no livro que copia da verdade, e castiga o crime que raras vezes a sociedade censura ?</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
-            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *START* -->
             <antipattern>
-                <token postag='CS' postag_regexp='no'>
+                <token postag='P[TR]|CS|SENT_START' postag_regexp='yes'>
                     <exception postag_regexp='yes' postag='AQ.+|NC.+|RG|V.+'/>
                 </token>
-                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+|P.+' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='SPS00|(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+|P.+' postag_regexp='yes'/>
                 <example>Com que frequência praticas esportes?</example>
                 <example>Com que frequência praticas esses esportes?</example>
+                <example>Este tipo de discurso influencia os jovens.</example>
+                <example>Isso influencia comportamentos e atitudes.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-08 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
             <!-- This is a rulegroup antipattern that fixes false positives in paronyms.
-           0 hits in 600 000 sentences.
-      -->
+                 0 hits in 600 000 sentences.-->
             <antipattern>
-                <token postag='PD.+' postag_regexp='yes'/>
-                <token postag='PD.+|DA.+|SPS00:DA.+' postag_regexp='yes'/>
+                <token postag='P[DR].+' postag_regexp='yes'/>
+                <token postag='P[PD].+|DA.+|SPS00:DA.+' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token regexp='yes'>[.!?;]</token> <!-- didn't use comma (POS _PUNCT) because it can generate false positives -->
-                <example>Esse tipo de lotaria dá muitos lucros a quem a pratica.</example>
+                <example>Esse tipo de loteria dá muitos lucros a quem a pratica.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *START* -->
             <rule>
                 <antipattern case_sensitive='yes'>
                     <token>Ministério</token>
@@ -28154,7 +28145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>específica<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
                 <example correction="específica">tornou <marker>especifica</marker>.</example>
             </rule>
-            <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *END* -->
+
             <rule>
                 <pattern>
                     <token regexp='yes'>(?:À|a(?:lguma|ntiga|quela)?|àquela|autêntica|c(?:ada|hamavam|om)|d(?:a|aquela|e|écima|essa|esta|ita|uma)|É|e(?:m|ssa|sta|studa|xtensa)?|fechar|f(?:oi|utura)|grande|g(?:rossa|rosseira)|histórica|i(?:mensa|mportante|nternacional)|m(?:aior|aravilhosa|elhor|esma|ortífera|últipla)|n(?:a|aquela|esta|ona|ossa|ova|uma)|o(?:itava|u|utra)|p(?:ela|equena|rimeira|rópria)|q(?:ualquer|uarta|uerem|uinta)|r(?:eal|ecente|eferida|ica)|s(?:egunda|em|étima|exta|ua)|tanta|t(?:enho|erá|erceira)|última|uma?|única|velha|verdadeira)s?</token>
@@ -28811,6 +28802,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>providência<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
                 <example correction="providência">tomou <marker>providencia</marker></example>
             </rule>
+
             <rule>
                 <pattern>
                     <token regexp='yes'>(?:à|a(?:bençoada|centuada|dmirável|dquirido|gitadora|í|lguma|li|lta|lucinadora|luguer|mericano|presenta|presentando|presente|presentou|quela)?|àquela|[\xc1á]rea|a(?:té|tuais|utêntica)|b(?:astante|em|enéfica|enévola|enigna|oa|randa|reve)|certa|c(?:hamarei|hamava|lara|om|omo|onquistassem|onsiderável|rescente|uja)|d(?:a|e|ebate|ecidida|ecisiva|eclarada|emasiada|emonstra|enotando|essa|esta|izer|oce|upla|uplicada|uradoura)|É|e(?:ficaz|m|norme|ra|ssa|sta|stranha|ventual|xcelente|xcessiva|xerce|xercem|xercendo|xercer|xercerá|xerceram|xerceu|xercia|xercido|xtraordinária)?|fatal|f(?:eliz|irme|orte|osse|ossem|unda|unesta)|g(?:anhar|anhou|eralmente|igantesca|rande|rave|rossa)|h(?:á|aja|avia)|i(?:mportante|ncontestável|ncrível|ndeclinável|nexplicável|nsistente|ntervenha|rressistível|sso)|l(?:arga|egítima|egitimamente|eve)|m(?:á|ágica|aior|ais|aléfica|aligna|arcada|arcante|as|enor|enos|esma|esquinha|im|inha|ínima|isteriosa|ística|oeda|uita|utua|útua)|nas?|n(?:atural|efasta|em|enhuma|esta|isso|ítida|ossa|otável|otória|ula)|obteve|[\xd3ó]bvia|o(?:pressiva|u|utra)|p(?:articular|ela|equena|erde|erdendo|erder|erderam|erniciosa|lena|oderosa|or|ositiva|osível|ouca|rimeira|rimitiva|rincipal|rofunda|rópria)|q(?:uaisquer|ual|ualquer)|r(?:ápida|eal|ealidade|ecebe|ecebendo|eceber|eceberam|ecebeu|ecebia|ecebiam|ecíproca|ecolhe|eivindicar|etirou|evela|evelam|evelando|omântica)|s(?:alutar|ecreta|em|er|éria|ignificativa|imular|ob|ofre|ofrem|ofremos|ofrendo|ofrer|ofreram|ofreu|ofri|ofrido|olo|ou|ua|uavísima|uperior)|t(?:al|amanha|anta|em|êm|endo|enha|enham|enho|er|erá|erão|erceira|eria|errível|eve|ido|inha|inham|ive|ivemos|iveram|otal|remenda|ua)|uma?|única|v(?:asta|endido|erdadeira)|viage[mn])s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
@@ -28822,6 +28814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>influência<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
                 <example correction="influências">más <marker>influencias</marker></example>
             </rule>
+
             <rule>
                 <pattern>
                     <token regexp='yes'>(?:à|a(?:inda|lguma|nos|ntiga|quela|té)?|breve|c(?:ada|ena|epa|ertames|idade|lara|om|omo|onstará|onstitui|rua|uja)|d(?:a|e|estacada|ireta)|É|e(?:dição|m|mpresa|ncontramos|ncontravam|ra|special|ssa|sta|stranha|videncia)?|faça|f(?:açam|açamos|aço|ará|az)|faz-se|f(?:azem|azendo|azer|azermos|azia|aziam|ez|izemos|izeram|oi|orte|ugitiva)|grande|h(?:á|avia|ouve)|i(?:dentificando|gualmente|mportante|nclui|ncontornável)|l(?:eve|igeira)|m(?:aior|ais|elhor|enor|erece|erecendo|esma|inha)|na|n(?:ão|aquela|enhuma|ormalmente|ova|uma)|omitindo-se|o(?:u|utra)|para|p(?:ela|equena|eriódica|or|ossuindo|rimeira|rincipal|rovidencial|ura)|qualquer|s(?:eguinte|egunda|em|er|imples|obre|ua)|t(?:al|em|êm|enha|ímida|inha|oda|ornar|ornaram)|última|uma|única|usei|v(?:árias|ejo)|verdadeira)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhes?|-o|-me|-nos|-la|-lo|-te) -->
