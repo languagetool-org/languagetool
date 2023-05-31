@@ -14854,6 +14854,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="extraordinario">Fue <marker>extra ordinario</marker>.</example>
                 <example correction="extrarradio">Fue en el <marker>extra-radio</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">fito|zoo</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="fitosanitario">Especialista <marker>fito sanitario</marker>.</example>
+                <example correction="zoosanitarias">Medidas <marker>zoo-sanitarias</marker>.</example>
+            </rule>
             <rule id="BIEN_VENIDO" name="bein venido > bienvenido">
                 <!-- TODO: other words with bien- -->
                 <pattern>
