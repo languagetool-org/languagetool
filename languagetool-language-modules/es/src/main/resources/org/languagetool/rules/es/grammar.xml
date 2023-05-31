@@ -8581,6 +8581,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>el</suggestion>
                 <example correction="el">Nunca se separan <marker>él</marker> uno del otro.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>él</token>
+                    </marker>
+                    <token regexp="yes">primero|solo|solito|justo|mismo</token>
+                    <token postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"><exception postag="V...3S.|D.*" postag_regexp="yes"/><exception regexp="yes">primero|solo|solito|justo|mismo</exception></token>
+                </pattern>
+                <message>No se escribe con tilde si no es un pronombre.</message>
+                <suggestion>el</suggestion>
+                <example correction="El"><marker>Él</marker> mismo susto le valió para no volver a hacerlo nunca más. </example>
+            </rule>
         </rulegroup>
         <rulegroup id="EL_TILDE" name="el / él" default="on">
             <antipattern>
@@ -8776,6 +8788,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
                 <example correction="él">Contamos con <marker>el</marker> una vez.</example>
                 <example>Es nuestra obligación ayudarnos el uno al otro.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- More exceptions needed. Some cases can be ambiguous -->
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                    </marker>
+                    <token regexp="yes">primero|solo|solito|justo|mismo</token>
+                    <token><exception postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"/></token>
+                </pattern>
+                <message>No se escribe con tilde si no es un pronombre.</message>
+                <suggestion>él</suggestion>
+                <example correction="Él"><marker>El</marker> mismo sabe organizarse.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MI_TILDE" name="mi/mí">
