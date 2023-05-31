@@ -4523,6 +4523,26 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="remove" postag="V.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>una</token>
+                </marker>
+                <token regexp="yes">de</token>
+                <token postag="D.*|PP.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">una|uno</token>
+                </marker>
+                <token postag="CC"/>
+                <token inflected="yes">otro</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="CONTRA" name="contra">
         <rule>
