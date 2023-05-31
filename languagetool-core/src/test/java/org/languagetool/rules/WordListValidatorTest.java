@@ -169,6 +169,7 @@ public class WordListValidatorTest {
           "Ørsted",
           "Samsø/S",
           "Kılıçdaroğlu/S",
+          "Vlahović/S",
           "Sønderborg/S",
           "Sønderborg",
           "Mirotić",
