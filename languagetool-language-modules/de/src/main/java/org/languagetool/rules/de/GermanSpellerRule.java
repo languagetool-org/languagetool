@@ -3216,6 +3216,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "rüberstülpen": return topMatch("überstülpen");
       case "rüberstülpe": return topMatch("überstülpe");
       case "rübergestülpt": return topMatch("übergestülpt");
+      case "Websiten": return topMatch("Webseiten");
       case "freiverfügbar": return topMatch("frei verfügbar");
       case "freiverfügbare": return topMatch("frei verfügbare");
       case "freiverfügbares": return topMatch("frei verfügbares");
