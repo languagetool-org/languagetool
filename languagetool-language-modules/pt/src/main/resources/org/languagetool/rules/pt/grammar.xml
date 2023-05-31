@@ -30933,14 +30933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         </rulegroup>
 
-
-        <!-- ESTA está -->
         <rulegroup id='ESTA_ESTÁ' name="[Confusão] esta/está">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-27/28 + 2021-12-06 (25-JUN-2021+)      -->
-            <!--
-      A posição dos cestos agora é está. → A posição dos cestos agora é esta.
-      A grande maioria dos gregos são cristãos sendo está fé seguida por 92% da população. → A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.
-      -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='DA.+' postag_regexp='yes'/>
@@ -30955,13 +30948,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </pattern>
                 <message>Substitua por <suggestion>esta</suggestion>.</message>
                 <example correction="esta">A posição dos cestos agora é <marker>está</marker>.</example>
+                <example correction="esta">Ele virá <marker>está</marker> noite.</example>
+                <example correction="esta">Quero <marker>está</marker>.</example>
                 <example>A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.</example>
                 <example>O que ele disse está certo.</example>
                 <example>O referencial teórico utilizado está nas bases conceituais.</example>
             </rule>
-            <!--
-      A raiz da árvore esta podre. → A raiz da árvore está podre.
-      -->
+
             <rule>
                 <pattern>
                     <token negate="yes" regexp='yes'>d[ao]s?</token>
@@ -30982,9 +30975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Antes da Relatividade esta interligação era um dado experimental.</example>
                 <example>E em 1942, por conta da industrialização do coroá esta progressista cidade recebeu o título de usina.</example>
             </rule>
-            <!--
-      O livro guardado nos arquivos esta datado de 1691. → O livro guardado nos arquivos está datado de 1691.
-      -->
+
             <rule>
                 <pattern>
                     <token regexp='yes'>n[ao]s?</token>
@@ -30998,9 +30989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="está">O livro guardado nos arquivos <marker>esta</marker> datado de 1691.</example>
                 <example>O Tom vem nos ver esta tarde.</example>
             </rule>
-            <!--
-      Vê na etiqueta que esta agarrada ao cabaz. → Vê na etiqueta que está agarrada ao cabaz.
-      -->
+
             <rule>
                 <pattern>
                     <and>
