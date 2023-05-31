@@ -1,0 +1,210 @@
+^0 cero
+1$ uno
+1 un
+2 dos
+3 tres
+4 cuatro
+5 cinco
+6 seis
+7 siete
+8 ocho
+9 nueve
+10 diez
+11 once
+12 doce
+13 trece
+14 catorce
+15 quince
+16 dieciséis
+1(\d) dieci$1
+20 veinte
+21$ veintiuno
+21 veintiún
+22 veintidós
+23 veintitrés
+26 veintiséis
+2(\d) veinti$1
+30 treinta
+40 cuarenta
+50 cincuenta
+60 sesenta
+70 setenta
+80 ochenta
+90 noventa
+(\d)(\d) $(\10) y $2
+1(\d\d) cien[to $1]
+500 quinientos
+700 setecientos
+900 novecientos
+([579])(\d\d) $(\100) $2
+(\d)(\d\d) $1cientos[ $2]
+1(\d{3}) mil[ $1]
+(\d{1,3})(\d{3}) $1 mil[ $2]
+1(\d{6}) un millón[ $1]
+(\d{1,6})(\d{6}) $1 millones[ $2]
+1(\d{12}) un billón[ $1]
+(\d{1,6})(\d{12}) $1 billones[ $2]
+1(\d{18}) un trillón[ $1]
+(\d{1,6})(\d{18}) $1 trillones[ $2]
+1(\d{24}) un cuatrillón[ $1]
+(\d{1,6})(\d{24}) $1 cuatrillones[ $2]
+1(\d{30}) un quintillón[ $1]
+(\d{1,6})(\d{30}) $1 quintillones[ $2]
+
+# negative number
+
+[-−](\d+) menos |$1
+
+# decimals
+
+([-−]?\d+)[.] $1| punto
+([-−]?\d+)[,] $1| coma
+([-−]?\d+[.,])([^0]\d) $1| |$2
+([-−]?\d+[.,])(\d)(\d)(\d) |$1 |$2| |$3| |$4
+([-−]?\d+[.,]\d*)(\d) $1| |$2
+
+# currency
+
+# unit/subunit singular/plural
+
+us:([^,]*),([^,]*),([^,]*),([^,]*) \1
+up:([^,]*),([^,]*),([^,]*),([^,]*) \2
+ss:([^,]*),([^,]*),([^,]*),([^,]*) \3
+sp:([^,]*),([^,]*),([^,]*),([^,]*) \4
+
+ARS:(\D+) $(\1: peso argentino, pesos argentinos, centavo, centavos)
+BOB:(\D+) $(\1: boliviano, bolivianos, centavo, centavos)
+BZD:(\D+) $(\1: dólar beliceño, dólares beliceños, centavo, centavos)
+CEC:(\D+) $(\1: peso convertible, pesos convertibles, centavo, centavos)
+CHF:(\D+) $(\1: franco suizo, francos suizos, céntimo, céntimos)
+CLP:(\D+) $(\1: peso chileno, pesos chilenos, centavo, centavos)
+CNY:(\D+) $(\1: yuan renminbi, yuan renminbi, fen, fen)
+COP:(\D+) $(\1: peso colombiano, pesos colombianos, centavo, centavos)
+CRC:(\D+) $(\1: colón costarricense, colones costarricenses, céntimo, céntimos)
+DOP:(\D+) $(\1: peso dominicano, pesos dominicanos, centavo, centavos)
+ESP:(\D+) $(\1: peseta, pesetas, céntimo, céntimos)
+EUR:(\D+) $(\1: euro, euros, céntimo, céntimos)
+GBP:(\D+) $(\1: libra esterlina, libras esterlinas, penique, peniques)
+GTQ:(\D+) $(\1: quetzal, quetzales, centavo, centavos)
+HNL:(\D+) $(\1: lempira, lempiras, centavo, centavos)
+JPY:(\D+) $(\1: yen, yenes, sen, sen)
+MXN:(\D+) $(\1: peso mexicano, pesos mexicanos, centavo, centavos)
+NIO:(\D+) $(\1: córdoba, córdobas, centavo, centavos)
+PAB:(\D+) $(\1: balboa, balboas, céntimo, céntimos)
+PEN:(\D+) $(\1: sol, soles, centavo, centavos)
+PYG:(\D+) $(\1: guaraní, guaraníes, céntimo, céntimos)
+SVC:(\D+) $(\1: colón salvadoreño, colones salvadoreños, céntimo, céntimos)
+USD:(\D+) $(\1: dólar estadounidense, dólares estadounidenses, centavo, centavos)
+UYU:(\D+) $(\1: peso uruguayo, pesos uruguayos, centésimo, centésimos)
+VE[DS]:(\D+) $(\1: bolívar venezolano, bolívares venezolanos, centavo, centavos)
+VEF:(\D+) $(\1: bolívar fuerte, bolívares fuertes, céntimo, céntimos)
+
+# masculine to feminine conversion of "un" after millions,
+# if "as?$" matches currency name
+
+f:(.*ill)(.*),(.*) \1$(f:\2,\3)		# don't modify un in millions
+f:(.*)[uú]n([^a].*,|,)(.*as?) $(f:\1una\2\3) # un libra -> una libra
+f:(.*ient)o(s.*),(.*as?) $(f:\1a\2,\3)  # doscientos libra/libras -> doscientas
+f:(.*),(.*) \1\2
+
+"([A-Z]{3}) ([-−]?1)([.,]00?)?"$(f:|$2,$(\1:us))
+"([A-Z]{3}) ([-−]?\d+0{6,})([.,]00?)?" $2 de$(\1:up)
+"([A-Z]{3}) ([-−]?\d+)([.,]00?)?"$(f:|$2,$(\1:up))
+
+"(CNY [-−]?\d+)[.,]10?" $1 $2 jiao
+"(CNY [-−]?\d+)[.,](\d)0?" $1 $2 jiao
+"(CNY [-−]?\d+[.,]\d)1" $1 $2 fen
+"(CNY [-−]?\d+[.,]\d)(\d)" $1 $2 fen
+
+"(([A-Z]{3}) [-−]?\d+)[.,](01)" $1 con |$(1)$(\2:ss)
+"(([A-Z]{3}) [-−]?\d+)[.,](\d)" $1 con |$(\30)$(\2:sp)
+"(([A-Z]{3}) [-−]?\d+)[.,](\d\d)" $1 con |$3$(\2:sp)
+
+# ordinal
+
+feminine:(.*ill)(.*) \1$(feminine:\2) # don't modify un in millions
+feminine:(.*ient)o(s.*) $(feminine:\1a\2)  # doscientos  -> doscientas
+feminine:(.*)[uú]no?([^a].*|$) $(feminine:\1una\2) # un  -> una
+feminine:(.*) \1
+
+== feminine ==
+
+(.*)	$(feminine:|$1|)
+
+== masculine ==
+
+1 un
+(.*)	$1
+
+== ordinal-masculine ==
+
+(.*) $(ordinal \1)
+
+== ordinal ==
+
+1 primero
+2 segundo
+3 tercero
+4 cuarto
+5 quinto
+6 sexto
+7 séptimo
+8 octavo
+9 noveno
+10 décimo
+1([1-79])	decimo$(ordinal \1)
+18 decimoctavo
+20 vigésimo
+2(\d) vigesimo$(ordinal \1)
+30 trigésimo
+40 cuadragésimo
+50 quincuagésimo
+60 sexagésimo
+70 septuagésimo
+80 octogésimo
+90 nonagésimo
+(\d)(\d) $(ordinal \10) $(ordinal \2)
+100 centésimo
+200 ducentésimo
+300 tricentésimo
+400 cuadringentésimo
+500 quingentésimo
+600 sexcentésimo
+700 septingentésimo
+800 octingentésimo
+900 noningentésimo
+(\d)(\d\d) $(ordinal \100) $(ordinal \2)
+1(\d{3}) milésimo[ $(ordinal \1)]
+(\d{1,3})(\d{3}) $1 milésimo[ $(ordinal \2)]
+1(\d{6}) millonésimo[ $(ordinal \1)]
+(\d{1,3})(\d{6}) $1 millonésimo[ $(ordinal \2)]
+1(\d{9}) milmillonésimo[ $(ordinal \1)]
+(\d{1,3})(\d{9}) $1 milmillonésimo[ $(ordinal \2)]
+
+== ordinal-feminine ==
+
+([-−]?\d+) $(ordinal-feminine $(ordinal-masculine \1))
+(.*)o\b(.*)  $(ordinal-feminine \1a\2)
+(.*)   \1
+
+== ordinal-masculine-adjective ==
+
+([-−]?\d+) $(ordinal-masculine-adjective $(ordinal-masculine \1))
+(.*)decimoprimero \1undécimo
+(.*)decimosegundo \1duodécimo
+(.*(primer|tercer))o \1
+(.*) \1
+
+# ordinal abbreviation
+
+== (ordinal)-number(-feminine|-masculine|-masculine-adjective)? ==
+
+([-−]?\d+) \3$(ordinal-number $(\1\2 \3))
+.*er .ᵉʳ
+.*a .ª
+.*o .º
+
+== help ==
+
+"" $(1)|, $(2), $(3)\n$(\0 feminine)$(\0 masculine)$(\0 ordinal-number-masculine)$(\0 ordinal-number-masculine-adjective)$(\0 ordinal-number-feminine)$(\0 ordinal-feminine)$(\0 ordinal-masculine)$(\0 ordinal-masculine-adjective)
+(feminine|masculine|ordinal(-number)?(-feminine|-masculine)?(-adjective)?) \1: $(\1 1), $(\1 2), $(\1 3)\n

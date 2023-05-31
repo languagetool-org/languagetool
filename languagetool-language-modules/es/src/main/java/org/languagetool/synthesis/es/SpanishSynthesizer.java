@@ -50,7 +50,7 @@ public class SpanishSynthesizer extends BaseSynthesizer {
     this();
   }
   private SpanishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "es");
+    super("/es/es.sor", RESOURCE_FILENAME, TAGS_FILE_NAME, "es");
   }
 
   @Override
