@@ -1576,7 +1576,28 @@ USA
                 <antipattern>
                     <token regexp="yes">zu|mit</token>
                     <token>was</token>
-                    <token postag="ADJ.*|PA[12].*|UNKNOWN" postag_regexp="yes" regexp="yes">.+em</token>
+                    <token postag="ADJ.*|PA[12].*|UNKNOWN|SUB.*AJD" postag_regexp="yes" regexp="yes">.+e[sm]</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token skip="-1">was</token>
+                    <token inflected="yes">bringen</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="-1">bringen</token>
+                    <token>zu</token>
+                    <token>was</token>
+                </antipattern>
+                <antipattern>
+                    <token>zu</token>
+                    <token skip="-1">was</token>
+                    <token>Lage</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">zu|für</token>
+                    <token>was</token>
+                    <token regexp="yes">gut|n[uü]tze?</token>
+                    <example>Wachs ist ausser zum "besser aussehen" nicht wirklich zu was nütze!</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">bei|für|gegen|hinter|mit|nach|neben|vo[nr]|zu|zwischen</token>
@@ -1602,6 +1623,18 @@ USA
                 <example>Warum schaust du dich also nicht mal woanders um und machst deinen Städtetrip zu was besonderem?</example>
             </rule>
             <rule><!--4-->
+                <antipattern>
+                    <token>was</token>
+                    <token postag="ADJ:PRD:GRU.*|ADV.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes" postag="ADJ.*|SUB.*ADJ|UNKNOWN|PA[12].*" postag_regexp="yes">.+e[mns]</token>
+                    <example>Für was Neues bin ich immer zu haben.</example>
+                    <example>Gegen was neues hilft das nicht.</example>
+                </antipattern>
+                <antipattern>
+                    <token>was</token>
+                    <token>für</token>
+                    <example>Über was für Nebenwirkungen reden wir hier?</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Bei|Für|Gegen|Hinter|Mit|Nach|Neben|Über|Vo[nr]|Zu|Zwischen</token>
                     <token>was</token>

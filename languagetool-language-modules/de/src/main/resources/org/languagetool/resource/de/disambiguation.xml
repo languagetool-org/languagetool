@@ -7797,4 +7797,54 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="NUMMER_TLG" name="ignore spelling of '2-tlg.'">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">\d+-(tlg|TLG)</token>
+            <token>.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup id="OCH_IGNORE_SPELLING" name="ignore spelling of 'och'">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>man</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>:</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&anfauf;</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes" spacebefore="no">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
