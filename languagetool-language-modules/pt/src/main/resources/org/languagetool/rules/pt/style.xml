@@ -2268,7 +2268,8 @@ USA
 
 
         <!-- QUE EU RAPIDAMENTE USEI que rapidamente usei -->
-        <rulegroup id='REMOVER_EU_NÓS' name="Eliminação do pronome pessoal eu/nós" type='style'>
+        <rulegroup id='REMOVER_EU_NÓS' name="Eliminação do pronome pessoal eu/nós" type='style' tone_tags="povrem">
+            <!--IDEA shorten_it for all povrem-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-02 (25-JUL-2022+) -->
             <!--
       Este foi o truque que eu usei. → Este foi o truque que usei.
@@ -2325,7 +2326,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='VERBO_PRON_PESS_REM_PRON_PESS' name="Simplificar: Frase com Verbo + Pronome Pessoal → Omitir Pronome Pessoal" type='style' tags="picky">
+        <rulegroup id='VERBO_PRON_PESS_REM_PRON_PESS' name="Simplificar: Frase com Verbo + Pronome Pessoal → Omitir Pronome Pessoal" type='style' tags="picky" tone_tags="povrem">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
             <!--
       Se me reformar DEDICAREI o resto da MINHA vida a isso. → Se me reformar DEDICAREI o resto da vida a isso.
@@ -2392,6 +2393,7 @@ USA
 
         <!-- AO MESMO TEMPO QUE enquanto -->
         <rule id='AO_MESMO_TEMPO_QUE_ENQUANTO' name=" Ao mesmo tempo que → enquanto" type="style" tags='picky' default='temp_off'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-29 (2-MAR-2023+) -->
             <!--
       Ao mesmo tempo que tenta entender as situações antes de criticar. → Enquanto tenta entender as situações antes de criticar.
@@ -2426,7 +2428,7 @@ USA
         </rule>
 
 
-        <rule id='ENQUANTO_POSSA_SER' name="Expressão: Enquanto puder ser" type='style'>
+        <rule id='ENQUANTO_POSSA_SER' name="Expressão: Enquanto puder ser" type='style' tone_tags="formal">
             <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
             <pattern>
                 <token>enquanto</token>
@@ -2442,6 +2444,7 @@ USA
 
         <!-- MAS NÃO TERÁ UTILIDADE mas sem utilidade -->
         <rule id='MAS_EMBORA_CONTUDO_SEM' name="Expressões do tipo: 'não ter utilidade' → 'sem utilidade'" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 + 2023-03-01 (25-JUL-2022+) -->
             <!--
       Concluirei o doutoramento, embora não terá utilidade profissional. → Concluirei o doutoramento, embora sem utilidade profissional.
@@ -2471,7 +2474,8 @@ USA
 
 
         <!-- COM + E/OU COM com -->
-        <rule id='ELIMINAÇÃO_REPETIÇÃO_COM_ADJETIVO' name="Simplificar atribuição de adjetivo a sintagma nominal" type="style">
+        <rule id='ELIMINAÇÃO_REPETIÇÃO_COM_ADJETIVO' name="Simplificar atribuição de adjetivo a sintagma nominal" tone_tags="objective" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-01/2 (24-MAY-2022+)      -->
             <!--
       Pareço um maluco com a barba grande e com o cabelo grande. → Pareço um maluco com a barba e o cabelo grandes.
@@ -2512,6 +2516,7 @@ USA
 
         <!-- A NÍVEL PROFISSIONAL profissionalmente -->
         <rulegroup id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="[Simplificar] A nível NC/Adj → Adv" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 + 2023-01-07 (25-JUL-2022+) -->
             <!--
       É útil a nível profissional. → É útil profissionalmente.
@@ -2605,6 +2610,7 @@ USA
 
         <!-- ATÉ QUE SURGIRAM  até surgirem -->
         <rulegroup id='SIMPLIFICAR_ATÉ_QUE_ATÉ_VERBO' name="[Simplificar] Até que + Verbo → Até + V.Inf." type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23 (25-JUL-2022+) -->
             <!--
       Foi-lhe dada demasiada importância até que surgira uma nova teoria. → Foi-lhe dada demasiada importância até surgir uma nova teoria.
@@ -2629,7 +2635,8 @@ USA
 
 
         <!-- ATRAVÉS DE por/via/com -->
-        <rulegroup id='ATRAVES_DE_POR_VIA' name="[Simplificar] Através de → por/via/com" type="style">
+        <rulegroup id='ATRAVES_DE_POR_VIA' name="[Simplificar] Através de → por/via/com" type="style" tone_tags="formal">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-13/26 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       O FBI soube disso através de carta. → O FBI soube disso por carta.
@@ -2694,6 +2701,7 @@ USA
 
         <!-- COMO É VISTO conforme visto -->
         <rule id='COMO_É_CONFORME' name="[Simplificar] Como é → Conforme" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-25 (25-JUL-2022+) -->
             <!--
       A soma total dá 10, como é visto na figura seguinte. → A soma total dá 10, conforme visto na figura seguinte.
@@ -2728,6 +2736,7 @@ USA
 
         <!-- COMO SENDO A(S)/O(S)/UM/UNS/UMA(S) a(s)/o(s)/um/uns/uma(s) -->
         <rule id='SIMPLIFICAR_COMO_SENDO' name="[Simplificar] Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-05 + 2022-07-07 + 2023-02-27 (Checked/Enhanced) (5-JUN-2022+)      -->
             <!--
       Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
@@ -2796,6 +2805,7 @@ USA
 
         <!-- COMO É O CASO DO NOSSO como é o nosso -->
         <rule id='COMO_SER_O_CASO_DO' name="[Simplificar] Como é/são o caso do → Como o" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-02 (25-JUL-2022+) -->
             <!--
       Temos novidades matemáticas como é o caso da nossa equação. → Temos novidades matemáticas como a nossa equação.
@@ -2818,6 +2828,7 @@ USA
 
         <!-- CONFORME IA REVENDO conforme revia -->
         <rule id='CONFORME_IA_IAM_GERUNDIO_CONFORME_PASSADO' name="[Simplificar] Conforme 'ia(m) + V.Gerúndio' → 'V.Passado.'" type="style" default='on'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-13/14 (2-MAR-2023+) -->
             <!--
       O Marco, conforme ia revendo o texto da tese, melhorava a gramática. → O Marco, conforme revia o texto da tese, melhorava a gramática.
@@ -2843,6 +2854,7 @@ USA
 
         <!-- CORRER O RISCO arriscar-->
         <rulegroup id='CORRER_RISCO_ARRISCAR' name="[Simplificar] Correr o risco → arriscar" type='style'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20/21 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
       O Rui vai correr o risco de perder o carro. → O Rui vai arriscar perder o carro.
@@ -2907,6 +2919,7 @@ USA
 
         <!-- DO INIMIGO/ADVERSÁRIO/ALIADO/OPONENTE inimiga/adversário/aliada/oponente -->
         <rule id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="[Simplificar] D[ao](s) + inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s) → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-02-12/14 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
       O objetivo é alcançar a bandeira do inimigo. → O objetivo é alcançar a bandeira inimiga.
@@ -2936,6 +2949,7 @@ USA
         <!-- DE FORMA/MODO + ADJ adv -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
         <rule id='DE_FORMA-MODO_ADJ' name="[Simplificar] De + forma/modo + Adj → Adv" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <antipattern>
                 <token>de</token>
                 <token regexp="yes">forma|modo</token>
@@ -2965,6 +2979,7 @@ USA
 
         <!-- MADRUGADA matinal -->
         <rule id='MADRUGADA_MATINAL' name="[Simplificar] De madrugada → matinal" type="style" default='off'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-22 + 2021-07-23 + 2022-09-14 (25-JUN-2021+)      -->
             <!--
       Vamos fazer exercício de madrugada. → Vamos fazer exercício matinal.
@@ -3005,6 +3020,7 @@ USA
 
         <!-- ISSO ACONTECE DESDE A ALTURA isso acontece desde então -->
         <rule id='DESDE_A_ALTURA_DESDE_ENTÃO' name="[Simplificar] Desde a altura → desde então" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-07 (25-JUL-2022+) -->
             <!--
       E desde a altura ele está protegido. → E desde então ele está protegido.
@@ -3033,6 +3049,7 @@ USA
 
         <!-- DESDE QUE HAJA ao haver se houver-->
         <rule id='DESDE_QUE_VERBO_AO_VERBO_INF' name="[Simplificar] Desde que + V. → ao + V.Inf." type='style' tags='picky'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-03 (2-MAR-2023+) -->
             <!--
       O sucesso é garantido desde que exista um plano. → O sucesso é garantido ao existir um plano.
@@ -3060,7 +3077,8 @@ USA
 
 
         <!-- DOS HUMANOS humano -->
-        <rulegroup id='DOS_HUMANOS_HUMANO' name="[Simplificar] Do(s) + humano(s) → humano" type="style" tags='picky'>
+        <rulegroup id='DOS_HUMANOS_HUMANO' name="[Simplificar] Do(s) + humano(s) → humano" type="style" tags='picky' tone_tags="academic">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-12 + 2022-08-28 (1-JAN-2022+)      -->
             <!--
       O comportamento dos humanos é previsível. → O comportamento humano é previsível.
@@ -3140,7 +3158,8 @@ USA
 
 
         <!-- DOS MESMOS destes DAS MESMAS destas -->
-        <rulegroup id='DOS_MESMOS_DESTES_DAS_MESMAS_DESTAS' name="[Simplificar] 'dos mesmos'/'das mesmas' → 'destes'/'destas'" type="style" tags="picky">
+        <rulegroup id='DOS_MESMOS_DESTES_DAS_MESMAS_DESTAS' name="[Simplificar] 'dos mesmos'/'das mesmas' → 'destes'/'destas'" tone_tags="clarity" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-05 (2-MAR-2023+) -->
             <!--
       O estudo dos conflitos permite perceber os motivos DOS MESMOS ocorrerem. → O estudo dos conflitos permite perceber os motivos DESTES ocorrerem.
@@ -3241,6 +3260,7 @@ USA
 
         <!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
         <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="[Simplificar] E é/são/foi/foram + V. → [sendo/sido/e] + V." type="style" tags='picky'>
+            <!--IDEA shorten_it-->
             <!--      Created byMarco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-04-25 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
       Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em maio.
@@ -3284,6 +3304,7 @@ USA
 
         <!-- E NÃO SABEM sem saber -->
         <rulegroup id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="[Simplificar] E não + Verbo → Sem + V.Inf." type='style' default="temp_off">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-16 (25-JUL-2022+) -->
             <!--
       Ao perguntar ele fica perplexo e não sabe o que responder. → Ao perguntar ele fica perplexo sem saber o que responder.
@@ -3342,6 +3363,7 @@ USA
 
         <!-- É QUE OS TERRORISTAS SÃO VIOLENTOS é os terroristas serem violentos -->
         <rule id='É_QUE_AS-OS_NC_É-SÃO' name="[Simplificar] É que (a/o)(s) NC é/são → É (a/o)(s) NC ser(em)" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       A definição genérica é que o terrorismo é violento. → A definição genérica é o terrorismo ser violento.
@@ -3374,6 +3396,7 @@ USA
 
         <!-- E QUE VERBO e verbo -->
         <rule id='E_QUE_VERBO_E_VERBO' name="[Simplificar] E que + Verbo → E + Verbo" type='style'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-03 + 2021-08-04 + 2022-03-08 (25-JUN-2021+)      -->
             <!--
       Ele é o Rui e que queria comer bem. → Ele é o Rui e queria comer bem.
@@ -3525,6 +3548,7 @@ USA
 
         <!-- PRONTO A ENTREGAR E QUE MAIS NADA ERA NECESSÁRIO Pronto a entregar e nada mais era necessário -->
         <rule id='E_QUE_ADV_VERBO_NADA_E_NADA_ADV_VERBO' name="[Simplificar] e/ou + que + Adv/Verbo + nada → e/ou + nada + Adv/Verbo" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-05 (25-JUL-2022+) -->
             <!--
       Ele disse estar pronto a entregar e que mais nada era necessário. → Ele disse estar pronto a entregar e nada mais era necessário.
@@ -3566,6 +3590,7 @@ USA
 
         <!-- ESTAR À ESPERA esperar -->
         <rule id='ESTAR_A_ESPERA' name="[Simplificar] Estar à espera → Esperar" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
             <pattern>
                 <token inflected='yes'>estar</token>
@@ -3582,6 +3607,7 @@ USA
 
         <!-- ESTAR A VERB_INFINITIVE verb (verb1 person)-->
         <rulegroup id='ESTAR_A_VERB-INFINITIVE' name="[Simplificar] Estar a + V.Inf. → V.1.ªPessoa" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-19 (2-JUL-2020+)     -->
             <rule>
                 <pattern>
@@ -3614,8 +3640,8 @@ USA
 
         <!-- ESTAR + ADVÉRBIO + A + VERBO verbo + advérbio -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
-        <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="[Simplificar] Estar + Adv + A + Verbo → Verbo + Adv" type="style">
-
+        <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="[Simplificar] Estar + Adv + A + Verbo → Verbo + Adv" type="style" tone_tags="objective">
+            <!--IDEA shorten_it-->
             <!-- ESTOU -->
             <rule>
                 <pattern>
@@ -3697,7 +3723,8 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="[Simplificar] Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style">
+        <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="[Simplificar] Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style" tone_tags="academic">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 + 2021-02-04 (1-JAN-2021+)      -->
             <rule>
                 <pattern>
@@ -3771,6 +3798,7 @@ USA
 
         <!-- MAS SIM QUE ERA DEVIDO mas era devido -->
         <rulegroup id='MAS_QUE_ERA_VERBOPARTPASSADO_MAS_VERBOPARTPASSADO' name="[Simplificar] mas/e + que + V.Ser + V.Part.Pass. → mas/e + V.Ser + V. Part.Pass." type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-20 (25-JUL-2022+) -->
             <!--
       Soube que o problema não se devia ao esgotamento, mas sim que era derivado a uma doença antiga. → Soube que o problema não se devia ao esgotamento, mas derivado a uma doença antiga.
@@ -3801,8 +3829,9 @@ USA
 
 
     <!-- QUE NÃO DÁ PARA VOLTAR ATRÁS irreversível -->
-    <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="[Simplificar] 'que não dá para voltar atrás' → 'irreversível'" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
+    <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="[Simplificar] 'que não dá para voltar atrás' → 'irreversível'" tone_tags="formal" type="style">
+        <!--IDEA shorten_it-->
+        <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
       <!--
       É uma situação que não dá para voltar atrás. → É uma situação irreversível.
       É uma situação em que não dá para voltar atrás. → É uma situação irreversível.
@@ -3830,7 +3859,8 @@ USA
 
 
         <!-- SEMANA QUE VEM próxima semana -->
-        <rulegroup id='QUE_VEM_PROXIMA' name="[Simplificar] NC + que + vem → próxim(ao)(s) + NC" type="style">
+        <rulegroup id='QUE_VEM_PROXIMA' name="[Simplificar] NC + que + vem → próxim(ao)(s) + NC" type="style" tone_tags="formal">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-19 (25-JUL-2022+) -->
             <!--
       A licença acaba na sexta-feira da semana que vem. → A licença acaba na sexta-feira da próxima semana.
@@ -3870,6 +3900,7 @@ USA
 
         <!-- O DESENVOLVIMENTO DE desenvolver -->
         <rulegroup id="VERBAL_NOUNS_TO_VERB" name="[Simplificar] NC Verbais para V.Inf.: 'o -mento de'/'a -ção de' → '-ar/-er/-ir'" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-09/10/11 (2-MAR-2023+) -->
             <!--
 
@@ -4066,6 +4097,7 @@ USA
 
         <!-- O QUE ESTÁ ESTIPULADO o estipulado -->
         <rule id='O_QUE_ESTAR_SER_PARTICIPIOPASSADO' name="[Simplificar] O que V.Estar/Ser + V.Part.Pass. → o + V.Part.Pass." type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-04/5 + 2023-01-19/20 (25-JUL-2022+) -->
             <!--
       Agimos perante o que está estipulado no manual de utilizador. → Agimos perante o estipulado no manual de utilizador.
@@ -4101,6 +4133,7 @@ USA
 
         <!-- O QUE TEM DE MAL que mal tem -->
         <rule id='O_QUE_TEM_DE_MAL_QUE_MAL_TEM' name="[Simplificar] 'o que tem de mal' → 'que mal tem'" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-23 (2-MAR-2023+) -->
             <!--
       O que tem de mal partir o spaghetti antes de cozer? → Que mal tem partir o spaghetti antes de cozer?
@@ -4125,6 +4158,7 @@ USA
 
         <!-- DE SOFTWARE PARA O PÚBLICO de software público -->
         <rule id='PARA_O_PÚBLICO_PÚBLICO_PÚBLICA' name="[Simplificar] Para o público → público(a)" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-17 (25-JUL-2022+) -->
             <!--
       Esta é a primeira versão do software para o público. → Esta é a primeira versão pública do software.
@@ -4148,6 +4182,7 @@ USA
 
         <!-- PARA QUANDO quando -->
         <rule id='PARA_QUANDO_QUANDO' name="[Simplificar] Para quando → quando" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-03 (25-JUL-2022+) -->
             <!--
       A fiabilidade das equações é necessária para quando se quer transmitir dados. → A fiabilidade das equações é necessária quando se quer transmitir dados.
@@ -4169,6 +4204,7 @@ USA
 
         <!-- PARA QUE para -->
         <rulegroup id='SIMPLIFICAR_PARA_QUE_PARA' name="[Simplificar] para que → para" type='style' tags='picky'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23/24/26 (25-JUL-2022+) -->
             <!--
       Um salto foi suficiente para que a macaca atingisse o galho? → Um salto foi suficiente para a macaca atingir o galho?
@@ -4225,6 +4261,7 @@ USA
 
         <!-- PARA QUE SAIBAM para saberem -->
         <rulegroup id='QUE_SUBJ_VS_INF_PESS' name="[Simplificar] Para que + Verbo → Para + Verbo " type='style'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 + 2021-04-29 + 2021-05-04 + 2021-05-05 (17-MAR-2021+)      -->
             <!--
       Isto é para que saibam o que acontece. → Isto é para saberem o que acontece.
@@ -4381,6 +4418,7 @@ USA
 
         <!-- POIS AFETA ao afetar -->
         <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="[Simplificar] Pois + Verbo → Ao/por/visto + V.Inf." type='style' tags='picky'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02/3/4 (27-FEB-2023+) -->
             <!--
       O stress é importante, pois, afeta o comportamento humano. → O stress é importante ao afetar o comportamento humano.
@@ -4424,6 +4462,7 @@ USA
 
         <!-- POR ANO anuais -->
         <rulegroup id='POR_ANO_MÊS_SEMANA_DIA_ANUAL_MENSAL_SEMANAL_DIÁRIO_V2' name="[Simplificar] por ano/mês/semana/dia → anual/mensal/semanal/diário" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-08 (2-MAR-2023+) -->
             <!--
       O LibreOffice tem milhares de downloads por ano. → O LibreOffice tem milhares de downloads anuais.
@@ -4516,7 +4555,8 @@ USA
 
 
         <!-- POR ISSO aí/assim/daí/isso -->
-        <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="[Simplificar] por isso → aí/assim/daí/isso" type="style">
+        <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="[Simplificar] por isso → aí/assim/daí/isso" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
       Lamento por isso ter acontecido. → Lamento isso ter acontecido.
@@ -4544,6 +4584,7 @@ USA
 
         <!-- PARA TER ACONTECIDO para acontecer -->
         <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 + 2023-02-26 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       Muitos fatores contribuíram para ter acontecido desse modo. → Muitos fatores contribuíram para acontecer desse modo.
@@ -4590,6 +4631,7 @@ USA
 
         <!-- POUCO IMPORTA não importa -->
         <rule id='POUCO_IMPORTA_NÃO_IMPORTA' name="[Simplificar] 'Pouco' importa → não" type="style" tags="picky" default="off">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-21 (2-MAR-2023+) -->
             <!--
             Pouco importa a distância, a amizade é eterna. → Não importa a distância, a amizade é eterna.
@@ -4609,6 +4651,7 @@ USA
 
         <!-- QUANDO ELE quando -->
         <rule id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Pron.P. + V. + NC/Adj/V. + quando/ao/por/para + Pron.P. → omitir segundo Pron.P." type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-17 (2-MAR-2023+) -->
             <!--
       ELE ficou louco QUANDO ELE foi ver o website. → ELE ficou louco QUANDO foi ver o website.
@@ -4633,6 +4676,7 @@ USA
 
         <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
         <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM_V2' name="[Simplificar] 'Quando se V.Tipo.Abre(m)' → 'Ao [se] V.Tipo.Abrir(em)'" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-26 + 2023-05-01/4 (2-MAR-2023+) -->
             <!--
       Quando se abre a definição em Modo Avançado. → Ao abrir a definição em Modo Avançado.
@@ -4660,6 +4704,7 @@ USA
 
         <!-- QUANDO TEMOS DE LIDAR ao lidarmos -->
         <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="[Simplificar] 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-10 (2-MAR-2023+) -->
             <!--
       Quando tenho de lidar com muitos elementos. → Ao lidar com muitos elementos.
@@ -4687,6 +4732,7 @@ USA
 
         <!-- QUE É DEPOIS TRANSFORMADO depois transformado -->
         <rule id='QUE_É_ADVERBIO_VERPARTPASSADO' name="[Simplificar] Que é + Adv + V.Part.Pass → Adv V.Part.Pass" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-11 (25-JUL-2022+) -->
             <!--
       Elas regressam a casa deixando um rasto que é depois seguido por outras. → Elas regressam a casa deixando um rasto depois seguido por outras.
@@ -4722,6 +4768,7 @@ USA
 
         <!-- QUE ESTÁ/ESTÃO EM USO em uso -->
         <rule id='QUE_ESTA_ESTAO_EM' name="[Simplificar] Que está/estão + contração/preposição → contração/preposição" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-31 (25-JUL-2022+) -->
             <!--
       As máscaras de host que estão em uso são as adequadas. → As máscaras de host em uso são as adequadas.
@@ -4820,6 +4867,7 @@ USA
 
         <!-- AMBIENTE QUE SE VIVE ambiente vivido -->
         <rule id='QUE_SE_VERBO_TIPO_VIVE_PART_PASSADO' name="[Simplificar] 'Que se V.Tipo.Vive(m)' → 'V.Part.Pass.'" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-03/14 (2-MAR-2023+) -->
             <!--
       O ambiente que se vive na escola é péssimo. → O ambiente vivido na escola é péssimo.
@@ -4862,6 +4910,7 @@ USA
 
         <!-- QUE EU TENHO A FAZER a fazer -->
         <rule id='QUE_PRONOMERETO_VERBOTER_A_VERBO_A_VERBO' name="[Simplificar] que + [Pronome Reto] + V.Ter + a + Verbo → a + verbo" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-26 (25-JUL-2022+) -->
             <!--
       Eu disse há uns dias que o melhor que eu tenho a fazer é agarrar no livro e ler. → Eu disse há uns dias que o melhor a fazer é agarrar no livro e ler.
@@ -4895,6 +4944,7 @@ USA
 
         <!-- QUE PRETENDER pretendido -->
         <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-01 (25-JUL-2022+) -->
             <!--
       Vamos escolher o horário que se pretende. → Vamos escolher o horário pretendido.
@@ -4922,6 +4972,7 @@ USA
 
         <!-- ME ANDAVA A ARRASTAR me arrastava -->
         <rule id='SIMPLIFICAR_QUE_PRON_V_ANDAR_A_INFINITIVO' name="[Simplificar] que + Pron. + 'V.Andar + a + V.Inf.' → V. baseado no V.Andar" type='style' tags='picky'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-03 (2-MAR-2023+) -->
             <!--
       Há décadas que me andava a arrastar sem objetivos. → Há décadas que me arrastava sem objetivos.
@@ -4967,6 +5018,7 @@ USA
 
         <!-- QUE RESULTAM DE resultantes de -->
         <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="[Simplificar] Que + resulta(m) + de/d(a/o)(s)/n(a/o)(s) → Resultante(s) + de/d(a/o)(s)/n(a/o)(s)" type='style' tags='picky'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-24 (25-JUL-2022+) -->
             <!--
       Há alterações nas variáveis internas que resultam de alterações nas variáveis externas. → Há alterações nas variáveis internas resultantes de alterações nas variáveis externas.
@@ -4992,6 +5044,7 @@ USA
 
         <!-- QUE SE ENCONTRA NA na -->
         <rule id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="[Simplificar] que se encontr[ae](m) n[ao](s)/nest[ae](s) → n[ao](s)/nest[ae](s)" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-13 (25-JUL-2022+) -->
             <!--
       Vamos resolver o problema que se encontra nesta equação. → Vamos resolver o problema nesta equação.
@@ -5038,7 +5091,8 @@ USA
 
         <!-- QUE + VERB + COM verb_inf + com -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-14 (21-OCT-2020+)     -->
-        <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="[Simplificar] Que + Verbo + Com → V.Inf. + com" type="style">
+        <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="[Simplificar] Que + Verbo + Com → V.Inf. + com" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <rule>
                 <pattern>
                     <token postag='V.+|RG' postag_regexp='yes'>
@@ -5076,6 +5130,7 @@ USA
 
         <!-- NA SEMANA QUE PASSOU na semana passada -->
         <rulegroup id='QUE_VERBOPASSADO_VERBOPARTPASSADO' name="[Simplificar] Que + V.Passado → V.Part.Pass." type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-28/29 (25-JUL-2022+) -->
             <!--
       Isso aconteceu na semana que passou. → Isso aconteceu na semana passada.
@@ -5167,6 +5222,7 @@ USA
 
         <!-- QUE OCORRE CONTINUAMENTE ocorrido continuamente -->
         <rulegroup id='QUE_VERBOPRESENTE_CONTINUAMENTE_VERBO_PART_PASSADO' name="[Simplificar] Que + V.Presente + Adv → V.Part.Pass. + Adv" type='style' default='off'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-09 + 2022-11-25 (25-JUL-2022+) -->
             <!--
       O atrito mútuo que ocorre continuamente no planeta. → O atrito mútuo ocorrido continuamente no planeta.
@@ -5206,7 +5262,8 @@ USA
 
 
         <!-- QUE É CONSIDERADA considerada -->
-        <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass" type='style'>
+        <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass" type='style' tone_tags="objective">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
             <!--
       Tudo aquilo que é sabido além da dúvida é exato. → Tudo aquilo sabido além da dúvida é exato.
@@ -5289,6 +5346,7 @@ USA
 
         <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
         <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="[Simplificar] Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
             <!--
       Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
@@ -5344,6 +5402,7 @@ USA
 
         <!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
         <rule id='QUE_EM_NC_SER_VERBO_NUM' name="[Simplificar] Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
             <!--
       O Alexandre que em 2016 foi morto num ataque aéreo. → O Alexandre morto em 2016 num ataque aéreo.
@@ -5367,6 +5426,7 @@ USA
 
         <!-- QUE FOI O CRIADOR o criador -->
         <rule id='QUE_VERBO_SER_A_AS_O_OS_A_AS_O_OS' name="[Simplificar] Que + V.Ser + a(s)/o(s) → a(s)/o(s)" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-07 + 2023-01-08 (25-JUL-2022+) -->
             <!--
       Temos Marco que foi o fundador da teoria. → Temos Marco o fundador da teoria.
@@ -5514,6 +5574,7 @@ USA
 
         <!-- VERB + QUE + É/SÃO verb + ser(em) -->
         <rulegroup id='VERB_QUE_É_VERB_SER' name="[Simplificar] Que é/são → ser(em)" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-14 + 2021-07-06 (Enhanced) (1-JAN-2021+)      -->
             <!--
       Eu acho que é perigoso subir aquela montanha sozinho. → Eu acho ser perigoso subir aquela montanha sozinho.
@@ -5714,6 +5775,7 @@ USA
 
         <!-- JÁ ESTÁ OCUPADA já ocupada -->
         <rule id='QUE_JÁ_ESTAR_PARTPASS_JÁ_PARTPASS' name="[Simplificar] Que já + V.Estar + V.Part.Pass → Já + V.Part.Pass" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
             <!--
       Mova os elementos para a localização que já está ocupada com outros elementos. → Mova os elementos para a localização já ocupada com outros elementos.
@@ -5737,7 +5799,8 @@ USA
 
 
         <!-- QUE ESTÁ ATUALMENTE atualmente -->
-        <rule id='QUE_ESTAR_ADVERB_ADVERB' name="[Simplificar] Que + V.Estar + Adv → Adv" type='style'>
+        <rule id='QUE_ESTAR_ADVERB_ADVERB' name="[Simplificar] Que + V.Estar + Adv → Adv" type='style' tags='picky'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
             <!--
       Isto não afeta a equação que está atualmente no quadro. → Isto não afeta a equação atualmente no quadro.
@@ -5761,6 +5824,7 @@ USA
 
         <!-- QUE PÕE/PÕEM EM pondo em -->
         <rule id='QUE_VERB_GERUND' name="[Simplificar] Que + verbo + em → Gerúndio + em" type="style" tags='picky'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-23 + 2021-07-25 (25-JUN-2021+)      -->
             <!--
       Há organizações que põem em causa a segurança internacional. → Há organizações pondo em causa a segurança internacional.
@@ -5807,7 +5871,8 @@ USA
 
 
         <!-- SENDO CONSIDERADA considerada -->
-        <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style'>
+        <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style' tags="academic">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-18/19/20 (25-JUL-2022+) -->
             <!--
       Temos um número maior que zero e diferente de um, sendo elevado a três. → Temos um número maior que zero e diferente de um, elevado a três.
@@ -5881,6 +5946,7 @@ USA
 
         <!-- SER CAPAZ DE conseguir -->
         <rule id='SER_CAPAZ_DE_CONSEGUIR' name="[Simplificar] Ser capaz de → Conseguir" type="style" tags='picky'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-11 (25-JUN-2021+)      -->
             <!--
       Apesar de não serem capazes de arrasar a cidade. → Apesar de não conseguirem arrasar a cidade.
@@ -5913,6 +5979,7 @@ USA
 
         <!-- TER FORMA DE ter como -->
         <rule id='TER_FORMA_DE_TER_COMO' name="[Simplificar] Ter forma de → Ter como" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 (25-JUL-2022+) -->
             <!--
       Após 8 meses de baixa não tinha forma de os contactar. → Após 8 meses de baixa não tinha como os contactar.
@@ -5936,6 +6003,7 @@ USA
 
         <!-- TIRAR UMA FOTO fotografar -->
         <rule id='TIRAR_FOTOGRAFIA_FOTOGRAFAR' name="[Simplificar] Tirar fotografia/foto → fotografar" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       Vamos tirar uma fotografia ao Rui. → Vamos fotografar o Rui.
@@ -5948,7 +6016,7 @@ USA
                 <token min="0" max="1" regexp='yes'>umas?</token>
                 <token regexp='yes'>fotografias?|fotos?</token>
                 <token postag='SPS00:DA.+' postag_regexp='yes'>
-                    <exception regexp='yes'>n[ao]s?</exception>
+                    <exception regexp='yes'>[dn][ao]s?</exception>
                 </token>
             </pattern>
             <message>Esta perífrase poderá ser simplificada.</message>
@@ -5962,6 +6030,7 @@ USA
 
         <!-- TORNANDO POSSÍVEL permitindo -->
         <rule id='TORNAR_POSSÍVEL_PERMITIR_POSSIBILITAR' name="[Simplificar] Tornar possível → permitir/possibilitar" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-03 (25-JUL-2022+) -->
             <!--
       É preciso um estudo estocástico, tornando possível validar as hipóteses científicas. → É preciso um estudo estocástico, permitindo validar as hipóteses científicas.
@@ -5983,6 +6052,7 @@ USA
 
         <!-- UNS COM OS OUTROS entre si/nós/vocês/vós -->
         <rulegroup id='UNS_COM_OS_OUTROS_ENTRE_SI_NÓS_VÓS_VOCÊS' name="[Simplificar] Uns com os outros → entre si/nós/vós/vocês" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-31 + 2023-01-01 (25-JUL-2022+) -->
             <!--
       As culturas estabeleceram regras em como os habitantes se relacionam uns com os outros. → As culturas estabeleceram regras em como os habitantes se relacionam entre si.
@@ -6064,6 +6134,7 @@ USA
 
         <!-- CONTINUA A SER TÃO continua tão -->
         <rule id='CONTINUAR_A_SER' name="[Simplificar] V.Continuar a ser tão/bastante → V.Continuar tão/bastante" type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-06 (25-JUL-2022+) -->
             <!--
       O tema da pesquisa continua A SER tão atual. → O tema da pesquisa continua tão atual.
@@ -6088,6 +6159,7 @@ USA
 
         <!-- FAZER CONJECTURAS conjecturar -->
         <rule id='FAZER_VERBO_VERBO_INFINITIVO' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
             <!--
@@ -6137,6 +6209,7 @@ USA
 
         <!-- QUE CHEGUE O DIA chegar o dia -->
         <rulegroup id='SER_NC_QUE_VERBO_VINFINITIVO' name="[Simplificar] V.Ser + NC + 'que + V.' → V.Inf." type='style'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-22 (25-JUL-2022+) -->
             <!--
       É provável que chegue o dia em que estes serão os nossos mestres. → É provável chegar o dia em que estes serão os nossos mestres.
@@ -6168,6 +6241,7 @@ USA
 
         <!-- SÃO PARA SEREM USADOS são para usar -->
         <rule id='SER_PARA_SER_SEREM_PARTPASSADO_SER_PARA_VINFINITIVO' name="[Simplificar] V.Ser + para + V.Ser + V.Part.Pass → V.Ser + para + V.Inf" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       Os anéis são para serem usados de manhã. → Os anéis são para usar de manhã.
@@ -6190,6 +6264,7 @@ USA
 
         <!-- ERA QUEM CHEGASSE PRIMEIRO era chegar primeiro -->
         <rule id='SER_QUEM_VERB-ESSE_WORD' name="[Simplificar] V.Ser + quem + V.-asse → V.Ser + V.Inf." type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       A vitória na guerra era quem chegasse primeiro à bandeira inimiga. → A vitória na guerra era chegar primeiro à bandeira inimiga.
@@ -6211,6 +6286,7 @@ USA
 
         <!-- SERVE PARA permite -->
         <rule id='SERVIR_PARA_PERMITIR' name="[Simplificar] V.Servir + para → V.Permitir" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-20 (2-MAR-2023+) -->
             <!--
       Este botão serve para gravar ficheiros JPEG. → Este botão permite gravar ficheiros JPEG.
@@ -6255,6 +6331,7 @@ USA
 
         <!-- VERBO_ESTAR + A + VERBO_INF verbo -->
         <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="[Simplificar] Verbo estar + a + V.Inf. → Verbo" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-11 (21-OCT-2020+)     -->
             <!--
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
@@ -6375,6 +6452,7 @@ USA
 
         <!-- PASSANDO A REDUZIR reduzindo -->
         <rule id='PASSAR_A_VERBO' name="[Simplificar] V.Passar + a + V. → V. (na forma de V.Passar)" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-20 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       E assim passando a reduzir as perdas. → E assim reduzindo as perdas.
@@ -6412,6 +6490,7 @@ USA
 
         <!-- FOI ÚTIL PARA serviu para -->
         <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="[Simplificar] V.Ser útil para → V.Servir para" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-16 + 2023-01-17 (25-JUL-2022+) -->
             <!--
       Esta equação foi útil para ajudar a população. → Esta equação serviu para ajudar a população.
@@ -6435,6 +6514,7 @@ USA
 
         <!-- TÊM SIDO DESENVOLVIDOS desenvolveram-se -->
         <rule id='TER_SIDO_PART_PASSADO_VERBO' name="[Simplificar] V.Ter + sido + V.Part.Pass. → V." type="style" tags='picky'>
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-19 (2-MAR-2023+) -->
             <!--
       Ao longo dos anos tem sido desenvolvido um modelo. → Ao longo dos anos desenvolveu-se um modelo.
@@ -6478,6 +6558,7 @@ USA
 
         <!-- VERBO1 QUE VERBO2 VERBO3 O QUE verbo2_infinitivo verbo3_infinitivo o que -->
         <rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="[Simplificar] verbo2 + verbo3_infinitivo" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-23 + 2020-11-17 (21-OCT-2020+)     -->
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -6505,6 +6586,7 @@ USA
 
         <!-- VIR A VERBO verbo -->
         <rule id='VIR_A_VERBO_VERBO' name="[Simplificar] Vir + a + Verbo → Verbo" type='style'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
             <!--
       O nosso estudo terá grande aplicabilidade caso esta ameaça se venha a concretizar. → O nosso estudo terá grande aplicabilidade caso esta ameaça se concretize.
@@ -6523,7 +6605,8 @@ USA
 
 
         <!-- VISTO por -->
-        <rule id='VISTO_POR_V3' name="[Simplificar] Visto → Por" type="style">
+        <rule id='VISTO_POR_V3' name="[Simplificar] Visto → Por" type="style" tags="clarity">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-19/24 (Checked/Enhanced) (2-MAR-2023+) -->
             <!--
       Ele tomou essa decisão visto ser possível assim. → Ele tomou essa decisão por ser possível assim.
@@ -6561,6 +6644,7 @@ USA
 
         <!-- VISTO QUE QUERIA visto querer -->
         <rulegroup id='VISTO_DADO_QUE' name="[Simplificar] Visto/dado que → visto/dado V.Inf." type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       Tomei essa opção visto que não queria errar. → Tomei essa opção visto não querer errar.
@@ -6683,7 +6767,7 @@ USA
             <example>É uma luta inglória, porque mesmo que traga benefícios para a população, não gere custos ao Executivo.</example>
         </rule>
         <!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
-        <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar">
+        <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar" tags="picky" tone_tags="clarity">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 + 2022-08-15 + 2023-03-02 (17-MAR-2021+)      -->
             <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
             <!-- Jaume suggested creating three rules since there was a bug with max="3" -->
@@ -6841,6 +6925,7 @@ USA
         </rulegroup>
         <!-- PORQUE É por ser -->
         <rulegroup id='PORQUE_É_POR_SER' name="Porque é → Por ser" type="style" tags='picky'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-06 (25-JUN-2021+)      -->
             <!--
             Difere da guerra porque o conflito é uma luta entre radicais. → Difere da guerra por o conflito ser uma luta entre radicais.
@@ -6973,7 +7058,8 @@ USA
             <example>As vésperas de Natal e ano novo são geralmente marcadas pela união de parentes distantes.</example>
         </rule>
         <!-- TER/HAVER COISAS MAIS IMPORTANTES A FAZER/PENSAR ter/haver prioridades -->
-        <rulegroup id='COISAS_MAIS_IMPORTANTES_FAZER_PENSAR_PRIORIDADES' name="Ter/Haver prioridades" type="style">
+        <rulegroup id='COISAS_MAIS_IMPORTANTES_FAZER_PENSAR_PRIORIDADES' name="Ter/Haver prioridades" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-21 (25-JUN-2021+)      -->
             <!--
             Há coisas mais importantes a fazer. → Há prioridades.
@@ -7205,6 +7291,7 @@ USA
         -->
 
         <rulegroup id='DO_MUNDO_REAL_real_reais' name="Do mundo real → Real/Reais" type='style' tags='picky'>
+            <!--IDEA shorten_it-->
 
             <!-- SINGULAR -->
             <rule>
@@ -7260,43 +7347,6 @@ USA
             <example>E assim <marker>impossibilitando</marker> falhar.</example>
         </rule>
 
-        <!-- TORNAR MAIOR/MENOR majorar/minorar -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-04 (1-JAN-2021+)      -->
-        <!--
-        Vamos majorar os ganhos.
-        Vamos minorar a dor.
-        -->
-        <rulegroup id='TORNAR_MAIOR_MENOR_majorar_minorar' name="Tornar Maior/Menor → Majorar/Minorar">
-
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>tornar</token>
-                        <token regexp='yes'>maior|maiores</token>
-                    </marker>
-                    <token regexp='yes'>[ao]s?</token>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>majorar</match></suggestion>
-                <example correction="majorar">Vamos <marker>tornar maior</marker> o lucro.</example>
-                <example>Vamos <marker>majorar</marker> o lucro.</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>tornar</token>
-                        <token regexp='yes'>menor|menores</token>
-                    </marker>
-                    <token regexp='yes'>[ao]s?</token>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>minorar</match></suggestion>
-                <example correction="minorar">Vamos <marker>tornar menor</marker> a dor.</example>
-                <example>Vamos <marker>minorar</marker> a dor.</example>
-            </rule>
-
-        </rulegroup>
         <!-- VINHA ESTRAGADA vinha danificada/avariada -->
         <rule id='VIR_ESTAR_ESTRAGADO_AVARIADO_DANIFICADO' name="Vir/estar danificado/avariado" type="style" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-21 (25-JUN-2021+)      -->
@@ -7316,7 +7366,8 @@ USA
             <example correction="danificada|avariada">A minha UPS nova vinha <marker>estragada</marker>.</example>
         </rule>
         <!-- QUE [NÃO] HÁ [não] haver -->
-        <rulegroup id='QUE_HÁ_QUE_NÃO_HÁ' name="Que [não] há → [Não] haver" type="style">
+        <rulegroup id='QUE_HÁ_QUE_NÃO_HÁ' name="Que [não] há → [Não] haver" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 + 2021-07-11 + 2022-07-14 (25-JUN-2021+)      -->
             <!--
             É assumido que há substituição de jogadores durante a partida. → É assumido haver substituição de jogadores durante a partida.
@@ -7556,7 +7607,8 @@ USA
             <example correction="Demorei|Levei|Estive"><marker>Perdi</marker> meses a escrever o livro.</example>
         </rule>
         <!-- HÁ TEMPO QUE VERBO verbo há tempo -->
-        <rulegroup id='HÁ_TEMPO_QUE_VERBO_V2' name="Há + Tempo + que + Verbo → Verbo + há + Tempo" type='style'>
+        <rulegroup id='HÁ_TEMPO_QUE_VERBO_V2' name="Há + Tempo + que + Verbo → Verbo + há + Tempo" type='style' tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-11 (Enhanced) (25-JUN-2021+)      -->
             <!--
             Estes problemas há décadas que são abordados por cientistas. → Estes problemas são há décadas abordados por cientistas.
@@ -7608,6 +7660,7 @@ USA
         </rulegroup>
 
         <rulegroup id='QUE_ADJ_NC_VERBO' name="Que + Adj/NC + Verbo" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 + 2022-04-26 + 2022-06-23 + 2022-10-01 (25-JUN-2021+)      -->
             <!--
             Isto serve para vermos o resultado que traria. → Isto serve para vermos que resultado traria.
@@ -7717,7 +7770,8 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id='QUE_VERBO' name="Que + Verbo > Verbo_inf">
+        <rulegroup id='QUE_VERBO' name="Que + Verbo > Verbo_inf" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-26 + 2020-11-27 (21-OCT-2020+)     -->
             <!--
             =EU=
@@ -7844,8 +7898,8 @@ USA
         </rulegroup>
         <!-- 	DENTRO DE/DA(S)/DO(S) em/na(s)/no(s) -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-19 (21-OCT-2020+)     -->
-        <rulegroup id='DENTRO_DE_DA_DAS_DO_DOS_EM_NA_NAS_NO_NOS' name="Dentro de/da(s)/do(s) > em/na(s)/no(s)" tags='picky'>
-
+        <rulegroup id='DENTRO_DE_DA_DAS_DO_DOS_EM_NA_NAS_NO_NOS' name="Dentro de/da(s)/do(s) > em/na(s)/no(s)" tags='picky' tone_tags="objective">
+            <!--IDEA shorten_it-->
             <antipattern>
                 <token>dentro</token>
                 <token regexp='yes'>d[ao]s?</token>
@@ -8023,7 +8077,8 @@ USA
         </rule>
         <!-- NÃO MILITARES civis -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-18 (2-JUL-2020+)     -->
-        <rulegroup id='NAO_MILITARES' name="Civil/Civis" tags='picky'>
+        <rulegroup id='NAO_MILITARES' name="Civil/Civis" tags='picky' tone_tags="positive">
+            <!--IDEA shorten_it-->
             <rule>
                 <antipattern>
                     <token>,</token>
@@ -8053,273 +8108,6 @@ USA
                 <message>Veja se pretende referir uma organização/empresa civil.</message>
                 <suggestion>civis</suggestion>
                 <example correction="civis">Há empresas <marker>não militares</marker> a criar simuladores.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on' tags="picky">
-            <!-- Created by Tiago F. Santos, Portuguese rule, -->
-            <antipattern>
-                <token></token>
-                <token spacebefore='no'>@</token>
-                <token spacebefore='no'></token>
-                <token spacebefore='no'>.</token>
-                <example>Meu e-mail: seunomeaqui@servidor.com</example>
-            </antipattern>
-            <antipattern>
-                <token regexp='yes' skip='-1'>&operadores_matematicos;|\></token>
-                <token postag='_PUNCT' min='0'/>
-                <token postag='SENT_END'/>
-                <example>Outro > Raio do cátion</example>
-                <example>Kc = [H₂O].[CO]</example>
-            </antipattern>
-            <antipattern>
-                <token>Mercado</token>
-                <token>Livre</token>
-                <token>Mercado</token>
-                <token>Pago</token>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START" skip='-1'/>
-                <token skip='-1' regexp='yes'>:|&tracos_de_separacao;</token>
-                <token postag="SENT_END"/>
-                <example>CEP: 30.120-060</example>
-                <example>Receita de frango: Fácil e saborosa</example>
-            </antipattern>
-            <antipattern>
-                <token></token>
-                <token spacebefore='no'>.</token>
-                <token spacebefore='no' regexp='yes'>\p{L}+</token>
-                <example>README.md</example>
-            </antipattern>
-            <antipattern>
-                <token postag='SENT_START'/>
-                <token postag='DP.+' postag_regexp='yes'/>
-                <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
-                <token postag='SENT_END' regexp='yes'>[,]</token>
-            </antipattern>
-            <rule>
-                <antipattern>
-                    <marker>
-                        <token regexp="yes">[.!?…]</token>
-                        <token min="0" regexp="yes">['"’”»]</token>
-                        <token postag="SENT_END" regexp="yes">['"’”»)\]]</token>
-                    </marker>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token max="20"/>
-                    <token postag="SENT_END"/>
-                </antipattern>
-                <antipattern>
-                    <token>:</token>
-                    <token regexp='yes'>http.*|www.*</token>
-                    <token postag="SENT_END"/>
-                    <example>: https://www.youtube.com/user/OrderoftheGoodDeath</example>
-                </antipattern>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">\p{Lu}.*</token>
-                    <token skip="-1"/>
-                    <marker>
-                        <token postag="SENT_END">
-                            <exception regexp="yes">[.!?:;…]|&tracos_de_separacao;</exception></token>
-                    </marker>
-                </pattern>
-                <message>Se não é um título, falta um ponto no final da frase.</message>
-                <suggestion>\4.</suggestion>
-                <suggestion>\4?</suggestion>
-                <suggestion>\4!</suggestion>
-                <suggestion>\4:</suggestion>
-                <suggestion>\4;</suggestion>
-                <short>Pontuação final em falta</short>
-                <example correction="nela.|nela?|nela!|nela:|nela;">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
-                <example correction="erro.|erro?|erro!|erro:|erro;">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
-                <example>Esta é uma frase curta, que poderia ser um título</example>
-                <example>«Esta é uma frase bastante comprido, mas se acaba com um ponto, mesmo que antes das aspas de citação, não é uma frase com erro.»</example>
-                <example>esta frase pode ser considerada muito grande, mas não começa com maiúsculas, portanto não completa os requisitos, logo não deve ser marcada como errada</example>
-            </rule>
-            <rule>
-                <antipattern><!-- correspondence/email -->
-                    <token skip='5' regexp='yes'>&saudacoes_formais;|Bo[amn]s?|[DS]ra?s?|(?:D(irec?tor|outor)|Senhor)[ae]?s?</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern><!-- Name header -->
-                    <token skip='4' postag_regexp='yes' postag='NP.+'/>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern><!-- Postal Code -->
-                    <token regexp='yes'>\d{4}</token>
-                    <token regexp='yes'>&hifen;</token>
-                    <token regexp='yes' skip='-1'>\d{3}</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern><!-- XXX Farewells -->
-                    <token postag="SENT_START"/>
-                    <token>Qualquer</token>
-                    <token>dúvida</token>
-                    <token>,</token>
-                    <token>estou</token>
-                    <token>à</token>
-                    <token>disposição</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>Coloco</token>
-                    <token regexp='yes'>&hifen;</token>
-                    <token>me</token>
-                    <token>à</token>
-                    <token>sua</token>
-                    <token>inteira</token>
-                    <token>disposição</token>
-                    <token>para</token>
-                    <token>quaisquer</token>
-                    <token>esclarecimentos</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>Aguardo</token>
-                    <token>a</token>
-                    <token>sua</token>
-                    <token>resposta</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>Não</token>
-                    <token>hesite</token>
-                    <token>em</token>
-                    <token>contactar</token>
-                    <token regexp='yes'>&hifen;</token>
-                    <token>me</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>Saudações</token>
-                    <token>calorosas</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token min='0'>Antecipadamente</token>
-                    <token min='0'>Um</token>
-                    <token min='0' regexp='yes'>Muito|grande</token>
-                    <token regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token min='0' regexp='yes'>Apresento|Apresentamos|Com</token>
-                    <token min='0'>Os</token>
-                    <token min='0' regexp='yes'>meus|nossos</token>
-                    <token min='0'>melhores</token>
-                    <token>Cumprimentos</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token>Desde</token>
-                    <token>já</token>
-                    <token>deixo</token>
-                    <token>o</token>
-                    <token>meu</token>
-                    <token>obrigado</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>Agradeço</token>
-                    <token>a</token>
-                    <token>atenção</token>
-                    <token>dispensada</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>Obrigado</token>
-                    <token>pela</token>
-                    <token>sua</token>
-                    <token>ajuda</token>
-                    <token>com</token>
-                    <token>esta</token>
-                    <token>questão</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token>Com</token>
-                    <token min='0'>elevada</token>
-                    <token regexp='yes'>estima|consideração</token>
-                    <token postag="SENT_END">,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes" max='5'>\p{L}*</token>
-                    <token postag="SENT_END">,</token>
-                    <example>Oi,</example>
-                    <example>Prezado Senhor Luiz Gonzalez Dias,</example>
-                    <example>Oi mãe,</example>
-                    <example>Gabrielly,</example>
-                    <example>Respeitosamente,</example>
-                    <example>Cumprimentos,</example>
-                    <example>Prezados,</example>
-                    <example>Olá,</example>
-                </antipattern>
-                <pattern>
-                    <token postag="SENT_END">,</token>
-                </pattern>
-                <message>Terminou a frase com uma vírgula. Verifique.</message>
-                <suggestion>.</suggestion>
-                <suggestion>;</suggestion>
-                <suggestion>!</suggestion>
-                <suggestion>?</suggestion>
-                <example correction=".|;|!|?">Portanto, não posso sair<marker>,</marker></example>
-                <example>Estimados senhores,</example>
-                <example>Carlos Magno,</example>
-                <example>2730-146, BARCARENA,</example>
-            </rule>
-            <rule>
-                <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token skip="-1">
-                        <exception postag="V.+" postag_regexp="yes"/>
-                        <exception scope="next" postag="V.+" postag_regexp="yes"/></token>
-                    <token postag="SENT_END">
-                        <exception postag="V.+" postag_regexp="yes"/></token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token max="3"/>
-                    <token postag="SENT_END"/>
-                </antipattern>
-                <antipattern> <!-- tabelas, figuras, etc.  -->
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">&legendas;</token>
-                    <token regexp="yes">\d[\.\d]*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp='yes' skip='-1'>lista|voo|&nomes_de_instituicoes;|reserva</token>
-                    <token postag="SENT_END"/>
-                    <example>Lista de aves da Bahia</example>
-                </antipattern>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <token min="0" regexp="yes">«|“|"</token>
-                    <token skip="-1" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                    <marker>
-                        <token postag="SENT_END" regexp="yes">\p{L}\p{Ll}+</token>
-                    </marker>
-                </pattern>
-                <message>Se não é um título, falta um ponto no final da frase.</message>
-                <suggestion>\4.</suggestion>
-                <suggestion>\4?</suggestion>
-                <suggestion>\4!</suggestion>
-                <suggestion>\4:</suggestion>
-                <suggestion>\4;</suggestion>
-                <short>Pontuação final em falta</short>
-                <example correction="casa.|casa?|casa!|casa:|casa;">Vou em direção à <marker>casa</marker></example>
-                <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
             </rule>
         </rulegroup>
         <!-- VESTIR calçar -->
@@ -15550,6 +15338,7 @@ USA
 
         <!-- PERDER A VIDA A morrer/falecer/perecer -->
         <rule id='PERDER_A_VIDA' name="Perder a vida → morrer/falecer/perecer">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-16 (Checked/Enhanced) (1-JAN-2022+)      -->
             <pattern>
                 <token inflected='yes'>perder</token>
@@ -15779,6 +15568,7 @@ USA
 
         <!-- COMO É O CASO DE como no/o caso de -->
         <rule id='SIMPLIFICAR_COMO_É_O_CASO_DO_DA_DAS_DOS_DE_NO_CASO' name="Simplificar: Como é o caso d[ao](s)/de/em → Como no/o caso d[ao](s)/de/em" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-31 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
             Como é o caso do Firefox. → Como no caso do Firefox.
@@ -15804,6 +15594,7 @@ USA
 
         <!-- E QUE e -->
         <rule id='SIMPLIFICAR_E_QUE_E' name="Simplificar: E que → e" type="style">
+            <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-21 + 2023-02-08 (25-JUL-2022+) -->
             <!--
             É necessário saber que os terroristas são perigosos e que ninguém está seguro. → É necessário saber que os terroristas são perigosos e ninguém está seguro.
@@ -15844,6 +15635,7 @@ USA
 
         <!-- USAR EXPRESSÕES MAIS SIMPLES SUGERINDO VERBOS NO INFINITIVO -->
         <rulegroup id='SIMPLIFICAR_CONVERTER_PARA_VERBO_INFINITIVO' name="Simplificar: Usar a versão com infinitivo da subordinada" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-04 (1-JAN-2022+)      -->
             <!--
             #1 - 1/2:
@@ -15892,6 +15684,7 @@ USA
 
         <!-- E QUE que -->
         <rule id='SIMPLIFICAR_E_QUE_QUE' name="Simplificar: E que → que" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-27 + 2022-06-01/02 (24-MAY-2022+)      -->
             <!--
             São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
@@ -15927,6 +15720,7 @@ USA
 
         <!-- PODE IR AO PC E IDENTIFICAR O UTILIZADOR? Pode ir ao PC identificar o utilizador? -->
         <rule id='SIMPLIFICAR_IR_E_PARA' name="Simplificar: Locução com verbo ‘ir’" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-26 + 2022-06-01 + 2022-09-09 (24-MAY-2022+)      -->
             <!--
             Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
@@ -15967,6 +15761,7 @@ USA
 
         <!-- NÃO SABIA/SABIAM NADA nada sabia/sabiam -->
         <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 + 2022-07-06 + 2022-08-27 (5-JUN-2022+)      -->
             <!--
             O Rui não sabia nada do assunto. → O Rui nada sabia do assunto.
@@ -16111,6 +15906,7 @@ USA
 
         <!-- O QUE ORIGINA originando -->
         <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17/19/21 (1-JAN-2022+)      -->
             <!--
             As regras estão erradas o que origina a sua desorganização. → As regras estão erradas originando a sua desorganização.
@@ -16494,6 +16290,7 @@ USA
 
         <!-- PARA O DOMINGO DE HOJE para este domingo -->
         <rulegroup id='SIMPLIFICAR_PARA_DIA_SEMANA_PARA_ESTE_DIA' name="Simplificar: Para dia semana → Para este dia" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-14/15 (1-JAN-2022+)      -->
             <!--
             Quero isto para o domingo de hoje. → Quero isto para este domingo.
@@ -16520,6 +16317,7 @@ USA
 
         <!-- ,POIS : -->
         <rule id='SIMPLIFICAR_POIS_REMOVER' name="Simplificar: Remoção de “pois” com ela(s)/ele(s)" type="style" tags="picky">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-04/05/07 (1-JAN-2022+)      -->
             <!--
             Não tenho médica de família, pois ela está ausente até dezembro. → Não tenho médica de família: ela está ausente até dezembro.
@@ -16547,6 +16345,7 @@ USA
 
         <!-- QUE/E TEM/TÊM com -->
         <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 + 2022-03-03 + 2022-06-11 + 2023-01-08 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
             É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
@@ -16626,6 +16425,7 @@ USA
 
         <!-- QUE CAUSAM causados -->
         <rule id='SIMPLIFICAR_QUE_VERBO_PARTICÍPIO_PASSADO' name="Simplificar: Que + V. → V. Part. Passado">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-27 (1-JAN-2022+)      -->
             <!--
             As balas de borracha reduzem os danos que causam nos manifestantes atingidos. → As balas de borracha reduzem os danos causados nos manifestantes atingidos.
@@ -16649,6 +16449,7 @@ USA
 
         <!-- ARRANJADOS É QUE PODEM arranjados podem -->
         <rule id='SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO' name="Simplificar: Part. Passado + é + que → Part. Passado" type="style">
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-19 (1-JAN-2022+)      -->
             <!--
             Os dados só após serem organizados é que podem ser usados. → Os dados só após serem organizados podem ser usados.
@@ -16667,6 +16468,7 @@ USA
 
         <!-- 	VERBO TER + PARTICÍPIO PASSADO Pret. Perf. Ind. Part. Passado -->
         <rulegroup id='SIMPLIFICAR_VERBO_TER_MAIS_PARTICIPIO_PASSADO' name="Simplificar: V. Ter + Part. Passado → V. Pret. Perf. Ind. Part. Passado" type="style" tags='picky'>
+            <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-23 (Checked/Enhanced) (1-JAN-2022+)      -->
             <rule>
                 <antipattern>

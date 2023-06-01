@@ -16692,7 +16692,273 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='PUNCTUATION' name="Pontuação">
-
+        <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on' tags="picky">
+            <!-- Created by Tiago F. Santos, Portuguese rule, -->
+            <antipattern>
+                <token></token>
+                <token spacebefore='no'>@</token>
+                <token spacebefore='no'></token>
+                <token spacebefore='no'>.</token>
+                <example>Meu e-mail: seunomeaqui@servidor.com</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' skip='-1'>&operadores_matematicos;|\></token>
+                <token postag='_PUNCT' min='0'/>
+                <token postag='SENT_END'/>
+                <example>Outro > Raio do cátion</example>
+                <example>Kc = [H₂O].[CO]</example>
+            </antipattern>
+            <antipattern>
+                <token>Mercado</token>
+                <token>Livre</token>
+                <token>Mercado</token>
+                <token>Pago</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" skip='-1'/>
+                <token skip='-1' regexp='yes'>:|&tracos_de_separacao;</token>
+                <token postag="SENT_END"/>
+                <example>CEP: 30.120-060</example>
+                <example>Receita de frango: Fácil e saborosa</example>
+            </antipattern>
+            <antipattern>
+                <token></token>
+                <token spacebefore='no'>.</token>
+                <token spacebefore='no' regexp='yes'>\p{L}+</token>
+                <example>README.md</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SENT_START'/>
+                <token postag='DP.+' postag_regexp='yes'/>
+                <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+                <token postag='SENT_END' regexp='yes'>[,]</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">[.!?…]</token>
+                        <token min="0" regexp="yes">['"’”»]</token>
+                        <token postag="SENT_END" regexp="yes">['"’”»)\]]</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token max="20"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token>:</token>
+                    <token regexp='yes'>http.*|www.*</token>
+                    <token postag="SENT_END"/>
+                    <example>: https://www.youtube.com/user/OrderoftheGoodDeath</example>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token skip="-1"/>
+                    <marker>
+                        <token postag="SENT_END">
+                            <exception regexp="yes">[.!?:;…]|&tracos_de_separacao;</exception></token>
+                    </marker>
+                </pattern>
+                <message>Se não é um título, falta um ponto no final da frase.</message>
+                <suggestion>\4.</suggestion>
+                <suggestion>\4?</suggestion>
+                <suggestion>\4!</suggestion>
+                <suggestion>\4:</suggestion>
+                <suggestion>\4;</suggestion>
+                <short>Pontuação final em falta</short>
+                <example correction="nela.|nela?|nela!|nela:|nela;">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
+                <example correction="erro.|erro?|erro!|erro:|erro;">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
+                <example>Esta é uma frase curta, que poderia ser um título</example>
+                <example>«Esta é uma frase bastante comprido, mas se acaba com um ponto, mesmo que antes das aspas de citação, não é uma frase com erro.»</example>
+                <example>esta frase pode ser considerada muito grande, mas não começa com maiúsculas, portanto não completa os requisitos, logo não deve ser marcada como errada</example>
+            </rule>
+            <rule>
+                <antipattern><!-- correspondence/email -->
+                    <token skip='5' regexp='yes'>&saudacoes_formais;|Bo[amn]s?|[DS]ra?s?|(?:D(irec?tor|outor)|Senhor)[ae]?s?</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern><!-- Name header -->
+                    <token skip='4' postag_regexp='yes' postag='NP.+'/>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern><!-- Postal Code -->
+                    <token regexp='yes'>\d{4}</token>
+                    <token regexp='yes'>&hifen;</token>
+                    <token regexp='yes' skip='-1'>\d{3}</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern><!-- XXX Farewells -->
+                    <token postag="SENT_START"/>
+                    <token>Qualquer</token>
+                    <token>dúvida</token>
+                    <token>,</token>
+                    <token>estou</token>
+                    <token>à</token>
+                    <token>disposição</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Coloco</token>
+                    <token regexp='yes'>&hifen;</token>
+                    <token>me</token>
+                    <token>à</token>
+                    <token>sua</token>
+                    <token>inteira</token>
+                    <token>disposição</token>
+                    <token>para</token>
+                    <token>quaisquer</token>
+                    <token>esclarecimentos</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Aguardo</token>
+                    <token>a</token>
+                    <token>sua</token>
+                    <token>resposta</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Não</token>
+                    <token>hesite</token>
+                    <token>em</token>
+                    <token>contactar</token>
+                    <token regexp='yes'>&hifen;</token>
+                    <token>me</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Saudações</token>
+                    <token>calorosas</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min='0'>Antecipadamente</token>
+                    <token min='0'>Um</token>
+                    <token min='0' regexp='yes'>Muito|grande</token>
+                    <token regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token min='0' regexp='yes'>Apresento|Apresentamos|Com</token>
+                    <token min='0'>Os</token>
+                    <token min='0' regexp='yes'>meus|nossos</token>
+                    <token min='0'>melhores</token>
+                    <token>Cumprimentos</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token>Desde</token>
+                    <token>já</token>
+                    <token>deixo</token>
+                    <token>o</token>
+                    <token>meu</token>
+                    <token>obrigado</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Agradeço</token>
+                    <token>a</token>
+                    <token>atenção</token>
+                    <token>dispensada</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Obrigado</token>
+                    <token>pela</token>
+                    <token>sua</token>
+                    <token>ajuda</token>
+                    <token>com</token>
+                    <token>esta</token>
+                    <token>questão</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Com</token>
+                    <token min='0'>elevada</token>
+                    <token regexp='yes'>estima|consideração</token>
+                    <token postag="SENT_END">,</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" max='5'>\p{L}*</token>
+                    <token postag="SENT_END">,</token>
+                    <example>Oi,</example>
+                    <example>Prezado Senhor Luiz Gonzalez Dias,</example>
+                    <example>Oi mãe,</example>
+                    <example>Gabrielly,</example>
+                    <example>Respeitosamente,</example>
+                    <example>Cumprimentos,</example>
+                    <example>Prezados,</example>
+                    <example>Olá,</example>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_END">,</token>
+                </pattern>
+                <message>Terminou a frase com uma vírgula. Verifique.</message>
+                <suggestion>.</suggestion>
+                <suggestion>;</suggestion>
+                <suggestion>!</suggestion>
+                <suggestion>?</suggestion>
+                <example correction=".|;|!|?">Portanto, não posso sair<marker>,</marker></example>
+                <example>Estimados senhores,</example>
+                <example>Carlos Magno,</example>
+                <example>2730-146, BARCARENA,</example>
+            </rule>
+            <rule>
+                <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token skip="-1">
+                        <exception postag="V.+" postag_regexp="yes"/>
+                        <exception scope="next" postag="V.+" postag_regexp="yes"/></token>
+                    <token postag="SENT_END">
+                        <exception postag="V.+" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token max="3"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern> <!-- tabelas, figuras, etc.  -->
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">&legendas;</token>
+                    <token regexp="yes">\d[\.\d]*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes' skip='-1'>lista|voo|&nomes_de_instituicoes;|reserva</token>
+                    <token postag="SENT_END"/>
+                    <example>Lista de aves da Bahia</example>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">«|“|"</token>
+                    <token skip="-1" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                    <marker>
+                        <token postag="SENT_END" regexp="yes">\p{L}\p{Ll}+</token>
+                    </marker>
+                </pattern>
+                <message>Se não é um título, falta um ponto no final da frase.</message>
+                <suggestion>\4.</suggestion>
+                <suggestion>\4?</suggestion>
+                <suggestion>\4!</suggestion>
+                <suggestion>\4:</suggestion>
+                <suggestion>\4;</suggestion>
+                <short>Pontuação final em falta</short>
+                <example correction="casa.|casa?|casa!|casa:|casa;">Vou em direção à <marker>casa</marker></example>
+                <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
+            </rule>
+        </rulegroup>
         <!-- ADDITIONAL MISSING COMMA RULES -->
         <rulegroup id='AUSENCIA_VIRGULA' name="Ausência de vírgula" default='temp_off'>
             <rule>
