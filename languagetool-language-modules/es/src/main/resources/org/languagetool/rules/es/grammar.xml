@@ -25604,6 +25604,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="LAMO_LLAMO" name="confusión: lamer/llamar" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se</token>
+                    <marker>
+                        <token regexp="yes">lamo|lamas|lama</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>l<match no="2" case_conversion="alllower"/></suggestion> (del v. 'llamar') en vez de "\1" (del v. 'lamer')?</message>
+                <example correction="llamo">Me <marker>lamo</marker> Pedro.</example>
+                <example correction="llama">Se <marker>lama</marker> Juan.</example>
+                <example correction="llamas">¿Te <marker>lamas</marker> Juan?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token regexp="yes">lamo|lamas|lama</token>
+                            <token postag="_reflexive"/>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>l<match no="1" case_conversion="alllower"/></suggestion> (del v. 'llamar') en vez de "\1" (del v. 'lamer')?</message>
+                <example correction="llamo">Me <marker>lamo</marker> Pedro.</example>
+                <example correction="llama">Se <marker>lama</marker> Juan.</example>
+                <example correction="llamas">¿Cómo te <marker>lamas</marker>?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PAPA" name="papa/papá">
             <antipattern>
                 <token inflected="yes" skip="2">comer</token>
