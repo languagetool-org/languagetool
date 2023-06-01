@@ -7773,51 +7773,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <!-- TROCAS-TE trocaste -->
-        <rulegroup id='HIFEN_INTRUSIVO' name="Verbo com hífen intrusivo">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-30 + 2021-03-31 + 2021-05-31 (17-MAR-2021+)      -->
-            <rule>
-                <!--
-        Hoje trocas-te de computador? → Hoje trocaste de computador?
-        Hoje andas-te a cantar? → Hoje andaste a cantar?
-        Hoje andas-te à procura da chave? → Hoje andaste à procura da chave?
-
-        -->
-                <pattern>
-                    <marker>
-                        <token postag='VMIP2S0'/>
-                        <token regexp='yes' spacebefore='no'>&hifen;</token>
-                        <token spacebefore='no'>te</token>
-                    </marker>
-                    <token postag='SPS.+|PD0FS.+|PP3FSA.+' postag_regexp='yes'/>
-                    <token postag='AQ0.+|NC.+|V.+|DD.+' postag_regexp='yes'/>
-                </pattern>
-                <message>Caso se trate de uma forma do pretérito perfeito, escreve-se sem hífen.</message>
-                <suggestion>\1\3</suggestion>
-                <example correction="trocaste">Hoje <marker>trocas-te</marker> de computador?</example>
-                <example>Hoje andaste a cantar?</example>
-                <example>Hoje andaste à procura da chave?</example>
-            </rule>
-
-            <rule>
-                <!--
-        Tu também ficas te com essa canção.
-        -->
-                <pattern>
-                    <marker>
-                        <token postag='VMIP2S0'/>
-                        <token spacebefore='yes'>te</token>
-                    </marker>
-                    <token postag='SPS.+|PD0FS.+|PP3FSA.+' postag_regexp='yes'/>
-                    <token postag='AQ0.+|NC.+|V.+|DD.+' postag_regexp='yes'/>
-                </pattern>
-                <message>Caso se trate de uma forma do pretérito perfeito, escreve-se unido.</message>
-                <suggestion>\1\2</suggestion>
-                <example correction="ficaste">Tu também <marker>ficas te</marker> com essa canção.</example>
-            </rule>
-
-        </rulegroup>
-
         <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal">
             <antipattern>
                 <token postag='Z.+' postag_regexp='yes'/>
@@ -11864,7 +11819,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         A Literatura obedece a leis inflexíveis: a da herança, a do meio, a do momento.
         -->
                 <antipattern>
-                    <token inflected='yes' regexp='yes'>obedecer|desobedecer</token>
+                       <token inflected='yes' regexp='yes'>obedecer|desobedecer</token>
                     <token>a</token>
                     <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
                 </antipattern>
