@@ -341,7 +341,7 @@ public class MorfologikMultiSpeller {
   }
   
   /**
-   * Get the frequency of use of a word (0-27) form the dictionary
+   * Get the frequency of use of a word (0-27) from the dictionary
    */
   public int getFrequency(String word) {
     for (MorfologikSpeller speller : spellers) {
