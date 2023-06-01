@@ -2,6 +2,9 @@
 
 ## 6.2-SNAPSHOT (release planned for 2023-06-28)
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
 ...
 
 
