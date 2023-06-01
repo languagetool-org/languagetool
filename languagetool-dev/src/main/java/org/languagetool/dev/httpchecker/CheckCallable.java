@@ -88,7 +88,7 @@ class CheckCallable implements Callable<File> {
         URL url = Tools.getUrl(baseUrl + "/v2/check");
         String postData = "language=" + langCode +
             "&text=" + URLEncoder.encode(text, "UTF-8") +
-            "&toneTags=" + Arrays.stream(ToneTag.values()).map(ToneTag::name).collect(Collectors.joining(",")) +
+            "&toneTags=" + ToneTag.ALL_TONE_RULES.name() +
             "&level=picky" +
             "&enableTempOffRules=true";
         postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
