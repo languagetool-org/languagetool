@@ -13972,6 +13972,306 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='CASING' name='Capitalização' type='grammar'>
+        <!-- ELE É PORTUGUÊS Ele é português -->
+        <rule id='GENTILICOS_LINGUAS' name="Gentílicos e línguas">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-28 + 2021-04-30 + 2021-05-01 + 2021-05-07 + 2021-05-10 + 2021-05-26 (17-MAR-2021+)      -->
+            <!--
+            Ele é Português. → Ele é português.
+            -->
+            <!-- Primavera Árabe -->
+            <antipattern>
+                <token case_sensitive="yes">Primavera</token>
+                <token case_sensitive="yes">Árabe</token>
+            </antipattern>
+            <!-- Arábia Saudita -->
+            <antipattern>
+                <token case_sensitive="yes">Arábia</token>
+                <token case_sensitive="yes">Saudita</token>
+            </antipattern>
+            <!-- Península Arábica -->
+            <antipattern>
+                <token case_sensitive="yes">Península</token>
+                <token case_sensitive="yes">Arábica</token>
+            </antipattern>
+            <!-- Golfo Pérsico -->
+            <antipattern>
+                <token case_sensitive="yes">Golfo</token>
+                <token case_sensitive="yes">Pérsico</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Burquina</token>
+                <token case_sensitive="yes">Faso</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Recôncavo</token>
+                <token case_sensitive="yes">Baiano</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Circuito</token>
+                <token case_sensitive="yes">Histórico</token>
+                <token>e</token>
+                <token case_sensitive="yes">Arqueológico</token>
+                <token>da</token>
+                <token case_sensitive="yes">Herança</token>
+                <token case_sensitive="yes">Africana</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Lojas</token>
+                <token case_sensitive="yes">Americanas</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Dinâmica</token>
+                <token case_sensitive="yes">Populacional</token>
+                <token case_sensitive="yes">Brasileira</token>
+                <token>na</token>
+                <token case_sensitive="yes">Virada</token>
+                <token>do</token>
+                <token case_sensitive="yes">Século</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Empresa</token>
+                <token case_sensitive="yes">Brasileira</token>
+                <token>de</token>
+                <token case_sensitive="yes">Aeronáutica</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Yankee</token>
+                <token case_sensitive="yes">Stadium</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" spacebefore='no'>&languages;</token>
+                <token case_sensitive='yes'>Online</token>
+                <example>Inglês Online.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip='-1'>&nomes_de_instituicoes;</token>
+                <token regexp='yes' case_sensitive="yes">Sul|Norte|Centro</token>
+                <token spacebefore="no">-</token>
+                <token regexp="yes" spacebefore='no'>&languages;</token>
+                <example>República Norte-Africana.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' case_sensitive="yes">Franco|Germana|Germano</token>
+                <token><exception>-</exception></token>
+                <example>Meu tio Franco veio dirigindo.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Quadro</token>
+                <token case_sensitive="yes">Comum</token>
+                <token case_sensitive="yes">Europeu</token>
+            </antipattern>
+            <antipattern>
+                <token postag='NP..S.+' postag_regexp='yes'/>
+                <token case_sensitive="yes">Russo</token>
+                <example>Seu nome é Maria Russo.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">São</token>
+                <token case_sensitive="yes">Vicente</token>
+                <token>e</token>
+                <token case_sensitive="yes">Granadinas</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Código</token>
+                <token min='0'>de</token>
+                <token regexp='yes' case_sensitive="yes">Penal|Civil|Trânsito</token>
+                <token regexp="yes">&languages;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&separadores_de_abertura;</token>
+                <token regexp="yes">&languages;</token>
+                <token>:</token>
+                <example>Andrey Koreshkov (Russo: nome em russo aqui)</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[nd]o</token>
+                <token case_sensitive="yes">Sul</token>
+                <token spacebefore='no'>-</token>
+                <token regexp="yes" spacebefore='no' inflected="yes">&languages;</token>
+                <example>Participou do Sul-Americano.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <token>de</token>
+                <token case_sensitive="yes">Futebol</token>
+                <token case_sensitive="yes">Americano</token>
+                <example>Seleção Brasileira de Futebol Americano.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' case_sensitive="yes">Pastor|Dogue|Buldogue</token>
+                <token regexp='yes' case_sensitive="yes">Alemão|Inglês|Francês|Belga</token>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' case_sensitive="yes">&nomes_de_instituicoes;</token>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>O atleta goleou no Campeonato Brasileiro.</example>
+                <example>A Revolução Russa aconteceu em 1917.</example>
+                <example>Atividade de Literatura Portuguesa.</example>
+                <example>É membro da Seleção Francesa de Futebol.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' case_sensitive="yes">&nomes_de_instituicoes;</token>
+                <token skip='-1'><exception regexp='yes'>[»”"'’]|&separadores_de_oracoes;</exception></token>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>Era formada em Letras em Português.</example>
+                <example>O atleta goleou no Campeonato Brasileiro.</example>
+                <example>A Revolução Russa aconteceu em 1917.</example>
+                <example>no Instituto Cultural da Guarda Brasileira</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' case_sensitive="yes">&nomes_de_instituicoes;</token>
+                <token skip='-1'><exception regexp='yes'>[»”"'’]|&separadores_de_oracoes;</exception></token>
+                <token regexp="yes" inflected="yes" skip='-1'>\p{L}+</token>
+                <token spacebefore='no'>-</token>
+                <token regexp='yes' spacebefore='no'>&languages;</token>
+                <example>no Instituto Cultural Brasileiro Norte-Americano</example>
+                <example>É membro da República Centro-Africana.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>&tracos_de_separacao;</token>
+                <token regexp='yes'>&languages;</token>
+                <token min='0'>e</token>
+                <token regexp='yes' min='0'>&languages;</token>
+                <example>Era formada em Letras - Espanhol.</example>
+                <example>Era formada em Letras - Português e Espanhol.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>&languages;</token>
+                <token min='0'>e</token>
+                <token regexp='yes' min='0'>&languages;</token>
+                <token regexp='yes'>&tracos_de_separacao;</token>
+                <example>Espanhol - Avançado.</example>
+                <example>Inglês — Intermediário.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive='yes' regexp='yes'>[A-Z][A-Z]*</token>
+                <token postag='_PUNCT' min='0'/>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>ECONOMIA BRASILEIRA CONTEMPORÂNEA.</example>
+                <example>SOLTEIRA, BRASILEIRA</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <token postag='_PUNCT' min='0'/>
+                <token case_sensitive='yes' regexp='yes'>[A-Z][A-Z]*</token>
+                <example>ECONOMIA BRASILEIRA CONTEMPORÂNEA.</example>
+                <example>BRASILEIRA,SOLTEIRA.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive='yes'>Coríntios</token>
+                <token regexp='yes'>\d+</token>
+                <example>Coríntios 12:21</example>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">&tracos_de_separacao;</token>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>— Judeus, se isso fosse...</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{L}.*</token>
+                <token>Ítalo</token>
+                <token regexp="yes">\p{L}.*</token>
+                <example>Caio e Ítalo Nogueira</example>
+            </antipattern>
+            <antipattern>
+                <token>Ítalo</token>
+                <token min='0'>de</token>
+                <token regexp="yes">\p{Lu}.*</token>
+                <example>Ítalo Nogueira</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SENT_START'/>
+                <token postag='_PUNCT'/>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>·          Português:</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <token regexp="yes">aplicad[oa]s?</token>
+                <example>Nos dias 3 e 4, Espanhol Aplicado e Ciências Naturais.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SENT_START' skip='-1'/>
+                <token>:</token>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>Reportagem de capa: Inglês 100% online.</example>
+            </antipattern>
+            <antipattern>
+                <token>letras</token>
+                <token></token>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>Curso de letras/Português da Universidade.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SENT_START'/>
+                <token regexp='yes' case_sensitive='yes'>de|d[ao]s?</token>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>dos Holandeses.</example>
+            </antipattern>
+            <!-- Tornou-se membro da Academia Francesa em 1938. -->
+            <!-- Escola de Alemão: supremacia do Estado sobre o Direito. -->
+            <antipattern>
+                <token regexp='yes' case_sensitive="yes">Programa|[Aa][vl]|Jd|R|Seleção|[Ss]eminários?|[Cc]ursos?|[Aa]ulas?|[Ss]emestres?|[Tt]rimestres?|Atividades?|polonia|disciplinas?|Disciplinas?|Produção|[Pp]rofessora?e?s?|Academia|África|Amaz[óô]nia|Am[éê]rica|Associação|Centro|Companhia|Coroa|Cultura|Confederação|Internacional|Embaixada|Emirados?|Enciclopédias?|Era|Escola|Exército|Faculdade|Federação|Guerra|Igreja|Ilhas|Império|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Revolta</token>
+                <token min="0" max="1" regexp='yes'>de|d[ao]s?</token>
+                <token regexp="yes" inflected="yes">&languages;</token>
+                <example>Seria convocado pouco depois para defender a Seleção Brasileira na Copa do Mundo de Futebol</example>
+                <example>R dos Holandeses</example>
+                <example>Av dos Holandeses</example>
+            </antipattern>
+            <antipattern>
+                <token>Ítalo</token>
+                <token>
+                    <exception spacebefore='no'>-</exception>
+                </token>
+                <example>pressionaram |Ítalo| (Paulo Lessa)</example>
+            </antipattern>
+            <antipattern>
+                <token postag='N.+' postag_regexp='yes'/>
+                <token case_sensitive='yes'>Russo</token>
+                <example>Lívia Russo</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>\p{Lu}.*</token>
+                <token regexp='yes'>&languages;</token>
+                <example> Empório Árabe Al Bába</example>
+            </antipattern>
+            <antipattern>
+                <token postag='N.+' postag_regexp='yes'>
+                    <exception postag='A.+' postag_regexp='yes'/></token>
+                <token>de</token>
+                <and>
+                    <token regexp='yes'>&languages;</token>
+                    <token postag='N.+' postag_regexp='yes'/>
+                </and>
+                <example>Como você foi na prova de Inglês?</example>
+            </antipattern>
+            <pattern>
+                <and>
+                    <token negate_pos="yes" postag='SENT_START'/>
+                    <token postag='DA.+|DI.+|DP.+|SPS.+|_PUNCT|CC|CS|V.+|NC.+|AQ0.+' postag_regexp='yes'>
+                        <exception regexp='yes'>\p{Lu}\p{Ll}*|\p{Lu}*-|–|—|ㅡ</exception></token>
+                </and>
+                <marker>
+                    <and>
+                        <token regexp="yes" inflected="yes">&languages;
+                            <exception postag_regexp='yes' postag='NP.+'/>
+                            <exception regexp='yes'>franca|fino|brasília|Yankees|persianas?|indiana|platina|fin[oa]s?|angelina|Normando|Japão|moura|helene|corsa|forro|coríntios|georgiano|angelino|jordana|danos?|china|Uruguaiana|nadanos?|londrina|Núbia|damasceno|bárbara|havaianas|georgiana|helen[oa]|gregório|armênia</exception></token>
+                        <token regexp="yes">\p{Lu}\p{Ll}.*</token>
+                    </and>
+                </marker>
+            </pattern>
+            <message>Os gentílicos e línguas são escritos em minúsculas.</message>
+            <suggestion><match no="2" case_conversion="alllower"/></suggestion>
+            <example correction='português'>Ele é <marker>Português</marker>.</example>
+            <example>O espanhol é a língua falada na Argentina e no Uruguai, enquanto no Paraguai fala-se também o guarani.</example>
+            <example>Não há mercado para esses produtos no Japão.</example>
+            <example>O chá é muito cultivado na Índia.</example>
+            <example>Tornou-se membro da Academia Francesa em 1938.</example>
+            <example>Escola de Alemão: supremacia do Estado sobre o Direito.</example>
+            <example>Diz a lenda que a América foi descoberta por Cristóvão Colombo.</example>
+            <example>A Arábia Saudita é o maior país da Península Arábica.</example>
+        </rule>
 
         <rule id="ESPACO_DUPLO" name="Espaço duplo">
             <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
