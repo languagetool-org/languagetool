@@ -7725,54 +7725,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id='REFLEXIVO_CONJUNTIVO' name='Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
-            <!-- Created by Tiago F. Santos, 2017-08-25 -->
-            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/as-formas-verbais-com-sse-ou-com--se/11603</url>
-            <rule>
-                <pattern>
-                    <token postag='SENT_START' skip='-1'>
-                        <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
-                        <exception scope='next' regexp='yes'>&introduz_conjuntivo;</exception></token>
-                    <marker>
-                        <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
-                            <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
-                    </marker>
-                </pattern>
-                <message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
-                <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
-                <example correction='chega-se'>Ela <marker>chegasse</marker> mais perto, a cada palavra.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp='yes' skip='-1'>&separadores_de_oracoes;
-                        <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
-                        <exception scope='next' regexp='yes'>&introduz_conjuntivo;</exception></token>
-                    <marker>
-                        <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
-                            <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
-                    </marker>
-                </pattern>
-                <message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
-                <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
-                <example correction='chega-se'>A cada palavra, ela <marker>chegasse</marker> mais perto.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token skip='-1' postag_regexp='yes' postag='C.+' regexp='yes'>se|embora
-                        <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception></token>
-                    <marker>
-                        <token postag_regexp='yes' postag='V.+'/>
-                        <token spacebefore='no' regexp='yes'>&hifen;</token>
-                        <token spacebefore='no'>se</token>
-                    </marker>
-                </pattern>
-                <message>O conjuntivo no pretérito imperfeito é utilizado em orações condicionais. Considere se esta não é uma dessas situações.</message>
-                <suggestion>\2sse</suggestion>
-                <example correction='lavasse'>Se <marker>lava-se</marker> os pratos, é que era bom.</example>
-                <example correction='trabalhasse'>Embora Tchecov  <marker>trabalha-se</marker> como médico, enriqueceu a sua escrita com…</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal">
             <antipattern>
                 <token postag='Z.+' postag_regexp='yes'/>
