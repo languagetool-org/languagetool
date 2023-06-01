@@ -477,7 +477,7 @@ public class English extends Language implements AutoCloseable {
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
       case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
       case "EVERY_NOW_AND_THEN":        return 0;
-      case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
+      case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker, less prio than ATTACHE_ATTACH
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
       case "FASTLY":                    return -1;   // higher prio than spell checker
       case "WHO_NOUN":                    return -1;   // prefer SPECIFIC_CASE

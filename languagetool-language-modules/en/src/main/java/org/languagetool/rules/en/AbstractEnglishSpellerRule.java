@@ -657,6 +657,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     Map<String, List<String>> s = new HashMap<>();
     s.put("Ths", Arrays.asList("This", "The"));
     s.put("prev", Arrays.asList("previous"));
+    s.put("kilotonne", Arrays.asList("kiloton"));
+    s.put("kilotonnes", Arrays.asList("kilotons"));
     s.put("litehouse", Arrays.asList("lighthouse"));
     s.put("Litehouse", Arrays.asList("Lighthouse"));
     s.put("whitout", Arrays.asList("without", "white out"));
