@@ -1617,6 +1617,36 @@
     </rule>
   </rulegroup>
 
+  <!-- trying to handle compounds that should have hyphens but are written without them -->
+    <rule id="VERB_NOUN_COMPOUND" name="Substantivos compostos de verbo-nome, sem hífen.">
+        <pattern>
+            <token regexp="yes">&art_detecao_paronimos;</token>
+            <token postag="A...[SN].+" postag_regexp="yes" min="0"/>
+            <marker>
+                <and>
+                    <token postag="NCFS000"/>
+                    <token postag="VMIP3S0"/>
+                </and>
+            </marker>
+            <token postag="NC.+" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="add"><wd pos="NCMS000"/></disambig>
+        <example type="ambiguous" inputform="corta[corta/NCFS000,cortar/VMIP3S0,cortar/VMM02S0]" outputform="corta[corta/NCFS000,corta/NCMS000,cortar/VMIP3S0,cortar/VMM02S0]">
+            Você viu o meu <marker>corta</marker> unhas?
+        </example>
+        <example type="ambiguous" inputform="lava[lava/NCFS000,lavar/VMIP3S0,lavar/VMM02S0]" outputform="lava[lava/NCFS000,lava/NCMS000,lavar/VMIP3S0,lavar/VMM02S0]">
+            Pus o prato no <marker>lava</marker> louça.
+        </example>
+        <example type="ambiguous" inputform="toca[toca/NCFS000,tocar/VMIP3S0,tocar/VMM02S0]" outputform="toca[toca/NCFS000,toca/NCMS000,tocar/VMIP3S0,tocar/VMM02S0]">
+            Quero um novo <marker>toca</marker> flautas.
+        </example>
+        <example type="ambiguous" inputform="porta[porta/NCFS000,portar/VMIP3S0,portar/VMM02S0]" outputform="porta[porta/NCFS000,porta/NCMS000,portar/VMIP3S0,portar/VMM02S0]">
+            O manual está dentro do <marker>porta</marker> luvas.
+        </example>
+    </rule>
+
+
+
   <rulegroup id="DET_VERBONOME" name="Det + Ver/Nom">
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
     <antipattern>
