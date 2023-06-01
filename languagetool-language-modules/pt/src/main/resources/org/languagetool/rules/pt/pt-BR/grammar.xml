@@ -199,7 +199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern>
             <token>agente</token>
-            <token regexp="yes">\p{L}+&sufixos_adjetivais;</token>
+            <token regexp="yes">\p{L}+(&sufixos_adjetivais;|adora?)</token>
             <!-- added to dictionary, but let's keep these here as a test as
                  these derivations are relatively productive. -->
             <example>Agente vitrificante.</example>
@@ -208,6 +208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Agente infeccioso.</example>
             <example>Agente etiológico.</example>
             <example>Agente mutagênico.</example>
+            <example>Agente planejador e financiador.</example>
         </antipattern>
         <antipattern>
             <token>agente</token>
@@ -250,9 +251,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>David Zedeck (Agente)</example>
             <example>Agente:</example>
         </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <token>é</token>
+            <token postag_regexp="yes" postag="D[AI]..S."/>
+            <token regexp="yes">pessoa|homem|mulher|indivíduo|ser humano|profissional</token>
+            <example>Agente é uma pessoa que se encarrega de fornecer um serviço.</example>
+        </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <token>é</token>
+            <token regexp="yes">alguém</token>
+            <example>Agente é alguém que fornece um serviço.</example>
+        </antipattern>
+        <antipattern>
+            <token>agente</token>
+            <token postag_regexp="yes" postag="AQ..S.">
+                <exception postag_regexp="yes" postag="V.[^P].+"/>
+            </token>
+            <example>Ele é um agente político.</example>
+            <example>Se trata de um agente antisséptico e cicatrizante.</example>
+            <example>Ou por união com agente químico.</example>
+            <example>O estudo do negro como agente ativo do processo histórico.</example>
+        </antipattern>
+        <antipattern>
+            <token postag_regexp="yes" postag="AQ..S.">
+                <exception postag_regexp="yes" postag="V.[^P].+"/>
+            </token>
+            <token>agente</token>
+            <example>Ela é a única agente.</example>
+        </antipattern>
         <rule>
             <pattern>
-                <token postag_regexp="yes" postag="SP.+"/>
+                <token postag_regexp="yes" postag="SP.+">
+                    <!-- The idea here is that usually one will have 'da gente' here. -->
+                    <exception>de</exception>
+                </token>
                 <marker>
                     <token>agente</token>
                 </marker>
@@ -261,6 +295,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Substitua &quot;agente&quot; por <suggestion>a gente</suggestion>.</message>
             <example correction="a gente">Você vai com <marker>agente</marker> naquela festa.</example>
             <example correction="a gente">Não é a melhor situação para <marker>agente</marker>.</example>
+            <example>Ele mudou de agente.</example>
+            <example>Quando na posição de agente.</example>
         </rule>
         <rule>
             <pattern>
