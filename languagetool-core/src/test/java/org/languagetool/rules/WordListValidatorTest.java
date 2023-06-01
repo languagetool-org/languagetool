@@ -150,6 +150,8 @@ public class WordListValidatorTest {
           "Tuğrul",
           "Kīlauea",
           "Māori",
+          "Chișinău",
+          "Chișinău/S",
           "Terzić",
           "Jūjutsu/S",
           "Ñuñoa",
