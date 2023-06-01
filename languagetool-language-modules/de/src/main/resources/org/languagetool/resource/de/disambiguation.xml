@@ -7798,6 +7798,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="RÄTSEL-" name="ignore spelling of '(Rätsel-)Spaß'"> <!--TEST - LT marks 'Rätsel-' as a typo when in brackets-->
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>(</token>
+                <token>Rätsel-</token>
+                <token>)</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule id="NUMMER_TLG" name="ignore spelling of '2-tlg.'">
         <pattern>
             <token regexp="yes" case_sensitive="yes">\d+-(tlg|TLG)</token>
@@ -7847,4 +7858,5 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
 </rules>
