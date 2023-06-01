@@ -87,6 +87,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "in car",
     "client side",
     "server side",
+    "code named",
     "in house",
     "back office",
     "faggot",
