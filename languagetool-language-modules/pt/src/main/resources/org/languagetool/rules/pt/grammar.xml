@@ -730,15 +730,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token spacebefore="no">-</token>
                     <token spacebefore="no"/>
                 </antipattern>
+
+                <!-- Assume está followed by a fem.sg. noun is a typo for 'esta', -->
+                <!-- rather than for 'estar'; this AP allows that rule to be matched. -->
+                <!-- With the exception of 'deixe está', which is a set phrase and prob. -->
+                <!-- more likely to be intended as a genuine infinitive. -->
+                <antipattern>
+                    <token inflected="yes" negate="yes">deixar</token>
+                    <token>está</token>
+                    <token postag_regexp="yes" postag="N.FS.+|SENT_END"/>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp='yes'>&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
-                        <exception inflected='yes'>ser</exception>
-                        <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
-                        <!--exception regexp='yes'>quer|fora</exception--></token>
-                    <token postag="V.+" postag_regexp='yes'>
-                        <exception regexp='yes'>é|há</exception><!-- XXX informal and only usually only used in spoken language --> <!-- MARCOAGPINTO 2021-01-26 (1-JAN-2021+) - Added "há" -->
+                    <token inflected="yes" regexp="yes">
+                        &verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;
+                        <exception inflected="yes">ser</exception>
+                        <exception negate_pos="yes" postag_regexp="yes" postag="V.+"/>
+                        <!--exception regexp='yes'>quer|fora</exception-->
+                    </token>
+                    <token postag="VM[^NG].+" postag_regexp="yes">
+                        <exception regexp="yes">é|há|foi|varias</exception>
                         <exception postag="VM[NG]0000|VMP00.." postag_regexp="yes"/>
-                        <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/></token>
+                        <exception negate_pos='yes' postag_regexp="yes" postag="V.+"/>
+                    </token>
                 </pattern>
                 <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
                 <suggestion>\1 <match no='2' postag='VMN0000'/></suggestion>
@@ -772,6 +785,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
                 <example>Qualquer um que queira vir será bem-vindo.</example>
                 <example>Até essa altura chegar decorrerão inúmeros conflitos.</example>
+
+                <!-- p5491 -->
+                <example>Vocês virem foi um erro.</example>
+                <!-- p5490: errors are intentional, do not fix -->
+                <example>Ele virá está noite?</example>
+                <example>Quero está.</example>
+                <example correction="Deixe estar"><marker>Deixe está</marker>.</example>
+                <example>Nos deixou varias mensagens.</example>
+                <example>Tentamos varias vezes.</example>
+                <example>Não sei quantas, quero varias.</example>
             </rule>
 
             <rule>
@@ -31180,20 +31203,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         </rulegroup>
 
-
-        <!-- ESTA está -->
         <rulegroup id='ESTA_ESTÁ' name="[Confusão] esta/está">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-27/28 + 2021-12-06 (25-JUN-2021+)      -->
-            <!--
-      A posição dos cestos agora é está. → A posição dos cestos agora é esta.
-      A grande maioria dos gregos são cristãos sendo está fé seguida por 92% da população. → A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.
-      -->
             <rule>
                 <pattern>
-                    <token negate_pos="yes" postag='DA.+' postag_regexp='yes'/>
-                    <token min="1" max="2" postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                     <token postag='V.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.P.*'/>
+                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.P.*|PP+'/>
+                    </token>
+                    <marker>
+                        <token>está</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="N.F.+"/>
+                </pattern>
+                <message>Substitua por <suggestion>esta</suggestion>.</message>
+                <example correction="esta">Ele virá <marker>está</marker> noite.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.P.*|PP+'/>
+                    </token>
+                    <marker>
+                        <token>está</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Substitua por <suggestion>esta</suggestion>.</message>
+                <example correction="esta">Quero <marker>está</marker>.</example>
+                <example correction="esta">Achei <marker>está</marker>.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <!-- block complementiser -->
+                    <token negate_pos="yes" postag_regexp="yes" postag="PR.+" min="0">que</token>
+                    <token negate_pos="yes" postag='DA.+' postag_regexp='yes' min="0"/>
+                    <token max="2" postag='RG|N.+|AQ.+|PP+' postag_regexp='yes'/>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.P.*|PP+'/>
                     </token>
                     <marker>
                         <token>está</token>
@@ -31206,9 +31253,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O que ele disse está certo.</example>
                 <example>O referencial teórico utilizado está nas bases conceituais.</example>
             </rule>
-            <!--
-      A raiz da árvore esta podre. → A raiz da árvore está podre.
-      -->
+
             <rule>
                 <pattern>
                     <token negate="yes" regexp='yes'>d[ao]s?</token>
@@ -31229,9 +31274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Antes da Relatividade esta interligação era um dado experimental.</example>
                 <example>E em 1942, por conta da industrialização do coroá esta progressista cidade recebeu o título de usina.</example>
             </rule>
-            <!--
-      O livro guardado nos arquivos esta datado de 1691. → O livro guardado nos arquivos está datado de 1691.
-      -->
+
             <rule>
                 <pattern>
                     <token regexp='yes'>n[ao]s?</token>
@@ -31245,9 +31288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="está">O livro guardado nos arquivos <marker>esta</marker> datado de 1691.</example>
                 <example>O Tom vem nos ver esta tarde.</example>
             </rule>
-            <!--
-      Vê na etiqueta que esta agarrada ao cabaz. → Vê na etiqueta que está agarrada ao cabaz.
-      -->
+
             <rule>
                 <pattern>
                     <and>
