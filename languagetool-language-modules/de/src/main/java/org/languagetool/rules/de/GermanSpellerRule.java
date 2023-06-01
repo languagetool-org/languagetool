@@ -3229,6 +3229,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "freiverkäuflicher": return topMatch("frei verkäuflicher");
       case "freiverkäuflichen": return topMatch("frei verkäuflichen");
       case "freiverkäuflichem": return topMatch("frei verkäuflichem");
+      case "Mfg": return topMatch("MFG");
+      case "Resource": return topMatch("Ressource");
+      case "Resourcen": return topMatch("Ressourcen");
+      case "Resources": return topMatch("Ressourcen");
+      case "Tzatziki": return topMatch("Zaziki");
     }
     return Collections.emptyList();
   }
