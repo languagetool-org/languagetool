@@ -41,6 +41,13 @@ public class PortugueseTest extends LanguageSpecificTest {
     );
     runTests(ptPT, null, "õș");
     BrazilianPortuguese ptBR = new BrazilianPortuguese();
+    String s2 = "Cole aqui seu texto...ou verifique esta texto, afim de revelar alguns dos dos problemas que o LanguageTool consegue detectar. Isto tal vez permita corrigir os seus erro. Nós prometo ajudá-lo. para testar a grafia e as regrs do antigo) Acordo Ortográfico,, verifique o mesmo texto mesmo texto em Português de Angola ou Português do Moçambique e faça a analise dos resultados.. Nossa equipe anuncia a versão 4.5, que será lançada sexta-feira, 26 de março de 2019.";
+    testDemoText(ptBR, s2,
+      Arrays.asList("SPACE_AFTER_PUNCTUATION", "GENERAL_GENDER_AGREEMENT_ERRORS", "AFIM_DE", "PORTUGUESE_WORD_REPEAT_RULE", "TAL_VEZ",
+              "GENERAL_NUMBER_AGREEMENT_ERRORS", "GENERAL_VERB_AGREEMENT_ERRORS", "UPPERCASE_SENTENCE_START", "HUNSPELL_RULE",
+              "UNPAIRED_BRACKETS", "DOUBLE_PUNCTUATION", "PHRASE_REPETITION", "GENTILICOS_LINGUAS", "GENTILICOS_LINGUAS",
+              "PARONYM_ANALISE_363", "DOUBLE_PUNCTUATION", "DATE_WEEKDAY")
+    );
     testReplaceRuleReplacements(ptBR);
   }
 }
