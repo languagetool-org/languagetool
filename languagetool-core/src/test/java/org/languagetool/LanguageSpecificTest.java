@@ -63,7 +63,7 @@ public class LanguageSpecificTest {
     }
   }
 
-  private void testReplaceRuleReplacements(Language lang) throws IOException {
+  protected void testReplaceRuleReplacements(Language lang) throws IOException {
     JLanguageTool lt = new JLanguageTool(lang);
     SpellingCheckRule spellRule = lang.getDefaultSpellingRule();
     if (lang.getShortCode().matches("nl|km")) {
