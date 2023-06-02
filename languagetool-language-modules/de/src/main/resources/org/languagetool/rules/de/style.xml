@@ -2006,6 +2006,35 @@ USA
                 <example>Leider hab ich heute keine Zeit.</example>
                 <example>Hab ich dir das nicht gesagt?</example>
             </rule>
+            <rule default="temp_off"><!--3-->
+                <antipattern>
+                    <token>ich</token>
+                    <token>fänd</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <example>Ich fänd’s zumindest fragwürdig.</example>
+                </antipattern>
+                <pattern>
+                    <token>ich</token>
+                    <marker>
+                        <token>fänd</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie hier den Konjunktiv von 'finden'?</message>
+                <suggestion>fände</suggestion>
+                <example correction="fände">Ich <marker>fänd</marker> es besser, wenn wir es andersherum machen.</example>
+            </rule>
+            <rule default="temp_off"><!--4-->
+                <pattern>
+                    <marker>
+                        <token>fänd</token>
+                    </marker>
+                    <token>ich</token>
+                </pattern>
+                <message>Meinten Sie hier den Konjunktiv von 'finden'?</message>
+                <suggestion>fände</suggestion>
+                <example correction="fände">Wenn wir es andersherum machen würde, <marker>fänd</marker> ich es besser.</example>
+            </rule>
         </rulegroup>
         <rule id="KOMPLETT_STIL" name="komplett (völlig, vollkommen)" default="temp_off" tags="picky">
             <antipattern>
