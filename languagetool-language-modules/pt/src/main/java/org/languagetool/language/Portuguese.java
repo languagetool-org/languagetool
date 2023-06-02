@@ -134,7 +134,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseClicheRule(messages, "/pt/cliches-pt.txt"),
             new PortugueseFillerWordsRule(messages, this, userConfig),
             new PortugueseRedundancyRule(messages, "/pt/redundancies-pt.txt"),
-            new PortugueseWordinessRule(messages),
+            new PortugueseWordinessRule(messages, "/pt/wordiness-pt.txt"),
             //new PortugueseWeaselWordsRule(messages),
             new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
