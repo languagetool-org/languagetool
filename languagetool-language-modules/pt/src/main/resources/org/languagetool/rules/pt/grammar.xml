@@ -38736,6 +38736,2436 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     </category>
+    <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
 
+
+        <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formatação de números: 10 341 330" default='off'>
+            <!-- Created by Tiago F. Santos, 2017-03-05 -->
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
+            <short>Erro tipográfico</short>
+            <rule>
+                <antipattern>
+                    <token spacebefore='no'>,</token>
+                    <token regexp="yes" spacebefore='no'>\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d{4}</token>
+                    <token>
+                        <exception regexp="yes">\d+</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>
+                        <exception regexp="yes">\d+</exception></token>
+                    <token postag='SENT_END' regexp="yes">\d{4}</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>&hifen;</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp='yes'>&hifen;</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[1-9]\d*\d{3}(?:,\d{1,3})?</token>
+                </pattern>
+                <message>Se não é um ano, os algarismos devem ser agrupados em grupos de 3.</message>
+                <suggestion><match no='2' regexp_match="(\d)(?=(\d{3})+(?!\d))" regexp_replace="$1 "/></suggestion>
+                <example correction='10 341'>Em 2016, Portugal registou <marker>10341</marker> milhares de habitantes.</example>
+                <example correction='1 034 133'><marker>1034133</marker> corresponde a um décimo dos habitantes portugueses</example>
+                <example correction='1 034 133,00'><marker>1034133,00</marker> não é um número redondo.</example>
+                <example><marker>1034133,0000</marker> também não é um número redondo.</example>
+                <example>O ano tem exatamente 365,24219858156 dias.</example>
+                <example>É o ano de <marker>1989</marker>.</example>
+                <example>É o ano de <marker>1989</marker></example>
+                <example>ISBN 0-522-85317-X.</example>
+                <example>08111930</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(\d{1,3}[\. ]?){1,10},\d{3}\d+</token>
+                </pattern>
+                <message>Os algarismos devem ser agrupados em grupos de 3.</message>
+                <suggestion><match no='3' regexp_match="((?:\d{1,3}[\. ]?)+,\d{3})(\d+)" regexp_replace="$1 $2"/></suggestion>
+                <example correction='17,103 41'>A média exata é de <marker>17,10341</marker> valores.</example>
+                <example correction='365,242 19858156'>O ano tem exatamente <marker>365,24219858156</marker> dias.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token spacebefore='no'>,</token>
+                    <token regexp="yes" spacebefore='no'>\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d{4}</token>
+                    <token>
+                        <exception regexp="yes">\d+</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>
+                        <exception regexp="yes">\d+</exception></token>
+                    <token postag='SENT_END' regexp="yes">\d{4}</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>&hifen;</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp='yes'>&hifen;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+\d{3},\d{4,30}</token>
+                    </marker>
+                </pattern>
+                <message>Os algarismos devem ser agrupados em grupos de 3.</message>
+                <!--suggestion><match no='2' regexp_match="(\d)(?=(\d{3})+(?!\d))" regexp_replace="$1 "/></suggestion-->
+                <!-- TODO find a regexp that works here to activate suggestion-->
+                <example type='incorrect'><marker>1034133,0000</marker> também não é um número redondo.</example>
+                <example><marker>1 034 133,000 0</marker> também não é um número redondo.</example>
+                <example>É o ano de <marker>1989</marker>.</example>
+                <example>É o ano de <marker>1989</marker></example>
+                <example>O ano tem exatamente 365,24219858156 dias.</example>
+                <example>Em 2016, Portugal registou <marker>10341</marker> milhares de habitantes.</example>
+                <example><marker>1034133</marker> corresponde a um décimo dos habitantes portugueses</example>
+                <example>ISBN 0-522-85317-X.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id='DECIMAL_COMMA' name="Matemático: Vírgula como separador de decimais" default="on">
+            <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
+            <antipattern>
+                <token regexp="yes">\d+\.\d+</token>
+                <token regexp='yes' spacebefore='no'>&tracos_de_separacao;|/</token>
+                <example>Processo nº: 23079.229747/2021-72</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">0\d+\.\d+</token>
+                <example>(041.42)</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>/</token>
+                <token regexp="yes" spacebefore='no'>\d+\.\d+</token>
+                <example>Sensor: 1/2.8” 1 megapixel</example>
+            </antipattern>
+            <antipattern>
+                <token postag="N.+" postag_regexp='yes'/>
+                <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+                <token postag="SENT_END|_PUNCT" postag_regexp='yes'/>
+                <example>E-mail agosto 2.2;</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>\p{L}+</token>
+                <token regexp='yes' spacebefore='no'>[:;]</token>
+                <token regexp="yes">\d{1,2}\.\d{1,2}\.</token>
+                <token postag="SENT_END"/>
+                <example> importância; 4.2. C-Sat</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>&tracos_de_separacao;|/</token>
+                <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+                <token postag="SENT_END"/>
+                <example>AULA 4 - 16.08!</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>\p{Lu}+</token>
+                <token regexp='yes' spacebefore='no'>&tracos_de_separacao;|/</token>
+                <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+                <example> referência MS-3.1</example>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">202\d{1}\.\d{1}</token>
+                <token><exception regexp='yes'>&unidades_de_medida_por_extenso;|&unidades_de_medida;</exception></token>
+                <example>a partir de 2020.2 não o fez</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{1}\.202\d{1}</token>
+                <token><exception regexp='yes'>&unidades_de_medida_por_extenso;|&unidades_de_medida;</exception></token>
+                <example>a partir de 2.2022 não o fez</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{1,3}\.\d{3}\.\d{3}</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web|eq|seq|n|número|regs?|registros?|semestres?</token>
+                    <token min="0" regexp='yes'>\.|°</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern> <!-- Enumeração principal da frase -->
+                <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
+                <token regexp="yes">\d+\.\d+</token>
+                <token spacebefore="no" regexp="yes">[.:)]</token>
+                <example>Retirada dos tickets; 2.3. Automações;</example>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">(?:[01]?[0-9]|2[0-4])\.\d{2}</token>
+                    <token regexp="yes">h|horas|am|pm</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" skip="2">(?:[01]?[0-9]|2[0-4])\.\d{2}</token>
+                    <token regexp="yes">&partes_do_dia;</token>
+                </marker>
+            </antipattern>
+            <antipattern> <!-- tabelas, figuras, etc.  -->
+                <marker>
+                    <token inflected="yes" regexp="yes">&legendas;|GNOME</token>
+                    <token min="0" regexp="yes" inflected="yes">ac?tual|anterior|antiga|nova</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">&legendas;|(?:GNOME|kernel|motor)s?</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token regexp="yes">e|ou|,|&hifen;|–</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token regexp="yes">e|ou|,</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <!--<antipattern>   Livros da Bíblia
+            <marker>
+            <token postag="_abrev_biblia"/>
+            <token min="0" skip="4" regexp="yes">[\d.,-]+
+            <exception regexp="yes">\d+\.\d+</exception></token>
+            <token regexp="yes">\d+\.\d+</token>
+            </marker>
+            </antipattern>-->
+            <rule>
+                <!-- MARCOAGPINTO 2020-11-04 (21-OCT-2020+) *START* -->
+                <!-- "Ver subcapítulo 3.6." -->
+                <antipattern>
+                    <token regexp='yes' skip='-1'>ite[mn]s?|matrículas?|cláusulas?|capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
+                    <token postag='Z0CN0'/>
+                </antipattern>
+                <!-- MARCOAGPINTO 2020-11-04 (21-OCT-2020+) *END* -->
+                <!-- MARCOAGPINTO 2020-11-08 (21-OCT-2020+) *START* -->
+                <!-- "Na tabela do subcapítulo 5.6, constata-se os resultados previstos." -->
+                <antipattern>
+                    <token regexp='yes' skip='-1'>ite[mn]s?|matrículas?|cláusulas?|capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
+                    <token postag='Z0CN0'/>
+                </antipattern>
+                <!-- MARCOAGPINTO 2020-11-08 (21-OCT-2020+) *END* -->
+                <!-- MARCOAGPINTO 2021-07-09 (25-JUN-2021+) *START* -->
+                <!--
+                2.5.1.1. Equações
+                A implementação 1.8.7 padrão é escrita em C, como uma linguagem de programação de único passe.
+                A última versão foi a 1.7.13 e o seu sucessor é o SeaMonkey.
+                -->
+                <!--BUGGY on server mode
+                <antipattern>
+                  <token postag='Z0CN0'/>
+                  <token spacebefore="no" regexp='yes'>[.]</token>
+                  <token spacebefore="no" postag='Z0CN0'/>
+                </antipattern>
+                -->
+                <antipattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token postag='Z0CN0'/>
+                    <token spacebefore="no" postag="_PUNCT">.</token>
+                    <token spacebefore="no" postag='Z0CN0'/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag='Z0CN0'/>
+                    <token spacebefore="no" postag="_PUNCT">.</token>
+                    <token spacebefore="no" postag='Z0CN0'/>
+                </antipattern>
+                <!-- MARCOAGPINTO 2021-07-09 (25-JUN-2021+) *END* -->
+                <pattern>
+                    <token regexp="yes">\d+\.\d+
+                        <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
+                </pattern>
+                <message>Em português, utilizamos a vírgula para indicar números decimais.</message>
+                <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
+                <example correction="9,5"># <marker>9.5</marker></example> <!-- XXX # - if a number is at sentence start, it can be part of an enumeration -->
+                <example correction="9,5">És de <marker>9.5</marker>.</example>
+                <example correction="9349,5"><marker>9349.5</marker></example>
+                <example correction="349,56">1 999 <marker>349.56</marker></example>
+                <example correction="896,96">O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
+                <example>1.231</example>
+                <example>1.231.437</example>
+                <example>As tabelas 5.7 e 5.8.</example>
+                <!--<example>Is 3,1-5.9 é Isaias, capítulo 3, do versículo 1 a 5 e versículo 9.</example>-->
+                <example>1.0. Introdução.</example>
+                <example>Às 5.40 da madrugada.</example>
+                <example>E subiram às 17.40 h.</example>
+                <example>E subiram às 17.40h.</example>
+                <example>Os art. 5.4 e 5.6.</example>
+                <example>A versão 2.4.x é a mais recente.</example>
+                <example>A versão 2.4 é a mais recente.</example>
+                <example>O Apache 2.4 é assim.</example>
+                <example>Na web 2.0 é assim.</example>
+                <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
+                <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
+                <example>Esse número diminuiu para 300.000 em 1939.</example>
+                <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena…</example>
+                <example>GNOME 3.16 – 3.20 Committer</example>
+                <example><marker>111.231</marker></example><!-- XXX Corrigido pela segunda regra -->
+                <example>Ver subcapítulo <marker>3.6</marker>.</example>
+
+                <example>2.5.1.1. Equações</example>
+                <example>A implementação 1.8.7 padrão é escrita em C, como uma linguagem de programação de único passe.</example>
+                <example>A última versão foi a 1.7.13 e o seu sucessor é o SeaMonkey.</example>
+            </rule>
+            <!--<rule>
+            <pattern>
+              <token regexp="yes">\d{2,3}\.\d{3}</token>
+            </pattern>
+            <message>Para separar os decimais, utilize uma vírgula. Se é um número inteiro deve ser separado.</message>
+            <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
+            <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
+            <example correction="11,231|11 231"><marker>11.231</marker></example>
+            <example correction="111,231|111 231"><marker>111.231</marker></example>
+            <example><marker>9.5</marker></example>
+            <example>És de <marker>9.5</marker>.</example>
+            <example><marker>9349.5</marker></example>
+            <example>1 999 <marker>349.56</marker></example>
+            <example>O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token regexp="yes">\d\.\d{3}</token>
+              </pattern>
+              <message>Para separar os decimais, utilize uma vírgula. Se é um ano não deve ser separado.</message>
+              <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
+              <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
+              <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1$2'/></suggestion>
+              <example correction="1,231|1 231|1231"><marker>1.231</marker></example>
+              <example><marker>19.349</marker></example>
+            </rule>-->
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,3},\d{3}\.\d+</token>
+                </pattern>
+                <message>Para separar os decimais, utilize uma vírgula.</message>
+                <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1&#160;$2,$3'/></suggestion>
+                <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1.$2,$3'/></suggestion>
+                <example correction="21&#160;349,56|21.349,56"><marker>21,349.56</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,3},\d{3},\d{3}\.\d+</token>
+                </pattern>
+                <message>Para separar os decimais, utilize uma vírgula.</message>
+                <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1&#160;$2&#160;$3,$4'/></suggestion>
+                <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1.$2.$3,$4'/></suggestion>
+                <example correction="21&#160;999&#160;349,56|21.999.349,56"><marker>21,999,349.56</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="THOUSANDS_SEPARATOR" name="separador de milhares">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,3}\,000</token>
+                </pattern>
+                <message>Para separar os milhares, use um ponto ou um espaço. Está correto se forem decimais.</message>
+                <suggestion><match no='1' regexp_match='(\d{1,2}),(\d{3})' regexp_replace='$1.$2'/></suggestion>
+                <suggestion><match no='1' regexp_match='(\d{1,2}),(\d{3})' regexp_replace='$1&#160;$2'/></suggestion>
+                <example correction="5.000|5&#160;000">Mais de <marker>5,000</marker> verificações</example>
+                <example>Milhares: 5.344</example>
+                <example>Decimais: 5,344</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,3},\d{3},\d{3}</token>
+                </pattern>
+                <message>Para separar os milhares, use um ponto ou um espaço.</message>
+                <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{3}),(\d{3})' regexp_replace='$1.$2.$3'/></suggestion>
+                <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{3}),(\d{3})' regexp_replace='$1&#160;$2&#160;$3'/></suggestion>
+                <example correction="5.500.300|5&#160;500&#160;300">Mais de <marker>5,500,300</marker> caracteres</example>
+            </rule>
+        </rulegroup>
+
+        <rule id="NO_SPACE_CLOSING_QUOTE" name="Espaçamento: Aspas de fecho">
+            <!-- Localized from English by Tiago F. Santos, Portuguese rule, 2019-02-10 -->
+            <antipattern>
+                <token regexp="yes">[:=]</token>
+                <token>”</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" />
+                <token min="0" regexp="yes">[\-\*]</token>
+                <token>”</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" spacebefore="yes">”</token>
+                <token spacebefore='no' skip="-1" />
+                <token spacebefore="no">”</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token spacebefore="no">”</token>
+            </antipattern>
+            <pattern>
+                <token>”</token>
+                <token regexp='yes' spacebefore='no'>\w+</token>
+            </pattern>
+            <message>Deve espaçar depois de fechar aspas.</message>
+            <suggestion>\1 \2</suggestion>
+            <example correction="” disse">“Bom dia, Frank,<marker>”disse</marker> o Hal.</example>
+        </rule>
+
+        <rule id="SPACE_AFTER_ARCAIC_CONTRACTION" name="Espaçamento: Contrações arcaicas">
+            <!-- Localized from English by Tiago F. Santos, Portuguese rule, 2019-08-26 -->
+            <antipattern>
+                <token regexp='yes'>[nd]</token>
+                <token spacebefore='no' regexp='yes'>['’]</token>
+                <token spacebefore='no' postag_regexp='yes' postag='D.+'/>
+            </antipattern>
+            <pattern>
+                <token regexp='yes'>[nd]</token>
+                <token regexp='yes'>['’]</token>
+                <token postag_regexp='yes' postag='D.+'/>
+            </pattern>
+            <message>Deve espaçar depois de fechar aspas.</message>
+            <suggestion>\1\2\3</suggestion>
+            <example correction="n'A">“Este fim de semana vou comer <marker>n' A</marker> Casa del Rei.</example>
+        </rule>
+
+        <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espaçamento: Unidades de medida" tags='picky'>
+            <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
+            <rule>
+                <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
+                <message>Deve dar um espaço entre o valor e a unidade de medida: <suggestion><match no='1' regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
+                <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
+                <example correction="25 °C">Fazem <marker>25°C</marker>.</example>
+                <example correction="-25 °C">Fazem <marker>-25°C</marker>.</example>
+                <example correction="25,5 °F">Fazem <marker>25,5°F</marker>.</example>
+                <example>Fazem <marker>25,5 °C</marker>.</example>
+                <example>Fazem <marker>25,5 °Ra</marker>.</example>
+                <example>São <marker>5 km</marker> gelaufen.</example>
+                <example correction="5 km">São <marker>5km</marker> de distância.</example>
+                <example>São <marker>5 ZiB</marker> de dados.</example>
+                <example correction="5 ZiB">São <marker>5ZiB</marker> de dados.</example>
+                <example>São <marker>5 kB</marker> de dados.</example>
+                <example correction="5 kB">São <marker>5kB</marker> de dados.</example>
+                <example correction="5 kg">Pesa <marker>5kg</marker>.</example>
+                <example correction="5 Mt">Pesa <marker>5Mt</marker>.</example>
+                <example>Pesa <marker>5 µg</marker>.</example>
+                <example>Isótopo 241Am</example>
+                <example>(AsCH3)2n</example>
+                <example>Bd. 1b</example>
+                <example>Primeiro lançamento de Saturno 1B</example>
+                <example correction="2.000 kWh">Foram consumidos <marker>2.000kWh</marker></example>
+                <example>Os juros são de <marker>5 %</marker>.</example>
+                <example>jbo:1901moi</example>
+            </rule>
+            <rule>
+                <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (°[^CFK])</regexp>
+                <message>Não existe espaçamento a preceder o símbolo de grau. Utilize <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
+                <example correction="25°|25 °C">O ângulo é <marker>25 ° </marker></example>
+                <example correction="-25,5°|-25,5 °C">Fazem <marker>-25,5 ° </marker>de temperatura.</example>
+                <example correction="-25°|-25 °C">Fazem <marker>-25 ° </marker>de temperatura.</example>
+                <example correction="25°|25 °C">O ângulo é <marker>25 ° </marker>de abertura.</example>
+                <example correction="-25°|-25 °C">Fazem <marker>-25 ° </marker>de temperatura.</example>
+            </rule>
+            <rule>
+                <regexp>((\-)?[0-9]+[0-9.,]*{1,10}) (″)</regexp>
+                <message>O sinal de segundos (\2) não é espaçado.</message>
+                <suggestion>\1\2\3</suggestion>
+                <example>3°14′ 45,54″</example>
+                <example correction="45″"><marker>45 ″</marker> E</example>
+                <example correction="45,54″"><marker>45,54 ″</marker> E</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id='SI_UNITS_EXPONENT' name="Unidades: Sistema Internacional: km2/km²">
+            <!-- Created by Tiago F. Santos, 2017-05-12 -->
+            <url>https://pt.wikipedia.org/wiki/Exponencia%C3%A7%C3%A3o</url>
+            <short>Erro tipográfico</short>
+
+            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *START* -->
+            <!--
+            THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
+            As forças estão organizadas numa hierarquia C2.
+            -->
+            <antipattern>
+                <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
+                <token min="0" max="1">de</token>
+                <token case_sensitive='yes'>C2</token>
+            </antipattern>
+            <!-- 2022-10-02 -->
+            <!--
+            O grupo detém pouca análise de alvos, C2 ou capacidade de aprendizagem.
+            -->
+            <antipattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+                <token case_sensitive='yes'>C2</token>
+                <token postag='CC' postag_regexp='no'/>
+            </antipattern>
+            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *END* -->
+
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag_regexp='yes' postag='Z.+' skip='3'/>
+                    <marker>
+                        <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?⁻?2
+                            <exception regexp='yes'>(?:TV|GT)2</exception></token>
+                    </marker>
+                </pattern>
+                <message>Os expoentes devem estar em sobrescrito.</message>
+                <suggestion><match no='2' regexp_match='(.+?)((\^)?)(⁻?)2' regexp_replace='$1$4²'/></suggestion>
+                <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>km2</marker>, sendo a vigésima quarta maior do Brasil e a quin…</example>
+                <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>km^2</marker>, sendo a vigésima quarta maior do Brasil e a quin…</example>
+                <example correction="s⁻²">g = 9,8 m.<marker>s⁻2</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag_regexp='yes' postag='Z.+' skip='3'/>
+                    <marker>
+                        <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?⁻?3
+                            <exception regexp='yes'>(?:TV|GT)3|PS[12345]</exception></token>
+                    </marker>
+                </pattern>
+                <message>Os expoentes devem estar em sobrescrito.</message>
+                <suggestion><match no='2' regexp_match='(.+?)((\^)?)(⁻?)3' regexp_replace='$1$4³'/></suggestion>
+                <example correction="m³">A banheira tinha 2 <marker>m3</marker>.</example>
+                <example correction="m³">A banheira tinha 2 <marker>m^3</marker>.</example>
+                <example correction="s⁻³">g.t = 9,8 m.<marker>s⁻3</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>/</token>
+                    <marker>
+                        <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?2</token>
+                    </marker>
+                </pattern>
+                <message>Os expoentes devem estar em sobrescrito.</message>
+                <suggestion><match no='2' regexp_match='(.+?)((\^)?)2' regexp_replace='$1²'/></suggestion>
+                <example correction="s²">g = 9,8 m/<marker>s2</marker></example>
+                <example correction="s²">g = 9,8 m/<marker>s^2</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>/</token>
+                    <marker>
+                        <token regexp="yes">(?:[khdcmnµfYZEPTGM]|da)?[gmlsJNWCVSFTH](\^)?3</token>
+                    </marker>
+                </pattern>
+                <message>Os expoentes devem estar em sobrescrito.</message>
+                <suggestion><match no='2' regexp_match='(.+?)((\^)?)3' regexp_replace='$1³'/></suggestion>
+                <example correction="cm³">ρ[H₂O]≈1,0 g/<marker>cm3</marker>.</example>
+                <example correction="cm³">ρ[H₂O]≈1,0 g/<marker>cm^3</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="kWh" name="Unidades: kW/h → kWh">
+            <!-- Localized from French grammar.xml by Tiago F. Santos, 2017-06-28 -->
+            <url>https://pt.wikipedia.org/wiki/Watt-hora</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[KMGT]?W|(kilo|mega|giga|tera)?watt</token>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no" regexp="yes">h|hora</token>
+                </pattern>
+                <message>Se se refere à unidade de consumo de energia, deve escrever <suggestion>\1\3</suggestion>.</message>
+                <example correction="kWh">O aparelho consome 5 <marker>kW/h</marker>.</example>
+                <example>O aparelho consome 5 kW.h.</example>
+                <example>O aparelho consome 5 kWh.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(?-i)KW</token>
+                    <token spacebefore="no" regexp='yes'>[·.]</token>
+                    <token spacebefore="no">h</token>
+                </pattern>
+                <message>O prefixo "kilo" deve ser escrito em minúsculas.</message>
+                <suggestion><match no='1' case_conversion="startlower"/>h</suggestion>
+                <suggestion><match no='1' case_conversion="startlower"/>.h</suggestion>
+                <example correction="kWh|kW.h">O aparelho consome 5 <marker>KW.h</marker>.</example>
+                <example>O aparelho consome 5 kWh.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>KWh</token>
+                </pattern>
+                <message>O prefixo "kilo" deve ser escrito em minúsculas.</message>
+                <suggestion><match no='1' case_conversion="startlower"/></suggestion>
+                <example correction="kWh">O aparelho consome 5 <marker>KWh</marker>.</example>
+                <example>O aparelho consome 5 kW·h.</example>
+                <example>O aparelho consome 5 kWh.</example>
+            </rule>
+        </rulegroup>
+
+
+        <rule id="SPACES_BETWEEN_OPERATORS" name="Matemático: Espaço entre operadores">
+            <!-- Created by Tiago F. Santos (2017-07-09) and improved by Marco A.G.Pinto, Portuguese rule 2022-08-08 (Checked/Enhanced) (25-JUL-2022+) -->
+            <!--
+            I replaced Tiago's line:
+            <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+            with the entity of mathematical operators.
+            -->
+
+            <antipattern>    <!-- time exception: -->
+                <token regexp="yes">(?:[01]?[0-9]|2[0-4])[0-9]?</token>
+                <token>:</token>
+                <token regexp="yes">[0-5][0-9]</token>
+            </antipattern>
+
+            <!-- MARCOAGPINTO 2022-08-08 (25-JUL-2022+) *START* -->
+            <antipattern>
+                <token postag='NC.+|AQ.+|_PUNCT' postag_regexp='yes'/>
+                <token postag='_PUNCT|SPS00|CC|V.+' postag_regexp='yes'/>
+                <token regexp="yes">(?:[0-9]+[a-z]*)</token>
+                <token spacebefore="no" regexp="yes">&operadores_matematicos;
+                    <exception regexp='yes'>[-/]</exception>
+                </token>
+                <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+</token>
+                <token min="0" postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='_PUNCT|SENT_END' postag_regexp='yes'>
+                    <exception scope="next" postag_regexp='yes' postag='V.+'/>
+                </token>
+                <example>Resolução de ecrã: 1920×1080;</example>
+                <example>Num campo de 100×100 metros, a imagem tem 1920×1920 píxeis.</example>
+                <example>Ok, Nadal conseguiu um maior predomínio no saibro (10×1) do que Federer conseguiu na grama (8×2).</example>
+                <example>- Para o gorro, separe um pedaço de feltro vermelho de 19×15 centímetros.</example>
+                <example>Itamaraju derrotou a seleção de Itapetinga pelo placar de 4×1, nos pênaltis .</example>
+            </antipattern>
+            <!-- MARCOAGPINTO 2022-08-08 (25-JUL-2022+) *END* -->
+
+            <!-- MARCOAGPINTO 2022-08-28 (25-JUL-2022+) *START* -->
+            <antipattern>
+                <token postag='V.+|CC|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
+                    <exception scope="previous" postag_regexp='no' postag='_PUNCT'/>
+                </token>
+                <token min="0" postag='NC.+|AQ.+|SPS00' postag_regexp='yes'/>
+                <token regexp="yes">(?:[0-9]+[a-z]*)</token>
+                <token spacebefore="no" regexp="no">×</token>
+                <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+</token>
+                <token min="0" postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='CC|_PUNCT|SENT_END' postag_regexp='yes'/>
+                <example>Se cada ecrã for preto e este tiver 320×240 píxeis, é uma moldura com 1000×1000 milímetros.</example>
+                <example>O número de píxeis na app corresponde a 800×600.</example>
+                <example>A área operacional de um jogo são blocos 8×8.</example>
+                <example>O tamanho máximo do ecrã é 1920×1080 píxeis e o mínimo 640×480.</example>
+                <example>As dimensões do PNG são obrigatoriamente entre 500×500 e 2500×2500 píxeis.</example>
+                <example>Palpite 2×1 Brasil.</example>
+                <example>É importante a torcida lembrar que domingo, até os 39 do segundo tempo o time perdia por 3×1.</example>
+                <example>... final, mas com alguns erros nas viradas acabamos classificando com o oitavo tempo para a final dos 4×100 livre.</example>
+            </antipattern>
+            <!-- MARCOAGPINTO 2022-08-28 (25-JUL-2022+) *END* -->
+
+            <!-- MARCOAGPINTO 2022-10-02 + 2023-02-12 (25-JUL-2022+) *START* -->
+            <antipattern>
+                <token regexp="yes">(?:[0-9]+[a-z]*)</token>
+                <token spacebefore="no" regexp="no">×</token>
+                <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+</token>
+                <token postag='NC.+|AQ.+|V.+|_PUNCT|SPS00' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|V.+|_PUNCT|SPS00|CS' postag_regexp='yes'/>
+                <example>Ter em conta que cada agente ocupa 8×8 píxeis, logo tudo é relativo.</example>
+                <example>E o 8×8 deve ter mais píxeis para garantir isso.</example>
+                <example>Se numa zona de 8×8 píxeis existir mais píxeis, tudo fica complicado.</example>
+                <example>As dimensões da imagem são 16×16 píxeis por sprite.</example>
+                <example>No sábado, o time venceu o Atlético-GO por 2×0, com dois gols de Kieza.</example>
+                <example>Jogo as 11 da manhã, 2×0 pro Palmeiras, 30 minutos do segundo tempo.</example>
+                <example>3×2 México.</example>
+                <example>No jogo, versão 1.3 de 100×100 píxeis que faz a diferença.</example>
+            </antipattern>
+            <!-- MARCOAGPINTO 2022-10-02 + 2023-02-12 (25-JUL-2022+) *END* -->
+
+            <pattern>
+                <marker>
+                    <token regexp="yes">(?:[0-9]+[a-z]*)
+                        <exception scope="previous" regexp="yes">escalas?</exception>
+                        <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
+                    </token>
+                    <token spacebefore="no" regexp="yes">&operadores_matematicos;
+                        <exception regexp='yes'>[-/]</exception>
+                    </token>
+                    <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+
+                        <exception regexp="yes">\d\dh</exception></token>
+                </marker>
+                <token negate="yes">h</token>
+            </pattern>
+            <message>Separe as fórmulas com espaços (protegidos).</message>
+            <suggestion>\1 \2 \3</suggestion>
+            <example correction="5 * 5"><marker>5*5</marker>.</example>
+            <example correction="3a = 2"><marker>3a=2</marker>.</example>
+            <example>Um mapa na escala 1:80000.</example>
+            <example>Tenho uma reunião às 7:00 h.</example>
+            <example>Tenho uma reunião às 7:00h.</example>
+            <example>Enviado a 2014-01-23 10:32 :</example>
+            <example>a = 2 · x² + 5</example>
+            <example>4,5 × 2,5</example>
+            <example>Entre as 9:00 e as 16:45.</example>
+        </rule>
+
+
+        <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × " tags="picky">
+            <!-- Created by Tiago F. Santos, 2017-03-27 -->
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>x|\*</token>
+                    <token regexp='yes'>[,;e]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>[,;o]</token>
+                    <token regexp='yes'>x|\*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes' skip='2'>vers(?:ão|ões)|séries?|v</token>
+                    <token regexp='yes'>\d+</token>
+                    <token spacebefore='no'>.</token>
+                    <token spacebefore='no'>x</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>\p{Lu}</token>
+                    <token spacebefore='no'>.</token>
+                    <token regexp='yes' spacebefore='yes'>\p{Lu}</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
+                    <marker>
+                        <token regexp='yes'>[x\*]</token>
+                    </marker>
+                    <token regexp="yes">[a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1}</token>
+                </pattern>
+                <message>Prefira o símbolo de multiplicação.</message>
+                <suggestion>×</suggestion>
+                <suggestion>·</suggestion>
+                <example correction="×|·">h = 6,626 <marker>x</marker> 10⁻³⁴ J.s</example>
+                <example correction="×|·">h = 6.626 <marker>x</marker> 10⁻³⁴ J.s</example>
+                <example correction="×|·">5 <marker>*</marker> 2 = 10</example>
+                <example correction="×|·">a = 5 <marker>*</marker> x + 7</example>
+                <example correction="×|·">a = 5x <marker>*</marker> 5 + 7</example>
+                <example correction="×|·">a <marker>*</marker> b</example>
+                <example>a = 2 · x² + 5</example>
+                <example>4,5 × 2,5 = 11,25</example>
+                <example>Consideremos <marker>que x é</marker> a coordenada horizontal, e y é a coordenada vertical.</example>
+                <example>Rodrigues Fernandes, X. L.</example>
+                <example>UHCI: a versão USB 1.x</example>
+            </rule>
+            <rule>
+                <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
+                <message>Prefira o símbolo de multiplicação.</message>
+                <suggestion>\4×\5</suggestion>
+                <suggestion>\4·\5</suggestion>
+                <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
+                <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
+                <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
+                <example>a=2·x²+5</example>
+                <example>4,5×2,5=11,25</example>
+                <example>Oxihalídeos do Amerício na forma de AmVIO2X2, AmVO2X, AmIVOX2 e AmIIIOX…</example>
+                <example>Número 1Z1141X30370035113</example>
+                <example>- 1 X, 2 X, 4 X</example>
+            </rule>
+            <rule>
+                <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
+                <message>Prefira o símbolo de multiplicação.</message>
+                <suggestion>\1×\2</suggestion>
+                <suggestion>\1·\2</suggestion>
+                <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
+                <example correction="5x×5|5x·5">a=<marker>5x*5</marker>+7</example>
+                <example correction="5x×5|5x·5">a=7+<marker>5x*5</marker></example>
+                <example correction="a×b|a·b"><marker>a*b</marker></example>
+                <example>a=2·x²+5</example>
+                <example>4,5×2,5=11,25</example>
+                <example>Number 1Z1141X30370035113</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id='PLUS_MINUS' name="Matemático: +- - ± ">
+            <!-- Created by Tiago F. Santos, 2017-03-28 -->
+            <rule>
+                <pattern>
+                    <token>+</token>
+                    <token regexp='yes' spacebefore='no'>&hifen;</token>
+                </pattern>
+                <message>Prefira o símbolo tipográfico.</message>
+                <suggestion>±</suggestion>
+                <example correction='±'>m = 75,5 <marker>+-</marker> 0,1 g</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>&hifen;</token>
+                    <token spacebefore='no'>+</token>
+                </pattern>
+                <message>Prefira o símbolo tipográfico.</message>
+                <suggestion>±</suggestion>
+                <example correction='±'>m = 75,5 <marker>-+</marker> 0,1 g</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="EQUAL_OR_X" name="Matemático: &gt;= (≥)">
+            <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+            <rule>
+                <regexp>&gt;=</regexp>
+                <message>Prefira o símbolo tipográfico.</message>
+                <suggestion>≥</suggestion>
+                <suggestion>≧</suggestion>
+                <example>1 = 1</example>
+                <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>&lt;</token>
+                        <token spacebefore="no">=</token>
+                    </marker>
+                    <token negate="yes">&gt;</token>
+                </pattern>
+                <message>Prefira o símbolo tipográfico.</message>
+                <suggestion>≤</suggestion>
+                <suggestion>≦</suggestion>
+                <example>1 ≤ 3</example>
+                <example correction="≤|≦">1 <marker>&lt;=</marker> 3</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ARROWS" name="Setas: -&gt; (→)">
+            <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+            <rule>
+                <pattern>
+                    <token negate="yes">&lt;</token>
+                    <marker>
+                        <token regexp="yes">(?:\-|=){1,2}</token>
+                        <token>&gt;</token>
+                    </marker>
+                </pattern>
+                <message>Pretende utilizar uma seta?</message>
+                <suggestion>≥</suggestion>
+                <suggestion>→</suggestion>
+                <suggestion>⇾</suggestion>
+                <suggestion>⇉</suggestion>
+                <suggestion>⇒</suggestion>
+                <suggestion>⇨</suggestion>
+                <suggestion>⇛</suggestion>
+                <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Ponto 1</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>&lt;</token>
+                        <token spacebefore="no" regexp="yes">(?:\-|=){1,2}</token>
+                    </marker>
+                    <token negate="yes">&gt;</token>
+                </pattern>
+                <message>Pretende utilizar uma seta?</message>
+                <suggestion>≤</suggestion>
+                <suggestion>←</suggestion>
+                <suggestion>⇽</suggestion>
+                <suggestion>⇇</suggestion>
+                <suggestion>⇐</suggestion>
+                <suggestion>⇦</suggestion>
+                <suggestion>⇚</suggestion>
+                <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+                <example>A ← B</example>
+                <example>-128 &lt; -127 &lt; -126</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>&lt;</token>
+                    <token regexp="yes">\-|=</token>
+                    <token>&gt;</token>
+                </pattern>
+                <message>Pretende utilizar uma seta?</message>
+                <suggestion>↔</suggestion>
+                <suggestion>⇿</suggestion>
+                <suggestion>⇄</suggestion>
+                <suggestion>⇆</suggestion>
+                <suggestion>⇋</suggestion>
+                <suggestion>⇌</suggestion>
+                <suggestion>⇔</suggestion>
+                <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+                <example>A ⇔ B</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id='YEAR_NUMBER_FORMAT' name="Formatação de números: anos">
+            <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip='1'>anos?</token>
+                    <marker>
+                        <token regexp="yes">\d\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Nos anos os números não devem ser separados.</message>
+                <suggestion><match no='2' regexp_match='(\d)(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+                <example correction="1989">É o ano de <marker>1.989</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&meses_ano;</token>
+                    <token skip="1">de</token>
+                    <marker>
+                        <token regexp="yes">\d{1,2}\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Nos anos os números não devem ser separados.</message>
+                <suggestion><match no='3' regexp_match='(\d{1,2})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+                <example correction="1989">É dezembro de <marker>1.989</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}\.\d{3}</token>
+                    </marker>
+                    <token regexp="yes">aC|dC</token>
+                </pattern>
+                <message>Nos anos os números não devem ser separados.</message>
+                <suggestion><match no='1' regexp_match='(\d{1,3})(.)(\d{3})' regexp_replace='$1$3'/></suggestion>
+                <example correction="1989">Estamos a <marker>1.989</marker> aC.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id='AVOID_DECIMAL_APOSTROPHE' name="Matemático: Evitar apóstrofe em decimais">
+            <!--  Based on Catalan version, by Tiago F. Santos, 2017-02-27      -->
+            <antipattern>
+                <token regexp="yes">\d{1,2}(?:\,\d+)?</token>
+                <token spacebefore="no" regexp="yes">['`’‘]</token>
+                <token spacebefore="no" regexp="yes">\d+(?:%|&unidades_de_medida;)?</token>
+                <token spacebefore="no" regexp="yes">[”&quot;]</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">\d+|\d{1,3}(?:[\. &#8239;&#160;]\d\d\d)+
+                    <exception regexp="yes">\d{1,2}\,\d+</exception>
+                    <exception scope="previous" regexp="yes">.*[º°h]</exception></token>
+                <token spacebefore="no" regexp="yes">['`’‘]</token>
+                <token spacebefore="no" regexp="yes">\d+(?:%|&unidades_de_medida;)?</token>
+            </pattern>
+            <message>Utilize antes uma vírgula para separar os decimais.</message>
+            <suggestion>\1,\3</suggestion>
+            <example correction="9,5"><marker>9'5</marker></example>
+            <example correction="9,5%"><marker>9'5%</marker></example>
+            <example correction="9.349,5"><marker>9.349'5</marker></example>
+            <example correction="1.999.349,5"><marker>1.999.349'5</marker></example>
+            <example correction="349,5">1 999 <marker>349'5</marker></example>
+            <example>1,23'2</example>
+            <example>41° 22'44.</example>
+            <example>41º 12’12” N.</example>
+            <example>41°22'44".</example>
+            <example>41º12’12” N.</example>
+            <example>22'44".</example>
+            <example>12’12” N.</example>
+        </rule>
+
+        <rule id='PERCENT_WITHOUT_SPACE' name="Matemático: Remover espaço em percentagens (3%)" default="on">
+            <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+            <pattern>
+                <token regexp="yes">[\d.,]+
+                    <exception regexp="yes">[.,]</exception></token>
+                <token spacebefore="yes" regexp="yes">[%‰‱]</token>
+            </pattern>
+            <message>Escreva a percentagem sem espaços (estilo padrão).</message>
+            <suggestion>\1\2</suggestion>
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/centigrados--percentagem/18011</url>
+            <example correction="23,5%">A taxa é de <marker>23,5 %</marker>.</example>
+            <example correction="23,5‰">Paga <marker>23,5 ‰</marker>.</example>
+            <example>Neste caso a % é de 1 a 2.</example>
+            <example>Paga 25%.</example>
+        </rule>
+
+        <rule id='PERCENT_WITH_SPACE' name="Matemático: Acrescentar espaço em percentagens (3 %)" default="off">
+            <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+            <pattern>
+                <token regexp="yes">[\d.,]+[%‰‱]</token>
+            </pattern>
+            <message>Escolheu a opção de inserção de espaço.</message>
+            <suggestion><match no='1' regexp_match="(.+)([%‰‱])" regexp_replace="$1 $2"/></suggestion>
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/centigrados--percentagem/18011</url>
+            <example correction="23,5 %">A taxa é de <marker>23,5%</marker>.</example>
+            <example correction="23,5 ‰">Paga <marker>23,5‰</marker>.</example>
+            <example>Paga 25 %.</example>
+        </rule>
+
+
+        <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão' tags="picky">
+            <!-- Created by Tiago F. Santos, 2017-01-23 -->
+            <url>https://pt.wikipedia.org/wiki/Travessão</url>
+            <antipattern>
+                <token regexp='yes'>&hifen;</token>
+                <token regexp='yes'>&hifen;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' min='0' skip='-1'>°|º</token>
+                <token regexp="yes">\d</token>
+                <token regexp="yes">–|&hifen;</token>
+                <!--<example>TC n°.1390218-0.</example>-->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{5}</token>
+                <token regexp="yes">–|&hifen;</token>
+                <token regexp="yes">\d{1}</token>
+                <example>Conta-corrente 99999-9.</example>
+            </antipattern>
+            <antipattern><!-- markdown -->
+                <token postag="SENT_START" />
+                <token>-</token>
+                <token>[</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">-</token>
+                <token postag="SENT_END">-</token>
+                <example>- Milestone -</example>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag='SENT_START'/>
+                    <token min='0' regexp='yes'>["'«»“”]</token>
+                    <marker>
+                        <token regexp='yes'>-|–</token>
+                    </marker>
+                </pattern>
+                <message>Em diálogos e enumerações deve utilizar o travessão.</message>
+                <suggestion>—</suggestion>
+                <short>Utilize o travessão</short>
+                <example correction='—'><marker>-</marker> O que é isso, mãe?</example>
+                <example correction='—'>« <marker>-</marker> O que é isso, mãe?</example>
+                <example>— É o seu presente de aniversário, minha filha.</example>
+                <example>1139–1385 — Formação do Reino de Portugal</example>
+                <example>2560-657 TORRES VEDRAS</example>
+                <example>---------------------------------------</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>-</token>
+                    <token regexp='yes'>-</token>
+                    <token regexp='yes'>-</token>
+                    <token regexp='yes'>,</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp='yes' spacebefore='yes'>-|–</token>
+                    </marker>
+                    <token spacebefore="no">,</token>
+                </pattern>
+                <message>Termine a frase parentética com um travessão.</message>
+                <suggestion>—</suggestion>
+                <short>Utilize o travessão</short>
+                <example correction='—'>como disse <marker>-</marker>,…</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                    <token regexp='yes'>-|–</token>
+                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes" regexp='yes'>-|–</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Se não pretende unir duas palavras, deve utilizar o travessão.</message>
+                <suggestion>—</suggestion>
+                <short>Utilize o travessão</short>
+                <example correction='—'>Nesses estabelecimentos de ensino existiam matrículas <marker>-</marker> a maioria de ensino fundamental — e um total de docentes.</example>
+                <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
+                <example>Na porção centro-oeste e noroeste apresentam maiores elevações, podendo atingir 500 metros acima do nível do mar, destacando-se a Serra do Tumucumaque e a Serra Lombarda.</example>
+                <example>1139–1385 — Formação do Reino de Portugal</example>
+                <example>2560-657 TORRES VEDRAS</example>
+                <example>---------------------------------------</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token min='0'>)</token>
+                    <token regexp="yes">\d{5}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{4}</token>
+                    <example>O telefone é 99999-9999.</example>
+                </antipattern>
+                <antipattern>
+                    <token>Estrada</token>
+                    <token>Nacional</token>
+                    <token regexp="yes">\d{3}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern><!-- XXX Postal codes -->
+                    <token regexp="yes">\d{4}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{3}</token>
+                    <token>
+                        <exception case_sensitive='yes'>a</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d{5}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{3}</token>
+                    <example>O CEP é 22222-222.</example>
+                </antipattern>
+                <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
+                    <token regexp="yes">\d{2}|\d{4}</token>
+                    <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+                    <token regexp="yes" spacebefore='no'>\d{2}</token>
+                    <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+                    <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
+                </antipattern>
+                <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *START* -->
+                <!--
+                V2021-01-17.
+                ISBN 978-3-8321-7760-7.
+                -->
+                <antipattern>
+                    <token/>
+                    <token spacebefore='no'>-</token>
+                    <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                    <token spacebefore='no'>-</token>
+                    <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                </antipattern>
+                <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *END* -->
+
+                <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+                <antipattern>
+                    <token regexp='yes'>\d\d?</token>
+                    <token spacebefore='no'>-</token>
+                    <token spacebefore='no' regexp='yes'>&meses_ano_abrev;</token>
+                    <token spacebefore='no'>-</token>
+                    <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                    <example>Isto foi criado em 27-JAN-2021.</example>
+                    <example>GD Bertiandos - Vila Franca 03-MAI-2020 às 16h00.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>\d\d?</token>
+                    <token spacebefore='no'>-</token>
+                    <token spacebefore='no' regexp='yes'>&meses_ano_abrev;
+                        <exception scope="next" spacebefore="no">-</exception>
+                    </token>
+                    <example>A licença atual finda a 27-JUL.</example>
+                    <example>Festa de aniversário: 24-OUT</example>
+                </antipattern>
+                <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+                <pattern>
+                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                    <token regexp="yes">—|&hifen;</token>
+                    <token regexp='yes'>\d+%?|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                </pattern>
+                <message>Se pretende indicar uma gama temporal ou numérica, deve utilizar o meio-travessão.</message>
+                <suggestion>\1 – \3</suggestion>
+                <suggestion>\1–\3</suggestion>
+                <short>Em gamas numéricas/temporais, deve utilizar o meio-travessão</short>
+                <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
+                <example correction='10 – 20%|10–20%'><marker>10-20%</marker></example>
+                <example>1139–1385 — Formação do Reino de Portugal</example>
+                <example>2560-657 TORRES VEDRAS</example>
+                <example>---------------------------------------</example>
+                <example>10-10-10 — Data</example>
+                <example>10-10-2010 — Data</example>
+                <example>2010-10-10 — Data</example>
+            </rule>
+        </rulegroup>
+
+
+        <rulegroup id='DASH_SPACE_RULES' name="Travessão em enumerações" default="on" tags="picky">
+            <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
+            <url>https://pt.wikipedia.org/wiki/Travess%C3%A3o</url>
+            <antipattern>
+                <token regexp='yes'>&hifen;</token>
+                <token regexp='yes'>&hifen;</token>
+                <token regexp='yes'>&hifen;</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">\d+|\w</token>
+                        <token regexp="yes">[–‒—]|&hifen;</token>
+                        <token spacebefore="no">
+                            <exception regexp="yes">\d+</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Em enumerações, deve dar um espaço depois do travessão.</message>
+                <suggestion>\2 — \4</suggestion>
+                <short>Erro tipográfico</short>
+                <example correction="1 — Influência"><marker>1—Influência</marker> artística.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id='DASH_ENUMERATION_NO_SPACE_RULE' name="Travessão em diálogos: Sem espaço" default="off">
+            <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
+            <antipattern>
+                <token regexp='yes'>&hifen;</token>
+                <token regexp='yes'>&hifen;</token>
+                <token regexp='yes'>&hifen;</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">[–‒—]|&hifen;</token>
+                    <token spacebefore="yes"/>
+                </marker>
+            </pattern>
+            <message>Em diálogos, deve remover o espaço depois do travessão.</message>
+            <suggestion>—\3</suggestion>
+            <example correction="—Corre"><marker>— Corre</marker>! Vá!</example>
+            <example>1139–1385 — Formação do Reino de Portugal</example>
+            <example>—Saltar</example>
+            <example>—Correr</example>
+            <example>—Rastejar</example>
+            <example>---------------------------------------</example>
+        </rule>
+
+        <rule id='DASH_ENUMERATION_SPACE_RULE' name="Travessão em diálogos: Espaço depois" default="on">
+            <!-- Based on Catalan version by Tiago F. Santos, 2017-05-16 -->
+            <antipattern>
+                <token regexp='yes'>&hifen;</token>
+                <token regexp='yes'>&hifen;</token>
+                <token regexp='yes'>&hifen;</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">[–‒—]|&hifen;</token>
+                    <token spacebefore="no">
+                        <exception>,</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Em diálogos, deve dar espaço depois do travessão. Se for uma enumeração ou uma lista, considere utilizar um símbolo tipográfico.</message>
+            <suggestion>— \3</suggestion>
+            <suggestion>• \3</suggestion>
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-uso-do-hifen-e-do-travessao/31251</url>
+            <example correction="— Corre|• Corre"><marker>—Corre</marker>! Vá!</example>
+            <example>1139–1385 — Formação do Reino de Portugal</example>
+            <example>— Saltar</example>
+            <example>— Correr</example>
+            <example>— Rastejar</example>
+            <example>---------------------------------------</example>
+            <example>— Nada disso — afirmou abruptamente —, nada disso!</example>
+        </rule>
+
+        <rulegroup id='HIPHEN_SPACE_RULES' name="Espaçamento em hifens e travessões" default="on" tags="picky">
+            <!-- Created by Tiago F. Santos, 2017-XX-XX -->
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                    <token regexp='yes'>–|&hifen;</token>
+                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>\p{L}+</token>
+                    <token spacebefore="yes" regexp='yes'>&tracos_de_separacao;</token>
+                    <token spacebefore="no" regexp='yes'>\p{L}+</token>
+                </pattern>
+                <message>Se pretende unir duas palavras, não deve espaçar e deve utilizar o hífen. Caso contrário, utilize espaços e um travessão.</message>
+                <suggestion>\1-\3</suggestion>
+                <suggestion>\1 — \3</suggestion>
+                <short>Erro tipográfico</short>
+                <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás -os</marker>-Montes.</example>
+                <example>Ayer, A. J.— As Ideias de Bertrand Russel.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>&hifen;</token>
+                    <token regexp='yes'>&hifen;</token>
+                    <token regexp='yes'>&hifen;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                    <token regexp='yes'>–|&hifen;</token>
+                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START'/>
+                    <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
+                    <token spacebefore="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>&tracos_de_separacao;</token>
+                    <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
+                    <token spacebefore="yes"/>
+                    <example>Talvez possa pôr a culpa pelo apetite -- e pelos quilos a mais decorrentes dele</example>
+                </antipattern>
+                <pattern>
+                    <token/>
+                    <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Se pretende unir duas palavras, não deve espaçar e deve utilizar o hífen. Caso contrário, utilize espaços e um travessão.</message>
+                <suggestion>\1-\3</suggestion>
+                <suggestion>\1 — \3</suggestion>
+                <short>Erro tipográfico</short>
+                <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
+                <example>-------------</example>
+                <!--example>— Quantos é que vocês são?— Treze.— Treze?— Sim, sim.</example> XXX Can't test \n SENT_START -->
+            </rule>
+        </rulegroup>
+
+        <rule id='ENUMERATION_AND_DASHES' name="Enumerações com travessões: 1.2.-">
+            <!-- Localized and improved from Catalan by Tiago F. Santos, 2016-10-27 -->
+            <antipattern>
+                <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                <token regexp='yes'>–|&hifen;</token>
+                <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+            </antipattern>
+            <pattern>
+                <token postag='SENT_START'/>
+                <marker>
+                    <token regexp="yes">\d+(?:\.\d+)?</token>
+                    <token>.</token>
+                    <token regexp="yes" min="1" max="3">[—–‒-]</token>
+                </marker>
+            </pattern>
+            <message>Os travessões são desnecessários em enumerações.</message>
+            <suggestion>\2.</suggestion>
+            <example correction="1."><marker>1.-</marker> Introdução</example>
+            <example correction="1."><marker>1.--</marker> Introdução</example>
+            <example correction="1.3."><marker>1.3.—</marker> Introdução</example>
+            <example>1139–1385 — Formação do Reino de Portugal</example>
+            <example>50-30</example>
+            <example>…com uma pedra…—, acho que…</example>
+        </rule>
+
+        <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
+            <!-- Created b8y Tiago F. Santos, 2017-02-12 -->
+
+            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *START* -->
+            <!--
+            THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
+            As forças estão organizadas numa hierarquia C2.
+            -->
+            <antipattern>
+                <token regexp='yes'>BBB|CC|Y|C2C|B2C|U|V|W|PB|SiO|COP|FS|SnO</token>
+                <token regexp='yes'>\d+</token>
+                <example>Ela é uma das participantes do BBB5.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
+                <token min="0" max="1">de</token>
+                <token case_sensitive='yes'>C2</token>
+            </antipattern>
+            <!-- 2022-10-02 -->
+            <!--
+            O grupo detém pouca análise de alvos, C2 ou capacidade de aprendizagem.
+            -->
+            <antipattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+                <token case_sensitive='yes'>C2</token>
+                <token postag='CC' postag_regexp='no'/>
+            </antipattern>
+            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *END* -->
+
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)(?:&tabela_periodica;)+(?:[₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?</token>
+                </pattern>
+                <message>Os multiplicadores nas fórmulas químicas devem ser separados.</message>
+                <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉₀]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
+                <example correction='4 H₂O'><marker>4H₂O</marker></example>
+            </rule>
+            <!-- Created by Tiago F. Santos, 2017-01-18 -->
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
+                        <exception regexp='yes'>(?:I[CP]|U|PS|B|V|F|S|P|Th|W|I|KBS|KC|OW|SF|UN)2|PH2|B2[CB]|S2S|BBC2|5W2H|cm2|ICO2|P2P|PCV2|SB2U</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
+                <example correction='O₂'><marker>O2</marker></example>
+                <example correction='4H₂O'><marker>4H2O</marker></example>
+                <example>U2</example>
+                <example>B2</example>
+                <example>B2B</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?
+                        <exception regexp='yes'>(?:I[CP]|U|PS|B|V|F|S|P|SS)3|W3C|CSS3|3V3|IN3</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
+                <example correction='2S₃'><marker>2S3</marker></example>
+                <example>PS3</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+4((?:&tabela_periodica;)+)?
+                        <exception regexp='yes'>(?:I[CP]|U|PS|B|V|F|S|P|PB)4|IPV4</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
+                <example correction='CH₄'><marker>CH4</marker></example>
+                <example correction='H₄Si'><marker>H4Si</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₂$6'/></suggestion>
+                <example correction='H₂O₂'><marker>H2O2</marker></example>
+                <example correction='H₂NO₂Al'><marker>H2NO2Al</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?
+                        <exception regexp='yes'>(?:\d+)?NOV*</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
+                <example correction='K₂HPO₃'><marker>K2HPO3</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₂$6'/></suggestion>
+                <example correction='CH₃CH₂OH'><marker>CH3CH2OH</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₃$6'/></suggestion>
+                <example correction='CH₃CH₃'><marker>CH3CH3</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?4((?:&tabela_periodica;)+)?</token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)4(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₄$6'/></suggestion>
+                <example correction='H₂SO₄'><marker>H2SO4</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?5((?:&tabela_periodica;)+)?</token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)5(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₅$6'/></suggestion>
+                <example correction='C₂H₅OH'><marker>C2H5OH</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?6((?:&tabela_periodica;)+)?
+                        <exception>N26</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
+                <example correction='C₂H₆'><marker>C2H6</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+7((?:&tabela_periodica;)+)?
+                        <exception regexp='yes'>I[CP]7|CR7|F7|POS7|I7|AM7|BBB7</exception>
+                        <exception>V7</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)7(((&tabela_periodica;)+)?)' regexp_replace='$1₇$3'/></suggestion>
+                <example correction='C₇H₁₆'><marker>C7H₁₆</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+8((?:&tabela_periodica;)+)?
+                        <exception regexp='yes'>I[CP]8|PHP8|F8|W8|BBB8</exception>
+                        <exception>V8</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)8(((&tabela_periodica;)+)?)' regexp_replace='$1₈$3'/></suggestion>
+                <example correction='C₈H₁₈'><marker>C8H₁₈</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+9((?:&tabela_periodica;)+)?
+                        <exception regexp='yes'>I[CP]9|F9|PCSK9|BBB9</exception>
+                        <exception>V9</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)9(((&tabela_periodica;)+)?)' regexp_replace='$1₉$3'/></suggestion>
+                <example correction='C₉H₂₀'><marker>C9H₂₀</marker></example>
+                <example>Lola T70 Chevy V8</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+0((?:&tabela_periodica;)+)?
+                        <exception>V0</exception></token>
+                </pattern>
+                <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
+                <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)0(((&tabela_periodica;)+)?)' regexp_replace='$1₀$3'/></suggestion>
+                <example correction='C₉H₂₀'><marker>C₉H₂0</marker></example>
+            </rule>
+        </rulegroup>
+
+        <rule id='DEGREE_SYMBOL' name="Matemático: Símbolo de grau (°)">
+            <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
+            <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
+            <message>Se pretende utilizar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
+            <example correction="&#8239;°C">Faz 25<marker>º C</marker> à sombra.</example>
+            <example correction="&#8239;°C">Faz 25<marker>ºC</marker> à sombra.</example>
+            <example correction="&#8239;°C">Faz 25<marker> º C</marker> à sombra.</example>
+            <example correction="&#8239;°C">Faz 25<marker> ºC</marker> à sombra.</example>
+            <example>Faz 25°.</example>
+            <example>…o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E…</example>
+            <example>…que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a…</example>
+            <!-- <example>…tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude… XXX False negative </example>-->
+        </rule>
+
+        <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemático: Abreviaturas de unidades de medida">
+            <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token regexp="yes">(?:&unidades_de_medida;)s<exception regexp='yes'>pcs|vs|tons</exception></token>
+                </marker>
+            </pattern>
+            <message>As abreviaturas de unidades de medida padrão não tem plural.</message>
+            <suggestion><match no='2' regexp_match='(&unidades_de_medida;)s' regexp_replace='$1'/></suggestion>
+            <example correction="kg">São 2 <marker>kgs</marker> de maças.</example>
+        </rule>
+
+        <rule id='KELVIN' name="Matemático: Kelvin (sem graus)">
+            <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-02-27 -->
+            <regexp>\s*[º°]\s*K\b</regexp>
+            <message>Kelvin não utiliza o sinal de grau.</message>
+            <suggestion>&#8239;K</suggestion>
+            <url>https://pt.wikipedia.org/wiki/Kelvin</url>
+            <example correction="&#8239;K">A 30<marker> ºK</marker>.</example>
+            <example correction="&#8239;K">A 30<marker>ºK</marker>.</example>
+            <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
+        </rule>
+
+        <rule id='LOOSE_ACCENTS' name="Acentos soltos">
+            <!-- Based on Catalan grammar.xml, by Tiago F. Santos on 11-02-2017 -->
+            <regexp>[`´]</regexp>
+            <message>Caractere incorreto. Prefira um apóstrofo ou reveja a acentuação.</message>
+            <suggestion>'</suggestion>
+            <suggestion>’</suggestion>
+            <suggestion/>
+            <short>Caractere incorreto</short>
+            <example correction="'|’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
+        </rule>
+
+        <rule id="SPACE_INDENTATION" name="Indentação com espaços" default='off'>
+            <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
+            <regexp>^ +</regexp>
+            <message>No LibreOffice, a indentação é mais precisa se utilizar as ferramentas de tabulação ou indentação.</message>
+            <suggestion/>
+            <example correction=""><marker> </marker>Ele saiu de casa.</example>
+        </rule>
+
+        <rule id="DE_APOSTROPHE_SPACE" name="Tipografia: d' sem espaço">
+            <!--  Created by Tiago F. Santos, 2017-10-06      -->
+            <pattern>
+                <token>d</token>
+                <token spacebefore='no' regexp='yes'>['’]</token>
+                <token spacebefore='yes'/>
+            </pattern>
+            <message>A contração d' não deve ser separada por espaços.</message>
+            <suggestion>\1\2\3</suggestion>
+            <example correction="d'El-rei">Aqui jaz <marker>d' El-rei</marker> D.Sebastião.</example>
+        </rule>
+
+        <rulegroup id='PRIORITIZE_QUOTES' name="Priorizar o tipo de aspas: «“‘...’”»." default="off">
+            <!--  Created by Tiago F. Santos, 2017-05-31      -->
+            <rule>
+                <pattern>
+                    <token skip='-1'>‘
+                        <exception scope="next">’</exception></token>
+                    <token regexp='yes'>[«“]</token>
+                </pattern>
+                <message>Utilize primeiro aspas duplas.</message>
+                <suggestion><match no='1' regexp_match='‘' regexp_replace='“' include_skipped='all'/> ‘</suggestion>
+                <example correction="“Disse que ‘"><marker>‘Disse que “</marker>sim”.</example>
+                <example>“Disse que ‘sim’”.</example>
+                <example>«Disse que “sim”».</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip='-1' regexp='yes'>[”»]
+                        <exception regexp='yes' scope="next">[«“‘]</exception></token>
+                    <token>’</token>
+                </pattern>
+                <message>Utilize primeiro aspas duplas.</message>
+                <suggestion><match no='1' regexp_match='[”»]' regexp_replace='’' include_skipped='all'/>”</suggestion>
+                <example correction="’.”">Disse que “sim<marker>”.’</marker></example>
+                <example>“Disse que ‘sim’”.</example>
+                <example>«Disse que “sim”».</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip='-1'>“
+                        <exception scope="next">”</exception></token>
+                    <token>«</token>
+                </pattern>
+                <message>Utilize primeiro aspas baixas.</message>
+                <suggestion><match no='1' regexp_match='“' regexp_replace='«' include_skipped='all'/> “</suggestion>
+                <example correction="«Disse que “"><marker>“Disse que «</marker>sim»”.</example>
+                <example>“Disse que ‘sim’”.</example>
+                <example>«Disse que “sim”».</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip='-1'>»
+                        <exception regexp='yes' scope="next">[«“]</exception></token>
+                    <token>”</token>
+                </pattern>
+                <message>Utilize primeiro aspas baixas.</message>
+                <suggestion><match no='1' regexp_match='»' regexp_replace='”' include_skipped='all'/>»</suggestion>
+                <example correction="”»">“Disse que «sim<marker>»”</marker>.</example>
+                <example>“Disse que ‘sim’”.</example>
+                <example>«Disse que “sim”».</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id='UNPAIRED_BRACKET_SUGGESTIONS' name='Tipografia: Correção de aspas inteligentes repetidas'>
+            <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-25 -->
+            <rule>
+                <pattern>
+                    <token skip='-1'>‘
+                        <exception scope="next">’</exception></token>
+                    <marker>
+                        <token>‘</token>
+                    </marker>
+                </pattern>
+                <message>Utilize uma aspa de fecho.</message>
+                <suggestion>’</suggestion>
+                <example correction="’">Disse que ‘sim<marker>‘</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip='-1'>“
+                        <exception scope="next">”</exception></token>
+                    <marker>
+                        <token>“</token>
+                    </marker>
+                </pattern>
+                <message>Utilize uma aspa de fecho.</message>
+                <suggestion>”</suggestion>
+                <example correction="”">Disse que “sim<marker>“</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore='yes'>’</token>
+                    </marker>
+                    <token spacebefore='no' regexp='yes'>\p{L}*</token>
+                </pattern>
+                <message>Utilize uma aspa de abertura.</message>
+                <suggestion>‘</suggestion>
+                <example correction="‘">Disse que <marker>’</marker>sim‘.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore='yes'>”</token>
+                    </marker>
+                    <token spacebefore='no' regexp='yes'>\p{L}*</token>
+                </pattern>
+                <message>Utilize uma aspa de abertura.</message>
+                <suggestion>“</suggestion>
+                <example correction="“">Disse que <marker>”</marker>sim”.</example>
+            </rule>
+        </rulegroup>
+
+        <!--     Typography rules from English grammar.xml      - START-->
+        <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+
+        <rule id="WORD_CONTAINS_UNDERSCORE" name="Traço baixo em palavra" tags="picky">
+            <!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
+            <antipattern><!-- file name: https://github.com/languagetool-org/languagetool/issues/1535 -->
+                <token regexp="yes">\p{L}+?(_+\p{L}+)+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx</token><!-- For more extensions, refer to https://fileinfo.com -->
+            </antipattern>
+            <pattern>
+                <token regexp="yes">\p{L}+?(_+\p{L}+)+
+                    <exception postag_regexp='yes' postag="NP.+"/></token>
+            </pattern>
+            <message>Em português formal, as palavras não contêm traço baixo (_), nem são separadas por traços. Verifique que a palavra '\1' está correta.</message>
+            <suggestion><match no='1' regexp_match='_' regexp_replace=' '/></suggestion>
+            <suggestion><match no='1' regexp_match='_' regexp_replace='-'/></suggestion>
+            <example correction="caso de teste|caso-de-teste">Este é um <marker>caso_de_teste</marker> com erro.</example>
+            <example>Este é um <marker>caso-de-teste</marker> sem erro.</example>
+            <example correction="caso de|caso-de">Este é um <marker>caso_de</marker>-teste com hifens.</example>
+            <example correction="são      desnecessários|são------desnecessários">Alguns testes <marker>são______desnecessários</marker>.</example><!-- The message does not show all the underscores. -->
+            <example>Escreva o seu nome aqui: <marker>______________________</marker></example>
+            <example>Teste de Idioma <marker>______________________</marker> 37</example>
+            <example>Mais tests de idioma <marker>_</marker> Appendix B</example>
+            <example>Este <marker>_teste_</marker> de sublinhado do LibreOffice.</example>
+            <example>Verifique primeiro o ficheiro <marker>country_codes.csv</marker>…</example>
+            <example>Mas <marker>este_</marker> não é como os outros testes…</example><!-- TODO -->
+            <example>Veja <marker>_TESTES</marker>' na página 33.</example><!-- TODO -->
+        </rule>
+
+        <rulegroup id='TRADEMARK' name="Tipografia: Trademark - ™">
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>\p{Lu}.*</token>
+                    <marker>
+                        <token>(</token>
+                        <token>TM</token>
+                        <token>)</token>
+                    </marker>
+                </pattern>
+                <message>Pretende dizer: <suggestion>™</suggestion>?</message>
+                <short>Anotação não padronizada de ™</short>
+                <example correction='™'>O novo produto é de Escolha Executiva<marker>(TM)</marker> Plus.</example>
+            </rule>
+            <rule id='SERVICEMARK' name="Tipografia: Servicemark - ℠">
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>\p{Lu}.*</token>
+                    <marker>
+                        <token>(</token>
+                        <token>SM</token>
+                        <token>)</token>
+                    </marker>
+                </pattern>
+                <message>Pretende dizer: <suggestion>℠</suggestion>?</message>
+                <short>Anotação não padronizada de ℠</short>
+                <example correction='℠'>O novo produto é de Escolha Executiva<marker>(SM)</marker> Plus.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id='R_SYMBOL' name="Tipografia: Marca Registada - ®">
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token>(</token>
+                    <token>R</token>
+                    <token skip="-1">)</token>
+                </marker>
+                <token regexp="yes">[\p{Lu}^R]
+                    <exception scope="previous" negate="yes">(</exception></token>
+                <token skip="-1">)</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>(</token>
+                <token regexp="yes">[\p{Lu}^R]</token>
+                <token skip="-1">)</token>
+                <marker>
+                    <token>R
+                        <exception scope="previous" negate="yes">(</exception></token>
+                    <token skip="-1">)</token>
+                </marker>
+            </antipattern>
+            <pattern case_sensitive='yes'>
+                <token regexp='yes'>\p{Lu}.*</token>
+                <marker>
+                    <token>(</token>
+                    <token>R</token>
+                    <token>)</token>
+                </marker>
+            </pattern>
+            <message>Pretende dizer: <suggestion>®</suggestion>?</message>
+            <short>Anotação não padronizada de ®</short>
+            <example correction='®'>Windows <marker>(R)</marker></example>
+            <example>Estes são Richard Burr (D) e Kay Hagan (R).</example>
+        </rule>
+
+        <rule id='COPYRIGHT' name="Tipografia: Copyright - ©" type="typographical">
+            <antipattern>
+                <token>(</token>
+                <token>a</token>
+                <token skip="-1">)</token>
+                <token>b
+                    <exception scope="previous" negate="yes">(</exception></token>
+                <token skip="-1">)</token>
+                <marker>
+                    <token>c
+                        <exception scope="previous" negate="yes">(</exception></token>
+                    <token>)</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>Copyright</token>
+                <marker>
+                    <token>(</token>
+                    <token>c</token>
+                    <token>)</token>
+                </marker>
+            </pattern>
+            <message>Esta anotação não é padronizada, utilize antes o símbolo: <suggestion>©</suggestion></message>
+            <short>Anotação não padronizada de ©</short>
+            <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
+            <example correction="©">Copyright <marker>(C)</marker> 2010 O Estado da Gramática</example>
+            <example>Isto é uma lista: (a) item, (b) 2 itens, (c) 2014 itens.</example>
+        </rule>
+
+        <rulegroup type="locale-violation" id='CURRENCY' name="Posição dos símbolos de moeda: '100£ (£100)">
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">&palavras_estrangeiras;</token>
+                    <token regexp="yes">[\d\,\.]+[$£¥\u8371]</token>
+                    <example>Your 300$ Euro demurrage</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">[\d\,\.]+[$£¥€\u8371]</token>
+                    <token regexp="yes">&palavras_estrangeiras;</token>
+                    <example>20$ dollars a week</example>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[\d\,\.]+[$£¥\u8371]
+                        <exception regexp="yes">[$£¥€\u8371][\d\,\.]+</exception>
+                        <exception regexp="yes">[\d\,\.]+€</exception></token>
+                </pattern>
+                <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion><match no='1' regexp_match="([\d\,\.]+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
+                <short>Coloque a divisa no início</short>
+                <example correction="£100">Deve <marker>100£</marker>.</example>
+                <example correction="£100.00">Deve <marker>100.00£</marker>.</example>
+                <example>Houve uma taxa de cancelamento de 150€ no dia da partida.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d\,\.]+</token>
+                    <token regexp="yes">[$£¥\u8371]</token>
+                </pattern>
+                <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion>\2\1</suggestion>.</message>
+                <short>Coloque a divisa no início</short>
+                <example correction="£100">Deve <marker>100 £</marker>.</example>
+                <example correction="£100.00">Deve <marker>100.00 £</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[€\u8371]</token>
+                    <token regexp="yes">\d+(?:[\,\.]\d+)?</token>
+                </pattern>
+                <message>O símbolo de euro é colocado depois do valor: <suggestion>\2 \1</suggestion>.</message>
+                <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+                <short>Coloque a divisa no fim</short>
+                <example correction="100 €">Deve <marker>€ 100</marker>.</example>
+                <example correction="100,00 €">Deve <marker>€ 100,00</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rule type="whitespace" id='CURRENCY_SPACE' name="Símbolos monetários sem espaço em branco: '$ 100' ($100)">
+            <pattern>
+                <token regexp="yes">[$£¥\u8371]</token>
+                <token regexp="yes" spacebefore="yes">\d+(?:[\,\.]\d+)?</token>
+            </pattern>
+            <message>Os símbolos monetários internacionais não são separados por um espaço: <suggestion>\1\2</suggestion>.</message>
+            <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+            <short>Remover espaço</short>
+            <example correction="$100">Deve-se <marker>$ 100</marker>.</example>
+        </rule>
+
+        <rule type="whitespace" id='CURRENCY_SPACE_2' name="Espaço em branco antes de símbolos monetários: '100,00€' (100,00 €)">
+            <pattern>
+                <token regexp="yes">\d+(?:[\,\.]\d+)?[€]</token>
+            </pattern>
+            <message>Os símbolos monetários do euro (€) são separados por um espaço<suggestion><match no='1' regexp_match="(\d+)([€\u8371])" regexp_replace="$1 $2"/></suggestion>.</message>
+            <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+            <short>Erro tipográfico</short>
+            <example correction="100 €">Deve-se <marker>100€</marker>.</example>
+        </rule>
+
+        <rulegroup id='SMART_QUOTES' name="Aspas inteligentes (“”)" tags="picky">
+            <rule>
+                <pattern>
+                    <token postag="``"/>
+                </pattern>
+                <message>Utilize aqui aspas inteligentes: <suggestion>“</suggestion>.</message>
+                <url>https://pt.wikipedia.org/wiki/Aspas#Representa.C3.A7.C3.A3o_correta_das_aspas</url>
+                <short>Utilize aspas inteligentes</short>
+                <example correction="“">Isto é um (<marker>&quot;</marker>teste&quot;).</example>
+                <example correction="“"><marker>&quot;</marker>Teste&quot;!</example>
+                <example>“Teste”!</example>
+                <example correction="“">Isto é outro teste <marker>&quot;</marker>teste&quot;.</example>
+            </rule>
+            <rule>
+                <antipattern> <!-- não embelezar polegadas -->
+                    <token postag_regexp="yes" postag="''|SENT_START" skip="-1">
+                        <exception scope="next" postag="``"/></token>
+                    <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
+                    <marker><token postag="''"/></marker>
+                </antipattern>
+                <pattern>
+                    <token postag="''"/>
+                </pattern>
+                <message>Utilize uma aspa de fecho aqui: <suggestion>”</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Utilize aspas inteligentes</short>
+                <example correction="”">Isto é um teste (&quot;teste<marker>&quot;</marker>)</example>
+                <example correction="”">Use as aspas &quot;aqui<marker>&quot;</marker> para dizer algo.</example>
+                <example correction="”">Isto é outro teste &quot;teste<marker>&quot;</marker>.</example>
+                <example correction="”">Achilles falou na canção &quot;57821<marker>&quot;</marker>, de Janelle Monáe ft.</example>
+                <example>“Teste”!</example>
+                <!-- FIXME Clash with paired pontuation. Re-enable when fixed.
+                <example>Os assentos da classe económica tem uma profundidade de 31-33&quot;</example> -->
+                <example correction="”">O jogador de futebol apelidado de &quot;O Animal<marker>&quot;</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>`</token>
+                    <token spacebefore="no">`</token>
+                </pattern>
+                <message>Utilize uma aspa inteligente de abertura aqui: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Utilize aspas inteligentes</short>
+                <example correction="“"><marker>``</marker>Teste”.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>„</token>
+                </pattern>
+                <message>Abertura de aspas possivelmente errada: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/„</url>
+                <example correction="“"><marker>„</marker>Teste”.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id='ELLIPSIS' name="Reticências inteligentes (…)" tags="picky">
+            <antipattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token>…</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>\p{L}|&abreviaturas;</token>
+                <token spacebefore='no'>.</token>
+            </antipattern>
+            <pattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </pattern>
+            <message>Utilize o caractere tipográfico de reticências.</message>
+            <suggestion>…</suggestion>
+            <!--<example correction="…">Isto é importante <marker>. . .</marker> tanto quanto sei.</example>-->
+            <example>Isto é importante – tanto quanto sei.</example>
+            <example correction="…">Isto é importante<marker>...</marker> tanto quanto sei.</example>
+            <example>1. Introdução .................................... 3</example>
+            <example correction="…">Tenha um bom dia, Srta. <marker>...</marker>ele foi a caminho de se rebaixar numa…</example>
+        </rule>
+
+        <rulegroup id='TIME_FORMAT' name="Tipografia de horas: 22.30 h -> 22:30h">
+            <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
+            <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
+            <short>Preferência tipográfica</short>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&livros_biblicos;|&livros_biblicos_abrev;</token>
+                    <token regexp="yes">[012]?\d[,\.][012345]\d[,\.][012345]\d([,.]\d+)?</token>
+                    <example>Dt 18.22; At 3.22,23.</example>
+                    <example>Em Romanos 1.29,30, há uma lista...</example>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[012]?\d[,\.][012345]\d[,\.][012345]\d([,.]\d+)?
+                        <exception regexp="yes">[012]?[0123456789]\.[01]?[123456789]\.\d{2,4}</exception></token>
+                </pattern>
+                <message>Em expressões de horas, utilize dois pontos.</message>
+                <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1:$2:$3'/></suggestion>
+                <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1&#160;h&#160;$2&#160;min&#160;$3&#160;s'/></suggestion>
+                <example correction="10:00:43|10&#160;h&#160;00&#160;min&#160;43&#160;s">Às <marker>10.00.43</marker>.</example>
+                <example correction="10:00:43,5|10&#160;h&#160;00&#160;min&#160;43,5&#160;s">Às <marker>10.00.43,5</marker>.</example>
+                <example>22.04.1992</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[012]?\d[,\.][012345]\d</token>
+                    <token regexp="yes">h|horas|hrs|hs|hora</token>
+                </pattern>
+                <message>Em expressões de horas, utilize dois pontos.</message>
+                <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/>&#160;\4</suggestion>
+                <example correction="22:50&#160;h">Às <marker>22.50 h</marker>.</example>
+                <example correction="6:05&#160;h">Às <marker>6,05 h</marker>.</example>
+                <example>Às 22:30 h.</example>
+                <example>A subida demora 8, 10 hores.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>às?|das?</token>
+                    <token regexp="yes">[012]?\d[,\.][012345]\d</token>
+                </pattern>
+                <message>Em expressões de horas, utilize dois pontos.</message>
+                <suggestion>\1 <match no='2' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/></suggestion>
+                <example correction="Às 10:00"><marker>Às 10.00</marker>.</example>
+                <example correction="Da 01:00"><marker>Da 01.00</marker> às… </example>
+                <example correction="às 10:50">Das 10:00 <marker>às 10.50</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="2">[012]?\d[,\.][012345]\d</token>
+                    <token regexp="yes" inflected="yes">&partes_do_dia;</token>
+                </pattern>
+                <message>Em expressões de horas, utilize dois pontos.</message>
+                <suggestion><match no='1' include_skipped='all' regexp_match='(\d+)[,\.](\d+)' regexp_replace='$1:$2'/> <match no='2' include_skipped='all'/></suggestion>
+                <example correction="5:00 da manhã">Às <marker>5.00 da manhã</marker>.</example>
+                <example correction="6:05 da tarde">Às <marker>6.05 da tarde</marker>.</example>
+                <example correction="6:05 da noite">Às <marker>6.05 da noite</marker>.</example>
+                <example>Às 22:30 h.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id='APOSTROPHE_IN_DATES' name="Datas: Apóstrofe em datas">
+            <pattern>
+                <token spacebefore="yes" regexp='yes'>(?::?[1-2]\d)?\d0
+                    <exception regexp='yes'>2[1-9]\d0</exception></token>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+            </pattern>
+            <message>Apostrofes não são necessários em décadas: <suggestion><match no='1'/><match no='3'/></suggestion>.</message>
+            <url>http://www.monash.edu/about/editorialstyle/editing/apostrophes</url>
+            <short>Apóstrofe desnecessária</short>
+            <example correction='1970s'>O Diácono Remédios perguntou onde estavas nos <marker>1970's</marker>.</example>
+            <example correction='70s'>O Diácono Remédios perguntou onde estavas nos  <marker>70's</marker>.</example>
+            <example correction='1990s'>Onde estavas nos <marker>1990’s</marker>?</example>
+            <example>Discos de travões da <marker>Alvis 12/70</marker> adaptados a jantes mais largas.</example>
+        </rule>
+        <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+        <!-- Localization of rules from the English grammar.xml - END  -->
+
+        <!-- 2013– 2021 / 2013 –2021 → 2013–2021 -->
+        <rulegroup id='SPACE_GAMA_TEMPORAL' name="Espaço gama temporal">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-14 (25-JUN-2021+)      -->
+            <!--
+            O Rui esteve lá no período 2013– 2021. → O Rui esteve lá no período 2013–2021.
+            O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013–2021.
+            -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='Z0.+' postag_regexp='yes'/>
+                        <token regexp='yes' spacebefore='no'>[–]</token>
+                        <token spacebefore='yes' postag='Z0.+' postag_regexp='yes'/>
+                    </marker>
+                </pattern>
+                <message>Remova o espaço na gama temporal.</message>
+                <suggestion>\1–\3</suggestion>
+                <example correction="2013–2021">O Rui esteve lá no período <marker>2013– 2021</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='Z0.+' postag_regexp='yes'/>
+                        <token regexp='yes' spacebefore='yes'>[–]</token>
+                        <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                    </marker>
+                </pattern>
+                <message>Remova o espaço na gama temporal.</message>
+                <suggestion>\1–\3</suggestion>
+                <example correction="2013–2021">O Rui esteve lá no período <marker>2013 –2021</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id='SPACE_AFTER_PUNCTUATION' name='Espaços após pontuação'>
+            <!--   Created by Tiago F. Santos, Portuguese rule, 2017-01-01 -->
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>[.]</token>
+                    <token regexp='yes'>[.]</token>
+                    <token regexp='yes'>[.]</token>
+                    <token regexp='yes'>[.]</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>[.]</token>
+                        <token regexp='yes'>[.]</token>
+                        <token regexp='yes'>[.]</token>
+                    </marker>
+                    <token spacebefore='no'>
+                        <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception>
+                        <exception postag='SENT_END'/></token>
+                </pattern>
+                <message>Coloque um espaço depois das reticências</message>
+                <suggestion>… </suggestion>
+                <example correction='… '>Cole aqui o seu texto<marker>...</marker>ou verifique este texto.</example>
+                <example correction='… '><marker>...</marker>e os votos de Bom Ano Novo.</example>
+                <example>Cole aqui o seu texto<marker>...</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>…</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>…
+                            <exception postag='SENT_END'/></token>
+                    </marker>
+                    <token spacebefore='no'>
+                        <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-&quot;“]</exception>
+                        <exception postag='SENT_END'/></token>
+                </pattern>
+                <message>Coloque um espaço depois das reticências</message>
+                <suggestion>… </suggestion>
+                <example correction='… '>Cole aqui o seu texto<marker>…</marker>ou verifique este texto.</example>
+                <example correction='… '><marker>…</marker>e os votos de Bom Ano Novo.</example>
+                <example>Cole aqui o seu texto<marker>…</marker></example>
+                <example>Além disso<marker>…</marker> </example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
+            <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>\b([\p{L}\d]+)</token>
+                    <token regexp="yes">[!?»,….]</token>
+                    <token regexp='yes' spacebefore='no'>&filename_extensions;</token>
+                    <example>a relação em .xls e planilha</example>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>\b([\p{L}\d]+)</token>
+                    <token regexp='yes' spacebefore="yes">[!?»”’,….]</token>
+                </pattern>
+                <message>Remova o espaço antes deste sinal de pontuação.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="escapou!">Como é que isto me <marker>escapou !</marker></example>
+                <!--example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example-->
+                <example correction="roda.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
+            </rule>
+            <rule>
+                <regexp>\b([\p{L}\d]+) ([:;])(?![\-o]?(?:[()/]|[DSP]\b))</regexp>
+                <message>Remova o espaço antes deste sinal de pontuação.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
+                <example>Um sorriso :-)</example>
+                <example>Um sorriso :)</example>
+                <example>Um sorriso :(</example>
+                <example>Um sorriso :-/</example>
+                <example>Um sorriso :/</example>
+                <example>Um sorriso :D</example>
+                <example correction="Brasil;">Site de Instituto Ludwig von Mises <marker>Brasil ;</marker>Principais portais web</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="SPACE_BEFORE_PUNCTUATION2" name="Espaços antes da pontuação">
+            <antipattern>
+                <token regexp="yes">[\p{L}\d]+</token>
+                <token spacebefore="yes">.</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <example>Método .....................................4</example>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no">&filename_extensions;</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[\p{L}\d]+</token>
+                    <token regexp="yes" spacebefore="yes">[!?»”’,….]</token>
+                </pattern>
+                <message>Remova o espaço antes deste sinal de pontuação.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="escapou!">Como é que isto me <marker>escapou !</marker></example>
+                <example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example>
+                <example correction="roda.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
+                <example>O ficheiro .PNG é grande.</example>
+                <example>Abre o arquivo .JPG.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[:;]</token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes" spacebefore="no">[\)/]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[:;]</token>
+                    <token regexp="yes" spacebefore="no">[\)\(/]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" spacebefore="yes">[:;]</token>
+                    <token spacebefore="no">D</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[\p{L}\d]+</token>
+                    <token regexp="yes" spacebefore="yes">[:;]</token>
+                </pattern>
+                <message>Remova o espaço antes deste sinal de pontuação.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
+                <example>Um sorriso :-)</example>
+                <example>Um sorriso :)</example>
+                <example>Um sorriso ;)</example>
+                <example>Um sorriso :(</example>
+                <example>Um sorriso :-/</example>
+                <example>Um sorriso :/</example>
+                <example>Um sorriso :D</example>
+                <example correction="Brasil;">Site de Instituto Ludwig von Mises <marker>Brasil ;</marker>Principais portais web</example>
+            </rule>
+        </rulegroup>
+
+        <rule id="SEMICOLON_AND_QUOTES" name="Ponto e vírgula antes de aspas">
+            <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+            <antipattern>
+                <token regexp="yes">„|“|»|«|"</token>
+                <token>;</token>
+                <token regexp="yes">»|«|"|”|‘|‹|›|'>
+                </token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>;</token>
+                    <token spacebefore="no" regexp="yes">“|»|«|"|”|‘|‹|›|'</token>
+                </marker>
+                <token spacebefore="yes"/>
+            </pattern>
+            <message>Geralmente, não se coloca ponto e vírgula antes de aspas.</message>
+            <example type="incorrect">“Não me incomode com sua tagarelice infantil<marker>;”</marker> disse Maria; “eu escrevo versos imortais.”</example>
+        </rule>
+
+        <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+        <rulegroup id="PARENTESESE_AND_QUOTES_SPACING" name="Espaçamento em volta de aspas ou parênteses">
+            <!-- doesn't work out due to sentence splitting
+            <rule>
+              <antipattern>
+                <token>,</token>
+                <token spacebefore="no" regexp="yes">»|«|"</token>
+              </antipattern>
+              <antipattern>
+                <token regexp="yes">„|»|«|"|\(|\{</token>
+                <token regexp="yes">:|,|;</token>
+                <token regexp="yes">“|»|«|"|\)|\}</token>
+              </antipattern>
+              <pattern>
+                <or>
+                <token postag="SENT_START"/>
+                <token regexp="yes">:|,|;</token>
+                </or>
+                <marker>
+                  <token regexp="yes">„|“|«|"|\(|\{</token>
+                  <token spacebefore="yes"/>
+                </marker>
+              </pattern>
+              <message>Espaçamento incorreto.</message>
+              <suggestion>\2\3</suggestion>
+              <example correction="«O"><marker>« O</marker> jardim é verdadeiramente bonito», disse ela.</example>
+              <example correction="«O">Ela disse: <marker>« O</marker> jardim é verdadeiramente bonito.»</example>
+              <example correction="«é">«O jardim», disse ela, <marker>« é</marker> verdadeiramente bonito.»</example>
+              <example>A galinha diz "Quiquiriquiqui" o porco diz "Oinque, Oinque," o pato diz "Quá, Quá" e diz que o gato "Miau".</example>
+            </rule>
+            <rule>
+              <antipattern>
+                <token regexp='yes'>&abreviaturas;|ex</token>
+                <token spacebefore='no'>.</token>
+                <token regexp="yes">“|»|«|"|\)|\}</token>
+              </antipattern>
+              <antipattern>
+                <token regexp="yes">[a-z]</token>
+                <token>.</token>
+                <token regexp="yes">“|»|«|"|\)|\}</token>
+              </antipattern>
+              <antipattern>
+                <token regexp="yes">„|»|«|"|\(|\{</token>
+                <token regexp="yes">\.|\?|!</token>
+                <token regexp="yes">“|»|«|"|\)|\}</token>
+              </antipattern>
+              <pattern>
+                <marker>
+                  <token regexp="yes">\.|\?|!</token>
+                  <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+                </marker>
+              </pattern>
+              <message>Espaçamento incorreto.</message>
+              <suggestion>\1\2</suggestion>
+              <example correction=".»">«O jardim é verdadeiramente bonito<marker>. »</marker></example>
+              <example correction=".»">«O jardim», disse ele, «jardim é verdadeiramente bonito<marker>. »</marker></example>
+              <example>Algumas palavras inglesas têm duas grafias, p.ex. "gray" e "grey".</example>
+            </rule>
+            -->
+            <rule>
+                <antipattern>
+                    <token regexp="yes">„|»|«|"|\(|\{</token>
+                    <token>,</token>
+                    <token regexp="yes">“|»|«|"|\)|\}</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token/>
+                        <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>Espaçamento incorreto.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="bonito»">«O jardim é verdadeiramente <marker>bonito »</marker>, disse ela.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes" regexp="yes">“|‚|\(|\{</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Espaçamento incorreto.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="“O">Ela disse: <marker>“ O</marker> jardim é verdadeiramente bonito.”</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes" regexp="yes">»|«|"|“|”|‹|›|‘|’|'</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Um dos espaços é desnecessário. Deve excluí-lo.</message>
+                <suggestion>\1\2 \3</suggestion>
+                <suggestion>\1 \2\3</suggestion>
+                <example correction="é' verdadeiramente|é 'verdadeiramente">O jardim <marker>é ' verdadeiramente</marker>' bonito.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id="SEMICOLON_COLON_SPACING" name="Espaços em falta: ':' e ';'">
+            <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+            <antipattern>
+                <token regexp="yes">[«»“”"'‘’]|\(|\[</token>
+                <token regexp="yes">:|;</token>
+                <token regexp="yes">[«»“”"'‘’]|\)|\]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">_\p{L}+</token>
+                <token min='0' spacebefore='no'></token>
+                <token regexp="yes" spacebefore='no'>:|;</token>
+                <token min='0' spacebefore='no'></token>
+                <example>_CONTEÚDO:ativado</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' min='0'>&separadores_de_abertura;</token>
+                <token regexp='yes'>.*_.*</token>
+                <token regexp="yes" spacebefore='no'>:|;</token>
+                <token regexp='yes' spacebefore='no'>.*_.*</token>
+                <example>[custom_block:body_offer_card_fin_consorcio_ps]</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" spacebefore='no'>:|;</token>
+                <token regexp='yes' spacebefore='no'>.*_.*</token>
+                <example>CNPJ/MEI:___________________________</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" spacebefore='no'>:|;</token>
+                <token spacebefore='no' min='0'></token>
+                <token spacebefore='no' regexp='yes'>\\|\.|[_;:!\?,]|&operadores_matematicos;</token>
+                <example>_CONTEÚDO:_</example>
+                <example>$IMG:Speed_20_07_5F5F5F.png</example>
+                <example>CPF:...................</example>
+                <example>Está no G:\recursoshumanos</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>chapter|fig|tab</token>
+                <token regexp="yes" spacebefore='no'>:|;</token>
+                <example>fig:grafico01</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>\d{1,2}h</token>
+                <token regexp="yes" spacebefore='no'>:|;</token>
+                <token regexp='yes' spacebefore='no'>\d{1,2}</token>
+                <example>às 15h:30</example>
+            </antipattern>
+            <antipattern>
+                <token>RA</token>
+                <token regexp="yes" spacebefore='no'>:|;</token>
+                <token regexp='yes' spacebefore='no'>\d+</token>
+                <example>RA:19064468</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">:|;</token>
+                <token regexp='yes' spacebefore='no'>[,\.;\?!_]</token>
+                <token regexp='yes' spacebefore='no' min='0'>[,\.;\?!_]</token>
+                <example>Alternativas da resposta:, sim, não</example>
+                <example>Data de nascimento:___/___/____ Idade</example>
+            </antipattern>
+            <antipattern><!-- XXX Wikipedia lists and time formats -->
+                <token>:</token>
+                <token spacebefore="no"/>
+                <token spacebefore="no">:</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&codigos_de_pais;</token>
+                <token spacebefore="no">:</token>
+            </antipattern>
+            <antipattern>
+                <token>;</token>
+                <token regexp="yes">“|»|«|"|”</token>
+                <token spacebefore="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*[0-9]</token>
+                <token>:</token>
+                <token regexp="yes">[0-9].*</token>
+            </antipattern>
+            <antipattern>
+                <!-- smiley -->
+                <token regexp="yes">[:;]</token>
+                <token spacebefore="no" min='0'>-</token>
+                <token spacebefore="no" regexp="yes">[()\/DPS]</token>
+            </antipattern>
+
+            <!-- MARCOAGPINTO 2022-10-17 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+            <!-- No hits in 600 000 sentences -->
+            <antipattern>
+                <token spacebefore="no" regexp='yes'>[;:]</token>
+                <token spacebefore="yes" postag='_QUOT' postag_regexp='no'/>
+            </antipattern>
+            <!-- MARCOAGPINTO 2022-10-17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+            <!-- MARCOAGPINTO Fixed: 2020-07-08 (2-JUL-2020+) *START* -->
+            <pattern>
+                <marker>
+                    <token regexp="yes">:|;
+                        <exception postag='SENT_END'/>
+                    </token>
+                    <token spacebefore="no">
+                        <exception regexp='yes'>[\.,;\:_]|&separadores_de_fecho;</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <!-- MARCOAGPINTO Fixed: 2020-07-08 (2-JUL-2020+) *END* -->
+            <message>Deve colocar um espaço após '\1'.</message>
+            <suggestion>\1 \2</suggestion>
+            <example correction=": «">Ele disse<marker>:«</marker>O jardim é verdadeiramente bonito.»</example>
+            <example>O jantar estará pronto às 18:30.</example>
+        </rule>
+
+        <rulegroup id='DEGREE_MINUTES_SECONDS' name="Matemático: Tipografia de graus, minutos e segundos: 50°45′ 20″" tags="picky">
+            <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+            <rule>
+                <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
+                <message>Utilize os símbolos de graus, minutos e segundos.</message>
+                <suggestion>\1°&#8239;\2′&#8239;\3″</suggestion>
+                <example correction="25°&#8239;29,1′&#8239;49″"><marker>25º 29,1' 49"</marker>.</example>
+                <example correction="25°&#8239;29′&#8239;49″"><marker>25º 29' 49'</marker>.</example>
+                <example correction="25°&#8239;29,1′&#8239;49″"><marker>25 º 29,1' 49"</marker>.</example>
+                <example correction="25°&#8239;29′&#8239;49″"><marker>25 º 29' 49'</marker>.</example>
+                <example correction="25°&#8239;29′&#8239;49″"><marker>25º29’49”</marker>  N.</example>
+                <example>25° 29′ 34″</example>
+            </rule>
+            <rule>
+                <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’`]</regexp>
+                <message>Utilize os símbolos de graus e minutos.</message>
+                <suggestion>\1°&#8239;\2′</suggestion>
+                <example correction="25°&#8239;29,1′"><marker>25º 29,1'</marker>.</example>
+                <example correction="25°&#8239;29′"><marker>25º 29 '</marker>.</example>
+                <example correction="25°&#8239;29,1′"><marker>25 º 29,1'</marker>.</example>
+                <example correction="25°&#8239;29′"><marker>25 º29'</marker>.</example>
+                <example correction="25°&#8239;29′"><marker>25º29’</marker>  N.</example>
+                <example>25° 29′</example>
+            </rule>
+            <rule>
+                <regexp>\b([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
+                <message>Utilize os símbolos de minutos e segundos.</message>
+                <suggestion>\1′&#8239;\2″</suggestion>
+                <example correction="29,1′&#8239;49″"><marker>29,1' 49"</marker>.</example>
+                <example correction="29′&#8239;49″"><marker>29' 49 '</marker>.</example>
+                <example correction="29,1′&#8239;49″"><marker>29,1' 49 "</marker>.</example>
+                <example correction="29′&#8239;49″"><marker>29 ' 49'</marker>.</example>
+                <example correction="29′&#8239;49″"><marker>29’49”</marker>  N.</example>
+                <example>29′ 34″</example>
+            </rule>
+        </rulegroup>
+    </category>
 
 </rules>
