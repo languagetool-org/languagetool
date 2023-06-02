@@ -133,7 +133,7 @@ public class Portuguese extends Language implements AutoCloseable {
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
             new PortugueseClicheRule(messages, "/pt/cliches-pt.txt"),
             new PortugueseFillerWordsRule(messages, this, userConfig),
-            new PortugueseRedundancyRule(messages),
+            new PortugueseRedundancyRule(messages, "/pt/redundancies-pt.txt"),
             new PortugueseWordinessRule(messages),
             //new PortugueseWeaselWordsRule(messages),
             new PortugueseWikipediaRule(messages),

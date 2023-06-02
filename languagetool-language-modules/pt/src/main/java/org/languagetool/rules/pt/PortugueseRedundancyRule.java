@@ -25,10 +25,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.net.URL;
 
 /**
@@ -43,16 +40,18 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   public static final String PT_REDUNDANCY_REPLACE = "PT_REDUNDANCY_REPLACE";
 
-  private static final String FILE_NAME = "/pt/redundancies.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
+
+  private final String path;
 
   @Override
   public List<String> getFileNames() {
-    return Collections.singletonList(FILE_NAME);
+    return Collections.singletonList(path);
   }
 
-  public PortugueseRedundancyRule(ResourceBundle messages) {
+  public PortugueseRedundancyRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
+    this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     useSubRuleSpecificIds();
