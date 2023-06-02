@@ -21459,16 +21459,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Verifique se não quis escrever <suggestion>à</suggestion> ou <suggestion>a</suggestion>.</message>
                 <example correction='à|a'>Fui <marker>á</marker> feira ontem.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
-                    <token>apos
+                    <token regexp="yes">ap[oô]s
                         <exception scope="previous" postag_regexp='yes' postag='D[AIP].MP.|SPS00:D..MP.|Z0MP0'/></token>
                 </pattern>
                 <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>após</suggestion>.</message>
                 <example correction="após">Ficou cansado <marker>apos</marker> o expediente.</example>
+                <example correction="Após"><marker>Apôs</marker> 1990, as coisas se complicaram.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>sera</token>
+                </pattern>
+                <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>será</suggestion>.</message>
+                <example correction="Será"><marker>Sera</marker> que ele vai?</example>
+                <example correction="será">Mês que vem ela <marker>sera</marker> reconhecida com um prêmio.</example>
             </rule>
         </rulegroup>
-
 
         <!-- ELE SEGUI OS ele segue os -->
         <rulegroup id='CONFUSÃO_VERBOS_TIPO_SEGUI_SEGUE_SEGUIU' name="Confusão do tipo: segui/segue/seguiu (Verbos)">
@@ -31019,9 +31027,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- E POSSÍVEL VENCER é possível vencer -->
         <rulegroup id='CONFUSÃO_E_É' name="[Confusão] e/é">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-08 + 2021-03-09 (1-JAN-2021+)      -->
+            <short>Possível erro de acentuação.</short>
+
+            <!-- the only consistent false positive here refers to mathematical texts where
+                 'e' is used as a variable, or physics where it is a constant;
+                 IMO that's a an okay thing to have, as those are super specialised
+                 and those people will need to have all sorts of rules turned off
+                 anyway... -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">qu[eê]|quando|qual|onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                    <marker>
+                        <token case_sensitive="yes">e</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">qu[eê]|quando|qual|onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                </pattern>
+                <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>é</suggestion>.</message>
+                <example correction="é">Acha que <marker>e</marker> melhor?</example>
+                <example correction="é">O que <marker>e</marker> o problema?</example>
+                <example correction="é">Onde <marker>e</marker> a padaria?</example>
+                <example correction="é">Qual <marker>e</marker> o pior deles?</example>
+                <example correction="é">Quando <marker>e</marker> a festa?</example>
+                <example correction="é">Quanto <marker>e</marker> a medida ideal?</example>
+                <example correction="é">Por que <marker>e</marker> pior fazer do meu jeito?</example>
+                <example>Onde e como assinar?</example>
+            </rule>
+
             <rule>
                 <pattern>
                     <token postag='CC|RG|NC.+' postag_regexp='yes'>
@@ -31041,6 +31073,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="é">Mesmo assim <marker>e</marker> possível vencer o jogo.</example>
                 <example>Na pasta é possível encontrar algumas imagens.</example>
             </rule>
+
             <rule>
                 <pattern>
                     <token postag='RN'/>
@@ -31055,6 +31088,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="é">Isso não <marker>e</marker> possível.</example>
                 <example>Ser estudante não é fácil.</example>
             </rule>
+
             <rule>
                 <antipattern>
                     <token postag='V.+|SP.+|NP.+|CC|DI.+' postag_regexp='yes'/>
