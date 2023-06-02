@@ -131,7 +131,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt.txt"),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
-            new PortugueseClicheRule(messages),
+            new PortugueseClicheRule(messages, "/pt/cliches-pt.txt"),
             new PortugueseFillerWordsRule(messages, this, userConfig),
             new PortugueseRedundancyRule(messages),
             new PortugueseWordinessRule(messages),
