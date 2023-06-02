@@ -52,7 +52,7 @@ if grep -q -e "languagetool-core/.*" /home/circleci/git_diffs.txt; then
   TEST_COMMAND=(mvn clean --also-make -fae test)
 elif grep -q -e "pom.xml" /home/circleci/git_diffs.txt; then
   echo "Change in pom file detected, deploy all."
-  TEST_COMMAND=(mvn -s .circleci.settings.xml -DskipTests deploy);
+  TEST_COMMAND=(mvn clean --also-make -fae test);
 else
   if grep -q -e "languagetool-commandline/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-commandline,$PROJECTS"; fi
   if grep -q -e "languagetool-dev/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-dev,$PROJECTS"; fi
