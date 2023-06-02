@@ -25605,24 +25605,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CONFUSIONS" name="Confusiones">
         <rulegroup id="LAMO_LLAMO" name="confusión: lamer/llamar" default="temp_off">
+            <antipattern>
+                <token inflected="yes">lamer</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <example>para que no se lama la herida</example>
+                <example>antes de que me lama las bolas</example>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">me|te|se</token>
+                    <!--<token regexp="yes">me|te|se|nos|os</token>-->
                     <marker>
-                        <token regexp="yes">lamo|lamas|lama</token>
+                        <token regexp="yes">lam[oea][sn]?|lam[ea]mos|lam[éá]is</token>
                     </marker>
+                    <token min="0">a</token>
                     <token regexp="yes">\p{Lu}.*</token>
                 </pattern>
-                <message>¿Quería decir <suggestion>l<match no="2" case_conversion="alllower"/></suggestion> (del v. 'llamar') en vez de "\1" (del v. 'lamer')?</message>
+                <message>¿Quería decir <suggestion>l<match no="1" case_conversion="alllower"/></suggestion> (del v. 'llamar') en vez de "\1" (del v. 'lamer')?</message>
                 <example correction="llamo">Me <marker>lamo</marker> Pedro.</example>
                 <example correction="llama">Se <marker>lama</marker> Juan.</example>
                 <example correction="llamas">¿Te <marker>lamas</marker> Juan?</example>
+                <example correction="llamamos">¿Qué te parece si <marker>lamamos</marker> a Julia?</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <and>
-                            <token regexp="yes">lamo|lamas|lama</token>
+                            <token regexp="yes">lam[oea][sn]?|lam[ea]mos|lam[éá]is</token>
                             <token postag="_reflexive"/>
                         </and>
                     </marker>
