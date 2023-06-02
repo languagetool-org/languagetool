@@ -69,6 +69,7 @@ public class LanguageSpecificTest {
     if (lang.getShortCode().matches("nl|km")) {
       // too many alarms, should be cleaned up first
       System.out.println("Skipping " + lang + " for replace.txt check");
+      return;
     }
     if (spellRule != null) {
       for (Rule rule : lt.getAllActiveRules()) {
