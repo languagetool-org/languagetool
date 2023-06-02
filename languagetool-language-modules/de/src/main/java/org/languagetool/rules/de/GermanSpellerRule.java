@@ -3230,10 +3230,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "freiverkäuflichen": return topMatch("frei verkäuflichen");
       case "freiverkäuflichem": return topMatch("frei verkäuflichem");
       case "Mfg": return topMatch("MFG");
+      case "Gefahrenstoffe": return topMatch("Gefahrstoffe");
+      case "Gefahrenstoffen": return topMatch("Gefahrstoffen");
       case "Resource": return topMatch("Ressource");
       case "Resourcen": return topMatch("Ressourcen");
       case "Resources": return topMatch("Ressourcen");
       case "Tzatziki": return topMatch("Zaziki");
+      case "Selenski": return topMatch("Selenskyj");
     }
     return Collections.emptyList();
   }
