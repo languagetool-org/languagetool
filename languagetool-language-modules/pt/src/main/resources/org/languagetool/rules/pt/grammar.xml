@@ -31421,7 +31421,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule>
                 <pattern>
                     <token postag='V.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.P.*|PP+'/>
+                        <exception scope="previous" postag_regexp="yes" postag="PR.+">que</exception>
+                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.[PG].*|P.+'/>
+                        <exception regexp="yes">como|onde</exception>
                     </token>
                     <marker>
                         <token>está</token>
@@ -31431,6 +31433,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Substitua por <suggestion>esta</suggestion>.</message>
                 <example correction="esta">Quero <marker>está</marker>.</example>
                 <example correction="esta">Achei <marker>está</marker>.</example>
+                <example>E você, como está?</example>
+                <!-- TODO: create rule to add commas before question tags -->
+                <example>Não está adiantando está?</example>
+                <example>Irá te querer do jeito que você é, não como está.</example>
+                <example>E o jaguar, onde está?</example>
+                <example>Posso saber onde cada centavo que tinha está?</example>
             </rule>
 
             <rule>
@@ -31440,18 +31448,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token negate_pos="yes" postag='DA.+' postag_regexp='yes' min="0"/>
                     <token max="2" postag='RG|N.+|AQ.+|PP+' postag_regexp='yes'/>
                     <token postag='V.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.P.*|PP+'/>
+                        <exception postag_regexp='yes' postag='RG|I|NC.+|AQ.+|SPS.+|V.P.*|P.+'/>
                     </token>
                     <marker>
                         <token>está</token>
                     </marker>
-                    <token negate_pos="yes" postag='V.+|SPS.+|RM|RG' postag_regexp='yes'/>
+                    <token negate_pos="yes" postag='V.+|SPS.+|R[MG]|PP.+' postag_regexp='yes'/>
                 </pattern>
                 <message>Substitua por <suggestion>esta</suggestion>.</message>
                 <example correction="esta">A posição dos cestos agora é <marker>está</marker>.</example>
                 <example>A grande maioria dos gregos são cristãos sendo esta fé seguida por 92% da população.</example>
                 <example>O que ele disse está certo.</example>
                 <example>O referencial teórico utilizado está nas bases conceituais.</example>
+                <example>As pessoas parecem está me tratando diferente hoje.</example>
+                <example>Hoje quero está com você.</example>
             </rule>
 
             <rule>
