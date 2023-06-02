@@ -91,7 +91,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     }
     String pronomPostag = tokens[posWord + 1].readingWithTagRegex("P.*").getPOSTag();
     String pronomGenderNumber = pronomPostag.substring(2, 3) + pronomPostag.substring(4, 5);
-    boolean isThereAuxiliar = !tokens[posWord + 2].hasLemma("oblidar");
+    boolean isThereAuxiliar = !tokens[posWord + 2].hasAnyLemma("oblidar", "descuidar");
     String verbPostag = tokens[posWord + 2].readingWithTagRegex("V.*").getPOSTag();
     String lemma = tokens[posWord + 2].readingWithTagRegex("V.*").getLemma();
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
