@@ -397,6 +397,7 @@ public class Catalan extends Language {
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
+    s = s.replace(" ,", ",");
     return s;
   }
   

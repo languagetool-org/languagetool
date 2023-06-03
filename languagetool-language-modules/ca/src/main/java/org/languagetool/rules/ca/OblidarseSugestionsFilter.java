@@ -113,6 +113,9 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       if (wordAfterReading != null) {
         wordAfter = wordAfterReading.getToken();
       }
+      if (tokens[wordAfterIndex].getToken().equals("com")) {
+        wordAfter = "com";
+      }
     }
     Map<String, String> transform;
     if (wordAfter.isEmpty()) {
