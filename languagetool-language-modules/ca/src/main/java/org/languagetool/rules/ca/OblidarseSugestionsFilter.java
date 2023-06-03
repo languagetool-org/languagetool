@@ -19,7 +19,9 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -113,12 +115,13 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       if (wordAfterReading != null) {
         wordAfter = wordAfterReading.getToken();
       }
-      if (tokens[wordAfterIndex].getToken().equals("com")) {
-        wordAfter = "com";
+      List<String> exceptionsList = Arrays.asList("com", "de", "d'");
+      if (exceptionsList.contains(tokens[wordAfterIndex].getToken().toLowerCase())) {
+        wordAfter = tokens[wordAfterIndex].getToken();
       }
     }
     Map<String, String> transform;
-    if (wordAfter.isEmpty()) {
+    if (wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")) {
       transform = (verbVowel ? addReflexiveEnVowel : addReflexiveEnConsonant);
     } else {
       transform = (verbVowel ? addReflexiveVowel : addReflexiveConsonant);
@@ -127,7 +130,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     suggBld.append(transform.get(pronomGenderNumber));
     suggBld.append(newVerb);
     boolean wordAfterApostrophe = false;
-    if (!wordAfter.isEmpty()) {
+    if (!wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")) {
       wordAfterApostrophe = pApostropheNeeded.matcher(wordAfter).matches();
       suggBld.append(wordAfterApostrophe ? " d'" : " de");
     }
