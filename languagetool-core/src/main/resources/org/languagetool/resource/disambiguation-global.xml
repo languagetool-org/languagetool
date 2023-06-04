@@ -183,10 +183,7 @@ Copyright (C) 2021 Jaume Ortolà
             <pattern>
                 <token regexp="yes">.*[a-z].*</token>
                 <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes" skip="2">
-                    .*[a-z].*
-                    <exception scope="next" spacebefore="yes" />
-                </token>
+                <token spacebefore="no" regexp="yes" skip="2"> .*[a-z].* <exception scope="next" spacebefore="yes"/> </token>
                 <token spacebefore="no" skip="10">(</token>
                 <token spacebefore="no">)</token>
             </pattern>
@@ -196,10 +193,7 @@ Copyright (C) 2021 Jaume Ortolà
             <pattern>
                 <token regexp="yes">[a-z0-9]+</token>
                 <token spacebefore="no">_</token>
-                <token regexp="yes" spacebefore="no" skip="2">
-                    [a-z0-9]+
-                    <exception scope="next" spacebefore="yes" />
-                </token>
+                <token regexp="yes" spacebefore="no" skip="2"> [a-z0-9]+ <exception scope="next" spacebefore="yes"/> </token>
                 <token spacebefore="no" skip="10">(</token>
                 <token spacebefore="no">)</token>
             </pattern>
@@ -214,7 +208,6 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
     <rule id="SIC_IGNORE_SPELLING" name="ignore spelling of '[sic]'">
         <pattern>
             <token regexp="yes">[\[\(]</token>
@@ -223,4 +216,25 @@ Copyright (C) 2021 Jaume Ortolà
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="OP_IGNORE_SPELLING" name="ignore spelling of op. (music works)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Op|op|K|KV</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="yes">\d.*</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">BWV</token>
+                    <token regexp="yes" spacebefore="yes">\d.*</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
