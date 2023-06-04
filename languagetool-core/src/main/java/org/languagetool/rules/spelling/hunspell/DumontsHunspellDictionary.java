@@ -27,6 +27,7 @@ import java.util.List;
 
 public class DumontsHunspellDictionary implements HunspellDictionary {
   private final Hunspell hunspell;
+  private boolean closed = false;
 
   public DumontsHunspellDictionary(Path dictionary, Path affix) {
     try {
@@ -53,7 +54,13 @@ public class DumontsHunspellDictionary implements HunspellDictionary {
   }
 
   @Override
+  public boolean isClosed() {
+    return closed;
+  }
+
+  @Override
   public void close() throws IOException {
+    closed = true;
     hunspell.close();
   }
 }
