@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import java.beans.PropertyChangeListener;
 import java.io.Closeable;
 import java.util.List;
 
@@ -43,5 +42,9 @@ public interface HunspellDictionary extends Closeable {
    */
   List<String> suggest(String word);
 
+  /**
+   * Indicate resource is closed.
+   * @return true when closed, otherwise false.
+   */
   boolean isClosed();
 }
