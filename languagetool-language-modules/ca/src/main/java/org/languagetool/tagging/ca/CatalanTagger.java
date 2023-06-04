@@ -22,7 +22,6 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.chunking.ChunkTag;
 import org.languagetool.language.Catalan;
 import org.languagetool.language.ValencianCatalan;
 import org.languagetool.tagging.BaseTagger;
@@ -69,15 +68,11 @@ public class CatalanTagger extends BaseTagger {
     for (String originalWord : sentenceTokens) {
       // This hack allows all rules and dictionary entries to work with
       // typewriter apostrophe
-      boolean containsTypewriterApostrophe = false;
       boolean containsTypographicApostrophe = false;
       if (originalWord.length() > 1) {
-        if (originalWord.contains("'")) {
-          containsTypewriterApostrophe = true;
-        }
         if (originalWord.contains("’")) {
           containsTypographicApostrophe = true;
-          originalWord = originalWord.replace("’", "'");
+          originalWord = originalWord.replaceAll("’", "'");
         }
       }
       String normalizedWord = StringTools.normalizeNFC(originalWord);
@@ -114,15 +109,8 @@ public class CatalanTagger extends BaseTagger {
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
-      if (containsTypewriterApostrophe) {
-        List<ChunkTag> listChunkTags = new ArrayList<>();
-        listChunkTags.add(new ChunkTag("containsTypewriterApostrophe"));
-        atr.setChunkTags(listChunkTags);
-      }
       if (containsTypographicApostrophe) {
-        List<ChunkTag> listChunkTags = new ArrayList<>();
-        listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
-        atr.setChunkTags(listChunkTags);
+        atr.setTypographicApostrophe();
       }
       tokenReadings.add(atr);
       pos += originalWord.length();
