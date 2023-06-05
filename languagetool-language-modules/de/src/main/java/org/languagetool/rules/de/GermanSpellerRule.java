@@ -3237,6 +3237,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Resources": return topMatch("Ressourcen");
       case "Tzatziki": return topMatch("Zaziki");
       case "Selenski": return topMatch("Selenskyj");
+      case "freidenken": return topMatch("frei denken");
+      case "freizudenken": return topMatch("frei zu denken");
     }
     return Collections.emptyList();
   }
