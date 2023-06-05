@@ -34,7 +34,7 @@ public class WordListValidatorTest {
           "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
           "___INSERT___" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
-          "ŚśōżúïÎôêâû" +
+          "ŚśŌōżúïÎôêâû" +
           "ÇÃÕÚÊÂÔ" +
           "'’" +
           "./%-]+" +
@@ -88,6 +88,7 @@ public class WordListValidatorTest {
           "Hyndluljóð",
           "Kazanlǎk",
           "Kesäranta",
+          "Krišjānis Kariņš",
           "Kŭrdzhali",
           "Malko Tŭrnovo",
           "Rígsþula",
@@ -178,6 +179,7 @@ public class WordListValidatorTest {
           "Subotić",
           "Pÿur",
           "Subašić",
+          "Wałęsa",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "elektromobilność", // for PL
