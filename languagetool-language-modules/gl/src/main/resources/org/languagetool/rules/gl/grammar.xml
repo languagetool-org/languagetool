@@ -4997,16 +4997,21 @@
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token>
-            <exception postag="SENT_START"/></token>
-          <token><match no="0"/>
-            <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception></token>
+        <token>
+          <exception postag="SENT_START"/>
+        </token>
+        <token>
+          <match no="0"/>
+          <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception>
+          <exception regexp='yes'>\W+</exception>
+        </token>
       </pattern>
       <message>Posíbel erro tipográfico: hai unha palabra repetida.</message>
         <suggestion>\1</suggestion>
       <short>Posíbel palabra repetida</short>
       <example correction="linguas">Como acontece coa maior parte das <marker>linguas linguas</marker> romances.</example>
       <example>Como acontece coa maior parte das <marker>linguas</marker> romances.</example>
+      <example>A >> B</example>
     </rule>
   </rulegroup>
 
