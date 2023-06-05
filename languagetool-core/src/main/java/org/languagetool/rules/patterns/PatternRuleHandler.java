@@ -59,6 +59,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private final List<String> categoryToneTags = new ArrayList<>();
   private final List<String> ruleTags = new ArrayList<>();
   private final List<String> ruleToneTags = new ArrayList<>();
+  private boolean isGoalSpecific;
 
   private int subId;
   private boolean interpretPosTagsPreDisambiguation;
@@ -133,6 +134,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue("tone_tags") != null) {
           categoryToneTags.addAll(Arrays.asList(attrs.getValue("tone_tags").split(" ")));
         }
+        isGoalSpecific = "true".equals(attrs.getValue("is_goal_specific"));
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
@@ -249,6 +251,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue("tone_tags") != null) {
           ruleToneTags.addAll(Arrays.asList(attrs.getValue("tone_tags").split(" ")));
         }
+        isGoalSpecific = "true".equals(attrs.getValue("is_goal_specific"));
         break;
       case PATTERN:
         startPattern(attrs);
@@ -383,6 +386,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue("tone_tags") != null) {
           ruleGroupToneTags.addAll(Arrays.asList(attrs.getValue("tone_tags").split(" ")));
         }
+        isGoalSpecific = "true".equals(attrs.getValue("is_goal_specific"));
         String minPrevMatchesStr2 = attrs.getValue(MINPREVMATCHES);
         if (minPrevMatchesStr2 != null) {
           ruleGroupMinPrevMatches = Integer.parseInt(minPrevMatchesStr2);  
@@ -445,6 +449,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         categoryIssueType = null;
         categoryTags.clear();
         categoryToneTags.clear();
+        isGoalSpecific = false;
         break;
       case "regexp":
         inRegex = false;
@@ -488,6 +493,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         distanceTokens = 0;
         ruleTags.clear();
         ruleToneTags.clear();
+        isGoalSpecific = false;
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -634,6 +640,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupDistanceTokens = 0;
         ruleGroupTags.clear();
         ruleGroupToneTags.clear();
+        isGoalSpecific = false;
         antipatternForRuleGroupsExamples.clear();
         break;
       case MARKER:
@@ -822,6 +829,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     rule.addToneTags(ruleToneTags);
     rule.addToneTags(ruleGroupToneTags);
     rule.addToneTags(categoryToneTags);
+    rule.setGoalSpecific(isGoalSpecific);
     if (inRuleGroup) {
       rule.setSubId(internString(Integer.toString(subId)));
     } else {
