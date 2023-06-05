@@ -9618,12 +9618,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>as</token>
         </antipattern>
         <pattern>
-            <token postag="JJ">
-                <exception>same</exception>
+            <token postag="JJ" chunk_re=".-AD[VJ]P">
+                <exception regexp="yes">same|though</exception>
                 <exception postag="VBG" />
             </token>
             <marker>
-                <token>as</token>
+                <token case_sensitive="yes" regexp="yes">[Aa]s</token>
             </marker>
         </pattern>
         <disambig postag="RB"/>
