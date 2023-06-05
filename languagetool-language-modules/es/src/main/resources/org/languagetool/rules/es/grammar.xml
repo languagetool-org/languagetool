@@ -8796,19 +8796,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es nuestra obligación ayudarnos el uno al otro.</example>
             </rule>
             <rule default="temp_off">
-                <!-- More exceptions needed. Some cases can be ambiguous -->
                 <pattern>
                     <marker>
                         <token>el</token>
                     </marker>
-                    <token regexp="yes">solo|solito|justo|mismo</token>
+                    <token regexp="yes">solo|solito|mismo</token>
                     <!-- prirmero -->
                     <token postag="V...3S." postag_regexp="yes"><exception postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"/></token>
                 </pattern>
-                <message>No se escribe con tilde si no es un pronombre.</message>
+                <message>Se escribe con tilde si es un pronombre personal.</message>
                 <suggestion>él</suggestion>
                 <example correction="Él"><marker>El</marker> mismo sabe organizarse.</example>
                 <example>El primero consiste en elementos de la propia empresa.</example>
+                <example>No es el mismo de antes.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V...3S." postag_regexp="yes"><exception postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"/><exception inflected="yes">ser</exception></token>
+                    <marker>
+                        <token>el</token>
+                    </marker>
+                    <token regexp="yes">solo|solito|mismo</token>
+                    <token><exception postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se escribe con tilde si es un pronombre personal.</message>
+                <suggestion>él</suggestion>
+                <example correction="él">Tu padre se encargará <marker>el</marker> mismo.</example>
+                <example>No es el mismo de antes.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MI_TILDE" name="mi/mí">
