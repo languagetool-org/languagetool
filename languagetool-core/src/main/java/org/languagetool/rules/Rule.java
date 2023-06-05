@@ -60,6 +60,7 @@ public abstract class Rule {
   @Nullable
   private List<ToneTag> toneTags;
 
+  private boolean isGoalSpecific = false;
   private List<CorrectExample> correctExamples;
   private List<IncorrectExample> incorrectExamples;
   private List<ErrorTriggeringExample> errorTriggeringExamples;
@@ -610,5 +611,13 @@ public abstract class Rule {
   
   public int getDistanceTokens() {
     return distanceTokens;
+  }
+  
+  public boolean isGoalSpecific() {
+    return isGoalSpecific;
+  }
+
+  public void setGoalSpecific(boolean goalSpecific) {
+    isGoalSpecific = goalSpecific;
   }
 }
