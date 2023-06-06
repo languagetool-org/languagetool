@@ -656,7 +656,7 @@ public abstract class Language {
             }
           }
           if (!ignore) {
-            rules.addAll(ruleLoader.getRules(is, fileName));
+            rules.addAll(ruleLoader.getRules(is, fileName, this));
             patternRules = Collections.unmodifiableList(rules);
           }
         } finally {

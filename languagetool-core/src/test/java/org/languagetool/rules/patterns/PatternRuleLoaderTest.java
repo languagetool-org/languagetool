@@ -47,7 +47,7 @@ public class PatternRuleLoaderTest {
   public void testGetRules() throws Exception {
     PatternRuleLoader prg = new PatternRuleLoader();
     String name = "/xx/grammar.xml";
-    List<AbstractPatternRule> rules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name);
+    List<AbstractPatternRule> rules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name, null);
     assertTrue(rules.size() >= 30);
 
     Rule demoRule1 = getRuleById("DEMO_RULE", rules);
@@ -107,7 +107,7 @@ public class PatternRuleLoaderTest {
   public void testPremiumXmlFlag() throws IOException {
     PatternRuleLoader prg = new PatternRuleLoader();
     String nameNonPremium = "/xx/grammar-nonPremium.xml";
-    List<AbstractPatternRule> rulesInNonPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(nameNonPremium), nameNonPremium);
+    List<AbstractPatternRule> rulesInNonPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(nameNonPremium), nameNonPremium, null);
     Rule rule1 = getRuleById("F-NP_C-NP_RG-NP_R-NP", rulesInNonPremiumFile);
     assertFalse(rule1.isPremium());
     Rule rule2 = getRuleById("F-NP_C-NP_RG-NP_R-P", rulesInNonPremiumFile);
@@ -126,7 +126,7 @@ public class PatternRuleLoaderTest {
     assertTrue(rule8.isPremium());
     
     String namePremium = "/xx/grammar-premium.xml";
-    List<AbstractPatternRule> rulesInPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(namePremium), namePremium);
+    List<AbstractPatternRule> rulesInPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(namePremium), namePremium, null);
     Rule rule9 = getRuleById("F-P_C-P_RG-P_R-P", rulesInPremiumFile);
     assertTrue(rule9.isPremium());
     Rule rule10 = getRuleById("F-P_C-P_RG-P_R-NP", rulesInPremiumFile);
@@ -149,7 +149,7 @@ public class PatternRuleLoaderTest {
   public void testToneTagsAttribute() throws IOException {
     PatternRuleLoader prg = new PatternRuleLoader();
     String styleRuleFile = "/xx/style.xml";
-    List<AbstractPatternRule> styleRules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(styleRuleFile), styleRuleFile);
+    List<AbstractPatternRule> styleRules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(styleRuleFile), styleRuleFile, null);
     
     Rule formalClarityToneRule = getRuleById("Formal_Clarity_TONE_RULE", styleRules);
     assertTrue(formalClarityToneRule.hasToneTag(ToneTag.formal));
@@ -248,7 +248,7 @@ public class PatternRuleLoaderTest {
     String decrypted = decrypt(encrypted);
     System.out.println("decrypted: " + decrypted);
     PatternRuleLoader loader = new PatternRuleLoader();
-    List<AbstractPatternRule> rules = loader.getRules(new ByteArrayInputStream(decrypted.getBytes(StandardCharsets.UTF_8)), "<unknown>");
+    List<AbstractPatternRule> rules = loader.getRules(new ByteArrayInputStream(decrypted.getBytes(StandardCharsets.UTF_8)), "<unknown>", null);
     System.out.println("Loaded " + rules.size() + " rules");
   }
 

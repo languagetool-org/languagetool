@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.tools.Tools;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -42,10 +43,10 @@ public class PatternRuleLoader extends DefaultHandler {
   /**
    * @param file XML file with pattern rules
    */
-  public final List<AbstractPatternRule> getRules(File file) throws IOException {
+  public final List<AbstractPatternRule> getRules(File file, Language lang) throws IOException {
     try (InputStream inputStream = new FileInputStream(file)) {
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
-      return ruleLoader.getRules(inputStream, file.getAbsolutePath());
+      return ruleLoader.getRules(inputStream, file.getAbsolutePath(), lang);
     }
   }
 
@@ -62,9 +63,9 @@ public class PatternRuleLoader extends DefaultHandler {
    * @param is stream with the XML rules
    * @param filename used only for verbose exception message - should refer to where the stream comes from
    */
-  public final List<AbstractPatternRule> getRules(InputStream is, String filename) throws IOException {
+  public final List<AbstractPatternRule> getRules(InputStream is, String filename, Language lang) throws IOException {
     try {
-      PatternRuleHandler handler = new PatternRuleHandler(filename);
+      PatternRuleHandler handler = new PatternRuleHandler(filename, lang);
       handler.setRelaxedMode(relaxedMode);
       SAXParserFactory factory = SAXParserFactory.newInstance();
       SAXParser saxParser = factory.newSAXParser();

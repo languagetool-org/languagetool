@@ -243,7 +243,7 @@ public class LanguageSpecificTest {
         continue;
       }
       InputStream is = this.getClass().getResourceAsStream(ruleFileName);
-      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName);
+      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName, lang);
       for (AbstractPatternRule rule : rules) {
         String message = rule.getMessage();
         if (message.matches(".*['\"«»“”’]<suggestion.*") && message.matches(".*</suggestion>['\"«»“”’].*")) {

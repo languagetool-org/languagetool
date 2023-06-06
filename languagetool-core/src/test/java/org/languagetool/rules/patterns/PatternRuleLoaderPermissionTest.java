@@ -52,7 +52,7 @@ public class PatternRuleLoaderPermissionTest {
       PatternRuleLoader loader = new PatternRuleLoader();
       // do not crash if Authenticator.setDefault() is forbidden,
       // see https://github.com/languagetool-org/languagetool/issues/255
-      loader.getRules(new ByteArrayInputStream("<rules lang='xx'></rules>".getBytes("utf-8")), "fakeName");
+      loader.getRules(new ByteArrayInputStream("<rules lang='xx'></rules>".getBytes("utf-8")), "fakeName", null);
     } finally {
       System.setSecurityManager(null);
     }
