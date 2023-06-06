@@ -34,9 +34,9 @@ import java.util.Map;
 
 
 /*
- * Creates a compound word from two tokens. 
- * If the joined word is a valid word and the length is <20 characters, 
- * the rule the joined word as a suggestion. 
+ * This filter creates a compound word from two tokens. 
+ * If the joined word is a valid word and its length is less than 20 characters, 
+ * the rule provides the joined word as a suggestion. 
  * Otherwise, it provides the hyphenated word.
  */
 
