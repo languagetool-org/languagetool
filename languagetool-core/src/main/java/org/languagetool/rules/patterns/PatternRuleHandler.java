@@ -93,7 +93,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
   public PatternRuleHandler(String filename, Language lang) {
     this.sourceFile = filename;
-    this.language = lang;
+    this.language = Languages.getLanguageForShortCode(lang.getShortCodeWithCountryAndVariant());
   }
 
   /**

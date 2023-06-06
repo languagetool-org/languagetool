@@ -22,6 +22,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
+
 public class BalearicCatalan extends Catalan {
 
   @Override
@@ -38,6 +42,12 @@ public class BalearicCatalan extends Catalan {
   public String getVariant() {
     // unlike Valencian (ca-ES-valencia) this code is not registered by IANA language subtag registry
     return "balear";
+  }
+  
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return CatalanSynthesizer.INSTANCE_BAL;
   }
 
   @Override
