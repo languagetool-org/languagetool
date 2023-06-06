@@ -23,6 +23,8 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PreReformPortugueseDashRule;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 
 import java.io.IOException;
 import java.util.*;
@@ -42,6 +44,10 @@ public class MozambiquePortuguese extends Portuguese {
     return "Portuguese (Moçambique preAO)";
   }
 
+  @Override
+  public Disambiguator createDefaultDisambiguator() {
+    return new PortugueseHybridDisambiguator(this);
+  }
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();

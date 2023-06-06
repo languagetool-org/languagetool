@@ -25,6 +25,8 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.pt.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,6 +38,10 @@ public class BrazilianPortuguese extends Portuguese {
     return "Portuguese (Brazil)";
   }
 
+  @Override
+  public Disambiguator createDefaultDisambiguator() {
+    return new PortugueseHybridDisambiguator(this);
+  }
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();

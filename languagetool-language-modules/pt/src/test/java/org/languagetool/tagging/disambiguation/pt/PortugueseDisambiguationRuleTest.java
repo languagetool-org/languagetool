@@ -48,7 +48,7 @@ public class PortugueseDisambiguationRuleTest {
     sentenceTokenizer = new SRXSentenceTokenizer(new Portuguese());
     //disambiguator = new XmlRuleDisambiguator(new Portuguese());
     //disamb2 = new DemoDisambiguator(); 
-    hybridDisam = new PortugueseHybridDisambiguator();
+    hybridDisam = new PortugueseHybridDisambiguator(new Portuguese());
   }
 
   @Test

@@ -23,6 +23,8 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PreReformPortugueseDashRule;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 
 import java.io.IOException;
 import java.util.*;
@@ -40,6 +42,11 @@ public class AngolaPortuguese extends Portuguese {
   @Override
   public String getName() {
     return "Portuguese (Angola preAO)";
+  }
+
+  @Override
+  public Disambiguator createDefaultDisambiguator() {
+    return new PortugueseHybridDisambiguator(this);
   }
 
   @Override
