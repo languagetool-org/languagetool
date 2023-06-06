@@ -85,7 +85,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new PortugueseHybridDisambiguator();
+    return new PortugueseHybridDisambiguator(this);
   }
 
   @Override

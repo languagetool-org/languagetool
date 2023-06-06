@@ -72,7 +72,7 @@ public class DisambiguationRuleTest {
         long startTime = System.currentTimeMillis();
         String name = getDataBroker().getResourceDir() + "/" + lang.getShortCode() + "/disambiguation.xml";
         validateRuleFile(name);
-        List<DisambiguationPatternRule> rules = ruleLoader.getRules(ruleLoader.getClass().getResourceAsStream(name));
+        List<DisambiguationPatternRule> rules = ruleLoader.getRules(ruleLoader.getClass().getResourceAsStream(name), lang);
         for (DisambiguationPatternRule rule : rules) {
           PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(), rule.getId(), rule.getSubId(), lang);
         }

@@ -27,6 +27,8 @@ import java.util.List;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.language.PortugalPortuguese;
 import org.languagetool.language.Portuguese;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -40,8 +42,11 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/pt/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Portuguese(), true);
+  private final Disambiguator disambiguator;
 
+  public PortugueseHybridDisambiguator(Language lang) {
+    disambiguator = new XmlRuleDisambiguator(lang, true);
+  }
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based
    * disambiguator.
