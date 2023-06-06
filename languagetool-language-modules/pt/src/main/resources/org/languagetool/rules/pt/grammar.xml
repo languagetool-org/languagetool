@@ -30936,6 +30936,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='CONFUSÃO_E_É' name="[Confusão] e/é">
             <short>Possível erro de acentuação.</short>
+            <antipattern>
+                <token regexp="yes">qu[eê]|quando|qual|quais|a?onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                <token case_sensitive="yes">e</token>
+                <token postag_regexp="yes" postag="SP.+|RG" min="0"/>
+                <token regexp="yes">se|qu[eê]|quando|qual|quais|onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                <example>Onde e como assinar?</example>
+                <example>Sei onde e com quem você dormiu ontem à noite.</example>
+                <example>A RAF parecia saber sempre quando e para onde enviar as suas aeronaves.</example>
+                <example>Volte aqui quando e se achar que deve.</example>
+                <example>Vender ou alugar quantas e quais ações quiser.</example>
+                <example>Quem, onde, sobre quem e em que medida deve ter poder.</example>
+                <example>Quando e por que o destreinamento começa.</example>
+                <example>Quantos e quais países fazem fronteira com a Bulgária?</example>
+                <example>Mas ainda não se sabe como e se esses dois órgãos têm papéis.</example>
+            </antipattern>
+
+            <antipattern>
+                <token regexp="yes">qu[eê]|quando|qual|quais|a?onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                <token case_sensitive="yes">e</token>
+                <token>o</token>
+                <token regexp="yes">qu[eê]</token>
+                <example>Quem e o que é você?</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag="VMIP1S0">como</token>
+                <token case_sensitive="yes">e</token>
+                <token postag_regexp="yes" postag="VM.+"/>
+                <example>Como e leio todo o dia.</example>
+            </antipattern>
 
             <!-- the only consistent false positive here refers to mathematical texts where
                  'e' is used as a variable, or physics where it is a constant;
@@ -30944,11 +30974,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                  anyway... -->
             <rule>
                 <pattern>
-                    <token regexp="yes">qu[eê]|quando|qual|onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
+                    <token regexp="yes">qu[eê]|quando|qual|quais|a?onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
                     <marker>
                         <token case_sensitive="yes">e</token>
                     </marker>
-                    <token negate="yes" regexp="yes">qu[eê]|quando|qual|onde|quem|quant[oa]s?|como|por[ ]?qu[êe]</token>
                 </pattern>
                 <message>Possível erro de acentuação. Verifique se não quis dizer <suggestion>é</suggestion>.</message>
                 <example correction="é">Acha que <marker>e</marker> melhor?</example>
@@ -30958,7 +30987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="é">Quando <marker>e</marker> a festa?</example>
                 <example correction="é">Quanto <marker>e</marker> a medida ideal?</example>
                 <example correction="é">Por que <marker>e</marker> pior fazer do meu jeito?</example>
-                <example>Onde e como assinar?</example>
+                <example correction="é">Como <marker>e</marker> o amor dela?</example>
             </rule>
 
             <rule>
