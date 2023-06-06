@@ -122,7 +122,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
             "</category> </rules>").getBytes());
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
 
-    List<AbstractPatternRule> rules = ruleLoader.getRules(input, "test.xml");
+    List<AbstractPatternRule> rules = ruleLoader.getRules(input, "test.xml", language);
 
     PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     Query query1 = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(0));
@@ -288,7 +288,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     sb.append("</pattern> </rule> </category> </rules>");
     InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    List<AbstractPatternRule> rules = ruleLoader.getRules(input, "test.xml");
+    List<AbstractPatternRule> rules = ruleLoader.getRules(input, "test.xml", language);
     assertEquals(1, rules.size());
     return rules.get(0);
   }

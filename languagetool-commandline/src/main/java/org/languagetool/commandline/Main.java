@@ -69,7 +69,7 @@ class Main {
     lt = new MultiThreadedJLanguageTool(options.getLanguage(), options.getMotherTongue());
     lt.setCleanOverlappingMatches(options.isCleanOverlapping());
     if (options.getRuleFile() != null) {
-      addExternalRules(options.getRuleFile());
+      addExternalRules(options.getRuleFile(), options.getLanguage());
     }
     if (options.getLanguageModel() != null) {
       lt.activateLanguageModelRules(options.getLanguageModel());
@@ -79,10 +79,10 @@ class Main {
             new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly(), options.isEnableTempOff());
   }
 
-  private void addExternalRules(String filename) throws IOException {
+  private void addExternalRules(String filename, Language lang) throws IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     try (InputStream is = new FileInputStream(filename)) {
-      List<AbstractPatternRule> externalRules = ruleLoader.getRules(is, filename);
+      List<AbstractPatternRule> externalRules = ruleLoader.getRules(is, filename, lang);
       for (AbstractPatternRule externalRule : externalRules) {
         lt.addRule(externalRule);
       }

@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.ResourceBundleTools;
 import org.languagetool.rules.*;
@@ -90,6 +91,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
   public PatternRuleHandler(String sourceFile) {
     this.sourceFile = sourceFile;
   }
+  public PatternRuleHandler(String filename, Language lang) {
+    this.sourceFile = filename;
+    this.language = lang;
+  }
 
   /**
    * If set to true, don't throw an exception if id or name is not set.
@@ -132,7 +137,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         String languageStr = attrs.getValue("lang");
         premiumFileAttribute = attrs.getValue(PREMIUM); //check if all rules should be premium by default in this file
         idPrefix = attrs.getValue("idprefix");
-        language = Languages.getLanguageForShortCode(languageStr);
+        if (language == null) {
+          language = Languages.getLanguageForShortCode(languageStr);
+        }
         messages = ResourceBundleTools.getMessageBundle(language);
         break;
       case "regexp":

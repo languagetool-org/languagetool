@@ -151,7 +151,7 @@ public class GermanTest extends LanguageSpecificTest {
     for (String ruleFileName : lang.getRuleFileNames()) {
       int i = 0;
       InputStream is = this.getClass().getResourceAsStream(ruleFileName);
-      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName);
+      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName, lang);
       for (AbstractPatternRule rule : rules) {
         if (ignoreIds.contains(rule.getId())) {
           continue;

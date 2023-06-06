@@ -26,9 +26,11 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -39,8 +41,6 @@ import org.languagetool.tools.StringTools;
 public class OblidarseSugestionsFilter extends RuleFilter {
 
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
-
-  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
 
   private static Map<String, String> addReflexiveVowel = new HashMap<>();
   static {
@@ -85,6 +85,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+    CatalanSynthesizer synth = getSynthesizer(match);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
@@ -144,5 +145,11 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacement(replacement);
     return ruleMatch;
+  }
+
+  static private CatalanSynthesizer getSynthesizer(RuleMatch match) {
+    PatternRule pr = (PatternRule) match.getRule();
+    Language lang = pr.getLanguage();
+    return (CatalanSynthesizer) lang.createDefaultSynthesizer();
   }
 }
