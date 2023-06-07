@@ -59,11 +59,6 @@ public class ValencianCatalan extends Catalan {
   public Synthesizer createDefaultSynthesizer() {
     return CatalanSynthesizer.INSTANCE_VAL;
   }
-  
-  @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new CatalanHybridDisambiguator(this);
-  }
 
   @Override
   public List<String> getDefaultEnabledRulesForVariant() {

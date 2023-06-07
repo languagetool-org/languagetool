@@ -73,7 +73,7 @@ public class English extends Language implements AutoCloseable {
           List<Rule> rules = new ArrayList<>();
           PatternRuleLoader loader = new PatternRuleLoader();
           try (InputStream is = JLanguageTool.getDataBroker().getAsStream(path)) {
-            rules.addAll(loader.getRules(is, path, new English()));
+            rules.addAll(loader.getRules(is, path, null));
           }
           return rules;
         }
@@ -135,7 +135,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new EnglishHybridDisambiguator();
+    return new EnglishHybridDisambiguator(this);
   }
 
   @Override

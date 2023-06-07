@@ -97,4 +97,14 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("Zeichen ohne sein Gegenstück: '\"' scheint zu fehlen"), "Zeichen ohne sein Gegenstück: ‚\"‘ scheint zu fehlen");
     
   }
+  
+  @Test
+  public void testGermanVariants() throws IOException {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    lt.check("Das Haus ist meine.");
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-CH"));
+    lt.check("Das Haus ist meine.");
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-AT"));
+    lt.check("Das Haus ist meine.");
+  }
 }

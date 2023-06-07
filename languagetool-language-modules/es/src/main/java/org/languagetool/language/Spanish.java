@@ -77,7 +77,7 @@ public class Spanish extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new SpanishHybridDisambiguator();
+    return new SpanishHybridDisambiguator(this);
   }
 
   @Override
