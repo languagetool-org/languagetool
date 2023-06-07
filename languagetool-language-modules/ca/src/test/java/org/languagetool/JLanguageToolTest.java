@@ -20,6 +20,7 @@ package org.languagetool;
 
 import org.junit.Test;
 import org.languagetool.language.Catalan;
+import org.languagetool.language.ValencianCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -52,6 +53,14 @@ public class JLanguageToolTest {
 
   }
 
+  @Test
+  public void valencianVariantTest() throws IOException {
+    Language lang = new ValencianCatalan();
+    JLanguageTool tool = new JLanguageTool(lang);
+    List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
+    assertEquals(0, matches.size());
+  }
+  
   @Test
   public void testAdvancedTypography() throws IOException {
     Language lang = new Catalan();

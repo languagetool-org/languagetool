@@ -125,7 +125,7 @@ public class Catalan extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new CatalanHybridDisambiguator();
+    return new CatalanHybridDisambiguator(this);
   }
 
   @Override

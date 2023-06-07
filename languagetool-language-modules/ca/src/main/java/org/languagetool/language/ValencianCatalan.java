@@ -28,6 +28,8 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 
 public class ValencianCatalan extends Catalan {
 
@@ -56,6 +58,11 @@ public class ValencianCatalan extends Catalan {
   @Override
   public Synthesizer createDefaultSynthesizer() {
     return CatalanSynthesizer.INSTANCE_VAL;
+  }
+  
+  @Override
+  public Disambiguator createDefaultDisambiguator() {
+    return new CatalanHybridDisambiguator(this);
   }
 
   @Override

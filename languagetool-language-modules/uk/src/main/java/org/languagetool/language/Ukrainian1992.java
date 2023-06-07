@@ -31,7 +31,8 @@ import org.languagetool.rules.uk.SimpleReplaceSpelling2019Rule;
 public class Ukrainian1992 extends Ukrainian {
   @Override
   public String getVariant() {
-    return "1992";
+    return "";
+    //return "1992";
   }
 
   @Override
