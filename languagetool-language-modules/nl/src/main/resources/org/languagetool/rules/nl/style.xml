@@ -354,7 +354,7 @@ USA
                 <example correction="je">Ik zie <marker>jou</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky" tone_tags="formal">
+        <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky" tone_tags="formal" is_goal_specific="true">
             <antipattern>
                 <!-- v1.0 -->
                 <token regexp="yes">v[0-9]+</token>
@@ -703,7 +703,7 @@ USA
 				<example correction="binnen">De fout treedt op <marker>binnen nu en</marker> 5 jaar.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter" tone_tags="formal">
+		<rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter" tone_tags="formal" default="off">
 			<rule>
 				<antipattern><token>het</token><token>IJ</token></antipattern>
 				<pattern>
@@ -880,7 +880,7 @@ USA
 			<url>https://taaladvies.net/taal/advies/vraag/580</url>
 			<example correction="ondenkbeeldig|niet denkbeeldig">Taaladvies over <marker>niet ondenkbeeldig</marker>.</example>
 		</rule>
-		<rulegroup id="ER_MIST" name="Er mist → Er ontbreekt" tone_tags="formal">
+		<rulegroup id="ER_MIST" name="Er mist → Er ontbreekt" tone_tags="formal" is_goal_specific="true">
 			<rule>
 				<pattern>
 					<token regexp="yes">er|hier|daar</token>
@@ -937,7 +937,7 @@ USA
 			<message>Misschien kan dit ook gezegd worden met alleen <suggestion>\1</suggestion> of <suggestion>\2</suggestion>.</message>
 			<example correction="heel|erg">Wij vonden het <marker>heel erg</marker> saai.</example>
 		</rule>
-        <rulegroup id="WAT_SCHETST" name="wat schetst" tone_tags="formal">
+        <rulegroup id="WAT_SCHETST" name="wat schetst" tone_tags="formal" is_goal_specific="true">
             <!-- 2014-08-19 TaalTik: regel werkt goed, url toegevoegd -->
             <rule>
                 <pattern>
@@ -2970,31 +2970,6 @@ USA
 				<example correction="inderdaad">Het is <marker>idd</marker> erg informeel.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KRUID_VERSCHIETEN" name="kruid/kruit" >
-			<!-- R. Baars december 2022 -->
-			<rule>
-				<pattern>
-					<marker>
-						<token skip="-1">kruid</token>
-					</marker>
-					<token inflected="yes">verschieten</token>
-				</pattern>
-				<message>Bij schieten hoort kruit, niet kruid.</message>
-				<suggestion>kruit</suggestion>
-				<example correction="kruit">Hij heeft zijn <marker>kruid</marker> verschoten.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token inflected="yes" skip="-1">verschieten</token>
-					<marker>
-						<token>kruid</token>
-					</marker>
-				</pattern>
-				<message>Bij schieten hoort kruit, niet kruid.</message>
-				<suggestion>kruit</suggestion>
-				<example correction="kruit">Hij verschoot zijn <marker>kruid</marker>.</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="ENZO" name="Enzo" >
 			<!-- R. Baars november 2022 -->
 			<rule>
@@ -3027,23 +3002,6 @@ USA
 				</pattern>
 				<message>Correct is: <suggestion>of zo</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
 				<example correction="of zo">Ik haat fouten <marker>ofzo</marker>.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="I_HAD" name="I/Ik">
-			<!-- R. Baars december 2022 -->
-			<rule>
-				<pattern>
-					<token postag="SENT_START"/>
-					<marker>
-						<token>I</token>
-						<token postag_regexp="yes" postag="WKW.*1EP">
-							<exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
-						</token>
-					</marker>
-					<token><exception postag="UNKNOWN"/></token>
-				</pattern>
-				<message>U bedoelt vast: <suggestion>Ik \3</suggestion>.</message>
-				<example correction="Ik had"><marker>I had</marker> het fout.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ZOGAUW" name="Zogauw/zo gauw" >
@@ -3235,19 +3193,6 @@ USA
 				<example correction="i.p.v.">Het is fout <marker>ipv</marker> de regels.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="LS_IS" name="ls / Is" >
-			<rule>
-				<antipattern><token postag="SENT_START"/><token/><token skip="-1"/><token case_sensitive="yes">ls</token></antipattern>
-				<pattern>
-					<marker>
-						<token case_sensitive="yes">ls</token>
-					</marker>
-				</pattern>
-				<message>Is de 'l' hier niet toevallig een 'I'?</message>
-				<suggestion>Is</suggestion>
-				<example correction="Is">- <marker>ls</marker> m'n bureau leeggeruimd?</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="DOET-IE" name="Doet-ie / doet ie">
 			<rule>
 				<pattern>
@@ -3260,21 +3205,6 @@ USA
 				<suggestion><match no="1" regexp_match='-ie' regexp_replace=' hij'/></suggestion>
 				<url>https://www.vlaanderen.be/taaladvies/taaladviezen/ie-komt-ie-komt-ie-komt-ie</url>
 				<example correction="Komt ie|Komt hij"><marker>Komt-ie</marker> nog?</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="ONS_BEIDE" name="Ons beide/ons beiden" >
-			<rule>
-				<antipattern><token>beide</token><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
-				<antipattern><token>beide</token><token postag_regexp="yes" postag="BNW.*VRB"/><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
-				<pattern>
-					<token>ons</token>
-					<marker>
-						<token>beide</token>
-					</marker>
-				</pattern>
-				<message>Wanneer naar mensen wordt verwezen, is het niet beide, maar beiden.</message>
-				<suggestion>beiden</suggestion>
-				<example correction="beiden">Hij laat het ons <marker>beide</marker> zien.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -16801,7 +16731,7 @@ USA
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="VOLUIT_SCHRIJVEN" name="Voluit schrijven" type="style" tone_tags="formal">
+	<category id="VOLUIT_SCHRIJVEN" name="Voluit schrijven" type="style" tone_tags="formal" is_goal_specific="true">
 		<rulegroup id="M" name="'m">
 			<rule>
 				<pattern>
