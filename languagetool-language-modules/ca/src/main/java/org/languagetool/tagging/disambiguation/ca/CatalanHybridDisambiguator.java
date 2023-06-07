@@ -27,6 +27,7 @@ import java.util.List;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.language.Catalan;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -41,12 +42,17 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/ca/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Catalan(), true);
+  private final Disambiguator disambiguator;
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based
    * disambiguator.
    */
+  
+  public CatalanHybridDisambiguator(Language lang) {
+    disambiguator = new XmlRuleDisambiguator(lang, true);
+  }
+  
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
       throws IOException {

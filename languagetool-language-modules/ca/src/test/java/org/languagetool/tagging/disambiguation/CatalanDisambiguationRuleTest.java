@@ -43,7 +43,7 @@ public class CatalanDisambiguationRuleTest {
     tokenizer = new CatalanWordTokenizer();
     sentenceTokenizer = new SRXSentenceTokenizer(new Catalan());
     //disambiguator = new MultiWordChunker("/ca/multiwords.txt", true);
-    disambiguator = new CatalanHybridDisambiguator();
+    disambiguator = new CatalanHybridDisambiguator(new Catalan());
   }
 
   @Test
