@@ -23,8 +23,6 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PreReformPortugueseDashRule;
-import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 
 import java.io.IOException;
 import java.util.*;
