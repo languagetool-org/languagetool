@@ -44,10 +44,6 @@ public class PortugalPortuguese extends Portuguese {
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new PortugueseHybridDisambiguator(this);
-  }
-  @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));

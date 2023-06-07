@@ -26,6 +26,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.LongSentenceRule;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +62,11 @@ public class SimpleGerman extends GermanyGerman {
     return new Contributor[] {
         new Contributor("Annika Nietzio")
     };
+  }
+  
+  @Override
+  public Disambiguator createDefaultDisambiguator() {
+    return new GermanRuleDisambiguator(GermanyGerman.INSTANCE);
   }
 
   @Override

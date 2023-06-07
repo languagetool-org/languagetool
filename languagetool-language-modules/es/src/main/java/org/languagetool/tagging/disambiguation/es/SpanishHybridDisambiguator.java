@@ -24,7 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Spanish;
+import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
@@ -43,7 +43,11 @@ import java.util.List;
 public class SpanishHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/es/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Spanish(), true);
+  private final Disambiguator disambiguator;
+
+  public SpanishHybridDisambiguator(Language lang) {
+    disambiguator = new XmlRuleDisambiguator(lang, true);
+  }
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {

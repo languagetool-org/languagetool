@@ -24,6 +24,10 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
+import org.languagetool.language.CanadianEnglish;
+import org.languagetool.language.NewZealandEnglish;
+import org.languagetool.language.SouthAfricanEnglish;
+import org.languagetool.language.AustralianEnglish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -322,7 +326,22 @@ public class JLanguageToolTest {
   public void testAdaptSuggestions() throws IOException {
     JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
     List<RuleMatch> matches = tool.check("Whatever their needs, we doesn't never disappoint them.");
-    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[n't,  never]");
-    
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[n't,  never]"); 
+  }
+  
+  @Test 
+  public void testEnglishVariatns() throws IOException {
+    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+    tool.check("This is an test.");
+    tool = new JLanguageTool(new AustralianEnglish());
+    tool.check("This is an test.");
+    tool = new JLanguageTool(new BritishEnglish());
+    tool.check("This is an test.");
+    tool = new JLanguageTool(new CanadianEnglish());
+    tool.check("This is an test.");
+    tool = new JLanguageTool(new NewZealandEnglish());
+    tool.check("This is an test.");
+    tool = new JLanguageTool(new SouthAfricanEnglish());
+    tool.check("This is an test.");
   }
 }
