@@ -25,8 +25,6 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
-import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 
 public class BalearicCatalan extends Catalan {
 
