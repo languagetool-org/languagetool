@@ -42,7 +42,8 @@ import java.util.stream.IntStream;
 class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
   DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
-    super(rule, rule.getLanguage().getDisambiguationUnifier());
+    // The disambiguation Unifier is always in the default language variant
+    super(rule, rule.getLanguage().getDefaultLanguageVariant().getDisambiguationUnifier());
   }
 
   AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {

@@ -351,12 +351,12 @@ public abstract class Language {
 
   /**
    * Languages that have country variants need to overwrite this to select their most common variant.
-   * @return default country variant or {@code null}
+   * @return default country variant
    * @since 1.8
    */
-  @Nullable
+  @NotNull
   public Language getDefaultLanguageVariant() {
-    return null;
+    return this;
   }
 
   /**

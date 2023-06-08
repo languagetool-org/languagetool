@@ -78,7 +78,7 @@ public class German extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new GermanRuleDisambiguator(this);
+    return new GermanRuleDisambiguator(getDefaultLanguageVariant());
   }
 
   @Nullable

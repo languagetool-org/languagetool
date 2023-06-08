@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 
 public class Catalan extends Language {
 
-  private static final Language DEFAULT_CATALAN = new Catalan();
+  //private static final Language DEFAULT_CATALAN = new Catalan();
   
   @Override
   public String getName() {
@@ -60,7 +60,7 @@ public class Catalan extends Language {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return DEFAULT_CATALAN;
+    return Languages.getLanguageForShortCode("ca-ES");
   }
   
   @Override
@@ -125,7 +125,7 @@ public class Catalan extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new CatalanHybridDisambiguator(this);
+    return new CatalanHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override

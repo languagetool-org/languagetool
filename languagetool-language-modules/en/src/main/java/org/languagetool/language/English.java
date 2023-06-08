@@ -135,7 +135,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new EnglishHybridDisambiguator(this);
+    return new EnglishHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override

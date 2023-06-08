@@ -40,13 +40,11 @@ import java.util.*;
 
 public class Dutch extends Language {
 
-  private static final Language NETHERLANDS_DUTCH = new Dutch();
-
   private LanguageModel languageModel;
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return NETHERLANDS_DUTCH;
+    return Languages.getLanguageForShortCode("nl");
   }
 
   @Override
@@ -88,7 +86,7 @@ public class Dutch extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(this);
+    return new XmlRuleDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
