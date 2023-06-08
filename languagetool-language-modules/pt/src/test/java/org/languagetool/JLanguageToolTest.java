@@ -19,34 +19,22 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.PortugalPortuguese;
-import org.languagetool.language.AngolaPortuguese;
-import org.languagetool.language.BrazilianPortuguese;
-import org.languagetool.language.MozambiquePortuguese;
+
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
 public class JLanguageToolTest {
 
   @Test
-  public void testVariantsPortuguese() throws IOException {
-    Language lang = new PortugalPortuguese();
-    JLanguageTool tool = new JLanguageTool(lang);
-    tool.check("Isto é uma característica sua.");
-    
-    lang = new AngolaPortuguese();
-    tool = new JLanguageTool(lang);
-    tool.check("Isto é uma característica sua.");
-    
-    lang = new BrazilianPortuguese();
-    tool = new JLanguageTool(lang);
-    tool.check("Isto é uma característica sua.");
-    
-    lang = new MozambiquePortuguese();
-    tool = new JLanguageTool(lang);
-    tool.check("Isto é uma característica sua."); 
-   
+  public void testPortugueseVariants() throws IOException {
+    String sentence = "Isto é uma característica sua.";
+    String sentence2 = "Isto é uma características sua.";
+    for (String langCode : new String[] { "pt-PT", "pt-BR", "pt-AO", "pt-MZ" }) {
+      JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(langCode));
+      assertEquals(0, lt.check(sentence).size());
+      assertEquals(1, lt.check(sentence2).size());
+    }
   }
-  
 
 }

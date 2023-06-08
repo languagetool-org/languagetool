@@ -329,19 +329,14 @@ public class JLanguageToolTest {
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[n't,  never]"); 
   }
   
-  @Test 
-  public void testEnglishVariatns() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
-    tool.check("This is an test.");
-    tool = new JLanguageTool(new AustralianEnglish());
-    tool.check("This is an test.");
-    tool = new JLanguageTool(new BritishEnglish());
-    tool.check("This is an test.");
-    tool = new JLanguageTool(new CanadianEnglish());
-    tool.check("This is an test.");
-    tool = new JLanguageTool(new NewZealandEnglish());
-    tool.check("This is an test.");
-    tool = new JLanguageTool(new SouthAfricanEnglish());
-    tool.check("This is an test.");
+  @Test
+  public void testEnglishVariants() throws IOException {
+    String sentence = "This is a test.";
+    String sentence2 = "This is an test.";
+    for (String langCode : new String[] { "en-US", "en-AU", "en-GB", "en-CA", "en-ZA", "en-NZ" }) {
+      JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(langCode));
+      assertEquals(0, lt.check(sentence).size());
+      assertEquals(1, lt.check(sentence2).size());
+    }
   }
 }

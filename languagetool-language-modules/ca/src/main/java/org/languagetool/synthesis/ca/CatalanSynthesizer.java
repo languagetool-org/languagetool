@@ -49,9 +49,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   /* A special tag to add determiner (el, la, l', els, les). **/
   // private static final String ADD_DETERMINER = "DT";
   
-  public static final String CentralVerbTags = "[0CXY12]";
-  public static final String ValencianVerbTags = "[0VXZ13567]";
-  public static final String BalearVerbTags = "[0BYZ1247]";
+  public static final String centralVerbTags = "[0CXY12]";
+  public static final String valencianVerbTags = "[0VXZ13567]";
+  public static final String balearicVerbTags = "[0BYZ1247]";
   
   private String verbTags;
   
@@ -78,18 +78,18 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   private static final Pattern pLemmaSpace = Pattern.compile("([^ ]+) (.+)");
 
-  public static final CatalanSynthesizer INSTANCE = new CatalanSynthesizer(CentralVerbTags);
-  public static final CatalanSynthesizer INSTANCE_VAL = new CatalanSynthesizer(ValencianVerbTags);
-  public static final CatalanSynthesizer INSTANCE_BAL = new CatalanSynthesizer(BalearVerbTags);
+  public static final CatalanSynthesizer INSTANCE = new CatalanSynthesizer(centralVerbTags);
+  public static final CatalanSynthesizer INSTANCE_VAL = new CatalanSynthesizer(valencianVerbTags);
+  public static final CatalanSynthesizer INSTANCE_BAL = new CatalanSynthesizer(balearicVerbTags);
   
 //  /** @deprecated use {@link #INSTANCE} */
 //  public CatalanSynthesizer(Language lang) {
 //    this();
 //  }
 
-  protected CatalanSynthesizer(String vergTags) {
+  protected CatalanSynthesizer(String verbTags) {
     super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", "ca");
-    this.verbTags = vergTags;
+    this.verbTags = verbTags;
   }
 
   @Override
