@@ -40,8 +40,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Catalan extends Language {
-
-  //private static final Language DEFAULT_CATALAN = new Catalan();
   
   @Override
   public String getName() {
