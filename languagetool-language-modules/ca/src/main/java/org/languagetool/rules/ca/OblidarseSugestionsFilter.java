@@ -40,6 +40,8 @@ import org.languagetool.tools.StringTools;
 
 public class OblidarseSugestionsFilter extends RuleFilter {
 
+  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
+  
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
 
   private static Map<String, String> addReflexiveVowel = new HashMap<>();
@@ -85,7 +87,6 @@ public class OblidarseSugestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-    CatalanSynthesizer synth = getSynthesizer(match);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
@@ -99,7 +100,8 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     String lemma = tokens[posWord + 2].readingWithTagRegex("V.*").getLemma();
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
     String[] synthForms = synth.synthesize(at,
-        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8));
+        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8), 
+        getLanguageVariantCode(match));
     String newVerb = "";
     if (synthForms.length == 0) {
       return null;
@@ -147,9 +149,8 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     return ruleMatch;
   }
 
-  static private CatalanSynthesizer getSynthesizer(RuleMatch match) {
+  private String getLanguageVariantCode(RuleMatch match) {
     PatternRule pr = (PatternRule) match.getRule();
-    Language lang = pr.getLanguage();
-    return (CatalanSynthesizer) lang.createDefaultSynthesizer();
+    return pr.getLanguage().getShortCodeWithCountryAndVariant();
   }
 }
