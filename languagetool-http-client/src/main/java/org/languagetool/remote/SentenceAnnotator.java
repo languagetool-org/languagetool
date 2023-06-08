@@ -152,9 +152,9 @@ public class SentenceAnnotator {
           fpMatches.add(getMatchIdentifier(sentence, match));
           errorType = "IM";
           break;
-        case "o":
+        case "b":
           fpMatches.add(getMatchIdentifier(sentence, match));
-          errorType = "OB";
+          errorType = "BO";
           break;
         case "f":
           fpMatches.add(getMatchIdentifier(sentence, match));
@@ -299,7 +299,7 @@ public class SentenceAnnotator {
       return sb.toString();
     }
     sb.append("(I)gnoreMatch ");
-    sb.append("(O)kBoth ");
+    sb.append("(B)othOK ");
     sb.append("(F)P ");
     if (match.getReplacements().get().size() > 0) {
       sb.append("\nSUGGESTIONS: ");
