@@ -41,8 +41,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Spanish extends Language implements AutoCloseable {
-
-  private static final Language DEFAULT_VARIANT = new Spanish();
   
   private LanguageModel languageModel;
 
@@ -66,7 +64,7 @@ public class Spanish extends Language implements AutoCloseable {
   }
   
   public Language getDefaultLanguageVariant() {
-    return DEFAULT_VARIANT;
+    return Languages.getLanguageForShortCode("es");
   }
 
   @NotNull
@@ -77,7 +75,7 @@ public class Spanish extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new SpanishHybridDisambiguator(this);
+    return new SpanishHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override

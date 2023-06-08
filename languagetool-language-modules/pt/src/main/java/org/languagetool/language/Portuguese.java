@@ -43,8 +43,6 @@ import java.util.*;
  */
 public class Portuguese extends Language implements AutoCloseable {
 
-  private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
-
   private LanguageModel languageModel;
 
   @Override
@@ -64,7 +62,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return PORTUGAL_PORTUGUESE;
+    return Languages.getLanguageForShortCode("pt-PT");
   }
 
   @Override
@@ -85,7 +83,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new PortugueseHybridDisambiguator(this);
+    return new PortugueseHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override

@@ -361,7 +361,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         if (inUnification && !inAndGroup) {
           uniCounter++;
         }
-        finalizeTokens(language.getDisambiguationUnifierConfiguration());
+        // The disambiguation Unifier is always in the default language variant
+        finalizeTokens(language.getDefaultLanguageVariant().getDisambiguationUnifierConfiguration());
         break;
       case PATTERN:
         inPattern = false;
