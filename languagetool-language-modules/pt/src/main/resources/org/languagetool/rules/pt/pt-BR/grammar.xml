@@ -316,6 +316,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </rulegroup>
 
+    <rulegroup id="CONFUSÃO_POSSO_POÇO" name="Confusão entre poço e posso" default="temp_off">
+        <short>Possível erro de ortografia.</short>
+
+        <antipattern>
+            <token>um</token> <!-- since 'o' can also be a pronoun, keeping this restricted for now -->
+            <token>poço</token>
+            <example>Construímos um poço no vilarejo.</example>
+        </antipattern>
+
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="R.+" min="0" max="-1"/>
+                <marker><token>poço</token></marker>
+                <token postag_regexp="yes" postag="P.+" min="0"/>
+                <token postag="VMN0000"/>
+            </pattern>
+            <message>Se sua intenção for usar o verbo &quot;poder&quot;, a grafia correta é <suggestion>posso</suggestion>.</message>
+            <example correction="Posso"><marker>Poço</marker> sair?</example>
+            <example correction="Posso"><marker>Poço</marker> lhe dar uma boa razão.</example>
+        </rule>
+
+
+        <rule>
+            <pattern>
+                <token regexp="yes">não|mal</token>
+                <marker><token>poço</token></marker>
+                <token postag_regexp="yes" postag="P.+" min="0"/>
+                <token postag="VMN0000"/>
+            </pattern>
+            <message>Se sua intenção for usar o verbo &quot;poder&quot;, a grafia correta é <suggestion>posso</suggestion>.</message>
+            <example correction="posso">Não <marker>poço</marker> acreditar!</example>
+            <example correction="posso">Mal <marker>poço</marker> acreditar!</example>
+        </rule>
+
+        <rule>
+            <pattern>
+                <token regexp="yes">qu[eê]|quando|a?onde|como</token>
+                <marker><token>poço</token></marker>
+                <token postag_regexp="yes" postag="P.+" min="0"/>
+                <token postag="VMN0000"/>
+            </pattern>
+            <message>Se sua intenção for usar o verbo &quot;poder&quot;, a grafia correta é <suggestion>posso</suggestion>.</message>
+            <example correction="posso">O que <marker>poço</marker> fazer aqui?</example>
+            <example correction="posso">Aonde <marker>poço</marker> ir?</example>
+        </rule>
+
+        <rule>
+            <pattern>
+                <token>eu</token>
+                <token postag_regexp="yes" postag="R.+" min="0" max="-1"/>
+                <marker><token>poço</token></marker>
+                <token postag_regexp="yes" postag="P.+" min="0"/>
+                <token postag="VMN0000"/>
+            </pattern>
+            <message>Se sua intenção for usar o verbo &quot;poder&quot;, a grafia correta é <suggestion>posso</suggestion>.</message>
+            <example correction="posso">Eu ainda <marker>poço</marker> me levantar.</example>
+        </rule>
+    </rulegroup>
+
     <!-- FIM A GENTE POR AGENTE -->
     <!-- ********************************************************** -->
     <!-- CONFUNDIR FAÇO POR FASSO -->
