@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.ToneTag;
 import org.languagetool.language.*;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
@@ -353,6 +354,30 @@ public class HTTPServerTest {
     assertTrue(test10.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
     assertFalse(test10.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
     assertFalse(test10.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
+    
+    String test11 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=" + ToneTag.ALL_TONE_RULES.name());
+    assertTrue(test11.contains("Formal_Clarity_TONE_RULE"));
+    assertTrue(test11.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test11.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertTrue(test11.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test11.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test11.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
+    
+    String test12 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=" + ToneTag.NO_TONE_RULE.name() + "&level=picky");
+    assertFalse(test12.contains("Formal_Clarity_TONE_RULE"));
+    assertTrue(test12.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertFalse(test12.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertFalse(test12.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test12.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test12.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
   }
 
   private void runDataTests() throws IOException {

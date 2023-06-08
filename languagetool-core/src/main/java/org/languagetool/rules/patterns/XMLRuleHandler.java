@@ -57,6 +57,9 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String PREMIUM = "premium";
   protected static final String YES = "yes";
   protected static final String OFF = "off";
+  protected static final String GOAL_SPECIFIC = "is_goal_specific";
+  protected static final String TRUE = "true";
+  protected static final String FALSE = "false";
   protected static final String TEMP_OFF = "temp_off";
   protected static final String ON = "on";
   protected static final String POSTAG = "postag";
@@ -154,6 +157,15 @@ public class XMLRuleHandler extends DefaultHandler {
   protected String premiumCategoryAttribute;
   protected String premiumFileAttribute;
   protected boolean isPremiumRule;
+  protected List<String> categoryTags = new ArrayList<>();
+  protected List<String> ruleGroupTags = new ArrayList<>();
+  protected List<String> ruleGroupToneTags = new ArrayList<>();
+  protected List<String> categoryToneTags = new ArrayList<>();
+  protected List<String> ruleTags = new ArrayList<>();
+  protected List<String> ruleToneTags = new ArrayList<>();
+  protected String isGoalSpecificCategoryAttribute;
+  protected String isGoalSpecificRuleGroupAttribute;
+  protected boolean isGoalSpecific;
 
   protected boolean tokenLevelCaseSensitive;
   protected boolean tokenLevelCaseSet;
