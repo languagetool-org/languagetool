@@ -6845,6 +6845,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule default="temp_off">
                 <antipattern>
+                    <token skip="-1" postag="V.SI.*" postag_regexp="yes"/>
+                    <token regexp="yes">y|o|e</token>
+                    <example>Mucha gente que pensaba que esto servirá para que XMPP se extendiera y aumentara sus prestaciones.</example>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" postag="V.IF.*" postag_regexp="yes"/>
+                    <token skip="-1" regexp="yes">y|o|e</token>
+                    <marker>
+                        <and>
+                            <token inflected="yes" regexp="yes">.*ar</token>
+                            <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP|VMI.*|[AN].*" postag_regexp="yes"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si es futuro, se escribe con tilde.</message>
+                <suggestion><match no="3" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
+                <example correction="ayudarán">Buscará nuevas e interesantes experiencias o situaciones que le <marker>ayudaran</marker> a inspirarse</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
                     <token>como</token>
                     <token skip="3">si</token>
                     <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)</token>
