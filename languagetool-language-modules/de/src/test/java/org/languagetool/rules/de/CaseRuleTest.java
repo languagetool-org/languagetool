@@ -211,6 +211,7 @@ public class CaseRuleTest {
     assertGood("Während ein Befragter Geschichten erzählte.");
     assertGood("Während die Befragte Geld verdiente.");
     assertGood("Während die Besagte Geschichten erzählte.");
+    assertGood("Sind dem Zahlungspflichtigen Kosten entstanden?");
     assertGood("Jetzt, wo Protestierende und Politiker sich streiten");
     assertGood("Während die Besagte Geld verdiente.");
     assertGood("Die Nacht, die Liebe, dazu der Wein — zu nichts Gutem Ratgeber sein.");

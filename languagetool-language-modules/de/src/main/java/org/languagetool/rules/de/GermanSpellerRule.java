@@ -3287,9 +3287,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "freischreiben": return topMatch("frei schreiben");
       case "freizuschreiben": return topMatch("frei zu schreiben");
       case "freigeschrieben": return topMatch("frei geschrieben");
-      case "freiziehen": return topMatch("frei ziehen");
-      case "freizuziehen": return topMatch("frei zu ziehen");
-      case "freigezogen": return topMatch("frei gezogen");
       case "freischlagen": return topMatch("frei schlagen");
       case "freizuschlagen": return topMatch("frei zu schlagen");
       case "freigeschlagen": return topMatch("frei geschlagen");
@@ -3372,6 +3369,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ewiggleichen": return topMatch("ewig gleichen");
       case "sattessen": return topMatch("satt essen");
       case "gemäss": return topMatch("gemäß");
+      case "upgedated": return topMatch("upgedatet");
     }
     return Collections.emptyList();
   }
