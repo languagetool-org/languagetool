@@ -2,6 +2,14 @@
 
 ## 6.2-SNAPSHOT (release planned for 2023-06-28)
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
 ...
 
 

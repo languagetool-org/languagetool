@@ -62,7 +62,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
@@ -1525,6 +1525,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Entäuschung", "Enttäuschung");
     put("Entäuschungen", "Enttäuschungen");
     put("kanns", w -> Arrays.asList("kann es", "kannst"));
+    put("verklinken", w -> Arrays.asList("verklinkern", "verlinken", "verklingen"));
     put("funktionierts", "funktioniert es");
     put("hbat", "habt");
     put("ichs", "ich es");
@@ -1776,7 +1777,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ][a-zäöüß\\-]{2,20}")   // prevent "testen-Gut"
         && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ\\-]{2,20}")   // prevent "testen-URL"
         // TODO: find a better solution for this:
-        && !s.matches(".+-(gen|tu[etn]|l?ehrt?(en?)?|[fv]iele?n?|gärt?en?|igeln?|nein|ja|d?rum|erb(en?)?|vo[rnm]|vors|hat|gab(en)?|gabs?|gibt|km|geb(en?)?|nu[nr]|gay|kalt(e[snr]?)?|la[gd](en?)?|man|rängen?|nässen?|angle|angeln?|angst|stur(en?)?|oft|wo|wann|was|wer|mengen?|spie(ß|ss)en?|adeln?|näht?en?|ob|beide[rn]?|gärten|zweiten?|hütt?en?|kehrt?en?|h?orten?|messen?|tr[ea]u|trüb|trüben?|senden?|gr[uo]b|feinden?|wie|käsen?|ih[rmn](e[srnm]?)?|grau|trug(en?)?|weil|dass|sein?|zucken?|kanten?|s?ich|getan|hält|bald|ärgern?|fächern?|wart?(en?)?|leid|weit(e[snr]?)?|weiden?|ruf(en?)?|min|im|bin|zicken?|jo|siegeln?|[ao]ha|ganz|zäh|jäh|gehen?|ga[br]|kam|sah|[sr]itzen|kann|mit|ohne|ist|so|war|da[rh]in|über|unter|doof|bis|sie|er|aalen?|[lb]aden?|raten?|die|mit|bis|d[ea]s|eifern?|acker[tn]?|z[iu]cken?|j[oe]|jäh|haha|gerät|[wrbfk]etten?|tja|je|kau|nach|haben?|hab|gaga|kicken?|kick|heil|heilen?|altern?|wänden?|wert(e[rsnm]?)?|werben?|zoom|genug|gehen?|ums?|und|oder|[sn]ah|ha|de[mnsr]|sü(ß|ss)|ringen?|dingen?|seil|au[fs]|gurten?|munden?|eigen|wenden?|regen?|b?rechen?|legen?|fächern?|leger|g[ia]lt|heim|heimen?|[mksdw]?ein|[mksdw]?einen?|erden?|ändern?|ernten?|bänden?|ästen?|arten?|kanten?|eichen?|unken?|wunden?|kunden?|runden?|regeln?|kegeln?|krähen?|zechen?|mähen?|ehren?|ehen?|enden?|eng(e[srn]?)?|gut(e[srn]?)?|zielt?(en?)?|spielt?(en?)?|ätzt?(en?)?|riegeln?|segeln?|engt?|engen?|angeln?|kochen?|[lk]ehren?|festen?|essen?|steuern?|ekeln?|irren?|cum|de|da|du|raus|rein|dort|knien?|hin|zu[rm]?|ritten?|riss|rissen?|[tr]ast(en?)?|rasseln?|hieb|wässern?|putz|hängen?|zinken?|a[bnm]|bisher|schöne?|solo|haken?|dr[üu]ck(en?|tot)?|huren?|pries|hupen?|hüllen?|lang|joa|sei[dt]|weist|üben?|ufern?|iss|steck(en?)?|fort|mal|aal|darf|halt(en?)?|eifern?|van|guck(en?|t)?|ganze?|acht(en?)?|auch|solo|[zs]og|lagern?|baggern?|au|haut?|als|uns|bei[m]?|[dm]ir|dich|uni|ergo|eich(en?)?|spick(en?)?|e[rs]|spielt?|we[hg]|wart|wi[rl]d|neue[rns]?|mithin|tags?|eine[snmr]?|wiesen?|rei[sz]en?|wei[sh]en?|siegen?|sag(en?)?|sitzen?|tagen?|all(en?)?|zahlen?|rügen?|ruhen?|bar|hüben?|hick|arm|armen?|plan(en?)?|[fpl]assen?|per|reg|rinnen?|bringen?|öl(en?)?|alt(en?)?|elf(en?)?|kp|ward|apart|wer[dkt](en?)?|weis(en?)?|sind|mm|wand|wir|licht(en)?|lügen?|loch(en?)?|übel|peu|[wtm]isch(en?)?|fein(e[rns]?)?|a(ß|ss)|mol|neu(en?)?|[dm]ich|rang|obe[nr]|übe[nl]?|maxi?|hart(en?)?|hexen?|ab|zück(en?)?|zurück|köpf(en?)?|band(en?)?|schafft?en?|schalt?en?|giften?|sieben?|seil(en?)?|wehen?|sehen?|s[it]?eht?|stocken?|red|rät|ma(ß|ss)|schämen?|innen?|karren?|wer[tf]en?|werft|loch(en?)?|logen?|gossen?|steil(en?)?|fr?isch(en?)?|d[ea]nn|zelt(en?)?|luv|kauf(en?)?|lasch(en?)?|bei(ß|ss)(en?)?|leihen?|leid(en?)?|[drsl]icht(en?)?|opfern?|[wz]äh[mln]en?|wär(en?)?|À|à|fugen?|la[xs]|zahl(en?)?|[rf]all(en?)?|wichs(en?)?|sog(en?)?|alias|glich(en?)?|würd(en?)?|wärm(en?)?|[rhg]eiz(en?)?|stieren?|teils?|trotz|fahr(en?)?|b[oa]u?[dt](en?)?|kl[öo]n(en?)?|paar|park(en?)?|last|landen?|alle[rnms]?|ad|l[äa]u[ft](en?)?|[ws]äg(en?)?|pasch(en?)?|kehl(en?)?|wohl(en?)?|flucht?(en?)?|zeit|rasa|selben?|mehr(en?)?|gabeln?|ordern?|[cw]ach(en?)?|arg(en?)?|brauch(en?)?|hauch(en?)?|[ms]a(ß|ss)(en?)?|mm?h|zart(e[snmr]?)?|ehrt?(en?)?|de[rn]en|ähm?|hui|hmm?|al|für|[bl]au(en?)?|[lr]ahm(en?)?|[bs]uch(en?)?|[wv]ag(en?)?|[tl]os(en?)?|les(en?)?|str?ahl(en?)?|zäh[mn]t?(en?)?|fest(e[rsnm]?)?|folgt?(en?)?|f[aä]llt?(en?)?|[tr]oll(en?)?|[mf]üllt?(en?)?|[rl]eit(en?)?|ras(en?)?|hall(en?)?|well(en?)?|fra(ß|ss)(en)?|tat(en)?|pah|buh(en?)?|bäh|hör(en?)?|holz(en?)?|reif(e[rsmn]?)?|litt|fort(an)?|härten?|welche[rnsm]?|wegen|fach(en?)?|bog(en?)?|foul(en?)?|löst?(en?)?|lots(en?)?|falls|[bwh][ua]ldige[rsn]?|(st)?reift?(en?)?|t?rei[bh](en?)?|[rb]ück(en?)?|wett(en?)?|t[oü]t(en?)?|[ft]est(en?)?|h[aä]ut(en?)?|knall(en?)?|[dk]ämpft?(en?)?|hört?(en?)?|patt(en?)?|[tw]ollt?en?|[km]g|[bkps]ack(en?)?|[lf]an?d(en?)?|seifen?|tabu|heft(en?)?|forma?|knall(en?)?|[lm]?acht?(en)?|boot(en?)?|lach(en?)?|[hb]i?eb(en?)?|tut(en?)?|tr?öt(e[tn]?)?|[sp]ackt?(en?)?|[klnrd]?eckt?(en?)?|beut(en?)?|top|st?att(en?)?|dien(en?)?|[hl]ieb(en?)?|sät|satt(en?)?|droh(en?)?|[sr]äum(en?)?|zeugt?(en?)?|reu(en?)?|nies(en?)?|[gzf]eigt?(en?)?|gie(ß|ss)(en?)?|sichern?|zog(en?)?|schert?(en?)?|s[tp]r?ickt?(en?)?|seicht(e[srn]?)?|(be)?sorgt?(en?)?)")   // e.g. "Babysöckchen" -> "Babys-kochen"
+        && !s.matches(".+-(gen|tu[etn]|l?ehrt?(en?)?|[fv]iele?n?|gärt?en?|igeln?|nein|ja|d?rum|erb(en?)?|vo[rnm]|vors|hat|gab(en)?|gabs?|gibt|km|geb(en?)?|nu[nr]|gay|kalt(e[snr]?)?|la[gd](en?)?|man|rängen?|nässen?|angle|angeln?|angst|stur(en?)?|oft|wo|wann|was|wer|mengen?|spie(ß|ss)en?|adeln?|näht?en?|ob|beide[rn]?|gärten|zweiten?|hütt?en?|kehrt?en?|h?orten?|messen?|tr[ea]u|trüb|trüben?|senden?|gr[uo]b|feinden?|wie|käsen?|ih[rmn](e[srnm]?)?|grau|trug(en?)?|weil|dass|sein?|zucken?|kanten?|s?ich|getan|hält|bald|ärgern?|fächern?|wart?(en?)?|leid|weit(e[snr]?)?|weiden?|ruf(en?)?|min|im|bin|zicken?|jo|siegeln?|[ao]ha|ganz|zäh|jäh|gehen?|ga[br]|kam|sah|[sr]itzen|kann|mit|ohne|ist|so|war|da[rh]in|über|unter|doof|bis|sie|er|aalen?|[lb]aden?|raten?|die|mit|bis|d[ea]s|eifern?|acker[tn]?|z[iu]cken?|j[oe]|jäh|haha|gerät|[wrbfk]etten?|tja|je|kau|nach|haben?|hab|gaga|kicken?|kick|heil|heilen?|altern?|wänden?|wert(e[rsnm]?)?|werben?|zoom|genug|gehen?|ums?|und|oder|[sn]ah|ha|de[mnsr]|sü(ß|ss)|ringen?|dingen?|seil|au[fs]|gurten?|munden?|eigen|wenden?|regen?|b?rechen?|legen?|fächern?|leger|g[ia]lt|heim|heimen?|[mksdw]?ein|[mksdw]?einen?|erden?|ändern?|ernten?|bänden?|ästen?|arten?|kanten?|eichen?|unken?|wunden?|kunden?|runden?|regeln?|kegeln?|krähen?|zechen?|mähen?|ehren?|ehen?|enden?|eng(e[srn]?)?|gut(e[srn]?)?|zielt?(en?)?|spielt?(en?)?|ätzt?(en?)?|riegeln?|segeln?|engt?|engen?|angeln?|kochen?|[lk]ehren?|festen?|essen?|steuern?|ekeln?|irren?|cum|de|da|du|raus|rein|dort|knien?|hin|zu[rm]?|ritten?|riss|rissen?|[tr]ast(en?)?|rasseln?|hieb|wässern?|putz|hängen?|zinken?|a[bnm]|bisher|schöne?|solo|haken?|dr[üu]ck(en?|tot)?|huren?|pries|hupen?|hüllen?|lang|joa|sei[dt]|weist|üben?|ufern?|iss|steck(en?)?|fort|mal|aal|darf|halt(en?)?|eifern?|van|guck(en?|t)?|ganze?|acht(en?)?|auch|solo|[zs]og|lagern?|baggern?|au|haut?|als|uns|bei[m]?|[dm]ir|dich|uni|ergo|eich(en?)?|spick(en?)?|e[rs]|spielt?|we[hg]|wart|wi[rl]d|neue[rns]?|mithin|tags?|eine[snmr]?|wiesen?|rei[sz]en?|wei[sh]en?|siegen?|sag(en?)?|sitzen?|tagen?|all(en?)?|zahlen?|rügen?|ruhen?|bar|hüben?|hick|arm|armen?|plan(en?)?|[fpl]assen?|per|reg|rinnen?|bringen?|öl(en?)?|alt(en?)?|elf(en?)?|kp|ward|apart|wer[dkt](en?)?|weis(en?)?|sind|mm|wand|wir|licht(en)?|lügen?|loch(en?)?|übel|peu|[wtm]isch(en?)?|fein(e[rns]?)?|a(ß|ss)|mol|neu(en?)?|[dm]ich|rang|obe[nr]|übe[nl]?|maxi?|hart(en?)?|hexen?|ab|zück(en?)?|zurück|köpf(en?)?|band(en?)?|schafft?en?|schalt?en?|giften?|sieben?|seil(en?)?|wehen?|sehen?|s[it]?eht?|stocken?|red|rät|ma(ß|ss)|schämen?|innen?|karren?|wer[tf]en?|werft|loch(en?)?|logen?|gossen?|steil(en?)?|fr?isch(en?)?|d[ea]nn|zelt(en?)?|luv|kauf(en?)?|lasch(en?)?|bei(ß|ss)(en?)?|leihen?|leid(en?)?|[drsl]icht(en?)?|opfern?|[wz]äh[mln]en?|wär(en?)?|À|à|fugen?|la[xs]|zahl(en?)?|[rf]all(en?)?|wichs(en?)?|sog(en?)?|alias|glich(en?)?|würd(en?)?|wärm(en?)?|[rhg]eiz(en?)?|stieren?|teils?|trotz|fahr(en?)?|b[oa]u?[dt](en?)?|kl[öo]n(en?)?|paar|park(en?)?|last|landen?|alle[rnms]?|ad|l[äa]u[ft](en?)?|[ws]äg(en?)?|pasch(en?)?|kehl(en?)?|wohl(en?)?|flucht?(en?)?|zeit|rasa|selben?|mehr(en?)?|gabeln?|ordern?|[cw]ach(en?)?|arg(en?)?|brauch(en?)?|hauch(en?)?|[ms]a(ß|ss)(en?)?|mm?h|zart(e[snmr]?)?|ehrt?(en?)?|de[rn]en|ähm?|hui|hmm?|al|für|[bl]au(en?)?|[lr]ahm(en?)?|[bs]uch(en?)?|[wv]ag(en?)?|[tl]os(en?)?|les(en?)?|str?ahl(en?)?|zäh[mn]t?(en?)?|fest(e[rsnm]?)?|folgt?(en?)?|f[aä]llt?(en?)?|[tr]oll(en?)?|[mf]üllt?(en?)?|[rl]eit(en?)?|ras(en?)?|hall(en?)?|well(en?)?|fra(ß|ss)(en)?|tat(en)?|pah|buh(en?)?|bäh|hör(en?)?|holz(en?)?|reif(e[rsmn]?)?|litt|fort(an)?|härten?|welche[rnsm]?|wegen|fach(en?)?|bog(en?)?|foul(en?)?|löst?(en?)?|lots(en?)?|falls|[bwh][ua]ldige[rsn]?|(st)?reift?(en?)?|t?rei[bh](en?)?|[rb]ück(en?)?|wett(en?)?|t[oü]t(en?)?|[ft]est(en?)?|h[aä]ut(en?)?|knall(en?)?|[dk]ämpft?(en?)?|hört?(en?)?|patt(en?)?|[tw]ollt?en?|[km]g|[bkps]ack(en?)?|[lf]an?d(en?)?|seifen?|tabu|heft(en?)?|forma?|knall(en?)?|[lm]?acht?(en)?|boot(en?)?|lach(en?)?|[hb]i?eb(en?)?|tut(en?)?|tr?öt(e[tn]?)?|[sp]ackt?(en?)?|[klnrd]?eckt?(en?)?|beut(en?)?|top|st?att(en?)?|dien(en?)?|[hl]ieb(en?)?|sät|satt(en?)?|droh(en?)?|[sr]äum(en?)?|zeugt?(en?)?|reu(en?)?|nies(en?)?|[gzf]eigt?(en?)?|gie(ß|ss)(en?)?|sichern?|zog(en?)?|schert?(en?)?|s[tp]r?ickt?(en?)?|seicht(e[srn]?)?|(be)?sorgt?(en?)?|ehelich(en?)?|link(en?)?)")   // e.g. "Babysöckchen" -> "Babys-kochen"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" en")   // https://github.com/languagetool-org/languagetool/issues/4042
@@ -1931,6 +1932,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (words.length >= 2 && isAdjOrNounOrUnknown(words[0]) && isNounOrUnknown(words[1]) &&
               startsWithUppercase(words[0]) && startsWithUppercase(words[1])) {
         // ignore, seems to be in the form "Release Prozess" which is *probably* wrong
+      } else if (words.length == 2 && isAdjBaseForm(words[0]) && !startsWithUppercase(words[0]) && isSubVerInf(words[1])) {
+        // filter "groß Denken" in "großdenken"
       } else {
         result.add(wordOrPhrase);
       }
@@ -1975,6 +1978,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     try {
       List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
       return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.hasPosTagStartingWith("EIG"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isSubVerInf(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
+      return readings.stream().anyMatch(reading -> reading.matchesPosTagRegex("SUB:.*:INF"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isAdjBaseForm(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("ADJ:PRD:GRU"));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -3207,6 +3228,148 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ebensogut": return topMatch("ebenso gut");
       case "Ebensoleicht": return topMatch("Ebenso leicht");
       case "ebensoleicht": return topMatch("ebenso leicht");
+      case "eigendlich": return topMatch("eigentlich");
+      case "eigendliche": return topMatch("eigentliche");
+      case "eigendlicher": return topMatch("eigentlicher");
+      case "eigendliches": return topMatch("eigentliches");
+      case "eigendlichen": return topMatch("eigentlichen");
+      case "eigendlichem": return topMatch("eigentlichem");
+      case "rüberstülpen": return topMatch("überstülpen");
+      case "rüberstülpe": return topMatch("überstülpe");
+      case "rübergestülpt": return topMatch("übergestülpt");
+      case "Websiten": return topMatch("Webseiten");
+      case "freiverfügbar": return topMatch("frei verfügbar");
+      case "freiverfügbare": return topMatch("frei verfügbare");
+      case "freiverfügbares": return topMatch("frei verfügbares");
+      case "freiverfügbarer": return topMatch("frei verfügbarer");
+      case "freiverfügbaren": return topMatch("frei verfügbaren");
+      case "freiverfügbarem": return topMatch("frei verfügbarem");
+      case "freiverkäuflich": return topMatch("frei verkäuflich");
+      case "freiverkäufliche": return topMatch("frei verkäufliche");
+      case "freiverkäufliches": return topMatch("frei verkäufliches");
+      case "freiverkäuflicher": return topMatch("frei verkäuflicher");
+      case "freiverkäuflichen": return topMatch("frei verkäuflichen");
+      case "freiverkäuflichem": return topMatch("frei verkäuflichem");
+      case "Mfg": return topMatch("MFG");
+      case "Gefahrenstoffe": return topMatch("Gefahrstoffe");
+      case "Gefahrenstoffen": return topMatch("Gefahrstoffen");
+      case "Resource": return topMatch("Ressource");
+      case "Resourcen": return topMatch("Ressourcen");
+      case "Resources": return topMatch("Ressourcen");
+      case "Tzatziki": return topMatch("Zaziki");
+      case "Selenski": return topMatch("Selenskyj");
+      case "armzurechnen": return topMatch("arm zu rechnen");
+      case "armrechne": return topMatch("arm rechne");
+      case "armrechnest": return topMatch("arm rechnest");
+      case "armrechnet": return topMatch("arm rechnet");
+      case "armrechnen": return topMatch("arm rechnen");
+      case "armgerechnet": return topMatch("arm gerechnet");
+      case "ernstnimmst": return topMatch("ernst nimmst");
+      case "ernstnimmt": return topMatch("ernst nimmt");
+      case "ernstnehme": return topMatch("ernst nehme");
+      case "ernstnehmen": return topMatch("ernst nehmen");
+      case "ernstzunehmen": return topMatch("ernst zu nehmen");
+      case "ernstgenommen": return topMatch("ernst genommen");
+      case "ernstmeinst": return topMatch("ernst meinst");
+      case "ernstmeine": return topMatch("ernst meine");
+      case "ernstmeinte": return topMatch("ernst meinte");
+      case "ernstmeinen": return topMatch("ernst meinen");
+      case "ernstzumeinen": return topMatch("ernst zu meinen");
+      case "ernstgemeinet": return topMatch("ernst gemeint");
+      case "fertigschreiben": return topMatch("fertig schreiben");
+      case "fertigzuschreiben": return topMatch("fertig zu schreiben");
+      case "fertiggeschrieben": return topMatch("fertig geschrieben");
+      case "fertigschreibt": return topMatch("fertig schreibt");
+      case "freigedacht": return topMatch("frei gedacht");
+      case "freidenken": return topMatch("frei denken");
+      case "freizudenken": return topMatch("frei zu denken");
+      case "freiliegen": return topMatch("frei liegen");
+      case "freischreiben": return topMatch("frei schreiben");
+      case "freizuschreiben": return topMatch("frei zu schreiben");
+      case "freigeschrieben": return topMatch("frei geschrieben");
+      case "freischlagen": return topMatch("frei schlagen");
+      case "freizuschlagen": return topMatch("frei zu schlagen");
+      case "freigeschlagen": return topMatch("frei geschlagen");
+      case "geheimhalten": return topMatch("geheim halten");
+      case "geheimhaltet": return topMatch("geheim haltet");
+      case "geheimzuhalten": return topMatch("geheim zu halten");
+      case "geheimgehalten": return topMatch("geheim gehalten");
+      case "geheimhältst": return topMatch("geheim hältst");
+      case "gleichlauten": return topMatch("gleich lauten");
+      case "gutdünken": return topMatch("Gutdünken");
+      case "langfahren": return topMatch("entlangfahren");
+      case "langfuhren": return topMatch("entlangfuhren");
+      case "langzufahren": return topMatch("entlangzufahren");
+      case "langfahre": return topMatch("entlangfahre");
+      case "langfährst": return topMatch("entlangfährst");
+      case "langgefahren": return topMatch("entlanggefahren");
+      case "langlaufen": return topMatch("entlanglaufen");
+      case "langliefen": return topMatch("entlangliefen");
+      case "langzulaufen": return topMatch("entlangzulaufen");
+      case "langlaufe": return topMatch("entlanglaufe");
+      case "langläufst": return topMatch("entlangläufst");
+      case "langgelaufen": return topMatch("entlanggelaufen");
+      case "langgehen": return topMatch("entlanggehen");
+      case "langgingen": return topMatch("entlanggingen");
+      case "langzugehen": return topMatch("entlangzugehen");
+      case "langgehe": return topMatch("entlanggehe");
+      case "langging": return topMatch("entlangging");
+      case "langgegangen": return topMatch("entlanggegangen");
+      case "lustigmachen": return topMatch("lustig machen");
+      case "lustigmache": return topMatch("lustig mache");
+      case "lustigmachst": return topMatch("lustig machst");
+      case "lustigmachten": return topMatch("lustig machten");
+      case "lustigzumachen": return topMatch("lustig zu machen");
+      case "lustiggemacht": return topMatch("lustig gemacht");
+      case "niederschlagreich": return topMatch("niederschlagsreich");
+      case "niederschlagreiche": return topMatch("niederschlagsreiche");
+      case "niederschlagreicher": return topMatch("niederschlagsreicher");
+      case "niederschlagreiches": return topMatch("niederschlagsreiches");
+      case "niederschlagreichem": return topMatch("niederschlagsreichem");
+      case "niederschlagreichen": return topMatch("niederschlagsreichen");
+      case "rechtgeben": return topMatch("recht geben");
+      case "rechtzugeben": return topMatch("recht zu geben");
+      case "rechtgegeben": return topMatch("recht gegeben");
+      case "rechtgibst": return topMatch("recht gibst");
+      case "rechtgibt": return topMatch("recht gibt");
+      case "rechtgab": return topMatch("recht gab");
+      case "rechthaben": return topMatch("recht haben");
+      case "rechthabe": return topMatch("recht habe");
+      case "rechtzuhaben": return topMatch("recht zu haben");
+      case "rechtgehabt": return topMatch("recht gehabt");
+      case "rechthatte": return topMatch("recht hatte");
+      case "rechthast": return topMatch("recht hast");
+      case "rechthabt": return topMatch("recht habt");
+      case "rechtmachen": return topMatch("recht machen");
+      case "rechtzumachen": return topMatch("recht zu machen");
+      case "rechtgemacht": return topMatch("recht gemacht");
+      case "rechtmacht": return topMatch("recht macht");
+      case "rechtmache": return topMatch("recht mache");
+      case "rechtmachte": return topMatch("recht machte");
+      case "rechtmachten": return topMatch("recht machten");
+      case "rechtmachst": return topMatch("recht machst");
+      case "taubstellen": return topMatch("taub stellen");
+      case "taubzustellen": return topMatch("taub zu stellen");
+      case "taubgestellt": return topMatch("taub gestellt");
+      case "taubstelle": return topMatch("taub stelle");
+      case "taubstellt": return topMatch("taub stellt");
+      case "taubstellst": return topMatch("taub stellst");
+      case "wachgeblieben": return topMatch("wach geblieben");
+      case "wachbleiben": return topMatch("wach bleiben");
+      case "wachbleibe": return topMatch("wach bleibe");
+      case "wachzubleiben": return topMatch("wach zu bleiben");
+      case "wachbleibst": return topMatch("wach bleibst");
+      case "wachblieb": return topMatch("wach blieb");
+      case "wachblieben": return topMatch("wach blieben");
+      case "ewiggleich": return topMatch("ewig gleich");
+      case "ewiggleiche": return topMatch("ewig gleiche");
+      case "ewiggleicher": return topMatch("ewig gleicher");
+      case "ewiggleiches": return topMatch("ewig gleiches");
+      case "ewiggleichem": return topMatch("ewig gleichem");
+      case "ewiggleichen": return topMatch("ewig gleichen");
+      case "sattessen": return topMatch("satt essen");
+      case "gemäss": return topMatch("gemäß");
+      case "upgedated": return topMatch("upgedatet");
     }
     return Collections.emptyList();
   }

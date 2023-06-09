@@ -7441,6 +7441,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB.*" postag_regexp="yes" />
             <token postag="PRP" />
         </antipattern>
+        <antipattern>
+            <token postag="MD" />
+            <token postag="RB" min="0" />
+            <token>time</token>
+            <token>out</token>
+        </antipattern>
         <antipattern><!-- Fix for chunker: steadily you wax ... -->
             <token regexp="yes">If?|you|we|they</token>
             <token postag_regexp="yes" postag="VBP?"/>
@@ -9618,12 +9624,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>as</token>
         </antipattern>
         <pattern>
-            <token postag="JJ">
-                <exception>same</exception>
+            <token postag="JJ" chunk_re=".-AD[VJ]P">
+                <exception regexp="yes">same|though</exception>
                 <exception postag="VBG" />
             </token>
             <marker>
-                <token>as</token>
+                <token case_sensitive="yes" regexp="yes">[Aa]s</token>
             </marker>
         </pattern>
         <disambig postag="RB"/>

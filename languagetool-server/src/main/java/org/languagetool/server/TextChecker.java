@@ -367,6 +367,11 @@ abstract class TextChecker {
         abTest = config.getAbTest();
       }
     }
+    String paramActivatedAbTest = params.get("abtest");
+    if (paramActivatedAbTest != null && paramActivatedAbTest.equals(config.getAbTest())) {
+      abTest = paramActivatedAbTest;
+    }
+    
 
     boolean enableHiddenRules = "true".equals(params.get("enableHiddenRules"));
     if (limits.hasPremium()) {

@@ -42,7 +42,7 @@ public class PortugueseClicheRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new PortugueseClicheRule(TestTools.getMessages("pt"));
+    rule = new PortugueseClicheRule(TestTools.getMessages("pt"), "/pt/cliches-pt.txt");
     lt = new JLanguageTool(new Portuguese());
   }
 
@@ -53,10 +53,7 @@ public class PortugueseClicheRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Evite as frases-feitas e as expressões idiomáticas.")).length);
 
     // incorrect sentences:
-
-    // at the beginning of a sentence (Romanian replace rule is case-sensitive)
     checkSimpleReplaceRule("Teste. A todo o vapor!", "O mais rápido possível");
-    // inside sentence
     checkSimpleReplaceRule("Teste, a todo o vapor!", "o mais rápido possível");
   }
 

@@ -63,12 +63,6 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   @Override
   public String getMessage() {
     return "Meinten Sie vielleicht $suggestions?";
-    //return "Dieses Wort steht in der Liste der nicht erlaubten Wörter.";
-  }
-
-  @Override
-  public String getSuggestionsSeparator() {
-    return ", ";
   }
 
   @Override

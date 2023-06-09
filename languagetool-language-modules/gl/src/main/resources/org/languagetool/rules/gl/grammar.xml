@@ -2124,23 +2124,31 @@
     </rule>
     <rule>
       <pattern>
-          <token negate="yes" regexp="yes">e|de|&hifen;</token>
+        <token negate="yes" regexp="yes">e|de|&hifen;</token>
         <marker>
-          <token regexp="yes">&contraccions_FP;
-            <exception postag_regexp="yes" postag="RG|NP.+" /></token>
+          <token regexp="yes">
+            &contraccions_FP;
+            <exception postag_regexp="yes" postag="RG|NP.+" />
+          </token>
           <token min="0" postag="(?:A..|Z.)C[NP].+" postag_regexp="yes">
-            <exception negate_pos="yes" postag_regexp="yes" postag="(?:[NZ].|A..)C[NP].+" /></token>
+            <exception negate_pos="yes" postag_regexp="yes" postag="(?:[NZ].|A..)C[NP].+" />
+          </token>
           <token postag="(?:[NZ].|A..|DP.)M.+" postag_regexp="yes">
             <exception postag="(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*" postag_regexp="yes" />
-            <exception regexp="yes">un|uns|ser|&puntos_cardeais;|números?|son</exception></token>
+            <exception regexp="yes">un|uns|ser|&puntos_cardeais;|números?|son</exception>
+            <!-- Non asumir que as palabras rematadas en -e son masculinas. -->
+            <exception regexp="yes">.*es?$</exception>
+          </token>
         </marker>
-          <token>
-            <exception postag_regexp="yes" postag="[^Z].+" regexp="yes">e|&hifen;</exception></token>
+        <token>
+          <exception postag_regexp="yes" postag="[^Z].+" regexp="yes">e|&hifen;</exception>
+        </token>
       </pattern>
       <message>&MSG_ECX;</message>
         <suggestion><match no="2" include_skipped="all" /> <match no="3" include_skipped="all" /> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace="$1FP$2" postag_regexp="yes" /></suggestion>
     <!--example correction="das grandes descubertas">A maioría <marker>das grandes descubertos</marker> científicas son nada menos que o descubrimento do ób…</example XXX add after disambiguation sync -->
       <example correction="Algunhas (bois)"><marker>Algunhas bois</marker> están no prado.</example>
+      <example>Das viaxantes do tempo</example>
     </rule>
   </rulegroup>
 
@@ -4997,16 +5005,21 @@
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token>
-            <exception postag="SENT_START"/></token>
-          <token><match no="0"/>
-            <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception></token>
+        <token>
+          <exception postag="SENT_START"/>
+        </token>
+        <token>
+          <match no="0"/>
+          <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception>
+          <exception regexp='yes'>\W+</exception>
+        </token>
       </pattern>
       <message>Posíbel erro tipográfico: hai unha palabra repetida.</message>
         <suggestion>\1</suggestion>
       <short>Posíbel palabra repetida</short>
       <example correction="linguas">Como acontece coa maior parte das <marker>linguas linguas</marker> romances.</example>
       <example>Como acontece coa maior parte das <marker>linguas</marker> romances.</example>
+      <example>A >> B</example>
     </rule>
   </rulegroup>
 

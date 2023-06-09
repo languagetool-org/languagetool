@@ -857,6 +857,47 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="AO0MS0"/>
         </rule>
     </rulegroup>
+    <rulegroup id="MILIO_K" name="numerals especials: milió, coma">
+        <rule>
+            <antipattern>
+                <!-- és una any -->
+                <token regexp="yes">el|en|l</token>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>i</token>
+                <token>mig</token>
+            </antipattern>
+            <pattern>
+                <token postag="DN.[MC].." postag_regexp="yes"/>
+                <token>i</token>
+                <marker>
+                    <token>mig</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="DN0MP0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="DN..P." postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes" inflected="yes">milió|bilió|trlió|coma1|zero|un</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="K"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">milió|bilió|trlió|coma1|zero|un</token>
+                </marker>
+                <token postag="DN..P." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="K"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="segon_ordinal" name="segon (ordinal) amb error de gènere">
         <pattern>
             <marker>
@@ -15643,7 +15684,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom2" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">busca|busques|màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">feu|busca|busques|màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="[AVCP].*|SPS00" postag_regexp="yes"/>
             </and>
         </pattern>
@@ -18098,6 +18139,64 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
+                    <token inflected="yes" regexp="yes">es|s'</token>
+                </marker>
+                <token postag="VA[SI].3P.." postag_regexp="yes"/>
+                <token inflected="yes">baixar</token>
+                <token inflected="yes">de</token>
+                <token postag="D[^N].*" postag_regexp="yes"/>
+                <token><exception postag="DN.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_es_personal_pl"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">es|s'</token>
+                </marker>
+                <token postag="VA[SI].3S.." postag_regexp="yes"/>
+                <token inflected="yes">baixar</token>
+                <token inflected="yes">de</token>
+                <token postag="D[^N].*" postag_regexp="yes"/>
+                <token><exception postag="DN.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_es_personal_sg"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">es|s'</token>
+                </marker>
+                <token postag="VA[SI].3P.." postag_regexp="yes" inflected="yes">baixar</token>
+                <token inflected="yes">de</token>
+                <token postag="D[^N].*" postag_regexp="yes"/>
+                <token><exception postag="DN.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_es_personal_pl"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">es|s'</token>
+                </marker>
+                <token postag="VA[SI].3S.." postag_regexp="yes" inflected="yes">baixar</token>
+                <token inflected="yes">de</token>
+                <token postag="D[^N].*" postag_regexp="yes"/>
+                <token><exception postag="DN.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_es_personal_sg"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
                     <token inflected="yes">es</token>
                 </marker>
                 <token postag="V.[SI].3S.." postag_regexp="yes" inflected="yes">pujar</token>
@@ -19649,6 +19748,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">més|\+</token>
             <marker>
                 <token>info</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="MADE_IN" name="made in">
+        <pattern>
+            <marker>
+                <token>made</token>
+                <token>in</token>
+                <token regexp="yes" case_sensitive="yes">USA|China|Europe|Taiwan|Spain|France|Germany|Italy</token>
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>

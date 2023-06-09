@@ -500,6 +500,17 @@ public class UkrainianHybridDisambiguationTest {
       + "  /[null]null"
       + " ст./[ст.]noun:inanim:f:v_dav:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_naz:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_oru:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_rod:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_zna:nv:abbr:xp1|ст./[ст.]noun:inanim:n:v_dav:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_naz:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_oru:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_rod:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_zna:nv:abbr:xp2",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("18 мм рт. ст.",
+      "/[null]SENT_START"
+      + " 18/[18]number"
+      + "  /[null]null"
+      + " мм/[мм]noun:inanim:m:v_dav:nv:abbr|мм/[мм]noun:inanim:m:v_naz:nv:abbr|мм/[мм]noun:inanim:m:v_oru:nv:abbr|мм/[мм]noun:inanim:m:v_rod:nv:abbr|мм/[мм]noun:inanim:m:v_zna:nv:abbr|мм/[мм]noun:inanim:p:v_dav:nv:abbr|мм/[мм]noun:inanim:p:v_naz:nv:abbr|мм/[мм]noun:inanim:p:v_oru:nv:abbr|мм/[мм]noun:inanim:p:v_rod:nv:abbr|мм/[мм]noun:inanim:p:v_zna:nv:abbr"
+      + "  /[null]null"
+      + " рт./[рт.]adj:m:v_dav:nv:abbr|рт./[рт.]adj:m:v_naz:nv:abbr|рт./[рт.]adj:m:v_oru:nv:abbr|рт./[рт.]adj:m:v_rod:nv:abbr|рт./[рт.]adj:m:v_zna:rinanim:nv:abbr"
+      + "  /[null]null"
+      + " ст./[ст.]noun:inanim:m:v_dav:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_naz:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_oru:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_rod:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_zna:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_dav:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_naz:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_oru:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_rod:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_zna:nv:abbr:xp3",
+      tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
   @Test

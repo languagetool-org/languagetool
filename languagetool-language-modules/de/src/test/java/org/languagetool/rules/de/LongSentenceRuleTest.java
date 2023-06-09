@@ -37,10 +37,10 @@ public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRul
     assertNoMatch("Peter, bist du bereit?” Er nickte nur.\n", rule, lt);
     assertNoMatch("Peter, du bist bereit.” Er nickte nur.\n", rule, lt);
 
-    assertMatch("Eins zwei drei vier fünf sechs sieben.", 0, 37, rule, lt);
-    assertMatch("Eins zwei drei vier fünf (sechs sieben) acht.", 0, 44, rule, lt);
-    assertMatch("Ich zähle jetzt: Eins zwei drei vier fünf sechs sieben.", 0, 54, rule, lt);
-    assertMatch("Ein Satz. Eins zwei drei vier fünf sechs sieben.", 10, 47, rule, lt);
+    assertMatch("Eins zwei drei vier fünf sechs sieben.", 0, 38, rule, lt);
+    assertMatch("Eins zwei drei vier fünf (sechs sieben) acht.", 0, 45, rule, lt);
+    assertMatch("Ich zähle jetzt: Eins zwei drei vier fünf sechs sieben.", 0, 55, rule, lt);
+    assertMatch("Ein Satz. Eins zwei drei vier fünf sechs sieben.", 10, 48, rule, lt);
   }
 
 }

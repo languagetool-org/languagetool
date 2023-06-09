@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Dit mandje kan in de machine gewassen worden op 30 graden C. Doorsnede: 48 cm .</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">De partij Groen! spreekt haar kiezers rechtstreeks aan met de verkiezingsslogan</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1764,6 +1764,10 @@
 </rule>
 <rule break="no">
 <beforebreak>\s[A-Z].+!\s</beforebreak>
+<afterbreak>[a-z]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>Groen!\s</beforebreak>
 <afterbreak>[a-z]</afterbreak>
 </rule>
 <rule break="yes">
@@ -5050,7 +5054,7 @@
 </rule>
 <!-- German abbreviations -->
 <rule break="no">
-<beforebreak>\b(betr|Geb|Stk|ggü|Mag|mtl|[Pp]arl|Bsp|versch|[Dd]iesbzgl|[Dd]bzgl[Ss]tellv|d|Übers|usw|[Bb]zw|Ab[hkst]|[Aa]bzü?gl|[Ll]tda|[Ee]inschl|[Vv]mtl|Ev|bezgl|lit|Abzw|[Vv]sl|ahd|Akk|aktual|[Öö]ffentl|prof|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|[Aa]utom|Auftragsnr|Az|Bat|bayr|Bde?|bearb|Bed|Bem|bes|bez|Bez|Bhf|bspw|btto|bw|Dtl|Dez)\.[\u00A0\s]{1,2}</beforebreak>
+<beforebreak>\b(betr|Geb|Stk|ggü|Mag|mtl|[Pp]arl|Bsp|versch|[Dd]iesbzgl|[Dd]bzgl[Ss]tellv|d|Übers|usw|[Bb]zw|Ab[hkst]|[Aa]bzü?gl|\d+-tlg|tlg|ggfls|[Ll]tda|[Ee]inschl|[Vv]mtl|Ev|bezgl|lit|Abzw|[Vv]sl|ahd|Akk|aktual|[Öö]ffentl|prof|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|[Aa]utom|Auftragsnr|Az|Bat|bayr|Bde?|bearb|Bed|Bem|bes|bez|Bez|Bhf|Blvd|bspw|btto|bw|Dtl|Dez)\.[\u00A0\s]{1,2}</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">

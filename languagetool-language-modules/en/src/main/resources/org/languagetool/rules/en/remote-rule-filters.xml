@@ -32,6 +32,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_CPT_TI_IT" name="">
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <marker>
+                        <token spacebefore="no">ti</token>
+                    </marker>
+                </pattern>
+                <example correction="">It's available on Atlas.<marker>ti</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ti</token>
+                    </marker>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">.*[a-z0-9].*</token>
+                </pattern>
+                <example correction=""><marker>ti</marker>.mark</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">para|p[uo]r|de|en</token>
+                    <marker>
+                        <token>ti</token>
+                    </marker>
+                </pattern>
+                <example correction="">Para <marker>ti</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_TENSE" name="">
             <rule>
                 <pattern>
@@ -477,6 +507,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
             <rule>
                 <pattern>
+                    <token>excited</token>
+                    <token>to</token>
+                    <marker>
+                        <token postag="VB"/>
+                    </marker>
+                </pattern>
+                <example correction="">I am excited to <marker>apply</marker> for the position</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>for</token>
                     <marker>
                         <token postag="VBG" chunk_re=".-VP" />
@@ -762,7 +802,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token>Teams</token>
                     </marker>
                     <token min="0">video</token>
-                    <token regexp="yes">chats?|calls?|meetings?|messages?|invites?|invitations?|posts?|settings?|accounts?|screen(shar(e|ing))?|groups?|assignments?|requests?|files?|links?|one-to-one|limitation|limits?|connections?</token>
+                    <token regexp="yes">chats?|calls?|meetings?|plans?|pricing|interviews?|conversations?|messages?|instant|shared|folders?|messagings?|invites?|invitations?|posts?|settings?|accounts?|screen(shar(e|ing))?|groups?|assignments?|requests?|files?|links?|one-to-one|limitation|limits?|connections?</token>
+                </pattern>
+                <example correction="">I have a <marker>Teams</marker> call at 12.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token case_sensitive="yes">Teams</token></marker>
                 </pattern>
                 <example correction="">I have a <marker>Teams</marker> call at 12.</example>
             </rule>
@@ -851,6 +897,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Garden</token>
                 </pattern>
                 <example correction="">He is a singer at <marker>Fools</marker> Garden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Wills</token>
+                    </marker>
+                    <token>Creek</token>
+                </pattern>
+                <example correction=""><marker>Wills</marker> Creek.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Socialist</token>
+                    <marker>
+                        <token>Workers</token>
+                    </marker>
+                    <token>Party</token>
+                </pattern>
+                <example correction="">Socialist <marker>Workers</marker> Party</example>
             </rule>
             <rule>
                 <pattern>
@@ -964,6 +1029,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <token>John</token>
+                    <marker>
+                        <token>Adams</token>
+                    </marker>
+                </pattern>
+                <example correction="">John <marker>Adams</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token>Straits</token>
                     </marker>
@@ -1020,6 +1094,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <token>All</token>
+                    <marker>
+                        <token>Saints</token>
+                    </marker>
+                </pattern>
+                <example correction="">All <marker>Saints</marker></example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">
                             [A-Z].+s
@@ -1032,10 +1115,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">saint|st</token>
+                    <token regexp="yes">saint|st|[md]rs?</token>
                     <token min="0">.</token>
                     <marker>
-                        <token>Andrews</token>
+                        <token regexp="yes">Andrews|Miles|Adams</token>
                     </marker>
                 </pattern>
                 <example correction="">St <marker>Andrews</marker> Town</example>
@@ -1066,6 +1149,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>guild</token>
                 </pattern>
                 <example correction="">The <marker>Writers</marker> Guild</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Lions</token>
+                    </marker>
+                    <token regexp="yes">Park|Square|Clubs?</token>
+                </pattern>
+                <example correction="">The <marker>Lions</marker> Park</example>
             </rule>
             <rule>
                 <pattern>
@@ -1102,6 +1194,23 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>to</token>
                 </pattern>
                 <example correction=""><marker>Wants</marker> to have fun</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hers|ours|theirs|needs|wives|princes</token>
+                    </marker>
+                </pattern>
+                <example correction="">It is <marker>hers</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NNP?S" postag_regexp="yes" />
+                    </marker>
+                    <token postag="VBP" chunk_re=".-VP" />
+                </pattern>
+                <example correction="">Only the <marker>banks</marker> know about it</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CPT_NOW_KNOW" name="">
