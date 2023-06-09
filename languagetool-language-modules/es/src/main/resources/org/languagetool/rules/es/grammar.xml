@@ -6843,6 +6843,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
+            <rule default="temp_off">
+                <antipattern>
+                    <token>como</token>
+                    <token skip="3">si</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)</token>
+                    <example>Cuando se les mire, será como si se mirara la sangre de la verdad.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="3">que</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)</token>
+                    <example>Cuando conoció a Sean, ella le pidió que le enseñara a tocar el bajo.</example>
+                </antipattern>
+                <pattern>
+                    <token skip="-1">cuando</token>
+                    <token skip="-1" postag="V.SP.*" postag_regexp="yes"><exception postag="_possible_NP|[AN].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <and>
+                            <token inflected="yes" regexp="yes">.*ar</token>
+                            <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP|VMI.*|[AN].*" postag_regexp="yes"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si es futuro, se escribe con tilde.</message>
+                <suggestion><match no="3" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
+                <example correction="necesitará">Cuando usted haga una reserva, <marker>necesitara</marker> seleccionar tarifa sin equipaje.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token skip="-1">ojala</token>
