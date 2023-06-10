@@ -22,6 +22,7 @@ package org.languagetool.tagging.disambiguation.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.tools.StringTools;
@@ -29,6 +30,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -210,6 +212,22 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           AnalyzedToken newTok = new AnalyzedToken(token,
               newTokenReadings[i].getPOSTag(), lemma);
           whTokens[position].addReading(newTok, rule.getFullId());
+        }
+      }
+      break;
+    case ADDCHUNK:
+      if (newTokenReadings != null && newTokenReadings.length == matchingTokensWithCorrection
+            - startPositionCorrection + endPositionCorrection) {
+        for (int i = 0; i < newTokenReadings.length; i++) {
+          int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
+          List<ChunkTag> listChunkTag = new ArrayList<>();
+          listChunkTag.addAll(whTokens[position].getChunkTags());
+          // the POStag is added to the ChunkTag
+          ChunkTag newChunkTag = new ChunkTag(newTokenReadings[i].getPOSTag());
+          if (!listChunkTag.contains(newChunkTag)) {
+            listChunkTag.add(newChunkTag);  
+          }
+          whTokens[position].setChunkTags(listChunkTag);
         }
       }
       break;
