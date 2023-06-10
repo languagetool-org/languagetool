@@ -200,7 +200,6 @@ public abstract class Language {
     return Collections.emptyList();
   }
 
-
   /**
    * Get a list of rules that can optionally use a {@link LanguageModel}. Returns an empty list for
    * languages that don't have such rules.
@@ -212,7 +211,6 @@ public abstract class Language {
     return Collections.emptyList();
   }
 
-
   /**
    * For rules that depend on a remote server; based on {@link org.languagetool.rules.RemoteRule}
    * will be executed asynchronously, with timeout, retries, etc.  as configured
@@ -220,19 +218,15 @@ public abstract class Language {
    */
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
                                            GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging)
-    throws IOException {
+      throws IOException {
     List<Rule> rules = new ArrayList<>();
-
     GRPCPostProcessing.configure(this, configs);
-
     rules.addAll(GRPCRule.createAll(this, configs, inputLogging));
-
-     configs.stream()
+    configs.stream()
       .filter(config -> config.getRuleId().startsWith("TEST"))
       .map(c -> new TestRemoteRule(this, c))
       .forEach(rules::add);
-
-     return rules;
+    return rules;
   }
 
   /**
@@ -532,9 +526,9 @@ public abstract class Language {
    * @return a shared JLanguageTool instance for this language
    */
   public JLanguageTool createDefaultJLanguageTool() {
-      Language self = this;
-      Class clazz = this.getClass();
-      return languagetoolInstances.computeIfAbsent(clazz, _class -> new JLanguageTool(self));
+    Language self = this;
+    Class clazz = this.getClass();
+    return languagetoolInstances.computeIfAbsent(clazz, _class -> new JLanguageTool(self));
   }
 
   /**
