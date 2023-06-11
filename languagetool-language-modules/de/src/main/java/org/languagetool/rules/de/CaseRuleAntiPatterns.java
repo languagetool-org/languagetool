@@ -1562,7 +1562,8 @@ class CaseRuleAntiPatterns {
       // sind dem Zahlungspflichtigen Kosten entstanden
       csRegex("dem|diesem|[msdk]einem|unse?rem|eurem|ihrem"),
       new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("(?!(Den|Diesen|Allen|Einen|Jenen|[DMSK]einen|Anderen|Euren|Unse?ren|Sonstigen|Einigen|Manchen|Welchen|Vielen|Solchen))[A-ZÄÖÜ].+en").build(),
-      posRegex("SUB.*PLU.*(FEM|NEU|MAS|NOG)")
+      new PatternTokenBuilder().posRegexWithStringException("SUB.*PLU.*(FEM|NEU|MAS|NOG)", "Band|Kapitel|Maß|.*[Vv]erbrechen|Orchester|Gestalten|Gebirge|.*[vV]orkommen|.*[Vv]erfahren|.*[gG]utachten|Schreiben|Bayern|Theater|Verlangen|.*[sS]chlüssel|.*[mM]eister|.*[vV]erhalten|.*[Aa]benteuer|.*[wW]asser|Leben|Bauen|.*[gG]ewerbe|.*[Zz]immer|.*[Ee]ssen|.*[rR]asen|.*[hH]ebel|.*[oO]pfer|.*[cC]hirurgen|.*[Pp]räsidenten|.*[kK]reuzer|.*[wW]appen|Morgen").build()
+
     ),
     Arrays.asList(
       // Während ein Befragter Geschichten erzählte
@@ -1585,7 +1586,7 @@ class CaseRuleAntiPatterns {
     Arrays.asList(
       // Während Besagtes Probleme verursacht
       new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("(?!(Dieses|Alles|Eines|Jenes|[DMSK]eines|Anderes|Eures|Unse?res|Sonstiges|Einiges|Manches|Welches|Vieles|Solches))[A-ZÄÖÜ].+es").build(),
-      new PatternTokenBuilder().posRegexWithStringException("SUB.*SIN.*(FEM|MAS)|SUB.*PLU.*(FEM|NEU|MAS|NOG)", "Band|Kapitel|Maß|.*[Vv]erbrechen|Orchester|Gestalten|Gebirge|.*[vV]orkommen|.*[Vv]erfahren|.*[gG]utachten|Schreiben|Bayern|Theater|Verlangen|.*[vV]erhalten|.*[Aa]benteuer|.*[wW]asser|Leben|Bauen|.*[gG]ewerbe|.*[Zz]immer|.*[Ee]ssen").build()
+      new PatternTokenBuilder().posRegexWithStringException("SUB.*SIN.*(FEM|MAS)|SUB.*PLU.*(FEM|NEU|MAS|NOG)", "Band|Kapitel|Maß|.*[Vv]erbrechen|Orchester|Gestalten|Gebirge|.*[vV]orkommen|.*[Vv]erfahren|.*[gG]utachten|Schreiben|Bayern|Theater|Verlangen|.*[sS]chlüssel|.*[mM]eister|.*[vV]erhalten|.*[Aa]benteuer|.*[wW]asser|Leben|Bauen|.*[gG]ewerbe|.*[Zz]immer|.*[Ee]ssen|.*[rR]asen|.*[hH]ebel|.*[oO]pfer|.*[cC]hirurgen|.*[Pp]räsidenten|.*[kK]reuzer|.*[wW]appen|Morgen").build()
     ),
     Arrays.asList(
       // Hashtags
