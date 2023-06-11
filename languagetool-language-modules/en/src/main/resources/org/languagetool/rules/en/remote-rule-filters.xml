@@ -1204,11 +1204,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">It is <marker>hers</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">months|years</token>
+                    <token>end</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="NNP?S" postag_regexp="yes" />
+                        <token postag="NNP?S" postag_regexp="yes">
+                            <exception regexp="yes">lets|ones</exception>
+                        </token>
                     </marker>
                     <token postag="VBP" chunk_re=".-VP" />
+                    <token postag="IN|P?DT|PRP\$" postag_regexp="yes" />
+                    <token chunk_re=".-NP.*" />
                 </pattern>
                 <example correction="">Only the <marker>banks</marker> know about it</example>
             </rule>
