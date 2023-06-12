@@ -72,29 +72,5 @@ public class DiffsAsMatches {
     }
     return matches;
   }
-  
-  public class PseudoMatch {
-    private final String replacement;
-    private final int fromPos;
-    private final int toPos;
-    
-    PseudoMatch (String replacement, int fromPos, int toPos) {
-      this.replacement = replacement;
-      this.fromPos = fromPos;
-      this.toPos = toPos;
-    }
-    
-    public String getReplacement () {
-      return this.replacement;
-    }
-    
-    public int getFromPos() {
-      return this.fromPos;
-    }
-    
-    public int getToPos() {
-      return this.toPos;
-    }
-  }
 
 }

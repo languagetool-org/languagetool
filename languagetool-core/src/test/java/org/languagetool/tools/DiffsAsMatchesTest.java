@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
-import org.languagetool.tools.DiffsAsMatches.PseudoMatch;
 
 public class DiffsAsMatchesTest {
 
@@ -36,10 +35,10 @@ public class DiffsAsMatchesTest {
     String revised = "This is a sentence with two mistakes.";
     List<PseudoMatch> matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(matches.size(), 2);
-    assertEquals(matches.get(0).getReplacement(), "is");
+    assertEquals(matches.get(0).getReplacements().toString(), "[is]");
     assertEquals(matches.get(0).getFromPos(), 5);
     assertEquals(matches.get(0).getToPos(), 8);
-    assertEquals(matches.get(1).getReplacement(), "two");
+    assertEquals(matches.get(1).getReplacements().toString(), "[two]");
     assertEquals(matches.get(1).getFromPos(), 25);
     assertEquals(matches.get(1).getToPos(), 28);
 
@@ -47,7 +46,7 @@ public class DiffsAsMatchesTest {
     revised = "I am going to remove one word.";
     matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
-    assertEquals("", matches.get(0).getReplacement());
+    assertEquals("[]", matches.get(0).getReplacements().toString());
     assertEquals(14, matches.get(0).getFromPos());
     assertEquals(17, matches.get(0).getToPos());
 
@@ -55,7 +54,7 @@ public class DiffsAsMatchesTest {
     revised = "I am going to remove one word.";
     matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
-    assertEquals("", matches.get(0).getReplacement());
+    assertEquals("[]", matches.get(0).getReplacements().toString());
     assertEquals(0, matches.get(0).getFromPos());
     assertEquals(4, matches.get(0).getToPos());
 
@@ -63,7 +62,7 @@ public class DiffsAsMatchesTest {
     revised = "I am going to add one word.";
     matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
-    assertEquals("add one", matches.get(0).getReplacement());
+    assertEquals("[add one]", matches.get(0).getReplacements().toString());
     assertEquals(14, matches.get(0).getFromPos());
     assertEquals(17, matches.get(0).getToPos());
 
@@ -71,7 +70,7 @@ public class DiffsAsMatchesTest {
     revised = "Add a word at the start.";
     matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
-    assertEquals("Add a", matches.get(0).getReplacement());
+    assertEquals("[Add a]", matches.get(0).getReplacements().toString());
     assertEquals(0, matches.get(0).getFromPos());
     assertEquals(1, matches.get(0).getToPos());
 
@@ -79,7 +78,7 @@ public class DiffsAsMatchesTest {
     revised = "Add a word at position 1.";
     matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
-    assertEquals("Add a", matches.get(0).getReplacement());
+    assertEquals("[Add a]", matches.get(0).getReplacements().toString());
     assertEquals(0, matches.get(0).getFromPos());
     assertEquals(3, matches.get(0).getToPos());
   }
