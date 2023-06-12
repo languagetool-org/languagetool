@@ -31,9 +31,10 @@ public class DiffsAsMatchesTest {
 
   @Test
   public void testDiffsAsMatches() throws IOException {
+    DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
     String original = "This are a sentence with too mistakes.";
     String revised = "This is a sentence with two mistakes.";
-    List<PseudoMatch> matches = DiffsAsMatches.getPseudoMatches(original, revised);
+    List<PseudoMatch> matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(matches.size(), 2);
     assertEquals(matches.get(0).getReplacement(), "is");
     assertEquals(matches.get(0).getFromPos(), 5);
@@ -44,7 +45,7 @@ public class DiffsAsMatchesTest {
 
     original = "I am going to er remove one word.";
     revised = "I am going to remove one word.";
-    matches = DiffsAsMatches.getPseudoMatches(original, revised);
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
     assertEquals("", matches.get(0).getReplacement());
     assertEquals(14, matches.get(0).getFromPos());
@@ -52,7 +53,7 @@ public class DiffsAsMatchesTest {
 
     original = "And I am going to remove one word.";
     revised = "I am going to remove one word.";
-    matches = DiffsAsMatches.getPseudoMatches(original, revised);
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
     assertEquals("", matches.get(0).getReplacement());
     assertEquals(0, matches.get(0).getFromPos());
@@ -60,7 +61,7 @@ public class DiffsAsMatchesTest {
 
     original = "I am going to add word.";
     revised = "I am going to add one word.";
-    matches = DiffsAsMatches.getPseudoMatches(original, revised);
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
     assertEquals("add one", matches.get(0).getReplacement());
     assertEquals(14, matches.get(0).getFromPos());
@@ -68,7 +69,7 @@ public class DiffsAsMatchesTest {
 
     original = "a word at the start.";
     revised = "Add a word at the start.";
-    matches = DiffsAsMatches.getPseudoMatches(original, revised);
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
     assertEquals("Add a", matches.get(0).getReplacement());
     assertEquals(0, matches.get(0).getFromPos());
@@ -76,7 +77,7 @@ public class DiffsAsMatchesTest {
 
     original = "Add word at position 1.";
     revised = "Add a word at position 1.";
-    matches = DiffsAsMatches.getPseudoMatches(original, revised);
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
     assertEquals(1, matches.size());
     assertEquals("Add a", matches.get(0).getReplacement());
     assertEquals(0, matches.get(0).getFromPos());
