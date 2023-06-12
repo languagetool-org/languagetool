@@ -62,7 +62,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
@@ -1525,6 +1525,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Entäuschung", "Enttäuschung");
     put("Entäuschungen", "Enttäuschungen");
     put("kanns", w -> Arrays.asList("kann es", "kannst"));
+    put("verklinken", w -> Arrays.asList("verklinkern", "verlinken", "verklingen"));
     put("funktionierts", "funktioniert es");
     put("hbat", "habt");
     put("ichs", "ich es");
@@ -1931,6 +1932,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (words.length >= 2 && isAdjOrNounOrUnknown(words[0]) && isNounOrUnknown(words[1]) &&
               startsWithUppercase(words[0]) && startsWithUppercase(words[1])) {
         // ignore, seems to be in the form "Release Prozess" which is *probably* wrong
+      } else if (words.length == 2 && isAdjBaseForm(words[0]) && !startsWithUppercase(words[0]) && isSubVerInf(words[1])) {
+        // filter "groß Denken" in "großdenken"
       } else {
         result.add(wordOrPhrase);
       }
@@ -1975,6 +1978,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     try {
       List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
       return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.hasPosTagStartingWith("EIG"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isSubVerInf(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
+      return readings.stream().anyMatch(reading -> reading.matchesPosTagRegex("SUB:.*:INF"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isAdjBaseForm(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("ADJ:PRD:GRU"));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -3237,8 +3258,118 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Resources": return topMatch("Ressourcen");
       case "Tzatziki": return topMatch("Zaziki");
       case "Selenski": return topMatch("Selenskyj");
+      case "armzurechnen": return topMatch("arm zu rechnen");
+      case "armrechne": return topMatch("arm rechne");
+      case "armrechnest": return topMatch("arm rechnest");
+      case "armrechnet": return topMatch("arm rechnet");
+      case "armrechnen": return topMatch("arm rechnen");
+      case "armgerechnet": return topMatch("arm gerechnet");
+      case "ernstnimmst": return topMatch("ernst nimmst");
+      case "ernstnimmt": return topMatch("ernst nimmt");
+      case "ernstnehme": return topMatch("ernst nehme");
+      case "ernstnehmen": return topMatch("ernst nehmen");
+      case "ernstzunehmen": return topMatch("ernst zu nehmen");
+      case "ernstgenommen": return topMatch("ernst genommen");
+      case "ernstmeinst": return topMatch("ernst meinst");
+      case "ernstmeine": return topMatch("ernst meine");
+      case "ernstmeinte": return topMatch("ernst meinte");
+      case "ernstmeinen": return topMatch("ernst meinen");
+      case "ernstzumeinen": return topMatch("ernst zu meinen");
+      case "ernstgemeinet": return topMatch("ernst gemeint");
+      case "fertigschreiben": return topMatch("fertig schreiben");
+      case "fertigzuschreiben": return topMatch("fertig zu schreiben");
+      case "fertiggeschrieben": return topMatch("fertig geschrieben");
+      case "fertigschreibt": return topMatch("fertig schreibt");
+      case "freigedacht": return topMatch("frei gedacht");
       case "freidenken": return topMatch("frei denken");
       case "freizudenken": return topMatch("frei zu denken");
+      case "freiliegen": return topMatch("frei liegen");
+      case "freischreiben": return topMatch("frei schreiben");
+      case "freizuschreiben": return topMatch("frei zu schreiben");
+      case "freigeschrieben": return topMatch("frei geschrieben");
+      case "freischlagen": return topMatch("frei schlagen");
+      case "freizuschlagen": return topMatch("frei zu schlagen");
+      case "freigeschlagen": return topMatch("frei geschlagen");
+      case "geheimhalten": return topMatch("geheim halten");
+      case "geheimhaltet": return topMatch("geheim haltet");
+      case "geheimzuhalten": return topMatch("geheim zu halten");
+      case "geheimgehalten": return topMatch("geheim gehalten");
+      case "geheimhältst": return topMatch("geheim hältst");
+      case "gleichlauten": return topMatch("gleich lauten");
+      case "gutdünken": return topMatch("Gutdünken");
+      case "langfahren": return topMatch("entlangfahren");
+      case "langfuhren": return topMatch("entlangfuhren");
+      case "langzufahren": return topMatch("entlangzufahren");
+      case "langfahre": return topMatch("entlangfahre");
+      case "langfährst": return topMatch("entlangfährst");
+      case "langgefahren": return topMatch("entlanggefahren");
+      case "langlaufen": return topMatch("entlanglaufen");
+      case "langliefen": return topMatch("entlangliefen");
+      case "langzulaufen": return topMatch("entlangzulaufen");
+      case "langlaufe": return topMatch("entlanglaufe");
+      case "langläufst": return topMatch("entlangläufst");
+      case "langgelaufen": return topMatch("entlanggelaufen");
+      case "langgehen": return topMatch("entlanggehen");
+      case "langgingen": return topMatch("entlanggingen");
+      case "langzugehen": return topMatch("entlangzugehen");
+      case "langgehe": return topMatch("entlanggehe");
+      case "langging": return topMatch("entlangging");
+      case "langgegangen": return topMatch("entlanggegangen");
+      case "lustigmachen": return topMatch("lustig machen");
+      case "lustigmache": return topMatch("lustig mache");
+      case "lustigmachst": return topMatch("lustig machst");
+      case "lustigmachten": return topMatch("lustig machten");
+      case "lustigzumachen": return topMatch("lustig zu machen");
+      case "lustiggemacht": return topMatch("lustig gemacht");
+      case "niederschlagreich": return topMatch("niederschlagsreich");
+      case "niederschlagreiche": return topMatch("niederschlagsreiche");
+      case "niederschlagreicher": return topMatch("niederschlagsreicher");
+      case "niederschlagreiches": return topMatch("niederschlagsreiches");
+      case "niederschlagreichem": return topMatch("niederschlagsreichem");
+      case "niederschlagreichen": return topMatch("niederschlagsreichen");
+      case "rechtgeben": return topMatch("recht geben");
+      case "rechtzugeben": return topMatch("recht zu geben");
+      case "rechtgegeben": return topMatch("recht gegeben");
+      case "rechtgibst": return topMatch("recht gibst");
+      case "rechtgibt": return topMatch("recht gibt");
+      case "rechtgab": return topMatch("recht gab");
+      case "rechthaben": return topMatch("recht haben");
+      case "rechthabe": return topMatch("recht habe");
+      case "rechtzuhaben": return topMatch("recht zu haben");
+      case "rechtgehabt": return topMatch("recht gehabt");
+      case "rechthatte": return topMatch("recht hatte");
+      case "rechthast": return topMatch("recht hast");
+      case "rechthabt": return topMatch("recht habt");
+      case "rechtmachen": return topMatch("recht machen");
+      case "rechtzumachen": return topMatch("recht zu machen");
+      case "rechtgemacht": return topMatch("recht gemacht");
+      case "rechtmacht": return topMatch("recht macht");
+      case "rechtmache": return topMatch("recht mache");
+      case "rechtmachte": return topMatch("recht machte");
+      case "rechtmachten": return topMatch("recht machten");
+      case "rechtmachst": return topMatch("recht machst");
+      case "taubstellen": return topMatch("taub stellen");
+      case "taubzustellen": return topMatch("taub zu stellen");
+      case "taubgestellt": return topMatch("taub gestellt");
+      case "taubstelle": return topMatch("taub stelle");
+      case "taubstellt": return topMatch("taub stellt");
+      case "taubstellst": return topMatch("taub stellst");
+      case "wachgeblieben": return topMatch("wach geblieben");
+      case "wachbleiben": return topMatch("wach bleiben");
+      case "wachbleibe": return topMatch("wach bleibe");
+      case "wachzubleiben": return topMatch("wach zu bleiben");
+      case "wachbleibst": return topMatch("wach bleibst");
+      case "wachblieb": return topMatch("wach blieb");
+      case "wachblieben": return topMatch("wach blieben");
+      case "ewiggleich": return topMatch("ewig gleich");
+      case "ewiggleiche": return topMatch("ewig gleiche");
+      case "ewiggleicher": return topMatch("ewig gleicher");
+      case "ewiggleiches": return topMatch("ewig gleiches");
+      case "ewiggleichem": return topMatch("ewig gleichem");
+      case "ewiggleichen": return topMatch("ewig gleichen");
+      case "sattessen": return topMatch("satt essen");
+      case "gemäss": return topMatch("gemäß");
+      case "upgedated": return topMatch("upgedatet");
     }
     return Collections.emptyList();
   }

@@ -6843,6 +6843,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="-1" postag="V.SI.*" postag_regexp="yes"/>
+                    <token regexp="yes">y|o|e</token>
+                    <example>Mucha gente que pensaba que esto servirá para que XMPP se extendiera y aumentara sus prestaciones.</example>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" postag="V.IF.*" postag_regexp="yes"/>
+                    <token skip="-1" regexp="yes">y|o|e</token>
+                    <marker>
+                        <and>
+                            <token inflected="yes" regexp="yes">.*ar</token>
+                            <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP|VMI.*|[AN].*" postag_regexp="yes"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si es futuro, se escribe con tilde.</message>
+                <suggestion><match no="3" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
+                <example correction="ayudarán">Buscará nuevas e interesantes experiencias o situaciones que le <marker>ayudaran</marker> a inspirarse</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>como</token>
+                    <token skip="3">si</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)</token>
+                    <example>Cuando se les mire, será como si se mirara la sangre de la verdad.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="3">que</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)</token>
+                    <example>Cuando conoció a Sean, ella le pidió que le enseñara a tocar el bajo.</example>
+                </antipattern>
+                <pattern>
+                    <token skip="-1">cuando</token>
+                    <token skip="-1" postag="V.SP.*" postag_regexp="yes"><exception postag="_possible_NP|[AN].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <and>
+                            <token inflected="yes" regexp="yes">.*ar</token>
+                            <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP|VMI.*|[AN].*" postag_regexp="yes"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si es futuro, se escribe con tilde.</message>
+                <suggestion><match no="3" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
+                <example correction="necesitará">Cuando usted haga una reserva, <marker>necesitara</marker> seleccionar tarifa sin equipaje.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token skip="-1">ojala</token>
@@ -8607,6 +8653,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">el</token>
                 <token spacebefore="no">-</token>
             </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                    </marker>
+                    <token>/</token>
+                    <token>ella</token>
+                </pattern>
+                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
+                <suggestion>él</suggestion>
+                <example correction="él">Esto significa que <marker>el</marker>/ella tendrá que tomar el curso de Biología otra vez para pasar el curso y recibir créditos.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>el</token>
@@ -10826,6 +10884,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="3" postag="N.[MC][SN].*|A..[MC][NS]." postag_regexp="yes"/>
                 <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
             </antipattern>
+            <rule default="temp_off">
+                <pattern><token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token>por</token>
+                    <token regexp="yes">encima|d?[ea]bajo|ahí|medio|dentro|fuera</token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Hay muchos que quieren que su país <marker>este</marker> por encima de ellos.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token>disponible</token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Se le notificará tan pronto <marker>este</marker> disponible.</example>
+            </rule>
             <rule>
                 <!-- esté + participio-->
                 <pattern>
@@ -28728,7 +28807,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VES_VEZ" name="ves/vez" default="on">
             <rule>
                 <pattern>
-                    <token regexp="yes">cada|tal|mi|su|nuestro|nuestra|vuestro|vuestra|toda|ultima|alguna|segunda|ala|sola|otra|rara|está|ésta</token>
+                    <token regexp="yes">cada|tal|mi|su|[nv]uestr[oa]|toda|[úu]ltima|alguna|segunda|primera|ala|sola|otra|rara|[eé]st[áa]</token>
                     <marker>
                         <token>ves</token>
                     </marker>
@@ -28737,6 +28816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vez">Cada <marker>ves</marker> que te veo.</example>
                 <example correction="vez">Esto a su <marker>ves</marker> tendrá impacto.</example>
                 <example correction="vez">Esto tal <marker>ves</marker> tendrá impacto.</example>
+                <example correction="vez">Sé lo que dolería esta <marker>ves</marker>.</example>
             </rule>
             <rule>
                 <pattern>

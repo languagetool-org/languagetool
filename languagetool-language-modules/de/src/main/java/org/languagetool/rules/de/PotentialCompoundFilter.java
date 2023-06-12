@@ -32,6 +32,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
+/*
+ * This filter creates a compound word from two tokens. 
+ * If the joined word is a valid word and its length is less than 20 characters, 
+ * the rule provides the joined word as a suggestion. 
+ * Otherwise, it provides the hyphenated word.
+ */
+
 public class PotentialCompoundFilter extends RuleFilter {
 
   @Override

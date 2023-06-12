@@ -61,6 +61,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich laufe <marker>nach</marker> vorne.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="KON:(NEB|UNT|INF)" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-zäöüß].*
+                            <exception postag="ADV.*|SUB.*" postag_regexp="yes"/>
+                            <exception scope="previous" postag="SENT_START"/>
+                            <exception scope="previous" regexp="yes">[:.!"?]</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">Hier können User anderen Accounts folgen, ihre Inhalte liken, teilen <marker>und</marker> kommentieren.</example>
+                <example>und dann sind sie los.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CASE_LOWER" name="">
             <rule>
@@ -856,6 +869,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="VER:INF.*" postag_regexp="yes" />
                 </pattern>
                 <example correction="">Das sollte nach dem Sommer <marker>anfangen</marker> zu fruchten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </pattern>
+                <example correction="">Die Zusammensetzung des <marker>Index</marker> ...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token>…</token>
+                </pattern>
+                <example correction="">Die Zusammensetzung des <marker>Index</marker> …</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">

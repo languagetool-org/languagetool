@@ -27,6 +27,7 @@ import java.util.List;
 
 public class DumontsHunspellDictionary implements HunspellDictionary {
   private final Hunspell hunspell;
+  private boolean closed = false;
 
   public DumontsHunspellDictionary(Path dictionary, Path affix) {
     try {
@@ -39,21 +40,36 @@ public class DumontsHunspellDictionary implements HunspellDictionary {
 
   @Override
   public boolean spell(String word) {
+    if (closed) {
+      throw new RuntimeException("Attempt to use hunspell instance after closing");
+    }
     return hunspell.spell(word);
   }
 
   @Override
   public void add(String word) {
+    if (closed) {
+      throw new RuntimeException("Attempt to use hunspell instance after closing");
+    }
     hunspell.add(word);
   }
 
   @Override
   public List<String> suggest(String word) {
+    if (closed) {
+      throw new RuntimeException("Attempt to use hunspell instance after closing");
+    }
     return Arrays.asList(hunspell.suggest(word));
   }
 
   @Override
+  public boolean isClosed() {
+    return closed;
+  }
+
+  @Override
   public void close() throws IOException {
+    closed = true;
     hunspell.close();
   }
 }

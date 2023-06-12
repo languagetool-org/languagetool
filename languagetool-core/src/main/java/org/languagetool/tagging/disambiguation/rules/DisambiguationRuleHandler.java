@@ -285,7 +285,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
         int matchedTokenCount = endPos - startPos;
         if (newWdList != null) {
-          if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADD || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REMOVE
+          if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADDCHUNK || 
+              disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADD || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REMOVE
                   || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE) {
             if ((!newWdList.isEmpty() && disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE)
                     && newWdList.size() != matchedTokenCount) {

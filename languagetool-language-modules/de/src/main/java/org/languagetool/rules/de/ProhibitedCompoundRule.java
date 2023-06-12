@@ -139,6 +139,8 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "Gelgehalt",  // wg. geld
+    "Teufelsfrucht",  // wg. furcht
     "Familiennahe",  // wg. nähe
     "kreis",  // wg. reis/reise
     "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes

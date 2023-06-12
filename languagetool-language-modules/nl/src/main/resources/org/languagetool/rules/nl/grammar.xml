@@ -17545,6 +17545,61 @@ regexp case-insensitive maken: (?i)
                 <example correction="IJzer"><marker>Ijzer</marker> is een metaal.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="I_HAD" name="I/Ik">
+            <!-- R. Baars december 2022 -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>I</token>
+                        <token postag_regexp="yes" postag="WKW.*1EP">
+                            <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
+                        </token>
+                    </marker>
+                    <token><exception postag="UNKNOWN"/></token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>Ik \3</suggestion>.</message>
+                <example correction="Ik had"><marker>I had</marker> het fout.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KRUID_VERSCHIETEN" name="kruid/kruit" >
+            <!-- R. Baars december 2022 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1">kruid</token>
+                    </marker>
+                    <token inflected="yes">verschieten</token>
+                </pattern>
+                <message>Bij schieten hoort kruit, niet kruid.</message>
+                <suggestion>kruit</suggestion>
+                <example correction="kruit">Hij heeft zijn <marker>kruid</marker> verschoten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="-1">verschieten</token>
+                    <marker>
+                        <token>kruid</token>
+                    </marker>
+                </pattern>
+                <message>Bij schieten hoort kruit, niet kruid.</message>
+                <suggestion>kruit</suggestion>
+                <example correction="kruit">Hij verschoot zijn <marker>kruid</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LS_IS" name="ls / Is" >
+            <rule>
+                <antipattern><token postag="SENT_START"/><token/><token skip="-1"/><token case_sensitive="yes">ls</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ls</token>
+                    </marker>
+                </pattern>
+                <message>Is de 'l' hier niet toevallig een 'I'?</message>
+                <suggestion>Is</suggestion>
+                <example correction="Is">- <marker>ls</marker> m'n bureau leeggeruimd?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VOLGEND_VOLGENS" name="volgend / volgens">
             <rule>
                 <pattern>
@@ -17595,6 +17650,21 @@ regexp case-insensitive maken: (?i)
                 <message>Bedoelt u een Wereldkampioenschap?</message>
                 <suggestion>WK</suggestion>
                 <example correction="WK">Het duurt een <marker>wk</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ONS_BEIDE" name="Ons beide/ons beiden" >
+            <rule>
+                <antipattern><token>beide</token><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
+                <antipattern><token>beide</token><token postag_regexp="yes" postag="BNW.*VRB"/><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
+                <pattern>
+                    <token>ons</token>
+                    <marker>
+                        <token>beide</token>
+                    </marker>
+                </pattern>
+                <message>Wanneer naar mensen wordt verwezen, is het niet beide, maar beiden.</message>
+                <suggestion>beiden</suggestion>
+                <example correction="beiden">Hij laat het ons <marker>beide</marker> zien.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IK_DUBBELE_HOOFDLETTER" name="IK (Ik) wil me graag aanmelden.">

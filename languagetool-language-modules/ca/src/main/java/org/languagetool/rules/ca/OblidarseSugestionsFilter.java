@@ -111,7 +111,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     String wordAfter = "";
     int wordAfterIndex = (isThereAuxiliar ? posWord + 4 : posWord + 3);
     if (wordAfterIndex < tokens.length) {
-      AnalyzedToken wordAfterReading = tokens[wordAfterIndex].readingWithTagRegex("D.*|V.N.*");
+      AnalyzedToken wordAfterReading = tokens[wordAfterIndex].readingWithTagRegex("D.*|V.N.*|PI.*");
       if (wordAfterReading != null) {
         wordAfter = wordAfterReading.getToken();
       }

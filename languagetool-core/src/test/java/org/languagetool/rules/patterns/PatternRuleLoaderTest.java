@@ -155,20 +155,24 @@ public class PatternRuleLoaderTest {
     assertTrue(formalClarityToneRule.hasToneTag(ToneTag.formal));
     assertTrue(formalClarityToneRule.hasToneTag(ToneTag.clarity));
     assertEquals(2, formalClarityToneRule.getToneTags().size());
+    assertFalse(formalClarityToneRule.isGoalSpecific());
     
     Rule noToneRule = getRuleById("NO_TONE_RULE", styleRules);
     assertTrue(noToneRule.getToneTags().isEmpty());
+    assertFalse(noToneRule.isGoalSpecific());
     
     Rule confidentAcademicScientificToneRule = getRuleById("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE", styleRules);
     assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.confident));
     assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.academic));
     assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.scientific));
     assertEquals(3, confidentAcademicScientificToneRule.getToneTags().size());
+    assertFalse(confidentAcademicScientificToneRule.isGoalSpecific());
     
     Rule confidentAcademicToneRule = getRuleById("CONFIDENT_ACADEMIC_TONE_RULE", styleRules);
     assertTrue(confidentAcademicToneRule.hasToneTag(ToneTag.confident));
     assertTrue(confidentAcademicToneRule.hasToneTag(ToneTag.academic));
     assertEquals(2, confidentAcademicToneRule.getToneTags().size());
+    assertFalse(confidentAcademicToneRule.isGoalSpecific());
     
     Rule pickyClarityConfidentAcademicToneRule = getRuleById("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE",styleRules);
     assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.clarity));
@@ -176,6 +180,7 @@ public class PatternRuleLoaderTest {
     assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.academic));
     assertEquals(3, pickyClarityConfidentAcademicToneRule.getToneTags().size());
     assertTrue(pickyClarityConfidentAcademicToneRule.hasTag(Tag.picky));
+    assertFalse(pickyClarityConfidentAcademicToneRule.isGoalSpecific());
     
     Rule pickyClarityConfidentAcademicScientificToneRule = getRuleById("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE", styleRules);
     assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.clarity));
@@ -184,17 +189,28 @@ public class PatternRuleLoaderTest {
     assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.scientific));
     assertEquals(4, pickyClarityConfidentAcademicScientificToneRule.getToneTags().size());
     assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasTag(Tag.picky));
+    assertFalse(pickyClarityConfidentAcademicScientificToneRule.isGoalSpecific());
 
     Rule persuasiveObjectiveToneRule = getRuleById("PERSUASIVE_OBJECTIVE_TONE_RULE", styleRules);
     assertTrue(persuasiveObjectiveToneRule.hasToneTag(ToneTag.persuasive));
     assertTrue(persuasiveObjectiveToneRule.hasToneTag(ToneTag.objective));
     assertEquals(2, persuasiveObjectiveToneRule.getToneTags().size());
+    assertFalse(persuasiveObjectiveToneRule.isGoalSpecific());
     
     Rule persuasiveObjectiveInformalToneRule = getRuleById("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE", styleRules);
     assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.persuasive));
     assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.objective));
     assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.informal));
     assertEquals(3, persuasiveObjectiveInformalToneRule.getToneTags().size());
+    assertFalse(persuasiveObjectiveInformalToneRule.isGoalSpecific());
+    
+    Rule persuasiveGoalSpecificToneRule = getRuleById("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE", styleRules);
+    assertTrue(persuasiveGoalSpecificToneRule.hasToneTag(ToneTag.persuasive));
+    assertTrue(persuasiveGoalSpecificToneRule.isGoalSpecific());
+    
+    Rule persuasiveNotGoalSpecificToneRule = getRuleById("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE", styleRules);
+    assertTrue(persuasiveNotGoalSpecificToneRule.hasToneTag(ToneTag.persuasive));
+    assertFalse(persuasiveNotGoalSpecificToneRule.isGoalSpecific());
   }
 
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {

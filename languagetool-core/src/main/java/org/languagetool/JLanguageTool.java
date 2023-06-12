@@ -1094,6 +1094,9 @@ public class JLanguageTool {
         if (rule.getToneTags().isEmpty()) {
           return false;
         }
+        if (toneTags.isEmpty() || toneTags.contains(ToneTag.ALL_TONE_RULES)) {
+          return rule.isGoalSpecific();
+        }
         boolean removeRule = true;
         for (ToneTag toneTag : localToneTags) {
           if (rule.hasToneTag(toneTag)) {
