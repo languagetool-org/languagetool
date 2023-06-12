@@ -28,7 +28,7 @@ import com.github.difflib.text.DiffRowGenerator;
 
 public class DiffsAsMatches {
 
-  static public List<PseudoMatch> getPseudoMatches(String original, String revised) {
+  public List<PseudoMatch> getPseudoMatches(String original, String revised) {
     List<PseudoMatch> matches = new ArrayList<>();
     List<String> origList = DiffRowGenerator.SPLITTER_BY_WORD.apply(original);
     List<String> revList = DiffRowGenerator.SPLITTER_BY_WORD.apply(revised);
@@ -73,7 +73,7 @@ public class DiffsAsMatches {
     return matches;
   }
   
-  static class PseudoMatch {
+  public class PseudoMatch {
     private final String replacement;
     private final int fromPos;
     private final int toPos;
