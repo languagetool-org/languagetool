@@ -211,6 +211,18 @@ public class PatternRuleLoaderTest {
     Rule persuasiveNotGoalSpecificToneRule = getRuleById("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE", styleRules);
     assertTrue(persuasiveNotGoalSpecificToneRule.hasToneTag(ToneTag.persuasive));
     assertFalse(persuasiveNotGoalSpecificToneRule.isGoalSpecific());
+    
+    Rule isGoalSpecificRule = getRuleById("IS_GOAL_SPECIFIC_RULE_GROUP_FALSE_OVERRIDE_TEST_1", styleRules);
+    assertTrue(isGoalSpecificRule.isGoalSpecific());
+    
+    Rule isNotSetGoalSpecificRule = getRuleById("IS_GOAL_SPECIFIC_RULE_GROUP_FALSE_OVERRIDE_TEST_2", styleRules);
+    assertFalse(isNotSetGoalSpecificRule.isGoalSpecific());
+    
+    Rule isNotGoalSpecificRule = getRuleById("IS_GOAL_SPECIFIC_RULE_GROUP_FALSE_OVERRIDE_TEST_3", styleRules);
+    assertFalse(isNotGoalSpecificRule.isGoalSpecific());
+
+    Rule isGoalSpecificFromCategoryRule = getRuleById("IS_GOAL_SPECIFIC_FROM_CATEGORY", styleRules);
+    assertTrue(isGoalSpecificFromCategoryRule.isGoalSpecific());
   }
 
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {
