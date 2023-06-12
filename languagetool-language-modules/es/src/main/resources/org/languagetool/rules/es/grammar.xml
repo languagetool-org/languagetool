@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY common_english_nouns_feminine "School|Tower|University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force|Licence|License|Station">
 <!ENTITY common_english_nouns_masculine "Fest|Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy|Squadron">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
+<!ENTITY context_mama_tilde "[pm]adres?|pap[aá]s?|hij[oa]s?|abuel[oa]s?|sobrin[oa]s?|tí[oa]s?|niet[oa]s?|herman[oa]s?|prim[oa]s?|cuñad[oa]s?">
 <!ENTITY context_mama "ablación|adiposo|areola|arteria|bulto|calostro|carcinoma|carne|chupar|cirugía|culo|cáncer|célula|desarrollar|desarrollo|diagnóstico|embarazo|epitelio|estrógeno|femenino|ginecológico|ginecólogo|glandular|glándula|herida|hinchazón|hipertrofia|hormona|implante|inervación|infección|infectar|inflamación|lactancia|leche|lobulillo|mamario|mamífero|mastectomía|mastitis|mastología|neonato|parto|patológico|pecho|pectoral|pelvis|pezón|piel|progesterona|ptosis|pubertad|quirúrgico|sangre|sarcoma|seno|sexo|sexual|silicona|tejido|teta|tratamiento|turgencia|turgente|ubre|vena">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
 <!ENTITY wrong_as_pron_verb "estas|a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
@@ -25825,6 +25826,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>mama</token>
                 <token regexp="yes">izquierda|derecha</token>
             </antipattern>
+            <antipattern>
+                <token skip="-1" inflected="yes" regexp="yes">&context_mama;</token>
+                <token regexp="yes">mama|mamas</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">mama|mamas</token>
+                <token inflected="yes" regexp="yes">&context_mama;</token>
+            </antipattern>
+            <rule default="temp_off">
+                <pattern>
+                    <token skip="-1" regexp="yes">&context_mama_tilde;</token>
+                    <marker>
+                        <token case_sensitive="yes">mama</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
+                <example correction="mamá">Es mi tía abuela biológicamente, pero siempre la vi como mi segunda <marker>mama</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token skip="-1" case_sensitive="yes">mama</token>
+                    </marker>
+                    <token regexp="yes">&context_mama_tilde;</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
+                <example correction="mamá">Siempre la vi como mi segunda <marker>mama</marker>, aunque es mi tía abuela biológicamente.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -25849,14 +25878,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una molestia en mi mama izquierda.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token skip="-1" inflected="yes" regexp="yes">&context_mama;</token>
-                    <token regexp="yes">mama|mamas</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1" regexp="yes">mama|mamas</token>
-                    <token inflected="yes" regexp="yes">&context_mama;</token>
-                </antipattern>
                 <pattern>
                     <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception regexp="yes">quien|que</exception></token>
                     <token>la</token>
@@ -28682,6 +28703,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>por</token>
                     <token>el</token>
                     <token>ano</token>
+                    <token><exception>de</exception></token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">cabeza|estómago|boca|barriga|intestino</token>
@@ -28709,6 +28731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="año">El <marker>ano</marker> que viene.</example>
                 <example correction="año">Toma dos cursos por <marker>ano</marker>.</example>
                 <example correction="años">Los <marker>anos</marker> que vienen.</example>
+                <example correction="año">Se ordena por el <marker>ano</marker> de publicación.</example>
                 <example>Se forma con el sufijo -ano.</example>
                 <example>¡Si la mierda tuviera valor el hombre nacería sin ano!</example>
                 <example>El ano es el orificio por el que se expele el excremento.</example>
