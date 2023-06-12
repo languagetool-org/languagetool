@@ -388,6 +388,7 @@ public class English extends Language implements AutoCloseable {
       case "NO_GOOD":                   return 1;   // higher prio than I_IF
       case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "GOT_GO":                    return 1;   // higher prio than MD_BASEFORM
+      case "GAVE_HAVE":                 return 1;   // higher prio than MD_BASEFORM
       case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY and IT_THE_PRP
