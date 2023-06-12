@@ -849,7 +849,21 @@ class AgreementRuleAntiPatterns1 {
       regex("des|der|den|dem|die"),
       csToken("Kommando"),
       csRegex("Spezialkräften?")
+    ),
+    asList(  
+      token("auf"),
+      csRegex("die|den|das"),
+      csToken("Verlass"),
+      csRegex("ist|war|wäre?")
+    ),
+    asList(  
+      token("auf"),
+      csRegex("die|den|das"),
+      csToken("Verlass"),
+      csToken("zu"),
+      csToken("sein")
     )
+
   );
 
 }

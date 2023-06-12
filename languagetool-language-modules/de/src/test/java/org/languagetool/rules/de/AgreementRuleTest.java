@@ -153,6 +153,7 @@ public class AgreementRuleTest {
     assertGood("Er verspricht jedem hohe Gewinne.");
     assertGood("Er versprach allen Renditen jenseits von 15 Prozent.");
     assertGood("Sind das Eier aus Bodenhaltung?");
+    assertGood("Sie sind sehr gute Kameraden, auf die Verlass ist.");
     assertGood("Dir macht doch irgendwas Sorgen.");
     assertGood("Sie fragte, ob das wirklich Kunst sei.");
     assertGood("Für ihn ist das Alltag.");
