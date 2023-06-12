@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -96,6 +97,7 @@ public class HTTPServerTest {
   }
 
   @Test
+  @Ignore("feature turned off for now")
   public void translationSuggestions() throws Exception {
     File configFile = File.createTempFile("translationSuggestions", "txt");
     configFile.deleteOnExit();
