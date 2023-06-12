@@ -6845,6 +6845,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule default="temp_off">
                 <antipattern>
+                    <token>antes</token>
+                    <token>de</token>
+                    <token skip="5">que</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)</token>
+                    <example>Porque oíste sus planes antes de que te mataran.</example>
+                </antipattern>
+                <antipattern>
                     <token skip="-1" postag="V.SI.*" postag_regexp="yes"/>
                     <token regexp="yes">y|o|e</token>
                     <example>Mucha gente que pensaba que esto servirá para que XMPP se extendiera y aumentara sus prestaciones.</example>
@@ -6864,6 +6871,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ayudarán">Buscará nuevas e interesantes experiencias o situaciones que le <marker>ayudaran</marker> a inspirarse</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token skip="5" postag="V.IC.*" postag_regexp="yes"/>
+                    <token skip="5">si</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)</token>
+                    <example>Yo podría ser feliz si se casara con otra.</example>
+                </antipattern>
                 <antipattern>
                     <token>como</token>
                     <token skip="3">si</token>
@@ -10884,7 +10897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="3" postag="N.[MC][SN].*|A..[MC][NS]." postag_regexp="yes"/>
                 <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern><token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>este</token>
@@ -10895,7 +10908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
                 <example correction="esté">Hay muchos que quieren que su país <marker>este</marker> por encima de ellos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>este</token>
