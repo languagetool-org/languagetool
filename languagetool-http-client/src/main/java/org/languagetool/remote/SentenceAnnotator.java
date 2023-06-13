@@ -18,6 +18,8 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import org.languagetool.tools.Tools;
+import org.languagetool.tools.DiffsAsMatches;
+import org.languagetool.tools.PseudoMatch;
 
 public class SentenceAnnotator {
 
@@ -43,6 +45,9 @@ public class SentenceAnnotator {
         String[] parts = customParam.split(",");
         cfg.customParams.put(parts[0], parts[1]);
       }
+      String automaticAnnotationStr = prop.getProperty("automaticAnnotation", "").trim();
+      cfg.automaticAnnotation = automaticAnnotationStr.equalsIgnoreCase("yes")
+          || automaticAnnotationStr.equalsIgnoreCase("true");
       String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
       if (!enabledOnlyRulesStr.isEmpty()) {
         cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
@@ -56,7 +61,12 @@ public class SentenceAnnotator {
       cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replaceAll("\"", "");
       cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replaceAll("\"", "");
       cfg.prepareConfiguration();
-      runAnnotation(cfg);
+      if (cfg.automaticAnnotation) {
+        runAutomaticAnnotation(cfg);
+      } else {
+        runAnnotation(cfg);  
+      }
+      
     } else {
       writeHelp();
       System.exit(1);
@@ -235,6 +245,162 @@ public class SentenceAnnotator {
     sc.close();
     cfg.out.close();
   }
+  
+  
+  private static void runAutomaticAnnotation(AnnotatorConfig cfg) throws IOException {
+    DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
+    List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
+    int numSentence;
+    System.out.println("Starting at line 1 of file " + cfg.inputFilePath);
+    for (String line : lines) {
+      
+      String[] parts = line.split("\t");
+      String sentence = parts[1].replaceAll("__", "");
+      String correctedSentence = parts[2].replaceAll("__", "");
+      List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
+      
+      numSentence = Integer.valueOf(parts[0]);
+      
+      boolean done = false;
+      List<String> fpMatches = new ArrayList<>();
+      int annotationsPerSentence = 0;
+      while (!done) {
+        List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
+        RemoteRuleMatch match = null;
+        int i = 0;
+        boolean isValidMatch = false;
+        while (!isValidMatch && i < matches.size()) {
+          match = matches.get(i);
+          i++;
+          isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence, match));
+          if (!isValidMatch) {
+            match = null;
+          }
+        }
+        String formattedSentence = formatedSentence(sentence, match);
+        String formattedCorrectedSentence = formattedSentence;
+        String detectedErrorStr = "";
+       
+        List<PseudoMatch> matchesEval = diffsAsMatches.getPseudoMatches(sentence, formattedSentence.replaceAll("__", ""));
+        
+        if (match != null) {
+       
+          detectedErrorStr = sentence.substring(match.getErrorOffset(),
+              match.getErrorOffset() + match.getErrorLength());
+        }
+       
+
+        String errorType = "";
+        int suggestionPos = -1;
+        String suggestionApplied = "";
+        int suggestionsTotal = 0;
+        if (match != null) {
+          suggestionsTotal = match.getReplacements().get().size();
+        }
+        switch (response) {
+        case "r":
+          sentence = line;
+          cfg.outStrB = new StringBuilder();
+          break;
+        case "q":
+          done = true;
+          quit = true;
+          writeToOutputFile(cfg);
+          break;
+        case "d":
+          done = true;
+          if (annotationsPerSentence == 0) {
+            errorType = "OK";
+          }
+          writeToOutputFile(cfg);
+          break;
+        case "g":
+          done = true;
+          errorType = "IG";
+          cfg.outStrB = new StringBuilder();
+          match = null;
+          break;
+        case "i":
+          fpMatches.add(getMatchIdentifier(sentence, match));
+          errorType = "IM";
+          break;
+        case "b":
+          fpMatches.add(getMatchIdentifier(sentence, match));
+          errorType = "BO";
+          break;
+        case "f":
+          fpMatches.add(getMatchIdentifier(sentence, match));
+          errorType = "FP";
+          break;
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+          errorType = "TP";
+          if (suggestionsTotal > 1) {
+            errorType = "TPmultiple";
+          }
+          int r = Integer.valueOf(response);
+          if (match != null && r >= 1 && r <= 5) {
+            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, r);
+            sentence = replaceSuggestion(sentence, match, r);
+            suggestionPos = r;
+            suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);
+          }
+          break;
+        }
+        if (quit) {
+          break;
+        }
+        if (response.startsWith(">>") && match != null) { // alternative suggestion
+          formattedCorrectedSentence = sentence.substring(0, match.getErrorOffset()) + "___" + response.substring(2)
+              + "___" + sentence.substring(match.getErrorOffset() + match.getErrorLength());
+          sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
+              + sentence.substring(match.getErrorOffset() + match.getErrorLength());
+          if (suggestionsTotal == 0) {
+            errorType = "TPno";
+          } else {
+            errorType = "TPwrong";
+          }
+          suggestionApplied = response.substring(2);
+        } else if (response.contains(">>")) {
+          String[] parts = response.split(">>");
+          String toReplace = parts[0];
+          String replacement = parts[1];
+          int ind = sentence.indexOf(toReplace);
+          if (ind > -1) {
+            if (sentence.substring(ind + toReplace.length()).indexOf(toReplace) > -1) {
+              System.out.println("Cannot replace duplicate string in sentence.");
+            } else {
+              formattedSentence = sentence.substring(0, ind) + "___" + toReplace + "___"
+                  + sentence.substring(ind + toReplace.length());
+              formattedCorrectedSentence = sentence.substring(0, ind) + "___" + replacement + "___"
+                  + sentence.substring(ind + toReplace.length());
+              sentence = sentence.substring(0, ind) + replacement + sentence.substring(ind + toReplace.length());
+              System.out.println("FN: replacement done.");
+              errorType = "FN";
+              suggestionApplied = replacement;
+              detectedErrorStr = toReplace;
+            }
+          }
+        }
+
+        if (!errorType.isEmpty()) {
+          printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
+              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
+              getRuleType(match));
+          annotationsPerSentence++;
+          if (errorType.equals("OK") || errorType.equals("IG")) {
+            writeToOutputFile(cfg);
+            cfg.outStrB = new StringBuilder();
+          }
+        }
+      }
+    }
+    
+    cfg.out.close();
+  }
 
   static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
       String correctedSentence, String errorType, String detectedErrorStr, String suggestion, int suggestionPos,
@@ -381,6 +547,7 @@ public class SentenceAnnotator {
     String languageCode;
     File inputFile;
     File outputFile;
+    boolean automaticAnnotation;
     CheckConfiguration ltConfig;
     RemoteLanguageTool lt;
     Map<String, String> customParams = new HashMap<>();
@@ -393,7 +560,7 @@ public class SentenceAnnotator {
 
     void prepareConfiguration() throws IOException {
       CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);
-      //cfgBuilder.textSessionID("-2");
+      // cfgBuilder.textSessionID("-2");
       if (enabledOnlyRules.isEmpty()) {
         cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
         if (!disabledRules.isEmpty()) {
