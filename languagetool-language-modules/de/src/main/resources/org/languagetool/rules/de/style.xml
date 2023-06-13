@@ -3847,7 +3847,7 @@ USA
             </rule>
 	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[12] -->
                 <pattern>
-                    <token inflected="yes">rausgehen</token>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes">rausgehen</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
                 <suggestion>nach draußen <match no="1" postag="VER.*" postag_regexp="yes">gehen</match></suggestion>
@@ -3857,6 +3857,16 @@ USA
             </rule>
 	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[13] -->
                 <pattern>
+                    <token inflected="yes" postag="SUB.*" postag_regexp="yes">rausgehen</token>
+                </pattern>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion>Nach-draußen-<match no="1" case_conversion="startupper" postag="SUB.*" postag_regexp="yes">gehen</match></suggestion>
+                <suggestion><match no="1" regexp_match="^[Rr]aus" regexp_replace="heraus"/></suggestion>
+                <suggestion><match no="1" regexp_match="^[Rr]aus" regexp_replace="hinaus"/></suggestion>
+                <example correction="Nach-draußen-Gehen|Herausgehen|Hinausgehen">Zieh dir vor dem <marker>Rausgehen</marker> den Mantel an; sonst erkältest du dich.</example>
+            </rule>
+            <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[14] -->
+                <pattern>
                     <token inflected="yes">rüberkippen</token>
                 </pattern>
                 <message>'\1' ist umgangssprachlich.</message>
@@ -3864,7 +3874,7 @@ USA
                 <suggestion>darüber <match no="1" postag="(VER.*)(SFT)(:NEB)?" postag_replace="$1NON" postag_regexp="yes">gießen</match></suggestion>
                 <example correction="verschüttet|darüber gegossen">Die Stelle klebt, da hab ich leider mal Bier <marker>rübergekippt</marker>.</example>
             </rule>
-	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[14] -->
+	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[15] -->
                 <pattern>
                   <token>eine</token>
                   <token inflected="yes">runterhauen</token>
