@@ -61,6 +61,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY common_english_nouns_feminine "School|Tower|University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force|Licence|License|Station">
 <!ENTITY common_english_nouns_masculine "Fest|Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy|Squadron">
 <!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
+<!ENTITY context_papa_tilde "[pm]adres?|mam[aá]s?|hij[oa]s?|abuel[oa]s?|sobrin[oa]s?|tí[oa]s?|niet[oa]s?|herman[oa]s?|prim[oa]s?|cuñad[oa]s?">
+<!ENTITY context_papa "concordato|religios[oa]s?|laicos?|pontífices?|pontificados?|elegido|obispos?|obispados?|cardenal|cardenales|Roma|Vaticano|Iglesia|San|papal|canónicos?|apostólicos?|cónclaves?|ceremonias?|eclesiástic[oa]s?|rey|reyes|reinas?|emperador|emperadores|emperatriz|emperatrices|gobernantes?|católic[oa]s?">
 <!ENTITY context_mama_tilde "[pm]adres?|pap[aá]s?|hij[oa]s?|abuel[oa]s?|sobrin[oa]s?|tí[oa]s?|niet[oa]s?|herman[oa]s?|prim[oa]s?|cuñad[oa]s?">
 <!ENTITY context_mama "ablación|adiposo|areola|arteria|bulto|calostro|carcinoma|carne|chupar|cirugía|culo|cáncer|célula|desarrollar|desarrollo|diagnóstico|embarazo|epitelio|estrógeno|femenino|ginecológico|ginecólogo|glandular|glándula|herida|hinchazón|hipertrofia|hormona|implante|inervación|infección|infectar|inflamación|lactancia|leche|lobulillo|mamario|mamífero|mastectomía|mastitis|mastología|neonato|parto|patológico|pecho|pectoral|pelvis|pezón|piel|progesterona|ptosis|pubertad|quirúrgico|sangre|sarcoma|seno|sexo|sexual|silicona|tejido|teta|tratamiento|turgencia|turgente|ubre|vena">
 <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
@@ -25796,6 +25798,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" skip="2">comer</token>
                 <token regexp="yes">papas?</token>
             </antipattern>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>papa</token>
+                    <token regexp="yes" min="0">,|\(|\-|como</token>
+                    <token regexp="yes">\p{Lu}.+</token>
+                    <example>Nombramiento del primo de León X como nuevo papa, Clemente VII.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.+</token>
+                    <token regexp="yes" min="0">,|\)|\-</token>
+                    <token>papa</token>
+                    <example>Madre de San Gregorio Magno, papa.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">d?[ea]l</token>
+                    <token>papa</token>
+                    <example>Sobrino nieto del papa.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">&context_papa;</token>
+                    <token>papa</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">papa</token>
+                    <token regexp="yes">&context_papa;</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" regexp="yes">&context_papa_tilde;</token>
+                    <marker>
+                        <token case_sensitive="yes">papa</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>papá</suggestion> (más habitual en el sentido de 'padre')?</message>
+                <example correction="papá">Él vive actualmente con su mamá, <marker>papa</marker>, hermano y abuelo.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
