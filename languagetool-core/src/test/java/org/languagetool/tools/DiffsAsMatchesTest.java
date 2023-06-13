@@ -81,6 +81,14 @@ public class DiffsAsMatchesTest {
     assertEquals("[Add a]", matches.get(0).getReplacements().toString());
     assertEquals(0, matches.get(0).getFromPos());
     assertEquals(3, matches.get(0).getToPos());
+    
+    original = "Esta serealiza cada semana.";
+    revised = "Esta se realiza cada semana.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[se realiza]", matches.get(0).getReplacements().toString());
+    assertEquals(5, matches.get(0).getFromPos());
+    assertEquals(14, matches.get(0).getToPos());
   }
 
 }

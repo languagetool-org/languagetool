@@ -282,7 +282,7 @@ public class SentenceAnnotator {
           // && iGMatch.getToPos() == iEMatch.getToPos())
           if (iEMatch.getReplacements().size() == 0) {
             errorType = "TPns";
-          } else if (iGMatch.getReplacements().get(0) == iEMatch.getReplacements().get(0)) {
+          } else if (iGMatch.getReplacements().get(0).equals(iEMatch.getReplacements().get(0))) {
             errorType = "TP";
           } else {
             errorType = "TPws";
@@ -302,7 +302,7 @@ public class SentenceAnnotator {
             sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos()), iEMatch.getReplacements().get(0), -1, 1,
             getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
-
+      writeToOutputFile(cfg);
     }
 
     cfg.out.close();
@@ -438,8 +438,9 @@ public class SentenceAnnotator {
     }
     int correctedPos = 0;
     String sentence = line;
-    StringBuilder sb = new StringBuilder();
+    
     for (RemoteRuleMatch match : matches) {
+      StringBuilder sb = new StringBuilder();
       sb.append(sentence.substring(0, match.getErrorOffset() + correctedPos));
       sb.append(match.getReplacements().get().get(0));
       sb.append(sentence.substring(match.getErrorOffset() + match.getErrorLength() + correctedPos));

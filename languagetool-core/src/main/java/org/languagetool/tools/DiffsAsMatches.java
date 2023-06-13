@@ -34,6 +34,7 @@ public class DiffsAsMatches {
     List<String> revList = DiffRowGenerator.SPLITTER_BY_WORD.apply(revised);
     List<AbstractDelta<String>> inlineDeltas = DiffUtils.diff(origList, revList, DiffRowGenerator.DEFAULT_EQUALIZER)
         .getDeltas();
+    PseudoMatch lastMatch = null;
     for (AbstractDelta<String> inlineDelta : inlineDeltas) {
       String replacement = String.join("", inlineDelta.getTarget().getLines());
       int fromPos = 0;
@@ -67,8 +68,18 @@ public class DiffsAsMatches {
         replacement = replacement.substring(0, replacement.length() - 1);
         toPos--;
       }
-      PseudoMatch match = new PseudoMatch(replacement, fromPos, toPos);
+      PseudoMatch match;
+      // serealiza -> se realiza  CHANGE + INSERT -> 1 match
+      if (lastMatch!= null && fromPos == lastMatch.getFromPos() && toPos == lastMatch.getToPos()) {
+        String newReplacement = lastMatch.getReplacements().get(0) + replacement.substring(toPos - fromPos);
+        match = new PseudoMatch(newReplacement, fromPos, toPos);
+        matches.remove(matches.size() - 1);
+      } else {
+        match = new PseudoMatch(replacement, fromPos, toPos);
+      }
       matches.add(match);
+      lastMatch = match;
+
     }
     return matches;
   }
