@@ -6844,7 +6844,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>antes</token>
                     <token>de</token>
@@ -6871,7 +6871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
                 <example correction="ayudarán">Buscará nuevas e interesantes experiencias o situaciones que le <marker>ayudaran</marker> a inspirarse</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="5" postag="V.IC.*" postag_regexp="yes"/>
                     <token skip="5">si</token>
@@ -9281,6 +9281,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">mism[oa]</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <example>Tu hijo es tu mismo retrato.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token regexp="yes">mism[oa]</token>
+                </pattern>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <example correction="tú">Algo que en verdad nadie te puede quitar, sino <marker>tu</marker> mismo.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>tu</token>
@@ -25834,7 +25849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="-1" regexp="yes">mama|mamas</token>
                 <token inflected="yes" regexp="yes">&context_mama;</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token skip="-1" regexp="yes">&context_mama_tilde;</token>
                     <marker>
@@ -25844,7 +25859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>mamá</suggestion> (más habitual en el sentido de 'madre')?</message>
                 <example correction="mamá">Es mi tía abuela biológicamente, pero siempre la vi como mi segunda <marker>mama</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token skip="-1" case_sensitive="yes">mama</token>
