@@ -64,9 +64,9 @@ public class SentenceAnnotator {
       if (cfg.automaticAnnotation) {
         runAutomaticAnnotation(cfg);
       } else {
-        runAnnotation(cfg);  
+        runAnnotation(cfg);
       }
-      
+
     } else {
       writeHelp();
       System.exit(1);
@@ -245,160 +245,66 @@ public class SentenceAnnotator {
     sc.close();
     cfg.out.close();
   }
-  
-  
+
   private static void runAutomaticAnnotation(AnnotatorConfig cfg) throws IOException {
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
     List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
-    int numSentence;
+    int numSentence=0;
     System.out.println("Starting at line 1 of file " + cfg.inputFilePath);
     for (String line : lines) {
-      
+
       String[] parts = line.split("\t");
       String sentence = parts[1].replaceAll("__", "");
       String correctedSentence = parts[2].replaceAll("__", "");
       List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
-      
-      numSentence = Integer.valueOf(parts[0]);
-      
+      //numSentence = Integer.valueOf(parts[0]);
       boolean done = false;
       List<String> fpMatches = new ArrayList<>();
       int annotationsPerSentence = 0;
-      while (!done) {
-        List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
-        RemoteRuleMatch match = null;
-        int i = 0;
-        boolean isValidMatch = false;
-        while (!isValidMatch && i < matches.size()) {
-          match = matches.get(i);
-          i++;
-          isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence, match));
-          if (!isValidMatch) {
-            match = null;
-          }
-        }
-        String formattedSentence = formatedSentence(sentence, match);
-        String formattedCorrectedSentence = formattedSentence;
-        String detectedErrorStr = "";
-       
-        List<PseudoMatch> matchesEval = diffsAsMatches.getPseudoMatches(sentence, formattedSentence.replaceAll("__", ""));
-        
-        if (match != null) {
-       
-          detectedErrorStr = sentence.substring(match.getErrorOffset(),
-              match.getErrorOffset() + match.getErrorLength());
-        }
-       
 
-        String errorType = "";
-        int suggestionPos = -1;
-        String suggestionApplied = "";
-        int suggestionsTotal = 0;
-        if (match != null) {
-          suggestionsTotal = match.getReplacements().get().size();
-        }
-        switch (response) {
-        case "r":
-          sentence = line;
-          cfg.outStrB = new StringBuilder();
-          break;
-        case "q":
-          done = true;
-          quit = true;
-          writeToOutputFile(cfg);
-          break;
-        case "d":
-          done = true;
-          if (annotationsPerSentence == 0) {
-            errorType = "OK";
-          }
-          writeToOutputFile(cfg);
-          break;
-        case "g":
-          done = true;
-          errorType = "IG";
-          cfg.outStrB = new StringBuilder();
-          match = null;
-          break;
-        case "i":
-          fpMatches.add(getMatchIdentifier(sentence, match));
-          errorType = "IM";
-          break;
-        case "b":
-          fpMatches.add(getMatchIdentifier(sentence, match));
-          errorType = "BO";
-          break;
-        case "f":
-          fpMatches.add(getMatchIdentifier(sentence, match));
-          errorType = "FP";
-          break;
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-          errorType = "TP";
-          if (suggestionsTotal > 1) {
-            errorType = "TPmultiple";
-          }
-          int r = Integer.valueOf(response);
-          if (match != null && r >= 1 && r <= 5) {
-            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, r);
-            sentence = replaceSuggestion(sentence, match, r);
-            suggestionPos = r;
-            suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);
-          }
-          break;
-        }
-        if (quit) {
-          break;
-        }
-        if (response.startsWith(">>") && match != null) { // alternative suggestion
-          formattedCorrectedSentence = sentence.substring(0, match.getErrorOffset()) + "___" + response.substring(2)
-              + "___" + sentence.substring(match.getErrorOffset() + match.getErrorLength());
-          sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
-              + sentence.substring(match.getErrorOffset() + match.getErrorLength());
-          if (suggestionsTotal == 0) {
-            errorType = "TPno";
+      List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
+      RemoteRuleMatch match = null;
+      int i = 0;
+      boolean isValidMatch = false;
+
+      correctedSentence = applyAllMatches(sentence, matches);
+      List<PseudoMatch> matchesEval = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
+
+      String errorType = "";
+
+      int iGolden = 0;
+      int iEval = 0;
+
+      while (iGolden < matchesGolden.size() && iEval < matchesEval.size()) {
+        PseudoMatch iGMatch = matchesGolden.get(iGolden);
+        PseudoMatch iEMatch = matchesEval.get(iEval);
+        if (iGMatch.getFromPos() == iEMatch.getFromPos()) {
+          // && iGMatch.getToPos() == iEMatch.getToPos())
+          if (iEMatch.getReplacements().size() == 0) {
+            errorType = "TPns";
+          } else if (iGMatch.getReplacements().get(0) == iEMatch.getReplacements().get(0)) {
+            errorType = "TP";
           } else {
-            errorType = "TPwrong";
+            errorType = "TPws";
           }
-          suggestionApplied = response.substring(2);
-        } else if (response.contains(">>")) {
-          String[] parts = response.split(">>");
-          String toReplace = parts[0];
-          String replacement = parts[1];
-          int ind = sentence.indexOf(toReplace);
-          if (ind > -1) {
-            if (sentence.substring(ind + toReplace.length()).indexOf(toReplace) > -1) {
-              System.out.println("Cannot replace duplicate string in sentence.");
-            } else {
-              formattedSentence = sentence.substring(0, ind) + "___" + toReplace + "___"
-                  + sentence.substring(ind + toReplace.length());
-              formattedCorrectedSentence = sentence.substring(0, ind) + "___" + replacement + "___"
-                  + sentence.substring(ind + toReplace.length());
-              sentence = sentence.substring(0, ind) + replacement + sentence.substring(ind + toReplace.length());
-              System.out.println("FN: replacement done.");
-              errorType = "FN";
-              suggestionApplied = replacement;
-              detectedErrorStr = toReplace;
-            }
-          }
+          iGolden++;
+          iEval++;
+        } else if (iGMatch.getFromPos() < iEMatch.getFromPos()) {
+          errorType = "FN";
+          iGolden++;
+        } else if (iGMatch.getFromPos() > iEMatch.getFromPos()) {
+          errorType = "FP";
+          iEval++;
         }
 
-        if (!errorType.isEmpty()) {
-          printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
-              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
-              getRuleType(match));
-          annotationsPerSentence++;
-          if (errorType.equals("OK") || errorType.equals("IG")) {
-            writeToOutputFile(cfg);
-            cfg.outStrB = new StringBuilder();
-          }
-        }
+        printOutputLine(cfg, numSentence, formatedSentence2(sentence, iEMatch),
+            formattedCorrectedSentence2(sentence, iEMatch), errorType,
+            sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos()), iEMatch.getReplacements().get(0), -1, 1,
+            getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
+
     }
-    
+
     cfg.out.close();
   }
 
@@ -487,6 +393,32 @@ public class SentenceAnnotator {
     return sb.toString();
   }
 
+  static private String formatedSentence2(String line, PseudoMatch match) {
+    if (match == null) {
+      return line;
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append(line.substring(0, match.getFromPos()));
+    sb.append("___");
+    sb.append(line.substring(match.getFromPos(), match.getToPos()));
+    sb.append("___");
+    sb.append(line.substring(match.getToPos()));
+    return sb.toString();
+  }
+
+  static private String formattedCorrectedSentence2(String line, PseudoMatch match) {
+    if (match == null) {
+      return line;
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append(line.substring(0, match.getFromPos()));
+    sb.append("___");
+    sb.append(match.getReplacements().get(0));
+    sb.append("___");
+    sb.append(line.substring(match.getToPos()));
+    return sb.toString();
+  }
+
   static private String formatedSentence(String line, RemoteRuleMatch match) {
     if (match == null) {
       return line;
@@ -498,6 +430,23 @@ public class SentenceAnnotator {
     sb.append("___");
     sb.append(line.substring(match.getErrorOffset() + match.getErrorLength()));
     return sb.toString();
+  }
+
+  static private String applyAllMatches(String line, List<RemoteRuleMatch> matches) {
+    if (matches == null) {
+      return line;
+    }
+    int correctedPos = 0;
+    String sentence = line;
+    StringBuilder sb = new StringBuilder();
+    for (RemoteRuleMatch match : matches) {
+      sb.append(sentence.substring(0, match.getErrorOffset() + correctedPos));
+      sb.append(match.getReplacements().get().get(0));
+      sb.append(sentence.substring(match.getErrorOffset() + match.getErrorLength() + correctedPos));
+      sentence = sb.toString();
+      correctedPos = match.getReplacements().get().get(0).length() - match.getErrorLength();
+    }
+    return sentence;
   }
 
   static private String formattedCorrectedSentence(String line, RemoteRuleMatch match, int i) {
