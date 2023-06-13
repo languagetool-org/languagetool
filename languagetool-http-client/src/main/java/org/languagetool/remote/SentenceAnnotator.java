@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Scanner;
@@ -37,6 +38,11 @@ public class SentenceAnnotator {
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
+      String customParamsStr = prop.getProperty("customParams", "").trim();
+      for (String customParam : customParamsStr.split(";")) {
+        String[] parts = customParam.split(",");
+        cfg.customParams.put(parts[0], parts[1]);
+      }
       String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
       if (!enabledOnlyRulesStr.isEmpty()) {
         cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
@@ -355,11 +361,11 @@ public class SentenceAnnotator {
       matches = cachedMatches.get(sentence);
     } else {
       try {
-        matches = cfg.lt.check(sentence, cfg.ltConfig).getMatches();
+        matches = cfg.lt.check(sentence, cfg.ltConfig, cfg.customParams).getMatches();
       } catch (RuntimeException e) {
         e.printStackTrace();
         wait(1000);
-        matches = cfg.lt.check(sentence, cfg.ltConfig).getMatches();
+        matches = cfg.lt.check(sentence, cfg.ltConfig, cfg.customParams).getMatches();
       }
       cachedMatches.put(sentence, matches);
     }
@@ -377,6 +383,7 @@ public class SentenceAnnotator {
     File outputFile;
     CheckConfiguration ltConfig;
     RemoteLanguageTool lt;
+    Map<String, String> customParams = new HashMap<>();
     FileWriter out;
     StringBuilder outStrB;
     String ansiDefault = "";
