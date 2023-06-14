@@ -38542,6 +38542,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
+        <rulegroup id="X_RAY_MACHINE" name="Raio X com hífen" default="temp_off">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[rR]aios?</token>
+                    <token case_sensitive="no">X</token>
+                </pattern>
+                <message>No sentido de &quot;radiografia&quot;, a palavra é hifenizada e a letra X é escrita em minúscula. Entretanto, se estiver se referindo à onda electromagnética em si, usa-se sem hífen e com o X em maiúscula.</message>
+                <suggestion>\1-<match no="2" case_conversion="alllower"/></suggestion>
+                <example correction="raio-x">Vou ter que tirar um <marker>raio X</marker>.</example>
+                <example correction="Raio-x"><marker>Raio X</marker> aqui é caro?</example>
+                <example correction="raio-x">Você vai tirar <marker>raio x</marker> por quê?</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">RAIOS?</token>
+                    <token case_sensitive="yes">X</token>
+                </pattern>
+                <message>No sentido de &quot;radiografia&quot;, a palavra é hifenizada.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="RAIO-X">SALA DE <marker>RAIO X</marker>.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[rR]aios?</token>
+                    <token spacebefore="no" regexp="yes">&hifen;</token>
+                    <token spacebefore="no" case_sensitive="yes">X</token>
+                </pattern>
+                <message>No sentido de &quot;radiografia&quot;, a letra X é escrita em minúscula. Entretanto, se estiver se referindo à onda electromagnética em si, usa-se sem hífen e com o X em maiúscula.</message>
+                <suggestion>\1-<match no="3" case_conversion="alllower"/></suggestion>
+                <example correction="raio-x">Onde fica a máquina de <marker>raio-X</marker>?</example>
+                <example>Onde fica a máquina de RAIO-X?</example>
+            </rule>
+        </rulegroup>
+
         <rule id='NA_QUELE' name="Correção de escrita" default='on'>
             <pattern>
                 <token>na</token>
