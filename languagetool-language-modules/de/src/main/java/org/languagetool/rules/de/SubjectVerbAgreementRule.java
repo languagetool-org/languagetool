@@ -424,6 +424,26 @@ public class SubjectVerbAgreementRule extends Rule {
       posRegex("(ADJ|PA[12]).*"),
       posRegex("SUB.*SIN.*"),
       posRegex("VER.*PLU.*")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("sie").setSkip(-1).build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      tokenRegex("weder"),
+      tokenRegex("er|es|sie"),
+      new PatternTokenBuilder().token("noch").setSkip(-1).build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().posRegex("SUB.*PLU.*").setSkip(5).build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      tokenRegex("Teile"),
+      tokenRegex("de[rs]|diese[sr]|[msd]?eine[rs]"),
+      new PatternTokenBuilder().posRegex("SUB.*|EIG.*|UNKNOWN").setSkip(-1).build(),
+      tokenRegex("sind|w[äa]ren")
     )
   );
 
