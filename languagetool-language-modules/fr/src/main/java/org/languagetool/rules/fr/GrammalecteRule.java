@@ -86,6 +86,8 @@ public class GrammalecteRule extends Rule {
     "esp_avant_après_tiret", // picky
     "nbsp_après_tiret1", // picky
     "nbsp_après_tiret2", // picky
+    "nbsp_après_tiret3", // picky
+    "grammalecte_nbsp_après_chevrons_fermants", // picky
     "esp_mélangés1", // picky
     "esp_mélangés2", // picky
     "tab_début_ligne",
