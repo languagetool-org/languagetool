@@ -843,21 +843,6 @@ USA
             <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
             <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
         </rule>
-        <rule id="FILER_PARTIR" name="filer au lieu de partir" tone_tags="formal">
-            <antipattern>
-                <token inflected="yes" case_sensitive="yes">filer</token>
-                <token regexp="yes">un|du</token>
-                <token>mauvais</token>
-                <token>coton</token>
-            </antipattern>
-            <pattern>
-                <token inflected="yes" case_sensitive="yes">filer</token>
-            </pattern>
-            <message>Le verbe est familier.</message>
-            <suggestion>courir</suggestion>
-            <suggestion>partir</suggestion>
-            <example correction="courir|partir">Il est venu pour finalement <marker>filer</marker> une heure après.</example>
-        </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style" tone_tags="clarity">
         <!--The following rules were created by Hugo Voisard
@@ -3245,7 +3230,7 @@ USA
             <example correction="défilé de mode"><marker>parade de mode</marker></example>
             <example><marker>défilé de mode</marker></example>
         </rule>
-        <rulegroup id="A_PART_DE_CA" name="à part de ça" tone_tags="clarity">
+        <rulegroup id="A_PART_DE_CA" name="à part de ça" tone_tags="general">
             <rule>
                 <pattern>
                     <token>à</token>
@@ -3272,7 +3257,7 @@ USA
                 <example><marker>à part ça</marker></example>
             </rule>
         </rulegroup>
-        <rule id="EN_TOUT_ET_PARTOUT" name="en tout et partout" tone_tags="clarity">
+        <rule id="EN_TOUT_ET_PARTOUT" name="en tout et partout" tone_tags="general">
             <pattern>
                 <token>en</token>
                 <token regexp="yes">tou[st]</token>
@@ -3329,7 +3314,7 @@ USA
             <example correction="intéressé par"><marker>ivressomètre</marker></example>
             <example><marker>alcootest</marker></example>
         </rule>
-        <rule id="DEMANDER_UNE_QUESTION" name="demander une question" tone_tags="clarity">
+        <rule id="DEMANDER_UNE_QUESTION" name="demander une question" tone_tags="general">
             <pattern>
                 <marker>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">demander</token>
@@ -3468,7 +3453,7 @@ USA
             <example correction="clause dérogative"><marker>clause nonobstant</marker></example>
             <example><marker>clause dérogative</marker></example>
         </rule>
-        <rule id="FAIRE_ASSEMBLANT" name="faire assemblant" tone_tags="clarity">
+        <rule id="FAIRE_ASSEMBLANT" name="faire assemblant" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="5">faire</token>
                 <marker>
@@ -3530,7 +3515,7 @@ USA
             <example correction="boîte postale"><marker>casier postal</marker></example>
             <example><marker>boîte postale</marker></example>
         </rule>
-        <rule id="AVOIR_DE_BESOIN" name="avoir de besoin" default="temp_off" tone_tags="clarity">
+        <rule id="AVOIR_DE_BESOIN" name="avoir de besoin" default="temp_off" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="5">avoir
                     <exception scope="next" postag="A"/>
@@ -3553,7 +3538,7 @@ USA
             <example correction="séducteur|beau-parleur|baratineur|coureur de jupons"><marker>chanteur de pomme</marker></example>
             <example><marker>beau-parleur</marker></example>
         </rule>
-        <rule id="A_MATIN" name="à matin" tone_tags="clarity">
+        <rule id="A_MATIN" name="à matin" tone_tags="general">
             <pattern>
                 <token regexp="yes">[aà]</token>
                 <token>matin</token>
@@ -3597,7 +3582,7 @@ USA
             <example correction="vidange du moteur|vidange moteur|vidange"><marker>vidange d’huile</marker></example>
             <example><marker>vidange moteur</marker></example>
         </rule>
-        <rule id="A_SOIR" name="à soir" tone_tags="clarity">
+        <rule id="A_SOIR" name="à soir" tone_tags="general">
             <pattern>
                 <token regexp="yes">[aà]</token>
                 <token>soir</token>
@@ -3671,7 +3656,7 @@ USA
             <example correction="taxe d'ordures ménagères"><marker>taxe de vidanges</marker></example>
             <example><marker>taxe d’ordures ménagères</marker></example>
         </rule>
-        <rule id="A_QUELQUE_PART" name="à quelque part" tone_tags="clarity">
+        <rule id="A_QUELQUE_PART" name="à quelque part" tone_tags="general">
             <pattern>
                 <token>à</token>
                 <token>quelque</token>
@@ -4185,7 +4170,7 @@ USA
             <example correction="estran|laisse de mer"><marker>batture</marker></example>
             <example><marker>laisse de mer</marker></example>
         </rule>
-        <rule id="SE_FIER_SUR" name="se fier à" tone_tags="clarity">
+        <rule id="SE_FIER_SUR" name="se fier à" tone_tags="general">
             <pattern>
                 <token regexp="yes" skip="3">se|t|te|s|nous|vous|me|m</token>
                 <token inflected="yes">fier</token>
@@ -4518,7 +4503,7 @@ USA
             <example correction="steward|hôtesse"><marker>agent de bord</marker> de Charlevoix a son charme.</example>
             <example>Le <marker>steward</marker> de Charlevoix a son charme.</example>
         </rule>
-        <rule id="TOUS_AZIMUTS" name="toutes azimuts → tous azimuts" tone_tags="clarity">
+        <rule id="TOUS_AZIMUTS" name="toutes azimuts → tous azimuts" tone_tags="general">
             <pattern>
                 <token regexp="yes">toute?s?</token>
                 <token regexp="yes">azimuts?</token>
@@ -4527,7 +4512,7 @@ USA
             <example correction="tous azimuts">Une répression <marker>tout azimut</marker></example>
             <example>Une répression tous azimuts</example>
         </rule>
-        <rule id="DE_TOUT_TEMPS" name="de tous temps → de tout temps" tone_tags="clarity">
+        <rule id="DE_TOUT_TEMPS" name="de tous temps → de tout temps" tone_tags="general">
             <pattern>
                 <token>de</token>
                 <token>tous</token>
@@ -4537,7 +4522,7 @@ USA
             <example correction="De tout temps"><marker>De tous temps</marker></example>
             <example><marker>De tout temps</marker></example>
         </rule>
-        <rule id="A_TOUT_PRIX" name="à tous prix → à tout prix" tone_tags="clarity">
+        <rule id="A_TOUT_PRIX" name="à tous prix → à tout prix" tone_tags="general">
             <pattern>
                 <token>à</token>
                 <token>tous</token>
@@ -4547,7 +4532,7 @@ USA
             <example correction="À tout prix"><marker>À tous prix</marker></example>
             <example><marker>À tout prix</marker></example>
         </rule>
-        <rule id="DE_TOUTE_FACON" name="de toutes façons → de toute façon" tone_tags="clarity">
+        <rule id="DE_TOUTE_FACON" name="de toutes façons → de toute façon" tone_tags="general">
             <pattern>
                 <token>de</token>
                 <token>toutes</token>
@@ -5062,7 +5047,7 @@ USA
             <suggestion>équipe</suggestion>
             <example correction="équipe">Il fait partie de la <marker>team</marker> Castor</example>
         </rule>
-        <rule id="JOUR_FERIE" name="jour férié" tone_tags="clarity">
+        <rule id="JOUR_FERIE" name="jour férié" tone_tags="general">
             <pattern>
                 <token>congé</token>
                 <token>férié</token>
@@ -11541,7 +11526,7 @@ USA
             <example correction="ou|et|ou bien">La ligne diminue <marker>et/ou</marker> disparait à l'horizon.</example>
             <example><marker>ou</marker></example>
         </rule>
-        <rulegroup id="BYTES" name="Anglicisme byte/octet" tone_tags="clarity">
+        <rulegroup id="BYTES" name="Anglicisme byte/octet" tone_tags="general">
             <rule name="byte sans espace">
                 <pattern>
                     <token regexp="yes">\d+[TGMKtgmk][Bb]</token>
@@ -11562,7 +11547,7 @@ USA
                 <example correction="41 Go">Ce fichier pèse <marker>41 Gb</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="GAGNER_SON_POINT" name="gagner son point" tone_tags="clarity">
+        <rule id="GAGNER_SON_POINT" name="gagner son point" tone_tags="general">
             <pattern>
                 <token inflected="yes">gagner</token>
                 <token regexp="yes">mon|ton|son|leur|nos|vos|leurs</token>
@@ -11572,7 +11557,7 @@ USA
             <suggestion><match no="1" postag="V(.*)" postag_regexp="yes" postag_replace="V avoir$1">avoir</match> gain de cause</suggestion>
             <example correction="eu gain de cause">Il a <marker>gagné son point</marker>.</example>
         </rule>
-        <rule id="PAR_PURE_CHANCE" name="par pure chance" tone_tags="clarity">
+        <rule id="PAR_PURE_CHANCE" name="par pure chance" tone_tags="general">
             <pattern>
                 <token>par</token>
                 <token>pure</token>
@@ -11582,7 +11567,7 @@ USA
             <suggestion>par hasard</suggestion>
             <example correction="par hasard">Tu ne connaitrais pas un restaurant asiatique <marker>par pure chance</marker> ?</example>
         </rule>
-        <rule id="SOBJECTER_A" name="s’objecter à" tone_tags="clarity">
+        <rule id="SOBJECTER_A" name="s’objecter à" tone_tags="general">
             <pattern>
                 <token regexp="yes" skip="2">se|t'|te|s'|nous|vous|me|m'</token>
                 <marker>
@@ -11596,7 +11581,7 @@ USA
             <example correction="opposa à|éleva contre">Mon père s’<marker>objecta à</marker> à notre union.</example>
             <example><marker>s’opposer à</marker></example>
         </rule>
-        <rule id="PRENDRE_LA_PART_DE" name="prendre la part de" tone_tags="clarity">
+        <rule id="PRENDRE_LA_PART_DE" name="prendre la part de" tone_tags="general">
             <pattern>
                 <token inflected="yes">prendre</token>
                 <token>la</token>
@@ -11682,7 +11667,7 @@ USA
             <example correction="ouvrent la voie|ouvrent la porte|préparent le terrain">Ces lois <marker>pavent la voie</marker> de la liberté.</example>
             <example><marker>ouvrir la voie</marker></example>
         </rule>
-        <rule id="FAMILIER_AVEC" name="familier avec" tone_tags="clarity">
+        <rule id="FAMILIER_AVEC" name="familier avec" tone_tags="general">
             <pattern>
                 <marker>
                     <token regexp="yes">famili[èe]re?s?
@@ -11872,7 +11857,7 @@ USA
             <suggestion>de <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">rendre</match></suggestion>
             <example correction="de rendre">Le comité de sélection a choisi <marker>d'émettre</marker> son verdict demain.</example>
         </rule>
-        <rule id="DEDUCTION_A_LA_SOURCE" name="déduction à la source" tone_tags="clarity">
+        <rule id="DEDUCTION_A_LA_SOURCE" name="déduction à la source" tone_tags="general">
             <pattern>
                 <marker>
                     <token skip="3">déduction</token>
@@ -11882,7 +11867,7 @@ USA
             <message>« Déduction à la source » peut être considéré comme un anglicisme. Vous pouvez les remplacer par des expressions plus idiomatiques comme <suggestion>retenue</suggestion> à la source ou <suggestion>prélèvement</suggestion> à la source.</message>
             <example correction="retenue|prélèvement">Les impôts effectuent une <marker>déduction</marker> à la source sur mon salaire.</example>
         </rule>
-        <rule id="DEDUCTION_SUR_LE_SALAIRE" name="déduction sur le salaire" tone_tags="clarity">
+        <rule id="DEDUCTION_SUR_LE_SALAIRE" name="déduction sur le salaire" tone_tags="general">
             <pattern>
                 <marker>
                     <token skip="3" regexp="yes">déductions?</token>
@@ -11927,7 +11912,7 @@ USA
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">accepter</match></suggestion>
             <example correction="accepter">Il tente de faire <marker>endosser</marker> son opinion par son organisation.</example>
         </rule>
-        <rule id="DEFRAYER_LES_DEPENSES_DE_QUELQUUN" name="défrayer les dépenses de [quelqu’un]" tone_tags="clarity">
+        <rule id="DEFRAYER_LES_DEPENSES_DE_QUELQUUN" name="défrayer les dépenses de [quelqu’un]" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="6">défrayer</token>
                 <token>dépenses</token>
@@ -12196,7 +12181,7 @@ USA
             <suggestion>\1 <match no="2" regexp_match="conservateur(?iu)" regexp_replace="prudent"/></suggestion>
             <example correction="chiffres prudents">Il ne faut annoncer que des <marker>chiffres conservateurs</marker>.</example>
         </rule>
-        <rule id="A_VENIR_A_DATE" name="à venir à date" tone_tags="clarity">
+        <rule id="A_VENIR_A_DATE" name="à venir à date" tone_tags="general">
             <pattern>
                 <token>à</token>
                 <token>venir</token>
@@ -12210,7 +12195,7 @@ USA
             <example correction="jusqu'à présent|jusqu'à maintenant|jusqu'à ce jour"><marker>à venir à date</marker></example>
             <example><marker>jusqu’à présent</marker></example>
         </rule>
-        <rule id="JUSQUA_DATE" name="jusqu’à date" tone_tags="clarity">
+        <rule id="JUSQUA_DATE" name="jusqu’à date" tone_tags="general">
             <pattern>
                 <token>jusqu'</token>
                 <token>à</token>
@@ -12341,7 +12326,7 @@ USA
             <example correction="le service de consultation externe"><marker>la clinique externe</marker></example>
             <example><marker>consultations externes</marker></example>
         </rule>
-        <rule id="CHIFFRE_DE_NUIT" name="chiffre de nuit" tone_tags="clarity">
+        <rule id="CHIFFRE_DE_NUIT" name="chiffre de nuit" tone_tags="general">
             <pattern>
                 <token regexp="yes">chiffres?</token>
                 <token>de</token>
@@ -12353,7 +12338,7 @@ USA
             <example correction="quart de nuit|équipe de nuit"><marker>chiffre de nuit</marker></example>
             <example><marker>quart de nuit</marker></example>
         </rule>
-        <rule id="CHIFFRE_DE_SOIR" name="chiffre de soir" tone_tags="clarity">
+        <rule id="CHIFFRE_DE_SOIR" name="chiffre de soir" tone_tags="general">
             <pattern>
                 <token regexp="yes">chiffres?</token>
                 <token>de</token>
@@ -12842,7 +12827,7 @@ USA
             <suggestion>conseil d'administration</suggestion>
             <example correction="conseil d'administration"><marker>bureau des gouverneurs</marker></example>
         </rule>
-        <rule id="UN_BON_MINUTES" name="un bon [X] minutes, jours, etc." tone_tags="clarity">
+        <rule id="UN_BON_MINUTES" name="un bon [X] minutes, jours, etc." tone_tags="general">
             <pattern>
                 <token>un</token>
                 <token regexp="yes">bons?</token>
@@ -12951,7 +12936,7 @@ USA
             <suggestion>acquérir le goût de</suggestion>
             <example correction="acquérir le goût de"><marker>développer un goût pour</marker></example>
         </rule>
-        <rule id="EN_DEDANS_DE_X_MINUTES" name="en dedans de [x] minutes" tone_tags="clarity">
+        <rule id="EN_DEDANS_DE_X_MINUTES" name="en dedans de [x] minutes" tone_tags="general">
             <pattern>
                 <marker>
                     <token>en</token>
@@ -13001,7 +12986,7 @@ USA
             <example correction="affecter"><marker>assigner</marker> à une tâche</example>
             <example correction="affecté">Il a été <marker>assigné</marker> à une tâche.</example>
         </rule>
-        <rule id="AMI_DE_GARCON" name="ami de garçon/gars" tone_tags="clarity">
+        <rule id="AMI_DE_GARCON" name="ami de garçon/gars" tone_tags="general">
             <pattern>
                 <token regexp="yes">amie?s?</token>
                 <token>de</token>
@@ -13011,7 +12996,7 @@ USA
             <suggestion>ami</suggestion>
             <example correction="ami"><marker>ami de garçon</marker></example>
         </rule>
-        <rule id="AMI_DE_FILLE" name="amie de fille" tone_tags="clarity">
+        <rule id="AMI_DE_FILLE" name="amie de fille" tone_tags="general">
             <pattern>
                 <token regexp="yes">amie?s?</token>
                 <token>de</token>
@@ -13049,7 +13034,7 @@ USA
                 <example correction="accrochaient leurs photos aux murs">Ils <marker>accrochaient leurs photos sur les murs</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="ADAPTEUR" name="adapteur" tone_tags="clarity">
+        <rule id="ADAPTEUR" name="adapteur" tone_tags="general">
             <pattern>
                 <token regexp="yes">adapteurs?</token>
             </pattern>
@@ -13326,7 +13311,7 @@ USA
             <suggestion>facilités de paiement</suggestion>
             <example correction="facilités de paiement"><marker>termes faciles</marker></example>
         </rule>
-        <rule id="EN_AVANT_DE_SON_TEMPS" name="en avant de son temps" tone_tags="clarity">
+        <rule id="EN_AVANT_DE_SON_TEMPS" name="en avant de son temps" tone_tags="general">
             <pattern>
                 <token>en</token>
                 <token>avant</token>
@@ -13791,7 +13776,7 @@ USA
             <example correction="droits de l'homme|droits des personnes"><marker>droits humains</marker></example>
             <example><marker>droits des personnes</marker></example>
         </rule>
-        <rule id="EN_AUTANT_QUE" name="en autant que" tone_tags="clarity">
+        <rule id="EN_AUTANT_QUE" name="en autant que" tone_tags="general">
             <pattern>
                 <token>en</token>
                 <token>autant</token>
@@ -13804,7 +13789,7 @@ USA
             <example correction="dans la mesure où|pourvu que"><marker>en autant que</marker></example>
             <example><marker>dans la mesure où</marker></example>
         </rule>
-        <rule id="EN_AUTANT_QUE_JE_PEUX" name="en autant que je peux" tone_tags="clarity">
+        <rule id="EN_AUTANT_QUE_JE_PEUX" name="en autant que je peux" tone_tags="general">
             <pattern>
                 <token>en</token>
                 <token>autant</token>
@@ -13816,7 +13801,7 @@ USA
             <suggestion>dans la mesure du possible</suggestion>
             <example correction="dans la mesure du possible"><marker>en autant que je peux</marker></example>
         </rule>
-        <rule id="EN_AUTANT_QUE_JE_SUIS_CONCERNE" name="en autant que je suis concerné" tone_tags="clarity">
+        <rule id="EN_AUTANT_QUE_JE_SUIS_CONCERNE" name="en autant que je suis concerné" tone_tags="general">
             <pattern>
                 <token>en</token>
                 <token>autant</token>
@@ -13924,7 +13909,7 @@ USA
             <example correction="pourvoir un poste|occuper un poste"><marker>remplir un poste</marker></example>
             <example><marker>pourvoir un poste</marker></example>
         </rule>
-        <rule id="COMMENT_AS-TU_AIME" name="comment as-tu aimé" tone_tags="clarity">
+        <rule id="COMMENT_AS-TU_AIME" name="comment as-tu aimé" tone_tags="general">
             <pattern>
                 <token>comment</token>
                 <token>as</token>
@@ -13935,7 +13920,7 @@ USA
             <suggestion>as-tu aimé</suggestion>
             <example correction="as-tu aimé"><marker>comment as-tu aimé</marker></example>
         </rule>
-        <rule id="COMMENT_AVEZ-VOUS_AIME" name="comment avez-vous aimé" tone_tags="clarity">
+        <rule id="COMMENT_AVEZ-VOUS_AIME" name="comment avez-vous aimé" tone_tags="general">
             <pattern>
                 <token>comment</token>
                 <token>avez</token>
@@ -13960,7 +13945,7 @@ USA
             <example correction="se faire du tort à soi-même|mal juger son coup"><marker>se tirer dans les pieds</marker></example>
             <example><marker>mal juger son coup</marker></example>
         </rule>
-        <rule id="ALLEQUER_QUE" name="alléguer que" tone_tags="clarity">
+        <rule id="ALLEQUER_QUE" name="alléguer que" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="4">alléguer</token>
                 <token>que</token>
@@ -14004,7 +13989,7 @@ USA
             <suggestion>appel gratuit</suggestion>
             <example correction="appel gratuit"><marker>appel sans frais</marker></example>
         </rule>
-        <rule id="TRANQUILLISEUR" name="tranquilliseur" tone_tags="clarity">
+        <rule id="TRANQUILLISEUR" name="tranquilliseur" tone_tags="general">
             <pattern>
                 <token regexp="yes">tranquilliseurs?</token>
             </pattern>
@@ -14064,7 +14049,7 @@ USA
             <example correction="vidange|vidange moteur"><marker>changement d’huile</marker></example>
             <example><marker>vidange moteur</marker></example>
         </rule>
-        <rule id="CHANGEMENT_POUR_LE_MIEUX" name="changement en mieux" tone_tags="clarity">
+        <rule id="CHANGEMENT_POUR_LE_MIEUX" name="changement en mieux" tone_tags="general">
             <pattern>
                 <token regexp="yes">changements?</token>
                 <token>pour</token>
@@ -14075,7 +14060,7 @@ USA
             <suggestion>changement en mieux</suggestion>
             <example correction="changement en mieux"><marker>changement pour le mieux</marker></example>
         </rule>
-        <rule id="CHANGEMENT_POUR_LE_PIRE" name="changement en pire" tone_tags="clarity">
+        <rule id="CHANGEMENT_POUR_LE_PIRE" name="changement en pire" tone_tags="general">
             <pattern>
                 <token regexp="yes">changements?</token>
                 <token>pour</token>
@@ -14185,7 +14170,7 @@ USA
             <example correction="rentabilité des investissements|bénéfice|plus-value"><marker>retour sur investissements</marker></example>
             <example><marker>rémunération du capital</marker></example>
         </rule>
-        <rule id="MANDATOIRE" name="mandatoire" tone_tags="clarity">
+        <rule id="MANDATOIRE" name="mandatoire" tone_tags="general">
             <pattern>
                 <token regexp="yes">mandatoires?</token>
             </pattern>
@@ -14362,7 +14347,7 @@ USA
                 <example><marker>leçon particulière</marker></example>
             </rule>
         </rulegroup>
-        <rule id="PORTER_FRUIT" name="porter fruit" tone_tags="clarity">
+        <rule id="PORTER_FRUIT" name="porter fruit" tone_tags="general">
             <pattern>
                 <token inflected="yes">porter</token>
                 <token regexp="yes">fruits?</token>
@@ -14374,7 +14359,7 @@ USA
             <example correction="porter ses fruits|apporter ses fruits|être fructueux"><marker>porter fruit</marker></example>
             <example><marker>porter ses fruits</marker></example>
         </rule>
-        <rule id="CUIR_PATENT" name="cuir patent(e)" tone_tags="clarity">
+        <rule id="CUIR_PATENT" name="cuir patent(e)" tone_tags="general">
             <pattern>
                 <token regexp="yes">cuirs?</token>
                 <token regexp="yes">patente?s?</token>
@@ -14422,7 +14407,7 @@ USA
             <suggestion>château d'eau</suggestion>
             <example correction="château d'eau"><marker>tour d’eau</marker></example>
         </rule>
-        <rule id="PATE_DE_TOMATE" name="pâte de tomate" tone_tags="clarity">
+        <rule id="PATE_DE_TOMATE" name="pâte de tomate" tone_tags="general">
             <pattern>
                 <token regexp="yes">p[aâ]tt?es?</token>
                 <token>de</token>
@@ -14937,7 +14922,7 @@ USA
             <example correction="panne d'électricité|panne de courant"><marker>panne électrique</marker></example>
             <example><marker>panne de courant</marker></example>
         </rule>
-        <rule id="INSISTER_QUE" name="insister que" tone_tags="clarity">
+        <rule id="INSISTER_QUE" name="insister que" tone_tags="general">
             <pattern>
                 <token inflected="yes">insister</token>
                 <token>que</token>
@@ -15051,7 +15036,7 @@ USA
             <example correction="voulant que|selon lequel|selon laquelle|selon lesquelles"><marker>à l’effet que</marker></example>
             <example><marker>voulant que</marker></example>
         </rule>
-        <rulegroup id="CEST_ADJ" name="C'est + adjectif" tone_tags="clarity">
+        <rulegroup id="CEST_ADJ" name="C'est + adjectif" tone_tags="general">
             <rule>
                 <antipattern>
                     <token postag="J f (s|sp)" postag_regexp="yes"/>
@@ -15212,7 +15197,7 @@ USA
                 <example>En effet cette catégorie c'est disputée en deux manches.</example>
             </rule>
         </rulegroup>
-        <rule id="CEST_LA_RAISON_POURQUOI" name="c’est la raison pourquoi" tone_tags="clarity">
+        <rule id="CEST_LA_RAISON_POURQUOI" name="c’est la raison pourquoi" tone_tags="general">
             <pattern>
                 <token min="0" regexp="yes">c['’]</token>
                 <token inflected="yes" skip="3">être</token>
@@ -15313,7 +15298,7 @@ USA
             <example correction="combat décisif|lutte sans merci"><marker>combat à finir</marker></example>
             <example><marker>combat décisif</marker></example>
         </rule>
-        <rule id="COMBIEN_LOIN" name="combien loin" tone_tags="clarity">
+        <rule id="COMBIEN_LOIN" name="combien loin" tone_tags="general">
             <pattern>
                 <token>combien</token>
                 <token>loin</token>
@@ -15994,7 +15979,7 @@ USA
             <example correction="abus de confiance|déloyauté"><marker>bris du lien de confiance</marker>.</example>
             <example><marker>abus de confiance</marker>.</example>
         </rule>
-        <rule id="VOTEUR" name="voteur" tone_tags="clarity">
+        <rule id="VOTEUR" name="voteur" tone_tags="general">
             <pattern>
                 <token regexp="yes">voteurs?</token>
             </pattern>
@@ -16198,7 +16183,7 @@ USA
             <suggestion>prix réduit</suggestion>
             <example correction="prix réduit"><marker>prix coupé</marker></example>
         </rule>
-        <rule id="PRIX_REGULIER" name="prix régulier" tone_tags="clarity">
+        <rule id="PRIX_REGULIER" name="prix régulier" tone_tags="general">
             <pattern>
                 <token>prix</token>
                 <token regexp="yes">réguliers?|régulières?</token>
@@ -16207,7 +16192,7 @@ USA
             <suggestion>prix courant</suggestion>
             <example correction="prix courant"><marker>prix régulier</marker></example>
         </rule>
-        <rule id="CLIENT_REGULIER" name="client régulier" tone_tags="clarity">
+        <rule id="CLIENT_REGULIER" name="client régulier" tone_tags="general">
             <pattern>
                 <token regexp="yes" skip="1">clients?</token>
                 <token regexp="yes">réguliers?|régulières?</token>
@@ -16218,7 +16203,7 @@ USA
             <example correction="client habituel|bon client"><marker>client régulier</marker></example>
             <example><marker>client habituel</marker></example>
         </rule>
-        <rule id="EMPLOYE_REGULIER" name="employé régulier" tone_tags="clarity">
+        <rule id="EMPLOYE_REGULIER" name="employé régulier" tone_tags="general">
             <pattern>
                 <token regexp="yes">employée?s?</token>
                 <token regexp="yes">réguliers?|régulières?</token>
@@ -16227,7 +16212,7 @@ USA
             <suggestion>employé permanent</suggestion>
             <example correction="employé permanent"><marker>employé régulier</marker></example>
         </rule>
-        <rule id="SALAIRE_REGULIER" name="salaire régulier" tone_tags="clarity">
+        <rule id="SALAIRE_REGULIER" name="salaire régulier" tone_tags="general">
             <pattern>
                 <token regexp="yes">salaires?</token>
                 <token regexp="yes">réguliers?|régulières?</token>
@@ -16236,7 +16221,7 @@ USA
             <suggestion>salaire de base</suggestion>
             <example correction="salaire de base"><marker>salaire régulier</marker></example>
         </rule>
-        <rule id="SEANCE_REGULIERE" name="séance régulière" tone_tags="clarity">
+        <rule id="SEANCE_REGULIERE" name="séance régulière" tone_tags="general">
             <pattern>
                 <token regexp="yes">séances?</token>
                 <token regexp="yes">réguliers?|régulières?</token>
@@ -16245,7 +16230,7 @@ USA
             <suggestion>séance ordinaire</suggestion>
             <example correction="séance ordinaire"><marker>séance régulière</marker></example>
         </rule>
-        <rule id="ESSENCE_REGULIERE" name="essence régulière" tone_tags="clarity">
+        <rule id="ESSENCE_REGULIERE" name="essence régulière" tone_tags="general">
             <pattern>
                 <token regexp="yes">essences?</token>
                 <token regexp="yes">réguliers?|régulières?</token>
@@ -16254,7 +16239,7 @@ USA
             <suggestion>essence ordinaire</suggestion>
             <example correction="essence ordinaire"><marker>essence régulière</marker></example>
         </rule>
-        <rule id="HEURES_REGULIERE" name="heures régulière" tone_tags="clarity">
+        <rule id="HEURES_REGULIERE" name="heures régulière" tone_tags="general">
             <pattern>
                 <token regexp="yes">heures?</token>
                 <token regexp="yes">réguliers?|régulières?</token>
@@ -16495,7 +16480,7 @@ USA
             <suggestion>poursuite judiciaire</suggestion>
             <example correction="poursuite judiciaire"><marker>poursuite légale</marker></example>
         </rule>
-        <rule id="PATE_A_DENTS" name="pâte à dents" tone_tags="clarity">
+        <rule id="PATE_A_DENTS" name="pâte à dents" tone_tags="general">
             <pattern>
                 <token>pâte</token>
                 <token>à</token>
@@ -16507,7 +16492,7 @@ USA
             <example correction="dentifrice|pâte dentifrice"><marker>pâte à dents</marker></example>
             <example><marker>dentifrice</marker></example>
         </rule>
-        <rule id="PRENDRE_FORCE" name="prendre force" tone_tags="clarity">
+        <rule id="PRENDRE_FORCE" name="prendre force" tone_tags="general">
             <pattern>
                 <token inflected="yes">prendre</token>
                 <token>force</token>
@@ -16518,7 +16503,7 @@ USA
             <example>entrer en vigueur</example>
             <example>prendre de force</example>
         </rule>
-        <rule id="PARTIR_A_SON_COMPTE" name="partir à son compte" tone_tags="clarity">
+        <rule id="PARTIR_A_SON_COMPTE" name="partir à son compte" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="3">partir</token>
                 <token>à</token>
@@ -16529,7 +16514,7 @@ USA
             <suggestion>s'établir à son compte</suggestion>
             <example correction="s'établir à son compte"><marker>partir à son compte</marker></example>
         </rule>
-        <rule id="PARTIR_EN_AFFAIRES" name="partir en affaires" tone_tags="clarity">
+        <rule id="PARTIR_EN_AFFAIRES" name="partir en affaires" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="3">partir</token>
                 <token>en</token>
@@ -16539,7 +16524,7 @@ USA
             <suggestion>se lancer en affaires</suggestion>
             <example correction="se lancer en affaires"><marker>partir en affaires</marker></example>
         </rule>
-        <rule id="PARTIR_LE_BAL" name="partir le bal" tone_tags="clarity">
+        <rule id="PARTIR_LE_BAL" name="partir le bal" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="3">partir</token>
                 <token>le</token>
@@ -16549,7 +16534,7 @@ USA
             <suggestion>ouvrir le bal</suggestion>
             <example correction="ouvrir le bal"><marker>partir le bal</marker></example>
         </rule>
-        <rule id="PARTIR_UNE_DISCUSSION" name="partir une discussion" tone_tags="clarity">
+        <rule id="PARTIR_UNE_DISCUSSION" name="partir une discussion" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="3">partir
                     <exception regexp="yes" scope="next">à|aux</exception></token>
@@ -16562,7 +16547,7 @@ USA
             <example><marker>déclencher une discussion</marker></example>
             <example>prendre part aux discussions</example>
         </rule>
-        <rule id="PARTIR_UNE_ENTREPRISE" name="partir une entreprise" tone_tags="clarity">
+        <rule id="PARTIR_UNE_ENTREPRISE" name="partir une entreprise" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="1">partir</token>
                 <token regexp="yes">entreprises?</token>
@@ -16574,7 +16559,7 @@ USA
             <example><marker>créer une entreprise</marker></example>
             <example>Il est parti de cette entreprise.</example>
         </rule>
-        <rule id="PARTIR_UNE_MODE" name="partir une mode" tone_tags="clarity">
+        <rule id="PARTIR_UNE_MODE" name="partir une mode" tone_tags="general">
             <antipattern>
                 <token regexp="yes" inflected="yes">devenir|faire</token>
                 <token>partie</token>
@@ -16587,7 +16572,7 @@ USA
             <suggestion>lancer une mode</suggestion>
             <example correction="lancer une mode"><marker>partir une mode</marker></example>
         </rule>
-        <rule id="PARTIR_UNE_RUMEUR" name="partir une rumeur" tone_tags="clarity">
+        <rule id="PARTIR_UNE_RUMEUR" name="partir une rumeur" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="3">partir</token>
                 <token regexp="yes">rumeurs?</token>
@@ -16598,7 +16583,7 @@ USA
             <example correction="faire courir une rumeur|répandre une rumeur"><marker>partir une rumeur</marker></example>
             <example><marker>faire courir une rumeur</marker></example>
         </rule>
-        <rule id="PARTIR_DANS_LES_AFFAIRES" name="partir dans les affaires" tone_tags="clarity">
+        <rule id="PARTIR_DANS_LES_AFFAIRES" name="partir dans les affaires" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="3">partir</token>
                 <token>dans</token>
@@ -16906,7 +16891,7 @@ USA
             <example correction="siège social"><marker>bureau-chef</marker></example>
             <example><marker>siège-social</marker></example>
         </rule>
-        <rule id="CA_REGARDE_BIEN_MAL" name="ça regarde bien/mal" tone_tags="clarity">
+        <rule id="CA_REGARDE_BIEN_MAL" name="ça regarde bien/mal" tone_tags="general">
             <pattern>
                 <token regexp="yes">ça|cela</token>
                 <token inflected="yes" skip="2">regarder</token>
@@ -17155,7 +17140,7 @@ USA
             <suggestion>enjoliveur</suggestion>
             <example correction="enjoliveur"><marker>cap de roue</marker></example>
         </rule>
-        <rule id="PATATE_SUCREE" name="patate sucrée" tone_tags="clarity">
+        <rule id="PATATE_SUCREE" name="patate sucrée" tone_tags="general">
             <pattern>
                 <token regexp="yes">patates?</token>
                 <token regexp="yes">sucrées?</token>
@@ -17414,7 +17399,7 @@ USA
                 <example>Ils m’apprécient en tant que collègue.</example>
             </rule>
         </rulegroup>
-        <rule id="ETRE_A_SON_MEILLEUR" name="être à son meilleur" tone_tags="clarity">
+        <rule id="ETRE_A_SON_MEILLEUR" name="être à son meilleur" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="2">être</token>
                 <token>à</token>
@@ -17429,7 +17414,7 @@ USA
             <example correction="être au sommet de sa forme|exceller|être au mieux"><marker>être à mon meilleur</marker></example>
             <example><marker>être au sommet de ma forme</marker></example>
         </rule>
-        <rulegroup id="ETRE_CONFIANT_QUE" name="être confiant que" tone_tags="clarity">
+        <rulegroup id="ETRE_CONFIANT_QUE" name="être confiant que" tone_tags="general">
             <rule>
                 <pattern>
                     <token postag="V etre.* s|V etre pp.*|V etre inf" postag_regexp="yes"/>
@@ -17784,7 +17769,7 @@ USA
             <suggestion>être responsable de</suggestion>
             <example correction="être responsable de"><marker>être imputable de</marker></example>
         </rule>
-        <rule id="COULER_DE_LINFORMATION" name="couler de l’information/des renseignements" tone_tags="clarity">
+        <rule id="COULER_DE_LINFORMATION" name="couler de l’information/des renseignements" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="3">couler</token>
                 <token regexp="yes">informations?|renseignement?</token>
@@ -17838,7 +17823,7 @@ USA
             <suggestion><match no="1" postag="(V) (etre) (.*)" postag_regexp="yes" postag_replace="V avoir $3">avoir</match> des ennuis</suggestion>
             <example correction="avoir des ennuis"><marker>être dans le trouble</marker></example>
         </rule>
-        <rule id="ETRE_SOUS_L_IMPRESSION_QUE" name="être sous l’impression que" tone_tags="clarity">
+        <rule id="ETRE_SOUS_L_IMPRESSION_QUE" name="être sous l’impression que" tone_tags="general">
             <pattern>
                 <token>sous</token>
                 <token>l'</token>
@@ -17849,7 +17834,7 @@ USA
             <suggestion>avoir l'impression que</suggestion>
             <example correction="avoir l'impression que"><marker>sous l’impression que</marker></example>
         </rule>
-        <rule id="ETRE_EN_AMOUR" name="être en amour" tone_tags="clarity">
+        <rule id="ETRE_EN_AMOUR" name="être en amour" tone_tags="general">
             <pattern>
                 <token inflected="yes">être</token>
                 <token postag="A" min="0" max="3"/>
@@ -17885,7 +17870,7 @@ USA
             <suggestion>pain complet</suggestion>
             <example correction="pain complet"><marker>pain de blé entier</marker></example>
         </rule>
-        <rule id="TOMBER_EN_AMOUR" name="tomber en amour" tone_tags="clarity">
+        <rule id="TOMBER_EN_AMOUR" name="tomber en amour" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="2">tomber</token>
                 <token>en</token>
@@ -18181,7 +18166,7 @@ USA
             <example correction="marée noire|nappe de pétrole"><marker>nappe d’huile</marker></example>
             <example><marker>nappe de pétrole</marker></example>
         </rule>
-        <rule id="FAIRE_SUR_QUE" name="faire sûr que" tone_tags="clarity">
+        <rule id="FAIRE_SUR_QUE" name="faire sûr que" tone_tags="general">
             <pattern>
                 <token inflected="yes" skip="2">faire</token>
                 <token regexp="yes">sûr|sur</token>
@@ -18392,7 +18377,7 @@ USA
             <example correction="détail technique|point technique|formalité|question de forme"><marker>technicalités</marker></example>
             <example><marker>détails techniques</marker></example>
         </rule>
-        <rule id="FAIRE_DU_SENS" name="faire du sens" tone_tags="clarity">
+        <rule id="FAIRE_DU_SENS" name="faire du sens" tone_tags="general">
             <pattern>
                 <marker>
                     <token inflected="yes" skip="2">faire</token>
@@ -18447,7 +18432,7 @@ USA
             <suggestion>prêt hypothécaire ouvert</suggestion>
             <example correction="prêt hypothécaire ouvert"><marker>hypothèque ouverte</marker></example>
         </rule>
-        <rule id="HORS_DORDRE" name="hors d’ordre" tone_tags="clarity">
+        <rule id="HORS_DORDRE" name="hors d’ordre" tone_tags="general">
             <pattern>
                 <token>hors</token>
                 <token inflected="yes">de</token>
@@ -18501,7 +18486,7 @@ USA
         </rule>
     </category>
     <category id="CAT_REGLES_DE_BASE" name="Règles de base" type="style">
-        <rulegroup id="C_EST_QUOI" name="c'est quoi" tone_tags="formal">
+        <rulegroup id="C_EST_QUOI" name="c'est quoi" tone_tags="general">
             <rule>
                 <antipattern>
                     <token>c'</token>
@@ -18670,7 +18655,7 @@ USA
             <example correction="ou non">T’es-tu décidé <marker>ou pas</marker> ?</example>
             <example>T’es-tu décidé ou non ?</example>
         </rule>
-        <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)" tone_tags="clarity">
+        <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)" tone_tags="general">
             <antipattern>
                 <token>wild</token>
                 <token>wild</token>
@@ -19303,7 +19288,7 @@ USA
                 <example correction="disponibilité|disposition|disponibilités|dispositions">Il faut voir en fonction de sa <marker>dispo</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="ORGE_PERLE" name="orge perlée → orge perlé" tone_tags="clarity">
+        <rule id="ORGE_PERLE" name="orge perlée → orge perlé" tone_tags="general">
             <pattern>
                 <token>orge</token>
                 <token regexp="yes">perlée|mondée</token>
@@ -19315,7 +19300,7 @@ USA
             <example>De l’orge perlé.</example>
             <example>De l’orge mondé.</example>
         </rule>
-        <rule id="LAISSER-PASSER" name="laisser-passer → laissez-passer" tone_tags="clarity">
+        <rule id="LAISSER-PASSER" name="laisser-passer → laissez-passer" tone_tags="general">
             <pattern>
                 <token>laisser</token>
                 <token>-</token>
@@ -19325,7 +19310,7 @@ USA
             <example correction="laissez-passer">Il vous faut un <marker>laisser-passer</marker>.</example>
             <example>Il vous faut un laissez-passer.</example>
         </rule>
-        <rule id="NOEUDS_PAR_HEURE" name="nœuds par heure → nœuds" tone_tags="clarity">
+        <rule id="NOEUDS_PAR_HEURE" name="nœuds par heure → nœuds" tone_tags="general">
             <pattern>
                 <token regexp="yes">(demi-)?(nœud|noeud)s?</token>
                 <token>par</token>
@@ -19337,7 +19322,7 @@ USA
             <example correction="demi-nœud">Le courant est d’un <marker>demi-nœud par heure</marker>.</example>
             <example>Le courant est d’un demi-nœud.</example>
         </rule>
-        <rule id="HZ_PAR_SECONDE" name="hertz par second → hertz" tone_tags="clarity">
+        <rule id="HZ_PAR_SECONDE" name="hertz par second → hertz" tone_tags="general">
             <pattern>
                 <token regexp="yes">[KMG]?Hz|(kilo|mega|giga)?hertz</token>
                 <token>par</token>
@@ -19349,7 +19334,7 @@ USA
             <example correction="Hz">Un signal de 3,5 <marker>Hz par seconde</marker>.</example>
             <example>Un signal de 3,5 Hz.</example>
         </rule>
-        <rulegroup id="kWh" name="kW/h → kWh" tone_tags="clarity">
+        <rulegroup id="kWh" name="kW/h → kWh" tone_tags="general">
             <rule>
                 <pattern>
                     <token regexp="yes">[KMGT]?W|(kilo|mega|giga|tera)?watt</token>
@@ -19384,7 +19369,7 @@ USA
                 <example>L’appareil a consommé 5 kWh.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KELVIN" name="degré kelvin → kelvin" tone_tags="clarity">
+        <rulegroup id="KELVIN" name="degré kelvin → kelvin" tone_tags="general">
             <rule>
                 <pattern>
                     <token>degré</token>
@@ -19415,7 +19400,7 @@ USA
                 <example correction="K">Une température de 3 <marker>°K</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="UNITES_DE_MESURE" name="unités de mesure" tone_tags="clarity">
+        <rule id="UNITES_DE_MESURE" name="unités de mesure" tone_tags="general">
             <pattern>
                 <token regexp="yes">\d+|une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|dix[-‑‐].*|vingt[-‑‐].*|trente[-‑‐].*|quarante[-‑‐].*|cinquante[-‑‐].*|soixante[-‑‐].*|quatre[-‑‐].*|octante[-‑‐].*|huitante[-‑‐].*|nonante[-‑‐].*|[-‑‐]?cents?[-‑‐]?|mille</token>
                 <marker>
@@ -19433,7 +19418,7 @@ USA
             <example>Un courant de 10 ampères.</example>
             <example>Un courant de dix ampères.</example>
         </rule>
-        <rule id="MEDAILLE_FIELDS" name="médaille Field → médaille Fields" tone_tags="clarity">
+        <rule id="MEDAILLE_FIELDS" name="médaille Field → médaille Fields" tone_tags="general">
             <pattern>
                 <token regexp="yes" inflected="yes">médaill(e|ée?)s?</token>
                 <marker>
@@ -19880,7 +19865,7 @@ USA
                 <example correction="cela s'est bien passé">Alors, <marker>ça a été</marker> ?</example>
             </rule>
         </rulegroup>
-        <rule id="RESOUDRE_OU_SOLUTIONNER" name="résoudre ou solutionner" tone_tags="clarity">
+        <rule id="RESOUDRE_OU_SOLUTIONNER" name="résoudre ou solutionner" tone_tags="general">
             <antipattern>
                 <token postag="UNKNOWN"/>
                 <token inflected="yes">solutionner</token>
