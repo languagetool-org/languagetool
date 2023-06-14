@@ -648,6 +648,7 @@ public class AgreementRuleTest {
     assertGood("Die Organe eines gerade Verstorbenen");
     assertGood("Da wusste keiner Bescheid bezüglich dieser Sache.");
     assertGood("Es braucht keiner Bescheid wissen.");
+    assertGood("Das sind auch beides staatliche Organe.");
     assertGood("Ein Haus für die weniger Glücklichen.");
     assertGood("Wir können sowas Mittwoch machen.");
     assertGood("Den schlechter Verdienenden geht es schlecht.");

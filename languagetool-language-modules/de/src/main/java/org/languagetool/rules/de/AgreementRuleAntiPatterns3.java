@@ -724,6 +724,12 @@ class AgreementRuleAntiPatterns3 {
       posRegex("VER.*INF:.*")
     ),
     asList(
+      // beides staatliche Organe
+      token("beides"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").csTokenRegex("[a-z0-9äöüß\\-]+e").build(),
+      posRegex("SUB.*NOM.*PLU.*")
+    ),
+    asList(
       // 1944 eroberte diese weite Teile von Südosteuropa.
       posRegex("VER.*"),
       tokenRegex("diese[sr]?"),
