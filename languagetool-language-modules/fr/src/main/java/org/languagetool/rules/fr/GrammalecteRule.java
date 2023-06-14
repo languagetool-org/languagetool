@@ -422,7 +422,32 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b7_a1_1",
     "g2__conf_a_à_verbe__b8_a1_1",
     "g3__gn_la_3m__b1_a1_1",
-    "gv1__imp_verbe_groupe3_d__b2_a1_1"//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
+    "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
+    "grammalecte_typo_guillemets_perdus",
+    "grammalecte_g2__conj_2p_sans_sujet__b1_a1_1 ",
+    "grammalecte_typo_signe_multiplication",
+    "grammalecte_typo_écriture_invariable",
+    "grammalecte_gv1__ppas_avoir_été__b2_a3_1",
+    "grammalecte_num_grand_nombre_avec_points",
+    "grammalecte_g2__conj_tu__b1_a1_1",
+    "grammalecte_typo_guillemets_doubles_ouvrants_non_fermé",
+    "grammalecte_g2__maj_gentilés__b3_a1_1",
+    "grammalecte_typo_signe_moins",
+    "grammalecte_g3__conf_numérique_digital__b1_a1_1 ",
+    "grammalecte_g2__conf_start_nom_ppas__b1_a1_1",
+    "grammalecte_typo_guillemets_fin",
+    "grammalecte_g2__conf_non_verbe_après_préverbes__b2_a1_1",
+    "grammalecte_g2__maj_gentilés__b3_a2_1",
+    "grammalecte_g2__typo_ordinaux_chiffres_romains_exposants__b9_a1_1",
+    "grammalecte_g3__gn_pfx_de_2m__b1_a1_1",
+    "grammalecte_eepi_écriture_épicène_pluriel_e",
+    "grammalecte_g2__chim_molécules__b1_a1_1",
+    "grammalecte_g3__conf_numérique_digital__b2_a1_1",
+    "grammalecte_doublon",
+    "grammalecte_typo_guillemets_doubles_fermants_non_ouverts",
+    "grammalecte_g2__conf_non_verbe_après_préverbes__b5_a3_1",
+    "grammalecte_gv1__imp_verbe_groupe2_groupe3_t__b2_a1_1",
+    "grammalecte_gv2__conj_les_nom__b1_a3_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
