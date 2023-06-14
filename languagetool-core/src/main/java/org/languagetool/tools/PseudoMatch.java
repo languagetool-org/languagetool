@@ -44,4 +44,9 @@ public class PseudoMatch {
   public int getToPos() {
     return this.toPos;
   }
+
+  public String toString() {
+    return String.valueOf(this.fromPos) + "-" + String.valueOf(this.toPos) + "-" + this.replacements.toString();
+
+  }
 }
