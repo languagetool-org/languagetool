@@ -97,6 +97,23 @@ public class DiffsAsMatchesTest {
     assertEquals("[cosa, ]", matches.get(0).getReplacements().toString());
     assertEquals(4, matches.get(0).getFromPos());
     assertEquals(9, matches.get(0).getToPos());
+    
+    original = "Que el año nuevo empezó.";
+    revised = "El año nuevo empezó.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[El]", matches.get(0).getReplacements().toString());
+    assertEquals(0, matches.get(0).getFromPos());
+    assertEquals(6, matches.get(0).getToPos());
+    
+    original = "¡Holà ! Estamos aquí.";
+    revised = "¡Hola! Estamos aquí.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[¡Hola!]", matches.get(0).getReplacements().toString());
+    assertEquals(0, matches.get(0).getFromPos());
+    assertEquals(7, matches.get(0).getToPos());
+    
   }
 
 }
