@@ -142,6 +142,73 @@ USA
     <!-- Stil -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
+
+        <rulegroup id="TEST_UMLAUTE" name="fuer (für)" default="temp_off" tone_tags="general"><!--TEST: wird aktuell als spelling error behandelt-->
+            <rule><!--[1] ae-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" postag="UNKNOWN">.*ae.*</token>
+                </pattern>
+                <message>Vielleicht möchten Sie hier lieber den Umlaut <suggestion><match no="1" regexp_match="ae" regexp_replace="ä"/></suggestion> verwenden?</message>
+                <short>&typo;</short>
+                <example correction="Veränderung">Das ist eine große <marker>Veraenderung</marker>.</example>
+                <example>Wir fahren nach <marker>Israel</marker>.</example>
+            </rule>
+            <rule><!--[2] Ae-->
+                <pattern case_sensitive="yes">
+                    <token postag="UNKNOWN" regexp="yes">Ae.*
+                    </token>
+                </pattern>
+                <message>Vielleicht möchten Sie hier lieber den Umlaut <suggestion><match no="1" regexp_match="Ae" regexp_replace="Ä"/></suggestion> verwenden?</message>
+                <short>&typo;</short>
+                <example correction="Änderung">Eine <marker>Aenderung</marker> der Richtlinien ist notwendig.</example>
+                <example correction="Änderungen"><marker>Aenderungen</marker> der Richtlinien sind notwendig.</example>
+                <example>Wenn du wissen willst, was <marker>Aerodynamik</marker> ist, dann schau ein Rotorblatt an.</example>
+            </rule>
+            <rule><!--[3] oe-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" postag="UNKNOWN">.*oe.*</token>
+                </pattern>
+                <message>Vielleicht möchten Sie hier lieber den Umlaut <suggestion><match no="1" regexp_match="oe" regexp_replace="ö"/></suggestion> verwenden?</message>
+                <short>&typo;</short>
+                <example correction="Einöde">Er lebt hier in der <marker>Einoede</marker>.</example>
+                <example>Eichendorff schuf vollendete <marker>Poesie</marker>.</example>
+            </rule>
+            <rule><!--[4] Oe-->
+                <pattern case_sensitive="yes">
+                    <token postag="UNKNOWN" regexp="yes">Oe.*
+                        <exception regexp="yes">Oettinge[rn]</exception>
+                    </token>
+                </pattern>
+                <message>Vielleicht möchten Sie hier lieber den Umlaut <suggestion><match no="1" regexp_match="Oe" regexp_replace="Ö"/></suggestion> verwenden?</message>
+                <short>&typo;</short>
+                <example correction="Öse">Die <marker>Oese</marker> ist ein aus Metall, Kunststoff oder Gummi bestehender Ring.</example>
+                <example correction="Ösen"><marker>Oesen</marker> bestehen aus aus Metall, Kunststoff oder Gummi.</example>
+                <example>Heute ist Feiertag in <marker>Oettingen</marker>.</example>
+            </rule>
+            <rule><!--[5] ue-->
+                <pattern case_sensitive="yes">
+                    <token postag="UNKNOWN" regexp="yes">.*ue.*</token>
+                </pattern>
+                <message>Vielleicht möchten Sie hier lieber den Umlaut <suggestion><match no="1" regexp_match="ue" regexp_replace="ü"/></suggestion> verwenden?</message>
+                <short>&typo;</short>
+                <example correction="Gebühr">Das ist eine <marker>Gebuehr</marker>.</example>
+                <example correction="für">Das Geschenk ist <marker>fuer</marker> dich.</example>
+                <example>Das <marker>Feuer</marker> brennt.</example>
+            </rule>
+            <rule><!--[6] Ue-->
+                <pattern case_sensitive="yes">
+                    <token postag="UNKNOWN" regexp="yes">Ue.*
+                        <exception regexp="yes">Uelzen|Ueno|Ueli|Uelsby|Uetliberg.*|Uecker.*|Uetze|Uengling.*|Ueckermünder?|Ueberstorf.*|Uezwil</exception>
+                    </token>
+                </pattern>
+                <message>Vielleicht möchten Sie hier lieber den Umlaut <suggestion><match no="1" regexp_match="Ue" regexp_replace="Ü"/></suggestion> verwenden?</message>
+                <short>&typo;</short>
+                <example correction="Übung">Diese <marker>Uebung</marker> ist sehr effizient.</example>
+                <example correction="Über"><marker>Ueber</marker> dieses Thema muss gesprochen werden.</example>
+                <example>Die nächste Station ist <marker>Uelzen</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rule id="NACH_HAUS" name="Ich gehe nach Haus (Hause)" tone_tags="formal">
             <antipattern>
                 <token>Kevin</token>
