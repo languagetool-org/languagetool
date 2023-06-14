@@ -80,7 +80,13 @@ public class DiffsAsMatches {
         String newReplacement = lastMatch.getReplacements().get(0) + replacement.substring(toPos - fromPos);
         match = new PseudoMatch(newReplacement, fromPos, toPos);
         matches.remove(matches.size() - 1);
-      } else {
+      // CHANGE + DELETE  
+      } else if (lastMatch!= null && inlineDelta.getType() == DeltaType.DELETE && wasLastWhitespace && lastMatch.getToPos() + 1 == fromPos ) {
+        String newReplacement = lastMatch.getReplacements().get(0);
+        match = new PseudoMatch(newReplacement, lastMatch.getFromPos(), toPos - 1);
+        matches.remove(matches.size() - 1);
+      }
+      else {
         match = new PseudoMatch(replacement, fromPos, toPos);
       }
       matches.add(match);
