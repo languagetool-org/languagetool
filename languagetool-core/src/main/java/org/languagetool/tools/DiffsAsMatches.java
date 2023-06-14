@@ -46,9 +46,15 @@ public class DiffsAsMatches {
           indexCorrection = 0;
         }
       }
+      
       for (int i = 0; i < errorIndex - indexCorrection; i++) {
         fromPos += origList.get(i).length();
       }
+      boolean wasLastWhitespace = false;
+      if (errorIndex - 1 < origList.size() && errorIndex - 1 > -1) {
+        wasLastWhitespace = origList.get(errorIndex - 1).equals(" ");  
+      }
+      
       String underlinedError = String.join("", inlineDelta.getSource().getLines());
       int toPos = fromPos + underlinedError.length();
 
@@ -64,7 +70,7 @@ public class DiffsAsMatches {
         replacement = replacement + origList.get(0);
       }
       // remove unnecessary whitespace at the end in INSERT
-      if (inlineDelta.getType() == DeltaType.INSERT && replacement.endsWith(" ") && replacement.length() > 2) {
+      if (inlineDelta.getType() == DeltaType.INSERT && replacement.endsWith(" ") && replacement.length() > 2 && wasLastWhitespace) {
         replacement = replacement.substring(0, replacement.length() - 1);
         toPos--;
       }

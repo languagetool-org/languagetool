@@ -89,6 +89,14 @@ public class DiffsAsMatchesTest {
     assertEquals("[se realiza]", matches.get(0).getReplacements().toString());
     assertEquals(5, matches.get(0).getFromPos());
     assertEquals(14, matches.get(0).getToPos());
+    
+    original = "Una cosa,una altra.";
+    revised = "Una cosa, una altra.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[cosa, ]", matches.get(0).getReplacements().toString());
+    assertEquals(4, matches.get(0).getFromPos());
+    assertEquals(9, matches.get(0).getToPos());
   }
 
 }

@@ -249,24 +249,16 @@ public class SentenceAnnotator {
   private static void runAutomaticAnnotation(AnnotatorConfig cfg) throws IOException {
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
     List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
-    int numSentence=0;
+    int numSentence = 0;
     System.out.println("Starting at line 1 of file " + cfg.inputFilePath);
     for (String line : lines) {
-
+      numSentence++;
       String[] parts = line.split("\t");
       String sentence = parts[1].replaceAll("__", "");
       String correctedSentence = parts[2].replaceAll("__", "");
       List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
-      //numSentence = Integer.valueOf(parts[0]);
-      boolean done = false;
-      List<String> fpMatches = new ArrayList<>();
-      int annotationsPerSentence = 0;
-
       List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
       RemoteRuleMatch match = null;
-      int i = 0;
-      boolean isValidMatch = false;
-
       correctedSentence = applyAllMatches(sentence, matches);
       List<PseudoMatch> matchesEval = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
 
@@ -275,32 +267,62 @@ public class SentenceAnnotator {
       int iGolden = 0;
       int iEval = 0;
 
-      while (iGolden < matchesGolden.size() && iEval < matchesEval.size()) {
-        PseudoMatch iGMatch = matchesGolden.get(iGolden);
-        PseudoMatch iEMatch = matchesEval.get(iEval);
-        if (iGMatch.getFromPos() == iEMatch.getFromPos()) {
-          // && iGMatch.getToPos() == iEMatch.getToPos())
-          if (iEMatch.getReplacements().size() == 0) {
-            errorType = "TPns";
-          } else if (iGMatch.getReplacements().get(0).equals(iEMatch.getReplacements().get(0))) {
-            errorType = "TP";
-          } else {
-            errorType = "TPws";
-          }
-          iGolden++;
-          iEval++;
-        } else if (iGMatch.getFromPos() < iEMatch.getFromPos()) {
-          errorType = "FN";
-          iGolden++;
-        } else if (iGMatch.getFromPos() > iEMatch.getFromPos()) {
+      while (iGolden < matchesGolden.size() || iEval < matchesEval.size()) {
+        PseudoMatch iGMatch = null;
+        PseudoMatch iEMatch = null;
+        if (iGolden < matchesGolden.size()) {
+          iGMatch = matchesGolden.get(iGolden);
+        }
+        if (iEval < matchesEval.size()) {
+          iEMatch = matchesEval.get(iEval);
+        }
+        boolean printed = false;
+        if (iGMatch == null) {
           errorType = "FP";
+          printOutputLine(cfg, numSentence, formatedSentence2(sentence, iEMatch),
+              formattedCorrectedSentence2(sentence, iEMatch), errorType,
+              sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos()), iEMatch.getReplacements().get(0), -1, 1,
+              getFullId(match), getRuleCategoryId(match), getRuleType(match));
           iEval++;
+        } else if (iEMatch == null) {
+          errorType = "FN";
+          printOutputLine(cfg, numSentence, formatedSentence2(sentence, iGMatch),
+              formattedCorrectedSentence2(sentence, iGMatch), errorType,
+              sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos()), iGMatch.getReplacements().get(0), -1, 1,
+              getFullId(match), getRuleCategoryId(match), getRuleType(match));
+          iGolden++;
+        } else {
+          if (iGMatch.getFromPos() == iEMatch.getFromPos()) {
+            // && iGMatch.getToPos() == iEMatch.getToPos())
+            if (iEMatch.getReplacements().size() == 0) {
+              errorType = "TPns";
+            } else if (iGMatch.getReplacements().get(0).equals(iEMatch.getReplacements().get(0))) {
+              errorType = "TP";
+            } else {
+              errorType = "TPws";
+            }
+            iGolden++;
+            iEval++;
+          } else if (iGMatch.getFromPos() < iEMatch.getFromPos()) {
+            errorType = "FN";
+            printOutputLine(cfg, numSentence, formatedSentence2(sentence, iGMatch),
+                formattedCorrectedSentence2(sentence, iGMatch), errorType,
+                sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos()), iGMatch.getReplacements().get(0), -1, 1,
+                getFullId(match), getRuleCategoryId(match), getRuleType(match));
+            printed = true;
+            iGolden++;
+          } else if (iGMatch.getFromPos() > iEMatch.getFromPos()) {
+            errorType = "FP";
+            iEval++;
+          }
+          if (!printed) {
+            printOutputLine(cfg, numSentence, formatedSentence2(sentence, iEMatch),
+                formattedCorrectedSentence2(sentence, iEMatch), errorType,
+                sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos()), iEMatch.getReplacements().get(0), -1, 1,
+                getFullId(match), getRuleCategoryId(match), getRuleType(match));
+          }
         }
 
-        printOutputLine(cfg, numSentence, formatedSentence2(sentence, iEMatch),
-            formattedCorrectedSentence2(sentence, iEMatch), errorType,
-            sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos()), iEMatch.getReplacements().get(0), -1, 1,
-            getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
     }
@@ -438,14 +460,14 @@ public class SentenceAnnotator {
     }
     int correctedPos = 0;
     String sentence = line;
-    
+
     for (RemoteRuleMatch match : matches) {
       StringBuilder sb = new StringBuilder();
       sb.append(sentence.substring(0, match.getErrorOffset() + correctedPos));
       sb.append(match.getReplacements().get().get(0));
       sb.append(sentence.substring(match.getErrorOffset() + match.getErrorLength() + correctedPos));
       sentence = sb.toString();
-      correctedPos = match.getReplacements().get().get(0).length() - match.getErrorLength();
+      correctedPos += match.getReplacements().get().get(0).length() - match.getErrorLength();
     }
     return sentence;
   }
