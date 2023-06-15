@@ -261,12 +261,9 @@ public class SentenceAnnotator {
       RemoteRuleMatch match = null;
       correctedSentence = applyAllMatches(sentence, matches);
       List<PseudoMatch> matchesEval = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
-
       String errorType = "";
-
       int iGolden = 0;
       int iEval = 0;
-
       while (iGolden < matchesGolden.size() || iEval < matchesEval.size()) {
         PseudoMatch iGMatch = null;
         PseudoMatch iEMatch = null;
@@ -276,24 +273,18 @@ public class SentenceAnnotator {
         if (iEval < matchesEval.size()) {
           iEMatch = matchesEval.get(iEval);
         }
-        boolean printed = false;
+        String formattedOriginalSentence = "";
+        String formattedCorrectSentence = "";
+        String detectedErrorStr = "";
+        String replacement = "";
         if (iGMatch == null) {
           errorType = "FP";
-          printOutputLine(cfg, numSentence, formatedSentence2(sentence, iEMatch),
-              formattedCorrectedSentence2(sentence, iEMatch), errorType,
-              sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos()), iEMatch.getReplacements().get(0), -1, 1,
-              getFullId(match), getRuleCategoryId(match), getRuleType(match));
           iEval++;
         } else if (iEMatch == null) {
           errorType = "FN";
-          printOutputLine(cfg, numSentence, formatedSentence2(sentence, iGMatch),
-              formattedCorrectedSentence2(sentence, iGMatch), errorType,
-              sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos()), iGMatch.getReplacements().get(0), -1, 1,
-              getFullId(match), getRuleCategoryId(match), getRuleType(match));
           iGolden++;
         } else {
           if (iGMatch.getFromPos() == iEMatch.getFromPos()) {
-            // && iGMatch.getToPos() == iEMatch.getToPos())
             if (iEMatch.getReplacements().size() == 0) {
               errorType = "TPns";
             } else if (iGMatch.getReplacements().get(0).equals(iEMatch.getReplacements().get(0))) {
@@ -305,28 +296,34 @@ public class SentenceAnnotator {
             iEval++;
           } else if (iGMatch.getFromPos() < iEMatch.getFromPos()) {
             errorType = "FN";
-            printOutputLine(cfg, numSentence, formatedSentence2(sentence, iGMatch),
-                formattedCorrectedSentence2(sentence, iGMatch), errorType,
-                sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos()), iGMatch.getReplacements().get(0), -1, 1,
-                getFullId(match), getRuleCategoryId(match), getRuleType(match));
-            printed = true;
             iGolden++;
           } else if (iGMatch.getFromPos() > iEMatch.getFromPos()) {
             errorType = "FP";
             iEval++;
           }
-          if (!printed) {
-            printOutputLine(cfg, numSentence, formatedSentence2(sentence, iEMatch),
-                formattedCorrectedSentence2(sentence, iEMatch), errorType,
-                sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos()), iEMatch.getReplacements().get(0), -1, 1,
-                getFullId(match), getRuleCategoryId(match), getRuleType(match));
-          }
         }
-
+        switch (errorType) {
+        case "FP":
+          formattedOriginalSentence = formatedSentence2(sentence, iEMatch);
+          formattedCorrectSentence = formattedOriginalSentence;
+          detectedErrorStr = sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos());
+          replacement = iEMatch.getReplacements().get(0);
+          break;
+        case "FN":
+        case "TP":
+        case "TPns":
+        case "TPws":
+          formattedOriginalSentence = formatedSentence2(sentence, iGMatch);
+          formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
+          detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
+          replacement = iGMatch.getReplacements().get(0);
+          break;
+        }
+        printOutputLine(cfg, numSentence, formattedOriginalSentence, formattedCorrectSentence, errorType,
+            detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
     }
-
     cfg.out.close();
   }
 
