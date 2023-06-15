@@ -317,6 +317,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </rulegroup>
 
+    <rulegroup id="HEIN_BR" name="Ortografia da interjeição 'hein'">
+        <rule>
+            <pattern>
+                <token postag="_PUNCT_COMMA"/>
+                <marker><token>em</token></marker>
+                <token spacebefore="no" regexp="yes">[?!]</token>
+            </pattern>
+            <message>Esta interjeição se escreve <suggestion>hein</suggestion>, <suggestion>heim</suggestion>, ou <suggestion>hem</suggestion>.</message>
+            <example correction="hein|heim|hem">Está cheio de bufunfa, <marker>em</marker>?</example>
+        </rule>
+    </rulegroup>
+
     <rulegroup id="CONFUSÃO_POSSO_POÇO" name="Confusão entre poço e posso">
         <short>Possível erro de ortografia.</short>
 
