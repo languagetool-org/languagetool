@@ -53,7 +53,7 @@ public class GrammalecteRule extends Rule {
   private final GlobalConfig globalConfig;
 
   // https://github.com/languagetooler-gmbh/languagetool-premium/issues/197:
-  private final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
+  static final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
     "tab_fin_ligne",
     "apostrophe_typographique",
     "typo_guillemets_typographiques_doubles_ouvrants",
