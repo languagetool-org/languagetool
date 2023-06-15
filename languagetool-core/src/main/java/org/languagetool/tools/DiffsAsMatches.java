@@ -35,6 +35,7 @@ public class DiffsAsMatches {
     List<AbstractDelta<String>> inlineDeltas = DiffUtils.diff(origList, revList, DiffRowGenerator.DEFAULT_EQUALIZER)
         .getDeltas();
     PseudoMatch lastMatch = null;
+    AbstractDelta<String> lastInlineDelta = null;
     for (AbstractDelta<String> inlineDelta : inlineDeltas) {
       String replacement = String.join("", inlineDelta.getTarget().getLines());
       int fromPos = 0;
@@ -46,15 +47,14 @@ public class DiffsAsMatches {
           indexCorrection = 0;
         }
       }
-      
       for (int i = 0; i < errorIndex - indexCorrection; i++) {
         fromPos += origList.get(i).length();
       }
       boolean wasLastWhitespace = false;
       if (errorIndex - 1 < origList.size() && errorIndex - 1 > -1) {
-        wasLastWhitespace = origList.get(errorIndex - 1).equals(" ");  
+        wasLastWhitespace = origList.get(errorIndex - 1).equals(" ");
       }
-      
+
       String underlinedError = String.join("", inlineDelta.getSource().getLines());
       int toPos = fromPos + underlinedError.length();
 
@@ -70,27 +70,33 @@ public class DiffsAsMatches {
         replacement = replacement + origList.get(0);
       }
       // remove unnecessary whitespace at the end in INSERT
-      if (inlineDelta.getType() == DeltaType.INSERT && replacement.endsWith(" ") && replacement.length() > 2 && wasLastWhitespace) {
+      if (inlineDelta.getType() == DeltaType.INSERT && replacement.endsWith(" ") && replacement.length() > 2
+          && wasLastWhitespace) {
         replacement = replacement.substring(0, replacement.length() - 1);
         toPos--;
       }
       PseudoMatch match;
-      // serealiza -> se realiza  CHANGE + INSERT -> 1 match
-      if (lastMatch!= null && fromPos == lastMatch.getFromPos() && toPos == lastMatch.getToPos()) {
+      // serealiza -> se realiza CHANGE + INSERT -> 1 match
+      if (lastMatch != null && lastInlineDelta.getType() == DeltaType.CHANGE
+          && inlineDelta.getType() == DeltaType.INSERT
+          && origList.get(inlineDelta.getSource().getPosition() - 1).equals(" ")
+          && inlineDelta.getSource().getPosition() - 1 == lastInlineDelta.getSource().getPosition()
+              + lastInlineDelta.getSource().getLines().size()) {
         String newReplacement = lastMatch.getReplacements().get(0) + replacement.substring(toPos - fromPos);
-        match = new PseudoMatch(newReplacement, fromPos, toPos);
+        match = new PseudoMatch(newReplacement, lastMatch.getFromPos(), toPos);
         matches.remove(matches.size() - 1);
-      // CHANGE + DELETE  
-      } else if (lastMatch!= null && inlineDelta.getType() == DeltaType.DELETE && wasLastWhitespace && lastMatch.getToPos() + 1 == fromPos ) {
+        // CHANGE + DELETE
+      } else if (lastMatch != null && inlineDelta.getType() == DeltaType.DELETE && wasLastWhitespace
+          && lastMatch.getToPos() + 1 == fromPos) {
         String newReplacement = lastMatch.getReplacements().get(0);
         match = new PseudoMatch(newReplacement, lastMatch.getFromPos(), toPos - 1);
         matches.remove(matches.size() - 1);
-      }
-      else {
+      } else {
         match = new PseudoMatch(replacement, fromPos, toPos);
       }
       matches.add(match);
       lastMatch = match;
+      lastInlineDelta = inlineDelta;
 
     }
     return matches;

@@ -125,6 +125,14 @@ public class DiffsAsMatchesTest {
     assertEquals(9, matches.get(1).getFromPos());
     assertEquals(16, matches.get(1).getToPos());
     
+    original = "}Describes how plants are important";
+    revised = "It describes how plants are important";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[It describes]", matches.get(0).getReplacements().toString());
+    assertEquals(0, matches.get(0).getFromPos());
+    assertEquals(10, matches.get(0).getToPos());
+    
   }
 
 }
