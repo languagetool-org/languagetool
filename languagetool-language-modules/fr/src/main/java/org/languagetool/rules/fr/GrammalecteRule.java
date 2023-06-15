@@ -424,7 +424,7 @@ public class GrammalecteRule extends Rule {
     "g3__gn_la_3m__b1_a1_1",
     "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
     "typo_guillemets_perdus",
-    "g2__conj_2p_sans_sujet__b1_a1_1 ",
+    "g2__conj_2p_sans_sujet__b1_a1_1",
     "typo_signe_multiplication",
     "typo_écriture_invariable",
     "gv1__ppas_avoir_été__b2_a3_1",
@@ -433,7 +433,7 @@ public class GrammalecteRule extends Rule {
     "typo_guillemets_doubles_ouvrants_non_fermé",
     "g2__maj_gentilés__b3_a1_1",
     "typo_signe_moins",
-    "g3__conf_numérique_digital__b1_a1_1 ",
+    "g3__conf_numérique_digital__b1_a1_1",
     "g2__conf_start_nom_ppas__b1_a1_1",
     "typo_guillemets_fin",
     "g2__conf_non_verbe_après_préverbes__b2_a1_1",
