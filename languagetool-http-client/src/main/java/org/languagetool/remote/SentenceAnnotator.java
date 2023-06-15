@@ -310,13 +310,18 @@ public class SentenceAnnotator {
           replacement = iEMatch.getReplacements().get(0);
           break;
         case "FN":
+          formattedOriginalSentence = formatedSentence2(sentence, iGMatch);
+          formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
+          detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
+          replacement = "";
+          break;
         case "TP":
         case "TPns":
         case "TPws":
           formattedOriginalSentence = formatedSentence2(sentence, iGMatch);
           formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
           detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
-          replacement = iGMatch.getReplacements().get(0);
+          replacement = iEMatch.getReplacements().get(0);
           break;
         }
         printOutputLine(cfg, numSentence, formattedOriginalSentence, formattedCorrectSentence, errorType,
