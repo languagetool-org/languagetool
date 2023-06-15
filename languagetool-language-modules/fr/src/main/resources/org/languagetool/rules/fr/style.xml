@@ -19893,6 +19893,123 @@ USA
             <suggestion><match no="1" regexp_match="(?iu)'" regexp_replace="e"/> \3</suggestion>
             <example correction="me le rappelle|me rappelle">Je <marker>m'en rappelle</marker> bien !</example>
         </rule>
+        <rulegroup id="L_ON" name="on (l'on)" tone_tags="formal">
+            <rule>
+                <pattern>
+                    <token regexp="yes">et|ou|où|qui|quoi|si</token>
+                    <marker>
+                        <token>on
+                            <exception regexp="yes" scope="next">l.*</exception></token>
+                    </marker>
+                </pattern>
+                <message>Dans un contexte formel, on utilisera 'l'on' plutôt que 'on' afin d'éviter un hiatus (suite de deux voyelles phonétiques).</message>
+                <suggestion>l'on</suggestion>
+                <example correction="l'on">C’est un retour aux sources, si <marker>on</marker> veut.</example>
+                <example correction="l'on">Cela dépend qui <marker>on</marker> étudie.</example>
+                <example>Cela dépend qui on lit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">qu[e']<exception scope="previous">-ce</exception></token>
+                        <token>on
+                            <exception regexp="yes" scope="next">l.*</exception></token>
+                    </marker>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V.*" postag_regexp="yes" regexp="yes">l.*</exception></token>
+                </pattern>
+                <message>Dans un contexte formel, on utilisera 'l'on' plutôt que 'on' afin d'éviter un hiatus (suite de deux voyelles phonétiques).</message>
+                <suggestion>que l'on</suggestion>
+                <example correction="que l'on">Cela dépend de ce <marker>qu'on</marker> compare.</example>
+                <example>Cela dépend de ce qu'on lit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token min="0">que</token>
+                        <token>l'</token>
+                        <token>on</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">l.*</token>
+                </pattern>
+                <message>Dans un contexte formel, on utilisera 'on' plutôt que 'l'on' afin d'éviter une allitération (répétition d’une même consonne).</message>
+                <suggestion><match no="1" regexp_match="que" regexp_replace="qu'"/>on</suggestion>
+                <example correction="qu'on">C'est un auteur <marker>que l'on</marker> lit beaucoup.</example>
+                <example correction="on">C’est une famille où <marker>l'on</marker> lit beaucoup.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>dont</token>
+                    <marker>
+                        <token>l'</token>
+                        <token>on</token>
+                    </marker>
+                </pattern>
+                <message>Dans un contexte formel, la suite 'dont on' (le t se prononce en faisant la liaison) est préférable à 'dont l’on'.</message>
+                <suggestion>\3</suggestion>
+                <example correction="on">C'est un auteur dont <marker>l'on</marker> parle beaucoup.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l'</token>
+                        <token>on</token>
+                    </marker>
+                    <token regexp="yes">l.*</token>
+                </pattern>
+                <message>Le pronom est suffisant.</message>
+                <suggestion>\2</suggestion>
+                <example correction="on">Les choses que <marker>l'on</marker> lui avait dites l'avaient déçu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l'<exception scope="previous" regexp="yes">et|ou|où|.*que|qui|quoi|si</exception></token>
+                        <token>on<exception scope="next" postag="V.*" postag_regexp="yes" regexp="yes">co[nm].*</exception></token>
+                    </marker>
+                </pattern>
+                <message>L'ajout du 'l'' revèle d'un style littéraire archaïque et peut donc être omis.</message>
+                <suggestion>\2</suggestion>
+                <example correction="on">Enfin, <marker>l'on</marker>  peut associer ce texte à d'autres.</example>
+            </rule>
+        </rulegroup>
+        <rule id="MAIS_SENT_START" name="'Mais' en début de phrase" tone_tags="formal">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token skip="3">mais</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token>mais</token>
+                <token postag="A"><exception regexp="yes">beaucoup|contrairement|déjà|devant|derrière</exception></token>
+                <token postag="[DPZR].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token>mais</token>
+                <token>bon</token>
+                <token postag="[DPZR].*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token case_sensitive="yes">Mais</token>
+                    <token><exception negate="yes" regexp="yes">\p{L}[\p{L}'-]*</exception></token>
+                </marker>
+            </pattern>
+            <message>L'utilisation de "Mais" en première position dans une phrase n'est pas incorrecte, mais plutôt un parti pris stylistique. Vous pouvez l'accompagner d'une virgule pour marquer une pause.</message>
+            <suggestion>\3</suggestion>
+            <suggestion>\2, \3</suggestion>
+            <url>https://www.academie-francaise.fr/car-en-debut-de-phrase#:~:text=Les%20conjonctions%20de%20coordination%20ne,pas%20de%20m%C3%AAme%20pour%20car.</url>
+            <example correction="Il|Mais, il"><marker>Mais il</marker> lui était impossible de revenir en arrière.</example>
+            <example correction="Çağan|Mais, Çağan"><marker>Mais Çağan</marker> était carrément vert.</example>
+            <example>Il me semble que cet homme est inconscient, mais il n'a pas l'air d'être blessé.</example>
+            <example>Mais peu importe.</example>
+            <example>Mais bon Sophie est rentré à nouveau chez elle.</example>
+        </rule>
     </category>
     <category id="REPETITIONS_STYLE" name="repetitions style" type="style" tone_tags="clarity">
     <!--This category has been tagged as clarity, but "picky" tag will likely be replaced by "formal" tone tag in the near future-->
