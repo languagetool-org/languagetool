@@ -143,8 +143,11 @@ USA
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
 
-        <rulegroup id="TEST_UMLAUTE" name="fuer (für)" default="temp_off" tone_tags="general" tags="picky"><!--TEST: wird aktuell als spelling error behandelt-->
-            <rule><!--[1] ae-->
+        <!--<rulegroup id="TEST_UMLAUTE" name="fuer (für)" default="off" tone_tags="general" tags="picky">
+        #Test showed this rule to bring more effort than benefit and not to be user-friendly
+        #e.g., when adding words to the personal dict ("Monroe") the style rule would still trigger and give wrong suggestions ("Monrö")
+        #this is not the desired behavior from LT⇒ will continue to be treated as spelling error.
+            <rule> [1] ae
                 <pattern case_sensitive="yes">
                     <token regexp="yes" postag="UNKNOWN">.*ae.*</token>
                 </pattern>
@@ -153,7 +156,7 @@ USA
                 <example correction="Veränderung">Das ist eine große <marker>Veraenderung</marker>.</example>
                 <example>Wir fahren nach <marker>Israel</marker>.</example>
             </rule>
-            <rule><!--[2] Ae-->
+            <rule> [2] Ae
                 <pattern case_sensitive="yes">
                     <token postag="UNKNOWN" regexp="yes">Ae.*
                     </token>
@@ -164,7 +167,7 @@ USA
                 <example correction="Änderungen"><marker>Aenderungen</marker> der Richtlinien sind notwendig.</example>
                 <example>Wenn du wissen willst, was <marker>Aerodynamik</marker> ist, dann schau ein Rotorblatt an.</example>
             </rule>
-            <rule><!--[3] oe-->
+            <rule> [3] oe
                 <pattern case_sensitive="yes">
                     <token regexp="yes" postag="UNKNOWN">.*oe.*</token>
                 </pattern>
@@ -173,7 +176,7 @@ USA
                 <example correction="Einöde">Er lebt hier in der <marker>Einoede</marker>.</example>
                 <example>Eichendorff schuf vollendete <marker>Poesie</marker>.</example>
             </rule>
-            <rule><!--[4] Oe-->
+            <rule> [4] Oe
                 <pattern case_sensitive="yes">
                     <token postag="UNKNOWN" regexp="yes">Oe.*
                         <exception regexp="yes">Oettinge[rn]</exception>
@@ -185,7 +188,7 @@ USA
                 <example correction="Ösen"><marker>Oesen</marker> bestehen aus aus Metall, Kunststoff oder Gummi.</example>
                 <example>Heute ist Feiertag in <marker>Oettingen</marker>.</example>
             </rule>
-            <rule><!--[5] ue-->
+            <rule> [5] ue
                 <pattern case_sensitive="yes">
                     <token postag="UNKNOWN" regexp="yes">.*ue.*</token>
                 </pattern>
@@ -195,7 +198,7 @@ USA
                 <example correction="für">Das Geschenk ist <marker>fuer</marker> dich.</example>
                 <example>Das <marker>Feuer</marker> brennt.</example>
             </rule>
-            <rule><!--[6] Ue-->
+            <rule> [6] Ue
                 <pattern case_sensitive="yes">
                     <token postag="UNKNOWN" regexp="yes">Ue.*
                         <exception regexp="yes">Uelzen|Ueno|Ueli|Uelsby|Uetliberg.*|Uecker.*|Uetze|Uengling.*|Ueckermünder?|Ueberstorf.*|Uezwil</exception>
@@ -207,7 +210,7 @@ USA
                 <example correction="Über"><marker>Ueber</marker> dieses Thema muss gesprochen werden.</example>
                 <example>Die nächste Station ist <marker>Uelzen</marker>.</example>
             </rule>
-        </rulegroup>
+        </rulegroup>-->
 
         <rulegroup id="KATARI" name="Katari (Katarer)" tone_tags="clarity"><!--inclusive (user option)-->
             <url>https://praxistipps.focus.de/katarer-kataris-katarerin-wie-nennt-man-menschen-aus-katar-richtig_152770</url>
