@@ -21832,6 +21832,1290 @@ USA
             <example correction="">Alors, qu'est-ce que ça veut dire d'<marker>«</marker> être aimé.</example>
           </rule>
         </rulegroup>
+        <rulegroup name="virgule expressions figées" id="VIRGULE_EXPRESSIONS_FIGEES">
+          <rule>
+            <antipattern>
+              <token>en</token>
+              <token>conclusion</token>
+              <token postag="[PJ].*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>en</token>
+              <token regexp="yes">somme|outre|conclusion</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|V.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">En outre<marker> le</marker> policier allait bien.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>c'</token>
+              <token>est</token>
+              <token>à</token>
+              <token>dire</token>
+              <token>vrai</token>
+            </antipattern>
+            <pattern>
+              <token>à</token>
+              <token>dire</token>
+              <token>vrai</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*|R pers suj.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Il faut, à  dire vrai<marker> le</marker> faire bien.</example>
+            <example>C'est un risque risque important, c'est-à-dire vrai risque d'avalanche.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>c'</token>
+              <token>est</token>
+              <token>à</token>
+              <token>dire</token>
+              <token>vrai</token>
+            </antipattern>
+            <pattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor"/></token>
+              <marker>
+                <token>à</token>
+              </marker>
+              <token>dire</token>
+              <token>vrai</token>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", à">Il faut<marker> à</marker> dire vrai, le faire bien.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>pour</token>
+              <token>ce</token>
+              <token>que</token>
+              <token>ça</token>
+              <token>vaut</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \6</suggestion>
+            <example correction=", le">Pour ce que ça vaut<marker> le</marker> garçon s'est excusé.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>c'</token>
+              <token>est</token>
+              <token>exact</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">C'est exact<marker> le</marker> colis arrivera demain.</example>
+            <example>C'est exact !</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>bon</token>
+              <token postag="[DV].*" postag_regexp="yes"/>
+              <token>,</token>
+            </antipattern>
+            <antipattern>
+              <token>bon</token>
+              <token regexp="yes">les|mon|ma|mes</token>
+              <token regexp="yes">gars|filles|garçons|enfants|grande?|petite?|mecs</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>bon</token>
+              <marker>
+                <token postag="[DV].*" postag_regexp="yes">
+                  <exception regexp="yes">voilà|est|était</exception>
+                  <exception postag="N.*|V ind pres 3 s" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cet adverbe afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", le">Bon<marker> le</marker> médecin va bien.</example>
+            <example>Bon ride à tous.</example>
+            <example>Bon les gars, maitenant il faut assurer.</example>
+            <example>Bon allez, profitez bien de votre journée.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>sur</token>
+              <token>ce</token>
+              <token postag="J.*" postag_regexp="yes"><exception regexp="yes">bon(ne)?s?</exception></token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>sur</token>
+              <token>ce</token>
+              <marker>
+                <token postag="[DJ].*" postag_regexp="yes"/>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Sur ce<marker> le</marker> garçon s'excusa.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>puis</token>
+              <marker>
+                <token postag="P.*" postag_regexp="yes"/>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après un adverbe placé en début de phrase afin d'apporter du rythme à celle-ci.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", en">Puis<marker> en</marker> arrivant, il tomba.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>d'</token>
+              <token>une</token>
+              <token>part</token>
+              <token>de</token>
+              <token postag="R pers suj.*|N.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <token>d'<exception scope="previous">,</exception></token>
+              <token>une</token>
+              <token>part</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="J.*|C coor" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", de">Il a suggéré d'une part<marker> de</marker> construire une maison et d'autre part, de laisser les enfants la décorer.</example>
+            <example>Nous nous amputons aussi d’une part de nous-mêmes.</example>
+            <example>Je te téléphone, d'une part pour t'inviter à manger, d'autre part pour te dire que ton frère est parti.</example>
+            <example>Il a mangé une part de gâteau.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>d'</token>
+              <token>autre</token>
+              <token>part</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                  <exception scope="next">,</exception>
+                  <exception postag="J.*|Y" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", de">Il a suggéré d'une part de construire une maison et d'autre part<marker> de</marker> laisser les enfants la décorer.</example>
+            <example>D'autre part et, pour la première fois, elle a largement mis son grain de sel dans les textes.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor"/></token>
+              <marker>
+                <token>à</token>
+              </marker>
+              <token>vrai</token>
+              <token>dire</token>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", à">Il faut<marker> à</marker> vrai dire le faire bien.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>à</token>
+              <token>vrai</token>
+              <token>dire</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*|R pers suj.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Il faut, à vrai dire<marker> le</marker> faire bien.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>de</token>
+              <token>nos</token>
+              <token>jours</token>
+              <token postag="V.*" postag_regexp="yes"><exception postag="V ppa.*" postag_regexp="yes"/></token>
+            </antipattern>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>de</token>
+              <token>nos</token>
+              <token>jours</token>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              <token>,</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>de</token>
+              <token>nos</token>
+              <token>jours</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*|R pers suj.*|[ANP].*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">De nos jours<marker> le</marker> cours de la bourse est en chute libre.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>contre</token>
+              <token regexp="yes">toutes?</token>
+              <token>attente</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Contre toute attente<marker> le</marker> poisson va bien.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor"/></token>
+              <marker>
+                <token case_sensitive="yes">contre</token>
+              </marker>
+              <token regexp="yes">toutes?</token>
+              <token>attente</token>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", contre">Il lui a dit<marker> contre</marker> toute attente, que le poisson allait bien.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>en</token>
+              <token>l'</token>
+              <token regexp="yes">occ?urr?ence</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor"/>
+                <exception scope="next">,</exception>
+              </token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">En l'occurrence<marker> le</marker> poisson allait bien.</example>
+            <example>Ils choisissent de devenir parrain et marraine d'un enfant en difficulté, en l'occurrence Mila, dont la mère fait des séjours réguliers à l'hôpital.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>à</token>
+              <token regexp="yes">[tms]on</token>
+              <token>avis</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">À mon avis<marker> le</marker> poisson allait bien.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>quoi</token>
+              <token>qu'</token>
+              <token>il</token>
+              <token>en</token>
+              <token>soit</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \6</suggestion>
+            <example correction=", le">Quoi qu'il en soit<marker> le</marker> poisson va bien.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>attention</token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N.*" postag_regexp="yes"/>
+              <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+|[/?!]</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>attention</token>
+              <marker>
+                <token postag="D.*|R dem.*" postag_regexp="yes"/>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après ce terme afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", le">Attention<marker> le</marker> poisson va bien.</example>
+            <example>Attention les yeux !</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>ma</token>
+              <token>foi</token>
+              <token postag="V.*" postag_regexp="yes"><exception postag="V inf"/></token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>ma</token>
+              <token>foi</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*|R pers suj.*|P.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Ma foi<marker> le</marker> poisson va bien.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*|R pers obj.*" postag_regexp="yes"/></token>
+              <marker>
+                <token>dis</token>
+              </marker>
+              <token>donc</token>
+              <token postag="SENT_END"/>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", dis">Le poisson va bien<marker> dis</marker> donc.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>bonté</token>
+              <token>divine</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+<exception postag="C coor|M fin.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Bonté divine<marker> le</marker> chat est revenu !</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token postag="A" min="0" max="1"/>
+              <token min="0" max="1">tout</token>
+              <token>d'</token>
+              <token>abord</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+|[!?]<exception postag="Y|V.*|C coor" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \6</suggestion>
+            <example correction=", il">D'abord<marker> il</marker> fera beau demain.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>pour</token>
+              <token>le</token>
+              <token>reste</token>
+              <token postag="[AZ].*" postag_regexp="yes"/>
+              <token min="0" max="1">,</token>
+              <token postag="R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>pour</token>
+              <token>le</token>
+              <token>reste</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                  <exception>des</exception>
+                  <exception  postag="SENT_END"/>
+                  <exception  postag="R pers suj.*|P.*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">Pour le reste<marker> le</marker> poisson va bien.</example>
+            <example>Pour le reste aussi, nous avons fait l'impossible.</example>
+            <example>Pour le reste des gens, je suis invisible.</example>
+            <example>Pour le reste ?</example>
+            <example>Pour le reste de la population, c'est incroyable.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>à</token>
+              <token>la</token>
+              <token>réflexion</token>
+              <marker>
+                <token postag="D.*|R dem.*" postag_regexp="yes">
+                  <exception postag="K"/>
+                  <exception>des</exception></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Selon lui, à la réflexion<marker> le</marker> poisson va bien.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token postag="A" regexp="yes">&jours_semaine;</token>
+              <token regexp="yes">les?|des</token>
+            </antipattern>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token postag="A"/>
+              <token postag="D.*" postag_regexp="yes" min="0" max="1"/>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+              <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token postag="A"/>
+              <token postag="V.*|[YK]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token postag="A"/>
+              <token regexp="yes">midi|matin|soir</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token postag="A" regexp="yes">donc|enfin|aussi|ensemble|certes|ici|déjà|bientôt|ailleurs|Ensuite|alors|ainsi|hier|demain|aujourd'hui|là|&jours_semaine;</token>
+              <marker>
+                <token postag="[NZDR].*" postag_regexp="yes" skip="-1">
+                  <exception scope="next">,</exception><exception>quelques</exception></token>
+              </marker>
+              <token postag="M fin"/>
+            </pattern>
+            <message>Une virgule est conseillée afin de mettre en valeur l'adverbe la précédant et d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", il">Déjà<marker> il</marker> fait beau.</example>
+            <example><marker>Combien il</marker> en a pris ?</example>
+            <example>Enfin quelques possibilités.</example>
+            <example>Dimanche des Reliques.</example>
+            <example>Déjà la nuit.</example>
+            <example>Bientôt Noël.</example>
+            <example>Ainsi danse Jean Petit.</example>
+            <example>Demain matin conviendra.</example>
+            <example>Déjà deux semaines sont passées et je ne vous ai pas vu.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>très</token>
+              <token>bien</token>
+              <marker>
+                <token postag="D.*|R pers suj.*" postag_regexp="yes"/>
+
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après ces adverbes placés en début de phrase afin d'apporter du rythme à celle-ci.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", il">Très bien<marker> il</marker> fait beau.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>bon</token>
+              <token>sang</token>
+              <marker>
+                <token regexp="yes">[^,‘’–)\[—."\/;\]\|:(\…'«»“”-]+
+                  <exception regexp="yes" inflected="yes">de|ne</exception>
+                  <exception postag="M fin excl|UNKNOWN" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", il">Bon sang<marker> il</marker> ne peut pas regarder où il va.</example>
+            <example>Bon sang de bonsoir !</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token postag="A" postag_regexp="yes" regexp="yes">.*ent$</token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N.*" postag_regexp="yes"/>
+              <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+              <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token regexp="yes">tellement|exactement</token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N.*" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes" min="0" max="1"/>
+              <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+              <token inflected="yes">que</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">rarement|vivement|seulement</token>
+              <token postag="D.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">rarement|pratiquement|quasiment</token>
+              <token regexp="yes">tous|toute?s?</token>
+            </antipattern>
+            <antipattern>
+              <token postag="A"/>
+              <token postag="R pers obj.*" postag_regexp="yes"/>
+              <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+              <token postag="A"/>
+              <and>
+              <token postag="R pers obj.*" postag_regexp="yes"/>
+              <token postag="SENT_END"/>
+              </and>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START|M fin" postag_regexp="yes"/>
+              <token postag="A" postag_regexp="yes" regexp="yes">.*ent$</token>
+              <marker>
+                <token postag="[DR].*" postag_regexp="yes">
+                  <exception regexp="yes">rien|personne|s'|se</exception>
+                  <exception postag="K"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après un adverbe placé en début de phrase afin d'apporter du rythme à celle-ci.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", cette">Malheureusement<marker> cette</marker> ville n'est pas belle.</example>
+            <example correction=", j'">Je dois être trop vieux... personnellement<marker> j'</marker>apprécie les conseils des pros.</example>
+            <example>Uniquement des veaux !</example>
+            <example>Seulement moi</example>
+            <example>Certainement rien qui ne révolutionnera le monde.</example>
+            <example>Pratiquement tous les Japonais ont les cheveux foncés.</example>
+            <example>Seulement deux sessions de formations théoriques par an.</example>
+            <example>Exactement la tête que je fais !</example>
+            <example>Tellement la question était difficile que nul ne sut répondre.</example>
+            <example>Vivement la fin de ce cycle.</example>
+            <example>Pratiquement personne ne le vit.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>après</token>
+              <token regexp="yes">ça|cela</token>
+              <token>ce</token>
+              <token regexp="yes">fait|dit</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>après</token>
+              <token regexp="yes">ça|cela</token>
+              <marker>
+                <token regexp="yes">[a-z].* <exception postag="R pers obj.*|C coor|V.*" postag_regexp="yes"/>
+                <exception inflected="yes">ne</exception>
+              </token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Après cela<marker> le</marker> garçon sortit jouer avec ses copains.</example>
+            <example>Après ça ce fait souvent.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>au</token>
+              <token>début</token>
+              <token regexp="yes">comme|des|quelques?|où</token>
+            </antipattern>
+            <antipattern>
+              <token>au</token>
+              <token>début</token>
+              <token postag="P.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token>au</token>
+              <token>début</token>
+              <token postag="A"/>
+              <token postag="[JP].*|V ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token>au</token>
+              <token>début</token>
+              <token postag="A" regexp="yes">.*ment$</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token regexp="yes">en|au</token>
+              <token regexp="yes">moyenne|début</token>
+              <marker>
+                <token regexp="yes">[a-z].*<exception postag="C coor|[JVN].*|P|UNKNOWN" postag_regexp="yes"/>
+                <exception scope="next" postag="M fin.*|M nonfin" postag_regexp="yes"/>
+              </token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">En moyenne<marker> le</marker> conseil prend deux à trois décisions par jour.</example>
+            <example>En moyenne montagne, les accidents sont nombreux.</example>
+            <example>En moyenne annuelle, le bénéfice est faible.</example>
+            <example>En moyenne sur l'année, le déficit est important.</example>
+            <example>Au début essentiellement de nature régionale, le marché finit par devenir mondial.</example>
+            <example>Au début du siècle dernier, Internet n'existait pas.</example>
+            <example>Au début plus religieux que littéraires, ces cercles devinrent petit à petit plus littéraires que religieux.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token regexp="yes">a|à</token>
+              <token>l'</token>
+              <token>évidence</token>
+              <marker>
+                <token regexp="yes">[a-z].*
+                  <exception postag="C coor|[V].*" postag_regexp="yes"/>
+                  <exception scope="next" postag="M fin.*|M nonfin" postag_regexp="yes"/>
+                </token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">A l'évidence<marker> le</marker> chat avait mangé la souris.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>par</token>
+              <token>la</token>
+              <token>suite</token>
+              <marker>
+                <token regexp="yes">[a-z].*
+                  <exception postag="C coor|[VN].*|R pers obj.*" postag_regexp="yes"/>
+                  <exception scope="next" postag="M fin.*|M nonfin" postag_regexp="yes"/>
+                </token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">Par la suite<marker> le</marker> jeune homme habita en ville.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token regexp="yes">à|a</token>
+              <token>ce</token>
+              <token>propos</token>
+              <marker>
+                <token regexp="yes">[a-z].*
+                  <exception postag="C coor|[V].*" postag_regexp="yes"/>
+                  <exception scope="next" postag="M fin.*|M nonfin" postag_regexp="yes"/>
+                </token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">A ce propos<marker> le</marker> serrurier viendra demain.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>dans</token>
+              <token>l'</token>
+              <token>ensemble</token>
+              <marker>
+                <token regexp="yes">[a-z].*<exception inflected="yes">de</exception></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">Dans l'ensemble<marker> le</marker> texte était correct.</example>
+            <example>Dans l'ensemble de la pièce, les acteurs jouèrent bien.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>en</token>
+              <token regexp="yes">vérité|fait|revanche</token>
+              <token regexp="yes">[a-z].*</token>
+              <token regexp="yes">[^a-z].*</token>
+            </antipattern>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>en</token>
+              <token regexp="yes">vérité|fait|revanche</token>
+              <token inflected="yes">de</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>en</token>
+              <token regexp="yes">vérité|fait|revanche</token>
+              <marker>
+                <token regexp="yes">[a-z].*<exception postag="UNKNOWN"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">En fait<marker> le</marker> chat avait mangé la souris.</example>
+            <example>En fait si.</example>
+            <example>En fait d'intégration, il n'y a que de la désintégration.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>au</token>
+              <token>fait</token>
+              <token regexp="yes">[a-z].*</token>
+              <token regexp="yes">[^a-z].*</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>au</token>
+              <token>fait</token>
+              <marker>
+                <token regexp="yes">[a-z].*<exception postag="UNKNOWN"/><exception inflected="yes">de</exception></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">Au fait<marker> le</marker> chat a mangé la souris.</example>
+            <example>Au fait de leur victoire, ils allèrent au restaurant.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>si</token>
+              <token postag="R pers suj.*" postag_regexp="yes"/>
+              <token>le</token>
+              <token postag="V.*" postag_regexp="yes" inflected="yes">dire</token>
+              <marker>
+                <token regexp="yes">[a-z].*<exception postag="UNKNOWN|[JP].*" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", alors">Si tu le dis<marker> alors</marker> cela doit être vrai.</example>
+            <example>Si tu le dis influencé par ce courant, alors il doit être grandiose.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">à|a<exception postag="R pers suj.*" postag_regexp="yes"/></token>
+              <token>l'</token>
+              <token>occasion</token>
+              <marker>
+                <token regexp="yes">[a-z].*<exception postag="UNKNOWN|[JPN].*|C coor" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \5</suggestion>
+            <example correction=", le">A l'occasion<marker> le</marker> chapeau volait.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token regexp="yes">à|a</token>
+              <token>défaut</token>
+              <token inflected="yes">de</token>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token regexp="yes">à|a</token>
+              <token regexp="yes">contrecoeur|contrecœur|défaut</token>
+              <marker>
+                <token regexp="yes">[a-z].*<exception postag="UNKNOWN|C coor" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", le">A contrecœur<marker> le</marker> magicien finit son spectacle.</example>
+            <example>À défaut d'avoir pu déjeuner le matin, j'ai jeûné toute la journée.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token regexp="yes">de|en</token>
+              <token>plus</token>
+              <token regexp="yes">[,‘’–)\[—."\/;\]\|:(\…\='«»“”-]+|[?!]</token>
+            </antipattern>
+            <antipattern>
+              <token>de</token>
+              <token>plus</token>
+              <token>en</token>
+              <token>plus</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes" case_sensitive="yes">de|en</token>
+              <token>plus</token>
+              <token postag="[DV].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes" case_sensitive="yes">de|en</token>
+              <token>plus</token>
+              <token postag="A"/>
+            </antipattern>
+            <antipattern>
+              <token>de</token>
+              <token case_sensitive="yes">Plus</token>
+              <token>belle</token>
+              <token>la</token>
+              <token>vie</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes" inflected="yes">que|fois</token>
+              <token regexp="yes">de|en</token>
+              <token>plus</token>
+            </antipattern>
+            <antipattern>
+              <token postag="[DPN].*" postag_regexp="yes"/>
+              <token postag="[NJ].*" postag_regexp="yes"/>
+              <token regexp="yes">de|en</token>
+              <token>plus</token>
+              <token postag="Y"/>
+            </antipattern>
+            <antipattern>
+              <token postag="V.*" postag_regexp="yes"/>
+              <token regexp="yes">de|en</token>
+              <token>plus</token>
+              <token postag="Y"/>
+              <token regexp="yes">[a-z].*</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">de|en</token>
+              <token>plus</token>
+              <token regexp="yes" inflected="yes">ne|ici|qui|,|des?|du|en|que|belle|[nv]ous-même|(eux|elles?|[mt]oi)-mêmes?</token>
+            </antipattern>
+            <pattern>
+              <token regexp="yes">de|en<exception scope="previous">plus</exception></token>
+              <token>plus
+                <exception postag="SENT_END"/>
+                <exception scope="next" postag="V.*|[JNP].*|R pers obj.*|C coor" postag_regexp="yes"/>
+              </token>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>\1 \2,</suggestion>
+            <example correction="en plus,">Il est grand et <marker>en plus</marker> il est intelligent.</example>
+            <example>Dixie peut en plus planer.</example>
+            <example>Une personne de plus se joindra à nous plus tard.</example>
+            <example>On peut y voir le plus gros amortisseur du monde de plus près.</example>
+            <example>Tu ne peux plus faire grand chose de plus toi-même.</example>
+            <example>C'est le spin-off de Plus belle la vie.</example>
+            <example>Il intimide une fois de plus Valentin.</example>
+            <example>Il y a une population plutôt équilibrée 26,7 % de personnes de plus 60 ans.</example>
+            <example>J'ai dû payer en plus 5 dollars.</example>
+            <example>Si tu t'y étais rendu et qu'en plus il ait plu ?</example>
+          </rule>
+          <rule default="off">
+            <antipattern>
+              <token postag="A" regexp="yes">.*ent$</token>
+              <token regexp="yes" skip="-1">[a-z].*</token>
+              <token postag="M fin inte"/>
+            </antipattern>
+            <antipattern>
+              <token postag="A" regexp="yes">.*ent$</token>
+              <token>donc</token>
+            </antipattern>
+            <antipattern>
+              <token>immédiatement</token>
+              <token>après</token>
+            </antipattern>
+            <antipattern>
+              <token>non</token>
+              <token>seulement</token>
+              <token regexp="yes">aux?</token>
+            </antipattern>
+            <antipattern>
+              <token>à</token>
+              <token>proprement</token>
+              <token>parler</token>
+            </antipattern>
+            <antipattern>
+              <token>ce</token>
+              <token>soit</token>
+              <token postag="A" regexp="yes">.*ent$</token>
+              <token regexp="yes">[a-z].*</token>
+            </antipattern>
+            <antipattern>
+              <token>plus</token>
+              <token postag="A" regexp="yes">.*ent$<exception regexp="yes">particulièrement|généralement|largement|couramment|précisement</exception></token>
+              <token regexp="yes">[a-z].*</token>
+            </antipattern>
+            <antipattern>
+              <token>pas</token>
+              <token>encore</token>
+              <token postag="A" regexp="yes">.*ent$</token>
+              <token regexp="yes">[a-z].*</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">[aà]</token>
+              <token>présent</token>
+              <token inflected="yes">que</token>
+            </antipattern>
+            <pattern>
+              <token postag="A">
+                <exception scope="previous" regexp="yes">pas|bien</exception></token>
+              <token postag="A" regexp="yes">.*ent$
+                <exception scope="previous" regexp="yes">pas|ainsi|trop|très|vraiment|aussi|si|donc|toujours|déjà|encore</exception>
+                <exception regexp="yes">souvent|vraiment|vivement</exception>
+              </token>
+              <marker>
+                <token regexp="yes">[a-z].*
+                  <exception scope="next" regexp="yes" inflected="yes">,|qu[ie]|alors</exception>
+                  <exception postag="J.*|V.* pp.*|V.* inf" postag_regexp="yes"/>
+                  <exception regexp="yes" inflected="yes">(?-i)[A-Z].*|ce|moins|avec|pas|plus|sous|trop|comme|jamais|qu[ie]</exception></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée après cet adverbe afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \4</suggestion>
+            <example correction=", ne">Cécile bien malheureusement<marker> ne</marker> pourra pas venir demain.</example>
+            <example>Tu ne peux pas simplement abandonner.</example>
+            <example>Il lui resterait donc seulement deux ans d'éligibilité.</example>
+            <example>C'est un physicien célèbre non seulement au Japon, mais dans le monde entier.</example>
+            <example>Il parle bien plus couramment l'anglais que je ne le peux.</example>
+            <example>Je n'arrive pas à croire que ce soit vraiment vous.</example>
+            <example>À présent que Marie s'en est allée, Tom est beaucoup plus heureux.</example>
+          </rule>
+            <!--
+          <rule default="off">
+            <antipattern>
+              <token postag="[VC].*|SENT_START|R dem.*" postag_regexp="yes"/>
+              <token postag="A" min="0" max="2"/>
+              <token postag="A" postag_regexp="yes" regexp="yes">.*ent$</token>
+            </antipattern>
+            <antipattern>
+              <token postag="A" postag_regexp="yes" regexp="yes" skip="-1">.*ent$</token>
+              <token postag="M fin inte"/>
+            </antipattern>
+            <antipattern>
+              <token postag="V (etre|avoir).*" postag_regexp="yes"/>
+              <token regexp="yes" min="0" max="1">pas|plus|jamais|très</token>
+              <token postag="A" postag_regexp="yes" regexp="yes">.*ent$</token>
+              <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token postag="V.*" postag_regexp="yes"/>
+              <token regexp="yes">pas|plus|jamais|tous|toute?s?</token>
+              <token postag="A" postag_regexp="yes" regexp="yes" skip="-1">.*ent$</token>
+            </antipattern>
+            <antipattern>
+              <token>,</token>
+              <token postag="A"><exception postag="A" regexp="yes">.*ent$</exception></token>
+              <token postag="A" postag_regexp="yes" regexp="yes">.*ent$</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">à|sans|non</token>
+              <token regexp="yes">présent|seulement</token>
+            </antipattern>
+            <antipattern>
+              <token regexp="yes">pour|à</token>
+              <token regexp="yes">le|proprement</token>
+              <token regexp="yes">moment|parler</token>
+            </antipattern>
+            <antipattern>
+              <token>tout</token>
+              <token>à</token>
+              <token>fait</token>
+              <token postag="A" postag_regexp="yes" regexp="yes">.*ent$</token>
+            </antipattern>
+            <antipattern>
+              <token postag="A" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*ent$</token>
+            </antipattern>
+            <antipattern>
+              <token postag="A" postag_regexp="yes" regexp="yes">.*ent$</token>
+              <token postag="SENT_END|M nonfin|V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token postag="A"/>
+              <token>souvent</token>
+            </antipattern>
+            <pattern>
+              <token postag="A"><exception regexp="yes">ici|encore|n|quasi|peut-être|tantôt|peu|voire|cher|fort|hier|souvent|donc|toujours|si|peine|plutôt|tout|juste|même|jamais|presque|par|déjà|ensuite|pas|près</exception></token>
+              <marker>
+                <token postag="A" regexp="yes">.*ent$
+                  <exception scope="next" regexp="yes" inflected="yes">qu[ei]</exception>
+                  <exception scope="previous" regexp="yes">&unites_de_mesure;|partie|très|plus|moins|aussi|bien|trop|assez</exception></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée avant cet adverbe afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", quasiment">Lui, finalement<marker> quasiment</marker> mort au cours de la bataille, ne pourra pas venir demain.</example>
+            <example>Absolument !</example>
+            <example>Les hommes pensent tout à fait différemment selon qu'ils sont assis ou debout.</example>
+            <example>Il quitta la pièce sans seulement me dire au revoir.</example>
+            <example>Es-tu absolument sûr que c'était Tom que tu as vu ?</example>
+            <example>Tous les travaux d'agrandissement y sont effectués à peu près exclusivement par des entreprises flamandes.</example>
+            <example>Tu ne dois pas absolument t'y rendre.</example>
+            <example>Il est donc temps de regarder les choses autrement si nous voulons véritablement guérir.</example>
+            <example>Elle mange bien volontiers et abondamment et a l'air replète.</example>
+            <example>Faites-les mousser avec vos doigts et rincez-les abondamment !</example>
+            <example>Cet album abondamment illustré revient sur l'histoire de cette création originale.</example>
+          </rule>
+          -->
+          <rule>
+            <pattern>
+              <token postag="[NZ].*" postag_regexp="yes"><exception postag="V pp.*|V.* inf" postag_regexp="yes"/></token>
+              <marker>
+                <token regexp="yes" case_sensitive="yes">cependant|ainsi|enfin|pourtant|certes|néanmoins|toutefois|nonobstant</token>
+              </marker>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"><exception regexp="yes">[a-z]$</exception></token>
+              <token postag="V.*" postag_regexp="yes"><exception postag="V pp.*|V.* inf|J.*|M nonfin" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Une virgule est conseillée avant cet adverbe afin de le mettre en valeur et d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", ainsi">Marie<marker> ainsi</marker> ne pourra pas venir demain.</example>
+            <example>Le roi ayant ainsi assez d'argent pour payer son dû.</example>
+            <example>Il a cependant excercé la profession d'avocat pendant diz ans.</example>
+            <example>La droite ainsi S est une tangente.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="[NZ].*" postag_regexp="yes"><exception postag="V pp.*|V.* inf" postag_regexp="yes"/></token>
+              <marker>
+                <token regexp="yes" case_sensitive="yes">cependant|ainsi|enfin|pourtant|certes|néanmoins|toutefois|surtout|nonobstant</token>
+              </marker>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"><exception regexp="yes">[a-z]$</exception></token>
+              <token postag="V.*" postag_regexp="yes"><exception postag="V pp.*|V.* inf|J.*|M nonfin" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Une virgule est conseillée après cet adverbe afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>\2,</suggestion>
+            <example correction="ainsi,">Marie <marker>ainsi</marker> lui dit de ne pas venir demain.</example>
+            <example>Le roi ayant ainsi assez d'argent pour payer son dû.</example>
+            <example>Il a cependant excercé la profession d'avocat pendant diz ans.</example>
+            <example>La droite ainsi S est une tangente.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token regexp="yes" skip="-1">[,‘’–)\[—."\/;\]\|:(\…'«»“”-]+</token>
+              <token>tantôt</token>
+            </antipattern>
+            <pattern>
+              <token skip="-1">tantôt</token>
+              <marker>
+                <token>tantôt<exception scope="previous" postag="C coor|M nonfin" postag_regexp="yes"/></token>
+              </marker>
+            </pattern>
+            <message>Une virgule est conseillée avant cet adverbe afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \3</suggestion>
+            <example correction=", tantôt">Il a tantôt des puces<marker> tantôt</marker> des tiques.</example>
+            <example correction=", tantôt">Le vent peut être tantôt doux<marker> tantôt</marker> violent dans l'oeuvre de Thiers.</example>
+            <example>Tantôt le ciel lance d'affreux torrents ; / <marker> tantôt</marker> des rocs noircis par ses feux dévorant.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token regexp="yes">en|dans|à</token>
+              <token regexp="yes">ces?|la</token>
+              <token regexp="yes">lieu|suite|conditions|fait</token>
+            </antipattern>
+            <pattern>
+              <token postag="[NZ].*" postag_regexp="yes"><exception postag="V pp.*|V.* inf" postag_regexp="yes"/></token>
+              <marker>
+                <token regexp="yes">dans|tout|en|par|à</token>
+              </marker>
+              <token regexp="yes">ces|compte|premier|la|deuxième|dernier|ce|l'</token>
+              <token regexp="yes">inverse|propos|suite|conditions|fait|lieu</token>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"><exception postag="V pp.*|V.* inf" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Une virgule est conseillée avant cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", en">Marie<marker> en</marker> premier lieu a introduit le sujet.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token regexp="yes">en|dans|à</token>
+              <token regexp="yes">ces?|la</token>
+              <token regexp="yes">lieu|suite|conditions|fait</token>
+            </antipattern>
+            <pattern>
+              <token postag="[NZ].*" postag_regexp="yes"><exception postag="V pp.*|V.* inf" postag_regexp="yes"/></token>
+              <token regexp="yes">dans|tout|en|par|à</token>
+              <token regexp="yes">ces|compte|premier|la|deuxième|dernier|ce|l'</token>
+              <marker>
+                <token regexp="yes">inverse|propos|suite|conditions|fait|lieu</token>
+              </marker>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"><exception postag="V pp.*|V.* inf" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>\4,</suggestion>
+            <example correction="inverse,">Vincent à l'<marker>inverse</marker> n'a pas fait ses devoirs.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>de</token>
+              <token>conclusion</token>
+            </antipattern>
+            <antipattern>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+              <token regexp="yes">pour|de|sans|en</token>
+              <token regexp="yes">tout|même|(?-i)Total|seulement</token>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+              <token>en</token>
+              <token>doute</token>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+              <marker>
+                <token regexp="yes">d'|par|au|en|magré|non|de|sans|pour</token>
+              </marker>
+              <token regexp="yes">ailleurs|total|contre|contraire|revanche|tout|seulement|même|doute|surcroît|conclure|résumé|conclusion|conséquent|définitive</token>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Une virgule est conseillée avant cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", par">Marie<marker> par</marker> ailleurs n'a pas pu répondre à la question.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>de</token>
+              <token>conclusion</token>
+            </antipattern>
+            <antipattern>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+              <token regexp="yes">pour|de|sans|en</token>
+              <token regexp="yes">tout|même|(?-i)Total|seulement</token>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+              <token>en</token>
+              <token>doute</token>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <token postag="[NZ].*" postag_regexp="yes"/>
+              <token regexp="yes">d'|par|au|en|magré|non|de|sans|pour</token>
+              <marker>
+                <token regexp="yes">ailleurs|total|contre|contraire|revanche|tout|seulement|même|doute|surcroît|conclure|résumé|conclusion|conséquent|définitive</token>
+              </marker>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"><exception scope="next">,</exception></token>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>\3,</suggestion>
+            <example correction="ailleurs,">Ce garçon par <marker>ailleurs</marker> a obtenu la meilleure note pour ce devoir.</example>
+            <example>L'excès en tout est un défaut.</example>
+            <example>Quelques-unes de ces peintures mises en doute sont apportées à Moscou.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="[AC].*" postag_regexp="yes"/>
+              <marker>
+                <token regexp="yes">dans|en</token>
+              </marker>
+              <token regexp="yes">un|d'</token>
+              <token regexp="yes">premier|deuxième|dernier|second|autres</token>
+              <token regexp="yes">temps|termes</token>
+              <token min="0" max="1">,</token>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Une virgule est conseillée avant cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>, \2</suggestion>
+            <example correction=", dans">Ainsi<marker> dans</marker> un premier temps, nous allons étudier les batraciens.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token postag="[AC].*" postag_regexp="yes" min="0" max="1"/>
+              <token min="0" max="1">,</token>
+              <token regexp="yes">dans|en</token>
+              <token regexp="yes">un|d'</token>
+              <token regexp="yes">premier|deuxième|dernier|second|autres</token>
+              <marker>
+                <token regexp="yes">temps|termes</token>
+              </marker>
+              <token min="0" max="1" inflected="yes">ne</token>
+              <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+              <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>\7,</suggestion>
+            <example correction="temps,">Ainsi, dans un premier <marker>temps</marker> lisez attentivement le texte.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>qui</token>
+              <token>plus</token>
+              <token>est</token>
+              <token>,</token>
+              <token postag="A"/>
+              <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+              <token postag="V (etre|avoir).*" postag_regexp="yes" regexp="yes">(?-i)[A-Z].*</token>
+              <token>,</token>
+              <token postag="A"/>
+              <token postag="V.* ppa.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <token postag="V (etre|avoir).*" postag_regexp="yes"><exception postag="V.* inf" postag_regexp="yes"/></token>
+              <marker>
+                <token>,</token>
+                <token postag="A"><exception regexp="yes">non|pas|plus|jamais</exception></token>
+              </marker>
+              <token postag="V.* ppa.*" postag_regexp="yes"><exception scope="next">,</exception></token>
+            </pattern>
+            <message>Il est déconseillé de placer des virgules à l'intérieur du groupe verbal.</message>
+            <suggestion> \3</suggestion>
+            <example correction=" ainsi">Il a<marker>, ainsi</marker> gagné les élections.</example>
+            <example>Câble A, précédemment dénommé Téléval.</example>
+            <example>Il y avait, profondément plantée, un arbre dans le jardin.</example>
+            <example>Martin Chuzzlewit, il est vrai, figure parmi les exceptions, de façon, qui plus est, assez outrée.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag="SENT_START"/>
+              <token>pour</token>
+              <token>se</token>
+              <token>faire</token>
+              <token postag="[NZD].*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <token postag="SENT_START"/>
+              <token>pour</token>
+              <token regexp="yes">se|ce</token>
+              <marker>
+                <token>faire</token>
+              </marker>
+              <token postag="R pers suj.*|[NZD].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Une virgule est conseillée après cette expression afin d'apporter du rythme à votre phrase.</message>
+            <suggestion>\4,</suggestion>
+            <example correction="faire,">Pour ce <marker>faire</marker> il faudra que tu appelles ta tante demain.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>bonjour</token>
+              <token min="0">,</token>
+              <marker>
+                <token postag="[TZ].*" postag_regexp="yes"/>
+                <token regexp="yes">[:;]</token>
+              </marker>
+            </pattern>
+            <message>Une virgule ou un point doit suivre l'expression de la salutation.</message>
+            <suggestion>\3.</suggestion>
+            <suggestion>\3,</suggestion>
+            <example correction="Marie.|Marie,">Bonjour, <marker>Marie ;</marker></example>
+          </rule>
+        </rulegroup>
     </category>
     <category id="REPETITIONS_STYLE" name="repetitions style" type="style" tone_tags="clarity">
     <!--This category has been tagged as clarity, but "picky" tag will likely be replaced by "formal" tone tag in the near future-->
