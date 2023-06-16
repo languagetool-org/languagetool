@@ -19975,6 +19975,55 @@ USA
                 <example correction="on">Enfin, <marker>l'on</marker>  peut associer ce texte à d'autres.</example>
             </rule>
         </rulegroup>
+        <rule id="ET_SENT_START" name="'Et' en début de phrase" tone_tags="formal">
+            <antipattern>
+                <token>et</token>
+                <token>pour</token>
+                <token>cause</token>
+            </antipattern>
+            <antipattern>
+                <token>et</token>
+                <token>ainsi</token>
+                <token>de</token>
+                <token>suite</token>
+            </antipattern>
+            <antipattern>
+                <token>et</token>
+                <token>bien</token>
+            </antipattern>
+            <antipattern>
+                <token>et</token>
+                <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1"/>
+                <token>dire</token>
+                <token inflected="yes">que</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Et</token>
+                <token regexp="yes">[nv]ous|lui|elle|eux|[mt]oi</token>
+                <token postag="C sub|R pers suj.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token case_sensitive="yes">Et</token>
+                    <token>
+                        <exception regexp="yes">oui|non</exception>
+                        <exception negate="yes" regexp="yes">\p{L}[\p{L}'-]*</exception></token>
+                </marker>
+            </pattern>
+            <message>L'utilisation de "Et" en première position dans une phrase n'est pas incorrecte, mais plutôt un parti pris stylistique. Vous pouvez l'accompagner d'une virgule pour marquer une pause.</message>
+            <suggestion>\3</suggestion>
+            <suggestion>\2, \3</suggestion>
+            <suggestion>Ainsi, \3</suggestion>
+            <suggestion>Ensuite, \3</suggestion>
+            <url>https://www.academie-francaise.fr/car-en-debut-de-phrase#:~:text=Les%20conjonctions%20de%20coordination%20ne,pas%20de%20m%C3%AAme%20pour%20car.</url>
+            <example correction="Il|Et, il|Ainsi, il|Ensuite, il"><marker>Et il</marker> lui était impossible de revenir en arrière.</example>
+            <example correction="Michaël|Et, Michaël|Ainsi, Michaël|Ensuite, Michaël"><marker>Et Michaël</marker> était carrément vert.</example>
+            <example>Il me semble que cet homme est inconscient et plutôt mal en point.</example>
+            <example>Et bien plus encore…</example>
+            <example>Et dire que nous aimons la fantasy! </example>
+            <example>Et, il me disait, sa voiture n'était plus là.</example>
+        </rule>
         <rule id="MAIS_SENT_START" name="'Mais' en début de phrase" tone_tags="formal">
             <antipattern>
                 <token postag="SENT_START"/>
