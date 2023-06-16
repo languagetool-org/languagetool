@@ -41,9 +41,11 @@ public class SentenceAnnotator {
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
       String customParamsStr = prop.getProperty("customParams", "").trim();
-      for (String customParam : customParamsStr.split(";")) {
-        String[] parts = customParam.split(",");
-        cfg.customParams.put(parts[0], parts[1]);
+      if (!customParamsStr.isEmpty()) {
+        for (String customParam : customParamsStr.split(";")) {
+          String[] parts = customParam.split(",");
+          cfg.customParams.put(parts[0], parts[1]);
+        }
       }
       String automaticAnnotationStr = prop.getProperty("automaticAnnotation", "").trim();
       cfg.automaticAnnotation = automaticAnnotationStr.equalsIgnoreCase("yes")
