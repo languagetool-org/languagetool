@@ -540,7 +540,7 @@ public class GrammalecteRule extends Rule {
         continue;
       }
       String message = pairs.get("sMessage").toString();
-      GrammalecteInternalRule rule = new GrammalecteInternalRule("" + id, message);
+      GrammalecteInternalRule rule = new GrammalecteInternalRule("grammalecte_" + id, message);
       RuleMatch extMatch = new RuleMatch(rule, null, offset, endOffset, message);
       List<String> suggestions = (List<String>) pairs.get("aSuggestions");
       //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ");
