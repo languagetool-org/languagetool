@@ -501,8 +501,7 @@ public class GrammalecteRule extends Rule {
       lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
-      e.printStackTrace();
+      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl, e);
     } finally {
       huc.disconnect();
     }
