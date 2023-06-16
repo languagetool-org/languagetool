@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -41,7 +40,7 @@ import org.languagetool.tools.StringTools;
 public class OblidarseSugestionsFilter extends RuleFilter {
 
   static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
-  
+
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
 
   private static Map<String, String> addReflexiveVowel = new HashMap<>();
@@ -95,32 +94,34 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     }
     String pronomPostag = tokens[posWord + 1].readingWithTagRegex("P.*").getPOSTag();
     String pronomGenderNumber = pronomPostag.substring(2, 3) + pronomPostag.substring(4, 5);
-    boolean isThereAuxiliar = !tokens[posWord + 2].hasAnyLemma("oblidar", "descuidar");
+    int indexMainVerb = posWord + 2;
+    while (!tokens[indexMainVerb].hasAnyLemma("oblidar", "descuidar")) {
+      indexMainVerb++;
+    }
     String verbPostag = tokens[posWord + 2].readingWithTagRegex("V.*").getPOSTag();
     String lemma = tokens[posWord + 2].readingWithTagRegex("V.*").getLemma();
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
     String[] synthForms = synth.synthesize(at,
-        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8), 
-        getLanguageVariantCode(match));
+        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8), getLanguageVariantCode(match));
     String newVerb = "";
     if (synthForms.length == 0) {
       return null;
     }
     newVerb = synthForms[0];
-    if (isThereAuxiliar) {
-      newVerb = newVerb + " " + tokens[posWord + 3].getToken();
+    for (int i = posWord + 3; i < indexMainVerb + 1; i++) {
+      newVerb = newVerb + tokens[i].getWhitespaceBefore() + tokens[i].getToken();
     }
     boolean verbVowel = pApostropheNeeded.matcher(newVerb).matches();
     String wordAfter = "";
-    int wordAfterIndex = (isThereAuxiliar ? posWord + 4 : posWord + 3);
-    if (wordAfterIndex < tokens.length) {
-      AnalyzedToken wordAfterReading = tokens[wordAfterIndex].readingWithTagRegex("D.*|V.N.*|PI.*");
+
+    if (indexMainVerb + 1 < tokens.length) {
+      AnalyzedToken wordAfterReading = tokens[indexMainVerb + 1].readingWithTagRegex("D.*|V.N.*|PI.*");
       if (wordAfterReading != null) {
         wordAfter = wordAfterReading.getToken();
       }
       List<String> exceptionsList = Arrays.asList("com", "de", "d'");
-      if (exceptionsList.contains(tokens[wordAfterIndex].getToken().toLowerCase())) {
-        wordAfter = tokens[wordAfterIndex].getToken();
+      if (exceptionsList.contains(tokens[indexMainVerb + 1].getToken().toLowerCase())) {
+        wordAfter = tokens[indexMainVerb + 1].getToken();
       }
     }
     Map<String, String> transform;
@@ -142,8 +143,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       return null;
     }
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posWord].getStartPos(),
-        tokens[wordAfterIndex - 1].getEndPos() + (wordAfterApostrophe ? 1 : 0), match.getMessage(),
-        match.getShortMessage());
+        tokens[indexMainVerb].getEndPos() + (wordAfterApostrophe ? 1 : 0), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacement(replacement);
     return ruleMatch;
