@@ -254,8 +254,8 @@ public class SentenceAnnotator {
     for (String line : lines) {
       numSentence++;
       String[] parts = line.split("\t");
-      String sentence = parts[1].replaceAll("__", "");
-      String correctedSentence = parts[2].replaceAll("__", "");
+      String sentence = parts[0].replaceAll("__", "");
+      String correctedSentence = parts[1].replaceAll("__", "");
       List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
       List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
       RemoteRuleMatch match = null;
