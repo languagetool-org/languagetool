@@ -13520,13 +13520,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="V.[ISM].*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
-                <token inflected="yes" regexp="yes">ser|estar|parèixer|semblar</token>
-                <marker>
-                    <and>
-                        <token postag="A.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
-                        <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes" postag="N.*" postag_regexp="yes">reflex|desert|motiu|foguera|mestre|director|corba|sinònim|part1|líder</exception></token>
-                    </and>
-                </marker>
+                <unify>
+                    <feature id="nombre"/>
+                    <token inflected="yes" regexp="yes">ser|estar|parèixer|semblar</token>
+                    <marker>
+                        <and>
+                            <token postag="A.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
+                            <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes" postag="N.*" postag_regexp="yes">reflex|desert|motiu|foguera|mestre|director|corba|sinònim|part1|líder|mà</exception></token>
+                        </and>
+                    </marker>
+                </unify>
                 <!--<token><exception inflected="yes">de</exception></token>-->
             </pattern>
             <disambig action="remove" postag="N.*"/>
@@ -13534,6 +13537,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <example type="untouched">Són mones albines.</example>
             <example type="untouched">Si fora bufa vent, ens quedem a casa.</example>
             <!--<example type="untouched">Són mitjans de comunicació.</example>-->
+        </rule>
+        <rule>
+            <antipattern>
+                <token>fora</token>
+                <token postag="V.[ISM].*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" regexp="yes">ser|estar|parèixer|semblar</token>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes">alt<exception postag="_GN.*" postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
     <rule id="GerAdj_Nom" name="gerundi/adjectiu + nom">
