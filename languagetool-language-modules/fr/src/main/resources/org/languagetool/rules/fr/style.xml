@@ -23116,6 +23116,55 @@ USA
             <example correction="Marie.|Marie,">Bonjour, <marker>Marie ;</marker></example>
           </rule>
         </rulegroup>
+        <rulegroup id="TIRET_LONG" name="tiret long" tone_tags="formal">
+          <rule>
+            <antipattern>
+              <token regexp="yes">sainte?</token>
+              <token>-</token>
+              <token postag="Z.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+              <marker>
+                <token regexp="yes">[a-z].*
+                  <exception postag="UNKNOWN"/></token>
+                <token spacebefore="yes">-</token>
+                <token spacebefore="yes" regexp="yes" case_sensitive="yes">[A-Z].*
+                  <exception postag="UNKNOWN"/></token>
+              </marker>
+            </pattern>
+            <message>Un tiret long ou un autre signe de ponctuation plus approprié, car le trait d'union ne s'utilise que pour former un mot.</message>
+            <suggestion>\1 — \3</suggestion>
+            <suggestion>\1 – \3</suggestion>
+            <suggestion>\1 : \3</suggestion>
+            <suggestion>\1. \3</suggestion>
+            <suggestion>\1 (\3</suggestion>
+            <suggestion>\1) \3</suggestion>
+            <url>https://www.academie-francaise.fr/tiret-pour-trait-dunion</url>
+            <example correction="ange — Bleu|ange – Bleu|ange : Bleu|ange. Bleu|ange (Bleu|ange) Bleu">Il a vu un <marker>ange - Bleu</marker>, je crois — passé devant lui.</example>
+            <example>Puis il se rendit à Saint - Louis.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>-
+                <exception scope="previous">-</exception></token>
+              <token>-</token>
+              <token>-
+                <exception scope="next">-</exception></token>
+            </pattern>
+            <message>Un tiret long peut sembler plus approprié.</message>
+            <suggestion>—</suggestion>
+            <example correction="—">Il est grand <marker>---</marker> fort intelligent.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>-<exception scope="previous">-</exception></token>
+              <token>-<exception scope="next">-</exception></token>
+            </pattern>
+            <message>Un tiret long peut sembler plus approprié.</message>
+            <suggestion>—</suggestion>
+            <example correction="—">Il est grand <marker>--</marker> fort intelligent.</example>
+          </rule>
+        </rulegroup>
     </category>
     <category id="REPETITIONS_STYLE" name="repetitions style" type="style" tone_tags="clarity">
     <!--This category has been tagged as clarity, but "picky" tag will likely be replaced by "formal" tone tag in the near future-->
