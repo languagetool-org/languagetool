@@ -243,6 +243,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!ENTITY MSG_ECG "Possível erro de concordância.">
         <!ENTITY MSG_ECN "Possível erro de concordância de número.">
 
+        <!-- These come from frequent 'dá' collocations as per https://www.corpusdoportugues.org/web-dial/ -->
+        <!ENTITY dar_collocations_all    "&dar_collocations_not_fem_sg;|&dar_collocations_fem_sg;|trabalho|medo|jeito|exemplo|espaço|prazer|frutos?">
+        <!ENTITY dar_collocations_fem_sg "resposta|atenção|dica|aula|importância|olhada|continuidade|chance|impressão|confiança">
+        <!-- remove a few words that already covered by DIACRITICS[5] -->
+        <!-- medo, jeito, exemplo, espaço, prazer, frutos, trabalho -->
+        <!ENTITY dar_collocations_not_fem_sg "voltas|cambalhotas|piruetas|presentes|certo|crédito|direito">
+
         ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
@@ -21814,15 +21821,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="dá!|da">Assim não <marker>da!</marker></example>
                 <example>ananaí-da-amazônia</example>
             </rule>
-            <!-- These come from frequent 'dá' collocations as per https://www.corpusdoportugues.org/web-dial/ -->
             <rule default="temp_off">
                 <pattern>
                     <marker>
                         <token>da</token>
                     </marker>
-                    <!-- remove a few words that already covered by DIACRITICS[5] -->
-                    <!-- medo, jeito, exemplo, espaço, prazer, frutos -->
-                    <token regexp='yes'>voltas|cambalhotas|piruetas|presentes|certo|crédito|direito</token>
+                    <token regexp='yes'>&dar_collocations_not_fem_sg;</token>
                 </pattern>
                 <message>Nesta situação acentua-se a palavra.</message>
                 <suggestion>dá</suggestion>
@@ -21831,14 +21835,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="dá">Aí não <marker>da</marker> certo.</example>
                 <example correction="dá">Isso não lhes <marker>da</marker> direito de perguntar.</example>
             </rule>
-            <!-- Also from common collocations, but since they're feminine, a little more restrictive. -->
             <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">el[ea]|não</token>
                     <marker>
                         <token>da</token>
                     </marker>
-                    <token regexp='yes'>resposta|atenção|dica|aula|importância|olhada|continuidade|chance|impressão</token>
+                    <token regexp='yes'>&dar_collocations_fem_sg;</token>
                 </pattern>
                 <message>Nesta situação acentua-se a palavra.</message>
                 <suggestion>dá</suggestion>
@@ -21890,6 +21893,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>dá</suggestion>
                 <example correction="dá">Ele nos <marker>da</marker> bons presentes.</example>
                 <example correction="dá">Você me <marker>da</marker> algo para pensar.</example>
+                <example>Trata-se da pior lasanha do mundo!</example>
             </rule>
         </rulegroup>
 
@@ -21904,7 +21908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>de</token>
                     </marker>
                     <token postag_regexp="yes" postag="D.+" min="0"/>
-                    <token regexp='yes'>resposta|atenção|confiança|dica|aula|importância|olhada|continuidade|chance|impressão|voltas|cambalhotas|piruetas|presentes|certo|crédito|direito|trabalho|medo|jeito|exemplo|espaço|prazer|frutos?</token>
+                    <token regexp='yes'>&dar_collocations_all;</token>
                 </pattern>
                 <message>Nesta situação acentua-se a palavra.</message>
                 <suggestion>dê</suggestion>
@@ -21914,7 +21918,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule>
                 <antipattern>
                     <token>de</token>
-                    <token regexp='yes'>resposta|atenção|confiança|dica|aula|importância|olhada|continuidade|chance|impressão|voltas|cambalhotas|piruetas|presentes|certo|crédito|direito|trabalho|medo|jeito|exemplo|espaço|prazer|frutos?</token>
+                    <token regexp='yes'>&dar_collocations_all;</token>
                     <token>em</token>
                     <token><match no="1"/></token>
                     <example>De trabalho em trabalho.</example>
@@ -21927,7 +21931,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>de</token>
                     </marker>
                     <token postag_regexp="yes" postag="D.+" min="0"/>
-                    <token regexp='yes'>resposta|atenção|confiança|dica|aula|importância|olhada|continuidade|chance|impressão|voltas|cambalhotas|piruetas|presentes|certo|crédito|direito|trabalho|medo|jeito|exemplo|espaço|prazer|frutos?</token>
+                    <token regexp='yes'>&dar_collocations_all;</token>
                     <token regexp="yes">ao?s?|às?|n[oa]s?|em|para|pr[oa]s?|nes[st][ea]s?|(à|na)quel[ea]s?</token>
                 </pattern>
                 <message>Nesta situação acentua-se a palavra.</message>
@@ -21948,7 +21952,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>de</token>
                     </marker>
                     <token postag_regexp="yes" postag="[AD].+" min="0"/>
-                    <token regexp='yes'>resposta|atenção|confiança|dica|aula|importância|olhada|continuidade|chance|impressão|voltas|cambalhotas|piruetas|presentes|certo|crédito|direito|trabalho</token>
+                    <token regexp='yes'>&dar_collocations_all;</token>
                 </pattern>
                 <message>Nesta situação acentua-se a palavra.</message>
                 <suggestion>dê</suggestion>
