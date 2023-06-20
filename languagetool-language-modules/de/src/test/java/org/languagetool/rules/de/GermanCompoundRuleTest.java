@@ -124,10 +124,10 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     // "nach-denken+"
     check(0, "Ich muss nachdenken");
     check(1, "Ich muss  nach denken", "nachdenken");
-    // "Afghanistan-Krieg$"
-    check(0, "Afghanistankkrieg");
-    check(0, "Afghanistank-Krieg");
-    check(1, "Afghanistan Krieg", "Afghanistan-Krieg", "Afghanistankrieg");
+    // "Back-up$"
+    check(0, "Backup");
+    check(0, "Back-up");
+    check(1, "Back up", "Back-up", "Backup");
     // "Aggregat-Zustand?"
     check(0, "Aggregatzustand");
     //check(0, "Aggregat-Zustand");
