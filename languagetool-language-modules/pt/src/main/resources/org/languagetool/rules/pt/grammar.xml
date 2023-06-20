@@ -21962,6 +21962,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rulegroup id="ACCENTUATED_PARONYMS_DO" name="Confusão Do - Dó" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>
+                        me
+                        <exception scope="previous" regexp="yes" spacebefore="no">&hifen;</exception>
+                    </token>
+                    <token>dá</token>
+                    <token regexp="yes">uma?</token>
+                    <marker>
+                        <token>do</token>
+                    </marker>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dó</suggestion>
+                <example correction="dó">Me dá um <marker>do</marker> dele...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tenha</token>
+                    <marker>
+                        <token>do</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dó</suggestion>
+                <example correction="dó">Tenha <marker>do</marker>!</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id='ACCENTUATED_PARONYMS' name='Confusão: verbo no lugar de um parónimo acentuado'>
             <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
             <short>Erro de acentuação</short>
