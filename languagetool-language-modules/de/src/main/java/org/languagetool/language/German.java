@@ -469,7 +469,8 @@ public class German extends Language implements AutoCloseable {
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "VON_LEBENSLAEUFE": return -12; // less prio than AI
-      case "VER_WER_VER_2": return -12; // less prio than AI
+      case "VER_WER_VER_3": return -12; // less prio than AI
+      case "PA_WAS": return -12; // less prio than AI
       case "PROPERNOMSIN_VERIMPSIN": return -12; // less prio than AI
       case "VER123_VERAUXMOD_TEST1": return -12; // less prio than AI to produce a single suggestion
       case "ZUSAMMENGESETZTE_VERBEN": return -12; // less prio than most more specific rules and AI

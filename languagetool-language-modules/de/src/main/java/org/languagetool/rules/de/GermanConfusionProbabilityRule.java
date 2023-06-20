@@ -143,6 +143,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "voll viel", // vs fiel
     "fasst nichts an", // vs fast
     "fasst mit an", // vs fast
+    "kann das wer bestätigen", // vs wär
     "fasst keiner an", // vs fast
     "fasst keine mehr an", // vs fast
     "fasst keiner mehr an", // vs fast
