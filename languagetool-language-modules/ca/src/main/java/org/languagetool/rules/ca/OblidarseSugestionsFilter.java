@@ -115,7 +115,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     String wordAfter = "";
 
     if (indexMainVerb + 1 < tokens.length) {
-      AnalyzedToken wordAfterReading = tokens[indexMainVerb + 1].readingWithTagRegex("D.*|V.N.*|PI.*|NC.*");
+      AnalyzedToken wordAfterReading = tokens[indexMainVerb + 1].readingWithTagRegex("D.*|V.N.*|P[DI].*|NC.*");
       if (wordAfterReading != null) {
         wordAfter = wordAfterReading.getToken();
       }
@@ -134,16 +134,24 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     suggBld.append(transform.get(pronomGenderNumber));
     suggBld.append(newVerb);
     boolean wordAfterApostrophe = false;
-    if (!wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")) {
+    int charactersAfterCorrection = 0;
+    // contracció de + el -> del
+    if (wordAfter.equalsIgnoreCase("el") || wordAfter.equalsIgnoreCase("els")) {
+      suggBld.append(" d");
+      suggBld.append(wordAfter.toLowerCase());
+      charactersAfterCorrection = wordAfter.length() + 1;
+      // apostrofació: de | d'
+    } else if (!wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")) {
       wordAfterApostrophe = pApostropheNeeded.matcher(wordAfter).matches();
       suggBld.append(wordAfterApostrophe ? " d'" : " de");
+      charactersAfterCorrection = (wordAfterApostrophe ? 1 : 0);
     }
     String replacement = StringTools.preserveCase(suggBld.toString(), tokens[posWord].getToken());
     if (replacement.isEmpty()) {
       return null;
     }
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posWord].getStartPos(),
-        tokens[indexMainVerb].getEndPos() + (wordAfterApostrophe ? 1 : 0), match.getMessage(), match.getShortMessage());
+        tokens[indexMainVerb].getEndPos() + charactersAfterCorrection, match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacement(replacement);
     return ruleMatch;
