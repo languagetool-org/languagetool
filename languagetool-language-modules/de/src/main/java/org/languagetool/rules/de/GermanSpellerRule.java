@@ -200,6 +200,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Registration", "Registrierung");
     put("Registrationen", "Registrierungen");
     put("Spinnenweben", "Spinnweben");
+    put("[Tt]uneup", "TuneUp");
     putRepl("[Ww]ar ne", "ne", "eine");
     putRepl("[Ää]nliche[rnms]?", "nlich", "hnlich");
     putRepl("[Gg]arnix", "nix", "nichts");
