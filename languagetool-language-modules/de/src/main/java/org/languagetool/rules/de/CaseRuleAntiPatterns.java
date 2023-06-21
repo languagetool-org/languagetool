@@ -1651,6 +1651,12 @@ class CaseRuleAntiPatterns {
       csToken("das"),
       posRegex("VER:INF.*"),
       posRegex("SUB.*")
+    ),
+    Arrays.asList(
+      // Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...
+      csToken(":"),
+      csRegex("[\"”„»«]"),
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 }
