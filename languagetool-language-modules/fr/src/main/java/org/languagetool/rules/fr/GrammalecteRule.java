@@ -447,7 +447,15 @@ public class GrammalecteRule extends Rule {
     "typo_guillemets_doubles_fermants_non_ouverts",
     "g2__conf_non_verbe_après_préverbes__b5_a3_1",
     "gv1__imp_verbe_groupe2_groupe3_t__b2_a1_1",
-    "gv2__conj_les_nom__b1_a3_1"
+    "gv2__conj_les_nom__b1_a3_1",
+    "g2__conj_1p_sans_sujet__b1_a1_1",
+    "typo_points_suspension_après_espace",
+    "typo_guillemets_doubles_ouvrants_non_fermés",
+    "g2__conf_de_vconj__b1_a1_1",
+    "g2__conf_déterminant_mas_sing_verbe__b1_a1_1",
+    "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_",
+    "gv1__ppas_avoir_été__b2_a3_1",
+    "g2__conj_je__b2_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
