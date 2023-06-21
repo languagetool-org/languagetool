@@ -3953,6 +3953,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rule id="PAIS_COUNTRY_OR_PARENTS" name="Possível erro de concordância ou falta de acento." default="temp_off">
+            <pattern>
+                <token regexp="yes">[dn]?o</token>
+                <token>pais</token>
+            </pattern>
+            <message>Possível erro de acentuação ou concordância.</message>
+            <suggestion>\1 país</suggestion>
+            <suggestion>\1s pais</suggestion>
+            <suggestion>\1 pai</suggestion>
+            <example correction='do país|dos pais|do pai'>É o orgulho <marker>do pais</marker>.</example>
+        </rule>
 
         <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordância de Número: Geral">
             <!--            General number concordance errors            -->
@@ -5429,6 +5440,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>As simulações são as mais realistas que há.</example>
             </rule>
             <rule>
+                <!-- Ambiguous: could be o(s) pai(s) but also o país, so I'm extracting that into a separate rule -->
+                <antipattern>
+                    <token regexp="yes">[dn]?o</token>
+                    <token>pais</token>
+                    <example>Era o orgulho do pais.</example>
+                </antipattern>
                 <antipattern>
                     <token>do</token>
                     <token regexp='yes'>8|oito</token>
@@ -5506,10 +5523,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&MSG_ECN;</message>
                 <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/></suggestion>
                 <suggestion suppress_misspelled='yes'>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-                <example correction='do pai|dos pais'>É o orgulho <marker>do pais</marker>.</example>
                 <example correction='pelo meio|pelos meios'>Conseguiram combater o fogo <marker>pelo meios</marker> de todos os revezes.</example>
                 <example>Pelo menos nós terminamos o trabalho pesado.</example>
             </rule>
+
+
             <rule>
                 <antipattern>
                     <token regexp='yes'>(?:&precede_nome_proprio_F;|&precede_nome_proprio_M;)e?s?</token>
@@ -18374,11 +18392,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>obstante</token>
                     </marker>
                     <token>
-                        <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
+                        <exception postag_regexp='yes' postag="_PUNCT|''"/>
+                        <!-- this also functions as a preposition, let's make this a little more restrictive -->
+                        <exception postag_regexp="yes" postag="[DAN].+"/>
+                    </token>
                 </pattern>
                 <message>Esta locução deve ser separada por vírgulas.</message>
                 <suggestion>\1 \2,</suggestion>
                 <example correction="não obstante,">Foi feito com distinção, <marker>não obstante</marker> está bem feito.</example>
+                <example>Não obstante a falta de capricho, conseguiu uma nota alta.</example>
             </rule>
             <!--rule>
       <pattern>
