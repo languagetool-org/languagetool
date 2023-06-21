@@ -179,6 +179,16 @@ to
 
 2023-03-01:
            — Removed most of the possessives of plurals ending with "s".
+
+2023-05-07:
+           — Improved flag "O".
+
+2023-05-17:
+           — Improved flag "W".
+
+2023-05-23:
+           — Improved flag "J".
+
 -------
 
 MARCO A.G.PINTO:
