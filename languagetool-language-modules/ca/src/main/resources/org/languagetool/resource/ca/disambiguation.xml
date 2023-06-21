@@ -9178,7 +9178,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- tan important -->
         <antipattern>
             <token postag_regexp="yes" postag="VM.*" regexp="yes" skip="3" inflected="yes">estar|anar</token>
-            <token min="0" max="3" postag="RG_anteposat|LOC_ADV" postag_regexp="yes"><exception postag="PR.*" postag_regexp="yes"/></token>
+            <token min="0" max="3" postag="RG_anteposat|LOC_ADV" postag_regexp="yes"><exception postag="PR.*" postag_regexp="yes"/><exception regexp="yes">tant?</exception></token>
             <token postag="V.G.*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
@@ -11768,7 +11768,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="aa4b" name="aa1">
             <antipattern>
                 <token postag="VM.*" postag_regexp="yes" regexp="yes" skip="3" inflected="yes">estar|anar</token>
-                <token min="0" max="3" postag="RG_anteposat|LOC_ADV" postag_regexp="yes"><exception postag="PR.*" postag_regexp="yes"/></token>
+                <token min="0" max="3" postag="RG_anteposat|LOC_ADV" postag_regexp="yes"><exception postag="PR.*" postag_regexp="yes"/><exception regexp="yes">tant?</exception></token>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
@@ -13528,6 +13528,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <antipattern>
                 <token>fora</token>
                 <token postag="V.[ISM].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+            <token postag="NC.*" postag_regexp="yes"/>
+            <token postag_regexp="yes" postag="CC|_PUNCT_CONT"/>
+            <token postag="NC.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <unify>
@@ -15396,7 +15401,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="GerAdj" name="gerundi i adj: gerundi">
         <pattern>
-            <token><exception postag="SPS00|CC|_PUNCT.*|SENT_START" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|semblar|parèixer|considerar</exception></token>
+            <token><exception postag="SPS00|CC|_PUNCT.*|SENT_START" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|semblar|parèixer|considerar|tan|tant</exception></token>
             <!-- en calent -->
             <marker>
                 <and>
