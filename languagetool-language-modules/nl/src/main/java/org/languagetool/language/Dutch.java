@@ -190,6 +190,7 @@ public class Dutch extends Language {
       case "HET_FIETS": return -2; // first let other rules check for compound words
       case "WIJ_ZIJ_MIJ": return -2;  // needs higher priority than JOU_JOUW
       case "JOU_JOUW": return -3;
+      case "BE": return -3; // needs lower priority than BE_GE_SPLITST
       case "DOUBLE_PUNCTUATION": return -3;
       case "KORT_1": return -5;
       case "KORT_2": return -5;  //so that spelling errors are recognized first
