@@ -2757,7 +2757,9 @@ USA
             </rule>
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[4] -->
                 <pattern>
-                    <token inflected="yes" regexp="yes">rein(bauen|befördern|begeben|beissen|beißen|bekommen|bewegen|bitten|blasen|blicken|bohren|bringen|buttern|denken|deuten|donnern|drängen|drücken|dürfen|fahren|fallen|finden|fliegen|fließen|fliessen|fressen|führen|funken|geben|geheimnissen|gehen|gelangen|geraten|gießen|giessen|gleiten|grätschen|greifen|gucken|halten|hängen|hauen|horchen|hören|interpretieren|klettern|knien|kommen|komplimentieren|können|kriechen|kriegen|langen|lassen|laufen|legen|lesen|löffeln|lotsen|machen|manövrieren|mischen|müssen|nehmen|packen|passen|pferchen|pfriemeln|pfuschen|platzen|pressen|rasseln|projizieren|pumpen|ragen|reden|regnen|reichen|reißen|reissen|reiten|retten|riechen|rufen|rutschen|saugen|schaffen|schauen|schieben|schießen|schiessen|schlagen|schleichen|schlingen|schlittern|schlüpfen|schmuggeln|schneiden|schneien|schreiben|schütten|sehen|setzen|sollen|spielen|sprechen|springen|stechen|stecken|steigen|steigern|stellen|stolpern|stopfen|stoßen|stossen|strömen|stürmen|stürzen|tappen|tragen|treiben|treten|tun|versetzen|wachsen|wählen|waschen|werfen|wirken|wollen|würgen|zerren|ziehen|zwängen|zwingen)</token>
+                    <token inflected="yes" regexp="yes">rein(bauen|befördern|begeben|beissen|beißen|bekommen|bewegen|bitten|blasen|blicken|bohren|bringen|buttern|denken|deuten|donnern|drängen|drücken|dürfen|fahren|fallen|finden|fliegen|fließen|fliessen|fressen|führen|funken|geben|geheimnissen|gehen|gelangen|geraten|gießen|giessen|gleiten|grätschen|greifen|gucken|halten|hängen|hauen|horchen|hören|interpretieren|klettern|knien|kommen|komplimentieren|können|kriechen|kriegen|langen|lassen|laufen|legen|lesen|löffeln|lotsen|machen|manövrieren|mischen|müssen|nehmen|packen|passen|pferchen|pfriemeln|pfuschen|platzen|pressen|rasseln|projizieren|pumpen|ragen|reden|regnen|reichen|reißen|reissen|reiten|retten|riechen|rufen|rutschen|saugen|schaffen|schauen|schieben|schießen|schiessen|schlagen|schleichen|schlingen|schlittern|schlüpfen|schmuggeln|schneiden|schneien|schreiben|schütten|sehen|setzen|sollen|spielen|sprechen|springen|stechen|stecken|steigen|steigern|stellen|stolpern|stopfen|stoßen|stossen|strömen|stürmen|stürzen|tappen|tragen|treiben|treten|tun|versetzen|wachsen|wählen|waschen|werfen|wirken|wollen|würgen|zerren|ziehen|zwängen|zwingen)
+                      <exception inflected="yes">reinreden</exception>
+                    </token>
                 </pattern>
                 <message>'\1' wirkt umgangssprachlich. Je nach Situation klingt <suggestion><match no="1" regexp_match="^[Rr]ein" regexp_replace="herein"/></suggestion> oder <suggestion><match no="1" regexp_match="^[Rr]ein" regexp_replace="hinein"/></suggestion> evtl. besser.</message>
                 <example correction="hereingefallen|hineingefallen">Da sind wir ganz schön <marker>reingefallen</marker>.</example>
@@ -2873,7 +2875,48 @@ USA
                 <suggestion><match no="1" regexp_match="^[Rr]aus" regexp_replace="hinaus"/></suggestion>
                 <example correction="Nach-draußen-Gehen|Herausgehen|Hinausgehen">Zieh dir vor dem <marker>Rausgehen</marker> den Mantel an; sonst erkältest du dich.</example>
             </rule>
-            <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[14] -->
+            <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[15] -->
+                <antipattern>
+                  <token skip="-1" inflected="yes">haben</token>
+                  <token>reingeredet</token>
+                </antipattern>
+                <antipattern>
+                  <token skip="-1" inflected="yes">haben</token>
+                  <token>reingeredet</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">reinreden</token>
+                </pattern>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion>ins Wort <match no="1" postag="(VER.*)(SFT)(:NEB)?" postag_replace="$1NON" postag_regexp="yes">fallen</match></suggestion>
+                <example correction="ins Wort fallen">Ich dachte, dass Sie mir schon wieder <marker>reinreden</marker>.</example>
+                <example correction="ins Wort fiel">Ich hatte den Eindruck, dass er mir ständig <marker>reinredete</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[16] -->
+                <antipattern>
+                    <token>reingeredet</token>
+                    <token inflected="yes">haben</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" inflected="yes">haben</token>
+                    <token>reingeredet</token>
+                </pattern>
+                <message>'\1 \2' ist umgangssprachlich.</message>
+                <suggestion><match no="1" include_skipped="all" postag="VER:AUX:[123].*" postag_regexp="yes">sein</match> ins Wort gefallen</suggestion>
+                <example correction="sind mir heute ständig ins Wort gefallen">Sie <marker>haben mir heute ständig reingeredet</marker>.</example>
+                <example correction="ist mir ständig ins Wort gefallen">Er <marker>hat mir ständig reingeredet</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[17] -->
+                <pattern>
+                    <token>reingeredet</token>
+                    <token inflected="yes">haben</token>
+                </pattern>
+                <message>'\1 \2' ist umgangssprachlich.</message>
+                <suggestion>ins Wort gefallen <match no="2" postag="VER:AUX:[123].*" postag_regexp="yes">sein</match></suggestion>
+                <example correction="ins Wort gefallen sind">Ich dachte, dass Sie mir schon wieder <marker>reingeredet haben</marker>.</example>
+                <example correction="ins Wort gefallen ist">Ich hatte den Eindruck, dass er mir ständig <marker>reingeredet hat</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[18] -->
                 <pattern>
                     <token inflected="yes">rüberkippen</token>
                 </pattern>
@@ -2882,7 +2925,7 @@ USA
                 <suggestion>darüber <match no="1" postag="(VER.*)(SFT)(:NEB)?" postag_replace="$1NON" postag_regexp="yes">gießen</match></suggestion>
                 <example correction="verschüttet|darüber gegossen">Die Stelle klebt, da hab ich leider mal Bier <marker>rübergekippt</marker>.</example>
             </rule>
-	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[15] -->
+	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[19] -->
                 <pattern>
                   <token>eine</token>
                   <token inflected="yes">runterhauen</token>
