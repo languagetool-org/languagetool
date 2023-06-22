@@ -7954,7 +7954,7 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <antipattern>
                     <!-- pak melk -->
-                    <token regexp="yes">pak|fles|blok|vel</token>
+                    <token regexp="yes">pak|fles|blok|vel|genoeg</token>
                     <token postag_regexp="yes" postag="ZNW:EKV.*"/>
                 </antipattern>
                 <antipattern>
@@ -17219,6 +17219,12 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="EEN_LELIJKE_MEISJE" name="Een lelijke meisje">
+            <antipattern>
+                <token>een</token>
+                <token>Middellandse</token>
+                <token>Zeeklimaat</token>
+                <example>een Middellandse Zeeklimaat</example>
+            </antipattern>
             <antipattern><token>een</token><token postag="ZNW:EKV:DE_"/><token postag="WKW:VTD:ONV"/></antipattern>
             <antipattern><token>bed</token><token>and</token><token>breakfast</token></antipattern>
             <antipattern><token>een</token><token/><token postag="BNW.*" postag_regexp="yes"/></antipattern>
@@ -17354,12 +17360,20 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" > <!-- TODO:  Later tag as learner rule -->
             <rule>
+                <antipattern>
+                    <token>het</token>
+                    <token postag="ZNW:EKV:HET"/>
+                    <token>zeer</token>
+                    <token postag="BNW:STL:ONV"/>
+                    <token regexp="yes">is|was</token>
+                    <example>het pad zeer smal is</example>
+                </antipattern>
                 <antipattern><token>Ancien</token><token>régime</token></antipattern>
                 <antipattern>
-                    <!-- dit kost extra tijd -->
                     <token postag="WKW:TGW:1EP"/>
                     <token postag="BNW:STL:ONV"/>
                     <token postag="ZNW:EKV:DE_"/>
+                    <example>dit kost extra tijd</example>
                 </antipattern>
                 <antipattern>
                     <token>nummer</token>
@@ -24428,6 +24442,7 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium">
             <!-- TODO:  Consider moving to other category -->
             <rule>
+                <antipattern><token>des</token><token>tijds</token></antipattern>
                 <pattern>
                     <token regexp="yes">.*(heid|teit|ing|aandacht|gezicht|aanval|aanvang|achterhand|achterhoofd|achterstand|advent|afdracht|afstand|schap|alleman|almacht|ambacht|ambt|ement|arbeid|arend|iment|baren|bedrijf|begrip|beleid|beroep|bestand|bestuur|bevel|bewind|bewustzijn|bezit|bijstand|bisschop|boldriehoek|bond|bruid|bruiloft|contingent|staat|delict|district|doctoraat|doorgang|dorp|eigendom|eten|evenwicht|fabriek|fatsoen|garnizoen|gebed|gebied|gebit|gebruik|gedrag|gelaat|geloof|geluk|gerecht|geslacht|gevecht|gevoel|gewicht|gewricht|gezag|gezin|groep|heiligdom|huwelijk|ingang|inhoud|invloed|kabinet|kalf|kandidaat|kanon|kievit|kok|krijg|lichaam|macht|najaar|olifant|omgang|onderhoud|ongeval|onweer|oorlog|oorsprong|opstand|overdracht|overgang|overmacht|overzicht|personeel|persoon|predikant|premier|president|publiek|rijk|rijkelui|ruggengraat|scheep|stad|stilstand|tabak|tegenstand|toegang|toestand|uitgaan|uitgang|uitgebreid|vaderland|vakbond|verblijf|verbod|verbruik|verdrag|verjaardag|verkeer|verstand|vertrouwen|verzet|vicepresident|volk|voorhoofd|voorjaar|voorkeur|voortgang|weerstand|welstand|welzijn|zondag|boekweit|gemoed|heronderzoek|leegstand|middenstand|noodlot|oudejaar|ouderdom|platteland|proletariaat|voorrang|vooruitgang|welvaart|zeeman|gemeenteraad|bestaan|wanhoop|gesprek|burgerman|ledenraad|ondernemingsraad|kerkenraad|meergezin|afgod|geluid|genot|heil|kapitaal|leid|onderzoek|recht|resultaat|sabbat|seizoen|spreid|tijd|vervoer|voorbereid|wet|driehoek|vrijetijd|grondwet|koopman|eindejaar|voorzorg|krijgsmacht|hemelvaart|timmerman|werkman|diepgang|nieuwjaar|deelraad|werkwoord|achteruitgang)s-?<exception regexp="yes">destijds|bijtijds|boxsprings|settings|campings|coatings|dumplings</exception><exception postag_regexp="yes" postag="BNW.*|.*MRV.*|ENM.*|BYW"/></token>
                     <token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">weer|kan|houten</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
@@ -24937,6 +24952,11 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="LICHT_AMANDELGEUR" name="licht/lichte" >
             <!-- veel uitzonderingen nodig!, zoals voor 'een groot man' etc. -->
             <rule>
+                <antipattern><token postag_regexp="yes" postag="BNW:STL:ONV|WKW:ODW:ONV|WKW:VTD:ONV"/>
+                    <token postag="ZNW:EKV:DE_"/>
+                    <token postag="ZNW:EKV:DE_"/>
+                    <example>goed caravan matras</example>
+                </antipattern>
                 <antipattern><token regexp="yes">voormmalig|psychologisch|functioneel|commercieel|administratief|financieel-administratief|logistiek|ontwerpend</token><token regexp="yes">beheerder|medewerker|onderzoeker|consulent</token></antipattern>
                 <antipattern><token>een</token><token>ander</token></antipattern>
                 <antipattern><token>een</token><token>bol</token></antipattern>
