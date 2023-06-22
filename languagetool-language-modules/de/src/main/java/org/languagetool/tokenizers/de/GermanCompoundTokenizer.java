@@ -110,6 +110,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Häkelnadel", asList("Häkel", "nadel"));
     wordSplitter.addException("Häkelnadeln", asList("Häkel", "nadeln"));
     wordSplitter.addException("Freiberg", asList("Freiberg"));
+    wordSplitter.addException("Abtestat", asList("Abtestat"));
+    wordSplitter.addException("Abtestaten", asList("Abtestaten"));
     wordSplitter.addException("Freibergs", asList("Freibergs"));
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
