@@ -541,10 +541,10 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="BE_GE_SPLITST" name="Be roemd / beroemd" default="temp_off">
             <rule>
                 <pattern>
-                    <token>be</token>
+                    <token case_sensitive="yes" regexp="yes">[Bb]e</token>
                     <token regexp="yes" case_sensitive="yes">[a-zëï].*</token>
                 </pattern>
-                <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+                <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
                 <message>Dit hoort meestal aan elkaar geschreven.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="beroemd">Hij is heel <marker>be roemd</marker>.</example>
