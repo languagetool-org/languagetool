@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">De partij Groen! spreekt haar kiezers rechtstreeks aan met de verkiezingsslogan</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">De les is in jul. en aug. op maandagavond.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1764,6 +1764,10 @@
 </rule>
 <rule break="no">
 <beforebreak>\s[A-Z].+!\s</beforebreak>
+<afterbreak>[a-z]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(jan|mrt|mar|jun|jul|aug|sept|okt|sep|spt|nov|dec|.*opp)\.\s</beforebreak>
 <afterbreak>[a-z]</afterbreak>
 </rule>
 <rule break="no">
