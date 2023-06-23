@@ -13530,9 +13530,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="V.[ISM].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-            <token postag="NC.*" postag_regexp="yes"/>
-            <token postag_regexp="yes" postag="CC|_PUNCT_CONT"/>
-            <token postag="NC.*" postag_regexp="yes"/>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <token postag_regexp="yes" postag="CC|_PUNCT_CONT"/>
+                <token postag="NC.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <unify>
@@ -18833,6 +18833,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>a</token>
             </pattern>
             <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>seguit</token>
+                    <token>seguit</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
                 <wd pos="_allow_repeat"/>
             </disambig>
         </rule>
