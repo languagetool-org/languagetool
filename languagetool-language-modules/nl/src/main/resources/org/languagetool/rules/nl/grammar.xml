@@ -540,9 +540,10 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="BE_GE_SPLITST" name="Be roemd / beroemd" default="temp_off">
             <rule>
+                <antipattern><token>.</token><token>be</token></antipattern>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">[Bb]e</token>
-                    <token regexp="yes" case_sensitive="yes">[a-zëï].*</token>
+                    <token regexp="yes" case_sensitive="yes">[a-zëï]{3,50}</token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
                 <message>Dit hoort meestal aan elkaar geschreven.</message>
@@ -7259,9 +7260,15 @@ regexp case-insensitive maken: (?i)
         <!-- samenstellingen met privé -->
         <rulegroup id="PRIVE_AUTO" name="Privé auto/privéauto">
             <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+                    <token regexp="yes">ze|we|wij</token>
+                    <example>Privé zagen we elkaar nooit.</example>
+                </antipattern>
+
                 <pattern>
                     <token>privé</token>
-                    <token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel</exception><exception postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></token>
+                    <token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
                 <message>Dit hoort meestal aan elkaar geschreven.</message>
