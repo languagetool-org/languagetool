@@ -570,12 +570,9 @@ public class English extends Language implements AutoCloseable {
       case "GONNA_TEMP":                return -3;
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
       case "HE_VERB_AGR":               return -3;  // prefer other more specific rules (e.g. PRP_VBG)
-      case "PRP_JJ":                    return -3;  // prefer other rules (e.g. PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "INDIAN_ENGLISH":            return -3;  // prefer grammar rules, but higher prio than spell checker
       case "DO_PRP_NOTVB":              return -3;  // prefer other more specific rules (e.g. HOW_DO_I_VB)
       case "ARTICLE_VB":                return -3;  // prefer A_INFINITIVE and other more specific rules (with suggestions)
-      case "PRP_A":                     return -4;  // prefer other more specific rules (e.g. I_AN, PRP_JJ)
-      case "PRP_THE":                   return -4;  // prefer other rules (e.g. I_A, PRP_JJ, IF_YOU_ANY, I_AN)
       case "GONNA":                     return -4;  // prefer over spelling rules
       case "WHATCHA":                   return -4;  // prefer over spelling rules
       case "DONTCHA":                   return -4;  // prefer over spelling rules
@@ -593,11 +590,14 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
+      case "PRP_THE":                   return -12;  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)
+      case "PRP_JJ":                    return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
       case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO and lector
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
+      case "PRP_A":                     return -13;  // prefer other more specific rules (e.g. AI models, I_AN, PRP_JJ)
       case "HAVE_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
       case "BEEN_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
       case "BE_WITH_WRONG_VERB_FORM":   return -14;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
