@@ -148,6 +148,19 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("VER:MOD:[12]:.+"),
         posRegex("PKT|KON:NEB")
       ),
+      Arrays.asList(
+        // Er warnt auch vor Autos, die soeben überholt haben bzw. überholt wurden.
+        posRegex("VER:.+"),
+        csToken("bzw"),
+        csToken("."),
+        posRegex("VER:.+")
+      ),
+      Arrays.asList(
+        // Er warnt auch vor Autos, die soeben überholt haben bzw. überholt wurden.
+        posRegex("VER:.+"),
+        posRegex("VER:.+"),
+        csToken(".")
+      ),
       // … Planungen, die sich noch auf die ganze Stadt bezogen wurden aufgegeben.
       Arrays.asList(
         regex("w[eu]rden"),
@@ -215,7 +228,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
    */
   private static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
     return (tokens[n].matchesPosTagRegex("(VER:[1-3]:|VER:.*:[1-3]:).*")
-        && !tokens[n].matchesPosTagRegex("(ZAL|AD[JV]|ART|SUB|PRO:POS).*")
+        && !tokens[n].matchesPosTagRegex("(ZAL|AD[JV]|ART|SUB|PRO:POS|PRP).*")
         && (!tokens[n].hasPosTagStartingWith("VER:INF:") || !tokens[n-1].getToken().equals("zu"))
         && !tokens[n].isImmunized()
       );
