@@ -8077,7 +8077,7 @@ regexp case-insensitive maken: (?i)
                     <!-- Many FPs coming from titles -->
                     <token regexp="yes">mini|ultra|giga|mega|tera|nano|micro|macro</token>
                     <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
-                    <example>Hij is groot fan van de Mega Top 40.</example>
+                    <example>Het is een megading.</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" >mini|ultra|giga|mega|tera|nano|micro|macro</token>
@@ -8085,7 +8085,7 @@ regexp case-insensitive maken: (?i)
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
                 <!-- <filter class="org.languagetool.rules.nl.CompoundFilter" args="words:\1|\2"/> -->
-                <message>\1 is meestal een voorvoegsel, dus de kans is groot dat het <suggestion>\1\2</suggestion> moet zijn.</message>
+                <message>\1 is meestal een voorvoegsel, dus de kans is groot dat het <suggestion>\1\2</suggestion> moet zijn. Gebruik eventueel een andere versterking als 'klein', 'microscopisch' of juist 'gigantisch'.</message>
                 <example correction="megagroot">Het bestand is <marker>mega groot</marker>.</example>
                 <example correction="Mini-jurk"><marker>Mini jurk</marker>, maat S-M.</example>
                 <example correction="Megamooie"><marker>Mega mooie</marker> welness.</example>
@@ -19153,6 +19153,13 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="JIJ_LOOP" name="jij loop">
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Jij</token>
+                    <token postag="ZNW:EKV.*" postag_regexp="yes"/>
+                    <token postag="SENT_END"/>
+                    <example>Jij monster!</example>
+                </antipattern>
                 <antipattern><token regexp="yes">zij|hij|jij</token><token>weer</token></antipattern>
                 <antipattern><token>Jij</token><token>wel</token><token regexp="yes">[.!?;,:]</token></antipattern>
                 <pattern>
