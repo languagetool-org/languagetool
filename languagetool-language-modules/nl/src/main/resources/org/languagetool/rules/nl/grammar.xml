@@ -9253,6 +9253,13 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
             <!-- 2014-08-20 TaalTik -->
+            <antipattern>
+                <token regexp="yes">dat|of|en</token>
+                <token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token>
+                <token postag=".*ZNW.*" postag_regexp="yes"/>
+                <token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:TGW:1EP"/>
+                <example>dat OFGV toestemming krijgt</example>
+            </antipattern>
             <antipattern><token>KWF</token><token>kankerbestrijding</token></antipattern>
             <antipattern><token regexp="yes">[0-9]+</token><token>km</token></antipattern>
             <antipattern><token>.</token><token spacebefore="no">06</token></antipattern>
