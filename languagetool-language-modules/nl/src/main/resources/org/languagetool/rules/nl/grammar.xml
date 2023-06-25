@@ -9026,9 +9026,11 @@ regexp case-insensitive maken: (?i)
             <!-- 2014-08-19 TaalTik -->
             <rule>
                 <pattern>
-                    <token regexp="yes">à|a</token>
-                    <token>la</token>
-                    <token regexp="yes">carte.+|minute.+</token>
+                    <marker>
+                        <token regexp="yes">à|a</token>
+                        <token>la</token>
+                        <token regexp="yes">carte.+|minute.+</token>
+                    </marker>
                 </pattern>
                 <message>U bedoelt vast <suggestion>à-<match no="2"/>-<match no="3"/></suggestion>.</message>
                 <url>https://web.archive.org/web/20141102200557/https://onzetaal.nl/taaladvies/advies/dicteewoorden-met-een-f</url>
@@ -17487,7 +17489,7 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">het|dit</token>
-                    <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception></token>
+                    <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception><exception postag="WKW:TGW:INF"/></token>
                     <and>
                         <token postag_regexp="yes" postag="ZNW:.*HET"></token>
                         <token postag_regexp="yes" postag="WKW:(ODW|VTD).*"></token>
@@ -19365,7 +19367,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token regexp="yes">lange|korte|langere</token>
                     <token>termijn</token>
-                    <token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB|WKW:TGW:3EP|WKW:TGW:INF"/><exception regexp="yes">één|een</exception></token>
+                    <token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB|WKW:TGW:3EP|WKW:TGW:INF"/><exception regexp="yes">één|een|meer</exception></token>
                 </pattern>
                 <message>U bedoelt mogelijk: <suggestion>\1\2\3</suggestion>.</message>
                 <example correction="langetermijngeheugen">QQ <marker>lange termijn geheugen</marker> QQQ.</example>
@@ -24981,7 +24983,7 @@ regexp case-insensitive maken: (?i)
                     <token postag="ZNW:EKV:DE_"/>
                     <example>goed caravan matras</example>
                 </antipattern>
-                <antipattern><token regexp="yes">voormmalig|psychologisch|functioneel|commercieel|administratief|financieel-administratief|logistiek|ontwerpend</token><token regexp="yes">beheerder|medewerker|onderzoeker|consulent</token></antipattern>
+                <antipattern><token regexp="yes">[A-Z].*isch|voormmalig|psychologisch|functioneel|commercieel|administratief|financieel-administratief|logistiek|ontwerpend</token><token regexp="yes">beheerder|medewerker|onderzoeker|consulent|nationalist</token></antipattern>
                 <antipattern><token>een</token><token>ander</token></antipattern>
                 <antipattern><token>een</token><token>bol</token></antipattern>
                 <antipattern><token>verdeeld</token><token>Europa</token></antipattern>
