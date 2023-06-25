@@ -7854,6 +7854,13 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" >
+            <antipattern>
+                <token regexp="yes">jullie|wij|we|zij</token>
+                <token>beiden</token>
+                <token postag_regexp="yes" postag=".*MRV.*"/>
+                <token postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/>
+                <example>jullie beiden individuen zijn</example>
+            </antipattern>
             <antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*" skip="10"/><token>beiden</token></antipattern>
             <antipattern><token>beiden</token><token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*|GET.*MRV"/></antipattern>
             <antipattern>
