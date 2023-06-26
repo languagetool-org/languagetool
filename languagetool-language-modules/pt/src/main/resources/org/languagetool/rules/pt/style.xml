@@ -239,6 +239,9 @@ USA
         <!ENTITY MSG_ECG "Possível erro de concordância.">
         <!ENTITY MSG_ECN "Possível erro de concordância de número.">
 
+          <!-- Message snippets -->
+          <!ENTITY thesis_msg "Em teses e dissertações, prefira um tom mais direto."
+
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -10211,7 +10214,7 @@ USA
                         <token postag='DA.+|SPS00' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>Em teses e dissertações, é preferível declarar o objetivo de seu texto de maneira mais direta.</message>
                 <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>objetivo</match> \5 \4 \6</suggestion>
                 <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>propósito</match> \5 \4 \6</suggestion>
                 <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>meta</match> \5 \4 \6</suggestion>
@@ -10254,7 +10257,7 @@ USA
                 </marker>
                 <token>que</token>
             </pattern>
-            <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+            <message>&thesis_msg;</message>
             <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
             <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
             <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
@@ -10278,7 +10281,7 @@ USA
                 </marker>
             </pattern>
             <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V(......)* postagReplace:V[\b1]*"/>
-            <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+            <message>&thesis_msg;</message>
             <suggestion>\1 {suggestion}</suggestion>
             <example correction="para melhorar">Estas regras servem <marker>para ajudar a melhorar</marker> a gramática.</example>
         </rule>
@@ -10316,7 +10319,7 @@ USA
                 <token regexp="yes">em|n[ao]s?|[ao]s?</token>
             </pattern>
             <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
-            <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+            <message>&thesis_msg;</message>
             <suggestion>{suggestion}</suggestion>
             <example correction="ponha">Para impedir que o radical <marker>possa pôr</marker> em perigo o ocidente.</example>
             <example correction="ponham">Para impedir que os radicais <marker>possam pôr</marker> em perigo o ocidente.</example>
@@ -10380,7 +10383,7 @@ USA
                     <token postag='VMN0000'/>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP)\b1."/>
-                <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
@@ -10402,7 +10405,7 @@ USA
                     </token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-                <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
@@ -10419,7 +10422,7 @@ USA
                     <token postag='VMN0000'/>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IF)\b1."/>
-                <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
@@ -10503,7 +10506,7 @@ USA
                         <exception>ir</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
-                <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
                 <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
@@ -10531,7 +10534,7 @@ USA
                             <exception>ir</exception></token>
                     </marker>
                 </pattern>
-                <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>&thesis_msg;</message>
                 <suggestion><match no='4' postag='VMSP1P0'/></suggestion>
                 <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
                 <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
@@ -10598,7 +10601,7 @@ USA
                     </token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-                <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
                 <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
@@ -10780,7 +10783,7 @@ USA
                     </token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-                <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="provou">A nossa tese <marker>foi provar</marker> a métrica.</example>
                 <example correction="provei">Na nossa tese <marker>fui provar</marker> a métrica.</example>
@@ -10813,7 +10816,7 @@ USA
                     <token regexp='yes'>seguir|seguida</token>
                 </marker>
             </pattern>
-            <message>Se for uma tese de PhD, verifique se o 'tom' de redação é o apropriado.</message>
+            <message>&thesis_msg;</message>
             <suggestion><match no='3' postag='VMIF.(.)0' postag_regexp="yes" postag_replace='VMP00$1F|VMP00$1M'/> a seguir</suggestion>
             <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>que referiremos a seguir</marker>.</example>
             <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>como referiremos a seguir</marker>.</example>
@@ -10851,7 +10854,7 @@ USA
                     </token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V.* postagFrom:1 postagSelect:V.*"/>
-                <message>Se for uma tese de PhD, (em certos contextos) poderá melhorar o 'tom' de redação.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="é">Ao conhecer os parâmetros do modelo, este <marker>pode ser</marker> usado para fazer previsões.</example>
                 <example correction="são">Ao conhecer os parâmetros dos modelos, estes <marker>podem ser</marker> usados para fazer previsões.</example>
@@ -10874,7 +10877,7 @@ USA
                     </token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:1 postagSelect:V.*"/>
-                <message>Se for uma tese de PhD, (em certos contextos) poderá melhorar o 'tom' de redação.</message>
+                <message>&thesis_msg;</message>
                 <suggestion>{suggestion} \2</suggestion>
                 <example correction="é também">O modelo <marker>pode também ser</marker> aplicado a casos específicos.</example>
                 <example correction="são também">Os modelos <marker>podem também ser</marker> aplicados a casos específicos.</example>
