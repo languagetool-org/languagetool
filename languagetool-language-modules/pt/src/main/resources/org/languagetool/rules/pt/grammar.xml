@@ -10693,7 +10693,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
         <rule id='A_MAIORIA_SINGULAR' name='Concordância verbal: A maioria + plural'>
-            <!--      Created by Tiago F. Santos, Portuguese rule, 2017-04-10      -->
             <antipattern>
                 <token>há</token>
                 <token/>
@@ -10707,8 +10706,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
                 <token postag='VMN0000'/>
             </antipattern>
-            <!-- MARCOAGPINTO 2020-06-12 *START* -->
-            <!-- "No entanto, a maioria da classe já aprendeu a ignorá-lo." -->
             <antipattern>
                 <token>a</token>
                 <token regexp='yes'>maioria|minoria</token>
@@ -10718,8 +10715,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag="VMN0000X"/>
                 <token regexp='yes' spacebefore='no'>&hifen;</token>
                 <token postag="PP3[FM]SA00" postag_regexp="yes"/>
+                <example>No entanto, a maioria da classe já aprendeu a ignorá-lo.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2020-06-12 *END* -->
             <pattern>
                 <token>a</token>
                 <token regexp='yes'>maioria|minoria</token>
@@ -10729,11 +10726,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <marker>
                     <token postag_regexp='yes' postag='(V...)3P(.+)'>
                         <exception postag_regexp='yes' postag='V...3S.+'/>
-                        <exception postag_regexp='yes' postag='VMN0000|V.P.*'/> <!-- MARCOAGPINTO - 2020-06-12 -->
-                        <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+                        <exception postag_regexp='yes' postag='VMN0000|V.P.*'/>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+                    </token>
                 </marker>
             </pattern>
-            <message>Nesta situação deve utilizar o verbo no singular.</message>
+            <message>Se o sujeito do verbo for &quot;\2&quot;, ponha-o no singular.</message>
             <suggestion><match no='6' postag='(V...)3P(.+)' include_skipped='all' postag_replace='$13S$2' postag_regexp='yes'/></suggestion>
             <example correction='faz'>A maioria <marker>fazem</marker> muito pouco.</example>
             <example correction='sabe'>A maioria não <marker>sabem</marker> muito.</example>
