@@ -126,6 +126,7 @@ public class HTTPServerConfig {
   protected String dbUsername = null;
   protected String dbPassword = null;
   protected long dbTimeoutSeconds = 10;
+  protected int dbMaxConnections = 10;
   protected int databaseTimeoutRateThreshold = 100;
   protected int databaseErrorRateThreshold = 50;
   protected int databaseDownIntervalSeconds = 10;
@@ -194,7 +195,7 @@ public class HTTPServerConfig {
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
-    "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
+    "dbTimeoutSeconds", "dbMaxConnections", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
     "redisDatabase", "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
     "premiumAlways",
@@ -431,6 +432,7 @@ public class HTTPServerConfig {
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
         dbTimeoutSeconds = Integer.parseInt(getOptionalProperty(props, "dbTimeoutSeconds", "10"));
+        dbMaxConnections = Integer.parseInt(getOptionalProperty(props, "dbMaxConnections", "10"));
         databaseErrorRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbErrorRateThreshold", "50"));
         databaseTimeoutRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbTimeoutRateThreshold", "100"));
         databaseDownIntervalSeconds = Integer.parseInt(getOptionalProperty(props, "dbDownIntervalSeconds", "10"));
@@ -1447,5 +1449,21 @@ public class HTTPServerConfig {
 
   public int getStyleGuideLimitTeam() {
     return styleGuideLimitTeam;
+  }
+
+  /**
+   * @since 6.2
+   * @return max number of active connections in DB connection pool
+   */ 
+  public int getDbMaxConnections() {
+    return dbMaxConnections;
+  }
+
+  /**
+   * @since 6.2
+   * @param dbMaxConnections max number of active connections in DB connection pool
+   */ 
+  public void setDbMaxConnections(int dbMaxConnections) {
+    this.dbMaxConnections = dbMaxConnections;
   }
 }
