@@ -243,6 +243,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!ENTITY MSG_ECG "Possível erro de concordância.">
         <!ENTITY MSG_ECN "Possível erro de concordância de número.">
 
+        <!-- These come from frequent 'dá' collocations as per https://www.corpusdoportugues.org/web-dial/ -->
+        <!ENTITY dar_collocations_all    "&dar_collocations_not_fem_sg;|&dar_collocations_fem_sg;|trabalho|medo|jeito|exemplo|espaço|prazer|frutos?">
+        <!ENTITY dar_collocations_fem_sg "resposta|atenção|dica|aula|importância|olhada|continuidade|chance|impressão|confiança">
+        <!-- remove a few words that already covered by DIACRITICS[5] -->
+        <!-- medo, jeito, exemplo, espaço, prazer, frutos, trabalho -->
+        <!ENTITY dar_collocations_not_fem_sg "voltas|cambalhotas|piruetas|presentes|certo|crédito|direito">
+
         ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
@@ -21836,6 +21843,176 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="dá!|da">Assim não <marker>da!</marker></example>
                 <example>ananaí-da-amazônia</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>da</token>
+                    </marker>
+                    <token regexp='yes'>&dar_collocations_not_fem_sg;</token>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dá</suggestion>
+                <example correction="dá">O mundo <marker>da</marker> voltas.</example>
+                <example correction="dá">Ele <marker>da</marker> cambalhotas.</example>
+                <example correction="dá">Aí não <marker>da</marker> certo.</example>
+                <example correction="dá">Isso não lhes <marker>da</marker> direito de perguntar.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">el[ea]|não</token>
+                    <marker>
+                        <token>da</token>
+                    </marker>
+                    <token regexp='yes'>&dar_collocations_fem_sg;</token>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dá</suggestion>
+                <example correction="dá">Ele <marker>da</marker> impressão de não saber.</example>
+                <example correction="dá">A diretora não <marker>da</marker> resposta.</example>
+                <example correction="dá">O outro time não <marker>da</marker> chance.</example>
+                <example correction="dá">Toda quarta-feira ele <marker>da</marker> aula.</example>
+                <example>O nível da importância que eu percebi era alto.</example>
+                <example>O fim da aula chegou cedo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>se</token>
+                    <marker>
+                        <token>da</token>
+                    </marker>
+                    <token>conta</token>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dá</suggestion>
+                <example correction="dá">Ela não se <marker>da</marker> conta.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>da</token>
+                    </marker>
+                    <token>de</token>
+                    <token>mamar</token>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dá</suggestion>
+                <example correction="dá">A mãe <marker>da</marker> de mamar ao seu bebê.</example>
+            </rule>
+            <!-- This rule has potential to be destructive, so we'll keep it separate from the others for now and -->
+            <!-- see how it performs. -->
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">
+                        [mst]e|[nv]os|lhes?
+                        <exception scope="previous" regexp="yes" spacebefore="no">&hifen;</exception>
+                    </token>
+                    <marker>
+                        <token>da</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="[NADP].+"/>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dá</suggestion>
+                <example correction="dá">Ele nos <marker>da</marker> bons presentes.</example>
+                <example correction="dá">Você me <marker>da</marker> algo para pensar.</example>
+                <example>Trata-se da pior lasanha do mundo!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ACCENTUATED_PARONYMS_DE" name="Confusão De - Dê" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">
+                        [mst]e|[nv]os|lhes?
+                        <exception scope="previous" regexp="yes" spacebefore="no">&hifen;</exception>
+                    </token>
+                    <marker>
+                        <token>de</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="D.+" min="0"/>
+                    <token regexp='yes'>&dar_collocations_all;</token>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dê</suggestion>
+                <example correction="dê">Nos <marker>de</marker> espaço.</example>
+                <example correction="dê">Procuro alguém que lhe <marker>de</marker> trabalho.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp='yes'>&dar_collocations_all;</token>
+                    <token>em</token>
+                    <token><match no="1"/></token>
+                    <example>De trabalho em trabalho.</example>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="SENT_START|RN">
+                        <exception>nada</exception>
+                    </token>
+                    <marker>
+                        <token>de</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="D.+" min="0"/>
+                    <token regexp='yes'>&dar_collocations_all;</token>
+                    <token regexp="yes">ao?s?|às?|n[oa]s?|em|para|pr[oa]s?|nes[st][ea]s?|(à|na)quel[ea]s?</token>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dê</suggestion>
+                <example correction="Dê"><marker>De</marker> importância a tais assuntos.</example>
+                <example correction="dê">Não <marker>de</marker> confiança a essa gente.</example>
+                <example correction="Dê"><marker>De</marker> uma olhada nesse aqui.</example>
+                <example>Não há nada de certo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">querer|precisar|desejar</token>
+                    <token skip="2">
+                        que
+                        <exception postag_regexp="yes" postag="VM[IS].+"/>
+                    </token>
+                    <marker>
+                        <token>de</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="[AD].+" min="0"/>
+                    <token regexp='yes'>&dar_collocations_all;</token>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dê</suggestion>
+                <example correction="dê">Quero que você <marker>de</marker> crédito a quem merece.</example>
+                <example correction="dê">Precisamos que ele <marker>de</marker> uma chance aos outros.</example>
+                <example correction="dê">Preciso que o professor <marker>de</marker> uma dica.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ACCENTUATED_PARONYMS_DO" name="Confusão Do - Dó" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>
+                        me
+                        <exception scope="previous" regexp="yes" spacebefore="no">&hifen;</exception>
+                    </token>
+                    <token>dá</token>
+                    <token regexp="yes">uma?</token>
+                    <marker>
+                        <token>do</token>
+                    </marker>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dó</suggestion>
+                <example correction="dó">Me dá um <marker>do</marker> dele...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tenha</token>
+                    <marker>
+                        <token>do</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Nesta situação acentua-se a palavra.</message>
+                <suggestion>dó</suggestion>
+                <example correction="dó">Tenha <marker>do</marker>!</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id='ACCENTUATED_PARONYMS' name='Confusão: verbo no lugar de um parónimo acentuado'>
@@ -21901,15 +22078,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='algum áfrico'><marker>algum africo</marker>.</example>
                 <example correction='alguns áfricos'><marker>alguns africos</marker>.</example>
             </rule>
-            <rule id='PARONYM_ARVORE_0b' name='Confusão: verbo no lugar do parónimo acentuado (á)'>
+            <rule id='PARONYM_ARVORE_0b' name='Confusão: verbo no lugar do parônimo acentuado (á)' default="temp_off">
                 <pattern>
                     <token regexp='yes'>&art_detecao_paronimos;</token>
                     <token min='0' postag='A.+' postag_regexp='yes'/>
-                    <token regexp='yes'>(?:paragrafo)s?</token>
+                    <marker>
+                        <token regexp='yes'>paragrafos?</token>
+                    </marker>
                 </pattern>
-                <message>Esta palavra é um verbo. Se pretende referir-se a um substantivo ou adjetivo, deve utilizar a forma acentuada.</message>
-                <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='(?iu)para' regexp_replace='pará' case_conversion="preserve"/></suggestion>
-                <example correction='do parágrafo'>A excepção <marker>do paragrafo</marker>.</example>
+                <message>Possível erro de acentuação.</message>
+                <suggestion><match no='3' regexp_match='(?iu)para' regexp_replace='pará' case_conversion="preserve"/></suggestion>
+                <example correction='parágrafo'>A exceção do <marker>paragrafo</marker>.</example>
+                <example correction='parágrafo'>O <marker>paragrafo</marker> seguinte nos dá mais informações.</example>
+                <example correction='parágrafos'>Os <marker>paragrafos</marker> que seguem.</example>
+            </rule>
+            <rule id='PARONYM_ARVORE_0c' name='Confusão: verbo no lugar do parônimo acentuado (á)' default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min='0' postag='A.+' postag_regexp='yes'/>
+                    <marker>
+                        <token regexp='yes'>paragrafos?</token>
+                    </marker>
+                </pattern>
+                <message>Possível erro de acentuação.</message>
+                <suggestion><match no='3' regexp_match='(?iu)para' regexp_replace='pará' case_conversion="preserve"/></suggestion>
+                <example correction='Parágrafo'><marker>Paragrafo</marker> 5.º:</example>
             </rule>
             <rule id='PARONYM_ACIDULA_1' name='Confusão: verbo no lugar do parónimo acentuado (í)'>
                 <!-- MARCOAGPINTO 2020-11-14 (21-OCT-2020+) *START* -->
