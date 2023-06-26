@@ -4529,7 +4529,7 @@ Copyright (C) 2011 Juan Martorell
                     <token>una</token>
                 </marker>
                 <token>de</token>
-                <token postag="D.*|PP.*" postag_regexp="yes"></token>
+                <token postag="D.*|PP.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="V.*"/>
         </rule>
@@ -7796,6 +7796,17 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes">deber</token>
                 <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">ir</token>
+                <token>a</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="addchunk">
