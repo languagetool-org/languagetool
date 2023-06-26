@@ -540,6 +540,10 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="BE_GE_SPLITST" name="Be roemd / beroemd">
             <rule>
+                <antipattern>
+                    <example>Be the</example>
+                    <token>be</token><token>the</token>
+                </antipattern>
                 <antipattern><token>.</token><token>be</token></antipattern>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">[Bb]e</token>
@@ -17395,7 +17399,11 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" > <!-- TODO:  Later tag as learner rule -->
             <rule>
-
+                <antipattern>
+                    <token postag="WKW:TGW:INF"/>
+                    <token postag="WKW:VTD:ONV"/>
+                    <example>het vliegen geduid</example>
+                </antipattern>
                 <antipattern>
                     <token postag="WKW:TGW:3EP"/>
                     <token postag="BNW:STL:ONV"/>
