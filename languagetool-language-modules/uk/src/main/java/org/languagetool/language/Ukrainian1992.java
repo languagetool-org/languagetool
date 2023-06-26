@@ -29,10 +29,14 @@ import org.languagetool.rules.uk.SimpleReplaceSpelling2019Rule;
 
 // Only for testing for now
 public class Ukrainian1992 extends Ukrainian {
-  @Override
-  public String getVariant() {
-    return "1992";
-  }
+  
+// This language variant is not yet defined in language-module.properties
+// If getVariant is set, there are errors in Languages.getLanguageForShortCode()
+  
+//  @Override
+//  public String getVariant() {
+//    return "1992";
+//  }
 
   @Override
   public String getName() {

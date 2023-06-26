@@ -536,10 +536,10 @@ public class JLanguageTool {
           // ignore, for testing
           return Collections.emptyList();
         } else {
-          return ruleLoader.getRules(new File(filename));
+          return ruleLoader.getRules(new File(filename), language);
         }
       } else {
-        return ruleLoader.getRules(is, filename);
+        return ruleLoader.getRules(is, filename, language);
       }
     }
   }
@@ -1081,21 +1081,25 @@ public class JLanguageTool {
     LevelToneTagCacheKey key = new LevelToneTagCacheKey(level, toneTags);
     return ruleSetCache.computeIfAbsent(key, levelToneTagCacheKey -> {
       List<Rule> allRules = new ArrayList<>(getAllActiveRules());
-      List<ToneTag> localToneTags;
-      if (toneTags.isEmpty() || toneTags.contains(ToneTag.ALL_TONE_RULES)) {
-        //localToneTags = Collections.singletonList(ToneTag.clarity); //If no tone tag is set always use clarity. -> disabled for now
-        localToneTags = ToneTag.REAL_TONE_TAGS;
+      List<ToneTag> enabledToneTags;
+      if (toneTags.contains(ToneTag.ALL_TONE_RULES)) {
+        enabledToneTags = ToneTag.REAL_TONE_TAGS;
       } else if (toneTags.contains(ToneTag.NO_TONE_RULE)) {
-        localToneTags = Collections.emptyList(); //Even clarity rules will be disabled.
+        enabledToneTags = Collections.emptyList(); //Even clarity rules will be disabled.
+      } else if (toneTags.isEmpty() || toneTags.contains(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC)){
+        enabledToneTags = Collections.singletonList(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC);
       } else {
-        localToneTags = new ArrayList<>(toneTags);
+        enabledToneTags = new ArrayList<>(toneTags);
       }
       allRules.removeIf(rule -> {
         if (rule.getToneTags().isEmpty()) {
           return false;
         }
+        if (enabledToneTags.contains(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC)) {
+          return rule.isGoalSpecific();
+        }
         boolean removeRule = true;
-        for (ToneTag toneTag : localToneTags) {
+        for (ToneTag toneTag : enabledToneTags) {
           if (rule.hasToneTag(toneTag)) {
             removeRule = false;
             break;

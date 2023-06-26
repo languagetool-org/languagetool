@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 public enum ToneTag {
 
-  clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, informal, povadd, positive, NO_TONE_RULE, ALL_TONE_RULES;
+  clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, informal, povadd, positive, general, NO_TONE_RULE, ALL_TONE_RULES, ALL_WITHOUT_GOAL_SPECIFIC;
 
-  public static final List<ToneTag> REAL_TONE_TAGS = Arrays.stream(ToneTag.values()).filter(toneTag -> toneTag != NO_TONE_RULE && toneTag != ALL_TONE_RULES).collect(Collectors.toList());
+  public static final List<ToneTag> REAL_TONE_TAGS = Arrays.stream(ToneTag.values()).filter(toneTag -> toneTag != NO_TONE_RULE && toneTag != ALL_TONE_RULES && toneTag != ALL_WITHOUT_GOAL_SPECIFIC).collect(Collectors.toList());
 }

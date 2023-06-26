@@ -40,13 +40,11 @@ import java.util.*;
 
 public class Dutch extends Language {
 
-  private static final Language NETHERLANDS_DUTCH = new Dutch();
-
   private LanguageModel languageModel;
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return NETHERLANDS_DUTCH;
+    return Languages.getLanguageForShortCode("nl");
   }
 
   @Override
@@ -88,7 +86,7 @@ public class Dutch extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(this);
+    return new XmlRuleDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
@@ -184,6 +182,7 @@ public class Dutch extends Language {
       case "ET_AL": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "N_PERSOONS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "HOOFDLETTERS_OVERBODIG_A": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
+      case "IJ_HFDLTRS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "STAM_ZONDER_IK": return -1;  // see https://github.com/languagetool-org/languagetool/issues/7644
       case "KOMMA_ONTBR": return -1;   // see https://github.com/languagetool-org/languagetool/issues/7644
       case "KOMMA_AANH": return -1; // needs higher priority than DOUBLE_PUNCTUATION
@@ -191,6 +190,7 @@ public class Dutch extends Language {
       case "HET_FIETS": return -2; // first let other rules check for compound words
       case "WIJ_ZIJ_MIJ": return -2;  // needs higher priority than JOU_JOUW
       case "JOU_JOUW": return -3;
+      case "BE": return -3; // needs lower priority than BE_GE_SPLITST
       case "DOUBLE_PUNCTUATION": return -3;
       case "KORT_1": return -5;
       case "KORT_2": return -5;  //so that spelling errors are recognized first

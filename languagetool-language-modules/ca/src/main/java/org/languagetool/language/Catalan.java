@@ -40,8 +40,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Catalan extends Language {
-
-  private static final Language DEFAULT_CATALAN = new Catalan();
   
   @Override
   public String getName() {
@@ -60,7 +58,7 @@ public class Catalan extends Language {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return DEFAULT_CATALAN;
+    return Languages.getLanguageForShortCode("ca-ES");
   }
   
   @Override
@@ -125,7 +123,7 @@ public class Catalan extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new CatalanHybridDisambiguator();
+    return new CatalanHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
@@ -259,6 +257,8 @@ public class Catalan extends Language {
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
       case "VENIR_NO_REFLEXIU": return 5;
+      case "DEUS_SEUS": return 5;
+      case "SON_BONIC": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
@@ -396,6 +396,7 @@ public class Catalan extends Language {
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
+    s = s.replace(" ,", ",");
     return s;
   }
   

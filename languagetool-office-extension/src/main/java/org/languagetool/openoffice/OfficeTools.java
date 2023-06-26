@@ -34,6 +34,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractStatisticSentenceStyleRule;
 import org.languagetool.rules.AbstractStatisticStyleRule;
+import org.languagetool.rules.AbstractStyleTooOftenUsedWordRule;
 import org.languagetool.rules.ReadabilityRule;
 import org.languagetool.rules.Rule;
 
@@ -717,6 +718,19 @@ public class OfficeTools {
         MessageHandler.printException(e);
       }
     }
+  }
+  
+  public static boolean hasStatisticalStyleRules(Language lang) {
+    try {
+      for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, lang, null)) {
+        if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
+            rule instanceof ReadabilityRule || rule instanceof AbstractStyleTooOftenUsedWordRule) {
+          return true;
+        }
+      }
+    } catch (IOException e) {
+    }
+    return false;
   }
   
   /**

@@ -54,7 +54,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import java.util.regex.Matcher;
 
 import static java.util.Arrays.asList;
 
@@ -74,7 +73,7 @@ public class English extends Language implements AutoCloseable {
           List<Rule> rules = new ArrayList<>();
           PatternRuleLoader loader = new PatternRuleLoader();
           try (InputStream is = JLanguageTool.getDataBroker().getAsStream(path)) {
-            rules.addAll(loader.getRules(is, path));
+            rules.addAll(loader.getRules(is, path, null));
           }
           return rules;
         }
@@ -136,7 +135,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new EnglishHybridDisambiguator();
+    return new EnglishHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
@@ -208,7 +207,10 @@ public class English extends Language implements AutoCloseable {
         new SimpleReplaceRule(messages, this),
         new ReadabilityRule(messages, this, userConfig, false),
         new ReadabilityRule(messages, this, userConfig, true), 
-        new EnglishRepeatedWordsRule(messages)
+        new EnglishRepeatedWordsRule(messages),
+        new StyleTooOftenUsedVerbRule(messages, this, userConfig),
+        new StyleTooOftenUsedNounRule(messages, this, userConfig),
+        new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig)
     ));
     return allRules;
   }
@@ -386,6 +388,7 @@ public class English extends Language implements AutoCloseable {
       case "NO_GOOD":                   return 1;   // higher prio than I_IF
       case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "GOT_GO":                    return 1;   // higher prio than MD_BASEFORM
+      case "GAVE_HAVE":                 return 1;   // higher prio than MD_BASEFORM
       case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY and IT_THE_PRP
@@ -475,7 +478,7 @@ public class English extends Language implements AutoCloseable {
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
       case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
       case "EVERY_NOW_AND_THEN":        return 0;
-      case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
+      case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker, less prio than ATTACHE_ATTACH
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
       case "FASTLY":                    return -1;   // higher prio than spell checker
       case "WHO_NOUN":                    return -1;   // prefer SPECIFIC_CASE
@@ -567,12 +570,9 @@ public class English extends Language implements AutoCloseable {
       case "GONNA_TEMP":                return -3;
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
       case "HE_VERB_AGR":               return -3;  // prefer other more specific rules (e.g. PRP_VBG)
-      case "PRP_JJ":                    return -3;  // prefer other rules (e.g. PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "INDIAN_ENGLISH":            return -3;  // prefer grammar rules, but higher prio than spell checker
       case "DO_PRP_NOTVB":              return -3;  // prefer other more specific rules (e.g. HOW_DO_I_VB)
       case "ARTICLE_VB":                return -3;  // prefer A_INFINITIVE and other more specific rules (with suggestions)
-      case "PRP_A":                     return -4;  // prefer other more specific rules (e.g. I_AN, PRP_JJ)
-      case "PRP_THE":                   return -4;  // prefer other rules (e.g. I_A, PRP_JJ, IF_YOU_ANY, I_AN)
       case "GONNA":                     return -4;  // prefer over spelling rules
       case "WHATCHA":                   return -4;  // prefer over spelling rules
       case "DONTCHA":                   return -4;  // prefer over spelling rules
@@ -590,11 +590,14 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
+      case "PRP_THE":                   return -12;  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)
+      case "PRP_JJ":                    return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
       case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO and lector
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
+      case "PRP_A":                     return -13;  // prefer other more specific rules (e.g. AI models, I_AN, PRP_JJ)
       case "HAVE_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
       case "BEEN_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
       case "BE_WITH_WRONG_VERB_FORM":   return -14;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules

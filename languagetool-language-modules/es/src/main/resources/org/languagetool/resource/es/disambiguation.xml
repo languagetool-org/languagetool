@@ -4523,6 +4523,26 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="remove" postag="V.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>una</token>
+                </marker>
+                <token>de</token>
+                <token postag="D.*|PP.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">una|uno</token>
+                </marker>
+                <token postag="CC"/>
+                <token inflected="yes">otro</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="CONTRA" name="contra">
         <rule>
@@ -7602,6 +7622,16 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="MADE_IN" name="made in">
+        <pattern>
+            <marker>
+                <token>made</token>
+                <token>in</token>
+                <token regexp="yes" case_sensitive="yes">USA|China|Europe|Taiwan|Spain|France|Germany|Italy</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
         <rule>
             <!-- lowercase word + abbreviation with no vowels -->
@@ -7716,6 +7746,86 @@ Copyright (C) 2011 Juan Martorell
                 <token regexp="yes">\p{Lu}.*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <!-- CHUNKER -->
+    <rulegroup id="PERIFRASIS_VERBALES" name="perífrasis verbales">
+        <rule>
+            <pattern>
+                <token inflected="yes">tener</token>
+                <token>que</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">haber</token>
+                <token postag="V.P.*" postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">continuar|seguir|estar|ir|proseguir</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">poder|querer|desear|deber</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">deber</token>
+                <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">ir</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">volver</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
         </rule>
     </rulegroup>
 </rules>

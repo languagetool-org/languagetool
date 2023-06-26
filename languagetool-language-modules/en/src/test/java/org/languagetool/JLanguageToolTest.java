@@ -24,6 +24,10 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
+import org.languagetool.language.CanadianEnglish;
+import org.languagetool.language.NewZealandEnglish;
+import org.languagetool.language.SouthAfricanEnglish;
+import org.languagetool.language.AustralianEnglish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -322,7 +326,17 @@ public class JLanguageToolTest {
   public void testAdaptSuggestions() throws IOException {
     JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
     List<RuleMatch> matches = tool.check("Whatever their needs, we doesn't never disappoint them.");
-    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[n't,  never]");
-    
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[n't,  never]"); 
+  }
+  
+  @Test
+  public void testEnglishVariants() throws IOException {
+    String sentence = "This is a test.";
+    String sentence2 = "This is an test.";
+    for (String langCode : new String[] { "en-US", "en-AU", "en-GB", "en-CA", "en-ZA", "en-NZ" }) {
+      JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(langCode));
+      assertEquals(0, lt.check(sentence).size());
+      assertEquals(1, lt.check(sentence2).size());
+    }
   }
 }

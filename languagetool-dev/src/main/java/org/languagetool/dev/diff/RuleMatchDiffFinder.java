@@ -420,6 +420,10 @@ public class RuleMatchDiffFinder {
     List<OutputFile> outputFiles = new ArrayList<>();
     for (Map.Entry<String, List<RuleMatchDiff>> entry : keyToDiffs.entrySet()) {
       String filename = "result_" + entry.getKey().replaceAll("/", "_").replaceAll("[\\s_]+", "_") + ".html";
+      /*if (filename.length() > 100) {
+        System.out.println("WARN: Skipping " + filename);
+        continue;
+      }*/
       File outputFile = new File(outputDir, filename);
       if (entry.getValue().size() > 0) {
         outputFiles.add(new OutputFile(outputFile, entry.getValue()));

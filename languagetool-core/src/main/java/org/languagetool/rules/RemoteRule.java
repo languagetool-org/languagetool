@@ -64,7 +64,7 @@ public abstract class RemoteRule extends Rule {
   protected final JLanguageTool lt;
   protected final Pattern suppressMisspelledMatch;
   protected final Pattern suppressMisspelledSuggestions;
-
+  
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
     super(messages);
     serviceConfiguration = config;

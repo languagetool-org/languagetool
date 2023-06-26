@@ -125,20 +125,23 @@ public class ProhibitedCompoundRule extends Rule {
           //new Pair("schuh", "Fußbekleidung", "schul", "auf die Schule bezogen"),  // tends to have false alarms
           new Pair("klima", "langfristige Wetterzustände", "lima", "Hauptstadt von Peru"),
           new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell"),
-          new Pair("treppen", "Folge von Stufen (Mehrzahl)", "truppen", "Armee oder Teil einer Armee (Mehrzahl)"),
+          //new Pair("treppen", "Folge von Stufen (Mehrzahl)", "truppen", "Armee oder Teil einer Armee (Mehrzahl)"),
           new Pair("häufigkeit", "Anzahl von Ereignissen", "häutigkeit", "z.B. in Dunkelhäutigkeit"),
           new Pair("hin", "in Richtung", "hirn", "Gehirn, Denkapparat"),
           new Pair("verklärung", "Beschönigung, Darstellung in einem besseren Licht", "erklärung", "Darstellung, Erläuterung"),
           new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion"),
           new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
           new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
-          new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
+          //new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
           new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
   );
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "Gelgehalt",  // wg. geld
+    "Teufelsfrucht",  // wg. furcht
+    "Familiennahe",  // wg. nähe
     "kreis",  // wg. reis/reise
     "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
     "Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene|welt)",
@@ -159,6 +162,26 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Kostenzeile", "Kostenzeilen",
+          "Gesamtzeile", "Gesamtzeilen",
+          "Arbeitszeile", "Arbeitszeilen",
+          "Suchzielen",
+          "Kurzziele", "Kurzzielen",
+          "Langziele", "Langzielen",
+          "Bauchweg",
+          "Spitzbach",
+          "Putzgewebe", "Putzgeweben", "Putzgewebes",
+          "Tiefbass",
+          "Geldtyp", "Geldtyps",
+          "Kaffeepresse", "Kaffeepressen",
+          "Schlüsselfinder", "Schlüsselfindern", "Schlüsselfinders",
+          "Reislöffel", "Reislöffeln", "Reislöffels",
+          "Projektkonto", "Projektkonten",
+          "Leitungslücke", "Leitungslücken",
+          "Suchthema", "Suchthemen",
+          "Sicherheitspanne", "Sicherheitspanne",
+          "Bauregion", "Bauregionen",
+          "Miettag", "Miettage", "Miettagen",
           "Goldroute",
           "Handmodel", "Handmodels",
           "Modelmädchen", "Modelmädchens",

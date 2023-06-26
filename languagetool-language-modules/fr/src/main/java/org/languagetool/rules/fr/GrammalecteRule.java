@@ -53,7 +53,7 @@ public class GrammalecteRule extends Rule {
   private final GlobalConfig globalConfig;
 
   // https://github.com/languagetooler-gmbh/languagetool-premium/issues/197:
-  private final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
+  static final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
     "tab_fin_ligne",
     "apostrophe_typographique",
     "typo_guillemets_typographiques_doubles_ouvrants",
@@ -86,6 +86,8 @@ public class GrammalecteRule extends Rule {
     "esp_avant_après_tiret", // picky
     "nbsp_après_tiret1", // picky
     "nbsp_après_tiret2", // picky
+    "nbsp_après_tiret3", // picky
+    "nbsp_après_chevrons_fermants", // picky
     "esp_mélangés1", // picky
     "esp_mélangés2", // picky
     "tab_début_ligne",
@@ -420,7 +422,40 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b7_a1_1",
     "g2__conf_a_à_verbe__b8_a1_1",
     "g3__gn_la_3m__b1_a1_1",
-    "gv1__imp_verbe_groupe3_d__b2_a1_1"//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
+    "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
+    "typo_guillemets_perdus",
+    "g2__conj_2p_sans_sujet__b1_a1_1",
+    "typo_signe_multiplication",
+    "typo_écriture_invariable",
+    "gv1__ppas_avoir_été__b2_a3_1",
+    "num_grand_nombre_avec_points",
+    "g2__conj_tu__b1_a1_1",
+    "typo_guillemets_doubles_ouvrants_non_fermé",
+    "g2__maj_gentilés__b3_a1_1",
+    "typo_signe_moins",
+    "g3__conf_numérique_digital__b1_a1_1",
+    "g2__conf_start_nom_ppas__b1_a1_1",
+    "typo_guillemets_fin",
+    "g2__conf_non_verbe_après_préverbes__b2_a1_1",
+    "g2__maj_gentilés__b3_a2_1",
+    "g2__typo_ordinaux_chiffres_romains_exposants__b9_a1_1",
+    "g3__gn_pfx_de_2m__b1_a1_1",
+    "eepi_écriture_épicène_pluriel_e",
+    "g2__chim_molécules__b1_a1_1",
+    "g3__conf_numérique_digital__b2_a1_1",
+    "doublon",
+    "typo_guillemets_doubles_fermants_non_ouverts",
+    "g2__conf_non_verbe_après_préverbes__b5_a3_1",
+    "gv1__imp_verbe_groupe2_groupe3_t__b2_a1_1",
+    "gv2__conj_les_nom__b1_a3_1",
+    "g2__conj_1p_sans_sujet__b1_a1_1",
+    "typo_points_suspension_après_espace",
+    "typo_guillemets_doubles_ouvrants_non_fermés",
+    "g2__conf_de_vconj__b1_a1_1",
+    "g2__conf_déterminant_mas_sing_verbe__b1_a1_1",
+    "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_",
+    "gv1__ppas_avoir_été__b2_a3_1",
+    "g2__conj_je__b2_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
@@ -474,8 +509,7 @@ public class GrammalecteRule extends Rule {
       lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
-      e.printStackTrace();
+      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl, e);
     } finally {
       huc.disconnect();
     }

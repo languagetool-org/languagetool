@@ -43,8 +43,6 @@ import java.util.*;
  */
 public class Portuguese extends Language implements AutoCloseable {
 
-  private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
-
   private LanguageModel languageModel;
 
   @Override
@@ -64,7 +62,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return PORTUGAL_PORTUGUESE;
+    return Languages.getLanguageForShortCode("pt-PT");
   }
 
   @Override
@@ -85,7 +83,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new PortugueseHybridDisambiguator();
+    return new PortugueseHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
@@ -131,12 +129,12 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt.txt"),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
-            new PortugueseClicheRule(messages),
+            new PortugueseClicheRule(messages, "/pt/cliches-pt.txt"),
             new PortugueseFillerWordsRule(messages, this, userConfig),
-            new PortugueseRedundancyRule(messages),
-            new PortugueseWordinessRule(messages),
+            new PortugueseRedundancyRule(messages, "/pt/redundancies-pt.txt"),
+            new PortugueseWordinessRule(messages, "/pt/wordiness-pt.txt"),
             //new PortugueseWeaselWordsRule(messages),
-            new PortugueseWikipediaRule(messages),
+            new PortugueseWikipediaRule(messages, "/pt/wikipedia-pt.txt"),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),

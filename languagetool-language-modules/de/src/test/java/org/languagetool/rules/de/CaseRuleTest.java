@@ -196,6 +196,7 @@ public class CaseRuleTest {
     assertGood("Klar, dass wir das brauchen.");
     assertGood("Das wird Scholz' engster Vertrauter Wolfgang Schmidt übernehmen.");
     assertGood("Bei der Fülle an Vorgaben kann das schnell vergessen werden.");
+    assertGood("Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...");
 
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
@@ -211,6 +212,7 @@ public class CaseRuleTest {
     assertGood("Während ein Befragter Geschichten erzählte.");
     assertGood("Während die Befragte Geld verdiente.");
     assertGood("Während die Besagte Geschichten erzählte.");
+    assertGood("Sind dem Zahlungspflichtigen Kosten entstanden?");
     assertGood("Jetzt, wo Protestierende und Politiker sich streiten");
     assertGood("Während die Besagte Geld verdiente.");
     assertGood("Die Nacht, die Liebe, dazu der Wein — zu nichts Gutem Ratgeber sein.");

@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.openoffice.MessageHandler;
 import org.languagetool.rules.AbstractStatisticSentenceStyleRule;
 import org.languagetool.rules.AbstractStatisticStyleRule;
@@ -69,7 +68,7 @@ public class LevelRule {
       }
       for (int i = 0; i < cache.size(); i++) {
         //  TODO: Generate a result cache for later evaluations
-        rule.match(cache.getAnalysedParagraph(i));
+        rule.match(cache.getAnalysedParagraph(i), null);
         if (rule instanceof AbstractStatisticSentenceStyleRule) {
           numFound.add(((AbstractStatisticSentenceStyleRule) rule).getNumberOfMatches());
           numBase.add(((AbstractStatisticSentenceStyleRule) rule).getSentenceCount());
@@ -248,19 +247,6 @@ public class LevelRule {
     }
   }
 
-  public static boolean hasStatisticalStyleRules(Language lang) {
-    try {
-      for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, lang, null)) {
-        if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
-            rule instanceof ReadabilityRule) {
-          return true;
-        }
-      }
-    } catch (IOException e) {
-    }
-    return false;
-  }
-  
   public static boolean hasStatisticalOptions(Rule rule) {
     if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule) {
       return true;

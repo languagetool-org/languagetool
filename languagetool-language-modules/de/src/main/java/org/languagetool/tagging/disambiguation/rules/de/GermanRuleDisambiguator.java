@@ -22,7 +22,7 @@ package org.languagetool.tagging.disambiguation.rules.de;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -31,8 +31,11 @@ import java.io.IOException;
 
 public class GermanRuleDisambiguator extends AbstractDisambiguator {
   
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(GermanyGerman.INSTANCE, true);
+  private final Disambiguator disambiguator;
 
+  public GermanRuleDisambiguator(Language lang) {
+    disambiguator = new XmlRuleDisambiguator(lang, true);
+  }
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
       throws IOException {

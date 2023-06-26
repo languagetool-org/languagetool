@@ -105,14 +105,6 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     }
   }
 
-  static void uninstall(JTextPane pane) {
-    Object helper = pane.getClientProperty(KEY);
-    if (helper instanceof ResultAreaHelper) {
-      ((ResultAreaHelper) helper).disable();
-      pane.putClientProperty(KEY, null);
-    }
-  }
-
   private ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
     this.messages = messages;
     this.ltSupport = ltSupport;

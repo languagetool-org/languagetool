@@ -20,6 +20,8 @@ package org.languagetool;
 
 import org.junit.Test;
 import org.languagetool.language.Catalan;
+import org.languagetool.language.ValencianCatalan;
+import org.languagetool.language.BalearicCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -40,9 +42,34 @@ public class JLanguageToolTest {
     matches = tool.check("Potser siga el millor");
     assertEquals(1, matches.size());
     assertEquals("POTSER_SIGUI", matches.get(0).getRule().getId());
+    
+    //ChunkTags
+ 
+    assertEquals("[<S> Ho[ho/PP3NN000] deu[deure/VMIP3S00,GV] haver[haver/VAN00000,haver/_GV_,haver/_perfet,GV] tornat[tornar/VMP00SM0,GV] a[a/SPS00,GV] fer[fer/VMN00000,fer/complement,GV].[</S>./_PUNCT,<P/>]]",
+        tool.analyzeText("Ho deu haver tornat a fer.").toString());
+
+    
+    assertEquals("[<S> Ho[ho/PP3NN000] he[haver/VAIP1S00,haver/_obligacio,GV] de[de/SPS00,GV] continuar[continuar/VMN00000,continuar/_GV_,GV] fent[fer/VMG00000,fent/_GV_,GV] així[així/RG].[</S>./_PUNCT,<P/>]]",
+        tool.analyzeText("Ho he de continuar fent així.").toString());
 
   }
 
+  @Test
+  public void testValecianVariant() throws IOException {
+    Language lang = new ValencianCatalan();
+    JLanguageTool tool = new JLanguageTool(lang);
+    List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
+    assertEquals(0, matches.size());
+  }
+  
+  @Test
+  public void testBalearicVariant() throws IOException {
+    Language lang = new BalearicCatalan();
+    JLanguageTool tool = new JLanguageTool(lang);
+    List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
+    assertEquals(0, matches.size());
+  }
+  
   @Test
   public void testAdvancedTypography() throws IOException {
     Language lang = new Catalan();

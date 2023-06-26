@@ -84,7 +84,7 @@ public class JLanguageToolTest {
   
   @Test
   public void testAdvancedTypography() {
-    Language lang = new GermanyGerman();
+    Language lang = GermanyGerman.INSTANCE;
     assertEquals(lang.toAdvancedTypography("Das ist..."), "Das ist…");
     assertEquals(lang.toAdvancedTypography("Meinten Sie \"entschieden\" oder \"entscheidend\"?"), "Meinten Sie „entschieden“ oder „entscheidend“?");
     assertEquals(lang.toAdvancedTypography("Meinten Sie 'entschieden' oder 'entscheidend'?"), "Meinten Sie ‚entschieden‘ oder ‚entscheidend‘?");
@@ -96,5 +96,16 @@ public class JLanguageToolTest {
     
     assertEquals(lang.toAdvancedTypography("Zeichen ohne sein Gegenstück: '\"' scheint zu fehlen"), "Zeichen ohne sein Gegenstück: ‚\"‘ scheint zu fehlen");
     
+  }
+  
+  @Test
+  public void testGermanVariants() throws IOException {
+    String sentence = "Ein Test, der keine Fehler geben sollte.";
+    String sentence2 = "Ein Test Test, der Fehler geben sollte.";
+    for (String langCode : new String[] { "de-DE", "de-CH", "de-AT" }) {
+      JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(langCode));
+      assertEquals(0, lt.check(sentence).size());
+      assertEquals(1, lt.check(sentence2).size());
+    }
   }
 }

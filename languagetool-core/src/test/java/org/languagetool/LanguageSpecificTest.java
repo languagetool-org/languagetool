@@ -23,6 +23,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 
@@ -54,10 +55,41 @@ public class LanguageSpecificTest {
     testConfusionSetLoading();
     countTempOffRules(lang);
     testCoherencyBaseformIsOtherForm(lang);
+    testReplaceRuleReplacements(lang);
     try {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  protected void testReplaceRuleReplacements(Language lang) throws IOException {
+    JLanguageTool lt = new JLanguageTool(lang);
+    SpellingCheckRule spellRule = lang.getDefaultSpellingRule();
+    if (lang.getShortCode().matches("nl|km")) {
+      // too many alarms, should be cleaned up first
+      System.out.println("Skipping " + lang + " for replace.txt check");
+      return;
+    }
+    if (spellRule != null) {
+      for (Rule rule : lt.getAllActiveRules()) {
+        if (rule instanceof AbstractSimpleReplaceRule2) {
+          AbstractSimpleReplaceRule2 replRule = (AbstractSimpleReplaceRule2) rule;
+          List<Map<String, SuggestionWithMessage>> wrongWords = replRule.getWrongWords(false);
+          for (Map<String, SuggestionWithMessage> entry : wrongWords) {
+            for (String s : entry.keySet()) {
+              String repl = entry.get(s).getSuggestion();
+              RuleMatch[] matches = spellRule.match(lt.getAnalyzedSentence(repl));
+              if (matches.length > 0) {
+                System.err.println("*** WARNING: replacement '" + repl + "' for '" + s + "' from one of " + replRule.getFileNames() +
+                  " isn't known to spell checker of " + lang + ": " + Arrays.toString(matches));
+              }
+            }
+          }
+        }
+      }
+    } else {
+      System.out.println("No speller found for " + lang);
     }
   }
 
@@ -135,26 +167,30 @@ public class LanguageSpecificTest {
   private void testJavaRules(String onlyRunCode) throws IOException {
     Map<String,String> idsToClassName = new HashMap<>();
     Set<Class> ruleClasses = new HashSet<>();
+    float printLimitSeconds = 0.2f;
     for (Language language : Languages.getWithDemoLanguage()) {
       if (onlyRunCode != null && !language.getShortCodeWithCountryAndVariant().equals(onlyRunCode)) {
         System.out.println("Skipping " + language);   // speed up for languages that are sub classes (e.g. simple German)
         continue;
       }
+      System.out.println("Running for " + language + ", printing only tests that take > " + printLimitSeconds + " seconds:");
       JLanguageTool lt = new JLanguageTool(language);
       List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
         assertIdAndDescriptionValidity(language, rule);
         if (!(rule instanceof AbstractPatternRule)) {
           long startTime = System.currentTimeMillis();
-          System.out.print("Testing Java rule " + rule.getFullId());
           assertIdUniqueness(idsToClassName, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));
           rule.setTags(rule.getTags().stream().filter(k -> !k.equals(Tag.picky)).collect(Collectors.toList()));  // make sure "picky" rules also run
           testExamples(rule, lt);
           long endTime = System.currentTimeMillis();
-          float runTime = (endTime-startTime)/1000f;
-          System.out.printf(Locale.ENGLISH, " ... %.2fs\n", runTime);
+          float runTimeSeconds = (endTime-startTime)/1000f;
+          if (runTimeSeconds > printLimitSeconds) {
+            System.out.print("Tested Java rule " + rule.getFullId());
+            System.out.printf(Locale.ENGLISH, " ... %.2fs\n", runTimeSeconds);
+          }
         }
       }
     }
@@ -207,7 +243,7 @@ public class LanguageSpecificTest {
         continue;
       }
       InputStream is = this.getClass().getResourceAsStream(ruleFileName);
-      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName);
+      List<AbstractPatternRule> rules = new PatternRuleLoader().getRules(is, dirBase + "/" + ruleFileName, lang);
       for (AbstractPatternRule rule : rules) {
         String message = rule.getMessage();
         if (message.matches(".*['\"«»“”’]<suggestion.*") && message.matches(".*</suggestion>['\"«»“”’].*")) {

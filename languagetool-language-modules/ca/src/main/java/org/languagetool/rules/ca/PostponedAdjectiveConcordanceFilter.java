@@ -225,21 +225,24 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
         }
       }
       if (!matchPostagRegexp(tokens[i - j], ADVERBI)) {
-        if (matchPostagRegexp(tokens[i - j], DET_MS)) {
-          cDMS[level]++;
-          canBeMS = true;
-        }
-        if (matchPostagRegexp(tokens[i - j], DET_FS)) {
-          cDFS[level]++;
-          canBeFS = true;
-        }
-        if (matchPostagRegexp(tokens[i - j], DET_MP)) {
-          cDMP[level]++;
-          canBeMP = true;
-        }
-        if (matchPostagRegexp(tokens[i - j], DET_FP)) {
-          cDFP[level]++;
-          canBeFP = true;
+        // exception: tot el
+        if (!(tokens[i - j].hasLemma("tot") && tokens[i - j + 1].hasLemma("el"))) {
+          if (matchPostagRegexp(tokens[i - j], DET_MS)) {
+            cDMS[level]++;
+            canBeMS = true;
+          }
+          if (matchPostagRegexp(tokens[i - j], DET_FS)) {
+            cDFS[level]++;
+            canBeFS = true;
+          }
+          if (matchPostagRegexp(tokens[i - j], DET_MP)) {
+            cDMP[level]++;
+            canBeMP = true;
+          }
+          if (matchPostagRegexp(tokens[i - j], DET_FP)) {
+            cDFP[level]++;
+            canBeFP = true;
+          }
         }
       }
       if (i - j - 1 > 0) {

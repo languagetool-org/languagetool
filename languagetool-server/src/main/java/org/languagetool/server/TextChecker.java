@@ -367,6 +367,11 @@ abstract class TextChecker {
         abTest = config.getAbTest();
       }
     }
+    String paramActivatedAbTest = params.get("abtest");
+    if (paramActivatedAbTest != null && paramActivatedAbTest.equals(config.getAbTest())) {
+      abTest = paramActivatedAbTest;
+    }
+    
 
     boolean enableHiddenRules = "true".equals(params.get("enableHiddenRules"));
     if (limits.hasPremium()) {
@@ -466,12 +471,11 @@ abstract class TextChecker {
     String[] toneTagNames = params.get("toneTags") != null ? params.get("toneTags").split(",") : null;
     Set<ToneTag> toneTags = new HashSet<>(ToneTag.values().length);
     if (toneTagNames != null) {
-      if (toneTagNames.length == 1 && toneTagNames[0].isEmpty()) { //toneTags=
-        //toneTags.add(ToneTag.NO_TONE_RULE); //disabled for now
-        toneTags.add(ToneTag.ALL_TONE_RULES);
+      if (toneTagNames.length == 1 && toneTagNames[0].isEmpty()) { //&toneTags=
+        toneTags.add(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC);
       } else {
         for (String toneTagName : toneTagNames) {
-          if (toneTagName.equals("NO_TONE_RULE") || toneTagName.equals("ALL_TONE_RULES")) {
+          if (toneTagNames.length > 1 && (toneTagName.equals("NO_TONE_RULE") || toneTagName.equals("ALL_TONE_RULES"))) { //&toneTags=ALL_TONE_RULES or //&toneTags=NO_TONE_RULE
             log.warn("NO_TONE_RULE and ALL_TONE_RULES will be ignored if more than one toneTag is in params.");
             continue;
           }
@@ -483,6 +487,8 @@ abstract class TextChecker {
           }
         }
       }
+    } else {
+      toneTags.add(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC); //No toneTags param in request
     }
     String callback = params.get("callback");
     // allowed to log input on errors?

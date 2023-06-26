@@ -19,19 +19,19 @@
 package org.languagetool.synthesis.ca;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Catalan word form synthesizer.
@@ -50,6 +50,13 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   /* A special tag to add determiner (el, la, l', els, les). **/
   // private static final String ADD_DETERMINER = "DT";
+  
+  private static final Map<String, String> verbTags = new HashMap<>();
+  static {
+    verbTags.put("ca-ES", "[0CXY12]");
+    verbTags.put("ca-ES-valencia", "[0VXZ13567]");
+    verbTags.put("ca-ES-balear", "[0BYZ1247]");
+  }
   
   /* Exceptions */
   public static final List<String> LemmasToIgnore =  Arrays.asList("enterar", "sentar", "conseguir", "alcançar");
@@ -75,18 +82,23 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   private static final Pattern pLemmaSpace = Pattern.compile("([^ ]+) (.+)");
 
   public static final CatalanSynthesizer INSTANCE = new CatalanSynthesizer();
+  
+//  /** @deprecated use {@link #INSTANCE} */
+//  public CatalanSynthesizer(Language lang) {
+//    this();
+//  }
 
-  /** @deprecated use {@link #INSTANCE} */
-  public CatalanSynthesizer(Language lang) {
-    this();
-  }
-
-  private CatalanSynthesizer() {
+  protected CatalanSynthesizer() {
     super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", "ca");
   }
 
+  
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {    
+    return synthesize(token, posTag, "ca-ES");
+  }
+  
+  public String[] synthesize(AnalyzedToken token, String posTag, String langVariantCode) throws IOException {    
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
       return super.synthesize(token, posTag);
     }
@@ -136,23 +148,20 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     if (addDt && results.isEmpty()) {
       results.addAll(addPrepositionAndDeterminer(token.getToken(), token.getPOSTag(), prep));
     }
-    // if not found, try verbs from any regional variant
+    // if not found, try verbs from a regional variant
     if (results.isEmpty() && posTag.startsWith("V")) {
-      if (posTag.endsWith("V") || posTag.endsWith("B")) {
-        results.addAll(lookup(lemma, posTag.substring(0, posTag.length() - 1).concat("Z")));
-      }
-      if (results.isEmpty() && !posTag.endsWith("0")) {
-        results.addAll(lookup(lemma, posTag.substring(0, posTag.length() - 1).concat("0")));
-      }
-      if (results.isEmpty()) { // another try
-        return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
-      }
+      return synthesize(token, posTag.substring(0, posTag.length() - 1).concat(verbTags.get(langVariantCode)), true);
     }
     return addWordsAfter(results, toAddAfter).toArray(new String[0]);
   }
   
+  
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+    return synthesize(token, posTag, posTagRegExp, "ca-ES");
+  }
+    
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp, String langVariantCode) throws IOException {
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
       return synthesize(token, posTag);
     }
@@ -186,28 +195,15 @@ public class CatalanSynthesizer extends BaseSynthesizer {
           results.addAll(lookup(lemma, tag));
         }
       }
-      // if not found, try verbs from any regional variant
+      // if not found, try verbs from the active regional variant
       if (results.isEmpty()) {
         Matcher mVerb = pVerb.matcher(posTag);
         if (mVerb.matches()) {
-          if (!posTag.endsWith("0")) {
-            p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
-                .concat("0"));
-            for (String tag : possibleTags) {
-              Matcher m = p.matcher(tag);
-              if (m.matches()) {
-                results.addAll(lookup(lemma, tag));
-              }
-            }
-          }
-          if (results.isEmpty()) { // another try
-            p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
-                .concat("."));
-            for (String tag : possibleTags) {
-              Matcher m = p.matcher(tag);
-              if (m.matches()) {
-                results.addAll(lookup(lemma, tag));
-              }
+          p = Pattern.compile(posTag.substring(0, posTag.length() - 1).concat(verbTags.get(langVariantCode)));
+          for (String tag : possibleTags) {
+            Matcher m = p.matcher(tag);
+            if (m.matches()) {
+              results.addAll(lookup(lemma, tag));
             }
           }
         }

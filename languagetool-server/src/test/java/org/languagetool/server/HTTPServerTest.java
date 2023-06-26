@@ -20,10 +20,12 @@ package org.languagetool.server;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.ToneTag;
 import org.languagetool.language.*;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
@@ -95,6 +97,7 @@ public class HTTPServerTest {
   }
 
   @Test
+  @Ignore("feature turned off for now")
   public void translationSuggestions() throws Exception {
     File configFile = File.createTempFile("translationSuggestions", "txt");
     configFile.deleteOnExit();
@@ -231,7 +234,7 @@ public class HTTPServerTest {
     String res = check("text", "/v2/check", english, null, "A text.", "&sourceLanguage=de-DE&sourceText=Text");
     assertTrue(res.contains("DIFFERENT_PUNCTUATION"));   // bitext rule actually active
 
-    String allToneTagRulesMatchingSentence = "We have a Formal-Clarity-Match, a No-Tone-Needed-Match, a Confident-Academic-Scientific-Match, a Confident-Academic-Match match, a Picky-Clarity-Confident-Academic-Match, a Picky-Clarity-Confident-Academic-Scientific-Match, a Persuasive-Objective-Match and a Persuasive-Objective-Informal-Match.";
+    String allToneTagRulesMatchingSentence = "We have a Formal-Clarity-Match, a No-Tone-Needed-Match, a Confident-Academic-Scientific-Match, a Confident-Academic-Match match, a Picky-Clarity-Confident-Academic-Match, a Picky-Clarity-Confident-Academic-Scientific-Match, a Persuasive-Objective-Match Persuasive-Objective-Informal-Match, Persuasive-Goal-Specific-Match, and a Persuasive-Not-Goal-Specific-Match.";
 
     Language xxlang = Languages.getLanguageForShortCode("xx");
     String test1 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation");
@@ -243,6 +246,8 @@ public class HTTPServerTest {
     assertFalse(test1.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test1.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertTrue(test1.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test1.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertTrue(test1.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
 
     String test2 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=");
     assertTrue(test2.contains("Formal_Clarity_TONE_RULE"));
@@ -253,6 +258,8 @@ public class HTTPServerTest {
     assertFalse(test2.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test2.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertTrue(test2.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test2.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertTrue(test2.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test3 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=clarity");
     assertTrue(test3.contains("Formal_Clarity_TONE_RULE"));
@@ -263,6 +270,8 @@ public class HTTPServerTest {
     assertFalse(test3.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test3.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertFalse(test3.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test3.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test3.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test4 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=academic");
     assertFalse(test4.contains("Formal_Clarity_TONE_RULE")); //Clarity is enabled by default if no toneTag is specified
@@ -273,6 +282,8 @@ public class HTTPServerTest {
     assertFalse(test4.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test4.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertFalse(test4.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test4.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test4.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test5 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=scientific");
     assertFalse(test5.contains("Formal_Clarity_TONE_RULE"));
@@ -283,6 +294,8 @@ public class HTTPServerTest {
     assertFalse(test5.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test5.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertFalse(test5.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test5.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test5.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test6 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=academic&level=picky");
     assertFalse(test6.contains("Formal_Clarity_TONE_RULE"));
@@ -293,6 +306,8 @@ public class HTTPServerTest {
     assertTrue(test6.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test6.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertFalse(test6.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test6.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test6.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test7 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=scientific&level=picky");
     assertFalse(test7.contains("Formal_Clarity_TONE_RULE"));
@@ -303,6 +318,8 @@ public class HTTPServerTest {
     assertTrue(test7.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test7.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertFalse(test7.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test7.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test7.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test8 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=scientific,NO_TONE_RULE&level=picky");
     assertFalse(test8.contains("Formal_Clarity_TONE_RULE"));
@@ -313,6 +330,8 @@ public class HTTPServerTest {
     assertTrue(test8.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test8.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertFalse(test8.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test8.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test8.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test9 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=persuasive");
     assertFalse(test9.contains("Formal_Clarity_TONE_RULE"));
@@ -323,6 +342,8 @@ public class HTTPServerTest {
     assertFalse(test9.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test9.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertTrue(test9.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertTrue(test9.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertTrue(test9.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
     
     String test10 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=informal");
     assertFalse(test10.contains("Formal_Clarity_TONE_RULE"));
@@ -333,6 +354,32 @@ public class HTTPServerTest {
     assertFalse(test10.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test10.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
     assertTrue(test10.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test10.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test10.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
+    
+    String test11 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=" + ToneTag.ALL_TONE_RULES.name());
+    assertTrue(test11.contains("Formal_Clarity_TONE_RULE"));
+    assertTrue(test11.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test11.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertTrue(test11.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test11.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test11.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertTrue(test11.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
+    
+    String test12 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=" + ToneTag.NO_TONE_RULE.name() + "&level=picky");
+    assertFalse(test12.contains("Formal_Clarity_TONE_RULE"));
+    assertTrue(test12.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertFalse(test12.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertFalse(test12.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test12.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
+    assertFalse(test12.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_OBJECTIVE_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE"));
+    assertFalse(test12.contains("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE"));
   }
 
   private void runDataTests() throws IOException {

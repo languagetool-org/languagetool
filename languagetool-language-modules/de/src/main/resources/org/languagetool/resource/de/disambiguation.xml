@@ -968,6 +968,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token inflected="yes" regexp="yes">[mksd]?ein</token>
             <token inflected="yes" regexp="yes">solch|ebensolch</token>
         </antipattern>
+        <antipattern><!-- von denjenigen Kunden -->
+            <token>denjenigen</token>
+            <token postag="SUB:DAT:PLU:.*" postag_regexp="yes" />
+        </antipattern>
         <antipattern>
             <token regexp="yes">von|zu</token>
             <token regexp="yes">solche?|dieses?|welche</token>
@@ -5095,7 +5099,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent</token>
+                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent|Physical|Secure|Historical</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -5103,7 +5107,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent</token>
+                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent|Physical|Secure|Historical</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token regexp="yes">and|or|for|of|&amp;|\/</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
@@ -5118,7 +5122,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+|and|or|for|of|&amp;|\/</token>
-                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Strategy|Coffee|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Studies|Advisor|Campaigns?|Partnerships?|Squad|Overviews?|Assistants?|Alliance|Pictures?|Journey|Dynamics|Hill|Rights?|Certificates?|Mountains?|Library|Manufacturers?|Commission|Protections?|Economics|Cosmetics|Night|Industries|Marketplace|Console|Contracts?|Institute|Diamond|Europe|Capital|Market|Assurance|Insurance|Logistics|Diagnostics|Villages?|River|Central</token>
+                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Strategy|Coffee|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Studies|Advisor|Campaigns?|Partnerships?|Squad|Overviews?|Assistants?|Alliance|Pictures?|Journey|Dynamics|Hill|Rights?|Certificates?|Mountains?|Library|Manufacturers?|Commission|Protections?|Economics|Cosmetics|Night|Industries|Marketplace|Console|Contracts?|Institute|Diamond|Europe|Capital|Market|Assurance|Insurance|Logistics|Diagnostics|Villages?|River|Central|Sciences|Centre</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -7785,5 +7789,107 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>vitro</token>
         </pattern>
         <disambig action="remove" postag="PRP.*" />
+    </rule>
+
+    <rule id="PRAIA_DA" name="ignore spelling of 'Praia da Luz'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Praia</token>
+                <token regexp="yes">d[oa]</token>
+                <token regexp="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="RÄTSEL-" name="ignore spelling of '(Rätsel-)Spaß'"> <!--TEST - LT marks 'Rätsel-' as a typo when in brackets-->
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>(</token>
+                <token>Rätsel-</token>
+                <token>)</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NUMMER_TLG" name="ignore spelling of '2-tlg.'">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">\d+-(tlg|TLG)</token>
+            <token>.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup id="OCH_IGNORE_SPELLING" name="ignore spelling of 'och'">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>man</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>:</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&anfauf;</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes" spacebefore="no">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="INTER_NATIONAL" name="ignore spelling of (inter)national">
+        <pattern>
+            <token>(</token>
+            <marker>
+                <token regexp="yes">inter|multi</token>
+            </marker>
+            <token>)</token>
+            <token regexp="yes">national.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="DEUTSCHE_HAERTE_IGNORE_SPELLING" name="ignore spelling of 'dH'">
+        <!-- https://de.wikipedia.org/wiki/Wasserh%C3%A4rte -->
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">°?dH</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="EIGTL_ABK" name="ignore spelling of 'eigtl'">
+        <pattern>
+            <token postag="SENT_START" />
+            <marker>
+                <token case_sensitive="yes">Eigtl</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
 </rules>

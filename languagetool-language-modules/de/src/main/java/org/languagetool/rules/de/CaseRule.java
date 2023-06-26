@@ -620,7 +620,9 @@ public class CaseRule extends Rule {
     "Neuem",
     "Nr",
     "Nutze",   // zu Nutze
+    "Obdachlose",
     "Obdachloser",
+    "Obdachlosen",
     "Oder",   // der Fluss
     "Ohrfeige",
     "Patsche",
@@ -632,6 +634,8 @@ public class CaseRule extends Rule {
     "Sachverständiger",
     "Sankt",
     "Schaulustige",
+    "Schaulustigen",
+    "Schaulustiger",
     "Scheine",
     "Scheiße",
     "Schuft",
@@ -711,6 +715,7 @@ public class CaseRule extends Rule {
     "Euch",
     "Euer",
     "Eure",
+    "Euern",
     "Eurem",
     "Euren",
     "Eures",

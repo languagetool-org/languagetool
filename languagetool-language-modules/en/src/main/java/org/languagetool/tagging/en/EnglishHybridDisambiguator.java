@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -42,7 +43,11 @@ import java.util.List;
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new English(), true);
+  private final Disambiguator disambiguator;
+
+  public EnglishHybridDisambiguator(Language lang) {
+    disambiguator = new XmlRuleDisambiguator(lang, true);
+  }
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {

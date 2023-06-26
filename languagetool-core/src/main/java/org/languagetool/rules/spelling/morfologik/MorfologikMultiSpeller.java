@@ -38,12 +38,6 @@ import java.util.concurrent.TimeUnit;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
 import static org.languagetool.JLanguageTool.getDataBroker;
-import morfologik.fsa.FSA;
-import morfologik.fsa.builders.CFSA2Serializer;
-import morfologik.fsa.builders.FSABuilder;
-import morfologik.stemming.Dictionary;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -67,13 +61,10 @@ public class MorfologikMultiSpeller {
       if (this == o) {
         return true;
       }
-
       if (o == null || getClass() != o.getClass()) {
         return false;
       }
-
       UserDictCacheKey that = (UserDictCacheKey) o;
-
       return new EqualsBuilder()
         .append(userId, that.userId)
         .append(binaryDictPath, that.binaryDictPath)
@@ -88,8 +79,6 @@ public class MorfologikMultiSpeller {
         .toHashCode();
     }
   }
-
-  private static final Logger logger = LoggerFactory.getLogger(MorfologikMultiSpeller.class);
 
   private static final LoadingCache<BufferedReaderWithSource, List<byte[]>> dictCache = CacheBuilder.newBuilder()
           //.maximumSize(0)
@@ -127,7 +116,6 @@ public class MorfologikMultiSpeller {
   private final Long userDictCacheSize;
   private final String userDictName;
   private final UserDictCacheKey userDictCacheKey;
-  private static final int MAX_SUGGESTIONS = 20;
 
   public MorfologikMultiSpeller(String binaryDictPath, List<String> plainTextPaths, String languageVariantPlainTextPath, int maxEditDistance) throws IOException {
     this(binaryDictPath, plainTextPaths, languageVariantPlainTextPath, null, maxEditDistance);
@@ -168,7 +156,6 @@ public class MorfologikMultiSpeller {
   /**
    * @param binaryDictPath path in classpath to a {@code .dict} binary Morfologik file
    * @param plainTextReader reader with to a plain text {@code .txt} file (like from spelling.txt)
-   * @param userConfig
    * @param maxEditDistance maximum edit distance for accepting suggestions
    * @since 3.0
    */
@@ -214,17 +201,6 @@ public class MorfologikMultiSpeller {
       defaultDictSpellers = Collections.singletonList(speller);
     }
     this.spellers = Collections.unmodifiableList(spellers);
-  }
-
-  private static List<byte[]> getLines(BufferedReader br) throws IOException {
-    List<byte[]> lines = new ArrayList<>();
-    String line;
-    while ((line = br.readLine()) != null) {
-      if (!line.startsWith("#")) {
-        lines.add(line.replaceFirst("#.*", "").trim().getBytes("utf-8"));
-      }
-    }
-    return lines;
   }
 
   private Cache<String, Dictionary> getUserDictCache() {
@@ -284,7 +260,6 @@ public class MorfologikMultiSpeller {
   private Dictionary getDictionary(List<byte[]> lines, String dictPath, String infoPath, boolean isUserDict) throws IOException {
     String cacheKey = dictPath + "|" + infoPath;
     Dictionary dictFromCache = dicPathToDict.get(cacheKey);
-
     if (!isUserDict && dictFromCache != null) {
       return dictFromCache;
     } else {
@@ -303,27 +278,23 @@ public class MorfologikMultiSpeller {
       // so we cache the result
       // Two caches exist: One for the standard dictionaries, which are static and in dicPathToDict
       // Another one for user dictionaries, this is only enabled for selected users with huge and relatively static dictionaries
-
       List<byte[]> linesCopy = new ArrayList<>(lines);
       linesCopy.sort(FSABuilder.LEXICAL_ORDERING);
       FSA fsa = FSABuilder.build(linesCopy);
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
       InputStream metadata;
-
       if (new File(infoPath).exists()) {
         metadata = new FileInputStream(infoPath);
       } else {
         metadata = getDataBroker().getFromResourceDirAsStream(infoPath);
       }
       Dictionary dict = Dictionary.read(fsaInStream, metadata);
-
       if (!isUserDict) {
         dicPathToDict.put(cacheKey, dict);
-      } else if(userDictCacheSize != null){
+      } else if(userDictCacheSize != null) {
         getUserDictCache().put(userDictName, dict);
       }
-
       return dict;
     }
   }
@@ -341,7 +312,7 @@ public class MorfologikMultiSpeller {
   }
   
   /**
-   * Get the frequency of use of a word (0-27) form the dictionary
+   * Get the frequency of use of a word (0-27) from the dictionary
    */
   public int getFrequency(String word) {
     for (MorfologikSpeller speller : spellers) {

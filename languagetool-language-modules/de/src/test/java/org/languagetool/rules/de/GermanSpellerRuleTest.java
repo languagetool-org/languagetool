@@ -176,6 +176,8 @@ public class GermanSpellerRuleTest {
         is("[glückliche, glücklichst]"));
     assertThat(rule.match(lt.getAnalyzedSentence("glückklicher"))[0].getSuggestedReplacements().toString(),
         is("[glücklicher, glücklichst]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("großdenken"))[0].getSuggestedReplacements().toString(),
+        is("[Großdenken, groß denken, großdenkend, Grasstängel, Grasstängeln, Tröstungen, großdenkende, großtunden, großtäten, tröstenden]"));
   }
 
   @Test

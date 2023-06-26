@@ -217,7 +217,20 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   }
 
   private boolean isQuoteStart(String word) {
-    return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿");
+    String[] baseQuoteStrings = { "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿" };
+    // pt-BR uses dashes to introduce dialogue >:(
+    // will keep it separate as other locales may expect line-initial m-dashes
+    // in enumerations not to introduce capital letters
+    String[] searchStrings;
+    if (language.getShortCode().equals("pt")) {
+      String[] portugueseDialogueDashes = { "-", "–", "—" };
+      searchStrings = new String[baseQuoteStrings.length + portugueseDialogueDashes.length];
+      System.arraycopy(baseQuoteStrings, 0, searchStrings, 0, baseQuoteStrings.length);
+      System.arraycopy(portugueseDialogueDashes, 0, searchStrings, baseQuoteStrings.length, portugueseDialogueDashes.length);
+    } else {
+      searchStrings = baseQuoteStrings;
+    }
+    return StringUtils.equalsAny(word, searchStrings);
   }
 
   @Override

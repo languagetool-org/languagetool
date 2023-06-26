@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Scanner;
 
 import org.languagetool.tools.Tools;
+import org.languagetool.tools.DiffsAsMatches;
+import org.languagetool.tools.PseudoMatch;
 
 public class SentenceAnnotator {
 
@@ -37,6 +40,16 @@ public class SentenceAnnotator {
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
+      String customParamsStr = prop.getProperty("customParams", "").trim();
+      if (!customParamsStr.isEmpty()) {
+        for (String customParam : customParamsStr.split(";")) {
+          String[] parts = customParam.split(",");
+          cfg.customParams.put(parts[0], parts[1]);
+        }
+      }
+      String automaticAnnotationStr = prop.getProperty("automaticAnnotation", "").trim();
+      cfg.automaticAnnotation = automaticAnnotationStr.equalsIgnoreCase("yes")
+          || automaticAnnotationStr.equalsIgnoreCase("true");
       String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
       if (!enabledOnlyRulesStr.isEmpty()) {
         cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
@@ -50,7 +63,12 @@ public class SentenceAnnotator {
       cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replaceAll("\"", "");
       cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replaceAll("\"", "");
       cfg.prepareConfiguration();
-      runAnnotation(cfg);
+      if (cfg.automaticAnnotation) {
+        runAutomaticAnnotation(cfg);
+      } else {
+        runAnnotation(cfg);
+      }
+
     } else {
       writeHelp();
       System.exit(1);
@@ -150,7 +168,11 @@ public class SentenceAnnotator {
           break;
         case "i":
           fpMatches.add(getMatchIdentifier(sentence, match));
-          errorType = "IW";
+          errorType = "IM";
+          break;
+        case "b":
+          fpMatches.add(getMatchIdentifier(sentence, match));
+          errorType = "BO";
           break;
         case "f":
           fpMatches.add(getMatchIdentifier(sentence, match));
@@ -226,6 +248,92 @@ public class SentenceAnnotator {
     cfg.out.close();
   }
 
+  private static void runAutomaticAnnotation(AnnotatorConfig cfg) throws IOException {
+    DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
+    List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
+    int numSentence = 0;
+    System.out.println("Starting at line 1 of file " + cfg.inputFilePath);
+    for (String line : lines) {
+      numSentence++;
+      String[] parts = line.split("\t");
+      String sentence = parts[0].replaceAll("__", "");
+      String correctedSentence = parts[1].replaceAll("__", "");
+      List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
+      List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
+      RemoteRuleMatch match = null;
+      correctedSentence = applyAllMatches(sentence, matches);
+      List<PseudoMatch> matchesEval = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
+      String errorType = "";
+      int iGolden = 0;
+      int iEval = 0;
+      while (iGolden < matchesGolden.size() || iEval < matchesEval.size()) {
+        PseudoMatch iGMatch = null;
+        PseudoMatch iEMatch = null;
+        if (iGolden < matchesGolden.size()) {
+          iGMatch = matchesGolden.get(iGolden);
+        }
+        if (iEval < matchesEval.size()) {
+          iEMatch = matchesEval.get(iEval);
+        }
+        String formattedOriginalSentence = "";
+        String formattedCorrectSentence = "";
+        String detectedErrorStr = "";
+        String replacement = "";
+        if (iGMatch == null) {
+          errorType = "FP";
+          iEval++;
+        } else if (iEMatch == null) {
+          errorType = "FN";
+          iGolden++;
+        } else {
+          if (iGMatch.getFromPos() == iEMatch.getFromPos()) {
+            if (iEMatch.getReplacements().size() == 0) {
+              errorType = "TPns";
+            } else if (iGMatch.getReplacements().get(0).equals(iEMatch.getReplacements().get(0))) {
+              errorType = "TP";
+            } else {
+              errorType = "TPws";
+            }
+            iGolden++;
+            iEval++;
+          } else if (iGMatch.getFromPos() < iEMatch.getFromPos()) {
+            errorType = "FN";
+            iGolden++;
+          } else if (iGMatch.getFromPos() > iEMatch.getFromPos()) {
+            errorType = "FP";
+            iEval++;
+          }
+        }
+        switch (errorType) {
+        case "FP":
+          formattedOriginalSentence = formatedSentence2(sentence, iEMatch);
+          formattedCorrectSentence = formattedOriginalSentence;
+          detectedErrorStr = sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos());
+          replacement = iEMatch.getReplacements().get(0);
+          break;
+        case "FN":
+          formattedOriginalSentence = formatedSentence2(sentence, iGMatch);
+          formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
+          detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
+          replacement = "";
+          break;
+        case "TP":
+        case "TPns":
+        case "TPws":
+          formattedOriginalSentence = formatedSentence2(sentence, iGMatch);
+          formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
+          detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
+          replacement = iEMatch.getReplacements().get(0);
+          break;
+        }
+        printOutputLine(cfg, numSentence, formattedOriginalSentence, formattedCorrectSentence, errorType,
+            detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
+      }
+      writeToOutputFile(cfg);
+    }
+    cfg.out.close();
+  }
+
   static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
       String correctedSentence, String errorType, String detectedErrorStr, String suggestion, int suggestionPos,
       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
@@ -295,6 +403,7 @@ public class SentenceAnnotator {
       return sb.toString();
     }
     sb.append("(I)gnoreMatch ");
+    sb.append("(B)othOK ");
     sb.append("(F)P ");
     if (match.getReplacements().get().size() > 0) {
       sb.append("\nSUGGESTIONS: ");
@@ -310,6 +419,32 @@ public class SentenceAnnotator {
     return sb.toString();
   }
 
+  static private String formatedSentence2(String line, PseudoMatch match) {
+    if (match == null) {
+      return line;
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append(line.substring(0, match.getFromPos()));
+    sb.append("___");
+    sb.append(line.substring(match.getFromPos(), match.getToPos()));
+    sb.append("___");
+    sb.append(line.substring(match.getToPos()));
+    return sb.toString();
+  }
+
+  static private String formattedCorrectedSentence2(String line, PseudoMatch match) {
+    if (match == null) {
+      return line;
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append(line.substring(0, match.getFromPos()));
+    sb.append("___");
+    sb.append(match.getReplacements().get(0));
+    sb.append("___");
+    sb.append(line.substring(match.getToPos()));
+    return sb.toString();
+  }
+
   static private String formatedSentence(String line, RemoteRuleMatch match) {
     if (match == null) {
       return line;
@@ -321,6 +456,24 @@ public class SentenceAnnotator {
     sb.append("___");
     sb.append(line.substring(match.getErrorOffset() + match.getErrorLength()));
     return sb.toString();
+  }
+
+  static private String applyAllMatches(String line, List<RemoteRuleMatch> matches) {
+    if (matches == null) {
+      return line;
+    }
+    int correctedPos = 0;
+    String sentence = line;
+
+    for (RemoteRuleMatch match : matches) {
+      StringBuilder sb = new StringBuilder();
+      sb.append(sentence.substring(0, match.getErrorOffset() + correctedPos));
+      sb.append(match.getReplacements().get().get(0));
+      sb.append(sentence.substring(match.getErrorOffset() + match.getErrorLength() + correctedPos));
+      sentence = sb.toString();
+      correctedPos += match.getReplacements().get().get(0).length() - match.getErrorLength();
+    }
+    return sentence;
   }
 
   static private String formattedCorrectedSentence(String line, RemoteRuleMatch match, int i) {
@@ -350,11 +503,11 @@ public class SentenceAnnotator {
       matches = cachedMatches.get(sentence);
     } else {
       try {
-        matches = cfg.lt.check(sentence, cfg.ltConfig).getMatches();
+        matches = cfg.lt.check(sentence, cfg.ltConfig, cfg.customParams).getMatches();
       } catch (RuntimeException e) {
         e.printStackTrace();
         wait(1000);
-        matches = cfg.lt.check(sentence, cfg.ltConfig).getMatches();
+        matches = cfg.lt.check(sentence, cfg.ltConfig, cfg.customParams).getMatches();
       }
       cachedMatches.put(sentence, matches);
     }
@@ -370,8 +523,10 @@ public class SentenceAnnotator {
     String languageCode;
     File inputFile;
     File outputFile;
+    boolean automaticAnnotation;
     CheckConfiguration ltConfig;
     RemoteLanguageTool lt;
+    Map<String, String> customParams = new HashMap<>();
     FileWriter out;
     StringBuilder outStrB;
     String ansiDefault = "";
@@ -381,7 +536,7 @@ public class SentenceAnnotator {
 
     void prepareConfiguration() throws IOException {
       CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);
-      cfgBuilder.textSessionID("-2");
+      // cfgBuilder.textSessionID("-2");
       if (enabledOnlyRules.isEmpty()) {
         cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
         if (!disabledRules.isEmpty()) {

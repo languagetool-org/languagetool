@@ -18,15 +18,12 @@
  */
 package org.languagetool.openoffice;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -62,6 +59,10 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   private static JLanguageTool lt = null;
   private static Locale lastLocale = null;                //  locale for spell check
   private static SpellingCheckRule spellingCheckRule = null;
+  private static MorfologikSpellerRule mSpellRule = null;
+  private static HunspellRule hSpellRule = null;
+  private static String lastWrongWord = null;
+  private static List<String> lastSuggestions = null;
   private static XComponentContext xContext = null;
   private static boolean noLtSpeller = false;
   
@@ -150,6 +151,9 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
       if (noLtSpeller) {
         return false;
       }
+      if (word.equals(lastWrongWord)) {
+        return false;
+      }
       initSpellChecker(locale);
       if (spellingCheckRule != null) {
         if (!spellingCheckRule.isMisspelled(word)) {
@@ -164,6 +168,8 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
 //          return true;
 //        }
 //        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: misspelled word: " + word);
+        lastWrongWord = new String(word);
+        lastSuggestions = matches.get(0).getSuggestedReplacements();
         return false;
       }
     } catch (Throwable e) {
@@ -187,6 +193,11 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   private void initSpellChecker(Locale locale) {
     try {
       if (lastLocale == null || !OfficeTools.isEqualLocale(lastLocale, locale)) {
+//        MessageHandler.printToLogFile("LanguageToolSpellChecker: initSpellChecker: lastLocale: "
+//            + (lastLocale == null ? "null" : OfficeTools.localeToString(lastLocale)) 
+//            + ", locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale))
+//            + ", word: " + (word == null ? "null" : word)
+//            );
         if (hasLocale(locale)) {
           lastLocale = locale;
           Language lang = MultiDocumentsHandler.getLanguage(locale);
@@ -194,7 +205,13 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
           for (Rule rule : lt.getAllRules()) {
             if (rule.isDictionaryBasedSpellingRule()) {
               spellingCheckRule = (SpellingCheckRule) rule;
-  //            break;
+              if (spellingCheckRule instanceof MorfologikSpellerRule) {
+                mSpellRule = (MorfologikSpellerRule) spellingCheckRule;
+                hSpellRule = null;
+              } else if (spellingCheckRule instanceof HunspellRule) {
+                hSpellRule = (HunspellRule) spellingCheckRule;
+                mSpellRule = null;
+              }
             } else {
               lt.disableRule(rule.getId());
             }
@@ -213,53 +230,40 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
     
     Locale locale;
     String word;
-    MorfologikSpellerRule mSpellRule = null;
-    HunspellRule hSpellRule = null;
+    String[] alternatives;
     
     LTSpellAlternatives(String word, Locale locale) {
       this.word = word;
       this.locale = locale;
-      if (spellingCheckRule instanceof MorfologikSpellerRule) {
-        mSpellRule = (MorfologikSpellerRule) spellingCheckRule;
-      } else if (spellingCheckRule instanceof HunspellRule) {
-        hSpellRule = (HunspellRule) spellingCheckRule;
+      if (noLtSpeller) {
+        alternatives = new String[0];
+        return;
+      }
+      if (word.equals(lastWrongWord)) {
+        alternatives = lastSuggestions.toArray(new String[0]);
+        return;
+      }
+      try {
+        if (mSpellRule != null) {
+          alternatives = mSpellRule.getSpellingSuggestions(word).toArray(new String[0]);
+        }
+        if (hSpellRule != null) {
+          alternatives = hSpellRule.getSuggestions(word).toArray(new String[0]);
+        }
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
+        alternatives = new String[0];
       }
     }
 
     @Override
     public String[] getAlternatives() {
-      if (noLtSpeller) {
-        return new String[0];
-      }
-      try {
-        if (mSpellRule != null) {
-          return mSpellRule.getSpellingSuggestions(word).toArray(new String[0]);
-        }
-        if (hSpellRule != null) {
-          return hSpellRule.getSuggestions(word).toArray(new String[0]);
-        }
-      } catch (Throwable t) {
-        MessageHandler.showError(t);
-      }
-      return null;
+      return alternatives;
     }
 
     @Override
     public short getAlternativesCount() {
-      if (noLtSpeller) {
-        return 0;
-      }
-      try {
-        if (mSpellRule != null) {
-          return (short) mSpellRule.getSpellingSuggestions(word).size();
-        }
-        if (hSpellRule != null) {
-          return (short) hSpellRule.getSuggestions(word).size();
-        }
-      } catch (Throwable t) {
-        MessageHandler.showError(t);
-      }
-      return 0;
+      return (short) alternatives.length;
     }
 
     @Override

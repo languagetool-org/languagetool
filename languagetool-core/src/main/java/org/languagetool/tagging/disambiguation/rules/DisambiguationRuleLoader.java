@@ -19,6 +19,7 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -38,9 +39,9 @@ import java.util.List;
  */
 public class DisambiguationRuleLoader extends DefaultHandler {
 
-  public final List<DisambiguationPatternRule> getRules(InputStream stream)
+  public final List<DisambiguationPatternRule> getRules(InputStream stream, Language language)
       throws ParserConfigurationException, SAXException, IOException {
-    DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
+    DisambiguationRuleHandler handler = new DisambiguationRuleHandler(language);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
 

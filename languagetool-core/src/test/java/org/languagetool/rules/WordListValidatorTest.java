@@ -34,7 +34,8 @@ public class WordListValidatorTest {
           "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
           "___INSERT___" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
-          "ŚśōżúïÎôêâû" +
+          "ŚśŌōżúïÎôêâû" +
+          "ÇÃÕÚÊÂÔ" +
           "'’" +
           "./%-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
@@ -87,6 +88,7 @@ public class WordListValidatorTest {
           "Hyndluljóð",
           "Kazanlǎk",
           "Kesäranta",
+          "Krišjānis",
           "Kŭrdzhali",
           "Malko Tŭrnovo",
           "Rígsþula",
@@ -149,6 +151,8 @@ public class WordListValidatorTest {
           "Tuğrul",
           "Kīlauea",
           "Māori",
+          "Chișinău",
+          "Chișinău/S",
           "Terzić",
           "Jūjutsu/S",
           "Ñuñoa",
@@ -162,18 +166,21 @@ public class WordListValidatorTest {
           "Snæfellsjökull",
           "Skåneland",
           "Øresund",
+          "Jokić",
           "Ibišević",
           "Fríður",
           "Łódź",
           "Ørsted",
           "Samsø/S",
           "Kılıçdaroğlu/S",
+          "Vlahović/S",
           "Sønderborg/S",
           "Sønderborg",
           "Mirotić",
           "Subotić",
           "Pÿur",
           "Subašić",
+          "Wałęsa",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "elektromobilność", // for PL

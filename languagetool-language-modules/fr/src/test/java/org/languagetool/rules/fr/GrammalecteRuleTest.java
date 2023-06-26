@@ -30,9 +30,24 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
 
 public class GrammalecteRuleTest {
+
+  @Test
+  public void testIgnoredRuleIds() throws IOException {
+    String idRegex = "[a-z0-9A-Z_éèáàê]+";
+    for (String id : GrammalecteRule.ignoreRules) {
+      if (id.toLowerCase().startsWith("grammalecte_")) {
+        fail("Do not use the 'grammalecte_' prefix when adding rules to the ignoreRules list: " + id);
+      }
+      if (!id.matches(idRegex)) {
+        fail("ID from ignoreRules doesn't match '" + idRegex + "': '" + id + "' - fix the ID or make the regex " +
+          "less strict (if you know what you're doing)");
+      }
+    }
+  }
 
   @Test
   @Ignore("only works with Grammalecte running")

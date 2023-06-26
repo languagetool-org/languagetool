@@ -3,6 +3,8 @@ package org.languagetool.rules.spelling.hunspell;
 import org.languagetool.JLanguageTool;
 import org.languagetool.broker.ResourceDataBroker;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -40,7 +42,7 @@ public final class Hunspell {
   public static synchronized HunspellDictionary getDictionary(Path dictionary, Path affix) {
     LanguageAndPath key = new LanguageAndPath(dictionary, affix);
     HunspellDictionary hunspell = map.get(key);
-    if (hunspell != null) {
+    if (hunspell != null && !hunspell.isClosed()) {
       return hunspell;
     }
     HunspellDictionary newHunspell = hunspellDictionaryFactory.apply(dictionary, affix);

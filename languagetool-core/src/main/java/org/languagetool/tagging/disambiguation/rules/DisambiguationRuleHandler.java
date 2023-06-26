@@ -19,6 +19,7 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.patterns.*;
 import org.xml.sax.Attributes;
@@ -79,6 +80,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
   private DisambiguationPatternRule.DisambiguatorAction disambigAction;
 
+  public DisambiguationRuleHandler(Language lang) {
+    if (lang != null) {
+      this.language = Languages.getLanguageForShortCode(lang.getShortCodeWithCountryAndVariant());
+    }
+  }
+
   List<DisambiguationPatternRule> getDisambRules() {
     return rules;
   }
@@ -106,7 +113,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         }
         break;
       case "rules":
-        language = Languages.getLanguageForShortCode(attrs.getValue("lang"));
+        if (language == null) {
+          language = Languages.getLanguageForShortCode(attrs.getValue("lang"));
+        }
         break;
       case PATTERN:
         inPattern = true;
@@ -285,7 +294,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
         int matchedTokenCount = endPos - startPos;
         if (newWdList != null) {
-          if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADD || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REMOVE
+          if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADDCHUNK || 
+              disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADD || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REMOVE
                   || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE) {
             if ((!newWdList.isEmpty() && disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE)
                     && newWdList.size() != matchedTokenCount) {
@@ -352,7 +362,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         if (inUnification && !inAndGroup) {
           uniCounter++;
         }
-        finalizeTokens(language.getDisambiguationUnifierConfiguration());
+        // The disambiguation Unifier is always in the default language variant
+        finalizeTokens(language.getDefaultLanguageVariant().getDisambiguationUnifierConfiguration());
         break;
       case PATTERN:
         inPattern = false;

@@ -71,6 +71,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "germane", // confused with German
     "double check",
     "java script",
+    "hard coding",
+    "hard coded",
     "fine tune",
     "fine tuned",
     "fine tuning",
@@ -85,6 +87,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "in car",
     "client side",
     "server side",
+    "code named",
     "in house",
     "back office",
     "faggot",
@@ -447,6 +450,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
                    !k.getReplacement().toLowerCase().startsWith("l ") &&
+                   !k.getReplacement().toLowerCase().startsWith("b ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
                    !k.getReplacement().toLowerCase().startsWith("p ") &&
@@ -653,6 +657,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("Ths", Arrays.asList("This", "The"));
+    s.put("prev", Arrays.asList("previous"));
+    s.put("kilotonne", Arrays.asList("kiloton"));
+    s.put("kilotonnes", Arrays.asList("kilotons"));
+    s.put("litehouse", Arrays.asList("lighthouse"));
+    s.put("Litehouse", Arrays.asList("Lighthouse"));
     s.put("whitout", Arrays.asList("without", "white out"));
     s.put("Whitout", Arrays.asList("Without", "White out"));
     s.put("compability", Arrays.asList("compatibility"));
@@ -940,6 +949,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Mommys", Arrays.asList("Mommy's", "Mommies"));
     s.put("daddys", Arrays.asList("daddy's", "daddies"));
     s.put("mommys", Arrays.asList("mommy's", "mommies"));
+    s.put("dat", Arrays.asList("that", "day"));
+    s.put("Dat", Arrays.asList("That", "Day"));
     // the replacement pairs would prefer "speak"
     s.put("speach", Arrays.asList("speech"));
     s.put("icecreem", Arrays.asList("ice cream"));

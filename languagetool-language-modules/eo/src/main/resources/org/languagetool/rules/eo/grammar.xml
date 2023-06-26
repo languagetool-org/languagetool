@@ -3425,7 +3425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token regexp="yes" skip="-1">(?:ne|re)?(?:fin|komenc)[aiou]s
+            <token regexp="yes" skip="-1">(?:ek|ne|re)?(?:fin|komenc)[aiou]s
               <exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception>
               <exception scope="next" regexp="yes">.*n</exception>
               <exception scope="next" postag="V.* i" postag_regexp="yes"/>
@@ -3436,6 +3436,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Oni preskaŭ ĉiam uzas la verbon «\2» kun akuzativo. Ĉu vi intencis <suggestion><match no="2" regexp_match="(?iu)(([aiou]s)|[iu])$" regexp_replace="iĝ$1"/></suggestion>?</message>
         <example correction="komenciĝos">La filmo <marker>komencos</marker> baldaŭ.</example>
         <example correction="komenciĝos">Ĝi <marker>komencos</marker> baldaŭ.</example>
+        <example correction="ekkomenciĝas">La kurso <marker>ekkomencas</marker>.</example>
         <example>Mi komencos baldaŭ.</example>
         <example>Kiam komenci?</example>
         <example>Mi devas komenci.</example>
@@ -3595,12 +3596,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token inflected="yes" regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
+            <token inflected="yes" regexp="yes">(?:ek)?(?:mal|ne)?ŝat(?:et|eg)?i</token>
           </marker>
           <token>al</token>
         </pattern>
         <message>La prepozicio «al» ne povas stari post la verbo «\1». Ĉu vi intencis uzi la verbon <suggestion><match no="1" regexp_match="(?iu)ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
         <example correction="malplaĉos">Espereble ne <marker>malŝatos</marker> al vi.</example>
+        <example correction="ekmalplaĉos">Espereble ne <marker>ekmalŝatos</marker> al vi.</example>
         <example>Espereble malplaĉos al vi.</example>
       </rule>
       <rule>

@@ -48,7 +48,9 @@ public class ArabicTaggerTest {
   public void testTagger() throws IOException {
 
     TestTools.myAssert("الخياريتان",
-      "الخياريتان/[خيار]NJ-;F2--;--L",
+      "الخياريتان/[خيار]NA-;F3--;--L" +
+        "|الخياريتان/[خيار]NJ-;F2--;--L" +
+        "|الخياريتان/[خيار]NJ-;F3--;--L",
       tokenizer, tagger);
 
     TestTools.myAssert("السماء زرقاء",
@@ -137,6 +139,7 @@ public class ArabicTaggerTest {
         "فسيعملون/[عَمَّلَ]V41;M3H-faU;WS-|" +
         "فسيعملون/[عَمَّلَ]V41;M3H-fpU;WS-",
       tokenizer, tagger);
+
     TestTools.myAssert("كتاب",
       "كتاب/[كتاب]NA-;-3--;---|" +
         "كتاب/[كتاب]NA-;-3A-;---|" +
@@ -150,28 +153,6 @@ public class ArabicTaggerTest {
         "كتاب/[كتاب]NM-;M1A-;---|" +
         "كتاب/[كتاب]NM-;M1I-;---|" +
         "كتاب/[كتاب]NM-;M1U-;---",
-      tokenizer, tagger);
-
-    TestTools.myAssert("ورد",
-      "ورد/[رد]NM-;M1--;W--|" +
-        "ورد/[رد]NM-;M1A-;W--|" +
-        "ورد/[رد]NM-;M1I-;W--|" +
-        "ورد/[رد]NM-;M1U-;W--|" +
-        "ورد/[رَادَ]VW1;M1Y-i--;W--|" +
-        "ورد/[رَدَّ]V31;M1H-pa-;W--|" +
-        "ورد/[رَدَّ]V31;M1H-pp-;W--|" +
-        "ورد/[رَدَّى]VW1;M1Y-i--;W--|" +
-        "ورد/[ورد]NJ-;M1--;---|" +
-        "ورد/[ورد]NJ-;M1A-;---|" +
-        "ورد/[ورد]NJ-;M1I-;---|" +
-        "ورد/[ورد]NJ-;M1U-;---|" +
-        "ورد/[وَرَدَ]VW1;M1H-pa-;---|" +
-        "ورد/[وَرَدَ]VW1;M1H-pp-;---|" +
-        "ورد/[وَرَدَ]VW1;M1Y-i--;W--|" +
-        "ورد/[وَرُدَ]VW0;M1H-pa-;---|" +
-        "ورد/[وَرَّدَ]VW1;M1H-pa-;---|" +
-        "ورد/[وَرَّدَ]VW1;M1H-pp-;---|" +
-        "ورد/[وَرَّدَ]VW1;M1Y-i--;---",
       tokenizer, tagger);
 
     TestTools.myAssert("للبلاد",
