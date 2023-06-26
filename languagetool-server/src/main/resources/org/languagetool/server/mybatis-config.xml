@@ -3,6 +3,7 @@
 <configuration>
   <properties>
     <property name="timeout" value="10"/>
+    <property name="poolMaximumActiveConnections" value="10"/>
   </properties>
   <settings>
     <setting name="logImpl" value="SLF4J"/>
@@ -28,6 +29,7 @@
         <property name="poolPingQuery" value="/* ping */ select 1;"/>
         <property name="poolPingEnabled" value="true" />
         <property name="poolPingConnectionsNotUsedFor" value="600000" /> <!-- 10 minutes (in milliseconds), default wait_timeout in mysql is 28800 seconds = 8 hours -->
+        <property name="poolMaximumActiveConnections" value="${poolMaximumActiveConnections}"/>
       </dataSource>
     </environment>
   </environments>
