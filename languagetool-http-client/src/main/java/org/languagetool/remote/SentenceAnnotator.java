@@ -336,16 +336,23 @@ public class SentenceAnnotator {
 
   // surround by double quotes and CSV-style escape of field-internal quotes
   static private StringBuilder prepareFieldForCSV(String fieldValue) {
-    return new StringBuilder()
-      .append("\"")
-      .append(fieldValue.replaceAll("\"", "\"\""))
-      .append("\"");
+    if (fieldValue.contains("\"") || fieldValue.contains(",")) {
+      return new StringBuilder()
+        .append("\"")
+        .append(fieldValue.replaceAll("\"", "\"\""))
+        .append("\"");
+    } else {
+      return new StringBuilder(fieldValue);
+    }
   }
 
   static private StringBuilder createCSVRow(String[] fieldValues) {
     StringBuilder row = new StringBuilder();
-    for (String fieldValue : fieldValues) {
-      row.append(prepareFieldForCSV(fieldValue)).append(",");
+    for (int i = 0; i < fieldValues.length; i++) {
+      row.append(prepareFieldForCSV(fieldValues[i]));
+      if (i != fieldValues.length - 1) {
+        row.append(",");
+      }
     }
     return row;
   }
