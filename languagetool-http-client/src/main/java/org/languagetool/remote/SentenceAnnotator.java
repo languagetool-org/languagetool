@@ -334,12 +334,39 @@ public class SentenceAnnotator {
     cfg.out.close();
   }
 
+  // surround by double quotes and CSV-style escape of field-internal quotes
+  static private StringBuilder prepareFieldForCSV(String fieldValue) {
+    return new StringBuilder()
+      .append("\"")
+      .append(fieldValue.replaceAll("\"", "\"\""))
+      .append("\"");
+  }
+
+  static private StringBuilder createCSVRow(String[] fieldValues) {
+    StringBuilder row = new StringBuilder();
+    for (String fieldValue : fieldValues) {
+      row.append(prepareFieldForCSV(fieldValue)).append(",");
+    }
+    return row;
+  }
+
   static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
       String correctedSentence, String errorType, String detectedErrorStr, String suggestion, int suggestionPos,
       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
-    cfg.outStrB.append(String.valueOf(numSentence) + "\t" + errorSentence + "\t" + correctedSentence + "\t" + errorType
-        + "\t" + detectedErrorStr + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\t"
-        + String.valueOf(suggestionsTotal) + "\t" + ruleCategory + "\t" + ruleType + "\n");
+    String[] rowFields = {
+      String.valueOf(numSentence),
+      errorSentence,
+      correctedSentence,
+      errorType,
+      detectedErrorStr,
+      suggestion,
+      ruleId,
+      String.valueOf(suggestionPos),
+      String.valueOf(suggestionsTotal),
+      ruleCategory,
+      ruleType
+    };
+    cfg.outStrB.append(createCSVRow(rowFields)).append("\n");
   }
 
   static private void writeToOutputFile(AnnotatorConfig cfg) throws IOException {
