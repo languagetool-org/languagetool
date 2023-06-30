@@ -122,6 +122,10 @@ public class QuestionMarkRuleTest {
 
     List<RuleMatch> matches21 = lt.check("¡Qué irritante!");
     assertThat(matches21.size(), is(0));
+    
+    List<RuleMatch> matches22 = lt.check("—Hola!");
+    assertThat(matches22.size(), is(1));
+    assertThat(matches22.get(0).getSuggestedReplacements().toString(), is("[¡Hola]"));
   }
 
   private RuleMatch[] check(String s) throws IOException {

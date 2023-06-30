@@ -21,6 +21,7 @@ package org.languagetool.rules.es;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
+import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,8 @@ public class QuestionMarkRule extends TextLevelRule {
         boolean hasInvExlcMark = false;
         AnalyzedTokenReadings firstToken = null;
         for (int i = 0; i < tokens.length; i++) {
-          if (firstToken == null && !tokens[i].isSentenceStart()) {
+          if (firstToken == null && !tokens[i].isSentenceStart() 
+              && !StringTools.isPunctuationMark(tokens[i].getToken())) {
             firstToken = tokens[i];
           }
           if (tokens[i].getToken().equals("¿")) {
