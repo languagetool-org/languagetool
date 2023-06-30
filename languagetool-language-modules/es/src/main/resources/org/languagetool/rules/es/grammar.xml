@@ -13932,6 +13932,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>sin desmantelarla pieza a pieza</example>
                 <example>denominarla directiva sobre adquisiciones</example>
             </rule>
+            <rule id="FITOZOOSANITARIO" name="fitozoosanitario">
+                <antipattern>
+                    <token regexp="yes">fito|zoo</token>
+                    <token min="0">-</token>
+                    <token><match no="0"/></token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">fito|zoo</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">fito|zoo</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">sanitario</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3\5</suggestion>
+                <example correction="fitozoosanitarias">Directivas <marker>fito-zoo-sanitarias</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EXPRIMER" name="exprimer -> ex primer">
+            <rule>
+                <pattern>
+                    <token regexp="yes">exprimera?|exprimer[oa]s</token>
+                </pattern>
+                <message>Se escribe separado.</message>
+                <suggestion><match no="1" regexp_match="(?iu)ex" regexp_replace="ex " case_conversion="preserve"/></suggestion>
+                <example correction="ex primer">Estas fueron las declaraciones del <marker>exprimer</marker> ministro.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ex</token>
+                    <token>-</token>
+                    <token regexp="yes">primera?|primer[oa]s</token>
+                </pattern>
+                <message>Se escribe separado sin guion.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="ex primera">Estas fueron las declaraciones de la <marker>ex-primera</marker> dama.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CON_GUION" name="palabras con guion">
             <rule>
@@ -34173,6 +34210,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>Primo de Rivera</suggestion> (dictador y militar español)?</message>
                 <url>https://es.wikipedia.org/wiki/Miguel_Primo_de_Rivera</url>
                 <example correction="Primo de Rivera"><marker>Primo de ribera</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Nueva</token>
+                    <token>Kajovka</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Nueva|Nova</token>
+                    <token regexp="yes">Kajovka|Kakhovka</token>
+                </pattern>
+                <message>El grafía adecuada es <suggestion>Nueva Kajovka</suggestion> (ciudad ucraniana)?</message>
+                <url>https://www.fundeu.es/recomendacion/nueva-kajovska-nombre-de-la-ciudad-ucrania/</url>
+                <example correction="Nueva Kajovka"><marker>Nova Kakhovka</marker>.</example>
             </rule>
         </rulegroup>
     </category>
