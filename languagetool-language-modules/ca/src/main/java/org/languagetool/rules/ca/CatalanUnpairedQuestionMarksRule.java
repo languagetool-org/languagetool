@@ -32,12 +32,20 @@ import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.StringTools;
 
 public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
-  
+
   public CatalanUnpairedQuestionMarksRule(ResourceBundle messages, Language language) {
     super();
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
-  } 
+  }
+
+  protected String getStartSymbol() {
+    return "¿";
+  }
+
+  protected String getEndSymbol() {
+    return "?";
+  }
 
   @Override
   public int minToCheckParagraph() {
@@ -48,30 +56,34 @@ public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
   public String getId() {
     return "CA_UNPAIRED_QUESTION";
   }
-  
+
   @Override
   public String getDescription() {
     return "Exigeix signe d'interrogació inicial";
-  }  
-  
+  }
+
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) {
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      boolean needsInvQuestionMark = hasTokenAtEnd("?", tokens);
+      boolean needsInvQuestionMark = hasTokenAtEnd(getEndSymbol(), tokens);
       if (needsInvQuestionMark) {
         boolean hasInvQuestionMark = false;
-        //boolean hasInvExlcMark = false;
+        // boolean hasInvExlcMark = false;
         AnalyzedTokenReadings firstToken = null;
         for (int i = 0; i < tokens.length; i++) {
-          if (firstToken == null && !tokens[i].isSentenceStart() 
+          if (firstToken == null && !tokens[i].isSentenceStart()
               && !StringTools.isPunctuationMark(tokens[i].getToken())) {
             firstToken = tokens[i];
           }
-          if (tokens[i].getToken().equals("¿")) {
+          if (tokens[i].getToken().equals(getStartSymbol())) {
             hasInvQuestionMark = true;
+          }
+          // possibly a sentence end
+          if (!tokens[i].isSentenceEnd() && tokens[i].getToken().equals(getEndSymbol())) {
+            firstToken = null;
           }
           // put the question mark in: ¿de què... ¿de quina
           if (i > 2 && i + 1 < tokens.length) {
@@ -88,9 +100,10 @@ public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
         if (firstToken != null) {
           String s = null;
           if (needsInvQuestionMark && !hasInvQuestionMark) {
-            s = "¿";
+            s = getStartSymbol();
           }
-          if (s != null) { // && !prevSentEndsWithColon: skip sentences with ':' due to unclear sentence boundaries
+          if (s != null) { // && !prevSentEndsWithColon: skip sentences with ':' due to unclear sentence
+                           // boundaries
             String message = "Símbol sense parella: Sembla que falta un '" + s + "'";
             RuleMatch match = new RuleMatch(this, sentence, pos + firstToken.getStartPos(),
                 pos + firstToken.getEndPos(), message);
@@ -100,11 +113,11 @@ public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
         }
       }
       pos += sentence.getCorrectedTextLength();
-      //prevSentEndsWithColon = endsWithColon;
+      // prevSentEndsWithColon = endsWithColon;
     }
     return toRuleMatchArray(matches);
   }
-  
+
   private boolean hasTokenAtEnd(String ch, AnalyzedTokenReadings[] tokens) {
     if (tokens[tokens.length - 1].isParagraphEnd() && !tokens[tokens.length - 1].getToken().equals(ch)
         && tokens.length >= 2) {

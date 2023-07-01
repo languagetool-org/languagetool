@@ -191,6 +191,7 @@ public class CatalanUnpairedBracketsRuleTest {
         .check("-Benvinguda!\n");
     assertEquals(1, matches.size());
     assertEquals("[¡Benvinguda]", matches.get(0).getSuggestedReplacements().toString());
+    
   }
 
 }

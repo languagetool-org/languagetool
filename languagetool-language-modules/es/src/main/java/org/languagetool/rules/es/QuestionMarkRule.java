@@ -39,8 +39,7 @@ public class QuestionMarkRule extends TextLevelRule {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
-    addExamplePair(Example.wrong("<marker>Que</marker> pasa?"),
-                   Example.fixed("<marker>¿Que</marker> pasa?"));
+    addExamplePair(Example.wrong("<marker>Que</marker> pasa?"), Example.fixed("<marker>¿Que</marker> pasa?"));
   }
 
   @Override
@@ -73,7 +72,7 @@ public class QuestionMarkRule extends TextLevelRule {
         boolean hasInvExlcMark = false;
         AnalyzedTokenReadings firstToken = null;
         for (int i = 0; i < tokens.length; i++) {
-          if (firstToken == null && !tokens[i].isSentenceStart() 
+          if (firstToken == null && !tokens[i].isSentenceStart()
               && !StringTools.isPunctuationMark(tokens[i].getToken())) {
             firstToken = tokens[i];
           }
@@ -81,6 +80,10 @@ public class QuestionMarkRule extends TextLevelRule {
             hasInvQuestionMark = true;
           } else if (tokens[i].getToken().equals("¡")) {
             hasInvExlcMark = true;
+          }
+          // possibly a sentence end
+          if (!tokens[i].isSentenceEnd() && (tokens[i].getToken().equals("?") || tokens[i].getToken().equals("!"))) {
+            firstToken = null;
           }
           // put the question mark in: ¿de qué... ¿para cuál... ¿cómo...
           if (i > 2 && i + 1 < tokens.length) {
