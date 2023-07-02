@@ -153,6 +153,7 @@ public class WordListValidatorTest {
           "Māori",
           "Chișinău",
           "Chișinău/S",
+          "Křetínský/S",
           "Terzić",
           "Jūjutsu/S",
           "Ñuñoa",
