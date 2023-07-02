@@ -31,7 +31,7 @@
   * new words in the POS dictionary
   * new rules
 
-There were also minor rule improvements for Galician, Ukrainian, Belarusian, Esperanto, Arabic,
+There were also minor rule improvements for Galician, Belarusian, Esperanto, Arabic,
 and Russian.
 
 
