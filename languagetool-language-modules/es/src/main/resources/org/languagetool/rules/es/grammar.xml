@@ -17806,6 +17806,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo') o <suggestion>porque</suggestion> ('por razón de que')?</message>
                 <example correction="por qué|porque">¿Recuerda ya <marker>por que</marker> estamos aquí?</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="15">porque</token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token postag="_GN_.*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">pregunta|cuestión|duda</token>
+                    </and>
+                    <token chunk="GV" min="0" max="3"><exception inflected="yes">ser</exception></token>
+                    <token inflected="yes">ser</token>
+                    <marker>
+                        <token>porque</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo')?</message>
+                <example correction="por qué">La pregunta es <marker>porque</marker> no se aplicó la ley.</example>
+            </rule>
             <rule>
                 <!-- catch-all rule -->
                 <antipattern>
