@@ -147,6 +147,7 @@ public class CaseRule extends Rule {
     "Fair", // eng
     "Viral", // eng
     "Tough", // eng
+    "Indoor", // eng
     "Superb", // eng und Automodell
     "Resilient", // eng
     "Hexagonal", // eng

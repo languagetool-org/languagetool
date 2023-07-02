@@ -3467,6 +3467,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "totkrankes": return topMatch("todkrankes");
       case "totkranken": return topMatch("todkranken");
       case "totkrankem": return topMatch("todkrankem");
+      case "SnapChat": return topMatch("Snapchat");
+      case "SnapChats": return topMatch("Snapchats");
       case "jmd": return topMatch("jmd.");
     }
     return Collections.emptyList();

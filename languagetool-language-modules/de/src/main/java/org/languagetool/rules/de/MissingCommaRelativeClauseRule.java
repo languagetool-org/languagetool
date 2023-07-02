@@ -155,12 +155,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
         csToken("."),
         posRegex("VER:.+")
       ),
-      Arrays.asList(
-        // Er warnt auch vor Autos, die soeben überholt haben bzw. überholt wurden.
-        posRegex("VER:.+"),
-        posRegex("VER:.+"),
-        csToken(".")
-      ),
       // … Planungen, die sich noch auf die ganze Stadt bezogen wurden aufgegeben.
       Arrays.asList(
         regex("w[eu]rden"),
