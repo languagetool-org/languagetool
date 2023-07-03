@@ -471,6 +471,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
         fail("Unfinished message ('todo' or 'lorem ipsum') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
+      if (!lang.getShortCode().equals("en") && !lang.getShortCode().equals("km") && msg.contains("did you mean")) {
+        System.err.println("*** WARNING: Non-English message with 'did you mean' for rule " + rule.getFullId() + ": '" + msg + "'");
+      }
       if (msg.toLowerCase().contains("tbd")) {
         fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
