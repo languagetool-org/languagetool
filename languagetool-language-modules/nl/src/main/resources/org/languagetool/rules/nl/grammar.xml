@@ -20020,7 +20020,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="haast nooit">Het gaat <marker>haas nooit</marker> fout.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BENADERDE_BENARDE" name="benaderde//bennarde" default="temp_off">
+        <rulegroup id="BENADERDE_BENARDE" name="benaderde/benarde">
             <rule>
                 <pattern>
                     <token>benaderde</token>
@@ -22894,6 +22894,20 @@ regexp case-insensitive maken: (?i)
                 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
                 <example correction="huis-in-huisconstructie|huis-in-huis-constructie">Dit is een <marker>huis in huis constructie</marker>.</example>
                 <example>Het is een <marker>huis-in-huis-constructie</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HUIS-TUIN-EN-KEUKENDING" name="Huis tuin en keukending /huis-tuin-en-keukending" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>huis</token>
+                    <token>tuin</token>
+                    <token>en</token>
+                    <token>keuken</token>
+                    <token postag_regexp="yes" postag=".*ZNW.*"><exception postag="WKW:TGW:INF"/></token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
+                <example correction="huis-tuin-en-keukenmachine|huis-tuin-en-keuken-machine">Dit is een <marker>huis tuin en keuken machine</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOP-OF-MUNT-BESLISSING" name="kop of munt beslissing → kop-of-munt-beslissing">
