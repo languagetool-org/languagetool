@@ -56,7 +56,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
       ),
       Arrays.asList(
         token("anstelle"),
-        regex("diese[rs]")
+        regex("diese[rsm]|de[rsm]|dessen|jene[rsm]|[dms]?eine[rsm]|ihre[rs]|eure[sr]|unse?re[sr]")
       ),
       Arrays.asList(
         token("im"),
