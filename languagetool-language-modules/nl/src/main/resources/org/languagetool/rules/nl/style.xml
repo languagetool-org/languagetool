@@ -954,6 +954,36 @@ USA
             </rule>
         </rulegroup>
 	</category>
+    <category id="BELEDIGEND" name="Beledigend" type="register" tone_tags="formal" >
+        <rulegroup id="ONGEPAST" name="Mogelijk ongepast taalgebruik" tags="picky" >
+            <!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*(fuck|godv|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*|spleetoo?g|nikker|neger).*<exception regexp="yes">.*(aardkloot|carnavalshit|honolulu|godvrezend.*|godvrucht|cellul|ontwik|gshitte|llul[ao]).*|bullshit|merde|damn(ed)?</exception><exception regexp="yes" case_sensitive="yes">knikker.*|Matsushita|Kuta|Lulu|Akuta|Lula|Talula|Kutiman|Orkutel|Kinoshita|godsvrezend|oorlogshitsers|[Nn]egeren|.*wijf|Ellul|Klootwijk|.*knikker.*|Kuti|Kutu</exception></token>
+                </pattern>
+                <message>Dit taalgebruik kan als ongepast, grof of beledigend worden ervaren.</message>
+                <short>ongepast</short>
+                <example correction="">Ik vind hem een <marker>klootzak</marker>.</example>
+                <example correction=""><marker>Kutkruiden</marker> biedt drie verschillende melanges, te koop voor €12,50 per 4 stoombeurten.</example>
+                <example correction=""><marker>Lulligheid</marker> is Nissinens handelsmerk, en dat tot in de kleinste details.</example>
+                <example correction=""><marker>Godverdomme</marker> wat een bende, niks dan ma-juscule smurrie, chemisch spul dat giftig stonk.</example>
+                <example correction=""><marker>Godverdomse</marker> dagen is een product van wat het aanklaagt.</example>
+                <example correction=""><marker>Potverdomme</marker>, het is de “672” weer, mompelde Faan toen hij zag dat het inderdaad zijn eerstgetekende was.</example>
+                <example correction=""><marker>Godvergodver</marker>, eigenlijk haat ik die bloggen, typt ge een bericht in dan verdwijnt alles omdat uw fotooke ocharme 4 kilobijtekes te groot is.</example>
+                <example correction=""><marker>Klootjesvolk</marker> zijn we… dat we dat allemaal zomaar slikken.</example>
+                <example correction=""><marker>Klotebelastingen</marker> zijn het!</example>
+                <example>Ze is een mooie, godvrezende vrouw.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aandachtshoer|aarsgewei|asobak|ballentent|bekkentrekker|bordeelsluipers|broodmolen|bruinwerker|brulboei|buikschuiver|campingsmoking|deuggleuf|drilpudding|drollenvanger|engnek|flappentap|geldwolf|gleufdier|graftak|gratenpakhuis|haatbaard|hoerensloep|hunkerbunker|huppelkut|kakmadam|kankerstaafkankerstaaf|klapvee|klootviool|klutsknieën|kommaneuker|Koopgoot|kopkaas|kopkluiven|krijspaleis|kuttenlikkertje|lulijzer|mediageil|mierenneuker|neukteugels|paardenbek|pispaal|plofkip|plofkop|poepdoos|pooierbak|pratende kut|puddingbuks|reetketelsteen|reetveter|rukbunker|schijthuis|slettenbak|sleurhut|slobberwijn|smoelensmid|stalpoten|stinkstok|stoephoer|tiepmiep|tikgeit|trekzak|treurbuis|truttenschuddertruttenschudder|vetklep|vetput|vetschort|vleesmap|vleespet|vlooienbaal|vreethaak|vreetschuur|zuipkeet|zuipschuit|zweefteef</token>
+                </pattern>
+                <message>Dit taalgebruik is wel beeldend, maar kan ook ongepast worden gevonden.</message>
+                <short>ongepast</short>
+                <example correction="">Hij heeft een <marker>aarsgewei</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
 	<category id="CONFIDENT" name="Duidelijk en zelfverzekerd schrijven" type="style" tone_tags="confident">
         <rulegroup id="EEN_SOORT_VAN_JAMMER" name="Een soort van jammer → jammer" tone_tags="confident">
             <rule>
@@ -16338,8 +16368,9 @@ USA
 				<example correction="praatprogramma">Gebruik de <marker>talkshow</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AIRCO" name="airconditioning → luchtbehandeling" tags="picky">
+		<rulegroup id="AIRCO" name="airconditioning → luchtbehandeling" tags="picky" default="off">
 			<!-- 2014-08-22 TaalTik -->
+			<!-- Nowadays this is too common to recommend alternatives -->
 			<rule>
 				<pattern>
 					<token inflected="yes">airconditioning</token>
