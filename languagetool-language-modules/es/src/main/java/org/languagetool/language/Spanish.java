@@ -261,6 +261,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "PHRASE_REPETITION": return -150;
       case "SPANISH_WORD_REPEAT_RULE": return -150;
       case "UPPERCASE_SENTENCE_START": return -200;
+      case "ES_QUESTION_MARK": return -250;
     }
 
     if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)
