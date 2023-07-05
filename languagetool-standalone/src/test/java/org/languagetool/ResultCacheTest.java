@@ -20,10 +20,7 @@ package org.languagetool;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -74,6 +71,45 @@ public class ResultCacheTest {
     InputSentence input1aUc2Alt = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
             new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level);
     assertNull(cache.getIfPresent(input1aUc2Alt));
-  }
+    
+    //put in cache for next tests
+    cache.put(input1aUc2Alt, new ArrayList<>());
+    
+    Set<ToneTag> toneTagSet1 = new TreeSet<>();
+    toneTagSet1.add(ToneTag.positive);
+    toneTagSet1.add(ToneTag.clarity);
+    Set<ToneTag> toneTagSet2 = new TreeSet<>();
+    toneTagSet2.add(ToneTag.general);
+    toneTagSet2.add(ToneTag.clarity);
+    Set<ToneTag> toneTagSet3 = new TreeSet<>();
+    
+    InputSentence inputWithTonetagSet1 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, toneTagSet1);
 
+    InputSentence inputWithTonetagSet2 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, toneTagSet2);
+    
+    InputSentence inputWithTonetagSet3 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, toneTagSet3);
+
+    InputSentence inputWithTonetagSetNull = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, null);
+    
+    assertNull(cache.getIfPresent(inputWithTonetagSet1));
+    cache.put(inputWithTonetagSet1, new ArrayList<>());
+    assertNotNull(cache.getIfPresent(inputWithTonetagSet1));
+    
+    assertNull(cache.getIfPresent(inputWithTonetagSet2));
+    cache.put(inputWithTonetagSet2, new ArrayList<>());
+    assertNotNull(cache.getIfPresent(inputWithTonetagSet2));
+    
+    assertNotNull(cache.getIfPresent(inputWithTonetagSet3)); // same as input1aUc2Alt
+    assertNotNull(cache.getIfPresent(inputWithTonetagSetNull)); // same as input1aUc2Alt
+    
+    assertNotSame(cache.getIfPresent(inputWithTonetagSet1), cache.getIfPresent(inputWithTonetagSet2));
+    assertNotSame(cache.getIfPresent(inputWithTonetagSet1), cache.getIfPresent(input1aUc2Alt));
+    assertNotSame(cache.getIfPresent(inputWithTonetagSet2), cache.getIfPresent(input1aUc2Alt));
+    assertSame(cache.getIfPresent(inputWithTonetagSet3), cache.getIfPresent(input1aUc2Alt));
+    assertSame(cache.getIfPresent(inputWithTonetagSetNull), cache.getIfPresent(input1aUc2Alt));
+  }
 }
