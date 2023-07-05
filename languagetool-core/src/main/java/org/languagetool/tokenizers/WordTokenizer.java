@@ -48,7 +48,8 @@ public class WordTokenizer implements Tokenizer {
   /*
    * Possibly problematic characters for tokenization:
    * \u00ad soft hyphen (not included) 
-   * \u002d hyphen (-) (not included): needs special processing in different languages
+   * \u002d hyphen-minus, usual hyphen (-) (not included): needs special processing in different languages
+   * \u2010 hyphen (not usual, not included): similar to hyphen-minus
    * \u2011 non-breaking hyphen (not included): similar to hyphen 
    * \u2013 en dash (included): it can be used sometimes as hyphen (not included) and rules need changes in some languages 
    * \u00b7 middle dot (·) (included): excluded in Catalan because it is a word character

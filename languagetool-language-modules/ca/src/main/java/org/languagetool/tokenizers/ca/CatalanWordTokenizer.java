@@ -54,10 +54,6 @@ public class CatalanWordTokenizer extends WordTokenizer {
   // apostrophe before number 1. Ex.: d'1 km, és l'1 de gener, és d'1.4 kg
   private static final Pattern APOSTROF_RECTE_1 = Pattern.compile("([dlDL])'(\\d[\\d\\s\\.,]?)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_RODO_1 = Pattern.compile("([dlDL])’(\\d[\\d\\s\\.,]?)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  // nearby hyphens. Ex.: vint-i-quatre 
-  private static final Pattern NEARBY_HYPHENS= Pattern.compile("([\\p{L}])-([\\p{L}])-([\\p{L}])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  // hyphens. Ex.: vint-i-quatre 
-  private static final Pattern HYPHENS= Pattern.compile("([\\p{L}])-([\\p{L}\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // decimal point between digits
   private static final Pattern DECIMAL_POINT= Pattern.compile("([\\d])\\.([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // decimal comma between digits
@@ -67,11 +63,10 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE_DIGITS0= Pattern.compile("([\\d]{4}) ",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS= Pattern.compile("([\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2= Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
-  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−";
+  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", ""); // + "−"
   
   public CatalanWordTokenizer() {
 
@@ -119,7 +114,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText = text;
+    // replace hyphen -> hyphen-minus
+    String auxText = text.replaceAll("\u2010", "\u002d");
 
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
@@ -133,10 +129,6 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RODO\u0001\u0001$2");
     matcher=APOSTROF_RODO_1.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RODO\u0001\u0001$2");
-    matcher=NEARBY_HYPHENS.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_HYPHEN\u0001\u0001$2\u0001\u0001CA_HYPHEN\u0001\u0001$3");
-    matcher=HYPHENS.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_HYPHEN\u0001\u0001$2");
     matcher=DECIMAL_POINT.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALPOINT\u0001\u0001$2");
     matcher=DECIMAL_COMMA.matcher(auxText);
