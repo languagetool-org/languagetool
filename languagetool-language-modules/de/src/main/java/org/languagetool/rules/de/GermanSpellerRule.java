@@ -1207,7 +1207,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kriese", w -> Arrays.asList("Krise", "Kreise"));
     put("Kriesen", w -> Arrays.asList("Krisen", "Kreisen"));
     put("aufteil", w -> Arrays.asList("aufteile", "aufteilt", "auf Teil"));
-    put("fürn", w -> Arrays.asList("für ein", "für", "fürs", "fern"));
+    put("fürn", w -> Arrays.asList("für ein", "für den", "für", "fürs", "fern"));
     put("Aliegen", w -> Arrays.asList("Anliegen", "Fliegen"));
     put("gaz", w -> Arrays.asList("ganz", "gab"));
     put("vllt", w -> Arrays.asList("vielleicht", "vllt."));
@@ -3470,6 +3470,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "SnapChat": return topMatch("Snapchat");
       case "SnapChats": return topMatch("Snapchats");
       case "jmd": return topMatch("jmd.");
+      case "Sparringpartner": return topMatch("Sparringspartner");
+      case "Sparringpartners": return topMatch("Sparringspartners");
+      case "Sparringpartnern": return topMatch("Sparringspartnern");
     }
     return Collections.emptyList();
   }
