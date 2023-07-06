@@ -15401,15 +15401,20 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="SPATIES_OM" name="Geen spaties voor nadruk">
+        <rulegroup id="SPATIES_OM" name="Geen spaties voor nadruk" default="off">
+            <!-- MB@2023-06-07 - DISABLE: rule needs some tweaking, this type of writing is sometimes used in business terms -->
             <rule>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">[a-zA-Z]</token>
-                    <token spacebefore="yes" regexp="yes">[a-zA-Z]</token>
-                    <token spacebefore="yes" regexp="yes">[a-zA-Z]</token>
+                    <marker>
+                        <token spacebefore="yes" regexp="yes">[a-zA-Z]</token>
+                        <token spacebefore="yes" regexp="yes">[a-zA-Z]</token>
+                        <token spacebefore="yes" regexp="yes">[a-zA-Z]</token>
+                    </marker>
+                    <token><exception spacebefore="yes" regexp="yes">[a-zA-Z]</exception></token>
                 </pattern>
                 <message>Gebruik liever geen spaties om nadruk te geven.</message>
                 <example correction="">Dit zijn <marker>s p a</marker> ties.</example>
+                <example>Dat gebeurt conform de S T A R R methode.</example>
             </rule>
         </rulegroup>
 
@@ -17039,20 +17044,22 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="ECHTER" name="Echter zonder komma" tags="picky">
+        <rulegroup id="ECHTER" name="Echter zonder komma">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <marker>
                         <token>Echter</token>
-                        <token postag_regexp="yes" postag="WKW:.*"/>
+                        <token postag_regexp="yes" postag="WKW.*"/>
+                        <token postag_regexp="yes" postag="VNW.*"><exception>de</exception></token>
                     </marker>
                 </pattern>
-                <message>Deze woordvolgorde wordt als fout gezien. Begin met bijvoorbeeld met 'Echter, dit'.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/echter-maar</url>
+                <message>Als 'echter' aan het begin van de zin staat, volgt een komma.</message>
+                <suggestion>\2, \4 \3</suggestion>
+                <url>https://taaladvies.net/echter-aan-het-begin-van-de-zin/</url>
                 <short>Echter</short>
-                <example correction=""><marker>Echter heeft</marker> het volk géén god.</example>
-                <example correction=""><marker>Echter hoeft</marker> dit niet altijd.</example>
+                <example correction="Echter, ik heb"><marker>Echter heb ik</marker> geen idee.</example>
+                <example correction="Echter, hij gaat"><marker>Echter gaat hij</marker> dit weekend niet mee.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ECHTER_2" name="Echter het (Echter, het) is niet ideaal.">
@@ -18926,13 +18933,22 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="EEN_PAAR_DOET" name="een paar doet/doen">
             <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token>een</token>
+                    <token>paar</token>
+                    <token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+                    <token postag="WKW:TGW:3EP"/>
+                    <token postag_regexp="yes" postag="VNW.*"/>
+                    <example>Een paar voorbeelden vindt u hieronder</example>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <marker>
                         <token>een</token>
                         <token>paar</token>
                         <token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
-                        <token postag="WKW:TGW:3EP"/>
+                        <token postag="WKW:TGW:3EP"><exception>uit</exception></token>
                     </marker>
                 </pattern>
                 <message>Als 'een paar' hier 'enkele' betekent, zou het <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:INF"/></suggestion> moeten zijn.</message>
