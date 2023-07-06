@@ -3479,12 +3479,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ausserordentlichem": return topMatch("außerordentlichem");
       case "ausserordentlicher": return topMatch("außerordentlicher");
       case "ausserordentliches": return topMatch("außerordentliches");
-      case "aussergewöhnlich": return topMatch("außergewöhnlich");
-      case "aussergewöhnliche": return topMatch("außergewöhnliche");
-      case "aussergewöhnlichen": return topMatch("außergewöhnlichen");
-      case "aussergewöhnlichem": return topMatch("außergewöhnlichem");
-      case "aussergewöhnlicher": return topMatch("außergewöhnlicher");
-      case "aussergewöhnliches": return topMatch("außergewöhnliches");
     }
     return Collections.emptyList();
   }
