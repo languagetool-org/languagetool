@@ -895,7 +895,7 @@ USA
 				<example correction="ontbraken">Er <marker>misten</marker> nogal wat dingen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VAAG" name="vage taal" tags="picky" tone_tags="formal">
+		<rulegroup id="VAAG" name="vage taal" tone_tags="formal" is_goal_specific="true">
 			<rule>
 				<antipattern><token>dan</token><token>ooit</token></antipattern>
 				<pattern>
@@ -954,8 +954,8 @@ USA
             </rule>
         </rulegroup>
 	</category>
-    <category id="BELEDIGEND" name="Beledigend" type="register" tone_tags="formal" >
-        <rulegroup id="ONGEPAST" name="Mogelijk ongepast taalgebruik" tags="picky" >
+    <category id="BELEDIGEND" name="Beledigend" type="register" tone_tags="formal" is_goal_specific="true">
+        <rulegroup id="ONGEPAST" name="Mogelijk ongepast taalgebruik">
             <!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
             <rule>
                 <pattern>
@@ -984,8 +984,8 @@ USA
             </rule>
         </rulegroup>
     </category>
-	<category id="CONFIDENT" name="Duidelijk en zelfverzekerd schrijven" type="style" tone_tags="confident">
-        <rulegroup id="EEN_SOORT_VAN_JAMMER" name="Een soort van jammer → jammer" tone_tags="confident">
+	<category id="CONFIDENT" name="Duidelijk en zelfverzekerd schrijven" type="style" tone_tags="confident" is_goal_specific="true">
+        <rulegroup id="EEN_SOORT_VAN_JAMMER" name="Een soort van jammer → jammer">
             <rule>
                 <pattern>
                     <marker>
@@ -995,7 +995,7 @@ USA
                         <token postag="BNW:STL:ONV"/>
                     </marker>
                 </pattern>
-                <message>Netter is: <suggestion>\4</suggestion>.</message>
+                <message>Overtuigender is: <suggestion>\4</suggestion>.</message>
                 <example correction="jammer">Het is <marker>een soort van jammer</marker> dat het vaak voorkomt.</example>
                 <example correction="artistiek">Ik word niet overvallen door <marker>een soort van artistiek</marker> kunnen</example>
                 <example correction="cultureel">Die moet alsof het <marker>een soort van cultureel</marker> erfgoed betrof, door de tijd heen intact gehouden worden en beschermd.</example>
@@ -1012,12 +1012,12 @@ USA
             <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' sterk verschillend wordt geïnterpreteerd.</message>
             <example correction="">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
         </rule>
-        <rule id="INSPECIFIEK_3" name="zeer waarschijnlijk" tags="picky">
+        <rule id="INSPECIFIEK_3" name="zeer waarschijnlijk">
             <pattern>
                 <token>zeer</token>
                 <token>waarschijnlijk</token>
             </pattern>
-            <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+            <message>Als u overtuigend over wilt komen, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
             <example correction="">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
         </rule>
         <rule id="INSPECIFIEK_4" name="heel vaak" tags="picky" default="off">
@@ -1038,12 +1038,12 @@ USA
             <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
             <example correction="">Dit is <marker>grote kans</marker> onduidelijk.</example>
         </rule>
-        <rule id="INSPECIFIEK_6" name="te verwachten" tags="picky">
+        <rule id="INSPECIFIEK_6" name="te verwachten">
             <pattern>
                 <token>te</token>
                 <token>verwachten</token>
             </pattern>
-            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+            <message>Als u overtuigend over wilt komen, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
             <example correction="">Dit is <marker>te verwachten</marker>.</example>
         </rule>
         <rule id="INSPECIFIEK_7" name="kunnen gebeuren" tags="picky" default="off">
@@ -3238,7 +3238,7 @@ USA
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="COLLOQUIALISMS" name="Informeel" type="style" tone_tags="formal">
+	<category id="COLLOQUIALISMS" name="Informeel" type="style" tone_tags="formal" is_goal_specific="true">
 		<rulegroup id="AAN_DE_RECYCLE" name="aan de recycle" type="style">
 			<rule>
 				<pattern>
