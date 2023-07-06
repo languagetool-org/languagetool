@@ -3473,6 +3473,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Sparringpartner": return topMatch("Sparringspartner");
       case "Sparringpartners": return topMatch("Sparringspartners");
       case "Sparringpartnern": return topMatch("Sparringspartnern");
+      case "ausserordentlich": return topMatch("außerordentlich");
+      case "ausserordentliche": return topMatch("außerordentliche");
+      case "ausserordentlichen": return topMatch("außerordentlichen");
+      case "ausserordentlichem": return topMatch("außerordentlichem");
+      case "ausserordentlicher": return topMatch("außerordentlicher");
+      case "ausserordentliches": return topMatch("außerordentliches");
+      case "aussergewöhnlich": return topMatch("außergewöhnlich");
+      case "aussergewöhnliche": return topMatch("außergewöhnliche");
+      case "aussergewöhnlichen": return topMatch("außergewöhnlichen");
+      case "aussergewöhnlichem": return topMatch("außergewöhnlichem");
+      case "aussergewöhnlicher": return topMatch("außergewöhnlicher");
+      case "aussergewöhnliches": return topMatch("außergewöhnliches");
     }
     return Collections.emptyList();
   }
