@@ -66,7 +66,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
-  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", ""); // + "−"
+  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−";
   
   public CatalanWordTokenizer() {
 
