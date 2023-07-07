@@ -1657,6 +1657,13 @@ class CaseRuleAntiPatterns {
       csToken(":"),
       csRegex("[\"”„»«]"),
       csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // "gibt ja auch viele Nutzer, die sich das wünschen"
+      csRegex("die|welche"),
+      csToken("sich"),
+      csToken("das"),
+      posRegex("VER:INF.*")
     )
   );
 }
