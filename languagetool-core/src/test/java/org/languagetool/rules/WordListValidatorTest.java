@@ -165,6 +165,7 @@ public class WordListValidatorTest {
           "Višegrad/S",
           "Clément/S",
           "Snæfellsjökull",
+          "Grudziądz",
           "Skåneland",
           "Øresund",
           "Jokić",
