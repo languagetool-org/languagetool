@@ -21,6 +21,8 @@ package org.languagetool.server;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +36,8 @@ class UserInfoEntry {
 
   private final long id;
   private final String email;
+
+  @JsonIgnore
   private final byte[] passwordHash;
   private final String addonToken;
   @Nullable
