@@ -98,7 +98,8 @@ class ApiV2 {
       TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleRefreshUserInfoRequest(httpExchange, parameters, config));
     } else if (path.equals("users/me")) {
       // private (i.e. undocumented) API for our own use only
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleGetUserInfoRequest(httpExchange, config));
+      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> 
+        handleGetUserInfoRequest(httpExchange, parameters, config));
     } else {
       throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
@@ -324,7 +325,7 @@ class ApiV2 {
    * Provide information on user that requests this, e.g. for add-on to acquire token + other information
    * Expects user + password via HTTP Basic Auth
    */
-  private void handleGetUserInfoRequest(HttpExchange httpExchange, HTTPServerConfig config) throws Exception {
+  private void handleGetUserInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws Exception {
     if (httpExchange.getRequestMethod().equalsIgnoreCase("options")) {
       ServerTools.setAllowOrigin(httpExchange, allowOriginUrl);
       httpExchange.getResponseHeaders().put("Access-Control-Allow-Methods", Collections.singletonList("GET, OPTIONS"));
@@ -339,15 +340,38 @@ class ApiV2 {
       if (!httpExchange.getRequestHeaders().containsKey("Authorization")) {
         throw new AuthException("Expected Basic Authentication");
       }
+      String authParameter = parameters.getOrDefault("authMethod", "password");
+      if (!(authParameter.equals("password") || 
+            authParameter.equals("apiKey") || 
+            authParameter.equals("addonToken"))) {
+        throw new IllegalArgumentException("Unknown authMethod: " + authParameter);
+      }
+
       String authHeader = httpExchange.getRequestHeaders().getFirst("Authorization");
       BasicAuthentication basicAuthentication = new BasicAuthentication(authHeader);
       String user = basicAuthentication.getUser();
       String password = basicAuthentication.getPassword();
-      UserInfoEntry userInfo = DatabaseAccess.getInstance().getUserInfoWithPassword(user, password);
+      UserInfoEntry userInfo = null;
+
+      if (authParameter.equals("password")) {
+        userInfo = DatabaseAccess.getInstance().getUserInfoWithPassword(user, password);
+      } else if (authParameter.equals("addonToken")) {
+        userInfo = DatabaseAccess.getInstance().getUserInfoWithAddonToken(user, password);
+      } else if (authParameter.equals("apiKey")) {
+        userInfo = DatabaseAccess.getInstance().getUserInfoWithApiKey(user, password);
+      }
+
+      String format = parameters.getOrDefault("format", "extended");
       if (userInfo != null) {
-        StringWriter sw = new StringWriter();
-        new ObjectMapper().writeValue(sw, DatabaseAccess.getInstance().getExtendedUserInfo(user));
-        sendJson(httpExchange, sw);
+        if (format.equals("minimal")) {
+          StringWriter sw = new StringWriter();
+          new ObjectMapper().writeValue(sw, userInfo);
+          sendJson(httpExchange, sw);
+        } else {
+          StringWriter sw = new StringWriter();
+          new ObjectMapper().writeValue(sw, DatabaseAccess.getInstance().getExtendedUserInfo(user));
+          sendJson(httpExchange, sw);
+        }
       } else {
         throw new IllegalStateException("Could not fetch user information");
       }
