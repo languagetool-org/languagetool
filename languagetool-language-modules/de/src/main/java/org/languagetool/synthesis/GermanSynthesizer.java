@@ -36,7 +36,11 @@ import java.util.*;
 public class GermanSynthesizer extends BaseSynthesizer {
 
   public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
-  private static final Set<String> REMOVE = new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
+  private static final Set<String> REMOVE = new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer",
+      // old spellings still in the synthesizer dict:
+      "angepaßt", "beschloß", "biß", "entschloß", "ergoß", "faßt", "genoß", "paßt", "paßte", "preßt", "preßte", "riß",
+      "schloß", "streßtest", "vergißt", "verlaß", "verläßt", "vermiß", "vermißt",
+      "wißt", "wußtest", "wüßtest"));
 
   /** @deprecated use {@link #INSTANCE} */
   public GermanSynthesizer(Language lang) {
