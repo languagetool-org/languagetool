@@ -1407,9 +1407,11 @@ public class MultiDocumentsHandler {
             if (lang.getDefaultLanguageVariant().getVariant() != null) {
               locale = new Locale(lang.getDefaultLanguageVariant().getShortCode(),
                   lang.getDefaultLanguageVariant().getCountries()[0], lang.getDefaultLanguageVariant().getVariant());
-            } else {
+            } else if (lang.getDefaultLanguageVariant().getCountries().length != 0) {
               locale = new Locale(lang.getDefaultLanguageVariant().getShortCode(),
                   lang.getDefaultLanguageVariant().getCountries()[0], "");
+            } else {
+              locale = new Locale(lang.getDefaultLanguageVariant().getShortCode(), "", "");
             }
           }
           else if (lang.getVariant() != null) {  // e.g. Esperanto
