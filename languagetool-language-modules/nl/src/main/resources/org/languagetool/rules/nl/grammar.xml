@@ -487,6 +487,19 @@ regexp case-insensitive maken: (?i)
                 <example correction="af te">Het hoeft nog niet <marker>afte</marker> lopen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DOOR_MIDDEL_X" name="Door middel x / Door middel van x" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>door</token>
+                    <token>middel</token>
+                    <token><exception>van</exception></token>
+                </pattern>
+                <message>Na 'door middel' komt meestal 'van'.</message>
+                <suggestion>\1 \2 van \3</suggestion>
+                <example correction="Door middel van nieuwe"><marker>Door middel nieuwe</marker> ontwikkelingen gaat het fout.</example>
+            </rule>
+        </rulegroup>
+
     </category>
 
     <category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
