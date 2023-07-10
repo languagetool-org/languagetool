@@ -148,7 +148,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           continue;
         }
         if (line.contains("  ") && !lang.getShortCode().equals("ar")) {
-          //throw new RuntimeException("More than one consecutive space in " + filename + " - use a tab character as a delimiter for the message: " + line);
+          throw new RuntimeException("More than one consecutive space in " + filename + " - use a tab character as a delimiter for the message: " + line);
         }
         if (checkingCase) {
           String[] parts = line.split("=");
