@@ -254,6 +254,7 @@ public class Catalan extends Language {
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
       case "CONCORDANCES_DET_NOM": return 5;
+      case "PASSAR_SE": return 5; // greater than OBLIDARSE
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
       case "VENIR_NO_REFLEXIU": return 5;
