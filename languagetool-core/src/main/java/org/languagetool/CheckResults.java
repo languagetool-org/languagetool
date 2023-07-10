@@ -33,6 +33,7 @@ public class CheckResults {
   private List<RuleMatch> ruleMatches;
   private List<Range> ignoredRanges;
   private final List<SentenceRange> sentenceRanges = new ArrayList<>();
+  private final List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
 
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
