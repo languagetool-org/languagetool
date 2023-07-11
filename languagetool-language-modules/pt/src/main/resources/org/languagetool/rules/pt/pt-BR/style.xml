@@ -43,6 +43,8 @@ USA
         <!-- for these verbs, humans are usually DATIVE -->
         <!ENTITY dative_person_verbs "dar|perdoar|pagar|responder|agradecer|obedecer|emprestar|comunicar|dizer|fornecer|doar|outorgar|enviar|mandar|pedir|falar|perguntar|contar|implorar|permitir">
 
+        <!ENTITY reflexive_verbs "cuidar|preparar|esquecer|lembrar|preocupar|referir|adaptar|afligir|arrepender|aproximar|atrasar|atrever|aventurar|cansar|casar|chamar|condoer|constranger|contorcer|deitar|apegar|desapegar|dirigir|divorciar|enamorar|encurvar|curvar|entristecer|esconder|expandir|exprimir|fartar|ferrar|habituar|importar|intrometer|lamentar|levantar|sentar|ocupar|parecer|referir|sentir|zangar">
+
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="Style" type="style">
@@ -921,6 +923,11 @@ USA
             </rule>
 
             <rule>
+                <antipattern>
+                    <token/>
+                    <token case_sensitive="yes">Contigo</token>
+                    <example>O Prêmio Contigo.</example>
+                </antipattern>
                 <pattern>
                     <token>contigo</token>
                 </pattern>
@@ -933,6 +940,11 @@ USA
                     <token postag_regexp="yes" postag="SP.+"/>
                     <marker><token>ti</token></marker>
                     <token regexp="yes" inflected="yes">mesmo|próprio</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">TI</token>
+                    <example>Técnico de TI.</example>
+                    <example>Ele já trabalhou em TI antes.</example>
                 </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="SP.+"/>
@@ -954,25 +966,31 @@ USA
             </rule>
 
             <rule> <!-- reflexive proclitic -->
+                <antipattern>
+                    <token case_sensitive="yes">TE</token>
+                    <example>Agora a TE tem todo tipo de coisa.</example>
+                </antipattern>
                 <pattern>
                     <token>te</token>
-                    <token postag_regexp="yes" postag="V...2S."/>
+                    <token postag_regexp="yes" postag="V...2S." inflected="yes" regexp="yes">&reflexive_verbs;</token>
                 </pattern>
-                <message>No português brasileiro, o uso da segunda pessoa do singular não é consistente em todos os dialetos. Seu texto soará mais neutro se substituir por &quot;te&quot;.</message>
+                <message>No português brasileiro, o uso da segunda pessoa do singular não é consistente em todos os dialetos. Seu texto soará mais neutro se substituir por &quot;se&quot;.</message>
                 <suggestion>se <match no="2" postag_regexp="yes" postag="(V...)2S(.)" postag_replace="$13S$2"/></suggestion>
                 <example correction="se esqueça">Não <marker>te esqueças</marker>!</example>
                 <example correction="se esqueceu">Acho que <marker>te esqueceste</marker>...</example>
+                <example>Ela te ama.</example>
             </rule>
 
             <rule> <!-- reflexive enclitic -->
                 <pattern>
-                    <token postag_regexp="yes" postag="V...2S."/>
+                    <token postag_regexp="yes" postag="V...2S." inflected="yes" regexp="yes">&reflexive_verbs;</token>
                     <token regexp="yes" spacebefore="no">&hifen;</token>
                     <token spacebefore="no">te</token>
                 </pattern>
-                <message>No português brasileiro, o uso da segunda pessoa do singular não é consistente em todos os dialetos. Seu texto soará mais neutro se substituir por &quot;te&quot;.</message>
+                <message>No português brasileiro, o uso da segunda pessoa do singular não é consistente em todos os dialetos. Seu texto soará mais neutro se substituir por &quot;se&quot;.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V...)2S(.)" postag_replace="$13S$2"/>-se</suggestion>
                 <example correction="Lembre-se"><marker>Lembra-te</marker>.</example>
+                <example>Ama-te muito a tua mãe.</example>
             </rule>
 
             <rule> <!-- accusative proclitic -->
@@ -986,6 +1004,8 @@ USA
                 <suggestion>\2 você</suggestion>
                 <example correction="vi você">Nunca <marker>te vi</marker> por lá.</example>
                 <example correction="pomos você">Sempre <marker>te pomos</marker> em primeiro lugar.</example>
+                <example correction="ama você">Ela <marker>te ama</marker> muito.</example>
+                <example correction="vê você">Meu coração bate feliz quando <marker>te vê</marker>.</example>
                 <example>Já te dei um presente.</example>
             </rule>
 
