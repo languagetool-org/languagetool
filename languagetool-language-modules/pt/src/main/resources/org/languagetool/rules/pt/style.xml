@@ -11774,7 +11774,41 @@ USA
             </rule>
         </rulegroup>
     </category>
+
+
     <category id='REMOVE_PRONOUN' name='Remoção de pronomes' type='style' tone_tags="povrem">
+
+
+        <rule id='SUBSTANTIVO_PRONOME_VERBINF_REM_PRON' name="Simplificar: Substantivo + Pronome + Verbo Infinitivo → Omitir Pronome" type='style' tone_tags="clarity">
+            <antipattern>
+                <token postag='SENT_START|CC|CS' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SPS00|(SPS00:)?[DP][ADIPRT].+|VMIP.+|_PUNCT' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token>por</token>
+                <token regexp='yes'>el[ae]s?|est[ae]s?</token>
+                <token postag='VMN03.+' postag_regexp='yes'/>
+                <example>Drymon disse que "Tivemos muita sorte por ela ter tido o contato, caso contrário não poderíamos usá-lo.</example>
+                <example>...linson, registrou o quanto Ellen lutou para evitar o adiamento da reforma, e expressou sua tristeza por ela ter morrido antes da data marcada.</example>
+            </antipattern>
+            <pattern>
+                <token postag='SPS00|(SPS00:)?[DP][ADIPRT].+|VMIP.+|_PUNCT' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <marker>
+                    <token>por</token>
+                    <token regexp='yes'>el[ae]s?|est[ae]s?</token>
+                    <token postag='VMN03.+' postag_regexp='yes'/>
+                </marker>
+                <token><exception postag_regexp='yes' postag='VMG0000|SENT_END'/></token>
+            </pattern>
+            <message>Para um texto mais sucinto, prefira omitir o pronome.</message>
+            <suggestion>\3 \5</suggestion>
+            <example correction="por saber">O rei envia o mensageiro com rapidez <marker>por ele saber</marker> que o tempo é curto.</example>
+            <example correction="por saberem">Os reis enviam o mensageiro com rapidez <marker>por eles saberem</marker> que o tempo é curto.</example>
+        </rule>
+
+
         <!-- ELA O QUE ELA ACHOU ela o que achou -->
         <rule id='PRONOME_PESS_O_QUE_MESMO_PRONOME_PESS' name="Simplificar: Pronome P. + o + que + Pronome P. → Omitir segundo Pronome P." type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-29 (25-JUL-2022+) -->
@@ -12024,7 +12058,13 @@ USA
                 <example correction="das vidas">Se se reformarem dedicarão o resto <marker>das suas vidas</marker> a isso.</example>
             </rule>
         </rulegroup>
+
+
+
+
     </category>
+
+
     <category id='POSITIVE' name='Linguagem positiva' type='style' tone_tags="positive">
         <!-- NÃO MILITARES civis -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-18 (2-JUL-2020+)     -->
