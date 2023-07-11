@@ -5217,6 +5217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si introduce una oración interrogativa indirecta (=a qué lugar), se escribe con tilde.</message>
                 <suggestion>adónde</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/escritura-a-donde-o-adonde/</url>
                 <example correction="adónde">No importa el qué sino el <marker>adonde</marker>.</example>
             </rule>
             <rule>
@@ -5600,9 +5601,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Si es del v. 'saber' o 'ser' se escribe con tilde.</message>
             <suggestion>sé</suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/cuando-se-escribe-se-con-tilde/</url>
             <example correction="sé">No <marker>se</marker> a quién pertenece.</example>
         </rule>
         <rulegroup id="SE" name="se/sé" default="on">
+            <url>https://languagetool.org/insights/es/publicacion/cuando-se-escribe-se-con-tilde/</url>
             <antipattern>
                 <!-- error in the next word -->
                 <token>se</token>
@@ -8550,6 +8553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EL_NO_TILDE" name="él -> el">
+            <url>https://languagetool.org/insights/es/publicacion/el-con-tilde-o-el-sin-tilde/</url>
             <antipattern>
                 <token>él</token>
                 <token postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes" min="0" max="6"/>
@@ -8664,6 +8668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EL_TILDE" name="el / él" default="on">
+            <url>https://languagetool.org/insights/es/publicacion/el-con-tilde-o-el-sin-tilde/</url>
             <antipattern>
                 <!-- en URLs -->
                 <token>-</token>
@@ -8901,6 +8906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MI_TILDE" name="mi/mí">
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/</url>
             <antipattern>
                 <token>mi</token>
                 <token postag="_QM_OPEN" min="0"/>
@@ -9132,6 +9138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MI_SIN_TILDE" name="mí > mi">
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/</url>
             <antipattern>
                 <token>igual</token>
                 <token>que</token>
@@ -13874,7 +13881,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>curriculum vitae</suggestion>
             <suggestion>\1</suggestion>
             <suggestion><match no="1" regexp_match="(?iu)currículum(s?)" regexp_replace="currículo$1"/></suggestion>
-            <url>https://www.fundeu.es/recomendacion/curriculo-o-curriculum-con-tilde-pero-curriculum-vitae/</url>
+            <url>https://languagetool.org/insights/es/publicacion/escritura-correcta-curriculum-vitae/</url>
+            <!--            <url>https://www.fundeu.es/recomendacion/curriculo-o-curriculum-con-tilde-pero-curriculum-vitae/</url>-->
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
         <rulegroup id="SEPARADO" name="palabras que se escriben separadas">
@@ -15383,7 +15391,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El sobretodo de Céspedes.</example>
             <example>En alusión al sobretodo del sargento.</example>
         </rule>
+        <rulegroup id="HAIGA" name="haiga -> haya">
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-haya-halla-alla-o-aya/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aiga|haiga</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>haya</suggestion> (del verbo 'haber')?</message>
+                <example correction="haya">Que <marker>haiga</marker> al menos una.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aigas|haigas</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>hayas</suggestion> (del verbo 'haber')?</message>
+                <example correction="hayas">No me importa lo que <marker>haigas</marker> dicho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aigan|haigan</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>hayan</suggestion> (del verbo 'haber')?</message>
+                <example correction="hayan">No me importa lo que <marker>haigan</marker> dicho los demás.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HALLA_HAYA" name="halla/haya">
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-haya-halla-alla-o-aya/</url>
             <rule>
                 <antipattern>
                     <token>se</token>
@@ -18543,7 +18576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="dado que">Hay que esperar turno, <marker>dado a que</marker> en muchas ciudades la oferta es menor.</example>
         </rule>
         <rulegroup id="DETRAS_PX" name="Adverbio de posición + posesivo">
-            <url>https://www.rae.es/consultas/detras-de-mi-encima-de-mi-al-lado-mio</url>
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/#%C2%BFse-dice-%E2%80%9Cdelante-de-m%C3%AD%E2%80%9D-o-%E2%80%9Cdelante-m%C3%ADo%E2%80%9D</url>
             <rule>
                 <pattern>
                     <token regexp="yes">&adverbio_lugar;</token>
@@ -26332,6 +26365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Si es un pronombre, se escribe con acento. Correcto si es posesivo ("mi era").</message>
             <suggestion>mí</suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/</url>
             <example correction="mí">Para <marker>mi</marker> era el mejor.</example>
         </rule>
         <rule id="DEBIDO_AUN" name="debido aun/a un">
@@ -27585,6 +27619,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AYA_HAYA" name="*aya/haya">
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-haya-halla-alla-o-aya/</url>
             <rule>
                 <pattern>
                     <token>más</token>
