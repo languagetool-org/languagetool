@@ -7476,7 +7476,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="wilde">Hij <marker>wil de</marker> weglopen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VEELMEER" name="veelmeer / veel meer">
+        <rulegroup id="VEELMEER" name="veelmeer / veel meer" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_VEELMEER -->
             <rule>
                 <pattern>
                     <token>veelmeer</token>
@@ -8293,7 +8294,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="van tevoren">De vijand liet er hals en sporen, en Vlaandren won zijn vrijheid weer, 't was vrijer zelfs dan <marker>van te voren</marker>, want diepe viel den dwingland neer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="OF_TE_WEL" name="of te wel → oftewel">
+        <rulegroup id="OF_TE_WEL" name="of te wel → oftewel" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_OF_TE_WEL -->
             <rule>
                 <pattern>
                     <token>of</token>
@@ -8560,8 +8562,9 @@ regexp case-insensitive maken: (?i)
                 <example correction="ze de">De eerste 20 seconden zijn vergaan, eer <marker>zede</marker> omschakeling maken.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TOTEN_MET" name="toten met → tot en met">
+        <rulegroup id="TOTEN_MET" name="toten met → tot en met" default="off">
             <!-- 2017-06-22 by TaalTik -->
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_TOTEN_MET -->
             <rule>
                 <pattern>
                     <token>toten</token>
@@ -8840,7 +8843,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="weet niet">Ik heb geen extern toetsenbord, dus <marker>weetniet</marker> of dat werkt.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MANDIE" name="mandie → man die">
+        <rulegroup id="MANDIE" name="mandie → man die" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_DE_MANDIE -->
             <rule>
                 <pattern>
                     <token case_sensitive="yes">mandie</token>
@@ -8899,7 +8903,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="van doen|te maken">Het heeft niets <marker>vandoen</marker> met overleg.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INGEVAL_VAN" name="ingeval van → in geval van">
+        <rulegroup id="INGEVAL_VAN" name="ingeval van → in geval van" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_INGEVAL_VAN -->
             <rule>
                 <pattern>
                     <token>ingeval</token>
@@ -8964,7 +8969,8 @@ regexp case-insensitive maken: (?i)
                 <example>Ik val weer eens <marker>in slaap</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TEGELOVEN" name="tegeloven → te geloven">
+        <rulegroup id="TEGELOVEN" name="tegeloven → te geloven" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_TEGELOVEN -->
             <rule>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(bakke|kachel).*</token><token postag="SENT_END"/></antipattern>
                 <pattern>
@@ -9142,8 +9148,9 @@ regexp case-insensitive maken: (?i)
                 <example correction="Rode Kruis"><marker>Rode-Kruis</marker> Vlaanderen is permanent op zoek naar donoren die bloed willen geven.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MAKE_UP" name="make up → make-up">
+        <rulegroup id="MAKE_UP" name="make up → make-up" default="off">
             <!-- 2014-08-23 TaalTik -->
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_MAKE_UP -->
             <rule>
                 <pattern>
                     <token>make</token>
@@ -9252,8 +9259,9 @@ regexp case-insensitive maken: (?i)
                 <example correction="teraardebestelling">Er werd onvoldoende rekening gehouden met de handelingen vóór de eigenlijke <marker>ter aarde bestelling</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TER_BESCHIKKING" name="Ter beschikking stelling">
+        <rulegroup id="TER_BESCHIKKING" name="Ter beschikking stelling" default="off">
             <!-- 2014-08-19 TaalTik: regel werkt goed, url toegevoegd -->
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_TER_BESCHIKKING_STELLING -->
             <rule>
                 <pattern>
                     <token>ter</token>
@@ -9446,8 +9454,9 @@ regexp case-insensitive maken: (?i)
                 <example>Ik feliciteer de <marker>tienjarige</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PEPER_EN_ZOUTSTEL" name="peper- en zoutstel → peper-en-zoutstel">
+        <rulegroup id="PEPER_EN_ZOUTSTEL" name="peper- en zoutstel → peper-en-zoutstel" default="off">
             <!-- 2017-06-20 TaalTik -->
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PEPER_EN_ZOUTSTEL -->
             <rule>
                 <pattern>
                     <token regexp="yes">peper|peper-</token>
@@ -9694,7 +9703,8 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
     </category>
     <category id="AFKORTINGEN" name="Afkortingen">
-        <rulegroup id="GR" name="gr → gr.">
+        <rulegroup id="GR" name="gr → gr." default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_GR -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag_regexp="yes" postag="GET.*"/>
@@ -9863,7 +9873,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="nv">Elke <marker>n.v.</marker> draagt belastingen af.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PP_PUNT" name="pp. 20-33 → pagina's 20-33">
+        <rulegroup id="PP_PUNT" name="pp. 20-33 → pagina's 20-33" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PP -->
             <rule>
                 <pattern>
                     <marker>
@@ -10839,7 +10850,8 @@ regexp case-insensitive maken: (?i)
                 </rule>
             </rulegroup>
 
-            <rulegroup id="SCHOUWEN_DUIVELAND" name="Schouwen Duiveland => Schouwen-Duiveland">
+            <rulegroup id="SCHOUWEN_DUIVELAND" name="Schouwen Duiveland => Schouwen-Duiveland" default="off">
+                <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_SCHOUWEN_DUIVELAND -->
                 <rule>
                     <pattern>
                     <token>schouwen</token>
@@ -17642,8 +17654,9 @@ regexp case-insensitive maken: (?i)
                 <example correction="Ik had"><marker>I had</marker> het fout.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KRUID_VERSCHIETEN" name="kruid/kruit" >
+        <rulegroup id="KRUID_VERSCHIETEN" name="kruid/kruit" default="off">
             <!-- R. Baars december 2022 -->
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_KRUID_VERSCHOTEN -->
             <rule>
                 <pattern>
                     <marker>
@@ -19947,7 +19960,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="zoals het hoort">Dat is niet <marker>comme il faut</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AU_BAIN" name="au bain marie">
+        <rulegroup id="AU_BAIN" name="au bain marie" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_AU_BAIN_MARIE -->
             <rule>
                 <pattern>
                     <token>au</token>
@@ -20372,7 +20386,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="keper">Hij twijfelde nog of hij het had gezien, terwijl hij op de <marker>keeper</marker> beschouwd natuurlijk niets had gezien.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WENDT_OF_KEERT" name="Went of keert → wendt of keert">
+        <rulegroup id="WENDT_OF_KEERT" name="Went of keert → wendt of keert" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_HOE_JE_HET_OOK_WENT_OF -->
             <rule>
                 <pattern>
                     <marker>
@@ -21329,7 +21344,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="iets wat">Het is <marker>iets dat</marker> je je herinnert.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VERLUID" name="verluid">
+        <rulegroup id="VERLUID" name="verluid" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_NAAR_VERLUID -->
             <rule>
                 <pattern>
                     <token>naar</token>
@@ -22576,7 +22592,8 @@ regexp case-insensitive maken: (?i)
                 <example>Het is <marker>appeltje-eitje</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="_2_ONDER_1_KAP" name="Twee onder een kap woning → twee-onder-een-kap-woning">
+        <rulegroup id="_2_ONDER_1_KAP" name="Twee onder een kap woning → twee-onder-een-kap-woning" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_TWEE_ONDER_EEN_KAP_WONING -->
             <rule>
                 <pattern>
                     <token>twee</token>
@@ -23025,7 +23042,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="mond-op-neusbeademing|mond-op-neus-beademing">Dit is een <marker>mond op neus beademing</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MOND-OP-MOND-RECLAME" name="mond op mond reclame → mond-tot-mond-reclame">
+        <rulegroup id="MOND-OP-MOND-RECLAME" name="mond op mond reclame → mond-tot-mond-reclame" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_MOND_OP_MOND_RECLAME -->
             <rule>
                 <pattern>
                     <token>mond</token>
@@ -23215,7 +23233,8 @@ regexp case-insensitive maken: (?i)
                 <example>Het is een <marker>van-negen-tot-vijf-type</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VER-VAN-MIJN-BED-SHOW" name="ver van mijn bed show → ver-van-mijn-bed-show">
+        <rulegroup id="VER-VAN-MIJN-BED-SHOW" name="ver van mijn bed show → ver-van-mijn-bed-show" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_VER_VAN_MIJN_BED_SHOW -->
             <rule>
                 <!-- TaalTik 2014-09-09  -->
                 <pattern>
@@ -23289,7 +23308,8 @@ regexp case-insensitive maken: (?i)
                 <example>Het is een <marker>gooi-en-smijt-werk</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HANG-EN-SLUIT-WERK" name="hang en sluit werk → hang-en-sluit-werk">
+        <rulegroup id="HANG-EN-SLUIT-WERK" name="hang en sluit werk → hang-en-sluit-werk" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_HANG_EN_SLUIT_WERK -->
             <rule>
                 <pattern>
                     <token>hang</token>
@@ -24316,7 +24336,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="de">Hij is <marker>de ;</marker> gek.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DE_LIGT_ONTVLAMBARE" name="ligt / licht" >
+        <rulegroup id="DE_LIGT_ONTVLAMBARE" name="ligt / licht" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_IS_HET_LIGT -->
             <rule>
                 <pattern>
                     <token regexp="yes">de|een|geen</token>
@@ -24950,8 +24971,9 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="TOD" name="tod/tot" >
+        <rulegroup id="TOD" name="tod/tot" default="off">
             <!-- R. Baars 27-10-2022 -->
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_TOD -->
             <antipattern>
                 <token skip="1">de</token>
                 <token>tod</token>
