@@ -11779,13 +11779,8 @@ USA
     <category id='REMOVE_PRONOUN' name='Remoção de pronomes' type='style' tone_tags="povrem">
 
 
-        <!-- POR ELE SABER por saber -->
-        <rule id='NOMECOMUM_PRONOME_VERBINF_REM_PRON' name="Simplificar: Nome Comum + Pronome + Verbo Infinitivo → Omitir Pronome" type='style' tone_tags="povrem">
+        <rule id='SUBSTANTIVO_PRONOME_VERBINF_REM_PRON' name="Simplificar: Substantivo + Pronome + Verbo Infinitivo → Omitir Pronome" type='style' tone_tags="clarity">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-07-08 (8-JUL-2023+) -->
-            <!--
-            O rei envia o mensageiro com rapidez por ele saber que o tempo é curto. → O rei envia o mensageiro com rapidez por saber que o tempo é curto.
-            Os reis enviam o mensageiro com rapidez por eles saberem que o tempo é curto. → Os reis enviam o mensageiro com rapidez por saberem que o tempo é curto.
-            -->
             <antipattern>
                 <token postag='SENT_START|CC|CS' postag_regexp='yes'/>
                 <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
@@ -11808,7 +11803,7 @@ USA
                 </marker>
                 <token><exception postag_regexp='yes' postag='VMG0000|SENT_END'/></token>
             </pattern>
-            <message>Poderá omitir o pronome nesta perífrase.</message>
+            <message>Para um texto mais sucinto, prefira omitir o pronome.</message>
             <suggestion>\3 \5</suggestion>
             <example correction="por saber">O rei envia o mensageiro com rapidez <marker>por ele saber</marker> que o tempo é curto.</example>
             <example correction="por saberem">Os reis enviam o mensageiro com rapidez <marker>por eles saberem</marker> que o tempo é curto.</example>
