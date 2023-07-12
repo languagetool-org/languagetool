@@ -68,6 +68,8 @@ public final class StringTools {
   private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
   private static final Pattern NOT_WORD_CHARACTER = Pattern.compile("[^\\p{L}]", Pattern.DOTALL);
 
+  private static final Pattern NUMERIC_STR = Pattern.compile("[\\d\\.,\\s]+", Pattern.DOTALL);
+
   private StringTools() {
     // only static stuff
   }
@@ -127,6 +129,21 @@ public final class StringTools {
       }
     }
     return true;
+  }
+
+  /**
+   * Returns true if the given list of string is made up of all-uppercase words.
+   * If the list contains only numbers or punctuation marks it is not considered all-uppercase
+   */
+  public static boolean isAllUppercase(List<String> strList) {
+    boolean isInputAllUppercase = true;
+    boolean isAllNotLetters = true;
+    for (int i = 0; i < strList.size(); i++) {
+      isInputAllUppercase = isInputAllUppercase && StringTools.isAllUppercase(strList.get(i));
+      isAllNotLetters = isAllNotLetters && (StringTools.isNumeric(strList.get(i))
+        || StringTools.isPunctuationMark(strList.get(i)));
+    }
+    return isInputAllUppercase && ! isAllNotLetters;
   }
 
   /**
@@ -729,4 +746,8 @@ public final class StringTools {
        + "]", "");
       return striped;
     }
+
+  public static boolean isNumeric(String input) {
+    return NUMERIC_STR.matcher(input).matches();
+  }
 }

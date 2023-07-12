@@ -48,7 +48,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("La primera compren")) {
+//    if (match.getSentence().getText().contains("Faltes")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -200,7 +200,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     boolean replacementsUsed = false;
     if (generateSuggestions) {
       for (String s : match.getSuggestedReplacements()) {
-        if (s.contains("{suggestion}") || s.contains("{Suggestion}")) {
+        if (s.contains("{suggestion}") || s.contains("{Suggestion}") || s.contains("{SUGGESTION}")) {
           replacementsUsed = true;
           for (String s2 : replacements) {
             if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
@@ -210,9 +210,13 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
               if (!definitiveReplacements.contains(s2)) {
                 definitiveReplacements.add(s.replace("{suggestion}", s2));
               }
-            } else {
+            } else if (s.contains("{Suggestion}")) {
               if (!definitiveReplacements.contains(StringTools.uppercaseFirstChar(s2))) {
                 definitiveReplacements.add(s.replace("{Suggestion}", StringTools.uppercaseFirstChar(s2)));
+              }
+            } else {
+              if (!definitiveReplacements.contains(s2.toUpperCase())) {
+                definitiveReplacements.add(s.replace("{SUGGESTION}", s2.toUpperCase()));
               }
             }
           }

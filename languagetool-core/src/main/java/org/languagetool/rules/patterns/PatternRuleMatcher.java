@@ -137,6 +137,17 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       idx = tokens.length - 1;
     }
     AnalyzedTokenReadings firstMatchTokenObj = tokens[idx];
+    List<String> inputTokens = new ArrayList<>();
+    for (int i = idx; i <= lastMatchToken; i++) {
+      inputTokens.add(tokens[i].getToken());
+    }
+    boolean isInputAllUppercase = StringTools.isAllUppercase(inputTokens);
+    boolean isAllUppercase = isInputAllUppercase &&
+      (firstMatchTokenObj.getToken().length() > 1 || lastMatchToken > idx)
+      && matchPreservesCase(rule.getSuggestionMatches(), rule.getMessage())
+      && matchPreservesCase(rule.getSuggestionMatchesOutMsg(), rule.getSuggestionsOutMsg());
+    isAllUppercase = isAllUppercase && rule.isAdjustSuggestionCase();
+
     boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken())
         && matchPreservesCase(rule.getSuggestionMatches(), rule.getMessage())
         && matchPreservesCase(rule.getSuggestionMatchesOutMsg(), rule.getSuggestionsOutMsg());
@@ -169,7 +180,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
           && !suggestionsOutMsg.contains(RuleMatch.SUGGESTION_START_TAG))) {
         String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
         RuleMatch ruleMatch = new RuleMatch(rule, sentence, fromPos, toPos, tokens[firstMatchToken].getStartPos(), tokens[lastMatchToken].getEndPos(),
-                clearMsg, shortErrMessage, startsWithUppercase, suggestionsOutMsg);
+                clearMsg, shortErrMessage, startsWithUppercase, isAllUppercase, suggestionsOutMsg, true);
         ruleMatch.setType(rule.getType());
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
@@ -191,6 +202,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   private boolean matchPreservesCase(List<Match> suggestionMatches, String msg) {
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       //PatternRule rule = (PatternRule) this.rule;
+      //FIXME: this only considers properly the first match in first suggestion.
       int sugStart = msg.indexOf(RuleMatch.SUGGESTION_START_TAG) + RuleMatch.SUGGESTION_START_TAG.length();
       if (msg.contains(PatternRuleHandler.PLEASE_SPELL_ME)) {
         sugStart += PatternRuleHandler.PLEASE_SPELL_ME.length();
