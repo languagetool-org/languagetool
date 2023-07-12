@@ -142,8 +142,9 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       inputTokens.add(tokens[i].getToken());
     }
     boolean isInputAllUppercase = StringTools.isAllUppercase(inputTokens);
+    // one-character words (A, J', L') are not enough to consider it an all-uppercase word
     boolean isAllUppercase = isInputAllUppercase &&
-      (firstMatchTokenObj.getToken().length() > 1 || lastMatchToken > idx)
+      (firstMatchTokenObj.getToken().replaceAll("'", "").length() > 1 || lastMatchToken > idx)
       && matchPreservesCase(rule.getSuggestionMatches(), rule.getMessage())
       && matchPreservesCase(rule.getSuggestionMatchesOutMsg(), rule.getSuggestionsOutMsg());
     isAllUppercase = isAllUppercase && rule.isAdjustSuggestionCase();
