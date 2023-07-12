@@ -3190,6 +3190,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "UBahntunnel": return topMatch("U-Bahntunnel");
       case "Ubahntunnels": return topMatch("U-Bahntunnels");
       case "UBahntunnels": return topMatch("U-Bahntunnels");
+      case "UBahnzug": return topMatch("U-Bahnzug");
+      case "UBahnzugs": return topMatch("U-Bahnzugs");
+      case "UBahnzüge": return topMatch("U-Bahnzüge");
+      case "UBahnzügen": return topMatch("U-Bahnzügen");
       case "Gelantine": return topMatch("Gelatine");
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
