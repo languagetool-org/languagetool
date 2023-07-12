@@ -696,7 +696,7 @@ public class English extends Language implements AutoCloseable {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      String errorStr = rm.getUnderlinedStr();
+      String errorStr = rm.getOriginalErrorStr();
       List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
       for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {

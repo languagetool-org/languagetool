@@ -8421,7 +8421,7 @@ USA
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="buitengewoon|zeer|uitermate">Ik dans <marker>extreem</marker> gay.</example>
 				<example correction="Buitengewoon|Zeer|Uitermate"><marker>Extreem</marker> zekere hond.</example>
-				<example correction="Buitengewoon|Zeer|Uitermate">Dit is <marker>EXTREEM</marker> frequentieafhankelijk.</example>
+			    <example correction="BUITENGEWOON|ZEER|UITERMATE">Dit is <marker>EXTREEM</marker> frequentieafhankelijk.</example>
 				<example correction="buitengewoon|zeer|uitermate">De plaat is <marker>extreem</marker> slagvast en eenvoudig te reinigen.</example>
 				<example correction="buitengewoon|zeer|uitermate">Die <marker>extreem</marker> verdraaide beeldvorming heeft enkele doelen.</example>
 				<example correction="buitengewoon|zeer|uitermate">Gewoon of '<marker>extreem</marker>'.</example>
@@ -10363,7 +10363,7 @@ USA
 						<token spacebefore="no">.</token>
 					</marker>
 				</pattern>
-				<message>&vlotter_mess; <suggestion>Geachte</suggestion> of <suggestion>Beste</suggestion>.</message>
+			    <message>&vlotter_mess; <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Geachte" case_conversion="startupper"/></suggestion> of <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Beste" case_conversion="startupper"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="Geachte|Beste"><marker>L.S.</marker></example>
 			</rule>
@@ -16543,7 +16543,7 @@ USA
 					<token>EUR</token>
 					<token regexp="yes">[0-9]{1,10}</token>
 				</pattern>
-				<message>Gebruik <suggestion>€ <match no="2"/></suggestion> of <suggestion><match no="2"/> euro</suggestion>, behalve in formele teksten over geld.</message>
+			    <message>Gebruik <suggestion><match no="2" regexp_match="^(.*)$" regexp_replace="€ $1" case_conversion="alllower"/></suggestion> of <suggestion><match no="2" case_conversion="alllower"/> <match no="1" regexp_match="^.*$" regexp_replace="euro" case_conversion="alllower"/></suggestion>, behalve in formele teksten over geld.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/eur</url>
 				<example correction="€ 5|5 euro">Hij gaf mij <marker>EUR 5</marker>.</example>
 				<example>Hij gaf mij <marker>€ 5</marker>.</example>
