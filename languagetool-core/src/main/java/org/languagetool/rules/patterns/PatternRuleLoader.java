@@ -72,7 +72,6 @@ public class PatternRuleLoader extends DefaultHandler {
       if (JLanguageTool.isCustomPasswordAuthenticatorUsed()) {
         Tools.setPasswordAuthenticator();
       }
-
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
       saxParser.parse(is, handler);
       return handler.getRules();

@@ -68,7 +68,7 @@ public final class StringTools {
   private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
   private static final Pattern NOT_WORD_CHARACTER = Pattern.compile("[^\\p{L}]", Pattern.DOTALL);
 
-  private static final Pattern NUMERIC_STR = Pattern.compile("[\\d\\.,\\s]+", Pattern.DOTALL);
+  private static final Pattern NUMERIC_STR = Pattern.compile("[\\d\\.,\\s%]+", Pattern.DOTALL);
 
   private StringTools() {
     // only static stuff
