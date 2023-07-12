@@ -68,7 +68,7 @@ public final class StringTools {
   private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
   private static final Pattern NOT_WORD_CHARACTER = Pattern.compile("[^\\p{L}]", Pattern.DOTALL);
 
-  private static final Pattern NUMERIC_STR = Pattern.compile("[\\d\\.,\\s%]+", Pattern.DOTALL);
+  private static final Pattern NOT_WORD_STR = Pattern.compile("[^\\p{L}]+", Pattern.DOTALL);
 
   private StringTools() {
     // only static stuff
@@ -140,7 +140,7 @@ public final class StringTools {
     boolean isAllNotLetters = true;
     for (int i = 0; i < strList.size(); i++) {
       isInputAllUppercase = isInputAllUppercase && StringTools.isAllUppercase(strList.get(i));
-      isAllNotLetters = isAllNotLetters && (StringTools.isNumeric(strList.get(i))
+      isAllNotLetters = isAllNotLetters && (StringTools.isNotWordString(strList.get(i))
         || StringTools.isPunctuationMark(strList.get(i)));
     }
     return isInputAllUppercase && ! isAllNotLetters;
@@ -747,7 +747,7 @@ public final class StringTools {
       return striped;
     }
 
-  public static boolean isNumeric(String input) {
-    return NUMERIC_STR.matcher(input).matches();
+  public static boolean isNotWordString(String input) {
+    return NOT_WORD_STR.matcher(input).matches();
   }
 }
