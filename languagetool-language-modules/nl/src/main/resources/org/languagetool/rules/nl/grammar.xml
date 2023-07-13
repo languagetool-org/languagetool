@@ -10840,20 +10840,10 @@ regexp case-insensitive maken: (?i)
                 <example correction="Beukenlaan">Hij woont op <marker>beukenlaan</marker> 35 te Haarlem.</example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="TE_PLAATS" name="Te voor plaats" tags="picky">
+        <rulegroup id="SCHOUWEN_DUIVELAND" name="Schouwen Duiveland => Schouwen-Duiveland" default="off">
+            <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_SCHOUWEN_DUIVELAND -->
             <rule>
-                <pattern><marker><token>te</token></marker><token postag="ENM:LOC:PTS"/></pattern>
-                    <message>Minder formeel is <suggestion>in</suggestion>.</message>
-                    <url>https://taaladvies.net/taal/advies/vraag/1277/te_in_plaatsaanduiding/</url>
-                    <example correction="in">Geboren <marker>te</marker> Alkmaar.</example>
-                </rule>
-            </rulegroup>
-
-            <rulegroup id="SCHOUWEN_DUIVELAND" name="Schouwen Duiveland => Schouwen-Duiveland" default="off">
-                <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_PREMIUM_SCHOUWEN_DUIVELAND -->
-                <rule>
-                    <pattern>
+                <pattern>
                     <token>schouwen</token>
                     <token>duiveland</token>
                 </pattern>
@@ -17863,16 +17853,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="een|Ee">Hij doet het <marker>ee</marker> keer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="_10X" name="10x 10 keer" >
-            <rule>
-                <pattern>
-                    <token regexp="yes" case_sensitive="yes">[0-9]+x</token>
-                </pattern>
-                <message>Netter is om het uit te schrijven.</message>
-                <suggestion><match no="1" regexp_match="x" regexp_replace=" keer"/></suggestion>
-                <example correction="10 keer">Hij doet het <marker>10x</marker> fout.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="ERS" name="ers / 'ers" >
             <rule>
                 <pattern>
@@ -20953,34 +20933,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Wanneer de rivier dicht gaat <marker>slippen</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WOUDEN" name="wilden of wouden" tags="picky">
-            <rule>
-                <pattern>
-                    <token regexp="yes">ik|je|jij|hij</token>
-                    <token>wou</token>
-                </pattern>
-                <message>Wat formeler is: <suggestion><match no="1"/> wilde</suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wilden-wouden-wouen-wouwen</url>
-                <example correction="Ik wilde"><marker>Ik wou</marker> weg.</example>
-                <example correction="Hij wilde"><marker>Hij wou</marker> rijk worden.</example>
-                <example correction="je wilde">Wat <marker>je wou</marker>, dat héb je.</example>
-                <example correction="ik wilde">Ja, <marker>ik wou</marker> weer werken.</example>
-                <example correction="hij wilde">Maar <marker>hij wou</marker> wel een dessert.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">wij|zij</token>
-                    <token>wouden</token>
-                </pattern>
-                <message>Wat formeler is: <suggestion><match no="1"/> wilden</suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wilden-wouden-wouen-wouwen</url>
-                <example correction="Wij wilden"><marker>Wij wouden</marker> hier verandering in brengen.</example>
-                <example correction="wij wilden">Alleen bij de hoogste zonder band stond een rij, maar <marker>wij wouden</marker> de laagste zonder band eens uittesten.</example>
-                <example correction="zij wilden">Natuurlijk is het beeld dat we van hem hebben verdraaid, aangezien hij ons niets heeft nagelaten en het concilie van Nicaeae zijn best gedaan heeft om het beeld van jezus dat <marker>zij wouden</marker> laten zien, op te hangen.</example>
-                <example correction="Wij wilden"><marker>Wij wouden</marker> het gewoon bij onze eerste reactie laten maar op het bericht van "recht op antwoord" willen wij toch even reageren.</example>
-                <example correction="wij wilden">Waarschijnlijk, want wij moesten wachten terwijl er boven geen rij stond voor de glijbaan die <marker>wij wouden</marker> doen.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="PEILER" name="peiler of pijler">
             <rule>
                 <!--
@@ -21330,20 +21282,6 @@ regexp case-insensitive maken: (?i)
             <example correction="nooit">En <marker>nooit geen</marker> vakantie.</example>
             <example>Zeg nooit nooit.</example>
         </rule>
-        <rulegroup id="IETS_DAT" name="Iets dat → iets wat" tags="picky">
-            <rule>
-                <pattern>
-                    <token>iets</token>
-                    <token>dat</token>
-                </pattern>
-                <message>Sommige mensen vinden <suggestion>iets wat</suggestion> toch wat netter.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/iets-wat-iets-dat</url>
-                <example correction="Iets wat"><marker>Iets dat</marker> echt leeft.</example>
-                <example correction="iets wat">Kefir is <marker>iets dat</marker> leeft.</example>
-                <example correction="iets wat">De staatshervorming is <marker>iets dat</marker> evolueert.</example>
-                <example correction="iets wat">Het is <marker>iets dat</marker> je je herinnert.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="VERLUID" name="verluid" default="off">
             <!-- MB@2023-07-11 - DISABLE: Overruled by NL_SIMPLE_REPLACE_NAAR_VERLUID -->
             <rule>
@@ -24988,33 +24926,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="tot">Het gebeurt <marker>tod</marker> 5 uur.</example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="HIJ_ZIJ" name="hij/zij" tags="picky">
-            <!-- R. Baars november 2022 -->
-            <rule>
-                <pattern>
-                    <token>hij</token>
-                    <token>/</token>
-                    <token>zij</token>
-                </pattern>
-                <message>Het staat iets formeler als het uitgeschreven wordt: <suggestion>\1 of \3</suggestion>.</message>
-                <example correction="hij of zij">Dan doet <marker>hij/zij</marker> het.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="ZIJN_HAAR" name="zijn/haar" tags="picky" >
-            <!-- R. Baars november 2022 -->
-            <rule>
-                <pattern>
-                    <token>zijn</token>
-                    <token>/</token>
-                    <token>haar</token>
-                </pattern>
-                <message>Het staat iets formeler als het uitgeschreven wordt: <suggestion>\1 of \3</suggestion>.</message>
-                <example correction="zijn of haar">Het is <marker>zijn/haar</marker> fout.</example>
-            </rule>
-        </rulegroup>
-
 
         <rulegroup id="PAT" name="pat/pad">
             <!-- R. Baars 28-10-2022 -->
