@@ -608,6 +608,21 @@ USA
 				<example correction="tachtig">Ik ben daar al <marker>80</marker> keer geweest.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="WOUDEN" name="wilden of wouden" tone_tags="general">
+			<rule>
+				<pattern>
+					<token regexp="yes">wij|zij</token>
+					<token>wouden</token>
+				</pattern>
+				<message>Beter is: <suggestion><match no="1"/> wilden</suggestion></message>
+				<url>https://onzetaal.nl/taaladvies/advies/wilden-wouden-wouen-wouwen</url>
+				<example correction="Wij wilden"><marker>Wij wouden</marker> hier verandering in brengen.</example>
+				<example correction="wij wilden">Alleen bij de hoogste zonder band stond een rij, maar <marker>wij wouden</marker> de laagste zonder band eens uittesten.</example>
+				<example correction="zij wilden">Natuurlijk is het beeld dat we van hem hebben verdraaid, aangezien hij ons niets heeft nagelaten en het concilie van Nicaeae zijn best gedaan heeft om het beeld van jezus dat <marker>zij wouden</marker> laten zien, op te hangen.</example>
+				<example correction="Wij wilden"><marker>Wij wouden</marker> het gewoon bij onze eerste reactie laten maar op het bericht van "recht op antwoord" willen wij toch even reageren.</example>
+				<example correction="wij wilden">Waarschijnlijk, want wij moesten wachten terwijl er boven geen rij stond voor de glijbaan die <marker>wij wouden</marker> doen.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ZOVEEL_DAN" name="In/over" tags="picky" tone_tags="general">
 			<rule>
 				<antipattern><token skip="-1">zoveel</token><token>,</token></antipattern>
@@ -3299,7 +3314,7 @@ USA
 				<example correction="en zo meer|en dergelijke">We maken fouten <marker>en zo</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WOUDEN" name="wilden of wouden" tags="picky">
+		<rulegroup id="IK_WOU" name="Ik wou (wilde) je nog bellen">
 			<rule>
 				<pattern>
 					<token regexp="yes">ik|je|jij|hij</token>
@@ -3313,20 +3328,6 @@ USA
 				<example correction="je wilde">Wat <marker>je wou</marker>, dat héb je.</example>
 				<example correction="ik wilde">Ja, <marker>ik wou</marker> weer werken.</example>
 				<example correction="hij wilde">Maar <marker>hij wou</marker> wel een dessert.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes">wij|zij</token>
-					<token>wouden</token>
-				</pattern>
-				<message>Dit is spreektaal, niet zo geschikt voor zakelijk verkeer.</message>
-				<suggestion><match no="1"/> wilden</suggestion>
-				<url>https://onzetaal.nl/taaladvies/advies/wilden-wouden-wouen-wouwen</url>
-				<example correction="Wij wilden"><marker>Wij wouden</marker> hier verandering in brengen.</example>
-				<example correction="wij wilden">Alleen bij de hoogste zonder band stond een rij, maar <marker>wij wouden</marker> de laagste zonder band eens uittesten.</example>
-				<example correction="zij wilden">Natuurlijk is het beeld dat we van hem hebben verdraaid, aangezien hij ons niets heeft nagelaten en het concilie van Nicaeae zijn best gedaan heeft om het beeld van jezus dat <marker>zij wouden</marker> laten zien, op te hangen.</example>
-				<example correction="Wij wilden"><marker>Wij wouden</marker> het gewoon bij onze eerste reactie laten maar op het bericht van "recht op antwoord" willen wij toch even reageren.</example>
-				<example correction="wij wilden">Waarschijnlijk, want wij moesten wachten terwijl er boven geen rij stond voor de glijbaan die <marker>wij wouden</marker> doen.</example>
 			</rule>
 		</rulegroup>
 		<rule id="DOUWEN" name="Douwen/duwen">
