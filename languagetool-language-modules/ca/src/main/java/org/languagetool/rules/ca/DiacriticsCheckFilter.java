@@ -99,6 +99,7 @@ public class DiacriticsCheckFilter extends RuleFilter {
       for (String sugg : match.getSuggestedReplacements()) {
         String suggestion = sugg.replace("{suggestion}", replacement);
         suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
+        suggestion = suggestion.replace("{SUGGESTION}", replacement.toUpperCase());
         ruleMatch.addSuggestedReplacement(suggestion);  
       }
       return ruleMatch;

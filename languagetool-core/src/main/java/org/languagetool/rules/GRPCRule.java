@@ -24,6 +24,7 @@ package org.languagetool.rules;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,6 +49,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Streams;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import io.grpc.*;
+import io.grpc.internal.DnsNameResolver;
+import io.grpc.internal.DnsNameResolverProvider;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -59,9 +63,6 @@ import org.languagetool.rules.ml.MLServerProto.MatchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.grpc.ManagedChannel;
-import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
@@ -136,7 +137,14 @@ public abstract class GRPCRule extends RemoteRule {
     final MLServerFutureStub stub;
 
     public static ManagedChannel getManagedChannel(String host, int port, boolean useSSL, @Nullable String clientPrivateKey, @Nullable String clientCertificate, @Nullable String rootCertificate) throws SSLException {
-      NettyChannelBuilder channelBuilder = NettyChannelBuilder.forAddress(host, port);
+      NettyChannelBuilder channelBuilder;
+      if (host.startsWith("dns://")) {
+        channelBuilder = NettyChannelBuilder.forTarget(host + ":" + port);
+        channelBuilder.defaultLoadBalancingPolicy("round_robin");
+        NameResolverRegistry.getDefaultRegistry().register(new DnsNameResolverProvider());
+      } else {
+        channelBuilder = NettyChannelBuilder.forAddress(host, port);
+      }
       if (useSSL) {
         SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient();
         if (rootCertificate != null) {
@@ -169,7 +177,7 @@ public abstract class GRPCRule extends RemoteRule {
       }
     }
   }
-
+  
   private static final LoadingCache<RemoteRuleConfig, Connection> servers =
     CacheBuilder.newBuilder().build(CacheLoader.from(serviceConfiguration -> {
       if (serviceConfiguration == null) {
