@@ -516,7 +516,8 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">\d
-                            <exception scope="previous" regexp="yes">[.\|\…\+\=\#-]+</exception></token>
+                            <exception scope="previous" regexp="yes">[.\|\…\+\=\#-]+</exception>
+                            <exception scope="next" regexp="yes"> °C</exception></token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes" skip="-1"/>
                     <token regexp="yes">[\.\!\?]</token>
@@ -524,6 +525,7 @@ USA
                 <message>Les chiffres s'écrivent généralement en lettres.</message>
                 <suggestion><match no="1" postag="_spell_number_"/></suggestion>
                 <example correction="neuf">Les enfants (<marker>9</marker> garçons) ont été jouer au parc.</example>
+                <example>Il fait 0 °C.</example>
                 <example>Le navigateur internet explorer 2 n'est plus utilisé.</example>
                 <example>Il tourne entre 2 et 4M€ annuellement.</example>
                 <example>Il est disponible 24h/ 24 heures.</example>
