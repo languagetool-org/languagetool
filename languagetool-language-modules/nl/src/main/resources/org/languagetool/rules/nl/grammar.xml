@@ -719,6 +719,12 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="VEEL_DAGEN" name="2021 dagen" >
+            <antipattern>
+                <token skip="-1" regexp="yes" inflected="yes">totaal|exact|precies|.*tijd.*|gedurende|bestaan|.*vlieg.*</token>
+                <token regexp="yes" negate="yes">[0-9]+</token>
+                <token regexp="yes" negate="yes">[.,]</token>
+                <example>In totaal bracht hij 827 dagen door in de ruimte.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" negate="yes">[0-9]+</token>
@@ -8096,6 +8102,7 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
+            <!-- MB@2023-07-13 - MOD: Added some exceptions and APs, needs more -->
             <rule>
                 <antipattern><token>de</token><token>mini</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
                 <antipattern>
@@ -8104,9 +8111,14 @@ regexp case-insensitive maken: (?i)
                     <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
                     <example>Het is een megading.</example>
                 </antipattern>
+                <antipattern>
+                    <token><exception postag_regexp="yes" postag="SENT_START|START"/></token>
+                    <token case_sensitive="yes" regexp="yes">Mini|Ultra|Giga|Mega|Tera|Nano|Micro|Macro</token>
+                    <example>Hij gebruikt Mega voor de opslag van zijn foto's.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" >mini|ultra|giga|mega|tera|nano|micro|macro</token>
-                    <token postag_regexp="yes" postag="ZNW.*|BNW.*"><exception regexp="yes">kan|HD</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*|BNW.*"><exception regexp="yes">kan|HD|was|wist|top|playbackshow</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
                 <!-- <filter class="org.languagetool.rules.nl.CompoundFilter" args="words:\1|\2"/> -->
@@ -10101,7 +10113,7 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" postag="UNKNOWN">[a-z]{2,6}<exception regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|cf|cfr|dhr|div|dr|dra|drs|ds|ed|em|enz|etc|evt|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mevr|mld|mln|mr|mrs|nl|no|nr|nrs|ong|onov|opp|pag|plm|plv|resp|sr|vgl|vnl|vnw|voorz|vs|ww|zg|zgn</exception></token>
+                        <token case_sensitive="yes" regexp="yes" postag="UNKNOWN">[a-z]{2,6}<exception regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|cf|cfr|dhr|div|dr|dra|drs|ds|ed|em|enz|etc|evt|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mevr|mld|mln|mr|mrs|mw|nl|no|nr|nrs|ong|onov|opp|pag|plm|plv|resp|sr|vgl|vnl|vnw|voorz|vs|ww|zg|zgn|&abbrevMonths;</exception></token>
                         <token spacebefore="no">.</token>
                     </marker>
                     <token spacebefore="yes" case_sensitive="yes" regexp="yes">[a-z].*</token>
@@ -10109,6 +10121,7 @@ regexp case-insensitive maken: (?i)
                 <message>Dit zou een onofficiële afkorting kunnen zijn, maar ook een punt die per ongeluk daar staat in plaats van een komma. Of er is een hoofdletter vergeten.</message>
                 <example type = "incorrect">Het is fout <marker>qc.</marker> een misser.</example>
                 <example>Dat is fam. van Vliet.</example>
+                <example>Ik zie je op 15 aug. om een uur of twee.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NL_PUNT" name="nl. → namelijk">
@@ -17065,7 +17078,7 @@ regexp case-insensitive maken: (?i)
                     <marker>
                         <token>Echter</token>
                         <token postag_regexp="yes" postag="WKW.*"/>
-                        <token postag_regexp="yes" postag="VNW.*"><exception>de</exception></token>
+                        <token postag_regexp="yes" postag="VNW.*"><exception regexp="yes">de|me</exception></token>
                     </marker>
                 </pattern>
                 <message>Als 'echter' aan het begin van de zin staat, volgt een komma.</message>
@@ -18230,9 +18243,12 @@ regexp case-insensitive maken: (?i)
                         <token case_sensitive="yes">hebt</token>
                     </marker>
                 </pattern>
-                <message>Omdat er 'hebt' staat, moet ergens in de zin ook je, jij, ge, gij of u staan. Juist zijn: ik heb, heb ik, heb je/jij, hebt ge/gij/u, ge/gij/u hebt. Of staat het onderwerp in de zin ervoor?</message>
-                <example type="incorrect">Dan <marker>hebt</marker> je het fout.</example>
-                <example type="incorrect">Dan <marker>hebt</marker> hij het fout.</example>
+                <message>Omdat er 'hebt' staat, moet ergens in de zin ook je, jij, ge, gij of u staan.</message>
+                <suggestion>heb</suggestion>
+                <suggestion>heeft</suggestion>
+                <suggestion>had</suggestion>
+                <example correction="heb|heeft|had">Dan <marker>hebt</marker> je het fout.</example>
+                <example correction="heb|heeft|had">Dan <marker>hebt</marker> hij het fout.</example>
                 <example>Dan <marker>hebt</marker> u het goed.</example>
                 <example>Je <marker>hebt</marker> het goed.</example>
             </rule>
@@ -19276,25 +19292,25 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="AN_ZICH" name="an zich/an sich" type="misspelling">
             <rule>
                 <pattern><token>an</token><token>zich</token></pattern>
-                    <message>U bedoelt vast <suggestion>\1 sich</suggestion>.</message>
-                    <short>Geen hoofdletter</short>
-                    <example correction="An sich"><marker>An zich</marker> klopt het niet.</example>
-                </rule>
-            </rulegroup>
+                <message>U bedoelt vast <suggestion>\1 sich</suggestion>.</message>
+                <short>Geen hoofdletter</short>
+                <example correction="An sich"><marker>An zich</marker> klopt het niet.</example>
+            </rule>
+        </rulegroup>
 
-            <rulegroup id="SOCIAL_MEDIA_DINGES" name="social media training / socialmediatraining">
-                <rule>
-                    <antipattern><token postag="VRZ"/><token>sociale</token><token>media</token></antipattern>
-                    <antipattern><token regexp="yes">social|sociale</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
-                    <antipattern><token regexp="yes">social|sociale</token><token>media</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
-                    <pattern>
-                    <token regexp="yes">social|sociale</token>
-                    <token>media</token>
+        <rulegroup id="SOCIAL_MEDIA_DINGES" name="social media training / socialmediatraining">
+            <rule>
+                <antipattern><token regexp="yes">social</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
+                <antipattern><token regexp="yes">social</token><token>media</token><token postag_regexp="yes" postag="WKW.*|.*BEZ"/></antipattern>
+                <pattern>
+                    <token regexp="yes">social</token>
+                    <token case_sensitive="yes">media</token>
                     <token postag_regexp="yes" postag="ZNW.*"><exception>zeer</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2 word3:\3"/>
                 <message>Correct is <suggestion>\1\2\3</suggestion>.</message>
                 <example correction="socialmediatraining">Ik volg een <marker>social media training</marker>.</example>
+                <example>Dat is de manier waarop social media onze levens beïnvloedt.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19304,7 +19320,6 @@ regexp case-insensitive maken: (?i)
                 <message>Correct is <suggestion>\1\2</suggestion>.</message>
                 <example correction="socialmediatraining">Ik volg een <marker>social mediatraining</marker>.</example>
             </rule>
-
         </rulegroup>
 
         <rulegroup id="ANTI_DINGES_DINGES" name="anti abortus verhaal / antiabortusverhaal">
@@ -20734,7 +20749,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[0-9]+x</token>
                 </pattern>
-                <message>Wanneer u met de x 'maal' of 'keer' bedoelt dan hoort er een spatie voor en zijn er betere tekens. U kunt ook woorden gebruiken.</message>
+                <message>Er is een beter teken voor het aangeven van 'keer'.</message>
                 <suggestion><match no="1" regexp_match="x" regexp_replace=" ×"/></suggestion>
                 <suggestion><match no="1" regexp_match="x" regexp_replace=" *"/></suggestion>
                 <suggestion><match no="1" regexp_match="x" regexp_replace=" maal"/></suggestion>
@@ -22491,10 +22506,10 @@ regexp case-insensitive maken: (?i)
                 <example correction="ook, hè">Ik <marker>ook he</marker>?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EN_EN_EN" name="En … en … en …" tags="picky">
+        <rulegroup id="EN_EN_EN" name="En … en … en …" tags="picky" default="off">
             <!-- bron: Onze Taal via Woordpost 2014-08-27 -->
-            <rule default="off">
-                <!-- Disabled. Not used in other languages and triggers too many FPs, therefore very unpopular -->
+            <!-- MB@2023-07-13 - DISABLE: might be a good contestant for an AI rule, currently too many FPs to be of good use -->
+            <rule>
                <pattern>
                     <token skip="10">en</token>
                     <token skip="10">en</token>
@@ -23814,10 +23829,11 @@ regexp case-insensitive maken: (?i)
                     <example>Zij neemt een positie in in de samenleving.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip="2" inflected="yes">treden</token>
-                    <token>op</token>
-                    <token>op</token>
+                    <token skip="2" postag_regexp="yes" postag="WKW.*"/>
+                    <token regexp="yes">op|om</token>
+                    <token regexp="yes">op|om</token>
                     <example>Als zanger van een band treedt hij op op de meest uiteenlopende plekken.</example>
+                    <example>Ik draai me om om te kijken waar dat geluid vandaan komt.</example>
                 </antipattern>
                 <pattern>
                     <token><exception>’</exception></token>
@@ -24542,27 +24558,25 @@ regexp case-insensitive maken: (?i)
             <antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
             <antipattern><token>in</token><token>de</token><token>rats</token></antipattern>
             <antipattern><token>in</token><token>de</token><token>voors</token></antipattern>
-
             <antipattern><token>KU</token><token>Leuven</token></antipattern>
             <antipattern><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
             <antipattern><token>de</token><token>personal</token><token>computer</token></antipattern>
             <antipattern><token>de</token><token>public</token><token>relations</token></antipattern>
             <antipattern><token>de</token><token>condition</token><token>humaine</token></antipattern>
             <antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
-            <antipattern><token>de</token><token>waterspitsmuis</token></antipattern>
-            <antipattern><token>de</token><token>eindbaas</token></antipattern>
             <antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
             <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
             <antipattern><token>de</token><token>,</token><token>,</token></antipattern>
             <antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|art|iTunes|pits|dit|onderscheidene|[.]|jouwen|golden|alles|mm|…|[a-z].*–</token></antipattern>
             <antipattern><token>de</token><token postag="WKW:TGW:1EP"/><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern><!-- de betaal conditie -->
             <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
-
             <antipattern><token>de</token><token postag="AHL:OPN"/></antipattern>
+            <antipattern><token>de</token><token/><token postag_regexp="yes" postag="ZNW.*|DVW|UNKNOWN"/></antipattern>
+            <antipattern><token>de</token><token postag="UNKNOWN"/></antipattern>
+            <!-- let another rule deal with missing dash -->
+            <antipattern><token>de</token><token/><token>en</token></antipattern>
             <!-- eigennamen -->
             <antipattern case_sensitive="yes"><token>de</token><token regexp="yes">^[A-Z][a-z].*</token><token regexp="yes">^[A-Z][a-z].*</token></antipattern>
-
-            <antipattern><token>de</token><token postag="UNKNOWN"/></antipattern>
             <rule>
                 <!-- de surplus die -->
                 <pattern>
@@ -24576,22 +24590,24 @@ regexp case-insensitive maken: (?i)
                 <example correction="Het surplus"><marker>De surplus</marker> die ik zag.</example>
                 <example>De waterspitsmuis heeft giftig speeksel.</example>
             </rule>
-
             <rule>
                 <antipattern><token>de</token><token postag="ZNW:EKV:HET"/><token postag="ZNW.*" postag_regexp="yes"/></antipattern>
                 <pattern>
                     <token>de</token>
                     <token/>
                 </pattern>
-                <message>Het woord na 'de' is onverwacht. Misschien zou het niet 'de', maar 'het', 'te' of 'dit' moeten zijn.</message>
+                <message>Het woord na 'de' is onverwacht. Misschien zou het niet 'de', maar 'het', 'dat' of 'dit' moeten zijn.</message>
                 <suggestion>het \2</suggestion>
-                <suggestion>te \2</suggestion>
+                <suggestion>dat \2</suggestion>
                 <suggestion>dit \2</suggestion>
-                <example correction="het loopt|te loopt|dit loopt"><marker>de loopt</marker></example>
+                <suggestion>\2</suggestion>
+                <example correction="het loopt|dat loopt|dit loopt|loopt"><marker>de loopt</marker></example>
                 <example>Bij de overheadpass zijn beide handen aan de bal.</example> <!-- false alarm 15-12-2019 -->
                 <example>Bij de opgestane Jezus.</example> <!-- false alarm-->
                 <example>Bij de kartuizers.</example> <!-- false alarm-->
                 <example>Bij de princeps.</example> <!-- false alarm-->
+                <example>uitsluitend in rekening worden gebracht, als de second opinion geschiedt op verzoek van de patiënt</example>
+                <example>Zo kunnen de jaar en eindnota's worden opgeslagen.</example>
             </rule>
         </rulegroup>
 
@@ -24871,8 +24887,9 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="COPY" name="copy/kopie of kopij" >
+        <rulegroup id="COPY" name="copy/kopie of kopij" default="off">
             <!-- R. Baars november 2022 -->
+            <!-- MB@2023-07-13 - DISABLE: commonly used, very low apply rate -->
             <rule>
                 <antipattern>
                     <token>copy</token>

@@ -912,7 +912,10 @@ USA
 		</rulegroup>
 		<rulegroup id="VAAG" name="vage taal" tone_tags="formal" is_goal_specific="true">
 			<rule>
-				<antipattern><token>dan</token><token>ooit</token></antipattern>
+				<antipattern>
+				    <token skip="2">dan</token>
+				    <token>ooit</token>
+				</antipattern>
 				<pattern>
 					<token>ooit</token>
 				</pattern>
@@ -4905,17 +4908,21 @@ USA
 		</rulegroup>
 	</category>
 	<category id="LEESBAARHEID" name="Leesbaarheid" type="style" tone_tags="clarity">
-			<rulegroup id="ERG_LANG_WOORD" name="Lang woord">
-				<!-- TODO uitzonderingen voor websites en urls -->
-				<rule>
-					<pattern>
-						<token regexp="yes">^\p{L}{30,50}$</token>
-					</pattern>
-					<message>Lange woorden kunnen een tekst lastig leesbaar maken. Wellicht kan het iets eenvoudiger?</message>
-					<example correction="">Dit conform de <marker>producentenaansprakelijkheidsverplichtingen</marker>.</example>
-					<example>https://www.languagetool.org/test</example>
-				</rule>
-			</rulegroup>
+		<rulegroup id="ERG_LANG_WOORD" name="Lang woord">
+			<!-- MB@2023-07-13 - MOD: added antipattern for common words that caused high disable rates -->
+			<rule>
+			    <antipattern>
+			        <token regexp="yes">.*verzekering.*|.*activiteit.*|.*systeem|.*systemen|.*maatschappij.*|.*mogelijkhe.*</token>
+			        <example>Ze doen beroep op hun aansprakelijkheidsverzekeringen.</example>
+			    </antipattern>
+				<pattern>
+					<token regexp="yes">^\p{L}{30,50}$</token>
+				</pattern>
+				<message>Lange woorden kunnen een tekst lastig leesbaar maken. Wellicht kan het iets eenvoudiger?</message>
+				<example correction="">Dit conform de <marker>producentenaansprakelijkheidsverplichtingen</marker>.</example>
+				<example>https://www.languagetool.org/test</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="OUDERWETS" name="Ouderwets" type="style" tone_tags="informal" is_goal_specific="true">
 		<rulegroup id="BIJ_MIDDEL_VAN" name="Bij middel van → door middel van">
@@ -16130,7 +16137,8 @@ USA
 			<example>Het is een <marker>nieuwe versie</marker>.</example>
 		</rule>
 		-->
-		<rulegroup id="UPDATEN" name="updaten → bijwerken">
+		<rulegroup id="UPDATEN" name="updaten → bijwerken" default="off">
+			<!-- MB@2023-07-13 - DISABLE: too common to suggest alternatives -->
 			<rule>
 				<pattern>
 					<marker>
@@ -16381,8 +16389,9 @@ USA
 				<example correction="beroemdheid|ster">Met zijn boek is hij nu een heuse <marker>celebrity</marker> geworden.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="SALE" name="sale → uitverkoop">
+		<rulegroup id="SALE" name="sale → uitverkoop" default="off">
 			<!-- 2014-08-22 TaalTik -->
+			<!-- MB@2023-07-13 - DISABLE: 4% apply rate, very common loanword -->
 			<rule>
 				<pattern>
 					<token>sale</token>
@@ -16808,7 +16817,7 @@ USA
 					<token spacebefore="yes"/>
 				</pattern>
 				<message>Gebruik geen punt bij getallen met 4 cijfers (<suggestion>\1\3</suggestion>), behalve in een berekening.</message>
-				<url>https://taaladvies.net/taal/advies/vraag/1/10000000_10_000_000/</url>
+				<url>https://taaladvies.net/komma-of-punt-in-geldbedragen//</url>
 				<short>Geen punt</short>
 				<example correction="1234">Getallen als <marker>1.234</marker> schrijf je zonder punt.</example>
 			</rule>
