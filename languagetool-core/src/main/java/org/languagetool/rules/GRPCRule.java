@@ -139,12 +139,12 @@ public abstract class GRPCRule extends RemoteRule {
     public static ManagedChannel getManagedChannel(String host, int port, boolean useSSL, @Nullable String clientPrivateKey, @Nullable String clientCertificate, @Nullable String rootCertificate) throws SSLException {
       NettyChannelBuilder channelBuilder;
       if (host.startsWith("dns://")) {
-        channelBuilder = NettyChannelBuilder.forTarget("dns://" + host + ":" + port);
+        channelBuilder = NettyChannelBuilder.forTarget(host + ":" + port);
         channelBuilder.defaultLoadBalancingPolicy("round_robin");
+        NameResolverRegistry.getDefaultRegistry().register(new DnsNameResolverProvider());
       } else {
         channelBuilder = NettyChannelBuilder.forAddress(host, port);
       }
-      NameResolverRegistry.getDefaultRegistry().register(new DnsNameResolverProvider());
       if (useSSL) {
         SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient();
         if (rootCertificate != null) {
