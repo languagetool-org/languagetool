@@ -191,7 +191,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
       if (replacement.contains(PatternRuleMatcher.MISTAKE)) {
         continue;
       }
-      if (isAllUppercase) {
+      if (isAllUppercase && !StringTools.isMixedCase(replacement)) {
         // do not create a suggestion equal to the input string
         if (!getOriginalErrorStr().equals(replacement.toUpperCase())) {
           replacement = replacement.toUpperCase();
@@ -199,11 +199,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
       } else if (startWithUppercase) {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
-
       replacements.add(new SuggestedReplacement(replacement));
       pos = suggestion.indexOf(SUGGESTION_START_TAG, pos);
     }
-
 
     suggestedReplacements = Suppliers.ofInstance(new ArrayList<>(replacements));
   }
