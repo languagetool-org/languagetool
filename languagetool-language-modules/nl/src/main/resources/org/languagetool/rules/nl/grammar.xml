@@ -692,7 +692,7 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>dd</token>
+                        <token case_sensitive="yes" regexp="yes">[Dd]d</token>
                     </marker>
                 </pattern>
                 <message>De dato heeft als afkorting <suggestion>d.d.</suggestion></message>
@@ -1871,10 +1871,10 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <antipattern><token>mor</token><token regexp="yes">gen|gens</token></antipattern>
                 <pattern>
-                    <token>mor</token>
+                    <token case_sensitive="yes">mor</token>
                 </pattern>
-                <message>Bedoelt u misschien <suggestion>moor</suggestion>?</message>
-                <example correction="moor">Het woord <marker>mor</marker> kan een vergissing zijn.</example>
+                <message>Bedoelt u misschien <suggestion>moor</suggestion> of <suggestion>maar</suggestion>?</message>
+                <example correction="moor|maar">Het woord <marker>mor</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -4084,8 +4084,8 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-
-        <rulegroup id="SAFE_SAVE" name="waarschuwing bij gebruik safe i.p.v. save">
+        <rulegroup id="SAFE_SAVE" name="waarschuwing bij gebruik safe i.p.v. save" default="off">
+            <!-- MB@2023-07-13 - DISABLE: Not a very popular rule, commonly used word -->
             <rule>
                 <antipattern><token>op</token><token>safe</token></antipattern>
                 <antipattern><token>better</token><token>safe</token><token>than</token></antipattern>
@@ -4711,7 +4711,8 @@ regexp case-insensitive maken: (?i)
                 </rule>
             </rulegroup>
 
-        <rulegroup id="DOC_DOK" name="waarschuwing bij gebruik dok i.p.v. doc">
+        <rulegroup id="DOC_DOK" name="waarschuwing bij gebruik dok i.p.v. doc" default="off">
+            <!-- MB@2023-07-13 - DISABLE: Dok is very common use, unpopular rule -->
             <rule>
                 <antipattern><token>het</token><token>dok</token></antipattern>
                 <pattern>
@@ -9919,8 +9920,20 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="PP" name="pp → p.p.">
             <rule>
                 <antipattern><token>pp</token><token regexp="yes">[0-9]+([-][0-9+])?</token><token>pp</token></antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" spacebefore="yes" regexp="yes">[Pp]p</token>
+                    <token spacebefore="no">.<exception postag="SENT_END"></exception></token>
+                    <example>Handelingen van het Genootschap van Brugge, CXVI, 1979, pp. 125–131</example>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes" spacebefore="yes" regexp="yes">[Pp]p</token>
+                    <token postag_regexp="yes" postag="GET.*"></token>
+                    <example>66, 2, 1976, pp 266–276</example>
+                </antipattern>
                 <pattern>
-                    <token spacebefore="yes">pp</token>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes" regexp="yes">[Pp]p</token>
+                    </marker>
                 </pattern>
                 <message>De juiste afkorting voor 'per persoon' is met punten.</message>
                 <suggestion>p.p.</suggestion>
@@ -20592,7 +20605,7 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">&amp;|en</token>
                     <token>w</token>
                 </pattern>
-                <message>Burgemeester en wethouders schrijft u als <suggestion>B en W</suggestion>.</message>
+                <message>Burgemeester en wethouders schrijft u als <suggestion>B <match no="2" case_conversion="alllower">en</match> W</suggestion>.</message>
                 <example correction="B en W">Het college van <marker>b en w</marker> wil daar op korte termijn 240 duizend euro voor vrijmaken.</example>
                 <example correction="B en W">Gouda geeft miljoen meer uit voor extra garantiebanen <marker>B en w</marker> in Gouda zetten een miljoen euro in om volgend jaar 250 mensen met een arbeidsbeperking aan een baan te helpen.</example>
             </rule>
@@ -23693,7 +23706,7 @@ regexp case-insensitive maken: (?i)
                     <example>De stad wordt ook wel Dar genoemd.</example>
                 </antipattern>
                 <pattern>
-                    <token>dar</token>
+                    <token case_sensitive="yes" regexp="yes">[Dd]ar</token>
                 </pattern>
                 <message>Bedoelt u soms <suggestion>dat</suggestion> of <suggestion>daar</suggestion>? Een 'dar' is een bij.</message>
                 <example correction="dat|daar">Wij stellen vast dat de regering <marker>dar</marker> anders leest.</example>

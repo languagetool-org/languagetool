@@ -342,6 +342,11 @@ USA
 					<example>Dat komt door jou!</example>
 					<example>Werkt deze methode voor jou wel?</example>
 				</antipattern>
+				<antipattern>
+				    <token>ook</token>
+				    <token>jou</token>
+				    <example>Geen zorgen, dit lukt ook jou.</example>
+				</antipattern>
 				<pattern>
 					<token><exception postag="SENT_START"></exception></token>
 					<marker>
@@ -3011,7 +3016,7 @@ USA
 			<rule>
 				<pattern>
 					<marker>
-						<token>idd</token>
+						<token case_sensitive="yes" regexp="yes">[Ii]dd</token>
 					</marker>
 				</pattern>
 				<message>Correct is: <suggestion>inderdaad</suggestion>.</message>
@@ -3076,7 +3081,7 @@ USA
 			<!-- R. Baars november 2022 -->
 			<rule>
 				<pattern>
-					<token>ff</token>
+					<token case_sensitive="yes" regexp="yes">[Ff]f</token>
 				</pattern>
 				<message>Correct is: <suggestion>even</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
 				<example correction="even">Ik haat <marker>ff</marker> verder.</example>
@@ -3343,9 +3348,12 @@ USA
 			<message>'Douwen' is spreektaal, in schrijftaal is <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">duwen</match></suggestion> beter.</message>
 			<example correction="duwen">We <marker>douwen</marker> elkaar.</example>
 		</rule>
-		<rule id="NOU" name="Nou/nu" tags="picky">
+		<rule id="NOU" name="Nou/nu">
 			<antipattern case_sensitive="yes"><token>Camp</token><token>Nou</token></antipattern>
 			<antipattern><token>nou</token><token>en</token><token>of</token></antipattern>
+			<antipattern><token>nou</token><token regexp="yes">nou|ja|zeg</token></antipattern>
+			<antipattern><token>nou</token><token spacebefore="no">,</token><token>nou</token></antipattern>
+			<antipattern><token>nou</token><token spacebefore="no">,</token></antipattern>
 			<pattern>
 				<token>nou</token>
 			</pattern>
