@@ -25,14 +25,47 @@ import org.languagetool.ResourceBundleTools;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class PatternRuleHandler extends XMLRuleHandler {
+
+  @Override
+  public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
+    System.out.println("publicId: " + publicId);
+    System.out.println("systemId: " + systemId);
+    System.out.println("XML sourceFile: " + this.sourceFile);
+    File xmlFile = new File(this.sourceFile);
+    String xmlDir = xmlFile.getParent();
+    String xmlDirName = new File(xmlDir).getName();
+    System.out.println(xmlDirName);
+    Boolean m = xmlDirName.length() == 5;
+    System.out.println(m);
+    if(m) {
+      xmlDir = new File(xmlDir).getParent();
+    }
+    String entFileName = new File(systemId).getName();
+    if(publicId != null) {
+      String entPath = "." + File.separator + xmlDir + File.separator + "entities" + File.separator + entFileName;
+      System.out.println("final ent path: " + entPath);
+      return new InputSource(entPath);
+    }
+    if(systemId.endsWith(".ent")) {
+      String srcMainPath = "src" + File.separator + "main" + File.separator + "resources";
+      String entPath = "." + File.separator + srcMainPath + xmlDir + File.separator + "entities" + File.separator + entFileName;
+      System.out.println("final ent path: " + entPath);
+      return new InputSource(entPath);
+    }
+    return null;
+  }
 
   public static final String TYPE = "type";
 
