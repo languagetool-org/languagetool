@@ -130,13 +130,13 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
     int correctEnd = 0;
     String pronoms = "";
     if (from < tokens.length && !tokens[from].isWhitespaceBefore()) {
-      AnalyzedToken pronom = tokens[from].readingWithTagRegex("P.*");
+      AnalyzedToken pronom = tokens[from].readingWithTagRegex("P[P0].*");
       if (pronom != null) {
         pronoms = pronom.getToken();
         correctEnd++;
       }
       if (from + 1 < tokens.length && !tokens[from + 1].isWhitespaceBefore()) {
-        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex("P.*");
+        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex("P[P0].*");
         if (pronom2 != null) {
           pronoms = pronoms + pronom2.getToken();
           correctEnd++;
