@@ -31191,9 +31191,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">n.?°|nº</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion>n.º</suggestion>
-                <suggestion>núm.</suggestion>
-                <suggestion>nro.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="n.º|núm.|nro.">Diario de la República <marker>n°</marker> 18</example>
                 <example correction="n.º|núm.|nro.">Diario de la República <marker>nº</marker> 18</example>
                 <example>n.º</example>
@@ -31203,7 +31203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(n.?°|nº)\d+</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2" case_conversion="preserve"/></suggestion>
                 <example correction="n.º 18">Diario de la República <marker>n°18</marker>.</example>
                 <example correction="n.º 18">Diario de la República <marker>nº18</marker>.</example>
                 <example>n.º</example>
@@ -31216,9 +31216,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>.</exception></token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion>núm.</suggestion>
-                <suggestion>n.º</suggestion>
-                <suggestion>nro.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num</marker> 18.</example>
             </rule>
             <rule>
@@ -31229,9 +31229,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion>núm.</suggestion>
-                <suggestion>n.º</suggestion>
-                <suggestion>nro.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
             </rule>
         </rulegroup>
@@ -31273,11 +31273,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[\.:]</token>
                 </pattern>
                 <message>Abreviatura de teléfono.</message>
-                <suggestion>tel.</suggestion>
-                <suggestion>teléf.</suggestion>
-                <suggestion>tfno.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>el.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>eléf.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>fno.</suggestion>
                 <example correction="tel.|teléf.|tfno.">Llama al <marker>telf.</marker> 666666.</example>
-                <example correction="Tel.|Teléf.|Tfno."><marker>Tlf:</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>TLF:</marker> 666666.</example>
                 <example>Llama al tel. 44444444.</example>
             </rule>
             <rule>
@@ -31288,11 +31288,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">[\.:]</exception></token>
                 </pattern>
                 <message>Abreviatura de teléfono.</message>
-                <suggestion>tel.</suggestion>
-                <suggestion>teléf.</suggestion>
-                <suggestion>tfno.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>el.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>eléf.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>fno.</suggestion>
                 <example correction="tel.|teléf.|tfno.">Llama al <marker>telf</marker> 666666.</example>
-                <example correction="Tel.|Teléf.|Tfno."><marker>Tlf</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>TLF</marker> 666666.</example>
                 <example>Llama al tfno. 44444444.</example>
                 <example>Londres, Nueva York, Tel Aviv y Ámsterdam.</example>
             </rule>
@@ -31968,18 +31968,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="etc.">Rojo, azul, verde, <marker>etc</marker></example>
             </rule>
         </rulegroup>
-        <rule id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)">
-            <pattern>
-                <marker>
-                    <token>s</token>
-                </marker>
-                <token regexp="yes">[xiv]+</token>
-            </pattern>
-            <message>Falta un punto después de la abreviatura de "siglo".</message>
-            <suggestion><match no="1"/>.</suggestion>
-            <suggestion>siglo</suggestion>
-            <example correction="s.|siglo">Vive en el <marker>s</marker> XVIII.</example>
-        </rule>
+        <rulegroup id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>s</token>
+                    </marker>
+                    <token regexp="yes">[xiv]+</token>
+                </pattern>
+                <message>Falta un punto después de la abreviatura de "siglo".</message>
+                <suggestion><match no="3" case_conversion="startupper"/>.</suggestion>
+                <suggestion>Siglo</suggestion>
+                <example correction="S.|Siglo"><marker>s</marker> XVIII.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>s</token>
+                    </marker>
+                    <token regexp="yes">[xiv]+</token>
+                </pattern>
+                <message>Falta un punto después de la abreviatura de "siglo".</message>
+                <suggestion><match no="1" case_conversion="alllower"/>.</suggestion>
+                <suggestion>siglo</suggestion>
+                <example correction="s.|siglo">Vive en el <marker>s</marker> XVIII.</example>
+                <example correction="s.|siglo">Vive en el <marker>S</marker> XVIII.</example>
+            </rule>
+        </rulegroup>
         <rule id="WRONG_DASH" name="Carácter de guion incorrecto (u+2500...)">
             <pattern case_sensitive="no">
                 <marker>
