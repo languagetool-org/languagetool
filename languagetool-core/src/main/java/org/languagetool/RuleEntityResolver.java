@@ -5,6 +5,7 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -12,7 +13,7 @@ import java.net.URL;
  * Resolves an XML file's external entity URIs as relative paths.
  */
 public class RuleEntityResolver implements EntityResolver {
-  private final String xmlPath;
+  private final URL xmlUrl;
 
   /**
    * Resolves the entity's absolute path by taking the relative path found in the source XML and combining it with the
@@ -25,8 +26,6 @@ public class RuleEntityResolver implements EntityResolver {
    */
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-    ResourceDataBroker broker = JLanguageTool.getDataBroker();
-    URL xmlUrl = broker.getAsURL(this.xmlPath);
     URL entitiesURL = new URL(xmlUrl, new URL(systemId).getPath());
     if ((publicId != null && publicId.endsWith(".ent")) || systemId.endsWith(".ent")) {
       return new InputSource(entitiesURL.getPath());
@@ -35,9 +34,9 @@ public class RuleEntityResolver implements EntityResolver {
   }
 
   /**
-   * @param xmlPath path to the source XML where the external entity relative path is found.
+   * @param xmlUrl path to the source XML where the external entity relative path is found.
    */
-  public RuleEntityResolver(String xmlPath) {
-    this.xmlPath = xmlPath;
+  public RuleEntityResolver(URL xmlUrl) {
+    this.xmlUrl = xmlUrl;
   }
 }

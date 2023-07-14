@@ -151,7 +151,9 @@ public final class XMLValidator {
     domFactory.setNamespaceAware(true);
 
     DocumentBuilder builder = domFactory.newDocumentBuilder();
-    EntityResolver entityResolver = new RuleEntityResolver(xmlPath);
+    ResourceDataBroker broker = JLanguageTool.getDataBroker();
+    URL absoluteUrl = broker.getAsURL(xmlPath);
+    EntityResolver entityResolver = new RuleEntityResolver(absoluteUrl);
     builder.setEntityResolver(entityResolver);
     Document baseDoc = builder.parse(baseXmlStream);
     Document ruleDoc = builder.parse(xmlStream);

@@ -21,6 +21,7 @@ package org.languagetool.rules.patterns;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.RuleEntityResolver;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.Rule;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -31,6 +32,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 
 public class RuleIdValidator {
@@ -85,7 +87,9 @@ public class RuleIdValidator {
 
     @Override
     public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-      return new RuleEntityResolver(this.xmlPath).resolveEntity(publicId, systemId);
+      ResourceDataBroker broker = JLanguageTool.getDataBroker();
+      URL absoluteUrl = broker.getAsURL(this.xmlPath);
+      return new RuleEntityResolver(absoluteUrl).resolveEntity(publicId, systemId);
     }
 
     @Override
