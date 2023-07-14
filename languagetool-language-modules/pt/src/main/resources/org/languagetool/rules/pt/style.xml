@@ -1417,13 +1417,28 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id='WORDINESS' name='Expressões prolixas' type='style' tags="picky">
+        <rulegroup id='WORDINESS' name='Expressões prolixas' type='style'> <!-- tags="picky" -->
             <!--IDEA shorten_it-->
             <!--  Rule group made semi automatically with the Wikipedia list
             tokenizer spreadsheet in the forum	     -->
             <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-11 -->
             <url>https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo</url>
             <short>Expressão prolixa</short>
+
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>considerad[ao]s?</token>
+                        <token>como</token>
+                        <token min='0' max='1'>sendo</token>
+                    </marker>
+                    <token postag='Z0.+|NC.+|AQ.+|NP.+|(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                </pattern>
+                <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion>\1</suggestion>.</message>
+                <example correction='considerado'>Isto foi <marker>considerado como</marker> o ideal.</example>
+                <example correction='considerados'>Nem todos os conflitos são <marker>considerados como sendo</marker> guerra.</example>
+            </rule>
+
             <rule>
                 <pattern>
                     <marker>
