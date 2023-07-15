@@ -44,7 +44,7 @@ public class SymSpell implements Serializable {
   private int initialCapacity;
   private int maxDictionaryEditDistance;
   private int prefixLength; //prefix length  5..7
-  private long countThreshold; //a treshold might be specifid, when a term occurs so frequently in the corpus that it is considered a valid word for spelling correction
+  private long countThreshold; //a threshold might be specified, when a term occurs so frequently in the corpus that it is considered a valid word for spelling correction
   private int compactMask;
   private EditDistance.DistanceAlgorithm distanceAlgorithm = EditDistance.DistanceAlgorithm.Damerau;
   private int maxLength;
@@ -297,7 +297,7 @@ public class SymSpell implements Serializable {
   /// <summary>Find suggested spellings for a given input word, using the maximum
   /// edit distance specified during construction of the SymSpell.SymSpell dictionary.</summary>
   /// <param name="input">The word being spell checked.</param>
-  /// <param name="verbosity">The value controlling the quantity/closeness of the retuned suggestions.</param>
+  /// <param name="verbosity">The value controlling the quantity/closeness of the returned suggestions.</param>
   /// <returns>A List of SymSpell.SuggestItem object representing suggested correct spellings for the input word,
   /// sorted by edit distance, and secondarily by count frequency.</returns>
   public List<SuggestItem> lookup(String input, Verbosity verbosity) {
@@ -306,7 +306,7 @@ public class SymSpell implements Serializable {
 
   /// <summary>Find suggested spellings for a given input word.</summary>
   /// <param name="input">The word being spell checked.</param>
-  /// <param name="verbosity">The value controlling the quantity/closeness of the retuned suggestions.</param>
+  /// <param name="verbosity">The value controlling the quantity/closeness of the returned suggestions.</param>
   /// <param name="maxEditDistance">The maximum edit distance between input and suggested words.</param>
   /// <returns>A List of SymSpell.SuggestItem object representing suggested correct spellings for the input word,
   /// sorted by edit distance, and secondarily by count frequency.</returns>
@@ -422,7 +422,7 @@ public class SymSpell implements Serializable {
               continue;
             }
           } else
-            //number of edits in prefix == maxeditdistance  && no identic suffix
+            //number of edits in prefix == maxeditdistance  && no identical suffix
             //, then editdistance > maxEditDistance and no need for Levenshtein calculation
             //      (inputLen >= prefixLength) && (suggestionLen >= prefixLength)
             if ((prefixLength - maxEditDistance == candidateLen)
@@ -749,7 +749,7 @@ public class SymSpell implements Serializable {
   /// <returns>The word segmented String,
   /// the word segmented and spelling corrected String,
   /// the Edit distance sum between input String and corrected String,
-  /// the Sum of word occurence probabilities in log scale (a measure of how common and probable the corrected segmentation is).</returns>
+  /// the Sum of word occurrence probabilities in log scale (a measure of how common and probable the corrected segmentation is).</returns>
   public SegmentedSuggestion wordSegmentation(String input) {
     return wordSegmentation(input, this.maxDictionaryEditDistance, this.maxLength);
   }
@@ -761,7 +761,7 @@ public class SymSpell implements Serializable {
   /// <returns>The word segmented String,
   /// the word segmented and spelling corrected String,
   /// the Edit distance sum between input String and corrected String,
-  /// the Sum of word occurence probabilities in log scale (a measure of how common and probable the corrected segmentation is).</returns>
+  /// the Sum of word occurrence probabilities in log scale (a measure of how common and probable the corrected segmentation is).</returns>
   public SegmentedSuggestion wordSegmentation(String input, int maxEditDistance) {
     return wordSegmentation(input, maxEditDistance, this.maxLength);
   }
@@ -774,7 +774,7 @@ public class SymSpell implements Serializable {
   /// <returns>The word segmented String,
   /// the word segmented and spelling corrected String,
   /// the Edit distance sum between input String and corrected String,
-  /// the Sum of word occurence probabilities in log scale (a measure of how common and probable the corrected segmentation is).</returns>
+  /// the Sum of word occurrence probabilities in log scale (a measure of how common and probable the corrected segmentation is).</returns>
   public SegmentedSuggestion wordSegmentation(String input, int maxEditDistance, int maxSegmentationWordLength) {
     if (input.isEmpty()) {
       return new SegmentedSuggestion();

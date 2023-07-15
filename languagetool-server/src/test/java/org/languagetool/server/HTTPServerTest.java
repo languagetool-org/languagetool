@@ -251,7 +251,7 @@ public class HTTPServerTest {
 
     String test2 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=");
     assertTrue(test2.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test2.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test2.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertTrue(test2.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test2.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test2.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -263,7 +263,7 @@ public class HTTPServerTest {
     
     String test3 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=clarity");
     assertTrue(test3.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test3.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test3.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertFalse(test3.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test3.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test3.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -275,7 +275,7 @@ public class HTTPServerTest {
     
     String test4 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=academic");
     assertFalse(test4.contains("Formal_Clarity_TONE_RULE")); //Clarity is enabled by default if no toneTag is specified
-    assertTrue(test4.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test4.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everyt ime
     assertTrue(test4.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test4.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test4.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -287,7 +287,7 @@ public class HTTPServerTest {
     
     String test5 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=scientific");
     assertFalse(test5.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test5.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test5.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertTrue(test5.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test5.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test5.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -299,7 +299,7 @@ public class HTTPServerTest {
     
     String test6 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=academic&level=picky");
     assertFalse(test6.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test6.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test6.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertTrue(test6.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test6.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertTrue(test6.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -311,7 +311,7 @@ public class HTTPServerTest {
     
     String test7 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=scientific&level=picky");
     assertFalse(test7.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test7.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test7.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertTrue(test7.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test7.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test7.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -323,7 +323,7 @@ public class HTTPServerTest {
     
     String test8 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=scientific,NO_TONE_RULE&level=picky");
     assertFalse(test8.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test8.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test8.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertTrue(test8.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test8.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test8.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -335,7 +335,7 @@ public class HTTPServerTest {
     
     String test9 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=persuasive");
     assertFalse(test9.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test9.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test9.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertFalse(test9.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test9.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test9.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -347,7 +347,7 @@ public class HTTPServerTest {
     
     String test10 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=informal");
     assertFalse(test10.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test10.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test10.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertFalse(test10.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test10.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test10.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -359,7 +359,7 @@ public class HTTPServerTest {
     
     String test11 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=" + ToneTag.ALL_TONE_RULES.name());
     assertTrue(test11.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test11.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test11.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertTrue(test11.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertTrue(test11.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test11.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));
@@ -371,7 +371,7 @@ public class HTTPServerTest {
     
     String test12 = checkV2(xxlang, allToneTagRulesMatchingSentence, "&disabledRules=test_unification_with_negation&toneTags=" + ToneTag.NO_TONE_RULE.name() + "&level=picky");
     assertFalse(test12.contains("Formal_Clarity_TONE_RULE"));
-    assertTrue(test12.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match everytime
+    assertTrue(test12.contains("NO_TONE_RULE")); //No-Tone-Needed-Match should match every time
     assertFalse(test12.contains("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE"));
     assertFalse(test12.contains("CONFIDENT_ACADEMIC_TONE_RULE"));
     assertFalse(test12.contains("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE"));

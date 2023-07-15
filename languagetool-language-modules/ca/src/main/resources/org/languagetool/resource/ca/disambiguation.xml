@@ -16,7 +16,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
     <!ENTITY nom_o_verb "centre|angoixa|coma|boxa|taula|suïcida|revés|revolta|predomini|revista|debat|mofa|força|crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa|extermini|dona|esquerra|roba|bot">
     <!ENTITY nom_seguitde_nompropi "centre|poble|copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema|revista|marca|cable">
-    <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
+    <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|horeta|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
@@ -92,6 +92,119 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="PERIODES_DE_TEMPS" name="períodes de temps">
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|curs|&estacions;</token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[NI].*" postag_regexp="yes"><exception>cada</exception></token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|curs|&estacions;</token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[NI].*" postag_regexp="yes"><exception>cada</exception></token>
+                <token postag="D[NI].*" postag_regexp="yes"><exception>cada</exception></token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|curs|&estacions;</token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">més|menys</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|curs|&estacions;</token>
+                <token>i</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|curs|&estacions;</token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>anys</token>
+                <token>i</token>
+                <token>panys</token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="DI.*" postag_regexp="yes"><exception>cada</exception></token>
+                <token regexp="yes">de|d'</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|curs|&estacions;</token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="DI.*" postag_regexp="yes" inflected="yes" regexp="yes">un|tot</token>
+                <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">quant|el</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|curs|&estacions;</token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">quasi|gairebé</token>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rule id="PTIME_gerundi" name="període de temps + gerundi">
+        <pattern>
+            <token chunk="PTime"/>
+            <marker>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig postag="V.G.*" action="filter"/>
+    </rule>
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
