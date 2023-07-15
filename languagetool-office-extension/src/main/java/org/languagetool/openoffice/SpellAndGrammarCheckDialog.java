@@ -610,7 +610,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Number of Errors = " 
               + paRes.aErrors.length + ", Paragraph: " + nFPara + ", Next Position: " + paRes.nStartOfNextSentencePosition
-              + ", Text.lenth: " + text.length());
+              + ", Text.length: " + text.length());
         }
         for (SingleProofreadingError error : paRes.aErrors) {
           if (debugMode) {
@@ -1573,10 +1573,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
 
     /**
      * Formats the tooltip text
-     * The text is given by a text string which is formated into html:
-     * \n are formated to html paragraph breaks
-     * \n- is formated to an unordered List
-     * \n1. is formated to an ordered List (every digit 1 - 9 is allowed 
+     * The text is given by a text string which is formatted into html:
+     * \n are formatted to html paragraph breaks
+     * \n- is formatted to an unordered List
+     * \n1. is formatted to an ordered List (every digit 1 - 9 is allowed 
      */
     private String formatToolTipText(String Text) {
       String toolTipText = Text;
