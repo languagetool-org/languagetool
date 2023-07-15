@@ -63,7 +63,7 @@ public class DocumentCache implements Serializable {
   private final List<String> paragraphs = new ArrayList<String>(); // stores the flat paratoTextMappinggraphs of
                                                                    // document
 
-  private final List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>(); // stores the paragraphs formated as
+  private final List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>(); // stores the paragraphs formatted as
                                                                                     // headings; is used to subdivide
                                                                                     // the document in chapters
   private final List<Integer> automaticParagraphs = new ArrayList<Integer>(); // stores the paragraphs automatic generated (will not be checked)
@@ -277,7 +277,7 @@ public class DocumentCache implements Serializable {
           }
         }
         unknown = paragraphs.size() - unknown;
-        MessageHandler.printToLogFile("DocumentCache: refresh: unkonwn paragraphs: " + unknown);
+        MessageHandler.printToLogFile("DocumentCache: refresh: unknown paragraphs: " + unknown);
         if (sortedTextIds == null) {
           MessageHandler.printToLogFile("DocumentCache: refresh: paragraphContainer.sortedTextIds == null");
         } else {

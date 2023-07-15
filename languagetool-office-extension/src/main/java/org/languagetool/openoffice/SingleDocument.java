@@ -108,7 +108,7 @@ public class SingleDocument {
   private IgnoredMatches permanentIgnoredMatches; //  Map of matches (number of paragraph, number of character) that should be ignored permanent
   private final DocumentType docType;             //  save the type of document
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
-  private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
+  private boolean resetDocCache = false;          //  true: the cache of the document should be reset before the next check
   private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
   private boolean hasSortedTextId = true;         //  true: Node Index is supported by LO
   private boolean isLastIntern = false;           //  true: last check was intern
