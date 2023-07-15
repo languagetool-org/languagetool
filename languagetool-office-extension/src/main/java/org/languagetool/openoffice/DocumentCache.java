@@ -70,7 +70,7 @@ public class DocumentCache implements Serializable {
   private final List<SerialLocale> locales = new ArrayList<SerialLocale>(); // stores the language of the paragraphs;
   private final List<int[]> footnotes = new ArrayList<int[]>();             // stores the footnotes of the paragraphs;
   private final List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>(); // stores the deleted characters (report changes) of the paragraphs;
-  private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
+  protected final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
   private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;                 // stores the document type (Writer, Impress, Calc)
   private List<Integer> sortedTextIds = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)

@@ -234,6 +234,9 @@ public class CacheIO implements Serializable {
    * Test if cache was created with same rules
    */
   private boolean runSameRules(Configuration config, MultiDocumentsHandler mDocHandler) {
+    if (allCaches == null || allCaches.docCache == null || allCaches.docCache.toTextMapping.size() != DocumentCache.NUMBER_CURSOR_TYPES ) {
+      return false;
+    }
     if (!allCaches.ltVersion.equals(JLanguageTool.VERSION)) {
       return false;
     }
