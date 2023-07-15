@@ -134,7 +134,7 @@ public class PronomsFeblesHelper {
   }
 
   public static String transformDavant (String inputPronom, String nextWord) {
-    if (pApostropheNeeded.matcher(inputPronom).matches()) {
+    if (pApostropheNeeded.matcher(nextWord).matches()) {
       return transform(inputPronom, PronounPosition.DAVANT_APOS);
     } else {
       return transform(inputPronom, PronounPosition.DAVANT);
@@ -142,7 +142,7 @@ public class PronomsFeblesHelper {
   }
 
   public static String transformDarrere (String inputPronom, String previousWord) {
-    if (pApostropheNeededEnd.matcher(inputPronom).matches()) {
+    if (pApostropheNeededEnd.matcher(previousWord).matches()) {
       return transform(inputPronom, PronounPosition.DARRERE_APOS);
     } else {
       return transform(inputPronom, PronounPosition.DARRERE);
