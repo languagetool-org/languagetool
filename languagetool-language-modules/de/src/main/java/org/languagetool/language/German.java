@@ -442,7 +442,6 @@ public class German extends Language implements AutoCloseable {
       case "WENNS_UND_ABERS": return -2;  // higher prio than spell checker
       case "ABERS_SATZANFANG": return -2;  // higher prio than spell checker
       case "VERNEB": return -2;  // higher prio than spell checker
-      case "ICH_GEHE_DU_BLEIBST": return -3; // prefer ICH_GLAUBE_FUER_EUCH
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
@@ -471,6 +470,7 @@ public class German extends Language implements AutoCloseable {
       case "VON_LEBENSLAEUFE": return -12; // less prio than AI
       case "VER_WER_VER_3": return -12; // less prio than AI
       case "PA_WAS": return -12; // less prio than AI
+      case "ICH_GEHE_DU_BLEIBST": return -12; // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI
       case "PROPERNOMSIN_VERIMPSIN": return -12; // less prio than AI
       case "VER123_VERAUXMOD_TEST1": return -12; // less prio than AI to produce a single suggestion
       case "ZUSAMMENGESETZTE_VERBEN": return -12; // less prio than most more specific rules and AI

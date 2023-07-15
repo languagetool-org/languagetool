@@ -3777,7 +3777,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*u)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)(.*u)a(.*)" regexp_replace="$1á$2" case_conversion="preserve"/></suggestion>
                 <example correction="Cuándo">¿<marker>Cuando</marker> vendrás?</example>
                 <example correction="cuándo">¿Para <marker>cuando</marker> lo quieres?</example>
                 <example correction="cuáles">¿Y de <marker>cuales</marker> se trata?</example>
@@ -3792,7 +3792,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*i)e(.*)" regexp_replace="$1é$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)(.*i)e(.*)" regexp_replace="$1é$2" case_conversion="preserve"/></suggestion>
                 <example correction="Quiénes">¿<marker>Quienes</marker> son?</example>
                 <example correction="quién">¿Pero para <marker>quien</marker> es?</example>
             </rule>
@@ -3815,7 +3815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*[cd])o(.*)" regexp_replace="$1ó$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)(.*[cd])o(.*)" regexp_replace="$1ó$2" case_conversion="preserve"/></suggestion>
                 <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
                 <example correction="Cómo">¿<marker>Como</marker> son?</example>
                 <example correction="Cómo">¿<marker>Como</marker> estás?</example>
@@ -6435,7 +6435,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cual</token>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
-                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
+                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1" case_conversion="preserve"/></suggestion>
                 <suggestion>\1l cual</suggestion>
                 <suggestion>\1 la cual</suggestion>
                 <example correction="de cuál|del cual|de la cual">El significado <marker>de cual</marker> es incierto.</example>
@@ -6446,7 +6446,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cual</token>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
-                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
+                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1" case_conversion="preserve"/></suggestion>
                 <suggestion>\1 el cual</suggestion>
                 <suggestion>\1 la cual</suggestion>
                 <example correction="en cuál|en el cual|en la cual">La situación <marker>en cual</marker> vivimos.</example>
@@ -6470,7 +6470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">cual(es)?</token>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1" case_conversion="preserve"/></suggestion>
                 <example correction="cuál">Quiero saber <marker>cual</marker> es el significado de esta palabra.</example>
                 <example correction="cuál" type="triggers_error" reason="ambiguous">Cada cosa se muestra <marker>cual</marker> es.</example>
                 <example correction="cuál">No sé <marker>cual</marker> es la clave del éxito,</example>
@@ -25222,7 +25222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">dió|guió|lió|fió|frió|pió|rió|guión|ión|muón|vió|pión|prión|crió</token>
                 </pattern>
                 <message>Según las normas ortográficas actuales, los monosílabos no llevan tilde.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1o$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1o$2" case_conversion="preserve"/></suggestion>
                 <example correction="dio">Me lo <marker>dió</marker> él.</example>
                 <example correction="guion">El <marker>guión</marker>.</example>
             </rule>

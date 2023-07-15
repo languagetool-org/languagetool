@@ -63,14 +63,14 @@ public class DocumentCache implements Serializable {
   private final List<String> paragraphs = new ArrayList<String>(); // stores the flat paratoTextMappinggraphs of
                                                                    // document
 
-  private final List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>(); // stores the paragraphs formated as
+  private final List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>(); // stores the paragraphs formatted as
                                                                                     // headings; is used to subdivide
                                                                                     // the document in chapters
   private final List<Integer> automaticParagraphs = new ArrayList<Integer>(); // stores the paragraphs automatic generated (will not be checked)
   private final List<SerialLocale> locales = new ArrayList<SerialLocale>(); // stores the language of the paragraphs;
   private final List<int[]> footnotes = new ArrayList<int[]>();             // stores the footnotes of the paragraphs;
   private final List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>(); // stores the deleted characters (report changes) of the paragraphs;
-  private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
+  protected final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
   private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;                 // stores the document type (Writer, Impress, Calc)
   private List<Integer> sortedTextIds = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)
@@ -277,7 +277,7 @@ public class DocumentCache implements Serializable {
           }
         }
         unknown = paragraphs.size() - unknown;
-        MessageHandler.printToLogFile("DocumentCache: refresh: unkonwn paragraphs: " + unknown);
+        MessageHandler.printToLogFile("DocumentCache: refresh: unknown paragraphs: " + unknown);
         if (sortedTextIds == null) {
           MessageHandler.printToLogFile("DocumentCache: refresh: paragraphContainer.sortedTextIds == null");
         } else {

@@ -55,7 +55,7 @@ public class SuggestionStage {
     public ChunkArray<Node> nodes;
     /// <summary>Create a new instance of SymSpell.SuggestionStage.</summary>
     /// <remarks>Specifying ann accurate initialCapacity is not essential,
-    /// but it can help speed up processing by aleviating the need for
+    /// but it can help speed up processing by alleviating the need for
     /// data restructuring as the size grows.</remarks>
     /// <param name="initialCapacity">The expected number of words that will be added.</param>
 

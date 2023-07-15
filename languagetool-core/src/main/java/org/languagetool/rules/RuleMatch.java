@@ -191,7 +191,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
       if (replacement.contains(PatternRuleMatcher.MISTAKE)) {
         continue;
       }
-      if (isAllUppercase && !StringTools.isMixedCase(replacement)) {
+      // ignore single words in mixed case
+      if (isAllUppercase && !(StringTools.isMixedCase(replacement) && !replacement.contains(" "))) {
         // do not create a suggestion equal to the input string
         if (!getOriginalErrorStr().equals(replacement.toUpperCase())) {
           replacement = replacement.toUpperCase();

@@ -215,7 +215,7 @@ class ApiV2 {
     DatabaseAccess db = DatabaseAccess.getInstance();
     /*
      *  experimental batch mode for adding words,
-     *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word paramater
+     *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word parameter
      */
     if ("batch".equals(parameters.get("mode"))) {
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
