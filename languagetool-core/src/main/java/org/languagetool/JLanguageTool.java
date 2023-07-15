@@ -1286,7 +1286,7 @@ public class JLanguageTool {
         // skip calls (which send requests) if open/forced_open
         // try calls if half_open
         // would need manual tracking if we use tryAcquirePermission, this is easier
-        // does require automaticTransitionFromOpenToHalfOpenEnabled settting
+        // does require automaticTransitionFromOpenToHalfOpenEnabled setting
         if (size == 0 ||
           rule.circuitBreaker().getState() == CircuitBreaker.State.OPEN ||
           rule.circuitBreaker().getState() == CircuitBreaker.State.FORCED_OPEN) {

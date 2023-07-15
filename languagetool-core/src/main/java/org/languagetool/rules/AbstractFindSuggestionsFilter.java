@@ -61,7 +61,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     String desiredPostag = getRequired("desiredPostag", arguments);
     String priorityPostag = getOptional("priorityPostag", arguments);
     String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
-    // supress match if there are no suggestions
+    // suppress match if there are no suggestions
     String suppressMatch = getOptional("suppressMatch", arguments);
     boolean bSuppressMatch = false;
     if (suppressMatch != null && suppressMatch.equalsIgnoreCase("true")) {
