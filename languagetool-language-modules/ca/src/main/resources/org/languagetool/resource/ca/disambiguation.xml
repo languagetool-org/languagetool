@@ -195,10 +195,35 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="PTime"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token chunk="PTime"/>
+                <marker>
+                    <token>i</token>
+                    <token regexp="yes">mig|mitja</token>
+                </marker>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token chunk="PTime"/>
+                <marker>
+                    <token postag="CC"/>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rule id="PTIME_gerundi" name="període de temps + gerundi">
         <pattern>
-            <token chunk="PTime"/>
+            <token chunk="PTime"><exception postag="D.*" postag_regexp="yes"/></token>
             <marker>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </marker>

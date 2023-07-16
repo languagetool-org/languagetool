@@ -272,6 +272,7 @@ public class Catalan extends Language {
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
       case "VERBS_NOMSPROPIS": return -20;
       case "VERBS_PRONOMINALS": return -25;
+      case "PORTA_UNA_HORA": return -40;
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;

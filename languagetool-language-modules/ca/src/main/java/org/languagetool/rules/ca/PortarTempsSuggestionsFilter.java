@@ -56,11 +56,10 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
     String newPostag = verbPostag.substring(0, 4) + "[30][S0]." + verbPostag.substring(7, 8);
     String[] synthForms = synth.synthesize(at, newPostag, true,
       getLanguageVariantCode(match));
-    if (synthForms.length > 0) {
-      suggestion.append(synthForms[0]);
-    } else {
+    if (synthForms.length == 0) {
       return null;
     }
+    suggestion.append(synthForms[0]);
     int i = posWord + 1;
     while (tokens[i].getChunkTags().contains(new ChunkTag("PTime"))) {
       if (tokens[i].isWhitespaceBefore()) {
@@ -73,77 +72,88 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
     if (lastTokenPos + 1 >= tokens.length) {
       return null;
     }
-    int correctEnd = 0;
+    int adjustEndPos = 0;
     AnalyzedTokenReadings lastToken = tokens[lastTokenPos];
     if (lastToken.getToken().equals("que")) {
       suggestion.append(" que");
     } else if (lastToken.hasPosTagStartingWith("VMG") || lastToken.hasPosTagStartingWith("VSG")) {
       suggestion.append(" que ");
-      String pronoms = getTwoNextPronouns(tokens,lastTokenPos + 1);
-      correctEnd += Integer.valueOf(pronoms.substring(pronoms.length() - 1));
-      pronoms = pronoms.substring(0, pronoms.length() - 1);
+      String[] result = getTwoNextPronouns(tokens,lastTokenPos + 1);
+      String pronoms = result[0];
+      adjustEndPos += Integer.valueOf(result[1]);
       AnalyzedToken at2 = new AnalyzedToken("", "", lastToken.readingWithTagRegex("V.G.*").getLemma());
-      String[] synthForms2 = synth.synthesize(at2, verbPostag, getLanguageVariantCode(match));
-      if (synthForms2.length > 0) {
-        if (!pronoms.isEmpty()) {
-          suggestion.append(PronomsFeblesHelper.transformDavant(pronoms, synthForms2[0]));
-        }
-        suggestion.append(synthForms2[0]);
-      }  else {
+      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true, getLanguageVariantCode(match));
+      if (synthForms2.length == 0) {
         return null;
       }
+      if (!pronoms.isEmpty()) {
+        suggestion.append(PronomsFeblesHelper.transformDavant(pronoms, synthForms2[0]));
+      }
+      suggestion.append(synthForms2[0]);
     } else if (lastToken.getToken().equals("sense")
       && (tokens[lastTokenPos + 1].hasPosTagStartingWith("VSN")
       || tokens[lastTokenPos + 1].hasPosTagStartingWith("VMN"))) {
       suggestion.append(" que no ");
-      correctEnd++;
-      String pronoms = getTwoNextPronouns(tokens,lastTokenPos + 2);
-      correctEnd += Integer.valueOf(pronoms.substring(pronoms.length() - 1));
-      pronoms = pronoms.substring(0, pronoms.length() - 1);
+      adjustEndPos++;
+      String[] result = getTwoNextPronouns(tokens,lastTokenPos + 2);
+      String pronoms = result[0];
+      adjustEndPos += Integer.valueOf(result[1]);
       AnalyzedToken at2 = new AnalyzedToken("", "", tokens[lastTokenPos + 1].readingWithTagRegex("V.N.*").getLemma());
-      String[] synthForms2 = synth.synthesize(at2, verbPostag, getLanguageVariantCode(match));
-      if (synthForms2.length > 0) {
-        if (!pronoms.isEmpty()) {
-          suggestion.append(PronomsFeblesHelper.transformDavant(pronoms, synthForms2[0]));
-        }
-        suggestion.append(synthForms2[0]);
-      }  else {
+      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true, getLanguageVariantCode(match));
+      if (synthForms2.length == 0) {
         return null;
       }
-    } else {
+      if (!pronoms.isEmpty()) {
+        suggestion.append(PronomsFeblesHelper.transformDavant(pronoms, synthForms2[0]));
+      }
+      suggestion.append(synthForms2[0]);
+    } else if (lastToken.getToken().equals("així") || lastToken.getToken().equals("a") || lastToken.getToken().equals("en")
+      || lastToken.getToken().equals("de")
+      || lastToken.hasPosTagStartingWith("AQ")
+      || lastToken.hasPosTagStartingWith("VMP")) {
+      AnalyzedToken at2 = new AnalyzedToken("", "", "estar");
+      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true, getLanguageVariantCode(match));
+      if (synthForms2.length == 0) {
+        return null;
+      }
+      suggestion.append(" que " + synthForms2[0]);
+      adjustEndPos--;
+    }else {
       return null;
     }
-
     String replacement = suggestion.toString();
     replacement = StringTools.preserveCase(replacement, tokens[posWord].getToken());
     if (replacement.isEmpty()) {
       return null;
     }
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posWord].getStartPos(),
-      tokens[lastTokenPos + correctEnd].getEndPos(), match.getMessage(), match.getShortMessage());
+      tokens[lastTokenPos + adjustEndPos].getEndPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacement(replacement);
     return ruleMatch;
   }
 
-  private String getTwoNextPronouns(AnalyzedTokenReadings[] tokens, int from) {
-    int correctEnd = 0;
+  private String[] getTwoNextPronouns(AnalyzedTokenReadings[] tokens, int from) {
+    String[] result = new String[2];
+    int adjustEndPos = 0;
     String pronoms = "";
     if (from < tokens.length && !tokens[from].isWhitespaceBefore()) {
       AnalyzedToken pronom = tokens[from].readingWithTagRegex("P[P0].*");
       if (pronom != null) {
         pronoms = pronom.getToken();
-        correctEnd++;
+        adjustEndPos++;
       }
       if (from + 1 < tokens.length && !tokens[from + 1].isWhitespaceBefore()) {
         AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex("P[P0].*");
         if (pronom2 != null) {
           pronoms = pronoms + pronom2.getToken();
-          correctEnd++;
+          adjustEndPos++;
         }
       }
     }
-    return pronoms + String.valueOf(correctEnd);
+    result[0] = pronoms;
+    result[1] = String.valueOf(adjustEndPos);
+    return result;
   }
   private String getLanguageVariantCode(RuleMatch match) {
     PatternRule pr = (PatternRule) match.getRule();
