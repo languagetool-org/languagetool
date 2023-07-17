@@ -29,7 +29,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -45,7 +44,7 @@ public class PatternRuleLoader extends DefaultHandler {
    * @param file XML file with pattern rules
    */
   public final List<AbstractPatternRule> getRules(File file, Language lang) throws IOException {
-    try (InputStream inputStream = Files.newInputStream(file.toPath())) {
+    try (InputStream inputStream = new FileInputStream(file)) {
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       return ruleLoader.getRules(inputStream, file.getAbsolutePath(), lang);
     }

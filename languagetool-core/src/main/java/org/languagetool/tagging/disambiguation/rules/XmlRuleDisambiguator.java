@@ -29,7 +29,6 @@ import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -53,7 +52,7 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
 
   public XmlRuleDisambiguator(Language language, boolean useGlobalDisambiguation) {
     Objects.requireNonNull(language);
-    String disambiguationFile = language.getShortCode() + File.separator + DISAMBIGUATION_FILE;
+    String disambiguationFile = language.getShortCode() + "/" + DISAMBIGUATION_FILE;
     List<DisambiguationPatternRule> disambiguationRulesList;
     try {
       disambiguationRulesList = loadPatternRules(disambiguationFile, language);
@@ -97,7 +96,7 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
   protected List<DisambiguationPatternRule> loadPatternRules(String filename, Language language)
       throws ParserConfigurationException, SAXException, IOException {
     DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
-    return ruleLoader.getRules(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename), language, filename);
+    return ruleLoader.getRules(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename), language);
   }
 
 }
