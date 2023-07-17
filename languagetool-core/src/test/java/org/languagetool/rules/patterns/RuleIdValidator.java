@@ -20,13 +20,19 @@ package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.RuleEntityResolver;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.Rule;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 
 public class RuleIdValidator {
@@ -54,7 +60,7 @@ public class RuleIdValidator {
           System.out.println("Skipping " + fileName + " - not found");  // e.g. nl/grammar-test-1.xml
           continue;
         }
-        XmlIdHandler handler = new XmlIdHandler();
+        XmlIdHandler handler = new XmlIdHandler(fileName);
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
         saxParser.parse(is, handler);
@@ -73,9 +79,18 @@ public class RuleIdValidator {
   
   private static class XmlIdHandler extends DefaultHandler {
 
+    private final String xmlPath;
+
     private final Set<String> ids = new HashSet<>();
 
     private String idPrefix = "";
+
+    @Override
+    public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
+      ResourceDataBroker broker = JLanguageTool.getDataBroker();
+      URL absoluteUrl = broker.getAsURL(this.xmlPath);
+      return new RuleEntityResolver(absoluteUrl).resolveEntity(publicId, systemId);
+    }
 
     @Override
     public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) {
@@ -95,6 +110,10 @@ public class RuleIdValidator {
       if (qName.equals("rules")) {
         idPrefix = "";
       }
+    }
+
+    public XmlIdHandler(String xmlPath) {
+      this.xmlPath = xmlPath;
     }
 
   }
