@@ -21,7 +21,6 @@ package org.languagetool.rules.pt;
 import org.junit.Test;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
-import java.io.File;
 import java.io.IOException;
 
 public class PortuguesePatternRuleTest extends PatternRuleTest {

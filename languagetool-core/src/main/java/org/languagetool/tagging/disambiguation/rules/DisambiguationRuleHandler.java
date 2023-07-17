@@ -18,15 +18,13 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import org.languagetool.*;
-import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.patterns.*;
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,13 +37,6 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private static final String DISAMBIG = "disambig";
 
   private final List<DisambiguationPatternRule> rules = new ArrayList<>();
-
-  @Override
-  public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-    ResourceDataBroker broker = JLanguageTool.getDataBroker();
-    URL absoluteUrl = broker.getFromResourceDirAsUrl(this.sourceFile);
-    return new RuleEntityResolver(absoluteUrl).resolveEntity(publicId, systemId);
-  }
 
   private boolean inDisambiguation;
   private int subId;
@@ -86,15 +77,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private List<DisambiguatedExample> disambExamples;
   private String input;
   private String output;
-  private final String sourceFile;
 
   private DisambiguationPatternRule.DisambiguatorAction disambigAction;
 
-  public DisambiguationRuleHandler(Language lang, String xmlPath) {
+  public DisambiguationRuleHandler(Language lang) {
     if (lang != null) {
       this.language = Languages.getLanguageForShortCode(lang.getShortCodeWithCountryAndVariant());
     }
-    this.sourceFile = xmlPath;
   }
 
   List<DisambiguationPatternRule> getDisambRules() {

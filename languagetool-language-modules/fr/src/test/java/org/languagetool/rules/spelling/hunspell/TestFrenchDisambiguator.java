@@ -36,7 +36,7 @@ class TestFrenchDisambiguator extends AbstractDisambiguator {
     String filePath = "/disambiguator.xml";
     try (InputStream inputStream = getClass().getResourceAsStream(filePath)) {
       final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
-      List<DisambiguationPatternRule> disambiguationRules = ruleLoader.getRules(inputStream, new French(), filePath);
+      List<DisambiguationPatternRule> disambiguationRules = ruleLoader.getRules(inputStream, new French());
       for (final DisambiguationPatternRule patternRule : disambiguationRules) {
         sentence = patternRule.replace(sentence);
       }
