@@ -10188,6 +10188,30 @@ USA
         </rulegroup>
 
 
+        <rule id='CIENTÍFICO_DAR_CONFERIR' name="[Universitário][Científico] dar → conferir" type="style" tags="picky" tone_tags="academic" default='temp_off'>
+            <!--
+            It uses filters:
+              -de → velocidade, integridade, etc.
+              -ez → rapidez, etc.
+            -->
+            <pattern>
+                <marker>
+                    <token inflected='yes'>dar</token>
+                </marker>
+                <and>
+                    <token regexp='yes'>.*de|.*ez
+                        <exception regexp='yes'>continuidade|oportunidade</exception>
+                    </token>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </and>
+                <token regexp='yes'>[aà]s?|aos?</token>
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever 'conferir'.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
+            <example correction="confere">Esta equação <marker>dá</marker> aleatoriedade ao jogo.</example>
+        </rule>
+
+
         <!-- NÃO SE PODE APAGAR é indelével -->
         <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="[Universitário][Científico] 'não se pode apagar' → 'é indelével'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
