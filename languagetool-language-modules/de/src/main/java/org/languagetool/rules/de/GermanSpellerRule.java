@@ -3483,6 +3483,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ausserordentlichem": return topMatch("außerordentlichem");
       case "ausserordentlicher": return topMatch("außerordentlicher");
       case "ausserordentliches": return topMatch("außerordentliches");
+      case "unzippen": return topMatch("entzippen");
+      case "unzippt": return topMatch("entzippt");
+      case "unzippst": return topMatch("entzippst");
+      case "unzippe": return topMatch("entzippe");
     }
     return Collections.emptyList();
   }

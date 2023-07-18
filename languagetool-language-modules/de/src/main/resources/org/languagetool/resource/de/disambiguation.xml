@@ -977,6 +977,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">solche?|dieses?|welche</token>
             <token postag="SUB.*DAT.*PLU.*" postag_regexp="yes" />
         </antipattern>
+        <antipattern>
+            <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?|zu</token>
+            <token regexp="yes" case_sensitive="yes">[mdsk]?eine|(eu|ih|Ih|unse)re|(je[dn]|dies)e</token>
+            <token postag="SUB.*DAT.*SIN.*FEM" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?|zu</token>
+            <token regexp="yes" case_sensitive="yes">[mdsk]?eine|(eu|ih|Ih|unse)re|(je[dn]|dies)e</token>
+            <token postag="SUB.*DAT.*SIN.*(MAS|NEU)" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?|zu</token>
+            <token regexp="yes" case_sensitive="yes">[mdsk]eine|(eu|ih|Ih|unse)re|(je[dn]|dies|all|sonstig|einig|viel|solch)e</token>
+            <token postag="SUB.*DAT.*PLU.*(MAS|NEU|FEM)" postag_regexp="yes" />
+        </antipattern>
          <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
