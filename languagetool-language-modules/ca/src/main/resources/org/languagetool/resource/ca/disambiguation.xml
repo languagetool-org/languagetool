@@ -3409,6 +3409,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
         </antipattern>
         <rule>
+            <!-- exception: Podem dir -->
+            <pattern>
+                <marker>
+                    <token postag="VMIP1P00">podem</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="VMIP1P00"/>
+        </rule>
+        <rule>
             <!-- a Barcelona: no és l'equip de futbol -->
             <pattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
