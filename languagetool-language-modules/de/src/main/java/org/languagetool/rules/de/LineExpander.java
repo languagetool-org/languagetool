@@ -122,10 +122,10 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
       } else if (c == 'F') {
         add(result, word);
         result.add(word + "in"); // (m/f)
-       } else if (c == 'T') {
+      } else if (c == 'T') {
         add(result, word);
-        if (word.endsWith("straße") || word.endsWith("strasse"))  {
-        result.add(word.replaceAll("stra(ß|ss)e", "str."));
+        if (word.endsWith("straße") || word.endsWith("strasse")) {
+          result.add(word.replaceAll("stra(ß|ss)e", "str."));
         } 
       } else if (c == 'A' || c == 'P') { // Adjektiv / Partizip
         add(result, word);
