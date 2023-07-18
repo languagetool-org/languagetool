@@ -19,33 +19,25 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
-<!DOCTYPE rules [
-        <!ENTITY depreciativo "baianada|baianagem|bandalho|chinoca|ciganada|ciganagem|bicha|piranhagem|periguete|retardado|João-sem-braço|cegueta|japa|marica|maricas|maricona|queima-rosca|boiola|maricão|mariconço|monhé|morcão|portuga|pretalhada|pretaria|chupa-rola|boqueteiro|boqueteira|retardad[oa]s?|denegrir|mulat[oa]s?|gordice|homossexualismo|judiar|judieiera|judiação|mong[oa]|debiloide|xingu?e?lingu?e?">
-        <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
-        <!ENTITY separadores_de_abertura "\(|\{\[">
-        <!ENTITY separadores_de_fecho "\)|\}\]">
-        <!ENTITY hifen "(?:[-‑])">
-        <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
-        <!ENTITY aspas "(«“‘’”»)">
-        <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
-        <!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)?|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
 
-        <!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
-        <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
-        <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
-        <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
-        <!ENTITY enderecos "Alameda|Avenida|Largo|Praça|Praceta|Rua|Terreiro|Travessa|Via|Estrada|Piso">
-        <!ENTITY nomes_de_instituicoes "Anuário|Jardim|Aeroporto|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
-        <!ENTITY palavras_estrangeiras "up|welcome|these|but|top|too|in|return|go|goes|baby|shop|appeal|trade|toys?|or|who|of|years|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|games?|are|by|couldn?|can|wouldn?|might|the|is|and|for|your|back|that|you|he|she|it|we|they|him|her|them|good|bad|les?|chicos?|novi[oa]s?|herman[oa]s?|ballo|y|del|abrazo|una|besot?e?|con|placer|on|peut|dans|tout|vous|je|chaque|lui|avec|pas|du|aus|den|der|die|écoles?|une|ont|féderations?|thêatres?|des|qui|au|societés?|académies?|pour|notre|sur|institute?|ich|sie|weil|wir|mio?|degli|della|di|tuo|tra">
-        <!ENTITY vocativos "bispos?|equipes?|alun[oa]s?|estudantes?|anfitrião|anfitriã|moç[ao]s?|jovem|jovens|velh[oa]s?|idos[oa]s?|garçom|garçons|atendentes?|tod[oa]s?|membros?|sóci[oa]s?|companheir[oa]s?|parceir[oa]s?|departament[oa]s?|desenvolvedora?e?s?|fornecedora?e?s?|times?|turmas?|pai|papai|mãe|mamãe|irmão?s?|ti[oa]s?|titi[oa]s?|a?v[ôó]s?|vov[ôó]s?|prim[oa]s?|noiv[oa]s?|marido?|espos[ao]s?|namorad[oa]s?|net[oa]s?|netinh[oa]s?|cunhad[oa]s?|sogr[ao]s?|genros?|noras?|entead[oa]s?|padres?|pastora?e?s?|president[ae]s?|amig[ao]s?|filh[oa]s?|pessoal|pessoas?|povo|gente|família|man[oa]s?|maninh[ao]s?|professora?s?|professores|doutor[ea]?s?|médic[oa]s?|advogad[oa]s?|menin[oa]s?|mulher|mulheres|homem|homens|crianças?|bebês?|agricultora?e?s?|construtora?e?s?|engenheir[oa]s?|mineradora?e?s?|silvicultora?e?s?|biomédic[oa]s?|dentistas?|educadora?e?s?|enfermeir[oa]s?|esteticistas?|farmacêutic[oa]s?|fisioterapeutas?|fonoaudiólog[oa]s?|gerontólog[oa]s?|musicoterapeutas?|nutricionistas?|psicólog[ao]s?|radiologistas?|terapeutas?|cardiologistas?|cirurgião?s?|cirurgiões|clínic[oa]s?|dermatologistas?|endocrinologistas?|gastroenterologistas?|geneticistas?|ginecologistas?|obstetras?|infectologistas?|garis?|faxineir[oa]s?|funcionári[oa]s?|diaristas?|porteir[oa]s?|mordomos?|damas?|senhor[ea]?s?|nefrologistas?|neurologistas?|oftalmologistas?|oncologistas?|ortopedistas?|otorrinolaringologistas?|otorrinos?|pediatras?|pneumologistas?|psiquiatras?|reumatologistas?|geriatras?">
-        <!-- removed some of the shorter ones as they weren't prefixy enough and it got greedy  -->
-        <!ENTITY prefixos "a?c[eé]falo|aero|agro|ambi|ana|anfi|ante|anti|anto|antropo|apo|aquém|arca|arce|aristo|arque[oó]|arqui|atmo|auto|baro|bem|bene|bi|bio|bis|caco|cali|cardio|cis|cito|co|con|contra|copro|cosmo|crono|de|deca|des|di|dia|dico|diplo|dis|ec|ecto|endo|enea|eno|entero|epi|etno|eu|ev|ex|exo|extra|filia|fisis|fito|flama|fono|franco|gastro|gero|gimno|hemi|hemo|hepta|hexa|hialo|hidro|hiero|higro|hiper|hipo|holo|idio|infanto|intra|ítalo|justa|leuco|luso|macro|mega|megalo|mero|meso|meta|metra|micro|mini|mono|multi|necro|nefro|neo|ob|oc|octa|odonto|oftalmo|oligo|onto|para|pen|penta|per|peri|pneumo|poli|pós|pre|pré|preter|pro|pró|pros|pseudo|quadri|quilo|quiro|re|retro|rino|rizo|semi|sim|sin|sis|sob|sobre|sub|super|supra|tetra|tra|trans|tras|tres|tri|ultra|vice|vis|xeno|xilo|zoo">
-        <!-- didn't get this list from anywhere, it's definitely not exhaustive! -->
-        <!ENTITY sufixos_adjetivais "([aei](nte|dor)|[âêô]nic[oa]|os[oa]|lógic[oa]|óide)">
-        <!ENTITY introduz_conjuntivo "(?:caso|conquanto|embora|que|quando|se|talvez|tomara)">
-        <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|amanhãs?|datas?|eras?|horários?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
-        <!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
-]>
+<!DOCTYPE rules [
+        <!ENTITY % messages  SYSTEM "file:../../../resource/pt/entities/messages.ent" >
+        <!ENTITY % datetime  SYSTEM "file:../../../resource/pt/entities/datetime.ent" >
+        <!ENTITY % misc      SYSTEM "file:../../../resource/pt/entities/misc.ent"     >
+        <!ENTITY % abbrev    SYSTEM "file:../../../resource/pt/entities/abbrev.ent"   >
+        <!ENTITY % paronyms  SYSTEM "file:../../../resource/pt/entities/paronyms.ent" >
+        <!ENTITY % verbs     SYSTEM "file:../../../resource/pt/entities/verbs.ent"    >
+        <!ENTITY % languages SYSTEM "file:../../../resource/pt/entities/languages.ent">
+        <!ENTITY % postal    SYSTEM "file:../../../resource/pt/entities/postal.ent"   >
+        %messages;
+        %datetime;
+        %misc;
+        %abbrev;
+        %paronyms;
+        %verbs;
+        %languages;
+        %postal;
+        ]>
 
 <rules lang="pt-BR" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
