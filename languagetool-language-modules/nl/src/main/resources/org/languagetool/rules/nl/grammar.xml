@@ -19313,10 +19313,10 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="SOCIAL_MEDIA_DINGES" name="social media training / socialmediatraining">
             <rule>
-                <antipattern><token regexp="yes">social</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
-                <antipattern><token regexp="yes">social</token><token>media</token><token postag_regexp="yes" postag="WKW.*|.*BEZ"/></antipattern>
+                <antipattern><token>social</token><token>media</token><token regexp="yes">[.!?,;:"]</token></antipattern>
+                <antipattern><token>social</token><token>media</token><token postag_regexp="yes" postag="WKW.*|.*BEZ"/></antipattern>
                 <pattern>
-                    <token regexp="yes">social</token>
+                    <token>social</token>
                     <token case_sensitive="yes">media</token>
                     <token postag_regexp="yes" postag="ZNW.*"><exception>zeer</exception></token>
                 </pattern>
@@ -24025,9 +24025,9 @@ regexp case-insensitive maken: (?i)
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="VRZ"></token>
+                    <token postag="VRZ"/>
                     <token>jouw</token>
-                    <token postag="WKW:VTD:VRB"></token>
+                    <token postag="WKW:VTD:VRB"/>
                     <example>Dat wordt gepland op jouw aangegeven aankomsttijd.</example>
                 </antipattern>
                 <pattern>
@@ -24045,6 +24045,19 @@ regexp case-insensitive maken: (?i)
                 <example correction="jou|je">Ik wil graag met <marker>jouw</marker> naar de bioscoop.</example>
                 <example correction="jou|je">Zij heeft <marker>jouw</marker> een uitnodiging gestuurd.</example>
                 <example correction="jou|je">Ik hoop dat het duidelijk is voor <marker>jouw</marker> nu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>het</token>
+                    <token postag="VRZ"/>
+                    <marker>
+                        <token>jouw</token>
+                    </marker>
+                    <token postag="WKW:VTD:VRB"/>
+                </pattern>
+                <message>.</message>
+                <suggestion>jou</suggestion>
+                <example correction="jou">Zo bereiken we het door <marker>jouw</marker> gewenste resultaat.</example>
             </rule>
         </rulegroup>
     </category>
