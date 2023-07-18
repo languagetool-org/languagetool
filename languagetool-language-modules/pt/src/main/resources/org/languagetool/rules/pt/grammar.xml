@@ -134,7 +134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!ENTITY art_detecao_M "(?:(?:[mts](?:eu)|[nv]osso)|(?:d|n|pel)?(?:outr)?o|ao)s?|(alg|d|n)?(?:um|uns)">
 
         <!ENTITY cores_invariaveis "açafrão|água|alizarina|âmbar|ameixa|amêndoa|ametista|aspargo|bordô|borgonha|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|cenoura|cereja|chocolate|ciano|cinza|cobre|concha|creme|dainise|ébano|eminência|esmeralda|eucalipto|feldspato|ferrugem|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|milho|mocassim|mostarda|neve|nyanza|ocre|oliva|orquídea|ouro|pêssego|prata|púrpura|quantum|quartz|renda|rosa|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|vinho|violeta|xanadu|zaffre">
-        <!ENTITY cores "açafrão|água|alizarina|amarelo|âmbar|ameixa|amêndoa|ametista|aspargo|azul|bege|bordô|borgonha|branco|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|castanho|cenoura|cereja|chocolate|ciano|cinza|cobre|concha|coral|creme|dainise|dourado|ébano|eminência|encarnado|escarlate|esmeralda|eucalipto|fandango|feldspato|ferrugem|flerte|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|herbal|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|marrom|milho|mocassim|mostarda|naval|neve|nyanza|ocre|oliva|orquídea|ouro|pardo|pêssego|prata|preto|púrpura|quantum|quartz|renda|rosa|roxo|rútilo|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|verde|vermelho|vinho|violeta|xanadu|zaffre">
+        <!ENTITY cores "açafrão|água|alizarina|amarelo|âmbar|ameixa|amêndoa|ametista|aspargo|azul|bege|bordô|borgonha|branco|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|castanho|cenoura|cereja|chocolate|ciano|cinza|cinzento|cobre|concha|coral|creme|dainise|dourado|ébano|eminência|encarnado|escarlate|esmeralda|eucalipto|fandango|feldspato|ferrugem|flerte|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|herbal|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|marrom|milho|mocassim|mostarda|naval|neve|nyanza|ocre|oliva|orquídea|ouro|pardo|pêssego|prata|preto|púrpura|quantum|quartz|renda|rosa|roxo|rútilo|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|verde|vermelho|vinho|violeta|xanadu|zaffre">
         <!-- Taken from: https://pt.wikipedia.org/wiki/Lista_de_cores -->
 
         <!ENTITY arcaismos "(?:a(?:bominábil|borrimento|bsentar|bsumir|ceiro|chacar|coiteza|contista|có|dvogacia|guazil|H|lacrão|lantíase|lbora|lfaça|lgibebe|lguazil|lgur|lmeida|lmenara|lvazir|mictório|morar|mículo|nrique|ntigüidade|ntão|periente|quessa|quesse|questa|queste|questo|rcocentro|tá|utopse|çucre)|b(?:andir|anguê|oa-venturança|odalha|ofé|ródio|uliço)|Brazil|c(?:afofo|alendairo|arpinteiragem|assar|ham|hara|oidar|omest[ao]|ommummente|omua|oncassor|onvescote|recimento|relgo|réligo|ã|ôvado)|d(?:esemparar|esnobre|evisar|iabro|iese|ino|iésis|olor|orosamente|oroso|íesis)|e(?:mpacar|ngrês|ntonce|ntrelocutor|sto|xprimentava)|f(?:acha|atexa|enestra|imatíase|imia|logose)|g(?:alactooligossacarídeo|alripo|asista|iolhos|odalho|odeme|ramasso|uanabarense|uanabarino)|heréu|i(?:migo|mpida|ngrês|nté)|j(?:au|avaril|ericocim|ugadar|órnea)|l(?:eixar|erpe|oar|oeste|ucivelo|ucivéu|umiar|üa)|Lixboa|m(?:armeluta|eadade|ecê|olher|oínho|uitieramá|uxica)|n(?:ace|am|aom|aqueste|osomania)|o(?:bfirmar|bseqüente|cisão|nte|urinol)|p(?:aje|ascigo|assal|harmácia|ortuguez|roditor)|querena|r(?:eferta|oldar|uidento)|s(?:ainho|alhar|alvanor|apanga|apaão|ene|ilvano|oer|upresso|uso|énio)|t(?:artamelar|aubateense|avolagem|eed.+|ábula|ávola)|unun-héxio|v(?:ascongadas|assuncê|iado|itando|osco|osmecê|ossancê))">
@@ -3313,6 +3313,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes' spacebefore='no'>&hifen;</token>
                 <token>a</token>
             </antipattern>
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token>a</token>
+                <and>
+                    <token regexp='yes'>&cores;</token>
+                    <token postag='NCM.+|AQ.M.+' postag_regexp='yes'/>
+                </and>
+                <example>A soma dos valores que já ocorreram estão a cinzento.</example>
+            </antipattern>
+
             <rule>
                 <!-- MARCOAGPINTO 2021-05-14 (17-MAR-2021+) *START* -->
                 <!--
