@@ -137,13 +137,13 @@ public final class XMLValidator {
       if (schemaUrl == null) {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
-      validateInternal(mergeIntoSource(baseXmlStream, xmlStream, filename), schemaUrl, filename);
+      validateInternal(mergeIntoSource(baseXmlStream, xmlStream, baseFilename), schemaUrl, baseFilename);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }
 
-  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream, String xmlPath) throws Exception {
+  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream, String baseXmlPath) throws Exception {
     DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
     domFactory.setIgnoringComments(true);
     domFactory.setValidating(false);
@@ -151,7 +151,7 @@ public final class XMLValidator {
 
     DocumentBuilder builder = domFactory.newDocumentBuilder();
     ResourceDataBroker broker = JLanguageTool.getDataBroker();
-    URL absoluteUrl = broker.getAsURL(xmlPath);
+    URL absoluteUrl = broker.getAsURL(baseXmlPath);
     EntityResolver entityResolver = new RuleEntityResolver(absoluteUrl);
     builder.setEntityResolver(entityResolver);
     Document baseDoc = builder.parse(baseXmlStream);
