@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.languagetool.JLanguageTool.getDataBroker;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -70,9 +71,16 @@ public class DisambiguationRuleTest {
       JLanguageTool lt = new JLanguageTool(lang);
       if (!(lt.getLanguage().getDisambiguator() instanceof DemoDisambiguator)) {
         long startTime = System.currentTimeMillis();
-        String name = getDataBroker().getResourceDir() + "/" + lang.getShortCode() + "/disambiguation.xml";
-        validateRuleFile(name);
-        List<DisambiguationPatternRule> rules = ruleLoader.getRules(ruleLoader.getClass().getResourceAsStream(name), lang);
+        // this distinction is needed before the logic for the disambiguation
+        // file in core does something odd with the paths
+        String nameWithLocale = lang.getShortCode() + File.separator + "disambiguation.xml";
+        String nameInResourceDir = getDataBroker().getResourceDir() + File.separator + nameWithLocale;
+        validateRuleFile(nameInResourceDir);
+        List<DisambiguationPatternRule> rules = ruleLoader.getRules(
+          ruleLoader.getClass().getResourceAsStream(nameInResourceDir),
+          lang,
+          nameWithLocale
+        );
         for (DisambiguationPatternRule rule : rules) {
           PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(), rule.getId(), rule.getSubId(), lang);
         }
