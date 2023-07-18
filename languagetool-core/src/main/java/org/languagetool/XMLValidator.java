@@ -19,7 +19,6 @@
 package org.languagetool;
 
 import org.languagetool.broker.ResourceDataBroker;
-import org.languagetool.rules.Rule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.w3c.dom.*;
@@ -239,7 +238,11 @@ public final class XMLValidator {
     @Override
     public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
       if((publicId != null && publicId.endsWith(".ent")) || systemId.endsWith(".ent")) {
-        return new EntityAsInput(publicId, systemId, xmlPath);
+        try {
+          return new EntityAsInput(publicId, systemId, xmlPath);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       }
       return null;
     }
@@ -257,7 +260,7 @@ public final class XMLValidator {
     private String publicId;
     private InputStream inputStream;
     private final URL xmlUrl;
-    private URL entitiesURL;
+    private URL entitiesUrl;
     @Override
     public Reader getCharacterStream() {
       return null;
@@ -269,7 +272,7 @@ public final class XMLValidator {
 
     @Override
     public InputStream getByteStream() {
-      return null;
+      return this.inputStream;
     }
 
     @Override
@@ -282,18 +285,21 @@ public final class XMLValidator {
     }
 
     public InputStream getInputStream() {
+      System.out.println("GET FOO GET FOO");
       return this.inputStream;
     }
 
     /**
      * Set InputStream from the value of the entities URL.
-     * @param inputStream param from superclass, unused since we just define an altogether new InputStream with the
-     *                    entities URL computed elsewhere in this class
      * @throws IOException if the file pointed to is invalid, or we end up getting an unreadable stream from it some
      *                     other way
      */
-    public void setInputStream(InputStream inputStream) throws IOException {
-      this.inputStream = Files.newInputStream(Paths.get(this.entitiesURL.getPath()));
+    public void setInputStream() throws IOException {
+      if (Objects.equals(this.entitiesUrl.getProtocol(), "jar")) {
+        this.inputStream  = JLanguageTool.getDataBroker().getAsStream(this.entitiesUrl.toString().split("!")[1]);
+      } else {
+        this.inputStream = Files.newInputStream(Paths.get(this.entitiesUrl.getPath()));
+      }
     }
 
     @Override
@@ -312,11 +318,11 @@ public final class XMLValidator {
     @Override
     public void setSystemId(String systemId) {
       try {
-        this.entitiesURL = new URL(this.xmlUrl, new URL(systemId).getPath());
+        this.entitiesUrl = new URL(this.xmlUrl, new URL(systemId).getPath());
       } catch (MalformedURLException e) {
         throw new RuntimeException(e);
       }
-      this.systemId = this.entitiesURL.getPath();
+      this.systemId = this.entitiesUrl.getPath();
     }
 
     @Override
@@ -334,11 +340,11 @@ public final class XMLValidator {
         return;
       }
       try {
-        this.entitiesURL = new URL(this.xmlUrl, new URL(publicId).getPath());
+        this.entitiesUrl = new URL(this.xmlUrl, new URL(publicId).getPath());
       } catch (MalformedURLException e) {
         throw new RuntimeException(e);
       }
-      this.publicId = this.entitiesURL.getPath();
+      this.publicId = this.entitiesUrl.getPath();
     }
 
     @Override
@@ -374,11 +380,11 @@ public final class XMLValidator {
      *                 systemId I will cry)
      * @param xmlPath path-as-string to source XML where the relative path to the entity file is located
      */
-    public EntityAsInput(String publicId, String systemId, String xmlPath) {
-      ResourceDataBroker broker = JLanguageTool.getDataBroker();
-      this.xmlUrl = broker.getAsURL(xmlPath);
+    public EntityAsInput(String publicId, String systemId, String xmlPath) throws IOException {
+      this.xmlUrl = JLanguageTool.getDataBroker().getAsURL(xmlPath);
       this.setPublicId(publicId);
       this.setSystemId(systemId);
+      this.setInputStream();
     }
   }
 

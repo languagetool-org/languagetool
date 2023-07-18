@@ -5,9 +5,13 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.net.URL;
+import java.util.Objects;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Resolves an XML file's external entity URIs as relative paths.
@@ -26,9 +30,14 @@ public class RuleEntityResolver implements EntityResolver {
    */
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-    URL entitiesURL = new URL(xmlUrl, new URL(systemId).getPath());
     if ((publicId != null && publicId.endsWith(".ent")) || systemId.endsWith(".ent")) {
-      return new InputSource(entitiesURL.getPath());
+      URL entitiesUrl = new URL(xmlUrl, new URL(systemId).getPath());
+      if (Objects.equals(entitiesUrl.getProtocol(), "jar")) {
+        InputStream entitiesStream = JLanguageTool.getDataBroker().getAsStream(entitiesUrl.toString().split("!")[1]);
+        return new InputSource(entitiesStream);
+      } else {
+        return new InputSource(entitiesUrl.getPath());
+      }
     }
     return null;
   }
