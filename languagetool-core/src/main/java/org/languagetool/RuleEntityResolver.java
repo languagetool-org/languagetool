@@ -1,17 +1,13 @@
 package org.languagetool;
 
-import org.languagetool.broker.ResourceDataBroker;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Objects;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 /**
  * Resolves an XML file's external entity URIs as relative paths.
