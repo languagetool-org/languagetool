@@ -53,7 +53,7 @@ public class XmlRuleDisambiguator extends AbstractDisambiguator {
 
   public XmlRuleDisambiguator(Language language, boolean useGlobalDisambiguation) {
     Objects.requireNonNull(language);
-    String disambiguationFile = language.getShortCode() + File.separator + DISAMBIGUATION_FILE;
+    String disambiguationFile = language.getShortCode() + "/" + DISAMBIGUATION_FILE;
     List<DisambiguationPatternRule> disambiguationRulesList;
     try {
       disambiguationRulesList = loadPatternRules(disambiguationFile, language);
