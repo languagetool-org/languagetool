@@ -73,8 +73,8 @@ public class DisambiguationRuleTest {
         long startTime = System.currentTimeMillis();
         // this distinction is needed before the logic for the disambiguation
         // file in core does something odd with the paths
-        String nameWithLocale = lang.getShortCode() + File.separator + "disambiguation.xml";
-        String nameInResourceDir = getDataBroker().getResourceDir() + File.separator + nameWithLocale;
+        String nameWithLocale = lang.getShortCode() + "/" + "disambiguation.xml";
+        String nameInResourceDir = getDataBroker().getResourceDir() + "/" + nameWithLocale;
         validateRuleFile(nameInResourceDir);
         List<DisambiguationPatternRule> rules = ruleLoader.getRules(
           ruleLoader.getClass().getResourceAsStream(nameInResourceDir),
