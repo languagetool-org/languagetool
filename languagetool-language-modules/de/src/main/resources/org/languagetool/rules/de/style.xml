@@ -4771,7 +4771,7 @@ USA
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
                         <exception postag="(SUB:.+:NEU)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">Mädchen|.+mädchen|Veilchen|Brötchen|Kaninchen|Radieschen|München|Zeichen|Anzeichen|Kennzeichen|Eichhörnchen|Gummibärchen|.+zeichen</exception>
+                        <exception regexp="yes" case_sensitive="no">Mädchen|.+mädchen|.*Veilchen|.*Brötchen|.*Kaninchen|.*Radieschen|.*München|.*Zeichen|.*Anzeichen|.*Kennzeichen|.*(Eich|grau)hörnchen|.*Gummibärchen|.+zeichen|.*Flittchen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen.</message>
@@ -6500,21 +6500,21 @@ USA
         <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen" tone_tags="clarity formal">
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Nicosia.*</token>
+                    <token case_sensitive="yes" regexp="yes">Nicosias?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Nicosia(.*)" regexp_replace="Nikosia$1"/></suggestion> verwenden?</message>
                 <example correction="Nikosia"><marker>Nicosia</marker></example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Québec.*</token>
+                    <token case_sensitive="yes" regexp="yes">Québec(s|er[sn]?|-Montreals?)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Québec(.*)" regexp_replace="Quebec$1"/></suggestion> verwenden?</message>
                 <example correction="Quebec"><marker>Québec</marker></example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Duala.*</token>
+                    <token case_sensitive="yes" regexp="yes">Dualas?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Duala(.*)" regexp_replace="Douala$1"/></suggestion> verwenden?</message>
                 <example correction="Douala"><marker>Duala</marker></example>
@@ -6528,7 +6528,9 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Nasca.*</token>
+                    <token case_sensitive="yes" regexp="yes">
+                        Nascas?
+                    </token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Nasca(.*)" regexp_replace="Nazca$1"/></suggestion> verwenden?</message>
                 <example correction="Nazca"><marker>Nasca</marker></example>
@@ -6580,7 +6582,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Brasília.*</token>
+                    <token case_sensitive="yes" regexp="yes">Brasílias?</token>
                 </pattern>
                 <message>Möchten Sie die üblichere Schreibweise <suggestion><match no="1" regexp_match="Brasília(.*)" regexp_replace="Brasilia$1"/></suggestion> verwenden?</message>
                 <example correction="Brasilia"><marker>Brasília</marker></example>
@@ -6624,7 +6626,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Avoda.*</token>
+                    <token case_sensitive="yes" regexp="yes">Avodas?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Avoda(.*)" regexp_replace="Awoda$1"/></suggestion> verwenden?</message>
                 <example correction="Awoda"><marker>Avoda</marker></example>
@@ -6659,7 +6661,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">(Dacca|Dakka).*</token>
+                    <token case_sensitive="yes" regexp="yes">(Dacca|Dakka)s?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(Dacca|Dakka)(.*)" regexp_replace="Dhaka$2"/></suggestion> verwenden?</message>
                 <example correction="Dhaka"><marker>Dakka</marker></example>
