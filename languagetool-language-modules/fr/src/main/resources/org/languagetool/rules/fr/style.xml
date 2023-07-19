@@ -20071,7 +20071,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example>Mais peu importe.</example>
             <example>Mais bon Sophie est rentré à nouveau chez elle.</example>
         </rule>
-        <rulegroup id="POINT_MAIS" name="point mais (. Pourtant,)">
+        <rulegroup id="POINT_MAIS" name="point mais (. Pourtant,)" default="off">
           <antipattern>
             <token regexp="yes">comme|non|pas</token>
             <token regexp="yes" skip="-1">pas|si|seulement</token>
@@ -20834,7 +20834,8 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example>Il n'a pas besoin non plus d'oublier les états antérieurs : il suffit qu'en se rappelant ces états il ne les juxtapose pas à l'état actuel comme un point à un autre point, mais les organise avec lui, comme il arrive quand nous nous rappelons, fondues pour ainsi dire ensemble, les notes d'une mélodie.</example>
             <example>On découvre entre-temps que Martinez n'a pas été victime d'un empoisonnement accidentel, mais a été bel et bien tué, ce qui donne l'occasion à Penders de menacer d'attaquer la prison pour les conditions inhumaines de détention à l'isolation.</example>
           </rule>
-          <rule default="off">
+          <rule>
+              <!-- default="off"-->
             <antipattern>
               <token regexp="yes">comme|non|pas</token>
               <token regexp="yes" skip="-1">si|seulement</token>
@@ -21844,7 +21845,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="">Alors, qu'est-ce que ça veut dire d'<marker>«</marker> être aimé.</example>
           </rule>
         </rulegroup>
-        <rulegroup name="virgule expressions figées" id="VIRGULE_EXPRESSIONS_FIGEES">
+        <rulegroup name="virgule expressions figées" id="VIRGULE_EXPRESSIONS_FIGEES" default="off">
           <rule>
             <antipattern>
               <token>en</token>
@@ -22714,7 +22715,8 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example>J'ai dû payer en plus 5 dollars.</example>
             <example>Si tu t'y étais rendu et qu'en plus il ait plu ?</example>
           </rule>
-          <rule default="off">
+          <rule>
+              <!--  default="off" -->
             <antipattern>
               <token postag="A" regexp="yes">.*ent$</token>
               <token regexp="yes" skip="-1">[a-z].*</token>
