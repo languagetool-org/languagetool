@@ -923,6 +923,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">[^\p{L}]</token>
             <token case_sensitive="yes">Sein</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?</token>
+            <token case_sensitive="yes">eine</token>
+            <token postag="SUB.*DAT.*SIN.*FEM" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token><exception regexp="yes">hier|wo|nahe|da</exception></token>
+            <token>zu</token>
+            <token case_sensitive="yes">eine</token>
+            <token postag="SUB.*DAT.*SIN.*FEM" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?</token>
+            <token case_sensitive="yes">eine</token>
+            <token postag="SUB.*DAT.*SIN.*(MAS|NEU)" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token><exception regexp="yes">hier|wo|nahe|da</exception></token>
+            <token>zu</token>
+            <token case_sensitive="yes">eine</token>
+            <token postag="SUB.*DAT.*SIN.*(MAS|NEU)" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -1002,13 +1024,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <antipattern>
             <token regexp="yes">bei|von|nahe|nebst|samt|mit(samt)?</token>
             <token regexp="yes" case_sensitive="yes">[mdsk]eine|(eu|ih|Ih|unse)re|(je[dn]|dies|all|sonstig|einig|viel|solch)e</token>
-            <token postag="SUB.*DAT.*PLU.*(MAS|NEU|FEM)" postag_regexp="yes" />
+            <token postag="SUB.*(DAT|NOM).*PLU.*(MAS|NEU|FEM)" postag_regexp="yes" />
         </antipattern>
         <antipattern>
             <token><exception regexp="yes">hier|wo|nahe|da</exception></token>
             <token>zu</token>
             <token regexp="yes" case_sensitive="yes">[mdsk]eine|(eu|ih|Ih|unse)re|(je[dn]|dies|all|sonstig|einig|viel|solch)e</token>
-            <token postag="SUB.*DAT.*PLU.*(MAS|NEU|FEM)" postag_regexp="yes" />
+            <token postag="SUB.*(DAT|NOM).*PLU.*(MAS|NEU|FEM)" postag_regexp="yes" />
         </antipattern>
          <pattern>
             <unify>
