@@ -881,6 +881,16 @@ USA
         </rulegroup>
 
         <rulegroup id='INFORMAL_2SG_BR' name="Uso da 2SG em pt-BR" tone_tags="formal professional" default="temp_off">
+                <!-- TODO: -->
+                <!-- - te há de fazer -->
+                <!-- - te estou a dizer -->
+                <!-- - se te houvesse dito -->
+                <!-- - te posso dizer -->
+                <!-- - te vai fazer mal -->
+                <!-- - unambiguous reflexive: conhece-te a ti mesmo -->
+                <!-- - pretty sure it's reflexive: ^verba-te$ -->
+                <!-- - vai-te -->
+
             <rule> <!-- w/o unstressed pronouns -->
                 <pattern>
                     <token>tu</token>
@@ -967,7 +977,10 @@ USA
                     <example>Agora a TE tem todo tipo de coisa.</example>
                 </antipattern>
                 <pattern>
-                    <token>te</token>
+                    <token>
+                        te
+                        <exception scope="previous" regexp="yes" spacebefore="no">&hifen;</exception>
+                    </token>
                     <token postag_regexp="yes" postag="V...2S." inflected="yes" regexp="yes">&reflexive_verbs;</token>
                 </pattern>
                 <message>No português brasileiro, o uso da segunda pessoa do singular não é consistente em todos os dialetos. Seu texto soará mais neutro se substituir por &quot;se&quot;.</message>
@@ -991,7 +1004,10 @@ USA
 
             <rule> <!-- accusative proclitic -->
                 <pattern>
-                    <token>te</token>
+                    <token>
+                        te
+                        <exception scope="previous" regexp="yes" spacebefore="no">&hifen;</exception>
+                    </token>
                     <token postag_regexp="yes" postag="V...[13]..">
                         <exception regexp="yes" inflected="yes">&dative_person_verbs;</exception>
                     </token>
@@ -1003,6 +1019,7 @@ USA
                 <example correction="ama você">Ela <marker>te ama</marker> muito.</example>
                 <example correction="vê você">Meu coração bate feliz quando <marker>te vê</marker>.</example>
                 <example>Já te dei um presente.</example>
+                <example>Disse-te como o faço.</example>
             </rule>
 
             <rule> <!-- accusative enclitic; I'm not adding the 'a'/'o' options here because of the annoying transformations -->
@@ -1023,7 +1040,10 @@ USA
             <rule> <!-- dative proclitic; here the 'a você' forms are mostly very unnatural -->
                 <pattern>
                     <marker>
-                        <token>te</token>
+                        <token>
+                            te
+                            <exception scope="previous" regexp="yes" spacebefore="no">&hifen;</exception>
+                        </token>
                     </marker>
                     <token postag_regexp="yes" postag="V...[13].." inflected="yes" regexp="yes">&dative_person_verbs;</token>
                 </pattern>
@@ -1044,7 +1064,6 @@ USA
                 <suggestion>lhe</suggestion>
                 <example correction="lhe">Perdoar-<marker>te</marker> os pecados?</example>
             </rule>
-
         </rulegroup>
     </category>
 
