@@ -61,10 +61,14 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"FR", "", "BE", "CH", "CA", "LU", "MC", "CM",
-            "CI", "HT", "ML", "SN", "CD", "MA", "RE"};
+    return new String[]{"FR", "", "LU", "MC", "CM",  "CI", "HT", "ML", "SN", "CD", "MA", "RE"};
+    //  "BE", "CH", "CA",
   }
 
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return Languages.getLanguageForShortCode("fr");
+  }
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
