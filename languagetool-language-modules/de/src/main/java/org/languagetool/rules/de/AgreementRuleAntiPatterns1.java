@@ -39,12 +39,6 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     asList(
-      tokenRegex("einer?"),  // "mit einer halben Milliarden Euro Kapital"
-      tokenRegex("halben?"),
-      tokenRegex("Millionen|Milliarden"),
-      posRegex("SUB:.*")
-    ),
-    asList(
       token("wegen"),   //  "...und hatte wegen des vielen Trinkens Kopfschmerzen." (#4695)
       token("des"),
       token("vielen"),
