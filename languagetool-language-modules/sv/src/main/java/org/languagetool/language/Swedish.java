@@ -100,9 +100,15 @@ public class Swedish extends Language {
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
             new HunspellRule(messages, this, userConfig, altLanguages),
+            // fixme! - A suitable paragraph length should be tuned automatically per text type,
+            // so make sure to get the type from LO and COOL
+            new LongParagraphRule(messages, this, userConfig, 150),
             new UppercaseSentenceStartRule(messages, this),
+            new LongSentenceRule(messages, userConfig, 40),
             new WordRepeatRule(messages, this),
+            new WordCoherencyRule(messages),
             new MultipleWhitespaceRule(messages, this),
+            new SentenceWhitespaceRule(messages),
             new CompoundRule(messages, this, userConfig)
     );
   }
