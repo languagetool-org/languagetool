@@ -3487,6 +3487,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "unzippt": return topMatch("entzippt");
       case "unzippst": return topMatch("entzippst");
       case "unzippe": return topMatch("entzippe");
+      case "Moet": return topMatch("Moët");
+      case "Prigozhin": return topMatch("Prigoschin");
+      case "Prigozhins": return topMatch("Prigoschins");
     }
     return Collections.emptyList();
   }
