@@ -47,18 +47,22 @@ public class SwedishDisambiguationRuleTest {
 
   @Test
   public void testChunker() throws IOException {
-    //TestTools.myAssert("To jest duży dom.", "/[null]SENT_START To/[to]conj|To/[ten]adj:sg:nom.acc.voc:n1.n2  /[null]null jest/[być]verb:fin:sg:ter:imperf  /[null]null duży/[duży]adj:sg:nom:m:pneg  /[null]null dom/[dom]subst:sg:nom.acc:m3 ./[null]SENT_END", tokenizer, sentenceTokenizer, tagger, disambiguator);
-
+    // fixme! - Still missing SENT_END
     //TestTools.myAssert("blablabla","/[null]SENT_START blablabla/[null]SENT_END", tokenizer, sentenceTokenizer, tagger, disambiguator);
+
     TestTools.myAssert("Att testa ... disambiguering",
         "/[null]SENT_START Att/[att]KN  /[null]null testa/[testa]VB:IMP|testa/[testa]VB:INF  /[null]null ./[...]<ELLIPS> ./[null]null ./[...]</ELLIPS>  /[null]null/[null]SENT_START disambiguering/[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
-    TestTools.myAssert("Att testa disambiguering är, en passent, kul.",
-        "/[null]SENT_START Att/[att]KN  /[null]null testa/[testa]VB:IMP|testa/[testa]VB:INF  /[null]null disambiguering/[null]null  /[null]null är/[vara]VB:PRS ,/[null]null  /[null]null en/[en]NN:OF:SIN:NOM:UTR|en/[en]PN  /[null]null passent/[null]null ,/[null]null  /[null]null kul/[kul]JJ:PU ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Att testa disambiguering är, en passant, kul.",
+        "/[null]SENT_START Att/[att]KN  /[null]null testa/[testa]VB:IMP|testa/[testa]VB:INF  /[null]null disambiguering/[null]null  /[null]null är/[vara]VB:PRS ,/[null]null  /[null]null en/[en passant]<NN:OF:SIN:NOM:UTR>|en/[en]NN:OF:SIN:NOM:UTR|en/[en]PN  /[null]null passant/[en passant]</NN:OF:SIN:NOM:UTR> ,/[null]null  /[null]null kul/[kul]JJ:PU ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
+        TestTools.myAssert("Te från Sri Lanka är mycket gott.",
+        "/[null]SENT_START Te/[te]NN:OF:SIN:NOM:NEU|Te/[te]VB:IMP|Te/[te]VB:INF  /[null]null från/[från]PP  /[null]null Sri/[Sri Lanka]<PM:NOM>  /[null]null Lanka/[Sri Lanka]</PM:NOM>  /[null]null är/[vara]VB:PRS  /[null]null mycket/[mycken]JJ:PN|mycket/[mycket]AB  /[null]null gott/[god]JJ:PN|gott/[gott]AB ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Test ...",
         "/[null]SENT_START Test/[test]NN:OF:PLU:NOM:NEU|Test/[test]NN:OF:SIN:NOM:NEU|Test/[test]NN:OF:SIN:NOM:UTR  /[null]null ./[...]<ELLIPS> ./[null]null ./[...]</ELLIPS>", tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("Test 2 ... ",
         "/[null]SENT_START Test/[test]NN:OF:PLU:NOM:NEU|Test/[test]NN:OF:SIN:NOM:NEU|Test/[test]NN:OF:SIN:NOM:UTR  /[null]null 2/[null]null  /[null]null ./[...]<ELLIPS> ./[null]null ./[...]</ELLIPS>  /[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
+
   }
 
 }
