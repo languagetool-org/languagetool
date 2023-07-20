@@ -237,4 +237,14 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="ENGLISH_ORDINAL_NUMBERS" name="ignore spelling of English ordinal numbers">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">
+                \d*1(st|ST)|\d*2(nd|ND)|\d*3(rd|RD)|\d+(th|TH)
+                <exception regexp="yes">[123](th|TH)|\d*11(st|ST)|\d*12(nd|ND)|\d*13(rd|RD)</exception>
+            </token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
