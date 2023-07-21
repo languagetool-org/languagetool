@@ -42,6 +42,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="pt-BR" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <category id="MISC" name="Gramática Geral">
+      <rule id="ATOA_BR" name="Uso de 'atoa' em vez de 'à toa'" default="temp_off">
+          <!-- Super rare usage of the verb 'atoar', but let's be cautious. -->
+          <antipattern>
+              <token>atoa</token>
+              <token min="0" max="-1" postag_regexp="yes" postag="[DAZRP].+"/>
+              <token regexp="yes" inflected="yes">carro|veículo|caminhão|van|ônibus</token>
+              <example>A prefeitura atoa seu carro se estacionar onde não deve.</example>
+          </antipattern>
+          <pattern>
+              <token>atoa</token>
+          </pattern>
+          <message>Provavelmente você pretende usar a locução adverbial <suggestion>à toa</suggestion>.</message>
+          <example correction="à toa">Você está <marker>atoa</marker> hoje?</example>
+          <example correction="à toa">Fizemos isso tudo <marker>atoa</marker>?</example>
+      </rule>
+
     <rulegroup id='ORDINAL_ABREVIATION' name="Abreviatura de ordinais: 1o -> 1.º" default="on">
       <!--  Created by Tiago F. Santos, 20-07-2017 -->
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
