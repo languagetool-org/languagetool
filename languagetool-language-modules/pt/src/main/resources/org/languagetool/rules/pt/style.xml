@@ -4039,18 +4039,54 @@ USA
             <example correction="valor">A diferença no <marker>dinheiro</marker> é mínima.</example>
         </rule>
 
-        <!-- PRA para -->
-        <rule id='FORMAL_PRA_PARA' name="Linguagem informal: pra → para" tone_tags="formal">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-            Tudo isso pra quê? → Tudo isso para quê?
-            -->
-            <pattern>
-                <token>pra</token>
-            </pattern>
-            <message>Linguagem informal. Substitua por <suggestion>para</suggestion>.</message>
-            <example correction="para">Tudo isso <marker>pra</marker> quê?</example>
-        </rule>
+        <rulegroup id='FORMAL_PRA_PARA' name="Linguagem informal: pra → para" tone_tags="formal academic scientific" default="temp_off">
+            <rule> <!-- simple 'para', i.e. not followed by a fem. sg. nominal -->
+                <pattern>
+                    <token>
+                        pra
+                        <exception scope="next" postag_regexp="yes" postag="(N|A|DP).*FS.*"/>
+                    </token>
+                </pattern>
+                <message>Em contextos mais formais, prefira <suggestion>para</suggestion>.</message>
+                <example correction="para">Tudo isso <marker>pra</marker> quê?</example>
+                <example correction="para">Ligue <marker>pra</marker> ela.</example>
+                <example correction="para">Daqui não dá <marker>pra</marker> ver direito.</example>
+            </rule>
+
+            <rule> <!-- para followed by noun, adj, or poss. det. in fem. sg. -->
+                <pattern>
+                    <marker>
+                        <token>pra</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="(N|A|DP).*FS.*"/>
+                </pattern>
+                <message>Em contextos mais formais, prefira <suggestion>para</suggestion>.</message>
+                <suggestion>para a</suggestion>
+                <example correction="para|para a">Tenho um presente <marker>pra</marker> sua mãe.</example>
+                <example correction="para|para a">Enviei um cartão <marker>pra</marker> primeira menina que vi.</example>
+                <example correction="para|para a">Se não tem certeza, peça <marker>pra</marker> mulher.</example>
+            </rule>
+
+            <rule> <!-- pro/pros -->
+                <pattern>
+                    <token regexp="yes">pros?</token>
+                </pattern>
+                <message>Em contextos mais formais, prefira &quot;para&quot;.</message>
+                <suggestion><match no="1" regexp_match="(?i)pr(.+)" regexp_replace="para $1"/></suggestion>
+                <example correction="para o">Comprei um charuto <marker>pro</marker> seu pai.</example>
+                <example correction="para os">Traga um lanche <marker>pros</marker> meninos.</example>
+            </rule>
+
+            <rule> <!-- pras -->
+                <pattern>
+                    <token>pras</token>
+                </pattern>
+                <message>Em contextos mais formais, prefira &quot;para&quot;.</message>
+                <suggestion>para as</suggestion>
+                <example correction="para as">Não ligo <marker>pras</marker> outras mulheres dele.</example>
+            </rule>
+        </rulegroup>
+
         <rule id='ESTAR_DE_ACORDO' name="concordar/corresponder/validar/confirmar" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 + 2020-12-14 (2-JUL-2020+)     -->
             <pattern>
