@@ -37,8 +37,10 @@ public class SwedishSynthesizerTest {
         "blablabla").length, 0);
     
     assertEquals("[nyckelns]", Arrays.toString(synth.synthesize(dummyToken("nyckel"), "NN:BF:SIN:GEN:UTR", true)));
+    assertEquals("[FN:s]", Arrays.toString(synth.synthesize(dummyToken("FN"), "PM:GEN:ACR", true)));
     //with regular expressions
-    assertEquals("[störste, största]", Arrays.toString(synth.synthesize(dummyToken("stor"), "JJ:S:BF:.*", true)));    
+    assertEquals("[störste, största]", Arrays.toString(synth.synthesize(dummyToken("stor"), "JJ:S:BF:.*", true)));
+    assertEquals("[VW:s, VW]", Arrays.toString(synth.synthesize(dummyToken("VW"), "PM:.*:ACR", true)));    
     
   }
 

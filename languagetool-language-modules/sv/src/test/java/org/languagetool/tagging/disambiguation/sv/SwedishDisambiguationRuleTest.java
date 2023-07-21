@@ -55,8 +55,10 @@ public class SwedishDisambiguationRuleTest {
 
     TestTools.myAssert("Att testa disambiguering är, en passant, kul.",
         "/[null]SENT_START Att/[att]KN  /[null]null testa/[testa]VB:IMP|testa/[testa]VB:INF  /[null]null disambiguering/[null]null  /[null]null är/[vara]VB:PRS ,/[null]null  /[null]null en/[en passant]<NN:OF:SIN:NOM:UTR>|en/[en]NN:OF:SIN:NOM:UTR|en/[en]PN  /[null]null passant/[en passant]</NN:OF:SIN:NOM:UTR> ,/[null]null  /[null]null kul/[kul]JJ:PU ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
-        TestTools.myAssert("Te från Sri Lanka är mycket gott.",
-        "/[null]SENT_START Te/[te]NN:OF:SIN:NOM:NEU|Te/[te]VB:IMP|Te/[te]VB:INF  /[null]null från/[från]PP  /[null]null Sri/[Sri Lanka]<PM:NOM>  /[null]null Lanka/[Sri Lanka]</PM:NOM>  /[null]null är/[vara]VB:PRS  /[null]null mycket/[mycken]JJ:PN|mycket/[mycket]AB  /[null]null gott/[god]JJ:PN|gott/[gott]AB ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools.myAssert("Te från Sri Lanka är mycket gott.",
+        "/[null]SENT_START Te/[te]NN:OF:NON:NOM:UTR|Te/[te]NN:OF:SIN:NOM:NEU|Te/[te]VB:IMP|Te/[te]VB:INF  /[null]null från/[från]PP  /[null]null Sri/[Sri Lanka]<PM:NOM>  /[null]null Lanka/[Sri Lanka]</PM:NOM>  /[null]null är/[vara]VB:PRS  /[null]null mycket/[mycken]JJ:PN|mycket/[mycket]AB  /[null]null gott/[god]JJ:PN|gott/[gott]AB ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools.myAssert("VW-skandalen tog fuskandet till en ny nivå.",
+        "VW-skandalen/[null]null -- tog/[ta]VB:PRT -- fuskandet/[null]null -- till/[till]AB|till/[till]PP -- en/[en]NN:OF:SIN:NOM:UTR|en/[en]PN -- ny/[ny]JJ:PU -- nivå/[null]null", tokenizer, tagger);
 
     TestTools.myAssert("Test ...",
         "/[null]SENT_START Test/[test]NN:OF:PLU:NOM:NEU|Test/[test]NN:OF:SIN:NOM:NEU|Test/[test]NN:OF:SIN:NOM:UTR  /[null]null ./[...]<ELLIPS> ./[null]null ./[...]</ELLIPS>", tokenizer, sentenceTokenizer, tagger, disambiguator);
