@@ -19171,32 +19171,46 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="HIJ_WILT" name="hij wilt">
 			<rule>
-				<pattern><token skip="5">hij</token><marker><token>wilt</token></marker></pattern>
-					<message>U bedoelt vast <suggestion>wil</suggestion>.</message>
-					<example correction="wil">Als hij het niet <marker>wilt</marker>, gaat het mis.</example>
-				</rule>
-				<rule>
-					<antipattern><token regexp="yes">dat|,|;</token></antipattern>
-					<antipattern><token regexp="yes">je|jij|u</token><token>wilt</token></antipattern>
-					<pattern><marker><token skip="5">wilt</token></marker><token>hij</token></pattern>
-					<message>U bedoelt vast <suggestion>wil</suggestion>.</message>
-					<example correction="Wil"><marker>Wilt</marker> hij het niet, gaat het mis.</example>
-				</rule>
-			</rulegroup>
-			<rulegroup id="HIJ_VIND" name="hij vind => hij vindt">
-				<rule>
-					<pattern><token regexp="yes">hij|zij|men|ze|n?iemand|iedereen|u</token><marker><token postag="WKW:TGW:1EP" regexp="yes">.*d$<exception>rond</exception><exception postag_regexp="yes" postag="ZNW:EKV.*|WKW:VLT:1EP|BNW:STL:ONV|WKW:VTD:ONV"/></token></marker></pattern>
-					<message>U bedoelt vast <suggestion>\2t</suggestion>.</message>
-					<example correction="vindt">Hij <marker>vind</marker> het niet goed.</example>
-				</rule>
-			</rulegroup>
-			<rulegroup id="ZICH_INBEELD" name="zich inbeeld → zich inbeeldt">
-				<rule>
-					<pattern>
-					<token skip="3">zich</token>
+				<antipattern>
+					<token skip="-1">wilt</token>
+					<token>wilt</token>
+					<example>Voor als u wilt stoppen en gestopt wilt blijven.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="-1">wilt</token>
+					<token regexp="yes">u|ge|gij</token>
+					<example>Wat wilt u drinken?</example>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes" skip="-1">je|jij|u|ge|gij</token>
+					<token>wilt</token>
+					<example>Ligt eraan wat je wilt hebben.</example>
+				</antipattern>
+				<pattern>
+					<token><exception postag="UNKNOWN"/></token>
 					<marker>
-						<token>inbeeld</token>
+						<token>wilt<exception case_sensitive="yes" regexp="yes">[A-Z][a-z].*</exception></token>
 					</marker>
+				</pattern>
+				<message>U bedoelt vast <suggestion>wil</suggestion>.</message>
+				<example correction="wil">Als hij het niet <marker>wilt</marker>, gaat het mis.</example>
+				<example correction="wil">We zoeken iemand die foto's <marker>wilt</marker> maken.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="HIJ_VIND" name="hij vind => hij vindt">
+			<rule>
+				<pattern><token regexp="yes">hij|zij|men|ze|n?iemand|iedereen|u</token><marker><token postag="WKW:TGW:1EP" regexp="yes">.*d$<exception>rond</exception><exception postag_regexp="yes" postag="ZNW:EKV.*|WKW:VLT:1EP|BNW:STL:ONV|WKW:VTD:ONV"/></token></marker></pattern>
+				<message>U bedoelt vast <suggestion>\2t</suggestion>.</message>
+				<example correction="vindt">Hij <marker>vind</marker> het niet goed.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ZICH_INBEELD" name="zich inbeeld → zich inbeeldt">
+			<rule>
+				<pattern>
+				<token skip="3">zich</token>
+				<marker>
+					<token>inbeeld</token>
+				</marker>
 				</pattern>
 				<message>U bedoelt vast <suggestion><match no="2" postag="WKW:TGW:3EP" postag_regexp="yes"/></suggestion>.</message>
 				<example correction="inbeeldt">Ik denk dat hij het zich <marker>inbeeld</marker>.</example>
