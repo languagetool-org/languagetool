@@ -35,6 +35,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.*;
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -240,14 +241,15 @@ public final class XMLValidator {
       if((publicId != null && publicId.endsWith(".ent")) || systemId.endsWith(".ent")) {
         try {
           return new EntityAsInput(publicId, systemId, xmlPath);
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
+          System.err.println("Problem resolving external entities in: " + xmlPath);
           throw new RuntimeException(e);
         }
       }
       return null;
     }
 
-    public LSRuleEntityResolver(String xmlPath) {
+    LSRuleEntityResolver(String xmlPath) {
       this.xmlPath = xmlPath;
     }
   }
@@ -285,7 +287,6 @@ public final class XMLValidator {
     }
 
     public InputStream getInputStream() {
-      System.out.println("GET FOO GET FOO");
       return this.inputStream;
     }
 
@@ -294,11 +295,14 @@ public final class XMLValidator {
      * @throws IOException if the file pointed to is invalid, or we end up getting an unreadable stream from it some
      *                     other way
      */
-    public void setInputStream() throws IOException {
+    public void setInputStream() throws IOException, URISyntaxException {
       if (Objects.equals(this.entitiesUrl.getProtocol(), "jar")) {
         this.inputStream  = JLanguageTool.getDataBroker().getAsStream(this.entitiesUrl.toString().split("!")[1]);
       } else {
-        this.inputStream = Files.newInputStream(Paths.get(this.entitiesUrl.getPath()));
+        // A little circular, but addresses: https://github.com/languagetool-org/languagetool/issues/9007
+        // Source: https://stackoverflow.com/questions/43972777/java-nio-file-invalidpathexception-illegal-char-at-index-2
+        String mainPath = Paths.get(this.entitiesUrl.toURI()).toString();
+        this.inputStream = Files.newInputStream(Paths.get(mainPath));
       }
     }
 
@@ -320,7 +324,8 @@ public final class XMLValidator {
       try {
         this.entitiesUrl = new URL(this.xmlUrl, new URL(systemId).getPath());
       } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
+        System.err.println("Could not set entitiesUrl from: " + this.xmlUrl.toString() + " and " + systemId );
+        throw new RuntimeException("Unable to set URL to entities file: " + e.getMessage());
       }
       this.systemId = this.entitiesUrl.getPath();
     }
@@ -342,7 +347,8 @@ public final class XMLValidator {
       try {
         this.entitiesUrl = new URL(this.xmlUrl, new URL(publicId).getPath());
       } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
+        System.err.println("Could not set entitiesUrl from: " + this.xmlUrl.toString() + " and " + publicId );
+        throw new RuntimeException("Unable to set URL to entities file: " + e.getMessage());
       }
       this.publicId = this.entitiesUrl.getPath();
     }
@@ -380,7 +386,7 @@ public final class XMLValidator {
      *                 systemId I will cry)
      * @param xmlPath path-as-string to source XML where the relative path to the entity file is located
      */
-    public EntityAsInput(String publicId, String systemId, String xmlPath) throws IOException {
+    EntityAsInput(String publicId, String systemId, String xmlPath) throws IOException, URISyntaxException {
       this.xmlUrl = JLanguageTool.getDataBroker().getAsURL(xmlPath);
       this.setPublicId(publicId);
       this.setSystemId(systemId);
