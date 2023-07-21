@@ -21631,7 +21631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token spacebefore="no">da</token>
                 <example>Ela é lin-da!</example>
             </antipattern>
-            <rule>
+            <rule> <!-- 1 -->
                 <pattern>
                     <marker>
                         <token regexp='yes'>das?</token>
@@ -21645,7 +21645,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="dá!|da">Assim não <marker>da!</marker></example>
                 <example>ananaí-da-amazônia</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="temp_off"> <!-- 2 -->
+                <antipattern>
+                    <token case_sensitive="yes">da</token>
+                    <token regexp="yes" case_sensitive="yes">\p{Lu}\p{Ll}+</token>
+                    <example>Vi alguém da Direito.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>da</token>
@@ -21659,7 +21664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="dá">Aí não <marker>da</marker> certo.</example>
                 <example correction="dá">Isso não lhes <marker>da</marker> direito de perguntar.</example>
             </rule>
-            <rule default="temp_off">
+            <rule> <!-- 3 -->
                 <pattern>
                     <token regexp="yes">el[ea]|não</token>
                     <marker>
@@ -21676,7 +21681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O nível da importância que eu percebi era alto.</example>
                 <example>O fim da aula chegou cedo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule> <!-- 4 -->
                 <pattern>
                     <token>se</token>
                     <marker>
@@ -21688,7 +21693,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>dá</suggestion>
                 <example correction="dá">Ela não se <marker>da</marker> conta.</example>
             </rule>
-            <rule default="temp_off">
+            <rule> <!-- 5 -->
                 <pattern>
                     <marker>
                         <token>da</token>
@@ -21702,7 +21707,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <!-- This rule has potential to be destructive, so we'll keep it separate from the others for now and -->
             <!-- see how it performs. -->
-            <rule default="temp_off">
+            <rule> <!-- 6 -->
                 <pattern>
                     <token regexp="yes">
                         [mst]e|[nv]os|lhes?
