@@ -51,8 +51,13 @@ public class SwedishTaggerTest {
     TestTools.myAssert("Hon nämnde, en passant, att det inte var klädsamt",
         "Hon/[hon]PN -- nämnde/[nämna]VB:PRT -- en/[en]NN:OF:SIN:NOM:UTR|en/[en]PN -- passant/[null]null -- att/[att]KN -- det/[det]PN -- inte/[inte]AB -- var/[var]AB|var/[var]NN:OF:SIN:NOM:NEU|var/[var]PN|var/[vara]VB:IMP|var/[vara]VB:PRT -- klädsamt/[klädsam]JJ:PN", tokenizer, tagger);
 
+    TestTools.myAssert("Nato-vänliga länder har blivit fler.",
+        "Nato-vänliga/[null]null -- länder/[land]NN:OF:PLU:NOM:NEU|länder/[länd]NN:OF:PLU:NOM:UTR|länder/[lända]VB:PRS -- har/[ha]VB:PRS -- blivit/[bli]VB:SUP -- fler/[mången]JJ:K", tokenizer, tagger);
+    TestTools.myAssert("FN:s nya projekt.",
+        "FN/[FN]PM:NOM:ACR -- s/[null]null -- nya/[ny]JJ:BF|nya/[ny]JJ:P -- projekt/[projekt]NN:OF:PLU:NOM:NEU|projekt/[projekt]NN:OF:SIN:NOM:NEU", tokenizer, tagger);
+
     TestTools.myAssert("Du menar sannolikt \"massera\" om du inte skriver om masarnas era förstås.",
-        "Du/[du]PN -- menar/[mena]VB:PRS -- sannolikt/[sannolik]JJ:PN|sannolikt/[sannolikt]AB -- massera/[massera]VB:IMP|massera/[massera]VB:INF -- om/[om]AB|om/[om]KN|om/[om]PP -- du/[du]PN -- inte/[inte]AB -- skriver/[skriva]VB:PRS -- om/[om]AB|om/[om]KN|om/[om]PP -- masarnas/[mas]NN:BF:PLU:GEN:UTR -- era/[era]NN:OF:SIN:NOM:UTR|era/[era]PN -- förstås/[förstå]VB:INF:PF|förstås/[förstå]VB:PRS:PF|förstås/[förstås]AB", tokenizer, tagger);        
+        "Du/[du]PN -- menar/[mena]VB:PRS -- sannolikt/[sannolik]JJ:PN|sannolikt/[sannolikt]AB -- massera/[massera]VB:IMP|massera/[massera]VB:INF -- om/[om]AB|om/[om]KN|om/[om]PP -- du/[du]PN -- inte/[inte]AB -- skriver/[skriva]VB:PRS -- om/[om]AB|om/[om]KN|om/[om]PP -- masarnas/[mas]NN:BF:PLU:GEN:UTR -- era/[era]NN:OF:SIN:NOM:UTR|era/[era]PN -- förstås/[förstå]VB:INF:PF|förstås/[förstå]VB:PRS:PF|förstås/[förstås]AB", tokenizer, tagger);       
   }
 
 }
