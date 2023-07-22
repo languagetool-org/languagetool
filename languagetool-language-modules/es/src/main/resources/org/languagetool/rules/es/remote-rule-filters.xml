@@ -30,10 +30,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rule id="AI_ES_HYDRA_LEO_CP_QUIEN_QUIENTILDE" name="">
             <pattern>
                 <token inflected="yes">ser</token>
+                <token regexp="yes" min="0">yo|tú|él|ella|[nv]osotr[oa]s|ell[oa]s</token>
                 <marker>
                     <token>quien</token>
                 </marker>
-                <token inflected="yes" regexp="yes">querer|desear|anhelar|aspirar|pretender</token>
+                <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes" min="0" max="2"/>
+                <token postag_regexp="yes" postag="V.[IS].*"/>
             </pattern>
             <example correction="">¿Ser <marker>quien</marker> quiero ser?</example>
         </rule>
