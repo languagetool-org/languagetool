@@ -34,12 +34,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.*;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -152,7 +148,7 @@ public final class XMLValidator {
     DocumentBuilder builder = domFactory.newDocumentBuilder();
     ResourceDataBroker broker = JLanguageTool.getDataBroker();
     URL absoluteUrl = broker.getAsURL(baseXmlPath);
-    EntityResolver entityResolver = new RuleEntityResolver(absoluteUrl);
+    EntityResolver entityResolver = new RuleEntityResolver();
     builder.setEntityResolver(entityResolver);
     Document baseDoc = builder.parse(baseXmlStream);
     Document ruleDoc = builder.parse(xmlStream);
@@ -223,7 +219,7 @@ public final class XMLValidator {
     Schema schema = sf.newSchema(xmlSchema);
     Validator validator = schema.newValidator();
 
-    validator.setResourceResolver(new LSRuleEntityResolver(xmlPath));
+    validator.setResourceResolver(new LSRuleEntityResolver());
     validator.setErrorHandler(new ErrorHandler());
     return validator;
   }
@@ -234,12 +230,11 @@ public final class XMLValidator {
    * constructing the input sources/streams is the same.
    */
   static class LSRuleEntityResolver implements LSResourceResolver {
-    private final String xmlPath;
     @Override
     public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
-      if((publicId != null && publicId.endsWith(".ent")) || systemId.endsWith(".ent")) {
+      if (systemId != null && systemId.endsWith(".ent")) {
         try {
-          return new EntityAsInput(publicId, systemId, xmlPath);
+          return new EntityAsInput(publicId, systemId);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
@@ -247,19 +242,17 @@ public final class XMLValidator {
       return null;
     }
 
-    public LSRuleEntityResolver(String xmlPath) {
-      this.xmlPath = xmlPath;
-    }
   }
 
   /**
    * Defines an input source based on the correct path to external entities.
    */
   static class EntityAsInput implements LSInput {
+    private RuleEntityResolver ruleEntityResolver = new RuleEntityResolver();
     private String systemId;
     private String publicId;
     private InputStream inputStream;
-    private final URL xmlUrl;
+
     private URL entitiesUrl;
     @Override
     public Reader getCharacterStream() {
@@ -276,7 +269,7 @@ public final class XMLValidator {
     }
 
     @Override
-    public void setByteStream(InputStream byteStream) {
+    public void setByteStream(InputStream inputStream) {
     }
 
     @Override
@@ -295,10 +288,8 @@ public final class XMLValidator {
      *                     other way
      */
     public void setInputStream() throws IOException {
-      if (Objects.equals(this.entitiesUrl.getProtocol(), "jar")) {
-        this.inputStream  = JLanguageTool.getDataBroker().getAsStream(this.entitiesUrl.toString().split("!")[1]);
-      } else {
-        this.inputStream = Files.newInputStream(Paths.get(this.entitiesUrl.getPath()));
+      if (systemId != null && systemId.endsWith(".ent")) {
+        this.inputStream = ruleEntityResolver.getInputStreamLTEntities(this.systemId);
       }
     }
 
@@ -317,12 +308,7 @@ public final class XMLValidator {
      */
     @Override
     public void setSystemId(String systemId) {
-      try {
-        this.entitiesUrl = new URL(this.xmlUrl, new URL(systemId).getPath());
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }
-      this.systemId = this.entitiesUrl.getPath();
+      this.systemId = systemId;
     }
 
     @Override
@@ -336,15 +322,7 @@ public final class XMLValidator {
      */
     @Override
     public void setPublicId(String publicId) {
-      if (publicId == null) {
-        return;
-      }
-      try {
-        this.entitiesUrl = new URL(this.xmlUrl, new URL(publicId).getPath());
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }
-      this.publicId = this.entitiesUrl.getPath();
+      this.publicId = publicId;
     }
 
     @Override
@@ -378,10 +356,8 @@ public final class XMLValidator {
      * @param publicId from outer context, entity URI
      * @param systemId from outer context, entity URI (if you ask me the precise difference between publicId and
      *                 systemId I will cry)
-     * @param xmlPath path-as-string to source XML where the relative path to the entity file is located
      */
-    public EntityAsInput(String publicId, String systemId, String xmlPath) throws IOException {
-      this.xmlUrl = JLanguageTool.getDataBroker().getAsURL(xmlPath);
+    public EntityAsInput(String publicId, String systemId) throws IOException {
       this.setPublicId(publicId);
       this.setSystemId(systemId);
       this.setInputStream();
