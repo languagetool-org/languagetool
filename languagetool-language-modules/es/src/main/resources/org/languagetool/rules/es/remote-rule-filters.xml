@@ -29,7 +29,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <category name="Machine learning rules" id="AI_RULES">
         <rule id="AI_ES_HYDRA_LEO_CP_QUIEN_QUIENTILDE" name="">
             <pattern>
-                <token inflected="yes">ser</token>
+                <token inflected="yes">ser<exception inflected="yes">saber</exception></token>
                 <token regexp="yes" min="0">yo|tú|él|ella|[nv]osotr[oa]s|ell[oa]s</token>
                 <marker>
                     <token>quien</token>
@@ -38,6 +38,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <token postag_regexp="yes" postag="V.[IS].*"/>
             </pattern>
             <example correction="">¿Ser <marker>quien</marker> quiero ser?</example>
+            <example>Ahora sé quien es mi abuelo.</example>
         </rule>
         <rulegroup id="AI_ES_HYDRA_LEO_CP_ESTA_EST_" name="">
             <rule>
