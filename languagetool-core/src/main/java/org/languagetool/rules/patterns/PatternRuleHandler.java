@@ -37,9 +37,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-    ResourceDataBroker broker = JLanguageTool.getDataBroker();
-    URL absoluteUrl = broker.getAsURL(this.sourceFile);
-    return new RuleEntityResolver(absoluteUrl).resolveEntity(publicId, systemId);
+    return new RuleEntityResolver().resolveEntity(publicId, systemId);
   }
 
   public static final String TYPE = "type";
