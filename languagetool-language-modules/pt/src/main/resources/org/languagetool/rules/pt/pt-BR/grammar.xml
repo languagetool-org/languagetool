@@ -147,7 +147,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>A abreviatura deste ordinal é: <suggestion>\1</suggestion>.</message>
         <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
       </rule>
-      <rule default="temp_off">
+      <rule default="off">
         <pattern>
           <token regexp='yes' case_sensitive='yes'>\d+°</token>
           <token postag="N.MS.+|AQ.MS." postag_regexp="yes"/>
@@ -155,7 +155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>O símbolo "°" indica graus. Será que não quis dizer <suggestion><match no='1' regexp_match='°' regexp_replace='º'/></suggestion>?</message>
         <example correction="13º">Recebemos <marker>13° salário</marker>.</example>
       </rule>
-      <rule default="temp_off">
+      <rule default="off">
         <pattern>
           <token regexp='yes' case_sensitive='yes'>\d+°[sˢ]</token>
           <token postag="N.MP.+|AQ.MP." postag_regexp="yes"/>
@@ -455,11 +455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="abençoe">Deus te <marker>abençõe</marker>.</example>
     </rule>
 
-    <!-- FIM ABENÇOE POR ABENÇÕE -->
-    <!-- ********************************************************** -->
-    <!-- CONFUNDIR ME POR MIM ANTES DE VERBO -->
-
-    <rule id="MIM_BR" name="me" default="temp_off">
+    <rule id="MIM_BR" name="me" default="off">
       <pattern>
         <marker>
           <token>mim</token>
@@ -469,13 +465,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>O pronome &quot;mim&quot; não deve ser usado antes de um verbo, use <suggestion>me</suggestion>.</message>
       <example correction="me">Você consegue <marker>mim</marker> ajudar.</example>
     </rule>
-
-
-
-    <!-- FIM ME POR MIM ANTES DE VERBO -->
-    <!-- ********************************************************** -->
-
-    <!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
 
     <rule id="COMCERTEZA_BR" name="com certeza">
       <pattern>
@@ -562,10 +551,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <!-- FIM NADA A VER POR NADA HAVER || DEREPENTE -->
-    <!-- ********************************************************** -->
-    <!-- CONFUNDIR ÀS|À POR AS|A ANTES DA INDICAÇÃO PONTUAL DE HORAS|TERRA FIRME -->
 
-    <rule id="AS_PONTUAL_BR" name="Usar 'às' com horas pontuais" default="temp_off">
+    <rule id="AS_PONTUAL_BR" name="Usar 'às' com horas pontuais" default="off">
       <pattern>
         <token postag="SENT_START"/>
         <marker>
@@ -578,7 +565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Às"><marker>As</marker> duas da tarde.</example>
     </rule>
 
-    <rule id="A_TERRA_FIRME_BR" name="Usar à terra firme" default="temp_off">
+    <rule id="A_TERRA_FIRME_BR" name="Usar à terra firme" default="off">
       <pattern>
         <token postag="VMI.[21].+|VMI.3P.+" postag_regexp="yes"/>
         <marker>
@@ -590,11 +577,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="à">Já chegaram <marker>a</marker> terra.</example>
     </rule>
 
-    <!-- FIM ÀS|À POR AS|A ANTES DA INDICAÇÃO PONTUAL DE HORAS|TERRA FIRME -->
-    <!-- ********************************************************** -->
     <!-- CONFUNDIR QUER SE POR QUER -->
 
-    <rule id="QUER_SE_BR" name="Quer" default="temp_off">
+    <rule id="QUER_SE_BR" name="Quer" default="off">
       <pattern>
         <token>quer</token>
         <token>se</token>
@@ -1013,10 +998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ********************************************************** -->
     <!-- CONFUNDIR MAIS INFORMAÇÕES COM MAIORES INFORMAÇÕES  -->
 
-
-    <!-- CONFUNDIR DUZENTOS GRAMAS NUMERAL COM DUZENTAS GRAMAS -->
-
-    <rule id="DUZENTAS_GRAMAS_NUMERAL" name="Duzentos gramas" default="temp_off">
+    <rule id="DUZENTAS_GRAMAS_NUMERAL" name="Duzentos gramas">
         <pattern>
             <token regexp="yes">(duz|trez|quatroc|quinh|seic|setec|oitoc|novec)entas</token>
             <token>gramas</token>
@@ -1025,10 +1007,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="duzentos gramas">Comprei <marker>duzentas gramas</marker> de carne.</example>
         <example correction="Oitocentos gramas"><marker>Oitocentas gramas</marker> de alfalfa, por favor.</example>
     </rule>
-    <!-- ********************************************************** -->
 
-    <!-- VERBO FAZER SENTIDO TEMPORAL É IMPESSOAL-->
-    <rule id="FAZEM_TEMPO" name="Faz tempo" default="temp_off">
+    <rule id="FAZEM_TEMPO" name="Faz tempo">
         <antipattern>
             <token postag_regexp="yes" postag="N..P.+|PP3.P.+"/>
             <token inflected="yes" postag_regexp="yes" postag="VM..3P.">fazer</token>
@@ -1061,7 +1041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="fizesse">Achei que <marker>fizessem</marker> algumas décadas!</example>
     </rule>
 
-    <rule id="VAO_FAZER_TEMPO" name="Vai fazer tempo" default="temp_off">
+    <rule id="VAO_FAZER_TEMPO" name="Vai fazer tempo">
         <antipattern>
             <token postag_regexp="yes" postag="N..P.+|PP3.P.+"/>
             <token inflected="yes" postag_regexp="yes" postag="VMI.3P.">ir</token>
@@ -1093,9 +1073,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="ia fazer">Em janeiro <marker>iam fazer</marker> seis meses, e ele estivesse vivo...</example>
         <example correction="vai fazer">Já <marker>vão fazer</marker> 10 minutos que estamos esperando!</example>
     </rule>
-    <!-- FIM VERBO FAZER SENTIDO TEMPORAL É IMPESSOAL-->
 
-    <rule id="NAO_E_ADJ" name="Não e + adjetivo, falta de acento" default="temp_off">
+    <rule id="NAO_E_ADJ" name="Não e + adjetivo, falta de acento">
         <pattern>
             <token>não</token>
             <marker>

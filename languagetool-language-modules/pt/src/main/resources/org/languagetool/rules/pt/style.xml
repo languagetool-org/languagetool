@@ -130,12 +130,8 @@ USA
                 <example>Ele percorreu Portugal de <marker>lés a lés a</marker> fazer levantamentos musicais.</example>
             </rule>
         </rulegroup>
-        <!-- FREQUENTEMENTE É DADO é frequentemente dado -->
+
         <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags="clarity">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20+ 2021-07-27 (17-MAR-2021+)      -->
-            <!--
-            Em alusão ao dinheiro frequentemente é dado o exemplo do Tio Patinhas. → Em alusão ao dinheiro é frequentemente dado o exemplo do Tio Patinhas.
-            -->
             <pattern>
                 <token negate_pos="yes" postag='SENT_START'/>
                 <marker>
@@ -150,32 +146,19 @@ USA
                 </marker>
                 <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>Ter em conta a colocação do advérbio.</message>
+            <message>&clarity_intro; prefira mover o advérbio.</message>
             <suggestion>\3 \2 \4</suggestion>
             <example correction="é frequentemente dado">Em alusão ao dinheiro <marker>frequentemente é dado</marker> o exemplo do Tio Patinhas.</example>
             <example>Você tem realmente ouvido para a música.</example>
             <example>As vésperas de Natal e ano novo são geralmente marcadas pela união de parentes distantes.</example>
         </rule>
-        <!-- QUE CADA VEZ SERÃO que serão cada vez -->
-        <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style" default="temp_off" tone_tags="clarity">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-26 + 2021-04-27 + 2021-04-28 + 2021-07-11 + 2022-04-17 + 2022-05-22 (17-MAR-2021+)      -->
-            <!--
-            Vamos usar resoluções que cada vez serão mais comuns nos computadores recentes. → Vamos usar resoluções que serão cada vez mais comuns nos computadores recentes.
-            -->
 
-            <!-- MARCOAGPINTO 2022-04-17 (1-JAN-2022+) *START* -->
-            <!--
-            Você é ilusionista? Porque sempre que olho para você, todas as outras pessoas desaparecem.
-            Lembremos o ambiente tenebroso de “Resident Evil” original, em que sempre que abríamos uma porta e entrávamos numa sala corria um arrepio na espinha.
-            É a pusilanimidade do pensamento pseudo-esquerdista que sempre que vê a oportunidade cai de boca no reacionarismo e na manutenção das estruturas do capital.
-            É uma luta inglória, porque mesmo que traga benefícios para a população, não gere custos ao Executivo.
-            -->
+        <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style" default="off" tone_tags="clarity">
             <antipattern>
                 <token regexp='yes'>mesmo|sempre</token>
                 <token>que</token>
                 <token postag='V.+' postag_regexp='yes'/>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-04-17 (1-JAN-2022+) *END* -->
 
             <pattern>
                 <token postag='CS'>
@@ -233,23 +216,13 @@ USA
             <example>Minha mãe foi a mulher mais bela que jamais conheci.</example>
             <example>Benesses que jamais postulei nem procurei, como inúmeras vezes demonstrado.</example>
             <example>Essa foi a melhor resposta que não é uma resposta que jamais recebi da Comissão.</example>
-
             <example>Você é ilusionista? Porque sempre que olho para você, todas as outras pessoas desaparecem.</example>
             <example>Lembremos o ambiente tenebroso de “Resident Evil” original, em que sempre que abríamos uma porta e entrávamos numa sala corria um arrepio na espinha.</example>
             <example>É a pusilanimidade do pensamento pseudo-esquerdista que sempre que vê a oportunidade cai de boca no reacionarismo e na manutenção das estruturas do capital.</example>
             <example>É uma luta inglória, porque mesmo que traga benefícios para a população, não gere custos ao Executivo.</example>
         </rule>
-        <!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
+
         <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar" tags="picky" tone_tags="clarity">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 + 2022-08-15 + 2023-03-02 (17-MAR-2021+)      -->
-            <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
-            <!-- Jaume suggested creating three rules since there was a bug with max="3" -->
-
-            <!--
-                 MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-            -->
-
-            <!-- MARCOAGPINTO 2023-03-02 (2-MAR-2023+) *START* -->
             <antipattern>
                 <token regexp='yes' inflected='yes'>ir|ser</token>
                 <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
@@ -259,9 +232,7 @@ USA
                 <example>O Rui foi na realidade um homem empreendedor.</example>
                 <example>Chamado de "deserto do Jalapão", ele é na realidade um grande oásis pois apresenta nascentes e córregos que juntos compõem belíssimas cachoeiras e corredeiras em parce...</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-03-02 (2-MAR-2023+) *END* -->
 
-            <!-- MARCOAGPINTO 2023-03-02 (2-MAR-2023+) *START* -->
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
@@ -396,16 +367,8 @@ USA
             </rule>
 
         </rulegroup>
-        <!-- VISTO por -->
         <rule id='VISTO_POR_V3' name="[Simplificar] Visto → Por" type="style" tone_tags="clarity">
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-19/24 (Checked/Enhanced) (2-MAR-2023+) -->
-            <!--
-      Ele tomou essa decisão visto ser possível assim. → Ele tomou essa decisão por ser possível assim.
-      Ele tomou essa decisão visto só ser possível assim. → Ele tomou essa decisão por só ser possível assim.
-      O valor é aproximado visto nem sempre se conseguir o mesmo valor. → O valor é aproximado por nem sempre se conseguir o mesmo valor.
-      Este texto demorou uma década a redigir visto terem acontecido inúmeros contratempos. → Este texto demorou uma década a redigir por terem acontecido inúmeros contratempos.
-      -->
             <pattern>
                 <token postag='NC.+|AQ.+|NP.+|VMP00.+|VMN0000' postag_regexp='yes'>
                     <exception postag_regexp='yes' postag='(SPS00:)?[DP][ADIPRT].+'/>
@@ -745,9 +708,8 @@ USA
                 <message>Substitua por <suggestion>nos</suggestion>.</message>
                 <example correction="nos">Estes conflitos ocorrem <marker>dentro dos</marker> territórios.</example>
             </rule>
-            <rule id='REPEATED_WORDS' name="Palavras repetidas (2x)" default='temp_off' tags="picky">
-                <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 -->
-                <!-- XXX If the user finds this rule too intrusive, they will disable it and use REPEATED_WORDS_3X as a fallback -->
+
+            <rule id='REPEATED_WORDS' name="Palavras repetidas (2x)" default="off" tags="picky">
                 <antipattern>
                     <token skip='-1'>Acesso</token>
                     <token>Acesso</token>
@@ -852,12 +814,10 @@ USA
                 <example>Vamos analisar, facto por facto.</example>
             </rule>
         </rulegroup>
-        <rulegroup type='style' id='ELES_ELAS' name="Redundâncias não sexistas" default='temp_off'>
+
+        <rulegroup type='style' id='ELES_ELAS' name="Redundâncias não sexistas" default="off">
             <!--IDEA shorten_it-->
-            <!--      ELES_E_ELAS: O neutro em português é igual ao masculino    -->
-            <!--     Localized by Tiago F. Santos, Portuguese rule, 2016-10-28   -->
             <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/controversias/calem-se/3296</url>
-            <short>Redundância. O neutro é suficiente</short>
             <antipattern>
                 <token regexp='yes' min='0'>[ao]s?</token>
                 <token regexp='yes'>(?:fêmea|macho)s?</token>
@@ -926,10 +886,8 @@ USA
         </rulegroup>
         <!--          Style rules from Spanish grammar.xml    - END  -->
 
-
         <rule id='REDUNDANCY_MAN_AND_WOMAN' name="Redundâncias não sexistas: Homens e mulheres" type='style' default="off">
             <!--IDEA shorten_it-->
-            <!--     Created by Tiago F. Santos, Portuguese rule, 2017-10-13   -->
             <pattern>
                 <token regexp='yes' min='0'>[ao]s?</token>
                 <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
@@ -942,13 +900,7 @@ USA
             <example correction="As pessoas"><marker>Os homens e mulheres</marker> saíram à rua.</example>
         </rule>
 
-
-        <!-- PODER SER POSSÍVEL deve ser possível -->
         <rule id='PODER_SER_POSSIVEL' name="[Redundância] Poder/possível">
-            <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2022-08-25 (25-JUL-2022+) -->
-            <!--
-            A vitória pode ser possível. → A vitória deve ser possível.
-            -->
             <antipattern>
                 <token postag='V....P.+' postag_regexp='yes'/>
                 <token>ser</token>
@@ -968,15 +920,9 @@ USA
             <example correction="deve ser|é">A vitória <marker>pode ser</marker> possível.</example>
         </rule>
 
-
-        <!-- 	CADA VEZ MAIOR/MENOR crescente/decrescente -->
         <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor → crescente/decrescente" tags='picky'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-14 + 2022-02-22 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <antipattern>
-            </antipattern>
-            <!-- CRESCENTE -->
-            <rule>
+            <rule> <!-- CRESCENTE -->
                 <pattern>
                     <or>
                         <token negate_pos="yes" postag='V.+' postag_regexp='yes'>
@@ -998,8 +944,7 @@ USA
                 <example correction="crescente|gradativo|gradativa|sucessivo|sucessiva">O número <marker>cada vez maior</marker> de cometas descobertos tornou o processo problemático.</example>
             </rule>
 
-            <!-- DECRESCENTE -->
-            <rule>
+            <rule> <!-- DECRESCENTE -->
                 <pattern>
                     <or>
                         <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
@@ -1017,18 +962,10 @@ USA
 
         </rulegroup>
 
-
-        <!-- AS GUERRAS CIVIS QUE SÃO GUERRAS INTERNAS as guerras civis que são internas -->
         <rulegroup id='TOKENS_QUE_É_SÃO_TOKENS' name="[Redundância] Evitar redundância de tokens em redor de 'que é/são'" tags="picky">
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-01 (2-MAR-2023+) -->
-            <!--
-            Temos as guerras civis que são guerras internas em Estados soberanos. → Temos as guerras civis que são internas em Estados soberanos.
-            Temos as guerras civis que são guerras civis internas em Estados soberanos. → Temos as guerras civis que são internas em Estados soberanos.
-            -->
 
-            <!-- two repeated tokens -->
-            <rule>
+            <rule> <!-- two repeated tokens -->
                 <pattern>
                     <token postag='NC.+|AQ.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='V.+'/>
@@ -1047,8 +984,7 @@ USA
                 <example correction="que são internas">Temos as guerras civis <marker>que são guerras civis internas</marker> em Estados soberanos.</example>
             </rule>
 
-            <!-- one repeated token -->
-            <rule>
+            <rule> <!-- one repeated token -->
                 <pattern>
                     <token postag='NC.+|AQ.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='V.+'/>
@@ -1250,7 +1186,7 @@ USA
                 <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion>para</suggestion>.</message>
                 <example correction='para'>Isso foi pensado <marker>como forma de</marker> manter recursos.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default="off">
                 <pattern>
                     <marker>
                         <token>à</token>
@@ -1262,7 +1198,7 @@ USA
                 <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion>considerando</suggestion>.</message>
                 <example correction='considerando'>Passou a reexaminá-las <marker>à luz de</marker> proposições novas </example>
             </rule>
-            <rule default='temp_off'>
+            <rule default="off">
                 <pattern>
                     <marker>
                         <token inflected='yes'>ser</token>
@@ -1274,7 +1210,7 @@ USA
                 <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>poder</match></suggestion> ou <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conseguir</match></suggestion>.</message>
                 <example correction='pode|consegue'>Ele <marker>é capaz de</marker> fazer proposições novas.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default="off">
                 <pattern>
                     <marker>
                         <token>durante</token>
@@ -1287,7 +1223,7 @@ USA
                 <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion>durante</suggestion> ou <suggestion>enquanto</suggestion>.</message>
                 <example correction='durante|enquanto'>Foi assim <marker>durante o curso de</marker> toda dua vida.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default="off">
                 <pattern>
                     <marker>
                         <token>em</token>
@@ -4646,9 +4582,8 @@ USA
                 <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
             </rule>
         </rulegroup>
-        <!-- PARAR DE CHATEAR parar de incomodar/importunar -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-06 (2-JUL-2020+)     -->
-        <rule id='PARAR_DE_CHATEAR' name="Parar de incomodar/importunar" default="temp_off" tone_tags="formal">
+
+        <rule id='PARAR_DE_CHATEAR' name="Parar de incomodar/importunar" default="off" tone_tags="formal">
             <pattern>
                 <token inflected='yes'>parar</token>
                 <token>de</token>
@@ -7809,8 +7744,7 @@ USA
             <example correction="puder">Vou estudar enquanto <marker>possa</marker> ser possível.</example>
         </rule>
 
-        <rulegroup id='CHILDISH_LANGUAGE' name="3. Linguagem infantil" default='temp_off' tags='picky'>
-            <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-09 -->
+        <rulegroup id='CHILDISH_LANGUAGE' name="3. Linguagem infantil" default='off' tags='picky'>
             <url>https://pt.wiktionary.org/wiki/Categoria:Infantil_(Portugu%C3%AAs)</url>
             <short>Linguagem infantil</short>
             <rule>
@@ -8014,8 +7948,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rule id='ACHO_QUE' name="penso/julgo que" tags='picky' default='temp_off'>
-            <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-05-29 -->
+        <rule id='ACHO_QUE' name="penso/julgo que" tags='picky' default='off'>
             <pattern>
                 <token postag='C.+' postag_regexp='yes'/>
                 <marker>
@@ -8503,7 +8436,7 @@ USA
             </rule>
 
         </rulegroup>
-        <rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" type="style" tags="picky" tone_tags="academic" default='temp_off'>
+        <rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" type="style" tags="picky" tone_tags="academic" default='off'>
             <rule>
                 <antipattern>
                     <token postag='SENT_START'/>
@@ -8821,14 +8754,7 @@ USA
             <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
         </rule>
 
-
-        <!-- CORRIGIR ERROS/FALHAS corrigir imprecisões -->
-        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="[Científico] Corrigir 'erros/falhas' → 'imprecisões'" type="style" tone_tags="academic" default="temp_off">
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-03 (1-JAN-2022+)      -->
-            <!--
-            Vou corrigir pequenos erros no texto. → Vou corrigir pequenas imprecisões no texto.
-            Vou corrigir alguns erros no texto. → Vou corrigir algumas imprecisões no texto.
-            -->
+        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="[Científico] Corrigir 'erros/falhas' → 'imprecisões'" type="style" tone_tags="academic" default="off">
             <pattern>
                 <token inflected='yes'>corrigir</token>
                 <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|algum|inúmero|pequeno</token>
@@ -8841,15 +8767,7 @@ USA
             <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
         </rule>
 
-
-        <!-- DE PROPÓSITO deliberadamente -->
         <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky" tone_tags="formal">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-25 (2-MAR-2023+) -->
-            <!--
-            Eles fizeram de propósito. → Eles fizeram deliberadamente.
-            Eles fizeram aquilo de propósito. → Eles fizeram aquilo deliberadamente.
-            Eles fizeram-no de propósito. → Eles fizeram-no deliberadamente.
-            -->
             <rule>
                 <pattern>
                     <token inflected='yes'>fazer</token>
@@ -10707,21 +10625,7 @@ USA
             <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>como referiremos de seguida</marker>.</example>
         </rule>
 
-
-        <!-- PODE SER USADO é usado -->
-        <rulegroup id='PHD_TESE_PODE_SER_PART_PASS_É_PART_PASS' name="[Universitário] Expressões do tipo 'pode ser usado' → 'é usado'" type="style" tags='picky' default='temp_off' tone_tags="academic">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-04-05 (2-MAR-2023+) -->
-            <!--
-            SUBRULE1:
-            Ao conhecer os parâmetros do modelo, este pode ser usado para fazer previsões. → Ao conhecer os parâmetros do modelo, este é usado para fazer previsões.
-            Ao conhecer os parâmetros dos modelos, estes podem ser usados para fazer previsões. → Ao conhecer os parâmetros dos modelos, estes são usados para fazer previsões.
-
-            SUBRULE2: (forced the use of "também")
-            O modelo pode também ser aplicado a casos específicos. → O modelo é também aplicado a casos específicos.
-            Os modelos podem também ser aplicados a casos específicos. → Os modelos são também aplicados a casos específicos.
-            -->
-
-            <!-- pode ser [TAMBÉM] usado -->
+        <rulegroup id='PHD_TESE_PODE_SER_PART_PASS_É_PART_PASS' name="[Universitário] Expressões do tipo 'pode ser usado' → 'é usado'" type="style" tags='picky' default='off' tone_tags="academic">
             <rule>
                 <pattern>
                     <marker>
@@ -10743,9 +10647,7 @@ USA
                 <example correction="são">Ao conhecer os parâmetros dos modelos, estes <marker>podem ser</marker> usados para fazer previsões.</example>
             </rule>
 
-
-            <!-- pode TAMBÉM ser usado -->
-            <rule>
+            <rule> <!-- pode TAMBÉM ser usado -->
                 <pattern>
                     <marker>
                         <token regexp='yes'>podem?|poder|podendo</token>
@@ -10765,9 +10667,9 @@ USA
                 <example correction="é também">O modelo <marker>pode também ser</marker> aplicado a casos específicos.</example>
                 <example correction="são também">Os modelos <marker>podem também ser</marker> aplicados a casos específicos.</example>
             </rule>
-
         </rulegroup>
     </category>
+
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
         <!-- DE N EM N a cada N -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
@@ -12189,14 +12091,9 @@ USA
                 <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
             </rule>
         </rulegroup>
-        <!-- AO MESMO TEMPO QUE enquanto -->
-        <rule id='AO_MESMO_TEMPO_QUE_ENQUANTO' name=" Ao mesmo tempo que → enquanto" type="style" tags='picky' default='temp_off'>
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-29 (2-MAR-2023+) -->
-            <!--
-      Ao mesmo tempo que tenta entender as situações antes de criticar. → Enquanto tenta entender as situações antes de criticar.
-      -->
 
+        <rule id='AO_MESMO_TEMPO_QUE_ENQUANTO' name=" Ao mesmo tempo que → enquanto" type="style" tags='picky' default='off'>
+            <!--IDEA shorten_it-->
             <antipattern>
                 <token>ao</token>
                 <token>mesmo</token>
@@ -12872,21 +12769,9 @@ USA
             <example>Tom apagou a luz e foi dormir.</example>
         </rule>
 
-
-        <!-- E NÃO SABEM sem saber -->
-        <rulegroup id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="[Simplificar] E não + Verbo → Sem + V.Inf." type='style' default="temp_off">
+        <rulegroup id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="[Simplificar] E não + Verbo → Sem + V.Inf." type='style' default="off">
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-16 (25-JUL-2022+) -->
-            <!--
-      Ao perguntar ele fica perplexo e não sabe o que responder. → Ao perguntar ele fica perplexo sem saber o que responder.
-      Ao perguntar eles ficam perplexos e não sabem o que responder. → Ao perguntar eles ficam perplexos sem saber o que responder.
-      Ao perguntar ele fica perplexo e não sabe a quem responder. → Ao perguntar ele fica perplexo sem saber a quem responder.
-      Ao perguntar eles ficam perplexos e não sabem a quem responder. → Ao perguntar eles ficam perplexos sem saber a quem responder.
 
-      Os consertos feitos às pressas costumam custar mais e não resolvem o problema. → Os consertos feitos às pressas costumam custar mais sem resolver o problema.
-      -->
-
-            <!-- FIRST APPROACH -->
             <rule>
                 <pattern>
                     <token><exception postag_regexp='no' postag='SENT_START'/></token>
@@ -12908,8 +12793,7 @@ USA
                 <example correction="sem saber">Ao perguntar eles ficam perplexos <marker>e não sabem</marker> a quem responder.</example>
             </rule>
 
-            <!-- FOR NOUNS -->
-            <rule>
+            <rule> <!-- FOR NOUNS -->
                 <pattern>
                     <token postag='DA.+|PP.+|DI.+|V.+|NC.+|AQ.+|RM' postag_regexp='yes'/> <!-- DON'T USE: SPS00 -->
                     <token postag='NC.+|AQ.+|V.+|RG|DP.+' postag_regexp='yes'>
@@ -12928,7 +12812,6 @@ USA
                 <suggestion>sem <match no='6' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
                 <example correction="sem resolver">Os consertos feitos às pressas costumam custar mais <marker>e não resolvem</marker> o problema.</example>
             </rule>
-
         </rulegroup>
 
 

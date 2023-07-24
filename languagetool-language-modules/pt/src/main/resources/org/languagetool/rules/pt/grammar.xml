@@ -655,28 +655,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- A À -->
-        <rulegroup id='ERROS_DE_CRASE_MARCOAGPINTO' name="Erros de crase (Marco A.G.Pinto)" default="temp_off">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-17 (1-JAN-2022+)      -->
-            <!--
-      Logo a noite vou experimentar novamente. → Logo à noite vou experimentar novamente.
-      -->
+        <rulegroup id='ERROS_DE_CRASE_MARCOAGPINTO' name="Erros de crase (Marco A.G.Pinto)" default="off">
             <rule>
-                <!--
-        Logo a noite vou experimentar novamente. → Logo à noite vou experimentar novamente.
-        Logo a noite ela vai experimentar novamente. → Logo à noite ela vai experimentar novamente.
-        -->
-
-                <!-- MARCOAGPINTO 2022-01-17 (1-JAN-2022+) *START* -->
-                <!--
-        Por que a Maria resolveu ficar aqui?
-        Por que a senhora resolveu ficar aqui?
-        -->
                 <antipattern>
                     <token>por</token>
                     <token>que</token>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-01-17 (1-JAN-2022+) *END* -->
 
                 <pattern>
                     <token postag='RG'/>
@@ -1050,14 +1034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- ISSO/ISTO/AQUILO ADJ FEMININO isso/isto/aquilo adj masculino -->
-        <rulegroup id='GENDER_ISSO_ISTO_AQUILO_VERBO_ADJFEMININO' name="Concordância: Isso/isto/aquilo + Verbo + Adjetivo" default='temp_off'>
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-05 (1-JAN-2022+)      -->
-            <!--
-      Isto é muito engraçada. → Isto é muito engraçado.
-      Isto é engraçada. → Isto é engraçado.
-      Isto é boa. → Isto é bom.
-      -->
+        <rulegroup id='GENDER_ISSO_ISTO_AQUILO_VERBO_ADJFEMININO' name="Concordância: Isso/isto/aquilo + Verbo + Adjetivo" default='off'>
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag_regexp='yes' postag="SPS.+|CS|PP3CN000|CC"/>
@@ -3496,36 +3473,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- COME comer-->
-        <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" default="temp_off">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-16 (25-JUN-2021+)      -->
-            <!--
-      Para reescreve o código levará mais tempo. → Para reescrever o código levará mais tempo.
-      Quero come a fruta. → Quero comer a fruta.
-      Para ele come a fruta. → Para ele comer a fruta.
-      -->
-            <!-- MARCOAGPINTO 2021-11-17 (25-JUN-2021+) *START* -->
-            <!--
-      Espero revê-lo brevemente!
-      Quero revê-lo.
-      Quero revê-la.
-      -->
+        <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" default="off">
             <antipattern>
                 <token negate_pos="yes" postag='CC|SPS.+' postag_regexp='yes'/>
                 <token postag='VMM02S0|VMIP3S0' postag_regexp='yes'/>
                 <token regexp='yes' spacebefore='no'>&hifen;</token>
                 <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[ae]s?|nos?|me|se|te|vos</token>
             </antipattern>
-            <!--
-      Dizem que uma família que come junta, fica junta.
-      O último período da Pré-Historia demarca o conjunto de transformações que dão início às primeiras civilizações.
-      -->
             <antipattern>
                 <token negate_pos="yes" postag='SPS.+|PD.+|PP.+|DA.+|V.+|AQ.+|NC.+|I|PE.+|PR.+|PT.+|RG|CC|RN|CS' postag_regexp='yes'/>
                 <token postag='VMM02S0|VMIP3S0' postag_regexp='yes'/>
                 <token postag='V.+|DA.+' postag_regexp='yes'/>
             </antipattern>
-            <!-- MARCOAGPINTO 2021-11-17 (25-JUN-2021+) *END* -->
             <antipattern>
                 <token postag='PD.+|DD.+|SPS00:PD.+' postag_regexp='yes'/>
                 <token min='0' regexp='yes'>el[ae]</token>
@@ -7422,8 +7381,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id='FUTURE_CONJUGATION_ERROR' name='Concordância Verbal: Conjugações irregulares do futuro do conjuntivo/subjuntivo' default='temp_off'>
-            <!-- Created by Tiago F. Santos, 2017-01-21 -->
+        <rulegroup id='FUTURE_CONJUGATION_ERROR' name='Concordância Verbal: Conjugações irregulares do futuro do conjuntivo/subjuntivo' default='off'>
             <rule>
                 <antipattern>
                     <token regexp='yes'>&hifen;</token>
@@ -7508,8 +7466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Concordância Verbal: Conjugações irregulares: conjuntivo/subjuntivo obrigatório' default='temp_off'>
-            <!-- Created by Tiago F. Santos, 2017-05-20 -->
+        <rulegroup id='CONJUNTIVO_OBRIGATORIO' name='Concordância Verbal: Conjugações irregulares: conjuntivo/subjuntivo obrigatório' default='off'>
             <url>https://pt.wikipedia.org/wiki/Modo_subjuntivo</url>
             <short>Modo verbal incorreto</short>
             <rule>
@@ -7940,7 +7897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Acaba perdendo uma libertadores</example>
                 <example>bem jovem para chegar à Homicídios.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default='off'>
                 <pattern>
                     <marker>
                         <token postag='DA.MS.+' postag_regexp='yes'/>
@@ -7955,7 +7912,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
                 <example correction='As minhas|A minha|O meu|Os meus'><marker>O minhas</marker> é preta.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default='off'>
                 <pattern>
                     <marker>
                         <token postag='DA.MP.+' postag_regexp='yes'/>
@@ -7970,7 +7927,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion suppress_misspelled="yes">\1 <match no='2' postag="(DP.)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
                 <example correction='As minhas|A minha|O meu|Os meus'><marker>Os minha</marker> é preta.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default='off'>
                 <pattern>
                     <marker>
                         <token postag='DA.FP.+' postag_regexp='yes'/>
@@ -10061,7 +10018,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>\1, \2</suggestion>
                 <example correction='fui eu|foi, eu'>Quem deu a cara <marker>foi eu</marker>.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default='off'>
                 <antipattern>
                     <token inflected="yes">ser</token>
                     <token skip='-1'>nós</token>
@@ -10082,7 +10039,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='2' postag='(VMI.)3S(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
                 <example correction='fomos'>Quem deu a cara <marker>foi</marker> nós.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default='off'>
                 <antipattern>
                     <token inflected="yes">ser</token>
                     <token skip='-1'>vós</token>
@@ -10102,7 +10059,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\2P$2' postag_regexp='yes'/></suggestion>
                 <example correction='fostes'>Quem deu a cara <marker>foi</marker> vós.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default='off'>
                 <antipattern>
                     <token inflected="yes">ser</token>
                     <token skip='-1'>vocês</token>
@@ -10798,9 +10755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="FUTURE_PAST_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)" default='temp_off'>
-            <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-11 -->
-            <!--short>Tempo verbal incorreto.</short-->
+        <rulegroup id="FUTURE_PAST_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)" default='off'>
             <rule>
                 <pattern>
                     <phraseref idref="ALL_PAST_EXPRESSIONS"/>
@@ -17017,8 +16972,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
             </rule>
         </rulegroup>
-        <!-- ADDITIONAL MISSING COMMA RULES -->
-        <rulegroup id='AUSENCIA_VIRGULA' name="Ausência de vírgula" default='temp_off'>
+
+        <rulegroup id='AUSENCIA_VIRGULA' name="Ausência de vírgula" default='off'>
             <rule>
                 <antipattern>
                     <token postag='SENT_START'/>
@@ -17135,9 +17090,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="ENUMERATIONS_AND_AND" name="Enumerações com e ... e ..." default="temp_off">
+        <rulegroup id="ENUMERATIONS_AND_AND" name="Enumerações com e ... e ..." default="off">
             <!-- FIXME: too many matches -->
-            <!-- Created by Tiago F. Santos, 2018-07-14 -->
             <rule>
                 <antipattern>
                     <token>ascensão</token>
@@ -20621,7 +20575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <!-- My assumption here is that these are mostly typos since they're pretty obvious ungrammatical,
+        <!-- My assumption here is that these are mostly typos since they're pretty obviously ungrammatical,
              from the descriptive point of view. So it doesn't seem to be worthwhile to account for non-3SG
              inflections. I mean, 'dever' -> 'deve' is pretty straightforward, but 'dever' -> 'devo' less so.  -->
         <rulegroup id="DOUBLE_INFINITIVE" name="Infinitivo duplo">
@@ -20629,7 +20583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- This contains the original structure as described in premium issue 5538
                  All sentences herein are of the shape: 'dever ter feito', and as such will usually indicate
                  some kind of past tense epistemic modality, for which the double infinitive is very probably ungrammatical. -->
-            <rule default="temp_off">
+            <rule default="off">
                 <!-- This antipattern refers to constructions of the type 'the fact that...', for which
                      a personal (i.e. inflected) infinitive can be used. -->
                 <antipattern>
@@ -20771,7 +20725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='1' regexp_match="a" regexp_replace='e' postag_regexp="yes"/> \2</suggestion>
                 <example correction="está confuso|esta confusa|este confuso">Isso <marker>esta confuso</marker>.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule default='off'>
                 <pattern>
                     <token>esta</token>
                     <token postag='A..M.+|D..MP.+' postag_regexp='yes'/>
@@ -31615,12 +31569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-    <!-- FAZES fases -->
-    <rule id='CONFUSÃO_FAZES_FASES' name="[Confusão] fazes/fases" default='temp_off'>
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-05-21 (2-MAR-2023+) -->
-            <!--
-      Todas as FAZES da vida têm que ser desfrutadas. → Todas as FASES da vida têm que ser desfrutadas.
-      -->
+    <rule id='CONFUSÃO_FAZES_FASES' name="[Confusão] fazes/fases" default='off'>
       <pattern>
         <token>as</token>
         <marker>
@@ -31980,41 +31929,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- NOS nós -->
-        <rulegroup id='CONFUSÃO_NOS_NÓS' name="[Confusão] nos/nós" default="temp_off">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-02/3 (1-JAN-2022+)      -->
-            <!--
-      Nos somos os chefes. → Nós somos os chefes.
-      -->
+        <rulegroup id='CONFUSÃO_NOS_NÓS' name="[Confusão] nos/nós" default="off">
             <rule>
-                <!--
-        Nos mais jovens, é mais comum ela ser noticiada aos familiares.
-        Por favor, nos dê alguns exemplos.
-        -->
                 <antipattern>
                     <token>nos</token>
                     <token postag='RG|VMM03S0|VMSP[13]S0' postag_regexp='yes'/>
                     <token postag='AQ.+|NC.+|DI.+' postag_regexp='yes'/>
                 </antipattern>
-                <!--
-        Desde 1951, a Austrália tem sido um aliado militar formal dos Estados Unidos, nos termos do tratado ANZUS.
-        Nos termos da Constituição, a autonomia regional não afecta a integridade da soberania do Estado.
-        Nos termos deste acordo, formar-se-ia no mesmo mês um governo de transição.
-
-        Nos lhanos do Orinoco e no planalto das Guianas, as precipitações vão de moderadas a elevadas.
-        Nos seres unicelulares a mitose já possui o papel da reprodução em si.
-        Nos dez dias após seu lançamento, o livro vendeu 11,5 milhões de cópias.
-        -->
                 <antipattern>
                     <token>nos</token>
                     <token min="1" max="2" postag='VMN0.P.+|AQ.+|NC.+|Z0.+' postag_regexp='yes'/>
                     <token postag='SPS.+' postag_regexp='yes'/>
                 </antipattern>
-                <!--
-        O que não nos mata, nos deixa mais fortes.
-        Nos cerca de 100 eventos organizados entre Setembro de 2006 e Outubro de 2012, estiveram contabilizados os feridos.
-        THIS ANTIPATTERN WAS BASED ON TIAGO SANTO'S RULE WHICH WAS REPLACED BY MY OWN RULE.
-        -->
                 <antipattern>
                     <token>nos</token>
                     <token postag='NC.+|AQ.+|VMI[PMS]3P.+' postag_regexp='yes'/>
@@ -38622,7 +38548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>\1\2</suggestion>
             <example correction="naquela">Isso foi <marker>na quela</marker> época.</example>
         </rule>
-        <rule id='CONTA_TO' name="Correção de escrita" default='temp_off'>
+        <rule id='CONTA_TO' name="Correção de escrita" default='off'>
             <pattern>
                 <token>conta</token>
                 <token spacebefore='yes'>to</token>
