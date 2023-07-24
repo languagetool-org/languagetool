@@ -11903,7 +11903,28 @@ USA
             <example correction="Demorei|Levei|Estive"><marker>Perdi</marker> meses a escrever o livro.</example>
         </rule>
     </category>
+
+
+
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
+
+
+        <rule id='DAR_VALOR_VALORIZAR' name="Simplificar: Verbo 'dar' + valor → valorizar" default="temp_off"> 
+            <!-- IDEA shorten_it -->
+            <pattern>
+                <marker>
+                    <token inflected='yes'>dar</token>
+                    <token>valor</token>
+                    <token regexp='yes'>às?|aos?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>valorizar</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+            <example correction="valoriza a">Ele não <marker>dá valor à</marker> mulher.</example>
+            <example correction="valoriza o">Ele <marker>dá valor ao</marker> trabalho do Rui.</example>
+        </rule>
+
+
         <!-- UM TAMANHO DÁ/SERVE PARA TODOS tamanho único -->
         <rule id='ERRO_TRADUÇÃO_UM_TAMANHO_SERVE_DÁ_PARA_TODOS' name="[Erro tradução] 'um tamanho dá para todos' → 'tamanho único'">
             <!-- IDEA shorten_it -->
