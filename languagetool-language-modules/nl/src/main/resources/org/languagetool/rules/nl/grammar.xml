@@ -204,7 +204,7 @@ regexp case-insensitive maken: (?i)
 					<token>ander</token>
 				</antipattern>
 				<antipattern>
-					<token skip="-1" regexp="yes" inflected="yes">betekenen|noemen|heten</token>
+					<token skip="-1" regexp="yes" inflected="yes">betekenen|noemen|heten|lijken</token>
 					<token>het</token>
 					<token postag="ZNW:EKV:DE_"/>
 					<example>Hoewel het duidelijk brood was, noemde de peuter het koek.</example>
@@ -281,6 +281,19 @@ regexp case-insensitive maken: (?i)
 					<example>Het controle paneel is in een versperde zone.</example>
 					<example>Het Butterfly gezondheidskussen is leverbaar in diverse hoogtes en hardheden.</example>
 					<example>Het aandacht trekken is nogal irritant.</example>
+				</antipattern>
+				<antipattern>
+				    <token>het</token>
+				    <token regexp="yes">boert|schat</token>
+				    <example>Uitstekend, het boert nog altijd heel goed.</example>
+				    <example>Zo hoort het schat, ik vind het mooi.</example>
+				</antipattern>
+				<antipattern>
+				    <token>het</token>
+					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW:EKV:HET|GET:TXT.*"></exception></token>
+				    <token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag="WKW:TGW:3EP"/></token>
+				    <example>Wanneer je eenmaal het auto theorie examen gehaald hebt.</example>
+				    <example>Profiteren van het compound interest effect.</example>
 				</antipattern>
 				<pattern>
 					<marker>
@@ -18145,15 +18158,18 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<pattern>
 					<marker>
+					    <token/>
 						<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception><exception>ben</exception></token>
 					</marker>
-					<token negate="yes" regexp="yes">je|jij|jezelf</token>
+					<token negate="yes" regexp="yes">je|jij|jezelf|en</token>
 				</pattern>
 				<message>De vorm van het werkwoord is verkeerd, er ontbreekt een leesteken, of er staat een spatie te veel.</message>
-				<suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>
-				<suggestion>; \1</suggestion>
-				<suggestion>en \1</suggestion>
-				<example correction="gaat|; ga|en ga">Het <marker>ga</marker> vaak fout.</example>
+				<suggestion>\1 <match no="2" postag="WKW:TGW:3EP"/></suggestion>
+				<suggestion>\1, \2</suggestion>
+				<suggestion>\1 en \2</suggestion>
+				<example correction="Het gaat|Het, ga|Het en ga"><marker>Het ga</marker> vaak fout.</example>
+				<example correction="Vriend doet|Vriend, doe|Vriend en doe"><marker>Vriend doe</marker> eens rustig.</example>
+			    <example>Dat is onze blondeer en highlightsessie.</example>
 			</rule>
 			<rule>
 				<antipattern>
