@@ -12058,9 +12058,10 @@ USA
             <example correction="aquilo no ecrã">Vê tudo <marker>aquilo que está no ecrã</marker>.</example>
         </rule>
 
-        <!-- FAZER USO DE usar recorrer -->
-        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="Fazer uso de > usar > recorrer" tags="picky">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-10-02 (2-JUL-2020+)     -->
+
+        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="Simplificar: Fazer uso de → usar/recorrer" tags="picky" default="temp_off">
+            <!-- IDEA shorten_it -->
+
             <!-- DE -->
             <rule>
                 <pattern>
@@ -12068,64 +12069,45 @@ USA
                     <token>uso</token>
                     <token>de</token>
                 </pattern>
-                <message>Substitua por:</message>
+                <message>&simplify_msg;</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> a</suggestion>
                 <example correction="usar|recorrer a">Vamos <marker>fazer uso de</marker> simuladores.</example>
             </rule>
 
-            <!-- DA -->
+            <!-- DA(S)/DO(S) -->
             <rule>
                 <pattern>
                     <token inflected='yes'>fazer</token>
                     <token>uso</token>
-                    <token>da</token>
+                    <token regexp='yes'>d[ao]s?</token>
                 </pattern>
-                <message>Substitua por:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> a</suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> à</suggestion>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='SPS00:DA0$10'>a:o</match></suggestion>
                 <example correction="usar a|recorrer à">Vamos <marker>fazer uso da</marker> tecnologia.</example>
-            </rule>
-
-            <!-- DAS -->
-            <rule>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token>uso</token>
-                    <token>das</token>
-                </pattern>
-                <message>Substitua por:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> as</suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> às</suggestion>
                 <example correction="usar as|recorrer às">Vamos <marker>fazer uso das</marker> tecnologias.</example>
-            </rule>
-
-            <!-- DO -->
-            <rule>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token>uso</token>
-                    <token>do</token>
-                </pattern>
-                <message>Substitua por:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> o</suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> ao</suggestion>
                 <example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
-            </rule>
-
-            <!-- DOS -->
-            <rule>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token>uso</token>
-                    <token>dos</token>
-                </pattern>
-                <message>Substitua por:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> os</suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> aos</suggestion>
                 <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
             </rule>
+
+            <!-- DELA(S)/DELE(S) -->
+            <rule>
+                <pattern>
+                    <token>fazer</token>
+                    <token>uso</token>
+                    <token regexp='yes'>del[ae]s?</token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>usá-l<match no='3' postag='SPS00:PP3(..)00' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="usá-la">Vamos <marker>fazer uso dela</marker> para o bem.</example>
+                <example correction="usá-las">Vamos <marker>fazer uso delas</marker> para o bem.</example>
+                <example correction="usá-lo">Vamos <marker>fazer uso dele</marker> para o bem.</example>
+                <example correction="usá-los">Vamos <marker>fazer uso deles</marker> para o bem.</example>
+            </rule>
+
         </rulegroup>
+
 
         <rule id='AO_MESMO_TEMPO_QUE_ENQUANTO' name=" Ao mesmo tempo que → enquanto" type="style" tags='picky' default='off'>
             <!--IDEA shorten_it-->
