@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
@@ -35,16 +36,24 @@ import org.languagetool.tagging.disambiguation.sv.SwedishHybridDisambiguator;
 import org.languagetool.tagging.sv.SwedishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+//import org.languagetool.tokenizers.sv.SwedishWordTokenizer;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
+import static java.util.Arrays.asList;
+
 /**
- * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
- * Actively maintained since v6.2+
+ *
+ * Deprecated in 3.6, but actively maintained again since v6.2+
+ *
  */
 @Deprecated
-public class Swedish extends Language {
+public class Swedish extends Language implements AutoCloseable {
+
+  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -71,6 +80,56 @@ public class Swedish extends Language {
   public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SRXSentenceTokenizer(this);
   }
+
+/*
+  @Override
+  public Tokenizer createDefaultWordTokenizer() {
+    return new SwedishWordTokenizer();
+  }
+*/
+
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    languageModel = initLanguageModel(indexDir, languageModel);
+    return languageModel;
+  }
+
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+    return asList(
+        new UpperCaseNgramRule(messages, languageModel, this, userConfig),
+        new SwedishConfusionProbabilityRule(messages, languageModel, this)
+        //new SwedishNgramProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+/*
+  @Override
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    if (lm != null && motherTongue != null) {
+      if ("en".equals(motherTongue.getShortCode())) {
+        return asList(new SwedishForEnglishNativesFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("de".equals(motherTongue.getShortCode())) {
+        return asList(new SwedishForGermansFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("da".equals(motherTongue.getShortCode())) {
+        return asList(new SwedishForDanesFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("no".equals(motherTongue.getShortCode())) {
+        return asList(new SwedishForNorwegiansFalseFriendRule(messages, lm, motherTongue, this));
+      }
+    }
+    return asList();
+  }
+
+  @Override
+  public boolean hasNGramFalseFriendRule(Language motherTongue) {
+    return motherTongue != null && (
+      "en".equals(motherTongue.getShortCode()) ||
+      "de".equals(motherTongue.getShortCode()) ||
+      "da".equals(motherTongue.getShortCode()) ||
+      "no".equals(motherTongue.getShortCode()));
+  }
+
+*/
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
@@ -118,4 +177,41 @@ public class Swedish extends Language {
   protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new HunspellRule(messages, this, null, null);
   }
+
+  /** @since 6.2+ */
+//  @Override
+//  public String getOpeningDoubleQuote() {
+//    return "”";
+//  }
+
+  /** @since 6.2+ */
+//  @Override
+//  public String getClosingDoubleQuote() {
+//    return "”";
+//  }
+
+  /** @since 6.2+ */
+//  @Override
+//  public String getOpeningSingleQuote() {
+//    return "’";
+//  }
+
+  /** @since 6.2+ */
+//  @Override
+//  public String getClosingSingleQuote() {
+//    return "’";
+//  }
+
+  /**
+   * Closes the language model, if any.
+   * @since 6.2+
+   */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
+  }
+
 }
+
