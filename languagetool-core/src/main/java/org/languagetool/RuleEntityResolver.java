@@ -6,14 +6,11 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.Objects;
 
 /**
  * Resolves an XML file's external entity URIs as relative paths.
  */
 public class RuleEntityResolver implements EntityResolver {
-  private final URL xmlUrl;
 
   /**
    * Resolves the entity's absolute path by taking the relative path found in the source XML and combining it with the
@@ -26,22 +23,19 @@ public class RuleEntityResolver implements EntityResolver {
    */
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-    if ((publicId != null && publicId.endsWith(".ent")) || systemId.endsWith(".ent")) {
-      URL entitiesUrl = new URL(xmlUrl, new URL(systemId).getPath());
-      if (Objects.equals(entitiesUrl.getProtocol(), "jar")) {
-        InputStream entitiesStream = JLanguageTool.getDataBroker().getAsStream(entitiesUrl.toString().split("!")[1]);
-        return new InputSource(entitiesStream);
-      } else {
-        return new InputSource(entitiesUrl.getPath());
-      }
+    if (systemId != null && systemId.endsWith(".ent")) {
+      return new InputSource(getInputStreamLTEntities(systemId));
     }
     return null;
   }
 
-  /**
-   * @param xmlUrl path to the source XML where the external entity relative path is found.
-   */
-  public RuleEntityResolver(URL xmlUrl) {
-    this.xmlUrl = xmlUrl;
+  public String getPathFromLTResourceFolder(String input) {
+    // we assume that the entities file is in the resource folder of each language
+    return input.replaceAll(".*/resource/", "").replaceAll("\\.\\./", "");
+  }
+
+  public InputStream getInputStreamLTEntities(String input) {
+    return JLanguageTool.getDataBroker()
+      .getFromResourceDirAsStream(getPathFromLTResourceFolder(input));
   }
 }

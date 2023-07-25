@@ -22,7 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
-    <!ENTITY % entities  SYSTEM "file:../../resource/es/entities.ent" >
+    <!ENTITY % entities  SYSTEM "../../resource/es/entities.ent" >
     %entities;
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -11018,6 +11018,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DE_TILDE" name="de/dé (dar)" default="on">
+            <url>https://languagetool.org/insights/es/publicacion/de-con-tilde-o-sin-tilde/</url>
             <antipattern>
                 <token spacebefore="no">.</token>
                 <token spacebefore="no">de</token>
@@ -20379,6 +20380,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
+                <!-- nouns used as adjectives -->
+                <token>medio</token>
+                <token inflected="yes" regexp="yes">vampiro|&gentilicios;</token>
+                <example>Eran medio vampiros.</example>
+                <example>Sus antepasados eran medio franceses.</example>
+            </antipattern>
+            <antipattern>
                 <!--<token>se</token>-->
                 <token regexp="yes">los|las</token>
                 <token>be</token>
@@ -20518,6 +20526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el español|los españoles|la española|las españolas">Mientras <marker>las españoles</marker> lo hacían desde el sur.</example>
                 <example correction="cuanto año|cuantos años">Se preguntó <marker>cuanto años</marker> tenía el joven.</example>
                 <example correction="un sustantivo|unos sustantivos">Lo analizó como <marker>una sustantivo</marker>.</example>
+                <example correction="medio millón|medios millones"><marker>medio millones</marker> de euros</example>
                 <!-- TODO: De alguna forma terminaré esta trabajo.
                 Tengo tiempo libre este tarde. -->
                 <example>También lo contrario.</example>
@@ -34232,6 +34241,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>La grafía adecuada es <suggestion>Nueva Kajovka</suggestion> (ciudad ucraniana)?</message>
                 <url>https://www.fundeu.es/recomendacion/nueva-kajovska-nombre-de-la-ciudad-ucrania/</url>
                 <example correction="Nueva Kajovka"><marker>Nova Kakhovka</marker>.</example>
+            </rule>
+            <rule id="NUNEZ_FEIJOO" name="Núñez Feijóo">
+                <antipattern case_sensitive="yes">
+                    <token>Núñez</token>
+                    <token>Feijóo</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">n[uú][nñ]e[sz]</token>
+                    <token regexp="yes">fe[ij]+[oó]+</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>Núñez Feijóo</suggestion> (político español)?</message>
+                <url>https://es.wikipedia.org/wiki/Alberto_N%C3%BA%C3%B1ez_Feij%C3%B3o</url>
+                <example correction="Núñez Feijóo"><marker>Nuñez Fejioo</marker>.</example>
             </rule>
         </rulegroup>
     </category>

@@ -42,9 +42,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-    ResourceDataBroker broker = JLanguageTool.getDataBroker();
-    URL absoluteUrl = broker.getFromResourceDirAsUrl(this.sourceFile);
-    return new RuleEntityResolver(absoluteUrl).resolveEntity(publicId, systemId);
+    return new RuleEntityResolver().resolveEntity(publicId, systemId);
   }
 
   private boolean inDisambiguation;

@@ -4579,21 +4579,8 @@ USA
         </rule>
 
 
-        <!-- PASSARAM 10 MINUTOS decorreram 10 minutos -->
         <rulegroup id='PASSAR_TEMPO_DECORRER_TEMPO' name="[pt-PT][Formal] 'passar' tempo → decorrer">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-11 (2-MAR-2023+) -->
-            <!--
-            Subrule1:
-            Dez minutos passaram desde o início do show. → Dez minutos decorreram desde o início do show.
-
-            Subrule2:
-            Passados os 30 dias tudo mudou. → Decorridos os 30 dias tudo mudou.
-            Passaram horas desde o início do show. → Decorreram horas desde o início do show.
-            -->
-            <!--
-                 MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-            -->
-
+ 
             <antipattern>
                 <token regexp='yes'>&expressoes_de_tempo_simples;
                     <exception scope='previous' postag_regexp='yes' postag='Z0.+'/>
@@ -4670,6 +4657,15 @@ USA
                 <example>Passa dois anos na Argélia, primeiro em Orléansville (Chlef) e depois em Argel.</example>
                 <example>Passo muitas horas a escrever frases para o Tatoeba.</example>
                 <example>Eu gosto de pescar; é uma maneira muito relaxante de passar o dia.</example>
+            </antipattern>
+
+            <antipattern>
+                <token inflected='yes'>passar</token>
+                <token postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+                <token postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>Ela chega e passa o dia a gritar com o Rui.</example>
             </antipattern>
 
             <!-- Subrule1: -->

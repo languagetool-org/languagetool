@@ -915,7 +915,7 @@ class CaseRuleAntiPatterns {
     Arrays.asList(
       // Straßenname: "Neue Kantstraße 6"
       csRegex("Neuen?|Gro(ß|ss)en?|Alten?|Oberen?|Unteren?|Kleinen?"),
-      csRegex("[A-Z].+stra(ss|ß)e|.*[kK]amp|.*[Tt]or|.*[Hh]of|.*[Gg]asse|.*[Gg]raben|.*[Ff]eld|.*[Pp]latz|.*[Bb]erg|.*[Pp]ark|.*[Ww]eg"),
+      csRegex("[A-Z].+stra(ss|ß)e|.*[kK]amps?|.*[Tt]ors?|.*[Hh]ofs?|.*[Gg]asse|.*[Gg]rabens?|.*[Ff]elds?|.*[Pp]latz(es)?|.*[Bb]ergs?|.*[Pp]arks?|.*[Ww]egs?|.*[Aa]llee"),
       csRegex("\\d{1,3}[a-hA-H]?|in")
     ),
     Arrays.asList(

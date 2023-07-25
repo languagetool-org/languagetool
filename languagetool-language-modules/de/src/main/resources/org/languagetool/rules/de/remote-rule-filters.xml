@@ -1613,5 +1613,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example>Es ist mir ein tiefes <marker>Bedürfnis</marker> mich an dieser Stelle bei einigen Menschen von Herzen zu bedanken, die mich auf meinem Weg begleitet haben.</example>
             </rule>
         </rulegroup>
+        <rule id="AI_DE_HYDRA_LEO_CP_EINEN_EINEM" name="">
+            <pattern>
+                <token postag="PRP.*:DAT" postag_regexp="yes"/>
+                <marker>
+                    <token>einen</token>
+                </marker>
+                <token postag="SUB.+PLU:FEM" postag_regexp="yes"/>
+                <token postag="SUB.+PLU:FEM" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">A ist zurück und die Cops umzingeln uns mit <marker>einen</marker> Millionen Fragen..</example>
+        </rule>
     </category>
 </rules>

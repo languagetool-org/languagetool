@@ -87,9 +87,7 @@ public class RuleIdValidator {
 
     @Override
     public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
-      ResourceDataBroker broker = JLanguageTool.getDataBroker();
-      URL absoluteUrl = broker.getAsURL(this.xmlPath);
-      return new RuleEntityResolver(absoluteUrl).resolveEntity(publicId, systemId);
+      return new RuleEntityResolver().resolveEntity(publicId, systemId);
     }
 
     @Override
