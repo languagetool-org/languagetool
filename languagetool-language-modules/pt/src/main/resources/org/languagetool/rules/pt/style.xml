@@ -4004,6 +4004,41 @@ USA
             </rule>
 
             <rule> <!-- pro/pros -->
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">pros?</token>
+                    <token postag="_PUNCT"/>
+                    <example>Pro.</example>
+                </antipattern>
+
+                <antipattern> <!-- English 'pro' as in professional, common in NEs -->
+                    <token negate_pos="yes" postag="SENT_START"/>
+                    <token case_sensitive="yes" regexp="yes">Pros?</token>
+                    <example>É um MacBook Pro.</example>
+                    <example>Eles gostam de Pro-Wrestling.</example>
+                    <example>Conjuntamente com Pro Natura.</example>
+                </antipattern>
+
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">\p{L}\p{Ll}+</token>
+                    <token case_sensitive="yes" regexp="yes">PROS?</token>
+                    <example>Os jóvens PRO são parte da família.</example>
+                    <example>Batalhas PRO com suprimentos desativados.</example>
+                </antipattern>
+
+                <antipattern> <!-- political party, I think -->
+                    <token case_sensitive="yes" regexp="yes">PROS?</token>
+                    <token regexp="yes" spacebefore="no">&hifen;</token>
+                    <example>Mauro das Couves (PROS-PR).</example>
+                </antipattern>
+
+                <antipattern>
+                    <token inflected="yes" regexp="yes">versão|membro|assinante|assinatura</token>
+                    <token>pro</token>
+                    <example>O preço da versão pro.</example>
+                    <example>Para membros pro, temos outras ofertas.</example>
+                </antipattern>
+
                 <pattern>
                     <token regexp="yes">pros?</token>
                 </pattern>
