@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
@@ -51,6 +52,8 @@ import com.sun.star.uno.XComponentContext;
 public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
+  private static final int MAX_WRONG = 50;
+  
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
           "com.sun.star.linguistic2.SpellChecker",
@@ -61,8 +64,8 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   private static SpellingCheckRule spellingCheckRule = null;
   private static MorfologikSpellerRule mSpellRule = null;
   private static HunspellRule hSpellRule = null;
-  private static String lastWrongWord = null;
-  private static List<String> lastSuggestions = null;
+  private static final List<String> lastWrongWords = new ArrayList<>();
+  private static final List<List<String>> lastSuggestions = new ArrayList<>();
   private static XComponentContext xContext = null;
   private static boolean noLtSpeller = false;
   
@@ -151,7 +154,7 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
       if (noLtSpeller) {
         return false;
       }
-      if (word.equals(lastWrongWord)) {
+      if (lastWrongWords.contains(word)) {
         return false;
       }
       initSpellChecker(locale);
@@ -168,8 +171,14 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
 //          return true;
 //        }
 //        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: misspelled word: " + word);
-        lastWrongWord = new String(word);
-        lastSuggestions = matches.get(0).getSuggestedReplacements();
+        if (!lastWrongWords.contains(word)) {
+          lastWrongWords.add(new String(word));
+          lastSuggestions.add(matches.get(0).getSuggestedReplacements());
+          if (lastWrongWords.size() >= MAX_WRONG) {
+            lastWrongWords.remove(0);
+            lastSuggestions.remove(0);
+          }
+        }
         return false;
       }
     } catch (Throwable e) {
@@ -239,8 +248,9 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
         alternatives = new String[0];
         return;
       }
-      if (word.equals(lastWrongWord)) {
-        alternatives = lastSuggestions.toArray(new String[0]);
+      if (lastWrongWords.contains(word)) {
+        int num = lastWrongWords.indexOf(word);
+        alternatives = lastSuggestions.get(num).toArray(new String[0]);
         return;
       }
       try {
