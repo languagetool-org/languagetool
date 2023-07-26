@@ -97,7 +97,7 @@ public class Swedish extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return asList(
-        new UpperCaseNgramRule(messages, languageModel, this, userConfig),
+        //new UpperCaseNgramRule(messages, languageModel, this, userConfig),
         new SwedishConfusionProbabilityRule(messages, languageModel, this)
         //new SwedishNgramProbabilityRule(messages, languageModel, this)
     );
