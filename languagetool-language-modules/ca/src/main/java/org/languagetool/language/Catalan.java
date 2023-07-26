@@ -201,6 +201,7 @@ public class Catalan extends Language {
   protected int getPriorityForId(String id) {
     switch (id) {
       case "CONFUSIONS2": return 80;
+      case "DEU_NI_DO": return 80; // greater then rules about pronouns
       case "CA_SIMPLE_REPLACE_MULTIWORDS": return 70;
       case "CA_SIMPLE_REPLACE_BALEARIC": return 60;
       case "CA_COMPOUNDS": return 50;
