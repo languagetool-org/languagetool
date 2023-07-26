@@ -18496,6 +18496,44 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>crise cardiaque</suggestion>
             <example correction="crise cardiaque"><marker>attaque cardiaque</marker></example>
         </rule>
+        <rule id="ANGLICISME_FAKE_NEWS" name="fake news">
+            <pattern>
+                <token>fakes</token>
+                <token>news</token>
+            </pattern>
+            <message>L'expression anglaise est <suggestion>fake news</suggestion>.</message>
+            <example correction="fake news"> Ce sont des <marker>fakes news</marker>.</example>
+        </rule>
+        <rule id="ANGLICISME_BABY_SHOWER" name="baby shower">
+             <pattern>
+                <token>baby</token>
+                <token>-</token>
+                <token regexp="yes">showers?</token>
+             </pattern>
+             <message>Ce nom s'écrit sans trait d'union.</message>
+             <suggestion>\1 \3</suggestion>
+             <example correction="baby shower">Il a organisé une <marker>baby-shower</marker>.</example>
+        </rule>
+        <rule id="ANGLICISME_SEX_TOYS" name="sex toys">
+           <pattern>
+             <token>sexe</token>
+             <token min="0">-</token>
+             <token regexp="yes">toys?</token>
+           </pattern>
+           <message>Ce mot est un anglicisme non francisé.</message>
+           <suggestion>sex \3</suggestion>
+           <example correction="sex toys">Il utilise des <marker>sexe toys</marker>.</example>
+        </rule>
+        <rule id="ANGLICISME_MOBILE_HOME" name="mobile home">
+           <pattern>
+              <token regexp="yes">mobiles?</token>
+              <token regexp="yes">homes?</token>
+           </pattern>
+           <message>Ce terme est un anglicisme et peut être remplacé par son équivalent français.</message>
+           <suggestion>mobil-\2</suggestion>
+           <url>https://www.larousse.fr/dictionnaires/francais/mobil-home/51878</url>
+           <example correction="mobil-home">Il vit dans un <marker>mobiles home</marker>.</example>
+        </rule>
     </category>
     <category id="CAT_REGLES_DE_BASE" name="Règles de base" type="style">
         <rulegroup id="C_EST_QUOI" name="c'est quoi" tone_tags="general">
