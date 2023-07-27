@@ -665,8 +665,8 @@ public class JLanguageTool {
 
   private List<Rule> transformPatternRules(List<AbstractPatternRule> patternRules, Language lang) {
     List<AbstractPatternRule> rules = new ArrayList<>(patternRules);
-    List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer(lang));
-
+    List<PatternRuleTransformer> transforms = Arrays.asList(new RepeatedPatternRuleTransformer(lang),
+      new ConsistencyPatternRuleTransformer(lang));
     List<Rule> transformed = new ArrayList<>();
     for (PatternRuleTransformer op : transforms) {
       PatternRuleTransformer.TransformedRules result = op.apply(rules);
