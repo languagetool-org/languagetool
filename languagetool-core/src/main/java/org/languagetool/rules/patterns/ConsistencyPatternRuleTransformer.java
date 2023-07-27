@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2021 Fabian Richter
+ * Copyright (C) 2023 Fabian Richter
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 
 public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer {
 
-  protected int defaultMaxDistanceTokens = 60; // number of tokens
   protected final Language transformerLanguage;
 
   public ConsistencyPatternRuleTransformer(Language lang) {
@@ -73,9 +72,6 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
 
       Map<String, Integer> countFeatures  = new HashMap<>();
       int offsetChars = 0;
-      int offsetTokens = 0;
-      int prevFromToken = 0;
-      int prevMatches = 0;
       List<Integer> distancesBetweenMatches = new ArrayList<>();
       List<RuleMatch> matches = new ArrayList<>();
       for (AnalyzedSentence s : sentences) {
@@ -140,17 +136,6 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
       return language.equalsConsiderVariantsIfSpecified(this.ruleLanguage);
     }
 
-    private boolean isDistanceValid(List<Integer> distancesBetweenMatches, int maxDistanceTokens, int minPrevMatches) {
-      int i = 0;
-      int size = distancesBetweenMatches.size();
-      int distance = 0;
-      while (i < minPrevMatches && i < size) {
-        distance += distancesBetweenMatches.get(size - 1 - i);
-        i++;
-      }
-      return distance < maxDistanceTokens;
-    }
-
   }
 
   @Override
@@ -158,12 +143,10 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
     List<AbstractPatternRule> remaining = new ArrayList<>();
     Map<String, List<AbstractPatternRule>> toTransform = new HashMap<>();
     // rule id conventions:
-    // CONSISTENCYRULE_GROUPOFRULES_FEATURE
-    //example CONSISTENCYRULE_JE_MASC, CONSISTENCYRULE_JE_FEM
-
+    // PREFIX_GROUPOFRULES_FEATURE
     for (AbstractPatternRule abstractPatternRule : patternRules) {
       String ruleId = abstractPatternRule.getId();
-      if (ruleId.startsWith("CONSISTENCYRULE_")) {
+      if (ruleId.startsWith(abstractPatternRule.getLanguage().getConsistencyRulePrefix())) {
         toTransform.compute(getMainRuleId(ruleId), (id, rules) -> {
           if (rules == null) {
             return new ArrayList<>(Collections.singletonList(abstractPatternRule));
@@ -183,13 +166,13 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
     return new TransformedRules(remaining, transformed);
   }
 
-  private String getMainRuleId(String originaId) {
-    String[] parts =  originaId.split("_");
+  private String getMainRuleId(String originalId) {
+    String[] parts =  originalId.split("_");
     return parts[0] + "_" + parts[1];
   }
 
-  private String getFeature(String originaId) {
-    String[] parts =  originaId.split("_");
+  private String getFeature(String originalId) {
+    String[] parts =  originalId.split("_");
     return parts[2];
   }
 
