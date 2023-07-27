@@ -3793,6 +3793,31 @@ USA
         <!-- MARCOAGPINTO 2023-01-26 + 2023-01-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <antipattern>
+            <token postag='(SPS00:)?[DP][ADIPRT].+|V.+' postag_regexp='yes'/>
+            <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='RG|V.+'/>
+            </token>
+            <token postag='SPS00' postag_regexp='no'>
+                <exception regexp='yes'>para|por</exception>
+            </token>
+            <token postag='VMN02S0' postag_regexp='no'/>
+            <token>
+                <exception postag_regexp='yes' postag='RG|VMP00S.+'/>
+                <exception regexp='yes'>para|por</exception>
+            </token>
+            <example>O Rui ia falar a um grupo de militares.</example>
+            <example>Por enquanto, esta versão feita com salmão já entrou para a minha lista de jantares deliciosos e diferentes.</example>
+            <example>A não ser quebrar o país por três vezes, comprar votos de parlamentares a C$200.000,00 para se reeleger em 1998.</example>
+            <example>O número de militares a ser disponibilizado obedecerá ao planejamento definido pelo ministério.</example>
+            <example>O encontro de olhares?</example>
+            <example>Cada um é um ser e parte do grupo de seres com quem convive.</example>
+            <example>Comprei uma dúzia de colheres e duas dúzias de garfos.</example>
+            <example>Mete o Felipe na lista de titulares.</example>
+            <example>Na lagoa vive uma multidão de seres minúsculos.</example>
+            <example>Atualmente, o cantão de Palmares possui 7 distritos:</example>
+        </antipattern>
+
+        <antipattern>
             <token regexp='yes' skip='-1'>["«„“][-‒–—―]?</token>
             <token regexp='yes'>["'»”]</token>
         </antipattern>
