@@ -19,7 +19,8 @@
 
 package org.languagetool.rules.ca;
 
-import org.languagetool.tools.StringTools;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 
 import java.util.regex.Pattern;
 
@@ -147,6 +148,29 @@ public class PronomsFeblesHelper {
     } else {
       return transform(inputPronom, PronounPosition.DARRERE);
     }
+  }
+
+  public static String[] getTwoNextPronouns(AnalyzedTokenReadings[] tokens, int from) {
+    String[] result = new String[2];
+    int adjustEndPos = 0;
+    String pronoms = "";
+    if (from < tokens.length && !tokens[from].isWhitespaceBefore()) {
+      AnalyzedToken pronom = tokens[from].readingWithTagRegex("P[P0].*");
+      if (pronom != null) {
+        pronoms = pronom.getToken();
+        adjustEndPos++;
+      }
+      if (from + 1 < tokens.length && !tokens[from + 1].isWhitespaceBefore()) {
+        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex("P[P0].*");
+        if (pronom2 != null) {
+          pronoms = pronoms + pronom2.getToken();
+          adjustEndPos++;
+        }
+      }
+    }
+    result[0] = pronoms;
+    result[1] = String.valueOf(adjustEndPos);
+    return result;
   }
 
 }

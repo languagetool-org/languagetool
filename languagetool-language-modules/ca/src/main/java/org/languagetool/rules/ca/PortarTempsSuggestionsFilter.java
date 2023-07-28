@@ -78,7 +78,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       suggestion.append(" que");
     } else if (lastToken.hasPosTagStartingWith("VMG") || lastToken.hasPosTagStartingWith("VSG")) {
       suggestion.append(" que ");
-      String[] result = getTwoNextPronouns(tokens,lastTokenPos + 1);
+      String[] result = PronomsFeblesHelper.getTwoNextPronouns(tokens,lastTokenPos + 1);
       String pronoms = result[0];
       adjustEndPos += Integer.valueOf(result[1]);
       AnalyzedToken at2 = new AnalyzedToken("", "", lastToken.readingWithTagRegex("V.G.*").getLemma());
@@ -95,7 +95,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       || tokens[lastTokenPos + 1].hasPosTagStartingWith("VMN"))) {
       suggestion.append(" que no ");
       adjustEndPos++;
-      String[] result = getTwoNextPronouns(tokens,lastTokenPos + 2);
+      String[] result = PronomsFeblesHelper.getTwoNextPronouns(tokens,lastTokenPos + 2);
       String pronoms = result[0];
       adjustEndPos += Integer.valueOf(result[1]);
       AnalyzedToken at2 = new AnalyzedToken("", "", tokens[lastTokenPos + 1].readingWithTagRegex("V.N.*").getLemma());
@@ -133,28 +133,6 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
     return ruleMatch;
   }
 
-  private String[] getTwoNextPronouns(AnalyzedTokenReadings[] tokens, int from) {
-    String[] result = new String[2];
-    int adjustEndPos = 0;
-    String pronoms = "";
-    if (from < tokens.length && !tokens[from].isWhitespaceBefore()) {
-      AnalyzedToken pronom = tokens[from].readingWithTagRegex("P[P0].*");
-      if (pronom != null) {
-        pronoms = pronom.getToken();
-        adjustEndPos++;
-      }
-      if (from + 1 < tokens.length && !tokens[from + 1].isWhitespaceBefore()) {
-        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex("P[P0].*");
-        if (pronom2 != null) {
-          pronoms = pronoms + pronom2.getToken();
-          adjustEndPos++;
-        }
-      }
-    }
-    result[0] = pronoms;
-    result[1] = String.valueOf(adjustEndPos);
-    return result;
-  }
   private String getLanguageVariantCode(RuleMatch match) {
     PatternRule pr = (PatternRule) match.getRule();
     return pr.getLanguage().getShortCodeWithCountryAndVariant();
