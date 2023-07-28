@@ -50,7 +50,8 @@ public class RuleIdValidator {
     List<Rule> allRules = new JLanguageTool(lang).getAllRules();
     System.out.println("Loaded " + allRules.size() + " rules...");
     for (Rule rule : allRules) {
-      if (!(rule instanceof AbstractPatternRule || rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule)) {
+      if (!(rule instanceof AbstractPatternRule || rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule
+        || rule instanceof ConsistencyPatternRuleTransformer.ConsistencyPatternRule)) {
         idsToFile.put(rule.getId(), "Java (" + rule.getClass().getName() + ")");
       }
     }

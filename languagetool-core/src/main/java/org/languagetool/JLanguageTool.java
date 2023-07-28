@@ -1816,12 +1816,20 @@ public class JLanguageTool {
     List<Rule> rules = getAllRules();
     List<AbstractPatternRule> rulesById = new ArrayList<>();
     for (Rule rule : rules) {
+      if (id.startsWith(rule.getId())) {
+        // test wrapped rules as normal in PatternRuleTest
+        if (rule instanceof ConsistencyPatternRuleTransformer.ConsistencyPatternRule) {
+          List<AbstractPatternRule> wrappedRules = ((ConsistencyPatternRuleTransformer.ConsistencyPatternRule) rule).getWrappedRules();
+          rulesById.addAll(wrappedRules.stream().filter(r -> r.getSubId().equals(subId)).collect(Collectors.toList()));
+        }
+      }
       if (rule.getId().equals(id)) {
         // test wrapped rules as normal in PatternRuleTest
         if (rule instanceof RepeatedPatternRuleTransformer.RepeatedPatternRule) {
           List<AbstractPatternRule> wrappedRules = ((RepeatedPatternRuleTransformer.RepeatedPatternRule) rule).getWrappedRules();
           rulesById.addAll(wrappedRules.stream().filter(r -> r.getSubId().equals(subId)).collect(Collectors.toList()));
-        } else if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
+        }
+        else if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
           rulesById.add((AbstractPatternRule) rule);
         }
       }
