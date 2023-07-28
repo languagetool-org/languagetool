@@ -1461,6 +1461,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="nom_vocals" name="el nom de les vocals">
         <rule>
+            <antipattern>
+                <token postag="V.[MGN].*" postag_regexp="yes"/>
+                <!-- falta un guionet -->
+                <token>la</token>
+                <token>a</token>
+                <token postag="V.N.*|contraccio|D.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token>la</token>
                 <marker>
@@ -12976,7 +12983,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="DN.*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-            <token postag="V.M.*" postag_regexp="yes"/>
+            <token postag="V.[MGN].*" postag_regexp="yes"/>
             <!-- falta un guionet -->
             <token>la</token>
             <token>a</token>
