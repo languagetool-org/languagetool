@@ -72,7 +72,6 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
 
       Map<String, Integer> countFeatures  = new HashMap<>();
       int offsetChars = 0;
-      List<Integer> distancesBetweenMatches = new ArrayList<>();
       List<RuleMatch> matches = new ArrayList<>();
       for (AnalyzedSentence s : sentences) {
         List<RuleMatch> sentenceMatches = new ArrayList<>();
@@ -92,6 +91,7 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
         matches.addAll(adjustedSentenceMatches);
         offsetChars += s.getText().length();
       }
+      List<RuleMatch> resultMatches = new ArrayList<>();
       // count occurrences of features
       for (RuleMatch rm : matches) {
         String feature = getFeature(rm.getRule().getId());
@@ -99,24 +99,22 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
       }
       if (countFeatures.size()<2) {
         // there is no inconsistency
-        return null;
+        return resultMatches.toArray(new RuleMatch[0]);
       }
       if (countFeatures.size()>2) {
         // to be done
-        return null;
+        return resultMatches.toArray(new RuleMatch[0]);
       }
       ArrayList<String> featuresToKeep = new ArrayList<>();
       ArrayList<String> keysList = new ArrayList<>(countFeatures.keySet());
       if (countFeatures.get(keysList.get(0)) == countFeatures.get(keysList.get(1))) {
         featuresToKeep.add(keysList.get(1));
         featuresToKeep.add(keysList.get(0));
-      }
-      else if (countFeatures.get(keysList.get(0)) > countFeatures.get(keysList.get(1))) {
+      } else if (countFeatures.get(keysList.get(0)) > countFeatures.get(keysList.get(1))) {
         featuresToKeep.add(keysList.get(1));
       } else {
         featuresToKeep.add(keysList.get(0));
       }
-      List<RuleMatch> resultMatches = new ArrayList<>();
       for (RuleMatch rm : matches) {
         if (featuresToKeep.contains(getFeature(rm.getRule().getId()))) {
           resultMatches.add(rm);
