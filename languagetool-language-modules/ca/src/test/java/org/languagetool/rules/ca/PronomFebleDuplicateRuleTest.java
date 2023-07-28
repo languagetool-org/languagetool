@@ -124,6 +124,11 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals(1, matches.length);
     assertEquals("He de rentar-me", matches[0].getSuggestedReplacements().get(0));
     assertEquals("M'he de rentar", matches[0].getSuggestedReplacements().get(1));
+
+    matches = rule.match(lt.getAnalyzedSentence("Li ho hem hagut de continuar dient-li-ho."));
+    assertEquals(1, matches.length);
+    assertEquals("Hem hagut de continuar dient-li-ho", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Li ho hem hagut de continuar dient", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(lt.getAnalyzedSentence("Et deu enganyar-te."));
     assertEquals(1, matches.length);
