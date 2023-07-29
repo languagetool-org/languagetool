@@ -163,6 +163,7 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Kronbergstraße",  // Kronbergstraße and Kornbergstraße both exist...
           "Kostenzeile", "Kostenzeilen",
           "Gesamtzeile", "Gesamtzeilen",
           "Arbeitszeile", "Arbeitszeilen",
