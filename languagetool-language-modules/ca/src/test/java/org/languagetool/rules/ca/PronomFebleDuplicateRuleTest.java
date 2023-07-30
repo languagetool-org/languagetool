@@ -73,6 +73,18 @@ public class PronomFebleDuplicateRuleTest {
     assertCorrect("li sabia greu d'haver-la repudiada");
     assertCorrect("el féu acostar per besar-li");
     assertCorrect("En acostar-se va fer-se això.");
+    assertCorrect("Quan em va veure se'n va anar corrent.");
+    assertCorrect("Li hauria agradat poder tenir-hi una conversa");
+    assertCorrect("perquè els molts ulls que les volien veure poguessin saciar-se");
+    assertCorrect("El pare el va fer anar a rentar-se la sang.");
+    assertCorrect("se n'anà a veure'l");
+    assertCorrect("Me n'aniria a queixar-me.");
+    assertCorrect("se n’aniran a viure-hi");
+    assertCorrect("Als exemples d'excepció que s'han presentat s'hi poden afegir per causes similars");
+    assertCorrect("els nous materials que es vagin dipositant poden veure's encara afectats per forces");
+    assertCorrect("i pensant que algú l'havia engaltada s'hi atansà");
+    assertCorrect("hi anava a prendre'n possessió");
+    assertCorrect("se'n va a salvar-se");
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("S'ha de fer-se"));
     assertEquals(1, matches.length);
@@ -81,10 +93,24 @@ public class PronomFebleDuplicateRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("N'ha d'haver-hi"));
     assertEquals(1, matches.length);
-    
+    assertEquals("N'hi ha d'haver", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Ha d'haver-n'hi", matches[0].getSuggestedReplacements().get(1));
+
     matches = rule.match(lt.getAnalyzedSentence("Hi ha d'haver-ne"));
     assertEquals(1, matches.length);
-    
+    assertEquals("N'hi ha d'haver", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Ha d'haver-n'hi", matches[0].getSuggestedReplacements().get(1));
+
+    matches = rule.match(lt.getAnalyzedSentence("Hi continuarà havent-hi"));
+    assertEquals(1, matches.length);
+    assertEquals("Continuarà havent-hi", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Hi continuarà havent", matches[0].getSuggestedReplacements().get(1));
+
+    matches = rule.match(lt.getAnalyzedSentence("En continuarà havent-hi"));
+    assertEquals(1, matches.length);
+    assertEquals("N'hi continuarà havent", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Continuarà havent-n'hi", matches[0].getSuggestedReplacements().get(1));
+
     matches = rule.match(lt.getAnalyzedSentence("Es va continuar barallant-se amb el seu amic."));
     assertEquals(1, matches.length);
     assertEquals("Va continuar barallant-se", matches[0].getSuggestedReplacements().get(0));
@@ -94,7 +120,12 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Podria haver-hi", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Hi podria haver", matches[0].getSuggestedReplacements().get(1));
-    
+
+    matches = rule.match(lt.getAnalyzedSentence("N'hi podria haver-n'hi"));
+    assertEquals(1, matches.length);
+    assertEquals("Podria haver-n'hi", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("N'hi podria haver", matches[0].getSuggestedReplacements().get(1));
+
     matches = rule.match(lt.getAnalyzedSentence("ho puc arreglar-ho"));
     assertEquals(1, matches.length);
     assertEquals("puc arreglar-ho", matches[0].getSuggestedReplacements().get(0));
@@ -150,7 +181,6 @@ public class PronomFebleDuplicateRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("S'acabarà carregant-se."));
     assertEquals(1, matches.length);
-    
   }
     
     private void assertCorrect(String sentence) throws IOException {
