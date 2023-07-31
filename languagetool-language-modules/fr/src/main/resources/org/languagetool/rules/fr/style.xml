@@ -6129,27 +6129,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example>les <marker>privilégiés</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="HIGH-TECH" name="high-tech" default="temp_off">
-            <rule>
-                <pattern>
-                    <token regexp="yes">high-?techs?</token>
-                </pattern>
-                <message>« High-tech » peut être considéré comme un anglicisme. Employez <suggestion>haute technologie</suggestion> (substantif), <suggestion>de pointe</suggestion> (locution adjectivale).</message>
-                <example correction="haute technologie|de pointe"><marker>hightech</marker></example>
-                <example correction="haute technologie|de pointe"><marker>high-tech</marker></example>
-                <example><marker>haute technologie</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">highs?</token>
-                    <token min="0">-</token>
-                    <token regexp="yes">techs?</token>
-                </pattern>
-                <message>« High-tech » peut être considéré comme un anglicisme. Employez <suggestion>haute technologie</suggestion> (substantif), <suggestion>de pointe</suggestion> (locution adjectivale).</message>
-                <example correction="haute technologie|de pointe"><marker>high tech</marker></example>
-                <example><marker>haute technologie</marker></example>
-            </rule>
-        </rulegroup>
         <rulegroup id="FOURSOME" name="foursome">
             <rule>
                 <pattern>
@@ -7617,14 +7596,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <message>« Extramarital » peut être considéré comme un anglicisme.</message>
             <suggestion>extraconjugal</suggestion>
             <example correction="extraconjugal"><marker>extramarital</marker></example>
-        </rule>
-        <rule id="TRAIL" name="trail">
-            <pattern>
-                <token regexp="yes">trails?</token>
-            </pattern>
-            <message>'Trail' peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="course"/></suggestion>, <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="piste"/></suggestion>.</message>
-            <example correction="course|piste"><marker>trail</marker></example>
-            <example><marker>piste</marker></example>
         </rule>
         <rulegroup id="TRAILER" name="trailer">
             <rule>
@@ -10634,13 +10605,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example>Le but de la Visio Karoli Grossi est clairement de légitimer la succession des Carolingiens.</example>
             <example>La Visio raconte comment le fier chevalier Tondale...</example>
         </rule>
-        <rule id="FORM" name="form" default="temp_off">
-            <pattern>
-                <token regexp="yes">forms?</token>
-            </pattern>
-            <message>'\1' peut être considéré comme un anglicisme. Employez <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="questionnaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="formulaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="forme$2"/></suggestion>, <suggestion>mouler</suggestion>.</message>
-            <example correction="questionnaire|formulaire|forme|mouler">Je lui ai donné cette <marker>form</marker> a remplir</example>
-        </rule>
         <rule id="LINK" name="link">
             <pattern>
                 <token case_sensitive="yes">link</token>
@@ -10957,19 +10921,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">délivrer</match></suggestion>
             <example correction="délivrer">Il faut <marker>émettre</marker> un grand nombre de passeports avant la fin du mois prochain.</example>
             <example correction="délivrera">Il <marker>émettra</marker> un brevet d'aptitude à tous ceux qui se présenteront à l'examen final.</example>
-        </rule>
-        <rule id="EMETTRE_UN_RECU" name="émettre un reçu" default="temp_off">
-            <!-- It depends on which end you are. Either the receiver or the giver.-->
-            <pattern>
-                <marker>
-                    <token inflected="yes" skip="1">émettre</token>
-                </marker>
-                <token regexp="yes">reçus?</token>
-            </pattern>
-            <message>« Émettre un reçu » peut être considéré comme un anglicisme.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donner</match></suggestion>
-            <example correction="donner"><marker>émettre</marker> un reçu</example>
-            <example><marker>délivrer un reçu</marker></example>
         </rule>
         <rule id="EMETTRE_UN_RAPPORT" name="émettre un rapport" tone_tags="professional">
             <antipattern>
@@ -13858,18 +13809,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <message>« Papier brun » peut être considéré comme un anglicisme (onion skin paper).</message>
             <suggestion>\1 pelure</suggestion>
             <example correction="papier pelure"><marker>papier oignon</marker></example>
-        </rule>
-        <rule id="EXCLUSIF_A" name="exclusif à" default="temp_off" tone_tags="professional">
-            <pattern>
-                <token inflected="yes">exclusif</token>
-                <token regexp="yes">[àa]</token>
-            </pattern>
-            <message>« Exclusif à » peut être considéré comme un anglicisme (exclusive to).</message>
-            <suggestion>réservé à</suggestion>
-            <suggestion>exclusivité de</suggestion>
-            <example correction="réservé à|exclusivité de"><marker>exclusif à</marker></example>
-            <example><marker>exclusivité de</marker></example>
-            <example>Une interview exclusive donnée à la presse.</example>
         </rule>
         <rule id="CUILLERE_A_TABLE" name="cuillère à table" tone_tags="clarity">
             <pattern>
