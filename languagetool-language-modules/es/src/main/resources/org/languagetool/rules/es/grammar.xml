@@ -3507,8 +3507,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="como">Depende del modo <marker>cómo</marker> se haga.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QUE" name="que/qué">
-            <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
+        <rule id="QUIEN_TILDE" name="quien -> quién">
+            <pattern>
+                <token>¿</token>
+                <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">quien|quienes</token>
+                </marker>
+            </pattern>
+            <message>Si es interrogativo, se escribe con tilde.</message>
+            <suggestion><match no="3" regexp_match="(?i)(.*i)e(.*)" regexp_replace="$1é$2" case_conversion="preserve"/></suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/quien-con-tilde-o-sin-tilde/</url>
+            <example correction="Quiénes">¿<marker>Quienes</marker> son?</example>
+            <example correction="quién">¿Pero para <marker>quien</marker> es?</example>
+        </rule>
+        <rulegroup id="QUE_TILDE1" name="que/qué">
+            <url>https://languagetool.org/insights/es/publicacion/cuando-lleva-tilde-que/</url>
             <antipattern>
                 <token>a</token>
                 <token>que</token>
@@ -3624,8 +3638,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo (=qué cosa), se escribe con tilde. Correcto sin tilde si la respuesta es "sí" o "no".</message>
-                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <suggestion>qué</suggestion>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <example correction="Qué">¿<marker>Que</marker> quieres que te diga?</example>
                 <example correction="Qué">¿<marker>Que</marker> vas a hacer?</example>
                 <example correction="Qué">¿<marker>Que</marker> quieres esta vez?</example>
@@ -3686,8 +3700,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo (=qué cosa), se escribe con tilde.</message>
-                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <suggestion>qué</suggestion>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <example correction="qué">¿Para <marker>que</marker> sirve?</example>
                 <example correction="qué">¿Y de <marker>que</marker> servirá?</example>
                 <example correction="qué">¿Por <marker>que</marker> has venido?</example>
@@ -3703,217 +3717,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿A que no?</example>
                 <example>Tom es muy popular, ¿a que sí? </example>
                 <example>¿A que te he hecho reír?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>¿</token>
-                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
-                    <marker>
-                        <token regexp="yes">cual|cuales|cuan|cuant(o|a|os|as)|cuando</token>
-                    </marker>
-                </pattern>
-                <message>Si es interrogativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*u)a(.*)" regexp_replace="$1á$2" case_conversion="preserve"/></suggestion>
-                <example correction="Cuándo">¿<marker>Cuando</marker> vendrás?</example>
-                <example correction="cuándo">¿Para <marker>cuando</marker> lo quieres?</example>
-                <example correction="cuáles">¿Y de <marker>cuales</marker> se trata?</example>
-                <example correction="cuánto">¿Por <marker>cuanto</marker> lo vendes?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>¿</token>
-                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
-                    <marker>
-                        <token regexp="yes">quien|quienes</token>
-                    </marker>
-                </pattern>
-                <message>Si es interrogativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*i)e(.*)" regexp_replace="$1é$2" case_conversion="preserve"/></suggestion>
-                <example correction="Quiénes">¿<marker>Quienes</marker> son?</example>
-                <example correction="quién">¿Pero para <marker>quien</marker> es?</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <!-- comparative sentece withou verb: ¿como estas?-->
-                    <token>¿</token>
-                    <token skip="-1">como<exception scope="next" postag="V.[MSI].*" postag_regexp="yes"/></token>
-                    <token postag="SENT_END|CS" postag_regexp="yes"><exception postag="V.[MSI].*" postag_regexp="yes"/><exception>como</exception></token>
-                </antipattern>
-                <antipattern>
-                    <token>como</token>
-                    <token regexp="yes" inflected="yes">cuánto|cuándo|cuál|qué|dónde|adónde</token>
-                </antipattern>
-                <pattern>
-                    <token>¿</token>
-                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
-                    <marker>
-                        <token regexp="yes">como|donde|adonde</token>
-                    </marker>
-                </pattern>
-                <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*[cd])o(.*)" regexp_replace="$1ó$2" case_conversion="preserve"/></suggestion>
-                <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
-                <example correction="Cómo">¿<marker>Como</marker> son?</example>
-                <example correction="Cómo">¿<marker>Como</marker> estás?</example>
-                <example correction="dónde">¿Y de <marker>donde</marker> vienen?</example>
-                <example correction="dónde">¿Y a <marker>donde</marker> van?</example>
-                <example correction="adónde">¿Y <marker>adonde</marker> van?</example>
-                <example correction="Cómo">¿<marker>Como</marker> un hombre tan valiente como tú puede llorar tanto?</example>
-                <example>¿Como estas?</example>
-                <example>¿Como las que trajo él?</example>
-                <example>Pero ¿como para pagar por él tanto o más que por un SEAT León?</example>
-                <example>¿Como cuánto te gusta?</example>
-                <example>¿Como cuántas veces ves el espejo por día?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>como</token>
-                    </marker>
-                    <token regexp="yes">[\?!]</token>
-                </pattern>
-                <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
-                <suggestion>cómo</suggestion>
-                <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
-                <example correction="Cómo">¿<marker>Como</marker>?</example>
-                <example>¿Como estas?</example>
-            </rule>
-            <!--exclamativos-->
-            <rule>
-                <pattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>que</token>
-                    </marker>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    <token>tan</token>
-                </pattern>
-                <message>Si es una exclamación, se escribe con tilde.</message>
-                <suggestion>qué</suggestion>
-                <example correction="Qué">—¡<marker>Que</marker> pregunta tan absurda!</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>a</token>
-                    <token>que</token>
-                    <token>no</token>
-                </antipattern>
-                <antipattern>
-                    <token>¡</token>
-                    <token>que</token>
-                    <token postag="[DAN].*" postag_regexp="yes" min="1" max="3"/>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
-                </antipattern>
-                <pattern>
-                    <token>¡</token>
-                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
-                    <marker>
-                        <token>que</token>
-                    </marker>
-                    <token postag="AQ.*|NC.*" postag_regexp="yes"><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Si es una exclamación, se escribe con tilde.</message>
-                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
-                <suggestion>qué</suggestion>
-                <example correction="Qué">¡<marker>Que</marker> grande que es!</example>
-                <example correction="qué">¡Pero <marker>que</marker> bonito!</example>
-                <example correction="qué">¡Con <marker>que</marker> seriedad se comporta!</example>
-                <example correction="Qué">¡<marker>Que</marker> ruido extraño!</example>
-                <example>¡Que te diviertas!</example>
-                <example>¡Que venga pronto!</example>
-                <example>¡Que empieze ya!</example>
-                <example>¡Que viva la república!</example>
-                <example>¡Que Dios afeite a la reina!</example>
-                <example>¡A que no!</example>
-                <example>¡Que Dios nos ayude!</example>
-                <example>¡Que Dios salve la reina!</example>
-                <example>¡Que Dios derrame sus bendiciones sobre esta familia!</example>
-                <example>El ladrón entró en la casa bajo el manto de la noche.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>¡</token>
-                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
-                    <marker>
-                        <token>que</token>
-                    </marker>
-                    <token postag="AQ.*|NC.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">ser|tener</token>
-                </pattern>
-                <message>Si es una exclamación, se escribe con tilde.</message>
-                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
-                <suggestion>qué</suggestion>
-                <example correction="Qué">¡<marker>Que</marker> estúpido es!</example>
-                <example correction="Qué">¡<marker>Que</marker> bonito es!</example>
-                <example correction="Qué">¡<marker>Que</marker> suerte tienes!</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>¡</token>
-                    <token min="0" max="1" postag="CC"/>
-                    <marker>
-                        <token>cuan</token>
-                    </marker>
-                    <token postag="AQ.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si es una exclamación, se escribe con tilde.</message>
-                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
-                <suggestion>cuán</suggestion>
-                <example correction="Cuán">¡<marker>Cuan</marker> grande que es!</example>
-                <example correction="cuán">¡Pero <marker>cuan</marker> bonito!</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>como</token>
-                    <token>si</token>
-                </antipattern>
-                <antipattern>
-                    <token>como</token>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1">como</token>
-                    <token skip="-1">,</token>
-                    <token postag="V.I.*" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>como</token>
-                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token inflected="yes">decir</token>
-                    <example>¡Como se lo digo!</example>
-                </antipattern>
-                <antipattern>
-                    <token>como</token>
-                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token inflected="yes">haber</token>
-                    <token inflected="yes">decir</token>
-                    <example>¡Como le he dicho!</example>
-                </antipattern>
-                <antipattern>
-                    <token>como</token>
-                    <token regexp="yes">mínimo|máximo</token>
-                </antipattern>
-                <pattern>
-                    <token>¡</token>
-                    <token min="0" max="1" postag="CC"/>
-                    <marker>
-                        <token>como</token>
-                    </marker>
-                    <token min="0" max="3" postag="P.*|RN" postag_regexp="yes"/>
-                    <token postag="V.I.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si es una exclamación, se escribe con tilde.</message>
-                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
-                <suggestion>cómo</suggestion>
-                <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
-                <example correction="Cómo">¡<marker>Como</marker> me gusta!</example>
-                <example correction="cómo">¡Pero <marker>como</marker> me gusta!</example>
-                <example correction="cómo">¡Pero <marker>como</marker> no le va a gustar!</example>
-                <example correction="cómo">Ay, ¡<marker>como</marker> era de niña!</example>
-                <example>¡Como si no la conocieras!</example>
-                <example>¡Como siempre, has oído mal!</example>
-                <example>¡Como yo pensaba, estaban equivocados!</example>
             </rule>
             <rule>
                 <pattern>
@@ -4005,7 +3808,213 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estas no son las preguntas que pensábamos hacer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QUE_TILDE" name="que -> qué">
+        <rulegroup id="INTERROGATIVOS_CON_TILDE" name="interrogativos con tilde">
+            <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
+            <rule>
+                <pattern>
+                    <token>¿</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">cual|cuales|cuan|cuant(o|a|os|as)|cuando</token>
+                    </marker>
+                </pattern>
+                <message>Si es interrogativo, se escribe con tilde.</message>
+                <suggestion><match no="3" regexp_match="(?i)(.*u)a(.*)" regexp_replace="$1á$2" case_conversion="preserve"/></suggestion>
+                <example correction="Cuándo">¿<marker>Cuando</marker> vendrás?</example>
+                <example correction="cuándo">¿Para <marker>cuando</marker> lo quieres?</example>
+                <example correction="cuáles">¿Y de <marker>cuales</marker> se trata?</example>
+                <example correction="cuánto">¿Por <marker>cuanto</marker> lo vendes?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <!-- comparative sentece withou verb: ¿como estas?-->
+                    <token>¿</token>
+                    <token skip="-1">como<exception scope="next" postag="V.[MSI].*" postag_regexp="yes"/></token>
+                    <token postag="SENT_END|CS" postag_regexp="yes"><exception postag="V.[MSI].*" postag_regexp="yes"/><exception>como</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>como</token>
+                    <token regexp="yes" inflected="yes">cuánto|cuándo|cuál|qué|dónde|adónde</token>
+                </antipattern>
+                <pattern>
+                    <token>¿</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">como|donde|adonde</token>
+                    </marker>
+                </pattern>
+                <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
+                <suggestion><match no="3" regexp_match="(?i)(.*[cd])o(.*)" regexp_replace="$1ó$2" case_conversion="preserve"/></suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
+                <example correction="Cómo">¿<marker>Como</marker> son?</example>
+                <example correction="Cómo">¿<marker>Como</marker> estás?</example>
+                <example correction="dónde">¿Y de <marker>donde</marker> vienen?</example>
+                <example correction="dónde">¿Y a <marker>donde</marker> van?</example>
+                <example correction="adónde">¿Y <marker>adonde</marker> van?</example>
+                <example correction="Cómo">¿<marker>Como</marker> un hombre tan valiente como tú puede llorar tanto?</example>
+                <example>¿Como estas?</example>
+                <example>¿Como las que trajo él?</example>
+                <example>Pero ¿como para pagar por él tanto o más que por un SEAT León?</example>
+                <example>¿Como cuánto te gusta?</example>
+                <example>¿Como cuántas veces ves el espejo por día?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>como</token>
+                    </marker>
+                    <token regexp="yes">[\?!]</token>
+                </pattern>
+                <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
+                <suggestion>cómo</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
+                <example correction="Cómo">¿<marker>Como</marker>?</example>
+                <example>¿Como estas?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EXCLAMATIVOS_TILDE" name="exclamativos con tilde">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>tan</token>
+                </pattern>
+                <message>Si es una exclamación, se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/cuando-lleva-tilde-que/</url>
+                <example correction="Qué">—¡<marker>Que</marker> pregunta tan absurda!</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>que</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token>¡</token>
+                    <token>que</token>
+                    <token postag="[DAN].*" postag_regexp="yes" min="1" max="3"/>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <pattern>
+                    <token>¡</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="AQ.*|NC.*" postag_regexp="yes"><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es una exclamación, se escribe con tilde.</message>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
+                <suggestion>qué</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/cuando-lleva-tilde-que/</url>
+                <example correction="Qué">¡<marker>Que</marker> grande que es!</example>
+                <example correction="qué">¡Pero <marker>que</marker> bonito!</example>
+                <example correction="qué">¡Con <marker>que</marker> seriedad se comporta!</example>
+                <example correction="Qué">¡<marker>Que</marker> ruido extraño!</example>
+                <example>¡Que te diviertas!</example>
+                <example>¡Que venga pronto!</example>
+                <example>¡Que empieze ya!</example>
+                <example>¡Que viva la república!</example>
+                <example>¡Que Dios afeite a la reina!</example>
+                <example>¡A que no!</example>
+                <example>¡Que Dios nos ayude!</example>
+                <example>¡Que Dios salve la reina!</example>
+                <example>¡Que Dios derrame sus bendiciones sobre esta familia!</example>
+                <example>El ladrón entró en la casa bajo el manto de la noche.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>¡</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="AQ.*|NC.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">ser|tener</token>
+                </pattern>
+                <message>Si es una exclamación, se escribe con tilde.</message>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
+                <suggestion>qué</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/cuando-lleva-tilde-que/</url>
+                <example correction="Qué">¡<marker>Que</marker> estúpido es!</example>
+                <example correction="Qué">¡<marker>Que</marker> bonito es!</example>
+                <example correction="Qué">¡<marker>Que</marker> suerte tienes!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>¡</token>
+                    <token min="0" max="1" postag="CC"/>
+                    <marker>
+                        <token>cuan</token>
+                    </marker>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es una exclamación, se escribe con tilde.</message>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
+                <suggestion>cuán</suggestion>
+                <example correction="Cuán">¡<marker>Cuan</marker> grande que es!</example>
+                <example correction="cuán">¡Pero <marker>cuan</marker> bonito!</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>como</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>como</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">como</token>
+                    <token skip="-1">,</token>
+                    <token postag="V.I.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>como</token>
+                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token inflected="yes">decir</token>
+                    <example>¡Como se lo digo!</example>
+                </antipattern>
+                <antipattern>
+                    <token>como</token>
+                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token inflected="yes">haber</token>
+                    <token inflected="yes">decir</token>
+                    <example>¡Como le he dicho!</example>
+                </antipattern>
+                <antipattern>
+                    <token>como</token>
+                    <token regexp="yes">mínimo|máximo</token>
+                </antipattern>
+                <pattern>
+                    <token>¡</token>
+                    <token min="0" max="1" postag="CC"/>
+                    <marker>
+                        <token>como</token>
+                    </marker>
+                    <token min="0" max="3" postag="P.*|RN" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es una exclamación, se escribe con tilde.</message>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
+                <suggestion>cómo</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
+                <example correction="Cómo">¡<marker>Como</marker> me gusta!</example>
+                <example correction="cómo">¡Pero <marker>como</marker> me gusta!</example>
+                <example correction="cómo">¡Pero <marker>como</marker> no le va a gustar!</example>
+                <example correction="cómo">Ay, ¡<marker>como</marker> era de niña!</example>
+                <example>¡Como si no la conocieras!</example>
+                <example>¡Como siempre, has oído mal!</example>
+                <example>¡Como yo pensaba, estaban equivocados!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QUE_TILDE2" name="que -> qué">
+            <url>https://languagetool.org/insights/es/publicacion/cuando-lleva-tilde-que/</url>
             <!-- TODO: y si no que otros tratamientos deberia consultar. -->
             <antipattern>
                 <token regexp="yes">salvo|siempre|desde|sino|tal|algo</token>
@@ -5007,7 +5016,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="QUIEN" name="quien/quién...">
-            <url>https://www.rae.es/dpd/qui%C3%A9n</url>
+            <url>https://languagetool.org/insights/es/publicacion/quien-con-tilde-o-sin-tilde/</url>
+            <!--<url>https://www.rae.es/dpd/qui%C3%A9n</url>-->
             <rule>
                 <pattern>
                     <token>no</token>
@@ -5097,6 +5107,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si introduce una oración interrogativa indirecta (=qué persona), se escribe con tilde.</message>
                 <suggestion>quién</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/quien-con-tilde-o-sin-tilde/</url>
                 <example correction="quién">No importa el qué sino el <marker>quien</marker>.</example>
             </rule>
             <rule>
