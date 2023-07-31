@@ -7883,6 +7883,11 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="BEIDEN_BRUGGEN" name="beiden / beide" >
 			<antipattern>
+				<token>dat</token>
+				<token>beiden</token>
+				<token>dat</token>
+			</antipattern>
+			<antipattern>
 				<token regexp="yes">jullie|wij|we|zij</token>
 				<token>beiden</token>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
@@ -13827,11 +13832,11 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 
 		<rulegroup id="GEEN_HOOFDLETTER_NA_GETAL" name="Na getal begint zin niet met hoofdletter.">
-			<!-- geldt niet voor start hoofdstuk en zo -->
 			<antipattern>
 				<token postag_regexp="yes" postag="SENT_START|START"/>
-				<token regexp="yes" skip="-1">[0-9]+</token>
-				<token postag="SENT_END"><exception regexp="yes">[.!?]</exception></token>
+				<token regexp="yes">[0-9]+</token>
+				<token negate_pos="yes" postag_regexp="yes" postag=".*MRV.*|WKW:TGW:3EP|WKW:VLT:1EP"/>
+				<example>18 Dit zijn de zonen van Zilpa.</example>
 			</antipattern>
 			<rule>
 				<pattern>
