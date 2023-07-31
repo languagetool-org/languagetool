@@ -21,9 +21,12 @@ package org.languagetool.server;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * An item from our users table, with some information about the user/limits/etc.
@@ -33,6 +36,8 @@ class UserInfoEntry {
 
   private final long id;
   private final String email;
+
+  @JsonIgnore
   private final byte[] passwordHash;
   private final String addonToken;
   @Nullable
@@ -49,9 +54,16 @@ class UserInfoEntry {
   @Nullable
   private final Long userGroup;
 
+  @Nullable
+  private final UUID groupId;
+
+  @Nullable
+  private final String groupRole;
+
 
   UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
-                @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, String apiKey, @Nullable Long userGroup) {
+                @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, String apiKey,
+                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole) {
     this.id = id;
     this.email = email;
     this.addonToken = addonToken;
@@ -64,6 +76,8 @@ class UserInfoEntry {
     this.premiumFrom = premiumFrom;
     this.premiumTo = premiumTo;
     this.userGroup = userGroup;
+    this.groupId = groupId;
+    this.groupRole = groupRole;
   }
 
   @Nullable
@@ -133,4 +147,13 @@ class UserInfoEntry {
   public Long getUserGroup() {
     return userGroup;
   }
+
+  public UUID getGroupId() {
+    return groupId;
+  }
+
+  public String getGroupRole() {
+    return groupRole;
+  }
+  
 }

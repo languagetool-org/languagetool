@@ -933,5 +933,8 @@ public abstract class Language {
   public String adaptSuggestion(String s) {
     return s;
   }
-  
+
+  public String getConsistencyRulePrefix() {
+    return "PREFIXFORCONSISTENCYRULES_";
+  }
 }

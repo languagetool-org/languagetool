@@ -126,7 +126,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           if (isSuggestionException(nr, desiredPostag)) {
             continue;
           }
-          if (r.contains("{suggestion}") || r.contains("{Suggestion}")) {
+          if (r.contains("{suggestion}") || r.contains("{Suggestion}") || r.contains("{SUGGESTION}")) {
             suggestionUsed = true;
           }
           if (isWordCapitalized) {
@@ -137,6 +137,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           }
           String completeSuggestion = r.replace("{suggestion}", nr);
           completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
+          completeSuggestion = completeSuggestion.replace("{SUGGESTION}", nr.toUpperCase());
           if (!replacementsList.contains(completeSuggestion)) {
             replacementsList.add(completeSuggestion);
           }

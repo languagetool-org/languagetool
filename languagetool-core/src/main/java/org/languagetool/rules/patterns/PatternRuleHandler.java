@@ -19,20 +19,26 @@
 package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.ResourceBundleTools;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class PatternRuleHandler extends XMLRuleHandler {
+
+  @Override
+  public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
+    return new RuleEntityResolver().resolveEntity(publicId, systemId);
+  }
 
   public static final String TYPE = "type";
 
@@ -223,10 +229,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         id = idPrefix != null ? idPrefix + id : id;
         if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
-          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
+          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus a subrule of " + id + " cannot specify 'default=...'. \033[1m Remove 'default=...' from rule group or subrule level in " + ruleGroupId + "!\033[0m");
         }
         if (inRuleGroup && ruleGroupDefaultTempOff && attrs.getValue(DEFAULT) != null) {
-          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
+          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus a subrule of " + id + " cannot specify 'default=...'. \033[1m Remove 'default=...' from rule group or subrule level in " + ruleGroupId + "!\033[0m");
         }
         if (inRuleGroup && ruleGroupDefaultOff) {
           defaultOff = true;

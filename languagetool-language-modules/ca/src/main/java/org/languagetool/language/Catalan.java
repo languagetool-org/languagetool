@@ -201,6 +201,7 @@ public class Catalan extends Language {
   protected int getPriorityForId(String id) {
     switch (id) {
       case "CONFUSIONS2": return 80;
+      case "DEU_NI_DO": return 80; // greater then rules about pronouns
       case "CA_SIMPLE_REPLACE_MULTIWORDS": return 70;
       case "CA_SIMPLE_REPLACE_BALEARIC": return 60;
       case "CA_COMPOUNDS": return 50;
@@ -254,6 +255,7 @@ public class Catalan extends Language {
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
       case "CONCORDANCES_DET_NOM": return 5;
+      case "PASSAR_SE": return 5; // greater than OBLIDARSE
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
       case "VENIR_NO_REFLEXIU": return 5;
@@ -271,6 +273,7 @@ public class Catalan extends Language {
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
       case "VERBS_NOMSPROPIS": return -20;
       case "VERBS_PRONOMINALS": return -25;
+      case "PORTA_UNA_HORA": return -40;
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
@@ -303,7 +306,7 @@ public class Catalan extends Language {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      String errorStr = rm.getUnderlinedStr();
+      String errorStr = rm.getOriginalErrorStr();
       List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
       for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {

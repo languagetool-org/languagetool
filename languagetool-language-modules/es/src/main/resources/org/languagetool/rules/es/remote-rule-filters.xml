@@ -27,6 +27,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rule id="AI_ES_HYDRA_LEO_CP_QUIEN_QUIENTILDE" name="">
+            <antipattern>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">pregunta|cuestión|debate|tema|duda</token>
+                <token postag="VS..3S." postag_regexp="yes" inflected="yes">ser</token>
+                <token>quién</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">ser<exception inflected="yes">saber</exception></token>
+                <token regexp="yes" min="0">yo|tú|él|ella|[nv]osotr[oa]s|ell[oa]s</token>
+                <marker>
+                    <token>quien</token>
+                </marker>
+                <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes" min="0" max="2"/>
+                <token postag_regexp="yes" postag="V.[IS].*"/>
+            </pattern>
+            <example correction="">¿Ser <marker>quien</marker> quiero ser?</example>
+            <example>Ahora sé quien es mi abuelo.</example>
+        </rule>
         <rulegroup id="AI_ES_HYDRA_LEO_CP_ESTA_EST_" name="">
             <rule>
                 <pattern>

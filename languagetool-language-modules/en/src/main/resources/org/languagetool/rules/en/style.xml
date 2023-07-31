@@ -22,7 +22,14 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
-
+<!--
+⚠️  Attention – Open-Source Contributors! ⚠️
+As of June 2023, style rules make use of TONE TAGS.
+These tags give us more granular control over the precise contexts in which our style rules are triggered.
+This feature is still somewhat under development, so we'd like to ask you, for the time being, to add @evan-defran-lt and @AzadehSafakish as reviewers to pull requests whenever you create rules that make use of tone tags.
+Currently supported tone tags are: clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, povadd, and positive.
+For more detailed information, including tag definitions, please check out our documentation (in English): https://dev.languagetool.org/style_tone_tags.
+-->
 <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY quote '["“”„]'>
@@ -3115,7 +3122,6 @@ USA
                 </pattern>
                 <message>The serial comma (Oxford comma, Harvard comma) is missing.</message>
                 <suggestion>\8, \9</suggestion>
-                <url>https://en.wikipedia.org/wiki/Serial_comma</url>
                 <short>Style: serial comma is missing</short>
                 <example correction="trams, and">In addition to buses, <marker>trams and</marker> taxis, popular modes of transport are ...</example>
                 <example>In addition to buses, <marker>Calgary and</marker> Edmonton operate light rail transit systems.</example>
@@ -3875,7 +3881,6 @@ USA
                 </pattern>
                 <message>Nowadays, it's more common to write this as one word.</message>
                 <suggestion>smart<match no="2" case_conversion="alllower" /></suggestion>
-                <url>https://www.merriam-webster.com/dictionary/smart%20phone</url>
                 <example correction="smartphone">He is using a <marker>smart phone</marker> to communicate with his friends.</example>
             </rule>
             <rule>
@@ -3890,7 +3895,6 @@ USA
                 </pattern>
                 <message>Nowadays, it's more common to write this as one word.</message>
                 <suggestion>web<match no="2" case_conversion="alllower" /></suggestion>
-                <url>https://www.merriam-webster.com/dictionary/web%20site</url>
                 <example correction="website">He published a new blog post on his <marker>web site</marker>.</example>
             </rule>
             <rule>
@@ -3899,7 +3903,6 @@ USA
                 </pattern>
                 <message>It's more common to write this as two words.</message>
                 <suggestion><match no="1" regexp_match="(?i)(ee|ea)(ma)" regexp_replace="$1 $2" /></suggestion>
-                <url>https://www.merriam-webster.com/dictionary/coffeemaker</url>
                 <example correction="coffee maker">Not everyone wants or needs a fancy <marker>coffeemaker</marker>, and that’s totally fine.</example>
             </rule>
             <rule>
@@ -3909,7 +3912,6 @@ USA
                 </pattern>
                 <message>It's more common to write this as one word.</message>
                 <suggestion>back<match no="2" case_conversion="alllower" /></suggestion>
-                <url>https://www.merriam-webster.com/dictionary/backyard</url>
                 <example correction="backyard">He is having a party in his <marker>back yard</marker>.</example>
             </rule>
             <rule>
@@ -3923,7 +3925,6 @@ USA
                 </pattern>
                 <message>It's more common nowadays to write this noun as one word.</message>
                 <suggestion>user<match no="2" case_conversion="alllower" /></suggestion>
-                <url>https://www.merriam-webster.com/dictionary/username</url>
                 <example correction="username">I have set a <marker>user name</marker> for my online profile.</example>
             </rule>
             <rule>
@@ -3933,7 +3934,6 @@ USA
                 </pattern>
                 <message>It's more common nowadays to write this noun as one word.</message>
                 <suggestion>land<match no="2" case_conversion="alllower" /></suggestion>
-                <url>https://www.merriam-webster.com/dictionary/landline</url>
                 <example correction="landline">I don't own a mobile phone, I only have a <marker>land line</marker>.</example>
             </rule>
         </rulegroup>

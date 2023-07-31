@@ -4,7 +4,7 @@
 French, Portuguese, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
-Version 6.2-SNAPSHOT (2023-xx-xx)  
+Version 6.2 (2023-07-02)  
 Copyright (C) 2005-2023 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://languagetool.org
 
@@ -23,12 +23,12 @@ https://languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-* Double-click `LanguageTool-6.2-SNAPSHOT.oxt`. The extension should
+* Double-click `LanguageTool-6.2.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 * If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-6.2-SNAPSHOT.oxt` file.
+   `LanguageTool-6.2.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Type text with
 an error, e.g. "Feel tree to do so." - make sure the text language

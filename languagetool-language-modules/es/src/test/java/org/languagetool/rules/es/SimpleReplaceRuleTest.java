@@ -50,6 +50,9 @@ public class SimpleReplaceRuleTest {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("sanitización"));
     assertEquals(1, matches.length);
     assertEquals("desinfección", matches[0].getSuggestedReplacements().get(0));
+    // correct sentences:
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("Esta frase no tiene errores."));
+    assertEquals(0, matches2.length);
   }
 
 }

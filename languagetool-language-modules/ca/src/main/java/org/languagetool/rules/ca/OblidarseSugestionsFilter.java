@@ -20,12 +20,15 @@ package org.languagetool.rules.ca;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -40,6 +43,7 @@ import org.languagetool.tools.StringTools;
 public class OblidarseSugestionsFilter extends RuleFilter {
 
   static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
+  Language lang = Languages.getLanguageForShortCode("ca");
 
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
 
@@ -95,11 +99,14 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     String pronomPostag = tokens[posWord + 1].readingWithTagRegex("P.*").getPOSTag();
     String pronomGenderNumber = pronomPostag.substring(2, 3) + pronomPostag.substring(4, 5);
     int indexMainVerb = posWord + 2;
-    while (!tokens[indexMainVerb].hasAnyLemma("oblidar", "descuidar")) {
+    while (!tokens[indexMainVerb].hasAnyLemma("oblidar", "descuidar", "passar")) {
       indexMainVerb++;
     }
     String verbPostag = tokens[posWord + 2].readingWithTagRegex("V.*").getPOSTag();
     String lemma = tokens[posWord + 2].readingWithTagRegex("V.*").getLemma();
+    if (lemma.equals("passar")) {
+      lemma = "descuidar";
+    }
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
     String[] synthForms = synth.synthesize(at,
         verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8), getLanguageVariantCode(match));
@@ -109,7 +116,8 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     }
     newVerb = synthForms[0];
     for (int i = posWord + 3; i < indexMainVerb + 1; i++) {
-      newVerb = newVerb + tokens[i].getWhitespaceBefore() + tokens[i].getToken();
+      newVerb = newVerb + tokens[i].getWhitespaceBefore() + tokens[i].getToken().replace("passar", "descuidar")
+          .replace("passat", "descuidat").replace("passant", "descuidant");
     }
     boolean verbVowel = pApostropheNeeded.matcher(newVerb).matches();
     String wordAfter = "";
@@ -147,13 +155,22 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       charactersAfterCorrection = (wordAfterApostrophe ? 1 : 0);
     }
     String replacement = StringTools.preserveCase(suggBld.toString(), tokens[posWord].getToken());
-    if (replacement.isEmpty()) {
+    List<String> replacements = new ArrayList<>();
+    replacements.add(replacement);
+    for (String s : match.getSuggestedReplacements()) {
+      if (charactersAfterCorrection == 1) {
+        s = s + " ";
+      }
+      replacements.add(lang.adaptSuggestion(s));
+    }
+    if (replacements.isEmpty()) {
       return null;
     }
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posWord].getStartPos(),
-        tokens[indexMainVerb].getEndPos() + charactersAfterCorrection, match.getMessage(), match.getShortMessage());
+        tokens[indexMainVerb].getEndPos() + charactersAfterCorrection,
+        match.getMessage().replace("passar", "descuidar"), match.getShortMessage());
     ruleMatch.setType(match.getType());
-    ruleMatch.setSuggestedReplacement(replacement);
+    ruleMatch.setSuggestedReplacements(replacements);
     return ruleMatch;
   }
 

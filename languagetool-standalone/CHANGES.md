@@ -1,20 +1,39 @@
 # LanguageTool Change Log
 
-## 6.2-SNAPSHOT (release planned for 2023-06-28)
+## 6.2 (2023-07-02)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
 
 #### English
   * added and improved rules
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2023.06.01, v.3.2.1)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
 
 #### Portuguese
   * added and improved rules
   * added words and POS data
   * fixed tons of false positives
 
+#### Spanish
+  * added and improved rules
+
 #### Ukrainian
   * new words in the POS dictionary
   * new rules
-...
+
+There were also minor rule improvements for Galician, Belarusian, Esperanto, Arabic,
+and Russian.
+
 
 
 ## 6.1 (2023-03-28)

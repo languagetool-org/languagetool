@@ -22,72 +22,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
-    <!ENTITY colores "amarillo|azul|beige|blanco|borgoña|cian|ciruela|fucsia|granate|gris|lavanda|lila|lima|magenta|malva|marrón|melocotón|menta|mostaza|naranja|negro|ocre|oliva|púrpura|rojo|rosa|rosado|salmón|trullo|turquesa|verde|violeta">
-    <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
-    <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
-    <!ENTITY msg_semicolon_comma "Esta locución se escribe normalmente entre comas. Use un punto y coma para empezar una nueva frase que contrasta con la anterior.">
-    <!ENTITY dashes "[–—―‒-]"> 
-    <!ENTITY sometlds "com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local|bio|live|ngo">
-    <!ENTITY exceptions_unidadestiempo_adj "siguiente|próximo|futuro|venidero|anterior|pasado|precedente|subsiguiente|previo|último|primero">
-<!ENTITY apostrophe "['’´`]">
-<!ENTITY adverbio_lugar "detr&#225;s|delante|debajo|encima|cerca">
-<!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
-<!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
-<!ENTITY pronombre_personal_no_articulo "me|te|se|nos|os|le|les|lo"> <!--|los-->
-<!--aguadulce, aguasal, aguaviva-->
-<!ENTITY nombre_fem_el "acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
-<!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábados?|Domingos?">
-<!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
-<!ENTITY dias_semana_abrv "lu|ma|mi|ju|vi|sa|do">
-<!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
-<!-- d, K -->
-<!ENTITY meses_ano_may "Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Sep?tiembre|Octubre|Noviembre|Diciembre">
-<!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
-<!ENTITY meses_ano_abrv "ene|feb|mar|abr|may|jun|jul|ago|sep|set|oct|nov|dic">
-<!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
-<!ENTITY exceptions_DECIMAL_COMMA "bluetooth|paso|anejo|anexo|cláusula|cuadro|epígrafe|revisión|versión|resolución|decreto|ley|sección|capítulo|apartado|partida|tabla|imagen|fotografía|gráfica|gráfico|foto|mapa|punto|artículo|ver|figura|iPhone|firmware|hardware|software|doi|(?-i).*OS|X">
-<!ENTITY unidades "CV|GB|TB|MB|MBps|Mbps|AM|PM|M|am|pm|m?[lL]|mmHg|dB|mm|cm|dm|m|km|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|pts|ptas|M?[£€$]|(mm|cm|dm|m|km)[23²³]">
-<!ENTITY unidades_SI "(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?">
-<!--TODO: check case of abbreviations-->
-<!ENTITY abreviaturas "[Ee]xt|EXT|Dir|Dr|Dra|Abg|[Aa]cept|[Aa]dm|[Aa]dmón|[Aa]fma|[Aa]fmo|Alfz|Almte|[Aa]p|[Aa]pdo|[Aa]prox|Arq|[Aa]rt|Arz|[Aa]tta|Ayto|[Aa]tte|[Aa]tto|[Aa]v|[Aa]vd|[Aa]vda|Barna|Bco|Bibl|Bma|Bmo|Bo|Brig|Bta|Bto|[Cc]aj|[Cc]ap|Cdad|[Cc]ent|[Cc]f|[Cc]fr|[Cc]go|[Cc]je|[Cc]l|Cmdt|Cmte|Cnel|[Cc]ol|Comod|Comp|Comte|Contralmte|[Cc]oord|[Cc]p|[Cc]rec|[Cc]ta|Cte|[Cc]ts|[Cc]tv|[Cc]tvo|[Cc]ént|Cía|[Cc]ód|[Cc]ónf|[Cc]ónfr|[Dd]cha|[Dd]cho|[Dd]epto|[Dd]iag|[Dd]icc|[Dd]oc|[Dd]pto|[Dd]to|[Dd]updo|[Ee]d|[Ee]dit|[Ee]do|[Ee]f|[Ee]j|Emmo|[Ee]ntlo|[Ee]tc|[Ee]xcl|Excma|Excmo|[Ff]asc|[Ff]ca|Fdo|[Ff]ig|[Ff]ol|Fr|[Ff]ra|[Ff]éc|Gdor|Gdora|Gob|Gral|Hna|Hno|[Ii]b|[Ii]bíd|Il|Ilma|Ilmo|Iltre|[Ii]mp|[Ii]mpr|[Ii]mpto|incl|Ing|Inst|[Ii]zda|[Ii]zdo|[Ii]zq|[Ii]zqda|[Ii]zqdo|Jhs|Lcda|Lcdo|Lda|Ldo|Lic|Ltd|Ltda|Ltdo|Magfca|Magfco|Mons|[Mm]r|[Mm]s|[Mm]áx|[Mm]ín|[Nn]ro|[Nn]úm|Ob|Pat|Pbro|pdo|Pdta|Pdte|[Pp]g|[Pp]l|[Pp]lza|Pnt|[Pp]pal|[Pp]ral|Presb|Prof|[Pp]rov|[Pp]ról|[Pp]za|[Pp]ág|[Pp]árr|Rda|Rdo|[Rr]eg|Rep|Rev|Rte|Rvd|Rvda|Rvdma|Rvdmo|Rvdo|Sdad|Sgto|[Ss]ig|Soc|Sr|Sra|Srs|Sres|Sras|Srta|Sta|Sto|[Tt]el|[Tt]eléf|[Tt]fno|[Tt]rad|Tte|[Tt]ít|Ud|Uds|Univ|Valmte|Vd|Vda|Vdo|Vds|[Vv]id|[Vv]ol|[Vv]s|[Vv]ta|[Vv]to|Xto|[Íí]d">
-<!ENTITY context_te "abedul|alpiste|arroz|banana|boldo|buganvilia|burbujas|burro|calidad|campana|canela|castaño|clavo|compost|congorosa|damiana|diente|epazote|equinácea|eucalipto|fenogreco|flor|fourche|frambuesa|frutas|frutos|ginkgo|herbalife|hibisco|hierbabuena|hierbas|hinojo|hums|jamaica|jazmín|jengibre|jesuitas|kava|kombucha|laurel|lavanda|lechuga|limón|lino|manzana|manzanilla|matcha|melisa|menta|montaña|naranja|navidad|neem|nuez|níspero|oolong|ortiga|orégano|pasiflora|perejil|piña|quina|roca|romero|rooibos|rosas|ruda|sabor|sabores|salón|sauco|semilla|suerte|tilo|tomillo|toronjil|uva|vainilla|valeriana|verbena|walamo|wereke|yerba|yerbabuena|yuja|zacate|zanahoria|zapote|zarzaparrilla|zen|zorrillo">
-<!ENTITY exceptions_Paris "flecha|arco|Filoctetes|Heracles|Héracles|Hércules|Apolo|talón|Aquiles|Aquileo|Homero|Ifigenia|Aulis|mitológico|mitología|mito|argivo|Afrodita|Helena|Elena|Menelao|Héctor|Troya|Atena|Atenea|Atenas|Esparta|príncipe|troyano|Himeneo|juicio">
-<!ENTITY pronombre_no_determinante "lo|algo|alguien|alguno|aquello|aquél|aquélla|aquéllas|aquéllos|cual|cualesquiera|cualquiera|eso|esto|media|medias|medio|medios|misma|mismas|mismo|mismos|nada|nadie|naide|ninguno|quienesquiera|quienquiera|uno|ésa|ésas|ése|ésos|ésta|éstas|éste|éstos">
-<!ENTITY adv_probabilidad "ojalá|quizá|quizás|probablemente|posiblemente|seguramente|tal vez">
-<!ENTITY marca_pasado "ayer|anteayer|pasado|antaño">
-<!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
-<!ENTITY expresiones_tiempo "ahora|hoy|ayer|antaño|hogaño|temporada|curso"> <!-- to add manually when needed: mañana-->
-<!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
-<!ENTITY common_english_nouns_feminine "School|Tower|University|Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference|Tool|Union|Agency|Company|Force|Licence|License|Station">
-<!ENTITY common_english_nouns_masculine "Fest|Club|TM|UD|UE|SD|Team|Day|Center|Centre|Hilton|Group|Museum|Studio|College|Trophy|Squadron">
-<!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
-<!ENTITY context_papa_tilde "[pm]adres?|mam[aá]s?|hij[oa]s?|abuel[oa]s?|sobrin[oa]s?|tí[oa]s?|niet[oa]s?|herman[oa]s?|prim[oa]s?|cuñad[oa]s?">
-<!ENTITY context_papa "guiso|carne|concordato|religios[oa]s?|laicos?|pontífices?|pontificados?|elegido|obispos?|obispados?|cardenal|cardenales|Roma|Vaticano|Iglesia|San|papal|canónicos?|apostólicos?|cónclaves?|ceremonias?|eclesiástic[oa]s?|rey|reyes|reinas?|emperador|emperadores|emperatriz|emperatrices|gobernantes?|católic[oa]s?">
-<!ENTITY context_mama_tilde "[pm]adres?|pap[aá]s?|hij[oa]s?|abuel[oa]s?|sobrin[oa]s?|tí[oa]s?|niet[oa]s?|herman[oa]s?|prim[oa]s?|cuñad[oa]s?">
-<!ENTITY context_mama "ablación|adiposo|areola|arteria|bulto|calostro|carcinoma|carne|chupar|cirugía|culo|cáncer|célula|desarrollar|desarrollo|diagnóstico|embarazo|epitelio|estrógeno|femenino|ginecológico|ginecólogo|glandular|glándula|herida|hinchazón|hipertrofia|hormona|implante|inervación|infección|infectar|inflamación|lactancia|leche|lobulillo|mamario|mamífero|mastectomía|mastitis|mastología|neonato|parto|patológico|pecho|pectoral|pelvis|pezón|piel|progesterona|ptosis|pubertad|quirúrgico|sangre|sarcoma|seno|sexo|sexual|silicona|tejido|teta|tratamiento|turgencia|turgente|ubre|vena">
-<!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
-<!ENTITY wrong_as_pron_verb "estas|a|amplia|continua|dió|esta|estan|este|esten|frió|hacia|hecha|rió|tenia|tenias|venia|venias|vera">
-<!ENTITY wrong_as_pron_verb2 "de|e">
-<!-- also: de, e-->
-<!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
-<!ENTITY ola_hola_context "calor|frío|lluvia|nevada|nieve|tormenta|violencia|mar|crímenes|huelgas|popularidad|detenciones|terrorismo|rumores|despidos|atentados|asaltos|refugiados|inmigración|oro">
-    <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
-    <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
-    <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan|magnifico|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|petalo|azucares|canceres|capsula|capsulas|indice|indices|espontaneo|espontanea|espontaneas|bufalo|bufala|bufalas|ovalo|ovalos|astrologo|astrologa|astrologas|petalos|clausula|clausulas|decrepito|decrepita|decrepitas|tempano|purpurea|purpureas|recamara|recamaras|embolo|epitome|epitomes|estomago|debito|ignifuga|ignifugas|ignifugo|epilogo">
-    <!ENTITY diacritics_01 "capitulo|titulo|medico|nauseas|nausea|cubica|cubicas|cubico|intimo|ilegitimo|retrograda|retrogradas|ulcera|ulceras|ilegitima|ilegitimas|legitimo|legitimas|matriculas">
-    <!ENTITY diacritics_02 "maquina|maquinas|ejercito|genero|magnifica|articulo|barbara|domestico|capitulo|retrogrado|reciproca|reciprocas|reciproco|liquido|simultaneo|tremolo|triangulo|vehiculo|vinculo|transito|titulo|catalogo|dialogo|trafico|diagnostico|modulo|invalido|matricula|animo">
-    <!ENTITY diacritics_03 "incomoda|incomodas|lastima|lastimas|medica|medicas|simultanea|simultaneas">
-    <!ENTITY diacritics_04 "suplica|suplicas|critica|criticas|limite|limites|purpura|purpuras|calculo|deposito|tramite|tramites|invalida|invalidas|legitima|especifica|especificas|prorroga|prorrogas|domestica|domesticas">
-    <!ENTITY diacritics_05 "maquina|ultima|ultimas">
-    <!ENTITY exceptions_ADO "apurado|lesionado|mecanizado|aislado|abarrotado|abrazado|abrigado|acicalado|acompañado|acurrucado|adelantado|adornado|afeitado|aferrado|agachado|agarrado|aparejado|apañado|apoyado|apretado|armado|arreglado|arremangado|arrodillado|aseado|asociado|atado|ataviado|atestado|atrasado|avergonzado|bordado|calado|callado|calzado|camuflado|cansado|caracterizado|cargado|chiflado|colgado|colocado|concentrado|condecorado|condenado|conectado|confiado|coronado|dedicado|desaliñado|desarmado|descaminado|descamisado|desencaminado|despeinado|destinado|disfrazado|disparado|doblado|drogado|embozado|empaquetado|encabezado|encajado|encaminado|encantado|encapuchado|encerrado|encorvado|enfadado|enfundado|engalanado|enganchado|enmascarado|enrollado|ensimismado|entusiasmado|equipado|equivocado|errado|escoltado|esposado|fechado|firmado|flanqueado|forrado|frustrado|guardado|guiado|holgado|implicado|impulsado|inclinado|instalado|invitado|lanzado|ligado|malhumorado|manchado|mandado|maquillado|mezclado|montado|ocupado|pegado|peinado|pintado|preocupado|preparado|propulsado|recomendado|recostado|repantigado|resguardado|resignado|respaldado|retrasado|rezagado|rodado|rodeado|sellado|sentado|situado|sobrado|sobrecargado|tapado|tirado|tocado|trajeado|tripulado|tumbado|uniformado">
-    <!ENTITY exceptions_ADO2 "relacionado|alimentado|mentalizado|abismado|aceitado|acelerado|acoplado|acuclillado|adaptado|aderezado|adormilado|agazapado|agobiado|ahogado|airado|ajustado|aliviado|allanado|amarrado|amenazado|anexado|aparcado|apesadumbrado|apresurado|apretujado|apuntado|arrimado|arrugado|asustado|atemorizado|aterrado|atontado|aupado|aventajado|bronceado|cambiado|cautivado|certificado|clavado|comandado|comparado|completado|complicado|conjuntado|contrariado|cruzado|dado|decepcionado|decorado|deformado|demostrado|desarreglado|desaseado|desatado|desbocado|desbordado|descargado|descarriado|descuidado|desgraciado|desgreñado|desorientado|despistado|desplomado|desviado|determinado|dotado|duchado|echado|empatado|empolvado|empujado|encuadrado|engarzado|engañado|enjaezado|enmarcado|ensamblado|ensillado|entrecomillado|envarado|enviado|escayolado|esperanzado|estresado|exagerado|exclamado|expulsado|extraviado|fijado|flipado|grabado|hablado|hipnotizado|ilustrado|impregnado|incomunicado|incorporado|indignado|insultado|integrado|interesado|intrigado|inventado|lastrado|lavado|mamado|marcado|mareado|mojado|motivado|obnubilado|orientado|pagado|pensado|perfumado|pertrechado|pilotado|plagado|planchado|plateado|precintado|rapado|rasurado|realizado|reforzado|remangado|rematado|remolcado|repujado|rizado|separado|sincronizado|tatuado|tomado|vendado|vigilado|zarandeado|zumbado">
-    <!ENTITY ordinales_decenas "décimo|vigésimo|trigésimo|cuadragésimo|quincuagésimo|sexagésimo|septuagésimo|nonagésimo">
-    <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
-    <!ENTITY unusually_noun "piden|aman">
-    <!ENTITY pronombre_personal_sujeto "yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|vos">
-    <!ENTITY palabras_guion "aleación|antagonismo|asociación|binomio|ciclo|concordancia|conexión|contraposición|corpus|corrección|corrector|debate|diccionario|dualidad|eje|figura|interpretación|mesa|par|paralelo|pareja|ratio|razón|relación|traducción|traductor|equivalente|equivalencia|columna|reacción|dicotomía"> 
-    <!ENTITY exceptions_sujeto_singular "mayoría|número|puñado|porcentaje|cien|mil|millón|millones|billones|enjambre|grupo|parte|docena|mitad|cincuenta|cuarenta|multitud|treinta|veinte|sesenta|resto|diez">
-    <!ENTITY exceptions_sujeto_singular2 "grupo|género|totalidad|serie|concentración|infinito|montón|cantidad|tercero|familia|equipo">
+    <!ENTITY % entities  SYSTEM "../../resource/es/entities.ent" >
+    %entities;
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -3777,7 +3713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*u)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)(.*u)a(.*)" regexp_replace="$1á$2" case_conversion="preserve"/></suggestion>
                 <example correction="Cuándo">¿<marker>Cuando</marker> vendrás?</example>
                 <example correction="cuándo">¿Para <marker>cuando</marker> lo quieres?</example>
                 <example correction="cuáles">¿Y de <marker>cuales</marker> se trata?</example>
@@ -3792,7 +3728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*i)e(.*)" regexp_replace="$1é$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)(.*i)e(.*)" regexp_replace="$1é$2" case_conversion="preserve"/></suggestion>
                 <example correction="Quiénes">¿<marker>Quienes</marker> son?</example>
                 <example correction="quién">¿Pero para <marker>quien</marker> es?</example>
             </rule>
@@ -3815,7 +3751,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
-                <suggestion><match no="3" regexp_match="(?i)(.*[cd])o(.*)" regexp_replace="$1ó$2"/></suggestion>
+                <suggestion><match no="3" regexp_match="(?i)(.*[cd])o(.*)" regexp_replace="$1ó$2" case_conversion="preserve"/></suggestion>
                 <url>https://languagetool.org/insights/es/publicacion/como-con-o-sin-tilde/</url>
                 <example correction="Cómo">¿<marker>Como</marker> son?</example>
                 <example correction="Cómo">¿<marker>Como</marker> estás?</example>
@@ -5217,6 +5153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si introduce una oración interrogativa indirecta (=a qué lugar), se escribe con tilde.</message>
                 <suggestion>adónde</suggestion>
+                <url>https://languagetool.org/insights/es/publicacion/escritura-a-donde-o-adonde/</url>
                 <example correction="adónde">No importa el qué sino el <marker>adonde</marker>.</example>
             </rule>
             <rule>
@@ -5600,9 +5537,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Si es del v. 'saber' o 'ser' se escribe con tilde.</message>
             <suggestion>sé</suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/cuando-se-escribe-se-con-tilde/</url>
             <example correction="sé">No <marker>se</marker> a quién pertenece.</example>
         </rule>
         <rulegroup id="SE" name="se/sé" default="on">
+            <url>https://languagetool.org/insights/es/publicacion/cuando-se-escribe-se-con-tilde/</url>
             <antipattern>
                 <!-- error in the next word -->
                 <token>se</token>
@@ -6432,7 +6371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cual</token>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
-                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
+                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1" case_conversion="preserve"/></suggestion>
                 <suggestion>\1l cual</suggestion>
                 <suggestion>\1 la cual</suggestion>
                 <example correction="de cuál|del cual|de la cual">El significado <marker>de cual</marker> es incierto.</example>
@@ -6443,7 +6382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cual</token>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
-                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
+                <suggestion>\1 <match no="2" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1" case_conversion="preserve"/></suggestion>
                 <suggestion>\1 el cual</suggestion>
                 <suggestion>\1 la cual</suggestion>
                 <example correction="en cuál|en el cual|en la cual">La situación <marker>en cual</marker> vivimos.</example>
@@ -6467,7 +6406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">cual(es)?</token>
                 </pattern>
                 <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)cua(l.*)" regexp_replace="cuá$1" case_conversion="preserve"/></suggestion>
                 <example correction="cuál">Quiero saber <marker>cual</marker> es el significado de esta palabra.</example>
                 <example correction="cuál" type="triggers_error" reason="ambiguous">Cada cosa se muestra <marker>cual</marker> es.</example>
                 <example correction="cuál">No sé <marker>cual</marker> es la clave del éxito,</example>
@@ -8550,6 +8489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EL_NO_TILDE" name="él -> el">
+            <url>https://languagetool.org/insights/es/publicacion/el-con-tilde-o-el-sin-tilde/</url>
             <antipattern>
                 <token>él</token>
                 <token postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes" min="0" max="6"/>
@@ -8636,6 +8576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me encontré con él justo cuando salía del colegio.</example>
                 <example>Para Él vivo.</example>
                 <example>Él vino muy rápido.</example>
+                <example>Me gustaría hablar con él cara a cara.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8663,6 +8604,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EL_TILDE" name="el / él" default="on">
+            <url>https://languagetool.org/insights/es/publicacion/el-con-tilde-o-el-sin-tilde/</url>
             <antipattern>
                 <!-- en URLs -->
                 <token>-</token>
@@ -8900,6 +8842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MI_TILDE" name="mi/mí">
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/</url>
             <antipattern>
                 <token>mi</token>
                 <token postag="_QM_OPEN" min="0"/>
@@ -8963,7 +8906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">En lo que a <marker>mi</marker> respecta.</example>
                 <example correction="mí">¿Qué significa para <marker>mi</marker> ser padre o madre?</example>
                 <example correction="mí">Me puede servir a <marker>mi</marker> u a otro.</example>
-                <example correction="Mí">FRENTE A <marker>MI</marker> Y EN FAMILIA.</example>
+                <example correction="MÍ">FRENTE A <marker>MI</marker> Y EN FAMILIA.</example>
                 <example correction="mí">Para <marker>mi</marker> eras el mejor.</example>
                 <example correction="mí">Los saca y los extiende ante <marker>mi</marker> sobre la mesa.</example>
                 <example correction="mí">En <marker>mi</marker> todo te parece pasado de moda.</example>
@@ -9131,6 +9074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MI_SIN_TILDE" name="mí > mi">
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/</url>
             <antipattern>
                 <token>igual</token>
                 <token>que</token>
@@ -9592,6 +9536,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>esta</token>
                     <token>como</token>
                     <example>(entendida esta como correspondencia entre realidad y ficción)</example>
+                </antipattern>
+                <antipattern>
+                    <token>la</token>
+                    <token postag="NC[FC]S000" postag_regexp="yes"/>
+                    <token>esta</token>
+                    <token regexp="yes">de|del</token>
+                    <example>La historia esta del circo no la entiendo.</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -11067,6 +11018,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DE_TILDE" name="de/dé (dar)" default="on">
+            <url>https://languagetool.org/insights/es/publicacion/de-con-tilde-o-sin-tilde/</url>
             <antipattern>
                 <token spacebefore="no">.</token>
                 <token spacebefore="no">de</token>
@@ -13873,7 +13825,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>curriculum vitae</suggestion>
             <suggestion>\1</suggestion>
             <suggestion><match no="1" regexp_match="(?iu)currículum(s?)" regexp_replace="currículo$1"/></suggestion>
-            <url>https://www.fundeu.es/recomendacion/curriculo-o-curriculum-con-tilde-pero-curriculum-vitae/</url>
+            <url>https://languagetool.org/insights/es/publicacion/escritura-correcta-curriculum-vitae/</url>
+            <!--            <url>https://www.fundeu.es/recomendacion/curriculo-o-curriculum-con-tilde-pero-curriculum-vitae/</url>-->
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
         <rulegroup id="SEPARADO" name="palabras que se escriben separadas">
@@ -13930,6 +13883,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ahora es preciso hacerla realidad.</example>
                 <example>sin desmantelarla pieza a pieza</example>
                 <example>denominarla directiva sobre adquisiciones</example>
+            </rule>
+            <rule id="FITOZOOSANITARIO" name="fitozoosanitario">
+                <antipattern>
+                    <token regexp="yes">fito|zoo</token>
+                    <token min="0">-</token>
+                    <token><match no="0"/></token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">fito|zoo</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">fito|zoo</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">sanitario</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3\5</suggestion>
+                <example correction="fitozoosanitarias">Directivas <marker>fito-zoo-sanitarias</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EXPRIMER" name="exprimer -> ex primer">
+            <rule>
+                <pattern>
+                    <token regexp="yes">exprimera?|exprimer[oa]s</token>
+                </pattern>
+                <message>Se escribe separado.</message>
+                <suggestion><match no="1" regexp_match="(?iu)ex" regexp_replace="ex " case_conversion="preserve"/></suggestion>
+                <example correction="ex primer">Estas fueron las declaraciones del <marker>exprimer</marker> ministro.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ex</token>
+                    <token>-</token>
+                    <token regexp="yes">primera?|primer[oa]s</token>
+                </pattern>
+                <message>Se escribe separado sin guion.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="ex primera">Estas fueron las declaraciones de la <marker>ex-primera</marker> dama.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CON_GUION" name="palabras con guion">
@@ -15345,7 +15335,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El sobretodo de Céspedes.</example>
             <example>En alusión al sobretodo del sargento.</example>
         </rule>
+        <rulegroup id="HAIGA" name="haiga -> haya">
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-haya-halla-alla-o-aya/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aiga|haiga</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>haya</suggestion> (del verbo 'haber')?</message>
+                <example correction="haya">Que <marker>haiga</marker> al menos una.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aigas|haigas</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>hayas</suggestion> (del verbo 'haber')?</message>
+                <example correction="hayas">No me importa lo que <marker>haigas</marker> dicho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">aigan|haigan</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>hayan</suggestion> (del verbo 'haber')?</message>
+                <example correction="hayan">No me importa lo que <marker>haigan</marker> dicho los demás.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HALLA_HAYA" name="halla/haya">
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-haya-halla-alla-o-aya/</url>
             <rule>
                 <antipattern>
                     <token>se</token>
@@ -17768,6 +17783,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo') o <suggestion>porque</suggestion> ('por razón de que')?</message>
                 <example correction="por qué|porque">¿Recuerda ya <marker>por que</marker> estamos aquí?</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="15">porque</token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token postag="_GN_.*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">pregunta|cuestión|duda</token>
+                    </and>
+                    <token chunk="GV" min="0" max="3"><exception inflected="yes">ser</exception></token>
+                    <token inflected="yes">ser</token>
+                    <marker>
+                        <token>porque</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo')?</message>
+                <example correction="por qué">La pregunta es <marker>porque</marker> no se aplicó la ley.</example>
+            </rule>
             <rule>
                 <!-- catch-all rule -->
                 <antipattern>
@@ -18486,7 +18520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="dado que">Hay que esperar turno, <marker>dado a que</marker> en muchas ciudades la oferta es menor.</example>
         </rule>
         <rulegroup id="DETRAS_PX" name="Adverbio de posición + posesivo">
-            <url>https://www.rae.es/consultas/detras-de-mi-encima-de-mi-al-lado-mio</url>
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/#%C2%BFse-dice-%E2%80%9Cdelante-de-m%C3%AD%E2%80%9D-o-%E2%80%9Cdelante-m%C3%ADo%E2%80%9D</url>
             <rule>
                 <pattern>
                     <token regexp="yes">&adverbio_lugar;</token>
@@ -19835,9 +19869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="no">lleno|llenar|rodear|repleto|atestado|atestar|abarrotado|abarrotar</token>
                     <token>de</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes" regexp="yes"
-                            >lágrima|libro|hombre|flor|cicatriz|cosa|árbol|mancha|persona|mujer|arruga|soldado|agujero|bache|cadáver|grande|objeto|estrella|moneda|diente|caja|enemigo|hoja|coche|mueble|imagen|recuerdo|turista|idea|escombro|planta|ampolla|botella|pez|bulto|nube|policía|edificio|curva|herido|billete|viejo|arma|columna|colilla|hueso|resto|fotografía|tienda|joven|amigo|recurso|flecha|colina|tesoro|peca|pregunta|marca|promesa|grieta|chico|secreto|trasto|guardia|eco|estantería|detalle|mosca|casa|pájaro|muerto|gusano|animal|alta|palabra|anillo|joya|documento|foto|corte|cuerpo|estudiante|barco|lata|ángel|posibilidad|prejuicio|trampa|plato|fantasma|vela|espina|figura|muralla|surco|matiz|monstruo|alto|ser|pluma|silla|juguete|referencia|pieza|pensamiento|rata|espejo|costra|vario|rosa|nota|muro|mesa|contradicción|herramienta|arbusto|acontecimiento|producto|dificultad|corriente|serpiente|pasajero|anotación|cuadro|símbolo|problema|bolsa|trozo|refugiado|provisión|nudo|instrumento|adorno|personaje|guerrero|error|remiendo|tubo|llama|cráter|dibujo|colmillo|carta|periodista|frasco|número|nombre|mentira|vehículo|palmera|criatura|aparato|pino|ojo|hierbajo|montón|obra|agente|ciento|grito|cliente|cardenal|obstáculo|huella|estatua|elemento|alga|piojo|magulladura|burbuja|rollo|perro|oficial|artículo|curioso|gato|desconocido|dato|vaso|voz|marinero|clavo|máquina|mapa|espectador|cojín|volumen|diamante|charco|cable|invitado|insecto|cerro|tatuaje|paquete|carpeta|regalo|moco|banco|acantilado|ventana|saco|esclavo|tipo|espía|desperdicio|rostro|puerta|pincho|guijarro|copa|caballo|semilla|moratón|canción|bicho|verruga|rumor|abolladura|vampiro|moretón|llaga|cabeza|zona|frase|pulga|conflicto|habitación|tropa|protuberancia|junco|cámara|punto|cartel|revista|púa|estante|escama|contraste|vestido|sirviente|pergamino|cascote|altibajo|visitante|puesto|paciente|oportunidad|muchacho|bala|periódico|momento|miembro|garabato|fragmento|demonio|rizo|rama|perla|patata|hijo|deuda|hoyo|ave|quemadura|pila|pesadilla|laguna|cueva|cara|callo|alusión|recorte|mensaje|bolsillo|viajero|vena|pliegue|lugar|muesca|hormiga|pintada|línea|incidente|familiar|escultura|tumba|tapiz|proyecto|manjar|ladrón|esqueleto|ejemplo|efecto|cachivache|alumno|traje|tiniebla|parche|noticia|mariposa|fiel|disco|desecho|admirador|trabajador|galería|criado|cortina|cifra|ordenador|nave|hilera|enfermo|carro|bordado|alfiler|letra|juego|golpe|antiguo|zombi|ruina|hueco|adolescente|recoveco|grueso|bloque|pústula|informe|salpicadura|obrero|inscripción|bola|bar|trapo|maceta|extranjero|defecto|círculo|cajón|aguja|tiburón|seto|giro|embarcación|anécdota|taza|pareja|caballero|borracho|bestia|vendedor|restaurante|mosquito|monje|mago|lobo|helecho|cadena|bandera|antigüedad|tarro|signo|rayo|peregrino|pantalla|interrogante|desgarrón|cortesano|cita|astilla|artista|plan|partícula|pantano|construcción|armario|arista|zarza|vecino|barril|asesino|andamio|huerto|artefacto|archivador|indio|ciprés|camión|picadura|fuente|ficha|cliché|cartucho|víveres|tronco|médico|morado|mina|hematoma|hecho|caminante|anuncio|abogado|torre|rincón|pétalo|prado|músico|grupo|gema|gallina|falta|docena|dama|contusión|ciudadano|centenar|apunte|reloj|presagio|paloma|judío|gotera|globo|escena|cucaracha|canto|anciano|zapato|retrato|prenda|oveja|muestra|larga|civil|cana|cacharro|volante|utensilio|tópico|trofeo|reliquia|prueba|preso|presentimiento|grumo|enigma|cubito|bailarín|trocito|sello|pato|hermano|golosina|expediente|visión|tarjeta|reflejo|rana|prisionero|pico|olivo|jaula|idiota|decena|brasa|bacteria|sauz|río|manuscrito|maleta|lápiz|lamparón|jugador|dólar|crío|cigarrillo|bandeja|alemán|suministro|medalla|isla|elogio|duna|concha|cocodrilo|campesino|ángulo|uniforme|sortija|situación|pórtico|pista|pariente|ofrenda|novela|motivo|llave|irregularidad|estalactita|espinilla|empleado|chisme|barranco|avión|archivo|achaque|vitrina|tío|tubería|sábana|privación|pistola|pedazo|nuez|monitor|micrófono|manta|jeroglífico|folleto|cuerda|cuchillo|canal|baya|arquero|alfombra|mota|militar|manglar|inmigrante|contenedor|complicación|calle|automóvil|sacerdote|roble|naranja|medicamento|lago|individuo|brote|almohadón|venda|socavón|largo|insulto|ideal|huésped|hoyuelo|enano|comprador|comerciante|chiquillo|artilugio|alambrada|vivienda|relato|raya|peatón|pastilla|murmullo|montículo|metáfora|cama|bolita|afilado|truco|traidor|rozadura|recipiente|monumento|lentejuela|germen|gana|fajo|cultivo|consejo|comestibles|bomba|asiento|adulto|víbora|susurro|prostituta|pozo|parásito|mercader|incrustación|conejo|ciudad|almacén|área|tontería|tentáculo|plano|modelo|insinuación|guirnalda|gruesa|gota|fórmula|funcionario|destello|desconchón|cuenta|cubo|condecoración|cazador|carruaje|bandido|viruta|valle|toalla|tenderete|tachadura|rosal|rodada|pedrusco|nicho|murciélago|lámpara|lirio|lazo|fila|episodio|dragón|cuervo|comentario|chuchería|baratija|abeja|vaca|término|remolino|ratón|precipicio|nido|máscara|león|jarra|ilustración|estaca|envoltorio|ejemplar|célula|churrete|chinche|cangrejo|calavera|adulador|sobre|sierra|robot|residuo|plantación|panel|ola|naranjo|mono|marisma|luciérnaga|incógnita|elfo|dios|cuento|comensal|capa|camisa|bárbaro|barra|antorcha|actor|vianda|título|tachón|sensación|pelota|padre|ornamento|nativo|legajo|juerguista|iglesia|hortaliza|granada|grabado|geranio|gacha|forastero|fisura|cálculo|cuaderno|bráctea|tema|sugerencia|pirata|pilar|pasillo|ortiga|nenúfar|mercenario|mendigo|legionario|hongo|dinar|cura|concepto|caso|carreta|zanja|víctima|volcán|vendaje|testigo|roncha|pueblo|placa|palo|oso|mora|mito|miliciano|meandro|judía|jinete|interferencia|imbécil|hotel|gancho|estructura|espectro|espada|esfera|enfermero|cumbre|cirio|capullo|cagado|bolígrafo|alabanza|túnel|trucha|tira|talla|sillón|querubín|queja|palacio|millón|millar|mano|macizo|lingote|hez|estría|escudo|cruz|costurón|corredor|baúl|ataúd|aficionado|accidente|úlcera|tribu|transeúnte|terraza|teoría|tanque|seguidor|rulo|regla|prodigio|pinchazo|pincel|perdigón|parterre|parroquiano|paradoja|papiro|orco|mirón|mata|floritura|fardo|factura|enseres|encina|copo|celda|camino|banda|anguila|zumbido|voluta|templo|superviviente|sofá|sargazo|página|playa|matojo|lápida|lesión|imponente|gigante|fresa|especie|desgracia|centinela|casita|campanilla|bocadillo|bicicleta|ascua|tripulante|sombrero|sitio|silueta|rubí|rodera|recodo|ramita|pisada|pescador|penique|pegatina|país|pasadizo|minúscula|langosta|jirón|hendidura|harapo|habitante|granja|gaviota|fortificación|escrúpulo|escritorio|escollo|envase|dispositivo|disculpa|cráneo|cole|coco|chino|chiflado|casualidad|cascada|avispa|arroyo|antena|anaquel|vicisitud|suceso|seta|runa|rey|reportero|píldora|proyectil|peripecia|ojera|oficina|marco|manía|lanza|jovencito|jarrón|islote|gotita|fusil|escalera|engranaje|ecuación|cuenco|computador|celebridad|canica|camilla|autobús|alegoría|abrigo|visita|vasija|tulipán|trinchera|tiesto|servidor|ruso|pulsera|privilegio|poema|penalidad|pastizal|paraje|panfleto|olivar|oficinista|nieto|municipio|margarita|gráfico|grada|escorpión|diagrama|cápsula|coincidencia|brujo|ayudante|almohada|acto|abeto|árabe|víscera|viga|verso|verja|verdugón|vegetal|tornillo|tomo|tic|senador|sanguijuela|red|rasgo|puntito|profesor|postal|planeta|paseante|palomita|nabo|mirada|logro|local|icono|hada|fósil|fábrica|figurita|encuentro|dátil|descripción|cuerno|crujido|columnata|chichón|cesto|centro|barca|balcón|arabesco|viaje|ventaja|tonto|tonel|tentación|taxi|salto|saliente|reproducción|relámpago|rareza|patio|ocupación|matón|maniquí|lunar|liana|inútil|horquilla|guante|gnomo|gemido|forúnculo|foco|fallo|exquisitez|exceso|esquirla|escondrijo|escarabajo|delincuente|componente|colono|cohete|cereza|borrón|boceto|beso|barrote|barricada|arcada|amante|alhaja|yate|variz|universitario|taller|suposición|sollozo|rueda|risco|reto|receta|pinza|pepita|pegote|pasaje|orquídea|negocio|migaja|manifestante|manchita|madero|litera|lamento|gorgojo|francés|esmeralda|edificación|discusión|dignatario|connotación|colega|cocotero|candelabro|cacahuete|bombón|bebé|bebedor|americano|accesorio|abalorio|útil|álamo|vaina|tigre|teléfono|tajo|reunión|reminiscencia|racimo|pretoriano|poeta|patrulla|pastelillo|partitura|orificio|obligación|objetivo|mozo|mentiroso|marino|mansión|inconveniente|guisante|fotógrafo|evento|eucalipto|espumarajo|enredo|elevación|dial|depósito|depredador|declaración|coágulo|copia|cofre|clérigo|circunstancia|cerilla|carámbano|callejón|buque|bota|bolso|barcaza|anacronismo|aldeano|veraneante|témpano|tripa|sensor|sendero|sapo|rebelde|ramo|pendiente|ondulación|nubarrón|ninfa|navío|matadura|marine|maestro|loma|llanura|lila|legumbre|kilómetro|jeringuilla|invento|ingrediente|indicador|impacto|gorrión|glaciar|general|frutal|famoso|estereotipo|estatuilla|electrón|dardo|cuchilla|condón|concierto|clásico|cesta|caverna|canapé|calumnia|callosidad|callejuela|cacerola|cabra|bártulo|bombilla|bidón|avatar|asistente|abrojo|vitualla|violeta|veta|versión|testimonio|taburete|tablilla|suspiro|sistema|roto|rodeo|rito|reja|recibo|príncipe|premio|poste|poro|pertenencia|pelea|pedacito|papelito|ostra|obscenidad|narciso|mordedura|moradura|molécula|moderno|manzano|lámina|lunático|larva|lagarto|lacayo|japonés|infante|inexactitud|impureza|implicación|gamba|forajido|fleco|experto|estanque|entrada|emigrante|doblón|divagación|detenido|despojo|despacho|cúpula|condenado|collar|colchón|ciruela|chocolatina|cavidad|casco|cascabel|cardo|canoa|cajita|boquete|baja|asociación|aro|aristócrata|alubia|aguijón|átomo|zurcido|ventanal|turco|tendón|taberna|sala|revuelta|representación|peón|percha|palanca|osamenta|nazi|miniatura|melladura|manchón|intelectual|indígena|hoguera|hincha|helicóptero|hebra|grillo|galera|furgoneta|fichero|evocación|estadística|establecimiento|esquina|ejecutivo|disparate|discípulo|dinosaurio|descubrimiento|delfín|defensa|cuesta|cristiano|corral|consejero|comunista|colonia|colaboración|clave|choza|chopo|chasquido|capilla|capilar|camiseta|calva|buitre|bucle|borla|bonito|balada|bajo|azulejo|aventurero|argumento|apero|almendra<exception
-                            postag="NC.[PN].*" postag_regexp="yes"/></token>
+                        <token postag="NC.S.*" postag_regexp="yes" regexp="yes">&nombre_plural_detras_de2;<exception postag="NC.[PN].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
@@ -19857,9 +19889,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- |cadena -->
                     <token>de</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes" regexp="yes"
-                            >persona|cosa|hombre|libro|dato|canción|punto|obra|edificio|especie|voto|película|pregunta|artículo|vez|mujer|álbum|concierto|novela|problema|país|palabra|nombre|miembro|soldado|objeto|elemento|partido|artista|sencillo|habitante|árbol|caso|diente|planta|medida|número|videojuego|dibujo|lengua|evento|empresa|vario|inmigrante|joven|personaje|cambio|grande|pasajero|candidato|jugador|hogar|pieza|documento|animal|coche|músico|reforma|escombro|carta|regla|característica|tema|estudiante|vehículo|instrucción|programa|fotografía|asiento|arma|turista|proyecto|operación|amigo|disco|trabajador|factor|norma|investigador|acontecimiento|hoja|invitado|conferencia|insecto|recurso|técnico|científico|idea|ave|columna|muerto|gol|campesino|herramienta|ocasión|usuario|cadáver|ciudad|ley|asesinato|ambo|victoria|ventana|pueblo|anciano|cliente|chico|figura|lesionado|tienda|título|visitante|esclavo|oficial|individuo|espectador|isla|agente|instrumento|sistema|ciudadano|nota|conflicto|banco|superhéroe|estrella|actor|experimento|publicación|tropa|single|golpe|detalle|guerrero|comerciante|judío|lugar|tarea|billete|premio|habitación|gen|víctima|resto|función|vecino|acto|puerta|monje|enemigo|refugiado|nube|sospechoso|experto|periodista|inmueble|condición|negocio|silla|abeja|banda|avión|circunstancia|relación|cuadro|alumno|aventura|llamada|foto|participante|retrato|partícula|viejo|componente|paso|caudal|curioso|edificación|monumento|seguidor|relato|estructura|institución|ruina|hora|revista|modelo|fuente|foraminífero|nave|escritor|médico|autor|barco|profesional|recuerdo|principio|plato|paciente|diputado|prisionero|encuentro|colaborador|fiel|aplicación|poema|ensayo|ingeniero|mensaje|hongo|funcionario|medalla|mesa|célula|periódico|símbolo|objetivo|canal|organismo|suceso|posibilidad|hormiga|reunión|entrevista|efecto|mosca|episodio|letra|flor|cuento|criatura|aficionado|motor|manifestación|lágrima|enamorado|enfrentamiento|arco|grabado|empleado|rey|voluntario|clube|agricultor|modificación|jinete|extranjero|incidente|máquina|hermano|mercenario|especialista|abogado|arqueólogo|requisito|puesto|escena|colina|enfermedad|situación|peregrino|informe|obrero|hablante|arquitecto|rasgo|página|actuación|profesor|militar|colono|mejora|localidad|hijo|novio|noble|instalación|resultado|variedad|fragmento|estatua|signo|botella|cuestión|huella|noticia|mancha|tubo|rostro|herido|rama|derecho|archivo|amante|marca|caballero|carro|parámetro|torneo|tumba|estación|automóvil|explosión|anuncio|vampiro|ejemplo|accidente|variante|torre|mamífero|humano|documental|ejemplar|asunto|fan|opción|viajero|habilidad|testigo|curva|aldea|dispositivo|bloque|votante|propietario|muchacho|mentira|método|pescador|asentamiento|idioma|entidad|ventaja|lesión|buque|pintor|ficha|tanque|indio|derrota|compuesto|asistente|rayo|cristiano|placa|escama|socio|comunidad|desarrollador|variable|monstruo|guionista|tarjeta|preso|planeta|dificultad|cueva|paquete|cortometraje|sacerdote|electrón|creencia|agujero|indígena|ecuación|fenómeno|decisión|detective|rumor|sello|comentario|río|iniciativa|bailarín|aparato|intelectual|procedimiento|delito|representante|mago|escuela|criterio|ordenador|frase|artesano|pluma|manuscrito|propuesta|escrito|copia|cargo|término|provisión|espectáculo|plano|granjero|fósil|sala|joya|tronco|síntoma|versión|residente|piloto|alga|nación|mapa|adolescente|robot|tratado|jefe|empresario|camión|asociación|motivo|órgano|civil|integrante|enano|templo|satélite|ministro|mueble|luchador|colección|regalo|teléfono|manta|fantasma|demonio|asesino|arbusto|concepto|nodo|líder|emigrante|tabla|obstáculo|historiador|comuna|pájaro|molécula|estantería|disparo|animador|anillo|tribu|atentado|sirviente|recomendación|maestro|escalón|argumento|círculo|cama|mercader|bacteria|bit|tontería|residuo|cifra|cazador|avispa|yacimiento|reportaje|corredor|lago|dinosaurio|acusación|ojo|fusil|fanático|aparición|plataforma|ingrediente|alemán|intento|disposición|combatiente|reportero|religioso|terraza|oportunidad|festival|curso|taller|mecanismo|fresco|establecimiento|cascote|embarcación|túnel|robo|sector|átomo|impuesto|explicación|bolsa|banquero|gesto|butaca|restricción|criado|veterano|productor|prenda|manifestante|artefacto|senador|ion|disputa|director|saco|plan|panel|causa|tren|superviviente|grito|fórmula|cohete|terrateniente|receptor|musulmán|desecho|creyente|sensación|queja|compositor|revuelta|fabricante|estancia|dependencia|estudioso|atributo|restaurante|decreto|ángel|laguna|coincidencia|plaza|carpeta|asesor|irregularidad|hotel|pasillo|marinero|flecha|etapa|axioma|pilar|legionario|servidor|llama|disturbio|descendiente|astrónomo|zombi|universidad|paisaje|taxi|ritual|recital|lector|fiesta|familiar|estándar|petición|mito|locomotora|dialecto|coordenada|sensor|lámpara|desperdicio|bomba|encargo|rápido|reino|puente|incendio|dólar|anécdota|mosquito|galería|poblador|monitor|harapo|cojín|palmera|espía|burbuja|vaso|simpatizante|futbolista|escudo|escaramuza|combinación|rizo|lesbiana|supervillano|penal|denuncia|cantante|espejo|concejal|cita|minero|elfo|celda|académico|núcleo|militante|perla|loco|huelga|esqueleto|dirigente|complicación|carreta|vagón|show|rico|neutrón|estante|escalera|coleóptero|choza|brujo|misil|brazo|bala|pobre|obispo|fortaleza|pirata|nutriente|elector|declaración|alternativa|trasto|sesión|mina|gusano|editor|cuenta|asteroide|juguete|ilustración|desconocido|chasquido|arquero|obligación|indicador|deportista|chip|activo|cajón|armario|amenaza|terremoto|nativo|lata|católico|aeronave|expediente|arroyo|admirador|verso|rueda|procesador|frasco|viga|pico|insulto|comprador|campeón|biblioteca|francés|defecto|antorcha|trastorno|operador|minuto|helecho|criminal|complejo|observador|famoso|mendigo|filme|desastre|desaparecido|cráter|cruz|astilla|algoritmo|truco|estaca|delegado|dama|cortesano|clon|antena|pastor|cartel|capilla|bandera|vértice|utensilio|segmento|proposición|mariposa|estadounidense|escándalo|cualidad|villano|sección|recorte|parado|engranaje|chispa|trozo|receta|lápida|hallazgo|fracaso|espina|bombero|árbitro|poeta|inconveniente|aliado|interruptor|homicidio|favorito|dígito|barra|vendedor|proyectil|general|gemelo|entrenador|chiquillo|carruaje|poste|poblado|novedad|giro|exiliado|aspirante|folleto|depósito|concesión|topónimo|firma|explorador|crustáceo|concursante|atleta|módulo|lanza|ganador|fallecido|cuaderno|capítulo|zapato|secreto|puerto|microorganismo|caloría|vector|supuesto|pariente|fraile|fotógrafo|erudito|bar|ayudante|afiliado|testimonio|recluta|mural|jardín|fugitivo|desgracia|tripulante|pecado|pauta|partidario|labrador|jubilado|diamante|deber|patrón|orco|intérprete|examen|cicatriz|bombilla|peatón|italiano|bestia|arruga|tapiz|molusco|lámina|gigante|espécimen|toalla|llave|kilómetro|juez|gobernante|cubo|concha|reloj|marino|industrial|enfermero|activista|accionista|víveres|triunfo|contenedor|consejero|consecuencia|comentarista|bola|aguja|silueta|préstamo|palo|ola|nicho|islote|homosexual|donación|devoto|cresta|colmillo|casita|rollo|mutante|matemático|logro|isótopo|falla|copa|boceto|autobús|angiosperma|androide|sábana|poderoso|pistola|navío|lista|indicio|festejo|especificación|conductor|ciclón|celebridad|aristócrata|vasija|suscriptor|remero|matrimonio|esfera|archivador|accesorio|álamo|ruso|jaula|competidor|cerro|ceremonia|agrupación|adorno|volcán|trampa|pastilla|delincuente|contrato|cascada|proveedor|molino|escultor|directriz|cromosoma|biografía|ácaro|vertebrado|primo|excusa|cilindro|ciclista|arista|tablón|programador|patente|jurista|hincha|fotón|diario|destello|conocido|clérigo|cartucho|capitán|bárbaro|pitido|juvenil|crónica|consonante|almohadón|transeúnte|tramo|reto|recipiente|prototipo|molestia|mirón|licencia|largometraje|folio|eliminatoria|anfibio|adepto|réplica|roedor|mirada|miliciano|limitación|detenido|bráctea|analista|agencia|terrorista|tentáculo|semifinal|promesa|pase|ofrenda|neurona|milagro|mexicano|malentendido|docente|alteración|pretendiente|peón|murciélago|montículo|monografía|inversor|huésped|condecoración|clavo|récord|pupitre|psicólogo|presidente|pisada|luciérnaga|interrogante|especulación|elefante|cuchillo|chiste|carcajada|broma|sobreviviente|pilastra|icono|expatriado|estupidez|dimensión|convención|conclusión|barril|arreglo|afirmación|violación|prostituta|orificio|lección|hechizo|grieta|gladiador|foco|consola|aerolínea|abrigo|ánfora|tallo|sendero|sanción|nudo|maldición|hectárea|gancho|galardón|bodega|almohada|vértebra|teclo|taxón|tablilla|príncipe|precepto|pozo|lingüista|lancero|improperio|exigencia|estampa|escarabajo|discípulo|cuenca|crujido|contratiempo|comensal|cognado|bulto|suposición|seta|rana|pingüino|motocicleta|misionero|matiz|hábito|humedal|despacho|ciprés|casilla|canónigo|acuarela|abuso|árabe|rebelde|madero|lepidóptero|inquilino|infante|gráfico|gitano|filtro|defensor|cubículo|contradicción|condenado|aminoácido|ametralladora|tarro|silbido|píxel|facultad|europeo|deidad|bicho|atacante|trofeo|seminario|parlamentario|paloma|objeción|microprocesador|matón|litera|indicación|consumidor|barracón|sugerencia|submarino|protón|nido|erupción|donante|detonación|camello|sapo|redactor|pliegue|plancha|patio|manantial|maleta|glóbulo|filamento|directivo|cuadrado|clan|cabo|bombardeo|acorde|sauz|pierna|pabellón|cirujano|casualidad|borracho|arcada|aldeano|sentencia|salvaje|pleito|palco|mulo|lente|hoguera|hacendado|fichero|feligrés|encuesta|denominación|dedo|cautivo|casado|beso|bandido|tuit|sílaba|revés|pertrechos|peripecia|gruesa|globo|decena|cuervo|cono|triángulo|sillón|rampa|primate|hembra|guardián|grada|gobernador|galaxia|franja|entusiasta|entero|ejecutivo|conjetura|cardenal|buzón|ascensor|apunte|agravio|presentador|pensador|patrocinador|parásito|neutrino|invertebrado|inundación|hueco|guión|editorial|duna|caverna|busto|antecedente|anomalía|ventanal|trámite|ramita|oyente|legislador|jeroglífico|japonés|forense|elogio|dignatario|constructor|compartimento|brasa|atrocidad|trinchera|regante|prejuicio|panfleto|operario|losa|guerrillero|emperador|crucero|calamidad|balcón|válvula|remodelación|portador|pasadizo|olmo|obscenidad|murmullo|ministerio|hidalgo|goleador|campana|útil|sermón|palanca|horno|francotirador|estela|enterramiento|converso|colega|camarero|vitrina|rosa|revelación|plebeyo|norteamericano|nervio|inspector|grueso|gota|estampilla|desaparición|cumbre|conjuro|collar|cocinero|clásico|chimenea|cachivache|afluente|ángulo|romano|reflejo|premisa|postal|parcela|monarca|micrófono|litografía|jovencito|homínido|formulario|emigrado|doctor|cisne|buscador|aventurero|afilado|acantilado|veraneante|vano|tortuga|tatuaje|revolución|reliquia|pétalo|practicante|pedazo|maravilla|magistrado|imbécil|guijarro|gnomo|estanque|diplomático|dibujante|clic|argentino|vigilante|venezolano|sujeto|sonda|sinónimo|sabio|púa|particular|parroquia|moto|minoría|mes|lanzador|cápsula|comunista|chaval|byte|barranco|artilugio|antepasado|alcalde|abertura|siervo|relámpago|polígono|platillo|mortal|jardinero|idiota|granada|ganadero|coleccionista|chisme|chillido|caminante|arácnido|altavoz|ítem|vestigio|vacación|seto|secretario|sacrificio|ronda|polinomio|olivo|mansión|magnate|impureza|garabato|extra|divisa|destructor|descripción|colectivo|chorrada|bombardero|biólogo|asignatura|antropólogo|acusado|vidriera|traductor|taza|soneto|sindicato|postura|polaco|peca|opositor|momia|meta|mellizo|masacre|loma|larva|intervalo|hidrocarburo|enmienda|desacuerdo|cruzado|conífero|cineasta|barca|aquenio|apuesta|actriz|vagabundo|tripleta|sede|runa|recluso|puntito|protuberancia|piojo|patada|partitura|palabrota|mensajero|maceta|lío|juramento|junco|dolencia|despido|convulsión|conspirador|conducto|cirio|caserío|buceador|vicisitud|vago|trazo|temblor|preparativo|paleontólogo|neumático|meteorito|meseta|marcador|impreso|glándula|generador|economista|cucaracha|contribuyente|caseta|apéndice|televidente|porteador|medallón|marco|manual|impresor|estrecho|enigma|cubano|centinela|caudillo|bóveda|brazalete|universitario|tomo|subconjunto|razonamiento|protestante|pirámide|percha|ocupante|musical|locutor|litigio|jugada|hechicero|forastero|fiscal|esquema|espora|enseres|díptero|despojo|desgraciado|cobertizo|carromato|calavera|bono|automotor|anarquista|afroamericano|afectado|acreedor|tonel|televisor|sacudida|reclamación|kilo|jornalero|jonrón|instantánea|himenóptero|gaviota|fogata|estatuilla|estadio|espermatozoide|enunciado|disparate|danzante|cúmulo|cordón|compartimiento|casucha|cacharro|tonelada|sismo|petroglifo|parche|mestizo|lípido|límite|lavabo|ladrido|invasor|gema|desertor|cosaco|callejón|brahmán|blindado|bebedor|barcaza|bacante|autorretrato|armónico|africano|adorador|adjetivo|tópico|tornado|tenderete|surco|rosal|reclamo|ordenanza|minúscula|lingote|invento|habitáculo|graduado|fotocopia|finalista|farola|enredo|educador|cómico|cuáquero|costilla|correa|convenio|contramedida|clip|carbohidrato|callejuela|blasfemia|armenio|vocablo|tirador|testículo|recopilatorio|polluelo|pedrusco|marine|haz|gemido|finca|festividad|escalador|entorno|enfoque|diapositiva|depredador|cuartilla|catre|cargador|cantero|bucle|bobina|ataúd|turco|traidor|tornillo|sepultura|republicano|reproche|profecía|particularidad|muesca|miserable|liberal|lacayo|judía|jarra|insignia|infortunio|fosa|fanerógama|estocada|esbozo|corona|cláusula|barón|bandeja|asociado|yarda|vocal|tejedor|sonata|ráfaga|ranura|profesión|porrista|pesa|mártir|morisco|lancha|hacker|gorila|glifo|fractura|ferrocarril|espasmo|creador|congreso|chopo|centenar|camioneta|cadete|brote|barraca|balada|azulejo|asiático|aro|altercado|adversario|vitral|vena|teólogo|sordo|represalia|remedio|rectángulo|quebrada|protagonista|portugués|hito|gárgola|gendarme|furgoneta|fotograma|faro|estallido|especialidad|eslabón|duende|dron|diagrama|deficiencia|colilla|chiflado|cheque|canoa|canecillo|candelabro|canciller|camilla|amuleto|afección|aeropuerto|óleo|vínculo|urbanización|turbina|tubérculo|tosco|telescopio|telegrama|taburete|subespecie|rival|rehén|recta|recado|radiografía|novicio|nombramiento|naranjo|naipe|moderno|modalidad|minijuego|metáfora|libra|inversionista|incapacitado|hugonote|hindú|himno|hilera|golpecito|funcionalidad|film|faceta|doliente|disgusto|desventura|derivado|cura|constante|conservador|conde|comunicado|comparación|cliché|castro|caravana|burgués|bolita|bidón|almena|vivencia|vacuna|tribunal|tiroteo|timbre|súbdito|sollozo|sicario|requerimiento|predicción|polilla|payaso|patriota|paseante|mozo|indigente|hidrato|heredero|fábula|fluorescente|figurilla|esclusa|epíteto|edicto|desavenencia|contusión|capitel|campanilla|auxiliar|apóstol|aprendiz|administrador|acta|acertijo|aborigen|viandante|solicitante|sepulcro|rodillo|risco|reina|rapaz|rancho|péptido|proletario|profundo|polea|pasarela|pacto|ménsula|multa|motín|masía|manzano|limusina|lazo|innovador|incógnita|implicación|hoyo|hortaliza|hepática|hebra|fonema|federación|expectativa|estalactita|establo|distinguido|desencuentro|cuadra|corsario|arrecife|archipiélago|analfabeto|alusión|altibajo|túmulo|trenza|tonto|tiesto|suplemento|servilleta|revólver|restaurador|purga|psiquiatra|pretoriano|pordiosero|miniatura|mafioso|leucocito|inocente|injuria|gotita|gay|fundador|extremidad|exoplaneta|excavador|estrofa|débil|disfraz|desventaja|cuenco|controlador|ciego|carroza|camastro|barrote|ascua|aplauso|víscera|vaquero|piquero|pica|peruano|parroquiano|paracaidista|orquídea|meandro|maldito|licántropo|legajo|jadeo|intermediario|infiel|incentivo|imprecación|humorista|herrero|grabador|golosina|gimnasta|franco|estatuto|enredadera|embajador|electrodo|diploma|diablillo|criador|conector|chirrido|chalet|búnker|beduino|avería|aposento|amplificador|alfiler|varilla|valla|transistor|torero|teorema|santuario|rubio|responsable|regata|reactor|radical|postulado|portal|pesado|patología|patinador|orador|oponente|noción|navegador|masón|interno|imán|hangar|gorrión|germano|garra|extraterrestre|eucalipto|esquirla|espalda|equinodermo|empate|doncella|disidente|detector|cónsul|coreano|confrontación|colombiano|cofrade|cima|certificado|canon|boleto|avenida|atribución|asalariado|aditivo|xilografía|unitario|tractor|traba|toque|tebeo|surtidor|subfusil|sinfonía|serbio|rufián|revolucionario|reedición|puzle|precandidato|percance|patricio|nieto|negociador|negativo|navegante|mástil|mormón|monólogo|maqueto|linfocito|lineamiento|insurrección|horda|hereje|guarda|gruta|fragata|fardo|falsedad|extremista|estereotipo|escolar|escocés|embuste|dolmen|docena|desfile|desesperado|dardo|cóctel|cuchilla|copo|comediante|colonizador|colgador|coeficiente|circunferencia|camarógrafo|camarada|cachorro|burócrata|avistamiento|autopista|ateo|asaltante|artillero|aportación|andrajo|ampolla|alucinación|alcaloide|valiente|trasgo|teórico|sufijo|socialista|sequía|reservado|remezcla|regimiento|quemadura|póster|profeta|pionero|patrullero|olla|nadador|moro|laico|hendidura|garaje|franciscano|estambre|drogadicto|diccionario|deudor|criollo|costarricense|corral|corporación|contador|conquistador|clínica|catalán|casete|camarote|cacique|bungalow|buitre|británico|bobada|beneficiario|balsa|atraco|ambicioso|albanés|alarido|ventosa|ventanilla|sucursal|sublevación|soberano|seudónimo|secta|sarcófago|sandez|saliente|reproductor|ramificación|ramal|pulsera|planeador|penitente|paraje|oficinista|nazi|móvil|misiva|milla|marsupial|instructor|informativo|húngaro|huérfano|hez|euro|estría|estimación|emboscada|discrepancia|danés|códice|corresponsal|contrafuerte|cimiento|chimpancé|cerilla|calcetín|cajita|boyardo|apodo|alegoría|alcohólico|vitualla|vasallo|vara|urna|trocito|tortita|titán|taco|susurro|silo|risita|querubín|posada|paradoja|palmada|paje|pagano|nubarrón|noruego|narcotraficante|mueca|monolito|microbio|magulladura|lunático|literato|listón|letrero|imitador|huerto|holandés|gordo|gacha|fumador|figurita|fichaje|facilidad|espeleólogo|contorsión|catarata|carrito|carabinero|boxeador|aullido|artrópodo|artificiero|ancestro|alhaja|ídolo|zángano|zapador|ucraniano|troyano|traficante|tic|termita|tejo|tajo|tableta|rivalidad|riachuelo|rejilla|pulga|promotor|prodigio|problemática|prelado|poliedro|pliego|permutación|patriarca|ocioso|nacionalista|mitin|manjar|malhechor|linterna|jirón|inventor|informador|infeliz|humanoide|huelguista|herbívoro|galera|firmante|fascículo|estafador|esfinge|elegido|electrodoméstico|diligencia|devastador|destinatario|desfiladero|cupo|cumplido|cuidador|croata|consultor|congresista|condicionante|cofre|chuchería|chinche|charco|chabola|caído|caricia|bastón|bastardo|baratija|balneario|bajorrelieve|anaquel|aforismo|acequia|absurdo|zapatilla|zanja|vástago|virgen|tirón|tesela|subordinado|subgénero|soltero|saltimbanqui|reverencia|república|recibo|rapero|quebradero|pronombre|procurador|prebenda|pirueta|nómada|neoyorquino|mota|monigote|meteoro|maniquí|londinense|intruso|internauta|iniciado|infarto|indeseable|hornacina|hombrecillo|hippie|grillo|foso|fortín|exclamación|evacuado|eunuco|duque|difunto|contendiente|compilador|compatriota|claraboya|cesto|carnívoro|baúl|arcabucero|acólito|acorazado|óvulo|zarza|yesería|títere|tutor|traviesa|terma|suspiro|suboficial|serranía|reporte|remache|reflector|recriminación|píldora|predicador|portavoz|pictograma|peticionario|penalidad|pedacito|partición|panelista|oscilación|orfebre|monarquía|loro|llaga|legumbre|legión|lance|interrogador|insumo|instrumentista|hamaca|gramínea|godo|gilipollez|gestor|forajido|fogonazo|finta|feliz|extravagante|estera|escollo|esbirro|eremita|eclesiástico|dominico|danzarín|cuestionamiento|constelación|confidencia|comestibles|cole|coach|citocina|cantor|budista|boya|bendición|bandolero|bache|alquería|alfarero|adoquín|adicto|abreviatura|voltereta|velada|transportador|torpedo|supermercado|suicida|senda|saludo|salmo|resoplido|refrán|rabino|pub|proverbio|prerrogativa|platero|pipa|pianista|peculiaridad|parterre|parra|ofensa|octavo|obús|obsequio|multimillonario|mozárabe|montón|microtúbulo|menhir|mechón|mausoleo|lamento|jarrón|inicial|informante|incoherencia|incisión|hispanohablante|higo|grifo|gaucho|gag|fechoría|faraón|falangista|factoría|exvoto|exalumno|estalagmita|escondrijo|escondite|dominicano|dictadura|delgado|culpable|cuestionario|cronista|connotación|clarisa|cisterna|cesta|cerezo|centauro|casino|casillero|carril|capricho|bengala|banderín|ballestero|ballesta|bailador|arrendatario|arcángel|anémona|antidepresivo|afloramiento|afgano|zoólogo|voluta|urinario|tulipán|tapón|tabú|subsistema|spot|somnífero|sarraceno|sajón|sacerdotisa|roce|retrete|retazo|replicador|regidor|quejido|prisma|pixel|pináculo|pincho|perdigón|pastelillo|paradigma|noticiario|misa|mascota|marrano|marioneta|mandatario|lomo|legado|labriego|incongruencia|iceberg|horquilla|hobbit|hierbajo|hambriento|habladuría|grafo|gorjeo|gasterópodo|expropiación|epigrama|emblema|embajada|ducha|dogma|dial|desperfecto|desharrapado|dentículo|delicia|daga|dado|cupón|cubierto|convicto|contratista|contrario|contienda|conscripto|cobarde|cancelación|canadiense|cala|cajero|broche|bibliotecario|benedictino|barrica|barbaridad|avispón|australiano|aspillera|asambleísta|arreo|arquea|apagón|anotador|aliso|alelo|adversidad|abrazo|vikingo|vesícula|ventanuco|vacante|témpano|trago|tirano|sátiro|supervisor|subdivisión|sastre|rumano|repetidor|reo|referente|recoveco|recolector|ramo|quiebra|quehacer|puntal|puntada|pulsación|pretexto|prefecto|poza|porta|plaqueta|pinchazo|pilón|pileta|piedrecita|perseguidor|patán|paseriforme|partisano|palillo|observatorio|monocotiledóneo|mira|millar|microclima|meme|matrón|manglar|mandamiento|llamarada|lirio|ligando|liberto|leproso|lavandera|latigazo|insensatez|infanzón|implicado|huno|horticultor|gradación|ganglio|frasquito|flotador|estero|espadachín|escopeta|escalofrío|equivocación|epístola|envase|enciclopedia|embrión|egipcio|despropósito|desmán|cuartel|convoy|consigna|conserva|concubino|compuerta|cnidario|charca|catión|cartógrafo|carrete|carnicero|carguero|capullo|cameo|calificativo|cacerola|bulbo|bolígrafo|bolso|boletín|boina|biplano|baya|bastidor|banquete|bandoneón|bancal|arce|apartado|anexo|aberración|zurdo|yate|villancico|ventanita|tutorial|tropiezo|trole|transgresión|torreta|tordo|tirante|tiniebla|tinaja|textil|tertuliano|terrón|teniente|súplica|síndrome|surfista|suplicante|suizo|sucesor|solitario|serial|secuestrador|sanguijuela|sanador|router|rombo|retirado|reminiscencia|remiendo|remesa|recuadro|rastreador|racimo|proyector|proeza|presbítero|pistolero|pesquisa|pecador|papelito|oscilador|motel|moribundo|moratón|morador|monoplano|mole|mirador|meteorólogo|manchita|mameluco|malvado|macizo|locación|librero|liana|leal|kit|jesuita|iteración|insurrecto|insurgente|ilota|ignorante|idiotez|hurto|huesecillo|historietista|hipoteca|helada|guisante|gráfica|gracioso|gorgonia|galeote|financiero|farmacéutico|expedicionario|estupefaciente|estafa|engendro|ecuatoriano|durmiente|distribuidor|dinámica|dilema|decorador|damnificado|corchete|contrincante|complot|clasificador|certamen|ceramista|casona|caníbal|cantata|cana|caldero|bribón|bereber|bandada|azote|atropello|atalaya|atajo|arquetipo|arpegio|anónimo|anticuario|andanada|amotinado|alegación|abalorio<exception
-                            postag="NC.[PN].*|_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="NC.S.*" postag_regexp="yes" regexp="yes">&nombre_plural_detras_de;<exception postag="NC.[PN].*|_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                     <!-- pensión, beca -->
                 </pattern>
@@ -20350,6 +20380,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
+                <!-- nouns used as adjectives -->
+                <token>medio</token>
+                <token inflected="yes" regexp="yes">vampiro|&gentilicios;</token>
+                <example>Eran medio vampiros.</example>
+                <example>Sus antepasados eran medio franceses.</example>
+            </antipattern>
+            <antipattern>
                 <!--<token>se</token>-->
                 <token regexp="yes">los|las</token>
                 <token>be</token>
@@ -20489,6 +20526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el español|los españoles|la española|las españolas">Mientras <marker>las españoles</marker> lo hacían desde el sur.</example>
                 <example correction="cuanto año|cuantos años">Se preguntó <marker>cuanto años</marker> tenía el joven.</example>
                 <example correction="un sustantivo|unos sustantivos">Lo analizó como <marker>una sustantivo</marker>.</example>
+                <example correction="medio millón|medios millones"><marker>medio millones</marker> de euros</example>
                 <!-- TODO: De alguna forma terminaré esta trabajo.
                 Tengo tiempo libre este tarde. -->
                 <example>También lo contrario.</example>
@@ -25125,7 +25163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">dió|guió|lió|fió|frió|pió|rió|guión|ión|muón|vió|pión|prión|crió</token>
                 </pattern>
                 <message>Según las normas ortográficas actuales, los monosílabos no llevan tilde.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1o$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1o$2" case_conversion="preserve"/></suggestion>
                 <example correction="dio">Me lo <marker>dió</marker> él.</example>
                 <example correction="guion">El <marker>guión</marker>.</example>
             </rule>
@@ -26058,8 +26096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>casa</token>
                 </marker>
-                <token postag="NC.S.*" postag_regexp="yes" regexp="yes"
-                    >vez|uno|día|lado|paso|grupo|cual|noche|momento|palabra|mes|país|equipo|persona|semana|instante|minuto|caso|hora|hombre|segundo|mano|movimiento|cosa|individuo|miembro|detalle|extremo|nuevo|partido|esquina|punto|ocasión|jugador|rincón|episodio|centímetro|región|temporada|golpe|nivel|zona|elemento|estado|familia|ciudad|provincia|línea|canción|etapa|pieza|especie|cierto|casa|pueblo|lugar|frase|rato|personaje|par|kilómetro|generación|capítulo|edición|deporte|unidad|verano|clase|domingo|ser|página|mujer|sentido|categoría|sílaba|objeto|puerta|célula|letra|piso|hoja|distrito|brazo|jornada|gesto|libro|juego|sección|ciclo|comunidad|planta|época|programa|departamento|bando|dirección|nodo|fase|soldado|vuelta|ojo|ronda|nación|gota|escena|usuario|acción|piedra|ciudadano|serie|situación|carrera|nota|viaje|latido|participante|división|paciente|fin|ala|acto|torneo|partícula|cantón|rama|músculo|átomo|pareja|pie|bocado|tramo|posición|metro|sesión|área|sábado|ventana|sector|viernes|combate|tema|municipio|imagen|banda|cambio|tribu|oportunidad|aspecto|primavera|plato|cuarto|pregunta|respiración|flor|obra|disparo|segmento|dedo|componente|curva|batalla|fibra|sitio|mejilla|enfrentamiento|sistema|estudiante|escalón|columna|cuerpo|barrio|conferencia|mesa|historia|sonido|poro|evento|conjunto|verso|edificio|animal|calle|cliente|empresa|victoria|prueba|fila|vértice|película|nave|nombre|mundo|planeta|giro|vehículo|visita|bloque|localidad|elección|lunes|turno|artículo|alumno|cultura|capa|cámara|circunscripción|carta|territorio|período|ángulo|rostro|pensamiento|versión|integrante|campo|mitad|entidad|pista|canal|partida|parada|estrella|molécula|concierto|función|proyecto|disco|decisión|vida|fragmento|género|isla|hijo|barco|miércoles|costado|sexo|píxel|pared|jueves|álbum|celda|espacio|hombro|invierno|producto|candidato|ataque|oreja|intento|aldea|continente|artista|recodo|valor|sombra|salto|cuadro|respuesta|mirada|trabajador|población|curso|símbolo|centro|llave|coche|selección|estrofa|década|raza|instrumento|millón|sociedad|grado|liga|dólar|caja|iteración|periodo|orden|término|trozo|rueda|problema|reunión|milímetro|autor|siglo|proceso|pata|operación|posible|jugada|pulgada|eje|signo|rasgo|nervio|puerto|zancada|alma|sala|punta|ola|muerte|habitante|arma|carácter|amanecer|volumen|disciplina|víctima|cabeza|paquete|cruce|clan|ráfaga|prenda|fotograma|actuación|martes|reino|lengua|superficie|fecha|tarea|marca|embestida|regimiento|inspiración|hueso|aliento|semifinal|presentación|condado|repetición|grano|concursante|bocanada|parroquia|tienda|entrega|dispositivo|título|sacudida|pliegue|emisión|plano|roca|sujeto|pedazo|matiz|caricia|ruido|documento|centavo|secuencia|cilindro|lanzamiento|criatura|palo|máquina|institución|grieta|flanco|organización|agujero|invitado|vecino|trimestre|organismo|impacto|cromosoma|pierna|iglesia|gramo|copia|órgano|luchador|arco|actividad|servicio|semestre|gobierno|aplicación|trago|agente|lóculo|idioma|guerrero|caballo|porción|pisada|asiento|tren|comensal|foto|arista|gen|derrota|colonia|batallón|variable|salida|cadena|pelo|beso|primer|acontecimiento|núcleo|mensaje|universidad|tubo|moneda|dios|circunstancia|arbusto|regata|bit|arruga|grito|facción|empate|atardecer|vuelo|luna|corte|conversación|legión|contacto|idea|párrafo|manzana|botella|silla|nudo|campeonato|asesinato|voz|transacción|materia|jefe|intervalo|experiencia|suceso|rey|revolución|panel|empleado|capital|avión|pasajero|expresión|buque|brizna|base|archivo|vaso|tallo|extremidad|asociación|prisionero|milla|banco|tabla|inhalación|perro|módulo|error|circuito|Navidad|tercer|sustancia|ejército|ejercicio|círculo|hilo|hemisferio|uso|pasillo|hilera|tiro|especialidad|cuerda|cama|caballero|bala|aparato|rayo|modo|hembra|formación|roce|fachada|sorbo|recoveco|plataforma|motor|lector|esclavo|dígito|aniversario|actor|representación|esfera|variedad|rellano|fuerza|fotografía|escenario|carga|agrupación|rotación|papel|intersección|descarga|anillo|tomo|registro|plaza|hermano|votante|show|religión|propietario|placa|escuadrón|entrenador|compás|relación|pausa|maldito|copa|final|facultad|brazada|bache|relato|casilla|visitante|orilla|oración|gala|estancia|diente|cuadrado|crimen|bolsillo|soplo|electrón|diócesis|tarjeta|pulsación|impulso|fiesta|estructura|espectador|edad|dato|voto|lateral|federación|factor|combinación|articulación|mueble|fracción|explosión|espectáculo|esfuerzo|estadio|corredor|chico|carro|veinticinco|taza|pelotón|legislatura|hueco|emoción|cadáver|poste|madrugada|jinete|herida|dominio|deseo|céntimo|corazón|bolsa|valle|universo|penique|parcela|lóbulo|diputado|centuria|bote|anochecer|tonelada|socio|semilla|poema|muro|juez|huevo|elector|aparición|humano|asunto|sonrisa|sensación|pluma|músico|macho|instrucción|conductor|botón|set|pétalo|novela|lección|delegación|competición|borde|billete|avance|tecla|puente|oído|montón|modalidad|jurisdicción|faceta|exhalación|escama|pilar|neurona|lágrima|eslabón|doscientos|crujido|órbita|trazo|comentario|brigada|asalto|subgrupo|pájaro|kilogramo|cuadrante|apartamento|vector|tirón|puntada|hoyo|hebra|enfermedad|embarcación|aminoácido|tumba|pixel|longitud|informe|incidente|finalista|establecimiento|cuadra|civilización|publicación|mediodía|medida|litro|instancia|concepto|barra|tono|subconjunto|remo|red|petición|pantalla|observador|mandíbula|jurado|interpretación|ficha|dibujo|conexión|cajón|bola|operador|lote|guardia|contendiente|cargo|saco|poblado|parto|mancha|flecha|estrato|ejecución|andén|toque|ruta|pulso|pecho|parpadeo|lectura|escritor|eliminatoria|cabello|aventura|venta|texto|tejido|solución|reacción|pintura|pasaje|mordisco|mercado|maestro|lámina|libra|frecuencia|expedición|cifra|asignatura|ítem|variante|sentimiento|renglón|peso|noticia|gemido|competencia|capitán|robot|ordenador|opción|onda|muchacho|exposición|dimensión|cuento|cohorte|cinta|bancada|automóvil|oficina|mínimo|muchacha|surco|santo|producción|orificio|obrero|escala|enlace|enemigo|configuración|competidor|argumento|terminal|satélite|resquicio|palada|noventa|método|ministerio|marco|intervención|fotón|ensayo|cosecha|contracción|baile|vértebra|viajero|tormenta|servidor|resultado|rango|posibilidad|pelea|nicho|kilo|intérprete|héroe|experimento|entrevista|cuestión|barril|azote|agosto|vena|trayecto|río|periódico|gol|fenómeno|estocada|dolor|comité|cita|callejón|triángulo|sacerdote|rodilla|proyectil|pila|mapa|espíritu|ciclón|campesino|cabecera|arremetida|último|suspiro|residente|república|raíz|profesor|profesión|preso|oveja|oficio|observación|nube|monje|metal|herramienta|fruto|fracaso|descubrimiento|desafío|confederación|comisión|acceso|vocal|vela|ubicación|técnica|trama|sencillo|recorrido|propuesta|portal|oscilación|marea|consumidor|colono|tripulante|párpado|presidente|monasterio|mente|margen|líder|lenguaje|latigazo|guerra|ecuación|cristal|cofradía|acometida|accidente|viga|variación|senador|regla|polo|pincelada|perfil|navío|marinero|maniobra|mago|gira|franja|estallido|desplazamiento|cucharada|cable|atributo|pozo|parque|obispo|ministro|jaula|ingrediente|huésped|contingente|comandante|ceremonia|cartucho|visión|túnel|tronco|traje|subunidad|rendija|pseudobulbo|policía|onza|oleada|legua|gremio|estante|diciembre|destello|delito|cuánto|cristiano|contexto|consulta|constelación|consejo|comprador|camión|adulto|teoría|sendero|pizca|noviembre|mota|mechón|legionario|galaxia|frasco|enero|empujón|director|código|cubo|congregación|compartimento|castillo|canto|campeón|campamento|ave|anuncio|verticilo|varón|trocito|tierra|septiembre|reto|proteína|progenitor|plan|patrón|palma|oponente|nacimiento|médico|monarca|matrimonio|fábrica|escudo|escuadra|embarazo|destino|clavo|celebración|camada|atleta|relámpago|procesador|pedacito|obstáculo|matorral|linaje|interacción|haz|etnia|embate|dosis|discurso|dia|declaración|cuenco|consola|causa|byte|bulto|aspirante|armario|alimento|aeronave|vídeo|vampiro|transmisión|recurso|receptor|realidad|quincena|olor|gato|fosa|determinado|compuesto|ciencia|cazador|cavidad|abertura|tajo|solicitud|sien|retrato|pecado|necesidad|hotel|gas|estatua|estamento|dieciocho|colección|balanceo|bailarín|aumento|afirmación|zapato|trecho|toro|tendón|semáforo|secreto|productor|postura|negocio|manípulo|ley|km|jugadora|ion|indio|impresión|ganador|fórmula|fonema|emperador|creyente|copo|composición|combatiente|comarca|cláusula|chelín|carpelo|cantante|brote|bandeja|aspiración|abrazo|video|vaivén|taxón|susurro|silencio|restaurante|recta|quinientos|prefectura|personalidad|octubre|nacionalidad|investigación|información|industria|incursión|espécimen|escalera|encarnación|crisis|convocatoria|confesión|compositor|compartimiento|clic|choza|barracón|apuesta|alemán|ámbito|sub|rollo|revista|reloj|protagonista|potencia|parámetro|mandoble|hechizo|fichero|euro|etiqueta|espejo|control|casta|carril|cabina|bestia|videojuego|sollozo|pez|misil|legislación|juicio|instalación|inflexión|galería|fruta|formato|expediente|dificultad|despertar|clave|cerdo|catorce|bombo|asistente|administración|válvula|vendedor|tribunal|tratamiento|transición|tornillo|terminación|teléfono|salón|saliente|revisión|representante|referencia|recinto|ramita|proposición|promoción|poder|pliego|máscara|mayo|lucha|jadeo|hendidura|envío|ejemplo|descanso|concurso|choque|censo|casco|campanada|asentamiento|arquero|CD|velada|vaca|triunfo|subdivisión|sentencia|sello|reserva|recipiente|pólipo|príncipe|pedido|paseo|ondulación|modificación|mochuelo|lienzo|gobernador|esposa|depósito|denominación|cónyuge|contrato|computadora|candidatura|bar|agencia|transformación|testigo|terraza|tercio|revelación|pérdida|puta|principio|poeta|patada|mástil|milenio|medición|maxilar|manifestación|lámpara|losa|incremento|funcionario|flujo|escultura|entorno|costilla|corporación|contenedor|construcción|conflicto|colisión|cicatriz|cadera|votación|veintiocho|racimo|polinomio|peregrino|partición|localización|investigador|huella|hectárea|habilidad|guijarro|grabación|film|examen|estremecimiento|dialecto|detonación|descripción|cresta|conquista|comienzo|comerciante|comando|cigarrillo|certamen|bocacalle|bifurcación|batería|barrido|alto|altar|aeropuerto|actualización|acierto|éxito|versículo|unión|torreta|tanda|rumor|regalo|proyección|misterio|misa|manuscrito|lago|laboratorio|inmersión|inicio|fusil|festividad|encuesta|dama|conciencia|cerebro|carpeta|cargamento|bucle|aula|tradición|temblor|submarino|recluta|rebote|procedimiento|premio|monstruo|migaja|julio|irregularidad|hierba|hablante|estantería|espiración|deidad|cultivo|cuenca|cuadrilla|cruz|criminal|corona|consonante|condición|codo|cocinero|chasquido|carcajada|bota|bandera|balcón|arroyo|ápice|virtud|vibración|tirador|tejado|rol|regreso|rastro|quisque|presión|plancha|pico|paisaje|pago|orbital|montículo|mercancía|mentira|lata|insulto|hormiga|hoguera|farola|espasmo|escaparate|efecto|dependencia|danza|cápsula|cena|auto|alelo|CPU|tripulación|trampa|tic|terreno|teatro|tablero|séptimo|subsistema|setenta|resto|reinado|receta|pupila|punzada|pernera|oyente|ochenta|monómero|lobo|liguilla|juntura|interrupción|franquicia|firma|filamento|estrategia|escondrijo|enano|discípulo|dinastía|complejo|cima|ciclista|chimenea|cardenal|baldosa|autonomía|apartado|antena|andanada|verdad|valva|truco|transeúnte|tobillo|síntoma|solsticio|sol|sensor|régimen|rata|radiador|proveedor|primo|practicante|plantel|pintor|palpitación|nucleótido|minúsculo|mina|masa|lente|junio|isótopo|generador|galera|fármaco|entrenamiento|encrucijada|deportista|cónsul|coyuntura|costura|convoy|comparsa|cantidad|bobina|bienio|baza|bahía|areola|aleteo|ver|santuario|réplica|runa|reflexión|puto|progreso|profesional|playa|pinchazo|perspectiva|pelota|participación|paletada|ordenamiento|orador|opinión|ocurrencia|novedad|nidada|narración|mónada|locus|lance|kg|implementación|hondonada|globo|garra|flota|febrero|eyaculación|exhibición|elevación|delegado|corto|correo|contribuyente|consejero|chip|centenar|capitel|candidata|borda|bebé|barca|anotación|aguja|ademán|acusación|óvulo|viento|sucesiva|subida|subespecie|sacrificio|sabor|rotor|remero|reflejo|ranura|platillo|pirámide|percepción|parlamentario|ocupante|navegador|nalga|mutación|municipalidad|mol|luchadora|litera|leve|invocación|intercambio|ilustración|historieta|heredero|fallo|expansión|equis|emplazamiento|emirato|electrodo|duelo|despacho|depresión|debate|cubículo|concesión|colectivo|coeficiente|cinturón|charco|cepa|centurión|celdilla|cabo|burbuja|bráctea|bebida|batir|bandazo|axila|autoridad|ascenso|asamblea|apertura|antebrazo|amor|alianza|activo|acera|abril|vocablo|ventanilla|varilla|vano|trayectoria|tendencia|tablón|sugerencia|sillón|retroceso|rectángulo|ramo|quinto|quintal|pulmón|práctica|posta|portada|pormenor|polígono|permutación|periodista|pergamino|peligro|patrulla|oferta|negro|monte|mito|melodía|mejora|medalla|mandato|manada|leyenda|lanza|interfaz|hélice|filtro|fiel|fascículo|extensión|envite|enunciado|encabezado|décimo|docena|diálogo|divinidad|diminuto|difunto|diferencia|descenso|descansillo|demonio|cúpula|cuaderno|crepúsculo|coordenada|contribución|constructor|cono|congreso|coalición|clon|chiste|carretilla|bruja|boleto|arte|adversario|adorno|acre|yarda|tentativa|taberna|sucesivo|subintervalo|remache|raya|radio|protón|pincel|peón|pezón|pala|norma|naipe|musulmán|muslo|murmullo|milésima|medicamento|martillazo|magistrado|joya|interlocutor|indicio|hechicero|gobernación|gancho|futbolista|folio|feria|factura|estímulo|estribillo|espada|envase|ente|doloroso|diagrama|detector|despedida|cuello|controlador|contrincante|colectividad|captura|capricho|brinco|brecha|bajada|avenida|asociado|arteria|aposento|ambiente|alternativa|aerolínea|viraje|vertiente|verbo|umbral|transferencia|tesoro|súbdito|sucesión|subred|suave|soberano|sindicato|reducción|recámara|recital|pilastra|piel|pasadizo|parlamento|operario|muesca|morfismo|lustro|loma|jeroglífico|insecto|infracción|inflorescencia|hipótesis|grafo|futuro|frame|folículo|fajo|estaca|espiguilla|espermatozoide|encargo|empleo|embrión|discusión|destinatario|destacamento|cumbre|cuerno|crítica|creencia|constante|comunicación|certificado|cerradura|caza|campana|camello|camarote|brindis|borrador|bogie|atolón|altura|aleta|abeja|vara|vaina|utensilio|tributo|tictac|senda|romano|rizo|revólver|revés|retazo|residuo|reo|renovación|recuento|rebanada|profeta|político|pastilla|papeleta|paloma|norteamericano|millar|mexicano|metámero|marzo|marcador|logro|lazo|inserción|host|homicidio|guía|guardián|guante|gemelo|galón|foco|favor|faro|faraón|explicación|evangelio|espina|espiga|enigma|edificación|dragón|distribución|defensor|cría|crucero|cromátida|cola|chorro|carnero|callejuela|búsqueda|broma|autobús|ataúd|artefacto|anciano|altavoz|agricultor|índice|violación|vello|vecindario|turista|trueno|tropiezo|trastorno|torreón|tonalidad|timbrazo|suscriptor|sucursal|soporte|respiro|res|remolino|relieve|reinicio|recuadro|ramificación|ración|pocillo|pistón|perla|parche|papa|olla|nudillo|neumático|narrador|mosca|mercader|legislador|interno|iniciativa|hilada|hallazgo|grada|fondo|filme|fanega|falange|estornudo|espiral|escaque|enrutador|ecosistema|directorio|desarrollador|defecto|cuchillo|corregimiento|coro|contingencia|cohete|claro|chupada|cheque|centinela|carrete|carbono|buey|bodega|beneficiario|astronauta|astro|arroba|arcada|apéndice|aprendiz|amonestación|adoquín|accionista|DVD|ángel|vidriera|vestíbulo|vereda|veintiséis|trineo|trato|traducción|test|tentáculo|techo|sprint|sospechoso|servilleta|sepulcro|separación|secta|rubro|reparto|rampa|pupitre|protuberancia|protocolo|promesa|potencial|polis|pasaporte|mula|mineral|milagro|miga|logia|lluvia|licencia|lento|labor|kilovatio|kWh|juzgado|jarra|inyección|instituto|hornada|hachazo|grafema|funeral|expiración|estreno|estanque|escritorio|entonación|empellón|emparejamiento|emisor|diapositiva|desvío|desayuno|demarcación|cuadrícula|cráter|cráneo|criterio|creación|cornisa|conjuro|conclusión|concha|codón|científico|carroza|capullo|canasta|campus|camisa|bulbo|barranco|bacteria|artesano|análisis|antiguo|alteración|árbitro|veintitrés|vacuna|trofeo|trenza|transmisor|tragedia|track|temperatura|televisor|tecnología|tarro|tapa|tambor|supuesto|suma|subtipo|sombrero|seto|serpiente|seno|saludo|router|ritmo|retraso|reportaje|ramal|postulante|pistilo|pinna|perforación|penetración|pedúnculo|neutrón|micrófono|merindad|mención|medianoche|mecanismo|matojo|marido|mar|lápida|led|latitud|lancha|jarrón|inversor|intendencia|instrumentista|inquilino|inmigrante|infante|indicador|fuselaje|fuego|folíolo|flexión|experto|excursión|exclamación|evolución|eventualidad|estándar|estudioso|estribo|estandarte|espín|espartano|escotilla|emblema|elfo|donante|dentario|demostración|debilidad|cuervo|cortina|convulsión|conducto|comisaría|combustible|colmillo|colaborador|clasificación|cine|chacra|cesta|cerveza|catedral|caserío|carreta|cargador|breve|axón|aurora|atracción|asesino|apellido|anécdota|ano|anaquel|algoritmo|alambre|adolescente|adaptación|acusado|actriz|zambullida|vástago|ventaja|vasija|valla|uniforme|trirreme|traslado|tranco|tortuga|testimonio|terrón|tazón|taxi|tablilla|suite|substancia|sorteo|silueta|sermón|salva|salpicadura|ruso|ruptura|robo|risco|reencarnación|razón|ratón|rally|púa|préstamo|princesa|pretendiente|premaxilar|polvo|pirata|pedestal|pedalada|pastel|panelista|ovario|orgasmo|océano|nevada|negativo|negativa|muelle|mueca|mudanza|montaje|molde|minero|miedo|magnitud|madriguera|macrobloque|macizo|líquido|límite|licitador|lecho|labio|inversión|interrogatorio|instantánea|inspección|indicación|inclinación|imperio|hábito|horizonte|heroína|helicóptero|guion|gráfico|granito|gotita|gorrión|gigante|garganta|fronda|foliolo|ferrocarril|existencia|estertor|estampido|esperanza|espectro|esclusa|equinoccio|entierro|engranaje|enfoque|enclave|empuje|duda|domicilio|dolorosa|disputa|dintel|diecinueve|diamante|diagonal|detenido|desastre|demanda|definición|decepción|decenio|cúmulo|creador|copla|contorno|conquistador|conejo|condenado|compromiso|clado|circunferencia|ceja|cazuela|caverna|cautivo|caudillo|calibre|cabeceo|bóveda|bombilla|barrote|azulejo|atentado|ascensor|armónico|apóstol|anfitrión|aficionado|adquisición|acuerdo|nochebuena|junta|jedi|Pascua</token>
+                <token postag="NC.S.*" postag_regexp="yes" regexp="yes">&nombre_CASA_CADA;</token>
             </pattern>
             <message>¿Quería decir <suggestion>cada</suggestion>? O bien revise la puntuación.</message>
             <suggestion>casa,</suggestion>
@@ -26275,6 +26312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Si es un pronombre, se escribe con acento. Correcto si es posesivo ("mi era").</message>
             <suggestion>mí</suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/escritura-mi-con-tilde-mi-sin-tilde/</url>
             <example correction="mí">Para <marker>mi</marker> era el mejor.</example>
         </rule>
         <rule id="DEBIDO_AUN" name="debido aun/a un">
@@ -27528,6 +27566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AYA_HAYA" name="*aya/haya">
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-haya-halla-alla-o-aya/</url>
             <rule>
                 <pattern>
                     <token>más</token>
@@ -31099,9 +31138,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">n.?°|nº</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion>n.º</suggestion>
-                <suggestion>núm.</suggestion>
-                <suggestion>nro.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="n.º|núm.|nro.">Diario de la República <marker>n°</marker> 18</example>
                 <example correction="n.º|núm.|nro.">Diario de la República <marker>nº</marker> 18</example>
                 <example>n.º</example>
@@ -31111,7 +31150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(n.?°|nº)\d+</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2" case_conversion="preserve"/></suggestion>
                 <example correction="n.º 18">Diario de la República <marker>n°18</marker>.</example>
                 <example correction="n.º 18">Diario de la República <marker>nº18</marker>.</example>
                 <example>n.º</example>
@@ -31124,9 +31163,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>.</exception></token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion>núm.</suggestion>
-                <suggestion>n.º</suggestion>
-                <suggestion>nro.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num</marker> 18.</example>
             </rule>
             <rule>
@@ -31137,9 +31176,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion>núm.</suggestion>
-                <suggestion>n.º</suggestion>
-                <suggestion>nro.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
             </rule>
         </rulegroup>
@@ -31181,11 +31220,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[\.:]</token>
                 </pattern>
                 <message>Abreviatura de teléfono.</message>
-                <suggestion>tel.</suggestion>
-                <suggestion>teléf.</suggestion>
-                <suggestion>tfno.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>el.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>eléf.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>fno.</suggestion>
                 <example correction="tel.|teléf.|tfno.">Llama al <marker>telf.</marker> 666666.</example>
-                <example correction="Tel.|Teléf.|Tfno."><marker>Tlf:</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>TLF:</marker> 666666.</example>
                 <example>Llama al tel. 44444444.</example>
             </rule>
             <rule>
@@ -31196,11 +31235,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">[\.:]</exception></token>
                 </pattern>
                 <message>Abreviatura de teléfono.</message>
-                <suggestion>tel.</suggestion>
-                <suggestion>teléf.</suggestion>
-                <suggestion>tfno.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>el.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>eléf.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>fno.</suggestion>
                 <example correction="tel.|teléf.|tfno.">Llama al <marker>telf</marker> 666666.</example>
-                <example correction="Tel.|Teléf.|Tfno."><marker>Tlf</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>TLF</marker> 666666.</example>
                 <example>Llama al tfno. 44444444.</example>
                 <example>Londres, Nueva York, Tel Aviv y Ámsterdam.</example>
             </rule>
@@ -31876,18 +31915,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="etc.">Rojo, azul, verde, <marker>etc</marker></example>
             </rule>
         </rulegroup>
-        <rule id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)">
-            <pattern>
-                <marker>
-                    <token>s</token>
-                </marker>
-                <token regexp="yes">[xiv]+</token>
-            </pattern>
-            <message>Falta un punto después de la abreviatura de "siglo".</message>
-            <suggestion><match no="1"/>.</suggestion>
-            <suggestion>siglo</suggestion>
-            <example correction="s.|siglo">Vive en el <marker>s</marker> XVIII.</example>
-        </rule>
+        <rulegroup id="ABREVIATURA_SIGLO" name="punto en abreviatura de siglo (s.)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>s</token>
+                    </marker>
+                    <token regexp="yes">[xiv]+</token>
+                </pattern>
+                <message>Falta un punto después de la abreviatura de "siglo".</message>
+                <suggestion><match no="3" case_conversion="startupper"/>.</suggestion>
+                <suggestion>Siglo</suggestion>
+                <example correction="S.|Siglo"><marker>s</marker> XVIII.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>s</token>
+                    </marker>
+                    <token regexp="yes">[xiv]+</token>
+                </pattern>
+                <message>Falta un punto después de la abreviatura de "siglo".</message>
+                <suggestion><match no="1" case_conversion="alllower"/>.</suggestion>
+                <suggestion>siglo</suggestion>
+                <example correction="s.|siglo">Vive en el <marker>s</marker> XVIII.</example>
+                <example correction="s.|siglo">Vive en el <marker>S</marker> XVIII.</example>
+            </rule>
+        </rulegroup>
         <rule id="WRONG_DASH" name="Carácter de guion incorrecto (u+2500...)">
             <pattern case_sensitive="no">
                 <marker>
@@ -34172,6 +34228,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>Primo de Rivera</suggestion> (dictador y militar español)?</message>
                 <url>https://es.wikipedia.org/wiki/Miguel_Primo_de_Rivera</url>
                 <example correction="Primo de Rivera"><marker>Primo de ribera</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Nueva</token>
+                    <token>Kajovka</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Nueva|Nova</token>
+                    <token regexp="yes">Kajovka|Kakhovka</token>
+                </pattern>
+                <message>La grafía adecuada es <suggestion>Nueva Kajovka</suggestion> (ciudad ucraniana)?</message>
+                <url>https://www.fundeu.es/recomendacion/nueva-kajovska-nombre-de-la-ciudad-ucrania/</url>
+                <example correction="Nueva Kajovka"><marker>Nova Kakhovka</marker>.</example>
+            </rule>
+            <rule id="NUNEZ_FEIJOO" name="Núñez Feijóo">
+                <antipattern case_sensitive="yes">
+                    <token>Núñez</token>
+                    <token>Feijóo</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">n[uú][nñ]e[sz]</token>
+                    <token regexp="yes">fe[ij]+[oó]+</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>Núñez Feijóo</suggestion> (político español)?</message>
+                <url>https://es.wikipedia.org/wiki/Alberto_N%C3%BA%C3%B1ez_Feij%C3%B3o</url>
+                <example correction="Núñez Feijóo"><marker>Nuñez Fejioo</marker>.</example>
             </rule>
         </rulegroup>
     </category>

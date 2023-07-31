@@ -66,6 +66,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
         properties.setProperty("password", config.getDatabasePassword());
         properties.setProperty("premium", Premium.isPremiumVersion() ? "Premium" : "OpenSource");
         properties.setProperty("timeout", String.valueOf(config.getDbTimeoutSeconds()));
+        properties.setProperty("poolMaximumActiveConnections", String.valueOf(config.getDbMaxConnections()));
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
 
         // try to close connections even on hard restart
@@ -139,7 +140,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   @Override
   UserInfoEntry getUserInfoWithApiKey(String username, String apiKey) {
     Long userId = getUserId(username, apiKey);
-    UserInfoEntry user = new UserInfoEntry(userId, username, null, null, null, null, null, null, null, null,  apiKey, null);
+    UserInfoEntry user = new UserInfoEntry(userId, username, null, null, null, null, null, null, null, null, apiKey, null, null, null);
     return user;
   }
 

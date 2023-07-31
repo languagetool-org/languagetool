@@ -41,6 +41,10 @@ public class LineExpanderTest {
     assertThat(expand("viertjüngste/A"), is("[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]"));
     assertThat(expand("Das  #foo"), is("[Das]"));
     assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
+    assertThat(expand("Goethestraße/T"), is("[Goethestraße, Goethestr.]"));
+    assertThat(expand("Goethestrasse/T"), is("[Goethestrasse, Goethestr.]"));
+    assertThat(expand("Zwingenberger Stra\u00DFe/T"), is("[Zwingenberger Stra\u00DFe, Zwingenberger Str.]"));
+    assertThat(expand("Zwingenberger Strasse/T"), is("[Zwingenberger Strasse, Zwingenberger Str.]"));
 
     assertThat(expand("Escape\\/N"), is("[Escape/N]"));
     //assertThat(expand("Escape\\/N/S"), is("[Escape/N, Escape/Ns]"));  // combination of escape and flag not supported yet

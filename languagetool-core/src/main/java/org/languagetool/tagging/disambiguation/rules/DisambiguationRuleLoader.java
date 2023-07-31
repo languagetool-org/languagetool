@@ -39,9 +39,9 @@ import java.util.List;
  */
 public class DisambiguationRuleLoader extends DefaultHandler {
 
-  public final List<DisambiguationPatternRule> getRules(InputStream stream, Language language)
+  public final List<DisambiguationPatternRule> getRules(InputStream stream, Language language, String xmlPath)
       throws ParserConfigurationException, SAXException, IOException {
-    DisambiguationRuleHandler handler = new DisambiguationRuleHandler(language);
+    DisambiguationRuleHandler handler = new DisambiguationRuleHandler(language, xmlPath);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
 

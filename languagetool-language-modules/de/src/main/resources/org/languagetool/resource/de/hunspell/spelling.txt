@@ -19,20 +19,23 @@
 #             /P for clear-cut cases (where a verb infinitive can be formed, like "abgemindert" or "reguliert")
 #             /A is kept for compound participles (where no corresponding verb infinitive can be formed, such as "datenbasiert", "meistgewählt" or "ungepflückt")
 # /F will add in (for gendered nouns)
+# /T will add also the short form '-str.' (e. g. Goethestraße/T will also accept Goethestr.)
 # Use `prefix_verb` to prepend the given prefix to all forms of the verb (does not work for verbs with "ß" yet).
 # Use `\_` to add words with an underscore.
 # Words ending in `_in` will be expanded to have the common gender gap characters: $1*in, $1:in, $1_in, $1*innen, $1:innen, $1_innen
 # The lines in `prefix_verb` syntax will also be used by GermanTagger.
+# '#komp' is just documentation so we know this word has been added to accept compounds that start with this word (the
+#    word itself may be known to the spell checker already, e. g. 'Anfrage #komp' will also accept 'Anfrageinhalt')
+# '#name' is just documentation so we know this word is a proper name
 Aalborg/S #name
 Aarhus #name
 Aarwangen/S #name
 Achau/S #name
 Accenture/S #name
 Acolon #name
-Adalbertstr. #name
-Adalbertstraße #name
+Adalbertstraße/T #name
 Adnan/S #name
-Adolfstraße #name
+Adolfstraße/T #name
 Adriana/S #name
 Adrienne/S #name
 Agata/S #name
@@ -67,7 +70,7 @@ Andiparos #name
 Andree/S #name
 Angerinsel #name
 Annabell/S #name
-Annenstraße #name
+Annenstraße/T #name
 Annerose/S #name
 Anny/S #name
 Anthea/S #name
@@ -145,7 +148,7 @@ Bobingen/S #name
 Bogner/S #name
 Bokel/S #name
 Bonnie/S #name
-Bonnstraße #name
+Bonnstraße/T #name
 Borkenfeld/S #name
 Börner/S #name
 Bötzingen/S #name
@@ -203,7 +206,7 @@ Chevreuse #name
 Chevrolet Tahoe #name
 Chiara/S #name
 Chloë/S #name
-Chopinstraße #name
+Chopinstraße/T #name
 Chrischona/S #name
 Christoffel/S #name
 Clare/S #name
@@ -301,7 +304,7 @@ Elmina/S #name
 Elsdorf/S #name
 Embrach/S #name
 Emerson/S #name
-Emilienstraße #name
+Emilienstraße/T #name
 Emlichheim/S #name
 Emmanuel/S #name
 Emmeline/S #name
@@ -375,12 +378,12 @@ Gauland/S #name
 Gauting/S #name
 Gelsenkirchen-Buer/S #name
 Generali #name
-Georgstraße #name
+Georgstraße/T #name
 Gerardo/S #name
 Gereonsviertel/S #name
 Gerhardsbergen/S #name
 Gerhart-Hauptmann-Str. #name
-Gertigstraße #name
+Gertigstraße/T #name
 Giebelstadt/S #name
 Giebenach/S #name
 Gino/S #name
@@ -446,8 +449,8 @@ Hattersheim/S #name
 Hausschachen #name
 Hawking/S #name
 Heckershausen/S #name
-Hegelstraße #name
-Heidelbergstraße #name
+Hegelstraße/T #name
+Heidelbergstraße/T #name
 Heidemann/S #name
 Heider/S #name
 Heiligenwald/S #name
@@ -460,11 +463,10 @@ Hengelo/S #name
 Hennecke/S #name
 Henschel/S #name
 Herlikofen/S #name
-Hermannstraße #name
+Hermannstraße/T #name
 Hernandez #name
 Herrenhausen-Stöcken/S #name
-Herschelstr. #name
-Herschelstraße #name
+Herschelstraße/T #name
 Herzogenbuchsee/S #name
 Herzogenweiler/S #name
 Heuchelheim/S #name
@@ -495,7 +497,7 @@ Imbach/S #name
 Imke/S #name
 Immensee/S #name
 Incheon #name
-Infanteriestraße #name
+Infanteriestraße/T #name
 Ingold/S #name
 Inkscape/S #name
 Inkwilersee/S #name
@@ -515,7 +517,7 @@ Ivy/S #name
 Iwona/S #name
 Jacobo/S #name
 Jago/S #name
-Jakoberstraße #name
+Jakoberstraße/T #name
 Jakobertor/S #name
 Jakobervorstadt #name
 Jakobi/S #name
@@ -560,8 +562,7 @@ Julius-Wegeler-Schule #name
 Jurij/S #name
 Kalterbach/S #name
 Kamil #name
-Kampstr. #name
-Kampstraße #name
+Kampstraße/T #name
 Kanchanaburi/S #name
 Kandel/S #name
 Kannenfeld #name
@@ -767,7 +768,7 @@ Mondeo #name
 Moni/S #name
 Moosbach/S #name
 Moosinning/S #name
-Morianstraße #name
+Morianstraße/T #name
 Morteza/S #name
 Moselbahn #name
 Mostafa/S #name
@@ -851,9 +852,8 @@ Orhan #name
 Ostbevern/S #name
 Osterholz-Scharmbeck #name
 Osterholz-Scharmbeck/S #name
-Ostpreußenstr. #name
-Ostpreußenstraße #name
-Overmannstraße #name
+Ostpreußenstraße/T #name
+Overmannstraße/T #name
 ownCloud #name
 Özden/S #name
 Özdere #name
@@ -898,7 +898,7 @@ Rademacher/S #name
 Radka/S #name
 Radtke/S #name
 Raguhn-Jeßnitz #name
-Raiffeisenstraße #name
+Raiffeisenstraße/T #name
 Raissa/S #name
 Rajesh #name
 Ramirez #name
@@ -1022,7 +1022,7 @@ Stadtoldendorf/S #name
 Stanislaw/S #name
 Stanley/S #name
 Steffie/S #name
-Steinmetzstraße #name
+Steinmetzstraße/T #name
 Stöckach #name
 Stollberg/S #name
 Storchenweg/S #name
@@ -1143,7 +1143,7 @@ Watson/S #name
 Watzlawick/S #name
 Weibersbach/S #name
 Weidinger/S #name
-Werderstraße #name
+Werderstraße/T #name
 Wernher/S #name
 Wernicke/S #name
 Weserpark/S #name
@@ -2131,7 +2131,7 @@ chromglänzend/A
 Chronotyp/S
 Chronotypen
 Chypre
-Cicerostraße
+Cicerostraße/T
 Cineastik
 cisgender
 Citratpuffer/NS
@@ -2696,7 +2696,7 @@ enumerierend/A
 enumerierst
 enumeriert/P
 enumeriertest
-Enzstraße #name
+Enzstraße/T #name
 Ephebie
 Epiphänomenalismus
 Epiphysenlücke/N
@@ -3407,7 +3407,7 @@ Hadithen
 haftklebend/A
 Haftungsbeschränkungsklausel/N
 haftungsrelevant/A
-Hagenstraße #name
+Hagenstraße/T #name
 Hahnblock/S
 Hahnblöcke/N
 Hahnblockes
@@ -4203,7 +4203,7 @@ Kolorationen
 Kombinierspaß
 Kombinierspaßes
 komedogen/A
-Kommandantenstraße #name
+Kommandantenstraße/T #name
 Kommandeurfahrer/NS
 Kommandeursfahrer/NS
 Kommentarerstellung
@@ -4828,7 +4828,7 @@ Meldungstypen
 Melezitosehonig/S
 Meltdown/S
 membranumschlossen/A
-Mendelstraße #name
+Mendelstraße/T #name
 mengenanteilig/A
 Meniskusband
 Meniskusbänder/N
@@ -5296,7 +5296,7 @@ Obatzter
 Obdachloseneinrichtung
 Obdachloseneinrichtungen
 Oberdiessbach/S #name
-Obernstraße #name
+Obernstraße/T #name
 objektbeziehungstheoretisch/A
 Objektivfassung
 Objektivfassungen
@@ -5815,7 +5815,7 @@ Protonenpumpenhemmer/NS
 Prototypenentwicklung
 Protozelle/N
 Provinzialisierung
-Provinzialstraße
+Provinzialstraße/T
 Provisionierungsauftrag/S
 Provisionierungsaufträge/N
 Provisionsgutschrift
@@ -8179,7 +8179,7 @@ Whiteboardmarker/NS
 Wichtelpaket/S
 Wichtelpakete/N
 Wickelkreuztrage/N
-Wiclefstraße #name
+Wiclefstraße/T #name
 Widerrufsbedingungen
 widerstandsbehaftet/A
 Wiederholerrabatt/S
@@ -9766,7 +9766,7 @@ Eminem/S #name
 Ekaterina/S #name
 Endpoint/S #eng
 Erstattungswert/S #name
-Fasanenstraße #name
+Fasanenstraße/T #name
 Grippostad/S #name
 Heidelbach/S #name
 Glättmittel/S
@@ -9908,7 +9908,7 @@ Associated Press #name
 Adminkennwort/ES
 Association/S #eng
 BSC/S #name #abk
-Brühlstraße #name
+Brühlstraße/T #name
 Data Warehouse #eng
 DD-WRT/S #name
 Dietz #name
@@ -9951,7 +9951,7 @@ Grachtenrundfahrten
 Grachtenfahrt
 Grachtenfahrten
 Gschwandtner/S #name
-Heinrichstraße #name
+Heinrichstraße/T #name
 herwerfend
 hergeworfen
 herzuwerfen
@@ -10224,8 +10224,8 @@ Account-Informationen
 Accountinformation
 Accountinformationen
 Accountdaten
-Alexanderstraße #name
-Blücherstraße #name
+Alexanderstraße/T #name
+Blücherstraße/T #name
 Autovía #name
 Betextung
 Betextungen
@@ -16481,7 +16481,7 @@ Honorardozenturen
 Hopfensee/S #name
 hossa
 HTBLA #abk
-Humperdinckstraße #name
+Humperdinckstraße/T #name
 Hydroanthrazit/S
 Inklusionskindergärten
 Inklusionskindergarten/S
@@ -17930,7 +17930,7 @@ Delkredere
 Neonanzug/S
 Neonanzüge
 Pence #name
-Elbgaustraße #name
+Elbgaustraße/T #name
 Wabendesign/S
 stundenbasiert/A
 Podcastfolge/N
@@ -20044,7 +20044,7 @@ Bitübertragungsschicht
 Deister #name
 Detektionswahrscheinlichkeit
 Detektionswahrscheinlichkeiten
-Dimitroffstraße #name
+Dimitroffstraße/T #name
 dissoniert
 einreichbar/A
 FDG #abk
@@ -21679,7 +21679,7 @@ Quarzschälchen/S
 Rawls #name
 Renditeentwicklung
 Renditeentwicklungen
-Rudolfstraße #name
+Rudolfstraße/T #name
 Scherenhubwagen/S
 schmetterlingsförmig/A
 Selektionsverfahren/S
@@ -22460,8 +22460,7 @@ Kryptomärkte/N
 Kryptomarkt
 Kryptomarktes
 Löningen/S #name
-Maximilianstr. #name
-Maximilianstraße #name
+Maximilianstraße/T #name
 Overlock-Maschine/N
 Overlock-Nähmaschine/N
 Overlock-Stich/S
@@ -22677,7 +22676,7 @@ Verschwörungsideologie/N
 Vicky/S #name
 Ricky/S #name
 wettkampfkonform/A
-Weidachstraße #name
+Weidachstraße/T #name
 hinunterschmiss
 hinzu_bestellen
 rein_schmuggeln
@@ -22781,7 +22780,7 @@ Kompartment/S
 Kompartmentsyndrom/S
 Krippenausstellung
 Krippenausstellungen
-Kronenstraße #name
+Kronenstraße/T #name
 Kuratierungen
 Lageplanskizze/N
 Lautstärkensteuerung
@@ -22824,7 +22823,7 @@ Sackgesichter/N
 Scannung
 Schalenfrüchte/N
 Schalenfrucht
-Schieritzstraße #name
+Schieritzstraße/T #name
 Schlaraffia #name
 SCS #abk
 serverlos/A
@@ -23468,7 +23467,7 @@ Opodo/S #name
 Retourenzentrum
 Retourenzentren
 Riedel/S #name
-Thälmannstraße #name
+Thälmannstraße/T #name
 Verdunkelungsrollo/S
 Gazellenkamp/S #name
 Knowledge/S #eng
@@ -24699,7 +24698,7 @@ Balgereien
 betreibungsrechtlich/A
 Bettenwaschanlage/N
 brandlastfrei/A
-Bussardstraße #name
+Bussardstraße/T #name
 Celastrol
 Charis #name
 Cookiehinweis
@@ -25744,7 +25743,7 @@ Renderfarmen
 Rezeptname
 Rezeptnamen/S
 Romaniktag/S
-Ruhrstraße #name
+Ruhrstraße/T #name
 Rundumsicherung
 Sachsendamm/S #name
 saugstark/A
@@ -26063,7 +26062,7 @@ Warenverräumerinnen
 Weisheitssprüche/N
 Weisheitsspruch/S
 Weisheitsspruches
-Wichernstraße #name
+Wichernstraße/T #name
 Wippra #name
 Wippraer #name
 wuchsfreudig/A
@@ -27156,8 +27155,7 @@ wegbefördert/P
 Windabweiser/NS
 Windstärkemesser/NS
 Zumikon/S #name
-Aldebaranstr. #name
-Aldebaranstraße #name
+Aldebaranstraße/T #name
 Aschemann/S #name
 auktionierend/A
 Bekohlungsstation
@@ -28270,7 +28268,7 @@ CFDs #abk
 CLI #abk #eng
 Diabetikersocke/N
 Dolgoprudny #name
-Dorothea-Erxleben-Straße #name
+Dorothea-Erxleben-Straße/T #name
 Dorothy/S #name #eng
 Drainasphalt/S
 Einlöseformular/S
@@ -28676,7 +28674,7 @@ Gutmann/S #name
 Hülya/S #name
 Hydroxylapatit
 Implantatoberfläche/N
-Klingenbergstraße #name
+Klingenbergstraße/T #name
 Lactoferrin/S
 Mamaalltag/S
 Mathematikstudierende/N
@@ -28758,7 +28756,7 @@ Apostilleübereinkommen/S
 Ariendorf/S #name
 Büchereiplatz
 Büchereiplatzes
-Bernoullistraße #name
+Bernoullistraße/T #name
 Biomasseverwertung
 Cremigkeit
 Dönerläden
@@ -28959,7 +28957,7 @@ Conergy #name
 Dirichletform
 einzukuscheln
 Elaboriertheit
-Elise-Bartels-Straße #name
+Elise-Bartels-Straße/T #name
 Entfetter/NS
 Entfeuchtungsgerät/S
 Entfeuchtungsgeräte/NS
@@ -29016,7 +29014,7 @@ Ratenfinanzierungen
 Rezipientenzelle/N
 Rheologie
 Roderick/S #name
-Rotebühlstraße #name
+Rotebühlstraße/T #name
 Schlammersdorf/S #name
 Schluckaufs
 Schreinerausbildung
@@ -29415,7 +29413,7 @@ Sitztiefenverstellung
 Somatik
 Tiefwurzler/NS
 Transportsicherheitsbehörde/N
-Treskowstraße #name
+Treskowstraße/T #name
 Unternehmenserwerb/S
 Unternehmenserwerbe/N
 Veredelungsstelle/N
@@ -29823,7 +29821,7 @@ UNIFIL #abk
 Wachstumsretardierung
 Wachstumsretardierungen
 Wegegestaltung
-Werbellinstraße #name
+Werbellinstraße/T #name
 Zahnflankenbrüche/N
 Zahnflankenbruch/S
 Beachsoccer
@@ -30437,7 +30435,7 @@ neovenezianisch/A
 Normenbasis
 Normteilregal/S
 Normteilregale/N
-Ollenhauerstraße #name
+Ollenhauerstraße/T #name
 Paddelboard/S
 PDU/S #abk
 Pflanzkombination
@@ -30641,7 +30639,7 @@ Bestehenszeit
 Bestehenszeiten
 Bikewear #eng
 Blacky/S #name #eng
-Braukämperstraße #name
+Braukämperstraße/T #name
 Bundespsychotherapeutenkammer
 BVAP #abk
 Cake/S #eng
@@ -30702,10 +30700,9 @@ Lackiervorgänge/N
 Lackiervorgang/S
 Legastheniezentrum/S
 Lieferungsanlage/N
-Limmerstraße #name
+Limmerstraße/T #name
 Literbelastung
-Mühlenbergstr. #name
-Mühlenbergstraße #name
+Mühlenbergstraße/T #name
 Manövertriebwerk/S
 Manövertriebwerke/N
 Merch #eng #ugs
@@ -30772,7 +30769,7 @@ Shoperöffnungen
 Shoppingdiät
 Shoppingdiäten
 Silberpunze/N
-Silcherstraße #name
+Silcherstraße/T #name
 Simba/S #name
 Skalenstruktur
 Skalenstrukturen
@@ -30813,8 +30810,7 @@ Werklieferungsverträge/N
 Werklieferungsvertrag/S
 ESG-Kriterium/S
 ESG-Kriterien
-Wichmannstr. #name
-Wichmannstraße #name
+Wichmannstraße/T #name
 Widerrechtlichkeit
 Wustrow/S #name
 Tekkie/S #ugs
@@ -30913,7 +30909,7 @@ Jämthunde/NS
 Javadocs
 Javel
 Kämpflein/S
-Katharina-Belgica-Straße #name
+Katharina-Belgica-Straße/T #name
 Kiteboarding/S #eng
 Kontierungsregel/N
 Labradorit
@@ -31701,8 +31697,7 @@ Gilligan/S #name #eng
 Grattage/N
 hinunterzuschubsen
 Hohenmölsen/S #name
-Hufelandstr. #name
-Hufelandstraße #name
+Hufelandstraße/T #name
 Individualisierungstendenz
 Individualisierungstendenzen
 Infrastrukturarbeiten
@@ -31951,7 +31946,7 @@ Luer-System/S
 Luer-Verbindung
 Luer-Verbindungen
 Luer-Verbindungssystem/S
-Mönckebergstraße #name
+Mönckebergstraße/T #name
 Maibritt/S #name
 Malaguzzi/S #name
 Marciniak/S #name
@@ -32645,7 +32640,7 @@ Verschulder/NS
 Verschulderin
 Verschulderinnen
 Vesakh
-Viktoriastraße #name
+Viktoriastraße/T #name
 Wilms #name
 Windelkacker/NS
 Zeigerpflanze/N
@@ -32730,7 +32725,7 @@ Begehungsdelikt/S
 Begehungsdelikte/NS
 Beheizungsmöglichkeit
 Beheizungsmöglichkeiten
-Bellermannstraße #name
+Bellermannstraße/T #name
 Clexane
 Crossfire #eng
 Diversitätsmerkmal/S
@@ -32791,7 +32786,7 @@ Redundanzfreiheit
 Revierkontrolle/N
 Saldenabgleich/S
 Samsara
-Schilfstraße #name
+Schilfstraße/T #name
 Schwankschwindel/S
 Spontannystagmus
 Supportgruppe/N
@@ -33103,7 +33098,7 @@ Anmeldungsprozess
 Anmeldungsprozesses
 Anmeldungsprozesse/N
 Schillinger/S #name
-Säbener Straße #name
+Säbener Straße/T #name
 Säbener Str. #name
 tageslichtweiß/A
 neutralweiß/A
@@ -33480,7 +33475,7 @@ Mosaikparkettfußböden
 Mosaikparkettfußboden/S
 Nahbarkeit
 NAT #abk
-Odilostraße #name
+Odilostraße/T #name
 OpenScape #name
 palatinal/A
 Polling/S #name
@@ -33972,7 +33967,7 @@ Kommunionspendung
 Konfliktlösestrategie/N
 Logonutzungsverträge/N
 Logonutzungsvertrag/S
-Lortzingstraße #name
+Lortzingstraße/T #name
 Matschpfütze/N
 Meerbilder/N
 Monochlorpentan/S
@@ -34244,7 +34239,7 @@ Out-of-Africa-Theorie
 Pacioli/S #name
 Pagatorik
 pagatorisch/A
-Paul-Gruner-Straße #name
+Paul-Gruner-Straße/T #name
 Pfeiflaut
 Pfeiflaute/NS
 PFK #name
@@ -34284,7 +34279,7 @@ Skimming #eng
 Skontoentscheidung
 Skontoentscheidungen
 Spektakulum/S
-Stülpnagelstraße #name
+Stülpnagelstraße/T #name
 Statikbericht/S
 Statikberichte/NS
 Staubfussel/N
@@ -34953,7 +34948,7 @@ Cuticula
 Dekubitusgefahr
 Dramaqueen/S
 Echtfell/S
-Effnerstraße #name
+Effnerstraße/T #name
 Einhebelmischbatterie/N
 Eitempera
 Eitemperafarbe/N
@@ -34971,7 +34966,7 @@ Fristverzug/S
 Glyptodon/S
 Gracchus #histor
 Grobabsteckung
-Joseph-Effner-Straße #name
+Joseph-Effner-Straße/T #name
 Kamisardenaufstand/S
 Katasterdaten
 Kehlauslauf/S
@@ -35539,7 +35534,7 @@ Auslagenaufstellungen
 Benzoxazinoid/S
 Benzoxazinoide/N
 Bergshausen/S #name
-Berningstraße #name
+Berningstraße/T #name
 Beteiligtenvertreter/NS
 Beteiligtenvertreterin
 Beteiligtenvertreterinnen
@@ -35946,7 +35941,7 @@ Schließungszeit
 Schließungszeiten
 Schnorrenberg/S #name
 Sichtbarkeitseinstellungen
-Spaldingstraße #name
+Spaldingstraße/T #name
 Spanischklausur
 Spanischklausuren
 Statorjoch/S
@@ -36181,7 +36176,7 @@ Ablebensversicherung
 Ablebensversicherungen
 Breuberg/S
 Breuberger
-Cuvrystraße #name
+Cuvrystraße/T #name
 Diethelm/S #name
 einzelwertberichtigt/A
 fahrweggebunden/A
@@ -36257,7 +36252,7 @@ Gebäckherzen/S
 Genusstauglichkeitszeichen/S
 Gerüsthändler/NS
 Gillenfeld/S #name
-Hochstadenstraße #name
+Hochstadenstraße/T #name
 Johannisbeergelee/S
 Liegenschaftsschätzung
 Liegenschaftsschätzungen
@@ -36351,7 +36346,7 @@ BGA #abk
 Bierling/S #name
 Blogtext
 Blogtexte/NS
-Breitscheidstraße #name
+Breitscheidstraße/T #name
 Bundbuchse/N
 Calkosit #name
 Dekoelement/S
@@ -36891,7 +36886,7 @@ Uderzo/S #name
 Netzschwankungsmessung
 Netzschwankungsmessungen
 besparbar/A
-Tönsfeldtstraße #name
+Tönsfeldtstraße/T #name
 Replikationsmethode/N
 Followerschaft
 Studiogerät/S
@@ -38766,8 +38761,7 @@ Wiek/S #name
 Zimmerergeselle/N
 Retourenservice/S
 Sprinterklausel/N
-Rabenstraße #name
-Rabenstr. #name
+Rabenstraße/T #name
 her_schlendern
 Stilüberprüfung
 Stilüberprüfungen
@@ -38777,8 +38771,7 @@ Vulgärwörter/N
 Pförtnerkamera/S
 Yusef/S #name
 Espressi
-Herbertstraße #name
-Herbertstr. #name
+Herbertstraße/T #name
 Escort/S
 CCTV #abk
 schlangengleich/A
@@ -39266,7 +39259,7 @@ Basejumper/NS #eng
 Basejumping #eng
 Basenaustauschvermögen/S
 Belling/S #name
-Düppelstraße #name
+Düppelstraße/T #name
 Disconebel/S
 Elbtalaue #name
 erklärungsintensiv/A
@@ -40146,7 +40139,7 @@ Umverteilungsanträge/N
 Umverteilungsantrag/S
 Verjährungseinredeverzicht/S
 Verjährungsverzicht/S
-Volkradstraße #name
+Volkradstraße/T #name
 Wehneltzylinder/NS
 wertiger/A
 Wilkner/S #name
@@ -40335,8 +40328,7 @@ Altenwörth/S #name
 Anfertigungszeit
 Anfertigungsphase/N
 Admiralitätsflagge/N
-Akazienstraße #name
-Akazienstr. #name
+Akazienstraße/T #name
 Augustusplatz #name
 Augustusplatzes #name
 Bestrafungsmittel/NS
@@ -41329,8 +41321,7 @@ Sondierungspapiere/NS
 Sondierungsgespräch/S
 Sondierungsgespräche/SN
 Joanna/S #name
-Dynamostraße #name
-Dynamostr. #name
+Dynamostraße/T #name
 Röthlisberger/S #name
 ey #ugs
 Datev #name#
@@ -41640,8 +41631,7 @@ draufschmeißten
 Communityfläche/N
 Henrike/S #name
 Tracy/S #name
-Bernstorffstraße #name
-Bernstorffstr. #name
+Bernstorffstraße/T #name
 Richard David Precht/S #name
 Richard Precht/S #name
 Journalistenkolleg/S
@@ -43741,8 +43731,7 @@ Spukwald/S
 Spukwaldes
 Calendula-Öl/S
 Best-of-Compilation/S #eng
-Spitalerstraße #name
-Spitalerstr. #name
+Spitalerstraße/T #name
 Mégane #name
 McFlurry/S #name
 Softeiscreme
@@ -46061,8 +46050,7 @@ Prämienregelung
 Prämienregelungen
 Zivilisationserkrankung
 Zivilisationserkrankungen
-Mombachstraße #name
-Mombachstr. #name
+Mombachstraße/T #name
 Sultanstochter
 Sultanstöchter/N
 flanken
@@ -46305,10 +46293,8 @@ Cargojoggers
 Dübelstange/N
 Hafterstehungsfähigkeit
 Hafterstehungsfähigkeiten
-Holstenstraße #name
-Holstenstr. #name
-Laurentiusstraße #name
-Laurentiusstr. #name
+Holstenstraße/T #name
+Laurentiusstraße/T #name
 Intimflüssigkeit
 Intimflüssigkeiten
 kulturreichste
@@ -46361,7 +46347,7 @@ Bewältigbarkeiten
 Anschweißring/S
 Anschweißringe/SN
 Albert-Schweitzer-Str. #name
-Albert-Schweitzer-Straße #name
+Albert-Schweitzer-Straße/T #name
 Amsinckstraße
 Amsinckstr.
 Batteriestandsanzeige/N
@@ -46633,7 +46619,7 @@ Logistikdrehkreuze/NS
 Transformationsenergie/N
 Jumpstyle/S
 Max-Eyth-Str. #name
-Max-Eyth-Straße #name
+Max-Eyth-Straße/T #name
 Alptraumwelt
 Alptraumwelten
 Albtraumwelt
@@ -47036,8 +47022,7 @@ Layoutanpassung
 Layoutanpassungen
 Maklerkonto/S
 Maklerkonten
-Martinistraße #name
-Martinistr. #name
+Martinistraße/T #name
 Sanktionspaket/S
 Sanktionspakete/N
 Semesterthema/S
@@ -47905,8 +47890,7 @@ Acetondicarbonsäure/N
 Acetylcholinrezeptor
 AHV-Nr. #abk
 Akkordeonorchester/S
-Alemannenstraße #name
-Alemannenstr. #name
+Alemannenstraße/T #name
 Albisriederplatz #name
 Albisriederplatzes
 Kündigungstermines
@@ -48311,7 +48295,7 @@ Zugabfertigerin
 Zugabfertigerinnen
 Allergenhinweis
 Allergenhinweise/SN
-Eugen-Richter-Straße #name
+Eugen-Richter-Straße/T #name
 Eugen-Richter-Str. #name
 weg_schlingen
 hinunter_schlingen
@@ -49123,7 +49107,6 @@ Forschungszulagengesetz
 Forschungszulagengesetze/SN
 geclustert/P
 iCloud-Mail/S
-Jahnstr. #name
 Jahnstraße
 Longboarder/SN
 Mittelalterroman/S
@@ -49739,23 +49722,19 @@ Klein Borstel #name
 Alsterdorfer Damm/S #name
 Hornkamp/S #name
 Adlergestell/S #name
-Heerstr. #name
-Heerstraße #name
+Heerstraße/T #name
 Havelchaussee #name
 Kronprinzessinnenweg/S #name
 Saatwinkler Damm/S #name
-Magdalenenstraße #name
-Magdalenenstr. #name
+Magdalenenstraße/T #name
 Clevischen Ring/S #name
 Clevischer Ring
 Remscheid-Lennep/S #name
-Bredemeyerstraße #name
-Bredemeyerstr. #name
+Bredemeyerstraße/T #name
 Millowitsch/S #name
 shoppingwütig/A
 einkaufswütig/A
-Mercatorstraße #name
-Mercatorstr. #name
+Mercatorstraße/T #name
 Blumenbergsweg/S #name
 Regattabahn
 Regattabahnen
@@ -49776,7 +49755,7 @@ Industriestr. #name
 Militärringstr. #name
 Eckenheim/S #name
 Ober-Eschbacher/SN
-Jean-Monnet-Straße #name
+Jean-Monnet-Straße/T #name
 Jean-Monnet-Str. #name
 Vingegaard/S #name
 vor_interpretieren
@@ -49985,8 +49964,7 @@ hierher_gelangen
 YouTube Short/S #name
 Schellenbaum/S
 Brancheninsight/S
-Bockelstraße #name
-Bockelstr. #name
+Bockelstraße/T #name
 Contentansatz
 Contentansatzes
 Contentansätze/N
@@ -50077,8 +50055,7 @@ Controllingprozesse/SN
 Cookiebanner/SN
 Crawlbarkeit
 Crawlbarkeiten
-Dagmarstraße #name
-Dagmarstr. #name
+Dagmarstraße/T #name
 Duracell/S #name
 Abwerbungsverbot/S
 Abwerbungsverbote/SN
@@ -50125,8 +50102,7 @@ Crushed Eis
 Crushed Ice #eng
 Customer-Relationship-Management-Tool/S
 dauerbeleidigt/A
-Davidstraße #name
-Davidstr. #name
+Davidstraße/T #name
 Digital Crown #name
 Health-App #name
 Photoplethysmografie
@@ -51873,12 +51849,11 @@ Kostentragungspflicht
 Kostentragungspflichten
 Lichterwelt
 Lichterwelten
-Liebigstraße #name
+Liebigstraße/T #name
 Liebigstr. #abk
 Long-Covid-Symptom/S
 Long-Covid-Symptome/N
 Luzernstraße
-Luzernstr. #name
 Metzgerlehre/N
 Motorsägenlehrgang/S
 Motorsägenlehrgänge/N
@@ -51910,8 +51885,7 @@ rückstufungsfrei/A
 Schnupperbericht/S
 Schnupperberichte/N
 Sexabenteuer/SN
-Siegfriedstraße #name
-Siegfriedstr. #name
+Siegfriedstraße/T #name
 Simply-Red-Frontmann/S
 Solid-State-Laufwerk/S
 Solid-State-Laufwerke/SN
@@ -52027,8 +52001,7 @@ Kakteenarten
 Knorpelart
 Knorpelarten
 Liechtensteinpark/S
-Michelangelostraße #name
-Michelangelostr. #name
+Michelangelostraße/T #name
 Rundumansicht
 Rundumansichten
 Rundumkomfort/S
@@ -53749,7 +53722,7 @@ Kreativpartnerinnen
 Kundeninsight/S
 Kundenreporting/S
 Kurt-Schumacher-Str. #name
-Kurt-Schumacher-Straße #name
+Kurt-Schumacher-Straße/T #name
 Kühlerpaket/S
 Lebensmittelintoxikation
 Lebensmittelintoxikationen
@@ -54241,8 +54214,7 @@ Miss-Germany-Wahlen
 Vice President/S #eng
 Videozuschaltung
 Videozuschaltungen
-Beethovenstr. #name
-Beethovenstraße #name
+Beethovenstraße/T #name
 Darmmikrobiom/S
 Großhansdorf/S #name
 Mikroskopiebild/S
@@ -54267,8 +54239,7 @@ Zenitprisma/S
 Adrenalin/S
 Adrenalinspiegel/SN
 Adrenalinspritze/N
-Albrechtstraße #name
-Albrechtstr. #name
+Albrechtstraße/T #name
 durchzugstark/A
 papierlos/A
 Footballschuhe/N
@@ -54280,16 +54251,11 @@ Kringelsocken/S
 Lammspieße/N
 Lammspieß
 Lammspießes
-Lützowstraße #name
-Lützowstr. #name
-Mommsenstraße #name
-Mommsenstr. #name
-Oranienstraße #name
-Oranienstr. #name
-Rembrandtstraße #name
-Rembrandtstr. #name
-Richardstraße #name
-Richardstr. #name
+Lützowstraße/T #name
+Mommsenstraße/T #name
+Oranienstraße/T #name
+Rembrandtstraße/T #name
+Richardstraße/T #name
 Senderspeicher/S
 bestrafenswert/A
 facheigen/A
@@ -54309,8 +54275,7 @@ Angehörigeninformation
 Angehörigeninformationen
 Anfrage-Nr.
 Anspitzmaschine/N
-Antoniusstr. #name
-Antoniusstraße #name
+Antoniusstraße/T #name
 an_stempeln
 Artikel-Ident-Nr.
 Auditdokumentation
@@ -54353,21 +54318,17 @@ Benutzerskripte/N
 Browserschutz
 Browserschutzes
 Butlerservice/S
-Calvinstraße #name
-Calvinstr. #name
+Calvinstraße/T #name
 Carbonstahl/S
 Chartspitze/N
 Dessertschälchen/S
 Dessertservice/S
 Diskoschuhe/N
-Dänemarkstraße #name
-Dänemarkstr. #name
-Elisabethstraße #name
-Elisabethstr. #name
+Dänemarkstraße/T #name
+Elisabethstraße/T #name
 Flirtspaß
 Geweihspitze/N
-Grunewaldstraße #name
-Grunewaldstr. #name
+Grunewaldstraße/T #name
 Gärtnerschule/N
 Hodenschutz
 Hodenschutzes
@@ -54398,8 +54359,7 @@ untersuchenswert/A
 vergessenswert/A
 weiter_chatten
 weiter_rasen
-Pommernstraße #name
-Pommernstr. #name
+Pommernstraße/T #name
 Reifestufe/N
 Rodelschanze/N
 El Niño/S
@@ -55031,8 +54991,7 @@ Sporenmessungen
 Paraphyse/N
 Selm #name
 Südend #name
-Dammersfeldstr. #name
-Dammersfeldstraße #name
+Dammersfeldstraße/T #name
 skalierfähig/A
 schwallartig/A
 Einmaltücher/N
@@ -55283,7 +55242,7 @@ Verbesserungsfunktionen
 Paraphrasierungstool/S
 stolperträchtig/A
 Premiumautobauer/SN
-Togostraße #name
+Togostraße/T #name
 Autoscaling/S #eng
 Māori
 gewerbesteuerrechtlich/A
@@ -57176,7 +57135,7 @@ intermittierendem
 Erftmündung
 Erftmündungen
 Legio VI #name
-Preußenstraße #name
+Preußenstraße/T #name
 Erfttal/S #name
 V-Power/S #name
 Kreativleistung
@@ -57199,7 +57158,7 @@ Backupkonzeptes
 dokumentierfaul/A
 dokumentationsfaul/A
 Meldungsmaske/N
-Prinzenstraße #name
+Prinzenstraße/T #name
 bei_halten
 fertig_backen
 leer_pumpen
@@ -57366,7 +57325,7 @@ Modeltypen
 grafithaltigere/NS
 grafithaltigerem
 grafithaltigerer
-Nesselstraße #name
+Nesselstraße/T #name
 Ketogrippe
 Sexstellung
 Sexstellungen
@@ -58231,3 +58190,959 @@ Indogermanin
 Indogermaninnen
 Indogermanistik
 Indogermanist_in
+Snapchat/S #name
+Křetínský/S #name
+Masaryk-Universität
+Debattenmagazin/S
+bedarfsangepasst/A
+seelenlos/A
+domänenweit/A
+Nebelpetarde/N
+streichzart/A
+butterzart/A
+abmahnsicher/A
+ideologiebedingt/A
+geschlechtskongruent/A
+Maklervereinbarung
+Maklervereinbarungen
+Drosselrückschlagventil/S
+Drosselrückschlagventile/NS
+Nachbeurkundung
+Nachbeurkundungen
+Stadtgrün/S
+Endoskopkamera/S
+Geschlechtsinkongruenz
+Geschlechtskongruenz
+geschlechtsinkongruent/A
+reizüberflutend/A
+reizreduzierend/A
+durch_dösen
+rum_dösen
+weg_dösen
+weg_düsen
+diamantengekrönt/A
+Indogermania/S
+Orkneyinsel/N
+Orkney-Insel/N
+rum_posen
+Mitmachmöglichkeit
+Mitmachmöglichkeiten
+Concept-Store/S
+Conceptstore/S
+Sparringspartner/SN
+unvorhergesehenerweise
+Querschnittsmaterie
+eis_laufen
+eiszulaufen
+Männerträne/N
+Versand #komp
+Versandinfo/S
+Strömungsfilm/S
+Strömungsfilme/N
+Unwetterlage/N
+gewitteranfällig/A
+gemeinwohlorientiert/A
+abreisefertig/A
+Ratgeberbücher/N
+Ratgeberbuch/S
+unter_performen
+Faktor #komp
+Faktorindex
+Faktorindizes
+Aktiensegment/S
+Aktiensegmente/N
+renditewirksam/A
+Fondsdepot/S
+Uraltmythos
+Uraltmythen
+Stock Picking/S #eng
+Small Cap/S #eng
+Mid Cap/S #eng
+Large Cap/S #eng
+Ausschüttungsmethode/N
+Fundstelle/N
+The Weeknd #name
+raus_kanten
+heraus_kanten
+hinaus_kanten
+Fernandinho/S #name
+unterperformend/A
+blumenreich/A
+juckreizlindernd/A
+reizlindernd/A
+cortisonfrei/A
+rekordmäßig/A
+nebenwirkungsfrei/A
+kostenwirksam/A
+wählerwirksam/A
+tiefenwirksam/A
+ausgabewirksam/A
+inlandswirksam/A
+wechselwirksam/A
+bilanzunwirksam/A
+bilanzwirksam/A
+vorgabenwirksam/A
+erfolgsunwirksam/A
+vermögenswirksam/A
+liquiditätsunwirksam/A
+zahlungsunwirksam/A
+geschichtswirksam/A
+öffentlichkeitswirksam/A
+zahnschmerzlindernd/A
+hustenreizlindernd/A
+krampflindernd/A
+palmölfrei/A
+vorschusszinsfrei/A
+Belohnungspunkte/N
+Bewältigungsmethode/N
+sexpositiv/A
+Intensitätsstufe/N
+Karlskrona/S #name
+Grudziądz #name
+Türkeikenner/SN
+rum_iterieren
+männerdominiert/A
+kinderdominiert/A
+frauendominiert/A
+fortschrittsorientiert/A
+fraktionsübergreifend/A
+algendominiert/A
+bankendominiert/A
+wissenschaftsdominiert/A
+unsaniert/A
+rum_walzen
+rum_wälzen
+First-Class-Suite/S
+First-Class-Hotel/S
+Business-Class-Suite/S
+Schwiegeroma/S
+Schwiegergroßmutter
+Schwiegergroßmütter/N
+Schwiegergroßvater/S
+Schwiegergroßväter/N
+Schwiegeropa/S
+Indikativform
+Indikativformen
+Dessertidee/N
+Cantaloupe-Melone/N
+Halonen
+Fernandinho/S
+Risikofaktortherapie/N
+Schulkantor/S
+Schulkantoren
+Schulkantor_in
+Wachstumsfaktorrezeptor/S
+Wachstumsfaktorrezeptoren
+Austraße/T #name
+Bergmannstraße/T #name
+Borsigstraße/T #name
+Brüderstraße/T #name
+Augustenstraße/T #name
+Bebelstraße/T #name
+Augustastraße/T #name
+Bunsenstraße/T #name
+Patronatsstraße/T #name
+Renatastraße/T #name
+Münsterstraße/T #name
+Amalienstraße/T #name
+Ridlerstraße/T #name
+Berliner Straße/T #name
+Beusselstraße/T #name
+Bodelschwinghstraße/T #name
+Cäcilienstraße/T #name
+Albstraße/T #name
+Arnulfstraße/T #name
+Bergerstraße/T #name
+Brühlsbachstraße/T #name
+Angerstraße/T #name
+Annastraße/T #name
+Anichstraße/T #name
+Auenstraße/T #name
+Barkhausenstraße/T #name
+Behrenstraße/T #name
+Benzstraße/T #name
+Brucknerstraße/T #name
+Christophstraße/T #name
+Bernstraße/T #name
+Badenerstraße/T #name
+Birmensdorferstraße/T #name
+Binzstraße/T #name
+Austraße/T #name
+Baselstraße/T #name
+Albisriederstraße/T #name
+Aarauerstraße/T #name
+Allmendstraße/T #name
+Dufourstraße/T #name
+Hochstraßer #name
+Bruchmattstraße/T #name
+Brandschenkestraße/T #name
+Bielstraße/T #name
+Hardstraße/T #name
+Conrad-von-Hötzendorf-Straße/T #name
+Abhängung
+Abhängungen
+Grundstückseigentümererklärung
+Grundstückseigentümererklärungen
+Ausrollung
+Ausrollungen
+Aufsparrendämmung
+Aufsparrendämmungen
+ASA-Sitzung
+ASA-Sitzungen
+Angemessenheitsprüfung
+Angemessenheitsprüfungen
+Ausreinigung
+Ausreinigungen
+Auslegeordnung
+Auslegeordnungen
+Aufzweigung
+Aufzweigungen
+Ballastierung
+Ballastierungen
+All-in-One-Lösung
+All-in-One-Lösungen
+Abmauerung
+Abmauerungen
+Coachingausbildung
+Coachingausbildungen
+Ambulantisierung
+Ambulantisierungen
+Abschleppung
+Abschleppungen
+Beugungsordnung
+Beugungsordnungen
+Tiefenreinigung
+Tiefenreinigungen
+Benamung
+Benamungen
+Assemblierung
+Assemblierungen
+Aufdopplung
+Aufdopplungen
+Badrenovierung
+Badrenovierungen
+Clusterung
+Clusterungen
+Gewerbeummeldung
+Gewerbeummeldungen
+Anbindehaltung
+Anbindehaltungen
+Aufrollung
+Aufrollungen
+Aufstallungseinrichtung
+Aufstallungseinrichtungen
+Badmodernisierung
+Badmodernisierungen
+Beeidigung
+Beeidigungen
+Bekanntheitssteigerung
+Bekanntheitssteigerungen
+Abminderung
+Abminderungen
+Beherdung
+Beherdungen
+Incentivierung
+Incentivierungen
+Auditplanung
+Auditplanungen
+Aufgrabungsmeldung
+Aufgrabungsmeldungen
+Bewohnervertretung
+Bewohnervertretungen
+Brandursachenermittlung
+Brandursachenermittlungen
+Instandstellung
+Instandstellungen
+Reklamationsbeschreibung
+Reklamationsbeschreibungen
+Abpackung
+Abpackungen
+Alpakawanderung
+Alpakawanderungen
+Berufsunfähigkeitsabsicherung
+Berufsunfähigkeitsabsicherungen
+Erlösabschöpfung
+Erlösabschöpfungen
+Kautionsrückzahlung
+Kautionsrückzahlungen
+Potenzialentfaltung
+Potenzialentfaltungen
+Aufdosierung
+Aufdosierungen
+Augmentierung
+Augmentierungen
+Auslastungsplanung
+Auslastungsplanungen
+Beerenmischung
+Beerenmischungen
+Bestellungsabwicklung
+Bestellungsabwicklungen
+Bestromung
+Bestromungen
+Betreibungsandrohung
+Betreibungsandrohungen
+Bezügeabrechnung
+Bezügeabrechnungen
+Entpackung
+Entpackungen
+Freizügigkeitsleistung
+Freizügigkeitsleistungen
+Kautionsabrechnung
+Kautionsabrechnungen
+Legionellenprüfung
+Legionellenprüfungen
+Aufbuchung
+Aufbuchungen
+Aufrechnungserklärung
+Aufrechnungserklärungen
+Bahnung
+Bahnungen
+Botoxbehandlung
+Botoxbehandlungen
+Brauchwasserversorgung
+Brauchwasserversorgungen
+Deglobalisierung
+Deglobalisierungen
+Fütterungsempfehlung
+Fütterungsempfehlungen
+Plattformentwicklung
+Plattformentwicklungen
+Abscherung
+Abscherungen
+Attikaabdeckung
+Attikaabdeckungen
+Austestung
+Austestungen
+Bankiervereinigung
+Bankiervereinigungen
+Clausius-Clapeyron-Gleichung
+Clausius-Clapeyron-Gleichungen
+Energetisierung
+Energetisierungen
+Fluggastrechtverordnung
+Fluggastrechtverordnungen
+Abkastung
+Abkastungen
+Aliquotierung
+Aliquotierungen
+Anbieterkennung
+Anbieterkennungen
+Aufmerksamkeits-Defizit-Hyperaktivitäts-Störung
+Aufmerksamkeits-Defizit-Hyperaktivitäts-Störungen
+Aufwandschätzung
+Aufwandschätzungen
+Beübung
+Beübungen
+Biegebelastung
+Biegebelastungen
+Aboverwaltung
+Aboverwaltungen
+Absackung
+Absackungen
+Abscheideleistung
+Abscheideleistungen
+Accountlöschung
+Accountlöschungen
+Auszifferung
+Auszifferungen
+Barrierefreiheitsprüfung
+Barrierefreiheitsprüfungen
+Beikosteinführung
+Beikosteinführungen
+Breitung
+Breitungen
+Desktopverknüpfung
+Desktopverknüpfungen
+Durchstellung
+Durchstellungen
+Fokalisierung
+Fokalisierungen
+Hilflosenentschädigung
+Hilflosenentschädigungen
+Kommerzabteilung
+Kommerzabteilungen
+Krankentaggeldversicherung
+Krankentaggeldversicherungen
+Bezahldatum
+Bezahldatumen
+Anmietdatum
+Anmietdatumen
+Biegesteifigkeit
+Biegesteifigkeiten
+Flugunregelmässigkeit
+Flugunregelmässigkeiten
+Bedruckbarkeit
+Bedruckbarkeiten
+Abrechenbarkeit
+Abrechenbarkeiten
+Allparteilichkeit
+Allparteilichkeiten
+Aussagekräftigkeit
+Aussagekräftigkeiten
+Bewertbarkeit
+Bewertbarkeiten
+Allelhäufigkeit
+Allelhäufigkeiten
+Anhängigkeit
+Anhängigkeiten
+Einschränkbarkeit
+Einschränkbarkeiten
+Alpstraße/N
+Anhängung
+Anhängungen
+Aufdoppelung
+Aufdoppelungen
+Badenerstraße/T #name
+Bankiersvereinigung
+Bankiersvereinigungen
+Beermannstraße/T #name
+Behirtung
+Behirtungen
+Bezügeberechnung
+Bezügeberechnungen
+Bornstraße/T #name
+Christophstal/S #name
+Fährenstraße/T #name
+Gasaufreinigung
+Gasaufreinigungen
+Gruberstraße/T #name
+Grunerstraße/T #name
+Hakone #name
+Harffstraße/T #name
+Haroldstraße/T #name
+Hebbelstraße/T #name
+Herrmannstraße/T #name
+Hussenstraße/T #name
+Innstraße/T #name
+Ithstraße/T #name
+Kaskelstraße/T #name
+Keibelstraße/T #name
+Keibelstraße/T #name
+Lenzstraße/T #name
+Louisenstraße/T #name
+Luisenstraße/T #name
+Keramikverbundauskleidung
+Lönsstraße/T #name
+Nusselstraße/T #name
+Pinostraße/T #name
+Prinzstraße/T #name
+Rhenaniastraße/T #name
+Schwermetallausleitung
+Schwermetallausleitungen
+Energetisierung
+Energetisierungen
+Winsstraße/T #name
+Blühpflanze/N
+Inklusivität
+Drüsenproliferat #med
+Rückgabeprozess
+Rückgabeprozesse/SN
+herum_sülzen
+sülzen
+sülze
+gesülzt
+sülzte
+sülzt
+sülzten
+sülzest
+Fristenkongruenz
+fristenkongruent/A
+therapiebedürftig/A
+liebesbedürftig/A
+sexbedürftig/A
+schlafbedürftig/A
+änderungsbedürftig/A
+schonungsbedürftig/A
+unterhaltsbedürftig/A#
+sauerstoffbedürftig/A
+diskussionbedürftig/A
+geheimhaltungsbedürftig/A
+zärtlichkeitsbedürftig/A
+zweistufig/A
+pilotenlos/A
+Provisionseinnahme/N
+Dürremonitor/ES
+Dürresommer/NS
+UBA  # Umweltbundesamt
+zusammen_telefonieren
+IT.Niedersachsen/S #name
+Toom-Baumarkt/S #name
+toom-Baumarkt/S #name
+toom Baumarkt/S #name
+Rabbit Hole #eng
+Brennenstuhl/S #name
+Übermittlungsinstrumente/SN
+Übermittlungsinstrument/S
+vertragstechnisch/A
+Clearwater Beach #name
+alarmüberwacht/A
+alarmgesichert/A
+Writers Guild #eng
+Boppstraße/T #name
+Elisenstraße/T #name
+Grönerstraße/T #name
+Gröperstraße/T #name
+Gärtnerstraße/T #name
+Götzstraße/T #name
+Hahnenstraße/T #name
+Hartmannstraße/T #name
+Hedemannstraße/T #name
+Hessenstraße/T #name
+Großwels
+Großwelse/N
+Hexenwels
+Hexenwelse/N
+Saugwels
+Saugwelse/N
+Panzerwels
+Panzerwelse/N
+Hornstraße/T #name
+Jonasstraße/T #name
+Lansstraße/T #name
+Lenaustraße/T #name
+Leninstraße/T #name
+Lennestraße/T #name
+Lennéstraße/T #name
+Lornsenstraße/T #name
+Pascalstraße/T #name
+Priemstraße/T #name
+Schabnerstraße/T #name
+Schildhornstraße/T #name
+Schröderstraße/T #name
+Stuhlhusse/N
+Pino-Straße/T #name
+Clearwater Beach/S #name
+alarmüberwacht/A
+alarmgesichert/A
+Writers Guild #eng
+urlaubssicher/A
+zurück_vermitteln
+Rive Gauche #name
+entzippst
+entzippe
+entzippt/P
+entzippen
+wehenfördernd/A
+magnetlos/A
+voran_kündigen
+Quebecer/SN
+zehntlängste
+zehntlängstes
+zehntlängster
+zehntlängsten
+zehntlängstem
+neuntlängste
+neuntlängstes
+neuntlängster
+neuntlängsten
+neuntlängstem
+achtlängste
+achtlängstes
+achtlängster
+achtlängsten
+achtlängstem
+siebtlängste
+siebtlängstes
+siebtlängster
+siebtlängsten
+siebtlängstem
+sechstlängste
+sechstlängstes
+sechstlängster
+sechstlängsten
+sechstlängstem
+fünftlängste
+fünftlängstes
+fünftlängster
+fünftlängsten
+fünftlängstem
+viertlängste
+viertlängstes
+viertlängster
+viertlängsten
+viertlängstem
+fünftreichste
+fünftreichster
+fünftreichstes
+fünftreichsten
+fünftreichstem
+sechstreichste
+sechstreichster
+sechstreichstes
+sechstreichsten
+sechstreichstem
+siebtreichste
+siebtreichster
+siebtreichstes
+siebtreichsten
+siebtreichstem
+achtreichste
+achtreichster
+achtreichstes
+achtreichsten
+achtreichstem
+neuntreichste
+neuntreichster
+neuntreichstes
+neuntreichsten
+neuntreichstem
+zehntreichste
+zehntreichster
+zehntreichstes
+zehntreichsten
+zehntreichstem
+Hanse Sail #name
+Dualastraße/T #name
+Kongostraße/T #name
+Sambesistraße/T #name
+Nascar-Team/S ##name
+Nascar-Liga/S
+NASCAR #National Association for Stock Car Auto Racing
+Adolfsturm/S #name
+Georgsturm/S #name
+Allmandstraße/T #name
+Austro-Daimler/S
+Austro-Kanadier/S
+Baselitz #name
+Bielitz #name
+Beyerstraße/T #name
+Bürgelstraße/T #name
+Dülferstraße/T #name
+Danzstraße/T #name
+Coppistraße/T #name
+Ebertstraße/T #name
+Edisonstraße/T #name
+Elsenstraße/T #name
+Fiedlerstraße/T #name
+Fröbelstraße/T #name
+Garystraße/T #name
+Geibelstraße/T #name
+Germanenstraße/T #name
+Goethstraße/T #name
+Goltzstraße/T #name
+Güntzstraße/T #name
+Haußmannstraße/T #name
+Hegaustraße/T #name
+Heinestraße/T #name
+Heidemannstraße/T #name
+Henkelstr/T #name
+Herderstr/T #name
+Hermannstal #name
+Husemannstraße/T #name
+Karlstraße/T #name
+kunstreichste
+kunstreichster
+kunstreichstes
+kunstreichsten
+kunsttreichstem
+Kärntnerstraße/T #name
+Legienstraße/T #name
+Leinestraße/T #name
+Lothstraße/T #name
+Luisenstraße/T #name
+Lynarstraße/T #name
+Magnetron/ES
+Marienstraße/T #name
+Meldemannstraße/T #name
+Moselstraße/T #name
+Motzstraße/T #name
+Munkerstraße/T #name
+Mühlenstraße/T #name
+Reuterstraße/T #name
+Riedenstraße/T #name
+Rieterstraße/T #name
+Rottstraße/T #name
+Schaperstraße/T #name
+Schloßstraße/T #name
+Schildhornstraße/T #name
+Schlüterstraße/T #name
+Schusterstraße/T #name
+Sybelstraße/T #name
+Weberstraße/T #name
+Wehrerstraße/T #name
+Wendenstraße/T #name
+Sakralchakra/S
+Fantasiewert/S
+Fantasiewerte/N
+Georgsdorf/S #name
+Konversionsmessung
+Konversionsmessungen
+Moët #name
+Heilig-Kreuz-Kirche #name
+säurebedingt/A
+säureregulierend/A
+feuchtigkeitsregulierend/A
+wärmeregulierend/A
+temperaturregulierend/A
+kälteregulierend/A
+Quinquillion
+Quinquilliarde
+Sextillion
+Sextilliarde
+Septillion
+Septilliarde
+Oktillion
+Oktilliarde
+Quinquillionen
+Quinquilliarden
+Sextillionen
+Sextilliarden
+Septillionen
+Septilliarden
+Oktillionen
+Bismarckstraße/T #name
+Chausseestraße/T #name
+Daimlerstraße/T #name
+Friedenstraße/T #name
+Haydnstraße/T #name
+Jahnstraße/T #name
+Schillerstraße/T #name
+Sudetenstraße/T #name
+Karlsthron/S
+Karlsthrones
+Nieplitz #name
+Beyersdorf/S #name
+Dianastraße/T #name
+Einemstraße/T #name
+Emserstraße/T #name
+Erlensterz #name
+Eulerstraße/T #name
+Feldtmannstraße/T #name
+Fuggerstraße/T #name
+Gaudystraße/T #name
+Germaniastraße/T #name
+Goethestraße/T #name
+Güntzelstraße/T #name
+Hainstraße/T #name
+Heidestraße/T #name
+Hunoldstraße/T #name
+Kohlisstraße/T #name
+Krenkelstraße/T #name
+Köselitz #name
+Laskerstraße/T #name
+Limastraße/T #name
+Limastraße/T #name
+Linggstraße/T #name
+Moritzstraße/T #name
+Naumannstraße/T #name
+Neutorstraße/T #name
+Niedernstraße/T #name
+Olgastraße/T #name
+Olwenstraße/T #name
+Rottstraße/T #name
+Scharfestraße/T #name
+Schnabelstraße/T #name
+Späthstraße/T #name
+Söhtstraße/T #name
+Talstraße/T #name
+Tußmannstraße/T #name
+Ulmenstraße/T #name
+Voltastraße/T #name
+Weckenstraße/T #name
+Wendenstraße/T #name
+Weserstraße/T #name
+Weyerstraße/T #name
+Winzerstraße/T #name
+Wupperstraße/T #name
+Zietenstraße/T #name
+Louis Vuitton/S #name
+baumbestanden/A
+tannenbestanden/A
+fichtenbestanden/A
+Dereliktion
+Dereliktionen
+Fiskalerbschaft
+Fiskalerbschaften
+bewährtere/A
+Gigajoule
+Trägheitsfusion
+Kykladeninsel/N
+Infrastruktureinheit
+Infrastruktureinheiten
+Vape/S
+Nassdampf/S
+Nassdampfes
+Kapitalertragsteuer #komp
+Kapitalertragsteuerabzug/S
+Kapitalertragsteuerabzüge/N
+abzugsverpflichtet/A
+luftgetrocknet/A
+Sportback/S #name
+Drogerie #komp
+Drogeriebranche/N
+Filialspektrum/S
+Infusionsbehandlung
+Infusionsbehandlungen
+Deerfield/S #name
+Beiersdorfer/S #name
+Bäkestraße/T #name
+Dortustraße/T
+Eiserstraße/T
+Ellerstraße/T
+Fechnerstraße/T
+Florastraße/T
+Geversdorf/S #name
+Humboldstraße/T
+Möserstraße/T
+Müritzstraße/T
+Oststraße/T
+Scharrenstraße/T
+Sögestraße/T
+Tidestraße/T
+Ulanenstraße/T
+Villastraße/T
+Welserstraße/T
+Winzerstil/S
+Wrangelstraße/T
+Zeißstraße/T
+Ziemensstraße/T
+Fantasieort/S
+Fantasieorte/SN
+förderfähig/A
+sparfähig/A
+vergnügungssteuerpflichtig/A
+anklagebereit/A
+weg_rudern
+rum_rudern
+weg_pudern
+weghumpeln
+weghumpelt
+wegzuhumpeln
+weggehumpelt
+weghumpel
+weghumpelst
+weg_hinken
+zinssensitiv/A
+chemosensitiv/A
+pegelsensitiv/A
+fotosensitiv/A
+salzsensitiv/A
+gendersensitiv/A
+phasensensitiv/A
+kontaktsensitiv/A
+Tripp Trapp/S #name
+Phthalat/S
+Phthalate/N
+Fantasie #komp
+beitragsabführend/A
+stuhlabführend/A
+Fortbestehensprognose/N
+Backstop/S #eng
+Prospektverordnung
+Prospektverordnungen
+Securities Act #name
+Registrierungserfordernis
+Registrierungserfordernisse/NS
+Thiérry/S #name
+Livegrafik
+Livegrafiken
+Liveradar/S
+Liveradare/N
+Livekarte/N
+Livepartie/N
+weggingest
+wegginget
+Allerstraße/T
+Omar al Baschir/S #name
+Beuckestraße/T
+Degnerstraße/T
+Floridastraße
+Frankenstraße/T
+Fuldastraße/T
+Gebersdorf/S #name
+Gebersdorfer/N
+Gedersdorf/S #name
+Gedersdorfer/N
+Geiststraße/T
+Goßlerstraße/T
+Heinersdorfer Straße/T
+Humboldtstraße/T
+Höglstraße/T
+Krailnstraße/T
+Illerstraße/T
+Liftkarte/N
+Mozartstraße/T
+Orankestraße/T
+Sackstraße/T
+Zillestraße/T
+erschummeln
+erschummelt/P
+erschummel
+erschummlest
+thermosensitiv/A
+weg_schummeln
+weg_verlegen
+schallisoliert/A
+unisoliert/A
+hochisoliert/A
+luftisoliert/A
+teilisoliert/A
+vollisoliert/A
+gummiisoliert/A
+tauchisoliert/A
+wasserisoliert/A
+betreuungspflichtig/A
+ultrasteif/A
+zusammen_recherchieren
+verkehrsweiß/A
+Worldcoin/S #name
+hin_verlinken
+kreisgenau/A
+einkommensgenau/A
+ortsgenau/A
+wortgenau/A
+treffgenau/A
+nachfragegenau/A
+detailgenau/A
+vor_säuseln
+rum_säuseln #ugs
+herum_säuseln
+Rückkunft
+Rückkünfte/N
+Leobersdorf #name
+Lödersdorf #name
+Nedensdorf #name
+Perbersdorf #name
+Petersdorf #name
+Sokotra #name
+rum_editieren
+IfW
+Megafactory/S
+Reederverband/S
+Reederverbandes
+Reederverbände/N
+zombifiziert/A
+Impact Investing/S
+Best-in-Class-Methode/N
+Best-in-Class-Verhalten/N
+bargeldintensiv/A
+DSW #abk
+ESG #abk
+stimmenmäßig/A
+investierbar/A
+kapitalmarktgestützt/A
+Mandatssteuer/N
+Theologenausbildung
+Kuponzins
+Kuponzinsen
+Nachhaltigkeit #komp
+Offenlegungsverordnung
+Offenlegungsverordnungen
+Fondsanleger/NS
+margenreich/A
+Überschuldungskrise/N
+Urbersdorf #name
+faserisoliert/A
+vor_zaubern
+Dedesdorf #name
+umsäuseln #ugs
+umsäuselt #ugs
+umsäusel #ugs
+umsäuselst #ugs
+umsäuselte #ugs
+umsäuselten #ugs
+beschummeln #ugs
+beschummelt #ugs
+beschummel #ugs
+beschummelst #ugs
+Peterstor/S #name

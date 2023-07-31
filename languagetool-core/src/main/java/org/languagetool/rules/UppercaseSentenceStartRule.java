@@ -48,7 +48,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "x86",
           "ⓒ",
           "ø", // used as bullet point
-          "cc" // cc @daniel => "Cc @daniel" is strange
+          "cc", // cc @daniel => "Cc @daniel" is strange
+          "pH"
   ));
 
   private final Language language;

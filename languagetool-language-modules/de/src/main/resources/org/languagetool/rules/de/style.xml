@@ -22,7 +22,20 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
+<!--
+⚠️  Achtung – Open-Source-Mitwirkende! ⚠️
 
+        Seit Juni 2023 verwenden unsere Stilregeln TONE TAGS.
+        
+        Diese Tags ermöglichen uns eine präzisere Kontrolle über die genauen Kontexte, in denen unsere Stilregeln ausgelöst werden.
+        
+        Da sich diese Funktion noch in der Entwicklung befindet, möchten wir Sie vorerst bitten, Ihre Pull Requests von @AgnesKleinhans, @Luisa-LT und/oder @St-ac-y prüfen zu lassen, wenn Sie Regeln erstellen, die Tone-Tags verwenden. 
+
+        Derzeit werden folgende Ton-Tags unterstützt: clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, povadd und positive.
+        
+        Detailliertere Informationen, einschließlich Tag-Definitionen, finden Sie in unserer Dokumentation (auf Englisch): https://dev.languagetool.org/style_tone_tags.
+
+-->
 <!DOCTYPE rules [
         <!ENTITY lsqb    "&#x005B;"> <!-- left square bracket -->
         <!ENTITY rsqb    "&#x005D;"> <!-- right square bracket -->
@@ -4771,7 +4784,7 @@ USA
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
                         <exception postag="(SUB:.+:NEU)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">Mädchen|.+mädchen|Veilchen|Brötchen|Kaninchen|Radieschen|München|Zeichen|Anzeichen|Kennzeichen|Eichhörnchen|Gummibärchen|.+zeichen</exception>
+                        <exception regexp="yes" case_sensitive="no">Mädchen|.+mädchen|.*Veilchen|.*Brötchen|.*Kaninchen|.*Radieschen|.*München|.*Zeichen|.*Anzeichen|.*Kennzeichen|.*(Eich|grau)hörnchen|.*Gummibärchen|.+zeichen|.*Flittchen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen.</message>
@@ -6500,21 +6513,21 @@ USA
         <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen" tone_tags="clarity formal">
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Nicosia.*</token>
+                    <token case_sensitive="yes" regexp="yes">Nicosias?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Nicosia(.*)" regexp_replace="Nikosia$1"/></suggestion> verwenden?</message>
                 <example correction="Nikosia"><marker>Nicosia</marker></example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Québec.*</token>
+                    <token case_sensitive="yes" regexp="yes">Québec(s|er[sn]?|-Montreals?)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Québec(.*)" regexp_replace="Quebec$1"/></suggestion> verwenden?</message>
                 <example correction="Quebec"><marker>Québec</marker></example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Duala.*</token>
+                    <token case_sensitive="yes" regexp="yes">Dualas?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Duala(.*)" regexp_replace="Douala$1"/></suggestion> verwenden?</message>
                 <example correction="Douala"><marker>Duala</marker></example>
@@ -6528,7 +6541,9 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Nasca.*</token>
+                    <token case_sensitive="yes" regexp="yes">
+                        Nascas?
+                    </token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Nasca(.*)" regexp_replace="Nazca$1"/></suggestion> verwenden?</message>
                 <example correction="Nazca"><marker>Nasca</marker></example>
@@ -6580,7 +6595,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Brasília.*</token>
+                    <token case_sensitive="yes" regexp="yes">Brasílias?</token>
                 </pattern>
                 <message>Möchten Sie die üblichere Schreibweise <suggestion><match no="1" regexp_match="Brasília(.*)" regexp_replace="Brasilia$1"/></suggestion> verwenden?</message>
                 <example correction="Brasilia"><marker>Brasília</marker></example>
@@ -6624,7 +6639,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Avoda.*</token>
+                    <token case_sensitive="yes" regexp="yes">Avodas?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Avoda(.*)" regexp_replace="Awoda$1"/></suggestion> verwenden?</message>
                 <example correction="Awoda"><marker>Avoda</marker></example>
@@ -6659,7 +6674,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">(Dacca|Dakka).*</token>
+                    <token case_sensitive="yes" regexp="yes">(Dacca|Dakka)s?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(Dacca|Dakka)(.*)" regexp_replace="Dhaka$2"/></suggestion> verwenden?</message>
                 <example correction="Dhaka"><marker>Dakka</marker></example>
@@ -6690,7 +6705,7 @@ USA
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">das|[smdk]?ein(em)?|diese[ms]|je[nd]e[ms]|jegliche[ms]|welche[sm]|ihr(em)?|im|zu|als|(ebenso)?viel|höherrangige[mns]|damalige[snm]|mehr|weniger|gleiche[nms]|(inter)?nationale[nms]|(inner)?staatliche[nms]|geltende[nms]|irgendein</token>
+                    <token regexp="yes">das|[smdk]?ein(em)?|diese[ms]|je[nd]e[ms]|jegliche[ms]|welche[sm]|ihr(em)?|im|zu|als|(ebenso)?viel|höherrangige[mns]|damalige[snm]|mehr|weniger|gleiche[nms]|(inter)?nationale[nms]|(inner)?staatliche[nms]|geltende[nms]|irgendein|keinerlei</token>
                     <token postag="(ADJ|PA[21]):.*" postag_regexp="yes" min="0"/>
                     <token case_sensitive="yes">Recht</token>
                     <example>Die Ukraine hat jedes Recht, die Integrität des eigenen Landes und seine Demokratie zu verteidigen.</example>
@@ -6712,6 +6727,7 @@ USA
                 <example>Er hatte kein <marker>Recht</marker> so etwas zu sagen.</example>
                 <example>Man hat <marker>Recht</marker> gesprochen.</example>
                 <example>Sie hat ihr <marker>Recht</marker> eingefordert.</example>
+                <example>Es gibt keinerlei recht auf freie Meinungsäußerung.</example>
                 <example>Er behauptet, die Österreicher hätten ein schlampiges Verhältnis zum Recht.</example>
                 <example>Aber wer hat irgendein Recht, einen Menschen zu tadeln</example>
             </rule>
@@ -6764,14 +6780,14 @@ USA
                     <token regexp="yes">ust\.?-?id(-nr)?</token>
                     <token spacebefore="no">.</token>
                 </pattern>
-                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion><match no="1" regexp_match="^.*$" regexp_replace="USt-IdNr." case_conversion="startupper"/></suggestion>.</message>
                 <example correction="USt-IdNr."><marker>UST-Id.</marker>: DEXXXXXXX</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">ust\.?-?id(-nr)?</token>
                 </pattern>
-                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion><match no="1" regexp_match="^.*$" regexp_replace="USt-IdNr." case_conversion="startupper"/></suggestion>.</message>
                 <example correction="USt-IdNr."><marker>UST-Id</marker>: DEXXXXXXX</example>
                 <example correction="USt-IdNr."><marker>UST-ID</marker>: DEXXXXXXX</example>
             </rule>
@@ -6782,7 +6798,7 @@ USA
                     <token regexp="yes">\-?id(-?nr)?</token>
                     <token spacebefore="no">.</token>
                 </pattern>
-                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion><match no="1" regexp_match="^.*$" regexp_replace="USt-IdNr." case_conversion="startupper"/></suggestion>.</message>
                 <example correction="USt-IdNr."><marker>Ust ID.</marker>: DEXXXXXXX</example>
                 <example correction="USt-IdNr."><marker>Ust.-Id.</marker>: DEXXXXXXX</example>
             </rule>
@@ -6792,7 +6808,7 @@ USA
                     <token spacebefore="no" min="0">.</token>
                     <token regexp="yes">\-?id(-?nr)?</token>
                 </pattern>
-                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion>USt-IdNr.</suggestion>.</message>
+                <message>Die empfohlene Abkürzung für 'Umsatzsteuer-Identifikationsnummer' ist <suggestion><match no="1" regexp_match="^.*$" regexp_replace="USt-IdNr." case_conversion="startupper"/></suggestion>.</message>
                 <example correction="USt-IdNr."><marker>UST ID</marker>: DEXXXXXXX</example>
                 <example correction="USt-IdNr."><marker>Ust.Id</marker>: DEXXXXXXX</example>
                 <example correction="USt-IdNr."><marker>Ust.-Id</marker>: DEXXXXXXX</example>

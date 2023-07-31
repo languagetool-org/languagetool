@@ -19,22 +19,9 @@ Copyright (C) 2011 Juan Martorell
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
-
-  <!DOCTYPE rules [
-    
-    <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
-    <!ENTITY nombre_fem_el "Ática|abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
-    <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
-    <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
-    <!ENTITY nombre_seguidode_nombrepropio "navegador|calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema|playa">
-    <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
-    <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
-    <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
-    <!ENTITY meses_ano_abrv "ene|feb|mar|abr|may|jun|jul|ago|sep|set|oct|nov|dic">
-    <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
-    <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
-    <!ENTITY ordinales_decenas "décimo|vigésimo|trigésimo|cuadragésimo|quincuagésimo|sexagésimo|septuagésimo|nonagésimo">
-    <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
+<!DOCTYPE rules [
+    <!ENTITY % entities  SYSTEM "../../resource/es/entities.ent" >
+    %entities;
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -324,6 +311,21 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="CARA_A_CARA" name="cara a cara (noun)">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token>cara</token>
+                <token>a</token>
+                <token>cara</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="cara a cara" pos="NCMN000"/>
+            <wd lemma="cara a cara" pos="AQ0MN0"/>
+            <wd lemma="cara a cara" pos="AQ0MN0"/>
+        </disambig>
+    </rule>
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="CADA_VEZ_MAS" name="cada vez más">
             <pattern>
@@ -703,6 +705,24 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="[NA].*" postag_regexp="yes" spacebefore="no"/>
             </pattern>
             <disambig action="replace" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>fito</token>
+                <token spacebefore="no">-</token>
+                <token postag="CC"/>
+                <token inflected="yes">zoosanitario</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>zoo</token>
+                <token spacebefore="no">-</token>
+                <token postag="CC"/>
+                <token inflected="yes">fitosanitario</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rule id="DEMASIADO" name="demasiado">
@@ -7817,7 +7837,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes">volver</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">volver|comenzar|empezar</token>
                 <token>a</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>

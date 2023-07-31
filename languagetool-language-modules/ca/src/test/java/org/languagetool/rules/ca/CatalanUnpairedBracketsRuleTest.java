@@ -174,5 +174,24 @@ public class CatalanUnpairedBracketsRuleTest {
             + "(Ací hi ha un parèntesi. \n\n Amb algun text.) i ací continua.");
     assertEquals(0, matches.size());
   }
+  
+  @Test
+  public void testQuestionExclamation() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(new Catalan());
+    tool.enableRule("CA_UNPAIRED_QUESTION");
+    tool.enableRule("CA_UNPAIRED_EXCLAMATION");
+
+    List<RuleMatch> matches;
+    matches = tool
+        .check("-Com estàs?\n");
+    assertEquals(1, matches.size());
+    assertEquals("[¿Com]", matches.get(0).getSuggestedReplacements().toString());
+    
+    matches = tool
+        .check("-Benvinguda!\n");
+    assertEquals(1, matches.size());
+    assertEquals("[¡Benvinguda]", matches.get(0).getSuggestedReplacements().toString());
+    
+  }
 
 }

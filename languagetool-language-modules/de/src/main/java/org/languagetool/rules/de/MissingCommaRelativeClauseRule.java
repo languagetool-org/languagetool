@@ -56,7 +56,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
       ),
       Arrays.asList(
         token("anstelle"),
-        regex("diese[rs]")
+        regex("diese[rsm]|de[rsm]|dessen|jene[rsm]|[dms]?eine[rsm]|ihre[rs]|eure[sr]|unse?re[sr]")
       ),
       Arrays.asList(
         token("im"),
@@ -154,12 +154,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
         csToken("bzw"),
         csToken("."),
         posRegex("VER:.+")
-      ),
-      Arrays.asList(
-        // Er warnt auch vor Autos, die soeben überholt haben bzw. überholt wurden.
-        posRegex("VER:.+"),
-        posRegex("VER:.+"),
-        csToken(".")
       ),
       // … Planungen, die sich noch auf die ganze Stadt bezogen wurden aufgegeben.
       Arrays.asList(

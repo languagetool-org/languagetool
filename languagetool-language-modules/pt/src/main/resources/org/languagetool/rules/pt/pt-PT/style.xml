@@ -2876,6 +2876,22 @@ USA
             <!--
             O Rui anda à procura de material científico. → O Rui anda a procurar material científico.
             -->
+
+            <antipattern>
+                <token postag_regexp='yes' postag='VMSI.+|VMG0000|VMP00.+'/>
+                <token>à</token>
+                <token postag_regexp='yes' postag='NC.+|AQ.+|NP.+'/>
+                <token>de</token>
+                <token postag_regexp='yes' postag='NC.+|AQ.+|NP.+|DI.+|CS|V.+'/>
+                <example>Ele pediu que o adicionasse à lista de acesso da sala de chat.</example>
+                <example>A vida das pessoas, a autoestima e seus relacionamentos estão totalmente atrelados à forma de como se mostram ao mundo.</example>
+                <example>Esta ação evita que problemas e gastos excessivos ligados à falta de lubrificação, apareçam futuramente.</example>
+                <example>São tantas as páginas do meu livro marcadas à espera de serem lidas, que me perco sem saber qual delas ler primeiro.</example>
+                <example>Nós estamos indo à festa de aniversário do filho de Tom.</example>
+                <example>Conceitos fundamentais associados à obra de Bakhtin incluem o dialogismo, a polifonia (linguística), a heteroglossia e o carnavalesco.</example>
+                <example>A calorimetria é uma ramificação da termologia que analisa os problemas relacionados à troca de calor em sistemas de temperaturas diversas.</example>
+            </antipattern>
+
             <!--
             Em maio de 1863, submeteu-se à prova de admissão para o ingresso na Faculdade de Direito do Recife sendo reprovado.
             E, ao se referir-se à visita de Lula, informou que "Lula honra Berlim e Hamburgo" com sua visita.
@@ -3793,6 +3809,31 @@ USA
         <!-- MARCOAGPINTO 2023-01-26 + 2023-01-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <antipattern>
+            <token postag='(SPS00:)?[DP][ADIPRT].+|V.+' postag_regexp='yes'/>
+            <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='RG|V.+'/>
+            </token>
+            <token postag='SPS00' postag_regexp='no'>
+                <exception regexp='yes'>para|por</exception>
+            </token>
+            <token postag='VMN02S0' postag_regexp='no'/>
+            <token>
+                <exception postag_regexp='yes' postag='RG|VMP00S.+'/>
+                <exception regexp='yes'>para|por</exception>
+            </token>
+            <example>O Rui ia falar a um grupo de militares.</example>
+            <example>Por enquanto, esta versão feita com salmão já entrou para a minha lista de jantares deliciosos e diferentes.</example>
+            <example>A não ser quebrar o país por três vezes, comprar votos de parlamentares a C$200.000,00 para se reeleger em 1998.</example>
+            <example>O número de militares a ser disponibilizado obedecerá ao planejamento definido pelo ministério.</example>
+            <example>O encontro de olhares?</example>
+            <example>Cada um é um ser e parte do grupo de seres com quem convive.</example>
+            <example>Comprei uma dúzia de colheres e duas dúzias de garfos.</example>
+            <example>Mete o Felipe na lista de titulares.</example>
+            <example>Na lagoa vive uma multidão de seres minúsculos.</example>
+            <example>Atualmente, o cantão de Palmares possui 7 distritos:</example>
+        </antipattern>
+
+        <antipattern>
             <token regexp='yes' skip='-1'>["«„“][-‒–—―]?</token>
             <token regexp='yes'>["'»”]</token>
         </antipattern>
@@ -4579,21 +4620,8 @@ USA
         </rule>
 
 
-        <!-- PASSARAM 10 MINUTOS decorreram 10 minutos -->
         <rulegroup id='PASSAR_TEMPO_DECORRER_TEMPO' name="[pt-PT][Formal] 'passar' tempo → decorrer">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-11 (2-MAR-2023+) -->
-            <!--
-            Subrule1:
-            Dez minutos passaram desde o início do show. → Dez minutos decorreram desde o início do show.
-
-            Subrule2:
-            Passados os 30 dias tudo mudou. → Decorridos os 30 dias tudo mudou.
-            Passaram horas desde o início do show. → Decorreram horas desde o início do show.
-            -->
-            <!--
-                 MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-            -->
-
+ 
             <antipattern>
                 <token regexp='yes'>&expressoes_de_tempo_simples;
                     <exception scope='previous' postag_regexp='yes' postag='Z0.+'/>
@@ -4670,6 +4698,15 @@ USA
                 <example>Passa dois anos na Argélia, primeiro em Orléansville (Chlef) e depois em Argel.</example>
                 <example>Passo muitas horas a escrever frases para o Tatoeba.</example>
                 <example>Eu gosto de pescar; é uma maneira muito relaxante de passar o dia.</example>
+            </antipattern>
+
+            <antipattern>
+                <token inflected='yes'>passar</token>
+                <token postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+                <token postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>Ela chega e passa o dia a gritar com o Rui.</example>
             </antipattern>
 
             <!-- Subrule1: -->

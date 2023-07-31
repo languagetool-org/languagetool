@@ -97,6 +97,7 @@ public class ConfusionCheckFilter extends RuleFilter {
       }
       String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
       suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
+      suggestion = suggestion.replace("{SUGGESTION}", replacement.toUpperCase());
       ruleMatch.setSuggestedReplacement(suggestion);
       return ruleMatch;
     }    

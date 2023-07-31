@@ -1198,7 +1198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">bis</token>
                 </pattern>
                 <message>Schreiben Sie 'bis' bei vorangehendem 'von' aus.</message>
-                <suggestion>A bis Z</suggestion>
+                <suggestion><match no="2" regexp_match="^.*$" regexp_replace="A bis Z" case_conversion="startupper"/></suggestion>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A-Z</marker>.</example>
@@ -1214,7 +1214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">bis</token>
                 </pattern>
                 <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</message>
-                <suggestion>\2 bis \4</suggestion>
+                <suggestion>\2 <match no="2" regexp_match="^.*$" regexp_replace="bis" case_conversion="alllower"/> \4</suggestion>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A - Z</marker>.</example>

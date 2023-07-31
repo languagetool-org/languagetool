@@ -1207,7 +1207,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kriese", w -> Arrays.asList("Krise", "Kreise"));
     put("Kriesen", w -> Arrays.asList("Krisen", "Kreisen"));
     put("aufteil", w -> Arrays.asList("aufteile", "aufteilt", "auf Teil"));
-    put("fürn", w -> Arrays.asList("für ein", "für", "fürs", "fern"));
+    put("fürn", w -> Arrays.asList("für ein", "für den", "für", "fürs", "fern"));
     put("Aliegen", w -> Arrays.asList("Anliegen", "Fliegen"));
     put("gaz", w -> Arrays.asList("ganz", "gab"));
     put("vllt", w -> Arrays.asList("vielleicht", "vllt."));
@@ -3190,6 +3190,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "UBahntunnel": return topMatch("U-Bahntunnel");
       case "Ubahntunnels": return topMatch("U-Bahntunnels");
       case "UBahntunnels": return topMatch("U-Bahntunnels");
+      case "UBahnzug": return topMatch("U-Bahnzug");
+      case "UBahnzugs": return topMatch("U-Bahnzugs");
+      case "UBahnzüge": return topMatch("U-Bahnzüge");
+      case "UBahnzügen": return topMatch("U-Bahnzügen");
       case "Gelantine": return topMatch("Gelatine");
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
@@ -3467,7 +3471,25 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "totkrankes": return topMatch("todkrankes");
       case "totkranken": return topMatch("todkranken");
       case "totkrankem": return topMatch("todkrankem");
+      case "SnapChat": return topMatch("Snapchat");
+      case "SnapChats": return topMatch("Snapchats");
       case "jmd": return topMatch("jmd.");
+      case "Sparringpartner": return topMatch("Sparringspartner");
+      case "Sparringpartners": return topMatch("Sparringspartners");
+      case "Sparringpartnern": return topMatch("Sparringspartnern");
+      case "ausserordentlich": return topMatch("außerordentlich");
+      case "ausserordentliche": return topMatch("außerordentliche");
+      case "ausserordentlichen": return topMatch("außerordentlichen");
+      case "ausserordentlichem": return topMatch("außerordentlichem");
+      case "ausserordentlicher": return topMatch("außerordentlicher");
+      case "ausserordentliches": return topMatch("außerordentliches");
+      case "unzippen": return topMatch("entzippen");
+      case "unzippt": return topMatch("entzippt");
+      case "unzippst": return topMatch("entzippst");
+      case "unzippe": return topMatch("entzippe");
+      case "Moet": return topMatch("Moët");
+      case "Prigozhin": return topMatch("Prigoschin");
+      case "Prigozhins": return topMatch("Prigoschins");
     }
     return Collections.emptyList();
   }

@@ -1818,6 +1818,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
                 <pattern>
+                    <token chunk_re="E-NP.*" postag="NN.*" postag_regexp="yes" />
+                    <marker>
+                        <token>but</token>
+                    </marker>
+                    <token>also</token>
+                    <token postag="VB[DPZ]|MD" postag_regexp="yes" chunk_re=".-VP" />
+                </pattern>
+                <suggestion>, but</suggestion>
+                <example correction=", but">This not only saves you time<marker> but</marker> also maximizes your sales efforts, leading to higher revenue and business growth.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token>to</token>
                     </marker>

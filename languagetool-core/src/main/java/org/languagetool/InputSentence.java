@@ -20,6 +20,7 @@ package org.languagetool;
 
 import org.languagetool.rules.CategoryId;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -42,11 +43,12 @@ class InputSentence {
   private final JLanguageTool.Mode mode;
   private final JLanguageTool.Level level;
   private final Long textSessionID;
+  private final Set<ToneTag> toneTags;
 
   InputSentence(String text, Language lang, Language motherTongue,
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
-                List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level, Long textSessionID) {
+                List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level, Long textSessionID, Set<ToneTag> toneTags) {
     this.text = Objects.requireNonNull(text);
     this.lang = Objects.requireNonNull(lang);
     this.motherTongue = motherTongue;
@@ -59,15 +61,25 @@ class InputSentence {
     this.altLanguages = altLanguages;
     this.mode = Objects.requireNonNull(mode);
     this.level = Objects.requireNonNull(level);
+    this.toneTags = toneTags != null ? toneTags : Collections.emptySet();
   }
 
+  InputSentence(String text, Language lang, Language motherTongue,
+                Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
+                Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
+                List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level, Set<ToneTag> toneTags) {
+    this(text, lang, motherTongue, disabledRules, disabledRuleCategories,
+      enabledRules, enabledRuleCategories, userConfig, altLanguages,
+      mode, level, userConfig != null ? userConfig.getTextSessionId() : null, toneTags);
+  }
+  
   InputSentence(String text, Language lang, Language motherTongue,
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
                 List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level) {
     this(text, lang, motherTongue, disabledRules, disabledRuleCategories,
       enabledRules, enabledRuleCategories, userConfig, altLanguages,
-      mode, level, userConfig != null ? userConfig.getTextSessionId() : null);
+      mode, level, userConfig != null ? userConfig.getTextSessionId() : null, null);
   }
 
   /** @since 4.1 */
@@ -91,14 +103,15 @@ class InputSentence {
            Objects.equals(userConfig, other.userConfig) &&
            Objects.equals(textSessionID, other.textSessionID) &&
            Objects.equals(altLanguages, other.altLanguages) &&
-           Objects.equals(mode, other.mode) &&
-           Objects.equals(level, other.level);
+           mode == other.mode &&
+           level == other.level &&
+           Objects.equals(toneTags, other.toneTags);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(text, lang, motherTongue, disabledRules, disabledRuleCategories,
-            enabledRules, enabledRuleCategories, userConfig, textSessionID, altLanguages, mode, level);
+            enabledRules, enabledRuleCategories, userConfig, textSessionID, altLanguages, mode, level, toneTags);
   }
 
   @Override
