@@ -1471,6 +1471,13 @@ class DocumentCursorTools {
   }
   
   /**
+   *  Reset the busy flag
+   */
+  public static void reset() {
+    isBusy = 0;
+  }
+  
+  /**
    * Class to give back the text and the headings under the specified cursor
    */
   public static class DocumentText {

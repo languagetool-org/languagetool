@@ -916,5 +916,12 @@ public class ViewCursorTools {
     return isBusy > 0;
   }
   
+  /**
+   *  Reset the busy flag
+   */
+  public static void reset() {
+    isBusy = 0;
+  }
+  
 
 }

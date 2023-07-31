@@ -949,6 +949,13 @@ public class FlatParagraphTools {
     return isBusy > 0;
   }
   
+  /**
+   *  Reset the busy flag
+   */
+  public static void reset() {
+    isBusy = 0;
+  }
+  
   public static class FlatParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;

@@ -136,13 +136,19 @@ public class OfficeTools {
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
   
-  private static final long KEY_RELEASE_TOLERANCE = 500;
 
   private static final double LT_HEAP_LIMIT_FACTOR = 0.9;
   private static double MAX_HEAP_SPACE = -1;
   private static double LT_HEAP_LIMIT = -1;
+  
+  private final static int MAX_LO_WAITS = 3000;
+  private static int numLoWaits = 0;
+  private static Object waitObj = new Object();
 
+/*
+  private static final long KEY_RELEASE_TOLERANCE = 500;
   private static long lastKeyRelease = 0;
+*/
   
   /**
    * Returns the XDesktop
@@ -691,6 +697,25 @@ public class OfficeTools {
   public static void waitForLO() {
     while (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy()) {
       try {
+        synchronized (waitObj) {
+          numLoWaits++;
+          if (numLoWaits > MAX_LO_WAITS) {
+            MessageHandler.printToLogFile("waitForLO: Wait for more than " + MAX_LO_WAITS/100 + " seconds, "
+                + "DocumentCursorTools.isBusy: " + DocumentCursorTools.isBusy() + ", "
+                + "ViewCursorTools.isBusy: " + ViewCursorTools.isBusy() + ", "
+                + "FlatParagraphTools.isBusy: " + FlatParagraphTools.isBusy() + ": "
+                + "Free Lock and continue.");
+            if (DocumentCursorTools.isBusy()) {
+              DocumentCursorTools.reset();
+            }
+            if (ViewCursorTools.isBusy()) {
+              ViewCursorTools.reset();
+            }
+            if (FlatParagraphTools.isBusy()) {
+              FlatParagraphTools.reset();
+            }
+          }
+        }
         Thread.sleep(10);
       } catch (InterruptedException e) {
         MessageHandler.printException(e);

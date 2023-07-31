@@ -609,11 +609,14 @@ public class SingleDocument {
    */
   void writeCaches() {
     if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType == DocumentType.WRITER) {
+      MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
       DocumentCache docCache = new DocumentCache(this.docCache);
       List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
       for (int i = 0; i < this.paragraphsCache.size(); i++) {
+        MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy ResultCache " + i);
         paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
       }
+      MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
       cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
     }
   }
@@ -1389,10 +1392,10 @@ public class SingleDocument {
         isOnUnload = true;
       } else if(event.EventName.equals("OnUnfocus") && !isOnUnload) {
         mDocHandler.getCurrentDocument();
-      } else if(event.EventName.equals("OnSave") && config.saveLoCache()) {
+      } else if(event.EventName.equals("OnSaveDone") && config.saveLoCache()) {
+        //  save cache after document is saved (if something goes wrong the last state of document is saved)
         writeCaches();
       } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
-//        writeCaches();
         cacheIO.setDocumentPath(xComponent);
         writeCaches();
       }
