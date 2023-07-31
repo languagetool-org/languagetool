@@ -90,7 +90,12 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Ha de fer-se", matches[0].getSuggestedReplacements().get(0));
     assertEquals("S'ha de fer", matches[0].getSuggestedReplacements().get(1));
-    
+
+    matches = rule.match(lt.getAnalyzedSentence("Ell, en voldrà donar-nos-en més?"));
+    assertEquals(1, matches.length);
+    assertEquals("voldrà donar-nos-en", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("en voldrà donar", matches[0].getSuggestedReplacements().get(1));
+
     matches = rule.match(lt.getAnalyzedSentence("N'ha d'haver-hi"));
     assertEquals(1, matches.length);
     assertEquals("N'hi ha d'haver", matches[0].getSuggestedReplacements().get(0));

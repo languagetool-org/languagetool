@@ -168,6 +168,9 @@ public class PronomFebleDuplicateRule extends Rule {
       correctedPronouns = "n'hi";
       return true;
     }
+    if (lemesPronomsAbans.contains("en") && lemesPronomsDespres.contains("en")) {
+      return true;
+    }
     return false;
   }
 
