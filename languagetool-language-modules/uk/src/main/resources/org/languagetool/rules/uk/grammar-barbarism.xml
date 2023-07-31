@@ -866,38 +866,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>я віддав звіт йому</example>
     </rule>
 
-    <rulegroup id="ZBYVATYSIA_Z_TOLKU" name="Збиватися з толку">
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected="yes" regexp="yes">збивати|збити|збива(вши|ючи)|збитий</token>
-            <token regexp="yes" min="0">би?</token>
-            <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
-            <token postag_regexp="yes" postag="noun.*" min="0" max="1"/>
-            <token>з</token>
-            <token>толку</token>
-          </marker>
-        </pattern>
-        <message>Краще: <suggestion>спантеличувати</suggestion>, <suggestion>збивати з пантелику</suggestion>, <suggestion>збивати з плигу (з пливу)</suggestion>, <suggestion>затуркувати</suggestion>, <suggestion>забивати баки</suggestion></message>
-        <example correction="спантеличувати|збивати з пантелику|збивати з плигу (з пливу)|затуркувати|забивати баки">Він <marker>збив її з толку</marker>.</example>
-        <example>Він її спантеличив</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected="yes" regexp="yes">збиватися?|збитися|збива(вши|ючи)сь</token>
-            <token regexp="yes" min="0">би?</token>
-            <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
-            <token>з</token>
-            <token>толку</token>
-          </marker>
-        </pattern>
-        <message>Краще: <suggestion>спантеличуватися</suggestion>, <suggestion>збиватися з пантелику</suggestion>, <suggestion>збиватися з плигу (з пливу)</suggestion>, <suggestion>затуркуватися</suggestion></message>
-        <example correction="спантеличуватися|збиватися з пантелику|збиватися з плигу (з пливу)|затуркуватися">Він <marker>збився б швидко з толку</marker>.</example>
-      </rule>
-    </rulegroup>
-
     <rulegroup id="VYHODYTY_Z_SEBE" name="Виходити з себе">
       <rule>
         <pattern>
@@ -5738,20 +5706,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="TOLK" name="Толк">
+
       <rule>
         <pattern>
           <marker>
+            <token inflected="yes" regexp="yes">(по)?збивати(ся)?|збити(ся)?</token>
+            <token postag_regexp="yes" postag="noun.*pron.*" min="0"/>
             <token regexp="yes">і?з</token>
-            <token>толком</token>
+            <token>толку</token>
           </marker>
         </pattern>
-        <message>Правильно: <suggestion>з розумом</suggestion></message>
-        <suggestion>розумно</suggestion>
-        <suggestion>розсудливо</suggestion>
-        <suggestion>до пуття</suggestion>
-        <suggestion>до діла</suggestion>
-        <suggestion>до ладу</suggestion>
-        <example correction="з розумом|розумно|розсудливо|до пуття|до діла|до ладу">він все робить <marker>з толком</marker></example>
+        <message>Правильно: <suggestion>спантеличувати</suggestion></message>
+        <suggestion>збивати з пантелику</suggestion>
+        <suggestion>збивати з плиту (з пливу)</suggestion>
+        <suggestion>забивати баки</suggestion>
+        <suggestion>затуркувати</suggestion>
+        <example correction="спантеличувати|збивати з пантелику|збивати з плиту (з пливу)|забивати баки|затуркувати">і <marker>збити з толку</marker></example>
+        <example correction="спантеличувати|збивати з пантелику|збивати з плиту (з пливу)|забивати баки|затуркувати">і <marker>збив усіх з толку</marker></example>
+      </rule>
+      
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">збивати|збити|збива(вши|ючи)|збитий</token>
+            <token regexp="yes" min="0">би?</token>
+            <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*" min="0" max="1"/>
+            <token regexp="yes">і?з</token>
+            <token>толку</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>спантеличувати</suggestion>, <suggestion>збивати з пантелику</suggestion>, <suggestion>збивати з плигу (з пливу)</suggestion>, <suggestion>затуркувати</suggestion>, <suggestion>забивати баки</suggestion></message>
+        <example correction="спантеличувати|збивати з пантелику|збивати з плигу (з пливу)|затуркувати|забивати баки">Він <marker>збив її з толку</marker>.</example>
+        <example>Він її спантеличив</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">збиватися?|збитися|збива(вши|ючи)сь</token>
+            <token regexp="yes" min="0">би?</token>
+            <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
+            <token regexp="yes">і?з</token>
+            <token>толку</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>спантеличуватися</suggestion>, <suggestion>збиватися з пантелику</suggestion>, <suggestion>збиватися з плигу (з пливу)</suggestion>, <suggestion>затуркуватися</suggestion></message>
+        <example correction="спантеличуватися|збиватися з пантелику|збиватися з плигу (з пливу)|затуркуватися">Він <marker>збився б швидко з толку</marker>.</example>
       </rule>
 
       <rule>
@@ -5784,20 +5785,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">.*говорити</token>
-          <!-- TODO: говорити про це толком -->
-          <token postag_regexp="yes" postag="adv*" min="0"/>
           <marker>
+            <token regexp="yes">і?з</token>
             <token>толком</token>
           </marker>
         </pattern>
-        <message>Правильно: <suggestion>до ладу</suggestion></message>
-        <suggestion>ладом</suggestion>
-        <suggestion>до діла</suggestion>
+        <message>Правильно: <suggestion>з розумом</suggestion></message>
+        <suggestion>розумно</suggestion>
+        <suggestion>розсудливо</suggestion>
         <suggestion>до пуття</suggestion>
+        <suggestion>до діла</suggestion>
+        <suggestion>до ладу</suggestion>
+        <example correction="з розумом|розумно|розсудливо|до пуття|до діла|до ладу">він все робить <marker>з толком</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>толком
+              <exception scope="previous" regexp="yes">і?з</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>до ладу</suggestion></message>
+        <suggestion>до пуття</suggestion>
+        <suggestion>як треба</suggestion>
+        <suggestion>як належить</suggestion>
         <suggestion>докладно</suggestion>
-        <suggestion>детально</suggestion>
-        <example correction="до ладу|ладом|до діла|до пуття|докладно|детально">і поговорити сьогодні <marker>толком</marker> не дадуть</example>
+        <suggestion>ладом</suggestion>
+        <suggestion>доладно</suggestion>
+        <suggestion>до діла</suggestion>
+        <example correction="до ладу|до пуття|як треба|як належить|докладно|ладом|доладно|до діла">і поговорити сьогодні <marker>толком</marker> не дадуть</example>
+        <example>він все робить <marker>з толком</marker></example>
       </rule>
 
       <rule>
@@ -5842,23 +5861,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>буде пуття</suggestion>
         <example correction="будуть люди|буде пуття">не факт, що <marker>вийде толк</marker></example>
         <example correction="будуть люди|буде пуття">не факт, що <marker>буде з нього толк</marker></example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected="yes" regexp="yes">(по)?збивати(ся)?|збити(ся)?</token>
-            <token postag_regexp="yes" postag="noun.*pron.*" min="0"/>
-            <token>з</token>
-            <token>толку</token>
-          </marker>
-        </pattern>
-        <message>Правильно: <suggestion>спантеличувати</suggestion></message>
-        <suggestion>збивати з пантелику</suggestion>
-        <suggestion>збивати з плиту (з пливу)</suggestion>
-        <suggestion>забивати баки</suggestion>
-        <suggestion>затуркувати</suggestion>
-        <example correction="спантеличувати|збивати з пантелику|збивати з плиту (з пливу)|забивати баки|затуркувати">і <marker>збив усіх з толку</marker></example>
       </rule>
     </rulegroup>
 
