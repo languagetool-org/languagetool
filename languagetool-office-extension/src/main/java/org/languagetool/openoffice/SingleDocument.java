@@ -45,14 +45,10 @@ import com.sun.star.document.XDocumentEventListener;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.linguistic2.XProofreadingIterator;
-import com.sun.star.text.XFlatParagraphIteratorProvider;
-import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -127,7 +123,7 @@ public class SingleDocument {
     }
     debugMode = OfficeTools.DEBUG_MODE_SD;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
-    if (!OfficeTools.DEVELOP_MODE_ST) {
+    if (OfficeTools.DEVELOP_MODE_ST) {
       hasSortedTextId = false;
     }
     this.xContext = xContext;
