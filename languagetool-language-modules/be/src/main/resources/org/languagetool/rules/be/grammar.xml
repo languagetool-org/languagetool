@@ -266,7 +266,7 @@
             <rule>
                 <pattern>
                     <marker>
-                    <token>,</token>
+                        <token>,</token>
                         <token>што</token>
                     </marker>
                     <token min="0" max="2"></token>
@@ -361,20 +361,18 @@
         </rulegroup>
     </category>
     <category id="CAT4" name="Фразеялогія">
-        <rulegroup default="on" id="punkt_hledzannia" name="Няправільнае выкарыстанне слова «кропка» замест «пункт»">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">кропк[а-яёіў]+</token>
-                    </marker>
-                    <token regexp="yes">погляду|гледжання</token>
-                </pattern>
-                <message>Няправільнае выкарыстанне слова «кропка» ва ўстойлівым выразе замест «пункт».</message>
-                <short>Няслушная замена слова «пункт» на «кропка»</short>
-                <example>Пункт погляду.</example>
-                <example correction="">З такой <marker>кропкі</marker> гледжання.</example>
-            </rule>
-        </rulegroup>
+        <rule id="punkt_hledzannia" name="Няправільнае выкарыстанне слова «кропка» замест «пункт»">
+            <pattern>
+                <marker>
+                    <token regexp="yes">кропк[а-яёіў]+</token>
+                </marker>
+                <token regexp="yes">погляду|гледжання</token>
+            </pattern>
+            <message>Няправільнае выкарыстанне слова «кропка» ва ўстойлівым выразе замест «пункт».</message>
+            <short>Няслушная замена слова «пункт» на «кропка»</short>
+            <example>Пункт погляду.</example>
+            <example correction="">З такой <marker>кропкі</marker> гледжання.</example>
+        </rule>
         <rule id="Vialikaja_litara" name="Памылка ў выразе «вялікая літара»">
             <pattern>
                 <marker>
@@ -401,14 +399,39 @@
         </rule>
         <rule id="Pry_vyhliadzie" name="Памылковы выраз «пры выглядзе»">
             <pattern>
-                <token regexp="yes">пры</token>
-                <token regexp="yes">выглядзе</token>
+                <token>пры</token>
+                <token>выглядзе</token>
             </pattern>
             <message>Мабыць вы мелі на ўвазе: <suggestion>як пабачыш</suggestion>, <suggestion>калі бачыў</suggestion>, <suggestion>перад</suggestion>, <suggestion>убачыўшы</suggestion>, <suggestion>пабачыўшы</suggestion>, <suggestion>бачачы</suggestion> і да т.п.?</message>
             <short>Памылковы выраз «пры выглядзе»</short>
             <example>Пабачыўшы воўка, бяжы.</example>
             <example correction="як пабачыш|калі бачыў|перад|убачыўшы|пабачыўшы|бачачы">Я <marker>пры выглядзе</marker> павука пабяжаў на вуліцу.</example>
         </rule>
+        <rulegroup default="on" id="U_kancy_kancou" name="Памылка ў выразе «у рэшце рэшт»">
+            <rule>
+                <pattern>
+                    <token>у</token>
+                    <token>канцы-канцоў</token>
+                </pattern>
+                <message>Мабыць вы мелі на ўвазе: <suggestion>у рэшце рэшт</suggestion>, <suggestion>урэшце</suggestion>, <suggestion>нарэшце</suggestion>, <suggestion>зрэшты</suggestion> або <suggestion>на астатак</suggestion>?</message>
+                <short>Памылковы выраз «у канцы-канцоў»</short>
+                <example>Нарэшце ты дома, мілы.</example>
+                <example>На астатак, ён плюнуў на падлогу ды выйшаў з хаты.</example>
+                <example correction="у рэшце рэшт|урэшце|нарэшце|зрэшты|на астатак">Калі ж, <marker>у канцы-канцоў</marker>, гэта скончыцца?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>у</token>
+                    <token>канцы</token>
+                    <token>канцоў</token>
+                </pattern>
+                <message>Мабыць вы мелі на ўвазе: <suggestion>у рэшце рэшт</suggestion>, <suggestion>урэшце</suggestion>, <suggestion>нарэшце</suggestion>, <suggestion>зрэшты</suggestion> або <suggestion>на астатак</suggestion>?</message>
+                <short>Памылковы выраз «у канцы канцоў»</short>
+                <example>Нарэшце ты дома, мілы.</example>
+                <example>На астатак, ён плюнуў на падлогу ды выйшаў з хаты.</example>
+                <example correction="у рэшце рэшт|урэшце|нарэшце|зрэшты|на астатак">Калі ж, <marker>у канцы канцоў</marker>, гэта скончыцца?</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="CAT5" name="Семантычныя памылкі">
         <rulegroup id="INVALID_DATE" name="Няправільная дата, напр.: «31 лютага 2014»">
