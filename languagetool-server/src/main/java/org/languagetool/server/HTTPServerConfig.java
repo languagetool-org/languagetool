@@ -98,6 +98,7 @@ public class HTTPServerConfig {
   protected List<String> blockedReferrers = new ArrayList<>();
   protected boolean premiumAlways;
   protected boolean premiumOnly;
+  protected String requestLimitAccessToken = null;
 
   public void setPremiumOnly(boolean premiumOnly) {
     this.premiumOnly = premiumOnly;
@@ -203,7 +204,7 @@ public class HTTPServerConfig {
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
-    "passwortLoginAccessListPath", "redisDictTTLSeconds");
+    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -457,6 +458,7 @@ public class HTTPServerConfig {
         dictLimitTeam = Integer.valueOf(getOptionalProperty(props, "dictLimitTeam", "0"));
         styleGuideLimitUser = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitUser", "0"));
         styleGuideLimitTeam = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitTeam", "0"));
+        requestLimitAccessToken = getOptionalProperty(props, "requestLimitAccessToken", null);
         
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
@@ -707,6 +709,30 @@ public class HTTPServerConfig {
 
   int getRequestLimitPeriodInSeconds() {
     return requestLimitPeriodInSeconds;
+  }
+
+  /** @since 6.3 */
+  public void setRequestLimit(int requestLimit) {
+    this.requestLimit = requestLimit;
+  }
+
+  /** @since 6.3 */
+  public void setRequestLimitPeriodInSeconds(int requestLimitPeriodInSeconds) {
+    this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;
+  }
+
+
+  /** 
+   * @since 6.3
+   * Can configure a secret value for the Header X-Request-Limit-Access-Token that allows skipping limtis
+   */
+  public String getRequestLimitAccessToken() {
+    return requestLimitAccessToken;
+  }
+
+  /** @since 6.3 */
+  public void setRequestLimitAccessToken(String requestLimitAccessToken) {
+    this.requestLimitAccessToken = requestLimitAccessToken;
   }
 
   /** since 4.4
@@ -1466,4 +1492,5 @@ public class HTTPServerConfig {
   public void setDbMaxConnections(int dbMaxConnections) {
     this.dbMaxConnections = dbMaxConnections;
   }
+
 }

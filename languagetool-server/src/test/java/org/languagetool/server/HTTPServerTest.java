@@ -38,7 +38,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -533,6 +535,57 @@ public class HTTPServerTest {
       server.stop();
     }
   }
+
+  @Test
+  public void testRequestLimit() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTestTools.getDefaultPort());
+    String secret = "secret";
+    config.setRequestLimit(1);
+    config.setRequestLimitPeriodInSeconds(600);
+    config.setRequestLimitAccessToken(secret);
+    HTTPServer server = new HTTPServer(config);
+    URL url = new URL("http://localhost:" + HTTPTestTools.getDefaultPort() + "/v2/check");
+    String data = "language=en&text=test";
+    try {
+      server.run();
+      try {
+        HTTPTestTools.checkAtUrlByPost(url, data, new HashMap<>());
+      } catch (IOException e) {
+        fail("First request should pass request limit");
+      }
+      try {
+        System.out.println("=== Testing request limit now, please ignore the following exception ===");
+        HTTPTestTools.checkAtUrlByPost(url, data, new HashMap<>());
+        fail("Second request shouldn't pass request limit");
+      } catch (IOException expected) {
+        if (!expected.toString().contains(" 429 ")) {
+          fail("Expected exception with error 429, got: " + expected);
+        }
+      }
+      try {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(LanguageToolHttpHandler.REQUEST_LIMIT_ACCESS_TOKEN_HEADER, secret);
+        HTTPTestTools.checkAtUrlByPost(url, data, headers);
+      } catch (IOException expected) {
+        fail("Request with token should pass request limit");
+      }
+
+      try {
+        System.out.println("=== Testing request limit now, please ignore the following exception ===");
+        Map<String, String> headers = new HashMap<>();
+        headers.put(LanguageToolHttpHandler.REQUEST_LIMIT_ACCESS_TOKEN_HEADER, secret + "foobar");
+        HTTPTestTools.checkAtUrlByPost(url, data, headers);
+        fail("Request with wrong token shouldn't pass request limit");
+      } catch (IOException expected) {
+        if (!expected.toString().contains(" 429 ")) {
+          fail("Expected exception with error 429, got: " + expected);
+        }
+      }
+    } finally {
+      server.stop();
+    }
+  }
+  
   
   @Test
   public void testEnabledOnlyParameter() throws Exception {
