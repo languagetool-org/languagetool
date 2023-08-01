@@ -1138,12 +1138,15 @@
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-19  -->
       <pattern>
         <marker>
-          <token postag="A..[FC].+" postag_regexp="yes"/>
+            <token postag="A..[FC].+" postag_regexp="yes">
+                <exception postag="NP.+" postag_regexp="yes"/>
+            </token>
         </marker>
           <token regexp='yes'>e|ou</token>
           <token postag="R.+" postag_regexp="yes" regexp='yes'>.+mente</token>
       </pattern>
       <disambig action="replace"><wd pos="RG"/></disambig>
+      <example type="untouched">Foi iniciada na China e rapidamente disseminada.</example>
     </rule>
   <rule id="ADV_E_ADVMENTE2" name="Advérbio curto + conjunção + advérbio de modo">
     <pattern>
