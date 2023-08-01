@@ -7321,6 +7321,10 @@ RB => Règles Brutes
         </rule>
         <rule>
             <!-- TODO: too greedy -->
+            <antipattern>
+                <token postag="J [fe] .*" postag_regexp="yes"/>
+                <token postag="N [fe] .*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token regexp="yes">aucunes?|certaines?|différentes?|diverses?|nombreuses|nulle|telles?|une
                     <exception scope="previous" regexp="yes">&apostrophe;</exception></token>
