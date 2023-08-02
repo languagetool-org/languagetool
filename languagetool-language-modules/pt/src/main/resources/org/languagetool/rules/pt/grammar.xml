@@ -28623,6 +28623,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Esse tipo de loteria dá muitos lucros a quem a pratica.</example>
             </antipattern>
 
+            <antipattern>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='VMIP3.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='SPS00|V.+'/>
+                </token>
+                <token postag='SPS00|(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <token postag='SPS00|(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
+                <example>A natureza continua igual a si própria.</example>
+                <example>A Ana continua igual a si própria.</example>
+                <example>A Ana continua igual a ela.</example>
+            </antipattern>
+
             <rule>
                 <antipattern case_sensitive='yes'>
                     <token>Ministério</token>
