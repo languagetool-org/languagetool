@@ -21586,6 +21586,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>-</token>
                 <token spacebefore="no">da</token>
                 <example>Ela é lin-da!</example>
+            </antipattern> 
+            <antipattern> <!-- used in citations -->
+                <token case_sensitive="yes" regexp="yes">\p{Lu}+</token>
+                <token spacebefore="no" skip="4">,</token>
+                <token regexp="yes">das?</token>
+                <token postag="SENT_END"/>
+                <example>VEIGA, José Eli da.</example>
+                <example>CHAGAS, A. C. das.</example>
             </antipattern>
             <rule> <!-- 1 -->
                 <pattern>
