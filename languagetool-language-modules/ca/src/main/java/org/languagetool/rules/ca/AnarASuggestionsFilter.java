@@ -51,7 +51,7 @@ public class AnarASuggestionsFilter extends RuleFilter {
     String verbPostag = tokens[initPos].readingWithTagRegex("V.IP.*").getPOSTag();
     String lemma = tokens[initPos + 2].readingWithTagRegex("V.N.*").getLemma();
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
-    String newPostag =  "V.I[PF]" + verbPostag.substring(4, 8);
+    String newPostag =  "V[MS]I[PF]" + verbPostag.substring(4, 8);
     String[] synthForms = synth.synthesize(at, newPostag, true,
       getLanguageVariantCode(match));
     if (synthForms.length == 0) {
