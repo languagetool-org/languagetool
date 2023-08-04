@@ -112,7 +112,9 @@ public class PronomsFeblesHelper {
     "us la", "us l'", "-vos-la", "-us-la",
     "us les", "us les", "-vos-les", "-us-les",
     "us li", "us li", "-vos-li", "-us-li",
-    "us", "us", "-vos", "-us"
+    "us", "us", "-vos", "-us",
+    // pronoms erronis?
+    //"et", "t'", "-t", "'t"
   };
 
   static Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
@@ -126,7 +128,12 @@ public class PronomsFeblesHelper {
     while (i < pronomsFebles.length && !inputPronom.equalsIgnoreCase(pronomsFebles[i])) {
       i++;
     }
-    String pronom = pronomsFebles[4*(i / 4) + pronounPos.ordinal()];
+    int pfPos = 4*(i / 4) + pronounPos.ordinal();
+    if (pfPos > pronomsFebles.length - 1) {
+      // pronom inexistent, p.ex. -t
+      return "";
+    }
+    String pronom = pronomsFebles[pfPos];
     if (pronounPos == PronounPosition.DAVANT || (pronounPos == PronounPosition.DAVANT_APOS)
       && !pronom.endsWith("'")) {
       pronom = pronom + " ";
@@ -152,24 +159,24 @@ public class PronomsFeblesHelper {
 
   public static String[] getTwoNextPronouns(AnalyzedTokenReadings[] tokens, int from) {
     String[] result = new String[2];
-    int adjustEndPos = 0;
+    int numPronouns = 0;
     String pronoms = "";
     if (from < tokens.length && !tokens[from].isWhitespaceBefore()) {
       AnalyzedToken pronom = tokens[from].readingWithTagRegex("P[P0].*");
       if (pronom != null) {
         pronoms = pronom.getToken();
-        adjustEndPos++;
+        numPronouns++;
       }
       if (from + 1 < tokens.length && !tokens[from + 1].isWhitespaceBefore()) {
         AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex("P[P0].*");
         if (pronom2 != null) {
           pronoms = pronoms + pronom2.getToken();
-          adjustEndPos++;
+          numPronouns++;
         }
       }
     }
     result[0] = pronoms;
-    result[1] = String.valueOf(adjustEndPos);
+    result[1] = String.valueOf(numPronouns);
     return result;
   }
 
