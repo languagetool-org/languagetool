@@ -11944,6 +11944,27 @@ USA
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
+        <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário" default="temp_off">
+            <!-- IDEA shorten_it -->
+            <pattern>
+                <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'>
+                    <exception scope='previous' postag_regexp='yes' postag='SPS00:[DP][ADIPRT].+'/>
+                </token>
+                <token min='0' max='1' postag='_QUOT|_PUNCT|RG' postag_regexp='yes'/>
+                <marker>
+                    <token>que</token>
+                    <token regexp='yes'>é|são</token>
+                    <token regexp='yes'>necessários?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>\5</suggestion>
+            <example correction="necessário">Acho <marker>que é necessário</marker> você ir lá.</example>
+            <example correction="necessários">Ele considera sempre <marker>que são necessários</marker> 2/3 de energia.</example>
+            <example>O médico disse à polícia que é necessário fazer uma necropsia para saber a causa da morte da mulher.</example>
+        </rule>
+
+
         <rule id='DAR_VALOR_VALORIZAR' name="Simplificar: Verbo 'dar' + valor → valorizar" tags="picky">
             <!-- IDEA shorten_it -->
             <pattern>
