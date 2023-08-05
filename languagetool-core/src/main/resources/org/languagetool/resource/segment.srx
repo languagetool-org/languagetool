@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">De les is in jul. en aug. op maandagavond.</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">afdeling C&amp;S. Hij keert terug na</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1659,6 +1659,10 @@
 </rule>
 <rule break="yes">
 <beforebreak>°C\.\s</beforebreak>
+<afterbreak>[A-Z][a-z]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[A-Z]&amp;[A-Z]\.\s</beforebreak>
 <afterbreak>[A-Z][a-z]</afterbreak>
 </rule>
 <rule break="no">
