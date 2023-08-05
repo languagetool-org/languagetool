@@ -7923,6 +7923,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="TE_WKW1EP" name="te check" >
 			<rule>
+				<antipattern><token>des</token><token>te</token></antipattern>
 				<pattern>
 					<token>te</token>
 					<token postag="WKW:TGW:1EP"><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|werk|kijk|boek|leen|grabbel|keer</exception></token>
@@ -24146,6 +24147,11 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="SPATIEFOUT_HET_DE" name="de-hetfout of spatiefout"> <!-- TODO:  Later tag as learner rule -->
 			<rule>
+				<antipattern>
+					<token>de</token>
+					<token>meer</token>
+					<example>De meer afgeleide Deinonychosauria zouden dan het vermogen tot vliegen weer zijn kwijtgeraakt.</example>
+				</antipattern>
 				<antipattern>
 					<token>de</token>
 					<token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
