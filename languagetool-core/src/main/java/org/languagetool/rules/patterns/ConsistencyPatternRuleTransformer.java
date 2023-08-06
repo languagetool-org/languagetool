@@ -118,7 +118,7 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
       }
       for (RuleMatch rm : matches) {
         if (featuresToKeep.contains(getFeature(rm.getRule().getId()))) {
-          resultMatches.add(ruleLanguage.adjustSuggestionsInMatch(rm, featuresToSuggest));
+          resultMatches.add(ruleLanguage.adjustMatch(rm, featuresToSuggest));
         }
       }
       return resultMatches.toArray(new RuleMatch[0]);

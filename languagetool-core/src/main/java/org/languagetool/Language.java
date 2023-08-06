@@ -938,7 +938,7 @@ public abstract class Language {
     return "PREFIXFORCONSISTENCYRULES_";
   }
 
-  public RuleMatch adjustSuggestionsInMatch(RuleMatch rm, List<String> features) {
+  public RuleMatch adjustMatch(RuleMatch rm, List<String> features) {
     return rm;
   }
 }
