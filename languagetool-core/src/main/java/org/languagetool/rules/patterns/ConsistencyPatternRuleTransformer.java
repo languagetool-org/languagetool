@@ -101,23 +101,24 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
         // there is no inconsistency
         return resultMatches.toArray(new RuleMatch[0]);
       }
-      if (countFeatures.size()>2) {
-        // to be done
-        return resultMatches.toArray(new RuleMatch[0]);
-      }
+      int max = Collections.max(countFeatures.values());
+      ArrayList<String> featuresWithMax = new ArrayList<>();
       ArrayList<String> featuresToKeep = new ArrayList<>();
-      ArrayList<String> keysList = new ArrayList<>(countFeatures.keySet());
-      if (countFeatures.get(keysList.get(0)) == countFeatures.get(keysList.get(1))) {
-        featuresToKeep.add(keysList.get(1));
-        featuresToKeep.add(keysList.get(0));
-      } else if (countFeatures.get(keysList.get(0)) > countFeatures.get(keysList.get(1))) {
-        featuresToKeep.add(keysList.get(1));
-      } else {
-        featuresToKeep.add(keysList.get(0));
+      ArrayList<String> featuresToSuggest = new ArrayList<>();
+      for (Map.Entry<String, Integer> entry : countFeatures.entrySet()) {
+        if (entry.getValue()==max) {
+          featuresWithMax.add(entry.getKey());
+        } else {
+          featuresToKeep.add(entry.getKey());
+        }
+      }
+      featuresToSuggest.addAll(featuresWithMax);
+      if (featuresWithMax.size()>1) {
+        featuresToKeep.addAll(featuresWithMax);
       }
       for (RuleMatch rm : matches) {
         if (featuresToKeep.contains(getFeature(rm.getRule().getId()))) {
-          resultMatches.add(rm);
+          resultMatches.add(ruleLanguage.adjustSuggestionsInMatch(rm, featuresToSuggest));
         }
       }
       return resultMatches.toArray(new RuleMatch[0]);
