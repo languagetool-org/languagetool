@@ -32931,13 +32931,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Emily Blunt foi a grande esnobada, já que poderia ter concorrido por O Retorno de Mary Poppins como Atriz e por Um Lugar Silencioso como Coadjuvante.</example>
             </antipattern>
 
-            <!-- Quick fix: 2023-05-19 -->
             <antipattern>
                 <token>por</token>
-                <token regexp='yes'>[ao]s?|em</token>
+                <token postag='SPS00|(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
                 <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='1' max='2' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 <token postag='VMN03.+' postag_regexp='yes'/>
+                <example>O operador não terá a perceção disto por a imagem só ser refrescada no final.</example>
                 <example>Durante longos anos dizia-se que eu fazia batota por o meu dinheiro bater certo ao cêntimo.</example>
             </antipattern>
 
