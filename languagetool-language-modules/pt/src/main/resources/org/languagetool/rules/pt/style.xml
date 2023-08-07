@@ -11944,6 +11944,41 @@ USA
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
+        <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário" default="temp_off">
+            <!-- IDEA shorten_it -->
+
+            <antipattern>
+                <token postag='VMIP.+|VMSF.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes'>é|são</token>
+                <token regexp='yes'>necessários?</token>
+                <token postag='VMN03.+|RG|CS' postag_regexp='yes'/>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <example>Sinceramente, não recomendo esse tipo de pratica pois entendo que é necessário sempre um ambiente profissional para garantir a qualidade e a produtividade.</example>
+                <example>Todos nós sabemos que é necessário acelerar o Programa de Aceleração do Crescimento", emendou ele, usando um trocadilho para se referi...</example>
+                <example>Com a incorporação da Adequação Sociotécnica à Teoria, passa-se a entender que é necessário que um processo seja concebido nas condições em que ele acontecerá.</example>
+                <example>Para atingir esta missão fundamental da Igreja, o documento declara que é necessário dar aos católicos "uma 'consciência de Igreja' mais coerente, para que também se possam valorizar a...</example>
+            </antipattern>
+
+            <pattern>
+                <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'>
+                    <exception scope='previous' postag_regexp='yes' postag='SPS00:[DP][ADIPRT].+'/>
+                </token>
+                <token min='0' max='1' postag='_QUOT|_PUNCT|RG' postag_regexp='yes'/>
+                <marker>
+                    <token>que</token>
+                    <token regexp='yes'>é|são</token>
+                    <token regexp='yes'>necessários?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>\5</suggestion>
+            <example correction="necessário">Acho <marker>que é necessário</marker> você ir lá.</example>
+            <example correction="necessários">Ele considera sempre <marker>que são necessários</marker> 2/3 de energia.</example>
+            <example>O médico disse à polícia que é necessário fazer uma necropsia para saber a causa da morte da mulher.</example>
+        </rule>
+
+
         <rule id='DAR_VALOR_VALORIZAR' name="Simplificar: Verbo 'dar' + valor → valorizar" tags="picky">
             <!-- IDEA shorten_it -->
             <pattern>
