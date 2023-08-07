@@ -937,4 +937,8 @@ public abstract class Language {
   public String getConsistencyRulePrefix() {
     return "PREFIXFORCONSISTENCYRULES_";
   }
+
+  public RuleMatch adjustMatch(RuleMatch rm, List<String> features) {
+    return rm;
+  }
 }
