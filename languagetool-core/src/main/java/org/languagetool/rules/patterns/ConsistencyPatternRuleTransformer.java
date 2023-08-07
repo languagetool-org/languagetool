@@ -83,6 +83,7 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
         // we need to adjust offsets since each pattern rule returns offsets relative to the sentence, not text
         List<RuleMatch> adjustedSentenceMatches = new ArrayList<>();
         for (RuleMatch rm : sentenceMatches) {
+          rm.setSentencePosition(rm.getFromPos(), rm.getToPos());
           int fromPos = rm.getFromPos() + offsetChars;
           int toPos = rm.getToPos() + offsetChars;
           rm.setOffsetPosition(fromPos, toPos);
