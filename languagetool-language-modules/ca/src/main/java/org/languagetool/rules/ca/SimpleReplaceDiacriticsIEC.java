@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
@@ -79,10 +80,14 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
   public boolean isCaseSensitive() {
     return false;
   }
-  
+
   @Override
   public Locale getLocale() {
     return CA_LOCALE;
   }
 
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    return atr.hasPosTagStartingWith("NP");
+  }
 }
