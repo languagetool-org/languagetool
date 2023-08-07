@@ -225,6 +225,85 @@ USA
             </rule>
         </rulegroup>-->
 
+        <rulegroup id="H2O" name="H2O (H₂O) etc." tone_tags="general">
+            <rule><!--O2 [1]-->
+                <antipattern>
+                    <token>O2</token>
+                    <token regexp="yes">Netz(es)?|Deutschland|Germany|international|Academy|Vertrags?|Verträgen?|Mobilfunks?|World|Mitarbeiter.*|Arena|free|Supports?|unlimited|business|enterprise|blue|rabatt|gutscheins?|online|one|Kunden?|Kund|sim.*|my|home|shops?|tarif[se]?|handys?|smartphones?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">bei|von|auf|Marke|Konzerns?|.*Anbieters?</token>
+                    <token>O2</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">o2</token>
+                    <token regexp="yes">Telef[oó]nica|freenet|mobilcom|telekom|1&amp;1|vodafone|.*router.*|GByte|lte|flatrate|[3456]G|GB|Kunde.*|.*tarif.*|e-?plus|.*handy.*|.*smartphone.*|SMS|internet|vertrags?|V?DSL|.*glasfaser.*|.*mobilfunk.*|.*netz.*|.*Rufnummer.*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">Telef[oó]nica|freenet|mobilcom|telekom|1&amp;1|vodafone|.*router.*|GByte|lte|flatrate|[3456]G|GB|Kunde.*|.*tarif.*|e-?plus|.*handy.*|.*smartphone.*|SMS|internet|vertrags?|V?DSL|.*glasfaser.*|.*mobilfunk.*|.*netz.*|.*Rufnummer.*</token>
+                    <token>o2</token>
+                </antipattern>
+                <pattern>
+                    <token>O2</token>
+                </pattern>
+                <message>Möchten Sie die typografisch schönere Schreibweise <suggestion><match no="1" regexp_match="^.*$" regexp_replace="O₂" case_conversion="startupper"/></suggestion>, die zweiatomige Form von <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Sauerstoff" case_conversion="startupper"/></suggestion>, verwenden?</message>
+                <short>Typografie</short>
+                <example correction="O₂|Sauerstoff">Hierbei entsteht <marker>O2</marker>.</example>
+            </rule>
+            <rule><!--CO2 [2]-->
+                <pattern>
+                    <token>CO2</token>
+                </pattern>
+                <message>Möchten Sie die typografisch schönere Schreibweise <suggestion><match no="1" regexp_match="^.*$" regexp_replace="CO₂" case_conversion="startupper"/></suggestion>, das als Treibhausgas bekannte <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Kohlendioxid" case_conversion="startupper"/></suggestion>, verwenden?</message>
+                <short>Typografie</short>
+                <example correction="CO₂|Kohlendioxid">Hierbei entsteht <marker>CO2</marker>.</example>
+            </rule>
+            <rule><!--H2O [3]-->
+                <pattern>
+                    <token>H2O</token>
+                </pattern>
+                <message>Möchten Sie die typografisch schönere Schreibweise <suggestion><match no="1" regexp_match="^.*$" regexp_replace="H₂O" case_conversion="startupper"/></suggestion> (= <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Wasser" case_conversion="startupper"/></suggestion>) verwenden?</message>
+                <short>Typografie</short>
+                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H2O</marker>.</example>
+            </rule>
+            <rule><!--O2 [4]-->
+                <pattern>
+                    <token>O</token>
+                    <token spacebefore="no">²</token>
+                </pattern>
+                <message>Möchten Sie die typografisch korrekte Schreibweise <suggestion><match no="1" regexp_match="^.*$" regexp_replace="O₂" case_conversion="startupper"/></suggestion>, die zweiatomige Form von <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Sauerstoff" case_conversion="startupper"/></suggestion>, verwenden?</message>
+                <short>Typografie</short>
+                <example correction="O₂|Sauerstoff">Hierbei entsteht <marker>O²</marker>.</example>
+            </rule>
+            <rule><!--CO2 [5]-->
+                <pattern>
+                    <token>CO</token>
+                    <token spacebefore="no">²</token>
+                </pattern>
+                <message>Möchten Sie die typografisch korrekte Schreibweise <suggestion><match no="1" regexp_match="^.*$" regexp_replace="CO₂" case_conversion="startupper"/></suggestion>, das als Treibhausgas bekannte <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Kohlendioxid" case_conversion="startupper"/></suggestion>, verwenden?</message>
+                <short>Typografie</short>
+                <example correction="CO₂|Kohlendioxid">Hierbei entsteht <marker>CO²</marker>.</example>
+            </rule>
+            <rule><!--H2O [6]-->
+                <pattern>
+                    <token>H</token>
+                    <token spacebefore="no">²</token>
+                    <token spacebefore="no">O</token>
+                </pattern>
+                <message>Möchten Sie die typografisch korrekte Schreibweise <suggestion><match no="1" regexp_match="^.*$" regexp_replace="H₂O" case_conversion="startupper"/></suggestion> (= <suggestion><match no="1" regexp_match="^.*$" regexp_replace="Wasser" case_conversion="startupper"/></suggestion>) verwenden?</message>
+                <short>Typografie</short>
+                <example correction="H₂O|Wasser">Hierbei entsteht <marker>H²O</marker>.</example>
+            </rule>
+            <rule><!--CO2 [7]-->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">CO2-.+</token>
+                </pattern>
+                <message>Möchten Sie die typografisch schönere Schreibweise "CO₂" verwenden?</message>
+                <suggestion><match no="1" regexp_match="CO2" regexp_replace="CO₂" /></suggestion>
+                <example correction="CO₂-neutral">Der Versand ist <marker>CO2-neutral</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="KATARI" name="Katari (Katarer)" tone_tags="clarity"><!--inclusive (user option)-->
             <url>https://praxistipps.focus.de/katarer-kataris-katarerin-wie-nennt-man-menschen-aus-katar-richtig_152770</url>
             <rule><!--1-->
