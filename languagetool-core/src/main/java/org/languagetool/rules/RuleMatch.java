@@ -50,8 +50,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   //private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
   private final Rule rule;
-  private final String message;
-  private final String shortMessage;   // used e.g. for OOo/LO context menu
+  private String message;
+  private String shortMessage;   // used e.g. for OOo/LO context menu
   private final AnalyzedSentence sentence;
 
   private PatternPosition patternPosition;
@@ -406,6 +406,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return message;
   }
 
+  public void setMessage(String msg) {
+    message = msg;
+  }
   /**
    * A shorter human-readable explanation describing the error or an empty string
    * if no such explanation is available.
@@ -418,6 +421,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
       return "";  // just because this is what we have documented
     }
     return shortMessage;
+  }
+
+  public void setShortMessage(String msg) {
+    shortMessage = msg;
   }
 
   /**
