@@ -69,12 +69,12 @@ public class BrazilianPortugueseReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    return "Palavra de português de Portugal";
+    return "Palavra do português de Portugal";
   }
 
   @Override
   public String getMessage() {
-    return "'$match' é uma expressão de Portugal, em português do Brasil utiliza-se: $suggestions";
+    return "\"$match\" é uma expressão usada sobretudo em Portugal. No português brasileiro diz-se $suggestions";
   }
 
   @Override
