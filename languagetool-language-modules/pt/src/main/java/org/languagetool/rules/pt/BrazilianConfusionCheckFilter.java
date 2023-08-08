@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.pt;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,11 +29,11 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 
-public class ConfusionCheckFilter extends RuleFilter {
+public class BrazilianConfusionCheckFilter extends RuleFilter {
 
-  private static final Map<String, AnalyzedTokenReadings> relevantWords = 
-      new ConfusionPairsDataLoader().loadWords("/pt/confusion_pairs.txt");
-  
+  private final Map<String, AnalyzedTokenReadings> relevantWords =
+    new ConfusionPairsDataLoader().loadWords(getFilepaths());
+
   private static final Pattern MS = Pattern.compile("NC[MC][SN]000|A..[MC][SN].|V.P..SM");
   private static final Pattern FS = Pattern.compile("NC[FC][SN]000|A..[FC][SN].|V.P..SF");
   private static final Pattern MP = Pattern.compile("NC[MC][PN]000|A..[MC][PN].|V.P..PM");
@@ -39,9 +41,16 @@ public class ConfusionCheckFilter extends RuleFilter {
   private static final Pattern CP = Pattern.compile("NC[MFC][PN]000|A..[MFC][PN].|V.P..P.");
   private static final Pattern CS = Pattern.compile("NC[MFC][SN]000|A..[MFC][SN].|V.P..S.");
 
+  private List<String> getFilepaths() {
+    List<String> paths = new ArrayList<>();
+    paths.add("/pt/confusion_pairs.txt");
+    paths.add("/pt/pt-BR/confusion_pairs.txt");
+    return paths;
+  }
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) {
+                                   AnalyzedTokenReadings[] patternTokens) {
 
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;
@@ -55,7 +64,7 @@ public class ConfusionCheckFilter extends RuleFilter {
       int i = Integer.parseInt(gendernumberFrom);
       if (i < 1 || i > patternTokens.length) {
         throw new IllegalArgumentException(
-            "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
+          "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
       }
       AnalyzedTokenReadings atr = patternTokens[i - 1];
       if (atr.matchesPosTagRegex("[NAPD].+MS.*|V.P..SM")) { desiredGenderNumberPattern = MS;}
@@ -65,7 +74,7 @@ public class ConfusionCheckFilter extends RuleFilter {
       else if (atr.matchesPosTagRegex("[NAPD].+CP.*|V.P..P.")) { desiredGenderNumberPattern = CP;}
       else if (atr.matchesPosTagRegex("[NAPD].+CS.*|V.P..S.")) { desiredGenderNumberPattern = CS;}
     }
-    
+
     if (relevantWords.containsKey(form)) {
       if (relevantWords.get(form).matchesPosTagRegex(postag)) {
         if (desiredGenderNumberPattern != null) {
@@ -87,14 +96,14 @@ public class ConfusionCheckFilter extends RuleFilter {
         message = message.replace("se escribe con tilde", "se escribe de otra manera");
       }
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
-          message, match.getShortMessage());
+        message, match.getShortMessage());
       ruleMatch.setType(match.getType());
       String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
       suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
       suggestion = suggestion.replace("{SUGGESTION}", replacement.toUpperCase());
       ruleMatch.setSuggestedReplacement(suggestion);
       return ruleMatch;
-    }    
+    }
     return null;
   }
 
