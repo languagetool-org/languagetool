@@ -41,10 +41,14 @@ public class BrazilianPortuguese extends Portuguese {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new PostReformPortugueseCompoundRule(messages, this, userConfig));
-    rules.add(new BrazilianPortugueseReplaceRule(messages, "/pt/pt-BR/replace.txt"));
     rules.add(new PostReformPortugueseDashRule(messages));
-    rules.add(new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt-BR.txt"));
-    rules.add(new PortugueseArchaismsRule(messages, "/pt/archaisms-pt-BR.txt"));
+    rules.add(new BrazilianPortugueseReplaceRule(messages, "/pt/pt-BR/replace.txt"));
+    rules.add(new PortugueseBarbarismsRule(messages, "/pt/pt-BR/barbarisms.txt"));
+    rules.add(new PortugueseArchaismsRule(messages, "/pt/pt-BR/archaisms.txt"));
+    rules.add(new PortugueseClicheRule(messages, "/pt/pt-BR/cliches.txt"));
+    rules.add(new PortugueseRedundancyRule(messages, "/pt/pt-BR/redundancies.txt"));
+    rules.add(new PortugueseWordinessRule(messages, "/pt/pt-BR/wordiness.txt"));
+    rules.add(new PortugueseWikipediaRule(messages, "/pt/pt-BR/wikipedia.txt"));
     return rules;
   }
 
