@@ -2171,7 +2171,39 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
-    <rule name="des Machens" id="DES_MACHENS"><!--Das ist alles eine Frage des (simplen) Machens.-->
+    <rule name="Acoustic (engl.)" id="IGNORE_ACOUSTIC"><!--Das sogenannte Acoustic Surface sorgt für klaren Sound.-->
+        <pattern case_sensitive="yes">
+            <token>Acoustic</token>
+            <token postag="UNKNOWN" regexp="yes">[A-Z].*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 2" id="IGNORE_ACOUSTIC2"><!--Wir nutzen eine Acoustic Software dafür.-->
+        <pattern case_sensitive="yes">
+            <token>Acoustic</token>
+            <token regexp="yes">Grand|Groove|Party|(Software|Combo|Tour|Festival|Album)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 3" id="IGNORE_ACOUSTIC3"><!--Für die musikalische Unterhaltung sorgt Modern Acoustic Four.-->
+        <pattern case_sensitive="yes">
+            <token postag="UNKNOWN" regexp="yes">[A-Z].*</token>
+            <token>Acoustic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 3" id="IGNORE_ACOUSTIC4"><!--Für die musikalische Unterhaltung sorgt die Band Acoustic Four.-->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Bands?|Impact</token>
+            <token>Acoustic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="des Machens" id="IGNORE_DES_MACHENS"><!--Das ist alles eine Frage des (simplen) Machens.-->
         <pattern case_sensitive="yes">
             <token skip="1">des</token>
             <token>Machens</token>
