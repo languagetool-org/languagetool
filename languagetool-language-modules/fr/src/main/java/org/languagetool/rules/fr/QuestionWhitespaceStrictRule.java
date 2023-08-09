@@ -39,7 +39,7 @@ public class QuestionWhitespaceStrictRule extends QuestionWhitespaceRule {
   public QuestionWhitespaceStrictRule(ResourceBundle messages, Language language) {
     super(messages, language);
     setTags(Arrays.asList(Tag.picky));
-    this.setDefaultOff();
+    this.setDefaultTempOff();
   }
 
   @Override
@@ -60,7 +60,9 @@ public class QuestionWhitespaceStrictRule extends QuestionWhitespaceRule {
     if (i < 0) {
       return false;
     }
-    return tokens[i].getToken().equals("\u202f") || tokens[i].getToken().equals("\u00a0");
+    return tokens[i].getToken().equals("\u202f") || tokens[i].getToken().equals("\u00a0")
+      // covered by FRENCH_WHITESPACE (non strict). This makes both rules mutually exclusive
+      || !tokens[i].isWhitespace();
   }
 
 }
