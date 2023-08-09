@@ -141,6 +141,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "Kornwinkel", "Kornwinkels",  // surname
     "Kurberatung", "Kurberatungen",
     "Kurzplatz", "Kurzplatzes", "Kurzplätze", "Kurzplätzen",
     "Kurzkonzert", "Kurzkonzerte", "Kurzkonzerten",
