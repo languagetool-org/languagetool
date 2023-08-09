@@ -2171,7 +2171,23 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
-    <rule name="des Machens" id="DES_MACHENS"><!--Das ist alles eine Frage des (simplen) Machens.-->
+    <rule name="Acoustic (engl.)" id="IGNORE_ACOUSTIC"><!--Das sogenannte Acoustic Surface sorgt für klaren Sound.-->
+        <pattern case_sensitive="yes">
+            <token>Acoustic</token>
+            <token regexp="yes">(Grand|Software|Vehicle|Clic|Combo|Evening|Tour|Surface|Festival|Avenue|Project|Network|Album)s?|Sensing|Music|Solid|Groove|Quintet|Party|Parties</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 2" id="IGNORE_ACOUSTIC2"><!--Für die musikalische Unterhaltung sorgt die Band Acoustic Four.-->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">(Band)s?|Impact|Distributed|Modern|Live|Natural|The</token>
+            <token>Acoustic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="des Machens" id="IGNORE_DES_MACHENS"><!--Das ist alles eine Frage des (simplen) Machens.-->
         <pattern case_sensitive="yes">
             <token skip="1">des</token>
             <token>Machens</token>
