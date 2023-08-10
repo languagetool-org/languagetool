@@ -50,6 +50,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("koma", "Zustand tiefer Bewusstlosigkeit", "komma", "Satzzeichen"),
           new Pair("korn", "Getreide sowie dessen Frucht", "kron", "Vorsilbe z.B. in 'Kronkorken'"),
           new Pair("bauten", "Form von 'Bau' (Bauwerk, Haus, ...)", "beuten", "Form von 'Beute'"),
           new Pair("file", "engl. 'Datei'", "filet", "ein Stück Fleisch oder Fisch"),
@@ -140,6 +141,12 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "Kurberatung", "Kurberatungen",
+    "Kurzplatz", "Kurzplatzes", "Kurzplätze", "Kurzplätzen",
+    "Kurzkonzert", "Kurzkonzerte", "Kurzkonzerten",
+    "Teilaufstellung", "Teilaufstellungen",
+    "Modellausgabe", "Modellausgaben",
+    "Landeseite", "Landeseiten",
     "Gelgehalt",  // wg. geld
     "Teufelsfrucht",  // wg. furcht
     "Familiennahe",  // wg. nähe
