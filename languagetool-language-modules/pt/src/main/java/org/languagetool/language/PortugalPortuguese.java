@@ -68,4 +68,14 @@ public class PortugalPortuguese extends Portuguese {
   protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new HunspellRule(messages, this, null, null);
   }
+
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
 }

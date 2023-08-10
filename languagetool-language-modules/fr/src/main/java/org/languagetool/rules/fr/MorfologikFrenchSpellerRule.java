@@ -46,6 +46,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       //grand, haut, nord, sud, sous, sur l|d|s|t
       flags);
 
+  private static final List<String> exceptionsEgrave = Arrays.asList(new String[]{"burkinabè", "koinè", "épistémè"});
   private static final Pattern APOSTROF_INICI_VERBS = compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$", flags);
   private static final Pattern APOSTROF_INICI_VERBS_M = compile("^(m)(h?[aeiouàéèíòóú].*[^è])$", flags);
   private static final Pattern APOSTROF_INICI_VERBS_C = compile("^(c)([eiéèê].*)$", flags);
@@ -122,6 +123,12 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
 
       // remove wrong split prefixes
       if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
+        continue;
+      }
+
+      // remove: informè V ind pres 1 s
+      if (suggestions.get(i).getReplacement().toLowerCase().endsWith("è")
+        && !exceptionsEgrave.contains(suggestions.get(i).getReplacement().toLowerCase())) {
         continue;
       }
 

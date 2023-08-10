@@ -46,33 +46,33 @@ public class QuestionWhitespaceStrictRuleTest {
       assertEquals(0, rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est ?")).length);
       assertEquals(0, rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple : philosophique")).length);
       assertEquals(0, rule.match(lt.getAnalyzedSentence("Bonjour :)")).length);
-      
-      // errors:
+
+      // covered by rule FRENCH_WHITESPACE
       matches = rule.match(lt.getAnalyzedSentence("C'est vrai!"));
+      assertEquals(0, matches.length);
+      matches = rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est?"));
+      assertEquals(0, matches.length);
+      matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;"));
+      assertEquals(0, matches.length);
+      matches = rule.match(lt.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature»."));
+      assertEquals(0, matches.length);
+
+      // covered partially by rule FRENCH_WHITESPACE
+      matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
       assertEquals(1, matches.length);
+      assertEquals(50, matches[0].getFromPos());
+      assertEquals(52, matches[0].getToPos());
+      assertEquals("[\u202f;]", matches[0].getSuggestedReplacements().toString());
+
+      // errors:
       matches = rule.match(lt.getAnalyzedSentence("C'est vrai !"));
       assertEquals(1, matches.length);
       matches = rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est ?"));
       assertEquals(1, matches.length);
-      matches = rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est?"));
-      assertEquals(1, matches.length);
-      matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;"));
-      assertEquals(2, matches.length);
       assertEquals(1, rule.match(lt.getAnalyzedSentence("Bonjour : )")).length);
-      matches = rule.match(lt.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
-      assertEquals(2, matches.length);
-      // check match positions:
-      assertEquals(2, matches.length);
-      assertEquals(29, matches[0].getFromPos());
-      assertEquals(36, matches[0].getToPos());
-      assertEquals("[triple\u00a0:]", matches[0].getSuggestedReplacements().toString());
-      assertEquals(50, matches[1].getFromPos());
-      assertEquals(52, matches[1].getToPos());
-      assertEquals("[\u202f;]", matches[1].getSuggestedReplacements().toString());
+
       //guillemets
       matches = rule.match(lt.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : « mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature »."));
-      assertEquals(2, matches.length);
-      matches = rule.match(lt.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature»."));
       assertEquals(2, matches.length);
     }
     

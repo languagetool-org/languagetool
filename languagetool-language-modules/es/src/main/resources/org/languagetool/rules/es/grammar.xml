@@ -13304,15 +13304,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
-        <rule id="PUNTO_ESE" name="bonito.s -> bonitos." default="temp_off">
+        <rule id="PUNTO_ESE" name="bonito.s -> bonitos.">
             <pattern>
-                <token regexp="yes">\p{L}+</token>
+                <token regexp="yes">\p{L}\p{L}+</token>
                 <token spacebefore="no" regexp="yes">[\.,]</token>
-                <token spacebefore="no">s</token>
+                <token spacebefore="no" case_sensitive="yes">s</token>
             </pattern>
             <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
             <message>¿Quería decir <suggestion>\1s\2</suggestion>?</message>
             <example correction="países.">Afecta también a varios <marker>paíse.s</marker></example>
+            <example correction="más,">Habitualmente, y sin saber <marker>má,s</marker> te puedo indicar que utilices el phosphorus 7 ch 4 veces al día.</example>
+            <example>Te quedarás en B.M.S. para siempre.</example>
         </rule>
         <rule id="AVER_A_VER" name="aver -> a ver">
             <pattern>
