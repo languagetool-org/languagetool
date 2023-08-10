@@ -141,17 +141,6 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
-    "Kornwinkel", "Kornwinkels",  // surname
-    "Kurberatung", "Kurberatungen",
-    "Kurzplatz", "Kurzplatzes", "Kurzplätze", "Kurzplätzen",
-    "Kurzkonzert", "Kurzkonzerte", "Kurzkonzerten",
-    "Teilaufstellung", "Teilaufstellungen",
-    "Modellausgabe", "Modellausgaben",
-    "Landeseite", "Landeseiten",
-    "Gelgehalt",  // wg. geld
-    "Teufelsfrucht",  // wg. furcht
-    "Familiennahe",  // wg. nähe
-    "kreis",  // wg. reis/reise
     "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
     "Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene|welt)",
     "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
@@ -171,6 +160,17 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Kornwinkel", "Kornwinkels",  // surname
+          "Kurberatung", "Kurberatungen",
+          "Kurzplatz", "Kurzplatzes", "Kurzplätze", "Kurzplätzen",
+          "Kurzkonzert", "Kurzkonzerte", "Kurzkonzerten",
+          "Teilaufstellung", "Teilaufstellungen",
+          "Modellausgabe", "Modellausgaben",
+          "Landeseite", "Landeseiten",
+          "Gelgehalt",  // wg. geld
+          "Teufelsfrucht",  // wg. furcht
+          "Familiennahe",  // wg. nähe
+          "kreis",  // wg. reis/reise
           "Kronbergstraße",  // Kronbergstraße and Kornbergstraße both exist...
           "Kostenzeile", "Kostenzeilen",
           "Gesamtzeile", "Gesamtzeilen",
