@@ -900,6 +900,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>Danke</marker> schön, sehr nett.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VER:IMP.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="PRO:POS.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Lang <marker>lebe</marker> unsere Hoheit!.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
@@ -1612,6 +1623,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example>Die Lichtmalerei ist für mich die sinnvollste und sinnlichste <marker>Art</marker> einen unbekleideten Körper im Bild darzustellen und der Fantasie Raum zu lassen.</example>
                 <example>Es ist mir ein tiefes <marker>Bedürfnis</marker> mich an dieser Stelle bei einigen Menschen von Herzen zu bedanken, die mich auf meinem Weg begleitet haben.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="VER:[123].*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="ART:DEF.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>Bekommen</marker> die Ihre Besucher größtenteils über Google Suchbegriffe wie “Rabatt ” oder “Gutscheincode “?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PA1.*" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="ADJ.*" postag_regexp="yes"></token>
+                    <token postag="PA2.*" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Die Zielsetzung kann <marker>spielend</marker> leicht ausgewählt und geändert werden.</example>
+            </rule>
         </rulegroup>
         <rule id="AI_DE_HYDRA_LEO_CP_EINEN_EINEM" name="">
             <pattern>
@@ -1623,6 +1654,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <token postag="SUB.+PLU:FEM" postag_regexp="yes"/>
             </pattern>
             <example correction="">A ist zurück und die Cops umzingeln uns mit <marker>einen</marker> Millionen Fragen..</example>
+        </rule>
+        <rule id="AI_DE_HYDRA_LEO_CPT_MIT_CMIT" name="">
+            <pattern>
+                <token postag="VER.*" postag_regexp="yes"/>
+                <token postag="PRO:PER.*" postag_regexp="yes"/>
+                <marker>
+                    <token>mit</token>
+                </marker>
+                <token postag="ART.*GEN.*" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">Handschriftliches können Sie <marker>mit</marker> der Scanfunktion des Tools, elektronische Texte direkt in einer der zahlreichen Versionen überprüfen lassen.<marker>bed English</marker>.</example>
         </rule>
     </category>
 </rules>
