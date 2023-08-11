@@ -237,8 +237,14 @@ class CompoundTagger {
 
     // wrong: пів-качана
     if( leftWordLowerCase.equals("пів")
-        && Character.isLowerCase(rightWord.charAt(0)) )
-      return null;
+        && Character.isLowerCase(rightWord.charAt(0)) ) {
+
+      List<TaggedWord> rightWdList = tagEitherCase(rightWord);
+      List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
+
+      List<AnalyzedToken> newAnalyzedTokens = addPluralNvTokens(word, rightAnalyzedTokens, ":bad");
+      return newAnalyzedTokens;
+    }
 
     List<TaggedWord> leftWdList = tagAsIsAndWithLowerCase(leftWord);
 
@@ -369,7 +375,8 @@ class CompoundTagger {
     List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
 
     // півгодини-годину
-    if( word.startsWith("пів") && PosTagHelper.hasPosTag(leftAnalyzedTokens, Pattern.compile("noun:inanim:p:v_...:nv.*")) ) {
+    if( word.startsWith("пів") 
+        && PosTagHelper.hasPosTag(leftAnalyzedTokens, Pattern.compile("noun:inanim:p:v_...:nv.*")) ) {
       
       return rightAnalyzedTokens.stream()
           .filter(a -> a.getPOSTag() != null && a.getPOSTag().startsWith("noun:inanim:") )
@@ -479,24 +486,7 @@ class CompoundTagger {
 
     if( Character.isUpperCase(rightWord.charAt(0)) ) {
       if (word.startsWith("пів-")) {
-        List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(rightAnalyzedTokens.size());
-        
-        for (AnalyzedToken rightAnalyzedToken : rightAnalyzedTokens) {
-          String rightPosTag = rightAnalyzedToken.getPOSTag();
-
-          if( rightPosTag == null )
-            continue;
-
-          if( NOUN_SING_V_ROD_REGEX.matcher(rightPosTag).matches() ) {
-            for(String vid: PosTagHelper.VIDMINKY_MAP.keySet()) {
-              if( vid.equals("v_kly") )
-                continue;
-              String posTag = rightPosTag.replace("v_rod", vid).replaceFirst(":[mfn]:v_", ":p:v_") + ":ua_1992";
-              newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
-            }
-          }
-        }
-
+        List<AnalyzedToken> newAnalyzedTokens = addPluralNvTokens(word, rightAnalyzedTokens, ":ua_1992");
         return newAnalyzedTokens;
       }
       else {
@@ -557,6 +547,33 @@ class CompoundTagger {
     compoundDebugLogger.logUnknownCompound(word);
     
     return null;
+  }
+
+
+  private List<AnalyzedToken> addPluralNvTokens(String word, List<AnalyzedToken> rightAnalyzedTokens, String addTag) {
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(rightAnalyzedTokens.size());
+    
+    for (AnalyzedToken rightAnalyzedToken : rightAnalyzedTokens) {
+      String rightPosTag = rightAnalyzedToken.getPOSTag();
+      if( rightPosTag != null && NOUN_SING_V_ROD_REGEX.matcher(rightPosTag).matches() ) {
+        addPluralNvTokens(word, newAnalyzedTokens, rightPosTag, addTag);
+      }
+    }
+    return newAnalyzedTokens;
+  }
+
+
+  private void addPluralNvTokens(String word, List<AnalyzedToken> newAnalyzedTokens, String rightPosTag, String addTag) {
+    for(String vid: PosTagHelper.VIDMINKY_MAP.keySet()) {
+      if( vid.equals("v_kly") )
+        continue;
+
+      String posTag = rightPosTag.replace("v_rod", vid).replaceFirst(":[mfn]:v_", ":p:v_") + addTag;
+      AnalyzedToken token = new AnalyzedToken(word, posTag, word);
+      if( ! newAnalyzedTokens.contains(token) ) {
+        newAnalyzedTokens.add(token);
+      }
+    }
   }
 
   private static boolean equalParts(String lemma) {

@@ -363,8 +363,18 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Уолл-стрит", "Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_dav:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_mis:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_naz:nv:prop"
         + "|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_oru:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_rod:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_zna:nv:prop"
         , tokenizer, tagger);
+
+    TestTools.myAssert("пів-години", "пів-години/[пів-години]noun:inanim:p:v_dav:bad|пів-години/[пів-години]noun:inanim:p:v_mis:bad|пів-години/[пів-години]noun:inanim:p:v_naz:bad|пів-години/[пів-години]noun:inanim:p:v_oru:bad|пів-години/[пів-години]noun:inanim:p:v_rod:bad|пів-години/[пів-години]noun:inanim:p:v_zna:bad"
+        , tokenizer, tagger);
   }        
 
+  @Test
+  public void testDynamicMissingApostrophe() throws IOException {
+    TestTools.myAssert("зїзду", "зїзду/[з'їзд]noun:inanim:m:v_dav:bad|зїзду/[з'їзд]noun:inanim:m:v_mis:bad|зїзду/[з'їзд]noun:inanim:m:v_rod:bad", tokenizer, tagger);
+    TestTools.myAssert("обвязаний", "обвязаний/[обв'язаний]adj:m:v_kly:&adjp:pasv:perf:bad|обвязаний/[обв'язаний]adj:m:v_naz:&adjp:pasv:perf:bad|обвязаний/[обв'язаний]adj:m:v_zna:rinanim:&adjp:pasv:perf:bad", tokenizer, tagger);
+    TestTools.myAssert("время", "время/[null]null", tokenizer, tagger);
+  }
+  
   @Test
   public void testDynamicTaggingPiv() throws IOException {
     TestTools.myAssert("півгодини-годину", "півгодини-годину/[півгодини-годину]noun:inanim:p:v_zna", tokenizer, tagger);
@@ -450,7 +460,6 @@ public class UkrainianTaggerTest {
 
     // handled by different logic
 //    assertNotTagged("напів-люкс");
-    assertNotTagged("пів–качана");
     assertNotTagged("Малишко-це");
     assertNotTagged("відносини-коли");
     assertNotTagged("лісо-та");
@@ -569,7 +578,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("ексюрист", "ексюрист/[ексюрист]noun:anim:m:v_naz:bad:ua_2019", tokenizer, tagger);
     TestTools.myAssert("екс'прес", "екс'прес/[null]null", tokenizer, tagger);
 
-    TestTools.myAssert("напівяпонка", "напівяпонка/[напівяпонка]noun:anim:f:v_naz:bad", tokenizer, tagger);
+    TestTools.myAssert("напівяпонка", "напівяпонка/[напів'японка]noun:anim:f:v_naz:bad", tokenizer, tagger);
     TestTools.myAssert("Напівсправедливий", "Напівсправедливий/[напівсправедливий]adj:m:v_kly|Напівсправедливий/[напівсправедливий]adj:m:v_naz|Напівсправедливий/[напівсправедливий]adj:m:v_zna:rinanim", tokenizer, tagger);
     TestTools.myAssert("напіврозслабленого", "напіврозслабленого/[напіврозслаблений]adj:m:v_rod|напіврозслабленого/[напіврозслаблений]adj:m:v_zna:ranim|напіврозслабленого/[напіврозслаблений]adj:n:v_rod", tokenizer, tagger);
 
