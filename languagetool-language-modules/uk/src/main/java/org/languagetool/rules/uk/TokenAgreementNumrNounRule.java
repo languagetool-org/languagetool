@@ -65,7 +65,7 @@ public class TokenAgreementNumrNounRule extends Rule {
   private static final Pattern _FRA = Pattern.compile(".*,[1-9]+");
   private static final Pattern _2to4 = Pattern.compile("([0-9]+[–-])?[^,]*(?<!1)[234]");
   private static final Pattern _5to9 = Pattern.compile("[0-9\\h]*([5-90]|1[2-4])");
-  private static final Pattern _5to9_ALPHA = Pattern.compile("(.+-)?(п.ять|шість|сім|вісім|(три)?дев.ять|.*дцять|сорок|.*десять?|дев.яносто|сто|двісті|триста|чотириста|півтораста|.+сот)|(де)?кілька|кількох|аніскільки");
+  private static final Pattern _5to9_ALPHA = Pattern.compile("(.+-)?(п.ять|шість|сім|вісім|(три)?дев.?ять|.*дцять|сорок|.*десять?|дев.яносто|сто|двісті|триста|чотириста|півтораста|.+сот)|(де)?кілька|кількох|аніскільки");
   private static final Pattern NOUN_FORCE_PATTERN = Pattern.compile("чоловік|солдат|тон|(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)");
 
   private final Synthesizer synthesizer;
