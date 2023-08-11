@@ -1337,6 +1337,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (word.matches("[Ww]ierd")) return topMatch(word.replaceFirst("ierd", "eird"));
     if (word.matches("[Ss]argent")) return topMatch(word.replaceFirst("argent", "ergeant"));
     if (word.matches("swimmed")) return topMatch("swam");
+    if (word.matches("misspelt")) return topMatch("misspelled");
     if (word.matches("[Jj]ist")) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("just"));
