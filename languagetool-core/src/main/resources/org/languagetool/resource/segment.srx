@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">afdeling C&amp;S. Hij keert terug na</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">'Het is een Jezus' oma's test. En dit Jezus' oma's ook.' En dan deze.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1846,6 +1846,14 @@
 <rule break="no">
 <beforebreak>\sBTW\.</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>^'</beforebreak>
+<afterbreak>[^']+</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[.]</beforebreak>
+<afterbreak>' [A-Z]</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Slovak">
