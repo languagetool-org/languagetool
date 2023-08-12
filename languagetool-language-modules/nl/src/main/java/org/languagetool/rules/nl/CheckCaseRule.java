@@ -59,7 +59,7 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   @Override
   public String getMessage() {
-    return "Aanbevolen schrijfwijze";
+    return "Juiste schrijfwijze";
   }
   
   @Override
