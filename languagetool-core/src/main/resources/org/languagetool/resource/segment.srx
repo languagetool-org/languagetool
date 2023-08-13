@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">'Dit is een test. En dit ook.'</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Hier. “Dit is een test dit. En dit. En dit.” En de rest.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1848,12 +1848,20 @@
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>^'</beforebreak>
-<afterbreak>[^']+$</afterbreak>
+<beforebreak>( |^)['‘]</beforebreak>
+<afterbreak>[^'’]+[.!?]\s[A-Z]</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[.]</beforebreak>
-<afterbreak>' [A-Z]</afterbreak>
+<beforebreak>[.!?]\s[A-Z][^']+</beforebreak>
+<afterbreak>['’]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>(^| )["“]</beforebreak>
+<afterbreak>[^"“]+[.!?]\s[A-Z]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[.!?]\s[A-Z][^"”]+</beforebreak>
+<afterbreak>["”]</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Slovak">
