@@ -135,7 +135,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
             <rule>
                 <pattern>
-                    <token>you</token>
+                    <token regexp="yes">you|we|they</token>
                     <marker>
                         <token>were</token>
                     </marker>
@@ -2897,6 +2897,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="SENT_END"/>
                 </pattern>
                 <example correction="">I don't want to go in <marker>there</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name="">
+            <rule>  <!-- test AP: 'the State' -->
+                <pattern>
+                    <token>the</token>
+                    <marker>
+                        <token>State</token>
+                    </marker>
+                </pattern>
+                <example correction="">...the committee's affordability analysis, and a number of other factors relevant to the ability of the <marker>State</marker> to meet its projected debt service requirements for the next 5 years.</example>
+                <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
             </rule>
         </rulegroup>
     </category>
