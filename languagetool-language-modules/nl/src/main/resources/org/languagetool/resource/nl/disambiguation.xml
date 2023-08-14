@@ -456,14 +456,21 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
     
 	<!-- GETALLEN -->
-	<!-- te be replaced byt the rules below -->
+	<!-- replaced by the rules below
 	<rule name="GUESS_number" id="TAG_NUMBERS">
 		<pattern>
 			<token regexp="yes">[0-9]{1,10}<exception>1</exception></token>
 		</pattern>
 		<disambig action="add"><wd pos="GET:ARA:MRV"/></disambig>
 	</rule>
-	<!--
+	-->
+	<rule name="GUESS_number" id="TAG_NUMBER_1EKV">
+		<pattern>
+			<token>1</token>
+		</pattern>
+		<disambig action="add"><wd pos="GET:ARA:001:EKV"/></disambig>
+	</rule>
+
 	<rule name="GUESS_number_1" id="TAG_NUMBERS_1">
 		<pattern>
 			<token regexp="yes">[0-9]{1}<exception>1</exception></token>
@@ -536,22 +543,9 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="add"><wd pos="GET:ARA:012:MRV"/></disambig>
 	</rule>
+	<!--
 	Longer numbers are not often needed; phone number is normally the largest one
 	-->
-	<!-- for consistency reasons, number one also need a change
-	<rule name="GUESS_number" id="TAG_NUMBER_1EKV">
-		<pattern>
-			<token>1</token>
-		</pattern>
-		<disambig action="add"><wd pos="GET:ARA:001:EKV"/></disambig>
-	</rule>
-	-->
-	<rule name="GUESS_number" id="TAG_NUMBER_1">
-		<pattern>
-			<token>1</token>
-		</pattern>
-		<disambig action="add"><wd pos="GET:ARA:EKV"/></disambig>
-	</rule>
 
 	<rule name="GUESS_number" id="NUMBERS_RANKING">
 		<pattern>
