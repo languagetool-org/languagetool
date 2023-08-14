@@ -588,12 +588,12 @@ USA
 			<antipattern>
 				<!-- matched number followed by unmatched number -->
 				<token skip="4" regexp="yes">[1-9]|1[0-9]|[2-9]0</token>
-				<token postag="GET:ARA:MRV"><exception regexp="yes">[1-9]|1[0-9]|[2-9]0</exception></token>
+				<token postag_regexp="yes" postag="GET:ARA.*MRV"><exception regexp="yes">[1-9]|1[0-9]|[2-9]0</exception></token>
 				<example>Hij had 12 van de 53 keer gewonnen.</example>
 			</antipattern>
 			<antipattern>
 				<!-- unmatched number followed by matched number -->
-				<token skip="4" postag="GET:ARA:MRV"><exception regexp="yes">[1-9]|1[0-9]|[2-9]0</exception></token>
+				<token skip="4" postag_regexp="yes" postag="GET:ARA.*MRV"><exception regexp="yes">[1-9]|1[0-9]|[2-9]0</exception></token>
 				<token regexp="yes">[1-9]|1[0-9]|[2-9]0</token>
 				<example>Hij speelde 53 spellen en won er 12.</example>
 			</antipattern>
