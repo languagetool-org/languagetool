@@ -1825,6 +1825,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>  <!-- pattern taken from IF_NO_COMMA -->
+                <pattern>
+                    <marker>
+                        <token chunk_re="E-NP.*" />
+                    </marker>
+                    <token skip="3" spacebefore="yes">when
+                        <exception scope="next" regexp="yes">,|–|-</exception>
+                    </token>
+                    <token skip="3" chunk_re=".-VP">
+                        <exception scope="next" regexp="yes">,|–|-</exception>
+                    </token>
+                    <token postag="SENT_END" regexp="yes">[.!?]</token>
+                </pattern>
+                <example correction="">What we mean by this is that if you ask yourself how much you exercised last week, you may conclude that it was five or six <marker>times</marker> when it was really only three.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token chunk_re="E-NP.*" postag="NN.*" postag_regexp="yes" />
