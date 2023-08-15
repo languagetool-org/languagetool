@@ -374,7 +374,13 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("обвязаний", "обвязаний/[обв'язаний]adj:m:v_kly:&adjp:pasv:perf:bad|обвязаний/[обв'язаний]adj:m:v_naz:&adjp:pasv:perf:bad|обвязаний/[обв'язаний]adj:m:v_zna:rinanim:&adjp:pasv:perf:bad", tokenizer, tagger);
     TestTools.myAssert("время", "время/[null]null", tokenizer, tagger);
   }
-  
+
+  @Test
+  public void testDynamicMissingHyphen() throws IOException {
+    TestTools.myAssert("якогонебудь", "якогонебудь/[який-небудь]adj:m:v_rod:&pron:int:rel:def:bad|якогонебудь/[який-небудь]adj:m:v_zna:ranim:&pron:int:rel:def:bad|якогонебудь/[який-небудь]adj:n:v_rod:&pron:int:rel:def:bad", tokenizer, tagger);
+    TestTools.myAssert("болнебудь", "болнебудь/[null]null", tokenizer, tagger);
+  }
+
   @Test
   public void testDynamicTaggingPiv() throws IOException {
     TestTools.myAssert("півгодини-годину", "півгодини-годину/[півгодини-годину]noun:inanim:p:v_zna", tokenizer, tagger);

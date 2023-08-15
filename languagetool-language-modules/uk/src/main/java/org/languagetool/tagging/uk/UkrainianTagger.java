@@ -60,6 +60,7 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("[-\u2013][«\"„]");
   private static final Pattern COMPOUND_WITH_QUOTES_REGEX2 = Pattern.compile("[»\"“][-\u2013]");
   private static final Pattern MISSING_APO = Pattern.compile("([бвгґдзкмнпрстфхш])([єїюя])");
+  private static final Pattern MISSING_HYPHEN = Pattern.compile("([а-яіїєґ']+)(небудь)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern CAPS_INSIDE_WORD = Pattern.compile("[а-яіїєґ'-]*[а-яіїєґ][А-ЯІЇЄҐ][а-яіїєґ][а-яіїєґ'-]*");
 
 
@@ -133,6 +134,17 @@ public class UkrainianTagger extends BaseTagger {
               .map(w -> new TaggedWord(w.getLemma(), PosTagHelper.addIfNotContains(w.getPosTag(), ":bad")))
               .collect(Collectors.toList());
 //          wdList = PosTagHelper.adjust(wdList, null, null, ":bad");
+          return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+        }
+      }
+    }
+
+    if ( word.length() > 5 ) {
+      Matcher matcher = MISSING_HYPHEN.matcher(word);
+      if (matcher.matches()) {
+        List<TaggedWord> wdList = wordTagger.tag(matcher.group(1).toLowerCase());
+        if( wdList.size() > 0 && PosTagHelper.hasPosTagPart2(wdList, "pron")) {
+          wdList = PosTagHelper.adjust(wdList, null, "-"+matcher.group(2).toLowerCase(), ":bad");
           return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
         }
       }
