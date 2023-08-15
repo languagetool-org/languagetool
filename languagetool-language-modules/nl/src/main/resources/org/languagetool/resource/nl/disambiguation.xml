@@ -1611,6 +1611,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 	   <disambig action="remove" postag="WKW:TGW:1EP"/>
 	</rule>
+
 	<rule id="ENM_CAPS" name="x">
 		<!-- gok op eigennaam als het ook een eigennaam kan zijn en hoofdletter heeft, maar niet aan begin -->
 		<antipattern><token postag="SENT_START"/><token/></antipattern>
@@ -1631,4 +1632,19 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="ignore_spelling"/>
 	</rule>
+
+	<!-- verwijder bijvoeglijke patronen bij BYW:GRD
+	<rule id="BYW_GRD" name="x">
+		<pattern>
+			<marker>
+				<and>
+					<token postag_regexp="yes" postag="(BNW|WKW).*:ONV"/>
+					<token postag="BYW:GRD"/>
+				</and>
+			</marker>
+			<token postag_regexp="yes" postag="(BNW|WKW).*:ONV"/>
+		</pattern>
+	   <disambig action="remove" postag="(BNW|WKW).*:ONV"/>
+	</rule>
+-->
 </rules>
