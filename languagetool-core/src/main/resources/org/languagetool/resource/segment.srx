@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Hier. “Dit is een test dit. En dit. En dit.” En de rest.</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Wat God buiten Christus is. 2.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1540,6 +1540,10 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<rule break="yes">
+<beforebreak>[ ]is[.][ ]</beforebreak>
+<afterbreak>[0-9]\.($|[ ])</afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>(^| )O\.\s</beforebreak>
 <afterbreak>([A-Z][a-z]{1,3}[ ,:;.!?]|Indië|Wanneer|Kunnen|Sorry)</afterbreak>
