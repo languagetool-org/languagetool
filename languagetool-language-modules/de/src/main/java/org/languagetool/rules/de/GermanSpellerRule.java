@@ -3490,6 +3490,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Moet": return topMatch("Moët");
       case "Prigozhin": return topMatch("Prigoschin");
       case "Prigozhins": return topMatch("Prigoschins");
+      case "unhilfreich": return topMatch("unbehilflich");
     }
     return Collections.emptyList();
   }
