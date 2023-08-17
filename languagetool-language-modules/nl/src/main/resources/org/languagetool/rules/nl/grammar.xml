@@ -17228,17 +17228,39 @@ regexp case-insensitive maken: (?i)
 					<example>Het pakket wordt aan u retour gezonden.</example>
 					<example>U kunt elkaar leren kennen in alle privacy - alleen u twee.</example>
 				</antipattern>
+				<antipattern>
+				    <token postag="WKW:TGW:3EP"><exception postag="WKW:VTD:ONV"/></token>
+					<token postag_regexp="yes" postag="BNW.*|VRZ"><exception postag_regexp="yes" postag="ZNW.*"></exception></token>
+                    <token>u</token>
+                    <example>Wat betekent voor u communicatie?</example>
+				</antipattern>
+				<antipattern>
+				    <token postag_regexp="yes" postag="WKW.*"></token>
+					<token>van</token>
+                    <token>u</token>
+				    <example>Ik kreeg van u commentaar op een aangebrachte, naar het schijnt, ongewenste wijziging</example>
+				    <example>Wij eisen van u verwijdering van deze foto!</example>
+				</antipattern>
+				<antipattern>
+				    <token>heet</token>
+				    <token>u</token>
+				    <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+				    <example>Heet u Diamant?</example>
+				</antipattern>
 				<pattern>
 					<token><exception postag_regexp="yes" postag="BYW.*|VGW|VRZ"></exception></token>
 					<token postag_regexp="yes" postag="BNW.*|VRZ"><exception postag_regexp="yes" postag="ZNW.*"></exception></token>
 					<marker>
 						<token>u</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="BNW.*|BYW.*|VNW.*|VRZ|WKW.*"></exception></token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="BNW.*|BYW.*|VNW.*|VRZ|WKW.*|ENM.*"></exception></token>
+				    <token><exception>is</exception></token>
 				</pattern>
 				<message>Bedoelt u hier soms <suggestion>\3w</suggestion>?</message>
 				<example correction="uw">Ik zou graag <marker>u</marker> mening willen horen.</example>
 				<example correction="Uw">Heel erg bedankt voor <marker>U</marker> aandacht op deze lange dag.</example>
+				<example>Ik begrijp dan ook niet waarom dit volgens u reclame is</example>
+				<example>Mogelijk dat dit voor u aanleiding is de tekst aan te passen.</example>
 			</rule>
 		</rulegroup>
 
