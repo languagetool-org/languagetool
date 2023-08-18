@@ -25156,5 +25156,20 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="JAAR_JAAR" name="2014/2015" tags="picky" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag="GET:ARA:004:MRV"/>
+					<token>/</token>
+					<token postag="GET:ARA:004:MRV"/>
+				</pattern>
+				<message>Vermijd de /, gebruik liever een koppelteken.</message>
+				<suggestion>\1-\3</suggestion>
+				<example correction="2014-2015">In het seizoen <marker>2014/2015</marker> werd ze wereldkampioene.</example>
+			</rule>
+		</rulegroup>
+
+
+
 	</category>
 </rules>
