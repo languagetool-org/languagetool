@@ -754,6 +754,20 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="DAG_BEGINT_MET_0" name="01 januari" tags="picky" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">0[0-9]</token>
+					</marker>
+					<token regexp="yes">&months;|&abbrevMonths;</token>
+				</pattern>
+				<message>In gewone tekst wordt geen voorloopnul gebruikt.</message>
+				<suggestion><match no="1" regexp_match="^0" regexp_replace=""/></suggestion>
+				<example correction="5">Op <marker>05</marker> januari 2020 ging het mis.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="VEEL_DAGEN" name="2021 dagen" >
 			<antipattern>
 				<token skip="-1" regexp="yes" inflected="yes">totaal|exact|precies|.*tijd.*|gedurende|bestaan|.*vlieg.*</token>
