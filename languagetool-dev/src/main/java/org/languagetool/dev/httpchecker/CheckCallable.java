@@ -62,7 +62,9 @@ class CheckCallable implements Callable<File> {
   @Nullable
   private final String password;
 
-  CheckCallable(int count, String baseUrl, String token, List<String> texts, String langCode, @Nullable String user, @Nullable String password) {
+  private final String parameters;
+
+  CheckCallable(int count, String baseUrl, String token, List<String> texts, String langCode, @Nullable String user, @Nullable String password, @Nullable String parameters) {
     this.count = count;
     this.baseUrl = Objects.requireNonNull(baseUrl);
     this.token = token;
@@ -70,6 +72,7 @@ class CheckCallable implements Callable<File> {
     this.langCode = Objects.requireNonNull(langCode);
     this.user = user;
     this.password = password;
+    this.parameters = parameters;
   }
 
   @Override
@@ -92,6 +95,9 @@ class CheckCallable implements Callable<File> {
             "&level=picky" +
             "&enableTempOffRules=true";
         postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
+        if (parameters != null) {
+          postData += "&" + parameters;
+        }
         String tokenInfo = token != null ? " with token" : " without token";
         float progress = (float)i++ / texts.size() * 100.0f;
         printOut(String.format(Locale.ENGLISH, threadName + " - Posting text with " + text.length() +
