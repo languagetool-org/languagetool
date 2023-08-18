@@ -433,6 +433,8 @@ public class AgreementRuleTest {
     assertGood("Was ist, wenn ein Projekt bei den Berliner Type Awards mit einem Diplom ausgezeichnet wird?");
     assertGood("Was ist mit dem Liechtensteiner Kulturleben los?");
     assertGood("Das ist der Mann den Präsident Xi Jinping verurteilte.");
+    assertGood("Wie viele Kolleg/-innen haben sie?");
+    assertGood("Die Ideen der neuen Kolleg/-innen sind gut!");
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");

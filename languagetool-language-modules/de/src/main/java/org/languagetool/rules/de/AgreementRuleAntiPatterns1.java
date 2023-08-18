@@ -39,6 +39,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     asList(
+      posRegex("(ART|PRO):.*"),   // "Wie viele Kolleg/-innen haben sie?"
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:.*"),
+      token("/"),
+      tokenRegex("-in|-innen")
+    ),
+    asList(
       token("wegen"),   //  "...und hatte wegen des vielen Trinkens Kopfschmerzen." (#4695)
       token("des"),
       token("vielen"),
