@@ -11186,6 +11186,29 @@ regexp case-insensitive maken: (?i)
 				<example correction="tel.">Je kunt me altijd via <marker>Tel.</marker> opbellen.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="CHRISTEN" name="Christen/christen" type="misspelling" default="temp_off">
+			<rule>
+				<antipattern>
+					<token/>
+					<token/>
+					<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+					<token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+					<example>Het Christen Democratisch Appèl is een partij.</example>
+				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="SENT_START|START"/>
+					<token regexp="yes" case_sensitive="yes">Christen(en)?</token>
+					<example>Christen ben je door de doop.</example>
+				</antipattern>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">Christen(en)?</token>
+				</pattern>
+				<message>Dit wordt  zonder hoofdletter geschreven, behalve aan het begin van een zin en als deel van   een naam.</message>
+				<suggestion><match no="1" case_conversion="alllower"/></suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="christenen">De spanning tussen moslims en <marker>Christenen</marker> loopt op.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="JARIGE_JOB" name="Job/job" type="misspelling">
 			<rule>
 				<pattern>
