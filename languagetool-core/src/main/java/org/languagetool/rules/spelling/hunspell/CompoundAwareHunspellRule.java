@@ -53,6 +53,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     return Arrays.asList(
       "/" + langCode + "/hunspell/spelling.txt",
       "/" + langCode + "/hunspell/spelling_custom.txt",
+      "/" + langCode + "/hunspell/spelling_streetnames.txt",
       "spelling_global.txt"
     );
   }
