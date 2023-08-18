@@ -25182,6 +25182,18 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="ZOWEL_A_EN_B" name="Zowel a en b / zowel a als b" tags="picky" default="temp_off">
+			<rule>
+				<pattern>
+					<token skip="3">zowel</token>
+					<token>en</token>
+					<token/>
+				</pattern>
+				<message>Gebruikelijks is zowel ... als.</message>
+				<suggestion><match no="1" include_skipped="all"/> als <match no="3"/></suggestion>
+				<example correction="zowel Piet A als B">Hij kent <marker>zowel Piet A en B</marker>.</example>
+			</rule>
+		</rulegroup>
 
 	</category>
 </rules>
