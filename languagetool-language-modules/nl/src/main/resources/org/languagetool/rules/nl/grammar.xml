@@ -582,6 +582,18 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="NUM_TAL" name="5 tal / 5-tal" type="misspelling" default="temp_off">
+			<rule>
+				<pattern>
+					<token regexp="yes">[0-9]+</token>
+					<token regexp="yes">tal|tallen</token>
+				</pattern>
+				<message>Dit hoort meestal aan elkaar geschreven met een koppelteken.</message>
+				<suggestion>\1-\2</suggestion>
+				<example correction="5-tal">Het is een <marker>5 tal</marker> voetballers.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="BE" name="be kan van alles zijn…">
 			<antipattern><token postag_regexp="yes" postag="UNKNOWN|ENM.*|DVW"/><token>be</token></antipattern> <!-- Engels -->
 			<antipattern><token>be</token><token postag_regexp="yes" postag="UNKNOWN|DVW"/></antipattern> <!-- Engels -->
