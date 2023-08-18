@@ -237,7 +237,6 @@ public class LanguageSpecificTest {
       return;
     }
     System.out.println("Testing that there are no quotes around <suggestion>s...");
-    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortCode() + "/";
     for (String ruleFileName : lang.getRuleFileNames()) {
       if (ruleFileName.contains("-test-")) {
         continue;
