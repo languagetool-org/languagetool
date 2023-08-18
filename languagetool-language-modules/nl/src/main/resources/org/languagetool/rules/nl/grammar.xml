@@ -594,6 +594,17 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="MAXIMUM_NUM" name="maximum/maximaal" default="temp_off">
+			<rule>
+				<pattern>
+					<token regexp="yes">maximum|minimum</token>
+					<token postag_regexp="yes" postag="GET:(NUM|ARA|TXT):.*"/>
+				</pattern>
+				<message>Correct is hier <suggestion><match no="1" regexp_match="mum$" regexp_replace="maal"/> <match no="2"/></suggestion>.</message>
+				<example correction="maximaal vijf">Ik accepteer <marker>maximum vijf</marker> fouten.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="BE" name="be kan van alles zijn…">
 			<antipattern><token postag_regexp="yes" postag="UNKNOWN|ENM.*|DVW"/><token>be</token></antipattern> <!-- Engels -->
 			<antipattern><token>be</token><token postag_regexp="yes" postag="UNKNOWN|DVW"/></antipattern> <!-- Engels -->
@@ -9292,12 +9303,14 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="TEVEEL" name="Teveel → te veel">
 			<!-- 2014-08-22 TaalTik -->
+			<!-- TODO Nog veel andere gevallen worden gemist !; die zitten nu in replaces, maar dat is onhandig. -->
 			<rule>
 				<antipattern><token regexp="yes">een|het|dit|dat|geen</token></antipattern>
 				<pattern>
 					<marker>
 						<token>teveel</token>
 					</marker>
+					<token min="0" max="2" postag="BNW:STL:ONV"/><!-- added 2023-08-18 -->
 					<token postag_regexp="yes" postag="ZNW.*MRV.*"/>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>te veel</suggestion>.</message>
