@@ -1054,7 +1054,8 @@ USA
 			<message>&vaag_mess;</message>
 			<example correction=""><marker>Men</marker> is niemand.</example>
 		</rule>
-		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky" tone_tags="formal">
+		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky" tone_tags="formal" default="off">
+			<!-- MB@2023-08-18 - DISABLE: Moved to Formal SRR -->
 			<rule>
 				<pattern>
 					<token inflected="yes">gigantisch</token>
@@ -1063,15 +1064,17 @@ USA
 				<example correction=""><marker>Gigantisch</marker> gebouw.</example>
 			</rule>
 		</rulegroup>
-		<rule id="OVERDRIJVING_2" name="vreselijk mooi (mooi)" tags="picky" tone_tags="formal">
+		<rule id="OVERDRIJVING_2" name="vreselijk mooi (mooi)" tags="picky" tone_tags="formal" is_goal_specific="true">
+			<!-- MB@2023-08-18 - IMPROVE: updated to be used with Formal toneTag exclusively -->
 			<pattern>
 				<token regexp="yes">vreselijk|super|mega</token>
 				<token postag_regexp="yes" postag="BNW.*"/>
 			</pattern>
-			<message>Misschien kan dit ook gezegd worden met alleen <suggestion>\2</suggestion>.</message>
+			<message>Door \1 weg te laten komt dit iets formeler over. <suggestion>\2</suggestion>.</message>
 			<example correction="Mooi"><marker>Vreselijk mooi</marker>."</example>
 		</rule>
-		<rule id="OVERDRIJVING_3" name="heel erg saai (erg saai)" tags="picky" tone_tags="formal">
+		<rule id="OVERDRIJVING_3" name="heel erg saai (erg saai)" tags="picky" tone_tags="formal" default="off">
+			<!-- MB@2023-08-18 - DISABLE: Moved to Formal SRR -->
 			<pattern>
 				<token>heel</token>
 				<token>erg</token>
