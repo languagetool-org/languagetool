@@ -768,6 +768,29 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="DEUGT_DOEN" name="Deugt doen/deugd doen" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token>deugt</token>
+					</marker>
+					<token inflected="yes" >doen</token>
+				</pattern>
+				<message>Correct is hier <suggestion>deugd</suggestion>.</message>
+				<example correction="deugd">Deze correctie zal je <marker>deugt</marker> doen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token skip="10" inflected="yes" >doen</token>
+					<marker>
+						<token>deugt</token>
+					</marker>
+				</pattern>
+				<message>Correct is hier <suggestion>deugd</suggestion>.</message>
+				<example correction="deugd">Deze correctie doet me <marker>deugt</marker>.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="VEEL_DAGEN" name="2021 dagen" >
 			<antipattern>
 				<token skip="-1" regexp="yes" inflected="yes">totaal|exact|precies|.*tijd.*|gedurende|bestaan|.*vlieg.*</token>
