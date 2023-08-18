@@ -25104,6 +25104,19 @@ regexp case-insensitive maken: (?i)
 				<example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="GET:(TXT|ARA).*"/>
+					<marker>
+						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV"/></token>
+					</marker>
+				</pattern>
+				<message>Na een getal dat meer dan 1 is, wordt een meervoud verwacht.</message>
+				<suggestion><match no="2" postag_regexp="yes" postag="ZNW:MRV.*"/></suggestion>
+				<example correction="weekjes|weken">Het duurt wel 6 <marker>week</marker>.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 </rules>
