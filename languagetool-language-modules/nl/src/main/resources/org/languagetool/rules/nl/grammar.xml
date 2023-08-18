@@ -23847,6 +23847,20 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
+
+		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" default="temp_off">
+			<rule>
+				<regexp>^[^"]*"[^"]*$</regexp>
+				<message>Let op: er staat een aanhalingsteken in deze zin zonder tegenhanger.</message>
+				<example type="incorrect"><marker>Bah," zei ze.</marker></example>
+			</rule>
+			<rule>
+				<regexp>^[^']*( '|[^shzj]' )[^']*$</regexp>
+				<message>Let op: er staat een aanhalingsteken in deze zin zonder tegenhanger.</message>
+				<example type="incorrect"><marker>Bah,' zei ze.</marker></example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
 			<rule>
 				<antipattern>
