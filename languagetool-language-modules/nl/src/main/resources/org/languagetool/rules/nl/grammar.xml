@@ -25132,5 +25132,17 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="ACHT_EN_TWINTIG" name="Acht en twintig/ achtentwintig" default="temp_off">
+			<rule>
+				<pattern>
+					<token regexp="yes">een|twee|drie|vier|vijf|zes|zeven|acht|negen</token>
+					<token>en</token>
+					<token postag="GET:TXT:MRV" regexp="yes">.*tig</token>
+				</pattern>
+				<message>Mogelijk bedoelt u het getal <suggestion>\1\2\3</suggestion></message>
+				<example correction="achtentwintig">Ik ben <marker>acht en twintig</marker> jaar.</example>
+			</rule>
+		</rulegroup>
+
 	</category>
 </rules>
