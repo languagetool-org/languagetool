@@ -25169,6 +25169,18 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="BREUK_DE" name="1/3de / 1/3" tags="picky" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="GET:ARA:001.*"/>
+					<token>/</token>
+					<token regexp="yes">[0-9]+(e|de|ste)</token>
+				</pattern>
+				<message>Een breuk heeft geen -ste, -de of -e.</message>
+				<suggestion><match no="1"/>/<match no="3" regexp_match="([0-9]+)(ste|de|e)" regexp_replace="$1"/></suggestion>
+				<example correction="1/3">Hij krijgt <marker>1/3de</marker> deel.</example>
+			</rule>
+		</rulegroup>
 
 
 	</category>
