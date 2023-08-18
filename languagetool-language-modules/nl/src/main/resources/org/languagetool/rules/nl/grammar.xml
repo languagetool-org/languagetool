@@ -25144,5 +25144,17 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="EURO_EURO" name="€ honderd euro" default="temp_off">
+			<rule>
+				<pattern>
+					<token skip="4" regexp="yes">€</token>
+					<token>euro</token>
+				</pattern>
+				<message>Dit is dubbelop euro.</message>
+				<suggestion><match no="1" include_skipped="following"/> \2</suggestion>
+				<example correction="achtentwintig euro">Ik ben <marker>€ achtentwintig euro</marker> waard.</example>
+			</rule>
+		</rulegroup>
+
 	</category>
 </rules>
