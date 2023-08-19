@@ -11259,16 +11259,16 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 					<token postag_regexp="yes" postag="SENT_START|START"/>
-					<token regexp="yes" case_sensitive="yes">Christen(en)?</token>
+					<token case_sensitive="yes">Christen</token>
 					<example>Christen ben je door de doop.</example>
 				</antipattern>
 				<pattern>
-					<token regexp="yes" case_sensitive="yes">Christen(en)?</token>
+					<token case_sensitive="yes">Christen</token>
 				</pattern>
 				<message>Dit wordt zonder hoofdletter geschreven, behalve aan het begin van een zin en als deel van een naam.</message>
 				<suggestion><match no="1" case_conversion="alllower"/></suggestion>
 				<short>Zonder hoofdletters</short>
-				<example correction="christenen">De spanning tussen moslims en <marker>Christenen</marker> loopt op.</example>
+				<example correction="christen">De spanning tussen de moslim en de <marker>Christen</marker> loopt op.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="JARIGE_JOB" name="Job/job" type="misspelling">
@@ -23847,20 +23847,27 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
-
 		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" default="temp_off">
 			<rule>
-				<regexp>^[^"]*"[^"]*$</regexp>
+				<antipattern>
+					<token postag="SENT_START"/>
+					<token>"</token>
+				</antipattern>
+				<antipattern>
+					<token skip="-1">"</token>
+					<token>"</token>
+				</antipattern>
+				<antipattern>
+					<token>"</token>
+					<token postag="SENT_END"/>
+				</antipattern>
+				<pattern>
+					<token>"</token>
+				</pattern>
 				<message>Let op: er staat een aanhalingsteken in deze zin zonder tegenhanger.</message>
-				<example type="incorrect"><marker>Bah," zei ze.</marker></example>
-			</rule>
-			<rule>
-				<regexp>^[^']*( '|[^shzj]' )[^']*$</regexp>
-				<message>Let op: er staat een aanhalingsteken in deze zin zonder tegenhanger.</message>
-				<example type="incorrect"><marker>Bah,' zei ze.</marker></example>
+				<example type="incorrect">Bah,<marker>"</marker> zei ze.</example>
 			</rule>
 		</rulegroup>
-
 		<rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
 			<rule>
 				<antipattern>
@@ -25104,10 +25111,11 @@ regexp case-insensitive maken: (?i)
 				<example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
 			</rule>
 		</rulegroup>
+
 		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="temp_off">
 			<rule>
 				<pattern>
-					<token postag_regexp="yes" postag="GET:(TXT|ARA).*"/>
+					<token postag_regexp="yes" postag="GET:(TXT|ARA).*:MRV"/>
 					<marker>
 						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV"/></token>
 					</marker>
@@ -25120,6 +25128,15 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="EEN_KOMMA_TWEE_EN" name="1,2 en 4 / 1, 2 en 4" default="temp_off">
 			<rule>
+				<antipattern>
+					<token regexp="yes">[0-9]</token>
+					<token spacebefore="no">,</token>
+					<token spacebefore="no" regexp="yes">[0-9]</token>
+					<token regexp="yes">en|of</token>
+					<token regexp="yes">[0-9]</token>
+					<token spacebefore="no">,</token>
+					<token spacebefore="no" regexp="yes">[0-9]</token>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">[0-9]</token>
 					<token spacebefore="no">,</token>
@@ -25132,7 +25149,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="ACHT_EN_TWINTIG" name="Acht en twintig/ achtentwintig" default="temp_off">
+		<rulegroup id="ACHT_EN_TWINTIG" name="Acht en twintig/ achtentwintig">
 			<rule>
 				<pattern>
 					<token regexp="yes">een|twee|drie|vier|vijf|zes|zeven|acht|negen</token>
@@ -25144,7 +25161,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="EURO_EURO" name="€ honderd euro" default="temp_off">
+		<rulegroup id="EURO_EURO" name="€ honderd euro">
 			<rule>
 				<pattern>
 					<token skip="4" regexp="yes">€</token>
@@ -25159,17 +25176,20 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="JAAR_JAAR" name="2014/2015" tags="picky" default="temp_off">
 			<rule>
 				<pattern>
-					<token postag="GET:ARA:004:MRV"/>
-					<token>/</token>
-					<token postag="GET:ARA:004:MRV"/>
+					<token>seizoen</token>
+					<marker>
+						<token postag="GET:ARA:004:MRV"/>
+						<token>/</token>
+						<token postag="GET:ARA:004:MRV"/>
+					</marker>
 				</pattern>
 				<message>Vermijd de /, gebruik liever een koppelteken.</message>
-				<suggestion>\1-\3</suggestion>
+				<suggestion>\2-\4</suggestion>
 				<example correction="2014-2015">In het seizoen <marker>2014/2015</marker> werd ze wereldkampioene.</example>
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="BREUK_DE" name="1/3de / 1/3" tags="picky" default="temp_off">
+		<rulegroup id="BREUK_DE" name="1/3de / 1/3" tags="picky">
 			<rule>
 				<pattern>
 					<token postag_regexp="yes" postag="GET:ARA:001.*"/>
@@ -25182,14 +25202,14 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="ZOWEL_A_EN_B" name="Zowel a en b / zowel a als b" tags="picky" default="temp_off">
+		<rulegroup id="ZOWEL_A_EN_B" name="Zowel a en b / zowel a als b" tags="picky">
 			<rule>
 				<pattern>
 					<token skip="3">zowel</token>
 					<token>en</token>
 					<token/>
 				</pattern>
-				<message>Gebruikelijks is zowel ... als.</message>
+				<message>Gebruikelijk is zowel ... als.</message>
 				<suggestion><match no="1" include_skipped="all"/> als <match no="3"/></suggestion>
 				<example correction="zowel Piet A als B">Hij kent <marker>zowel Piet A en B</marker>.</example>
 			</rule>
