@@ -9271,7 +9271,7 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">AND|JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ|VIES|MAAR</exception></token>
-					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*" postag_regexp="yes"/><exception regexp="yes">sprake|tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception><exception postag_regexp="yes" postag="GET.*MRV"/></token>
+					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|BYW:GRD" postag_regexp="yes"/><exception regexp="yes">sprake|tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception><exception postag_regexp="yes" postag="GET.*MRV"/></token>
 				</pattern>
 				<message><match no="1" case_conversion="startupper"/> en <match no="2"/> kunnen samen één (Nederlandstalig) begrip zijn. In dit geval past hier beter <suggestion><match no="1"/>-<match no="2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/afkorting-in-samenstelling/</url>
@@ -24293,7 +24293,7 @@ regexp case-insensitive maken: (?i)
 				<pattern>
 					<marker>
 						<token>de</token>
-						<token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_|GET:RNG|WKW:VTD:ONV"/></token>
+						<token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_|GET:RNG|WKW:VTD:ONV|BYW:GRD"/></token>
 						<token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
 					</marker>
 				</pattern>
@@ -24622,7 +24622,7 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<pattern>
 					<marker>
-						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig|bezig</exception></token>
+						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:GRD"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig|bezig</exception></token>
 					</marker>
 					<token>zich</token>
 				</pattern>
@@ -25142,7 +25142,7 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 					<token postag_regexp="yes" postag="GET:(TXT|ARA):.*:MRV"/>
-					<token regexp="yes">&months;|&abbrevMonths;|&measurementUnitsAll;|jaar|keer|maal|miljoen|duizend|honderd|miljard|biljard|euro|dollar|yen|megaton|procent|was</token>
+					<token regexp="yes">&months;|&abbrevMonths;|&measurementUnitsAll;keer|maal|miljoen|duizend|honderd|miljard|biljard|euro|dollar|yen|megaton|procent|was<exception regexp="yes">week|jaar</exception></token>
 				</antipattern>
 				<antipattern>
 					<token regexp="yes">&months;|&abbrevMonths;</token>
@@ -25156,7 +25156,7 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>Na een getal dat meer dan 1 is, wordt een meervoud verwacht.</message>
 				<suggestion><match no="2" postag_regexp="yes" postag="ZNW:MRV.*"/></suggestion>
-				<example correction="dagen">Het duurt wel 6 <marker>dag</marker>.</example>
+				<example correction="weken|weekjes">Het duurt wel 6 <marker>week</marker>.</example>
 			</rule>
 		</rulegroup>
 		-->
