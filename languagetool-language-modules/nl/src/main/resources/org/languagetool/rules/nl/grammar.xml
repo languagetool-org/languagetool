@@ -23861,6 +23861,9 @@ regexp case-insensitive maken: (?i)
 					<token>"</token>
 					<token postag="SENT_END"/>
 				</antipattern>
+				<antipattern>
+					<token postag="SENT_END">"</token>
+				</antipattern>
 				<pattern>
 					<token>"</token>
 				</pattern>
@@ -25111,38 +25114,69 @@ regexp case-insensitive maken: (?i)
 				<example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
 			</rule>
 		</rulegroup>
-
+<!--
 		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="temp_off">
 			<rule>
+				<antipattern>
+					<token>in</token>
+					<token spacebefore="no" postag="GET:ARA:004:MRV"/>
+				</antipattern>
+				<antipattern>
+					<token spacebefore="no" postag="GET:ARA:004:MRV"/>
+					<token regexp="yes">en|tot</token>
+					<token spacebefore="no" postag="GET:ARA:004:MRV"/>
+				</antipattern>
+				<antipattern>
+					<token spacebefore="no" postag_regexp="yes" postag="GET:ARA:001:.*"/>
+					<token spacebefore="no">.</token>
+					<token spacebefore="no" postag_regexp="yes" postag="GET:ARA:001:.*"/>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">sinds|vanaf|jaar|alle</token>
+					<token spacebefore="no" postag="GET:ARA:004:MRV"/>
+				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="GET:ARA:.*:MRV"/>
+					<token spacebefore="no">:</token>
+					<token spacebefore="no" postag_regexp="yes" postag="GET:ARA:.*:MRV"/>
+				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="GET:(TXT|ARA):.*:MRV"/>
+					<token regexp="yes">&months;|&abbrevMonths;|&measurementUnitsAll;|jaar|keer|maal|miljoen|duizend|honderd|miljard|biljard|euro|dollar|yen|megaton|procent|was</token>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">&months;|&abbrevMonths;</token>
+					<token postag_regexp="yes" postag="GET:(TXT|ARA):.*:MRV"/>
+				</antipattern>
 				<pattern>
-					<token postag_regexp="yes" postag="GET:(TXT|ARA).*:MRV"/>
+					<token postag_regexp="yes" postag="GET:(TXT|ARA):.*:MRV"/>
 					<marker>
-						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV"/></token>
+						<token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV|BNW.*VRB|WKW:VTD:ONV"/></token>
 					</marker>
 				</pattern>
 				<message>Na een getal dat meer dan 1 is, wordt een meervoud verwacht.</message>
 				<suggestion><match no="2" postag_regexp="yes" postag="ZNW:MRV.*"/></suggestion>
-				<example correction="weekjes|weken">Het duurt wel 6 <marker>week</marker>.</example>
+				<example correction="dagen">Het duurt wel 6 <marker>dag</marker>.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<rulegroup id="EEN_KOMMA_TWEE_EN" name="1,2 en 4 / 1, 2 en 4" default="temp_off">
 			<rule>
 				<antipattern>
-					<token regexp="yes">[0-9]</token>
+					<token regexp="yes">[0-9]+</token>
 					<token spacebefore="no">,</token>
-					<token spacebefore="no" regexp="yes">[0-9]</token>
+					<token spacebefore="no" regexp="yes">[0-9]+</token>
 					<token regexp="yes">en|of</token>
-					<token regexp="yes">[0-9]</token>
+					<token regexp="yes">[0-9]+</token>
 					<token spacebefore="no">,</token>
-					<token spacebefore="no" regexp="yes">[0-9]</token>
+					<token spacebefore="no" regexp="yes">[0-9]+</token>
 				</antipattern>
 				<pattern>
-					<token regexp="yes">[0-9]</token>
+					<token regexp="yes">[0-9]+</token>
 					<token spacebefore="no">,</token>
-					<token spacebefore="no" regexp="yes">[0-9]</token>
+					<token spacebefore="no" regexp="yes">[0-9]+</token>
 					<token regexp="yes">en|of</token>
-					<token regexp="yes">[0-9]</token>
+					<token regexp="yes">[0-9]+</token>
 				</pattern>
 				<message>Mogelijk bedoelt u <suggestion>\1, \3 \4 \5</suggestion></message>
 				<example correction="1, 2 en 4">Het gaat om de cijfers <marker>1,2 en 4</marker>.</example>
