@@ -19,9 +19,6 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.languagetool.AnalyzedTokenReadings;
@@ -108,6 +105,8 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       }
       suggestion.append(synthForms2[0]);
     } else if (lastToken.getToken().equals("així") || lastToken.getToken().equals("a") || lastToken.getToken().equals("en")
+      || lastToken.getToken().equals("ací") || lastToken.getToken().equals("aquí") || lastToken.getToken().equals("ahí")
+      || lastToken.getToken().equals("allí") || lastToken.getToken().equals("allà")
       || lastToken.getToken().equals("de")
       || lastToken.hasPosTagStartingWith("AQ")
       || lastToken.hasPosTagStartingWith("VMP")) {
