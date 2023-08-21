@@ -23847,6 +23847,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
+<!--
 		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" default="temp_off">
 			<rule>
 				<antipattern>
@@ -23861,7 +23862,7 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 					<token skip="-1">"</token>
-					<token>"</token>
+					<token regexp="yes">["“”]</token>
 					<example>Dit "doet" hij.</example>
 				</antipattern>
 				<antipattern>
@@ -23881,13 +23882,31 @@ regexp case-insensitive maken: (?i)
 			</rule>
 			<rule>
 				<antipattern>
+					<token>Guns</token> <token>N</token><token>'</token> <token>Roses</token>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">.*in</token>
+					<token spacebefore="no">'</token>
+					<example>Kickin' It</example>
+				</antipattern>
+				<antipattern>
+					<token>'</token>
+					<token spacebefore="no" regexp="yes">s-[A-Z].*</token>
+					<example>In 's-Gravenhage.</example>
+				</antipattern>
+				<antipattern>
+					<token>'</token>
+					<token spacebefore="no" postag="GET:ARA:002:MRV"/>
+					<example>De jaren '80</example>
+				</antipattern>
+				<antipattern>
 					<token regexp="yes" case_sensitive="yes">[A-Z].*(s)</token>
 					<token spacebefore="no">'</token>
 					<example>Het is Ans' ding.</example>
 				</antipattern>
 				<antipattern>
 					<token spacebefore="yes">'</token>
-					<token spacebefore="no" regexp="yes">s|n|k|m|r</token>
+					<token spacebefore="no" regexp="yes">s|n|k|m|r|t</token>
 					<example>Het is 'n ding.</example>
 				</antipattern>
 				<antipattern>
@@ -23896,7 +23915,7 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 					<token skip="-1">'</token>
-					<token>'</token>
+					<token regexp="yes">['‘’]</token>
 					<example>Dit 'doet' hij.</example>
 				</antipattern>
 				<antipattern>
@@ -23913,6 +23932,7 @@ regexp case-insensitive maken: (?i)
 				<example type="incorrect">Bah,<marker>'</marker> zei ze.</example>
 			</rule>
 		</rulegroup>
+-->
 		<rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
 			<rule>
 				<antipattern>
@@ -25156,7 +25176,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
 			</rule>
 		</rulegroup>
-<!-- more testing needed
+
 		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="temp_off">
 			<rule>
 				<antipattern>
@@ -25205,7 +25225,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="weekjes|weken">Het duurt wel 6 <marker>week</marker>.</example>
 			</rule>
 		</rulegroup>
--->
+
 		<rulegroup id="EEN_KOMMA_TWEE_EN" name="1,2 en 4 / 1, 2 en 4" tags="picky">
 			<rule>
 				<antipattern>
@@ -25298,7 +25318,7 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="X_HOOG" name="3 hoog / 3-hoog"  type="misspelling" default="temp_off">
 			<rule>
 				<pattern>
-					<token postag_regexp="yes" postag="GET:ARA:0([1-2][0-9]|0[1-9]):.*"/>
+					<token postag_regexp="yes" postag="GET:ARA:00[12]:.*"/>
 					<token>hoog</token>
 				</pattern>
 				<message>Dit hoort aan elkaar.</message>
