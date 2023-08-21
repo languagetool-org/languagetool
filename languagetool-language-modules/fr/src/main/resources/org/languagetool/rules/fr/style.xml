@@ -5908,7 +5908,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="videur|homme de main"><marker>bouncer</marker></example>
             <example><marker>homme de main</marker></example>
         </rule>
-        <rulegroup id="BOSS" name="boss" default="temp_off">
+        <rulegroup id="BOSS" name="boss">
             <antipattern>
                 <token>hugo</token>
                 <token>boss</token>
@@ -5920,11 +5920,11 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             </antipattern>
             <antipattern>
                 <token regexp="yes" case_sensitive="yes">Boss|boss|BOSS</token>
-                <token regexp="yes" skip="-1">PNJ|guilde|donjon|raid</token>
+                <token regexp="yes" skip="-1">PNJ|guilde|donjon|raid|mobs|partie</token>
                 <example>J'ai tout l'équipement maintenant pour battre tous les PNJ et même les boss du donjon.</example>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="-1">PNJ|guilde|donjon|raid</token>
+                <token regexp="yes" skip="-1">PNJ|guilde|donjon|raid|mobs|partie</token>
                 <token regexp="yes" case_sensitive="yes">Boss|boss|BOSS</token>
                 <example>Gros raid prévu ce soir sur le boss !</example>
             </antipattern>
@@ -5933,6 +5933,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                     <token>boss</token>
                 </pattern>
                 <message>« Boss » peut être considéré comme un anglicisme.</message>
+                <suggestion>pro</suggestion>
                 <suggestion>patron</suggestion>
                 <suggestion>patronne</suggestion>
                 <suggestion>superviseur</suggestion>
@@ -5941,7 +5942,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <suggestion>supérieure</suggestion>
                 <suggestion>directeur</suggestion>
                 <suggestion>directrice</suggestion>
-                <example correction="patron|patronne|superviseur|superviseuse|supérieur|supérieure|directeur|directrice"><marker>boss</marker></example>
+                <example correction="pro|patron|patronne|superviseur|superviseuse|supérieur|supérieure|directeur|directrice"><marker>boss</marker></example>
             </rule>
         </rulegroup>
         <rule id="BREAKER" name="breaker">
@@ -8857,7 +8858,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example><marker>capitaux flottants</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="BODY-BUILDING" name="body-building" default="temp_off" tags="picky">
+        <rulegroup id="BODY-BUILDING" name="body-building" tags="picky">
             <rule>
                 <pattern>
                     <token regexp="yes">bodybuildings|bodybuilding</token>
