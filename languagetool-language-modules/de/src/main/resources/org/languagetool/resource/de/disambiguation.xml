@@ -1513,7 +1513,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token regexp="yes">Castros?</token>
         </pattern>
-        <disambig action="remove" postag=".+:FEM"/>
+        <disambig action="remove" postag="(ADJ|SUB).*"/>
     </rule>
     <rule id="HOCHDRAMATISCH" name="kein Verb: charismatischen / hochdramatischen">
         <pattern case_sensitive="yes">
@@ -8026,4 +8026,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="EIG.*" />
     </rule>
+
+    <rulegroup id="LAS_KEIN_VERB" name="'Las' kein Verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Las</token>
+                </marker>
+                <token regexp="yes">(Palmas|Vegas|Flores|Juntas|Nieves|Olas|Piedras).*</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Las</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z][a-z].*</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+    </rulegroup>
 </rules>
