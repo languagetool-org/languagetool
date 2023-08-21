@@ -255,6 +255,22 @@ USA
 					<token postag="SENT_END">!</token>
 					<example>Jij wel!</example>
 				</antipattern>
+				<antipattern>
+				    <token postag="SENT_START"/>
+				    <token>jij</token>
+				    <token regexp="yes">ook|of</token>
+				    <example>Jij ook bedankt!</example>
+				</antipattern>
+				<antipattern>
+				    <token>jij</token>
+				    <token postag="UNKNOWN"/>
+				    <example>Jij/u ook.</example>
+				</antipattern>
+				<antipattern>
+				    <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+				    <token case_sensitive="yes">Jij</token>
+				    <example>Wie Ben Jij (2006)</example>
+				</antipattern>
 				<pattern>
 					<token>jij</token>
 				</pattern>
@@ -466,6 +482,20 @@ USA
 				    <token>jou</token>
 				    <example>Geen zorgen, dit lukt ook jou.</example>
 				</antipattern>
+				<antipattern>
+				    <token skip="1">jou</token>
+				    <token postag="SENT_END"/>
+				    <example>Wij komen naar jou.</example>
+				</antipattern>
+				<antipattern>
+				    <token postag="SENT_END">jou</token>
+				    <example>Wij komen naar jou</example>
+				</antipattern>
+				<antipattern>
+					<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+					<token case_sensitive="yes">Jou</token>
+					<example>Leven Zonder Jou</example>
+				</antipattern>
 				<pattern>
 					<token><exception postag="SENT_START"/></token>
 					<marker>
@@ -475,7 +505,7 @@ USA
 				<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
 				<short>Nadruk?</short>
-				<example correction="je">Ik zie <marker>jou</marker>.</example>
+				<example correction="je">Ik zie <marker>jou</marker> daar wel staan.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky" tone_tags="formal" is_goal_specific="true">
