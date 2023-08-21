@@ -25327,5 +25327,32 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="HAHA_KOMMA" name="Haha zonder komma"  default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token negate="yes">,</token>
+						<token regexp="yes">(ha|hi|ho){2,}</token>
+					</marker>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\1, \2</suggestion>
+				<example correction="fout, haha">Dat is <marker>fout haha</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="SENT_START|START"/>
+					<marker>
+						<token regexp="yes">(ha|hi|ho){2,}</token>
+					</marker>
+					<token negate="yes">,</token>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\2,</suggestion>
+				<example correction="Haha,"><marker>Haha</marker> dat is fout.</example>
+			</rule>
+		</rulegroup>
+
 	</category>
 </rules>
