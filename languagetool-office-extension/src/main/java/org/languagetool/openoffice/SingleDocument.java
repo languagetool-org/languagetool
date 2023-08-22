@@ -463,6 +463,11 @@ public class SingleDocument {
    * get language of the document
    */
   public Language getLanguage() {
+    Locale locale = docCache.getDocumentLocale();
+    Language lang = MultiDocumentsHandler.getLanguage(locale);
+    if (!lang.equals(docLanguage)) {
+      docLanguage = lang;
+    }
     return docLanguage;
   }
   

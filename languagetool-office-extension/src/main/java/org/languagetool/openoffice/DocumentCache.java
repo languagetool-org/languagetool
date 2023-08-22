@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -42,7 +43,7 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  */
 public class DocumentCache implements Serializable {
 
-  private static final long serialVersionUID = 10L;
+  private static final long serialVersionUID = 11L;
 
   public final static int CURSOR_TYPE_UNKNOWN = -1;
   public final static int CURSOR_TYPE_ENDNOTE = 0;
@@ -84,6 +85,7 @@ public class DocumentCache implements Serializable {
   private int nShape = 0;
   private int nText = 0;
   private int nTable = 0;
+  private SerialLocale docLocale; 
   
   private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 
@@ -112,6 +114,7 @@ public class DocumentCache implements Serializable {
         add(in);
       }
       docType = in.docType;
+      docLocale = getMostUsedLanguage (locales);
     } finally {
       isReset = false;
       in.rwLock.readLock().unlock();
@@ -144,6 +147,7 @@ public class DocumentCache implements Serializable {
       nFootnote = textParagraphs.get(CURSOR_TYPE_FOOTNOTE).size();
       nEndnote = textParagraphs.get(CURSOR_TYPE_ENDNOTE).size();
       nHeaderFooter = textParagraphs.get(CURSOR_TYPE_HEADER_FOOTER).size();
+      docLocale = new SerialLocale(locale);
       mapParagraphs(this.paragraphs, toTextMapping, toParaMapping, this.chapterBegins, locales, footnotes, textParagraphs, deletedCharacters, null);
     } finally {
       isReset = false;
@@ -169,6 +173,7 @@ public class DocumentCache implements Serializable {
       refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
     }
     setSingleParagraphsCacheToNull(document.getParagraphsCache());
+    this.docLocale = getMostUsedLanguage(locales);
     isReset = false;
   }
 
@@ -2170,6 +2175,39 @@ public class DocumentCache implements Serializable {
     } finally {
       rwLock.readLock().unlock();
     }
+  }
+  
+  private SerialLocale getMostUsedLanguage (List<SerialLocale> locales) {
+    Map<SerialLocale, Integer> localesMap = new HashMap<>();
+    for (SerialLocale locale : locales) {
+      boolean localeExists = false;
+      for (SerialLocale loc : localesMap.keySet()) {
+        if (loc.equalsLocale(locale)) {
+          localesMap.put(loc, localesMap.get(loc) + 1);
+          localeExists = true;
+          break;
+        }
+      }
+      if (!localeExists) {
+        localesMap.put(locale, 1);
+      }
+    }
+    int max = 0;
+    SerialLocale maxLocale = null;
+    for (SerialLocale loc : localesMap.keySet()) {
+      if (localesMap.get(loc) > max) {
+        max = localesMap.get(loc);
+        maxLocale = loc;
+      }
+    }
+    if (maxLocale != null) {
+      return maxLocale;
+    }
+    return null;
+  }
+  
+  public Locale getDocumentLocale() {
+    return docLocale.toLocaleWithoutLabel();
   }
   
   class ChangedRange {
