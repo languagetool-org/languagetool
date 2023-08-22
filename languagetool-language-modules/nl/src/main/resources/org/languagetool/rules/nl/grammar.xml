@@ -23848,7 +23848,7 @@ regexp case-insensitive maken: (?i)
 	</category>
 	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
 
-		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" default="temp_off">
+		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" >
 			<rule>
 				<antipattern>
 					<token>Guns</token> <token>N</token><token>'</token> <token>Roses</token>
@@ -25145,7 +25145,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
 			</rule>
 		</rulegroup>
-
+<!-- too many falses, has to be analysed further
 		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="temp_off">
 			<rule>
 				<antipattern>
@@ -25194,7 +25194,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="weekjes|weken">Het duurt wel 6 <marker>week</marker>.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<rulegroup id="EEN_KOMMA_TWEE_EN" name="1,2 en 4 / 1, 2 en 4" tags="picky">
 			<rule>
 				<antipattern>
@@ -25310,6 +25310,10 @@ regexp case-insensitive maken: (?i)
 				<example correction="fout, haha">Dat is <marker>fout haha</marker>.</example>
 			</rule>
 			<rule>
+				<antipattern>
+					<token regexp="yes">(ha|hi|ho){2,10}</token>
+					<token postag="SENT_END"/>
+				</antipattern>
 				<pattern>
 					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<marker>
@@ -25320,6 +25324,37 @@ regexp case-insensitive maken: (?i)
 				<message>Hier hoort een komma.</message>
 				<suggestion>\2,</suggestion>
 				<example correction="Haha,"><marker>Haha</marker> dat is fout.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="TSW_KOMMA" name="tussenwoord zonder komma"  default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token negate="yes">,</token>
+						<token postag="TSW"/>
+					</marker>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\1, \2</suggestion>
+				<example correction="fout, jazeker">Dat is <marker>fout jazeker</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern>
+					<token postag="TSW"/>
+					<token postag="SENT_END"/>
+				</antipattern>
+				<pattern>
+					<token postag_regexp="yes" postag="SENT_START|START"/>
+					<marker>
+						<token postag="TSW"/>
+					</marker>
+					<token negate="yes">,</token>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\2,</suggestion>
+				<example correction="Jazeker,"><marker>Jazeker</marker> dat is fout.</example>
 			</rule>
 		</rulegroup>
 
