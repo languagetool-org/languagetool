@@ -11944,20 +11944,23 @@ USA
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
-        <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário" default="temp_off">
+        <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
             <!-- IDEA shorten_it -->
 
             <antipattern>
-                <token postag='VMIP.+|VMSF.+' postag_regexp='yes'/>
+                <token postag='VMIP.+|VMSF.+|NC.+|AQ.+' postag_regexp='yes'/>
                 <token>que</token>
                 <token regexp='yes'>é|são</token>
                 <token regexp='yes'>necessários?</token>
                 <token postag='VMN03.+|RG|CS' postag_regexp='yes'/>
-                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='SPS00'/>
+                <token postag='(SPS00:)?D[AI].+|VMN03.+' postag_regexp='yes'/>
                 <example>Sinceramente, não recomendo esse tipo de pratica pois entendo que é necessário sempre um ambiente profissional para garantir a qualidade e a produtividade.</example>
                 <example>Todos nós sabemos que é necessário acelerar o Programa de Aceleração do Crescimento", emendou ele, usando um trocadilho para se referi...</example>
                 <example>Com a incorporação da Adequação Sociotécnica à Teoria, passa-se a entender que é necessário que um processo seja concebido nas condições em que ele acontecerá.</example>
                 <example>Para atingir esta missão fundamental da Igreja, o documento declara que é necessário dar aos católicos "uma 'consciência de Igreja' mais coerente, para que também se possam valorizar a...</example>
+                <example>O efeito espectador introduzido por Darley e Latane (1968) demonstra que o comportamento de grupo faz com que os indivíduos monitorem se os outros pensam que é necessário reagir em uma situação e, assim, basear seu comportamento neste julgamento.</example>
+                <example>de aguadeiro os versos que é necessário deixar voar!</example>
             </antipattern>
 
             <pattern>
@@ -11968,7 +11971,9 @@ USA
                 <marker>
                     <token>que</token>
                     <token regexp='yes'>é|são</token>
-                    <token regexp='yes'>necessários?</token>
+                    <token regexp='yes'>necessários?
+                        <exception scope='next' postag='RG'/>
+                    </token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
@@ -11976,6 +11981,7 @@ USA
             <example correction="necessário">Acho <marker>que é necessário</marker> você ir lá.</example>
             <example correction="necessários">Ele considera sempre <marker>que são necessários</marker> 2/3 de energia.</example>
             <example>O médico disse à polícia que é necessário fazer uma necropsia para saber a causa da morte da mulher.</example>
+            <example>Eles mesmo ao se defrontar com o site indicado foram tentar descobrir a função das ferramentas e isto foi fundamental para perceberem que é necessário a cada dia aprender.</example>
         </rule>
 
 
