@@ -25149,6 +25149,22 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="temp_off">
 			<rule>
 				<antipattern>
+					<token postag="SENT_START"/>
+					<token postag_regexp="yes" postag="GET:ARA.*"/>
+					<example>2 Afwijking van deze aanwijzingen.</example>
+				</antipattern>
+				<antipattern>
+					<token postag="GET:ARA:004:MRV"/>
+					<token case_sensitive="yes" regexp="yes">[A-Z][A-Z]</token>
+					<example>Postbus 253, 4460 AR Goes.</example>
+				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="GET:ARA:.*"/>
+					<token spacebefore="no" regexp="yes">[,.]</token>
+					<token spacebefore="no" postag_regexp="yes" postag="GET:ARA:.*"/>
+					<example>Aanbiedingsprijs 9,95 incl.</example>
+				</antipattern>
+				<antipattern>
 					<token spacebefore="no" postag="GET:ARA:004:MRV"/>
 					<token case_sensitive="yes" regexp="yes">AD|AM|Awb|BW|DPI|EVRM|FM</token>
 				</antipattern>
@@ -25357,6 +25373,5 @@ regexp case-insensitive maken: (?i)
 				<example correction="Jazeker,"><marker>Jazeker</marker> dat is fout.</example>
 			</rule>
 		</rulegroup>
-
 	</category>
 </rules>
