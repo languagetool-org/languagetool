@@ -17073,7 +17073,69 @@ regexp case-insensitive maken: (?i)
 				<example correction="telt, zei">Elke frank <marker>telt zei</marker> ons moeder.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HAHA_KOMMA" name="Haha zonder komma">
+			<rule>
+				<pattern>
+					<marker>
+						<token negate="yes">,</token>
+						<token regexp="yes">(ha|hi|ho){2,10}</token>
+					</marker>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\1, \2</suggestion>
+				<example correction="fout, haha">Dat is <marker>fout haha</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern>
+					<token regexp="yes">(ha|hi|ho){2,10}</token>
+					<token postag="SENT_END"/>
+				</antipattern>
+				<pattern>
+					<token postag_regexp="yes" postag="SENT_START|START"/>
+					<marker>
+						<token regexp="yes">(ha|hi|ho){2,10}</token>
+					</marker>
+					<token negate="yes">,</token>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\2,</suggestion>
+				<example correction="Haha,"><marker>Haha</marker> dat is fout.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="TSW_KOMMA" name="tussenwoord zonder komma"  default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token negate="yes">,</token>
+						<token postag="TSW"/>
+					</marker>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\1, \2</suggestion>
+				<example correction="fout, jazeker">Dat is <marker>fout jazeker</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern>
+					<token postag="TSW"/>
+					<token postag="SENT_END"/>
+				</antipattern>
+				<pattern>
+					<token postag_regexp="yes" postag="SENT_START|START"/>
+					<marker>
+						<token postag="TSW"/>
+					</marker>
+					<token negate="yes">,</token>
+				</pattern>
+				<message>Hier hoort een komma.</message>
+				<suggestion>\2,</suggestion>
+				<example correction="Jazeker,"><marker>Jazeker</marker> dat is fout.</example>
+			</rule>
+		</rulegroup>
 	</category>
+
 	<category id="CONGRUENTIE" name="Congruentie">
 
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm">
@@ -25300,7 +25362,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="X_HOOG" name="3 hoog / 3-hoog"  type="misspelling" default="temp_off">
+		<rulegroup id="X_HOOG" name="3 hoog / 3-hoog"  type="misspelling" >
 			<rule>
 				<pattern>
 					<token postag_regexp="yes" postag="GET:ARA:00[12]:.*"/>
@@ -25312,65 +25374,29 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="HAHA_KOMMA" name="Haha zonder komma"  default="temp_off">
-			<rule>
-				<pattern>
-					<marker>
-						<token negate="yes">,</token>
-						<token regexp="yes">(ha|hi|ho){2,10}</token>
-					</marker>
-					<token postag="SENT_END"/>
-				</pattern>
-				<message>Hier hoort een komma.</message>
-				<suggestion>\1, \2</suggestion>
-				<example correction="fout, haha">Dat is <marker>fout haha</marker>.</example>
-			</rule>
-			<rule>
-				<antipattern>
-					<token regexp="yes">(ha|hi|ho){2,10}</token>
-					<token postag="SENT_END"/>
-				</antipattern>
-				<pattern>
-					<token postag_regexp="yes" postag="SENT_START|START"/>
-					<marker>
-						<token regexp="yes">(ha|hi|ho){2,10}</token>
-					</marker>
-					<token negate="yes">,</token>
-				</pattern>
-				<message>Hier hoort een komma.</message>
-				<suggestion>\2,</suggestion>
-				<example correction="Haha,"><marker>Haha</marker> dat is fout.</example>
-			</rule>
-		</rulegroup>
 
-		<rulegroup id="TSW_KOMMA" name="tussenwoord zonder komma"  default="temp_off">
+		<rulegroup id="X_SPATIE_TAL" name="3 tal / 3-tal"  type="misspelling" default="temp_off">
 			<rule>
 				<pattern>
 					<marker>
-						<token negate="yes">,</token>
-						<token postag="TSW"/>
+						<token postag_regexp="yes" postag="GET:ARA:00[12]:.*"/>
+						<token regexp="yes">tal|tallen</token>
 					</marker>
-					<token postag="SENT_END"/>
 				</pattern>
-				<message>Hier hoort een komma.</message>
-				<suggestion>\1, \2</suggestion>
-				<example correction="fout, jazeker">Dat is <marker>fout jazeker</marker>.</example>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion>\1-\2</suggestion>
+				<example correction="3-tal">Dat is een <marker>3 tal</marker> vergissingen.</example>
 			</rule>
 			<rule>
-				<antipattern>
-					<token postag="TSW"/>
-					<token postag="SENT_END"/>
-				</antipattern>
 				<pattern>
-					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<marker>
-						<token postag="TSW"/>
+						<token postag_regexp="yes" postag="GET:TXT:.*"/>
+						<token regexp="yes">tal|tallen</token>
 					</marker>
-					<token negate="yes">,</token>
 				</pattern>
-				<message>Hier hoort een komma.</message>
-				<suggestion>\2,</suggestion>
-				<example correction="Jazeker,"><marker>Jazeker</marker> dat is fout.</example>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="drietal">Dat is een <marker>drie tal</marker> vergissingen.</example>
 			</rule>
 		</rulegroup>
 	</category>
