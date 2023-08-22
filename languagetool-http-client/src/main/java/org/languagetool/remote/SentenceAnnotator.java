@@ -25,7 +25,7 @@ public class SentenceAnnotator {
 
   static HashMap<String, List<RemoteRuleMatch>> cachedMatches;
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Exception {
     long start = System.currentTimeMillis();
     // use configuration file
     if (args.length == 1) {
@@ -248,7 +248,7 @@ public class SentenceAnnotator {
     cfg.out.close();
   }
 
-  private static void runAutomaticAnnotation(AnnotatorConfig cfg) throws IOException {
+  private static void runAutomaticAnnotation(AnnotatorConfig cfg) throws Exception {
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
     List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
     int numSentence = 0;
@@ -256,6 +256,10 @@ public class SentenceAnnotator {
     for (String line : lines) {
       numSentence++;
       String[] parts = line.split("\t");
+      if (parts.length < 2) {
+        throw new Exception("Error: Lines from the input file should contain at least two tab-separated columns. "
+            +"Line: " + line);
+      }
       String sentence = parts[0].replaceAll("__", "");
       String correctedSentence = parts[1].replaceAll("__", "");
       List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
