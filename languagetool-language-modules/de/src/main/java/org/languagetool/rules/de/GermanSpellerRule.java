@@ -3494,6 +3494,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Prigozhin": return topMatch("Prigoschin");
       case "Prigozhins": return topMatch("Prigoschins");
       case "unhilfreich": return topMatch("unbehilflich");
+      case "Regattas": return topMatch("Regatten");
+      case "Segelregattas": return topMatch("Segelregatten");
     }
     return Collections.emptyList();
   }
