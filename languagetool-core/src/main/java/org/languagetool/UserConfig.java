@@ -57,7 +57,7 @@ public class UserConfig {
   // partially indifferent for comparing UserConfigs (e.g. in PipelinePool)
   // provided to rules only for A/B tests
   private final Long textSessionId;
-  private final String abTest;
+  private final List<String> abTest;
   private final String preferredLanguages;
 
   public UserConfig() {
@@ -93,7 +93,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
-                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, List<String> preferredLanguages) {
+                    @Nullable List<String> abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, List<String> preferredLanguages) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
@@ -268,7 +268,7 @@ public class UserConfig {
     return textSessionId;
   }
 
-  public String getAbTest() {
+  public List<String> getAbTest() {
     return abTest;
   }
 

@@ -354,8 +354,9 @@ abstract class TextChecker {
         ", HTTP user agent: " + getHttpUserAgent(httpExchange) + ", referrer: " + getHttpReferrer(httpExchange));
     }
 
-    String abTest = null;
+    List<String> abTest = null;
     if (agent != null && config.getAbTestClients() != null && config.getAbTestClients().matcher(agent).matches()) {
+      //TODO: it is not possible to have individual AbTestClients per AbTest
       boolean testRolledOut;
       // partial rollout; deterministic if textSessionId given to make testing easier
       if (textSessionId != null) {
@@ -364,14 +365,22 @@ abstract class TextChecker {
         testRolledOut = random.nextInt(100) < config.getAbTestRollout();
       }
       if (testRolledOut) {
-        abTest = config.getAbTest();
+        abTest = Collections.unmodifiableList(config.getAbTest());
       }
     }
     String paramActivatedAbTest = params.get("abtest");
-    if (paramActivatedAbTest != null && paramActivatedAbTest.equals(config.getAbTest())) {
-      abTest = paramActivatedAbTest;
+    if (paramActivatedAbTest != null) {
+      String[] abParams = paramActivatedAbTest.trim().split(",");
+      List<String> tmpAb = new ArrayList<>();
+      for (String abParam : abParams) {
+        if (config.getAbTest().contains(abParam)) {
+          tmpAb.add(abParam.trim());
+        }
+      }
+      if (!tmpAb.isEmpty()) {
+        abTest = Collections.unmodifiableList(tmpAb);
+      }
     }
-    
 
     boolean enableHiddenRules = "true".equals(params.get("enableHiddenRules"));
     if (limits.hasPremium()) {

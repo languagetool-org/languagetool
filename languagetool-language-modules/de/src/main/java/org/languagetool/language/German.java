@@ -541,5 +541,12 @@ public class German extends Language implements AutoCloseable {
     return true;
   }
 
-
+  @Override
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
+    List<Rule> rules = super.getRelevantRemoteRules(messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
+    if (userConfig.getAbTest() != null && !userConfig.getAbTest().contains("AI_DE_GGEC")) {
+      rules.removeIf(rule -> ((RemoteRule) rule).getServiceConfiguration().getRuleId().equals("AI_DE_GGEC"));
+    }
+    return rules;
+  }
 }

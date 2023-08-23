@@ -24,7 +24,6 @@ package org.languagetool.rules;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +49,6 @@ import com.google.common.collect.Streams;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import io.grpc.*;
-import io.grpc.internal.DnsNameResolver;
 import io.grpc.internal.DnsNameResolverProvider;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -206,7 +204,6 @@ public abstract class GRPCRule extends RemoteRule {
       .equalsIgnoreCase("true");
     this.batchSize = Integer.parseInt(config.getOptions().getOrDefault("batchSize",
                                                                        String.valueOf(DEFAULT_BATCH_SIZE)));
-
     synchronized (servers) {
       Connection conn = null;
         try {
@@ -221,10 +218,12 @@ public abstract class GRPCRule extends RemoteRule {
   protected class MLRuleRequest extends RemoteRule.RemoteRequest {
     final List<MLServerProto.MatchRequest> requests;
     final List<AnalyzedSentence> sentences;
+    final Long textSessionId;
 
-    public MLRuleRequest(List<MLServerProto.MatchRequest> requests, List<AnalyzedSentence> sentences) {
+    public MLRuleRequest(List<MLServerProto.MatchRequest> requests, List<AnalyzedSentence> sentences, Long textSessionId) {
       this.requests = requests;
       this.sentences = sentences;
+      this.textSessionId = textSessionId;
     }
   }
 
@@ -286,7 +285,7 @@ public abstract class GRPCRule extends RemoteRule {
       if (requests.size() > 1) {
         logger.debug("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
       }
-      return new MLRuleRequest(requests, sentences);
+      return new MLRuleRequest(requests, sentences, textSessionId);
     }
   }
 
@@ -301,6 +300,12 @@ public abstract class GRPCRule extends RemoteRule {
   @Override
   protected Callable<RemoteRuleResult> executeRequest(RemoteRequest requestArg, long timeoutMilliseconds) throws TimeoutException {
     return () -> {
+      MLRuleRequest reqArgs = (MLRuleRequest) requestArg;
+      // NOTE: disabled for now, don't want to run this in the nightly diff
+      if (serviceConfiguration.getRuleId().equals("AI_DE_GGEC") && (reqArgs.textSessionId == -1 || reqArgs.textSessionId == -2)) {
+        return new RemoteRuleResult(false, true, Collections.emptyList(), reqArgs.sentences);
+      }
+
       List<AnalyzedSentence> sentences;
       List<ListenableFuture<MatchResponse>> futures = new ArrayList<>();
       List<MatchResponse> responses = new ArrayList<>();
