@@ -289,8 +289,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           if ((getCaseSensitivy() != CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart)
                && StringTools.startsWithUppercase(crt)) {
+            //String covered = sentence.getText().substring(startPos, endPos);
             for (int k = 0; k < replacements.size(); k++) {
-              replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
+              String repl = StringTools.uppercaseFirstChar(replacements.get(k));
+              replacements.set(k, repl);
+              //if (covered.equals(repl)) {
+              //  System.err.println("suggestion == original text for '" + covered + "' in AbstractSimpleReplaceRule2");
+              //}
             }
           }
           ruleMatch.setSuggestedReplacements(replacements);
