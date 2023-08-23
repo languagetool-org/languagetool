@@ -3280,6 +3280,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="ENTRE" name="entre (verb)">
+        <antipattern>
+            <token>en</token>
+            <!-- nom de persona -->
+            <token regexp="yes" skip="20">\p{Lu}.*</token>
+            <token>i</token>
+        </antipattern>
+        <antipattern>
+            <token>en</token>
+            <token>a</token>
+            <token>i</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="V.*" postag_regexp="yes">entre</token>
