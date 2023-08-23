@@ -17103,37 +17103,6 @@ regexp case-insensitive maken: (?i)
 				<example correction="Haha,"><marker>Haha</marker> dat is fout.</example>
 			</rule>
 		</rulegroup>
-
-		<rulegroup id="TSW_KOMMA" name="tussenwoord zonder komma"  default="temp_off">
-			<rule>
-				<pattern>
-					<marker>
-						<token negate="yes">,</token>
-						<token postag="TSW"/>
-					</marker>
-					<token postag="SENT_END"/>
-				</pattern>
-				<message>Hier hoort een komma.</message>
-				<suggestion>\1, \2</suggestion>
-				<example correction="fout, jazeker">Dat is <marker>fout jazeker</marker>.</example>
-			</rule>
-			<rule>
-				<antipattern>
-					<token postag="TSW"/>
-					<token postag="SENT_END"/>
-				</antipattern>
-				<pattern>
-					<token postag_regexp="yes" postag="SENT_START|START"/>
-					<marker>
-						<token postag="TSW"/>
-					</marker>
-					<token negate="yes">,</token>
-				</pattern>
-				<message>Hier hoort een komma.</message>
-				<suggestion>\2,</suggestion>
-				<example correction="Jazeker,"><marker>Jazeker</marker> dat is fout.</example>
-			</rule>
-		</rulegroup>
 	</category>
 
 	<category id="CONGRUENTIE" name="Congruentie">
