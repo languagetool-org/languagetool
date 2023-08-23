@@ -2696,6 +2696,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.matches("brilliant(e[nmsr]?|ere[nmsr]?|este[nmsr]?)?")) {
       return topMatch(word.replaceFirst("brilliant", "brillant"));
     }
+    if (word.matches("rechtmässig(e[nmsr]?|ere[nmsr]?|ste[nmsr]?)?")) {
+      return topMatch(word.replaceFirst("mässig", "mäßig"));
+    }
     switch (word) {
       case "Büffet":
       case "Buffett":
