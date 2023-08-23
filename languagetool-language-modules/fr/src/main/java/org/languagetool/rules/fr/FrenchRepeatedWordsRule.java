@@ -28,7 +28,7 @@ import org.languagetool.synthesis.Synthesizer;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule{
+public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   public FrenchRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new French());
