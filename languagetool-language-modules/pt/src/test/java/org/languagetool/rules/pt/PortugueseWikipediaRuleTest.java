@@ -42,7 +42,7 @@ public class PortugueseWikipediaRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new PortugueseWikipediaRule(TestTools.getMessages("pt"), "/pt/wikipedia-pt.txt");
+    rule = new PortugueseWikipediaRule(TestTools.getMessages("pt"), "/pt/wikipedia.txt");
     lt = new JLanguageTool(new Portuguese());
   }
 
