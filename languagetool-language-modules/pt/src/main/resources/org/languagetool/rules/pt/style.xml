@@ -504,7 +504,7 @@ USA
                     <token postag='V.+' postag_regexp='yes'/>
                     <token regexp='yes'>qualquer|quaisquer</token>
                 </pattern>
-                <message>Esta situação requer a utilização de 'nenhum(a)'.</message>
+                <message>Esta situação requer a utilização de &quot;nenhum(a)&quot;.</message>
                 <suggestion>\1 \2 nenhum</suggestion>
                 <suggestion>\1 \2 nenhuma</suggestion>
                 <suggestion>\1, \2 \3</suggestion>
@@ -516,7 +516,7 @@ USA
                     <token postag='V.+' postag_regexp='yes'/>
                     <token>alguém</token>
                 </pattern>
-                <message>Esta situação requer a utilização de 'ninguém'.</message>
+                <message>Esta situação requer a utilização de &quot;ninguém&quot;.</message>
                 <suggestion>\1 \2 ninguém</suggestion>
                 <suggestion>\1, \2 \3</suggestion>
                 <example correction='Não vi ninguém|Não, vi alguém'><marker>Não vi alguém</marker> em casa.</example>
@@ -527,7 +527,7 @@ USA
                     <token postag='V.+' postag_regexp='yes'/>
                     <token>algo</token>
                 </pattern>
-                <message>Esta situação requer a utilização de 'ninguém'.</message>
+                <message>Esta situação requer a utilização de &quot;ninguém&quot;.</message>
                 <suggestion>\1 \2 nada</suggestion>
                 <suggestion>\1, \2 \3</suggestion>
                 <example correction='Não quero nada|Não, quero algo'><marker>Não quero algo</marker>.</example>
@@ -979,7 +979,7 @@ USA
                         <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>Possível redundância em redor de 'que é/são'.</message>
+                <message>Possível redundância ao redor de &quot;que é/são&quot;.</message>
                 <suggestion>\3 \4 \7</suggestion>
                 <example correction="que são internas">Temos as guerras civis <marker>que são guerras civis internas</marker> em Estados soberanos.</example>
             </rule>
@@ -997,7 +997,7 @@ USA
                         <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>Possível redundância em redor de 'que é/são'.</message>
+                <message>Possível redundância ao redor de &quot;que é/são&quot;.</message>
                 <suggestion>\3 \4 \7</suggestion>
                 <example correction="que são internas">Temos as guerras civis <marker>que são guerras internas</marker> em Estados soberanos.</example>
             </rule>
@@ -1053,7 +1053,7 @@ USA
                 <token regexp="yes">&expressoes_de_tempo;</token>
                 <token>atrás</token>
             </pattern>
-            <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no='1' include_skipped="all"/> <match no='2' include_skipped="all"/> <match no='3' include_skipped="all"/> <match no='4' include_skipped="all"/></suggestion>.</message>
+            <message>Com o verbo haver não é necessário usar &quot;atrás&quot;: <suggestion><match no='1' include_skipped="all"/> <match no='2' include_skipped="all"/> <match no='3' include_skipped="all"/> <match no='4' include_skipped="all"/></suggestion>.</message>
             <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
         </rule>
 
@@ -3387,7 +3387,7 @@ USA
                     </token>
                     <token>porque</token>
                 </pattern>
-                <message>Possível fragmento. Utilize apenas uma conjunção deste tipo. Se puder substituir por "por qual razão", utilize "por que".</message>
+                <message>Possível fragmento. Utilize apenas uma conjunção deste tipo. Se puder substituir por &quot;por qual razão&quot;, utilize &quot;por que&quot;.</message>
                 <suggestion>\1</suggestion>
                 <suggestion>\3</suggestion>
                 <suggestion>\1, \3</suggestion>
@@ -3510,7 +3510,7 @@ USA
             <pattern>
                 <token inflected="yes" regexp='yes'>ser|estar</token>
             </pattern>
-            <message>De acordo com a versão inglesa do E-Prime, evitar formas verbais do verbo 'ser' e 'estar' torna a comunicação mais clara, precisa, e menos dogmática. Tente utilizar um verbo alternativo ou refazer a frase.</message>
+            <message>De acordo com a versão inglesa do E-Prime, evitar formas verbais do verbo &quot;ser&quot; e &quot;estar&quot; torna a comunicação mais clara, precisa, e menos dogmática. Tente utilizar um verbo alternativo ou refazer a frase.</message>
             <url>https://litemind.com/e-prime/</url>
             <short>De acordo com a lógica do E-Prime, deve evitar os verbos 'ser' e 'estar'</short>
             <example type="incorrect" correction="">Isto <marker>é</marker> errado…</example>
@@ -3521,16 +3521,6 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
         <!-- VESTIR calçar -->
         <rule id='CONFUSÃO_VESTIR_CALÇAR' name="[Confusão] vestir/calçar" tags='picky' tone_tags="formal">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01/02 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-            Vou calçar os sapatos.
-            Não se esqueça de calçar as meias.
-            -->
-
-            <!--
-            Kullervo abriu a arca que continha seus tesouros, deixando ver galas soberbas, vestidos esplêndidos, meias bordadas com fios de ouro, cintos e broches de prata.
-            Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores vestidos, sapatos, acessórios, publicados exaustivamente pela imprensa internacional e, claro, repercutidos aqui no Brasil.
-            -->
             <antipattern>
                 <token>vestidos</token>
                 <token min="0" max="1" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
@@ -3554,10 +3544,10 @@ USA
                         <exception regexp="yes">vestidos?|vestes</exception>
                     </token>
                 </marker>
-                <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
-                <token regexp="yes">botas?|chinelos?|galochas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
+                <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|t[éê]nis</token>
+                <token regexp="yes">botas?|chinelos?|galochas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|t[éê]nis</token>
             </pattern>
-            <message>Utilize o verbo 'calçar' nas extremidades dos membros do corpo.</message>
+            <message>Prefira o verbo &quot;calçar&quot; nas extremidades dos membros do corpo.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
             <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
             <example>Vou calçar os sapatos.</example>
@@ -3671,7 +3661,7 @@ USA
                 </marker>
                 <token><exception postag_regexp='no' postag='SPS00'/></token>
             </pattern>
-            <message>É mais correto empregar o termo 'atual'.</message>
+            <message>É mais correto empregar o termo &quot;atual&quot;.</message>
             <suggestion><match no='1' postag='NC.(.)000' postag_replace='AQ0C$10'>atual</match></suggestion>
             <example correction="atual">Qual o preço <marker>de agora</marker>?</example>
             <example correction="atuais">Aconteceu nos tempos <marker>de agora</marker>.</example>
@@ -3681,10 +3671,6 @@ USA
 
         <!-- VINHA ESTRAGADA vinha danificada/avariada -->
         <rule id='VIR_ESTAR_ESTRAGADO_AVARIADO_DANIFICADO' name="Vir/estar danificado/avariado" type="style" tags="picky">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-21 (25-JUN-2021+)      -->
-            <!--
-            A minha UPS nova vinha estragada. → A minha UPS nova vinha avariada.
-            -->
             <pattern>
                 <token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
                 <token regexp='yes' inflected='yes'>vir|estar</token>
@@ -3692,7 +3678,7 @@ USA
                     <token regexp="yes">estragad[ao]s?</token>
                 </marker>
             </pattern>
-            <message>Se for equipamento eletrónico utilize o verbo 'avariar' ou 'danificar'.</message>
+            <message>Se for equipamento eletrônico, prefira o verbo &quot;avariar&quot; ou &quot;danificar&quot;.</message>
             <suggestion><match no='3' postag='V.+' postag_regexp='yes'>danificar</match></suggestion>
             <suggestion><match no='3' postag='V.+' postag_regexp='yes'>avariar</match></suggestion>
             <example correction="danificada|avariada">A minha UPS nova vinha <marker>estragada</marker>.</example>
@@ -3935,7 +3921,7 @@ USA
                 <token skip="2" inflected="yes">fornecer</token>
                 <token regexp='yes'>feedbacks?</token>
             </pattern>
-            <message>O verbo "fornecer" é sinônimo de "abastecer" ou "proporcionar". Neste contexto, é preferível utilizar o verbo "dar".</message>
+            <message>O verbo &quot;fornecer&quot; é sinônimo de &quot;abastecer&quot; ou &quot;proporcionar&quot;. Neste contexto, é preferível utilizar o verbo &quot;dar&quot;.</message>
             <suggestion><match no='1' include_skipped='all' postag_regexp='yes' postag='V.+'>dar</match> \2</suggestion>
             <example correction="dar o feedback">para <marker>fornecer o feedback</marker> necessário.</example>
         </rule>
@@ -4133,7 +4119,7 @@ USA
                 <pattern>
                     <token regexp='yes'>n|ñ|naum<exception case_sensitive='yes'>N</exception></token>
                 </pattern>
-                <message>&internet_msg; Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer "n", coloque entre aspas.</message>
+                <message>&internet_msg; Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer &quot;n&quot;, coloque entre aspas.</message>
                 <suggestion>"n"</suggestion>
                 <example correction='não|"n"'>Ele <marker>n</marker> me mandou mensagem ontem.</example>
             </rule>
@@ -4166,7 +4152,7 @@ USA
                 <pattern>
                     <token case_sensitive='yes'>q</token>
                 </pattern>
-                <message>Se for linguagem de Internet, considere escrever <suggestion>que</suggestion> por extenso. Se quis dizer "q", coloque entre aspas.</message>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>que</suggestion> por extenso. Se quis dizer &quot;q&quot;, coloque entre aspas.</message>
                 <suggestion>"q"</suggestion>
                 <example correction='que|"q"'>Ele <marker>q</marker> me mandou mensagem ontem.</example>
             </rule>
@@ -4199,7 +4185,7 @@ USA
                     <token>p<exception case_sensitive='yes'>P</exception></token>
                     <token>/</token>
                 </pattern>
-                <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer &quot;p&quot;, coloque entre aspas.</message>
                 <suggestion>"p"</suggestion>
                 <example correction='para|por|pela|"p"'>A ação foi <marker>p/</marker> aumentar os lucros.</example>
             </rule>
@@ -4232,7 +4218,7 @@ USA
                 <pattern>
                     <token case_sensitive='yes'>p</token>
                 </pattern>
-                <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+                <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer &quot;p&quot;, coloque entre aspas.</message>
                 <suggestion>"p"</suggestion>
                 <example correction='para|por|pela|"p"'>A ação foi <marker>p</marker> aumentar os lucros.</example>
             </rule>
@@ -4473,7 +4459,7 @@ USA
                     <token>pq</token>
                     <token regexp='yes'>[\.\?!;]</token>
                 </pattern>
-                <message>&internet_msg; "Por quê" é utilizado no final de frases. Considere escrever <suggestion>por quê\2</suggestion> por extenso.</message>
+                <message>&internet_msg; &quot;Por quê&quot; é utilizado no final de frases. Considere escrever <suggestion>por quê\2</suggestion> por extenso.</message>
                 <example correction="por quê.">Quero saber <marker>pq.</marker></example>
                 <example correction="por quê?">E tudo isso <marker>pq?</marker></example>
                 <example correction="Por quê?">Eu não posso ir. <marker>Pq?</marker></example>
@@ -4492,7 +4478,7 @@ USA
                     <marker><token>pq</token></marker>
                     <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
                 </pattern>
-                <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "por qual razão", deve utilizar <suggestion>por que</suggestion>.</message>
+                <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a &quot;por qual razão&quot;, deve utilizar <suggestion>por que</suggestion>.</message>
                 <example correction="por que">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
                 <example correction="por que">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
             </rule>
@@ -4502,7 +4488,7 @@ USA
                     <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
                     <marker><token>pq</token></marker>
                 </pattern>
-                <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "por qual razão", deve utilizar <suggestion>por que</suggestion>.</message>
+                <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a &quot;por qual razão&quot;, deve utilizar <suggestion>por que</suggestion>.</message>
                 <example correction="por que">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
                 <example correction="por que">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
             </rule>
@@ -4519,7 +4505,7 @@ USA
                     </marker>
                     <token>?</token>
                 </pattern>
-                <message>&internet_msg; Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
+                <message>&internet_msg; Se &quot;pq&quot; estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
                 <example correction="por que">Se não houve erro algum, <marker>pq</marker> não entregou o documento?</example>
                 <example correction="por que">E faria tudo isso de novo, <marker>pq</marker> não?</example>
                 <example correction="por que">O relatório foi entregue; <marker>pq</marker> não houve mudanças?</example>
@@ -4537,7 +4523,7 @@ USA
                     </marker>
                     <token>?</token>
                 </pattern>
-                <message>&internet_msg; Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
+                <message>&internet_msg; Se &quot;pq&quot; estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
                 <example correction="Por que"><marker>Pq</marker> não entregou o documento?</example>
             </rule>
             <rule>
@@ -4561,7 +4547,7 @@ USA
                     </marker>
                     <token postag='_PUNCT'/>
                 </pattern>
-                <message>&internet_msg; Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso.</message>
+                <message>&internet_msg; Se &quot;pq&quot; expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso.</message>
                 <example correction="porque">Ele não se importou, <marker>pq</marker> acabou voltando.</example>
             </rule>
             <rule>
@@ -4580,7 +4566,7 @@ USA
                     </marker>
                     <token postag='_PUNCT'/>
                 </pattern>
-                <message>&internet_msg; Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for uma pergunta, utilize <suggestion>por que</suggestion>.</message>
+                <message>&internet_msg; Se &quot;pq&quot; expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for uma pergunta, utilize <suggestion>por que</suggestion>.</message>
                 <example correction="Porque|Por que"><marker>Pq</marker> ele não quis.</example>
             </rule>
             <rule>
@@ -4612,7 +4598,7 @@ USA
                 <pattern>
                     <token>pq</token>
                 </pattern>
-                <message>&internet_msg; Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se se puder substituir por "por qual razão", utilize <suggestion>por que</suggestion>.</message>
+                <message>&internet_msg; Se &quot;pq&quot; expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se se puder substituir por &quot;por qual razão&quot;, utilize <suggestion>por que</suggestion>.</message>
                 <example correction="porque|por que">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
                 <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
             </rule>
@@ -8144,7 +8130,7 @@ USA
                 <token>afim</token>
                 <token>de</token>
             </pattern>
-            <message>Pretende dizer "a fim de"? Esta expressão pode ser interpretada de forma informal. Considere alternativas.</message>
+            <message>Pretende dizer &quot;a fim de&quot;? Esta expressão pode ser interpretada de forma informal. Considere alternativas.</message>
             <suggestion>semelhante a</suggestion>
             <suggestion>de modo a</suggestion>
             <suggestion>para</suggestion>
@@ -8527,7 +8513,7 @@ USA
                         <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|[«»“”"'‘’]</exception></token>
                     </marker>
                 </pattern>
-                <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+                <message>Estilisticamente &quot;\2&quot; só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
                 <suggestion><match no='3' case_conversion='startupper'/></suggestion>
                 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
                 <short>Problema de estilo</short>
@@ -8544,7 +8530,7 @@ USA
                     </marker>
                     <token></token>
                 </pattern>
-                <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático. Verifique se pode unir duas frases.</message>
+                <message>Estilisticamente &quot;\2&quot; só deve ser utilizado no início da frase raramente, e para um efeito dramático. Verifique se pode unir duas frases.</message>
                 <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
                 <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
                 <suggestion>— <match no='2' case_conversion='alllower'/></suggestion>
@@ -8562,7 +8548,7 @@ USA
                         <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|[«»“”"'‘’]</exception></token>
                     </marker>
                 </pattern>
-                <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+                <message>Estilisticamente &quot;\2&quot; só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
                 <suggestion><match no='3' case_conversion='startupper'/></suggestion>
                 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
                 <short>Problema de estilo</short>
@@ -8576,7 +8562,7 @@ USA
                         <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|[«»“”"'‘’]</exception></token>
                     </marker>
                 </pattern>
-                <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático. Caso a palavra \2 seja necessária, procure escrever uma frase só juntando esta com a anterior.</message>
+                <message>Estilisticamente &quot;\2&quot; só deve ser utilizado no início da frase raramente, e para um efeito dramático. Caso a palavra \2 seja necessária, procure escrever uma frase só juntando esta com a anterior.</message>
                 <suggestion><match no='3' case_conversion='startupper'/></suggestion>
                 <suggestion>No entanto, <match no='3'/></suggestion>
                 <suggestion>Contudo, <match no='3'/></suggestion>
@@ -8619,7 +8605,7 @@ USA
                     </marker>
                     <token>?</token>
                 </pattern>
-                <message>Estilisticamente '\1' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+                <message>Estilisticamente &quot;\1&quot; só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
                 <suggestion>Será que <match no='2'/></suggestion>
                 <suggestion>Talvez <match no='2'/></suggestion>
                 <suggestion><match no='2' case_conversion='startupper'/></suggestion>
@@ -8657,7 +8643,7 @@ USA
                         <token><exception postag='VMI.+' postag_regexp='yes'/><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|[«»“”"'‘’]</exception></token>
                     </marker>
                 </pattern>
-                <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+                <message>Estilisticamente &quot;\2&quot; só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
                 <suggestion>De outra forma, <match no='2'/></suggestion>
                 <suggestion>Talvez <match no='2'/></suggestion>
                 <suggestion>Alternativamente, <match no='2'/></suggestion>
@@ -8797,7 +8783,7 @@ USA
                     <token regexp='yes'>erros|falhas</token>
                 </marker>
             </pattern>
-            <message>&scientific_intro; pondere empregar o termo 'imprecisão'.</message>
+            <message>&scientific_intro; pondere empregar o termo &quot;imprecisão&quot;.</message>
             <example>Vou corrigir algumas <marker>imprecisões</marker> no texto.</example>
             <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
         </rule>
@@ -8812,7 +8798,7 @@ USA
                         <token>propósito</token>
                     </marker>
                 </pattern>
-                <message>Num contexto formal/científico, é preferível escrever 'deliberadamente'.</message>
+                <message>Num contexto formal/científico, é preferível escrever &quot;deliberadamente&quot;.</message>
                 <suggestion>deliberadamente</suggestion>
                 <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
                 <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
@@ -8828,7 +8814,7 @@ USA
                         <token>propósito</token>
                     </marker>
                 </pattern>
-                <message>Num contexto formal/científico, é preferível escrever 'deliberadamente'.</message>
+                <message>Num contexto formal/científico, é preferível escrever &quot;deliberadamente&quot;.</message>
                 <suggestion>deliberadamente</suggestion>
                 <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
             </rule>
@@ -8847,7 +8833,7 @@ USA
                     <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
                     <token regexp="yes">termos?</token>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever 'empregar um termo'.</message>
+                <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
                 <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
                 <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
@@ -8862,7 +8848,7 @@ USA
                     <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
                     <token regexp="yes">termos?</token>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever 'empregar um termo'.</message>
+                <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match>-se</suggestion>
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
@@ -9510,7 +9496,7 @@ USA
                     </or>
                     <token negate_pos="yes" postag='V.+|DA.+' postag_regexp='yes'/>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+                <message>Num contexto formal, é preferível escrever &quot;efetuar&quot;, &quot;realizar&quot;, &quot;conduzir&quot;, &quot;concretizar&quot; ou &quot;elaborar&quot;.</message>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
@@ -9568,7 +9554,7 @@ USA
                     <token postag='AQ0.+|NC.+|NP.+|V.+' postag_regexp='yes'/>
                     <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+                <message>Num contexto formal, é preferível escrever &quot;efetuar&quot;, &quot;realizar&quot;, &quot;conduzir&quot;, &quot;concretizar&quot; ou &quot;elaborar&quot;.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
@@ -9688,7 +9674,7 @@ USA
                     <exception regexp='yes' inflected='yes'>conseguir|imaginar</exception> <!-- Add exception verbs here - 2023-02-08+ -->
                 </token>
             </pattern>
-            <message>Num contexto formal/científico, é preferível escrever 'ponderar'.</message>
+            <message>Num contexto formal/científico, é preferível escrever &quot;ponderar&quot;.</message>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ponderar</match></suggestion>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>considerar</match></suggestion>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>resolver</match></suggestion>
@@ -9711,7 +9697,7 @@ USA
                     <token regexp="yes">científic[ao]s?</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal, é preferível escrever 'rigor científico'.</message>
+            <message>Num contexto formal, é preferível escrever &quot;rigor científico&quot;.</message>
             <suggestion>rigor científico</suggestion>
             <example correction="rigor científico">Isto deve ser feito com <marker>precisão científica</marker>.</example>
         </rule>
@@ -9742,7 +9728,7 @@ USA
                         <token postag='CC|SPS00' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>&scientific_intro; pondere empregar o termo 'designar'.</message>
+                <message>&scientific_intro; pondere empregar o termo &quot;designar&quot;.</message>
                 <suggestion><match no='2' postag='VMIP3(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='NC(.)(.)000' postag_replace='VMP00$2$1'>designar</match> por</suggestion>
                 <example correction="é designada por">A equação <marker>tem o nome de</marker> técnica quantitativa.</example>
                 <example correction="são designadas por">As equações <marker>têm o nome de</marker> técnica quantitativa.</example>
@@ -9763,7 +9749,7 @@ USA
                         <token postag='CC|SPS00' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>&scientific_intro; pondere empregar o termo 'designar'.</message>
+                <message>&scientific_intro; pondere empregar o termo &quot;designar&quot;.</message>
                 <suggestion>esta designação por</suggestion>
                 <example correction="esta designação por">O projeto tem <marker>este nome por</marker> ser impressionante.</example>
             </rule>
@@ -9783,7 +9769,7 @@ USA
                         <token postag='CC|SPS00' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>&scientific_intro; pondere empregar o termo 'designar'.</message>
+                <message>&scientific_intro; pondere empregar o termo &quot;designar&quot;.</message>
                 <suggestion><match no='3' postag='V.+' postag_regexp='yes'>designar</match> por</suggestion>
                 <example correction="designado por">O projeto é assim <marker>chamado por</marker> ser impressionante.</example>
                 <example correction="designada por">A equação é assim <marker>chamada por</marker> ser brilhante.</example>
@@ -9835,7 +9821,7 @@ USA
                         <token postag='NC.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>&scientific_intro; pondere empregar o termo 'terminologia'.</message>
+                <message>&scientific_intro; pondere empregar o termo &quot;terminologia&quot;.</message>
                 <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia <match no='4' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='5' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
                 <example correction="A terminologia é importante"><marker>Os termos técnicos são importantes</marker>.</example>
                 <example correction="da terminologia é importante">Parte <marker>dos termos técnicos são importantes</marker>.</example>
@@ -9855,7 +9841,7 @@ USA
                         <token postag='NC.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>&scientific_intro; pondere empregar o termo 'terminologia'.</message>
+                <message>&scientific_intro; pondere empregar o termo &quot;terminologia&quot;.</message>
                 <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia <match no='4' postag='VMP00.+' postag_regexp="yes" postag_replace='VMP00SF'/> <match no='5' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='6' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
                 <example correction="A terminologia usada é importante"><marker>Os termos técnicos usados são importantes</marker>.</example>
                 <example correction="da terminologia usada é importante">Parte <marker>dos termos técnicos usados são importantes</marker>.</example>
@@ -9878,7 +9864,7 @@ USA
                         <token postag='NC.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>&scientific_intro; pondere empregar o termo 'terminologia'.</message>
+                <message>&scientific_intro; pondere empregar o termo &quot;terminologia&quot;.</message>
                 <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia \4 \5 <match no='6' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='7' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
                 <example correction="A terminologia no texto é importante"><marker>Os termos técnicos no texto são importantes</marker>.</example>
                 <example correction="da terminologia no texto é importante">Parte <marker>dos termos técnicos no texto são importantes</marker>.</example>
@@ -9904,7 +9890,7 @@ USA
                         <token postag='NC.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>&scientific_intro; pondere empregar o termo 'terminologia'.</message>
+                <message>&scientific_intro; pondere empregar o termo &quot;terminologia&quot;.</message>
                 <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia <match no='4' postag='VMP00.+' postag_regexp="yes" postag_replace='VMP00SF'/> \5 \6 <match no='7' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='8' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
                 <example correction="A terminologia usada no texto é importante"><marker>Os termos técnicos usados no texto são importantes</marker>.</example>
                 <example correction="da terminologia usada no texto é importante">Parte <marker>dos termos técnicos usados no texto são importantes</marker>.</example>
@@ -9936,7 +9922,7 @@ USA
                         <token regexp='yes'>dada|prestada</token>
                     </marker>
                 </pattern>
-                <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;auxiliar&quot;.</message>
                 <suggestion>pelo auxílio prestado</suggestion>
                 <example correction="pelo auxílio prestado">Agradecemos a todos <marker>pela ajuda dada</marker>.</example>
                 <example correction="pelo auxílio prestado">Agradecemos a todos <marker>pela ajuda prestada</marker>.</example>
@@ -9954,7 +9940,7 @@ USA
                     <token regexp='yes'>[ao]s?|n[ao]s?</token>
                     <token><exception postag_regexp='no' postag='VMN0000'/></token>
                 </pattern>
-                <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;auxiliar&quot;.</message>
                 <suggestion><match no='3' postag='V.+' postag_regexp='yes'>auxiliar</match></suggestion>
                 <example correction="auxiliar">Isto serve para <marker>ajudar</marker> na tomada de decisão.</example>
             </rule>
@@ -9968,7 +9954,7 @@ USA
                     <token regexp='yes'>[ao]s?|n[ao]s?</token>
                     <token><exception postag_regexp='no' postag='VMN0000'/></token>
                 </pattern>
-                <message>Se for um texto científico/universitário, pondere empregar o termo 'auxiliar'.</message>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;auxiliar&quot;.</message>
                 <suggestion>auxílio</suggestion>
                 <example correction="auxílio">Eles querem <marker>ajuda</marker> na tomada de decisão.</example>
             </rule>
@@ -9994,7 +9980,7 @@ USA
                 </and>
                 <token regexp='yes'>[aà]s?|aos?</token>
             </pattern>
-            <message>Num contexto formal/científico, é preferível escrever 'conferir'.</message>
+            <message>Num contexto formal/científico, é preferível escrever &quot;conferir&quot;.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
             <example correction="confere">Esta equação <marker>dá</marker> aleatoriedade ao jogo.</example>
         </rule>
@@ -10017,7 +10003,7 @@ USA
                     <token postag='NC.+' postag_regexp='yes'/>
                 </marker>
             </pattern>
-            <message>Se for um texto científico/universitário, pondere empregar o termo 'indelével'.</message>
+            <message>Se for um texto científico/universitário, pondere empregar o termo &quot;indelével&quot;.</message>
             <suggestion>\5 \6 <match no='6' postag='NC.(.)000' postag_replace='VMIP3$10'>ser</match> <match no='6' postag='NC.(.)000' postag_replace='AQ0C$10'>indelével</match></suggestion>
             <example correction="o passado é indelével">Eu queria, mas <marker>não se pode apagar o passado</marker>.</example>
             <example correction="os escritos são indeléveis">Eu queria, mas <marker>não se pode apagar os escritos</marker>.</example>
@@ -11178,7 +11164,7 @@ USA
                     <token regexp="yes">pagos?</token>
                 </marker>
             </pattern>
-            <message>É mais correto empregar o termo 'remunerado'.</message>
+            <message>É mais correto empregar o termo &quot;remunerado&quot;.</message>
             <suggestion><match no='6' postag='VMP00(.)M' postag_replace='VMP00$1M'>remunerar</match></suggestion>
             <example correction="remunerado">O Rui faz trabalho não <marker>pago</marker> de noite.</example>
             <example correction="remunerados">O Rui faz trabalhos não <marker>pagos</marker> de noite.</example>
@@ -11931,7 +11917,7 @@ USA
                 <token regexp="yes">a|para</token>
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>Nesta situação o verbo 'perder' pode ser depreciativo. Utilize um alternativo.</message>
+            <message>Nesta situação o verbo &quot;perder&quot; pode ser depreciativo. Utilize um alternativo.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>demorar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>levar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
@@ -14966,7 +14952,7 @@ USA
                         <exception postag='CS|AQ.+' postag_regexp='yes'/>
                     </token>
                 </pattern>
-                <message>&simplify_msg; Se preferir, pode também utilizar variações de "o qual".</message>
+                <message>&simplify_msg; Se preferir, pode também utilizar variações de &quot;o qual&quot;.</message>
                 <suggestion>sendo</suggestion>
                 <suggestion>os quais são</suggestion>
                 <suggestion>as quais são</suggestion>
@@ -16052,7 +16038,7 @@ USA
                 </marker>
                 <token regexp='yes'>[ao]s?</token>
             </pattern>
-            <message>Utilize 'onde' se estiver a referir-se a um local.</message>
+            <message>Utilize &quot;onde&quot; se estiver a referir-se a um local.</message>
             <suggestion>onde</suggestion>
             <suggestion>no qual</suggestion>
             <suggestion>na qual</suggestion>
@@ -16778,7 +16764,7 @@ USA
                     <token postag='AQ.+|RG' postag_regexp='yes'/>
                 </marker>
             </pattern>
-            <message>O verbo 'ser' pode ser omitido nesta perífrase.</message>
+            <message>O verbo &quot;ser&quot; pode ser omitido nesta perífrase.</message>
             <suggestion>\3 \5</suggestion>
             <example correction="julgávamos maior">Aquilo que <marker>julgávamos ser maior</marker> que nós próprios na realidade não o era.</example>
             <example correction="parecem muito">Alguns cientistas que <marker>parecem ser muito</marker> inteligentes são pessoas normais.</example>
@@ -17689,7 +17675,7 @@ USA
                 <token>que</token>
                 <token postag='VMIP3.+|VMM03.+|VMSP3.+' postag_regexp='yes'/>
             </pattern>
-            <message>Remova a partícula de realce 'é que' para tornar o texto mais fluído.</message>
+            <message>Remova a partícula de realce &quot;é que&quot; para tornar o texto mais fluído.</message>
             <suggestion>\1 \4</suggestion>
             <example correction="organizados podem">Os dados só após serem <marker>organizados é que podem</marker> ser usados.</example>
         </rule>
@@ -17714,7 +17700,7 @@ USA
                     </marker>
                     <token negate_pos="yes" postag='SENT_END|_PUNCT|PP.+|VMP00SM' postag_regexp='yes'/>
                 </pattern>
-                <message>&simplify_msg; Se preferir, use o verbo "haver".</message>
+                <message>&simplify_msg; Se preferir, use o verbo &quot;haver&quot;.</message>
                 <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
                 <example correction="foi|fora|fui|havia sido">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example>
@@ -17734,7 +17720,7 @@ USA
                     </marker>
                     <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
                 </pattern>
-                <message>&simplify_msg; Se preferir, use o verbo "haver".</message>
+                <message>&simplify_msg; Se preferir, use o verbo &quot;haver&quot;.</message>
                 <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS2P0|VMIM2S0|VMIS2S0'/></suggestion>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
                 <example correction="estiveras|estiveste|estivestes|havias estado">Tu <marker>tinhas estado</marker> na feira.</example>
@@ -17754,7 +17740,7 @@ USA
                     </marker>
                     <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
                 </pattern>
-                <message>&simplify_msg; Se preferir, use o verbo "haver".</message>
+                <message>&simplify_msg; Se preferir, use o verbo &quot;haver&quot;.</message>
                 <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS3P0'/></suggestion>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
                 <example correction="foram|haviam sido">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>
@@ -17774,7 +17760,7 @@ USA
                     </marker>
                     <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
                 </pattern>
-                <message>&simplify_msg; Se preferir, use o verbo "haver".</message>
+                <message>&simplify_msg; Se preferir, use o verbo &quot;haver&quot;.</message>
                 <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
                 <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
                 <example correction="fomos|havíamos sido">Nós <marker>tínhamos sido</marker> entregues à polícia.</example>
@@ -18130,7 +18116,7 @@ USA
                     <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
                     <token negate_pos="yes" postag='AQ.+|AO.+' postag_regexp='yes'/>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever 'observar' ou 'constatar'.</message>
+                <message>Num contexto formal, é preferível escrever &quot;observar&quot; ou &quot;constatar&quot;.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constatar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
@@ -18212,7 +18198,7 @@ USA
                     <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
                     <token regexp='yes'>notícias?|jornal|anúncios?|folhetos?|cartaze?s?|panfletos?|placas?|jornais|revistas?|internet</token>
                 </pattern>
-                <message>Num contexto formal, é preferível usar o verbo "ler" ou "assistir".</message>
+                <message>Num contexto formal, é preferível usar o verbo &quot;ler&quot; ou &quot;assistir&quot;.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ler</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assistir</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>descobrir</match></suggestion>
@@ -18257,7 +18243,7 @@ USA
                     <token>cabo</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+            <message>Num contexto formal, é preferível escrever &quot;efetuar&quot;, &quot;realizar&quot;, &quot;conduzir&quot;, &quot;concretizar&quot; ou &quot;elaborar&quot;.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
