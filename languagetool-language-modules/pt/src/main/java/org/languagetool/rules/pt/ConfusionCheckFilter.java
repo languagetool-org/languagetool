@@ -21,18 +21,20 @@ package org.languagetool.rules.pt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 
-public class BrazilianConfusionCheckFilter extends RuleFilter {
+public class ConfusionCheckFilter extends RuleFilter {
 
-  private final Map<String, AnalyzedTokenReadings> relevantWords =
-    new ConfusionPairsDataLoader().loadWords(getFilepaths());
+  private final Map<String, AnalyzedTokenReadings> relevantWordsPT = new ConfusionPairsDataLoader().loadWords(getFilepathsPT());
+  private final Map<String, AnalyzedTokenReadings> relevantWordsBR = new ConfusionPairsDataLoader().loadWords(getFilepathsBR());
 
   private static final Pattern MS = Pattern.compile("NC[MC][SN]000|A..[MC][SN].|V.P..SM");
   private static final Pattern FS = Pattern.compile("NC[FC][SN]000|A..[FC][SN].|V.P..SF");
@@ -41,11 +43,23 @@ public class BrazilianConfusionCheckFilter extends RuleFilter {
   private static final Pattern CP = Pattern.compile("NC[MFC][PN]000|A..[MFC][PN].|V.P..P.");
   private static final Pattern CS = Pattern.compile("NC[MFC][SN]000|A..[MFC][SN].|V.P..S.");
 
-  private List<String> getFilepaths() {
+  private List<String> getFilepathsBR() {
     List<String> paths = new ArrayList<>();
     paths.add("/pt/confusion_pairs.txt");
     paths.add("/pt/pt-BR/confusion_pairs.txt");
     return paths;
+  }
+
+  private List<String> getFilepathsPT() {
+    List<String> paths = new ArrayList<>();
+    paths.add("/pt/confusion_pairs.txt");
+    paths.add("/pt/pt-PT/confusion_pairs.txt");
+    return paths;
+  }
+
+  private String getLanguageVariantCode(RuleMatch match) {
+    PatternRule pr = (PatternRule) match.getRule();
+    return pr.getLanguage().getShortCodeWithCountryAndVariant();
   }
 
   @Override
@@ -73,6 +87,16 @@ public class BrazilianConfusionCheckFilter extends RuleFilter {
       else if (atr.matchesPosTagRegex("[NAPD].+FP.*|V.P..PF")) { desiredGenderNumberPattern = FP;}
       else if (atr.matchesPosTagRegex("[NAPD].+CP.*|V.P..P.")) { desiredGenderNumberPattern = CP;}
       else if (atr.matchesPosTagRegex("[NAPD].+CS.*|V.P..S.")) { desiredGenderNumberPattern = CS;}
+    }
+
+    Map<String, AnalyzedTokenReadings> relevantWords;
+    String variant = getLanguageVariantCode(match).toLowerCase();
+    if (Objects.equals(variant, "br")) {
+      relevantWords = relevantWordsBR;
+    } else if (Objects.equals(variant, "pt")) {
+      relevantWords = relevantWordsPT;
+    } else { // in Africa and elsewhere, PT spelling appears to be dominant, but leave this condition separate
+      relevantWords = relevantWordsPT;
     }
 
     if (relevantWords.containsKey(form)) {
