@@ -90,10 +90,10 @@ public class ConfusionCheckFilter extends RuleFilter {
     }
 
     Map<String, AnalyzedTokenReadings> relevantWords;
-    String variant = getLanguageVariantCode(match).toLowerCase();
-    if (Objects.equals(variant, "br")) {
+    String variant = getLanguageVariantCode(match);
+    if (Objects.equals(variant, "pt-BR")) {
       relevantWords = relevantWordsBR;
-    } else if (Objects.equals(variant, "pt")) {
+    } else if (Objects.equals(variant, "pt-PT")) {
       relevantWords = relevantWordsPT;
     } else { // in Africa and elsewhere, PT spelling appears to be dominant, but leave this condition separate
       relevantWords = relevantWordsPT;
