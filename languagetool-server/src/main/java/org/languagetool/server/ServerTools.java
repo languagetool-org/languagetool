@@ -21,17 +21,16 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.JLanguageTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static org.languagetool.JLanguageTool.*;
 
 /**
  * @since 3.4
@@ -161,30 +160,30 @@ final class ServerTools {
   }
 
   @NotNull
-  static JLanguageTool.Mode getMode(Map<String, String> params) {
-    JLanguageTool.Mode mode;
+  static Mode getMode(Map<String, String> params) {
+    Mode mode;
     if (params.get("mode") != null) {
       String modeParam = params.get("mode");
       if ("textLevelOnly".equals(modeParam)) {
-        mode = JLanguageTool.Mode.TEXTLEVEL_ONLY;
+        mode = Mode.TEXTLEVEL_ONLY;
       } else if ("allButTextLevelOnly".equals(modeParam)) {
-        mode = JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY;
+        mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
       } else if ("all".equals(modeParam)) {
-        mode = JLanguageTool.Mode.ALL;
+        mode = Mode.ALL;
       } else if ("batch".equals(modeParam)) {
         // used in undocumented API for /words/add, /words/delete; ignore
-        mode = JLanguageTool.Mode.ALL;
+        mode = Mode.ALL;
       } else {
         throw new BadRequestException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");
       }
     } else {
-      mode = JLanguageTool.Mode.ALL;
+      mode = Mode.ALL;
     }
     return mode;
   }
 
   @NotNull
-  static String getModeForLog(JLanguageTool.Mode mode) {
+  static String getModeForLog(Mode mode) {
     switch (mode) {
       case TEXTLEVEL_ONLY: return "tlo";
       case ALL_BUT_TEXTLEVEL_ONLY: return "!tlo";
@@ -194,35 +193,36 @@ final class ServerTools {
   }
 
   @NotNull
-  static JLanguageTool.Level getLevel(Map<String, String> params) {
-    JLanguageTool.Level level;
+  static Level getLevel(Map<String, String> params) {
+    Level level;
     if (params.get("level") != null) {
       String param = params.get("level");
       if ("default".equals(param)) {
-        level = JLanguageTool.Level.DEFAULT;
+        level = Level.DEFAULT;
       } else if ("picky".equals(param)) {
-        level = JLanguageTool.Level.PICKY;
+        level = Level.PICKY;
       } else if ("academic".equals(param)) {
-        level = JLanguageTool.Level.ACADEMIC;
+        level = Level.ACADEMIC;
       } else if ("clarity".equals(param)) {
-        level = JLanguageTool.Level.CLARITY;
+        level = Level.CLARITY;
       } else if ("professional".equals(param)) {
-        level = JLanguageTool.Level.PROFESSIONAL;
+        level = Level.PROFESSIONAL;
       } else if ("creative".equals(param)) {
-        level = JLanguageTool.Level.CREATIVE;
+        level = Level.CREATIVE;
       } else if ("customer".equals(param)) {
-        level = JLanguageTool.Level.CUSTOMER;
+        level = Level.CUSTOMER;
       } else if ("jobapp".equals(param)) {
-        level = JLanguageTool.Level.JOBAPP;
+        level = Level.JOBAPP;
       } else if ("objective".equals(param)) {
-        level = JLanguageTool.Level.OBJECTIVE;
+        level = Level.OBJECTIVE;
       } else if ("elegant".equals(param)) {
-        level = JLanguageTool.Level.ELEGANT;
+        level = Level.ELEGANT;
       } else {
-        throw new BadRequestException("If 'level' is set, it must be set to 'default' or 'picky'");
+        throw new BadRequestException("Unknown value '" + param + "' for parameter 'level'. Valid values: " +
+          Arrays.stream(Level.values()).map(k -> k.toString().toLowerCase()).collect(Collectors.joining(", ")));
       }
     } else {
-      level = JLanguageTool.Level.DEFAULT;
+      level = Level.DEFAULT;
     }
     return level;
   }
