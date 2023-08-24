@@ -2918,6 +2918,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
         <!-- QuillBot Antipatterns -->
         <!-- ====================================================================== -->
+        <rulegroup id="QB_EN" name="">
+            <rule>  <!-- curly to straight quotes - opening -->
+                <pattern>
+                    <marker>
+                        <token>“</token>
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction="">This is <marker>“a</marker> new test" to check quotes.</example>
+            </rule>
+            <rule>  <!-- curly to straight quotes - closing -->
+                <pattern>
+                    <marker>
+                        <token />
+                        <token>”</token>
+                    </marker>
+                </pattern>
+                <example correction="">This is "a new <marker>test”</marker> to check quotes.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACEUNDERSCORESPSPACENNP_ERROR_IDS_000001" name="">
             <rule>  <!-- keep 'LanguageTool' together as one word -->
                 <pattern>
