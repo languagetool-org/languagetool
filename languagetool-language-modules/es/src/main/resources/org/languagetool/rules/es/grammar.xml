@@ -10092,6 +10092,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- ESTA_TILDE11 -->
+                <antipattern>
+                    <token>esta</token>
+                    <token min="0" postag_regexp="yes" postag="A.*|V.P.*"/>
+                    <token postag="N.[FC][SN].*" postag_regexp="yes"><exception postag="A..[FC][SN]." postag_regexp="yes"/></token>
+                    <example>Más adelante, analizaremos en qué campos léxicos esta influencia del árabe fue aún mayor.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">a|de|en|por</token>
                     <token>qué</token>
