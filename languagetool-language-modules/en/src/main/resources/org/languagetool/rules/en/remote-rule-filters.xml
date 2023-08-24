@@ -2914,8 +2914,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">I don't want to go in <marker>there</marker>.</example>
             </rule>
         </rulegroup>
+
+        <!-- ====================================================================== -->
+        <!-- QuillBot Antipatterns -->
+        <!-- ====================================================================== -->
+        <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACEUNDERSCORESPSPACENNP_ERROR_IDS_000001" name="">
+            <rule>  <!-- keep 'LanguageTool' together as one word -->
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">LanguageTool</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>LanguageTool</marker> for Windows 0.3</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name="">
-            <rule>  <!-- test AP: 'the State' -->
+            <rule>  <!-- TEST AP ONLY: 'the State' -->
                 <pattern>
                     <token>the</token>
                     <marker>
