@@ -71,6 +71,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "germane", // confused with German
     "double check",
     "java script",
+    "off topic",
     "hard coding",
     "hard coded",
     "fine tune",
