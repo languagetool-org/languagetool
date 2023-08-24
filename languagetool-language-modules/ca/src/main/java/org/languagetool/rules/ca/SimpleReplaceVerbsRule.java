@@ -68,6 +68,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
     super.setIgnoreTaggedWords();
     tagger = (CatalanTagger) language.getTagger();
     synth = (CatalanSynthesizer) language.getSynthesizer();
+    super.useSubRuleSpecificIds();
   }
 
   @Override

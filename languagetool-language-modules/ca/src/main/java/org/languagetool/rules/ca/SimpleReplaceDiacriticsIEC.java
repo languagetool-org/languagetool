@@ -54,6 +54,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setDefaultOn();
     this.setCheckLemmas(false);
+    super.useSubRuleSpecificIds();
   }  
 
   @Override

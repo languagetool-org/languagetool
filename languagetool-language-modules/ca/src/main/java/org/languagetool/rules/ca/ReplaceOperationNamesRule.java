@@ -67,6 +67,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
     super.setLocQualityIssueType(ITSIssueType.Style);
     super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries")); 
     synth = (CatalanSynthesizer) language.getSynthesizer();
+    super.useSubRuleSpecificIds();
   }  
 
   @Override

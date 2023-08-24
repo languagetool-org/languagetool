@@ -56,6 +56,7 @@ public class SimpleReplaceDNVSecondaryRule extends AbstractSimpleReplaceLemmasRu
     super(messages, language);
     super.setCategory(Categories.REGIONALISMS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
+    super.useSubRuleSpecificIds();
     wrongLemmas = cache.getUnchecked("/ca/replace_dnv_secondary.txt");
   }  
 
