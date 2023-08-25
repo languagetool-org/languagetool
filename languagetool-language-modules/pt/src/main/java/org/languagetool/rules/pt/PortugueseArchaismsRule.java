@@ -74,7 +74,7 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "'$match' é um arcaísmo. É preferível dizer $suggestions.";
+    return "\"$match\" é um arcaísmo. É preferível dizer $suggestions.";
   }
 
   @Override

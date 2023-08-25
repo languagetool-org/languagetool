@@ -76,7 +76,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "'$match' é uma expressão prolixa. É preferível dizer $suggestions.";
+    return "\"$match\" é uma expressão prolixa. É preferível dizer $suggestions.";
   }
 
   @Override

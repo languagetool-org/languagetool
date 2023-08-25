@@ -78,7 +78,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "'$match' é um estrangeirismo. É preferível dizer $suggestions.";
+    return "\"$match\" é um estrangeirismo. É preferível dizer $suggestions.";
   }
 
   @Override
