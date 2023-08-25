@@ -302,7 +302,8 @@ public abstract class GRPCRule extends RemoteRule {
     return () -> {
       MLRuleRequest reqArgs = (MLRuleRequest) requestArg;
       // NOTE: disabled for now, don't want to run this in the nightly diff
-      if (serviceConfiguration.getRuleId().equals("AI_DE_GGEC") && (reqArgs.textSessionId == -1 || reqArgs.textSessionId == -2)) {
+      boolean noRegression = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("no-regression", "false"));
+      if (noRegression && (reqArgs.textSessionId == -1 || reqArgs.textSessionId == -2)) {
         return new RemoteRuleResult(false, true, Collections.emptyList(), reqArgs.sentences);
       }
 
