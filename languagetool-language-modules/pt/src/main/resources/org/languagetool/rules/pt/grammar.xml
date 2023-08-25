@@ -12416,6 +12416,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O almoço foi à uma da tarde.</example>
             </rule>
             <rule>
+                <!--                     Loosely based on CoGrOO rules                 -->
+                <pattern>
+                    <token regexp='yes'>às?</token>
+                    <token regexp='yes'>mim|ti|si|el[ea]s?|nós|vós|vos|vocês?</token>
+                </pattern>
+                <message>Neste contexto não se utiliza a crase.</message>
+                <suggestion>a \2</suggestion>
+                <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
+                <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token>bife</token>
                     <token>à</token>
@@ -12472,17 +12483,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Para se referir a moedas, não utilize a crase.</message>
                 <suggestion>a \2 \3</suggestion>
                 <example correction='a R$ 35'>A quantia equivale <marker>à R$ 35</marker>.</example>
-            </rule>
-            <rule>
-                <!--                     Loosely based on CoGrOO rules                 -->
-                <pattern>
-                    <token regexp='yes'>às?</token>
-                    <token regexp='yes'>mim|ti|si|el[ea]s?|nós|vós|vos|vocês?</token>
-                </pattern>
-                <message>Neste contexto não se utiliza a crase.</message>
-                <suggestion>a \2</suggestion>
-                <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
-                <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
             </rule>
             <rule>
                 <!--                     Loosely based on CoGrOO rules                 -->
