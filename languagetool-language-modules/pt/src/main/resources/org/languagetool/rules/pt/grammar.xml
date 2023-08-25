@@ -7946,6 +7946,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <!-- We need to improve the performance of multiple agreement errors — it works okay with only gender or only number, but not both. -->
+        <!-- The contraction postags make this difficult to do using the AdvancedSynthesizerFilter. For now, we just need a quickfix, so this silly rule will do. -->
+        <rulegroup id="CONC_NUM_GEN_O_SUAS" name="Possível erro de digitação causando erro de concordância entre artigo e possessivo." default="temp_off">
+            <antipattern>
+                <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?o</token>
+                <token case_sensitive="yes">SUAS</token>
+            </antipattern>
+
+            <rule> <!-- masc->fem.pl. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?os?</token>
+                    </marker>
+                    <token regexp="yes">(minh|[ts]u)as</token>
+                </pattern>
+                <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
+                <suggestion><match no="1" regexp_match="([nd])?os?" regexp_replace="$1as"/></suggestion>
+                <example correction="as">São <marker>os</marker> suas mãos.</example>
+                <example correction="nas">Está <marker>no</marker> tuas mãos.</example>
+            </rule>
+
+            <rule> <!-- masc->fem.sg. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?os?</token>
+                    </marker>
+                    <token regexp="yes">(minh|[ts]u)a</token>
+                </pattern>
+                <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
+                <suggestion><match no="1" regexp_match="([nd])?os?" regexp_replace="$1a"/></suggestion>
+                <example correction="a">É <marker>os</marker> minha casa.</example>
+                <example correction="da">Vem <marker>do</marker> sua casa.</example>
+            </rule>
+
+            <rule> <!-- fem->masc.sg. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?as?</token>
+                    </marker>
+                    <token regexp="yes">[mts]eu</token>
+                </pattern>
+                <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
+                <suggestion><match no="1" regexp_match="([nd])?as?" regexp_replace="$1o"/></suggestion>
+                <example correction="o">É <marker>as</marker> teu carro.</example>
+                <example correction="do">Vem <marker>da</marker> seu carro.</example>
+            </rule>
+
+            <rule> <!-- fem->masc.pl. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?as?</token>
+                    </marker>
+                    <token regexp="yes">[mts]eus</token>
+                </pattern>
+                <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
+                <suggestion><match no="1" regexp_match="([nd])?as?" regexp_replace="$1os"/></suggestion>
+                <example correction="os">É <marker>as</marker> seus braços.</example>
+                <example correction="dos">Vem <marker>da</marker> meus braços.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
             <!--              General verbal concordance errors           -->
             <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
