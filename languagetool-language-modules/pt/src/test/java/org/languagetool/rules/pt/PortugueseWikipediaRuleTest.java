@@ -55,9 +55,9 @@ public class PortugueseWikipediaRuleTest {
     // incorrect sentences:
 
     // at the beginning of a sentence (Romanian replace rule is case-sensitive)
-    checkSimpleReplaceRule("Isto é tecnologia do século 21.", "século XXI");
+    checkSimpleReplaceRule("50 graus centígrados.", "graus Celsius");
     // inside sentence
-    checkSimpleReplaceRule("Isto é tecnologia do Século 21.", "Século XXI");
+    checkSimpleReplaceRule("40 Graus centígrados.", "Graus Celsius");
   }
 
   /**

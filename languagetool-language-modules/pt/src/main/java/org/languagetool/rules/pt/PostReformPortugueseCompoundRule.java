@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
@@ -73,5 +74,26 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
     }
 
     return data;
+  }
+
+  // This override is here to account for Portuguese transformations required as per the latest orthography:
+  // ultra + som  => ultrassom (with <s> turned into <ss> to keep the sound).
+  @Override
+  public String mergeCompound(String str, boolean uncapitalizeMidWords) {
+    String[] stringParts = str.replaceAll("-", " ").split(" ");
+    StringBuilder sb = new StringBuilder();
+    for (int k = 0; k < stringParts.length; k++) {
+      if (k == 0) {
+        sb.append(stringParts[0]);
+      } else {
+        // if previous element ends in vowel and current one starts with <r> or <s>, we need to double the letter into
+        // a digraph that creates the sound we want
+        if (stringParts[k-1].matches("(?i).+[aeiou]$") && stringParts[k].matches("(?i)^[rs].+")) {
+          stringParts[k] = stringParts[k].charAt(0) + stringParts[k];
+        }
+        sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);
+      }
+    }
+    return sb.toString();
   }
 }

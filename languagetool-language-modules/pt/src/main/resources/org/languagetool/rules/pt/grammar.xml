@@ -15453,29 +15453,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="guarda-chuvas">Abram os <marker>guardas-chuvas</marker>.</example>
         </rule>
 
-        <rulegroup id='HAVER' name="Verbo haver">
-            <!-- Created by Marco A.G.Pinto 2020-03-26 -->
+        <rulegroup id='HAVER' name="Verbo haver no sentido de 'existir' no plural">
             <rule>
                 <pattern>
                     <marker>
-                        <token>houveram</token>
+                        <token inflected="yes" postag_regexp="yes" postag="V...3P.+">haver</token>
                     </marker>
-                    <token postag_regexp='yes' postag='DI0MP0|NC[FM]P000'/>
+                    <token postag_regexp='yes' postag="[DAP]...P.+|N..P.+"/>
                 </pattern>
                 <message>O verbo haver é impessoal no sentido de existir.</message>
-                <suggestion>houve</suggestion>
-                <example correction="houve">No passado <marker>houveram</marker> muitos acidentes.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>haverem</token>
-                    </marker>
-                    <token postag_regexp='yes' postag='DI0MP0|NC[FM]P000'/>
-                </pattern>
-                <message>O verbo haver é impessoal no sentido de existir.</message>
-                <suggestion>haver</suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V...3)P(.+)" postag_replace="$1S$2"/></suggestion>
+                <example correction="houve|houvera">No passado <marker>houveram</marker> muitos acidentes.</example>
                 <example correction="haver">Espero <marker>haverem</marker> respostas.</example>
+                <example correction="haveria">Achei que <marker>haveriam</marker> uns melhores.</example>
+                <example correction="houver">Enquanto <marker>houverem</marker> erros, não funcionará.</example>
+                <example correction="Haverá"><marker>Haverão</marker> alguns problemas.</example>
+                <!-- used to be in wikipedia.txt -->
+                <example correction="Havia"><marker>Haviam</marker> muitos.</example>
+                <example correction="Havia"><marker>Haviam</marker> vários.</example>
+                <example correction="Havia"><marker>Haviam</marker> poucos.</example>
             </rule>
         </rulegroup>
 
@@ -20703,7 +20699,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='CONFUSED_WORDS' name="Confusão de Palavras">
+        <rulegroup id="ENCIMA_LOCUCAO" name="Uso de 'encima' para a locução adverbial 'em cima'." default="temp_off">
+            <rule> <!-- This replaces a few lines from wikipedia.txt -->
+                <pattern>
+                    <marker>
+                        <token>encima</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">d.+</token>
+                </pattern>
+                <message>A locução adverbial <suggestion>em cima</suggestion> se escreve separado.</message>
+                <example correction="em cima">Caiu <marker>encima</marker> de mim.</example>
+                <example correction="em cima">O gato está <marker>encima</marker> da mesa.</example>
+                <example correction="em cima">O morcego foi <marker>encima</marker> dela.</example>
+                <example correction="em cima">Pus o controle <marker>encima</marker> daquela mesa.</example>
+            </rule>
 
+            <rule>
+                <pattern>
+                    <token regexp="yes">aí|aqui|ali|lá</token>
+                    <marker>
+                        <token>encima</token>
+                    </marker>
+                </pattern>
+                <message>A locução adverbial <suggestion>em cima</suggestion> se escreve separado.</message>
+                <example correction="em cima">O gato está aqui <marker>encima</marker>.</example>
+                <example correction="em cima">O morcego foi lá <marker>encima</marker>.</example>
+                <example correction="em cima">Pus o controle ali <marker>encima</marker>.</example>
+            </rule>
+
+            <rule> <!-- common verbal collocates per corpus search -->
+                <pattern>
+                    <token regexp="yes" inflected="yes">pôr|colocar|botar|meter|estar|cair|chutar|sentar|deitar</token>
+                    <marker>
+                        <token>encima</token>
+                    </marker>
+                </pattern>
+                <message>A locução adverbial <suggestion>em cima</suggestion> se escreve separado.</message>
+                <example correction="em cima">O que você pôs <marker>encima</marker>?</example>
+            </rule>
+
+        </rulegroup>
 
         <rulegroup id="CONFUSÃO_RJ" name="Confusão de de e da">
             <rule>
@@ -38843,6 +38878,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     </category>
     <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
+
+        <rule id="ABREVIATURA_DE_SECULO" name="Não abrevie 'século' para 'séc.'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>séc</token>
+                    <token min="0" regexp="yes" spacebefore="no">.</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">[IVXLCDM]+|[0-9]+</token>
+            </pattern>
+            <message>Não se abrevia a palavra <suggestion>século</suggestion>.</message>
+            <example correction="século">Morreu no <marker>séc.</marker> XVIII.</example>
+            <example correction="século">Viveu no <marker>séc</marker> 12.</example>
+        </rule>
+
+        <rule id="SECULO_EM_NUMERAIS_ROMANOS" name="Use numerais romanos com séculos" default="temp_off">
+            <pattern>
+                <token inflected="yes">século</token>
+                <marker>
+                    <token regexp="yes">[1-9][0-9]*</token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.pt.RomanNumeralFilter" args="arabicSource:\2"/>
+            <message>Use numerais romanos para referir-se a séculos.</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction="XX">No começo do século <marker>20</marker>.</example>
+            <example correction="I">Nasceu no século <marker>1</marker>.</example>
+            <example correction="XLIV">A história se passa no século <marker>44</marker>.</example>
+        </rule>
 
         <rule id="ABREVIATURAS_FEMININAS_COM_SOBRESCRITO" name="Prefira o sobrescrito em abreviaturas femininas." type="typographical" tags="picky" default="temp_off">
             <pattern>
