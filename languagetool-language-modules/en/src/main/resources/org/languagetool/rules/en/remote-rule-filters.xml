@@ -2938,6 +2938,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">This is "a new <marker>test”</marker> to check quotes.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DELETE_PERIOD" name="">
+            <rule>  <!-- don't delete ellipsis at end of sentence -->
+                <pattern>
+                    <marker>
+                        <token>.</token>
+                        <token>.</token>
+                        <token postag="SENT_END">.</token>
+                    </marker>
+                </pattern>
+                <example correction="">When can I expect an update on<marker>...</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACEUNDERSCORESPSPACENNP_ERROR_IDS_000001" name="">
             <rule>  <!-- keep 'LanguageTool' together as one word -->
                 <pattern>
@@ -2946,6 +2958,41 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction=""><marker>LanguageTool</marker> for Windows 0.3</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_PERIOD_FOR_PERIOD" name="">
+            <rule>  <!-- don't touch typographical ellipsis -->
+                <pattern>
+                    <marker>
+                        <token>…</token>
+                    </marker>
+                </pattern>
+                <example correction="">When can I expect an update on<marker>…</marker>?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_RB_FOR_RB_ERROR_IDS_000051" name="">
+            <rule>  <!-- sentence-final 'nevertheless' -->
+                <pattern>
+                    <marker>
+                        <token>nevertheless</token>
+                    </marker>
+                    <token postag="SENT_END" />
+                </pattern>
+                <example correction="">She had a headache but completed all her tasks <marker>nevertheless</marker>.</example>
+                <example correction="">She has a busy schedule but makes time for her kids <marker>nevertheless</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_TEST_EN_JOINED_MATCH" name="">
+            <rule>  <!-- sentence-final 'nevertheless' -->
+                <pattern>
+                    <marker>
+                        <token postag="," />
+                        <token spacebefore="yes">nevertheless</token>
+                    </marker>
+                    <token postag="SENT_END" />
+                </pattern>
+                <example correction="">She had a headache but completed all her tasks<marker>, nevertheless</marker>.</example>
+                <example correction="">She has a busy schedule but makes time for her kids<marker>, nevertheless</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name="">
