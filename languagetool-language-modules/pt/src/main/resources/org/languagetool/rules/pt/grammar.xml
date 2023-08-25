@@ -15392,29 +15392,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="guarda-chuvas">Abram os <marker>guardas-chuvas</marker>.</example>
         </rule>
 
-        <rulegroup id='HAVER' name="Verbo haver">
-            <!-- Created by Marco A.G.Pinto 2020-03-26 -->
+        <rulegroup id='HAVER' name="Verbo haver no sentido de 'existir' no plural">
             <rule>
                 <pattern>
                     <marker>
-                        <token>houveram</token>
+                        <token inflected="yes" postag_regexp="yes" postag="V...3P.+">haver</token>
                     </marker>
-                    <token postag_regexp='yes' postag='DI0MP0|NC[FM]P000'/>
+                    <token postag_regexp='yes' postag="[DAP]...P.+|N..P.+"/>
                 </pattern>
                 <message>O verbo haver é impessoal no sentido de existir.</message>
-                <suggestion>houve</suggestion>
-                <example correction="houve">No passado <marker>houveram</marker> muitos acidentes.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>haverem</token>
-                    </marker>
-                    <token postag_regexp='yes' postag='DI0MP0|NC[FM]P000'/>
-                </pattern>
-                <message>O verbo haver é impessoal no sentido de existir.</message>
-                <suggestion>haver</suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V...3)P(.+)" postag_replace="$1S$2"/></suggestion>
+                <example correction="houve|houvera">No passado <marker>houveram</marker> muitos acidentes.</example>
                 <example correction="haver">Espero <marker>haverem</marker> respostas.</example>
+                <example correction="haveria">Achei que <marker>haveriam</marker> uns melhores.</example>
+                <example correction="houver">Enquanto <marker>houverem</marker> erros, não funcionará.</example>
+                <example correction="Haverá"><marker>Haverão</marker> alguns problemas.</example>
+                <!-- used to be in wikipedia.txt -->
+                <example correction="Havia"><marker>Haviam</marker> muitos.</example>
+                <example correction="Havia"><marker>Haviam</marker> vários.</example>
+                <example correction="Havia"><marker>Haviam</marker> poucos.</example>
             </rule>
         </rulegroup>
 
