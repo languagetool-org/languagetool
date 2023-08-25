@@ -61,6 +61,10 @@ public class PostReformCompoundRuleTest {
     assertThat(checkCompound("ultra-realismo").size(), is(1));
     assertThat(checkCompound("ultra-realismo").get(0).getSuggestedReplacements().size(), is(1));
     assertThat(checkCompound("ultra-realismo").get(0).getSuggestedReplacements().get(0), is("ultrarrealismo"));
+    // in the compounds TXT as "anti-semita?"
+    assertThat(checkCompound("anti semita").size(), is(1));
+    assertThat(checkCompound("anti semita").get(0).getSuggestedReplacements().size(), is(1));
+    assertThat(checkCompound("anti semita").get(0).getSuggestedReplacements().get(0), is("antissemita"));
   }
 
   private List<RuleMatch> checkCompound(String text) throws IOException {
