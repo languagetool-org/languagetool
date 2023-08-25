@@ -325,6 +325,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return false;
   }
 
+  /**
+   * Create a warning if a key word of the replacement rule is not allowed by the speller rule.
+   */
+  public boolean checkWeyWordsInTests() {
+    return false;
+  }
+
   static class PathsAndLanguage {
     final List<String> paths;
     final Language lang;
