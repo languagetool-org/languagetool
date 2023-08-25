@@ -10691,6 +10691,37 @@ USA
         </rulegroup>
     </category>
 
+    <category id="SCIENTIFIC" name="Linguagem científica" type="style" tone_tags="scientific">
+        <rule id="NUMERO_DE_MOLS" name="Número de mols -> massa molecular" default="temp_off" tags="picky" is_goal_specific="true">
+            <pattern>
+                <token>número</token>
+                <token>de</token>
+                <token regexp="yes">mol(e?s)?</token>
+            </pattern>
+            <message>&scientific_intro; prefira <suggestion>quantidade de matéria</suggestion>.</message>
+            <example correction="quantidade de matéria">Uma amostra com alto <marker>número de mols</marker>.</example>
+        </rule>
+
+        <rule id="PESO_MOLECULAR" name="Peso molecular -> massa molecular" default="temp_off" tags="picky" is_goal_specific="true">
+            <pattern>
+                <token>peso</token>
+                <token>molecular</token>
+            </pattern>
+            <message>&scientific_intro; prefira <suggestion>massa molecular</suggestion>.</message>
+            <example correction="massa molecular">Uma amostra com alto <marker>peso molecular</marker>.</example>
+        </rule>
+
+        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro -> constante" default="temp_off" tags="picky" is_goal_specific="true">
+            <pattern>
+                <token>número</token>
+                <token>de</token>
+                <token>Avogadro</token>
+            </pattern>
+            <message>&scientific_intro; prefira <suggestion>constante de Avogadro</suggestion>.</message>
+            <example correction="constante de Avogadro">Calculamos com o <marker>número de Avogadro</marker>.</example>
+        </rule>
+    </category>
+
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
         <!-- DE N EM N a cada N -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
