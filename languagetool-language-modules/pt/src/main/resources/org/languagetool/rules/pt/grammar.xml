@@ -12261,6 +12261,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp='yes' postag='D.+|PD.+'/>
             </antipattern>
 
+            <rule id="MEIO_DIA_E_MEIO" name="Meio-dia e meio -> meia" default="temp_off">
+                <pattern>
+                    <token>meio</token>
+                    <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
+                    <token>dia</token>
+                    <token>e</token>
+                    <marker>
+                        <token>meio</token>
+                    </marker>
+                </pattern>
+                <message>Nesta expressão, <suggestion>meia</suggestion> é a forma abreviada de &quot;meia hora&quot;, e por isso se deve usar o feminino.</message>
+                <example correction="meia">Chegamos meio-dia e <marker>meio</marker>.</example>
+            </rule>
+
             <!-- Specific expressions that are very likely to just require 'a', so we're adding it here before the masculine check. -->
             <rule>
                 <pattern>
