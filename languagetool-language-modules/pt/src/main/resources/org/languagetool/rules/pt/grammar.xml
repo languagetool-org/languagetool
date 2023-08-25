@@ -18972,6 +18972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="et al.">SANTOS, T.F. <marker>et al</marker> (2005),…</example>
         </rule>
 
+        
         <rulegroup id='ABREVIATIONS_PUNCTUATION' name="Abreviaturas: Pontuação">
             <!--       Based on the Catalan version, Tiago F. Santos,  2017-02-18      -->
             <!--          Wordlist from https://gerrit.libreoffice.org/#/c/29277/      -->
@@ -38782,6 +38783,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
     <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
 
+        <rule id="ABREVIATURAS_FEMININAS_COM_SOBRESCRITO" name="Prefira o sobrescrito em abreviaturas femininas." type="typographical" tags="picky" default="temp_off">
+            <pattern>
+                <token regexp="yes">profa|dra|exa|enga|sra|reva|srta</token>
+                <token regexp='yes' spacebefore='no'>\.</token>
+            </pattern>
+            <message>Determinadas abreviaturas exigem um sobrescrito após o ponto. No lugar de &quot;\1.&quot;, prefira <suggestion><match no="1" regexp_match="(.+)a$" regexp_replace="$1.ª"/></suggestion>.</message>
+            <example correction="Prof.ª">Gostaria de ir com a <marker>Profa.</marker> Goldberg.</example>
+        </rule>
 
         <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formatação de números: 10 341 330" default='off'>
             <!-- Created by Tiago F. Santos, 2017-03-05 -->
