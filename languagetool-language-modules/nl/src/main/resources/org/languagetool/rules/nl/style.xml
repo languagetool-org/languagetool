@@ -520,6 +520,337 @@ USA
 				<example correction="je">Ik zie <marker>jou</marker> daar wel staan.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="WIJ_ZIJ_MIJ_TEMP" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky" tone_tags="clarity" default="temp_off">
+			<!-- move to WIJ_ZIJ_MIJ if diff looks good -->
+			<antipattern>
+				<token postag="SENT_START"/>
+				<token min="0" postag_regexp="yes" postag="VGW|VRZ"/>
+				<token regexp="yes">[wzm]ij</token>
+				<example>Zij waren degenen die het vuur aanstaken.</example>
+				<example>Wij zijn altijd te laat.</example>
+			</antipattern>
+			<!-- short sentences -->
+			<antipattern>
+        		<token skip="3" postag="SENT_START"/>
+        		<token postag="SENT_END" regexp="yes">[.!?]</token>
+				<example>Mij niet gezien.</example>
+				<example>Zij wel.</example>
+				<example>Wie, wij?</example>
+			</antipattern>
+			<!-- ignore capitalized -->
+			<antipattern>
+				<token><exception postag="SENT_START"/></token>
+				<token regexp="yes" case_sensitive="yes">[WZM][Ii][Jj]</token>
+				<example>Kunst Zij Ons Doel.</example>
+			</antipattern>
+			<!-- SENT_END -->
+			<antipattern>
+				<token regexp="yes">[wzm]ij</token>
+				<token regexp="yes" postag="SENT_END">[.!?]</token>
+				<example>Ik ben al klaar, zij?</example>
+				<example>Vroeg hij het aan mij?</example>
+			</antipattern>
+			<!-- common reason for disable -->
+			<antipattern>
+				<token regexp="yes">[wzm]ij</token>
+				<token regexp="yes">van|en|als|ook|tussen|niet|zoals|aan|of</token>
+				<example>Wij van Achmea snappen dit heel goed.</example>
+				<example>Ik vind dat ze mij als slechterik neerzetten.</example>
+				<example>Het is nu zij of ik.</example>
+			</antipattern>
+			<antipattern>
+				<token regexp="yes">van|en|als|ook|tussen|niet|zoals|aan|of</token>
+				<token regexp="yes">[wzm]ij</token>
+				<example>Ja, ook wij hebben daar last van.</example>
+				<example>Ze stonden zij aan zij.</example>
+				<example>Dat is iets tussen jou en mij.</example>
+			</antipattern>
+			<!-- do not trigger when 'u' is used in sentence -->
+			<antipattern>
+				<token skip="-1" regexp="yes">u(w)?</token>
+				<token regexp="yes">[wzm]ij</token>
+				<example>Kunt u mij een voorbeeld geven?</example>
+				<example>Vreemd, uw melding is uiteindelijk niet bij mij terechtgekomen.</example>
+			</antipattern>
+			<antipattern>
+				<token skip="-1" regexp="yes">[wzm]ij</token>
+				<token regexp="yes">u(w)?</token>
+				<example>Vijftien dagen geleden hebben wij uw verzoek ontvangen.</example>
+			</antipattern>
+			<!-- [a-z.*]ij of [a-z.*]ij -->
+			<antipattern>
+				<token regexp="yes">[a-z.*]ij</token>
+				<token min="0">of</token>
+				<token regexp="yes">[a-z.*]ij</token>
+				<example>Was hij of zij niet te oud of speelt er iets anders?</example>
+			</antipattern>
+			<!-- comma separated -->
+			<antipattern>
+				<token regexp="yes">[wzm]ij</token>
+				<token spacebefore="no">,</token>
+				<example>Wij, galspuwers.</example>
+			</antipattern>
+			<antipattern>
+        		<token spacebefore="no">,</token>
+        		<token regexp="yes">[wzm]ij</token>
+				<example>Inderdaad, wij zullen dat varkentje wel eens wassen.</example>
+			</antipattern>
+			<antipattern>
+			    <token regexp="yes">[wzm]ij</token>
+			    <token postag="UNKNOWN"/>
+			    <example>Wij/ons wel.</example>
+			</antipattern>
+			<!-- WIJ -->
+			<rule>
+				<antipattern>
+					<token>naar</token>
+					<token>wij</token>
+					<token>dachten</token>
+					<example>Naar wij dachten.</example>
+				</antipattern>
+				<pattern>
+					<token>wij</token>
+				</pattern>
+				<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>we</suggestion> gebruikelijker.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+				<short>Nadruk?</short>
+				<example correction="we">Denk je dat <marker>wij</marker> mee mogen?.</example>
+				<example correction="we">Daarom geven <marker>wij</marker> een schatting van de kosten.</example>
+				<example>Wij als parlementsleden zouden zoiets niet toelaten.</example>
+			</rule>
+			<!-- ZIJ -->
+			<rule>
+				<antipattern>
+					<token>god</token>
+					<token>zij</token>
+					<token>dank</token>
+					<example>God zij dank ging het goed.</example>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">het|ten|dank</token>
+					<token>zij</token>
+					<example>Het zij zo.</example>
+					<example>Deze fout wordt dank zij een andere regel opgelost.</example>
+				</antipattern>
+				<antipattern>
+					<token>zij</token>
+					<token regexp="yes">het|die</token>
+					<example>Dat klopt, al zij het met minder vermogen.</example>
+					<example>We spreken met zij die zich uitgesloten voelen.</example>
+				</antipattern>
+				<antipattern>
+					<token>zij</token>
+					<token>'</token>
+					<token>t</token>
+					<example>Zij 't met minder vermogen.</example>
+				</antipattern>
+				<pattern>
+					<token>zij</token>
+				</pattern>
+				<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>ze</suggestion> gebruikelijker.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+				<short>Nadruk?</short>
+				<example correction="ze">Kan <marker>zij</marker> dat misschien nog een keer uitleggen?.</example>
+				<example correction="ze">Daar vinden <marker>zij</marker> hun tweede huis.</example>
+				<example>Want hij of zij moet gewoon een goede luisteraar zijn.</example>
+			</rule>
+			<!-- MIJ -->
+			<rule>
+				<antipattern>
+					<token>je</token>
+					<token>je</token>
+					<token>mij</token>
+					<example>Herinner je je mij nog?</example>
+				</antipattern>
+				<antipattern>
+					<token postag="VRZ"/>
+					<token>mij</token>
+					<example>Dat kan volgens mij wel.</example>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">met|bij</token>
+					<token>mij</token>
+					<token postag_regexp="yes" postag="WKW.*"/>
+					<example>Wil je vanavond bij mij eten?</example>
+				</antipattern>
+				<antipattern>
+					<token postag="WKW:TGW:3EP"/>
+					<token>mij</token>
+					<example>Schiet mij maar lek!</example>
+					<example>Lijkt mij prachtig.</example>
+				</antipattern>
+				<antipattern>
+					<token>mij</token>
+					<token postag="BYW"/>
+					<example>Mij te warrig.</example>
+				</antipattern>
+				<antipattern>
+					<token>mij</token>
+					<token postag="WKW:TGW:3EP"><exception>niet</exception></token>
+					<example>Wat mij betreft wel.</example>
+					<example>Als je het mij vraagt kan dat gewoon.</example>
+				</antipattern>
+				<pattern>
+					<token>mij</token>
+				</pattern>
+				<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>me</suggestion> gebruikelijker.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+				<short>Nadruk?</short>
+				<example correction="me">Kun je <marker>mij</marker> dat nog een keer uitleggen?.</example>
+				<example>Ze kozen haar over mij.</example>
+				<example>Mij is meegedeeld dat u op zoek naar werk bent.</example>
+				<example>Ik wou dat zij mij een verklaring zou geven.</example>
+				<example>Wil je met mij dansen?</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JIJ_JOU_JOUW" name="jij/jou/jouw > je" tone_tags="clarity" tags="picky" default="temp_off">
+			<!-- SENT_START -->
+			<antipattern>
+				<token postag="SENT_START"/>
+				<token min="0" postag_regexp="yes" postag="VGW|VRZ"/>
+				<token regexp="yes">jij|jou|jouw</token>
+				<example>En jij hopelijk ook.</example>
+				<example>Jij bent altijd te laat.</example>
+			</antipattern>
+			<!-- SENT_END -->
+			<antipattern>
+				<token regexp="yes">jij|jou|jouw</token>
+				<token regexp="yes" postag="SENT_END">[.!?]</token>
+				<example>Hier gaat het goed, bij jou?</example>
+			</antipattern>
+			<antipattern>
+			    <token postag="SENT_END" regexp="yes">jij|jou|jouw</token>
+			    <example>Wij komen naar jou</example>
+			</antipattern>
+			<!-- common reason for disable -->
+			<antipattern>
+				<token regexp="yes">jij|jou|jouw</token>
+				<token regexp="yes">van|en|als|ook|tussen|niet|zoals|aan|of</token>
+				<example>Dat is waar jij van geniet.</example>
+				<example>Zal ik jou ook toevoegen?</example>
+			</antipattern>
+			<antipattern>
+				<token regexp="yes">van|en|als|ook|tussen|niet|zoals|aan|of</token>
+				<token regexp="yes">jij|jou|jouw</token>
+				<example>Het is ook jouw probleem.</example>
+			</antipattern>
+			<!-- short sentences -->
+			<antipattern>
+        		<token skip="3" postag="SENT_START"/>
+        		<token postag="SENT_END" regexp="yes">[.!?]</token>
+				<example>Jij anders niet.</example>
+				<example>Ik jou wel.</example>
+				<example>Wie, jij?</example>
+			</antipattern>
+			<!-- UNKNOWN tag -->
+			<antipattern>
+			    <token regexp="yes">jij|jou|jouw</token>
+			    <token postag="UNKNOWN"/>
+			    <example>Jij/gij toch zeker ook?</example>
+			</antipattern>
+			<!-- comma separated -->
+			<antipattern>
+				<token regexp="yes">jij|jou|jouw</token>
+				<token spacebefore="no">,</token>
+				<example>Dat zijn jij, ik, iedereen.</example>
+			</antipattern>
+			<antipattern>
+        		<token spacebefore="no">,</token>
+        		<token regexp="yes">jij|jou|jouw</token>
+				<example>Zeker weten, jij kan dat wel.</example>
+			</antipattern>
+			<!-- [a-z.*]ij of [a-z.*]ij -->
+			<antipattern>
+				<token regexp="yes">[a-z.*]ij|jou</token>
+				<token min="0">of</token>
+				<token regexp="yes">[a-z.*]ij|jou</token>
+				<example>Waren jij of hij niet te oud?</example>
+				<example>Ik weet niet of ik jij of jou moet gebruiken.</example>
+			</antipattern>
+			<!-- JIJ -->
+			<rule>
+				<antipattern>
+					<token><exception postag="SENT_START"/></token>
+					<token regexp="yes" case_sensitive="yes">J[Ii][Jj]</token>
+					<example>Maar als JIJ dat nou eens doet?</example>
+				</antipattern>
+				<pattern>
+					<token>jij</token>
+				</pattern>
+				<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+				<short>Nadruk?</short>
+				<example correction="je">Kun <marker>jij</marker> dat nog een keer uitleggen?.</example>
+				<example>Dat is waar JIJ het over hebt!</example>
+				<example>Ik vond het leuk, en jij?</example>
+			</rule>
+			<!-- JOU -->
+			<rule>
+				<antipattern>
+					<token>jou</token>
+					<token>was</token>
+					<example>Als ik jou was zou ik dat niet doen.</example>
+				</antipattern>
+				<antipattern>
+					<token postag="VRZ"/>
+					<token>jou</token>
+					<example>Klopt dat volgens jou?</example>
+					<example>Dat komt door jou!</example>
+					<example>Werkt deze methode voor jou wel?</example>
+				</antipattern>
+				<antipattern>
+					<token><exception postag="SENT_START"/></token>
+					<token regexp="yes" case_sensitive="yes">J[Oo][Uu]</token>
+					<example>Maar als ik JOU dat eens laat doen?</example>
+				</antipattern>
+				<pattern>
+					<token><exception postag="SENT_START"/></token>
+					<marker>
+						<token>jou</token>
+					</marker>
+				</pattern>
+				<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+				<short>Nadruk?</short>
+				<example correction="je">Ik zie <marker>jou</marker> daar wel staan.</example>
+			</rule>
+			<!-- JOUW -->
+			<rule>
+				<antipattern>
+					<token postag="VRZ"/>
+					<token>jouw</token>
+					<example>Klopt dat volgens jouw broer?</example>
+					<example>Dat komt door jouw gedrag!</example>
+				</antipattern>
+				<antipattern>
+					<token>jouw</token>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"></token>
+					<token regexp="yes" postag="SENT_END">[!?]</token>
+					<example>Dat is toch niet jouw schuld?</example>
+					<example>Dan doen we het toch op jouw manier?</example>
+				</antipattern>
+				<antipattern>
+					<token skip="3" postag_regexp="yes" postag="VNW:AWZ.*|VNW:OBP.*"/>
+					<token>jouw</token>
+					<example>Wat is jouw mening hierover?</example>
+				</antipattern>
+				<antipattern>
+					<token><exception postag="SENT_START"/></token>
+					<token regexp="yes" case_sensitive="yes">J[Oo][Uu][Ww]</token>
+					<example>Wel als ik JOUW telefoon gebruik.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>jouw</token>
+					</marker>
+					<token postag_regexp="yes" postag="BNW.*|ZNW.*"/>
+				</pattern>
+				<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+				<short>Nadruk?</short>
+				<example correction="je">Ik zie <marker>jouw</marker> auto</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky" tone_tags="formal" is_goal_specific="true">
 			<antipattern>
 				<!-- v1.0 -->
