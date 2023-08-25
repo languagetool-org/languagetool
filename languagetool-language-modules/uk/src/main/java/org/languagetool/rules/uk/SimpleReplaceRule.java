@@ -50,7 +50,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   private final MorfologikUkrainianSpellerRule morfologikSpellerRule;
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

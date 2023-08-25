@@ -52,7 +52,7 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
   }  
   
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongLemmas;
   }
   

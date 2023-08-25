@@ -47,7 +47,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   private static final Logger logger = LoggerFactory.getLogger(AbstractSimpleReplaceRule.class);
   private boolean checkLemmas = true;
 
-  protected abstract Map<String, List<String>> getWrongWords();
+  public abstract Map<String, List<String>> getWrongWords();
 
   protected static Map<String, List<String>> loadFromPath(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);

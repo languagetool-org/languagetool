@@ -45,7 +45,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
   private static final Locale PT_LOCALE = new Locale("pt");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

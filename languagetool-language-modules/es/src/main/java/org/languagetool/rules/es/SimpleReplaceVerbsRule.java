@@ -50,7 +50,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   private static final Locale ES_LOCALE = new Locale("ES");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

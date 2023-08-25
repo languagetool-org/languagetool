@@ -43,7 +43,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   private static final Locale PL_LOCALE = new Locale("pl");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

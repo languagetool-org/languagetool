@@ -48,7 +48,7 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
   private static final Map<String, List<String>> WRONG_WORDS = loadFromPath("/uk/replace_soft.txt");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return WRONG_WORDS;
   }
 

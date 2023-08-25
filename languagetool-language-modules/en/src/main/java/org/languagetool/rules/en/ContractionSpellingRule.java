@@ -41,7 +41,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
   private static final Locale EN_LOCALE = new Locale("en");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

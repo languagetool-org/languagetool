@@ -45,7 +45,7 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
   private static final Locale GL_LOCALE = new Locale("gl");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

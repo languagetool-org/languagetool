@@ -45,7 +45,7 @@ public class EnglishHomophoneRule extends AbstractSimpleReplaceRule {
   private static final Locale GA_LOCALE = new Locale("GA");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

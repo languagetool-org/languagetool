@@ -44,7 +44,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
   

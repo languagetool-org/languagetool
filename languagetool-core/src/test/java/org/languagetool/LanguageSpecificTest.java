@@ -87,6 +87,25 @@ public class LanguageSpecificTest {
             }
           }
         }
+        if (rule instanceof AbstractSimpleReplaceRule) {
+          if (lang.getShortCode().equals("ca")) {
+            if (rule.getId().equals("CA_SIMPLE_REPLACE_DNV_SECONDARY")) {
+              spellRule = Languages.getLanguageForShortCode("ca-ES-valencia").getDefaultSpellingRule();
+            } else {
+              spellRule = lang.getDefaultSpellingRule();
+            }
+          }
+          AbstractSimpleReplaceRule replRule = (AbstractSimpleReplaceRule) rule;
+          Map<String, List<String>> wrongWords = replRule.getWrongWords();
+          for (String key : wrongWords.keySet()) {
+            String repl = wrongWords.get(key).toString();
+            RuleMatch[] matches = spellRule.match(lt.getAnalyzedSentence(repl));
+            if (matches.length > 0) {
+              System.err.println("*** WARNING: replacement '" + repl + "' for '" + key + "' from rule " + rule.getId() + ", files: [\"replace.txt\", \"replace_custom.txt\"]" +
+                " isn't known to spell checker of " + lang + ": " + Arrays.toString(matches));
+            }
+          }
+        }
       }
     } else {
       System.out.println("No speller found for " + lang);

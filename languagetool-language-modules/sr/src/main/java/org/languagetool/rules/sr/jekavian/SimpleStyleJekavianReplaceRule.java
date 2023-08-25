@@ -44,7 +44,7 @@ public class SimpleStyleJekavianReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
