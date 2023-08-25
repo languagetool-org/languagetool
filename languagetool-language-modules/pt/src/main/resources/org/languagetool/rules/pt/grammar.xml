@@ -38783,6 +38783,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
     <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
 
+        <rule id="ABREVIATURA_DE_SECULO" name="Não abrevie 'século' para 'séc.'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>séc</token>
+                    <token min="0" regexp="yes" spacebefore="no">.</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">[IVXLCDM]+|[0-9]+</token>
+            </pattern>
+            <message>Não se abrevia a palavra <suggestion>século</suggestion>.</message>
+            <example correction="século">Morreu no <marker>séc.</marker> XVIII.</example>
+            <example correction="século">Viveu no <marker>séc</marker> 12.</example>
+        </rule>
+
+        <rule id="SECULO_EM_NUMERAIS_ROMANOS" name="Use numerais romanos com séculos" default="temp_off">
+            <pattern>
+                <token inflected="yes">século</token>
+                <marker>
+                    <token regexp="yes">[1-9][0-9]*</token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.pt.RomanNumeralFilter" args="arabicSource:\2"/>
+            <message>Use numerais romanos para referir-se a séculos.</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction="XX">No começo do século <marker>20</marker>.</example>
+            <example correction="I">Nasceu no século <marker>1</marker>.</example>
+            <example correction="XLIV">A história se passa no século <marker>44</marker>.</example>
+        </rule>
+
         <rule id="ABREVIATURAS_FEMININAS_COM_SOBRESCRITO" name="Prefira o sobrescrito em abreviaturas femininas." type="typographical" tags="picky" default="temp_off">
             <pattern>
                 <token regexp="yes">profa|dra|exa|enga|sra|reva|srta</token>
