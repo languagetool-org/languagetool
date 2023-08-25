@@ -20642,7 +20642,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='CONFUSED_WORDS' name="Confusão de Palavras">
+        <rulegroup id="ENCIMA_LOCUCAO" name="Uso de 'encima' para a locução adverbial 'em cima'." default="temp_off">
+            <rule> <!-- This replaces a few lines from wikipedia.txt -->
+                <pattern>
+                    <marker>
+                        <token>encima</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">d.+</token>
+                </pattern>
+                <message>A locução adverbial <suggestion>em cima</suggestion> se escreve separado.</message>
+                <example correction="em cima">Caiu <marker>encima</marker> de mim.</example>
+                <example correction="em cima">O gato está <marker>encima</marker> da mesa.</example>
+                <example correction="em cima">O morcego foi <marker>encima</marker> dela.</example>
+                <example correction="em cima">Pus o controle <marker>encima</marker> daquela mesa.</example>
+            </rule>
 
+            <rule>
+                <pattern>
+                    <token regexp="yes">aí|aqui|ali|lá</token>
+                    <marker>
+                        <token>encima</token>
+                    </marker>
+                </pattern>
+                <message>A locução adverbial <suggestion>em cima</suggestion> se escreve separado.</message>
+                <example correction="em cima">O gato está aqui <marker>encima</marker>.</example>
+                <example correction="em cima">O morcego foi lá <marker>encima</marker>.</example>
+                <example correction="em cima">Pus o controle ali <marker>encima</marker>.</example>
+            </rule>
+
+            <rule> <!-- common verbal collocates per corpus search -->
+                <pattern>
+                    <token regexp="yes" inflected="yes">pôr|colocar|botar|meter|estar|cair|chutar|sentar|deitar</token>
+                    <marker>
+                        <token>encima</token>
+                    </marker>
+                </pattern>
+                <message>A locução adverbial <suggestion>em cima</suggestion> se escreve separado.</message>
+                <example correction="em cima">O que você pôs <marker>encima</marker>?</example>
+            </rule>
+
+        </rulegroup>
 
         <rulegroup id="CONFUSÃO_RJ" name="Confusão de de e da">
             <rule>
