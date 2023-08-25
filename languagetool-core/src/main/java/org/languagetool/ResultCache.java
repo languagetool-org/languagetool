@@ -71,10 +71,10 @@ public class ResultCache {
             expireAfterAccess(expireAfter, timeUnit).
             build();
     remoteMatchesCache = CacheBuilder.newBuilder().
-      maximumWeight(maxSize/2).weigher(new RemoteMatchesWeigher()).
-      recordStats().
-      expireAfterAccess(expireAfter, timeUnit).
-      build();
+            maximumWeight(maxSize/2).weigher(new RemoteMatchesWeigher()).
+            recordStats().
+            expireAfterAccess(expireAfter, timeUnit).
+            build();
     sentenceCache = CacheBuilder.newBuilder().
             maximumWeight(maxSize/2).weigher(new SentenceWeigher()).
             recordStats().
