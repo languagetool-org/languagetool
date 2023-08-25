@@ -25,6 +25,7 @@ import org.languagetool.chunking.Chunker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
@@ -940,5 +941,17 @@ public abstract class Language {
 
   public RuleMatch adjustMatch(RuleMatch rm, List<String> features) {
     return rm;
+  }
+
+  /**
+   * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
+   *
+   * @param ruleMatches
+   * @param text
+   * @param enabledRules
+   * @return filtered ruleMatches
+   */
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    return ruleMatches;
   }
 }
