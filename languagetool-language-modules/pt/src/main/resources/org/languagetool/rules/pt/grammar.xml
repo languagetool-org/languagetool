@@ -12078,13 +12078,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='CRASE_CONFUSION' name="Erros de crase">
-            <!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
-            <!--      <short>Erro de crase</short> - REMMED BY MARCOAGPINTO 2022-10-20 -->
-            <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-      -->
-
-            <!-- MARCOAGPINTO 2023-05-02 (2-MAR-2023+) *START* -->
             <antipattern>
                 <token postag='V.+' postag_regexp="yes"/>
                 <token regexp='no'>como</token>
@@ -12096,36 +12089,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </token>
                 <example>Mas não explica como as 6 horas estão distribuídas.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-02 (2-MAR-2023+) *END* -->
 
-            <!-- MARCOAGPINTO 2023-05-19 (2-MAR-2023+) *START* -->
             <antipattern>
                 <token postag='NC.+|AQ.+' postag_regexp="yes"/>
                 <token regexp='no'>à</token>
                 <token regexp='yes'>alentejana|caçador|lagareiro|minhota</token>
                 <example>Fomos ao restaurante onde comemos polvo à lagareiro.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-19 (2-MAR-2023+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token postag='AQ.+|NC.+' postag_regexp="yes"/>
                 <token regexp='yes'>às?</token>
                 <token postag='VMP00.+' postag_regexp="yes"/>
                 <example>Segundo ela, no ano passado a demanda por compósitos foi praticamente igual à registrada em 2018.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token regexp='yes'>às?</token>
                 <token postag='AQ.[CM].+|NC[CM].+' postag_regexp="yes"/>
                 <token regexp='yes'>às?</token>
                 <example>Há com cada abécula na estrada...e os espertos, bem detesto os espertos, metem-se à cão à nossa frente sem fazer pisca, ultrapassam pela direita...</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token regexp='yes'>as?</token>
                 <token postag='PP.+' postag_regexp="yes"/>
@@ -12133,9 +12118,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O MORE tem desabafos/opiniões em relação a mim e ao que se passa à minha volta.</example>
                 <example>Meus pais mantinham altas expectativas em relação a mim.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token inflected='yes'>ir</token>
                 <token regexp='no'>a</token>
@@ -12150,7 +12133,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Nós vamos a Roma por uma semana.</example>
                 <example>No ano que vem eu vou a Barcelona.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
             <antipattern>
                 <token>a</token>
@@ -12170,6 +12152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>a</token>
                 <token postag_regexp='yes' postag='D.+|PD.+'/>
             </antipattern>
+
             <rule>
                 <antipattern>
                     <token>à</token>
@@ -12513,8 +12496,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='assistir à apresentação'>Poderá <marker>assistir a apresentação</marker> da gala.</example>
             </rule>
             <rule>
-                <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
-                <!--                     Loosely based on CoGrOO rules                 -->
                 <pattern>
                     <marker>
                         <token inflected='yes'>candidatar</token>
@@ -12547,6 +12528,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Esta expressão requer o uso da crase.</message>
                 <suggestion>à \2</suggestion>
                 <example correction='à toa'>Não é <marker>a toa</marker> que ele não veio. </example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token regexp="yes">es[st][ea]s?|is[ts]o</token>
+                </pattern>
+                <message>Não se usa crase antes do pronome demonstrativo &quot;\2&quot;.</message>
+                <suggestion>a \2</suggestion>
+                <example correction="a esta">De frente <marker>à esta</marker> janela. </example>
             </rule>
         </rulegroup>
 
