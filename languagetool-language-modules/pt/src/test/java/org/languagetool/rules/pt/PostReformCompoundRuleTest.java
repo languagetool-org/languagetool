@@ -42,9 +42,25 @@ public class PostReformCompoundRuleTest {
     assertThat(checkCompound("super herói").get(0).getSuggestedReplacements().size(), is(1));
     assertThat(checkCompound("super herói").get(0).getSuggestedReplacements().get(0), is("super-herói"));
     // in the compounds TXT as "super-estrela?"
-    assertThat(checkCompound("super estrela").size(), is(1));
-    assertThat(checkCompound("super estrela").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("super estrela").get(0).getSuggestedReplacements().get(0), is("superestrela"));
+    assertThat(checkCompound("Super estrela").size(), is(1));
+    assertThat(checkCompound("Super estrela").get(0).getSuggestedReplacements().size(), is(1));
+    assertThat(checkCompound("Super estrela").get(0).getSuggestedReplacements().get(0), is("Superestrela"));
+    // in the compounds TXT as "web-site+"
+    assertThat(checkCompound("web-site").size(), is(1));
+    assertThat(checkCompound("web-site").get(0).getSuggestedReplacements().size(), is(1));
+    assertThat(checkCompound("web-site").get(0).getSuggestedReplacements().get(0), is("website"));
+    // in the compounds TXT as "Grã-Bretanha*"
+    assertThat(checkCompound("Grã Bretanha").size(), is(1));
+    assertThat(checkCompound("Grã Bretanha").get(0).getSuggestedReplacements().size(), is(1));
+    assertThat(checkCompound("Grã Bretanha").get(0).getSuggestedReplacements().get(0), is("Grã-Bretanha"));
+    // in the compounds TXT as "ultra-som?"
+    assertThat(checkCompound("ultra-som").size(), is(1));
+    assertThat(checkCompound("ultra-som").get(0).getSuggestedReplacements().size(), is(1));
+    assertThat(checkCompound("ultra-som").get(0).getSuggestedReplacements().get(0), is("ultrassom"));
+    // in the compounds TXT as "ultra-realismo?"
+    assertThat(checkCompound("ultra-realismo").size(), is(1));
+    assertThat(checkCompound("ultra-realismo").get(0).getSuggestedReplacements().size(), is(1));
+    assertThat(checkCompound("ultra-realismo").get(0).getSuggestedReplacements().get(0), is("ultrarrealismo"));
   }
 
   private List<RuleMatch> checkCompound(String text) throws IOException {
