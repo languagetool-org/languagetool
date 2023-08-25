@@ -38526,6 +38526,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
+        <rule id="ULTRASSOM" name="Formação da palavra composta 'ultrassom'" default="temp_off">
+            <pattern>
+                <token>ultra</token>
+                <token min="0" regexp="yes">&hifen;</token>
+                <token regexp="yes">so(m|nografia)</token>
+            </pattern>
+            <message>A forma correta desta palavra composta é <suggestion>\1s\3</suggestion>.</message>
+            <example correction="ultrassom">Vimos o bebê no <marker>ultra som</marker>.</example>
+            <example correction="ultrassonografia">Ontem ela fez <marker>ultra-sonografia</marker>.</example>
+        </rule>
+
         <rulegroup id="X_RAY_MACHINE" name="Raio X com hífen">
             <rule>
                 <pattern>
