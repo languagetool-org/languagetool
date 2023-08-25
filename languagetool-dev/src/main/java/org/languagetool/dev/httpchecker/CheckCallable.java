@@ -98,7 +98,7 @@ class CheckCallable implements Callable<File> {
           // default values
           postData += "&toneTags=" + ToneTag.ALL_TONE_RULES.name() +
             "&level=picky" +
-            "&enableTempOffRules=true"
+            "&enableTempOffRules=true";
         }
         String tokenInfo = token != null ? " with token" : " without token";
         float progress = (float)i++ / texts.size() * 100.0f;
