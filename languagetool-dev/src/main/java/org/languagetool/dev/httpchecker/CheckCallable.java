@@ -90,13 +90,15 @@ class CheckCallable implements Callable<File> {
       for (String text : texts) {
         URL url = Tools.getUrl(baseUrl + "/v2/check");
         String postData = "language=" + langCode +
-            "&text=" + URLEncoder.encode(text, "UTF-8") +
-            "&toneTags=" + ToneTag.ALL_TONE_RULES.name() +
-            "&level=picky" +
-            "&enableTempOffRules=true";
+            "&text=" + URLEncoder.encode(text, "UTF-8");
         postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
         if (parameters != null) {
           postData += "&" + parameters;
+        } else {
+          // default values
+          postData += "&toneTags=" + ToneTag.ALL_TONE_RULES.name() +
+            "&level=picky" +
+            "&enableTempOffRules=true"
         }
         String tokenInfo = token != null ? " with token" : " without token";
         float progress = (float)i++ / texts.size() * 100.0f;
