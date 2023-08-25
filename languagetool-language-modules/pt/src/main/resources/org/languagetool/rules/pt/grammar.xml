@@ -12153,6 +12153,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp='yes' postag='D.+|PD.+'/>
             </antipattern>
 
+            <!-- Specific expressions that are very likely to just require 'a', so we're adding it here before the masculine check. -->
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token regexp="yes">fim|bordo|cargo|cavalo|[dr]espeito|fundo|partir|propósito|tempo|vapor</token>
+                </pattern>
+                <message>A expressão <suggestion>a \2</suggestion> não usa crase.</message>
+                <example correction="a vapor">Quantos cavalos <marker>à vapor</marker>?</example>
+                <example correction="a bordo">Todos <marker>à bordo</marker>!</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token regexp="yes">norte|sul|leste|oeste|sudeste|sudoeste|nordeste|noroeste</token>
+                </pattern>
+                <message>Não se usa crase antes dos pontos cardeis, pois são palavras masculinas.</message>
+                <suggestion>ao \2</suggestion>
+                <suggestion>a \2</suggestion>
+                <example correction="ao norte|a norte">Fica 55 quilômetros <marker>à norte</marker>.</example>
+            </rule>
+
             <rule>
                 <antipattern>
                     <token>à</token>
