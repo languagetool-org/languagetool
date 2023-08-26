@@ -30,10 +30,6 @@ public class SpecificIdRule extends Rule {
   private final String id;
   private final String desc;
 
-  public SpecificIdRule(String id, String desc, boolean isPremium, Category category, List<Tag> tags) {
-    this(id, desc, isPremium, category, null, tags);
-  }
-
   public SpecificIdRule(String id, String desc, boolean isPremium, Category category, ITSIssueType issueType, List<Tag> tags) {
     this.id = Objects.requireNonNull(id);
     this.desc = Objects.requireNonNull(desc);

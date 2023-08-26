@@ -1473,7 +1473,7 @@ public class ProhibitedCompoundRule extends Rule {
         String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
         String desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" +
           uppercaseFirstChar(pair.part1) + "' statt '" + uppercaseFirstChar(pair.part2) + "' und umgekehrt";
-        SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getTags());
+        SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
         RuleMatch match = new RuleMatch(idRule, sentence, fromPos, toPos, msg);
         match.setSuggestedReplacement(variant);
         weightedMatches.add(new WeightedRuleMatch(variantCount, match));
