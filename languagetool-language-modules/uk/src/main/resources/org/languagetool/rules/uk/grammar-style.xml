@@ -3935,6 +3935,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="kolyoroviy_vs_kolirnyi" name="Кольоровий і колірний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">кольоровий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">гамм?а|палітра|модель|сліпота|спектр|вирішення</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" regexp_match="кольоров(.+)" regexp_replace="колірн$1"/></suggestion></message>
+        <example correction="колірної"><marker>кольорової</marker> сліпоти</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="osobystyi_vs_osoboviy" name="Особистий і особовий">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">особистий</token>
+          </marker>
+          <token inflected="yes">склад</token>
+        </pattern>
+        <message>У значенні «сукупність осіб» правильно: <suggestion><match no="1" regexp_match="особист(.+)" regexp_replace="особов$1"/></suggestion></message>
+        <example correction="особового"><marker>особистого</marker> складу вчителів</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="pokaznyi_vs_pokazovyi" name="Показний і показовий">
       <url>https://r2u.org.ua/check/rules/pokaznyi_vs_pokazovyi</url>
       <rule>
