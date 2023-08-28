@@ -168,7 +168,7 @@ public class HTTPServerConfig {
 
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
-  protected String abTest = null;
+  protected List<String> abTest = null;
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
   protected File ngramLangIdentData;
@@ -1276,22 +1276,21 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.4
-   * See if a specific A/B-Test is to be run
+   * Get a list of active A/B-Tests
    */
-  @Nullable
-  public String getAbTest() {
+  public List<String> getAbTest() {
     return abTest;
   }
 
   /**
    * @since 4.4
-   * Enable a specific A/B-Test to be run (or null to disable all tests)
+   * Enable A/B-Tests to be run (comma seperated for a list or null to disable all tests)
    */
   public void setAbTest(@Nullable String abTest) {
-    if (abTest != null && abTest.trim().isEmpty()) {
-      this.abTest = null;
+    if (abTest != null && !abTest.trim().isEmpty()) {
+      this.abTest = new ArrayList<>(Arrays.asList(abTest.trim().split(",")));
     } else {
-      this.abTest = abTest;
+      this.abTest = Collections.emptyList();
     }
   }
 

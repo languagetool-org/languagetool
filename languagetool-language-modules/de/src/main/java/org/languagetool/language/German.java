@@ -540,6 +540,4 @@ public class German extends Language implements AutoCloseable {
   public boolean hasMinMatchesRules() {
     return true;
   }
-
-
 }

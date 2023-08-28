@@ -227,6 +227,20 @@ public abstract class Language {
       .filter(config -> config.getRuleId().startsWith("TEST"))
       .map(c -> new TestRemoteRule(this, c))
       .forEach(rules::add);
+    if (userConfig.getAbTest() != null) {
+      rules.removeIf(rule -> {
+        String activeRemoteRuleAbTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("abtest"); //abtest option value must match the abtest value from server.properties
+        if (activeRemoteRuleAbTest != null && !activeRemoteRuleAbTest.trim().isEmpty()) {
+          if (userConfig.getAbTest().contains(activeRemoteRuleAbTest)) { // A/B-Test is active for remote rule and user is enabled for A/B-Test
+            return false;
+          } else { // A/B-Test is active for remote rule and user is disabled for A/B-Test
+            return true; //
+          }
+        } else {
+          return false; // No A/B-Test active for remote rule
+        }
+      });
+    }
     return rules;
   }
 
