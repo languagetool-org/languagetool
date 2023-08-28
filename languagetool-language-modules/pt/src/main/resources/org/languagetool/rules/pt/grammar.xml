@@ -7948,10 +7948,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <!-- We need to improve the performance of multiple agreement errors — it works okay with only gender or only number, but not both. -->
         <!-- The contraction postags make this difficult to do using the AdvancedSynthesizerFilter. For now, we just need a quickfix, so this silly rule will do. -->
-        <rulegroup id="CONC_NUM_GEN_O_SUAS" name="Possível erro de digitação causando erro de concordância entre artigo e possessivo." default="temp_off">
+        <rulegroup id="CONC_NUM_GEN_O_SUAS" name="Possível erro de digitação causando erro de concordância entre artigo e possessivo.">
             <antipattern>
                 <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?o</token>
                 <token case_sensitive="yes">SUAS</token>
+            </antipattern>
+
+            <antipattern>
+                <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?o</token>
+                <token case_sensitive="yes">Tua</token>
+                <example>própria operação da CP na Linha do Tua.</example>
+            </antipattern>
+
+            <antipattern>
+                <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?o</token>
+                <token case_sensitive="yes">Minha</token>
+                <token case_sensitive="yes">Casa</token>
+                <token regexp="yes" min="0" spacebefore="no">,</token>
+                <token case_sensitive="yes">Minha</token>
+                <token case_sensitive="yes">Vida</token>
+                <example>três condomínios do Minha Casa, Minha Vida, do Rio Grande do Sul.</example>
             </antipattern>
 
             <rule> <!-- masc->fem.pl. -->
