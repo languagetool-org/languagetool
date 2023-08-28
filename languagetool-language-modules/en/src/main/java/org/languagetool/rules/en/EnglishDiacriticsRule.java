@@ -67,7 +67,7 @@ public class EnglishDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Words with diacritics";
+    return "Suggest diacritics for '$match'";
   }
 
   @Override

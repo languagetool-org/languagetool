@@ -60,7 +60,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Anglicismes innecessaris";
+    return "Anglicismes innecessaris: $match";
   }
 
   @Override

@@ -57,7 +57,7 @@ public class SimpleReplaceMultiwordsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Expressions inadequades";
+    return "Expressions inadequades: $match";
   }
 
   @Override

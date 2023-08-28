@@ -69,7 +69,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Snelle correctie van veel voorkomende vergissingen";
+    return "Snelle correctie van veel voorkomende vergissingen ($match)";
   }
 
   @Override

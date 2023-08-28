@@ -68,7 +68,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Palavras de origem estrangeira evitáveis";
+    return "Palavras de origem estrangeira evitáveis: $match";
   }
 
   @Override

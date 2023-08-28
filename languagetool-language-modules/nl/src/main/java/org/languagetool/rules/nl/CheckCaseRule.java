@@ -48,7 +48,7 @@ public class CheckCaseRule extends AbstractCheckCaseRule {
 
   @Override
   public String getDescription() {
-    return "Controle op hoofd- en kleine letters";
+    return "Controle op hoofd- en kleine letters: $match";
   }
 
   @Override

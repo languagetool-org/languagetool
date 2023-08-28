@@ -66,7 +66,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "2. Expressões prolixas";
+    return "2. Expressões prolixas: $match";
   }
 
   @Override

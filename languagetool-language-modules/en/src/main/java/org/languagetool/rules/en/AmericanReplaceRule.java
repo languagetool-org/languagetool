@@ -61,7 +61,7 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "British words easily confused in American English";
+    return "British words easily confused in American English: $match";
   }
 
   @Override

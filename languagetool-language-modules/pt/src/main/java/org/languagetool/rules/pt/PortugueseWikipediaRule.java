@@ -67,7 +67,7 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Erros frequentes nos artigos da Wikipédia";
+    return "Erros frequentes nos artigos da Wikipédia: $match";
   }
 
   @Override

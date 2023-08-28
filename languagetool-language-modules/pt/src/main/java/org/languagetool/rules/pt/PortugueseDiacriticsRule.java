@@ -67,7 +67,7 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Palavras estrangeiras com diacríticos";
+    return "Palavras estrangeiras com diacríticos: $match";
   }
 
   @Override
