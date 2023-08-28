@@ -45,9 +45,9 @@ public class SimpleReplaceMultiwordsRule extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceMultiwordsRule(final ResourceBundle messages) throws IOException {
     super(messages, new Catalan());
-    super.setCategory(Categories.GRAMMAR.getCategory(messages));
+    setCategory(Categories.GRAMMAR.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
-    super.useSubRuleSpecificIds();
+    useSubRuleSpecificIds();
   }
 
   @Override
@@ -78,11 +78,6 @@ public class SimpleReplaceMultiwordsRule extends AbstractSimpleReplaceRule2 {
   @Override
   public String getMessage() {
     return "Expressió incorrecta.";
-  }
-
-  @Override
-  public URL getUrl() {
-    return null;
   }
 
 }

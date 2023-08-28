@@ -19,14 +19,12 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Tag;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -47,10 +45,9 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceAnglicism(final ResourceBundle messages) throws IOException {
     super(messages, new Catalan());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    //super.setTags(Arrays.asList(Tag.picky));
-    super.useSubRuleSpecificIds();
+    useSubRuleSpecificIds();
   }
 
   @Override
@@ -83,11 +80,6 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
   }
 
-  @Override
-  public URL getUrl() {
-    return null;
-  }
-  
   @Override
   protected boolean isTokenException(AnalyzedTokenReadings atr) {
     // proper nouns tagged in multiwords are exceptions

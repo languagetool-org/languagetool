@@ -54,7 +54,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
   public PortugueseClicheRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>quente como uma fornalha</marker>"),

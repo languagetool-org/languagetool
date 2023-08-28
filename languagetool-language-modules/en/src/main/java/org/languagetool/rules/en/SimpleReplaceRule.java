@@ -63,11 +63,6 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getSuggestionsSeparator() {
-    return ", ";
-  }
-
-  @Override
   public Locale getLocale() {
     return EN_LOCALE;
   }

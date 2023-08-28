@@ -51,7 +51,7 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
   public PortugueseArchaismsRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     //addExamplePair(Example.wrong("<marker>câmera</marker>"),  // TODO
     //               Example.fixed("<marker>câmara</marker>"));

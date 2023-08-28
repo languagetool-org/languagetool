@@ -49,7 +49,7 @@ public class ArabicDarjaRule extends AbstractSimpleReplaceRule2 {
 
   public ArabicDarjaRule(ResourceBundle messages) {
     super(messages, new Arabic());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>طرشي</marker>"),
                    Example.fixed("<marker>فلفل حلو</marker>"));

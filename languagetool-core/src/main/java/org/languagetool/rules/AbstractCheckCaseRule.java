@@ -36,8 +36,8 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
 
   public AbstractCheckCaseRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    super.setLocQualityIssueType(ITSIssueType.Typographical);
-    super.setCategory(Categories.CASING.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Typographical);
+    setCategory(Categories.CASING.getCategory(messages));
   }
 
   @Override

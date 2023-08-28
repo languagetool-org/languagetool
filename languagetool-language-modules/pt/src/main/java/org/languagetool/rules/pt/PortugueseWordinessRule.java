@@ -52,7 +52,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
   public PortugueseWordinessRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>Raramente é o caso em que acontece</marker> isto."),
