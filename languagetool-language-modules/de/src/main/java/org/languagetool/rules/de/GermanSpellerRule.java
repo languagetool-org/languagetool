@@ -3496,6 +3496,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "gestriffen": return topMatch("gestreift");
       case "Regattas": return topMatch("Regatten");
       case "Segelregattas": return topMatch("Segelregatten");
+      case "freigeschalten": return topMatch("freigeschaltet");
     }
     return Collections.emptyList();
   }
