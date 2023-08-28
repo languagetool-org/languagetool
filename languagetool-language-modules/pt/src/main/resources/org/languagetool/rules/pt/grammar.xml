@@ -170,6 +170,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </phrases>
 
     <category id='GRAMMAR' name="Gramática Geral" type="grammar">
+        <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">melhor(es)?</token>
+                    <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
+                    <token regexp="yes" inflected="yes" postag="V.P.+|A.+|RG" postag_regexp="yes">&compounds_with_bem;</token>
+                </pattern>
+                <message>O superlativo e comparativo de adjetivos compostos se forma com &quot;mais&quot;.</message>
+                <suggestion>mais bem-\3</suggestion>
+                <example correction="mais bem-educada">Ela era a menina <marker>melhor educada</marker>.</example>
+                <example correction="mais bem-dotados">Os <marker>melhor-dotados</marker> da classe.</example>
+                <example correction="mais bem-acabadas">As casas estão <marker>melhores acabadas</marker> que os jardins.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token regexp="yes">pior(es)?</token>
+                    <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
+                    <token regexp="yes" inflected="yes" postag="V.P.+|A.+|RG" postag_regexp="yes">&compounds_with_mal;</token>
+                </pattern>
+                <message>O superlativo e comparativo de adjetivos compostos se forma com &quot;mais&quot;.</message>
+                <suggestion>mais mal-\3</suggestion>
+                <example correction="mais mal-humorados">Ficaram ainda <marker>pior humorados</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="MAIS_BEM_MELHORES" name="Melhores colocados -> melhor/mais bem colocados" default="temp_off">
             <rule>
                 <pattern>
