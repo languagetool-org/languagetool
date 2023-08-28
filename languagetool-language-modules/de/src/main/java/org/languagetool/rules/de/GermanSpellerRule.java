@@ -1312,7 +1312,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Weinverköstigung", "Weinverkostung");
     put("vertag", "Vertrag");
     put("geauessert", "geäußert");
-    put("gestriffen", "gestreift");
     put("gefäh?ten", "Gefährten");
     put("gefäh?te", "Gefährte");
     put("immenoch", "immer noch");
