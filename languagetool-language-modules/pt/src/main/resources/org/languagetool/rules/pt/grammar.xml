@@ -689,6 +689,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rulegroup id="CONCORDANCIA_SOBRESCRITO" name="Problema de concordância no sobrescrito de ordinais" default="temp_off">
+            <rule> <!-- fem superscript, masc. NP -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+\.?ª</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="(N|A.).MS.+"/>
+                </pattern>
+                <message>Possível erro de concordância no sobrescrito do número ordinal.</message>
+                <suggestion><match no="1" regexp_match="(?u)(\d+\.?)ª" regexp_replace="$1º"/></suggestion>
+                <example correction="1º">Ele está no <marker>1ª</marker> lugar.</example>
+                <example correction="12.º">Quem está no <marker>12.ª</marker> lugar?</example>
+            </rule>
+
+            <rule> <!-- masc superscript, masc. fem -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+\.?º</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="(N|A.).FS.+"/>
+                </pattern>
+                <message>Possível erro de concordância no sobrescrito do número ordinal.</message>
+                <suggestion><match no="1" regexp_match="(?u)(\d+\.?)º" regexp_replace="$1ª"/></suggestion>
+                <example correction="2ª">Ele está na <marker>2º</marker> posição.</example>
+                <example correction="50.ª">Quem está na <marker>50.º</marker> posição?</example>
+            </rule>
+        </rulegroup>
 
         <!-- ELE/ELA/NELE/NELA PRÓPRIO PRÓPRIA concordância de género -->
         <rulegroup id='GENDER_ELE_ELA_NELE_NELA_PRÓPRIO_PRÓPRIA' name="Concordância: El(ae)(s)/nel(ae)(s)/ness(ae)(s)">
