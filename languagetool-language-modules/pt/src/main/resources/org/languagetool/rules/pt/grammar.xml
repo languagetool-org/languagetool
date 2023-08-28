@@ -169,10 +169,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </phrase>
     </phrases>
 
-
     <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-        <rulegroup id="PARA_MIM_FAZER" name="Para mim fazer -> para eu fazer" default="temp_off">
+        <rulegroup id="MAIS_BEM_MELHORES" name="Melhores colocados -> melhor/mais bem colocados" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>melhores</token>
+                    <token postag_regexp="yes" postag="V.P..P."/>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;bem \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>melhor \2</suggestion>
+                <suggestion>mais bem \2</suggestion>
+                <example correction="melhor colocados|mais bem colocados">Os <marker>melhores colocados</marker> ganharam um prêmio.</example>
+            </rule>
 
+            <rule> <!-- disambig issues -->
+                <pattern>
+                    <token>melhores</token>
+                    <token>classificados</token>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;bem \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>melhor \2</suggestion>
+                <suggestion>mais bem \2</suggestion>
+                <example correction="melhor classificados|mais bem classificados">Os <marker>melhores classificados</marker> ganharam um prêmio.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>piores</token>
+                    <token postag_regexp="yes" postag="V.P..P."/>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;mal \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>pior \2</suggestion>
+                <suggestion>mais mal \2</suggestion>
+                <example correction="pior colocados|mais mal colocados">Os <marker>piores colocados</marker> voltaram para Taubaté.</example>
+            </rule>
+
+            <rule> <!-- disambig issues -->
+                <pattern>
+                    <token>piores</token>
+                    <token>classificados</token>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;mal \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>pior \2</suggestion>
+                <suggestion>mais mal \2</suggestion>
+                <example correction="pior classificados|mais mal classificados">Os <marker>piores classificados</marker> voltaram para Taubaté.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="PARA_MIM_FAZER" name="Para mim fazer -> para eu fazer" default="temp_off">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|_PUNCT"/>
