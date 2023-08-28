@@ -50,7 +50,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule2 {
   public BritishReplaceRule(ResourceBundle messages, String path) {
     super(messages, new BritishEnglish());
     this.PATH = Objects.requireNonNull(path);
-    
+    useSubRuleSpecificIds();
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("We can produce <marker>drapes</marker> of any size or shape from a choice of over 500 different fabrics."),

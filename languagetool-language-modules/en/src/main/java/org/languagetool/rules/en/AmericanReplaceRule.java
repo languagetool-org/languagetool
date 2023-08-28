@@ -48,7 +48,7 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
   public AmericanReplaceRule(ResourceBundle messages, String path) {
     super(messages, new AmericanEnglish());
     this.PATH = Objects.requireNonNull(path);
-    
+    useSubRuleSpecificIds();
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Are baked <marker>crisps</marker> healthy?"),
