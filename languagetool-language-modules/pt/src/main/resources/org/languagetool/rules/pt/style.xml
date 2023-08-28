@@ -18366,4 +18366,17 @@ USA
             </rule>
         </rulegroup>
     </category>
+
+    <category id="GENERAL" name="Regras gerais de estilo" type="style" tone_tags="general">
+        <rule id="GRAU_KELVIN" name="Evitar 'grau' antes da unidade Kelvin" default="temp_off">
+            <pattern>
+                <token regexp="yes">graus?</token>
+                <token>kelvin</token>
+            </pattern>
+            <message>Não se deve referir à unidade de temperatura Kelvin como um &quot;grau&quot;.</message>
+            <suggestion>\2<match no="1" regexp_match="(?i)grau(s)?" regexp_replace="$1"/></suggestion>
+            <url>https://pt.wikipedia.org/wiki/Kelvin</url>
+            <example correction="kelvins">O sol tem a temperatura de 15,7 milhões de <marker>graus kelvin</marker>.</example>
+        </rule>
+    </category>
 </rules>
