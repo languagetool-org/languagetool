@@ -14536,6 +14536,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
 
     <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
+        <rulegroup id="EM_MEADO" name="Em meado -> meados" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>em</token>
+                    <token>meado</token>
+                </pattern>
+                <message>A forma mais aceita desta expressão é <suggestion>em meados</suggestion>.</message>
+                <example correction="em meados">Moramos lá <marker>em meado</marker> dos anos 90.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>meado</token>
+                    </marker>
+                    <token regexp="yes">d([oa]s?|e)</token>
+                    <token regexp="yes" inflected="yes">século|década|ano|era|milênio|mês|semana|&meses_ano;</token>
+                </pattern>
+                <message>A forma mais aceita desta expressão é <suggestion>meados</suggestion>.</message>
+                <example correction="Meados">Quando? <marker>Meado</marker> da década de 80.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='SUBSTANTIVO_PLURAL_E_CHAVE_BASE' name="Substantivo -chave/-base">
