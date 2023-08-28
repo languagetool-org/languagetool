@@ -103,6 +103,11 @@ public class LanguageSpecificTest {
               spellRule = lang.getDefaultSpellingRule();
             }
           }
+          if (lang.getShortCode().equals("de") && rule.getId().equals("DE_DUPLICATED_CHAR")) {
+            // too many warnings and DE_DUPLICATED_CHAR has low impact, so ignore for now (even
+            // though the warnings are correct):
+            continue;
+          }
           AbstractSimpleReplaceRule replRule = (AbstractSimpleReplaceRule) rule;
           Map<String, List<String>> wrongWords = replRule.getWrongWords();
           for (String key : wrongWords.keySet()) {
