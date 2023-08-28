@@ -1679,6 +1679,10 @@ class CaseRuleAntiPatterns {
       csToken("sich"),
       csToken("das"),
       posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      csRegex("Bolivarische[mnrs]?"),
+      csRegex("Republik|Verfassung|Revolution")
     )
   );
 }
