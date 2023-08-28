@@ -189,6 +189,9 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     if (id.equals("EN_REPEATEDWORDS_DEFINITELY")){
       this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/i-agree-synonyms/"));
     }
+    if (id.equals("EN_REPEATEDWORDS_CHOOSE")){
+      this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/choose-vs-chose/"));
+    }
     //super.setDefaultTempOff();
   }
   
