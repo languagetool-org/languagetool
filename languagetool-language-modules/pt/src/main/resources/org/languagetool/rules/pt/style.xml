@@ -10720,6 +10720,18 @@ USA
             <message>&scientific_intro; prefira <suggestion>constante de Avogadro</suggestion>.</message>
             <example correction="constante de Avogadro">Calculamos com o <marker>número de Avogadro</marker>.</example>
         </rule>
+
+        <rule id="GRAU_CENTIGRADO" name="Preferir 'grau Celius' a 'grau centígrado'." default="temp_off">
+            <pattern>
+                <token regexp="yes">graus?</token>
+                <marker>
+                    <token regexp="yes">cent[ií]grados?</token>
+                </marker>
+            </pattern>
+            <message>&scientific_intro; prefira o nome oficial, <suggestion>Celsius</suggestion>.</message>
+            <url>https://pt.wikipedia.org/wiki/Grau_Celsius</url>
+            <example correction="Celsius">Medimos quarenta graus <marker>centígrados</marker>.</example>
+        </rule>
     </category>
 
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
