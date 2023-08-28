@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.Languages;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -38,18 +37,18 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
 
   private static final Locale EN_US_LOCALE = new Locale("en-US");
 
-  private final String PATH;
+  private final String path;
 
   @Override
   public List<String> getFileNames() {
-	  return Collections.singletonList(PATH);
+	  return Collections.singletonList(path);
   }
 
   public AmericanReplaceRule(ResourceBundle messages, String path) {
     super(messages, new AmericanEnglish());
-    this.PATH = Objects.requireNonNull(path);
+    this.path = Objects.requireNonNull(path);
     useSubRuleSpecificIds();
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Are baked <marker>crisps</marker> healthy?"),
                    Example.fixed("Are baked <marker>chips</marker> healthy?"));
@@ -74,7 +73,6 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
   public String getMessage() {
 	  return "'$match' is a common British expression. Consider using expressions more common to American English.";
   }
-
 
   @Override
   public Locale getLocale() {
