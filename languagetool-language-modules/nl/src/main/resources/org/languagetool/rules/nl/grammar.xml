@@ -17075,10 +17075,16 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="HAHA_KOMMA" name="Haha zonder komma">
 			<rule>
+				<antipattern>
+					<token postag="UNKNOWN"/>
+					<token negate="yes">,</token>
+					<token regexp="yes" case_sensitive="yes">[Hh]ah[ha]+|[Hh]ih[hi]+|[Hh]eh[he]+</token>
+					<example>Saito Mokichi's Shinitamau Haha.</example>
+				</antipattern>
 				<pattern>
 					<marker>
-						<token negate="yes">,</token>
-						<token regexp="yes">(ha|hi|ho){2,10}</token>
+						<token negate="yes" regexp="yes">[.,]</token>
+						<token regexp="yes" case_sensitive="yes">hah[ha]+|hih[hi]+|heh[he]+</token>
 					</marker>
 					<token postag="SENT_END"/>
 				</pattern>
@@ -17088,15 +17094,15 @@ regexp case-insensitive maken: (?i)
 			</rule>
 			<rule>
 				<antipattern>
-					<token regexp="yes">(ha|hi|ho){2,10}</token>
+					<token regexp="yes">hah[ha]+|hih[hi]+|heh[he]+</token>
 					<token postag="SENT_END"/>
 				</antipattern>
 				<pattern>
 					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<marker>
-						<token regexp="yes">(ha|hi|ho){2,10}</token>
+						<token regexp="yes">hah[ha]+|hih[hi]+|heh[he]+</token>
 					</marker>
-					<token negate="yes">,</token>
+					<token negate="yes">,<exception postag_regexp="yes" postag="ITP.*|UNKNOWN"/></token>
 				</pattern>
 				<message>Hier hoort een komma.</message>
 				<suggestion>\2,</suggestion>
