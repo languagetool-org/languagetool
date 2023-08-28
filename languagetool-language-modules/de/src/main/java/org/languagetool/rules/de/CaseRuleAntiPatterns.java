@@ -1682,7 +1682,7 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       csRegex("Bolivarische[mnrs]?"),
-      csRegex("Republik|Verfassung|Revolution")
+      csRegex("Republik(en)?|Verfassung(en)?|Revolution(en)?")
     )
   );
 }
