@@ -2171,6 +2171,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="Modal- oder Hilfsverb" id="IGNORE_MODAL-"><!--Das ist ein Modal- oder Hilfsverb.-->
+        <pattern case_sensitive="yes">
+            <token postag="UNKNOWN" regexp="yes">([A-Z].*)-</token>
+            <token regexp="yes">und|oder|,</token>
+            <token postag="SUB.*" regexp="yes">([A-Z].*)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Acoustic (engl.)" id="IGNORE_ACOUSTIC"><!--Das sogenannte Acoustic Surface sorgt für klaren Sound.-->
         <pattern case_sensitive="yes">
             <token>Acoustic</token>
