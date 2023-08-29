@@ -692,42 +692,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id="CONCORDANCIA_SOBRESCRITO" name="Problema de concordância no sobrescrito de ordinais" default="temp_off">
             <rule> <!-- fem superscript, masc. NP -->
                 <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D..MS."/>
                     <marker>
                         <token regexp="yes">\d+\.?ª</token>
                     </marker>
                     <token postag_regexp="yes" postag="(N|A.).MS.+"/>
                 </pattern>
                 <message>Possível erro de concordância no sobrescrito do número ordinal.</message>
-                <suggestion><match no="1" regexp_match="(?u)(\d+\.?)ª" regexp_replace="$1º"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?u)(\d+\.?)ª" regexp_replace="$1º"/></suggestion>
                 <example correction="1º">Ele está no <marker>1ª</marker> lugar.</example>
                 <example correction="12.º">Quem está no <marker>12.ª</marker> lugar?</example>
             </rule>
 
             <rule> <!-- masc superscript, masc. fem -->
                 <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D..FS."/>
                     <marker>
                         <token regexp="yes">\d+\.?º</token>
                     </marker>
                     <token postag_regexp="yes" postag="(N|A.).FS.+"/>
                 </pattern>
                 <message>Possível erro de concordância no sobrescrito do número ordinal.</message>
-                <suggestion><match no="1" regexp_match="(?u)(\d+\.?)º" regexp_replace="$1ª"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?u)(\d+\.?)º" regexp_replace="$1ª"/></suggestion>
                 <example correction="2ª">Ele está na <marker>2º</marker> posição.</example>
                 <example correction="50.ª">Quem está na <marker>50.º</marker> posição?</example>
             </rule>
         </rulegroup>
 
-        <!-- ELE/ELA/NELE/NELA PRÓPRIO PRÓPRIA concordância de género -->
         <rulegroup id='GENDER_ELE_ELA_NELE_NELA_PRÓPRIO_PRÓPRIA' name="Concordância: El(ae)(s)/nel(ae)(s)/ness(ae)(s)">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-09 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      Elas próprios fizeram a comida. → Elas próprias fizeram a comida.
-      Ele própria fê-lo. → Ele próprio fê-lo.
-      A fé está nela próprio. → A fé está nela própria.
-      A fé está neles próprias. → A fé está neles próprios.
-      -->
-
-            <!-- antipattern for both rules: "Tinha ela inimigos?" - "inimigos" or "inimigas" gender shouldn't trigger the rule. -->
             <antipattern>
                 <token postag='VMII3.+' postag_regexp='yes'/>
                 <token postag='PP3.+' postag_regexp='yes'/>
@@ -943,47 +935,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- ESTE/ESTA concordância de género -->
         <rulegroup id='GENDER_ESTE_ESTA' name="Concordância: Este(s)/esta(s)">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-27 + 2022-04-19 (1-JAN-2022+)      -->
-            <!--
-      HITS IN 600000 SENTENCES:18
-      SOME HITS HAPPEN DUE TO MISSING POS INFORMATION FOR THE WORDS.
-
-      E este tese foi redigida por mim. → E esta tese foi redigida por mim.
-      E estes teses foram redigidas por mim. → E estas teses foram redigidas por mim.
-      E esta documento foi redigida por mim. → E este documento foi redigido por mim.
-      E estas documentos foram redigidas por mim. → E estes documentos foram redigidas por mim.
-      Só sei que esta livro é meu. → Só sei que este livro é meu.
-      -->
-
-            <!--
-      THIS ANTIPATTERN REMOVES THE WRONG USAGE OF THE WORDS ESTE(S)/ESTA(S) WITH VERBS.
-      OTHER RULE SHOULD SUGGEST REPLACING "ESTA" WITH "ESTÁ".
-
-      O chão esta coberto de neve.
-      Na parede esta escrito que as convocações estao senfo feitas por email e telefone “fixo”.
-      Todo mundo esta ferido.
-      Vocês só sabem dizer (perguntar) onde esta escrito isto na bíblia?
-      O que esta morto, não pode morrer!
-      A beleza é o sorriso da verdade quando esta vê seu próprio rosto em um espelho perfeito.
-      -->
             <antipattern>
                 <token postag='N[CP].+|RG|CS' postag_regexp='yes'/>
                 <token regexp="yes">est[ae]s?</token>
                 <token postag='VMP00.+|VMIP3.+|VMM03.+' postag_regexp='yes'/>
             </antipattern>
 
-            <!--
-      O estranho disso tudo é que o pânico agora esta fraco, mas mesmo assim persiste, outro dia olhei pro meu pai e fiquei com muita do dele e chorei.
-      É realmente uma religião diabólica isso esta claro.
-      Mas esta claro que Moro tinha interesses em.usar a lava katonpara beneficios proprios.
-
-      THE THREE SENTENCES BELOW ARE IGNORED BECAUSE OF "UNKNOWN" BEFORE "ESTA".
-      Porem não precisa levar muito, uns 300,00 ja esta bom, evidentemente se vc pretende comprar bastante nos free shop, ou jogar muito no casino, é inter...
-      Ate ai o seu comentario esta perfeito.
-      tenho um modelo que amo de montão... a aste quebrou e a jf sun consertou e meu oculos esta perfeito.
-      -->
             <antipattern>
                 <token postag='RG|CC|PD.+|UNKNOWN' postag_regexp='yes'/>
                 <token>esta</token>
@@ -991,8 +949,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='_PUNCT|CS' postag_regexp='yes'/>
             </antipattern>
 
-            <!-- MARCOAGPINTO 2022-10-13 + 2023-02-12 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-            <!-- It has zero hits in 600 000 sentences, it just removes one false positive in my thesis -->
             <antipattern>
                 <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
                 <token postag='VMG0000' postag_regexp='no'/>
@@ -1106,17 +1062,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!--          Tiago F. Santos Rules Start         ****START**** -->
-        <!-- ********************************************************** -->
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
-            <!--            General gender concordance errors            -->
-            <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
-            <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
-      -->
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
-
-            <!-- MARCOAGPINTO 2023-02-23 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token postag='(SPS00:)?[DP][ADIPR].M.+' postag_regexp='yes'/>
                 <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
@@ -1125,8 +1072,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='AQ.M.+|NCM.+|VMP00.M' postag_regexp='yes'/>
                 <example>Os indivíduos estão infiltrados no pelotão/secção oposto.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-02-23 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Ll}+</token>
                 <token regexp='yes'>\d+[:h]\d+</token>
@@ -1178,7 +1123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>tapas?|tapinhas?tapão|tapões</token>
                 <example>Deu um tapa nele.</example>
             </antipattern>
-            <rule>
+            <rule> <!-- #1 -->
                 <antipattern>
                     <unify>
                         <feature id="gender"/><feature id="number"/>
@@ -1232,8 +1177,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
                     <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
                 </antipattern>
-
-                <!-- MARCOAGPINTO 2022-06-05/11/14/15 + 2022-07-03 (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='[DP][ADIPR].[NF].+|SPS00:[DP][ADIPR].[NF].+|CC|CS|RG|V.+|I|SPS00' postag_regexp='yes'/>
                     <token min="1" max="2" postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
@@ -1246,9 +1189,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>...ísica abre: Para as compras realizadas nestes dias, as regras de entrega são as mesmas de segunda a sábado descritas acima.</example>
                     <example>Isto tendo em conta as técnicas de engenharia de software mundialmente estabelecidas.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-05/11/14/15 + 2022-07-03 (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-14/15 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='AQ.+|NC.+|V.+|CS|CC|RG|I|SPS00' postag_regexp='yes'/>
                     <token min="1" max="2" postag='[DP][ADIPR].F.+' postag_regexp='yes'/>
@@ -1262,9 +1202,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Se um homem quer que sua mulher o ouça, ele só precisa falar com outra.</example>
                     <example>Em pouco tempo viveremos como no velho oeste, na base da bala onde cada um carrega a sua arma para defender aquilo que é seu.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-14/15 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-14/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='AQ.[CM].+|NC[CM].+|CC|CS|RG|I|[DP]..[CM].+|SPS00:[DP]..[CM].+|SPS00|V.+|SENT_START' postag_regexp='yes'/>
                     <token min="0" max="1" postag='_PUNCT'/>
@@ -1283,9 +1220,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Mas já foi em tempos, quando em finais dos anos 90, passava no pequeno ecrã séries e filmes a horas decentes.</example>
                     <example>"Os portugueses têm ao seu dispor mais alternativas, o que permitiu uma nova dinâmica de diálogo social, político e cultural.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-14/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='[DP][ADIPR].M.+|SPS00|SPS00:[DP][ADIPR].M.+|_PUNCT|CC|CS|RG|I|Z0CN0|SENT_START' postag_regexp='yes'/>
                     <token min="1" max="2"  postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
@@ -1301,9 +1235,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Estiveram presentes no chat 120 pessoas e agora você pode ler, na integra, como foi o bate-papo.</example>
                     <example>A WNPower tem suporte sólido, incluindo suporte por chat ao vivo, telefone, e-mail e ticket 24 horas por dia, 7 dias por semana.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='I|[DP][ADIPR].[NM].+|SPS00:[DP][ADIPR].[NM].+|CC|CS|RG|NCM.+|AQ0M.+|VMN0000|SPS00|SENT_START|VMP00.+|VMIP3.+|VMM02.+|VMIS1.+|VMIP2.+' postag_regexp='yes'/>
                     <token min="0" max="1" postag='_PUNCT|[DP][ADIPR].[NC].+|SPS00:[DP][ADIPR].[NC].+|SPS00|CC|CS|RG|I' postag_regexp='yes'/>
@@ -1317,9 +1248,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Não tenho nenhum interesse em comer comida inglesa.</example>
                     <example>A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='I|CC|CS|RG|SPS00|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
                     <token regexp='yes'>princípios?</token>
@@ -1339,9 +1267,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>e princípio Mãe.</example>
                     <example>que princípio Mãe.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='VMIP3.+|SPS00|RG|CS|CC|I|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
                     <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
@@ -1352,9 +1277,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Eu disse a Tom coisas que não deveria.</example>
                     <example>Meu irmãozinho disse que ele teve um sonho terrível noite passada.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <token min="0" max="1" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -1368,9 +1290,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Uma informação mais simples e mais rica.</example>
                     <example>Uma informação muito mais simples e muito mais rica.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='VMP00.M' postag_regexp='yes'/>
                     <token min="0" max="1" postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
@@ -1380,10 +1299,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Os suspeitos fugiram com o veículo, abandonado horas depois no Bairro Monte Alegre, em Camboriú.</example>
                     <example>Hoje no Brasil são mais de 10 milhões que se dizem evangélicos e não frequentam mais a igreja devido feridas profundas.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
-                <!-- It was the old rule: "duas" + "NCFP000" -->
                 <antipattern>
                     <token postag='Z0[CF].+' postag_regexp='yes'/>
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
@@ -1391,10 +1306,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Almofadas de assento: fixas, espuma BIO 30 certificada e calandrada e manta de fibra.</example>
                     <example>Clique aqui para assinar o 10 Jardas.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
-                <!-- It was the old rule: "duas" + "ou" + "três" + "NCFP000" -->
                 <antipattern>
                     <token postag='Z0[CF].+' postag_regexp='yes'/>
                     <token postag="CC"/>
@@ -1403,9 +1314,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Que você acha mais importante: saber duas ou três línguas nacionais ou, além da sua materna, apenas o Esperanto? - Acho mais importante saber...</example>
                     <example>Todo dia duas ou três pessoas vêm nos pedir emprego.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
                 <!-- This antipattern was placed in more parts since other gender rules use it too. -->
                 <antipattern>
                     <token postag='DA.M.+' postag_regexp='yes'/>
@@ -1413,9 +1321,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes" inflected="yes">&cores;</token>
                     <example>E assim o camisola vermelha é ótimo.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
                 <!-- This antipattern was placed in more parts since other gender rules use it too. -->
                 <antipattern>
                     <token>o</token>
@@ -1426,7 +1331,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Além de fazer algumas defesas importantes, o camisa 1 do time potiguar conseguiu tirar o meia VALDÍVIA do sério.</example>
                     <example>Muito aplaudido pela torcida, o camisa 21, Hashimoto, foi substituído por Schneider aos 29 minutos do segundo tempo.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
                 <antipattern>
                     <token>bem</token>
                     <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
@@ -1555,9 +1459,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='(?:N.|A..)F[SN].+' postag_regexp='yes'/>
                     <example>tendo o cientista e diplomata americana feito referência</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
                 <!-- 0 hits in 600 000 sentences, only the example here works. -->
                 <antipattern>
                     <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -1565,8 +1466,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <example>Por outro lado, aparecem do nada pessoas, algumas que até nos adoram.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-                <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
                     <token min="1" max="2" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -1612,8 +1511,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&MSG_ECG;</message>
                 <suggestion suppress_misspelled="yes"><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.|SPS00:D..)M(.+)" postag_replace='$1F$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
                 <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F(.+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion>
-                <!-- TEMP REMOVE		<suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
-                <!-- TEMP REMOVE        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
                 <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' case_conversion='startupper'/></suggestion>
                 <example correction='uma vaca|Um, vaca|Um Vaca'><marker>Um vaca</marker> está no pasto.</example>
@@ -1645,8 +1542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Você terminou de tricotar aquele suéter?</example>
                 <example>É perigoso duas pessoas andarem ao mesmo tempo numa bicicleta.</example>
             </rule>
-            <rule>
-                <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+            <rule> <!-- #2 -->
                 <antipattern>
                     <token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
                     <token min="1" max="2" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -1668,9 +1564,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
                     <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
                 <!-- 0 hits in 600 000 sentences, only the example here works. -->
                 <antipattern>
                     <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -1678,7 +1571,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <example>Por outro lado, aparecem do nada pessoas, algumas que até nos adoram.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
                 <antipattern>
                     <token postag='N.FP.+|AQ.FP.+' postag_regexp='yes'/>
                     <token postag='DI0M.+|SPS00:D..MP.+' postag_regexp='yes'/>
@@ -1735,7 +1627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='das garotas|dos garotos'>Fui amigo <marker>dos garotas</marker> certas.</example>
                 <example>Foi resolvido <marker>nas horas</marker> certas.</example>
             </rule>
-            <rule>
+            <rule> <!-- #3 -->
                 <antipattern>
                     <unify>
                         <feature id="gender"/><feature id="number"/>
@@ -1956,9 +1848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Alguns cookies são obrigatórios.</example>
 
             </rule>
-
-            <rule>
-                <!-- MARCOAGPINTO 2022-06-29 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+            <rule> <!-- #4 -->
                 <antipattern>
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <token postag='V.+' postag_regexp='yes'>
@@ -1969,7 +1859,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>A água é nos trazida até à porta.</example>
                     <example>A agente é nos trazida até à porta.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-06-29 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
                 <antipattern>
                     <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'/>
                     <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
@@ -2011,7 +1900,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='Nas mil'><marker>Nos mil</marker> e uma noites.</example>
                 <example>A vida nos leva para onde ela quer.</example>
             </rule>
-            <rule>
+            <rule> <!-- #5 -->
                 <antipattern>
                     <token>indústria</token>
                     <token>automóvel</token>
@@ -2385,10 +2274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Molho para acompanhar massa esparguete.</example>
                 <example>A sua deve comer.</example>
             </rule>
-
-            <rule>
-
-                <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+            <rule> <!-- #6 -->
                 <antipattern>
                     <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
                     <token postag='Z0CN0'/>
@@ -2396,9 +2282,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>A médica escreveu numa 1 dia.</example>
                     <example>A médica escreveu noutra 30 dias.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-07-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
                 <!-- This antipattern fixes the rule: id='CONFUSÃO_ATE_ATÉ' -->
                 <antipattern>
                     <token/>
@@ -2471,7 +2354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Leonardo da Vinci e Rafael mostraram grande interesse sobre a estru…</example>
                 <example>Bacalhau à lagareiro</example>
             </rule>
-            <rule>
+            <rule> <!-- #7 -->
                 <pattern>
                     <token postag='DI.FS.+|SPS00:D..F[SN].+|SPS00:...F[SN].+' postag_regexp='yes'/>
                     <token regexp='yes'>\d\.?[oº]</token>
@@ -2481,7 +2364,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion suppress_misspelled="yes"><match no='1' postag="(DI.|SPS00:D..|SPS00:...)F(.+)" postag_replace='$1M$2' postag_regexp="yes" include_skipped='all'/> <match no='2' include_skipped='all'/></suggestion>
                 <example correction='da 3ª|do 3o'>é membro <marker>da 3o</marker> Congresso.</example>
             </rule>
-            <rule>
+            <rule> <!-- #8 -->
                 <pattern>
                     <token postag='DI.MS.+|SPS00:D..M[SN].+|SPS00:...M[SN].+' postag_regexp='yes'/>
                     <token regexp='yes'>\d\.?[aª]</token>
@@ -2491,7 +2374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion suppress_misspelled="yes"><match no='1' postag="(DI.|SPS00:D..|SPS00:...).(.+)" postag_replace='$1F$2' postag_regexp="yes" include_skipped='all'/> <match no='2' include_skipped='all'/></suggestion>
                 <example correction='do 3º|da 3a'>é membro <marker>do 3a</marker> Congresso.</example>
             </rule>
-            <rule>
+            <rule> <!-- #9 -->
                 <antipattern>
                     <unify>
                         <feature id="gender"/><feature id="number"/>
@@ -2543,8 +2426,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
                     <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
                 </antipattern>
-
-                <!-- MARCOAGPINTO 2022-07-13 (Checked/Enhanced) (5-JUN-2022+) *START* -->
                 <antipattern>
                     <token postag='[DP][ADIPR].[CF].+|SPS00:[DP][ADIPR].[CF].+' postag_regexp='yes'/>
                     <token postag='[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
@@ -2559,7 +2440,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Todas nós sentimos saudade de você.</example>
                     <example>E todas nós, em silêncio, começamos a googla-lo.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-13 (Checked/Enhanced) (5-JUN-2022+) *END* -->
                 <antipattern>
                     <token spacebefore='no'>/</token>
                     <token spacebefore='no'>as</token>
@@ -2614,7 +2494,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Durante a dinastia Ming (no início do século XV) havia a Cidade Proibida no centro de Pequim.</example>
                 <example>A própria Jane escreveu a carta.</example>
             </rule>
-            <rule>
+            <rule> <!-- #10 -->
                 <antipattern>
                     <token>coordenadas</token>
                     <token regexp='yes'>\d.+</token>
@@ -2652,14 +2532,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>…ouvir os partidos nelas representados e o …</example>
                 <example>nas coordenadas 20.00ºN, 20.00ºW</example>
             </rule>
-            <rule><!-- XXX Determiner agreement -->
+            <rule> <!-- #11 XXX Determiner agreement -->
                 <antipattern>
                     <token regexp='yes' spacebefore='no'>&hifen;</token>
                     <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;</token>
                 </antipattern>
-
-                <!-- MARCOAGPINTO 2022-10-27 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-                <!-- It has zero hits in 600 000 sentences, it just removes one false positive in a sentence -->
                 <antipattern>
                     <token postag='SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
                     <token postag='[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -2667,7 +2544,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <example>Precisamos ler nos outros as lágrimas escondidas.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-10-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
                 <antipattern>
                     <token regexp='yes'>tod[ao]s</token>
                     <token regexp='yes'>uns|umas</token>
@@ -2696,10 +2572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Idealizou-o este barão de Jaraguá, contribuindo dessa forma para o…</example>
                 <example>A este nível, estas metas incluem, entre outros assuntos…</example>
             </rule>
-
-            <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-            <!-- "Desta forma é promovida um ambiente de trabalho saudável e com grandes chances de desenvolvimento dos funcionários dentro da empresa." -->
-            <rule>
+            <rule> <!-- #12 -->
                 <antipattern>
                     <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
                     <token min="0" max="2" postag='D[ADI].F.+|Z0[CF].+' postag_regexp="yes"/>
@@ -2725,7 +2598,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Todas as instituições registradas nesse órgão são reconhecidas pelo governo britânico.</example>
                     <example>Atualmente, nove empresas sociais são apoiadas pelo programa danone.communities e, juntos, buscam melhorar a vida quotidiana de mais de um milhão ...</example>
                 </antipattern>
-
                 <antipattern>
                     <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
                     <token min="1" max="2" postag='D[ADI].F.+|Z0[CF].+' postag_regexp="yes"/>
@@ -2739,7 +2611,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>As inscrições para a 5ª Primavera dos Museus são feitas no site do Ibram (www.museus.gov.br).</example>
                     <example>Na capital e no interior, as motos são os maiores meios de transporte de locomoção, mas também são acusadas pelo maior aumento de óbitos.</example>
                 </antipattern>
-
                 <antipattern>
                     <token postag='SPS00|DA.F.+' postag_regexp="yes"/>
                     <token min="1" max="2" postag='AQ.[CF].+|NC[CF].+|DI.F.+' postag_regexp="yes"/>
@@ -2753,7 +2624,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>...erimentação diversas vezes e se uma concorrência ou sequência de certas circunstâncias ou eventos é notada um número considerável de vezes, assume-se que os fatos ou eventos em questão estão conectados.</example>
                     <example>...tam roteiros turísticos pelo seu interior (por ser considerado sagrado), a área externa do templo é aberta ao público e é considerado uma importante atração turística de Salt Lake City.</example>
                 </antipattern>
-
                 <pattern>
                     <token postag='AQ.M.+|NCM.+|RG' postag_regexp="yes"/>
                     <token min="0" max="1" postag='_PUNCT|RG' postag_regexp="yes"/>
@@ -2776,24 +2646,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Todos nós vamos ficar com fome, então traga comida o suficiente para todo o mundo.</example>
                 <example>Hoje dá entrevista ao Correio da Manhã, para realçar uma qualidade dúbia que é a de presidente executivo de uma empres...</example>
             </rule>
-            <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2022-09-15 (25-JUL-2022+) -->
-            <!--
-      As palavras estão corretos. → As palavras estão corretas.
-      A palavra está correto. → A palavra está correta.
-
-      A avaliação é correto. → A avaliação é correta.
-      As avaliações são corretos. → As avaliações são corretas.
-
-      Ela está bonito hoje. → Ela está bonita hoje.
-      Elas estão bonitos hoje. → Elas estão bonitas hoje.
-
-      Ela é alto. → Ela é alta.
-      Elas são altos. → Ela são altas.
-      -->
             <rule id='LIGACAO_ECG_V3' name="Ligação ECG">
-
                 <antipattern>
                     <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
                     <token postag='VMN0000' postag_regexp="no"/>
@@ -2964,9 +2817,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='_PUNCT|RG' postag_regexp="yes"/> <!-- RG="tanto" -->
                     <example>...terizam por ter o osso da munheca bem grosso em comparação com os ectomorfos (com tendência a serem magros).</example>
                 </antipattern>
-
-                <!-- MARCOAGPINTO 2022-09-24 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-                <!-- Zero hits in 600 000 sentences, it only hits with my thesis -->
                 <antipattern>
                     <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
                     <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
@@ -2975,10 +2825,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
                     <example>As eras são: a Antiguidade, a Idade Medieval e a Idade da Pólvora.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-09-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-11-11 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-                <!-- To make the rule work ID: CONFUSÃO_MEIA_MEIO_ADJETIVO -->
                 <antipattern>
                     <token postag='V.+|NC.+|AQ.+|RG' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='SPS00|SPS00:.+'/>
@@ -2991,8 +2837,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </token>
                     <example>A garrafa está meio-cheia.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-11-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
                 <pattern>
                     <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
                     <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes">
@@ -3018,7 +2862,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Porra, a gente está velho!</example>
                 <example>A gente é maluco.</example>
             </rule>
-
         </rulegroup>
 
 
