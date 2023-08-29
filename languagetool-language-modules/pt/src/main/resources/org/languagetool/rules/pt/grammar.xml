@@ -38791,6 +38791,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
+        <rule id="CONTRA_ATAQUE" name="Composição de contra-ataque">
+            <!-- Removed from the compounds TXT since 'contra' is occasionally a preposition 🤡 -->
+            <pattern>
+                <token postag_regexp="yes" postag="[ADP].+M[SP].+|Z.+|SENT_START"></token>
+                <marker>
+                    <token>contra</token>
+                    <token regexp="yes">ataques?</token>
+                </marker>
+            </pattern>
+            <message>A palavra <suggestion>\2-\3</suggestion> é hifenizada.</message>
+            <example correction="contra-ataque">Lançou um <marker>contra ataque</marker>.</example>
+            <example correction="Contra-ataques"><marker>Contra ataques</marker>, sua especialidade.</example>
+            <example>Ele nos protege contra ataques de ursos.</example>
+        </rule>
+
         <rulegroup id="X_RAY_MACHINE" name="Raio X com hífen">
             <rule>
                 <pattern>
