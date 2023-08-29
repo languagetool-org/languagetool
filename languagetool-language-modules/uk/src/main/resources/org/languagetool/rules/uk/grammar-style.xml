@@ -1687,7 +1687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes" regexp="yes">кампанія|бюлетень|голос|закон|право|дільниця|комісія|агітація|система|збори</token>
           </marker>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" regexp_match="иборн(.*)" regexp_replace="иборч$1"/> \2</suggestion>?</message>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1">виборчий</match> \2</suggestion>?</message>
         <example correction="Виборча кампанія"><marker>Виборна кампанія</marker> пройшла успішно.</example>
       </rule>
 
@@ -1698,7 +1698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes" regexp="yes">посада|орган|служба|особа|представник</token>
           </marker>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" regexp_match="иборч(.*)" regexp_replace="иборн$1"/> \2</suggestion>?</message>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1">виборний</match> \2</suggestion>?</message>
         <example correction="Виборна посада"><marker>Виборча посада</marker> визначається голосуванням.</example>
       </rule>
     </rulegroup>
@@ -2338,7 +2338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token regexp="yes" inflected="yes">батько|мати</token>
       </pattern>
-      <message>Правильно: <suggestion><match no="1" regexp_match="хресн(.+)" regexp_replace="хрещен$1"/></suggestion></message>
+      <message>Правильно: <suggestion><match no="1" regexp_match="(?ui)хресн(.+)" regexp_replace="хрещен$1"/></suggestion></message>
       <example correction="хрещена">його <marker>хресна</marker> мати.</example>
     </rule>
 
@@ -2360,7 +2360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes">освідчений</token>
       </pattern>
       <message>Слово «освідчений» вживають у сенсі «обстежений» (Водій освідчений у поліції), а в значенні «обізнаний», «культурний» правильним є «освічений».</message>
-      <suggestion><match no="1" regexp_match="освідч(.+)" regexp_replace="освіч$1"/></suggestion>
+      <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1.*">освічений</match></suggestion>
       <example correction="освічений"><marker>освідчений</marker> політик</example>
     </rule>
 
@@ -3943,7 +3943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">гамм?а|палітра|модель|сліпота|спектр|вирішення</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1" regexp_match="кольоров(.+)" regexp_replace="колірн$1"/></suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj.*):comp." postag_replace="$1">колірний</match></suggestion></message>
         <example correction="колірної"><marker>кольорової</marker> сліпоти</example>
       </rule>
     </rulegroup>
@@ -3956,7 +3956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes">склад</token>
         </pattern>
-        <message>У значенні «сукупність осіб» правильно: <suggestion><match no="1" regexp_match="особист(.+)" regexp_replace="особов$1"/></suggestion></message>
+        <message>У значенні «сукупність осіб» правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj.*):comp." postag_replace="$1">особовий</match></suggestion></message>
         <example correction="особового"><marker>особистого</marker> складу вчителів</example>
       </rule>
     </rulegroup>
@@ -4001,7 +4001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Поза релігійним контекстом у значенні «сильний», «нестримний» правильно: <suggestion><match no="1" regexp_match="страсн.*" regexp_replace="при$0"/></suggestion></message>
+        <message>Поза релігійним контекстом у значенні «сильний», «нестримний» правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1.*">пристрасний</match></suggestion></message>
         <example correction="пристрасне">і <marker>страсне</marker> почуття</example>
         <example>страсного вогню</example>
         <example>страсної середи</example>

@@ -54,7 +54,7 @@ public class SpanishWikipediaRule extends AbstractSimpleReplaceRule2 {
 
   public SpanishWikipediaRule(ResourceBundle messages) throws IOException {
     super(messages, new Spanish());
-    super.setCategory(Categories.WIKIPEDIA.getCategory(messages));
+    setCategory(Categories.WIKIPEDIA.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("<marker>a basto</marker>"),
                    Example.fixed("<marker>abasto</marker>"));

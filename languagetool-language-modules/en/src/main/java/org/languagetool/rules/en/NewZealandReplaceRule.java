@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.Languages;
 import org.languagetool.language.NewZealandEnglish;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -40,18 +39,17 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule2 {
 
   private static final Locale EN_NZ_LOCALE = new Locale("en-NZ");
   
-  private final String PATH;
+  private final String path;
 
   @Override
   public List<String> getFileNames() {
-	  return Collections.singletonList(PATH);
+	  return Collections.singletonList(path);
   }
 
   public NewZealandReplaceRule(ResourceBundle messages, String path) {
     super(messages, new NewZealandEnglish());
-    this.PATH = Objects.requireNonNull(path);
-    
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    this.path = Objects.requireNonNull(path);
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("A <marker>sidewalk</marker> is a path along the side of a road."),
                    Example.fixed("A <marker>footpath</marker> is a path along the side of a road."));

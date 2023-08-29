@@ -37,7 +37,6 @@ import java.util.ResourceBundle;
  * @author Taha Zerrouki
  * @since 5.0
  */
-
 public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
 
   public static final String AR_HOMOPHONES_REPLACE = "AR_HOMOPHONES_REPLACE";
@@ -48,9 +47,8 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
     super(messages, new Arabic());
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     addExamplePair(Example.wrong("<marker>ضن</marker>"),
-      Example.fixed("<marker>ظن</marker>"));
+                   Example.fixed("<marker>ظن</marker>"));
   }
-
 
   @Override
   public List<String> getFileNames() {
@@ -81,7 +79,6 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
   public String getSuggestionsSeparator() {
     return " أو  ";
   }
-
 
   @Override
   public Locale getLocale() {

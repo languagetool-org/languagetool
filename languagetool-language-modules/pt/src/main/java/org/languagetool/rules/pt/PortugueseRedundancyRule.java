@@ -52,7 +52,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
   public PortugueseRedundancyRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>duna de areia</marker>"),
@@ -66,7 +66,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "1. Pleonasmos e redundâncias";
+    return "1. Pleonasmos e redundâncias: $match";
   }
 
   @Override

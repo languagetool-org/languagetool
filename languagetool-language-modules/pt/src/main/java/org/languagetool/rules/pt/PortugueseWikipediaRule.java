@@ -53,7 +53,7 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
   public PortugueseWikipediaRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.WIKIPEDIA.getCategory(messages));
+    setCategory(Categories.WIKIPEDIA.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>mais também</marker>"),
@@ -67,7 +67,7 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Erros frequentes nos artigos da Wikipédia";
+    return "Erros frequentes nos artigos da Wikipédia: $match";
   }
 
   @Override

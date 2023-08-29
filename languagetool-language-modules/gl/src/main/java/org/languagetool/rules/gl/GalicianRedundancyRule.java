@@ -54,7 +54,7 @@ public class GalicianRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   public GalicianRedundancyRule(ResourceBundle messages) throws IOException {
     super(messages, new Galician());
-    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>duna de area</marker>"),
                    Example.fixed("<marker>duna</marker>"));

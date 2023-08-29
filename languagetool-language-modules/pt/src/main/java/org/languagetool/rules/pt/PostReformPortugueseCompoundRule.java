@@ -44,6 +44,7 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
             "Este conjunto forma uma palavra composta.");
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
+    useSubRuleSpecificIds();
   }
 
   @Override
@@ -53,7 +54,7 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Palavras compostas";
+    return "Erro na formação da palavra composta \"$match\"";
   }
 
   @Override

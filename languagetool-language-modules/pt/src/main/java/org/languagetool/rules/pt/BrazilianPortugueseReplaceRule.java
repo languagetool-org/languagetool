@@ -51,7 +51,7 @@ public class BrazilianPortugueseReplaceRule extends AbstractSimpleReplaceRule2 {
   public BrazilianPortugueseReplaceRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>hospedeira de bordo</marker>"),
                    Example.fixed("<marker>aeromoça</marker>"));
@@ -81,11 +81,6 @@ public class BrazilianPortugueseReplaceRule extends AbstractSimpleReplaceRule2 {
   public String getSuggestionsSeparator() {
     return " ou ";
   }
-
-//  @Override
-//  public URL getUrl() {
-//    return Tools.getUrl("https://pt.wikipedia.org/wiki/Estrangeirismo");
-//  }
 
   @Override
   public Locale getLocale() {

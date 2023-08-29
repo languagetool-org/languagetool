@@ -506,8 +506,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">топ-[0-9]+</token>
         </pattern>
         <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
-        <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="найкращі $2"/></suggestion>
-        <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="найбільші $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(?iu)(топ)-([0-9]+)" regexp_replace="найкращі $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(?iu)(топ)-([0-9]+)" regexp_replace="найбільші $2"/></suggestion>
         <example correction="найкращі 100|найбільші 100"><marker>топ-100</marker>.</example>
       </rule>
 
@@ -516,8 +516,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="numr:.*:bad" regexp="yes">топ-.*</token>
         </pattern>
         <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
-        <suggestion><match no="1" regexp_match="(топ)-(.*)" regexp_replace="найкращі $2"/></suggestion>
-        <suggestion><match no="1" regexp_match="(топ)-(.*)" regexp_replace="найбільші $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(?iu)(топ)-(.*)" regexp_replace="найкращі $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(?iu)(топ)-(.*)" regexp_replace="найбільші $2"/></suggestion>
         <example correction="найкращі десять|найбільші десять"><marker>топ-десять</marker>.</example>
       </rule>
     </rulegroup>
@@ -665,7 +665,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
-        <suggestion><match no="2" regexp_match="г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
+        <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
         <example correction="ґрати">кинути за <marker>грати</marker>.</example>
         <example correction="ґратами">сидіти за <marker>гратами</marker>.</example>
         <example>щоб просто грати</example>
@@ -684,7 +684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </unify>
         </pattern>
         <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
-        <suggestion><match no="2" regexp_match="г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
+        <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
         <example correction="ґратами">за залізними <marker>гратами</marker>.</example>
         <example>на такому рівні грати</example>
       </rule>
@@ -1410,7 +1410,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token inflected="yes" regexp="yes">двері|вікно</token>
       </pattern>
-      <message>Можливо: <suggestion><match no="1" regexp_match="відри(.*)" regexp_replace="відкри$1"/></suggestion>?</message>
+      <message>Можливо: <suggestion><match no="1" regexp_match="(?iu)відри(.*)" regexp_replace="відкри$1"/></suggestion>?</message>
       <example correction="відкрив">він <marker>відрив</marker> двері</example>
     </rule>
 
@@ -1526,7 +1526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token regexp="yes">витупа(є|ють|ємо?)</token>
       </pattern>
-      <message>Можливо, ви мали на увазі <suggestion><match no="1" regexp_match="витупа(є|ють|ємо?)" regexp_replace="виступа$1"/></suggestion>?</message>
+      <message>Можливо, ви мали на увазі <suggestion><match no="1" regexp_match="(?iu)витупа(є|ють|ємо?)" regexp_replace="виступа$1"/></suggestion>?</message>
       <example correction="виступає">він <marker>витупає</marker> завтра.</example>
     </rule>
 

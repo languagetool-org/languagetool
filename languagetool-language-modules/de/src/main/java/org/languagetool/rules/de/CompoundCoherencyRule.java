@@ -48,7 +48,7 @@ public class CompoundCoherencyRule extends TextLevelRule {
 
   @Override
   public String getDescription() {
-    return "Einheitliche Schreibung bei Komposita (mit oder ohne Bindestrich)";
+    return "Einheitliche Schreibweise bei Komposita (mit oder ohne Bindestrich)";
   }
 
   @Override

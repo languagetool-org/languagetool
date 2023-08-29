@@ -58,6 +58,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   public abstract List<String> getFileNames();
   @Override
   public abstract String getId();
+  /**
+   * @return A string where {@code $match} will be replaced with the matching word.
+   */
   @Override
   public abstract String getDescription();
   public abstract String getShort();
@@ -281,11 +284,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          if (subRuleSpecificIds) {
+            String id = getId() + "_" + crt.toUpperCase().replaceAll("[^A-Z]", "_");
+            String desc = getDescription().replace("$match", crt);
+            SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
+            ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShort());
+          }
           if (crtMatch.getMessage() != null && (crtMatch.getMessage().startsWith("http://") || crtMatch.getMessage().startsWith("https://"))) {
             ruleMatch.setUrl(Tools.getUrl(crtMatch.getMessage()));
-          }
-          if (subRuleSpecificIds) {
-            ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
           }
           if ((getCaseSensitivy() != CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart)
                && StringTools.startsWithUppercase(crt)) {

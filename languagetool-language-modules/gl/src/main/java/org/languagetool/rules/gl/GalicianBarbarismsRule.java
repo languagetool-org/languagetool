@@ -55,7 +55,7 @@ public class GalicianBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   public GalicianBarbarismsRule(ResourceBundle messages) throws IOException {
     super(messages, new Galician());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),
                    Example.fixed("<marker>currículo</marker>"));

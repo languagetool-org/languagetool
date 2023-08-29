@@ -23802,7 +23802,7 @@ regexp case-insensitive maken: (?i)
 						<token postag=".*ZNW.*" postag_regexp="yes"><exception postag="WKW.*|BNW:STL:ONV" postag_regexp="yes"/><exception regexp="yes">tegen|gewoon|immers|van|over|wat|nu|bij|goed|een|voor|iets|thuis|alles|super|niets</exception></token>
 					</marker>
 				</pattern>
-				<message>Bedoelt u misschien <suggestion>jouw <match no="3"/></suggestion> (van jou)?</message>
+				<message>U bedoelt waarschijnlijk <suggestion>jouw <match no="3"/></suggestion> (van jou).</message>
 				<example correction="jouw hartchakra">Eer dan <marker>jou hartchakra</marker>.</example>
 				<example correction="jouw huisje">Ik wens dat rond <marker>jou huisje</marker>.</example>
 				<example correction="jouw ex">Dat ze dan de kant kiezen van <marker>jou ex</marker>.</example>
@@ -23852,12 +23852,18 @@ regexp case-insensitive maken: (?i)
 					<token postag="WKW:VTD:VRB"/>
 					<example>Dat wordt gepland op jouw aangegeven aankomsttijd.</example>
 				</antipattern>
+				<antipattern>
+				    <token>jouw</token>
+				    <token min="0" postag_regexp="yes" postag="BNW:STL.*"/>
+				    <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:MRV:DE_"><exception postag="BYW"/></token>
+				    <example>Ik hoop dat je het niet erg vindt dat ik jouw bericht daarvoor heb gebruikt.</example>
+				</antipattern>
 				<pattern>
 					<marker>
 						<token>jouw</token>
 					</marker>
 					<token postag_regexp="yes" postag="VNW:OBP.*|GET:TXT:EKV|WKW:VTD:ONV|VRZ|VNW:AWZ:EKV:HET|BYW.*">
-						<exception postag_regexp="yes" postag="VNW:OBP:ONV|VNW:OBP:VRB"/>
+						<exception postag_regexp="yes" postag="VNW:OBP:ONV|VNW:OBP:VRB|WKW:VTD:VRB"/>
 					</token>
 				</pattern>
 				<message>U bedoelt waarschijnlijk <suggestion>jou</suggestion> of <suggestion>je</suggestion>.</message>
@@ -23867,6 +23873,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="jou|je">Ik wil graag met <marker>jouw</marker> naar de bioscoop.</example>
 				<example correction="jou|je">Zij heeft <marker>jouw</marker> een uitnodiging gestuurd.</example>
 				<example correction="jou|je">Ik hoop dat het duidelijk is voor <marker>jouw</marker> nu.</example>
+			    <example>Je kunt even zitten en genieten van het uitzicht en jouw meegenomen voedsel.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -23884,7 +23891,7 @@ regexp case-insensitive maken: (?i)
 	</category>
 	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
 
-		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" >
+		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" tags="picky" type="typographical">
 			<rule>
 				<antipattern>
 					<token>Guns</token> <token>N</token><token>'</token> <token>Roses</token>
@@ -23982,7 +23989,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="GEDACHTESTREEPJE" name="- → –" tags="picky">
+		<rulegroup id="GEDACHTESTREEPJE" name="- → –" tags="picky" type="typographical">
 			<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token spacebefore="yes">-</token></antipattern>
 			<antipattern><token spacebefore="yes">-</token><token regexp="yes" spacebefore="yes">en|of</token></antipattern>
 			<antipattern><token regexp="yes" spacebefore="yes">en|of</token><token spacebefore="yes">-</token></antipattern>
@@ -24064,7 +24071,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken" tags="picky">
+		<rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken" tags="picky" type="typographical">
 			<rule>
 				<regexp>([\!\?])[\!\?]{1,30}</regexp>
 				<message>Waarschijnlijk staat hier een leesteken te veel. <suggestion>\1</suggestion></message>
@@ -24072,31 +24079,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="?">Hoe kan dat<marker>???????</marker></example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="_2_AANH_A" name="Twee enkele aanhalingstekens" tags="picky" default="off">
-			<!-- MB 19-05-23 | rule does the same as "_2_AANH_B" -->
-			<rule>
-				<pattern>
-					<token regexp="yes">'|‘|’</token>
-					<token spacebefore="no"><match no="0"/></token>
-				</pattern>
-				<message>Waarschijnlijk bedoelt u dit leesteken: <suggestion>"</suggestion>.</message>
-				<example correction="&quot;">Ik zie het<marker>''</marker>.</example>
-				<example>Zie je je fout?</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="KOMMA_AANH" name="Komma als aanhalingsteken" tags="picky" default="off">
-			<!-- MB 19-05-23 | rule does the same as "KOMMA_KOMMA" -->
-			<!-- 2014-08-20 TaalTik -->
-			<rule>
-				<pattern>
-					<token>,</token>
-					<token><match no="0"/></token>
-				</pattern>
-				<message>Waarschijnlijk bedoelt u dit leesteken: <suggestion>"</suggestion>.</message>
-				<example correction="&quot;">Ik zie <marker>,,</marker>het.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="PNT_PNT_PNT" name="..." tags="picky">
+		<rulegroup id="PNT_PNT_PNT" name="..." tags="picky" type="typographical">
 			<!-- 2014-08-21 TaalTik -->
 			<rule>
 				<pattern>
@@ -24134,7 +24117,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="&quot;|'">Ik lees een <marker>''</marker>lekker.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="KOMMA_KOMMA" name="dubbele komma i.p.v. aanhalingsteken onder">
+		<rulegroup id="KOMMA_KOMMA" name="dubbele komma i.p.v. aanhalingsteken onder" tags="picky">
 			<rule>
 				<pattern>
 					<marker>

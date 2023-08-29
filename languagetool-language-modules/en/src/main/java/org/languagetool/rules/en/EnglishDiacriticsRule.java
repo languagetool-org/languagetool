@@ -53,8 +53,8 @@ public class EnglishDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   public EnglishDiacriticsRule(ResourceBundle messages) throws IOException {
     super(messages, new English());
-    // setDefaultOff();
-    super.setCategory(Categories.TYPOS.getCategory(messages));
+    useSubRuleSpecificIds();
+    setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("<marker>blase</marker>"),
                    Example.fixed("<marker>blasé</marker>"));
@@ -67,7 +67,7 @@ public class EnglishDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Words with diacritics";
+    return "Suggest diacritics for '$match'";
   }
 
   @Override

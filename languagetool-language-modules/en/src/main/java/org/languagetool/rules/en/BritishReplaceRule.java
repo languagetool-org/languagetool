@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.Languages;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -40,18 +39,18 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule2 {
 
   private static final Locale EN_GB_LOCALE = new Locale("en-GB");
   
-  private final String PATH;
+  private final String path;
 
   @Override
   public List<String> getFileNames() {
-	  return Collections.singletonList(PATH);
+	  return Collections.singletonList(path);
   }
 
   public BritishReplaceRule(ResourceBundle messages, String path) {
     super(messages, new BritishEnglish());
-    this.PATH = Objects.requireNonNull(path);
-    
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    this.path = Objects.requireNonNull(path);
+    useSubRuleSpecificIds();
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("We can produce <marker>drapes</marker> of any size or shape from a choice of over 500 different fabrics."),
                    Example.fixed("We can produce <marker>curtains</marker> of any size or shape from a choice of over 500 different fabrics."));
@@ -64,7 +63,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "American words easily confused in British English";
+    return "American words easily confused in British English: $match";
   }
 
   @Override

@@ -55,7 +55,7 @@ public class GalicianWikipediaRule extends AbstractSimpleReplaceRule2 {
 
   public GalicianWikipediaRule(ResourceBundle messages) throws IOException {
     super(messages, new Galician());
-    super.setCategory(Categories.WIKIPEDIA.getCategory(messages));
+    setCategory(Categories.WIKIPEDIA.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("<marker>a efectos de</marker>"),
                    Example.fixed("<marker>para os efectos de</marker>"));

@@ -54,7 +54,7 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
 
   public PortugueseWeaselWordsRule(ResourceBundle messages) {
     super(messages, new Portuguese());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Diz-se</marker> que programas gratuitos não têm qualidade."),
                    Example.fixed("<marker>XYZ</marker> dizem que programas gratuitos não têm qualidade. Por isso vendem programas pagos."));

@@ -52,7 +52,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Prüft auf bestimmte falsche Wörter/Phrasen";
+    return "Prüft auf bestimmte falsche Wörter/Phrasen: $match";
   }
 
   @Override

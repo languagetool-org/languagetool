@@ -53,8 +53,8 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
     super(messages, new Russian());
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCategory(new Category(new CategoryId("MISC"), "Общие правила"));
-  addExamplePair(Example.wrong("<marker>Экспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."),
-                 Example.fixed("<marker>Эспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."));
+    addExamplePair(Example.wrong("<marker>Экспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."),
+                   Example.fixed("<marker>Эспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."));
   }
 
   @Override
@@ -80,11 +80,6 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   @Override
   public String getMessage() {
     return "«$match» — просторечие, исправление: $suggestions";
-  }
-
-  @Override
-  public String getSuggestionsSeparator() {
-    return ", ";
   }
 
   @Override

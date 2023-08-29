@@ -54,7 +54,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
   public PortugueseBarbarismsRule(ResourceBundle messages, String path) {
     super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),
@@ -68,7 +68,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Palavras de origem estrangeira evitáveis";
+    return "Palavras de origem estrangeira evitáveis: $match";
   }
 
   @Override

@@ -49,7 +49,7 @@ public class GreekRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   public GreekRedundancyRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
-    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("Μου αρέσει να <marker>ανεβαίνω πάνω</marker> σε δέντρα."),
                    Example.fixed("Μου αρέσει να <marker>ανεβαίνω</marker> σε δέντρα."));
