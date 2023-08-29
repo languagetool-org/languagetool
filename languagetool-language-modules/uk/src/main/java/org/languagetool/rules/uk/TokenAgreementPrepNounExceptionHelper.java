@@ -54,6 +54,13 @@ public class TokenAgreementPrepNounExceptionHelper {
     // на дивом уцілілій техніці
     if( tokenReadings.getToken().equals("дивом") )
       return new RuleException(0);
+    
+    // в тисяча шістсот якомусь році
+    if( i < tokens.length - 1 
+        && tokenReadings.getToken().equals("тисяча")
+        && PosTagHelper.hasPosTagStart(tokens[i+1], "numr") ) {
+      return new RuleException(0);
+    }
 
     // за двісті метрів
     if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("numr:.:v_naz.*")) ) {
