@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.ru;
 
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
@@ -32,8 +32,8 @@ import java.util.*;
  * @since 5.0
  */
 public class RussianSpecificCaseRule extends Rule {
-  
-  private static final Set<String> phrases = new THashSet<>(loadPhrases("/ru/specific_case.txt"));
+
+  private static final Set<String> phrases = new ObjectOpenHashSet<>(loadPhrases("/ru/specific_case.txt"));
   private static int maxLen;
 
   private static List<String> loadPhrases(String path) {
@@ -50,7 +50,7 @@ public class RussianSpecificCaseRule extends Rule {
     return l;
   }
 
-  private static final Map<String,String> lcToProperSpelling = new THashMap<>();
+  private static final Map<String,String> lcToProperSpelling = new Object2ObjectOpenHashMap<>();
   static {
     for (String phrase : phrases) {
       lcToProperSpelling.put(phrase.toLowerCase(), phrase);

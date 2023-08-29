@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22,7 +22,7 @@ import com.google.common.base.Suppliers;
 import de.danielnaber.jwordsplitter.EmbeddedGermanDictionary;
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
-import gnu.trove.THashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.File;
@@ -38,7 +38,7 @@ import static java.util.Arrays.asList;
 
 /**
  * Split German nouns using the jWordSplitter library.
- * 
+ *
  * @author Daniel Naber
  */
 public class GermanCompoundTokenizer implements Tokenizer {
@@ -58,29 +58,29 @@ public class GermanCompoundTokenizer implements Tokenizer {
   });
 
   private final ExtendedGermanWordSplitter wordSplitter;
-  
+
   public GermanCompoundTokenizer() throws IOException {
     this(true);
   }
-  
+
   static class ExtendedGermanWordSplitter extends GermanWordSplitter {
     ExtendedGermanWordSplitter(boolean hideInterfixCharacters) throws IOException {
       super(hideInterfixCharacters, extendedList());
     }
     static Set<String> extendedList() {
-      THashSet<String> words = new THashSet<>(EmbeddedGermanDictionary.getWords());
+      ObjectOpenHashSet<String> words = new ObjectOpenHashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
       words.add("synonym");
-      words.trimToSize();
+      words.trim();
       return words;
     }
   }
-  
+
   public GermanCompoundTokenizer(boolean strictMode) throws IOException {
     wordSplitter = new ExtendedGermanWordSplitter(false);
-    // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
+    // add exceptions here so we don't need to update JWordSplitter for every exception we find:
     //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
-    //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
+    //wordSplitter.addException("Sportshorts", asList("Sport", "shorts"));
     wordSplitter.addException("Alkoholabstinenz", asList("Alkohol", "abstinenz"));
     wordSplitter.addException("Hallesche", asList("Hallesche"));
     wordSplitter.addException("Kolleggen", asList("Kolleggen"));

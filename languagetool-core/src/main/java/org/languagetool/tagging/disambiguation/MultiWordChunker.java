@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,8 +19,8 @@
 
 package org.languagetool.tagging.disambiguation;
 
-import gnu.trove.THashMap;
-
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -52,9 +52,9 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, AnalyzedToken> mFull;
-  
+
   private final static int MAX_TOKENS_IN_MULTIWORD = 20;
-  
+
   private final static String DEFAULT_SEPARATOR = "\t";
   private String separator;
 
@@ -89,15 +89,15 @@ public class MultiWordChunker extends AbstractDisambiguator {
     synchronized (this) {
       if (initialized) return;
 
-      THashMap<String, Integer> mStartSpace = new THashMap<>();
-      THashMap<String, Integer> mStartNoSpace = new THashMap<>();
-      THashMap<String, AnalyzedToken> mFull = new THashMap<>();
+      Object2IntOpenHashMap<String> mStartSpace = new Object2IntOpenHashMap<>();
+      Object2IntOpenHashMap<String> mStartNoSpace = new Object2IntOpenHashMap<>();
+      Object2ObjectOpenHashMap<String, AnalyzedToken> mFull = new Object2ObjectOpenHashMap<>();
 
       fillMaps(mStartSpace, mStartNoSpace, mFull);
 
-      mStartSpace.trimToSize();
-      mStartNoSpace.trimToSize();
-      mFull.trimToSize();
+      mStartSpace.trim();
+      mStartNoSpace.trim();
+      mFull.trim();
 
       this.mStartSpace = mStartSpace;
       this.mStartNoSpace = mStartNoSpace;
