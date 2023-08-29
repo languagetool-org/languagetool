@@ -55,9 +55,9 @@ public class PortugueseWikipediaRuleTest {
     // incorrect sentences:
 
     // at the beginning of a sentence (Romanian replace rule is case-sensitive)
-    checkSimpleReplaceRule("50 graus centígrados.", "graus Celsius");
+    checkSimpleReplaceRule("Melhores colocados.", "Mais bem colocados");
     // inside sentence
-    checkSimpleReplaceRule("40 Graus centígrados.", "Graus Celsius");
+    checkSimpleReplaceRule("Os 20 melhores colocados.", "mais bem colocados");
   }
 
   /**

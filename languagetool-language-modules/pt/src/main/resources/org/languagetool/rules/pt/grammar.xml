@@ -12078,13 +12078,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='CRASE_CONFUSION' name="Erros de crase">
-            <!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
-            <!--      <short>Erro de crase</short> - REMMED BY MARCOAGPINTO 2022-10-20 -->
-            <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-      -->
-
-            <!-- MARCOAGPINTO 2023-05-02 (2-MAR-2023+) *START* -->
             <antipattern>
                 <token postag='V.+' postag_regexp="yes"/>
                 <token regexp='no'>como</token>
@@ -12096,36 +12089,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </token>
                 <example>Mas não explica como as 6 horas estão distribuídas.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-02 (2-MAR-2023+) *END* -->
 
-            <!-- MARCOAGPINTO 2023-05-19 (2-MAR-2023+) *START* -->
             <antipattern>
                 <token postag='NC.+|AQ.+' postag_regexp="yes"/>
                 <token regexp='no'>à</token>
                 <token regexp='yes'>alentejana|caçador|lagareiro|minhota</token>
                 <example>Fomos ao restaurante onde comemos polvo à lagareiro.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-19 (2-MAR-2023+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token postag='AQ.+|NC.+' postag_regexp="yes"/>
                 <token regexp='yes'>às?</token>
                 <token postag='VMP00.+' postag_regexp="yes"/>
                 <example>Segundo ela, no ano passado a demanda por compósitos foi praticamente igual à registrada em 2018.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token regexp='yes'>às?</token>
                 <token postag='AQ.[CM].+|NC[CM].+' postag_regexp="yes"/>
                 <token regexp='yes'>às?</token>
                 <example>Há com cada abécula na estrada...e os espertos, bem detesto os espertos, metem-se à cão à nossa frente sem fazer pisca, ultrapassam pela direita...</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token regexp='yes'>as?</token>
                 <token postag='PP.+' postag_regexp="yes"/>
@@ -12133,9 +12118,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O MORE tem desabafos/opiniões em relação a mim e ao que se passa à minha volta.</example>
                 <example>Meus pais mantinham altas expectativas em relação a mim.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token inflected='yes'>ir</token>
                 <token regexp='no'>a</token>
@@ -12150,7 +12133,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Nós vamos a Roma por uma semana.</example>
                 <example>No ano que vem eu vou a Barcelona.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
             <antipattern>
                 <token>a</token>
@@ -12170,6 +12152,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>a</token>
                 <token postag_regexp='yes' postag='D.+|PD.+'/>
             </antipattern>
+
+            <rule id="MEIO_DIA_E_MEIO" name="Meio-dia e meio -> meia" default="temp_off">
+                <pattern>
+                    <token>meio</token>
+                    <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
+                    <token>dia</token>
+                    <token>e</token>
+                    <marker>
+                        <token>meio</token>
+                    </marker>
+                </pattern>
+                <message>Nesta expressão, <suggestion>meia</suggestion> é a forma abreviada de &quot;meia hora&quot;, e por isso se deve usar o feminino.</message>
+                <example correction="meia">Chegamos meio-dia e <marker>meio</marker>.</example>
+            </rule>
+
+            <!-- Specific expressions that are very likely to just require 'a', so we're adding it here before the masculine check. -->
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token regexp="yes">fim|bordo|cargo|cavalo|[dr]espeito|fundo|partir|propósito|tempo|vapor</token>
+                </pattern>
+                <message>A expressão <suggestion>a \2</suggestion> não usa crase.</message>
+                <example correction="a vapor">Quantos cavalos <marker>à vapor</marker>?</example>
+                <example correction="a bordo">Todos <marker>à bordo</marker>!</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token regexp="yes">norte|sul|leste|oeste|sudeste|sudoeste|nordeste|noroeste</token>
+                </pattern>
+                <message>Não se usa crase antes dos pontos cardeis, pois são palavras masculinas.</message>
+                <suggestion>ao \2</suggestion>
+                <suggestion>a \2</suggestion>
+                <example correction="ao norte|a norte">Fica 55 quilômetros <marker>à norte</marker>.</example>
+            </rule>
+
             <rule>
                 <antipattern>
                     <token>à</token>
@@ -12433,6 +12452,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O almoço foi à uma da tarde.</example>
             </rule>
             <rule>
+                <!--                     Loosely based on CoGrOO rules                 -->
+                <pattern>
+                    <token regexp='yes'>às?</token>
+                    <token regexp='yes'>mim|ti|si|el[ea]s?|nós|vós|vos|vocês?</token>
+                </pattern>
+                <message>Neste contexto não se utiliza a crase.</message>
+                <suggestion>a \2</suggestion>
+                <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
+                <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token>bife</token>
                     <token>à</token>
@@ -12493,17 +12523,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule>
                 <!--                     Loosely based on CoGrOO rules                 -->
                 <pattern>
-                    <token regexp='yes'>às?</token>
-                    <token regexp='yes'>mim|ti|si|el[ea]s?|nós|vós|vos|vocês?</token>
-                </pattern>
-                <message>Neste contexto não se utiliza a crase.</message>
-                <suggestion>a \2</suggestion>
-                <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
-                <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
-            </rule>
-            <rule>
-                <!--                     Loosely based on CoGrOO rules                 -->
-                <pattern>
                     <token inflected='yes'>assistir</token>
                     <token>a</token>
                     <token regexp='yes'>apresentaç(?:ão|ões)|peças?</token>
@@ -12513,8 +12532,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='assistir à apresentação'>Poderá <marker>assistir a apresentação</marker> da gala.</example>
             </rule>
             <rule>
-                <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
-                <!--                     Loosely based on CoGrOO rules                 -->
                 <pattern>
                     <marker>
                         <token inflected='yes'>candidatar</token>
@@ -12547,6 +12564,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Esta expressão requer o uso da crase.</message>
                 <suggestion>à \2</suggestion>
                 <example correction='à toa'>Não é <marker>a toa</marker> que ele não veio. </example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <token regexp="yes">es[st][ea]s?|is[ts]o</token>
+                </pattern>
+                <message>Não se usa crase antes do pronome demonstrativo &quot;\2&quot;.</message>
+                <suggestion>a \2</suggestion>
+                <example correction="a esta">De frente <marker>à esta</marker> janela. </example>
             </rule>
         </rulegroup>
 
@@ -12968,7 +12995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>A locução adverbial <suggestion>em anexo</suggestion> é invariável, mas deve considerar utilizar apenas o adjectivo.</message>
                 <suggestion>\2</suggestion>
                 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/em-anexo/2876</url>
-                <short>«Em anexo» é invariável</short>
+                <short>&quot;Em anexo&quot; é invariável</short>
                 <example correction='em anexo|anexos'>Seguem <marker>em anexos</marker> os seguintes documentos:</example>
                 <example correction="em anexo|anexas">As imagens seguem <marker>em anexas</marker>.</example>
             </rule>
@@ -14509,6 +14536,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
 
     <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
+        <rulegroup id="EM_MEADO" name="Em meado -> meados" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>em</token>
+                    <token>meado</token>
+                </pattern>
+                <message>A forma mais aceita desta expressão é <suggestion>em meados</suggestion>.</message>
+                <example correction="em meados">Moramos lá <marker>em meado</marker> dos anos 90.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>meado</token>
+                    </marker>
+                    <token regexp="yes">d([oa]s?|e)</token>
+                    <token regexp="yes" inflected="yes">século|década|ano|era|milênio|mês|semana|&meses_ano;</token>
+                </pattern>
+                <message>A forma mais aceita desta expressão é <suggestion>meados</suggestion>.</message>
+                <example correction="Meados">Quando? <marker>Meado</marker> da década de 80.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='SUBSTANTIVO_PLURAL_E_CHAVE_BASE' name="Substantivo -chave/-base">
@@ -20715,6 +20764,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='CONFUSED_WORDS' name="Confusão de Palavras">
+        <rule id="PER_CAPTA" name="Per capta -> per capita" default="temp_off">
+            <pattern>
+                <token>per</token>
+                <token>capta</token>
+            </pattern>
+            <message>A expressão latina que significa &quot;por cabeça&quot; ou &quot;por habitante&quot; se escreve <suggestion>per capita</suggestion>.</message>
+            <example correction="per capita">A renda <marker>per capta</marker> de Luxemburgo.</example>
+        </rule>
+
         <rulegroup id="ENCIMA_LOCUCAO" name="Uso de 'encima' para a locução adverbial 'em cima'.">
             <rule> <!-- This replaces a few lines from wikipedia.txt -->
                 <pattern>
@@ -31453,7 +31511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
                     <token regexp='yes'>(?:acabad|acondicionad|aconselhad|acostumad|adaptad|afamad|afeiçoad|afortunad|ago[iu]rad|agradecid|agudo|ajambrad|ajeitad|amad|amanhad|andanç|andante|apessoad|armad|arranjad|assad|assombrad|assombrament|assombr|aventurad|avind|avinhad|avisad|azad|educad|empregad|encarad|enganad|enjorcad|ensinad|entendid|executad|habituad|humorad|informad|intencionad|limp)[ao]s?|estar(?:es)?</token>
                 </pattern>
-                <message>Esta palavra hifenizada utiliza «mal».</message>
+                <message>Esta palavra hifenizada utiliza &quot;mal&quot;.</message>
                 <suggestion suppress_misspelled="yes">mal-\3</suggestion>
                 <example correction='mal-acondicionado'>Estragou-se por estava <marker>mau-acondicionado</marker>.</example>
                 <example correction='mal-aconselhados'>Foram <marker>mau aconselhados</marker>.</example>
@@ -31465,7 +31523,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
                     <token regexp='yes'>(?:caratism|grad|olhad|sens|vizinh|tom|ton|carác?ter|humor)[aoe]?s?</token>
                 </pattern>
-                <message>Esta palavra hifenizada utiliza «mau».</message>
+                <message>Esta palavra hifenizada utiliza &quot;mau&quot;.</message>
                 <suggestion>mau<match no='3' regexp_match='(caratism|grad|olhad|sens|vizinh|tom|ton|caráter|humor)[aoe]?(s?)' regexp_replace='$2'/>-\3</suggestion>
                 <example correction='mau-grado'>Não faças isso de <marker>mal grado</marker>.</example>
                 <example correction='maus-olhados'>Ignora os <marker>mal olhados</marker>.</example>
