@@ -2949,6 +2949,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">When can I expect an update on<marker>...</marker></example>
             </rule>
+            <rule>  <!-- question mark and exclamation point can be used together pt. I -->
+                <pattern>
+                    <token>?</token>
+                    <marker>
+                        <token>!</token>
+                    </marker>
+                </pattern>
+                <example correction="">"How did you fit a briefcase into your pocket?<marker>!</marker>" the woman asked, stunned.</example>
+                <example correction="">"Damn, Fari, what was that?<marker>!</marker>"</example>
+                <example correction="">Am I supposed to put a stop to Lord Pinku Reiga, mightiest of the Four Weepy Lords, slayer of some 320 men, destroyer of the imperial wheelchairs?<marker>!</marker>"</example>
+            </rule>
+            <rule>  <!-- question mark and exclamation point can be used together pt. II -->
+                <pattern>
+                    <marker>
+                        <token>?</token>
+                    </marker>
+                    <token>!</token>
+                </pattern>
+                <example correction="">Your book was stolen<marker>?</marker>!</example>
+                <example correction="">You mistook the salt for sugar and put it in your coffee<marker>?</marker>!</example>
+                <example correction="">Or maybe God, as before, saved us, to become the creator of the peace<marker>?</marker>! </example>
+            </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACEUNDERSCORESPSPACENNP_ERROR_IDS_000001" name="">
             <rule>  <!-- keep 'LanguageTool' together as one word -->
