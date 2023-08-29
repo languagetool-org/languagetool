@@ -23802,7 +23802,7 @@ regexp case-insensitive maken: (?i)
 						<token postag=".*ZNW.*" postag_regexp="yes"><exception postag="WKW.*|BNW:STL:ONV" postag_regexp="yes"/><exception regexp="yes">tegen|gewoon|immers|van|over|wat|nu|bij|goed|een|voor|iets|thuis|alles|super|niets</exception></token>
 					</marker>
 				</pattern>
-				<message>Bedoelt u misschien <suggestion>jouw <match no="3"/></suggestion> (van jou)?</message>
+				<message>U bedoelt waarschijnlijk <suggestion>jouw <match no="3"/></suggestion> (van jou).</message>
 				<example correction="jouw hartchakra">Eer dan <marker>jou hartchakra</marker>.</example>
 				<example correction="jouw huisje">Ik wens dat rond <marker>jou huisje</marker>.</example>
 				<example correction="jouw ex">Dat ze dan de kant kiezen van <marker>jou ex</marker>.</example>
@@ -23852,12 +23852,18 @@ regexp case-insensitive maken: (?i)
 					<token postag="WKW:VTD:VRB"/>
 					<example>Dat wordt gepland op jouw aangegeven aankomsttijd.</example>
 				</antipattern>
+				<antipattern>
+				    <token>jouw</token>
+				    <token min="0" postag_regexp="yes" postag="BNW:STL.*"/>
+				    <token postag_regexp="yes" postag="ZNW:EKV:HET|ZNW:MRV:DE_"><exception postag="BYW"/></token>
+				    <example>Ik hoop dat je het niet erg vindt dat ik jouw bericht daarvoor heb gebruikt.</example>
+				</antipattern>
 				<pattern>
 					<marker>
 						<token>jouw</token>
 					</marker>
 					<token postag_regexp="yes" postag="VNW:OBP.*|GET:TXT:EKV|WKW:VTD:ONV|VRZ|VNW:AWZ:EKV:HET|BYW.*">
-						<exception postag_regexp="yes" postag="VNW:OBP:ONV|VNW:OBP:VRB"/>
+						<exception postag_regexp="yes" postag="VNW:OBP:ONV|VNW:OBP:VRB|WKW:VTD:VRB"/>
 					</token>
 				</pattern>
 				<message>U bedoelt waarschijnlijk <suggestion>jou</suggestion> of <suggestion>je</suggestion>.</message>
@@ -23867,6 +23873,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="jou|je">Ik wil graag met <marker>jouw</marker> naar de bioscoop.</example>
 				<example correction="jou|je">Zij heeft <marker>jouw</marker> een uitnodiging gestuurd.</example>
 				<example correction="jou|je">Ik hoop dat het duidelijk is voor <marker>jouw</marker> nu.</example>
+			    <example>Je kunt even zitten en genieten van het uitzicht en jouw meegenomen voedsel.</example>
 			</rule>
 			<rule>
 				<pattern>
