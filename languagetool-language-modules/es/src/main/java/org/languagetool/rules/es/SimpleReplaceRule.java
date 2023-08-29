@@ -63,7 +63,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Detecta palabras incorrectas y propone sugerencias.";
+    return "Palabra incorrecta: $match";
   }
 
   @Override

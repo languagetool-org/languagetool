@@ -77,7 +77,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Noms d'operació tècnica: buidat/buidatge";
+    return "S'ha d'evitar com a nom d'operació tècnica: $match";
   }
 
   @Override

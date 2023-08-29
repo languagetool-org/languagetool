@@ -66,7 +66,7 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Alternatives a adverbis acabats en -ment.";
+    return "Alternatives a adverbis acabats en -ment: $match";
   }
 
   @Override

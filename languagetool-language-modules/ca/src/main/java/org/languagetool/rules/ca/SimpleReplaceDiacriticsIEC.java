@@ -64,7 +64,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Accents diacrítics segons les normes noves (2017).";
+    return "Accents diacrítics segons les normes noves (2017): $match";
   }
 
   @Override

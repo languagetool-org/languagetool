@@ -64,7 +64,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Suggeriments per a formes balears (autentic/autèntic)";
+    return "Suggeriments per a formes balears: $match";
   }
 
   @Override

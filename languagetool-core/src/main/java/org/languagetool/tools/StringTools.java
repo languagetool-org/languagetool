@@ -596,7 +596,8 @@ public final class StringTools {
    * @since 5.1
    */
   public static String toId(String input) {
-    return input.toUpperCase().replace(' ', '_').replace("'", "_Q_");
+    return input.toUpperCase().replace(' ', '_').replace("'", "_Q_")
+      .replaceAll("[^A-Z]", "_");
   }
 
   /**

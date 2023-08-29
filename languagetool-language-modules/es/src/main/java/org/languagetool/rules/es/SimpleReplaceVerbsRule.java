@@ -91,7 +91,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Verbo incorrecto.";
+    return "Verbo incorrecto: $match";
   }
 
   @Override

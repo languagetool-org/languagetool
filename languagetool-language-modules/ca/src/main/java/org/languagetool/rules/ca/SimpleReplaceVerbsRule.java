@@ -78,7 +78,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Detecta verbs incorrectes i proposa suggeriments de canvi";
+    return "Verb incorrecte: $match";
   }
 
   @Override
