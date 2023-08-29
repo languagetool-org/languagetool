@@ -1229,6 +1229,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+            <antipattern> <!-- picky rule covered by 'AS_MILHARES_DE_PESSOAS' -->
+                <token postag='(SPS00:)?[DP][ADIPR].FP.+' postag_regexp='yes'/>
+                <token regexp="yes">&numeros_masculinos;</token>
+                <token>de</token>
+                <token postag='AQ.[CF]P.+|NC[CF]P.+|VMP00P[CF]' postag_regexp='yes'/>
+                <example>Ela é uma das milhares de mulheres que foi às ruas protestar.</example>
+            </antipattern>
             <antipattern>
                 <token postag='(SPS00:)?[DP][ADIPR].M.+' postag_regexp='yes'/>
                 <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
@@ -2642,7 +2649,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='Uns bois|Umas, bois'><marker>Umas bois</marker> estão no pasto.</example>
                 <example><marker>Umas vacas</marker> estão no pasto.</example>
                 <example correction="uns terríveis inchaços|umas terríveis, inchaços">Tenho <marker>umas terríveis inchaços</marker> na cabeça.</example>
-                <example correction="os milhares|as, milhares">Vejam <marker>as milhares</marker> de mulheres.</example>
+                <!-- superseded by picky AS_MILHARES_DE_PESSOAS -->
+                <!-- <example correction="os milhares|as, milhares">Vejam <marker>as milhares</marker> de mulheres.</example> -->
                 <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
                 <example>Isto é, as escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example>
                 <example correction="Os rios|As, rios"><marker>As rios</marker> Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
@@ -3029,15 +3037,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rule id="AS_MILHARES_DE_PESSOAS" name="Concordância tecnicamente incorreta entre numerais como 'milhares' e substantivos femininos" default="temp_off" tags="picky">
+            <pattern>
+                <marker>
+                    <token postag="(SPS00:)?[DP][ADIPR].FP.+" postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">&numeros_masculinos;</token>
+                <token>de</token>
+                <token postag="AQ.[CF]P.+|NC[CF]P.+|VMP00P[CF]" postag_regexp="yes"/>
+            </pattern>
+            <message>Há quem exija aqui concordância com &quot;\2&quot;, que é, tecnicamente, masculino.</message>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(.+)FP(.+)" postag_replace="$1MP$2" postag_regexp="yes"/></suggestion>
+            <example correction="dos">Ela é uma <marker>das</marker> milhares de mulheres que foi às ruas protestar.</example>
+            <example correction="Esses"><marker>Essas</marker> milhões de formigas querem o quê?</example>
+        </rule>
 
-        <!-- 	CUJA(S) FILHA(S) CUJO(S) FILHOS(S) -->
-        <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-01/02 (25-JUN-2021+)      -->
+        <!-- Will keep this separate from AS_MILHARES_DE_PESSOAS as usage patterns are different for these two, give users more control. -->
+        <rule id="DUAS_MILHOES" name="Concordância tecnicamente incorreta de 'milhão' com substantivos femininos" default="temp_off" tags="picky">
+            <pattern>
+                <marker>
+                    <token postag="Z0FP0"/>
+                </marker>
+                <token regexp="yes">&numeros_masculinos;</token>
+            </pattern>
+            <message>Há quem exija aqui concordância com &quot;\2&quot;, que é, tecnicamente, masculino.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="Z0FP0" postag_replace="Z0MP0"/></suggestion>
+            <example correction="dois">Já vimos <marker>duas</marker> milhões de coisas diferentes.</example>
+            <example correction="duzentos">Há <marker>duzentas</marker> milhões de estrelas nesta galáxia.</example>
+        </rule>
+
+
         <rulegroup id='CUJA_CUJO_MASCULINO_FEMININO' name="Cuj(ao)(s) + Nome: Concordância">
-            <!--
-      A mãe cuja filho fez anos. → A mãe cujo filho fez anos.
-      O pai cujo filha fez anos. → O pai cuja filha fez anos.
-      -->
-
             <antipattern>
                 <token regexp='yes'>[aà]s?</token>
                 <token regexp='yes'>ditas?</token>
