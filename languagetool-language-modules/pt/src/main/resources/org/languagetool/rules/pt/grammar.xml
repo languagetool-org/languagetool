@@ -38806,6 +38806,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Ele nos protege contra ataques de ursos.</example>
         </rule>
 
+        <rule id="BOTA_FORA" name="Composição de bota-fora">
+            <pattern>
+                <token postag_regexp="yes" postag="D.+MS.+|Z.+|SENT_START"></token>
+                <marker>
+                    <token>bota</token>
+                    <token>fora</token>
+                </marker>
+            </pattern>
+            <message>A palavra <suggestion>\2-\3</suggestion> é hifenizada.</message>
+            <example correction="bota-fora">Organizamos um <marker>bota fora</marker>.</example>
+            <example>A vizinha bota fora a comida.</example>
+        </rule>
+
         <rulegroup id="X_RAY_MACHINE" name="Raio X com hífen">
             <rule>
                 <pattern>
