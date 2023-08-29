@@ -37,7 +37,7 @@ public class JLanguageToolTest {
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("prosper");
     assertEquals(1, matches.size());
-    assertEquals("CA_SIMPLE_REPLACE_BALEARIC", matches.get(0).getRule().getId());
+    assertEquals("CA_SIMPLE_REPLACE_BALEARIC_PROSPER", matches.get(0).getRule().getId());
 
     matches = tool.check("Potser siga el millor");
     assertEquals(1, matches.size());
