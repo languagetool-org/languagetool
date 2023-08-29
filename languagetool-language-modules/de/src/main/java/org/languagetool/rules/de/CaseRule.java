@@ -619,6 +619,9 @@ public class CaseRule extends Rule {
     "Nähten",
     "Narkoseverfahren",
     "Neuem",
+    "Neugeborene",
+    "Neugeborenen",
+    "Neugeborenes",
     "Nr",
     "Nutze",   // zu Nutze
     "Obdachlose",

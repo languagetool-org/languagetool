@@ -3496,6 +3496,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "gestriffen": return topMatch("gestreift");
       case "Regattas": return topMatch("Regatten");
       case "Segelregattas": return topMatch("Segelregatten");
+      case "Brics-Staat": return topMatch("BRICS-Staat");
+      case "Brics-Staats": return topMatch("BRICS-Staats");
+      case "Brics-Staaten": return topMatch("BRICS-Staaten");
+      case "Rene": return topMatch("René");
+      case "Renes": return topMatch("Renés");
     }
     return Collections.emptyList();
   }
