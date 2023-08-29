@@ -39,6 +39,10 @@ public class PostReformCompoundRuleTest {
     // in the compounds TXT as "super-herói*"
     assertThat(checkCompound("super-herói").size(), is(0));
     assertThat(checkCompound("super herói").size(), is(1));
+    assertThat(checkCompound("super herói").get(0).getSpecificRuleId(),
+      is("PT_COMPOUNDS_POST_REFORM_SUPER_HERÓI"));
+    assertThat(checkCompound("super herói").get(0).getRule().getDescription(),
+      is("Erro na formação da palavra composta \"super herói\""));
     assertThat(checkCompound("super herói").get(0).getSuggestedReplacements().size(), is(1));
     assertThat(checkCompound("super herói").get(0).getSuggestedReplacements().get(0), is("super-herói"));
     // in the compounds TXT as "super-estrela?"
