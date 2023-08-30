@@ -1689,6 +1689,10 @@ class CaseRuleAntiPatterns {
       csRegex("Republik(en)?|Verfassung(en)?|Revolution(en)?")
     ),
     Arrays.asList(
+      csRegex("Harmonisierte[mnr]?"),
+      csRegex("Verbraucherpreisindex(e[sn]?)?")
+    ),
+    Arrays.asList(
       csRegex("[A-ZÄÖÜ].+stereotypen?")
     )
   );

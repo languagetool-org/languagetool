@@ -2171,14 +2171,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
-    <rule name="Modal- oder Hilfsverb" id="IGNORE_MODAL-"><!--Das ist ein Modal- oder Hilfsverb.-->
-        <pattern case_sensitive="yes">
-            <token postag="UNKNOWN" regexp="yes">([A-Z].*)-</token>
-            <token regexp="yes">und|oder|,</token>
-            <token postag="SUB.*" regexp="yes">([A-Z].*)</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
+    <rulegroup name="Ofenbach Duo" id="OFENBACH"><!--Ofenbach ist ein französisches House-Duo aus Paris.-->
+        <rule><!--1-->
+            <pattern>
+                <token regexp="yes" skip="-1">Ofenbachs?</token>
+                <token regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token skip="-1" regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
+                <token regexp="yes">Ofenbachs?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 
     <rule name="Acoustic (engl.)" id="IGNORE_ACOUSTIC"><!--Das sogenannte Acoustic Surface sorgt für klaren Sound.-->
         <pattern case_sensitive="yes">
