@@ -56,6 +56,7 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
     // setDefaultOff();
     addExamplePair(Example.wrong("<marker>abstracto</marker>"),
                    Example.fixed("<marker>abstrato</marker>"));
+    this.useSubRuleSpecificIds();
   }
 
   @Override
