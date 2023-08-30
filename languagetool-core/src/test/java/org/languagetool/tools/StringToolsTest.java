@@ -57,8 +57,8 @@ public class StringToolsTest {
   @Test
   public void testToId() {
     assertEquals("SS", "ß".toUpperCase());
-    Language german = Languages.getLanguageForShortCode("de");
-    Language portuguese = Languages.getLanguageForShortCode("pt");
+    FakeLanguage german = new FakeLanguage("de");
+    FakeLanguage portuguese = new FakeLanguage("pt");
     assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ ", german));
     assertEquals("ÜSS_ÇÃÔ_OÙ_Ñ", StringTools.toId("üß çãÔ-où Ñ", portuguese));
     assertEquals("FOOÓÉÉ", StringTools.toId("fooóéÉ", german));
