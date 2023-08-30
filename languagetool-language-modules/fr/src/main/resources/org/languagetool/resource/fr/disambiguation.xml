@@ -10637,6 +10637,24 @@ RB => Règles Brutes
             <example type="untouched">Sa conclusion s'est avérée fausse.</example>
         </rule>
         <rule>
+            <pattern>
+                <token postag="[NJZ].*|V ppa.*" postag_regexp="yes">
+                    <exception postag="[NJZ].*|V ppa.*|_GN_.*" postag_regexp="yes" negate_pos="yes"/></token>
+                <token>et</token>
+                <token postag="[NJZ].*|V ppa.*" postag_regexp="yes">
+                    <exception postag="[NJZ].*|V ppa.*|_GN_.*" postag_regexp="yes" negate_pos="yes"/></token>
+                <marker>
+                    <token postag="V (ind|sub) pres 3 p" postag_regexp="yes">
+                        <exception scope="previous" regexp="yes">&prefixes;</exception>
+                        <exception regexp="yes">politique|dure|adjoint|interdit|externe|fait|style|antique|casa|critique|orange|pratique|secrète|poche|cousine|référence|marchandise|dièse|lourde|positive|précise|maudit|inverse|absente|anglaise|audience|architecture|historia|parfait|vive|concrète</exception>
+                        <exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="A" min="0"/>
+                <token postag="M.*|P" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V (ind|sub) pres 3 p"/>
+        </rule>
+        <rule>
             <antipattern>
                 <token inflected="yes">être</token>
                 <token postag="V ppa.*" postag_regexp="yes"/>
