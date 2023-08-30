@@ -106,6 +106,7 @@ public class GrammalecteRule extends Rule {
     "g0__imp_verbes_composés_impératifs__b12_a2_1",
     "g0__imp_verbes_composés_impératifs__b12_a3_1",
     "g0__imp_verbes_composés_impératifs__b5_a2_1",
+    "g2__date_journée_jour_mois_année_",
     "g2__gn_tous_det_nom__b1_a2_1",
     "g2__gn_tous_det_nom__b2_a2_1",
     "g2__gn_tous_nom__b2_a1_1",
