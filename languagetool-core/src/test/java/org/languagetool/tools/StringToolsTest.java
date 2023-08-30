@@ -56,6 +56,7 @@ public class StringToolsTest {
   @Test
   public void testToId() {
     assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ "));
+    assertEquals("FOOÓÉÉ", StringTools.toId("fooóéÉ"));
   }
 
   @Test

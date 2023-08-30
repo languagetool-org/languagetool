@@ -604,7 +604,7 @@ public final class StringTools {
       .replace("Ö", "OE")
       .replace("ß", "SS")
       .replace(' ', '_')
-      .replaceAll("[^A-Z]", "_");
+      .replaceAll("[^A-ZÁÂÃÀÉÊÍÓÔÕÚÜÇ]", "_");
   }
 
   /**
