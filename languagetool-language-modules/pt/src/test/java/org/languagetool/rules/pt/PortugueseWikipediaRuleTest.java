@@ -42,8 +42,8 @@ public class PortugueseWikipediaRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new PortugueseWikipediaRule(TestTools.getMessages("pt"), "/pt/wikipedia.txt");
     lt = new JLanguageTool(new Portuguese());
+    rule = new PortugueseWikipediaRule(TestTools.getMessages("pt"), "/pt/wikipedia.txt", lt.getLanguage());
   }
 
   @Test
