@@ -50,7 +50,7 @@ public class IrishFGBEqReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public IrishFGBEqReplaceRule(final ResourceBundle messages, final Language language) throws IOException {
+  public IrishFGBEqReplaceRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

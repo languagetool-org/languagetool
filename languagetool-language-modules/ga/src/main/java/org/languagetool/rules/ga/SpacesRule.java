@@ -48,7 +48,7 @@ public class SpacesRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public SpacesRule(final ResourceBundle messages, final Language language) throws IOException {
+  public SpacesRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

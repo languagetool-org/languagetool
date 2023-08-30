@@ -50,7 +50,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public SimpleReplaceDiacriticsIEC(final ResourceBundle messages, final Language language) throws IOException {
+  public SimpleReplaceDiacriticsIEC(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(new Category(new CategoryId("DIACRITICS_IEC"), "Z) Accents diacrítics segons l'IEC"));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

@@ -49,7 +49,7 @@ public class PeopleRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public PeopleRule(final ResourceBundle messages, final Language language) throws IOException {
+  public PeopleRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

@@ -50,7 +50,7 @@ public class LogainmRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public LogainmRule(final ResourceBundle messages, final Language language) throws IOException {
+  public LogainmRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

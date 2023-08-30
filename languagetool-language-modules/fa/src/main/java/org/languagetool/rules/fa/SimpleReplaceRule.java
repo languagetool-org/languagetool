@@ -34,7 +34,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/fa/replace.txt");
 
-  public SimpleReplaceRule(ResourceBundle messages, final Language language) throws IOException {
+  public SimpleReplaceRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);

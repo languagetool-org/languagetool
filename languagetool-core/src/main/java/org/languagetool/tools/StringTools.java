@@ -599,11 +599,12 @@ public final class StringTools {
    *
    * "de" locales have a special implementation (ä => ae, etc.).
    *
-   * @param languageCode lowercase Alpha-2 ISO-639, and is used to apply language-specific normalisation rules.
+   * @param language LT language object, used to apply language-specific normalisation rules.
    *
    * @since 5.1
    */
-  public static String toId(String input, String languageCode) {
+  public static String toId(String input, Language language) {
+    String languageCode = language.getShortCode();
     String normalisedId;
     normalisedId = input.toUpperCase().trim()
       .replace(' ', '_')

@@ -49,7 +49,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public SimpleReplaceBalearicRule(final ResourceBundle messages, final Language language) throws IOException {
+  public SimpleReplaceBalearicRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

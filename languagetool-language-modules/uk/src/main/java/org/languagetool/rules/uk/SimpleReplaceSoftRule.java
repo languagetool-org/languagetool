@@ -53,7 +53,7 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     return WRONG_WORDS;
   }
 
-  public SimpleReplaceSoftRule(ResourceBundle messages, final Language language) throws IOException {
+  public SimpleReplaceSoftRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     setLocQualityIssueType(ITSIssueType.Style);
   }

@@ -50,7 +50,7 @@ public class EnglishHomophoneRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public EnglishHomophoneRule(final ResourceBundle messages, final Language language) throws IOException {
+  public EnglishHomophoneRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

@@ -50,7 +50,7 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public CastWordsRule(ResourceBundle messages, final Language language) throws IOException {
+  public CastWordsRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
   }
 

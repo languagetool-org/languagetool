@@ -54,7 +54,7 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
     return WRONG_WORDS;
   }
 
-  public SimpleReplaceSpelling1992Rule(ResourceBundle messages, final Language language) throws IOException {
+  public SimpleReplaceSpelling1992Rule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }

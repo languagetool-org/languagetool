@@ -49,7 +49,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseReplaceRule(ResourceBundle messages, final Language language) {
+  public PortugueseReplaceRule(ResourceBundle messages, Language language) {
     super(messages, language);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);

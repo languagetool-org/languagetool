@@ -49,7 +49,7 @@ public class PrestandardReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PrestandardReplaceRule(final ResourceBundle messages, final Language language) throws IOException {
+  public PrestandardReplaceRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);

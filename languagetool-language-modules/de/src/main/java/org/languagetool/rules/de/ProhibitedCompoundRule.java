@@ -384,7 +384,7 @@ public class ProhibitedCompoundRule extends Rule {
         }
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
-        String id = StringTools.toId(getId() + "_" + pair.part1 + "_" + pair.part2, language.getShortCode());
+        String id = StringTools.toId(getId() + "_" + pair.part1 + "_" + pair.part2, language);
         String desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" +
           uppercaseFirstChar(pair.part1) + "' statt '" + uppercaseFirstChar(pair.part2) + "' und umgekehrt";
         SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());

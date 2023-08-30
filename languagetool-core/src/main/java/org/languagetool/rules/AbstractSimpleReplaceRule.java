@@ -220,7 +220,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     RuleMatch potentialRuleMatch = null;
 
     if (subRuleSpecificIds) {
-      String id = StringTools.toId(getId() + "_" + originalTokenStr, language.getShortCode());
+      String id = StringTools.toId(getId() + "_" + originalTokenStr, language);
       String desc = getDescription().replace("$match", originalTokenStr);
       SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
       potentialRuleMatch = new RuleMatch(specificIdRule, sentence, pos, pos

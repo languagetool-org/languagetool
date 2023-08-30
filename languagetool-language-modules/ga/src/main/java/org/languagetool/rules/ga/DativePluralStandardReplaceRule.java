@@ -56,7 +56,7 @@ public class DativePluralStandardReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public DativePluralStandardReplaceRule(final ResourceBundle messages, final Language language) throws IOException {
+  public DativePluralStandardReplaceRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Grammar);
