@@ -18,13 +18,13 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -49,8 +49,8 @@ public class PortugueseAgreementReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseAgreementReplaceRule(ResourceBundle messages) {
-    super(messages);
+  public PortugueseAgreementReplaceRule(ResourceBundle messages, Language language) {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     // setDefaultOff();

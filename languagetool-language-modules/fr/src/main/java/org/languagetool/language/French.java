@@ -124,7 +124,7 @@ public class French extends Language implements AutoCloseable {
             new CompoundRule(messages, this, userConfig),
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this),
-            new SimpleReplaceRule(messages),
+            new SimpleReplaceRule(messages, this),
             new FrenchRepeatedWordsRule(messages)
     );
   }

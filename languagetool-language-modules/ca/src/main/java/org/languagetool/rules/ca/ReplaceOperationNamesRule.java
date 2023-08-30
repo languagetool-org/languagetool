@@ -63,7 +63,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
   
 
   public ReplaceOperationNamesRule(final ResourceBundle messages, Language language) throws IOException {
-    super(messages);
+    super(messages, language);
     super.setLocQualityIssueType(ITSIssueType.Style);
     super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries")); 
     synth = (CatalanSynthesizer) language.getSynthesizer();

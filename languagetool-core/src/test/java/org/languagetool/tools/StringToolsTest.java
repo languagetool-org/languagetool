@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import org.junit.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 
 import java.io.FileInputStream;
@@ -55,8 +56,12 @@ public class StringToolsTest {
 
   @Test
   public void testToId() {
-    assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ "));
-    assertEquals("FOOÓÉÉ", StringTools.toId("fooóéÉ"));
+    assertEquals("SS", "ß".toUpperCase());
+    FakeLanguage german = new FakeLanguage("de");
+    FakeLanguage portuguese = new FakeLanguage("pt");
+    assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ ", german));
+    assertEquals("ÜSS_ÇÃÔ_OÙ_Ñ", StringTools.toId("üß çãÔ-où Ñ", portuguese));
+    assertEquals("FOOÓÉÉ", StringTools.toId("fooóéÉ", german));
   }
 
   @Test

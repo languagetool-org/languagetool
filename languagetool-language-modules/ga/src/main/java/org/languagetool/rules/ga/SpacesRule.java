@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ga;
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -47,8 +48,8 @@ public class SpacesRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public SpacesRule(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public SpacesRule(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();

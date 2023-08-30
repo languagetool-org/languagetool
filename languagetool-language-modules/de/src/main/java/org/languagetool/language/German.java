@@ -218,7 +218,7 @@ public class German extends Language implements AutoCloseable {
     return Arrays.asList(
       new UpperCaseNgramRule(messages, languageModel, this),
       new GermanConfusionProbabilityRule(messages, languageModel, this),
-      new ProhibitedCompoundRule(messages, languageModel, userConfig)
+      new ProhibitedCompoundRule(messages, languageModel, userConfig, this)
     );
   }
 

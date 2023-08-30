@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.Tag;
+import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
@@ -50,7 +51,7 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
   }
   
   public SimpleReplaceAdverbsMent(final ResourceBundle messages) throws IOException {
-    super(messages);
+    super(messages, new Catalan());
     super.setCategory(new Category(new CategoryId("PICKY_STYLE"), "regles d'estil, mode perfeccionaista"));
     super.setLocQualityIssueType(ITSIssueType.Style);
     super.setDefaultOff();

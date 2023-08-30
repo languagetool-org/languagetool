@@ -46,7 +46,7 @@ public class PortugalPortuguese extends Portuguese {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new PostReformPortugueseCompoundRule(messages, this, userConfig));
     rules.add(new PostReformPortugueseDashRule(messages));
-    rules.add(new PortugueseAgreementReplaceRule(messages));
+    rules.add(new PortugueseAgreementReplaceRule(messages, this));
     rules.add(new PortugalPortugueseReplaceRule(messages, "/pt/pt-PT/replace.txt"));
     rules.add(new PortugueseBarbarismsRule(messages, "/pt/pt-PT/barbarisms.txt"));
     rules.add(new PortugueseArchaismsRule(messages, "/pt/pt-PT/archaisms.txt"));
