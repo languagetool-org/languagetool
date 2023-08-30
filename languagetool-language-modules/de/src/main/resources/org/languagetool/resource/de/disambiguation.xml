@@ -2175,36 +2175,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule><!--1-->
             <pattern>
                 <token regexp="yes" skip="-1">Ofenbachs?</token>
-                <token regexp="yes">Duo|Musik(ers?|-)?|französisch(e[smnr]?)?|House-?|Paris|DJ[-s]?|(Musik)?Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop-?|Remix(er)?</token>
+                <token regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule><!--2-->
             <pattern>
-                <token skip="-1" regexp="yes">Duo|Musik(ers?|-)?|französisch(e[smnr]?)?|House-?|Paris|DJ[-s]?|(Musik)?Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop-?|Remix(er)?</token>
+                <token skip="-1" regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
                 <token regexp="yes">Ofenbachs?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
-    <rule name="Sulfat- und parabenfrei" id="IGNORE_SULFAT-"><!--Sulfat- und parabenfrei-->
-        <pattern>
-            <token postag="UNKNOWN" regexp="yes">([a-z].*)-</token>
-            <token regexp="yes">und|oder|,</token>
-            <token postag="ADJ.*" postag_regexp="yes" regexp="yes">([a-z].*)frei</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="Modal- oder Hilfsverb" id="IGNORE_MODAL-"><!--Das ist ein Modal- oder Hilfsverb.-->
-        <pattern case_sensitive="yes">
-            <token postag="UNKNOWN" regexp="yes">([A-Z].*)-</token>
-            <token regexp="yes">und|oder|,</token>
-            <token postag="SUB.*" postag_regexp="yes" regexp="yes">[A-Z].*</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
 
     <rule name="Acoustic (engl.)" id="IGNORE_ACOUSTIC"><!--Das sogenannte Acoustic Surface sorgt für klaren Sound.-->
         <pattern case_sensitive="yes">
