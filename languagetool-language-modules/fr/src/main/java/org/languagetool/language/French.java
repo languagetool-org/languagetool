@@ -236,9 +236,7 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) { 
-      case "FR_COMPOUNDS": return 500; // greater than agreement rules
-      case "FR_SIMPLE_REPLACE": return 150;
+    switch (id) {
       case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
       case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
       case "SA_CA_SE": return 100; // greater than D_N
@@ -358,7 +356,12 @@ public class French extends Language implements AutoCloseable {
       case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
     }
-
+    if (id.startsWith("FR_COMPOUNDS")) {
+      return 500;
+    }
+    if (id.startsWith("FR_SIMPLE_REPLACE")) {
+      return 150;
+    }
     if (id.startsWith("grammalecte_")) {
       return -150;
     }
@@ -366,7 +369,6 @@ public class French extends Language implements AutoCloseable {
     if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
       return -101;
     }
-
     return super.getPriorityForId(id);
   }
   
