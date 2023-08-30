@@ -2698,6 +2698,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.matches("rechtmässig(e[nmsr]?|ere[nmsr]?|ste[nmsr]?)?")) {
       return topMatch(word.replaceFirst("mässig", "mäßig"));
     }
+      if (word.matches("(Holz|Spiegel)-?panel(s|en?)?")) {
+      return topMatch(word.replaceFirst("panel", "paneel"));
+    }
     switch (word) {
       case "Büffet":
       case "Buffett":

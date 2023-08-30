@@ -2171,6 +2171,23 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rulegroup name="Ofenbach Duo" id="OFENBACH"><!--Ofenbach ist ein französisches House-Duo aus Paris.-->
+        <rule><!--1-->
+            <pattern>
+                <token regexp="yes" skip="-1">Ofenbachs?</token>
+                <token regexp="yes">Duo|Musik(ers?|-)?|französisch(e[smnr]?)?|House-?|Paris|DJ[-s]?|(Musik)?Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop-?|Remix(er)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token skip="-1" regexp="yes">Duo|Musik(ers?|-)?|französisch(e[smnr]?)?|House-?|Paris|DJ[-s]?|(Musik)?Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop-?|Remix(er)?</token>
+                <token regexp="yes">Ofenbachs?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rule name="Sulfat- und parabenfrei" id="IGNORE_SULFAT-"><!--Sulfat- und parabenfrei-->
         <pattern>
             <token postag="UNKNOWN" regexp="yes">([a-z].*)-</token>
