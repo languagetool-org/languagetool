@@ -2992,6 +2992,50 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Or maybe God, as before, saved us, to become the creator of the peace<marker>?</marker>! </example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_INSERT_DTSPACEUNDERSCORESP_ERROR_IDS_000004" name="">
+            <!-- don't insert determiner before title -->
+            <!-- seems innocuous, but these contexts account for a LOT of the disables -->
+            <rule>
+                <pattern>
+                    <token postag="NNP" />
+                    <marker>
+                        <token postag="NNP" />
+                        <token postag="," />
+                    </marker>
+                    <token chunk="B-NP-singular" />
+                </pattern>
+                <example correction="">1978 – Mike <marker>Bryan,</marker> American tennis player</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NNP" />
+                    <token postag="NNP" />
+                    <marker>
+                        <token>(</token>
+                        <token skip="1" postag="CD" />
+                        <token postag="CD" />
+                        <token>)</token>
+                        <token postag="," />
+                    </marker>
+                    <token chunk="B-NP-singular" />
+                </pattern>
+                <example correction="">Samuel Coleridge-Taylor <marker>(1875–1912),</marker> English composer of African descent</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NNP" />
+                    <token postag="NNP" />
+                    <token skip="2">(</token>
+                    <marker>
+                        <token postag="J.*" postag_regexp="yes" chunk_re="E-NP.*|B-ADJP"/>
+                        <token>)</token>
+                        <token postag="," />
+                    </marker>
+                    <token chunk="B-NP-singular" />
+                </pattern>
+                <example correction="">1978 – Mike Bryan (middle name <marker>unknown),</marker> American tennis player</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACEUNDERSCORESPSPACENNP_ERROR_IDS_000001" name="">
             <rule>  <!-- keep 'LanguageTool' together as one word -->
                 <pattern>
