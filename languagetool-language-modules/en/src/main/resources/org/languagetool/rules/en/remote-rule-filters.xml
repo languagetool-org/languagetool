@@ -2928,7 +2928,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">This is <marker>“a</marker> new test" to check quotes.</example>
             </rule>
-            <rule>  <!-- curly to straight quotes - closing -->
+            <rule>  <!-- curly to straight quotes - closing pt. I -->
                 <pattern>
                     <marker>
                         <token />
@@ -2936,6 +2936,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">This is "a new <marker>test”</marker> to check quotes.</example>
+            </rule>
+            <rule>  <!-- curly to straight quotes - closing pt. II -->
+                <pattern>
+                    <marker>
+                        <token>”</token>
+                    </marker>
+                </pattern>
+                <example correction="">“Yes.<marker>”</marker></example>
+            </rule>
+            <rule>  <!-- don't insert inconsistent quote and delete space -->
+                <pattern>
+                    <token skip="-1">“
+                        <exception regexp="yes" scope="next">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token postag="PARA_END" />
+                    </marker>
+                </pattern>
+                <example correction="">“Nope.<marker> </marker></example>
+                <example correction="">“My husband’s right.<marker> </marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_DELETE_PERIOD" name="">
