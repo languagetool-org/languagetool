@@ -324,7 +324,6 @@ public class English extends Language implements AutoCloseable {
       case "YOU_GOOD":                  return 3;   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART
       case "DOS_AND_DONTS":             return 3;
       case "IF_YOU_FURTHER_QUESTIONS":  return 3;   // higher prio than agreement rules and AI
-      case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "READ_ONLY_ACCESS_HYPHEN":   return 2;   // higher priority than agreement rules
       case "MAKE_OR_BREAK_HYPHEN":   return 2;   // higher priority than agreement rules
@@ -640,6 +639,9 @@ public class English extends Language implements AutoCloseable {
       case LongSentenceRule.RULE_ID:    return -997;
       case LongParagraphRule.RULE_ID:   return -998;
       case "ALL_UPPERCASE":             return -1000;  // do not hide spelling and grammar issues, when text is all upper case
+    }
+    if (id.startsWith("EN_COMPOUNDS")) {
+      return 2;
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
