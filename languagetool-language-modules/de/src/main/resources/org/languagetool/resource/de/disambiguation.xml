@@ -2171,11 +2171,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="Sulfat- und parabenfrei" id="IGNORE_SULFAT-"><!--Sulfat- und parabenfrei-->
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">([a-z].*)-</token>
+            <token regexp="yes">und|oder|,</token>
+            <token postag="ADJ.*" postag_regexp="yes" regexp="yes">([a-z].*)frei</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Modal- oder Hilfsverb" id="IGNORE_MODAL-"><!--Das ist ein Modal- oder Hilfsverb.-->
         <pattern case_sensitive="yes">
             <token postag="UNKNOWN" regexp="yes">([A-Z].*)-</token>
             <token regexp="yes">und|oder|,</token>
-            <token postag="SUB.*" regexp="yes">([A-Z].*)</token>
+            <token postag="SUB.*" postag_regexp="yes" regexp="yes">[A-Z].*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
