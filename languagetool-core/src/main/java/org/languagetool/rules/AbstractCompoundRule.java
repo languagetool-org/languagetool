@@ -169,7 +169,7 @@ public abstract class AbstractCompoundRule extends Rule {
           int endPos = atr.getEndPos();
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, shortDesc);
           if (subRuleSpecificIds) {
-            String id = getId() + "_" + stringToCheck.toUpperCase().replaceAll("[^\\p{L}]", "_");
+            String id = StringTools.toId(getId() + "_" + stringToCheck);
             String description = getDescription().replace("$match", origStringToCheck);
             SpecificIdRule subRuleId = new SpecificIdRule(id, description, isPremium(), getCategory(),
               getLocQualityIssueType(), getTags());

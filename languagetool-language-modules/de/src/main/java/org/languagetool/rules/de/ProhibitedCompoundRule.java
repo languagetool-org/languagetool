@@ -382,7 +382,7 @@ public class ProhibitedCompoundRule extends Rule {
         }
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
-        String id = getId() + "_" + cleanId(pair.part1) + "_" + cleanId(pair.part2);
+        String id = StringTools.toId(getId() + "_" + pair.part1 + "_" + pair.part2);
         String desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" +
           uppercaseFirstChar(pair.part1) + "' statt '" + uppercaseFirstChar(pair.part2) + "' und umgekehrt";
         SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
@@ -401,10 +401,6 @@ public class ProhibitedCompoundRule extends Rule {
 
   int getThreshold() {
     return 0;
-  }
-
-  private String cleanId(String id) {
-    return id.toUpperCase().replace("Ä", "AE").replace("Ü", "UE").replace("Ö", "OE");
   }
 
   /**

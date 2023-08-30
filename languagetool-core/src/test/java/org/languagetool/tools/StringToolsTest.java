@@ -54,6 +54,11 @@ public class StringToolsTest {
   }
 
   @Test
+  public void testToId() {
+    assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ "));
+  }
+
+  @Test
   public void testReadStream() throws IOException {
     String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
     assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
