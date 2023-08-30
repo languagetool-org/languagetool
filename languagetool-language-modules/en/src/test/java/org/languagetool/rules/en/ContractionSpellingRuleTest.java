@@ -37,8 +37,8 @@ public class ContractionSpellingRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new ContractionSpellingRule(TestTools.getMessages("en"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    rule = new ContractionSpellingRule(TestTools.getMessages("en"), lt.getLanguage());
   }
 
   @Test

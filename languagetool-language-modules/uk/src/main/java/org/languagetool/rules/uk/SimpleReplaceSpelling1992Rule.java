@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
@@ -53,8 +54,8 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
     return WRONG_WORDS;
   }
 
-  public SimpleReplaceSpelling1992Rule(ResourceBundle messages) throws IOException {
-    super(messages);
+  public SimpleReplaceSpelling1992Rule(ResourceBundle messages, final Language language) throws IOException {
+    super(messages, language);
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 

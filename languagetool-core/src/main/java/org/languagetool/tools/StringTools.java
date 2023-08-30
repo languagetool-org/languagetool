@@ -592,19 +592,32 @@ public final class StringTools {
 
   /**
    * Will turn a string into a typical rule ID, i.e. uppercase and
-   * "_" instead of spaces. Does NOT replace all non-ASCII characters.
+   * "_" instead of spaces.
+   *
+   * All non-ASCII characters are replaced with "_", EXCEPT for
+   * Latin-1 ranges U+00C0-U+00D6 and U+00D8-U+00DE.
+   *
+   * "de" locales have a special implementation (ä => ae, etc.).
+   *
+   * @param languageCode lowercase Alpha-2 ISO-639, and is used to apply language-specific normalisation rules.
+   *
    * @since 5.1
    */
-  public static String toId(String input) {
-    return input.toUpperCase().trim()
+  public static String toId(String input, String languageCode) {
+    String normalisedId;
+    normalisedId = input.toUpperCase().trim()
       .replace(' ', '_')
-      .replace("'", "_Q_")
-      .replace("Ä", "AE")
-      .replace("Ü", "UE")
-      .replace("Ö", "OE")
-      .replace("ß", "SS")
-      .replace(' ', '_')
-      .replaceAll("[^A-ZÁÂÃÀÉÊÍÓÔÕÚÜÇ]", "_");
+      .replace("'", "_Q_");
+    // Standard toUpperCase implementation already converts ß to SS, so that'll be done for all locales and there's no
+    // need to run a separate replace here.
+    if (Objects.equals(languageCode, "de")) {
+      normalisedId = normalisedId
+        .replace("Ä", "AE")
+        .replace("Ü", "UE")
+        .replace("Ö", "OE");
+    }
+    normalisedId = normalisedId.replaceAll("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]", "_");
+    return normalisedId;
   }
 
   /**

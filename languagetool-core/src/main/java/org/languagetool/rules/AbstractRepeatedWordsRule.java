@@ -61,6 +61,8 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   }
 
   private String ruleId;
+
+  private Language language;
   
   @Override
   public abstract String getDescription();
@@ -70,6 +72,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     super.setCategory(Categories.REPETITIONS_STYLE.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
     ruleId = language.getShortCode().toUpperCase() + "_" + "REPEATEDWORDS";
+    this.language = language;
   }
 
   protected String adjustPostag(String postag) {
@@ -138,7 +141,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
             if (createMatch) {
               RuleMatch rulematch = new RuleMatch(this, sentence, pos + atrs.getStartPos(), pos + atrs.getEndPos(),
                   getMessage(), getShortMessage());
-              rulematch.setSpecificRuleId(ruleId + "_" + StringTools.toId(lemma));
+              rulematch.setSpecificRuleId(ruleId + "_" + StringTools.toId(lemma, language.getShortCode()));
               List<String> replacementLemmas = getWordsToCheck().get(lemma).getSynonyms();
               for (String replacementLemma : replacementLemmas) {
                 String[] replacements = getSynthesizer().synthesize(

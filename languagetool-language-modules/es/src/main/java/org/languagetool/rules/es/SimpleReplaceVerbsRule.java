@@ -65,7 +65,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   private final SpanishSynthesizer synth;
 
   public SimpleReplaceVerbsRule(final ResourceBundle messages, Language language) {
-    super(messages);
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setIgnoreTaggedWords();

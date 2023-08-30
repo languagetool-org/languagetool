@@ -19,6 +19,7 @@ package org.languagetool.rules.fr;
  * USA
  */
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -47,8 +48,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public SimpleReplaceRule(final ResourceBundle messages, final Language language) throws IOException {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();

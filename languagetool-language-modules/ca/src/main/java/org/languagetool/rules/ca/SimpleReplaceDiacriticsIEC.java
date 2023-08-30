@@ -19,6 +19,8 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
@@ -48,8 +50,8 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  public SimpleReplaceDiacriticsIEC(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public SimpleReplaceDiacriticsIEC(final ResourceBundle messages, final Language language) throws IOException {
+    super(messages, language);
     super.setCategory(new Category(new CategoryId("DIACRITICS_IEC"), "Z) Accents diacrítics segons l'IEC"));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setDefaultOn();

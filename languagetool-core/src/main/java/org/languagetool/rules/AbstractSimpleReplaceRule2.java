@@ -285,7 +285,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           int endPos = prevTokensList.get(len - 1).getEndPos();
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
           if (subRuleSpecificIds) {
-            String id = StringTools.toId(getId() + "_" + crt);
+            String id = StringTools.toId(getId() + "_" + crt, language.getShortCode());
             String desc = getDescription().replace("$match", crt);
             SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
             ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShort());

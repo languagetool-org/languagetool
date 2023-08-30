@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ga;
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -49,8 +50,8 @@ public class IrishFGBEqReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public IrishFGBEqReplaceRule(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public IrishFGBEqReplaceRule(final ResourceBundle messages, final Language language) throws IOException {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("An bhfuil tú <marker>urlamh</marker>?"),

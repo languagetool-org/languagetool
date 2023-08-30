@@ -45,8 +45,8 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
   private static final Locale CA_LOCALE = new Locale("CA");
   private CatalanSynthesizer synth;
   
-  public AbstractSimpleReplaceLemmasRule(final ResourceBundle messages, Language language) throws IOException {
-    super(messages);
+  public AbstractSimpleReplaceLemmasRule(final ResourceBundle messages, final Language language) throws IOException {
+    super(messages, language);
     //this.setIgnoreTaggedWords();
     synth = (CatalanSynthesizer) language.getSynthesizer();
   }  

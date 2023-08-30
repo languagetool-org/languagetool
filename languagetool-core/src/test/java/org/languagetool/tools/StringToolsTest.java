@@ -55,8 +55,10 @@ public class StringToolsTest {
 
   @Test
   public void testToId() {
-    assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ "));
-    assertEquals("FOOÓÉÉ", StringTools.toId("fooóéÉ"));
+    assertEquals("SS", "ß".toUpperCase());
+    assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ ", "de"));
+    assertEquals("ÜSS_ÇÃÔ_OÙ_Ñ", StringTools.toId("üß çãÔ-où Ñ", "pt"));
+    assertEquals("FOOÓÉÉ", StringTools.toId("fooóéÉ", "de"));
   }
 
   @Test

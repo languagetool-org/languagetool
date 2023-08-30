@@ -118,8 +118,8 @@ public class Galician extends Language {
             new ParagraphRepeatBeginningRule(messages, this),
             new PunctuationMarkAtParagraphEnd(messages, this),
             // Specific to Galician:
-            new SimpleReplaceRule(messages),
-            new CastWordsRule(messages),
+            new SimpleReplaceRule(messages, this),
+            new CastWordsRule(messages, this),
             new GalicianRedundancyRule(messages),
             new GalicianWordinessRule(messages),
             new GalicianBarbarismsRule(messages),

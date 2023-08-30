@@ -51,8 +51,9 @@ public class ProhibitedCompoundRuleTest {
     map.put("Eisensande",100);
     map.put("Eisenstange",101);
   }
-  private final ProhibitedCompoundRule testRule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
   private final JLanguageTool testLt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+  private final ProhibitedCompoundRule testRule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(),
+    new FakeLanguageModel(map), null, testLt.getLanguage());
 
   @Test
   @Ignore("for interactive use, e.g. after extending the list of pairs")
@@ -61,7 +62,8 @@ public class ProhibitedCompoundRuleTest {
     File input = new File("/tmp/words.txt");
     LuceneLanguageModel lm = new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de/"));
     System.out.println("Words matched by rule:");
-    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), lm, null);
+    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), lm, null,
+      testLt.getLanguage());
     int i = 0;
     try (Scanner sc = new Scanner(input)) {
       while (sc.hasNextLine()) {
@@ -116,7 +118,8 @@ public class ProhibitedCompoundRuleTest {
     Map<String, Integer> map = new HashMap<>();
     map.put("Eisensande", 101);
     map.put("Eisenstange", 100);
-    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
+    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map),
+      null, testLt.getLanguage());
     RuleMatch[] matches = rule.match(testLt.getAnalyzedSentence("Die Eisenstande"));
     assertThat(matches[0].getSuggestedReplacements().toString(), is("[Eisensande]"));
   }

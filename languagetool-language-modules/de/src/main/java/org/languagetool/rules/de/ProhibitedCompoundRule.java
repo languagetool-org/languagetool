@@ -269,14 +269,16 @@ public class ProhibitedCompoundRule extends Rule {
   }
 
   private final BaseLanguageModel lm;
+  private final Language language;
   private Pair confusionPair = null; // specify single pair for evaluation
 
-  public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm, UserConfig userConfig) {
+  public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm, UserConfig userConfig, Language language) {
     super(messages);
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;
     this.pairMap = prohibitedCompoundRulePairMap;
+    this.language = language;
     linguServices = userConfig != null ? userConfig.getLinguServices() : null;
     addExamplePair(Example.wrong("Da steht eine <marker>Lehrzeile</marker> zu viel."),
                    Example.fixed("Da steht eine <marker>Leerzeile</marker> zu viel."));
@@ -382,7 +384,7 @@ public class ProhibitedCompoundRule extends Rule {
         }
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
-        String id = StringTools.toId(getId() + "_" + pair.part1 + "_" + pair.part2);
+        String id = StringTools.toId(getId() + "_" + pair.part1 + "_" + pair.part2, language.getShortCode());
         String desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" +
           uppercaseFirstChar(pair.part1) + "' statt '" + uppercaseFirstChar(pair.part2) + "' und umgekehrt";
         SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());

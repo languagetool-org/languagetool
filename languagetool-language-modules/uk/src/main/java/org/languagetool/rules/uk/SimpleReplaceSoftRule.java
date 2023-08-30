@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.ITSIssueType;
 
@@ -52,8 +53,8 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     return WRONG_WORDS;
   }
 
-  public SimpleReplaceSoftRule(ResourceBundle messages) throws IOException {
-    super(messages);
+  public SimpleReplaceSoftRule(ResourceBundle messages, final Language language) throws IOException {
+    super(messages, language);
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
