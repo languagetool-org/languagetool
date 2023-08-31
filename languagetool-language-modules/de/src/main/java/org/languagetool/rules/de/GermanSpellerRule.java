@@ -2138,7 +2138,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
             return false;
           }
-          System.out.println("ignore: "+ word);
           return true;
         }
       }
