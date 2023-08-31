@@ -61,7 +61,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
 
   @Override
   public final String getId() {
-    return "CA_SIMPLEREPLACE_DIACRITICS_IEC";
+    return "CA_SIMPLE_REPLACE_DIACRITICS_IEC";
   }
 
  @Override

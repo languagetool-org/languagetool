@@ -296,6 +296,9 @@ public class Catalan extends Language {
     if (id.startsWith("CA_COMPOUNDS")) {
       return 50;
     }
+    if (id.startsWith("CA_SIMPLE_REPLACE_DIACRITICS_IEC")) {
+      return 0;
+    }
     if (id.startsWith("CA_SIMPLE_REPLACE")) {
       return 30;
     }

@@ -33,7 +33,7 @@ public class SpanishTest extends LanguageSpecificTest {
     String s = "Escribe o pega tu texto aqui para tenerlo revisado contínuamente. los errores se subrayaran en diferentes colores: marcaremos los errores ortograficos en rojo; los errores de gramática son resaltado en amarillo; los problemas relacionados al estilo serán marcados en azul. Sabías que te proponemos sinónimos al hacer doble clic sobre una palabra? LanguageTool es un herramienta para textos impecables, sean e-mails, artículos, blogs o otros, incluso cuando el texto se complejice.";
     Spanish lang = new Spanish();
     testDemoText(lang, s,
-      Arrays.asList("ES_SIMPLE_REPLACE_AQUI", "MORFOLOGIK_RULE_ES", "UPPERCASE_SENTENCE_START", "SUBJUNTIVO_FUTURO", "MORFOLOGIK_RULE_ES", "AGREEMENT_VERB_PARTICIPLE", "RELACIONADO_A", "ES_QUESTION_MARK", "AGREEMENT_DET_NOUN", "Y_E_O_U", "COMPLEJIZAR")
+      Arrays.asList("ES_SIMPLE_REPLACE_SIMPLE_AQUI", "MORFOLOGIK_RULE_ES", "UPPERCASE_SENTENCE_START", "SUBJUNTIVO_FUTURO", "MORFOLOGIK_RULE_ES", "AGREEMENT_VERB_PARTICIPLE", "RELACIONADO_A", "ES_QUESTION_MARK", "AGREEMENT_DET_NOUN", "Y_E_O_U", "COMPLEJIZAR")
     );
     // , "ES_WIKIPEDIA_COMMON_ERRORS"
     runTests(lang, null, "ÍÚÑ");
