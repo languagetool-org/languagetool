@@ -3797,17 +3797,50 @@ USA
 					<token regexp="yes" case_sensitive="yes">^[A-Z].*</token>
 				</antipattern>
 				<antipattern>
+					<token>dé</token>
+					<token postag="ZNW:EKV:DE_"/>
+					<example>Dat is dé manier om even op te frissen.</example>
+				</antipattern>
+				<pattern>
+					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">vóór|hé|á|één|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge|Fabergé|touché).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+				<message>Probeer nadruktekens te vermijden als ze niet nodig zijn.</message>
+				<suggestion><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
+				<suggestion><match no="1" regexp_match="á" regexp_replace="a"/></suggestion>
+				<suggestion><match no="1" regexp_match="ó" regexp_replace="o"/></suggestion>
+				<suggestion><match no="1" regexp_match="í" regexp_replace="i"/></suggestion>
+				<suggestion><match no="1" regexp_match="ú" regexp_replace="u"/></suggestion>
+				<example correction="weer">We moeten <marker>wéér</marker> op pad.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NADRUKTEKENS_VOOR" name= "optionele accenten">
+			<rule>
+				<pattern>
+					<token>vóór</token>
+				</pattern>
+				<message>Probeer nadruktekens te vermijden als ze niet nodig zijn.</message>
+				<suggestion>voor</suggestion>
+				<example correction="voor">Hij is van <marker>vóór</marker> de oorlog.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
+			<rule>
+				<pattern>
+					<token regexp="yes">^één.{3,50}</token>
+				</pattern>
+				<message>Hier zijn nadruktekens onnodig voor de uitspraak.</message>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
+				<example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern>
 					<token>één</token>
 					<token>een</token>
 				</antipattern>
 				<antipattern>
 					<token regexp="yes">een|maar|nog|slechts|niet|totaal</token>
 					<token>één</token>
-				</antipattern>
-				<antipattern>
-					<token>dé</token>
-					<token postag="ZNW:EKV:DE_"/>
-					<example>Dat is dé manier om even op te frissen.</example>
 				</antipattern>
 				<!-- picked up by rule EEN_NA_BNW -->
 				<antipattern>
@@ -3828,29 +3861,19 @@ USA
 					<example>Dit is één van de vier oplossingen.</example>
 					<example>Het was er één, niet twee.</example>
 				</antipattern>
+				<antipattern>
+				    <token>één</token>
+				    <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				    <example>Salaris van één dollar.</example>
+				    <example>Terug naar één trein.</example>
+				    <example>Het bestaat uit één soort.</example>
+				</antipattern>
 				<pattern>
-					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge|Fabergé|touché).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
+					<token>één</token>
 				</pattern>
-				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
 				<message>Probeer nadruktekens te vermijden als ze niet nodig zijn.</message>
-				<suggestion><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
-				<suggestion><match no="1" regexp_match="á" regexp_replace="a"/></suggestion>
-				<suggestion><match no="1" regexp_match="ó" regexp_replace="o"/></suggestion>
-				<suggestion><match no="1" regexp_match="í" regexp_replace="i"/></suggestion>
-				<suggestion><match no="1" regexp_match="ú" regexp_replace="u"/></suggestion>
+				<suggestion>een</suggestion>
 				<example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
-				<example>Omdat één een appel is.</example>
-				<example>Ik heb maar één appel over.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
-			<rule>
-				<pattern>
-					<token regexp="yes">^één.{3,50}</token>
-				</pattern>
-				<message>Hier zijn nadruktekens onnodig voor de uitspraak.</message>
-				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
-				<example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="EEN_NA_BNW" name= "De op één(een) na beste">
