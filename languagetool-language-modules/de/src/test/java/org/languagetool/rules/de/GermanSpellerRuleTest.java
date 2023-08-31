@@ -674,8 +674,12 @@ public class GermanSpellerRuleTest {
     if (expected == null) {
       assertThat("Matches: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().size(), is(0));
     } else {
-      assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
-        matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+      if (matches.length == 0) {
+        fail("Matches: " + matches.length + ", expected at least one");
+      } else {
+        assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+          matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+      }
     }
   }
 
