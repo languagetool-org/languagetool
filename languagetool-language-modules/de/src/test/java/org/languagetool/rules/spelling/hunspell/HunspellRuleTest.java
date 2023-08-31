@@ -95,7 +95,7 @@ public class HunspellRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("-Teex"));
     assertEquals(1, matches.length);
     //assertEquals("[-tee, -telex, -tees, -teen, -teer, -tee-, -text]", matches[0].getSuggestedReplacements().toString()); // Preferably "Tee" !?
-    assertEquals("[Tee, Telex, Tees, Teen, Teer, Tee-, Texte, TeX, Text]", matches[0].getSuggestedReplacements().toString()); // Preferably "Tee" !?
+    assertEquals("[Tee, Telex, Tees, Teen, Teer, Tee-, Texte, Text, TeX]", matches[0].getSuggestedReplacements().toString()); // Preferably "Tee" !?
     assertEquals(1, matches[0].getFromPos());
     assertEquals(5, matches[0].getToPos());
     
