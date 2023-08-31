@@ -6414,6 +6414,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">o|para</token>
                     <token>cual</token>
                 </antipattern>
+                <antipattern>
+                    <token>cual</token>
+                    <token regexp="yes">más|mas</token>
+                    <token min="0">,</token>
+                    <token>cual</token>
+                    <token>menos</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token>si</token>
+                    <token>cual</token>
+                </antipattern>
+                <antipattern>
+                    <token>tal</token>
+                    <token>por</token>
+                    <token>cual</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">una?</token>
+                    <token>tal</token>
+                    <token postag="CC"/>
+                    <token regexp="yes">una?</token>
+                    <token>cual</token>
+                </antipattern>
+                <antipattern>
+                    <token>cual</token>
+                    <token>si</token>
+                    <token>no</token>
+                    <token postag="VASI.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
+                    <token>cual</token>
+                    <token postag="NC.S.*" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">cual(es)?</token>
                 </pattern>
@@ -6426,6 +6462,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cada cual que piense lo que quiera.</example>
                 <example>Sea cual sea la situación, no nos resignamos.</example>
                 <example>Sean cuales fueren las razones.</example>
+                <example>Cual más, cual menos, todo el mundo ayudó algo.</example>
+                <example>Ayudaron a cocinar, cual más, cual menos, aportando variedad al menú.</example>
+                <example>Siempre acaba con excusas y que si tal y que si cual.</example>
+                <example>No vayas a juntarte con otro tal por cual cualquiera.</example>
+                <example>Dicen por ahí que es un tal y un cual, que nunca respeta a su familia.</example>
+                <example>Comió rapidísimo, cual si no hubiese comido en un año.</example>
+                <example>María llegó a la fiesta, cual diva, vestida de dorado.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FUTURO_SUBJ_IND" name="confusión cantareis/cantaréis, cantare/cantaré">
