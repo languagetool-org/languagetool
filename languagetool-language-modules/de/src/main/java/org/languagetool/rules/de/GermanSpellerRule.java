@@ -51,8 +51,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.StringUtils.removeEnd;
 import static org.languagetool.rules.SuggestedReplacement.topMatch;
-import static org.languagetool.tools.StringTools.startsWithUppercase;
-import static org.languagetool.tools.StringTools.uppercaseFirstChar;
+import static org.languagetool.tools.StringTools.*;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
@@ -2068,7 +2067,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return true;
     }
     if (missingAdjPattern.matcher(word).matches()) {
-      String firstPart = StringTools.uppercaseFirstChar(word.replaceFirst(adjSuffix + "(er|es|en|em|e)?", ""));
+      String firstPart = uppercaseFirstChar(word.replaceFirst(adjSuffix + "(er|es|en|em|e)?", ""));
       // We append "test" to see if the word plus "test" is accepted as a compound. This way, we get the
       // infix 's" handled properly (e.g. "arbeitsartig" is okay, "arbeitartig" is not). It does not accept
       // all compounds, though, as hunspell's compound detection is limited ("Zwiebacktest"):
@@ -2115,6 +2114,40 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return true;
     }
     return ignore || ignoreUncapitalizedWord || ignoreBulletPointCase || ignoreByHyphen || ignoreHyphenatedCompound || ignoreElative(word);
+  }
+
+  @Override
+  protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
+    if (word.length() <= 5 || word.length() >= 40 || startsWithLowercase(word) || isProhibited(word)) {
+      // exclude weird/irrelevant cases (also the splitter can crash on VERY long words)
+      return false;
+    }
+    // Accept compounds with infix-s if both parts are known to the speller AND the first part
+    // ends with some specific chars, which indicate the need for the infix-s.
+    // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
+    // Deals with two-part compounds only and could be extended.
+    List<String> parts = splitter.splitWord(word.replaceFirst("\\.$", ""));
+    if (parts.size() == 2) {
+      String part1 = parts.get(0);
+      String part2 = parts.get(1);
+      if (startsWithLowercase(part2)) {
+        String part2uc = uppercaseFirstChar(part2);
+        if (part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") && isNoun(part2uc)) {
+          String part1noInfix = part1.substring(0, part1.length()-1);
+          // don't assume very short parts (like "Ei") are correct, these can easily be typos:
+          if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
+            return false;
+          }
+          System.out.println("ignore: "+ word);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean isNoun(String part2uc) throws IOException {
+    return getTagger().tag(singletonList(part2uc)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:"));
   }
 
   @Override

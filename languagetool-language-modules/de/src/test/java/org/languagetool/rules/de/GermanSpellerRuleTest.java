@@ -58,6 +58,27 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
+  public void testIgnoreMisspelledWord() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.ignorePotentiallyMisspelledWord("Prioritätsdings"), is(true));
+    assertThat(rule.ignorePotentiallyMisspelledWord("Prioritätsdings."), is(true));
+    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungsschäden"), is(true));
+    assertThat(rule.ignorePotentiallyMisspelledWord("haltungschäden"), is(false));  // lowercase
+    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungschäden"), is(false));  // missing infix-s
+    assertThat(rule.ignorePotentiallyMisspelledWord("Hultungsschäden"), is(false));  // misspelling in first word
+    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungsscheden"), is(false));  // misspelling in second part
+    assertThat(rule.ignorePotentiallyMisspelledWord("HaltungsSchäden"), is(false));
+    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungsei"), is(false));  // second part too short
+    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsnach"), is(false));  // second part not a noun
+    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"), is(false));
+    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."), is(false));
+    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"), is(false));  // 3 parts not yet supported
+    assertThat(rule.ignorePotentiallyMisspelledWord("Leistung"), is(false));  // not a compound
+    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungs"), is(false));  // not a compound
+    assertThat(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"), is(false));  // from prohibit.txt
+  }
+
+  @Test
   public void testArtig() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     accept("zigarrenartig", rule);

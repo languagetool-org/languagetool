@@ -188,6 +188,11 @@ public class HunspellRule extends SpellingCheckRule {
           continue;
         }
         if (isMisspelled(word)) {
+          if (ignorePotentiallyMisspelledWord(word)) {
+            prevStartPos = len;
+            len += word.length() + 1;
+            continue;
+          }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
           if (word.startsWith("-")) {
             if (!isMisspelled(cleanWord.substring(1)) || cleanWord.matches("-+")) {
