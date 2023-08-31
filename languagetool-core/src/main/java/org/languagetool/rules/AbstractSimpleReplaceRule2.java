@@ -345,6 +345,10 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return false;
   }
 
+  public boolean separateKeyWordsBySpeller() {
+    return false;
+  }
+
   static class PathsAndLanguage {
     final List<String> paths;
     final Language lang;

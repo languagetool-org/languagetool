@@ -99,6 +99,14 @@ public class LanguageSpecificTest {
                     " is known to spell checker of " + lang + ": " + Arrays.toString(matches2));
                 }
               }
+              if (replRule.separateKeyWordsBySpeller()) {
+                RuleMatch[] matches2 = spellRule.match(lt.getAnalyzedSentence(s));
+                if (matches2.length > 0) {
+                  System.err.println("SPELLER_WRONG: " + s + "=" + repl);
+                } else {
+                  System.err.println("SPELLER_OK: " + s + "=" + repl);
+                }
+              }
             }
           }
         }
