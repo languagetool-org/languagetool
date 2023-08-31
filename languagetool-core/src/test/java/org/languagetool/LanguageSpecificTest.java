@@ -85,11 +85,18 @@ public class LanguageSpecificTest {
                 System.err.println("*** WARNING: replacement '" + repl + "' for '" + s + "' from one of " + replRule.getFileNames() +
                   " isn't known to spell checker of " + lang + ": " + Arrays.toString(matches));
               }
-              if (replRule.checkKeyWordsInTests()) {
+              if (replRule.checkKeyWordsAreKnownToSpeller()) {
                 RuleMatch[] matches2 = spellRule.match(lt.getAnalyzedSentence(s));
                 if (matches2.length > 0) {
                   System.err.println("*** WARNING: key word '" + s + "' from one of " + replRule.getFileNames() +
                     " isn't known to spell checker of " + lang + ": " + Arrays.toString(matches2));
+                }
+              }
+              if (replRule.checkKeyWordsAreUnknownToSpeller()) {
+                RuleMatch[] matches2 = spellRule.match(lt.getAnalyzedSentence(s));
+                if (matches2.length == 0) {
+                  System.err.println("*** WARNING: key word '" + s + "' from one of " + replRule.getFileNames() +
+                    " is known to spell checker of " + lang + ": " + Arrays.toString(matches2));
                 }
               }
             }

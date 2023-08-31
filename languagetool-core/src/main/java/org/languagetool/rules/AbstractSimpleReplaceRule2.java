@@ -334,7 +334,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   /**
    * Create a warning if a key word of the replacement rule is not allowed by the speller rule.
    */
-  public boolean checkKeyWordsInTests() {
+  public boolean checkKeyWordsAreKnownToSpeller() {
+    return false;
+  }
+
+  /**
+   * Create a warning if a key word of the replacement rule is allowed by the speller rule.
+   */
+  public boolean checkKeyWordsAreUnknownToSpeller() {
     return false;
   }
 
