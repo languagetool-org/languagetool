@@ -3826,11 +3826,16 @@ USA
 		</rulegroup>
 		<rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
 			<rule>
+			    <antipattern>
+			    	<!-- picked up by rule EEN_OP_EEN -->
+			        <token regexp="yes">één-op-één.*</token>
+			        <example>Dat moeten we in ons één-op-ééngesprek bespreken.</example>
+			    </antipattern>
 				<pattern>
 					<token regexp="yes">^één.{3,50}</token>
 				</pattern>
 				<message>Hier zijn nadruktekens onnodig voor de uitspraak.</message>
-				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
+				<suggestion><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
 				<example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
 			</rule>
 			<rule>
@@ -3895,6 +3900,16 @@ USA
 				<suggestion>een</suggestion>
 				<url>https://taaladvies.net/een-na-laatste-of-op-een-na-laatste/</url>
 				<example correction="een">Hij is de op <marker>één</marker> na oudste man in dit gebouw.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EEN_OP_EEN" name="Dat moeten we één-op-één (een-op-een) bespreken">
+			<rule>
+				<pattern>
+					<token regexp="yes">één-op-één.*</token>
+				</pattern>
+				<message>Hier zijn nadruktekens onnodig voor de uitspraak.</message>
+				<suggestion><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
+				<example correction="een-op-een">Hij is <marker>één-op-één</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
