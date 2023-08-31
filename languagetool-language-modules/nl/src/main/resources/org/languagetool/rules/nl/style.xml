@@ -4171,6 +4171,13 @@ USA
 					<token postag="ZNW:EKV:DE_"/>
 					<example>Dat is dé manier om even op te frissen.</example>
 				</antipattern>
+				<!-- picked up by rule EEN_NA_BNW -->
+				<antipattern>
+				    <token>één</token>
+					<token>na</token>
+					<token postag="BNW:OVR:VRB"/>
+					<example>Hij is de op één na oudste man in dit gebouw.</example>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge|Fabergé|touché).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
 				</pattern>
@@ -4194,6 +4201,27 @@ USA
 				<message>Hier zijn nadruktekens onnodig voor de uitspraak.</message>
 				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
 				<example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EEN_NA_BNW" name= "De op één(een) na beste">
+			<rule>
+			    <antipattern>
+			        <token skip="1">een</token>
+			        <token>één</token>
+			        <token>na</token>
+			        <example>Hij heeft een één na laatste plaats bereikt.</example>
+			    </antipattern>
+				<pattern>
+				    <marker>
+					    <token>één</token>
+				    </marker>
+					<token>na</token>
+					<token postag="BNW:OVR:VRB"/>
+				</pattern>
+				<message>Omdat 'een' hier niet ten onrechte als lidwoord kan worden gelezen zijn nadruktekens overbodig.</message>
+				<suggestion>een</suggestion>
+				<url>https://taaladvies.net/een-na-laatste-of-op-een-na-laatste/</url>
+				<example correction="een">Hij is de op <marker>één</marker> na oudste man in dit gebouw.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
