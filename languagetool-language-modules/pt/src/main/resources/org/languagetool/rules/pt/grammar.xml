@@ -38730,6 +38730,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
+        <rule id="SEM_ABRIGO" name="Composição de sem-abrigo">
+            <pattern>
+                <token postag_regexp="yes" postag="[DP].+M[SP].+|Z.+|SENT_START"></token>
+                <marker>
+                    <token>sem</token>
+                    <token>abrigo</token>
+                </marker>
+            </pattern>
+            <message>A palavra <suggestion>\2-\3</suggestion> é hifenizada.</message>
+            <example correction="sem-abrigo">Os <marker>sem abrigo</marker> precisam de nossa atenção.</example>
+            <example>Ele está sem abrigo por hoje.</example>
+        </rule>
+
+        <rule id="CONTRA_ATAQUE" name="Composição de contra-ataque">
+            <pattern>
+                <token postag_regexp="yes" postag="[ADP].+M[SP].+|Z.+|SENT_START"></token>
+                <marker>
+                    <token>contra</token>
+                    <token regexp="yes">ataques?</token>
+                </marker>
+            </pattern>
+            <message>A palavra <suggestion>\2-\3</suggestion> é hifenizada.</message>
+            <example correction="contra-ataque">Lançou um <marker>contra ataque</marker>.</example>
+            <example correction="Contra-ataques"><marker>Contra ataques</marker>, sua especialidade.</example>
+            <example>Ele nos protege contra ataques de ursos.</example>
+        </rule>
+
+        <rule id="BOTA_FORA" name="Composição de bota-fora">
+            <pattern>
+                <token postag_regexp="yes" postag="D.+MS.+|Z.+|SENT_START"></token>
+                <marker>
+                    <token>bota</token>
+                    <token>fora</token>
+                </marker>
+            </pattern>
+            <message>A palavra <suggestion>\2-\3</suggestion> é hifenizada.</message>
+            <example correction="bota-fora">Organizamos um <marker>bota fora</marker>.</example>
+            <example>A vizinha bota fora a comida.</example>
+        </rule>
+
+        <rule id="DEUS_DARA" name="Composição de Deus-dará" default="temp_off">
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token>deus</token>
+                    <token>dará</token>
+                </marker>
+            </pattern>
+            <message>A expressão <suggestion>\2-\3</suggestion> é hifenizada.</message>
+            <example correction="Deus-dará">Tudo feito a <marker>Deus dará</marker>.</example>
+        </rule>
+
+        <rule id="CORTA_PAPEL" name="Composição de corta-papel">
+            <pattern>
+                <token postag_regexp="yes" postag="D.+MS.+|Z.+"></token>
+                <marker>
+                    <token>corta</token>
+                    <token>papel</token>
+                </marker>
+            </pattern>
+            <message>A palavra <suggestion>\2-\3</suggestion> é hifenizada.</message>
+            <example correction="corta-papel">Compre um <marker>corta papel</marker> para isso.</example>
+            <example>Ele corta papel sem tesoura.</example>
+        </rule>
+
         <rulegroup id="X_RAY_MACHINE" name="Raio X com hífen">
             <rule>
                 <pattern>
