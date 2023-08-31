@@ -2820,47 +2820,44 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="ORDINALS" name="Ordinais">
-    <!-- Created by Tiago F. Santos, Portuguese rule 	-->
-    <rule>
-      <antipattern>
-          <token regexp='yes'>\d+[\.&#57347;]?º</token>
-          <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token>
-      </antipattern>
-      <pattern>
-          <token regexp='yes'>\d+[\.&#57347;]?[oº]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCMS000"/></disambig>
-    </rule>
-    <rule>
-      <antipattern>
-        <token regexp='yes'>\d+[\.&#57347;]?ª</token>
-        <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token>
-      </antipattern>
-      <pattern>
-        <token regexp='yes'>\d+[\.&#57347;]?[aª]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCFS000"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d+[\.&#57347;]?[oº][sˢ]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCMP000"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>\d+[\.&#57347;]?ª</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCFS000"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d+[\.&#57347;]?[aª][sˢ]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCFP000"/></disambig>
-    </rule>
-  </rulegroup>
+  <!-- This rule makes no sense; it appears someone got confused at some point...
+       anyway changing ordinals to nouns wholesale is bad for America. -->
+<!--   <rulegroup id="ORDINALS" name="Ordinais">  -->
+    <!-- <rule> -->
+    <!--   <antipattern> -->
+    <!--       <token regexp='yes'>\d+[\.&#57347;]?º</token> -->
+    <!--       <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token> -->
+    <!--   </antipattern> -->
+    <!--   <pattern> -->
+    <!--       <token regexp='yes'>\d+[\.&#57347;]?[oº]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCMS000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--     <token regexp='yes'>\d+[\.&#57347;]?[aª]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCFS000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--       <token regexp="yes">\d+[\.&#57347;]?[oº][sˢ]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCMP000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--       <token regexp='yes'>\d+[\.&#57347;]?ª</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCFS000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--       <token regexp="yes">\d+[\.&#57347;]?[aª][sˢ]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCFP000"/></disambig> -->
+    <!-- </rule> -->
+  <!-- </rulegroup> -->
 
   <rulegroup id="HOURS" name="Horas">
     <rule>
