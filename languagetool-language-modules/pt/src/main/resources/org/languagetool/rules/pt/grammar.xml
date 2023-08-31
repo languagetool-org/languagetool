@@ -169,10 +169,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </phrase>
     </phrases>
 
-
     <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-        <rulegroup id="PARA_MIM_FAZER" name="Para mim fazer -> para eu fazer" default="temp_off">
+        <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">melhor(es)?</token>
+                    <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
+                    <token regexp="yes" inflected="yes" postag="V.P.+|A.+|RG" postag_regexp="yes">&compounds_with_bem;</token>
+                </pattern>
+                <message>O superlativo e comparativo de adjetivos compostos se formam com &quot;mais&quot;.</message>
+                <suggestion>mais bem-\3</suggestion>
+                <example correction="mais bem-educada">Ela era a menina <marker>melhor educada</marker>.</example>
+                <example correction="mais bem-dotados">Os <marker>melhor-dotados</marker> da classe.</example>
+                <example correction="mais bem-acabadas">As casas estão <marker>melhores acabadas</marker> que os jardins.</example>
+            </rule>
 
+            <rule>
+                <pattern>
+                    <token regexp="yes">pior(es)?</token>
+                    <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
+                    <token regexp="yes" inflected="yes" postag="V.P.+|A.+|RG" postag_regexp="yes">&compounds_with_mal;</token>
+                </pattern>
+                <message>O superlativo e comparativo de adjetivos compostos se formam com &quot;mais&quot;.</message>
+                <suggestion>mais mal-\3</suggestion>
+                <example correction="mais mal-humorados">Ficaram ainda <marker>pior humorados</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="MAIS_BEM_MELHORES" name="Melhores colocados -> melhor/mais bem colocados" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>melhores</token>
+                    <token postag_regexp="yes" postag="V.P..P."/>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;bem \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>melhor \2</suggestion>
+                <suggestion>mais bem \2</suggestion>
+                <example correction="melhor colocados|mais bem colocados">Os <marker>melhores colocados</marker> ganharam um prêmio.</example>
+            </rule>
+
+            <rule> <!-- disambig issues -->
+                <pattern>
+                    <token>melhores</token>
+                    <token>classificados</token>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;bem \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>melhor \2</suggestion>
+                <suggestion>mais bem \2</suggestion>
+                <example correction="melhor classificados|mais bem classificados">Os <marker>melhores classificados</marker> ganharam um prêmio.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>piores</token>
+                    <token postag_regexp="yes" postag="V.P..P."/>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;mal \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>pior \2</suggestion>
+                <suggestion>mais mal \2</suggestion>
+                <example correction="pior colocados|mais mal colocados">Os <marker>piores colocados</marker> voltaram para Taubaté.</example>
+            </rule>
+
+            <rule> <!-- disambig issues -->
+                <pattern>
+                    <token>piores</token>
+                    <token>classificados</token>
+                </pattern>
+                <message>Se &quot;\1&quot; estiver formando o comparativo ou superlativo da expressão &quot;mal \2&quot;, trata-se de um advérbio e é, portanto, invariável.</message>
+                <suggestion>pior \2</suggestion>
+                <suggestion>mais mal \2</suggestion>
+                <example correction="pior classificados|mais mal classificados">Os <marker>piores classificados</marker> voltaram para Taubaté.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="PARA_MIM_FAZER" name="Para mim fazer -> para eu fazer" default="temp_off">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|_PUNCT"/>
@@ -12041,6 +12111,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rule id="MEIO_DIA_E_MEIO" name="Meio-dia e meio -> meia" default="temp_off">
+            <pattern>
+                <token>meio</token>
+                <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
+                <token>dia</token>
+                <token>e</token>
+                <marker>
+                    <token>meio</token>
+                </marker>
+            </pattern>
+            <message>Nesta expressão, <suggestion>meia</suggestion> é a forma abreviada de &quot;meia hora&quot;, e por isso se deve usar o feminino.</message>
+            <example correction="meia">Chegamos meio-dia e <marker>meio</marker>.</example>
+        </rule>
 
         <rulegroup id='CRASE_CONFUSION' name="Erros de crase">
             <antipattern>
@@ -12117,20 +12200,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>a</token>
                 <token postag_regexp='yes' postag='D.+|PD.+'/>
             </antipattern>
-
-            <rule id="MEIO_DIA_E_MEIO" name="Meio-dia e meio -> meia" default="temp_off">
-                <pattern>
-                    <token>meio</token>
-                    <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
-                    <token>dia</token>
-                    <token>e</token>
-                    <marker>
-                        <token>meio</token>
-                    </marker>
-                </pattern>
-                <message>Nesta expressão, <suggestion>meia</suggestion> é a forma abreviada de &quot;meia hora&quot;, e por isso se deve usar o feminino.</message>
-                <example correction="meia">Chegamos meio-dia e <marker>meio</marker>.</example>
-            </rule>
 
             <!-- Specific expressions that are very likely to just require 'a', so we're adding it here before the masculine check. -->
             <rule>

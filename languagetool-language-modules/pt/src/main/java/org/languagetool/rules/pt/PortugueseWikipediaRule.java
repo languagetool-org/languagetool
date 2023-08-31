@@ -57,8 +57,9 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
     setCategory(Categories.WIKIPEDIA.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     useSubRuleSpecificIds();
-    addExamplePair(Example.wrong("<marker>mais também</marker>"),
-                   Example.fixed("<marker>mas também</marker>"));
+    // gradually making this rule obsolete, we've removed tests and also this example pair
+//    addExamplePair(Example.wrong("<marker>mais também</marker>"),
+//                   Example.fixed("<marker>mas também</marker>"));
   }
 
   @Override
