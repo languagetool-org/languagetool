@@ -76,6 +76,7 @@ public class GermanSpellerRuleTest {
     assertThat(rule.ignorePotentiallyMisspelledWord("Leistung"), is(false));  // not a compound
     assertThat(rule.ignorePotentiallyMisspelledWord("Leistungs"), is(false));  // not a compound
     assertThat(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"), is(false));  // from prohibit.txt
+    assertThat(rule.ignorePotentiallyMisspelledWord("Actionsspaß"), is(false));  // special case
   }
 
   @Test
