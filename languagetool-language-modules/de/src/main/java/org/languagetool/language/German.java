@@ -534,6 +534,9 @@ public class German extends Language implements AutoCloseable {
     if (id.startsWith("AI_DE_KOMMA")) {
       return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA
     }
+    if (id.startsWith("AI_DE_GGEC")) {
+      return 1;
+    }
     return super.getPriorityForId(id);
   }
 
