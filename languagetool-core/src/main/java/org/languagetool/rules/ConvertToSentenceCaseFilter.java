@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.fr;
+package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class ConvertToSentenceCaseFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
     RuleMatch ruleMatch = match;
     boolean firstDone = false;
     StringBuilder replacement = new StringBuilder();
@@ -73,10 +73,10 @@ public class ConvertToSentenceCaseFilter extends RuleFilter {
     if (atr.hasTypographicApostrophe()) {
       tokenLowercase = tokenLowercase.replaceAll("'", "’");
     }
-    //if (tokenLowercase.equals("me")) {
+    if (tokenIsException(tokenLowercase)) {
       // exception: the lemma is "I"
-      //return tokenLowercase;
-    //}
+      return tokenLowercase;
+    }
     String tokenCapitalized = StringTools.uppercaseFirstChar(tokenLowercase);
     //boolean lemmaIsAllUppercase = false;
     boolean lemmaIsCapitalized = false;
@@ -100,4 +100,7 @@ public class ConvertToSentenceCaseFilter extends RuleFilter {
     return atr.getToken();
   }
 
+  protected boolean tokenIsException(String s) {
+    return false;
+  }
 }
