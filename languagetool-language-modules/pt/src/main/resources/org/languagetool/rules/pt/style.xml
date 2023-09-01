@@ -8313,6 +8313,25 @@ USA
 
     </category>
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
+
+        <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>tomar
+                        <exception scope='previous' postag_regexp='yes' postag='V.+|PP.+'/>
+                        <exception scope='previous' regexp='yes'>decis(ão|ões)</exception>
+                    </token>
+                </marker>
+                <token min='0' max='2' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|RG' postag_regexp='yes'/>
+                <token regexp='yes'>cert[ao]s?|determinad[ao]s?|diferentes?|divers[ao]s?|enormes?|grandes?|imens[ao]s?|inúmer[ao]s|múltipl[ao]s|vári[ao]s|variad[ao]s</token>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever &quot;assumir&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
+            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> diversas formas.</example>
+            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> as mais diversas formas.</example>
+        </rule>
+
         <!-- SENDO CONSIDERADA considerada -->
         <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style' tags="academic">
             <!--IDEA shorten_it-->
