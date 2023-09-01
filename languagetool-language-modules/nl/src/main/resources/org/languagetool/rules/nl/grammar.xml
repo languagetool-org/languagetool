@@ -16950,8 +16950,21 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="KOMMA_DAT" name=", dat → dat" tags="picky">
 			<rule>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>,</token><token>dat</token></antipattern>
-				<antipattern><token postag="TSW"/><token>,</token><token>dat</token></antipattern>
+				<antipattern>
+				    <token postag_regexp="yes" postag="SENT_START|START"/>
+				    <token>,</token>
+				    <token>dat</token>
+				</antipattern>
+				<antipattern>
+				    <token postag_regexp="yes" postag="TSW|UNKNOWN|BYW"><exception postag_regexp="yes" postag="WKW.*"/></token>
+				    <token>,</token>
+				    <token>dat</token>
+				</antipattern>
+				<antipattern>
+				    <token>dat</token>
+				    <token postag="BYW"/>
+				    <example>Vervelende kwestie, dat sowieso.</example>
+				</antipattern>
 				<antipattern><token>hey</token><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>Dank</token><token>je</token><token>,</token><token>dat</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="1"/><token regexp="yes">Bedankt|Ja|Nee|Welnee|Welja|Kijk</token><token>,</token><token>dat</token></antipattern>
@@ -16965,21 +16978,31 @@ regexp case-insensitive maken: (?i)
 					<token>,</token>
 				</antipattern>
 				<antipattern>
+				    <token skip="5">dat</token>
+				    <token>dat</token>
+				    <example>Dat wordt verwarrend, dat bij elkaar zetten.</example>
+				</antipattern>
+				<antipattern>
 					<token spacebefore="no">,</token>
 					<token spacebefore="yes">dat</token>
-					<token postag_regexp="yes" postag="WKW.*"><exception postag="WKW:VTD:ONV"/></token>
+					<token postag="WKW:TGW:3EP"><exception postag="WKW:VTD:ONV"/></token>
 					<example>Nogal logisch, dat snapt iedereen.</example>
 				</antipattern>
+				<antipattern>
+				    <token spacebefore="no">,</token>
+				    <token skip="-1">dat</token>
+				    <token spacebefore="no">,</token>
+				</antipattern>
 				<pattern>
-					<token>,</token>
+					<token spacebefore="no">,</token>
 					<token case_sensitive="yes">dat</token>
 				</pattern>
 				<message>Gebruik voor 'dat' alleen een komma als u ook een pauze hoort: <suggestion> \2</suggestion>.</message>
 				<example correction=" dat">Ik wist niet<marker>, dat</marker> het fout was.</example>
 				<example correction=" dat">Het is een groot aquarium<marker>, dat</marker> gevestigd is in een oud pand.</example>
-				<example>Ik wist niet <marker>dat</marker> het goed was.</example>
 			</rule>
 		</rulegroup>
+
 		<rulegroup id="PUNT_UITR" name=".! of .?">
 			<rule>
 				<antipattern><token>.</token><token spacebefore="no" regexp="yes">[a-z]</token><token spacebefore="no">.</token></antipattern>
