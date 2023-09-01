@@ -3046,6 +3046,41 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NN_FOR_NN" name=""> <!-- this rule should be a style rule + picky -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(any|every|no|some)body|daddy|holiday|hubby|momma|sea|tech|\d*(st|nd|rd|th)|#|.*µ.*|.*[²³]</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Everybody</marker> said there was nothing she could do.</example>
+                <example correction="">His <marker>daddy</marker> warned him about it.</example>
+                <example correction="">He refused to go on <marker>holiday</marker> with his parents.</example>
+                <example correction="">I went swimming in the <marker>sea</marker>.</example>
+                <example correction="">I think <marker>tech</marker> will continue to suffer through the first half of the year.</example>
+                <example correction="">The bridgeback will take care of changing the volumes from the <marker>1st</marker>.</example>
+                <example correction="">My confirmation <marker>#</marker> is 95632170.</example>
+                <example correction="">It gains up to 3 <marker>µm</marker> in size.</example>
+            </rule>
+            <rule>  <!-- km² -->
+                <pattern>
+                    <marker>
+                        <token />
+                        <token regexp="yes">[²³]</token>
+                    </marker>
+                </pattern>
+                <example correction="">...ed to dairy farming, with another 11.78 <marker>km²</marker> allocated to cattle and sheep.</example>
+            </rule>
+            <rule>  <!-- non-English characters -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
+                <example correction="">There are also some commonly used words that end in a vowel and yet are masculine: <marker>баща</marker> 'father', and others.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACEUNDERSCORESPSPACENNP_ERROR_IDS_000001" name="">
             <rule>  <!-- keep 'LanguageTool' together as one word -->
                 <pattern>
@@ -3086,6 +3121,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">She had a headache but completed all her tasks <marker>nevertheless</marker>.</example>
                 <example correction="">She has a busy schedule but makes time for her kids <marker>nevertheless</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_VBD_FOR_VBD" name=""> <!-- this rule should be a style rule -->
+            <rule>  <!-- spellings that are acceptable in other dialects -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">burnt|benefitted|dreamt|learnt|pled|smelt</token>
+                    </marker>
+                </pattern>
+                <example correction="">I <marker>dreamt</marker> about becoming very rich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_TEST_EN_JOINED_MATCH" name="">
