@@ -13357,30 +13357,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
-        <rule id="PUNTO_LETRA" name="acabad.a -> acabada." default="temp_off">
-            <pattern>
-                <token regexp="yes">\p{L}\p{L}+</token>
-                <token spacebefore="no" regexp="yes">[\.,]</token>
-                <token spacebefore="no" case_sensitive="yes" regexp="yes">\p{Ll}</token>
-            </pattern>
-            <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
-            <message>¿Quería decir <suggestion>\1\3\2</suggestion>?</message>
-            <example correction="países.">Afecta también a varios <marker>paíse.s</marker></example>
-            <example correction="más,">Habitualmente, y sin saber <marker>má,s</marker> te puedo indicar que utilices el phosphorus 7 ch 4 veces al día.</example>
-            <example>Te quedarás en B.M.S. para siempre.</example>
-        </rule>
-        <rule id="PUNTO_ESE" name="bonito.s -> bonitos.">
-            <pattern>
-                <token regexp="yes">\p{L}\p{L}+</token>
-                <token spacebefore="no" regexp="yes">[\.,]</token>
-                <token spacebefore="no" case_sensitive="yes">s</token>
-            </pattern>
-            <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
-            <message>¿Quería decir <suggestion>\1s\2</suggestion>?</message>
-            <example correction="países.">Afecta también a varios <marker>paíse.s</marker></example>
-            <example correction="más,">Habitualmente, y sin saber <marker>má,s</marker> te puedo indicar que utilices el phosphorus 7 ch 4 veces al día.</example>
-            <example>Te quedarás en B.M.S. para siempre.</example>
-        </rule>
+        <rulegroup id="PUNTO_LETRA" name="acabad.a -> acabada.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}\p{L}+<exception postag="UNKNOWN"/></token>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no" case_sensitive="yes" regexp="yes">[ayoue]</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1\2 \3</suggestion> o <suggestion>\1\3\2</suggestion>?</message>
+                <example correction="nervios, a|nerviosa,">Me pone <marker>nervios,a</marker> esta hora.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}\p{L}+<exception postag="UNKNOWN"/></token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" case_sensitive="yes" regexp="yes">[ayoue]</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1\2 <match no="3" case_conversion="startupper"/></suggestion> o <suggestion>\1\3\2</suggestion>?</message>
+                <example correction="nervios. A|nerviosa.">Me pone <marker>nervios.a</marker> esta hora.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}\p{L}+</token>
+                    <token spacebefore="no" regexp="yes">[\.,]</token>
+                    <token spacebefore="no" case_sensitive="yes" regexp="yes">\p{Ll}</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1\3\2</suggestion>?</message>
+                <example correction="países.">Afecta también a varios <marker>paíse.s</marker></example>
+                <example correction="más,">Habitualmente, y sin saber <marker>má,s</marker> te puedo indicar que utilices el phosphorus 7 ch 4 veces al día.</example>
+                <example>Te quedarás en B.M.S. para siempre.</example>
+            </rule>
+        </rulegroup>
         <rule id="AVER_A_VER" name="aver -> a ver">
             <pattern>
                 <token>aver</token>
