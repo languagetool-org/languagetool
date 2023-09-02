@@ -17001,6 +17001,17 @@ USA
             Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
             Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá marcar a consulta.
             -->
+
+            <antipattern>
+                <token inflected='yes'>ir</token>
+                <token postag='SPS00|DA.+|DI.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>e|para</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SENT_END'/>
+                <example>Havia colegas que gozavam por eu estar sempre a ir a orais para passar.</example>
+            </antipattern>
+
             <pattern>
                 <token inflected='yes'>ir
                     <exception inflected='yes'>ser</exception>
