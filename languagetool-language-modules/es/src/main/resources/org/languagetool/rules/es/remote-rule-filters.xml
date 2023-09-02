@@ -76,6 +76,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_ES_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SPS.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">\d.*</token>
+                </pattern>
+                <example correction="">El aforo proyectado es de <marker>entre</marker> 9500 y 10 200 personas.</example>
+            </rule>
             <!-- ignore noun + adj if there is agreement -->
             <rule>
                 <pattern>
