@@ -101,6 +101,17 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals("N'hi ha d'haver", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Ha d'haver-n'hi", matches[0].getSuggestedReplacements().get(1));
 
+    matches = rule.match(lt.getAnalyzedSentence("Li ha de fer-se-li."));
+    assertEquals(1, matches.length);
+    assertEquals("Ha de fer-se-li", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Li ha de fer", matches[0].getSuggestedReplacements().get(1));
+
+    matches = rule.match(lt.getAnalyzedSentence("n'hi continuà havent-hi"));
+    assertEquals(1, matches.length);
+    assertEquals("n'hi continuà havent", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("continuà havent-n'hi", matches[0].getSuggestedReplacements().get(1));
+
+
     matches = rule.match(lt.getAnalyzedSentence("Hi ha d'haver-ne"));
     assertEquals(1, matches.length);
     assertEquals("N'hi ha d'haver", matches[0].getSuggestedReplacements().get(0));
