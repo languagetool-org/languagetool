@@ -2958,6 +2958,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">“My husband’s right.<marker> </marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DELETE_COMMA" name="">
+            <rule>  <!-- don't delete comma after sentence-initial adverb/conjunction -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token postag="CC|RB" postag_regexp="yes" />
+                    <marker>
+                        <token postag="," />
+                    </marker>
+                </pattern>
+                <example correction="">Although<marker>,</marker> biodiversity relates to the time invested.</example>
+                <example correction="">Maybe<marker>,</marker> it depends.</example>
+                <example correction="">But<marker>,</marker> you will always remember and treasure the time with your mother.</example>
+                <example correction="">And<marker>,</marker> you two had been friends for so long that you forgot.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DELETE_PERIOD" name="">
             <rule>  <!-- don't delete ellipsis at end of sentence -->
                 <pattern>
