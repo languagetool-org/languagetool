@@ -210,6 +210,7 @@ public class CaseRuleTest {
     assertGood("Während Besagtes Probleme verursachte.");
     assertGood("Während der Befragte Geschichten erzählte.");
     assertGood("Während ein Befragter Geschichten erzählte.");
+    assertGood("... für welche ein Befragter Geld ausgegeben hat.");
     assertGood("Während die Befragte Geld verdiente.");
     assertGood("Während die Besagte Geschichten erzählte.");
     assertGood("Sind dem Zahlungspflichtigen Kosten entstanden?");

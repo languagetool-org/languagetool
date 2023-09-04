@@ -3545,6 +3545,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Brics-Staaten": return topMatch("BRICS-Staaten");
       case "Rene": return topMatch("René");
       case "Renes": return topMatch("Renés");
+      case "einigermassen": return topMatch("einigermaßen");
     }
     return Collections.emptyList();
   }
