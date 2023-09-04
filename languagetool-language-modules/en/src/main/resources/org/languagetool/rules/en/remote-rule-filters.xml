@@ -2992,6 +2992,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Or maybe God, as before, saved us, to become the creator of the peace<marker>?</marker>! </example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_INSERT_COMMA" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token max="3" chunk_re="[BI]-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                    <token min="0" postag="RB" />
+                    <token skip="5" inflected="yes">be</token>
+                    <token chunk_re="E-NP.*" />
+                    <token skip="3">of</token>
+                    <marker>
+                        <token chunk_re="E-NP.*" />
+                    </marker>
+                    <token>with</token>
+                    <token max="5" chunk_re=".-NP.*" />
+                    <token postag="SENT_END" />
+                </pattern>
+                <example correction="">Culture and people are a portrayal of our <marker>country</marker> with unique values and perceptions.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_INSERT_DTSPACEUNDERSCORESP_ERROR_IDS_000004" name="">
             <!-- don't insert determiner before title -->
             <!-- seems innocuous, but these contexts account for a LOT of the disables -->
