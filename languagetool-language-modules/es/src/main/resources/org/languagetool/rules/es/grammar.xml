@@ -16446,6 +16446,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rule id="LAS_PASO" name="las PASOS > las PASO" default="temp_off" premium="no">
+            <pattern>
+                <token>las</token>
+                <marker>
+                    <token case_sensitive="yes">PASOS</token>
+                </marker>
+            </pattern>
+            <message>La sigla 'PASO' debe permanecer en singular.</message>
+            <suggestion><match no="2" regexp_match="(?iu)PASOS" regexp_replace="PASO" case_conversion="preserve"/></suggestion>
+            <url>https://www.fundeu.es/recomendacion/las-pasos-paso-primarias-argentina/</url>
+            <example correction="PASO">El precandidato cerró su gira nacional antes de las <marker>PASOS</marker>.</example>
+        </rule>
         <rule id="MALO_AMIGO_MAL_AMIGO" name="«malo» y «bueno» se apocopan delante de sustantivos masculinos en singular">
             <antipattern>
                 <!--1-->
