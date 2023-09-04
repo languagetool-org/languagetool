@@ -36,12 +36,11 @@ import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -140,7 +139,7 @@ public final class RemoteRuleFilters {
     Language lang = Languages.getLanguageForShortCode(langCode);
     List<AbstractPatternRule> rules = RemoteRuleFilters.load(lang)
       .values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-    Stream<String> lines = Files.lines(Paths.get(matchesFile), Charset.forName("UTF-8"));
+    Stream<String> lines = Files.lines(Paths.get(matchesFile), StandardCharsets.UTF_8);
     ObjectMapper mapper = new ObjectMapper();
     JLanguageTool lt = new JLanguageTool(lang);
 
