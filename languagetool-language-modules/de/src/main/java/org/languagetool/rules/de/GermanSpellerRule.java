@@ -2143,7 +2143,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         if (part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") && isNoun(part2uc)) {
           String part1noInfix = part1.substring(0, part1.length()-1);
           // don't assume very short parts (like "Ei") are correct, these can easily be typos:
-          if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || part1noInfix.matches("Action|Jung") ||
+          if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || part1noInfix.matches("Action|Jung|Wahrung") ||
               part1.endsWith("schwungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
             return false;
           }
