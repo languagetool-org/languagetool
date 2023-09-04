@@ -2919,31 +2919,89 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- QuillBot Antipatterns -->
         <!-- ====================================================================== -->
         <rulegroup id="QB_EN" name="">
-            <rule>  <!-- curly to straight quotes - opening -->
+            <rule>  <!-- curly to straight quotes - opening  pt. I -->
                 <pattern>
                     <marker>
-                        <token>“</token>
+                        <token regexp="yes">“|‘</token>
                         <token />
                     </marker>
                 </pattern>
                 <example correction="">This is <marker>“a</marker> new test" to check quotes.</example>
+                <example correction="">They had to have a <marker>‘birds</marker> and bees" conversation.</example>
+            </rule>
+            <rule>  <!-- curly to straight quotes - opening  pt. II -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">“|‘</token>
+                        <token />
+                        <token regexp="yes">['’].+</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>“You’d</marker> know."</example>
+                <example correction=""><marker>“I'm</marker> not mad at you...</example>
             </rule>
             <rule>  <!-- curly to straight quotes - closing pt. I -->
                 <pattern>
                     <marker>
-                        <token />
-                        <token>”</token>
+                        <token><exception postag="PCT" /></token>
+                        <token min="0" postag="PCT" />
+                        <token regexp="yes">”|’</token>
                     </marker>
                 </pattern>
                 <example correction="">This is "a new <marker>test”</marker> to check quotes.</example>
+                <example correction="">They had to have a "birds and <marker>bees’</marker> conversation.</example>
+                <example correction="">“Everything <marker>alright?”</marker></example>
             </rule>
             <rule>  <!-- curly to straight quotes - closing pt. II -->
                 <pattern>
                     <marker>
-                        <token>”</token>
+                        <token regexp="yes">”|’</token>
                     </marker>
                 </pattern>
                 <example correction="">“Yes.<marker>”</marker></example>
+            </rule>
+            <rule>  <!-- curly apostrophes to straight quotes -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">‘|'</token>
+                        <token />
+                        <token regexp="yes">’|'</token>
+                    </marker>
+                </pattern>
+                <example correction="">He took up employment at <marker>‘Securonix’</marker>.</example>
+                <example correction="">There is no <marker>'average'</marker>.</example>
+            </rule>
+            <rule>  <!-- don't replace apostrophes used as quotes - opening -->
+                <pattern>
+                    <marker>
+                        <token>'</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">&quote;</exception></token>
+                    </marker>
+                    <token>'</token>
+                </pattern>
+                <example correction="">Please explain the grammar of <marker>'as</marker> may be'.</example>
+            </rule>
+            <rule>  <!-- don't move period inside of quote -->
+                <pattern>
+                    <marker>
+                        <token />
+                        <token regexp="yes">'|"|”</token>
+                    </marker>
+                    <token>.</token>
+                </pattern>
+                <example correction="">Country musicians began recording boogie in 1939, shortly after it had been played at Carnegie Hall, when Johnny Barfield recorded "Boogie <marker>Woogie"</marker>.</example>
+                <example correction="">Please explain the grammar of 'as may <marker>be'</marker>.</example>
+            </rule>
+            <rule>  <!-- don't de-capitalize first word of sentence -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                    </marker>
+                    <token regexp="yes" postag="SENT_END">[\.\?\!]</token>
+                </pattern>
+                <example correction=""><marker>Characterizes</marker> invertebrates and compares them with vertebrates.</example>
+                <example correction=""><marker>Identifies</marker> the location and functions of the senses of hearing, sight, and touch and thinks of ways to protect them.</example>
             </rule>
             <rule>  <!-- don't insert inconsistent quote and delete space -->
                 <pattern>
