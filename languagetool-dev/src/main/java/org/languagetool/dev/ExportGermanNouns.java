@@ -61,7 +61,7 @@ public class ExportGermanNouns {
       buffer.get(sequence);
       String output = new String(sequence, StandardCharsets.UTF_8/*"iso-8859-1"*/);
       if (isRelevantNoun(output)) {
-        String[] parts = output.split("\\+");
+        String[] parts = output.split("_");
         String term = parts[0].toLowerCase();
         set.add(term);
       }
