@@ -3226,6 +3226,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">I <marker>dreamt</marker> about becoming very rich.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_''_FOR_COMMASPACE''" name="">
+            <rule>
+                <pattern>
+                    <token skip="-1">'
+                        <exception scope="next" regexp="yes">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token>'</token>
+                    </marker>
+                </pattern>
+                <example correction="">The EU filed a 'Statement of Objection<marker>'</marker> arguing that Google's ad network and ad tech tools (about 12% of revenue) should be split apart from the rest of the company.</example>
+                <example correction="">Tim O'Reilly said a while ago that 'data isn't oil; data is sand<marker>'</marker> and that applies here.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_TEST_EN_JOINED_MATCH" name="">
             <rule>  <!-- sentence-final 'nevertheless' -->
                 <pattern>
