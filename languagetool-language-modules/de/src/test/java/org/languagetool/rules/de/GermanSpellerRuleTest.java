@@ -89,6 +89,7 @@ public class GermanSpellerRuleTest {
     assertThat(rule.ignorePotentiallyMisspelledWord("Actionsspaß"), is(false));
     assertThat(rule.ignorePotentiallyMisspelledWord("Jungsnamen"), is(false));
     assertThat(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"), is(false));
+    assertThat(rule.ignorePotentiallyMisspelledWord("Absprungsrate"), is(false));
   }
 
   @Test

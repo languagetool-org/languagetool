@@ -36,13 +36,14 @@ public class ConvertToSentenceCaseFilter extends RuleFilter {
     RuleMatch ruleMatch = match;
     boolean firstDone = false;
     StringBuilder replacement = new StringBuilder();
+    StringBuilder originalStr = new StringBuilder();
     for (int i = patternTokenPos; i < patternTokens.length; i++) {
       if (patternTokens[i].getStartPos() < match.getFromPos() || patternTokens[i].getEndPos() > match.getToPos()) {
         continue;
       }
       String normalizedCase = normalizedCase(patternTokens[i]);
-      if (i+1<patternTokens.length && patternTokens[i+1].getToken().equals(".")) {
-        if (normalizedCase.length()==1) {
+      if (i + 1 < patternTokens.length && patternTokens[i + 1].getToken().equals(".")) {
+        if (normalizedCase.length() == 1) {
           normalizedCase = normalizedCase.toUpperCase();
         } else if (normalizedCase.equals("corp")) {
           normalizedCase = "Corp";
@@ -53,12 +54,18 @@ public class ConvertToSentenceCaseFilter extends RuleFilter {
       if (!firstDone & !isPunctuation(tokenString) && !tokenString.isEmpty()) {
         firstDone = true;
         replacement.append(tokenCapitalized);
+        originalStr.append(tokenString);
       } else {
         if (patternTokens[i].isWhitespaceBefore()) {
           replacement.append(" ");
+          originalStr.append(" ");
         }
         replacement.append(normalizedCase);
+        originalStr.append(tokenString);
       }
+    }
+    if (replacement.toString().equals(originalStr.toString())) {
+      return null;
     }
     ruleMatch.setSuggestedReplacement(replacement.toString());
     return ruleMatch;

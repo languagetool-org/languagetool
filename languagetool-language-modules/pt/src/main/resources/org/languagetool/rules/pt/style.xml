@@ -8313,6 +8313,25 @@ USA
 
     </category>
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
+
+        <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>tomar
+                        <exception scope='previous' postag_regexp='yes' postag='V.+|PP.+'/>
+                        <exception scope='previous' regexp='yes'>decis(ão|ões)</exception>
+                    </token>
+                </marker>
+                <token min='0' max='2' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|RG' postag_regexp='yes'/>
+                <token regexp='yes'>cert[ao]s?|determinad[ao]s?|diferentes?|divers[ao]s?|enormes?|grandes?|imens[ao]s?|inúmer[ao]s|múltipl[ao]s|vári[ao]s|variad[ao]s</token>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever &quot;assumir&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
+            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> diversas formas.</example>
+            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> as mais diversas formas.</example>
+        </rule>
+
         <!-- SENDO CONSIDERADA considerada -->
         <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style' tags="academic">
             <!--IDEA shorten_it-->
@@ -10700,31 +10719,37 @@ USA
     <category id="SCIENTIFIC" name="Linguagem científica" type="style" tone_tags="scientific">
         <rule id="NUMERO_DE_MOLS" name="Número de mols -> massa molecular" tags="picky" is_goal_specific="true">
             <pattern>
+                <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
                 <token>número</token>
                 <token>de</token>
                 <token regexp="yes">mol(e?s)?</token>
             </pattern>
-            <message>&scientific_intro; prefira <suggestion>quantidade de matéria</suggestion>.</message>
-            <example correction="quantidade de matéria">Uma amostra com alto <marker>número de mols</marker>.</example>
+            <message>&scientific_intro; prefira &quot;quantidade de matéria&quot;.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2" include_skipped="all"/> quantidade de matéria</suggestion>
+            <example correction="Esta quantidade de matéria"><marker>Este número de mols</marker> da amostra.</example>
         </rule>
 
         <rule id="PESO_MOLECULAR" name="Peso molecular -> massa molecular" tags="picky" is_goal_specific="true">
             <pattern>
+                <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
                 <token>peso</token>
                 <token>molecular</token>
             </pattern>
-            <message>&scientific_intro; prefira <suggestion>massa molecular</suggestion>.</message>
-            <example correction="massa molecular">Uma amostra com alto <marker>peso molecular</marker>.</example>
+            <message>&scientific_intro; prefira &quot;massa molecular&quot;.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> massa molecular</suggestion>
+            <example correction="da massa molecular">A compreensão <marker>do peso molecular</marker> do elemento.</example>
         </rule>
 
-        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro -> constante" default="temp_off" tags="picky" is_goal_specific="true">
+        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro -> constante" tags="picky" is_goal_specific="true">
             <pattern>
+                <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
                 <token>número</token>
                 <token>de</token>
                 <token>Avogadro</token>
             </pattern>
-            <message>&scientific_intro; prefira <suggestion>constante de Avogadro</suggestion>.</message>
-            <example correction="constante de Avogadro">Calculamos com o <marker>número de Avogadro</marker>.</example>
+            <message>&scientific_intro; prefira &quot;constante de Avogadro&quot;.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> constante de Avogadro</suggestion>
+            <example correction="a constante de Avogadro">Calculamos com <marker>o número de Avogadro</marker>.</example>
         </rule>
 
         <rule id="GRAU_CENTIGRADO" name="Preferir 'grau Celius' a 'grau centígrado'.">
@@ -16982,6 +17007,17 @@ USA
             Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
             Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá marcar a consulta.
             -->
+
+            <antipattern>
+                <token inflected='yes'>ir</token>
+                <token postag='SPS00|DA.+|DI.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>e|para</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SENT_END'/>
+                <example>Havia colegas que gozavam por eu estar sempre a ir a orais para passar.</example>
+            </antipattern>
+
             <pattern>
                 <token inflected='yes'>ir
                     <exception inflected='yes'>ser</exception>
