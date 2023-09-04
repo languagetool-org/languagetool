@@ -57,9 +57,9 @@ public class ExportGermanNouns {
     FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
     Set<String> set = new HashSet<>();
     for (ByteBuffer buffer : fsa) {
-      byte [] sequence = new byte [buffer.remaining()];
+      byte[] sequence = new byte[buffer.remaining()];
       buffer.get(sequence);
-      String output = new String(sequence, StandardCharsets.UTF_8/*"iso-8859-1"*/);
+      String output = new String(sequence, StandardCharsets.UTF_8);
       if (isRelevantNoun(output)) {
         String[] parts = output.split("_");
         String term = parts[0].toLowerCase();

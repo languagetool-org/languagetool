@@ -79,9 +79,9 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
+  private final AtomicInteger fasttextInitCounter = new AtomicInteger(0);
 
   private FastTextDetector fastTextDetector;
-  private AtomicInteger fasttextInitCounter = new AtomicInteger(0);
   private NGramDetector ngram;
 
   DefaultLanguageIdentifier() {
@@ -131,7 +131,6 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
 
   /**
    * For test only
-   * @param fastTextDetector
    */
   @TestOnly
   public void setFastTextDetector(FastTextDetector fastTextDetector) {
@@ -353,14 +352,6 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
     }
   }
 
-  /**
-   * @return language or {@code null} if language could not be identified
-   */
-  @Nullable
-  private Map.Entry<String, Double> detectLanguageCode(String text) {
-    return this.detectLanguageCode(text, null, false);
-  }
-  
   @Nullable
   private Map.Entry<String, Double> detectLanguageCode(String text, List<String> preferredLangs, boolean limitOnPreferredLangs) {
     List<com.optimaize.langdetect.DetectedLanguage> lang = languageDetector.getProbabilities(text);
