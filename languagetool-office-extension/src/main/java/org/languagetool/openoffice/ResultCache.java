@@ -129,7 +129,7 @@ class ResultCache implements Serializable {
         }
       } else {
         for (int i : tmpEntries.keySet()) {
-          if (i >= lastParagraph && i + shift >= 0) {
+          if (i > firstParagraph && i + shift >= 0) {
             entries.put(i + shift, tmpEntries.get(i));
           } else if (i < firstParagraph) {
             entries.put(i, tmpEntries.get(i));

@@ -682,6 +682,7 @@ class CheckRequestAnalysis {
               }
             } else if (changed.newSize - changed.oldSize < 0) {
               for (int n = changed.from; n < changed.from + 1; n++) {
+                docCache.setSingleParagraphsCacheToNull(n, paragraphsCache);
                 singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, true);
               }
             }
