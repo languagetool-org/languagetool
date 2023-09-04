@@ -3418,7 +3418,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="vívidamente">Lo sentimos <marker>vividamente</marker>.</example>
         </rule>
         <rulegroup id="RELATIVOS_SIN_TILDE" name="relativos sin tilde (quien, donde...)">
-            <url>https://www.fundeu.es/recomendacion/alguien-a-quien-preguntar-sin-tilde-en-quien/</url>
+            <!--<url>https://www.fundeu.es/recomendacion/alguien-a-quien-preguntar-sin-tilde-en-quien/</url>-->
+            <url>https://languagetool.org/insights/es/publicacion/pronombres-relativos-definicion-ejemplos/</url>
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio</token>
@@ -25255,7 +25256,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MONOSILABOS" name="los monosílabos no llevan tilde">
             <!-- the speller gives already good suggestions, but we provide +info -->
-            <url>http://aplica.rae.es/orweb/cgi-bin/v.cgi?i=fGOCbZgElkdRTUPr</url>
+            <!--<url>http://aplica.rae.es/orweb/cgi-bin/v.cgi?i=fGOCbZgElkdRTUPr</url>-->
+            <url>https://languagetool.org/insights/es/publicacion/fue-con-tilde-o-sin-tilde/</url>
             <rule>
                 <pattern>
                     <token regexp="yes">dió|guió|lió|fió|frió|pió|rió|guión|ión|muón|vió|pión|prión|crió</token>
@@ -25264,6 +25266,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1o$2" case_conversion="preserve"/></suggestion>
                 <example correction="dio">Me lo <marker>dió</marker> él.</example>
                 <example correction="guion">El <marker>guión</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>fué</token>
+                </pattern>
+                <message>Según las normas ortográficas actuales, los monosílabos no llevan tilde.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)é(.*)" regexp_replace="$1e$2" case_conversion="preserve"/></suggestion>
+                <example correction="fue">Se <marker>fué</marker> enseguida.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">fuí|ví|tí|dí</token>
+                </pattern>
+                <message>Según las normas ortográficas actuales, los monosílabos no llevan tilde.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)í(.*)" regexp_replace="$1i$2" case_conversion="preserve"/></suggestion>
+                <example correction="fui">Me <marker>fuí</marker> enseguida.</example>
             </rule>
         </rulegroup>
         <rule id="SOLO" name="sólo/solo">
