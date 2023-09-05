@@ -1676,33 +1676,45 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </pattern>
             <example correction="">Handschriftliches können Sie <marker>mit</marker> der Scanfunktion des Tools, elektronische Texte direkt in einer der zahlreichen Versionen überprüfen lassen.<marker>bed English</marker>.</example>
         </rule>
-        <rulegroup id="AI_DE_GGEC_.*" name="">
-            <rule id="AI_DE_GGEC_REPLACEMENT_PUNCTUATION.*" name="">
+
+        <!-- ====================================================================== -->
+        <!-- Antipatterns for AI_DE_GGEC_.* -->
+        <!-- ====================================================================== -->
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_PUNCTUATION.*" name="">
+            <rule>
                 <pattern>
                     <token regexp="yes">[„“]</token>
                 </pattern>
                 <example correction="">Das ist ein grünes Haus<marker>“</marker>.</example>
             </rule>
-            <rule id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_OTHERCASE" name="">
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_OTHERCASE" name="">
+            <rule><!--1-->
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[A-ZÄÖÜ]{1,30}</token>
+                    <token regexp="yes">[A-ZÄÖÜ]{1,}</token>
                 </pattern>
                 <example correction="">Das ist <marker>MEIN</marker> Haus.</example>
                 <example correction="">Er ist Chef der Firma <marker>METACOM</marker>.</example>
             </rule>
-            <rule id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
+            <rule><!--1-->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">Du|Dir|Dich|Dein(e[rnms]?)?|Euch|Eue?re[rmns]?</token>
                 </pattern>
                 <example correction="">Wir wünschen dir alles Gute zu <marker>Deinem</marker> Geburtstag.</example>
                 <example correction="">Die Kinder freuen sich schon auf <marker>Dich</marker>!</example>
             </rule>
-            <rule id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE_IHR" name="">
+            <rule><!--2-->
                 <pattern case_sensitive="yes">
                     <token postag_regexp="yes" postag="PRO:PER:NOM:PLU.*">Ihr</token>
                 </pattern>
                 <example correction="">Kommt <marker>Ihr</marker> morgen auf die Messe?</example>
             </rule>
         </rulegroup>
+
     </category>
 </rules>
