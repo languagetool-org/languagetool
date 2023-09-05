@@ -2963,14 +2963,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>  <!-- curly apostrophes to straight quotes -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">‘|'</token>
+                        <token regexp="yes">[‘'“]</token>
                         <token />
-                        <token regexp="yes">’|'</token>
+                        <token regexp="yes">[’'”]</token>
                     </marker>
                 </pattern>
                 <example correction="">He took up employment at <marker>‘Securonix’</marker>.</example>
                 <example correction="">There is no <marker>'average'</marker>.</example>
-            </rule>
+                <example correction="">The checker is saying that the word <marker>“strongness”</marker> is wrong, but the word is right.</example>
+        </rule>
             <rule>  <!-- don't replace apostrophes used as quotes - opening -->
                 <pattern>
                     <marker>
