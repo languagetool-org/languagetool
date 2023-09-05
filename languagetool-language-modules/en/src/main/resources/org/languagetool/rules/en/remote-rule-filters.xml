@@ -3331,6 +3331,29 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="QB_TEST_EN_JOINED_MATCH" name="">
+            <rule>  <!-- job titles (super common disable) -->
+                <pattern>
+                    <marker>
+                        <token skip="2" regexp="yes" case_sensitive="yes">Assistant|Executive|Lead|Junior|Program|Project|Security|Senior</token>
+                        <token regexp="yes" case_sensitive="yes">Analysts?|Commissioners?|Developers?|Directors?|Engineers?|Managers?</token>
+                    </marker>
+                </pattern>
+                <example correction="">He'll be joining De Anza Lab as an <marker>Assistant Director</marker>.</example>
+                <example correction="">However, our <marker>Program Managers</marker> have dealt with this before and will be happy to help.</example>
+            </rule>
+            <rule>  <!-- acronyms -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                    </marker>
+                    <token>(</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]{2,4}</token>
+                    <token>)</token>
+                </pattern>
+                <example correction="">Deep <marker>Reinforcement Learning</marker> (DRL) is a very active research area.</example>
+                <example correction="">He submitted a new <marker>Change Request</marker> (CR).</example>
+            </rule>
             <rule>  <!-- sentence-final 'nevertheless' -->
                 <pattern>
                     <marker>
