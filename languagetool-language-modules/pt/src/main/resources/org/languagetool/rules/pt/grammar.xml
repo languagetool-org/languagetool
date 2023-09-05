@@ -170,7 +170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </phrases>
 
     <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-        <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado" default="temp_off">
+        <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado">
             <rule>
                 <pattern>
                     <token regexp="yes">melhor(es)?</token>
@@ -178,7 +178,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes" inflected="yes" postag="V.P.+|A.+|RG" postag_regexp="yes">
                             &compounds_with_bem;
                         <exception postag_regexp="yes" postag="N.+"/>
-                        <exception>vista</exception>
+                        <exception regexp="yes">vista|vestido</exception>
                     </token>
                 </pattern>
                 <message>O superlativo e comparativo de adjetivos compostos se formam com &quot;mais&quot;.</message>
@@ -188,6 +188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="mais bem-acabadas">As casas estão <marker>melhores acabadas</marker> que os jardins.</example>
                 <example>Ele é o melhor falante de russo da classe.</example>
                 <example>Ponha o seu melhor vestido!</example>
+                <example>Veste teu melhor vestido e desce à eira.</example>
                 <example>Melhor vista e quartos mais agradáveis.</example>
             </rule>
 
@@ -198,7 +199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes" inflected="yes" postag="V.P.+|A.+|RG" postag_regexp="yes">
                             &compounds_with_mal;
                         <exception postag_regexp="yes" postag="N.+"/>
-                        <exception>vista</exception>
+                        <exception regexp="yes">vista|vestido</exception>
                     </token>
                 </pattern>
                 <message>O superlativo e comparativo de adjetivos compostos se formam com &quot;mais&quot;.</message>
@@ -207,10 +208,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="MAIS_BEM_MELHORES" name="Melhores colocados -> melhor/mais bem colocados" default="temp_off">
+        <rulegroup id="MAIS_BEM_MELHORES" name="Melhores colocados -> melhor/mais bem colocados">
             <antipattern> <!-- TODO: list of adjectives that cannot be compared (or don't make sense in the comparative) -->
                 <token regexp="yes">(pior|melhor)es</token>
-                <token regexp="yes">causados</token>
+                <token>causados</token>
                 <example>Os danos causados pelos ventos fortes foram os piores causados por qualquer furacão.</example>
             </antipattern>
 
@@ -8073,6 +8074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?os?</token>
                     </marker>
                     <token regexp="yes">(minh|[ts]u)as</token>
+                    <token postag_regexp="yes" postag="[NA].+FP.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?os?" regexp_replace="$1as"/></suggestion>
@@ -8086,6 +8088,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?os?</token>
                     </marker>
                     <token regexp="yes">(minh|[ts]u)a</token>
+                    <token postag_regexp="yes" postag="[NA].+FS.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?os?" regexp_replace="$1a"/></suggestion>
@@ -8099,11 +8102,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?as?</token>
                     </marker>
                     <token regexp="yes">[mts]eu</token>
+                    <token postag_regexp="yes" postag="[NA].+MS.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?as?" regexp_replace="$1o"/></suggestion>
                 <example correction="o">É <marker>as</marker> teu carro.</example>
                 <example correction="do">Vem <marker>da</marker> seu carro.</example>
+                <example>Foi um dos primeiros da seu espécie.</example>
             </rule>
 
             <rule> <!-- fem->masc.pl. -->
@@ -8112,6 +8117,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?as?</token>
                     </marker>
                     <token regexp="yes">[mts]eus</token>
+                    <token postag_regexp="yes" postag="[NA].+MP.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?as?" regexp_replace="$1os"/></suggestion>
@@ -14639,7 +14645,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
 
     <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
-        <rulegroup id="EM_MEADO" name="Em meado -> meados" default="temp_off">
+        <rulegroup id="EM_MEADO" name="Em meado -> meados">
             <rule>
                 <pattern>
                     <token>em</token>
@@ -38810,7 +38816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
         <rule id="SEM_ABRIGO" name="Composição de sem-abrigo">
             <pattern>
-                <token postag_regexp="yes" postag="[DP].+M[SP].+|Z.+|SENT_START"></token>
+                <token postag_regexp="yes" postag="[DP].+M[SP].+|Z.+|SENT_START|SP.+"></token>
                 <marker>
                     <token>sem</token>
                     <token>abrigo</token>
@@ -38818,6 +38824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </pattern>
             <message>A palavra <suggestion>\2-\3</suggestion> é hifenizada.</message>
             <example correction="sem-abrigo">Os <marker>sem abrigo</marker> precisam de nossa atenção.</example>
+            <example correction="sem-abrigo">O capitalismo nacional se resume a uma colecção de <marker>sem abrigo</marker> que não têm onde cair mortos!</example>
             <example>Ele está sem abrigo por hoje.</example>
         </rule>
 

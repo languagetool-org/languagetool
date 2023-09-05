@@ -10717,28 +10717,60 @@ USA
     </category>
 
     <category id="SCIENTIFIC" name="Linguagem científica" type="style" tone_tags="scientific">
-        <rule id="NUMERO_DE_MOLS" name="Número de mols -> massa molecular" tags="picky" is_goal_specific="true">
-            <pattern>
-                <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
-                <token>número</token>
-                <token>de</token>
-                <token regexp="yes">mol(e?s)?</token>
-            </pattern>
-            <message>&scientific_intro; prefira &quot;quantidade de matéria&quot;.</message>
-            <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2" include_skipped="all"/> quantidade de matéria</suggestion>
-            <example correction="Esta quantidade de matéria"><marker>Este número de mols</marker> da amostra.</example>
-        </rule>
+        <rulegroup id="NUMERO_DE_MOLS" name="Número de mols -> massa molecular" tags="picky" is_goal_specific="true">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+MS.+" min="0"/>
+                    <token>número</token>
+                    <token>de</token>
+                    <token regexp="yes">mol(e?s)?</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;quantidade de matéria&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> <match no="2" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> quantidade de matéria</suggestion>
+                <example correction="Esta alta quantidade de matéria"><marker>Este alto número de mols</marker> da amostra.</example>
+            </rule>
 
-        <rule id="PESO_MOLECULAR" name="Peso molecular -> massa molecular" tags="picky" is_goal_specific="true">
-            <pattern>
-                <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
-                <token>peso</token>
-                <token>molecular</token>
-            </pattern>
-            <message>&scientific_intro; prefira &quot;massa molecular&quot;.</message>
-            <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> massa molecular</suggestion>
-            <example correction="da massa molecular">A compreensão <marker>do peso molecular</marker> do elemento.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+CS.+" min="0"/>
+                    <token>número</token>
+                    <token>de</token>
+                    <token regexp="yes">mol(e?s)?</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;quantidade de matéria&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> \2 quantidade de matéria</suggestion>
+                <example correction="Esta insignificante quantidade de matéria"><marker>Este insignificante número de mols</marker> da amostra.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="PESO_MOLECULAR" name="Peso molecular -> massa molecular" tags="picky" is_goal_specific="true">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+MS.+" min="0"/>
+                    <token>peso</token>
+                    <token>molecular</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;massa molecular&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> <match no="2" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> massa molecular</suggestion>
+                <example correction="da massa molecular">A compreensão <marker>do peso molecular</marker> do elemento.</example>
+                <example correction="baixa massa molecular">Componentes de <marker>baixo peso molecular</marker> encontrados em diversas espécies vegetais.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+CS.+" min="0"/>
+                    <token>peso</token>
+                    <token>molecular</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;massa molecular&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> \2 massa molecular</suggestion>
+                <example correction="essa insignificante massa molecular">Ignore <marker>esse insignificante peso molecular</marker>.</example>
+            </rule>
+        </rulegroup>
 
         <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro -> constante" tags="picky" is_goal_specific="true">
             <pattern>
