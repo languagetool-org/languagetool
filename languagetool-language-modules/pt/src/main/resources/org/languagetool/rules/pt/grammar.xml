@@ -8074,6 +8074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?os?</token>
                     </marker>
                     <token regexp="yes">(minh|[ts]u)as</token>
+                    <token postag_regexp="yes" postag="[NA].+FP.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?os?" regexp_replace="$1as"/></suggestion>
@@ -8087,6 +8088,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?os?</token>
                     </marker>
                     <token regexp="yes">(minh|[ts]u)a</token>
+                    <token postag_regexp="yes" postag="[NA].+FS.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?os?" regexp_replace="$1a"/></suggestion>
@@ -8100,11 +8102,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?as?</token>
                     </marker>
                     <token regexp="yes">[mts]eu</token>
+                    <token postag_regexp="yes" postag="[NA].+MS.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?as?" regexp_replace="$1o"/></suggestion>
                 <example correction="o">É <marker>as</marker> teu carro.</example>
                 <example correction="do">Vem <marker>da</marker> seu carro.</example>
+                <example>Foi um dos primeiros da seu espécie.</example>
             </rule>
 
             <rule> <!-- fem->masc.pl. -->
@@ -8113,6 +8117,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes" postag="(SP.+:)?DA.+" postag_regexp="yes">[nd]?as?</token>
                     </marker>
                     <token regexp="yes">[mts]eus</token>
+                    <token postag_regexp="yes" postag="[NA].+MP.+"/>
                 </pattern>
                 <message>Possível erro de digitação – verifique a concordância entre o artigo e o possessivo.</message>
                 <suggestion><match no="1" regexp_match="([nd])?as?" regexp_replace="$1os"/></suggestion>
