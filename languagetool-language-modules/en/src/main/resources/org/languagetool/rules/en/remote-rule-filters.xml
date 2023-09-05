@@ -3140,6 +3140,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_JJ_ERROR_IDS_000022" name=""> <!-- should be picky -->
+            <rule>  <!-- frequently disabled followed by another capital -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Assistant|Executive|Happy|Lead|(North|South|East|West)(ern)?|Junior|Senior</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                </pattern>
+                <example correction="">We look forward to continuing the momentum in 2001 and wish you and your family a pleasant holiday season and a <marker>Happy</marker> New Year.</example>
+                <example correction="">A second phase of the project, to cost $1.1 billion, would extend the line into <marker>Northern</marker> California.</example>
+            </rule>
+            <rule>  <!-- capitalized according to style guides -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Black|White</token>
+                    </marker>
+                </pattern>
+                <example correction="">The racial makeup of the city was 84.5% <marker>White</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
+                <example correction="">The racial makeup of the city was 3.4% <marker>Black</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_NN_FOR_NN_ERROR_IDS_000022" name="">
             <rule>  <!-- capital after colon is acceptable according to several style guides. Accounts for LOTS of disables... -->
                 <pattern>
