@@ -3546,6 +3546,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Rene": return topMatch("René");
       case "Renes": return topMatch("Renés");
       case "einigermassen": return topMatch("einigermaßen");
+      case "Eurocup": return topMatch("EuroCup");
+      case "Eurocups": return topMatch("EuroCups");
     }
     return Collections.emptyList();
   }
