@@ -2971,7 +2971,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">He took up employment at <marker>‘Securonix’</marker>.</example>
                 <example correction="">There is no <marker>'average'</marker>.</example>
                 <example correction="">The checker is saying that the word <marker>“strongness”</marker> is wrong, but the word is right.</example>
-        </rule>
+            </rule>
             <rule>  <!-- don't replace apostrophes used as quotes - opening -->
                 <pattern>
                     <marker>
@@ -3140,6 +3140,30 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name=""> <!-- NEEDS TO BE PICKY -->
+            <rule>  <!-- A.M./P.M. -->
+                <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[AP]</token>
+                    <token>.</token>
+                    <token case_sensitive="yes">M</token>
+                    <token>.</token>
+                </marker>
+                </pattern>
+                <example correction="">In this hotel breakfast is served from 7:00 <marker>A.M.</marker> to 10:00 p.m.</example>
+                <example correction="">In this hotel breakfast is served from 7:00 a.m. to 10:00 <marker>P.M.</marker></example>
+            </rule>
+            <rule>  <!-- TEST AP ONLY: 'the State' -->
+                <pattern>
+                    <token>the</token>
+                    <marker>
+                        <token>State</token>
+                    </marker>
+                </pattern>
+                <example correction="">...the committee's affordability analysis, and a number of other factors relevant to the ability of the <marker>State</marker> to meet its projected debt service requirements for the next 5 years.</example>
+                <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NN" name=""> <!-- this rule should be a style rule + picky -->
             <rule>
                 <pattern>
@@ -3265,18 +3289,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">She had a headache but completed all her tasks<marker>, nevertheless</marker>.</example>
                 <example correction="">She has a busy schedule but makes time for her kids<marker>, nevertheless</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name="">
-            <rule>  <!-- TEST AP ONLY: 'the State' -->
-                <pattern>
-                    <token>the</token>
-                    <marker>
-                        <token>State</token>
-                    </marker>
-                </pattern>
-                <example correction="">...the committee's affordability analysis, and a number of other factors relevant to the ability of the <marker>State</marker> to meet its projected debt service requirements for the next 5 years.</example>
-                <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
             </rule>
         </rulegroup>
     </category>
