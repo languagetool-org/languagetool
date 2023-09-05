@@ -2590,7 +2590,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
     for (int i = idx; i < words.size(); i++) {
       String word = words.get(i);
-      if (!(word.endsWith("-") || StringUtils.equalsAny(word, ",", "und", "oder", "bzw.", "sowie") || word.trim().isEmpty())) {
+      if (!(word.endsWith("-") || StringUtils.equalsAny(word, ",", "/", "&", "und", "oder", "bzw.", "beziehungsweise", "sowie") || word.trim().isEmpty())) {
         return word;
       }
     }
@@ -2773,6 +2773,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Müßt": return topMatch("Müsst");
       case "heisst": return topMatch("heißt");
       case "Heisst": return topMatch("Heißt");
+      case "heisse": return topMatch("heiße");
       case "heissen": return topMatch("heißen");
       case "beisst": return topMatch("beißt");
       case "beissen": return topMatch("beißen");

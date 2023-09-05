@@ -1606,7 +1606,7 @@ class CaseRuleAntiPatterns {
       // für welche ein Befragter Geld ausgegeben hat
       csRegex("[msdk]?ein"),
       new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("(?!(Der|Dieser|Aller|Einer|Jener|[DMSK]einer|Anderer|Eurer|Unse?rer|Sonstiger|Einiger|Mancher|Welcher|Vieler|Solcher))[A-ZÄÖÜ].+er").build(),
-      posRegex("SUB.*PLU.*(FEM|NEU|MAS|NOG)|SUB.*SIN.*(NEU|FEM)")
+      new PatternTokenBuilder().posRegexWithStringException("SUB.*PLU.*(FEM|NEU|MAS|NOG)|SUB.*SIN.*(NEU|FEM)", "Tag|Kalkül").build()
     ),
     Arrays.asList(
       // Während die Besagte Geld verdiente
