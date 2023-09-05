@@ -3140,6 +3140,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_NN_FOR_NN_ERROR_IDS_000022" name="">
+            <rule>  <!-- capital after colon is acceptable according to several style guides. Accounts for LOTS of disables... -->
+                <pattern>
+                    <token>:</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Interference by nontuberculous mycobacteria: <marker>Exposure</marker> to environmental mycobacteria (especially M. avium, M. marinum and M. intracellulare) results in a nonspecific immune response against mycobacteria.</example>
+            </rule>
+            <rule>  <!-- capital inside quote if it's a full sentence is also acceptable according to some style guides -->
+                <pattern>
+                    <token regexp="yes">&quote;</token>
+                    <marker>
+                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                    </marker>
+                    <token skip="-1" chunk="B-VP" />
+                    <token regexp="yes">[\.\?\!]</token>
+                    <token regexp="yes">&quote;</token>
+                </pattern>
+                <example correction="">He claims that "<marker>Interest</marker> is the cause; follow-through is the result."</example>
+            </rule>
+            <rule>  <!-- frequently disabled, legal jargon. Can add other frequently disabled words here. -->
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Company</token>
+                    </marker>
+                </pattern>
+                <example correction="">The complaint charges that the defendants misrepresented and concealed material facts concerning the <marker>Company</marker>'s financial transactions with two partnerships established by Enron's Chief Financial Officer, which resulted in substantial losses to Enron and a reduction in shareholders' equity of over $1 billion.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name=""> <!-- NEEDS TO BE PICKY -->
             <rule>  <!-- A.M./P.M. -->
                 <pattern>
