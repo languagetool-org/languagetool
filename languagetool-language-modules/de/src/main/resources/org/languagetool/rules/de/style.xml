@@ -1730,19 +1730,33 @@ USA
                 <example>Heute ist Präsi Obama zu Gast im Podcast.</example>
                 <example>Heute ist der Präsi zu Gast im Podcast.</example>
             </rule>
-            <rule default="temp_off"><!--5-->
+            <rule><!--5-->
                 <pattern>
-                    <token case_sensitive="yes">Bib</token>
+                    <token case_sensitive="yes">Bib
+                        <exception regexp="yes" scope="next">Gourmand|Fit</exception>
+                    </token>
                 </pattern>
-                <message>'Bib' ist umgangssprachlich.</message>
+                <message>'Bib' ist umgangssprachlich. Möchten sie das Wort ausschreiben?</message>
                 <suggestion>Bibliothek</suggestion>
                 <example correction="Bibliothek">Ich gehe heute in die <marker>Bib</marker>.</example>
+                <example>Auch der Michelin Guide „Bib Gourmand Deutschland“ wird erst 2019 wieder neu aufgelegt.</example>
+                <example>Seit 2009 gibt es das Programm „Bib Fit“ für Vorschulkinder</example>
             </rule>
-            <rule default="temp_off"><!--5-->
+            <rule><!--6-->
+                <antipattern><!-- the correct writing of the brand is BIBS but just in case-->
+                    <token skip="-1">Bibs</token>
+                    <token regexp="yes">schnuller.*|online.*|shops?|offiziell.*|dänisch.*|Designs?|Baby.*|Babies</token>
+                    <example>Bibs stellt viele feine Babyprodukte in natürlichen Farben her.</example>
+                </antipattern>
+                <antipattern><!-- the correct writing of the brand is BIBS but just in case-->
+                    <token skip="-1" regexp="yes">schnuller.*|online.*|shops?|offiziell.*|dänisch.*|Designs?|Baby.*|Babies</token>
+                    <token>Bibs</token>
+                    <example>Dort gibt es Babyprodukte in natürlichen Farben von Bibs.</example>
+                </antipattern>
                 <pattern>
                     <token case_sensitive="yes">Bibs</token>
                 </pattern>
-                <message>'Bibs' ist umgangssprachlich.</message>
+                <message>'Bibs' ist umgangssprachlich. Möchten sie das Wort ausschreiben?</message>
                 <suggestion>Bibliotheken</suggestion>
                 <example correction="Bibliotheken">Wie viele <marker>Bibs</marker> hat diese Uni?.</example>
             </rule>
