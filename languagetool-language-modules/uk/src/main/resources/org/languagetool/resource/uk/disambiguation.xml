@@ -4861,7 +4861,7 @@
 
   <rule name="міністрів - іменник" id="minstriv_noun1">
     <pattern>
-      <token regexp="yes" inflected="yes">кабінет|(на)?рада|рішення|зустріч|рівень|комітет|народний|заступник</token>
+      <token regexp="yes" inflected="yes">кабінет|(на)?рада|рішення|зустріч|рівень|комітет|народний|заступник|для|[0-9]+</token>
       <marker>
         <token>міністрів</token>
       </marker>
@@ -4872,6 +4872,21 @@
       outputform="міністрів[міністр/noun:anim:p:v_rod,міністр/noun:anim:p:v_zna]">Рада <marker>міністрів</marker>,
     </example>
     <example type="untouched">міністрів портфель</example>
+  </rule>
+
+  <rule name="суддів - іменник" id="суддів_noun1">
+    <pattern>
+      <token regexp="yes" inflected="yes">рада|комісія|колегія|з'їзд|статус|збори|посада|рішення|признач[аи]ти|федеральний|двоє|троє|для|із?|[0-9]+</token>
+      <marker>
+        <token>суддів</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="суддів[суддя/noun:anim:p:v_rod,суддя/noun:anim:p:v_zna,суддів/adj:m:v_kly,суддів/adj:m:v_naz,суддів/adj:m:v_zna:rinanim]"
+      outputform="суддів[суддя/noun:anim:p:v_rod,суддя/noun:anim:p:v_zna]">Рада <marker>суддів</marker>,
+    </example>
+    <example type="untouched">суддів гаманець</example>
   </rule>
 
   <rule name="складу - іменник" id="skladu_noun1">
