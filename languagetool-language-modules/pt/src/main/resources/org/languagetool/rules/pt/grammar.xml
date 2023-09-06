@@ -33682,28 +33682,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <url>https://en.wikipedia.org/wiki/X_Toolkit</url>
             <example correction="X Window">Foi o MIT que publicou a primeira versão do <marker>X Windows</marker> em junho de 1984.</example>
         </rule>
-        <rulegroup id='POST-IT' name="Nome de Produto: Post-it">
+        <rulegroup id='POST-IT' name="Nome de Produto: Post-it" tags="picky">
             <rule>
                 <pattern>
-                    <token regexp="yes">post-its?</token>
+                    <token regexp="yes" case_sensitive="yes">posts?[-‑‐]?its?</token>
                 </pattern>
-                <message>Post-it é uma marca específica. Utilize:</message>
-                <suggestion>papel adesivo</suggestion>
-                <example correction="papel adesivo"><marker>post-it</marker></example>
-                <example><marker>papel adesivo</marker></example>
+                <message>Post-it é uma marca específica. Considere uma alternativa ou inicie com letra maiúscula.</message>
+                <suggestion><match no="1" regexp_match="(.+)(s)" regexp_replace="Post-it$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(.+)(s)" regexp_replace="lembrete$2"/></suggestion>
+                <example correction="Post-its|lembretes">deixar <marker>post-its</marker> visíveis</example>
+                <example correction="Post-its|lembretes">deixar <marker>postits</marker> visíveis</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">posts?</token>
+                    <token regexp='yes' spacebefore="no">its?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">posts?</token>
-                    <token min='0' regexp='yes'>[-‑‐]</token>
                     <token regexp='yes'>its?</token>
                 </pattern>
-                <message>Post-it é uma marca específica. Utilize:</message>
-                <suggestion>papel adesivo</suggestion>
-                <example correction="papel adesivo"><marker>post‐it</marker></example>
-                <example correction="papel adesivo"><marker>post it</marker></example>
-                <example><marker>papel adesivo</marker></example>
-            </rule>
+                <message>Post-it é uma marca específica. Considere substituir por uma alternativa.</message>
+                <suggestion><match no="1" case_conversion="startupper" regexp_match="(.+)" regexp_replace="Post-it"/><match no="2" regexp_match="(.+)(s)" regexp_replace="$2"/></suggestion>
+                <suggestion>lembrete<match no="2" regexp_match="(.+)(s)" regexp_replace="$2"/></suggestion>
+                <example correction="Post-its|lembretes">deixar <marker>post its</marker> visíveis</example></rule>
         </rulegroup>
         <rule id='KLEENEX' name="Nome de Produto: Kleenex">
             <pattern>
