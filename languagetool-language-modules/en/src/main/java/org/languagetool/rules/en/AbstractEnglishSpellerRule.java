@@ -77,6 +77,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "fine tune",
     "fine tuned",
     "fine tuning",
+    "kick started", // kickstarted
+    "kick starting", // kickstarting
+    "kicks tarting", // kickstarting
+    "kicks tarted", // kickstarted
     "with holdings",
     "hard coded",
     "hands free",
@@ -89,6 +93,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "client side",
     "server side",
     "code named",
+    "code naming",
     "in house",
     "back office",
     "faggot",
