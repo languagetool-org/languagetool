@@ -2326,6 +2326,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="pogodnyi_vs_pogidnyi" name="Погодний і погідний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">погідний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">умова|чинник|явище|фактор|катаклізм|сюрприз|аномалія</token>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">погодний</match></suggestion>?</message>
+        <example correction="погодних">за таких <marker>погідних</marker> умов.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">погодний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">день|вечір|небо|обличчя</token>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">погідний</match></suggestion>?</message>
+        <example correction="погідний">мав <marker>погодний</marker> день.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="pyvyd_vs_pryvid" name="Привід та привид">
       <rule>
         <pattern>
