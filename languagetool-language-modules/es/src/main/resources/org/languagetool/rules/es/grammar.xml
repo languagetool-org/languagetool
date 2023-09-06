@@ -12080,14 +12080,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="más">No hay <marker>mas</marker> que decir.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <!-- Probably a person's name -->
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token>Mas</token>
+                </antipattern>
                 <pattern>
-                    <token>mas</token>
+                    <token>mas<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si no equivale a 'pero' o 'sino', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <url>https://www.fundeu.es/recomendacion/mas-tilde-acento/</url>
                 <example correction="más">No hay <marker>mas</marker>.</example>
                 <example correction="más" type="triggers_error" reason="archaic or formal">Me gusta, <marker>mas</marker> no lo quiero.</example>
+                <example correction="Más"><marker>Mas</marker> Madrid.</example>
+                <example>Aitana Mas y Juan Antonio Mas.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUN" name="aún -> aun">
@@ -12539,6 +12546,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="A.*|V.P.*" postag_regexp="yes"/>
                     </unify>
                     <example>Ofreciendo a Dios sacrificios, aun públicos, para aplacar su justicia.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="50" postag="V.IC.*" postag_regexp="yes"/>
+                    <token>aun</token>
+                    <token>sin</token>
+                    <example>Podrían hacerlo aun sin ayuda.</example>
                 </antipattern>
                 <pattern>
                     <token>aun</token>
