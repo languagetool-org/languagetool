@@ -3889,4 +3889,22 @@
     <disambig action="replace"><wd pos="RM"/></disambig>
 <!--    <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>-->
   </rule>
+
+  <rule id="PRECISA_NOT_ADJ" name="Remove adj tag from 'precisa' in obvious cases">
+      <pattern>
+          <token postag_regexp="yes" postag="N.+|PP.+"/>
+          <marker>
+              <token regexp="yes" postag_regexp="yes" postag="AQ0[FM].0">precisas?|preciso</token>
+          </marker>
+          <token postag_regexp="yes" postag="SPS00(:.+)?" regexp="yes">d.+</token>
+      </pattern>
+      <disambig action="remove" postag="A.+"/>
+      <!-- error introduced on purpose to check agreement rules -->
+      <example
+          inputform="precisa[precisar/VMIP3S0,precisar/VMM02S0,preciso/AQ0FS0]"
+          outputform="precisa[precisar/VMIP3S0,precisar/VMM02S0]"
+          type="ambiguous">
+          Os meninos <marker>precisa</marker> das mães.
+      </example>
+  </rule>
 </rules>
