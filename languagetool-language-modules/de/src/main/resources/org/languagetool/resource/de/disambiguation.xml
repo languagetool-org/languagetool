@@ -2171,6 +2171,26 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rulegroup name="Ignore surnames after 'Sehr geehrte/r Frau/Herr'" id="SEHR_GEEHRTE_FRAU_X"><!--Sehr geehrte Frau Schnibbliduppsi.-->
+        <rule><!--1-->
+            <pattern case_sensitive="yes">
+                <token>Sehr</token>
+                <token regexp="yes">[ge|ver]ehrter?</token>
+                <token regexp="yes">Herr|Frau</token>
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöü].*\-?.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Lieber?</token>
+                <token regexp="yes">Herr|Frau</token>
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöü].*\-?.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rulegroup name="Ofenbach Duo" id="OFENBACH"><!--Ofenbach ist ein französisches House-Duo aus Paris.-->
         <rule><!--1-->
             <pattern>
