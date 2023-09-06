@@ -872,22 +872,22 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="MEEST_GEWOON" name="Meest gewoon/gewoonst" tags="picky">
-			<!-- TODO: add exceptions for adjectives ending in -de, -isch, -sd, -sk -->
 			<rule>
 				<antipattern>
 					<token>meest</token>
-					<token regexp="yes">luxe|perfec(t|te)|sexy|relax(te|ed)|identiek(e)?|ervaren</token>
+					<token regexp="yes">luxe|perfec(t|te)|sexy|relax(te|ed)|identiek(e)?|ervaren|geliefd(e)?|nutteloos|nuttelo(os|ze)</token>
 					<example>Ik wil de meest luxe kamer die je hebt.</example>
 					<example>Dat zijn de meest identieke exemplaren.</example>
 				</antipattern>
 				<pattern>
 					<token>meest</token>
-					<token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*(rd|nd|st|isch|ïsch)e?</exception></token>
+					<token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*(rd|nd|st|isch|ïsch|sk)e?|.*de</exception></token>
 				</pattern>
 				<message>Sommigen vinden dit 'te Engels' en geven de voorkeur aan: <suggestion><match no="2" postag_regexp="yes" postag="(BNW:STL:)(.*)" postag_replace="BNW:OVR:$2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/meest-origineel-origineelst</url>
 				<short>Anglicisme</short>
 				<example correction="normaalst">Hij is wel het <marker>meest normaal</marker> van allemaal.</example>
+			    <example>Hij is het meest stupide van allemaal.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -14167,14 +14167,15 @@ regexp case-insensitive maken: (?i)
 					<example>Het andere ministerie, Justitie en Veiligheid geloof ik.</example>
 				</antipattern>
 				<pattern case_sensitive="yes">
-					<token regexp="yes">[,;]</token>
 					<marker>
+						<token regexp="yes">[,;]</token>
 						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*</exception><exception>Jan</exception></token>
 					</marker>
 				</pattern>
 				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied of een verwijzing naar God).</message>
-				<suggestion suppress_misspelled="yes"><match no="2" case_conversion="startlower"/></suggestion>
-				<example correction="is">Dit, <marker>Is</marker> een fout.</example>
+				<suggestion suppress_misspelled="yes">\1 <match no="2" case_conversion="startlower"/></suggestion>
+				<suggestion>. \2</suggestion>
+				<example correction=", is|. Is">Dit<marker>, Is</marker> een fout.</example>
 				<example>Dit <marker>is</marker> wel goed.</example>
 			</rule>
 		</rulegroup>

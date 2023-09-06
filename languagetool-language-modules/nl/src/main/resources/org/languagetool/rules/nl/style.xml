@@ -17177,14 +17177,15 @@ USA
 				<example correction="per adres">Jansen, <marker>p/a</marker> kantoor.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="_10X" name="10x 10 keer" >
+		<rulegroup id="_10X" name="10x 10 keer">
 			<rule>
 				<pattern>
 					<token regexp="yes" case_sensitive="yes">[0-9]+x</token>
 				</pattern>
 				<message>Netter is om het uit te schrijven.</message>
 				<suggestion><match no="1" regexp_match="x" regexp_replace=" keer"/></suggestion>
-				<example correction="10 keer">Hij doet het <marker>10x</marker> fout.</example>
+				<suggestion><match no="1" regexp_match="x" regexp_replace=" maal"/></suggestion>
+				<example correction="10 keer|10 maal">Hij doet het <marker>10x</marker> fout.</example>
 			</rule>
 		</rulegroup>
 	</category>
