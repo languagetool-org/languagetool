@@ -8127,6 +8127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
     <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
+
         <antipattern>
             <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
             <token spacebefore='no' regexp='yes'>&hifen;</token>
@@ -8829,7 +8830,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <token postag_regexp="yes" postag="V.I..S."/> <!-- verb with correct agreement (singular) -->
-
                 <example>Permitir que os robôs façam algo pior pode ser perigoso.</example>
                 <example>Permitir que crianças boas tirem suas próprias conclusões não deveria escandalizar ninguém.</example>
                 <example>Deixar que esse imbecil tomem as suas próprias decisões é horrível.</example>
@@ -9378,141 +9378,241 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="Os meninos precisam|Os meninos, precisa"><marker>Os meninos precisa</marker> das mães.</example>
         </rule>
 
-        <rule> <!-- #13: singular noun + plural verb -->
-            <antipattern>
+        <rule default="temp_off"> <!-- #13A: sanity (pre-match) for 13: plural verb between singular NP and EOS -->
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <unify> <!-- restrictive singular NP, probable subject -->
+                    <feature id="number"><type id="singular"/></feature>
+                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                </unify>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <marker>
+                    <token postag_regexp="yes" postag="V...3P0"/>
+                </marker>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>&MSG_ECV;</message>
+            <suggestion><match no="8" postag="V(...)3P0" postag_replace="V$13S0" postag_regexp="yes"/></suggestion>
+            <example correction="corre">O leão <marker>correm</marker>.</example>
+        </rule>
+
+        <rule default="temp_off"> <!-- #13B: sanity (pre-match) for 13: plural verb between two singular NPs -->
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <unify> <!-- restrictive singular NP, probable subject -->
+                    <feature id="number"><type id="singular"/></feature>
+                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                </unify>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <marker>
+                    <token postag_regexp="yes" postag="V...3P0"/>
+                </marker>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <unify> <!-- restrictive singular NP, probable direct object -->
+                    <feature id="number"><type id="singular"/></feature>
+                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                </unify>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>&MSG_ECV;</message>
+            <suggestion><match no="8" postag="V(...)3P0" postag_replace="V$13S0" postag_regexp="yes"/></suggestion>
+            <example correction="come">O jaguar <marker>comem</marker> um osso.</example>
+        </rule>
+
+        <rule default="temp_off"> <!-- #13C: sanity (pre-match) for 13: plural verb between singular NP and prepositional phrase -->
+            <pattern>
+                <token postag="SENT_START"/>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <unify> <!-- restrictive singular NP, probable subject -->
+                    <feature id="number"><type id="singular"/></feature>
+                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                </unify>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <marker>
+                    <token postag_regexp="yes" postag="V...3P0"/>
+                </marker>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag_regexp="yes" postag="SP.+"/>
+                <unify> <!-- restrictive (well-formed) NP, probable indirect object -->
+                    <feature id="number"/>
+                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                </unify>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>&MSG_ECV;</message>
+            <suggestion><match no="8" postag="V(...)3P0" postag_replace="V$13S0" postag_regexp="yes"/></suggestion>
+            <example correction="persegue">Essa hiena <marker>perseguem</marker> de gente feia.</example>
+            <example correction="gosta">O menino <marker>gostam</marker> das escolas.</example>
+        </rule>
+
+        <rule> <!-- #13_0: singular noun + plural verb -->
+            <antipattern> <!-- #13_1 -->
                 <token regexp='yes' skip='-1'>tanto|nem</token>
                 <token regexp='yes' skip='-1'>quanto|nem|como</token>
                 <token postag='PP.+|N.+' postag_regexp='yes'/>
                 <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
                 <example>Tanto Tom quanto Mary passaram frio.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_2 -->
                 <token regexp='yes' case_sensitive='yes'>el[ea]s?</token>
                 <token regexp='yes' case_sensitive='yes'>e|ou</token>
                 <token max='2' postag_regexp='yes' postag='D...S.+'>
-                    <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+                    <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/>
+                </token>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_3 -->
                 <token postag_regexp='yes' postag='[AN].+'>
-                    <exception negate_pos='yes' postag_regexp='yes' postag='[AN].+'/></token>
+                    <exception negate_pos='yes' postag_regexp='yes' postag='[AN].+'/>
+                </token>
                 <token regexp='yes' case_sensitive='yes'>e|ou</token>
                 <token max='2' postag_regexp='yes' postag='D...S.+'>
-                    <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
+                    <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/>
+                </token>
             </antipattern>
-            <antipattern>
-                <token postag_regexp='yes' postag='DD0[MF]S0'/>
-                <token postag_regexp='yes' postag='NC[MF]S000'/>
-                <token min='0' postag="RN"/>
-                <token postag_regexp='yes' postag='V.*'/>
+            <!--  <antipattern> #13_4
+               -     <token postag_regexp='yes' postag='DD0[MF]S0'/>
+               -     <token postag_regexp='yes' postag='NC[MF]S000'/>
+               -     <token min='0' postag="RN"/>
+               -     <token postag_regexp='yes' postag='V.*'/>
+               - </antipattern>
+               -->
+            <!-- <antipattern> #13_5
+               -     <token postag='DP1F[SP][SP]|DP2F[SP][SP]' postag_regexp='yes'/>
+               -     <token postag='NCF[SP]000|NCM[SP]000' postag_regexp='yes'/>
+               -     <token postag='VMIS1[SP]0|VMIS2[SP]0|VMIM3P0|VMIS3P0' postag_regexp='yes'/>
+               - </antipattern>
+               -->
+            <antipattern> <!-- #13_6 -->
+                <token postag_regexp="yes" postag="NC.P000|AQ0.P0"/>
+                <token postag_regexp="yes" postag="SPS00(:.+)?"/>
+                <token postag_regexp="yes" postag="DA0[FM]S0" min="0"/>
+                <token postag_regexp="yes" postag="N..S.+"/>
+                <token postag_regexp="yes" postag="VM..3P0"/>
+                <example>As pessoas no carro gritaram.</example>
             </antipattern>
-            <antipattern>
-                <token postag='DP1F[SP][SP]|DP2F[SP][SP]' postag_regexp='yes'/>
-                <token postag='NCF[SP]000|NCM[SP]000' postag_regexp='yes'/>
-                <token postag='VMIS1[SP]0|VMIS2[SP]0|VMIM3P0|VMIS3P0' postag_regexp='yes'/>
-            </antipattern>
-            <antipattern>
-                <token postag_regexp='yes' postag='NC[FM]P000|AQ0[FM]P0'/>
-                <token postag='SPS00'/>
-                <token postag_regexp='yes' postag='DA0[FM]S0'/>
-                <token postag_regexp='yes' postag='NC[FM]S000'/>
-                <token postag='VMIP3P0'/>
-            </antipattern>
-            <antipattern>
-                <token postag_regexp='yes' postag='DA0[FM]P0'/>
-                <token postag_regexp='yes' postag='NC[FMC]P000'/>
-                <token postag='DI0FS0'/>
-                <token postag='NCFS000'/>
-                <token postag_regexp='yes' postag='VMIM3P0|VMIS3P0'/>
-            </antipattern>
-            <antipattern>
+            <!-- <antipattern> #13_7
+               -     <token postag_regexp='yes' postag='DA0[FM]P0'/>
+               -     <token postag_regexp='yes' postag='NC[FMC]P000'/>
+               -     <token postag='DI0FS0'/>
+               -     <token postag='NCFS000'/>
+               -     <token postag_regexp='yes' postag='VMIM3P0|VMIS3P0'/>
+               - </antipattern>
+               -->
+            <antipattern> <!-- #13_8 -->
                 <token postag_regexp='yes' postag='DA0[FM]S0'/>
                 <token postag_regexp='yes' postag='NC[FMC]S000'/>
                 <token postag_regexp='yes' postag='VMIP1S0|VMIP1P0'/>
             </antipattern>
-            <antipattern>
-                <token postag_regexp='yes' postag='NC[CFM]P000'/>
-                <token postag_regexp='yes' postag='SPS00|RG'/>
-                <token postag_regexp='yes' postag='DI0[FM]S0|RG'/>
-                <token postag_regexp='yes' postag='DA0[FM]S0'/>
-                <token postag_regexp='yes' postag='NC[CFM]S000'/>
-                <token postag_regexp='yes' postag='VMIM3P0|VMIS3P0'/>
-            </antipattern>
-            <antipattern>
+            <!-- <antipattern> [> #13_9: wtf is this? menino (de|bem) (um|bem) o menino fizeram <]
+               -     <token postag_regexp='yes' postag='NC[CFM]P000'/>
+               -     <token postag_regexp='yes' postag='SPS00|RG'/>
+               -     <token postag_regexp='yes' postag='DI0[FM]S0|RG'/>
+               -     <token postag_regexp='yes' postag='DA0[FM]S0'/>
+               -     <token postag_regexp='yes' postag='NC[CFM]S000'/>
+               -     <token postag_regexp='yes' postag='VMIM3P0|VMIS3P0'/>
+               - </antipattern>
+               -->
+            <antipattern> <!-- #13_10 -->
                 <token postag_regexp='yes' postag='DA0[FM]S0'/>
                 <token postag_regexp='yes' postag='NC[CFM]S000'/>
                 <token postag_regexp='yes' postag='VMIS1S0|VMIF1P0|VMM01P0|VMSP1P0'/>
             </antipattern>
-            <antipattern>
-                <token postag='CC'/>
-                <token postag_regexp='yes' postag='DA0[FM]S0'/>
-                <token postag_regexp='yes' postag='NC[FM]S000'/>
-                <token postag_regexp='yes' postag='AQ0[FM]S0'/>
-                <token postag='VMII3P0'/>
-                <token postag_regexp='yes' postag='AQ0[FM]P0'/>
-            </antipattern>
-            <antipattern>
-                <token regexp='yes'>e|ou|no</token>
-                <token regexp='yes'>a|o|seu|da</token>
-                <token postag='NC[CFM]S000' postag_regexp='yes'/>
-                <token postag='VMIP3P0'/>
-                <token regexp='yes'>as?|nos?|o|ao|um|têm|que</token>
-            </antipattern>
-            <antipattern>
-                <token regexp='yes'>e|ou|no</token>
-                <token regexp='yes'>a|o|seu</token>
-                <token postag='NC[CFM]S000' postag_regexp='yes'/>
-                <token postag='VMIP3P0'/>
-                <token postag='Z0[FM]P0|NC[CFM]P000|DI0[FM]S0|PI0[FM]S000|AQ0[CFM]P0|VMP00PM' postag_regexp='yes'/>
-            </antipattern>
-            <antipattern>
-                <token regexp='yes'>como|nem|todo|para</token>
-                <token regexp='yes'>a|o</token>
-                <token postag='NC[CFM]S000' postag_regexp='yes'/>
-                <token postag='VMIP3P0'/>
-                <token postag='CC|RG|VMN0000|VMN0[13]S0|VMSF[13]S0|NC[CFM]P000' postag_regexp='yes'/>
-            </antipattern>
-            <antipattern>
-                <token postag='VMG0000|VMIP3P0|VMM03P0|VMSP3P0' postag_regexp='yes'/>
-                <token regexp='yes'>a|o</token>
-                <token postag='NC[CFM]S000' postag_regexp='yes'/>
-                <token postag='VMIP3P0'/>
-                <token regexp='yes'>as|na|no</token>
-            </antipattern>
-            <antipattern>
+            <!-- <antipattern> [> #13_11: e o menino bonito faziam feios <]
+               -     <token postag='CC'/>
+               -     <token postag_regexp='yes' postag='DA0[FM]S0'/>
+               -     <token postag_regexp='yes' postag='NC[FM]S000'/>
+               -     <token postag_regexp='yes' postag='AQ0[FM]S0'/>
+               -     <token postag='VMII3P0'/>
+               -     <token postag_regexp='yes' postag='AQ0[FM]P0'/>
+               - </antipattern>
+               -->
+            <!-- <antipattern> [> #13_12: what in the universe is this? am i having a stroke? <]
+               -     <token regexp='yes'>e|ou|no</token>
+               -     <token regexp='yes'>a|o|seu|da</token>
+               -     <token postag='NC[CFM]S000' postag_regexp='yes'/>
+               -     <token postag='VMIP3P0'/>
+               -     <token regexp='yes'>as?|nos?|o|ao|um|têm|que</token>
+               - </antipattern>
+               -->
+            <!-- <antipattern> [> #13_13: aneurysm time <]
+               -     <token regexp='yes'>e|ou|no</token>
+               -     <token regexp='yes'>a|o|seu</token>
+               -     <token postag='NC[CFM]S000' postag_regexp='yes'/>
+               -     <token postag='VMIP3P0'/>
+               -     <token postag='Z0[FM]P0|NC[CFM]P000|DI0[FM]S0|PI0[FM]S000|AQ0[CFM]P0|VMP00PM' postag_regexp='yes'/>
+               - </antipattern>
+               -->
+            <!-- <antipattern> [> #13_14 <]
+               -     <token regexp='yes'>como|nem|todo|para</token>
+               -     <token regexp='yes'>a|o</token>
+               -     <token postag='NC[CFM]S000' postag_regexp='yes'/>
+               -     <token postag='VMIP3P0'/>
+               -     <token postag='CC|RG|VMN0000|VMN0[13]S0|VMSF[13]S0|NC[CFM]P000' postag_regexp='yes'/>
+               - </antipattern>
+               -->
+            <!-- <antipattern> [> #13_15 <]
+               -     <token postag='VMG0000|VMIP3P0|VMM03P0|VMSP3P0' postag_regexp='yes'/>
+               -     <token regexp='yes'>a|o</token>
+               -     <token postag='NC[CFM]S000' postag_regexp='yes'/>
+               -     <token postag='VMIP3P0'/>
+               -     <token regexp='yes'>as|na|no</token>
+               - </antipattern>
+               -->
+            <antipattern> <!-- #13_16 -->
                 <token min="0" max="1" regexp='yes'>e|ou</token>
                 <token regexp='yes'>no|na|em|e|o|a</token>
                 <token min="0" max="1" postag='DI0[FM]S0|PI0[FM]S000|AP0[FM]S1S|DP1[FM]SS' postag_regexp='yes'/>
                 <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
                 <token postag='VMI[SP]1P0|VMII1P0|VMIF1P0' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
-                <!-- "Para que possamos usar algum método numérico temos de localizar um intervalo para um zero." -->
+            <antipattern> <!-- #13_17 -->
                 <token postag='V.+|P[EI]0MS000P[RT]0MS000|RG' postag_regexp='yes'/>
                 <token postag='DI0[FM]S0|PI0[FM]S000|AP0[FM]S1S|DP1[FM]SS' postag_regexp='yes'/>
                 <token min="1" max="2" postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
                 <token postag='VMI[SP]1P0|VMII1P0|VMIF1P0' postag_regexp='yes'/>
+                <example>Para que possamos usar algum método numérico temos de localizar um intervalo para um zero.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_18 -->
                 <token postag='AQ0[CFM]P0|VMI[MS]3P0|RG' postag_regexp='yes'/>
                 <token regexp='yes'>pela|pelo|da|do|o</token>
                 <token min="0" max="1" postag='AP0FS3[SP]|DP3FSS|AP0FS2S|DP2FSS|AP0FS2P|DP2FSP|AP0MS1S|DP1MSS|AP0FS1S|DP1FSS' postag_regexp='yes'/>
                 <token postag='NC[CFM]S000' postag_regexp='yes'/>
                 <token postag='VMM03P0|VMSP3P0' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_19 -->
                 <token regexp='yes'>à|ao|da|do|de</token>
                 <token regexp='yes'>tua|teu|sua|seu|vossa|vosso|nossa|nosso|minha|meu</token>
                 <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
                 <token postag='VMIF[12]S0|VMIF1[SP]0' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_20 -->
                 <token regexp='yes'>à|ao|da|do|de</token>
                 <token regexp='yes'>tua|teu|sua|seu|vossa|vosso|nossa|nosso|minha|meu</token>
                 <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes' max='3'/>
                 <token postag='VMI[FS][12]S0|VMIF1[SP]0' postag_regexp='yes'/>
                 <example>Ao longo da minha jornada acadêmica pude estagiar em duas empresas.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_21 -->
                 <token regexp='yes'>ao|e|com|contra|da|de|do|como|nem|para|toda|sobre|por|pel[oa]s?</token>
                 <token min='0' postag='VMN.+' postag_regexp='yes'/>
                 <token min="0" max="1" regexp='yes'>as?|os?</token>
@@ -9526,7 +9626,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>a política socioeconômica e pouco apoio familiar estão interligadas</example>
                 <example>para acompanhar minha antiga amiga não queiramos vê-la em situações ruins</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_22 -->
                 <token postag='SENT_START|VMN.+' postag_regexp='yes'/>
                 <token regexp='yes'>n[oa]s?</token>
                 <token min='0' postag='DI.+|DP.+' postag_regexp='yes'/>
@@ -9537,7 +9637,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>No meu segundo ano tive que me mudar</example>
                 <example>e se atirar no meu estômago ainda tenho chance de sobreviver</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_23 -->
                 <token inflected='yes'>visar</token>
                 <token max="1" regexp='yes'>as?|os?</token>
                 <token min='0' postag='DI.+|DP.+' postag_regexp='yes'/>
@@ -9547,32 +9647,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='VMI[SMCPI][13][SP]0' postag_regexp='yes'/>
                 <example>Aqueles que visam o primor levam crianças</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_24 -->
                 <token regexp='yes'>ao|e|com|contra|da|de|do|como|nem|para|toda|sobre</token>
                 <token regexp='yes'>as?|os?</token>
                 <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
                 <token postag='VMI[SM]3P0' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_25 -->
                 <token postag='V.+|NP[FM]S000' postag_regexp='yes'/>
                 <token regexp='yes'>as?|os?</token>
                 <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
                 <token postag='VMI[SM]3P0' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_26 -->
                 <token postag='DP.+' postag_regexp='yes'/>
                 <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
                 <token postag='VMI[SP]1P0' postag_regexp='yes'/>
                 <token postag='SPS.+' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_27 -->
                 <token postag='VMIS1S0'/>
                 <token/>
                 <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
                 <token postag='CS'/>
                 <token postag='VMIS1S0'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_28 -->
                 <token postag='VMIS1S0'/>
                 <token/>
                 <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
@@ -9580,13 +9680,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='RG'/>
                 <token postag='VMIS1S0'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_29 -->
                 <token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
                 <token postag='DP[123].+' postag_regexp='yes'/>
                 <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
                 <token postag='VMIP[123]S0|VMM02S0|VMIP[13]P0' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_30 -->
                 <token regexp='yes'>[ao]s?</token>
                 <token postag='DP.+' postag_regexp='yes'/>
                 <token postag='NC.+|AQ0.+|NP.+' postag_regexp='yes'/>
@@ -9594,7 +9694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token negate_pos="yes" postag='CS|PP.+|CC' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_31 -->
                 <token postag='DA0.S.+|SPS.+' postag_regexp='yes'/>
                 <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
                 <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
@@ -9602,7 +9702,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token min="0" max="1" postag='VMN0000'/>
                 <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_32 -->
                 <token postag='DP.+' postag_regexp='yes'/>
                 <token min="1" max="2"  postag='NC.+|AQ0.+|NP.+|RG' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -9610,33 +9710,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <exception postag='PP3CN000'/>
                 </token>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_33 -->
                 <token postag='SPS00.DA.*' postag_regexp='yes'/>
                 <token postag='DP..S.+' postag_regexp='yes'/>
                 <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
                 <token postag='V....P.+' postag_regexp='yes'/>
                 <token negate_pos="yes" postag='SPS00'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_34 -->
                 <token postag='DI.+|DA.+' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token postag='V....S.+' postag_regexp='yes'/>
                 <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
                 <token postag='PP..S.+' postag_regexp='yes'/>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_35 -->
                 <token>ao</token>
                 <token>meu</token>
                 <token>ver</token>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_36 -->
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token regexp='yes' min='0'>&expressoes_de_tempo;</token>
                 <token regexp='yes'>atrás|depois</token>
                 <token postag='V.+' postag_regexp='yes'/>
                 <example>Uma semana atrás tivemos febre alta.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_37 -->
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token postag='AO..S.+' postag_regexp='yes' min='0'/>
                 <token regexp='yes'>vez|manhã|tarde|noite|&expressoes_de_tempo;</token>
@@ -9646,7 +9746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Certa noite comemos uma fruta.</example>
                 <example>Nesse último dia comemos muita fruta.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_38 -->
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token max='3' postag_regexp='yes' postag='(?:N..|A...)S.+'/>
@@ -9654,14 +9754,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='V.+' postag_regexp='yes'/>
                 <example>De novo se abriu a grande alameda por onde passarão os homens livres.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_39 -->
                 <token postag='VMN.+' postag_regexp='yes'/>
                 <token postag='VMP.+' postag_regexp='yes'/>
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token postag_regexp='yes' postag='(?:N..|A...)S.+'/>
                 <example>Apesar de terem lido o manual erramos o caminho.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_40 -->
                 <token postag='CS|SPS00:DA0MS0' postag_regexp='yes'/>
                 <token postag='VMS.+|VMN.+' postag_regexp='yes'/>
                 <token postag='RM' min='0'/>
@@ -9670,18 +9770,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='VMI.+' postag_regexp='yes'/>
                 <example>Se verificarmos sequencialmente a matriz obteremos facilmente o resultado esperado.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_41 -->
                 <token>propriamente</token>
                 <token regexp='yes'>dit[ao]s?</token>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_42 -->
                 <token>a</token>
                 <token postag_regexp='yes' postag='D...S.+' max='2'/>
                 <token postag_regexp='yes' postag='(?:N..|A...)S.+' max='3'/>
                 <token postag='V.+' postag_regexp='yes'/>
                 <example>A nosso único filho deixaremos nossos bens.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_43 -->
                 <token>que</token>
                 <token postag='PP.+' postag_regexp='yes' skip='-1'/>
                 <token postag_regexp='yes' postag='D...S.+'/>
@@ -9689,13 +9789,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='VMS.+' postag_regexp='yes'/>
                 <example>Esperavam que elas em 15 minutos depois de terem bloqueado a câmera conseguissem dar conta.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_44 -->
                 <token>durante</token>
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token postag_regexp='yes' postag='(?:N..|A...)S.+'/>
                 <example>Algumas das grandes causas de doenças durante a expedição portuguesa eram a falta de higiene e a falta de comida.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_45 -->
                 <token postag_regexp='yes' postag='D...P.+'/>
                 <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+' skip='-1'/>
                 <token negate='yes' regexp='yes'>&separadores_de_oracoes;</token>
@@ -9707,13 +9807,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Quaisquer pessoas que já tenha jogado xadrez alguma vez entendem como ele pode ser absorvente ao extremo.</example>
                 <example>Os exaustores que eu comprei um ano atrás estão fora de moda.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_46 -->
                 <token skip='-1'>tanto</token>
                 <token skip='-1'>quanto</token>
                 <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
                 <example>Tanto a mulher quanto o homem estão mais conscientes.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_47 -->
                 <token>não</token>
                 <token skip='-1'>só</token>
                 <token>mas</token>
@@ -9721,7 +9821,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
                 <example>Não só a seca, mas também o pouco caso castigam o Nordeste.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_48 -->
                 <token postag='VMG.+' postag_regexp='yes'/>
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
@@ -9730,7 +9830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Representando o acompanhamento pedagógico temos os professores de português e matemática.</example>
                 <example>A Simony e o João apresentaram seus argumentos</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_49 -->
                 <token regexp='yes'>e|ou</token>
                 <token postag_regexp='yes' postag='D...S.+' max='2'/>
                 <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
@@ -9739,7 +9839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Toda a sua conta e todo o seu conteúdo não podem ser recuperados.</example>
                 <example>Se o reembolso ou a reversão forem processados.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_50 -->
                 <token postag='N..P.+|A...P.+' postag_regexp='yes'/>
                 <token>como</token>
                 <token postag_regexp='yes' postag='D...S.+' max='2'/>
@@ -9748,11 +9848,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
                 <example>Quando redes como o TikTok ganharam enorme protagonismo.</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_51 -->
                 <token>ambos</token>
                 <token>nós</token>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_52 -->
                 <token postag='RG|_PUNCT' postag_regexp='yes'/>
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
@@ -9761,7 +9861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
                 <example>mora, distante, onde meu ser esqueço, parte</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- #13_53 -->
                 <token postag='N..P.+|A...P.+' postag_regexp='yes' skip='3'/>
                 <token postag_regexp='yes' postag='D...S.+'/>
                 <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
@@ -9769,7 +9869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
                 <example>As nações de todo o mundo estão a falhar</example>
             </antipattern>
-            <pattern> <!-- pattern for GENERAL_VERB_AGREEMENT_ERRORS#13 -->
+            <pattern> <!-- GENERAL_VERB_AGREEMENT_ERRORS#13 -->
                 <token negate_pos='yes' postag_regexp='yes' postag='NC.P.+'/>
                 <token><exception postag="SPS00"/>
                     <exception>à</exception>
@@ -9784,7 +9884,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token min="0" max="3" postag='R.+' postag_regexp='yes'>
                         <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/>
                     </token>
-                    <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'>
+                    <token postag='V.[IS].([123]P|[12]S).' postag_regexp='yes'>
                         <exception regexp='yes'>pel[oa]s?|verão</exception>
                         <exception postag='V.[CIS].3S.|VMG.+' postag_regexp='yes'/>
                         <exception postag='AQ.+' postag_regexp='yes'/>
@@ -9808,7 +9908,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Sem a <marker>sua presença ficamos</marker> à rasca.</example>
             <example>Sem a <marker>sua presença ficámos</marker> à rasca.</example>
             <example>Pela <marker>minha parte tenho</marker> uma paciência de Job.</example>
-
             <example>Até os <marker>meus amigos comecei</marker> a ver com outros olhos.</example>
             <example>Até os meus amigos começaste a ver com outros olhos.</example>
             <example>Até os seus amigos começou a ver com outros olhos.</example>
@@ -9819,22 +9918,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Até as vossas amigas começaram a ver com outros olhos.</example>
             <example>É contra os meus princípios pedir dinheiro emprestado.</example>
             <example>A seguinte frase de Wishart a seus amigos é bem conhecida.</example>
-
             <example>Ao utilizar <marker>o discurso oral surgem</marker> interferências ou ruído.</example>
             <example>Ao utilizar o discurso oral podem surgir interferências ou ruído.</example>
-
             <example>Pelo <marker>seu quadro passaram</marker> médicos ilustres que colaboraram também no Hospital de Angra.</example>
             <example>Da sua obra sobrevivem fragmentos muito curtos sobre os celtas.</example>
             <example>Na nossa vida sempre aparecem desafios.</example>
             <example>Pela sua carta entendi que está irritada.</example>
             <example>Os recentes estudos do autor e da sua obra admitem que o seu pensamento foi mal interpretado historicamente.</example>
             <example>Sobre a sua vida existem poucos dados precisos, sendo as lacunas preenchidas por lendas.</example>
-
             <example>Na nossa pesquisa complementamos esses conteúdos.</example>
             <example>Na nossa investigação empregamos o termo.</example>
             <example>No seu adro foram sepultadas, em duas valas comuns, 84 vítimas do Mandado de Deus.</example>
             <example>No seu conjunto existem cinco capelas e uma igreja.</example>
-
             <example>A lidar com pessoas más, qualquer dia vou-me tornar como elas.</example>
             <example>A lidar com pessoas más, qualquer dia vais-te tornar como elas.</example>
             <example>Que outra escolha tive eu?</example>
