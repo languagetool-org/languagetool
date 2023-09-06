@@ -290,6 +290,7 @@ public class German extends Language implements AutoCloseable {
       case "WRONG_SPELLING_PREMIUM_INTERNAL": return 10;
       case "OLD_SPELLING_INTERNAL": return 10;
       case "DE_COMPOUNDS": return 10;
+      case "E_MAIL_SIGNATUR": return 10;
       case "TELEFON_NR": return 10;
       case "IRGEND_COMPOUND": return 10;
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN

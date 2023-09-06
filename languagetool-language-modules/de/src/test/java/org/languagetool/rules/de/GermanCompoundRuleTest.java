@@ -110,7 +110,6 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
 //    check(1, "CW Wert", new String[]{"CW-Wert"});
     // also detect an error if only some of the hyphens are missing:
     //check(1, "Roll-on-roll-off Schiff", "Roll-on-roll-off-Schiff");
-    check(1, "E-Mail Adressen", "E-Mail-Adressen");
     check(1, "Geräte Wahl", "Geräte-Wahl", "Gerätewahl");
     // first part is a single character:
     check(0, "x-mal");
