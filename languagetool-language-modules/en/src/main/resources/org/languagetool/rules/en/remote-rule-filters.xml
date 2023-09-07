@@ -3226,6 +3226,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_CD_FOR_CD" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes" postag="NNPS?" postag_regexp="yes">[a-z].*[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Customers will be able to use your apps on <marker>visionOS</marker> early next year when Apple Vision Pro becomes available.</example>
+                <example correction="">Customers will be able to use your apps on <marker>macOS</marker> early next year when Apple Vision Pro becomes available.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NN" name=""> <!-- this rule should be a style rule + picky -->
             <rule>
                 <pattern>
