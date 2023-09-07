@@ -1135,7 +1135,11 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest_innenausbieldung ist schwer.")).length, is(2));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest*innenausbieldung ist schwer.")).length, is(2));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest:innenausbieldung ist schwer.")).length, is(2));
-    
+
+    assertThat(rule.match(lt.getAnalyzedSentence("Die SEO-Expert*innen")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die SEO-Expxrt*innen")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die SEO-Expert*annen")).length, is(2));
+
     //check common file name with _
     assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.txt.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.txt und ist leer.")).length, is(0));
