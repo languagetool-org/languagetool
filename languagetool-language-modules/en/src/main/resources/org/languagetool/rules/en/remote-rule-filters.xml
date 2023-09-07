@@ -2122,6 +2122,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">On Sep <marker>20th</marker> of the year 2021.</example>
             </rule>
             <rule>
+                <!-- #12 more money more problems -->
+                <pattern>
+                    <marker>
+                        <token postag="IN|RP|TO" postag_regexp="yes" />
+                    </marker>
+                    <token postag="CD" />
+                    <token regexp="yes">[\$€£¥]</token>
+                </pattern>
+                <example correction="">Please find attached the adjustment to the price: The former shareholders will get a payment <marker>of</marker> 5001 € in total.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">.*[a-z0-9].*</token>
