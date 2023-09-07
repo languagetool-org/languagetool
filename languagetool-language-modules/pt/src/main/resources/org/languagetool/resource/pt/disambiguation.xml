@@ -622,6 +622,15 @@
        </and>
        </marker>
       </antipattern>
+      <antipattern>
+          <unify>
+                <feature id="number"><type id="plural"></type></feature>
+                <token postag_regexp="yes" postag="N.+"/>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+            </unify>
+            <token postag_regexp="yes" postag="R." min="0" max="3"/>
+            <token postag_regexp="yes" postag="(N|AQ)..P.+" regexp="yes">.+ais$</token>
+      </antipattern>
       <pattern>
           <token postag="R.+" postag_regexp="yes">
             <exception scope='previous' postag="(A|C|D|PP|R|V).+|_PUNCT" postag_regexp="yes"/>
@@ -637,6 +646,8 @@
       </pattern>
       <disambig action="filter" postag="V.+"/>
       <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
+      <example type="untouched">Os espaços não formais são bons.</example>
+      <example type="untouched">As bagagens não convencionais não cabem.</example>
     </rule>
     <rule>
       <pattern>

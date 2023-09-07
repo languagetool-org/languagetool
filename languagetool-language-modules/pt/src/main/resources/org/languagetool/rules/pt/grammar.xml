@@ -8271,6 +8271,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Para nós nada é impossível.</example>
             <example>Entre nós havia química.</example>
         </antipattern>
+        <antipattern> <!-- issues with adjectives ending in -ais that aren't in the spelling dict with -al, but there are verbs that end up matching the 2P form -->
+            <unify>
+                <feature id="number"><type id="plural"></type></feature>
+                <token postag_regexp="yes" postag="N.+"/>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+            </unify>
+            <token postag_regexp="yes" postag="R." min="0" max="3"/>
+            <token postag_regexp="yes" postag="V...2P." regexp="yes">.+ais$</token>
+            <token postag_regexp="yes" postag="R." min="0" max="3"/>
+            <token postag_regexp="yes" postag="V...3P."/>
+            <example>as ações revisionais são</example>
+            <example>os prazos recursais não procedem</example>
+            <example>As membranas arqueais ainda não criaram</example>
+            <example>os proprietários registrais estão aqui</example>
+            <example>as papilas ruminais nunca teriam</example>
+            <example>os comandos sentenciais nunca mais foram</example>
+            <example>As manifestações grupais não permitem</example>
+            <example>Os seios venosos durais lá vão</example>
+            <!-- actual disambig issue, should be fixed now -->
+            <example>os espaços não formais são</example>
+            <example>as bagagens não convencionais agora desaparecerão</example>
+        </antipattern>
 
         <rule> <!-- #1: eu + verb -->
             <antipattern>
@@ -10064,7 +10086,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="foram suas férias">Como <marker>foi suas férias</marker>?</example>
         </rule>
     </rulegroup>
-
         <!-- CUJO , cujo -->
         <rulegroup id='CUJO_EM_INICIO_DE_FRASE' name="'cujo' em início de frase">
             <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-10-20 (25-JUN-2021+)      -->
