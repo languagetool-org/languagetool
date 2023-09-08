@@ -620,6 +620,7 @@ public class English extends Language implements AutoCloseable {
       case "PRP_VB_NN":                 return -25;  // prefer other more specific rules (e.g. HYDRA_LEO)
       case "BE_NN":                     return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "BE_VB_OR_NN":               return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
+      case "DO_DT_NN_BE":               return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "PRONOUN_NOUN":              return -26;  // prefer other rules (with suggestions, e.g. confusion rules)
       case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
