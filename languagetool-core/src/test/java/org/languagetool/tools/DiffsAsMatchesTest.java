@@ -31,6 +31,7 @@ public class DiffsAsMatchesTest {
   @Test
   public void testDiffsAsMatches() throws IOException {
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
+
     String original = "This are a sentence with too mistakes.";
     String revised = "This is a sentence with two mistakes.";
     List<PseudoMatch> matches = diffsAsMatches.getPseudoMatches(original, revised);
