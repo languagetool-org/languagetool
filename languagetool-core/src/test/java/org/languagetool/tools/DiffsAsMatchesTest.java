@@ -32,6 +32,14 @@ public class DiffsAsMatchesTest {
   public void testDiffsAsMatches() throws IOException {
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
 
+    String original0 = "This is a \"thing\". This is.";
+    String revised0 = "This is a \"thing.\" This is.";
+    List<PseudoMatch> matches0 = diffsAsMatches.getPseudoMatches(original0, revised0);
+    assertEquals(1, matches0.size());
+    assertEquals("[\"thing.\"]", matches0.get(0).getReplacements().toString());
+    assertEquals(10, matches0.get(0).getFromPos());
+    assertEquals(18, matches0.get(0).getToPos());
+
     String original = "This are a sentence with too mistakes.";
     String revised = "This is a sentence with two mistakes.";
     List<PseudoMatch> matches = diffsAsMatches.getPseudoMatches(original, revised);

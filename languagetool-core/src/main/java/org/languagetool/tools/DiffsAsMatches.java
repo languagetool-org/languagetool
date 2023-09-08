@@ -51,8 +51,12 @@ public class DiffsAsMatches {
         fromPos += origList.get(i).length();
       }
       boolean wasLastWhitespace = false;
+      String lastPunctuationStr = "";
       if (errorIndex - 1 < origList.size() && errorIndex - 1 > -1) {
-        wasLastWhitespace = origList.get(errorIndex - 1).equals(" ");
+        wasLastWhitespace = StringTools.isWhitespace(origList.get(errorIndex - 1));
+        if (StringTools.isPunctuationMark(origList.get(errorIndex - 1))) {
+          lastPunctuationStr = origList.get(errorIndex - 1);
+        };
       }
 
       String underlinedError = String.join("", inlineDelta.getSource().getLines());
@@ -79,10 +83,11 @@ public class DiffsAsMatches {
       // serealiza -> se realiza CHANGE + INSERT -> 1 match
       if (lastMatch != null && lastInlineDelta.getType() == DeltaType.CHANGE
           && inlineDelta.getType() == DeltaType.INSERT
-          && origList.get(inlineDelta.getSource().getPosition() - 1).equals(" ")
+          //&& origList.get(inlineDelta.getSource().getPosition() - 1).equals(" ")
+          && (wasLastWhitespace || !lastPunctuationStr.isEmpty())
           && inlineDelta.getSource().getPosition() - 1 == lastInlineDelta.getSource().getPosition()
               + lastInlineDelta.getSource().getLines().size()) {
-        String newReplacement = lastMatch.getReplacements().get(0) + replacement.substring(toPos - fromPos);
+        String newReplacement = lastMatch.getReplacements().get(0) + lastPunctuationStr + replacement.substring(toPos - fromPos);
         match = new PseudoMatch(newReplacement, lastMatch.getFromPos(), toPos);
         matches.remove(matches.size() - 1);
         // CHANGE + DELETE
