@@ -929,11 +929,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <marker>
                         <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">dar|bater</token>
                     </marker>
-                    <token regexp="yes">\d{1,2}h</token>
+                    <token regexp="yes">\d{1,2}h|\d{1,2}:\d{2}</token>
                 </pattern>
                 <message>É obrigatória a concordância entre o verbo &quot;<match no="3" postag_regexp="yes" postag=".+" postag_replace="VMN0000"/>&quot; e &quot;horas&quot;.</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
                 <example correction="Darão"><marker>Dará</marker> 10h da manhã.</example>
+                <example correction="Bateram"><marker>Bateu</marker> 2:35.</example>
             </rule>
 
             <rule> <!-- vai dar 10h -->
@@ -944,13 +945,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">ir|estar|ter|haver</token>
                     </marker>
                     <token regexp="yes" postag_regexp="yes" postag="V.[NGP].+" inflected="yes">dar|bater</token>
-                    <token regexp="yes">\d{1,2}h</token>
+                    <token regexp="yes">\d{1,2}h|\d{1,2}:\d{2}</token>
                 </pattern>
                 <message>É obrigatória a concordância entre o verbo &quot;\4>&quot; e &quot;horas&quot;.</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
                 <example correction="vão">Já <marker>vai</marker> bater 4h.</example>
                 <example correction="Estão"><marker>Está</marker> dando 10h da noite e ele ainda não chegou.</example>
                 <example correction="tinham">Não <marker>tinha</marker> dado 3h da tarde.</example>
+                <example correction="Haviam"><marker>Havia</marker> batido 22:05.</example>
             </rule>
 
             <rule> <!-- deu 10 da noite -->
