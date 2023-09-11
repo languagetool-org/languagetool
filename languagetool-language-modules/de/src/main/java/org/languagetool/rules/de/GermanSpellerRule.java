@@ -65,7 +65,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
-    // some of these are taken fom hunspell's dictionary where non-suggested words use tag "/n":
+    // some of these are taken from hunspell's dictionary where non-suggested words use tag "/n":
     "verjuden", "verjudet", "verjudeter", "verjudetes", "verjudeter", "verjudeten", "verjudetem",
     "entjuden", "entjudet", "entjudete", "entjudetes", "entjudeter", "entjudeten", "entjudetem",
     "auschwitzmythos",
