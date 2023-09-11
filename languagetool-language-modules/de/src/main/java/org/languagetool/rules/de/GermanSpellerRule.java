@@ -3556,7 +3556,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Eurocup": return topMatch("EuroCup");
       case "Eurocups": return topMatch("EuroCups");
       case "etc": return topMatch("etc.");
-      case "Vermögensteuer": return topMatch("Vermögenssteuer");
     }
     return Collections.emptyList();
   }
