@@ -279,7 +279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes">Нь?ю</token>
-          <token inflected="yes" regexp="yes">Йорк|Джерсі</token>
+          <token inflected="yes" regexp="yes">Йорк|Джер[сз]і</token>
         </pattern>
         <message>Це слово пишеться через дефіс: <suggestion>Нью-\2</suggestion></message>
         <example correction="Нью-Йорк">у <marker>Нью Йорк</marker>.</example>
@@ -1096,7 +1096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">В2В.*</token>
+          <token regexp="yes" case_sensitive="yes">В2В.*</token>
         </pattern>
         <message>Потенційна помилка: українські літери замість латинських</message>
         <suggestion><match no="1" regexp_match="В2В(.*)" regexp_replace="B2B$1"/></suggestion>
@@ -1128,12 +1128,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token>ВВС</token>
+          <token case_sensitive="yes" regexp="yes">ВВС([-—].+)?</token>
         </pattern>
         <message>Потенційна помилка: українські літери замість латинських</message>
-        <suggestion><match no="1" regexp_match="ВВС" regexp_replace="BBC" case_conversion="startupper"/></suggestion>
-        <suggestion><match no="1" regexp_match="ВВС" regexp_replace="Бі-Бі-Сі" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="1" regexp_match="ВВС([-—].+)?" regexp_replace="BBC$1"/></suggestion>
+        <suggestion><match no="1" regexp_match="ВВС([-—].+)?" regexp_replace="Бі-Бі-Сі$1"/></suggestion>
         <example correction="BBC|Бі-Бі-Сі">повідомляє <marker>ВВС</marker> Україна.</example>
+        <example correction="BBC-Україна|Бі-Бі-Сі-Україна">повідомляла <marker>ВВС-Україна</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -1154,18 +1155,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token case_sensitive="yes">СО</token>
+          <token case_sensitive="yes" regexp="yes">СО2?</token>
         </pattern>
         <message>Потенційна помилка: українські літери замість латинських</message>
-        <suggestion>CO</suggestion>
+        <suggestion><match no="1" regexp_match="СО(.*)" regexp_replace="CO$1"/></suggestion>
         <example correction="CO">рівень <marker>СО</marker> в крові.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token case_sensitive="yes">СО2</token>
-        </pattern>
-        <message>Потенційна помилка: українські літери замість латинських</message>
-        <suggestion>CO2</suggestion>
         <example correction="CO2">рівень <marker>СО2</marker> в крові.</example>
       </rule>
     </rulegroup>
