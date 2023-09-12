@@ -24752,7 +24752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag_regexp="yes" postag="N.*|PP3[MF]S000"><exception postag="_loc_unavez|V.I.*|RG" postag_regexp="yes"/><exception regexp="yes">.*%</exception></token>
+                        <token postag_regexp="yes" postag="N.*|PP3[MF][SP]000"><exception postag="_loc_unavez|V.I.*|RG" postag_regexp="yes"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
                             <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
                             <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
@@ -24767,6 +24767,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="bonita">África es <marker>bonito</marker>.</example>
                 <example correction="hermosa">Ella es <marker>hermoso</marker>.</example>
                 <example correction="bello">Él es <marker>bella</marker>.</example>
+                <example correction="hermosas">Ellas son <marker>hermosos</marker>.</example>
+                <example correction="bellos">Ellos son <marker>bella</marker>.</example>
                 <example>Mira que es raro.</example>
                 <example>Odio estar soltera.</example>
                 <example>Procura no quedarte dormido.</example>
@@ -24777,7 +24779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavez|V.I.*|RG" postag_regexp="yes"/><exception regexp="yes">.*%</exception></token>
+                        <token postag_regexp="yes" postag="N.*|PP3[MF][SP]000"><exception postag="_loc_unavez|V.I.*|RG" postag_regexp="yes"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
                             <token min="0" max="3" inflected="yes" regexp="yes">no|poder|de|ir|haber|que</token>
                             <token regexp="yes" inflected="yes">ser|estar|parecer|quedar</token>
@@ -24788,9 +24790,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </unify>
                 </pattern>
-                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:N.(.)(.).* postagReplace:V.P..\b2\b1|A..\b1\b2."/>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:marker lemmaSelect:V.P.*|A.* postagFrom:2 postagSelect:(N.|PP3)(.)(.).* postagReplace:V.P..\b3\b2|A..\b2\b3."/>
                 <message>Posible error de concordancia.</message>
                 <example correction="bonita">Gambia no es muy <marker>bonito</marker>.</example>
+                <example correction="bonitos">Ellos no son muy <marker>bonitas</marker>.</example>
                 <example>Igual estáis tan perdidos como yo.</example>
                 <example>Y es muy extraño.</example>
             </rule>
