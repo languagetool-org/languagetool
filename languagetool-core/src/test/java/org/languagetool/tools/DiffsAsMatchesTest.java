@@ -141,7 +141,23 @@ public class DiffsAsMatchesTest {
     assertEquals("[It describes]", matches.get(0).getReplacements().toString());
     assertEquals(0, matches.get(0).getFromPos());
     assertEquals(10, matches.get(0).getToPos());
-    
+
+    original = "(Calle)Hace falta tener en cuenta una economía estable, un trabajo bueno.";
+    revised = "Hace falta tener en cuenta una economía estable, un trabajo bueno.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[]", matches.get(0).getReplacements().toString());
+    assertEquals(0, matches.get(0).getFromPos());
+    assertEquals(7, matches.get(0).getToPos());
+
+    original = "(Calle)Hace falta tener en cuenta una economía estable, un trabajo bueno.";
+    revised = "(Calle) Hace falta tener en cuenta una economía estable, un trabajo bueno.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[Calle) ]", matches.get(0).getReplacements().toString());
+    assertEquals(1, matches.get(0).getFromPos());
+    assertEquals(7, matches.get(0).getToPos());
+
   }
 
 }
