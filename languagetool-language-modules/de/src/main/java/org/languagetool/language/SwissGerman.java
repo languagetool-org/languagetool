@@ -30,12 +30,16 @@ import org.languagetool.rules.de.SwissGermanSpellerRule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.SwissGermanTagger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class SwissGerman extends German {
+
+  private static final Logger logger = LoggerFactory.getLogger(SwissGerman.class);
 
   @NotNull
   @Override
@@ -82,6 +86,25 @@ public class SwissGerman extends German {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
+      //TODO: replace this by supporting remote-rule-filter for language variants
+      if (rm.getRule().getId().equals("AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL")) {
+        String matchingString = null;
+        if (rm.getSentence() != null) {
+          if (rm.getFromPos() > -1 && rm.getToPos() > -1) {
+            String sentenceStr = rm.getSentence().getText();
+            if (!sentenceStr.isEmpty()) {
+              matchingString = sentenceStr.substring(rm.getFromPos(), rm.getToPos());
+            }
+          }
+        }
+        System.out.println(rm.getOriginalErrorStr());
+        String finalMatchingString = matchingString;
+        if (matchingString != null && matchingString.contains("ss") && rm.getSuggestedReplacements().stream().anyMatch(suggestion -> suggestion.equals(finalMatchingString.replace("ss", "ß")))) {
+          logger.info("Remove match with ruleID: AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL ({} -> {})", matchingString, rm.getSuggestedReplacements());
+          continue;
+        }
+      }
+
       List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
       for (SuggestedReplacement s : replacements) {
