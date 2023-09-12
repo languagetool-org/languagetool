@@ -3907,4 +3907,24 @@
           Os meninos <marker>precisa</marker> das mães.
       </example>
   </rule>
+
+  <rulegroup id="REMOVE_PODAR_FROM_MODAL_PODER" name="Remove 'podar' tags from obvious 'poder' cases">
+      <rule>
+          <pattern>
+              <marker>
+                  <token inflected="yes" postag_regexp="yes" postag="V.+">poder</token>
+              </marker>
+              <token postag_regexp="yes" postag="R." min="0" max="2"/>
+              <token regexp="yes" min="0">&pronomes_obliquos;</token>
+              <token postag="VMN0000"/>
+          </pattern>
+          <disambig action="remove"><wd lemma="podar"/></disambig>
+          <example
+              inputform="pode[podar/VMM03S0,podar/VMSP1S0,podar/VMSP3S0,poder/VMIP3S0,poder/VMM02S0]"
+              outputform="pode[poder/VMIP3S0,poder/VMM02S0]"
+              type="ambiguous">
+              Ele <marker>pode</marker> não me dizer.
+          </example>
+      </rule>
+  </rulegroup>
 </rules>

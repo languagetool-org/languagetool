@@ -11102,11 +11102,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='NON_IMPERSONAL_VERBS' name="Concordância Verbal: Verbos não-impessoais: existir, bastar, faltar, etc.">
-            <!--      Created by Tiago F. Santos (2017-02-27) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-21/22 (Checked/Enhanced) (5-JUN-2022+)      -->
-            <!-- Ricardo suggested more verbs (chegar, acabar, ficar, sair, entrar) and Marco added exceptions and antipatterns to fix false positives -->
-
-            <!-- Antipatterns global for this rulegroup -->
-            <!-- First for nouns -->
             <antipattern>
                 <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
                     <exception regexp='yes'>n[ao]s?</exception>
@@ -11121,8 +11116,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>E logo ao lado da porta ficam o espelho, o cesto de roupas sujas e os ganchos para pendurar roupas (nesta primeira foto o pijaminha...</example>
                 <example>...oje em dia que há 20 anos atrás seriam inconcebíveis, mas é assim mesmo se os finais dos tempos não chegarem Jesus não volta e não usufruímos da morada celestial a qual ele tem preparado na casa de seu Pai.</example>
             </antipattern>
-            <!-- Second for Proper Names -->
-            <antipattern>
+            <antipattern> <!-- Second for Proper Names -->
                 <token min="0" max="1" postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
                     <exception regexp='yes'>n[ao]s?</exception>
                 </token>
@@ -11139,8 +11133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Tom saiu horas atrás.</example>
                 <example>O caso de Sami acabou meses atrás.</example>
             </antipattern>
-            <!-- Part of a compound subject (for plural verbs) -->
-            <antipattern>
+            <antipattern> <!-- Part of a compound subject (for plural verbs) -->
                 <and>
                     <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
                     <token postag='V....P.+' postag_regexp='yes'/>
@@ -11155,8 +11148,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Dentro do peito, existem o coração e o pulmão.</example>
                 <example>Entram André Horta e Jonas, saem Chrien e Rafa53' - Golo do Leipzig!</example>
             </antipattern>
-
-            <!-- Quick fix: MARCOAGPINTO - 2023-04-16 -->
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token regexp='yes'>tod[ao]s</token>
@@ -11165,44 +11156,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Acabará todas as suas manhãs apanhando o autocarro.</example>
             </antipattern>
 
-            <rule>
+            <rule> <!-- #1: main verb -->
                 <pattern>
-                    <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
-                        <exception>sobre</exception>
-
-                        <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *START*-->
-                        <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
-                        <exception postag_regexp='yes' postag='SPS00|VMN0000'/>
-                        <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
-                        <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
-                        <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *END*-->
-
-                    </token>
+                    <marker>
+                        <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
+                            <exception>sobre</exception>
+                            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
+                            <exception postag_regexp='yes' postag='SPS00|VMN0000'/>
+                            <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
+                            <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+                        </token>
+                    </marker>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
                     <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/>
+                    </token>
                 </pattern>
-                <message>Este não é um verbo impessoal.</message>
-                <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/> \2</suggestion>
-                <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)P(.+)' postag_replace='$1S$2'/></suggestion>
-                <example correction="existem muitas|existe muita">Na vida <marker>existe muitas</marker> coisas boas.</example>
+                <message>O verbo &quot;<match no="1" postag_regexp="yes" postag=".+" postag_replace="VMN000"/>&quot; não é impessoal e, portanto, exige concordância com o seu sujeito.</message>
+                <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/></suggestion>
+                <example correction="existem">Na vida <marker>existe</marker> muitas coisas boas.</example>
+                <example correction="Acontecem"><marker>Acontece</marker> ainda vários outros problemas.</example>
                 <example>Por favor, basta nos enviar o inquérito para mais detalhes sobre nossos liquidificadores de alimentos elétricos.</example>
                 <example>...s, como eles próprios o são. Os rebanhos, os bens e todos os animais domésticos serão assim nossos. Basta lhes darmos o consentimento e eles habitarão conosco.</example>
             </rule>
-            <rule>
+
+            <rule default="temp_off"> <!-- #2: aux verb -->
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">
+                            &verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;
+                            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
+                            <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+                        </token>
+                    </marker>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token postag_regexp="yes" postag="VM[NGP].+" regexp="yes" inflected="yes">&verbos_nao_impessoais;
+                        <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/>
+                    </token>
+                </pattern>
+                <message>O verbo &quot;<match no="3" postag_regexp="yes" postag=".+" postag_replace="VMN000"/>&quot; não é impessoal e, portanto, exige concordância com o seu sujeito.</message>
+                <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/></suggestion>
+                <example correction="vão">Na vida <marker>vai</marker> existir muitas coisas boas.</example>
+                <example correction="Poderão"><marker>Poderá</marker> ainda acontecer mais incentivos como esses.</example>
+                <example correction="Podem"><marker>Pode</marker> nunca mais sobrar tantas sobremesas.</example>
+                <example correction="haveriam">Não sei se <marker>haveria</marker> ocorrido tantos acidentes.</example>
+            </rule>
+
+            <rule> <!-- #3: this sub-rule makes no sense, impersonal verbs aren't used in the plural, but I'm leaving it here for now -->
                 <pattern>
                     <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
-                        <exception>sobre</exception> <!-- copied from above - MARCOAGPINTO - 2022-07-01 -->
-
-                        <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *START*-->
+                        <exception>sobre</exception>
                         <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
                         <exception postag_regexp='yes' postag='SPS00|VMN0000'/>
                         <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
                         <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
-                        <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *END*-->
-
                     </token>
                     <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'/></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'/>
+                    </token>
                 </pattern>
                 <message>Este não é um verbo impessoal.</message>
                 <suggestion><match no='1' postag_regexp='yes' postag='(V...)3P(.+)' postag_replace='$13S$2'/> \2</suggestion>
