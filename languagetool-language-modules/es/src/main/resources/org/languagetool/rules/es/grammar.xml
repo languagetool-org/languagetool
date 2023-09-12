@@ -29962,6 +29962,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rulegroup id="COMA_Y_PUNTO" name="dos signos de puntuación: coma y punto" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Dos signos de puntuación seguidos. ¿Quería usar el punto o la coma?</message>
+                <suggestion>,</suggestion>
+                <suggestion>.</suggestion>
+                <example correction=",|.">Adiós<marker>,.</marker> le dije.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[a-z]</token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">,</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" postag="UNKNOWN">&abreviaturas;<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[SD]r(a|as|es)?</token>
+                    <token spacebefore="no">.</token>
+                </antipattern>
+                <pattern>
+                    <token>.</token>
+                    <token spacebefore="no">,</token>
+                </pattern>
+                <message>Dos signos de puntuación seguidos. ¿Quería usar el punto o la coma?</message>
+                <suggestion>.</suggestion>
+                <suggestion>,</suggestion>
+                <example correction=".|,">Adiós<marker>.,</marker> le dije.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANOS_SIN_PUNTO" name="años y números de página sin punto: *1.950">
             <url>https://www.fundeu.es/recomendacion/los-anos-sin-punto-ni-espacio/</url>
             <rule>
