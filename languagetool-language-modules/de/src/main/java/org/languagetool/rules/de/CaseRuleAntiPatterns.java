@@ -1711,6 +1711,10 @@ class CaseRuleAntiPatterns {
       csRegex("Verbraucherpreisindex(e[sn]?)?")
     ),
     Arrays.asList(
+      csRegex("Gro(ss|ß)e[n]?"),
+      csRegex("Koalition(en?)?")
+    ),
+    Arrays.asList(
       csRegex("[A-ZÄÖÜ].+stereotypen?")
     )
   );
