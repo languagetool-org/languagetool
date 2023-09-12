@@ -97,9 +97,8 @@ public class SwissGerman extends German {
             }
           }
         }
-        System.out.println(rm.getOriginalErrorStr());
         String finalMatchingString = matchingString;
-        if (matchingString != null && matchingString.contains("ss") && rm.getSuggestedReplacements().stream().anyMatch(suggestion -> suggestion.equals(finalMatchingString.replace("ss", "ß")))) {
+        if (finalMatchingString != null && finalMatchingString.contains("ss") && rm.getSuggestedReplacements().stream().anyMatch(suggestion -> suggestion.equals(finalMatchingString.replace("ss", "ß")))) {
           logger.info("Remove match with ruleID: AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL ({} -> {})", matchingString, rm.getSuggestedReplacements());
           continue;
         }
