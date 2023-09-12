@@ -14560,6 +14560,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estadounidenses">Los <marker>Estado Unidenses</marker></example>
             </rule>
             <rule default="on">
+                <antipattern>
+                    <token inflected="yes" regexp="yes">dudar|duda|preguntar|pregunta</token>
+                    <token>sobre</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <example>Por si dudas sobre escribir “entorno a” o en torno a.</example>
+                </antipattern>
                 <pattern>
                     <token>sobre</token>
                     <token min="0">-</token>
