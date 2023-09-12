@@ -897,6 +897,110 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rulegroup id="CONCORDANCIA_DAR_HORAS" name="Concordância de construções como 'deram dez horas' => 'deu dez horas'" default="temp_off">
+            <rule> <!-- deu 10 horas -->
+                <pattern>
+                    <token postag="SENT_START"/> <!-- keep it tightly scoped -->
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">dar|bater</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="Z.+"/>
+                    <token regexp="yes">horas|h(rs?)?</token> <!-- account for incorrect abbreviations as well -->
+                </pattern>
+                <message>É obrigatória a concordância entre o verbo &quot;<match no="3" postag_regexp="yes" postag=".+" postag_replace="VMN0000"/>&quot; e &quot;horas&quot;.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
+                <example correction="bateram">Já <marker>bateu</marker> quatro horas.</example>
+                <example correction="Deram"><marker>Deu</marker> 10 h da noite e ele ainda não chegou.</example>
+            </rule>
+
+            <rule> <!-- vai dar 10 horas -->
+                <pattern>
+                    <token postag="SENT_START"/> <!-- keep it tightly scoped -->
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">ir|estar|ter|haver</token>
+                    </marker>
+                    <token regexp="yes" postag_regexp="yes" postag="V.[NGP].+" inflected="yes">dar|bater</token>
+                    <token postag_regexp="yes" postag="Z.+"/>
+                    <token regexp="yes">horas|h(rs?)?</token> <!-- account for incorrect abbreviations as well -->
+                </pattern>
+                <message>É obrigatória a concordância entre o verbo &quot;\4>&quot; e &quot;horas&quot;.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
+                <example correction="vão">Já <marker>vai</marker> bater quatro horas.</example>
+                <example correction="Estão"><marker>Está</marker> dando 10 h da noite e ele ainda não chegou.</example>
+                <example correction="tinham">Não <marker>tinha</marker> dado três horas da tarde.</example>
+            </rule>
+
+            <rule> <!-- deu 10h -->
+                <pattern>
+                    <token postag="SENT_START"/> <!-- keep it tightly scoped -->
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">dar|bater</token>
+                    </marker>
+                    <token regexp="yes">\d{1,2}h|\d{1,2}:\d{2}</token>
+                </pattern>
+                <message>É obrigatória a concordância entre o verbo &quot;<match no="3" postag_regexp="yes" postag=".+" postag_replace="VMN0000"/>&quot; e &quot;horas&quot;.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
+                <example correction="Darão"><marker>Dará</marker> 10h da manhã.</example>
+                <example correction="Bateram"><marker>Bateu</marker> 2:35.</example>
+            </rule>
+
+            <rule> <!-- vai dar 10h -->
+                <pattern>
+                    <token postag="SENT_START"/> <!-- keep it tightly scoped -->
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">ir|estar|ter|haver</token>
+                    </marker>
+                    <token regexp="yes" postag_regexp="yes" postag="V.[NGP].+" inflected="yes">dar|bater</token>
+                    <token regexp="yes">\d{1,2}h|\d{1,2}:\d{2}</token>
+                </pattern>
+                <message>É obrigatória a concordância entre o verbo &quot;\4>&quot; e &quot;horas&quot;.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
+                <example correction="vão">Já <marker>vai</marker> bater 4h.</example>
+                <example correction="Estão"><marker>Está</marker> dando 10h da noite e ele ainda não chegou.</example>
+                <example correction="tinham">Não <marker>tinha</marker> dado 3h da tarde.</example>
+                <example correction="Haviam"><marker>Havia</marker> batido 22:05.</example>
+            </rule>
+
+            <rule> <!-- deu 10 da noite -->
+                <pattern>
+                    <token postag="SENT_START"/> <!-- keep it tightly scoped -->
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">dar|bater</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="Z.+"/>
+                    <token>da</token>
+                    <token regexp="yes">matina|manhã|tarde|noite|madrugada</token>
+                </pattern>
+                <message>É obrigatória a concordância entre o verbo &quot;<match no="3" postag_regexp="yes" postag=".+" postag_replace="VMN0000"/>&quot; e &quot;horas&quot;.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
+                <example correction="bateram">Já <marker>bateu</marker> quatro da manhã.</example>
+                <example correction="Deram"><marker>Deu</marker> 10 da noite e ele ainda não chegou.</example>
+            </rule>
+
+            <rule> <!-- vai dar 10 da noite -->
+                <pattern>
+                    <token postag="SENT_START"/> <!-- keep it tightly scoped -->
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">ir|estar|ter|haver</token>
+                    </marker>
+                    <token regexp="yes" postag_regexp="yes" postag="V.[NGP].+" inflected="yes">dar|bater</token>
+                    <token postag_regexp="yes" postag="Z.+"/>
+                    <token>da</token>
+                    <token regexp="yes">matina|manhã|tarde|noite|madrugada</token>
+                </pattern>
+                <message>É obrigatória a concordância entre o verbo &quot;\4>&quot; e &quot;horas&quot;.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="V(...)3S(.)" postag_replace="V$13P$2"/></suggestion>
+                <example correction="vão">Já <marker>vai</marker> bater quatro da manhã.</example>
+                <example correction="Estão"><marker>Está</marker> dando 10 da noite e ele ainda não chegou.</example>
+                <example correction="tinham">Não <marker>tinha</marker> dado três da tarde.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCIA_SOBRESCRITO" name="Problema de concordância no sobrescrito de ordinais">
             <rule> <!-- fem superscript, masc. NP -->
                 <pattern>
