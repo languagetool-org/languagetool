@@ -3191,6 +3191,71 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">And<marker>,</marker> you two had been friends for so long that you forgot.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DELETE_DTSPACEUNDERSCORESP" name="">
+            <rule>  <!-- combined with other rule, unnecessarily removes the noun phrase -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" chunk_re="B-NP.*">an?</token>
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token min="0" postag="J.*" postag_regexp="yes" />
+                    <token min="0" regexp="yes">and|but</token>
+                    <token min="0" postag="RB" />
+                    <token postag="J.*" postag_regexp="yes" chunk_re="I-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                </pattern>
+                <example correction="">Its message is purely <marker>a</marker> spiritual one, an allegory symbolic of the spiritual path, which is equally relevant in all ages and for all people.</example>
+                <example correction="">I know that Tom isn't <marker>a</marker> reckless person.</example>
+                <example correction="">Soon, scientists say, solar cells will be <marker>an</marker> integral and virtually unnoticed view.</example>
+                <example correction="">It's not <marker>an</marker> easy thing to meet your maker.</example>
+            </rule>
+            <rule>  <!-- unnecessary specific to generic DP -->
+                <antipattern>
+                    <token chunk_re="B-NP.*">the</token>
+                    <token min="0" max="2" chunk_re="I-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                    <token>of</token>
+                    <token skip="1" chunk="B-NP-plural">the</token>
+                    <token postag="NNS" chunk="E-NP-plural" />
+                    <example>I have the list of the participants for the blood drive.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token chunk="B-NP-plural">the</token>
+                    </marker>
+                    <token min="0" chunk="I-NP-plural" />
+                    <token postag="NNS" chunk="E-NP-plural">
+                        <exception>sports</exception>
+                    </token>
+                </pattern>
+                <example correction="">He's not great at communication on <marker>the</marker> other topics.</example>
+                <example correction="">Rep. Petri and Rep. Barton chair subcommittees that will hold <marker>the</marker> hearings on the bill in these two committees.</example>
+                <example correction="">This is a community center that belongs to <marker>the</marker> immigrants.</example>
+                <example correction="">Can computable numbers be used instead of <marker>the</marker> reals?</example>
+                <example>I don't like the sports.</example>
+            </rule>
+            <rule>  <!-- quotes -->
+                <pattern>
+                    <token skip="-1" regexp="yes">&quote;</token>
+                    <marker>
+                        <token skip="-1" postag="DT" />
+                    </marker>
+                    <token regexp="yes">&quote;</token>
+                </pattern>
+                <example correction="">Our “<marker>The</marker> Club” members come from various backgrounds.</example>
+            </rule>
+            <rule>  <!-- a Mr. West; idiomatic -->
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[Mm]([Rr][Ss]?|[Ss])</token>
+                </pattern>
+                <example correction=""><marker>A</marker> Mr. Ono called to see you.</example>
+                <example correction=""><marker>A</marker> Mrs. Ono called to see you.</example>
+                <example correction=""><marker>A</marker> Ms. Ono called to see you.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DELETE_PERIOD" name="">
             <rule>  <!-- don't delete ellipsis at end of sentence -->
                 <pattern>
