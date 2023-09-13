@@ -3290,6 +3290,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Or maybe God, as before, saved us, to become the creator of the peace<marker>?</marker>! </example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DELETE_UNDERSCORESPSPACENN" name="">
+            <rule>  <!-- combined with other rule, unnecessarily removes the noun phrase -->
+                <pattern>
+                    <token regexp="yes" chunk_re="B-NP.*">an?</token>
+                    <token min="0" postag="RB" />
+                    <token min="0" postag="J.*" postag_regexp="yes" />
+                    <token min="0" regexp="yes">and|but</token>
+                    <token min="0" postag="RB" />
+                    <token postag="J.*" postag_regexp="yes" chunk_re="I-NP.*" />
+                    <marker>
+                        <token chunk_re="E-NP.*" />
+                    </marker>
+                </pattern>
+                <example correction="">Its message is purely a spiritual <marker>one</marker>, an allegory symbolic of the spiritual path, which is equally relevant in all ages and for all people.</example>
+                <example correction="">I know that Tom isn't a reckless <marker>person</marker>.</example>
+                <example correction="">Soon, scientists say, solar cells will be an integral and virtually unnoticed <marker>view</marker>.</example>
+                <example correction="">It's not an easy <marker>thing</marker> to meet your maker.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_INSERT_COMMA" name="">
             <rule>
                 <pattern>
