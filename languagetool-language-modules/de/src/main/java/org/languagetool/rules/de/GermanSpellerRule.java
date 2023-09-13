@@ -3545,6 +3545,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Prigozhins": return topMatch("Prigoschins");
       case "unhilfreich": return topMatch("unbehilflich");
       case "gestriffen": return topMatch("gestreift");
+      case "dererseits": return topMatch("ihrerseits");
       case "Regattas": return topMatch("Regatten");
       case "Segelregattas": return topMatch("Segelregatten");
       case "Brics-Staat": return topMatch("BRICS-Staat");
