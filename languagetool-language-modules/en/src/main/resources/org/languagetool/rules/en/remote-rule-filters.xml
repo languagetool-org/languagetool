@@ -3038,6 +3038,144 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">“My husband’s right.<marker> </marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_CAPITALIZE_JJ_FOR_NNP_ERROR_IDS_000052" name="">
+            <rule>  <!-- capitalization of covid-19 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Cc]ovid(-19)?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_DT_FOR_DT_ERROR_IDS_000022" name="">
+            <rule>  <!-- capitalization after semicolon -->
+                <pattern>
+                    <token>:</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Please find attached the adjustment to the price: <marker>The</marker> former shareholders will get a payment of 5001 € in total. </example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_NN_FOR_NN_ERROR_IDS_000022" name="">
+            <rule>  <!-- capital after colon is acceptable according to several style guides. Accounts for LOTS of disables... -->
+                <pattern>
+                    <token>:</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Interference by nontuberculous mycobacteria: <marker>Exposure</marker> to environmental mycobacteria (especially M. avium, M. marinum and M. intracellulare) results in a nonspecific immune response against mycobacteria.</example>
+            </rule>
+            <rule>  <!-- capital inside quote if it's a full sentence is also acceptable according to some style guides -->
+                <pattern>
+                    <token regexp="yes">&quote;</token>
+                    <marker>
+                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                    </marker>
+                    <token skip="-1" chunk="B-VP" />
+                    <token regexp="yes">[\.\?\!]</token>
+                    <token regexp="yes">&quote;</token>
+                </pattern>
+                <example correction="">He claims that "<marker>Interest</marker> is the cause; follow-through is the result."</example>
+            </rule>
+            <rule>  <!-- frequently disabled, legal jargon. Can add other frequently disabled words here. -->
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Company</token>
+                    </marker>
+                </pattern>
+                <example correction="">The complaint charges that the defendants misrepresented and concealed material facts concerning the <marker>Company</marker>'s financial transactions with two partnerships established by Enron's Chief Financial Officer, which resulted in substantial losses to Enron and a reduction in shareholders' equity of over $1 billion.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_JJ_ERROR_IDS_000022" name=""> <!-- should be picky -->
+            <rule>  <!-- frequently disabled followed by another capital -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Assistant|Executive|Happy|Lead|(North|South|East|West)(ern)?|Junior|Senior</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                </pattern>
+                <example correction="">We look forward to continuing the momentum in 2001 and wish you and your family a pleasant holiday season and a <marker>Happy</marker> New Year.</example>
+                <example correction="">A second phase of the project, to cost $1.1 billion, would extend the line into <marker>Northern</marker> California.</example>
+            </rule>
+            <rule>  <!-- capitalized according to style guides -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Black|White</token>
+                    </marker>
+                </pattern>
+                <example correction="">The racial makeup of the city was 84.5% <marker>White</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
+                <example correction="">The racial makeup of the city was 3.4% <marker>Black</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name=""> <!-- NEEDS TO BE PICKY -->
+            <rule>  <!-- all caps; I can't add an example sentence for it, but the rule triggers even when the entire sentence is all caps -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+
+                            <exception case_sensitive="yes">I</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">I really need to get this done, but I can't because of this <marker>DONKEY</marker>!</example>
+            </rule>
+            <rule>  <!-- A.M./P.M. -->
+                <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[AP]</token>
+                    <token>.</token>
+                    <token case_sensitive="yes">M</token>
+                    <token>.</token>
+                </marker>
+                </pattern>
+                <example correction="">In this hotel breakfast is served from 7:00 <marker>A.M.</marker> to 10:00 p.m.</example>
+                <example correction="">In this hotel breakfast is served from 7:00 a.m. to 10:00 <marker>P.M.</marker></example>
+            </rule>
+            <rule>  <!-- quotes -->
+                <pattern>
+                    <token regexp="yes">&quote;</token>
+                    <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <marker>
+                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                    <token regexp="yes">&quote;</token>
+                </pattern>
+                <example correction="">"What does it say about the <marker>Stone</marker>?" asked Richard.</example>
+            </rule>
+            <rule>  <!-- Summer 2023 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Winter|Spring|Summer|Fall|Autumn</token>
+                    </marker>
+                    <token regexp="yes">(19|20)[0-9]{2}</token>
+                </pattern>
+                <example correction="">Each of you has been chosen to represent Enron for our <marker>Fall</marker> 2000 recruiting efforts at Carnegie Mellon University.</example>
+            </rule>
+            <rule>  <!-- head of; frequently disabled -->
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Head</token>
+                    </marker>
+                    <token>of</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </pattern>
+                <example correction="">Omar is our <marker>Head</marker> of Production around here.</example>
+            </rule>
+            <rule>  <!-- commonly disabled: political/legal contexts, etc. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Administration|Agreement|State</token>
+                    </marker>
+                </pattern>
+                <example correction="">One could say that this order is consistent with the <marker>Administration</marker>'s present third world country mentality.</example>
+                <example correction="">Such <marker>Agreement</marker> shall provide that any omnibus account or foreign broker identified by a Clearing Member (or another omnibus account or foreign broker) as the buyer or seller of an EFS pursuant to this rule, shall supply the name of its customer.</example>
+                <example correction="">...the committee's affordability analysis, and a number of other factors relevant to the ability of the <marker>State</marker> to meet its projected debt service requirements for the next 5 years.</example>
+                <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DELETE_COMMA" name="">
             <rule>  <!-- don't delete comma after sentence-initial adverb/conjunction -->
                 <pattern>
@@ -3149,103 +3287,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token chunk="B-NP-singular" />
                 </pattern>
                 <example correction="">1978 – Mike Bryan (middle name <marker>unknown),</marker> American tennis player</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="QB_EN_CAPITALIZE_JJ_FOR_NNP_ERROR_IDS_000052" name="">
-            <rule>  <!-- capitalization of covid-19 -->
-                <pattern>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">[Cc]ovid(-19)?</token>
-                    </marker>
-                </pattern>
-                <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="QB_EN_DECAPITALIZE_DT_FOR_DT_ERROR_IDS_000022" name="">
-            <rule>  <!-- capitalization after semicolon -->
-                <pattern>
-                    <token>:</token>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
-                    </marker>
-                </pattern>
-                <example correction="">Please find attached the adjustment to the price: <marker>The</marker> former shareholders will get a payment of 5001 € in total. </example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_JJ_ERROR_IDS_000022" name=""> <!-- should be picky -->
-            <rule>  <!-- frequently disabled followed by another capital -->
-                <pattern>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">Assistant|Executive|Happy|Lead|(North|South|East|West)(ern)?|Junior|Senior</token>
-                    </marker>
-                    <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
-                </pattern>
-                <example correction="">We look forward to continuing the momentum in 2001 and wish you and your family a pleasant holiday season and a <marker>Happy</marker> New Year.</example>
-                <example correction="">A second phase of the project, to cost $1.1 billion, would extend the line into <marker>Northern</marker> California.</example>
-            </rule>
-            <rule>  <!-- capitalized according to style guides -->
-                <pattern>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">Black|White</token>
-                    </marker>
-                </pattern>
-                <example correction="">The racial makeup of the city was 84.5% <marker>White</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
-                <example correction="">The racial makeup of the city was 3.4% <marker>Black</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="QB_EN_DECAPITALIZE_NN_FOR_NN_ERROR_IDS_000022" name="">
-            <rule>  <!-- capital after colon is acceptable according to several style guides. Accounts for LOTS of disables... -->
-                <pattern>
-                    <token>:</token>
-                    <marker>
-                        <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
-                    </marker>
-                </pattern>
-                <example correction="">Interference by nontuberculous mycobacteria: <marker>Exposure</marker> to environmental mycobacteria (especially M. avium, M. marinum and M. intracellulare) results in a nonspecific immune response against mycobacteria.</example>
-            </rule>
-            <rule>  <!-- capital inside quote if it's a full sentence is also acceptable according to some style guides -->
-                <pattern>
-                    <token regexp="yes">&quote;</token>
-                    <marker>
-                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
-                    </marker>
-                    <token skip="-1" chunk="B-VP" />
-                    <token regexp="yes">[\.\?\!]</token>
-                    <token regexp="yes">&quote;</token>
-                </pattern>
-                <example correction="">He claims that "<marker>Interest</marker> is the cause; follow-through is the result."</example>
-            </rule>
-            <rule>  <!-- frequently disabled, legal jargon. Can add other frequently disabled words here. -->
-                <pattern>
-                    <marker>
-                        <token case_sensitive="yes">Company</token>
-                    </marker>
-                </pattern>
-                <example correction="">The complaint charges that the defendants misrepresented and concealed material facts concerning the <marker>Company</marker>'s financial transactions with two partnerships established by Enron's Chief Financial Officer, which resulted in substantial losses to Enron and a reduction in shareholders' equity of over $1 billion.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_NN_ERROR_IDS_000022" name=""> <!-- NEEDS TO BE PICKY -->
-            <rule>  <!-- A.M./P.M. -->
-                <pattern>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">[AP]</token>
-                    <token>.</token>
-                    <token case_sensitive="yes">M</token>
-                    <token>.</token>
-                </marker>
-                </pattern>
-                <example correction="">In this hotel breakfast is served from 7:00 <marker>A.M.</marker> to 10:00 p.m.</example>
-                <example correction="">In this hotel breakfast is served from 7:00 a.m. to 10:00 <marker>P.M.</marker></example>
-            </rule>
-            <rule>  <!-- TEST AP ONLY: 'the State' -->
-                <pattern>
-                    <token>the</token>
-                    <marker>
-                        <token>State</token>
-                    </marker>
-                </pattern>
-                <example correction="">...the committee's affordability analysis, and a number of other factors relevant to the ability of the <marker>State</marker> to meet its projected debt service requirements for the next 5 years.</example>
-                <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_CD_FOR_CD" name="">
