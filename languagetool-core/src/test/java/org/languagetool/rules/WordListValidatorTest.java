@@ -37,6 +37,7 @@ public class WordListValidatorTest {
           "ŚśŌōżúïÎôêâû" +
           "ÇÃÕÚÊÂÔ" +
           "ă" +
+          "å" +
           "'’" +
           "./%-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
