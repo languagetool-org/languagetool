@@ -15148,6 +15148,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fitosanitario">Especialista <marker>fito sanitario</marker>.</example>
                 <example correction="zoosanitarias">Medidas <marker>zoo-sanitarias</marker>.</example>
             </rule>
+            <rule id="PREFIJO_POST" name="pos-operatorio -> posoperatorio, postoperatorio" default="temp_off">
+                <pattern>
+                    <token regexp="yes">post|pos</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>Se escribe junto.</message>
+                <suggestion>pos\3</suggestion>
+                <suggestion>post\3</suggestion>
+                <url>https://www.fundeu.es/recomendacion/poselectoral-y-postelectoral-se-escriben-en-una-palabra-1142/</url>
+                <example correction="posoperatorio|postoperatorio">En el <marker>pos-operatorio</marker>.</example>
+            </rule>
             <rule id="BIEN_VENIDO" name="bien venido > bienvenido">
                 <!-- TODO: other words with bien- -->
                 <pattern>
@@ -16215,7 +16228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>has</suggestion> (del v. 'haber')?</message>
                 <example correction="Has"><marker>Haz</marker> de venir enseguida.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                     <marker>
