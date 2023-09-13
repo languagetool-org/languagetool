@@ -69,7 +69,9 @@ public class GermanCompoundTokenizer implements Tokenizer {
     }
     static Set<String> extendedList() {
       THashSet<String> words = new THashSet<>(EmbeddedGermanDictionary.getWords());
-      // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
+      // Add compound parts here so we don't need to update JWordSplitter for every missing word we find.
+      // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if "sport"
+      // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
       words.add("synonym");
       words.trimToSize();
       return words;
