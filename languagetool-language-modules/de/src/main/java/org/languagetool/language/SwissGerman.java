@@ -87,7 +87,8 @@ public class SwissGerman extends German {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
       //TODO: replace this by supporting remote-rule-filter for language variants
-      if (rm.getRule().getId().equals("AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL")) {
+      String ruleId = rm.getRule().getId();
+      if (ruleId.equals("AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL") || ruleId.equals("AI_DE_GGEC_REPLACEMENT_ADJECTIVE_FORM")) {
         String matchingString = null;
         if (rm.getSentence() != null) {
           if (rm.getFromPos() > -1 && rm.getToPos() > -1) {
@@ -99,7 +100,7 @@ public class SwissGerman extends German {
         }
         String finalMatchingString = matchingString;
         if (finalMatchingString != null && finalMatchingString.contains("ss") && rm.getSuggestedReplacements().stream().anyMatch(suggestion -> suggestion.equals(finalMatchingString.replace("ss", "ß")))) {
-          logger.info("Remove match with ruleID: AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL ({} -> {})", matchingString, rm.getSuggestedReplacements());
+          logger.info("Remove match with ruleID: {} ({} -> {})",ruleId, matchingString, rm.getSuggestedReplacements());
           continue;
         }
       }
