@@ -3384,11 +3384,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Customers will be able to use your apps on <marker>macOS</marker> early next year when Apple Vision Pro becomes available.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QB_EN_SWAP_NN_FOR_NN" name=""> <!-- this rule should be a style rule + picky -->
-            <rule>
+        <rulegroup id="QB_EN_SWAP_NN_FOR_NN" name="">
+            <rule> <!-- this rule should be a style rule + picky -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">(any|every|no|some)body|daddy|holiday|hubby|momma|sea|tech|\d*(st|nd|rd|th)|#|.*µ.*|.*[²³]</token>
+                        <token regexp="yes">(any|every|no|some)body|daddy|holiday|hubby|momma|gran|sea|tech|\d*(st|nd|rd|th)|#|.*µ.*|.*[²³]|info|homie|doc|admin|org|accommodation|takeaway|AM|PM</token>
                     </marker>
                 </pattern>
                 <example correction=""><marker>Everybody</marker> said there was nothing she could do.</example>
@@ -3399,7 +3399,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The bridgeback will take care of changing the volumes from the <marker>1st</marker>.</example>
                 <example correction="">My confirmation <marker>#</marker> is 95632170.</example>
                 <example correction="">It gains up to 3 <marker>µm</marker> in size.</example>
+                <example correction="">Thanks for the <marker>info</marker>.</example>
             </rule>
+            <rule><!-- times with AM/PM -->
+                <pattern>
+                    <token postag="CD"/>
+                    <marker>
+                        <token regexp="yes">AM|PM</token>
+                    </marker>
+                </pattern>
+                <example correction="">At 9:00 <marker>PM</marker>, we solved the problem.</example>
+                <example correction="">Please return the form to me by 8 <marker>AM</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>team</token>
+                    <marker>
+                        <token>lead</token>
+                    </marker>
+                </pattern>
+                <example correction="">The team <marker>lead</marker> thought that the numbers were correct.</example>
+        </rule>
             <rule>  <!-- km² -->
                 <pattern>
                     <marker>
@@ -3412,11 +3432,49 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>  <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">.*[ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes">.*[ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
                     </marker>
                 </pattern>
                 <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
                 <example correction="">There are also some commonly used words that end in a vowel and yet are masculine: <marker>баща</marker> 'father', and others.</example>
+                <example correction="">She makes dresses for wedding and <marker>quinceañera</marker> celebrations.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACECOMMA" name="">
+            <rule><!-- AM/PM/am/pm -->
+                <pattern>
+                    <token postag="CD"/>
+                    <marker>
+                        <token regexp="yes">AM|PM</token>
+                    </marker>
+                </pattern>
+                <example correction="">We need this by 9:00 <marker>am</marker> tomorrow.</example>
+                <example correction="">Send me the corrections by 5 <marker>PM</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NN_FOR_NN_ERROR_IDS_000036" name="">
+            <rule><!-- AM/PM/am/pm -->
+                <pattern>
+                    <token postag="CD"/>
+                    <marker>
+                        <token regexp="yes">AM|PM</token>
+                    </marker>
+                </pattern>
+                <example correction="">We need this by 9:00 <marker>am</marker> tomorrow.</example>
+                <example correction="">Send me the corrections by 5 <marker>PM</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NN_FOR_NN_ERROR_IDS_000051" name="">
+            <rule> <!-- non-English characters -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
+                <example correction="">There are also some commonly used words that end in a vowel and yet are masculine: <marker>баща</marker> 'father', and others.</example>
+                <example correction="">She makes dresses for wedding and <marker>quinceañera</marker> celebrations.</example>
+                <example correction="">Have you ever been to <marker>Wrocław</marker> in Poland?</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NNSPACEUNDERSCORESPSPACENNP_ERROR_IDS_000001" name="">
