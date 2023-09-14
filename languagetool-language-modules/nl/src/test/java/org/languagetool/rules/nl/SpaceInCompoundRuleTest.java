@@ -20,6 +20,7 @@ package org.languagetool.rules.nl;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 
@@ -37,8 +38,9 @@ public class SpaceInCompoundRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SpaceInCompoundRule rule = new SpaceInCompoundRule(TestTools.getEnglishMessages(), Languages.getLanguageForShortCode("nl"));
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("nl"));
+    Language lang = Languages.getLanguageForShortCode("nl");
+    SpaceInCompoundRule rule = new SpaceInCompoundRule(TestTools.getEnglishMessages(), lang);
+    JLanguageTool lt = new JLanguageTool(lang);
     assertGood("langeafstandloper", rule, lt);
     assertGood("Dat zie je nu weer met de zogenaamde oudelullendagen die in heel andere tijden met gulle hand in cao’s werden uitgereikt aan werknemers van vijftig jaar en ouder.", rule, lt);
     assertGood("...jk aan voor de middelbare school tijdens de aanmeldw...", rule, lt);

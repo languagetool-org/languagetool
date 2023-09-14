@@ -115,7 +115,7 @@ public class SpaceInCompoundRule extends Rule {
 			String coveredNoSpaces = Tools.glueParts(covered.split(" "));
 			String message = normalizedCompound2message.get(coveredNoSpaces);
 			if (message != null) {
-				String id = StringTools.toId(getId()+ "_" + covered, language);
+				String id = StringTools.toId(getId() + "_" + covered, language);
 				SpecificIdRule specificIdRule = new SpecificIdRule(id, getDescription(), isPremium(), getCategory(), getLocQualityIssueType(), getTags());
 				RuleMatch match = new RuleMatch(specificIdRule, sentence, hit.begin, hit.end, hit.begin, hit.end, message, null, false, "");
 				match.setSuggestedReplacement(coveredNoSpaces);
