@@ -11111,13 +11111,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='NON_IMPERSONAL_VERBS' name="Concordância Verbal: Verbos não-impessoais: existir, bastar, faltar, etc.">
-            <antipattern>
-                <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
+            <antipattern> <!-- det + noun + verb -->
+                <token postag="(SPS00:)?D.+|SENT_START" postag_regexp='yes'>
                     <exception regexp='yes'>n[ao]s?</exception>
+                    <exception scope="previous" postag_regexp="yes" postag="SP.+"/>
                 </token>
-                <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='RN' postag_regexp='no'/>
+                <token max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag_regexp="yes" postag="R." min="0"/>
                 <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
+                <example>Situação semelhante ocorreu quando lagartas de H. armigera alimentaram-se.</example>
+                <example>Seu pai não acabou seus dias sem descendência masculina.</example>
                 <example>A ambulância chegou poucos instantes depois do acidente.</example>
                 <example>A polícia chegou alguns instantes depois do furto.</example>
                 <example>Ah ganda António, até os tomates ficaram cor-de-laranja!</example>
@@ -11125,12 +11128,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>E logo ao lado da porta ficam o espelho, o cesto de roupas sujas e os ganchos para pendurar roupas (nesta primeira foto o pijaminha...</example>
                 <example>...oje em dia que há 20 anos atrás seriam inconcebíveis, mas é assim mesmo se os finais dos tempos não chegarem Jesus não volta e não usufruímos da morada celestial a qual ele tem preparado na casa de seu Pai.</example>
             </antipattern>
-            <antipattern> <!-- Second for Proper Names -->
+            <antipattern> <!-- well-tagged proper nouns -->
                 <token min="0" max="1" postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
                     <exception regexp='yes'>n[ao]s?</exception>
                 </token>
-                <token min="1" max="2" postag='NP.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='RN' postag_regexp='no'/>
+                <token max="2" postag_regexp="yes" postag="NP.S.+"/>
+                <token postag_regexp="yes" postag="R." min="0"/>
                 <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
                 <example>A BBC existe décadas fornece e também divulga globalmente objetivo para as pessoas que quer aprender inglês.</example>
                 <example>O Tomás não sai connosco.</example>
@@ -11142,14 +11145,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Tom saiu horas atrás.</example>
                 <example>O caso de Sami acabou meses atrás.</example>
             </antipattern>
+            <antipattern> <!-- untagged proper nouns -->
+                <token negate_pos="yes" postag="SENT_START"/>
+                <token max="2" regexp="yes">\p{Lu}.+</token>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
+                <example>A Brats acabou após poucos shows.</example>
+            </antipattern>
             <antipattern> <!-- Part of a compound subject (for plural verbs) -->
                 <and>
                     <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
                     <token postag='V....P.+' postag_regexp='yes'/>
                 </and>
-                <token min="1" max="3" postag='NC.+|AQ.+|DA.+|NP.+' postag_regexp='yes'/>
+                <token min="1" max="3" postag='N[CP].+|AQ.+|DA.+' postag_regexp='yes'/>
                 <token postag='CC|_PUNCT' postag_regexp='yes'/>
-                <token min="1" max="3" postag='NC.+|AQ.+|DA.+|NP.+' postag_regexp='yes'/>
+                <token min="1" max="3" postag="N[CP].+|AQ.+|DA.+" postag_regexp='yes'/>
                 <example>Faltam convicção, coragem e determinação para um salto de qualidade.</example>
                 <example>No primeiro treino da epoca, faltaram Camião, Ganhão, Resende e Bruno Aires que se encontam de ferias ou por motivos profissionais.</example>
                 <example>Não lhe faltam dignidade e elegância.</example>
@@ -11157,45 +11167,167 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Dentro do peito, existem o coração e o pulmão.</example>
                 <example>Entram André Horta e Jonas, saem Chrien e Rafa53' - Golo do Leipzig!</example>
             </antipattern>
-            <antipattern>
+            <antipattern> <!-- legacy, this isn't a very good AP -->
                 <token postag='V.+' postag_regexp='yes'/>
                 <token regexp='yes'>tod[ao]s</token>
                 <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp='yes'/>
                 <example>Acabará todos os seus dias apanhando o autocarro.</example>
                 <example>Acabará todas as suas manhãs apanhando o autocarro.</example>
             </antipattern>
+            <antipattern> <!-- hotfix for disambiguation issues with adverbial 'algo' -->
+                <token postag_regexp='yes' postag="V...3S.+|VMN0000" inflected='yes' regexp='yes'>&verbos_nao_impessoais;
+                    <exception>sobre</exception>
+                    <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
+                    <exception postag_regexp='yes' postag="SPS00|VMN0000"/>
+                    <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
+                    <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+                </token>
+                <token>algo</token>
+                <example>Existe algo nas entrelinhas deste episódio.</example>
+            </antipattern>
+            <antipattern> <!-- issues with 'até' mistagged as RG -->
+                <token inflected="yes">chegar</token>
+                <token>até</token>
+                <example>A luz que chega até nós é muito mais fraca.</example>
+                <example>Uma torre cujo ápice chegue até os céus.</example>
+                <example>O pintor Alexandre Kucharski consegue também chegar até os prisioneiros e lhes faz as efígies.</example>
+            </antipattern>
+            <antipattern> <!-- horas antes, anos depois -->
+                <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token postag_regexp="yes" postag="[ADPZ]...P.+" min="0"/>
+                <token regexp="yes">&expressoes_de_tempo_simples;</token>
+                <token regexp="yes">antes|após|depois|mais</token>
+                <example>Chegou horas antes do aparecimento do príncipe Mohammed.</example>
+                <example>Estaria chegando minutos depois.</example>
+                <example>Aconteceria apenas anos mais tarde.</example>
+            </antipattern>
+            <antipattern> <!-- vai ficar alguns dias -->
+                <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token postag_regexp="yes" postag="[ADPZ]...P.+">
+                    <exception postag_regexp="yes" postag="DA.+"/>
+                </token>
+                <token regexp="yes">&expressoes_de_tempo_simples;</token>
+                <example>Vai ficar apenas alguns dias no hospital.</example>
+                <example>Don't Stop The Music conseguiu ficar várias semanas em primeiro na Europa.</example>
+                <example>Se for ficar só esses dias vai ser corrido conhecer mais coisas.</example>
+                <example>Tom poderia chegar alguns minutos atrasado.</example>
+            </antipattern>
+            <antipattern> <!-- dias e dias -->
+                <token postag_regexp="yes" inflected="yes" regexp='yes'>&verbos_nao_impessoais;</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token regexp="yes">&expressoes_de_tempo_simples;</token>
+                <token>e</token>
+                <token min="0">mais</token>
+                <token regexp="yes">&expressoes_de_tempo_simples;</token>
+                <example>Onde ficou dias e dias a sofrer.</example>
+                <example>Tinha ficado meses e meses na cama.</example>
+            </antipattern>
+            <antipattern> <!-- aconteceu várias vezes -->
+                <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token postag_regexp="yes" postag="[APD]..FP.+"/>
+                <token>vezes</token>
+                <example>Já aconteceu várias vezes.</example>
+                <example>Vai acontecer algumas vezes.</example>
+                <example>Ocorreu diversas vezes.</example>
+            </antipattern>
 
             <rule> <!-- #1: main verb -->
+                <antipattern> <!-- o que verb -->
+                    <token postag_regexp="yes" postag="(N|[DPA].)..S.+"/>
+                    <token>que</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token regexp="yes" inflected="yes">&verbos_nao_impessoais;</token>
+                    <example>É o que acontece quando elas vão à escola.</example>
+                    <example>O movimento populacional que ocorre quando indivíduos são obrigados.</example>
+                </antipattern>
+                <antipattern> <!-- demonstrative true pronouns (NP nuclei) -->
+                    <token regexp="yes">is[st]o|aquilo</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;</token>
+                    <example>Isso aconteceu décadas atrás.</example>
+                    <example>Para que isso não ocorra os mecanismos envolvidos nos ciclo celular devem estar atuando em sinergia.</example>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
+                        <token postag_regexp="yes" postag="V...3S.+" inflected="yes" regexp="yes">&verbos_nao_impessoais;
                             <exception>sobre</exception>
                             <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
-                            <exception postag_regexp='yes' postag='SPS00|VMN0000'/>
-                            <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
-                            <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+                            <exception postag_regexp="yes" postag="SPS00|VMN0000"/>
+                            <exception scope="next" regexp="yes">a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
                         </token>
                     </marker>
-                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
-                    <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2">
+                        <exception postag_regexp="yes" postag="SP.+"/> <!-- avoid prepositional phrases -->
+                    </token>
+                    <token postag_regexp="yes" postag="(N|[PDA].)..P.+">
+                        <exception negate_pos="yes" postag_regexp="yes" postag="(N|[PDA].)..P.+"/>
+                        <exception regexp="yes">&pronomes_obliquos_sem_a_as_o_os;|conv?osco</exception>
+                        <exception scope="next" postag_regexp="yes" postag="VM[NG].+"/> <!-- ela acabará os levando -->
                     </token>
                 </pattern>
-                <message>O verbo &quot;<match no="1" postag_regexp="yes" postag=".+" postag_replace="VMN000"/>&quot; não é impessoal e, portanto, exige concordância com o seu sujeito.</message>
+                <message>O verbo &quot;<match no="1" postag_regexp="yes" postag="V(.).+" postag_replace="V$1N0000"/>&quot; não é impessoal e, portanto, exige concordância com o seu sujeito.</message>
                 <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/></suggestion>
                 <example correction="existem">Na vida <marker>existe</marker> muitas coisas boas.</example>
                 <example correction="Acontecem"><marker>Acontece</marker> ainda vários outros problemas.</example>
+                <example correction="acontecem">Em junho, ocorre a tradicional festa junina onde <marker>acontece</marker> shows com bandas.</example>
+                <example correction="Acabaram"><marker>Acabou</marker> as provas ontem.</example>
+                <example correction="aconteceram">Já <marker>aconteceu</marker> erros em vacinas no passado</example>
+                <example correction="restam">No entanto, ainda <marker>resta</marker> muitos mistérios na história dos anões.</example>
+                <example>A autocorrelação espacial ocorre quando as variáveis ecológicas flutuam.</example>
+                <example>A água me chegava até os joelhos.</example>
+                <example>Acontece após as chuvas fortes.</example> <!-- adverbial após -->
+                <example>Ocorre particularmente nas florestas.</example> <!-- 'nas' mistagged as PP -->
+                <example>Me pergunto o que acontece por aqui nos finais de semana.</example>
+                <example>Um olhar indireto acontece quando não nos vinculamos.</example>
+                <example>Para cada crime que está prestes a acontecer.</example>
+                <example>Fica conosco.</example> <!-- oblique PP -->
+                <example>Algo terrível está caçando a Mike e ela e acabará os levando.</example>
                 <example>Por favor, basta nos enviar o inquérito para mais detalhes sobre nossos liquidificadores de alimentos elétricos.</example>
                 <example>...s, como eles próprios o são. Os rebanhos, os bens e todos os animais domésticos serão assim nossos. Basta lhes darmos o consentimento e eles habitarão conosco.</example>
             </rule>
 
             <rule default="temp_off"> <!-- #2: aux verb -->
+                <antipattern> <!-- o que verb -->
+                    <token postag_regexp="yes" postag="(N|[DPA].)..S.+">
+                        <exception postag_regexp="yes" postag="V.+"/> <!-- nega que -->
+                    </token>
+                    <token>que</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token postag_regexp="yes" postag="V...3S.+" inflected="yes" regexp="yes">&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="VM[NGP].+">&verbos_nao_impessoais;</token>
+                    <example>É o que tinha acontecido quando elas foram à escola.</example>
+                </antipattern>
+                <antipattern> <!-- demonstrative true pronouns (NP nuclei) -->
+                    <token regexp="yes">is[st]o|aquilo</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token postag_regexp="yes" postag="V...3S.+" inflected="yes" regexp="yes">&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;</token>
+                    <token postag_regexp="yes" postag="VM[NGP].+" regexp="yes" inflected="yes">&verbos_nao_impessoais;</token>
+                    <example>Isso tinha acontecido décadas atrás.</example>
+                </antipattern>
+                <antipattern> <!-- parecem ter ficado restritos -->
+                    <token postag_regexp="yes" postag="V...3P." inflected="yes" regexp="yes">&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;|parecer</token>
+                    <token regexp="yes" postag_regexp="yes" postag="V.N0000" inflected="yes">&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;</token>
+                    <token postag_regexp="yes" postag="V.[NGP].+" regexp="yes" inflected="yes">&verbos_nao_impessoais;</token>
+                    <example>Os danos físicos parecem ter ficado restritos.</example>
+                </antipattern>
+                <antipattern> <!-- pronoun + adv + verb -->
+                    <token regexp="yes">&pronomes_retos;</token>
+                    <token postag_regexp="yes" postag="R." min="0"/>
+                    <token postag_regexp="yes" postag="V...3S.+" inflected="yes" regexp="yes">&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;</token>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="VM[NGP].+">&verbos_nao_impessoais;</token>
+                    <example>Eu já tinha saído quando elas chegaram.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag_regexp="yes" postag="V...3S." inflected="yes" regexp="yes">
                             &verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;
                             <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
                             <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+                            <exception inflected="yes">deixar</exception> <!-- almost always has a different subject -->
                         </token>
                     </marker>
                     <token postag_regexp="yes" postag="R." min="0" max="2"/>
@@ -11205,14 +11337,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag_regexp="yes" postag="R." min="0" max="2"/>
                     <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
                         <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/>
+                        <exception regexp="yes">&pronomes_obliquos_sem_a_as_o_os;|conv?osco</exception>
+                        <exception scope="next" postag_regexp="yes" postag="VM[NG].+"/> <!-- ela acabará os levando -->
+                        <exception>vezes</exception>
                     </token>
                 </pattern>
-                <message>O verbo &quot;<match no="3" postag_regexp="yes" postag=".+" postag_replace="VMN000"/>&quot; não é impessoal e, portanto, exige concordância com o seu sujeito.</message>
+                <message>O verbo &quot;<match no="3" postag_regexp="yes" postag="V(.).+" postag_replace="V$1N0000"/>&quot; não é impessoal e, portanto, exige concordância entre o sujeito e o verbo auxiliar.</message>
                 <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/></suggestion>
                 <example correction="vão">Na vida <marker>vai</marker> existir muitas coisas boas.</example>
                 <example correction="Poderão"><marker>Poderá</marker> ainda acontecer mais incentivos como esses.</example>
                 <example correction="Podem"><marker>Pode</marker> nunca mais sobrar tantas sobremesas.</example>
                 <example correction="haveriam">Não sei se <marker>haveria</marker> ocorrido tantos acidentes.</example>
+                <example correction="Costumavam"><marker>Costumava</marker> existir muitos peixes em qualquer rio do Japão.</example>
+                <example correction="Estão"><marker>Está</marker> chegando os dias de chuva em Praga.</example>
+                <example correction="Têm"><marker>Tem</marker> existido muitos Estados diferentes que tem defendido outros interesses que não vamos falar.</example>
+                <example correction="tenham">O governo chinês nega que <marker>tenha</marker> acontecido mortes em combates nas fronteiras.</example>
+                <example correction="vão">Se tudo der certo nas palestras, <marker>vai</marker> entrar ainda uns 100k limpos até o fim do ano.</example>
+                <example>Tom não deixa entrar pessoas em sua casa.</example>
+                <example>Por que isso está acontecendo conosco?</example>
+                <example>Tom irá ficar aqui conosco por três meses.</example>
+                <example>Isso só irá ocorrer quando as pessoas começarem a se importar em serem roubadas.</example>
             </rule>
 
             <rule> <!-- #3: this sub-rule makes no sense, impersonal verbs aren't used in the plural, but I'm leaving it here for now -->
