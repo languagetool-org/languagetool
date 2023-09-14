@@ -21,16 +21,22 @@ package org.languagetool.rules.nl;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SpecificIdRule;
+import org.languagetool.tools.StringTools;
+
 import java.util.*;
 
 public class SpaceInCompoundRule extends Rule {
 
 	private static final Map<String, String> normalizedCompound2message = new HashMap<>();
 	private static final AhoCorasickDoubleArrayTrie<String> trie = getTrie();
+	private final Language language;
 
-	public SpaceInCompoundRule(ResourceBundle messages) {
+	public SpaceInCompoundRule(ResourceBundle messages, Language language) {
+		this.language = language;
 	}
 
 	private static AhoCorasickDoubleArrayTrie<String> getTrie() {
@@ -109,7 +115,9 @@ public class SpaceInCompoundRule extends Rule {
 			String coveredNoSpaces = Tools.glueParts(covered.split(" "));
 			String message = normalizedCompound2message.get(coveredNoSpaces);
 			if (message != null) {
-				RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, hit.begin, hit.end, message, null, false, "");
+				String id = StringTools.toId(getId()+ "_" + covered, language);
+				SpecificIdRule specificIdRule = new SpecificIdRule(id, getDescription(), isPremium(), getCategory(), getLocQualityIssueType(), getTags());
+				RuleMatch match = new RuleMatch(specificIdRule, sentence, hit.begin, hit.end, hit.begin, hit.end, message, null, false, "");
 				match.setSuggestedReplacement(coveredNoSpaces);
 				matches.add(match);
 			}
