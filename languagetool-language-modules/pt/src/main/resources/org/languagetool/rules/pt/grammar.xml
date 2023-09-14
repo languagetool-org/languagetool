@@ -8375,8 +8375,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <antipattern> <!-- issues with adjectives ending in -ais that aren't in the spelling dict with -al, but there are verbs that end up matching the 2P form -->
             <unify>
-                <feature id="number"><type id="plural"></type></feature>
-                <token postag_regexp="yes" postag="N.+"/>
+                <feature id="number"/>
+                <token postag_regexp="yes" postag="N..P.+"/>
                 <token postag_regexp="yes" postag="A.+" min="0"/>
             </unify>
             <token postag_regexp="yes" postag="R." min="0" max="3"/>
@@ -8946,10 +8946,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp="yes" postag="V.S.+"/>
                 <token postag_regexp="yes" postag="[DANPS].+" max="5"/> <!-- safe-ish NP -->
                 <unify>  <!-- really safe plural NP -->
-                    <feature id="number"><type id="plural"/></feature>
+                    <feature id="number"/>
                     <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="N..P.+"/>
                     <token postag_regexp="yes" postag="A.++" min="0"/>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
@@ -8959,12 +8959,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Deixar que esse imbecil tomem as suas próprias decisões é horrível.</example>
             </antipattern>
             <antipattern> <!-- #12_8: os bonitos somos -->
-                <token postag='D[AI]0[MF]P0' postag_regexp='yes'/>
-                <token postag='AQ0[MFC]P0' postag_regexp='yes'/>
-                <token postag='VMIP1P0'/>
+                <token postag="D[AI]0.P0" postag_regexp="yes"/>
+                <token postag="(A..|N.).P0" postag_regexp="yes"/>
+                <token postag_regexp="yes" postag="R." max="2" min="0"/>
+                <token postag_regexp="yes" postag="V...1P."/>
                 <example>Todos juntos somos fortes.</example>
                 <example>Os bonitos somos mais interessantes.</example>
                 <example>As inteligentes fazemos falta.</example>
+                <example>Os argentinos sempre fomos bons atores.</example>
             </antipattern>
             <antipattern> <!-- #12_9 -->
                 <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
@@ -9392,10 +9394,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp="yes" postag="[DNAPS].+" max="3"/> <!-- safe nominals + preposition -->
                 <token>como</token> <!-- hook for this AP is the comparison -->
                 <unify>
-                    <feature id="number"><type id="plural"/></feature>
+                    <feature id="number"/>
                     <token postag_regexp="yes" postag="D.+" min="0"/> <!-- very safe NP -->
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="N..P.+"/>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <token postag_regexp="yes" postag="V...3S."/> <!-- verb w/ correct agreement -->
@@ -9403,13 +9405,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>A ideia de nunca atrair eles como as sereias foi ótima.</example>
                 <example>A piada sobre beber sem ninguém como completos idiotas não vingou.</example>
             </antipattern>
+            <antipattern> <!-- #12_60: feminine NP + precisas -->
+                <token postag_regexp="yes" postag="(N.|A..)FP.+"/>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token regexp="yes">precisas|pagas</token>
+                <example>As incumbências precisas do diácono não foram enumeradas nessa passagem.</example>
+                <example>Sendo as verbas integralmente pagas no ano civil 2018.</example>
+            </antipattern>
+            <antipattern> <!-- #12_61: impersonal before time expression -->
+                <token postag_regexp="yes" postag="(A.|N)..P.+"/>
+                <token inflected="yes" postag_regexp="yes" postag="V...3S.+">fazer</token>
+                <token postag_regexp="yes" postag="[DAP]...P.+|Z.+"/>
+                <token regexp="yes">&expressoes_de_tempo_simples;</token>
+                <example>Estou usando os produtos faz duas semanas.</example>
+            </antipattern>
+            <antipattern> <!-- #12_62: idiom -->
+                <token>os</token>
+                <token>males</token>
+                <token>espanta</token>
+            </antipattern>
+            <antipattern> <!-- #12_63: idiom -->
+                <token>sobre</token>
+                <token>os</token>
+                <token>louros</token>
+                <token>descança</token>
+            </antipattern>
+            <antipattern> <!-- #12_64: noun.SG nem com NP verb.SG -->
+                <token postag_regexp="yes" postag="N..S.+"/>
+                <token>nem</token>
+                <token postag_regexp="yes" postag="SP.+"/>
+                <token postag_regexp="yes" postag="D...P.+" min="0" max="2"/>
+                <token postag_regexp="yes" postag="(N|[AP].)..P.+" max="3"/>
+                <token postag_regexp="yes" postag="V...3S.+"/>
+                <example>Dilma nem com todas as plásticas concorre nessa seara.</example>
+            </antipattern>
 
             <pattern> <!-- GENERAL_VERB_AGREEMENT_ERRORS#12 -->
                 <token postag_regexp='yes' postag='D...P.+'>
                     <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/>
                 </token>
-                <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'>
-                    <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+                <token max="3" postag_regexp='yes' postag='(?:NC.|A...)P.+'>
+                    <exception negate_pos='yes' postag_regexp='yes' postag='(?:NC.|A...)P.+'/>
+                    <exception regexp="yes">\p{Lu}.+</exception> <!-- if it starts with a capital and follows a determiner, it's prob. some kind of named entity -->
                 </token>
                 <token min="0" max="3" postag='R.+' postag_regexp='yes'>
                     <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/>
@@ -9418,8 +9455,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <exception postag='V.[CIS].3P.' postag_regexp='yes'/>
                     <exception postag='AQ.+|NC.P.+|SPS00' postag_regexp='yes'/>
                     <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
-                    <exception regexp='yes' inflected='yes'>icer|elar</exception>
+                    <exception regexp='yes' inflected='yes'>icer|elar|içar</exception>
                     <exception regexp='yes'>excepcionais|magicas?|lace|laces|legitimas|instrumentais|nada</exception>
+                    <exception regexp="yes">\p{Lu}\p{Ll}.+</exception> <!-- Titlecase verbs, probably not verbs -->
                 </token>
             </pattern>
 
@@ -9477,6 +9515,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Os pais fizeram os filhos contar a verdade.</example>
             <example>Como tencionam as senhoras chegar em casa?</example>
             <example>Vão as senhoras comprar alguma coisa?</example>
+            <!-- Named entities -->
+            <example>As Baixas é um povoado português.</example>
+            <example>Os Espiões é um livro de Luís Fernando Verissimo.</example>
+            <example>Os Incríveis retornou ao Brasil para participar no programa.</example>
+            <example>Os Lobos é um filme mudo português de ficção e drama.</example>
+            <example>Os Homens que Não Amavam as Mulheres vai se aproximando de sua estreia.</example>
+            <example>Como seus filhos Lenir de Castro Karan, Filó Castro, e José Iram Castro.</example>
+            <example>Bandonaram a luta depois que seus generais Maras Inga e Parinango foram mortos.</example>
             <!-- MOVED FROM UNNECESSARY APs -->
             <example>No início das minhas férias tive um acidente.</example>
             <example>A localização escolhida para obter os nossos dados foi Lisboa.</example>
@@ -9507,10 +9553,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag="SENT_START"/>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <unify> <!-- restrictive singular NP, probable subject -->
-                    <feature id="number"><type id="singular"/></feature>
-                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <feature id="number"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="N..S.+"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
@@ -9523,6 +9569,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <message>&MSG_ECV;</message>
             <suggestion><match no="8" postag="V(...)3P0" postag_replace="V$13S0" postag_regexp="yes"/></suggestion>
             <example correction="corre">O leão <marker>correm</marker>.</example>
+            <example>Os leões correm.</example>
+            <example>Leões correm.</example>
+            <example>Muitos leões correm.</example>
+            <example>Leões famintos correm.</example>
         </rule>
 
         <rule default="temp_off"> <!-- #13B: sanity (pre-match) for 13: plural verb between two singular NPs -->
@@ -9530,10 +9580,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag="SENT_START"/>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <unify> <!-- restrictive singular NP, probable subject -->
-                    <feature id="number"><type id="singular"/></feature>
-                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <feature id="number"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="N..S.+"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
@@ -9542,10 +9592,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </marker>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <unify> <!-- restrictive singular NP, probable direct object -->
-                    <feature id="number"><type id="singular"/></feature>
-                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <feature id="number"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="N..S.+"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
@@ -9554,6 +9604,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <message>&MSG_ECV;</message>
             <suggestion><match no="8" postag="V(...)3P0" postag_replace="V$13S0" postag_regexp="yes"/></suggestion>
             <example correction="come">O jaguar <marker>comem</marker> um osso.</example>
+            <example>Um jaguar comem os ossos.</example>
+            <example>Belos jaguares comem outros bois.</example>
         </rule>
 
         <rule default="temp_off"> <!-- #13C: sanity (pre-match) for 13: plural verb between singular NP and prepositional phrase -->
@@ -9561,10 +9613,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag="SENT_START"/>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <unify> <!-- restrictive singular NP, probable subject -->
-                    <feature id="number"><type id="singular"/></feature>
-                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <feature id="number"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N.+"/>
+                    <token postag_regexp="yes" postag="N..S.+"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
@@ -9575,7 +9627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp="yes" postag="SP.+"/>
                 <unify> <!-- restrictive (well-formed) NP, probable indirect object -->
                     <feature id="number"/>
-                    <token postag_regexp="yes" postag="D.+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                     <token postag_regexp="yes" postag="N.+"/>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
@@ -9587,6 +9639,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion><match no="8" postag="V(...)3P0" postag_replace="V$13S0" postag_regexp="yes"/></suggestion>
             <example correction="persegue">Essa hiena <marker>perseguem</marker> de gente feia.</example>
             <example correction="gosta">O menino <marker>gostam</marker> das escolas.</example>
+            <example>Hienas más vão com leões.</example>
         </rule>
 
         <rule> <!-- #13_0: singular noun + plural verb -->
@@ -9975,6 +10028,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <antipattern> <!-- #13_51 -->
                 <token>ambos</token>
                 <token>nós</token>
+                <token postag_regexp="yes" postag="V...1P."/>
+                <example>Ambos nós sorrimos quase ao mesmo tempo.</example>
             </antipattern>
             <antipattern> <!-- #13_52 -->
                 <token postag='RG|_PUNCT' postag_regexp='yes'/>
@@ -9993,6 +10048,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
                 <example>As nações de todo o mundo estão a falhar</example>
             </antipattern>
+            <antipattern> <!-- #13_54: any kind of 1st person; PT is pro-drop, these are never agreement errors -->
+                <token postag_regexp="yes" postag="V...1[SP].+"/>
+                <example>Essa BRASILEIRA sou eu.</example>
+                <example>Essa expressão vou usar mais</example>
+                <example>Mas essa profissão não penso em elegê-la.</example>
+                <example>Depois que vi esse blog fiquei interessada.</example>
+                <example>Esse material chamamos de matéria-prima.</example>
+                <example>Cada vez que vejo esta foto lembro-me de meu pai.</example>
+                <example>Acho que este ano deveríamos ter aumento.</example>
+            </antipattern>
+            <antipattern> <!-- #13_55: noun.PL de NP.sg verb.PL -->
+                <token postag_regexp="yes" postag="(A.|N)..P.+"/>
+                <token postag_regexp="yes" postag="SP.+"/>
+                <unify>
+                    <feature id="number"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="N..S.+"/>
+                </unify>
+                <token postag_regexp="yes" postag="V...3P.+"/>
+                <example>Machos de uma mesma espécie competem entre si.</example>
+            </antipattern>
+            <antipattern> <!-- #13_56: do mesmo jeito -->
+                <token postag_regexp="yes" postag="SP.+"/>
+                <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
+                <token regexp="yes">modo|jeito|maneira</token>
+                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag_regexp="yes" postag="V...3P.+"/>
+                <example>Do mesmo modo estavam desobrigados.</example>
+                <example>Dessa maneira não poderão entrar.</example>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="SENT_START|_PUNCT"/>
+                <token postag_regexp="yes" postag="SP.+"/>
+                <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
+                <token postag_regexp="yes" postag="(N|A.)..S.+"/>
+                <token postag_regexp="yes" postag="V...3P.+"/>
+                <example>Na mesma moeda estão a violência masculina, passividade materna e opressão paterna.</example>
+                <example>Assim, nesta mesma portaria foram expulsos também outros professores.</example>
+            </antipattern>
+
             <pattern> <!-- GENERAL_VERB_AGREEMENT_ERRORS#13 -->
                 <token negate_pos='yes' postag_regexp='yes' postag='NC.P.+'/>
                 <token><exception postag="SPS00"/>
