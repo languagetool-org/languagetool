@@ -37,7 +37,7 @@ public class SpaceInCompoundRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SpaceInCompoundRule rule = new SpaceInCompoundRule(TestTools.getEnglishMessages());
+    SpaceInCompoundRule rule = new SpaceInCompoundRule(TestTools.getEnglishMessages(), Languages.getLanguageForShortCode("nl"));
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("nl"));
     assertGood("langeafstandloper", rule, lt);
     assertGood("Dat zie je nu weer met de zogenaamde oudelullendagen die in heel andere tijden met gulle hand in cao’s werden uitgereikt aan werknemers van vijftig jaar en ouder.", rule, lt);
