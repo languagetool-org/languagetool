@@ -3518,6 +3518,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "tatsachliches": return topMatch("tatsächliches");
       case "tatsachlichen": return topMatch("tatsächlichen");
       case "tatsachlichem": return topMatch("tatsächlichem");
+      case "ungelungen": return topMatch("misslungen");
+      case "ungelungene": return topMatch("misslungene");
+      case "ungelungener": return topMatch("misslungener");
+      case "ungelungenes": return topMatch("misslungenes");
+      case "ungelungenen": return topMatch("misslungenen");
+      case "ungelungenem": return topMatch("misslungenem");
       case "totkrank": return topMatch("todkrank");
       case "totkranke": return topMatch("todkranke");
       case "totkranker": return topMatch("todkranker");
