@@ -29566,34 +29566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- À há -->
         <rulegroup id='CONFUSÃO_À_HÁ' name="[Confusão] à/há (expressões de tempo/quantidade)">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-04/5/11 (1-JAN-2022+)      -->
-            <!--
-      Ainda à muito para fazer. → Ainda há muito para fazer.
-      Ainda à bastante para fazer. → Ainda há bastante para fazer.
-      Ainda à imenso para fazer. → Ainda há imenso para fazer.
-      Conheço a Ana à quase 30 anos. → Conheço a Ana há quase 30 anos.
-      O show aconteceu à aproximadamente dois meses. → O show aconteceu há aproximadamente dois meses.
-      Tudo à bastante tempo. → Tudo há bastante tempo.
-      Conheço a Ana à 30 anos. → Conheço a Ana há 30 anos.
-      Conhecemos os maias à séculos. → Conhecemos os maias há séculos.
-      Nos barcos à toneladas de peixe pescado. → Nos barcos há toneladas de peixe pescado.
-      Tudo à minutos. → Tudo há minutos.
-
-      NOTE THAT THIS FIRST RULE DOESN'T HAVE AN EXCEPTION FOR 'SPS.+' TO FLAG:
-      Até à relativamente pouco tempo era possível observar-se as faixas horizontais de azulejos. → "Até HÁ"
-      -->
-
-            <!--
-      THIS ANTIPATTERN IS FOR BOTH RULES.
-      IT REMOVES FALSE POSITIVES SUCH AS:
-      Seu fuso horário é de menos quatro horas (-4) em relação à hora mundial GMT.
-      "Ele reúne, o que é muito raro, a maior inocência de costumes à mais vasta capacidade intelectual que já encontrei na América num menino da sua idade".
-      Antologia Ilustrada de Filosofia: das origens à Idade Moderna.
-      Não há diferenças com relação à idade, sexo e entre grupos no uso de tais vocalizações.
-      A Revolução é considerada como o acontecimento que deu início à Idade Contemporânea.
-      -->
             <antipattern>
                 <token postag='SPS.+|_PUNCT|V.+|NC.+|AQ.+|RG|DI.+|DP.+|PP.+|AO.+|CC|NP.+|UNKNOWN|CS|I|Z0.+|PI.+|_QUOT|RM|DD.+' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+|_PUNCT|UNKNOWN|NP.+|DP.+|I|V.+|PP.+|RM|DD.+|_QUOT' postag_regexp='yes'/>
@@ -29602,21 +29575,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='NC.+|AQ.+|NP.+|_PUNCT|CC|V.+|CS|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RN|I|RG|RM|DD.+|_QUOT' postag_regexp='yes'>
                     <exception regexp='yes'>&expressoes_de_tempo;</exception>
                 </token>
+                <example>Seu fuso horário é de menos quatro horas (-4) em relação à hora mundial GMT.</example>
+                <example>Ele reúne a maior inocência de costumes à mais vasta capacidade intelectual</example>
+                <example>Antologia Ilustrada de Filosofia: das origens à Idade Moderna.</example>
+                <example>Não há diferenças com relação à idade, sexo e entre grupos no uso de tais vocalizações.</example>
+                <example>A Revolução é considerada como o acontecimento que deu início à Idade Contemporânea.</example>
             </antipattern>
-
-            <!--
-      THIS ANTIPATTERN IS FOR BOTH RULES.
-      BASED ON THE FIRST ONE AND THE SENTENCE STARTING AS "À" (SENT_START or COMMA).
-      STARTING ALSO WITH "JÁ" (CS|I)
-      STARTING ALSO WITH A VERB (V.+)
-      NO MORE CHANGES IN THE FIRST.
-      IT REMOVES FALSE POSITIVES SUCH AS:
-      À época, Hippolyte Bayard também desenvolveu um método de fotografia.
-      À época, o Maranhão era uma das mais ricas regiões do Brasil.
-      À data, parte da freguesia já era «Honra de Farlães».
-      À data, nenhuma sonda visitou Ceres.
-      À época esta cidade compunha os territórios Poloneses tomados pela Prússia nas Divisões da Polônia.
-      -->
             <antipattern>
                 <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
                 <token min="0" max="1" postag='CS|I|V.+' postag_regexp='yes'/> <!-- "Já à época o quitute foi congratulado." + "Apresentei à época, inúmeros trabalhos em reuniões." 2022-01-11 -->
@@ -29625,32 +29589,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='NC.+|AQ.+|NP.+|_PUNCT|CC|V.+|CS|UNKNOWN|DI.+|DP.+|PP.+|DA.+|RN|I|RG|RM|DD.+|_QUOT' postag_regexp='yes'>
                     <exception regexp='yes'>&expressoes_de_tempo;</exception>
                 </token>
+                <example>À época, Hippolyte Bayard também desenvolveu um método de fotografia.</example>
+                <example>À época, o Maranhão era uma das mais ricas regiões do Brasil.</example>
+                <example>À data, parte da freguesia já era «Honra de Farlães».</example>
+                <example>À data, nenhuma sonda visitou Ceres.</example>
+                <example>À época esta cidade compunha os territórios Poloneses tomados pela Prússia nas Divisões da Polônia.</example>
             </antipattern>
-
-            <!--
-      THIS ANTIPATTERN IS FOR BOTH RULES.
-      BASED ON THE FIRST ONE AND INSTEAD OF CHECKING FOR THE WORD "À",
-      IT SEARCHES FOR "à hora de" (SPS00).
-      NO MORE CHANGES IN THE FIRST.
-      IT FIXES FALSE POSITIVES SUCH AS:
-      Isso significa que horário oficial no Brasil varia de 2 a 4 horas a menos em relação à hora de Greenwich (GMT).
-      Não teve tanto sucesso à hora de tornar França numa grande potência comercial equiparável à Inglaterra e a Holanda.
-      Os acadêmicos também estão divididos à hora de estabelecer uma causa para o final do mercantilismo.
-      À hora de assinar os ofícios valorizava acima de tudo a lealdade e a maleabilidade.
-      No atual acordo ortográfico (2003) é feita uma referência ao português como critério utilizado à hora de elaborar a norma.
-      -->
             <antipattern>
                 <token>à</token>
                 <token>hora</token>
                 <token>de</token>
+                <example>Isso significa que horário oficial no Brasil varia de 2 a 4 horas a menos em relação à hora de Greenwich (GMT).</example>
+                <example>Não teve tanto sucesso à hora de tornar França numa grande potência comercial equiparável à Inglaterra e a Holanda.</example>
+                <example>Os acadêmicos também estão divididos à hora de estabelecer uma causa para o final do mercantilismo.</example>
+                <example>À hora de assinar os ofícios valorizava acima de tudo a lealdade e a maleabilidade.</example>
+                <example>No atual acordo ortográfico (2003) é feita uma referência ao português como critério utilizado à hora de elaborar a norma.</example>
             </antipattern>
 
             <rule>
-                <!--
-        A flora corresponde à predominantemente típica do domínio do cerrado.
-        Em oposição à relativamente monótona atmosfera de Úrano, a atmosfera de Neptuno é notável.
-        Essas movendo-se obviamente também em direção contrária à realmente verificada para as cargas negativas.
-        -->
                 <antipattern>
                     <token negate_pos="yes" postag='RG|SPS00' postag_regexp='yes'/>
                     <token>à</token>
@@ -29687,46 +29643,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Em oposição à relativamente monótona atmosfera de Úrano, a atmosfera de Neptuno é notável.</example>
                 <example>Essas movendo-se obviamente também em direção contrária à realmente verificada para as cargas negativas.</example>
             </rule>
-
-            <!--
-      Conheço a Ana à 30 anos. → Conheço a Ana há 30 anos.
-      Conhecemos os maias à séculos. → Conhecemos os maias há séculos.
-      Nos barcos à toneladas de peixe pescado. → Nos barcos há toneladas de peixe pescado.
-      Tudo à minutos. → Tudo há minutos.
-      -->
             <rule>
-                <!--
-        A bandeira do Estado do Amazonas remonta ao século XIX, especificamente à década de 1890.
-        À idade de 25 anos, ela vivera em muitos países.
-        À hora da experiência, uma chuva forte tornou o balão pesado.
-        Ainda à época do conflito, ocorreu a inauguração do Peter Café Sport (1918).
-        -->
                 <antipattern>
                     <token>à</token>
                     <token regexp="yes">&expressoes_de_tempo;</token>
                     <token postag='SPS.+' postag_regexp='yes'/>
+                    <example>A bandeira do Estado do Amazonas remonta ao século XIX, especificamente à década de 1890.</example>
+                    <example>À idade de 25 anos, ela vivera em muitos países.</example>
+                    <example>À hora da experiência, uma chuva forte tornou o balão pesado.</example>
+                    <example>Ainda à época do conflito, ocorreu a inauguração do Peter Café Sport (1918).</example>
                 </antipattern>
-
-                <!--
-        Toy Story, e sua continuação , Toy Story 2 ganham uma roupagem à Século XXI.
-        -->
                 <antipattern>
                     <token>à</token>
                     <token regexp="yes">&expressoes_de_tempo;</token>
                     <token postag='ZR.+|AO.+' postag_regexp='yes'/>
+                    <example>Toy Story, e sua continuação , Toy Story 2 ganham uma roupagem à Século XXI.</example>
                 </antipattern>
-
-                <!--
-        Ele está assistindo à TV em seu quarto.
-        Eu provavelmente não assistirei à TV esta noite.
-        Tom estava assistindo à TV na noite passada.
-        O Tom não faz nada além de assistir à TV o dia inteiro.
-        Assistir à TV é um dos meus passatempos favoritos.
-        -->
                 <antipattern>
                     <token postag='V.+' postag_regexp='yes'/>
                     <token>à</token>
                     <token postag='NP.+' postag_regexp='yes'/>
+                    <example>Ele está assistindo à TV em seu quarto.</example>
+                    <example>Eu provavelmente não assistirei à TV esta noite.</example>
+                    <example>Tom estava assistindo à TV na noite passada.</example>
+                    <example>O Tom não faz nada além de assistir à TV o dia inteiro.</example>
+                    <example>Assistir à TV é um dos meus passatempos favoritos.</example>
                 </antipattern>
 
                 <antipattern>
@@ -29937,6 +29878,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="há">Foi <marker>a</marker> duas horas.</example>
                 <example correction="há">Namoro um cara <marker>a</marker> quase nove meses.</example>
                 <example correction="há">Eu conheci Isabella <marker>a</marker> alguns anos</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">daqui|dali</token>
+                    <marker>
+                        <token regexp="yes">há|à</token>
+                    </marker>
+                    <token postag="Z.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível confusão de termos. Considere substituir por <suggestion>a</suggestion>.</message>
+                <example correction="a">Daqui <marker>há</marker> duas horas começa o filme.</example>
             </rule>
         </rulegroup>
 
