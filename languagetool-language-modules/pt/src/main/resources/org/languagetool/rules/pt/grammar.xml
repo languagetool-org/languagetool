@@ -897,7 +897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="CONCORDANCIA_DAR_HORAS" name="Concordância de construções como 'deram dez horas' => 'deu dez horas'" default="temp_off">
+        <rulegroup id="CONCORDANCIA_DAR_HORAS" name="Concordância de construções como 'deram dez horas' => 'deu dez horas'">
             <rule> <!-- deu 10 horas -->
                 <pattern>
                     <token postag="SENT_START"/> <!-- keep it tightly scoped -->
@@ -7326,6 +7326,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            MARCOAGPINTO started adding antipatterns at the top to affect all subrules - 2022-09-24
       -->
             <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
+
+            <antipattern>
+                <token inflected='yes' regexp='no'>ser</token> <!-- Add more verbs here when/if found. -->
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token postag='_PUNCT_COMMA' postag_regexp='no'/>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+                <example>Eu sou letras, prazer, poesia, pecado, redenção.</example>
+                <example>Ele é letras, prazer, poesia, pecado, redenção.</example>
+            </antipattern>
 
             <!-- MARCOAGPINTO 2022-09-24 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <!-- Zero hits in 600 000 sentences, except my thesis. -->
