@@ -33701,33 +33701,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="aderência">A <marker>adesão</marker> do pneu é boa.</example>
         </rule>
 
-        <rule id='EMIGRAR_DE' name="Confusão: Emigrar + de">
-            <!--    Created by Tiago F. Santos, 2017-03-17     -->
-            <antipattern>
-                <token inflected='yes' regexp='yes'>emigrantes?</token>
-                <token>de
-                    <exception postag_regexp='yes' postag='R.+'/></token>
-            </antipattern>
+        <rule id='EMIGRAR_DE' name="Confusão: Emigrar + de" default="temp_off">
             <pattern>
-                <token inflected='yes' regexp='yes'>emigr(?:ar|antes?|ação)</token>
-                <token inflected='yes' regexp='yes' min='0'>vir|vindo</token>
-                <token>de</token>
-            </pattern>
-            <message>Possível confusão de palavras. Emigrar significa sair do país de referido para outro.</message>
-            <suggestion><match no='1' regexp_match='emi(.+)' regexp_replace='imi$1'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
-            <example correction="imigrantes vindos de">Os <marker>emigrantes vindos de</marker> leste tem característica particulares.</example>
-        </rule>
-
-        <rule id='IMIGRAR_PARA' name="Confusão: Imigrar + para">
-            <!--    Created by Tiago F. Santos, 2017-03-17     -->
-            <pattern>
-                <token inflected='yes'>imigrar</token>
+                <token inflected='yes'>emigrar</token>
                 <token regexp='yes'>pa?ra</token>
             </pattern>
-            <message>Possível confusão de palavras. Imigrar significa vir do exterior para o país referido.</message>
-            <suggestion><match no='1' regexp_match='imigr(.+)' regexp_replace='emigr$1'/> \2</suggestion>
-            <example correction="emigraram para">Muitos portugueses <marker>imigraram para</marker> França nos anos 60.</example>
-            <example>Trouxeram muitos imigrantes para o Brasil</example>
+            <message>Possível confusão de palavras. &quot;Emigrar&quot; corresponde ao ato de sair do país. &quot;Imigrar&quot; corresponde ao ato de entrar em um país visando residência definitiva.</message>
+            <suggestion><match no='1' postag="V.+" postag_regexp="yes">imigrar</match> \2</suggestion>
+            <example correction="imigraram para">Muitos <marker>emigraram para</marker> a França nos anos 60.</example>
+        </rule>
+
+        <rule id='IMIGRAR_PARA' name="Confusão: Imigrar + para" default="temp_off">
+            <pattern>
+                <token inflected='yes'>imigrar</token>
+                <token postag="SPS.+" postag_regexp="yes" regexp='yes'>d.*</token>
+            </pattern>
+            <message>Possível confusão de palavras. &quot;Imigrar&quot; corresponde ao ato de entrar em um país visando residência definitiva. &quot;Emigrar&quot; corresponde ao ato de sair do país.</message>
+            <suggestion><match no='1' postag="V.+" postag_regexp="yes">emigrar</match> \2</suggestion>
+            <example correction="emigraram da">Muitos <marker>imigraram da</marker> França nos anos 60.</example>
         </rule>
 
         <rule id='EMERGIR_EM' name="Confusão: Emergir + em">
