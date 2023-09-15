@@ -2748,6 +2748,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (word.matches("(Holz|Spiegel)panel(s|en?)?")) {
       return topMatch(word.replaceFirst("panel", "paneel"));
     }
+    if (word.matches("SBahn(hofs?|zug((es)|s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?)")) {
+      return topMatch(word.replaceFirst("SBahn", "S-Bahn"));
+    }
     switch (word) {
       case "Büffet":
       case "Buffett":
