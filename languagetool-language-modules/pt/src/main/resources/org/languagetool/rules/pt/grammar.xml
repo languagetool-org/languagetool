@@ -286,7 +286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id="PARA_MIM_FAZER" name="Para mim fazer -> para eu fazer" default="temp_off">
-            <rule>
+            <rule id="PARA_MIM_FAZER_SENT_START">
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|_PUNCT"/>
                     <token regexp="yes">pa?ra</token>
@@ -295,7 +295,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                             mim
                             <exception scope="next" postag_regexp="yes" postag="SP.+|_PUNCT|C.|N.+"/>
                             <exception scope="next">a</exception> <!-- issues with disambiguation of 'a' -->
-                            <exception negate="yes" scope="next" postag_regexp="yes" postag="V.+" regexp="yes">.+[eaioô]r$</exception>
+                            <exception negate="yes" scope="next" postag_regexp="yes" postag="V.+" regexp="yes">.*[eaioô]r$</exception>
                         </token>
                     </marker>
                     <token postag_regexp="yes" postag="V.N0000"/>
@@ -307,7 +307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="eu|mim,">2006 (UTC) Para <marker>mim</marker> dirigir para além de Braga é muito.</example>
             </rule>
 
-            <rule>
+            <rule id="DÁ_PARA_MIM_FAZER">
                 <pattern>
                     <token inflected="yes">dar</token>
                     <token regexp="yes">pa?ra</token>
@@ -316,7 +316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                             mim
                             <exception scope="next" postag_regexp="yes" postag="SP.+|_PUNCT|C.|N.+"/>
                             <exception scope="next">a</exception> <!-- issues with disambiguation of 'a' -->
-                            <exception negate="yes" scope="next" postag_regexp="yes" postag="V.+" regexp="yes">.+[eaioô]r$</exception>
+                            <exception negate="yes" scope="next" postag_regexp="yes" postag="V.+" regexp="yes">.*[eaioô]r$</exception>
                         </token>
                     </marker>
                     <token postag_regexp="yes" postag="V.N0000"/>
@@ -327,18 +327,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="eu">Ainda não deu para <marker>mim</marker> entrar em contato.</example>
             </rule>
 
-            <rule>
+            <rule id="É_PARA_MIM_FAZER">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="RN" min="0"/>
+                    <token inflected="yes">ser</token>
+                    <token regexp="yes">pa?ra</token>
+                    <marker>
+                        <token skip="1">
+                            mim
+                            <exception scope="next" postag_regexp="yes" postag="SP.+|_PUNCT|C.|N.+"/>
+                            <exception scope="next">a</exception> <!-- issues with disambiguation of 'a' -->
+                            <exception negate="yes" scope="next" postag_regexp="yes" postag="V.+" regexp="yes">.*[eaioô]r$</exception>
+                        </token>
+                    </marker>
+                    <token postag_regexp="yes" postag="V.N0000"/>
+                </pattern>
+                <message>Na posição de sujeito, use <suggestion>eu</suggestion> no lugar de &quot;mim&quot;.</message>
+                <example correction="eu">É para <marker>mim</marker> ir como?</example>
+                <example correction="eu">Não era pra <marker>mim</marker> tentar de novo...</example>
+            </rule>
+
+            <rule id="PARA_MIM_FAZER_GERAL">
                 <antipattern>
                     <token inflected="yes" regexp="yes">ser|torna|ficar</token>
-                    <token postag_regexp="yes" postag="R." min="0" max="-1"/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
                     <token postag_regexp="yes" postag="A.+"/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
                     <token regexp="yes">pa?ra</token>
                     <token>mim</token>
                     <example>É difícil para mim ver o que está acontecendo.</example>
                     <example>Seria incrivelmente natural para mim ler em russo.</example>
                     <example>Ele pode ver que seria perfeitamente natural para mim dizer algo do gênero.</example>
                     <example>Sem meus óculos se torna impossível para mim enxergar.</example>
-                    <example>Está ficando mais fácil para mim ouvir esse tipo de música.</example>
+                    <example>Está ficando mais fácil pra mim ouvir esse tipo de música.</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">sonho|honra|importância|prazer|prioridade</token>
@@ -358,13 +380,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token negate_pos="yes" postag_regexp="yes" postag="_PUNCT|SENT_START"/>
-                        <token regexp="yes">pa?ra</token>
+                        <token/>
+                        <token regexp="yes">
+                            pa?ra
+                            <exception scope="previous" postag_regexp="yes" postag="_PUNCT|SENT_START"/>
+                        </token>
                         <token skip="1">
                             mim
                             <exception scope="next" postag_regexp="yes" postag="SP.+|_PUNCT|C.|N.+"/>
                             <exception scope="next">a</exception> <!-- issues with disambiguation of 'a' -->
-                            <exception negate="yes" scope="next" postag_regexp="yes" postag="V.+" regexp="yes">.+[eaioô]r$</exception>
+                            <exception negate="yes" scope="next" postag_regexp="yes" postag="V.+" regexp="yes">.*[eaioô]r$</exception>
                         </token>
                     </marker>
                     <token postag_regexp="yes" postag="V.N0000"/>
@@ -373,9 +398,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>\1 \2 eu</suggestion>
                 <suggestion>\1, \2 mim,</suggestion>
                 <example correction="desafio para eu|desafio, para mim,">Será um <marker>desafio para mim</marker> entrar lá sozinho.</example>
-                <example correction="suficiente para eu|suficiente, para mim,">Acho que passamos tempo o <marker>suficiente para mim</marker> lhe dizer que eu dormi.</example>
-                <example correction="desbloqueada pra eu|desbloqueada, pra mim,">Gostaria que ela fosse <marker>desbloqueada pra mim</marker> recuperar minha página.</example>
-                <example>Outros sites para mim parecem agir normalmente.</example>
             </rule>
         </rulegroup>
 
