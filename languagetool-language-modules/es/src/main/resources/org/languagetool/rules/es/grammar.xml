@@ -81,14 +81,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
-        <rule id="DOBLE_ESPACIO" name="doble espacio">
-            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
-            <!-- TODO: add "nnbsp" -->
-            <message>Sobra un espacio.</message>
-            <suggestion> </suggestion>
-            <example correction=" ">Esto es una<marker>  </marker>frase con dos espacios.</example>
-            <example correction=" ">Esto es una frase,<marker>  </marker>que tiene dos espacios.</example>
-        </rule>
         <rule id="MAYUSCULAS_INICIO_FRASE" name="mayúsculas a principio de frase">
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
@@ -141,6 +133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Revise las mayúsculas a principio de frase.</message>
             <suggestion><match no="3" regexp_match="^(.).*$" regexp_replace="$1"/><match no="3" regexp_match="^.(.*$)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
+            <short>&shortmessage_casing;</short>
             <example correction="La"><marker>LA</marker> semana pasada no vino.</example>
             <example correction="El"><marker>EL</marker> 2 de dicimebre.</example>
             <example correction="Un"><marker>UN</marker> 2 de dicimebre.</example>
@@ -187,11 +180,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>¿Quería decir <suggestion>ESO</suggestion> (Educación Secundaria Obligatoria)?</message>
+            <short>&shortmessage_casing;</short>
             <example correction="ESO">En la <marker>eso</marker> lo aprobó todo.</example>
             <example>Le dio a esa eso que piensas.</example>
         </rule>
         <rulegroup id="WHATSAPP" name="WhatsApp">
             <url>https://www.fundeu.es/recomendacion/wasap-y-wasapear-grafias-validas/</url>
+            <short>&shortmessage_casing;</short>
             <rule>
                 <pattern>
                     <token>whatsapp<exception case_sensitive="yes" regexp="yes">WHATSAPP|WhatsApp</exception></token>
@@ -217,9 +212,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Esta abreviatura se escribe con mayúscula inicial.</message>
             <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+            <short>&shortmessage_casing;</short>
             <example correction="Sra">Ha venido la <marker>sra</marker>. García.</example>
         </rule>
         <rulegroup id="MIN_MESES" name="Meses en minúscula">
+            <short>&shortmessage_casing;</short>
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">&meses_ano_may;</token>
@@ -349,6 +346,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match case_conversion="alllower" no="1"/></suggestion>
             <url>https://languagetool.org/insights/es/publicacion/escritura-dias-de-la-semana-minuscula/</url>
             <!--<url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>-->
+            <short>&shortmessage_casing;</short>
             <example correction="lunes" type="incorrect">Todos los <marker>Lunes</marker> son tristes.</example>
             <example type="correct">Los <marker>martes</marker> juego un partido de tenis.</example>
             <example type="correct">Este <marker>Viernes</marker> de Dolores estaremos fuera.</example>
@@ -386,7 +384,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Las estaciones del año se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
             <suggestion><match case_conversion="alllower" no="1"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
-            <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
+            <short>&shortmessage_casing;</short><example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
             <example>Feria de Primavera.</example>
             <example>Palacio de Invierno.</example>
@@ -397,6 +395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>¿Primavera u otoño?</example>
         </rule>
         <rulegroup id="HOMO" name="homo/Homo">
+            <short>&shortmessage_casing;</short>
             <rule>
                 <antipattern case_sensitive="yes">
                     <token>Homo</token>
@@ -20441,6 +20440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es un nombre propio, se escribe con mayúscula inicial.</message>
                 <suggestion>\1 Amazonas</suggestion>
+                <short>&shortmessage_casing;</short>
                 <example correction="el Amazonas">En <marker>el amazonas</marker></example>
             </rule>
             <rule>
@@ -20452,6 +20452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es un nombre propio, se escribe con mayúscula inicial.</message>
                 <suggestion>\1 Mercedes</suggestion>
+                <short>&shortmessage_casing;</short>
                 <example correction="el Mercedes">En <marker>el mercedes</marker> tengo la documentación.</example>
             </rule>
             <rule>
@@ -20464,6 +20465,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
                 <suggestion>\1 Sena</suggestion>
                 <suggestion>\1 SENA</suggestion>
+                <short>&shortmessage_casing;</short>
                 <example correction="el Sena|el SENA">Estudio en <marker>el sena</marker></example>
             </rule>
             <rule>
@@ -20485,6 +20487,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es un nombre propio, se escribe con mayúsculas iniciales.</message>
                 <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <short>&shortmessage_casing;</short>
                 <example correction="La Rioja">Vengo de <marker>la rioja</marker>.</example>
             </rule>
             <rule>
@@ -20496,6 +20499,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es una sigla (Chile, Uruguay, Colombia), se escribe con mayúsculas.</message>
                 <suggestion><match no="2" case_conversion="allupper"/></suggestion>
+                <short>&shortmessage_casing;</short>
                 <example correction="RUT">Este es el <marker>Rut</marker> del titular.</example>
             </rule>
             <rule>
@@ -20507,6 +20511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es nombre propio (libro sagrado de la India), se escribe con mayúscula inicial.</message>
                 <suggestion>Vedas</suggestion>
+                <short>&shortmessage_casing;</short>
                 <example correction="Vedas">En los <marker>vedas</marker></example>
             </rule>
             <rule>
@@ -31374,6 +31379,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
+        <rule id="DOBLE_ESPACIO" name="doble espacio">
+            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
+            <!-- TODO: add "nnbsp" -->
+            <message>Sobra un espacio.</message>
+            <suggestion> </suggestion>
+            <example correction=" ">Esto es una<marker>  </marker>frase con dos espacios.</example>
+            <example correction=" ">Esto es una frase,<marker>  </marker>que tiene dos espacios.</example>
+        </rule>
         <rulegroup id="ABREVIATURA_NUMERO" name="abreviatura de número">
             <rule>
                 <pattern>
