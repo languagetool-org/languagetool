@@ -1056,7 +1056,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[dD]urchsichtbar(e[mnrs]?)?", "bar", "ig");
     putRepl("[oO]ffensichtig(e[mnrs]?)?", "ig", "lich");
     putRepl("[zZ]urverfühgung", "verfühgung", " Verfügung");
-    putRepl("[vV]erständlichkeitsfragen?", "lichkeits", "nis");
     putRepl("[sS]pendeangebot(e[ns]?)?", "[sS]pende", "Spenden");
     putRepl("gahrnichts?", "gahr", "gar ");
     putRepl("[aA]ugensichtlich(e[mnrs]?)?", "sicht", "schein");
