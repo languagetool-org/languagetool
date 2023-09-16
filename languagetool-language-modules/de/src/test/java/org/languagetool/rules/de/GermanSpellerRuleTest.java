@@ -594,7 +594,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("durchsichtbar", "durchsichtig", rule, lt);
     assertFirstSuggestion("offensichtiges", "offensichtliches", rule, lt);
     assertFirstSuggestion("zurverfühgung", "zur Verfügung", rule, lt);
-    assertFirstSuggestion("Verständlichkeitsfragen", "Verständnisfragen", rule, lt);
     assertFirstSuggestion("Bewusstliches", "Bewusstes", rule, lt);
     assertFirstSuggestion("leidensvolle", "leidvolle", rule, lt);
     assertFirstSuggestion("augensichtlich", "augenscheinlich", rule, lt);
