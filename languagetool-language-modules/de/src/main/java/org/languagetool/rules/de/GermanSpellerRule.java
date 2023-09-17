@@ -1489,6 +1489,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Arzte", w -> Arrays.asList("Ärzte", "Arzt"));
     put("Arzten", "Ärzten");
     put("Alternatief", "Alternativ");
+    put("Pkt", w -> Arrays.asList("Pkt.", "Pakt", "Punkt", "Akt"));
     put("intere", w -> Arrays.asList("interne", "innere", "hintere", "untere"));
     put("Eon", w -> Arrays.asList("Ein", "E.ON"));
     put("unterschiede", w -> Arrays.asList("Unterschiede", "unterscheide", "unterschiebe", "unterschieden"));
