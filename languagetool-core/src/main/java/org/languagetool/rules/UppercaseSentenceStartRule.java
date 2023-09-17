@@ -163,7 +163,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         preventError = true;
       }
 
-      if (isPrevSentenceNumberedList || isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
+      if (isPrevSentenceNumberedList || isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()
+      || tokens[matchTokenPos].hasPosTag("_IS_URL")) {
         preventError = true;
       }
 

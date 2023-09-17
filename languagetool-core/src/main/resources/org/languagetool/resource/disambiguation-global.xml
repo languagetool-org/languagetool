@@ -126,6 +126,19 @@ Copyright (C) 2021 Jaume Ortolà
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z0-9\-]+</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token spacebefore="no" postag="_IS_URL"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_IS_URL"/>
+                <wd pos="_IS_URL"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rule name="Ignore spelling of acronym 'tl;dr'" id="GLOBAL_IGNORE_TL_DR">
         <pattern case_sensitive="yes">
@@ -237,7 +250,6 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
     <rule id="ENGLISH_ORDINAL_NUMBERS" name="ignore spelling of English ordinal numbers">
         <pattern>
             <token regexp="yes" case_sensitive="yes">
