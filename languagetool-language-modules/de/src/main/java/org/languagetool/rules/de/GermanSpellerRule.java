@@ -2748,8 +2748,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (word.matches("(Holz|Spiegel)panel(s|en?)?")) {
       return topMatch(word.replaceFirst("panel", "paneel"));
     }
-    if (word.matches("SBahn(hofs?|zug((es)|s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?)")) {
+    if (word.matches("SBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?")) {
       return topMatch(word.replaceFirst("SBahn", "S-Bahn"));
+    }
+    if (word.matches("UBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?")) {
+      return topMatch(word.replaceFirst("UBahn", "U-Bahn"));
     }
     switch (word) {
       case "Büffet":
@@ -3220,36 +3223,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "umgangsprachlich": return topMatch("umgangssprachlich");
       case "E-Mai": return topMatch("E-Mail");
       case "E-Mais": return topMatch("E-Mails");
-      case "Ubahn": return topMatch("U-Bahn");
-      case "UBahn": return topMatch("U-Bahn");
-      case "Ubahnen": return topMatch("U-Bahnen");
-      case "UBahnen": return topMatch("U-Bahnen");
-      case "Ubahnhof": return topMatch("U-Bahnhof");
-      case "UBahnhof": return topMatch("U-Bahnhof");
-      case "Ubahnhofs": return topMatch("U-Bahnhofs");
-      case "UBahnhofs": return topMatch("U-Bahnhofs");
-      case "Ubahnhöfe": return topMatch("U-Bahnhöfe");
-      case "UBahnhöfe": return topMatch("U-Bahnhöfe");
-      case "Ubahnhöfen": return topMatch("U-Bahnhöfen");
-      case "UBahnhöfen": return topMatch("U-Bahnhöfen");
-      case "Ubahnlinie": return topMatch("U-Bahnlinie");
-      case "UBahnlinie": return topMatch("U-Bahnlinie");
-      case "Ubahnlinien": return topMatch("U-Bahnlinien");
-      case "UBahnlinien": return topMatch("U-Bahnlinien");
-      case "Ubahnnetz": return topMatch("U-Bahnnetz");
-      case "UBahnnetz": return topMatch("U-Bahnnetz");
-      case "Ubahnnetze": return topMatch("U-Bahnnetze");
-      case "UBahnnetze": return topMatch("U-Bahnnetze");
-      case "Ubahnnetzes": return topMatch("U-Bahnnetzes");
-      case "UBahnnetzes": return topMatch("U-Bahnnetzes");
-      case "Ubahntunnel": return topMatch("U-Bahntunnel");
-      case "UBahntunnel": return topMatch("U-Bahntunnel");
-      case "Ubahntunnels": return topMatch("U-Bahntunnels");
-      case "UBahntunnels": return topMatch("U-Bahntunnels");
-      case "UBahnzug": return topMatch("U-Bahnzug");
-      case "UBahnzugs": return topMatch("U-Bahnzugs");
-      case "UBahnzüge": return topMatch("U-Bahnzüge");
-      case "UBahnzügen": return topMatch("U-Bahnzügen");
       case "Gelantine": return topMatch("Gelatine");
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
