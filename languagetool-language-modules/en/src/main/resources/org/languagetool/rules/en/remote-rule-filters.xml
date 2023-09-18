@@ -3393,6 +3393,69 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Customers will be able to use your apps on <marker>visionOS</marker> early next year when Apple Vision Pro becomes available.</example>
                 <example correction="">Customers will be able to use your apps on <marker>macOS</marker> early next year when Apple Vision Pro becomes available.</example>
             </rule>
+            <rule> <!-- 01 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">0[1-9]</token>
+                    </marker>
+                </pattern>
+                <example correction="">The Period beginning with and including September <marker>01</marker>, 2001 through and including September 30, 2001.</example>
+            </rule>
+            <rule>  <!-- dates -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]{1,2}</token>
+                        <token regexp="yes">[\/\.]</token>
+                        <token regexp="yes">[0-9]{1,2}</token>
+                        <token regexp="yes">[\/\.]</token>
+                        <token regexp="yes">[0-9]{4}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Forwarded by Vince J Kaminski/HOU/ECT on <marker>01/02/2001</marker></example>
+                <example correction="">I'll process the return for you on <marker>12.9.2023</marker>.</example>
+            </rule>
+            <rule>  <!-- symbols pt. I -->
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token regexp="yes">[,×x]</token>
+                        <token postag="CD" />
+                    </marker>
+                </pattern>
+                <example correction=""> ...cook for about <marker>1,5</marker> to 2 hours.</example>
+                <example correction="">...10 inches (<marker>20×25</marker> cm) on fine ar...</example>
+            </rule>
+            <rule>  <!-- symbols pt. II -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\$?[0-9]*[ek].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">..ce goes beyond <marker>10e7000</marker> meters per sec...</example>
+                <example correction="">His current salary is <marker>$80k</marker>.</example>
+            </rule>
+            <rule>  <!-- symbols pt. III -->
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token>.</token>
+                        <token regexp="yes">[0-9]%?±.*</token>
+                        <token>.</token>
+                        <token regexp="yes">[0-9]%?</token>
+                    </marker>
+                </pattern>
+                <example correction="">...Cu2O (p-Cu2O) (<marker>50.4%±1.1%</marker>) synthesized...</example>
+                <example correction="">...atients), aged <marker>62.9±13.3</marker> years, were in...</example>
+            </rule>
+            <rule>  <!-- symbols pt IV -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[≥≤]</token>
+                        <token regexp="yes">[0-9]*%?</token>
+                    </marker>
+                </pattern>
+                <example correction="">...t least 10% to <marker>≥40%</marker>) [24,31]. The...</example>
+            </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_NN_FOR_NN" name="">
             <rule> <!-- this rule should be a style rule + picky -->
