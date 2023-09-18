@@ -12354,6 +12354,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="meia">Chegamos meio-dia e <marker>meio</marker>.</example>
         </rule>
 
+       <rulegroup id="SAIR_AS_RUAS" name="Erro de crase em 'sair as ruas' -> 'às'" default="temp_off">
+           <rule>
+               <pattern>
+                   <token postag_regexp="yes" postag="V.+" inflected="yes">sair</token>
+                   <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                   <marker>
+                       <token>as</token>
+                   </marker>
+                   <token>ruas</token>
+               </pattern>
+               <message>No sentido de ir às ruas em protesto, falta uma crase.</message>
+               <suggestion>às</suggestion>
+               <example correction="às">E saiu <marker>as</marker> ruas com uma placa pra abraçar estranhos.</example>
+               <example correction="às">Se se envergonhasse, saía verdadeiramente <marker>as</marker> ruas e não teria deixado acontecer a copa.</example>
+           </rule>
+       </rulegroup>
+
         <rulegroup id='CRASE_CONFUSION' name="Erros de crase">
             <antipattern>
                 <token postag='V.+' postag_regexp="yes"/>
@@ -12431,7 +12448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </antipattern>
 
             <!-- Specific expressions that are very likely to just require 'a', so we're adding it here before the masculine check. -->
-            <rule>
+            <rule> <!-- #1 -->
                 <pattern>
                     <token>à</token>
                     <token regexp="yes">fim|bordo|cargo|cavalo|[dr]espeito|fundo|partir|propósito|tempo|vapor</token>
@@ -12441,7 +12458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="a bordo">Todos <marker>à bordo</marker>!</example>
             </rule>
 
-            <rule>
+            <rule> <!-- #2 -->
                 <pattern>
                     <token>à</token>
                     <token regexp="yes">norte|sul|leste|oeste|sudeste|sudoeste|nordeste|noroeste</token>
@@ -12452,7 +12469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="ao norte|a norte">Fica 55 quilômetros <marker>à norte</marker>.</example>
             </rule>
 
-            <rule>
+            <rule> <!-- #3 -->
                 <antipattern>
                     <token>à</token>
                     <token>mingua</token>
@@ -12469,7 +12486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='a carregar'>Assim que começamos <marker>à carregar</marker> as compras para o carro, começou a chover.</example>
                 <example>Fomos às compras, e viemos com o carro cheio</example>
             </rule>
-            <rule>
+            <rule> <!-- #4 -->
                 <antipattern>
                     <token inflected='yes' regexp='yes'>dar|declarar</token>
                     <token regexp='yes'>guerra|vida</token>
@@ -12487,7 +12504,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <url>https://pt.wikipedia.org/wiki/Crase</url>
                 <example correction="dia a dia">Foi preciso conformar com a rotina do <marker>dia à dia</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #5 -->
                 <pattern>
                     <token>de</token>
                     <marker>
@@ -12501,7 +12518,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <url>https://pt.wikipedia.org/wiki/Crase</url>
                 <example correction="10 a 30">Consiga descontos de <marker>10 à 30</marker> por cento nos saldos desta semana.</example>
             </rule>
-            <rule>
+            <rule> <!-- #6 -->
                 <pattern>
                     <marker>
                         <token>devido</token>
@@ -12515,7 +12532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <url>https://pt.wikipedia.org/wiki/Crase</url>
                 <example correction='devido à'>Isso é <marker>devido a</marker> presença de estranhos.</example>
             </rule>
-            <rule>
+            <rule> <!-- #7 -->
                 <pattern>
                     <marker>
                         <token>devido</token>
@@ -12529,7 +12546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <url>https://pt.wikipedia.org/wiki/Crase</url>
                 <example correction='devido às'>Isso é <marker>devido as</marker> pessoas que aparecem aqui.</example>
             </rule>
-            <rule>
+            <rule> <!-- #8 -->
                 <pattern>
                     <marker>
                         <token regexp='yes'>em|com</token>
@@ -12544,7 +12561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-crase-em-em-relacao-a-disciplina/31029</url>
                 <example correction='Em relação à'><marker>Em relação a</marker> falecida, estamos a averiguar a situação.</example>
             </rule>
-            <rule>
+            <rule> <!-- #9 -->
                 <antipattern>
                     <token spacebefore='no' regexp='yes'>&hifen;</token>
                     <token inflected='yes' spacebefore='no'>ir</token>
@@ -12594,7 +12611,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>ir até a sala de encomendas</example>
                 <example>…viços de TV paga não se tornaram populares ou bem sucedidos enquanto as redes de televisão públicas ZDF e ARD oferecem um…</example>
             </rule>
-            <rule>
+            <rule> <!-- #10 -->
                 <pattern>
                     <token regexp='yes'>às?|as</token>
                     <token regexp='yes'>(?:sua|vossa)s?</token>
@@ -12607,7 +12624,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='a Sua Excelência|Sua Excelência'>Pergunte <marker>à Sua Excelência</marker> qual o modo adequado de tratamento.</example>
                 <example correction='a Vossas Beatitudes|Vossas Beatitudes'>Envie o pedido <marker>às Vossas Beatitudes</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #11 -->
                 <pattern>
                     <token regexp='yes'>às?|as</token>
                     <token regexp='yes'>vocês?</token>
@@ -12617,7 +12634,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <url>http://www.nilc.icmc.usp.br/nilc/minigramatica/mini/acraseeospronomesdetratamento.htm</url>
                 <example correction='a você'>Se digo <marker>à você</marker> deixa de ser segredo.</example>
             </rule>
-            <rule>
+            <rule> <!-- #12 -->
+
                 <antipattern>
                     <token>24</token>
                     <token case_sensitive='yes'>Horas</token>
@@ -12656,7 +12674,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Estou aqui desde as cinco horas.</example>
                 <example>São dez minutos para as onze horas.</example>
             </rule>
-            <rule>
+            <rule> <!-- #13 -->
+
                 <antipattern>
                     <token>entre</token>
                     <token>as</token>
@@ -12680,7 +12699,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='Chego a casa às 19h50'><marker>Chego a casa as 19h50</marker>.</example>
                 <example>Entre as 12h e as 13h.</example>
             </rule>
-            <rule>
+            <rule> <!-- #14 -->
+
                 <pattern>
                     <token case_sensitive='no' regexp='yes'>(?:&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
                     <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
@@ -12695,7 +12715,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='a'>A semana de trabalho é de segunda-feira <marker>à</marker> sexta-feira.</example>
                 <example correction='a'>Os melhores meses para ir de férias é de junho <marker>à</marker> setembro.</example>
             </rule>
-            <rule>
+            <rule> <!-- #15 -->
+
                 <antipattern>
                     <token>uma</token>
                     <token>da</token>
@@ -12714,7 +12735,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='a uma'>Foi <marker>à uma</marker> corrida de cavalos, antes do almaço.</example>
                 <example>O almoço foi à uma da tarde.</example>
             </rule>
-            <rule>
+            <rule> <!-- #16 -->
                 <!--                     Loosely based on CoGrOO rules                 -->
                 <pattern>
                     <token regexp='yes'>às?</token>
@@ -12725,7 +12746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='a ela'>Foi um favor que fiz <marker>à ela</marker>.</example>
                 <example correction='A mim'><marker>À mim</marker> não faz diferença.</example>
             </rule>
-            <rule>
+            <rule> <!-- #17 -->
                 <antipattern>
                     <token>bife</token>
                     <token>à</token>
@@ -12773,7 +12794,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='a conteúdos|ao conteúdos|aos conteúdos'>Você terá acesso <marker>à conteúdos</marker> atualizados</example>
                 <example correction='a primeiros|ao primeiros|aos primeiros'>Você terá acesso <marker>à primeiros</marker> conteúdos exclusivos</example>
             </rule>
-            <rule>
+            <rule> <!-- #18 -->
                 <pattern>
                     <token regexp='yes'>à</token>
                     <token regexp='yes'>R?\$</token>
@@ -12783,7 +12804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>a \2 \3</suggestion>
                 <example correction='a R$ 35'>A quantia equivale <marker>à R$ 35</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #19 -->
                 <!--                     Loosely based on CoGrOO rules                 -->
                 <pattern>
                     <token inflected='yes'>assistir</token>
@@ -12794,7 +12815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>\1 à \3</suggestion>
                 <example correction='assistir à apresentação'>Poderá <marker>assistir a apresentação</marker> da gala.</example>
             </rule>
-            <rule>
+            <rule> <!-- #20 -->
                 <pattern>
                     <marker>
                         <token inflected='yes'>candidatar</token>
@@ -12808,7 +12829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>\1-se <match no='4' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
                 <example correction='candidatou-se à'>Ele <marker>candidatou-se a</marker> posição de gestor.</example>
             </rule>
-            <rule>
+            <rule> <!-- #21 -->
                 <pattern>
                     <token>à</token>
                     <token postag_regexp='yes' postag='(?:N.|A..|DP.)FP.+'>
@@ -12819,7 +12840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>às \2</suggestion>
                 <example correction='a conclusões|às conclusões'>pode nos levar <marker>à conclusões</marker> incorretas. </example>
             </rule>
-            <rule>
+            <rule> <!-- #22 -->
                 <pattern>
                     <token>a</token>
                     <token>toa</token>
