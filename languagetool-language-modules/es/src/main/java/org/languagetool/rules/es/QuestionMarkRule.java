@@ -88,13 +88,32 @@ public class QuestionMarkRule extends TextLevelRule {
             firstToken = null;
           }
           // put the question mark in: ¿de qué... ¿para cuál... ¿cómo...
-          if (i > 2 && i + 1 < tokens.length) {
+          if (i > 2 && i + 2 < tokens.length) {
+            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC") && tokens[i + 1].hasPosTag("SPS00")
+              && (tokens[i + 2].hasPosTagStartingWith("PT") || tokens[i + 2].hasPosTagStartingWith("DT"))) {
+              firstToken = tokens[i];
+            }
             if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("SPS00")
-                && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
+              && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
+              firstToken = tokens[i];
+            }
+            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC")
+              && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
               firstToken = tokens[i];
             }
             if (tokens[i - 1].getToken().equals(",")
-                && (tokens[i].hasPosTagStartingWith("PT") || tokens[i].hasPosTagStartingWith("DT"))) {
+              && (tokens[i].hasPosTagStartingWith("PT") || tokens[i].hasPosTagStartingWith("DT"))) {
+              firstToken = tokens[i];
+            }
+            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC")
+              && (tokens[i + 1].getToken().equals("no") || tokens[i + 1].getToken().equals("sí"))) {
+              firstToken = tokens[i];
+            }
+          }
+          if (i > 2 && i < tokens.length) {
+            if (tokens[i - 1].getToken().equals(",")
+              && (tokens[i].getToken().equals("no") || tokens[i].getToken().equals("sí")
+              || tokens[i].getToken().equals("eh"))) {
               firstToken = tokens[i];
             }
           }

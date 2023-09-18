@@ -146,6 +146,22 @@ public class QuestionMarkRuleTest {
     List<RuleMatch> matches27 = lt.check("\"Muchas gracias!\".");
     assertThat(matches27.size(), is(1));
     assertThat(matches27.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
+
+    List<RuleMatch> matches28 = lt.check("Seguro que estás más habituado a algunas de estas formas verbales, pero cuál es la correcta?");
+    assertThat(matches28.size(), is(1));
+    assertThat(matches28.get(0).getSuggestedReplacements().toString(), is("[¿pero]"));
+
+    List<RuleMatch> matches29 = lt.check("Tengo razón, o no?");
+    assertThat(matches29.size(), is(1));
+    assertThat(matches29.get(0).getSuggestedReplacements().toString(), is("[¿o]"));
+
+    List<RuleMatch> matches30 = lt.check("Tengo razón, no?");
+    assertThat(matches30.size(), is(1));
+    assertThat(matches30.get(0).getSuggestedReplacements().toString(), is("[¿no]"));
+
+    List<RuleMatch> matches31 = lt.check("Tengo razón, eh?");
+    assertThat(matches31.size(), is(1));
+    assertThat(matches31.get(0).getSuggestedReplacements().toString(), is("[¿eh]"));
   }
 
   private RuleMatch[] check(String s) throws IOException {
