@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 6.3 (2023-)
+
+#### Dutch
+  * tagger and spelling dictionaries have been moved to an external dependency (dutch-pos-dict v 0.1)
+
 ## 6.2 (2023-07-02)
 
 #### Catalan
