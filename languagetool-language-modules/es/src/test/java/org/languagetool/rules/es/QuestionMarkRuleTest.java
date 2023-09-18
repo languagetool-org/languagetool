@@ -47,7 +47,7 @@ public class QuestionMarkRuleTest {
 
   @Test
   public void test() throws IOException {
-   
+
     RuleMatch[] matches = check("Hola, ¿cómo estás?");
     assertThat(matches.length, is(0));
 
@@ -126,6 +126,11 @@ public class QuestionMarkRuleTest {
     List<RuleMatch> matches22 = lt.check("—Hola!");
     assertThat(matches22.size(), is(1));
     assertThat(matches22.get(0).getSuggestedReplacements().toString(), is("[¡Hola]"));
+
+    List<RuleMatch> matches23 = lt.check("Muchas gracias! ✌\uFE0F");
+    assertThat(matches23.size(), is(1));
+    assertThat(matches23.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
+
   }
 
   private RuleMatch[] check(String s) throws IOException {
