@@ -131,6 +131,18 @@ public class QuestionMarkRuleTest {
     assertThat(matches23.size(), is(1));
     assertThat(matches23.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
 
+    List<RuleMatch> matches24 = lt.check("Muchas gracias! ✌\uFE0F✌\uFE0F");
+    assertThat(matches24.size(), is(1));
+    assertThat(matches24.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
+
+    List<RuleMatch> matches25 = lt.check("Muchas gracias! ✌\uFE0F ✌\uFE0F");
+    assertThat(matches25.size(), is(1));
+    assertThat(matches25.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
+
+    List<RuleMatch> matches26 = lt.check("Muchas gracias!, le dijo entonces.");
+    assertThat(matches26.size(), is(1));
+    assertThat(matches26.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
+
   }
 
   private RuleMatch[] check(String s) throws IOException {
