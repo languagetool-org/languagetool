@@ -576,6 +576,7 @@ public class CaseRule extends Rule {
     "Hunderttausend",   // groß und klein möglich 
     "Hyperwallet", // Anglizismus
     "Ihnen",
+    "Ihrerseits",
     "Ihr",
     "Ihre",
     "Ihrem",
