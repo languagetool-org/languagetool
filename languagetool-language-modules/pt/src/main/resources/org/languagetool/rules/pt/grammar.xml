@@ -11387,6 +11387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                     <token postag_regexp="yes" postag="R." min="0" max="2">
                         <exception postag_regexp="yes" postag="SP.+"/> <!-- avoid prepositional phrases -->
+                        <exception>quando</exception> <!-- also an RG -->
                     </token>
                     <token postag_regexp="yes" postag="(N|[PDA].)..P.+">
                         <exception negate_pos="yes" postag_regexp="yes" postag="(N|[PDA].)..P.+"/>
@@ -11413,9 +11414,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Algo terrível está caçando a Mike e ela e acabará os levando.</example>
                 <example>Por favor, basta nos enviar o inquérito para mais detalhes sobre nossos liquidificadores de alimentos elétricos.</example>
                 <example>...s, como eles próprios o são. Os rebanhos, os bens e todos os animais domésticos serão assim nossos. Basta lhes darmos o consentimento e eles habitarão conosco.</example>
+                <example>A NTA isquêmica ocorre quando as células tubulares não recebem oxigênio suficiente.</example>
             </rule>
 
-            <rule default="temp_off"> <!-- #2: aux verb -->
+            <rule> <!-- #2: aux verb -->
                 <antipattern> <!-- o que verb -->
                     <token postag_regexp="yes" postag="(N|[DPA].)..S.+">
                         <exception postag_regexp="yes" postag="V.+"/> <!-- nega que -->
@@ -11460,7 +11462,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag_regexp="yes" postag="VM[NGP].+" regexp="yes" inflected="yes">&verbos_nao_impessoais;
                         <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
                     </token>
-                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2">
+                        <exception postag_regexp="yes" postag="SP.+"/> <!-- avoid prepositional phrases -->
+                        <exception>quando</exception> <!-- also an RG -->
+                    </token>
                     <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
                         <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/>
                         <exception regexp="yes">&pronomes_obliquos_sem_a_as_o_os;|conv?osco</exception>
@@ -11512,7 +11517,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Todas disponíveis no Netflix, mas as duas últimas sairão junho ou julho.</example>
             </rule>
         </rulegroup>
-
 
         <rule id="ESPERA_QUE_INDICATIVO" name="Concordância Verbal: Esperar que + Indicativo">
             <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
