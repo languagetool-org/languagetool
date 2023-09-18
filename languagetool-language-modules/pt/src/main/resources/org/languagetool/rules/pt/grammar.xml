@@ -8260,7 +8260,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
     <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
-
         <antipattern>
             <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
             <token spacebefore='no' regexp='yes'>&hifen;</token>
@@ -9585,10 +9584,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <unify> <!-- restrictive singular NP, probable subject -->
                     <feature id="number"/>
-                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2">
+                        <exception postag_regexp="yes" postag="P[PT].+"/>
+                    </token>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N..S.+"/>
-                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N..S.+">
+                        <exception postag_regexp="yes" postag="^[VRSC].+"/> <!-- 'só' et al. -->
+                    </token>
+                    <token postag_regexp="yes" postag="A.+" min="0">
+                        <exception postag_regexp="yes" postag="^[VRSC].+"/> <!-- 'só' et al. -->
+                    </token>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <marker>
@@ -9604,6 +9609,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Leões correm.</example>
             <example>Muitos leões correm.</example>
             <example>Leões famintos correm.</example>
+            <example>Vocês só almoçam lá?</example>
+            <example>As vagabundas vão onde querem.</example>
+            <example>Que medicamento recomendam?</example>
+            <example>Humanos são tão interessantes.</example>
+            <example>Que hora chegam?</example>
         </rule>
 
         <rule default="temp_off"> <!-- #13B: sanity (pre-match) for 13: plural verb between two singular NPs -->
@@ -9612,10 +9622,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <unify> <!-- restrictive singular NP, probable subject -->
                     <feature id="number"/>
-                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2">
+                        <exception postag_regexp="yes" postag="P[PT].+"/>
+                    </token>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N..S.+"/>
-                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N..S.+">
+                        <exception postag_regexp="yes" postag="^[VRSC].+"/> <!-- 'só' et al. -->
+                    </token>
+                    <token postag_regexp="yes" postag="A.+" min="0">
+                        <exception postag_regexp="yes" postag="^[VRSC].+"/> <!-- 'só' et al. -->
+                    </token>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <marker>
@@ -9637,6 +9653,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="come">O jaguar <marker>comem</marker> um osso.</example>
             <example>Um jaguar comem os ossos.</example>
             <example>Belos jaguares comem outros bois.</example>
+            <example>Vocês só compram roupa?</example>
+            <example>Que hora servirão o jantar?</example>
+            <example>Que resposta tão azeda!</example>
+            <example>Me acha tão idiota?</example>
+            <example>Eles só têm um cobertor.</example>
         </rule>
 
         <rule default="temp_off"> <!-- #13C: sanity (pre-match) for 13: plural verb between singular NP and prepositional phrase -->
@@ -9645,10 +9666,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <unify> <!-- restrictive singular NP, probable subject -->
                     <feature id="number"/>
-                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2"/>
+                    <token postag_regexp="yes" postag="[DP].+" min="0" max="2">
+                        <exception postag_regexp="yes" postag="P[PT].+"/>
+                    </token>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
-                    <token postag_regexp="yes" postag="N..S.+"/>
-                    <token postag_regexp="yes" postag="A.+" min="0"/>
+                    <token postag_regexp="yes" postag="N..S.+">
+                        <exception postag_regexp="yes" postag="^[VRSC].+"/> <!-- 'só' et al. -->
+                    </token>
+                    <token postag_regexp="yes" postag="A.+" min="0">
+                        <exception postag_regexp="yes" postag="^[VRSC].+"/> <!-- 'só' et al. -->
+                    </token>
                 </unify>
                 <token postag_regexp="yes" postag="R." min="0"/>
                 <marker>
@@ -9671,6 +9698,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="persegue">Essa hiena <marker>perseguem</marker> de gente feia.</example>
             <example correction="gosta">O menino <marker>gostam</marker> das escolas.</example>
             <example>Hienas más vão com leões.</example>
+            <example>Vocês só almoçam no centro?</example>
+            <example>Que valor atribuíram àquele atleta?</example>
+            <example>Que idioma falam no Egito?</example>
+            <example>Eles só gostam de si mesmos.</example>
+            <example>Os egoístas só vivem para si mesmos.</example>
         </rule>
 
         <rule> <!-- #13_0: singular noun + plural verb -->
