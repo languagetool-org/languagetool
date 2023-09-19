@@ -24183,6 +24183,39 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="TYPOGRAFISCHE_AANHALINGSTEKENS_2" name="Typografische enkele aanhalingstekens" tags="picky" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">'</token>
+                    </marker>
+                    <token spacebefore="no"/>
+                </pattern>
+                <message>Wilt u hier een typografisch openingsteken gebruiken?</message>
+                <suggestion>‘</suggestion>
+                <example correction="‘">Nieuwe <marker>'</marker>megabestelling'.</example>
+                <example>Nieuwe ‘megabestelling’.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="0" regexp="yes">[‘']</token>
+                    <token>'</token>
+                    <example>''Nee.</example>
+                    <!-- solved by rule _2_AANH_A/B -->
+                </antipattern>
+                <pattern>
+                    <token spacebefore="yes" skip="-1">'</token>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                </pattern>
+                <message>Wilt u hier een typografisch sluitingsteken gebruiken?</message>
+                <suggestion>’</suggestion>
+                <example correction="’">Nieuwe 'megabestelling<marker>'</marker>.</example>
+                <example>Nieuwe ‘megabestelling’.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="KOMMA_DUIZENDTALLEN" name="Er waren 3,500 mensen aanwezig." default="temp_off">
             <rule><!-- thousands -->
                 <pattern>
