@@ -1611,6 +1611,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       throw new RuntimeException(e);
     }
   }
+  private static final GermanWordSplitter nonStrictSplitter = getNonStrictSplitter();
+  private static GermanWordSplitter getNonStrictSplitter() {
+    try {
+      GermanWordSplitter splitter = new GermanWordSplitter(false);
+      splitter.setStrictMode(false);
+      return splitter;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
@@ -2075,7 +2085,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (missingAdjPattern.matcher(word).matches()) {
       String firstPart = uppercaseFirstChar(word.replaceFirst(adjSuffix + "(er|es|en|em|e)?", ""));
       // We append "test" to see if the word plus "test" is accepted as a compound. This way, we get the
-      // infix 's" handled properly (e.g. "arbeitsartig" is okay, "arbeitartig" is not). It does not accept
+      // infix 's' handled properly (e.g. "arbeitsartig" is okay, "arbeitartig" is not). It does not accept
       // all compounds, though, as hunspell's compound detection is limited ("Zwiebacktest"):
       // TODO: see isNeedingFugenS()
       // https://www.sekada.de/korrespondenz/rechtschreibung/artikel/grammatik-in-diesen-faellen-steht-das-fugen-s/
@@ -2133,11 +2143,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
     // Deals with two-part compounds only and could be extended.
     List<String> parts = splitter.splitWord(word.replaceFirst("\\.$", ""));
+    boolean matchByStrictMode = false;
+    if (parts.size() == 1) {
+      parts = nonStrictSplitter.splitWord(word.replaceFirst("\\.$", ""));
+      matchByStrictMode = true;
+    }
     String part1 = null;
     String part2 = null;
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
+      if (matchByStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
+        // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
+        part1 = part1 + "s";
+        part2 = part2.substring(1);
+      }
     } else if (parts.size() == 3 && parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
       // e.g. "Prioritäts-Dings" gets split like "Priorität", "s", "dings" -> treat it as if there was no "-":
       part1 = parts.get(0) + "s";
@@ -2153,6 +2173,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
               part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
             return false;
           }
+          System.out.println("Accepting " + word);
           return true;
         }
       }
