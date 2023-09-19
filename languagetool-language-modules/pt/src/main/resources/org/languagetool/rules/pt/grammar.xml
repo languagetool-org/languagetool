@@ -14854,6 +14854,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+       <rule id="URL_INICIAL" name="Evitar URLs to começo de frase por causa de problemas com maiúsculas" default="temp_off">
+           <antipattern> <!-- sentence is made up *only* of URL -->
+               <token postag="SENT_START"/>
+               <token postag="_IS_URL" max="-1"/>
+               <and>
+                   <token postag="_IS_URL"/>
+                   <token postag="SENT_END"/>
+               </and>
+               <example>google.com</example>
+           </antipattern>
+           <antipattern> <!-- sentence is made up *only* of URL and final full stop -->
+               <token postag="SENT_START"/>
+               <token postag="_IS_URL" max="-1"/>
+               <and>
+                   <token postag="SENT_END"/>
+                   <token postag="_PUNCT_PERIOD"/>
+               </and>
+               <example>google.com.</example>
+           </antipattern>
+           <pattern>
+               <token postag="SENT_START"/>
+               <marker>
+                   <token postag="_IS_URL" max="-1"/>
+               </marker>
+           </pattern>
+           <message>Para evitar uma frase iniciada por letra minúscula, considere não começá-la diretamente com uma referência a um site de internet.</message>
+           <suggestion>O site <match no="1" include_skipped="all"/>\2</suggestion> <!-- something iffy with the matching -->
+           <example correction="O site google.com.br"><marker>google.com.br</marker> é um excelente recurso.</example>
+       </rule>
     </category>
 
     <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
