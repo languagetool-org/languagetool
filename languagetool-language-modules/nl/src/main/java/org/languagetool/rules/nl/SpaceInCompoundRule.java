@@ -54,7 +54,9 @@ public class SpaceInCompoundRule extends Rule {
 			}
 			String[] words = wordParts.split(" ");
 			generateVariants("", Arrays.asList(words), result);
-			if (normalizedCompound2message.containsKey(Tools.glueParts(words))) {
+			// Spaces in different places should not be counted as duplicates
+			boolean hasDuplicate = lines.indexOf(wordParts) != lines.lastIndexOf(wordParts);
+			if (hasDuplicate) {
 				throw new RuntimeException("Duplicate item '" + wordParts + "' in file " + filename);
 			}
 			String message = "U bedoelt misschien: " + Tools.glueParts(words);
