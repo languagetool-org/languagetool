@@ -91,27 +91,29 @@ public class AdaptSuggestionFilter extends RuleFilter {
     String oldDetBaseform = getBaseform(detToken, "(ART|PRO):.*");
     List<String> result = new ArrayList<>();
     try {
-      String replGender = getNounGender(repl);
-      if (replGender == null || oldDetBaseform == null) {
+      List<String> replGenders = getNounGender(repl);
+      if (replGenders.size() == 0 || oldDetBaseform == null) {
         return result;
       }
       for (AnalyzedToken reading : detToken.getReadings()) {
         if (reading.getPOSTag() == null || !(reading.getPOSTag().startsWith("ART:") || reading.getPOSTag().startsWith("PRO:"))) {
           continue;
         }
-        String newDetPos = reading.getPOSTag().replaceAll("MAS|FEM|NEU", replGender).replaceFirst("BEG", "(BEG|B/S)").replaceFirst(":STV", "");
-        String[] replDet = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldDetBaseform, null, oldDetBaseform), newDetPos, true);
-        for (String s : replDet) {
-          if (StringTools.startsWithUppercase(detToken.getToken())) {
-            if (!s.toLowerCase().startsWith(detToken.getToken().substring(0, 1).toLowerCase())) {
-              continue;  // see below
+        for (String replGender : replGenders) {
+          String newDetPos = reading.getPOSTag().replaceAll("MAS|FEM|NEU", replGender).replaceFirst("BEG", "(BEG|B/S)").replaceFirst(":STV", "");
+          String[] replDet = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldDetBaseform, null, oldDetBaseform), newDetPos, true);
+          for (String s : replDet) {
+            if (StringTools.startsWithUppercase(detToken.getToken())) {
+              if (!s.toLowerCase().startsWith(detToken.getToken().substring(0, 1).toLowerCase())) {
+                continue;  // see below
+              }
+              result.add(StringTools.uppercaseFirstChar(s));
+            } else {
+              if (!s.startsWith(detToken.getToken().substring(0, 1))) {
+                continue;  // mein, dein, sein etc. all share the same lemma ("mein"), but don't suggest "dein" for "mein"
+              }
+              result.add(s);
             }
-            result.add(StringTools.uppercaseFirstChar(s));
-          } else {
-            if (!s.startsWith(detToken.getToken().substring(0, 1))) {
-              continue;  // mein, dein, sein etc. all share the same lemma ("mein"), but don't suggest "dein" for "mein"
-            }
-            result.add(s);
           }
         }
       }
@@ -126,37 +128,39 @@ public class AdaptSuggestionFilter extends RuleFilter {
     String oldAdjBaseform = getBaseform(adjToken, "ADJ:.*");
     List<String> result = new ArrayList<>();
     try {
-      String replGender = getNounGender(repl);
-      if (replGender == null || oldDetBaseform == null || oldAdjBaseform == null) {
+      List<String> replGenders = getNounGender(repl);
+      if (replGenders.size() == 0 || oldDetBaseform == null || oldAdjBaseform == null) {
         return result;
       }
       for (AnalyzedToken reading : detToken.getReadings()) {
         if (reading.getPOSTag() == null || !reading.getPOSTag().matches("(ART|PRO):.*")) {
           continue;
         }
-        String newDetPos = reading.getPOSTag().replaceAll("MAS|FEM|NEU", replGender).replaceFirst("BEG", "(BEG|B/S)");
-        String newAdjPos;
-        if (newDetPos.startsWith("ART:")) {
-          newAdjPos = reading.getPOSTag().replaceAll("MAS|FEM|NEU", replGender).replaceFirst("BEG", "(BEG|B/S)").replaceFirst(":STV", "");
-        } else if (newDetPos.startsWith("PRO:")) {
-          newAdjPos = newDetPos.replaceAll("PRO:POS:(NOM|AKK|GEN|DAT):(SIN|PLU):(MAS|FEM|NEU)", "ADJ:$1:$2:$3").replaceFirst(":(STV|BEG).*", ":GRU:IND");
-        } else {
-          throw new RuntimeException("Unexpected POS tag: " + newDetPos);
-        }
-        //System.out.println("newDetPos: " + newDetPos + " for " + oldDetBaseform);
-        //System.out.println("newAdjPos: " + newAdjPos + " for " + oldAdjBaseform);
-        String[] replDet = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldDetBaseform, null, oldDetBaseform), newDetPos, true);
-        String[] replAdj = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldAdjBaseform, null, oldAdjBaseform), newAdjPos, true);
-        //System.out.println("replDet: " + Arrays.toString(replDet));
-        //System.out.println("replAdj: " + Arrays.toString(replAdj));
-        for (String det : replDet) {
-          if (!det.startsWith(detToken.getToken().substring(0, 1))) {
-            continue;  // mein, dein, sein etc. all share the same lemma ("mein"), but don't suggest "dein" for "mein"
+        for (String replGender : replGenders) {
+          String newDetPos = reading.getPOSTag().replaceAll("MAS|FEM|NEU", replGender).replaceFirst("BEG", "(BEG|B/S)");
+          String newAdjPos;
+          if (newDetPos.startsWith("ART:")) {
+            newAdjPos = reading.getPOSTag().replaceAll("MAS|FEM|NEU", replGender).replaceFirst("BEG", "(BEG|B/S)").replaceFirst(":STV", "");
+          } else if (newDetPos.startsWith("PRO:")) {
+            newAdjPos = newDetPos.replaceAll("PRO:POS:(NOM|AKK|GEN|DAT):(SIN|PLU):(MAS|FEM|NEU)", "ADJ:$1:$2:$3").replaceFirst(":(STV|BEG).*", ":GRU:IND");
+          } else {
+            throw new RuntimeException("Unexpected POS tag: " + newDetPos);
           }
-          for (String adj : replAdj) {
-            String newDetAdj = det + " " + adj;
-            if (!result.contains(newDetAdj)) {
-              result.add(newDetAdj);
+          //System.out.println("newDetPos: " + newDetPos + " for " + oldDetBaseform);
+          //System.out.println("newAdjPos: " + newAdjPos + " for " + oldAdjBaseform);
+          String[] replDet = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldDetBaseform, null, oldDetBaseform), newDetPos, true);
+          String[] replAdj = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldAdjBaseform, null, oldAdjBaseform), newAdjPos, true);
+          //System.out.println("replDet: " + Arrays.toString(replDet));
+          //System.out.println("replAdj: " + Arrays.toString(replAdj));
+          for (String det : replDet) {
+            if (!det.startsWith(detToken.getToken().substring(0, 1))) {
+              continue;  // mein, dein, sein etc. all share the same lemma ("mein"), but don't suggest "dein" for "mein"
+            }
+            for (String adj : replAdj) {
+              String newDetAdj = det + " " + adj;
+              if (!result.contains(newDetAdj)) {
+                result.add(newDetAdj);
+              }
             }
           }
         }
@@ -178,20 +182,22 @@ public class AdaptSuggestionFilter extends RuleFilter {
     return baseform;
   }
 
-  @Nullable
-  private String getNounGender(String word) throws IOException {
+  private List<String> getNounGender(String word) throws IOException {
     List<AnalyzedTokenReadings> readings = GermanTagger.INSTANCE.tag(Collections.singletonList(word));
+    List<String> genders = new ArrayList<>();
     for (AnalyzedTokenReadings atr : readings) {
-      if (atr.getReadings().size() > 0) {
-        String pos = atr.getReadings().get(0).getPOSTag();
+      for (AnalyzedToken reading : atr.getReadings()) {
+        String pos = reading.getPOSTag();
         if (pos != null && pos.startsWith("SUB:")) {
           String[] parts = pos.split(":");
           if (parts.length >= 4) {
-            return parts[3];
+            if (!genders.contains(parts[3])) {
+              genders.add(parts[3]);
+            }
           }
         }
       }
     }
-    return null;
+    return genders;
   }
 }

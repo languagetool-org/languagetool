@@ -75,6 +75,8 @@ public class AdaptSuggestionFilterTest {
     runAcceptRuleMatch("Hier steht ihre Roadmap.", "Roadmap",   "Verfahren", "[ihr Verfahren]");
     runAcceptRuleMatch("Hier steht unsere Roadmap.", "Roadmap", "Verfahren", "[unser Verfahren]");
     runAcceptRuleMatch("Hier steht eure Roadmap.", "Roadmap",   "Verfahren", "[euer Verfahren]");
+
+    runAcceptRuleMatch("Ein Asylant.", "Asylant", "Asylberechtigter", "[Ein Asylberechtigter]");
   }
 
   @Ignore("WIP")
