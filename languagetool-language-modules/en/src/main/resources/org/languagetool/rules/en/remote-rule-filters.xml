@@ -3684,6 +3684,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">(trojan virus of mine uses a remote-control feature, which functions similarly to <marker>TeamViewer).</marker></example>
             </rule>
+            <rule>  <!-- single quotes pt. I -->
+                <pattern>
+                    <marker>
+                        <token max="2" />
+                        <token skip="-1" regexp="yes">&apostrophe;</token>
+                    </marker>
+                    <token regexp="yes">&apostrophe;</token>
+                </pattern>
+                <example correction="">An intriguing job posting from the New York <marker>Times - ‘</marker>newsroom generative AI lead’.</example>
+            </rule>
+            <rule>  <!-- single quotes pt. II -->
+                <pattern>
+                    <marker>
+                        <token />
+                        <token min="0" postag="PCT|UNKNOWN" postag_regexp="yes" />
+                        <token regexp="yes">&apostrophe;</token>
+                        <token skip="-1" />
+                    </marker>
+                    <token regexp="yes">&apostrophe;</token>
+                </pattern>
+                <example correction="">I was having lunch with a friend (also a former equity analyst), and mentioned ten things that had happened that he’d been too busy to see, and he <marker>said ‘you</marker> should do a newsletter!’</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>
