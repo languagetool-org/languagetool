@@ -210,7 +210,16 @@
       </disambig>
     </rule>
   </rulegroup>
-
+  <rule id="TAO_ADV" name="rare POS tags">
+    <pattern>
+      <token postag="V.+" regexp="yes"/>
+      <marker>
+        <token>tão</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <example type="untouched">Ela ficou tão bonita!</example>
+  </rule>
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule>
       <antipattern>
