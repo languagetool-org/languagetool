@@ -127,9 +127,23 @@ public class VerbAgreementRule extends TextLevelRule {
       token("gehe")
     ),
     asList(
-      tokenRegex("darum|deswegen|dann|,|-"),
-      tokenRegex("mach|hör"),
+      // Ich bin du
+      token("ich"),
+      tokenRegex("bin|war"),
       token("du")
+    ),
+    asList(
+      // Dann beende du den Auftrag und bring sie ihrem Vater.
+      tokenRegex("darum|deswegen|dann|bitte|so|,|-"),
+      posRegex("VER:IMP:SIN.*"),
+      token("du")
+    ),
+    Arrays.asList(
+      // - Wirst du ausflippen?
+      tokenRegex("[-–]"),
+      posRegex("VER:.*(AUX|MOD).*"),
+      token("du"),
+      posRegex("VER:INF.*")
     ),
     asList(
       tokenRegex("-(du|ich|er|sie|wir|ihr)"),

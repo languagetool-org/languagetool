@@ -714,6 +714,7 @@ public class CaseRule extends Rule {
     "Deinen",
     "Deiner",
     "Deines",
+    "Deinerseits",
     "Dich",
     "Dir",
     "Du",
