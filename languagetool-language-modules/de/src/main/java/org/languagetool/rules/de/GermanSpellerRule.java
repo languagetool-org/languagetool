@@ -2163,6 +2163,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       part1 = parts.get(0) + "s";
       part2 = lowercaseFirstChar(parts.get(2));
     }
+    if (word.contains("-" + part2)) {
+      // don't accept e.g. "Implementierungs-pflicht"
+      return false;
+    }
     if (part1 != null && part2 != null) {
       if (startsWithLowercase(part2)) {
         String part2uc = uppercaseFirstChar(part2);
@@ -2170,6 +2174,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           String part1noInfix = part1.substring(0, part1.length()-1);
           // don't assume very short parts (like "Ei") are correct, these can easily be typos:
           if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || part1noInfix.matches("Action|Jung|Wahrung") ||
+              part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
               part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
             return false;
           }

@@ -87,6 +87,8 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistung"));  // not a compound
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungs"));  // not a compound
     assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
