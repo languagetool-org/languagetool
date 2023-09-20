@@ -535,6 +535,10 @@ public class German extends Language implements AutoCloseable {
       return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA
     }
     if (id.startsWith("AI_DE_GGEC")) {
+      if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD") {
+        // less prio than spell checker
+        return -4;
+      }
       return 1;
     }
     return super.getPriorityForId(id);
