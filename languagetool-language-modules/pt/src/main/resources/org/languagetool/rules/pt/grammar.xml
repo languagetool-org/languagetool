@@ -14876,12 +14876,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <pattern>
                <token postag="SENT_START"/>
                <marker>
+                   <token postag="_IS_URL" regexp="yes" case_sensitive="yes">\p{Ll}.*</token> <!-- specifically lowercase -->
                    <token postag="_IS_URL" max="-1"/>
                </marker>
            </pattern>
            <message>Para evitar uma frase iniciada por letra minúscula, considere não começá-la diretamente com uma referência a um site de internet.</message>
-           <suggestion>O site <match no="1" include_skipped="all"/>\2</suggestion> <!-- something iffy with the matching -->
+           <suggestion>O site \1<match no="2" include_skipped="all"/>\3</suggestion> <!-- something iffy with the matching -->
            <example correction="O site google.com.br"><marker>google.com.br</marker> é um excelente recurso.</example>
+           <example>AposteOnline.pt oferece prognósticos grátis.</example>
        </rule>
     </category>
 
