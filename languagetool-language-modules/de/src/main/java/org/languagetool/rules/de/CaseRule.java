@@ -1025,13 +1025,6 @@ public class CaseRule extends Rule {
         !isInvisibleSeparator(i-1, tokens) &&
         !language.getDefaultSpellingRule().isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
-        AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
-        System.arraycopy(tokens, 0, subarray, 0, i);
-        if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPosTagStartingWithCount(subarray, "VER") == 0) {
-          // no error
-        } else {
-          addRuleMatch(ruleMatches, sentence, COLON_MESSAGE, tokens[i], lcWord);
-        }
         return;
       }
       addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], lcWord);
