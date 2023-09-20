@@ -475,6 +475,12 @@ class CaseRuleAntiPatterns {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      // Nicht geimpft werden dürfen Immunsupprimierte, Personen mit Fieber 38 °C oder Menschen, die allergisch sind.
+      pos("UNKNOWN"),
+      token(","),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       // "... wie ich das prüfen sollte."
       posRegex("VER:INF.+"),
       posRegex("VER:MOD:.+")
