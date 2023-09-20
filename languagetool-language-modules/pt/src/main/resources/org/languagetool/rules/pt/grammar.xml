@@ -9578,14 +9578,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="Os meninos precisam|Os meninos, precisa"><marker>Os meninos precisa</marker> das mães.</example>
         </rule>
 
-        <rule default="temp_off"> <!-- #13A: sanity (pre-match) for 13: plural verb between singular NP and EOS -->
+        <rule> <!-- #13A: sanity (pre-match) for 13: plural verb between singular NP and EOS -->
             <pattern>
                 <token postag="SENT_START"/>
-                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag_regexp="yes" postag="R." min="0">
+                    <exception postag_regexp="yes" postag="[DP].+"/>
+                </token>
                 <unify> <!-- restrictive singular NP, probable subject -->
                     <feature id="number"/>
                     <token postag_regexp="yes" postag="[DP].+" min="0" max="2">
-                        <exception postag_regexp="yes" postag="P[PT].+"/>
+                        <exception postag_regexp="yes" postag=".[TP].+"/>
                     </token>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                     <token postag_regexp="yes" postag="N..S.+">
@@ -9614,16 +9616,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Que medicamento recomendam?</example>
             <example>Humanos são tão interessantes.</example>
             <example>Que hora chegam?</example>
+            <example>Quanto tempo demorarão?</example>
         </rule>
 
-        <rule default="temp_off"> <!-- #13B: sanity (pre-match) for 13: plural verb between two singular NPs -->
+        <rule> <!-- #13B: sanity (pre-match) for 13: plural verb between two singular NPs -->
             <pattern>
                 <token postag="SENT_START"/>
-                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag_regexp="yes" postag="R." min="0">
+                    <exception postag_regexp="yes" postag="[DP].+"/>
+                </token>
                 <unify> <!-- restrictive singular NP, probable subject -->
                     <feature id="number"/>
                     <token postag_regexp="yes" postag="[DP].+" min="0" max="2">
-                        <exception postag_regexp="yes" postag="P[PT].+"/>
+                        <exception postag_regexp="yes" postag="(PP|[DP]T).+"/>
                     </token>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                     <token postag_regexp="yes" postag="N..S.+">
@@ -9660,14 +9665,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Eles só têm um cobertor.</example>
         </rule>
 
-        <rule default="temp_off"> <!-- #13C: sanity (pre-match) for 13: plural verb between singular NP and prepositional phrase -->
+        <rule> <!-- #13C: sanity (pre-match) for 13: plural verb between singular NP and prepositional phrase -->
             <pattern>
                 <token postag="SENT_START"/>
-                <token postag_regexp="yes" postag="R." min="0"/>
+                <token postag_regexp="yes" postag="R." min="0">
+                    <exception postag_regexp="yes" postag="[DP].+"/>
+                </token>
                 <unify> <!-- restrictive singular NP, probable subject -->
                     <feature id="number"/>
                     <token postag_regexp="yes" postag="[DP].+" min="0" max="2">
-                        <exception postag_regexp="yes" postag="P[PT].+"/>
+                        <exception postag_regexp="yes" postag="(PP|[DP]T).+"/>
                     </token>
                     <token postag_regexp="yes" postag="A.+" min="0"/>
                     <token postag_regexp="yes" postag="N..S.+">
