@@ -173,8 +173,8 @@ public class Dutch extends Language {
 
   @Override
   protected int getPriorityForId(String id) {
-    if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE)) {
-      return 1;
+    if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE) || id.startsWith("NL_SPACE_IN_COMPOUND")) {
+        return 1;
     }
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
@@ -188,7 +188,7 @@ public class Dutch extends Language {
       case "KOMMA_AANH": return -1; // needs higher priority than DOUBLE_PUNCTUATION
       case "KOMMA_KOMMA": return -1; // needs higher priority than DOUBLE_PUNCTUATION
       case "HET_FIETS": return -2; // first let other rules check for compound words
-      case "WIJ_ZIJ_MIJ": return -2;  // needs higher priority than JOU_JOUW
+      case "JIJ_JOU_JOUW": return -2;  // needs higher priority than JOU_JOUW
       case "JOU_JOUW": return -3;
       case "BE": return -3; // needs lower priority than BE_GE_SPLITST
       case "DOUBLE_PUNCTUATION": return -3;
