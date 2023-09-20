@@ -59,7 +59,7 @@ public class SpaceInCompoundRule extends Rule {
 			if (hasDuplicate) {
 				throw new RuntimeException("Duplicate item '" + wordParts + "' in file " + filename);
 			}
-			String message = "U bedoelt misschien: " + Tools.glueParts(words);
+			String message = "Waarschijnlijk bedoelt u: " + Tools.glueParts(words);
 			if (lineParts.length == 2) {
 				message += " (" + lineParts[1] + ")";
 			}
