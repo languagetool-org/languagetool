@@ -2143,17 +2143,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
     // Deals with two-part compounds only and could be extended.
     List<String> parts = splitter.splitWord(word.replaceFirst("\\.$", ""));
-    boolean matchByStrictMode = false;
+    boolean nonStrictMode = false;
     if (parts.size() == 1) {
       parts = nonStrictSplitter.splitWord(word.replaceFirst("\\.$", ""));
-      matchByStrictMode = true;
+      nonStrictMode = true;
     }
     String part1 = null;
     String part2 = null;
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
-      if (matchByStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
+      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
         // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
         part1 = part1 + "s";
         part2 = part2.substring(1);
