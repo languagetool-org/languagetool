@@ -8876,14 +8876,13 @@ USA
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
             </rule>
         </rulegroup>
-
-
-        <!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
-        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic">
+        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token inflected='yes' skip='3'>fazer</token>
-                <token regexp='yes'>&vocativos;</token>
+                <token regexp='yes'>&vocativos;|calor|frio|d*</token>
                 <example>Quis fazer aquela pessoa pagar.</example>
+                <example>Ontem fez calor.</example>
+                <example>Ontem fez 30 graus</example>
             </antipattern>
             <antipattern>
                 <token>o</token>
@@ -8892,12 +8891,6 @@ USA
                 <token regexp='yes'>quando|com</token>
                 <example>O que fazer quando tudo der errado?</example>
             </antipattern>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
-            <!--
-                 MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-            -->
-
-            <!-- MARCOAGPINTO 2023-05-21 (Checked/Enhanced) (2-MAR-2023+) *START* -->
             <antipattern>
                 <token postag='NP.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
@@ -8905,9 +8898,6 @@ USA
                 <token regexp='yes'>coisas?</token>
                 <example>Ele afirmou que foi assim que Deus fez as coisas.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-21 (Checked/Enhanced) (2-MAR-2023+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token regexp='yes'>usos?|is[st]o</token>
@@ -8921,9 +8911,6 @@ USA
                 <example>Faz uso de dados, traz desdobramentos e projeções de cenário, assim como contextos passados.</example>
                 <example>Mantenha seu médico informado ao fazer uso deste produto.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2023-02-16 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='SPS00|DA.+|DD.+' postag_regexp='yes'/>
@@ -8937,8 +8924,6 @@ USA
                 <example>Eu gostaria de ter feito a coisa certa.</example>
                 <example>Ela faz as unhas toda semana.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-02-16 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token>pouco</token>
@@ -9185,7 +9170,6 @@ USA
                 <token postag='AQ+' postag_regexp='yes'/>
                 <example>Sei que fiz você feliz.</example>
                 <example>Sei que fiz a minha família feliz.</example>
-                <!--<example>Só queria fazer-lhe feliz.</example>-->
             </antipattern>
             <antipattern>
                 <token inflected='yes'>fazer</token>
@@ -9196,7 +9180,6 @@ USA
                 <example>Farei você pagar por isso.</example>
                 <example>Farei-lhe pagar por isso.</example>
                 <example>Anotei tudo, fazendo assim você tomar cuidado.</example>
-                <!--<example>Farei você se arrepender por isso.</example>-->
             </antipattern>
             <antipattern>
                 <token case_sensitive='yes'>FI</token>
@@ -9207,7 +9190,6 @@ USA
                 <token postag='PP+|N+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
                 <example>Farei a minha irmã fazê-lo.</example>
-                <!--<example>Farei você fazê-lo.</example>-->
             </antipattern>
             <antipattern>
                 <token inflected='yes'>fazer</token>
@@ -9285,120 +9267,36 @@ USA
                 <token min='0'>diferença</token>
                 <example>Prestar atenção faz toda diferença.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *START* -->
-            <!--
-            Hoje faz 21 anos que entrei para a empresa.
-            Faz quatro anos que eu estudo francês.
-            Faz uma semana que a gente se encontrou.
-            Você não sabia que ele morreu faz dois anos?
-            Sempre faz um tempo tão horrível em abril?
-            Não falo com Tom já faz um tempo.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
-                <token postag='Z0.+' postag_regexp='yes'/>
-                <token regexp='yes'>&expressoes_de_tempo;</token>
-                <token postag='CS|RG|_PUNCT' postag_regexp='yes'/>
+                <token postag='Z.+' postag_regexp='yes'/>
+                <token regexp='yes'>&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</token>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *START* -->
-            <!--
-            HITS IN 600000 SENTENCES:
-            BEFORE:9643
-            AFTER:9087
-            -->
-
-            <!--
-            Faço parte do clube de natação.
-            Estou feliz em fazer parte desse projeto.
-            Segundo a TV, fará tempo bom hoje.
-            Eu tive de fazer hora extra ontem.
-            Faz um tempão que não a vejo.
-            Faz algumas horas que eu estou lendo isso.
-            Este celular é feito de papel eletrônico.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate="yes" regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
                 <token regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
+                <example>Este celular é feito de papel eletrônico.</example>
             </antipattern>
-
-            <!--
-            Eles sempre fazem piadas sobre o chefe.
-            E não esqueça de fazer seguro de viagem.
-            Tornou-se o primeiro coreano a entrar na parada, feito conquistado antes da sua primeira turnê mundial.
-            Fiz esse vestido sozinha.
-            Eu mesmo fiz esta comida.
-            Você está fazendo isso errado.
-            Está com um cheiro meio desagradável, mas tenho medo de mexer e fazer algo errado.
-            Sendo assim, vamos fazer algo divertido.
-            Esta resposta a fez ficar zangada.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate_pos="yes" postag='VMP.+' postag_regexp='yes'/>
                 <token postag='VMP.+' postag_regexp='yes'/>
+                <example>Esta resposta a fez ficar zangada.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *START* -->
-            <!--
-            HITS IN 600000 SENTENCES:
-            BEFORE:9087
-            AFTER:8627
-            -->
-            <!--
-            Fora da pista os dois fizeram crescer o incidente com entrevistas provocantes.
-            Faça vir o médico, porque estou doente.
-            O gelo fez cair as flores dos damasqueiros.
-            Selecione apenas itens com a mesma finalidade para fazer e finalizar o seu pedido.
-            Saiba como fazer para lavar o veículo corretamente e evitar danos ao seu veículo.
-            Os humanos não foram feitos para viver para sempre.
-            Como faço para atualizar meu cadastro?
-            Tenho de fazer o jantar hoje.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate_pos="yes" postag='VMN0000'/>
                 <token postag='VMN0000'/>
+                <example>Tenho de fazer o jantar hoje.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
-            <!--
-            BASED ON THE ANTIPATTERNS FROM RULE ID: VER_OBSERVAR_CONSTATAR
-            HITS IN 600000 SENTENCES:
-            BEFORE:8627
-            AFTER:8477
-            -->
-            <!--
-            Estes sapatos são feitos na Itália.
-            Diga-me o que você fez em Tóquio.
-            Assim como inúmeros outros padres da Igreja e teólogos de então fizeram referência a José.
-            Faça a Dida feliz, vai?
-            Quer conhecer o mundo todo, mas se der para fazer escala em Paris, a cada voo, melhor ainda!
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
                 <token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
                 <token postag='NP.+' postag_regexp='yes'/>
+                <example>Estes sapatos são feitos na Itália.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *START* -->
-            <!--
-            HITS IN 600000 SENTENCES:
-            BEFORE:8476
-            AFTER:8310
-            -->
-            <!--
-            Nós conseguimos fazê-lo entender.
-            Falei por muito tempo, e consegui fazê-la crer em mim.
-            Acima de tudo, ele respeitava-me e fazia-me sentir em paz comigo mesma e com a vida.
-            Fizeram-me ir lá sozinho.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
@@ -9406,26 +9304,14 @@ USA
                 <token postag='VMN0000|VMIP1.+' postag_regexp='yes'>
                     <exception postag_regexp='yes' postag='AQ.+|RG|CS'/> <!-- Can't use NC.+ because it removes the verb "USO", "FEZ-SE USO DE" - 2022-04-06 -->
                 </token>
+                <example>Nós conseguimos fazê-lo entender.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *END* -->
-
-            <!--
-            Ele a fez sua esposa.
-            Ele me fez seu assistente.
-            Ele não pôde cumprir a promessa que fez ao pai dele.
-            Ele não fez nada errado.
-            Ele me fez esperar mais de uma hora.
-            O que eu faço é problema meu.
-            O que você faz é mais importante do que o que você diz.
-            -->
             <antipattern>
                 <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
                 <token postag='PP.+|DP.+|V.+' postag_regexp='yes'/>
+                <example>Ele me fez seu assistente.</example>
             </antipattern>
-            <!--
-            O que você fez neste verão?
-            -->
             <antipattern>
                 <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
@@ -9433,26 +9319,15 @@ USA
                     <exception postag='CC'/>
                 </token>
                 <token postag='PP.+|DP.*|V.+' postag_regexp='yes'/>
+                <example>O que você fez neste verão?</example>
             </antipattern>
-            <!--
-            Vamos fazer um teste de gravidez.
-            Kato fez muitas perguntas sobre os Estados Unidos para ele.
-            Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.
-            O presidente fez uma declaração sobre o assunto.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token/>
                 <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
                 <token postag='SPS.+' postag_regexp='yes'/>
+                <example>Vamos fazer um teste de gravidez.</example>
             </antipattern>
-            <!--
-            Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.
-            Isto é fulcral para fazer face à escalada de violência.
-            A lei serve para fazer imperar os direitos sobre todas as pessoas.
-            Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.
-            Uma fagulha é suficiente para fazer explodir a pólvora.
-            -->
             <antipattern>
                 <token postag='CC|SPS.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
@@ -9460,16 +9335,8 @@ USA
                     <exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
                 </token>
                 <token postag='NP.+|SPS.+|DA.+|DI.+' postag_regexp='yes'/>
+                <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *START* -->
-            <!--
-            Isso faz-lhe admirar?
-            Isso faz-se notar?
-            Ela fez-se passar por outra pessoa.
-            O telegrama foi um truque para fazê-la vir para casa.
-            Sim, senhor, falo o italiano o bastante para fazer-me compreender.
-            Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.
-            -->
             <antipattern>
                 <token postag='PD.+|PP.+|CC|RG' postag_regexp='yes'>
                     <exception>se</exception>
@@ -9481,30 +9348,17 @@ USA
                     <exception regexp='yes'>partes?</exception>
                     <exception postag_regexp='yes' postag='CS|SPS.+|NC.+|AQ0.+|VMG0000'/>
                 </token>
+                <example>Isso faz-se notar?</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *START* -->
-            <!--
-            Tom está sempre tentando fazer todo mundo pensar que ele é legal.
-            E faça quantas perguntas achar que deva!
-            E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.
-            A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!
-            O que faz uma piada ser uma piada?
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate_pos="yes" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 <token postag='VMN0000'/>
                 <token negate="yes" regexp='yes'>[.,?!;]</token>
+                <example>E faça quantas perguntas achar que deva!</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *END* -->
-
             <rule>
-                <!--
-                Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
-                -->
                 <pattern>
                     <token/>
                     <marker>
@@ -9564,9 +9418,6 @@ USA
                 <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
                 <example>O que faz uma piada ser uma piada?</example>
             </rule>
-            <!--
-            Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
-            -->
             <rule>
                 <pattern>
                     <marker>
@@ -9623,7 +9474,6 @@ USA
                 <example>O que faz uma piada ser uma piada?</example>
             </rule>
         </rulegroup>
-
 
         <!-- PARA CONCLUIR em suma -->
         <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky' tone_tags="academic">
