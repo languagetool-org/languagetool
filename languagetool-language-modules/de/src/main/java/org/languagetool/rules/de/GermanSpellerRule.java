@@ -3565,6 +3565,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Eurocup": return topMatch("EuroCup");
       case "Eurocups": return topMatch("EuroCups");
       case "etc": return topMatch("etc.");
+      case "Ressorthotel": return topMatch("Resorthotel");
+      case "Ressorthotels": return topMatch("Resorthotels");
+      case "Kleidungstück": return topMatch("Kleidungsstück");
+      case "Kleidungstücks": return topMatch("Kleidungsstücks");
+      case "Kleidungstückes": return topMatch("Kleidungsstückes");
+      case "Kleidungstücke": return topMatch("Kleidungsstücke");
+      case "Kleidungstücken": return topMatch("Kleidungsstücken");
+      case "unrentierlich": return topMatch("unrentabel");
+      case "unrentierliche": return topMatch("unrentable");
+      case "unrentierlicher": return topMatch("unrentabler");
+      case "unrentierliches": return topMatch("unrentables");
+      case "unrentierlichen": return topMatch("unrentablen");
+      case "unrentierlichem": return topMatch("unrentablem");
+      case "Hinterweltler": return topMatch("Hinterwäldler");
+      case "Hinterweltlers": return topMatch("Hinterwäldlers");
+      case "Hinterweltlern": return topMatch("Hinterwäldlern");
     }
     return Collections.emptyList();
   }

@@ -384,7 +384,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Las estaciones del año se escriben en minúsculas, excepto si forman parte de un nombre propio.</message>
             <suggestion><match case_conversion="alllower" no="1"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
-            <short>&shortmessage_casing;</short><example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
+            <short>&shortmessage_casing;</short>
+            <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
             <example>Feria de Primavera.</example>
             <example>Palacio de Invierno.</example>
@@ -13386,6 +13387,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="BACTERIAL_BACTERIANO" name="bacterial -> bacteriano">
+            <short>Anglicismo</short>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(anti)?bacterial</token>
+                </pattern>
+                <message>Esta palabra es un anglicismo no aceptado.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(anti)?bacterial" regexp_replace="$1bacteriano" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(anti)?bacterial" regexp_replace="$1bacteriana" case_conversion="preserve"/></suggestion>
+                <example correction="antibacteriano|antibacteriana">Un producto <marker>antibacterial</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(anti)?bacteriales</token>
+                </pattern>
+                <message>Esta palabra es un anglicismo no aceptado.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(anti)?bacteriales" regexp_replace="$1bacterianos" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(anti)?bacteriales" regexp_replace="$1bacterianas" case_conversion="preserve"/></suggestion>
+                <example correction="antibacterianos|antibacterianas">Unos productos <marker>antibacteriales</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SHAMPOO_CHAMPU" name="shampoo -> champú">
+            <pattern>
+                <token regexp="yes">shampoos?</token>
+            </pattern>
+            <message>La adaptación adecuada de este anglicismo es <suggestion><match no="1" regexp_match="(?iu)shampoo" regexp_replace="champú" case_conversion="preserve"/></suggestion>.</message>
+            <url>https://languagetool.org/insights/es/publicacion/wasapear-y-wasap/#ejemplos-de-adaptaciones-al-espa%C3%B1ol-como-%E2%80%9Cwasap%E2%80%9D-o-%E2%80%9Cwasapear%E2%80%9D</url>
+            <short>Anglicismo</short>
+            <example correction="champú">Me compré un <marker>shampoo</marker>.</example>
+            <example correction="CHAMPÚS"><marker>SHAMPOOS</marker> BARATOS.</example>
+        </rule>
+        <rule id="CASETE" name="casete">
+            <pattern>
+                <token regexp="yes">(video|radio)?(caset|cassette|cassete|casette)(s?)</token>
+            </pattern>
+            <message>La grafía recomendada de esta voz de origen francés es <suggestion><match no="1" regexp_match="(?iu)(video|radio)?(caset|cassette|cassete|casette)(s?)" regexp_replace="$1casete$3" case_conversion="preserve"/></suggestion>.</message>
+            <example correction="videocasete">Un <marker>videocassette</marker>.</example>
+            <example correction="casetes">Varios <marker>cassettes</marker>.</example>
+        </rule>
+        <rule id="YOGURT_YOGUR" name="yogurt -> yogur">
+            <pattern>
+                <token regexp="yes">yoghourt|yogourt|yoghurt|yogurt</token>
+            </pattern>
+            <message>La escritura adecuada es <suggestion>yogur</suggestion>. No se usa el final con 't', porque el plural no es posible (es yogures y no *yogurtes).</message>
+            <example correction="yogur">No se ha comido todo el <marker>yogurt</marker>.</example>
+        </rule>
         <rulegroup id="PUNTO_LETRA" name="acabad.a -> acabada.">
             <rule>
                 <pattern>
@@ -13456,7 +13503,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">clicks?</token>
             </pattern>
-            <message>La grafía adecuada es <suggestion><match no="1" regexp_match="(?iu)k" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
+            <message>La adaptación adecuada de este anglicismo es <suggestion><match no="1" regexp_match="(?iu)k" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
             <url>https://languagetool.org/insights/es/publicacion/wasapear-y-wasap/#ejemplos-de-adaptaciones-al-espa%C3%B1ol-como-%E2%80%9Cwasap%E2%80%9D-o-%E2%80%9Cwasapear%E2%80%9D</url>
             <example correction="clic">Haz <marker>click</marker> en el enlace siguiente.</example>
             <example correction="clics">Contamos los <marker>clicks</marker> en el enlace.</example>
@@ -30007,7 +30054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">[a-z]</token>
+                    <token regexp="yes">[a-z]|pp</token>
                     <token spacebefore="no">.</token>
                 </antipattern>
                 <antipattern>
