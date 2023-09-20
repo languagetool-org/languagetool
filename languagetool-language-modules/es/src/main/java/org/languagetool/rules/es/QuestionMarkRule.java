@@ -83,8 +83,8 @@ public class QuestionMarkRule extends TextLevelRule {
           }
           // possibly a sentence end
           if (!tokens[i].isSentenceEnd()
-            && (tokens[i].getToken().equals("?") && i < needsInvQuestionMarkAt
-            || tokens[i].getToken().equals("!") && i < needsInvExclMarkAt)) {
+            && (tokens[i].getToken().equals("?") && i > needsInvQuestionMarkAt
+            || tokens[i].getToken().equals("!") && i > needsInvExclMarkAt)) {
             firstToken = null;
           }
           // put the question mark in: ¿de qué... ¿para cuál... ¿cómo...

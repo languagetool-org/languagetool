@@ -162,6 +162,11 @@ public class QuestionMarkRuleTest {
     List<RuleMatch> matches31 = lt.check("Tengo razón, eh?");
     assertThat(matches31.size(), is(1));
     assertThat(matches31.get(0).getSuggestedReplacements().toString(), is("[¿eh]"));
+
+    List<RuleMatch> matches32 = lt.check("qué me recomendarías???….");
+    assertThat(matches32.size(), is(1));
+    assertThat(matches32.get(0).getSuggestedReplacements().toString(), is("[¿qué]"));
+
   }
 
   private RuleMatch[] check(String s) throws IOException {
