@@ -307,7 +307,8 @@ regexp case-insensitive maken: (?i)
 				<example>Is het angst dat je voelt?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="temp_off">
+		<rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="off">
+            <!-- temp_off for a long time, to test and re-enable if it works well -->
 			<rule>
 				<antipattern>
 					<!-- is het angst -->
@@ -582,8 +583,13 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="NUM_TAL" name="5 tal / 5-tal" type="misspelling" default="temp_off">
+		<rulegroup id="NUM_TAL" name="5 tal / 5-tal" type="misspelling">
 			<rule>
+				<antipattern>
+					<token>tal</token>
+					<token>van</token>
+					<example>Er waren in het jubileumjaar 2016 tal van mogelijkheden.</example>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">[0-9]+</token>
 					<token regexp="yes">tal|tallen</token>
@@ -594,7 +600,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="MAXIMUM_NUM" name="maximum/maximaal" default="temp_off">
+		<rulegroup id="MAXIMUM_NUM" name="maximum/maximaal">
 			<rule>
 				<pattern>
 					<token regexp="yes">maximum|minimum</token>
@@ -754,7 +760,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="DAG_BEGINT_MET_0" name="01 januari" tags="picky" default="temp_off">
+		<rulegroup id="DAG_BEGINT_MET_0" name="01 januari" tags="picky">
 			<rule>
 				<pattern>
 					<marker>
@@ -768,7 +774,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="DEUGT_DOEN" name="Deugt doen/deugd doen" default="temp_off">
+		<rulegroup id="DEUGT_DOEN" name="Deugt doen/deugd doen">
 			<rule>
 				<pattern>
 					<marker>
@@ -785,6 +791,7 @@ regexp case-insensitive maken: (?i)
 					<marker>
 						<token>deugt</token>
 					</marker>
+					<token><exception postag="SENT_END">?</exception></token>
 				</pattern>
 				<message>Correct is hier <suggestion>deugd</suggestion>.</message>
 				<example correction="deugd">Deze correctie doet me <marker>deugt</marker>.</example>
@@ -4976,7 +4983,8 @@ regexp case-insensitive maken: (?i)
 				</rule>
 			</rulegroup>
 
-		<rulegroup id="DOCKEN_DOKKEN" name="waarschuwing bij gebruik dokken i.p.v. docken">
+		<rulegroup id="DOCKEN_DOKKEN" name="waarschuwing bij gebruik dokken i.p.v. docken" default="off">
+			<!-- too many disables -->
 			<rule>
 				<antipattern><token>de</token><token>dokken</token></antipattern>
 				<antipattern><token>dokken</token><token>voor</token></antipattern>
@@ -22755,7 +22763,7 @@ regexp case-insensitive maken: (?i)
 				<example>Het is een <marker>huis-in-huis-constructie</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HUIS-TUIN-EN-KEUKENDING" name="Huis tuin en keukending /huis-tuin-en-keukending" default="temp_off">
+		<rulegroup id="HUIS-TUIN-EN-KEUKENDING" name="Huis tuin en keukending /huis-tuin-en-keukending">
 			<rule>
 				<pattern>
 					<token>huis</token>
@@ -23914,7 +23922,8 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
-        <rulegroup id="TYPOGRAFISCHE_AANHALINGSTEKENS" name="Typografische aanhalingstekens" tags="picky" default="temp_off">
+        <rulegroup id="TYPOGRAFISCHE_AANHALINGSTEKENS" name="Typografische aanhalingstekens" tags="picky" default="off">
+        	<!-- Rule works well, enable when advanced typography goes live -->
         	<!-- from DE -->
             <url>https://nl.wikipedia.org/wiki/Aanhalingsteken</url>
             <short>Typografische aanhalingstekens</short>
@@ -24183,8 +24192,15 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="TYPOGRAFISCHE_AANHALINGSTEKENS_2" name="Typografische enkele aanhalingstekens" tags="picky" default="temp_off">
+        <rulegroup id="TYPOGRAFISCHE_AANHALINGSTEKENS_2" name="Typografische enkele aanhalingstekens" tags="picky" default="off">
+        	<!-- Rule works well, enable when advanced typography goes live -->
             <rule>
+                <antipattern>
+                    <token spacebefore="yes">'</token>
+                    <token spacebefore="no" regexp="yes">[a-z]</token>
+                    <example>Groetjes van Youp van 't Hek.</example>
+                    <!-- picked up by another rule -->
+                </antipattern>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">'</token>
@@ -24216,7 +24232,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="KOMMA_DUIZENDTALLEN" name="Er waren 3,500 mensen aanwezig." default="temp_off">
+        <rulegroup id="KOMMA_DUIZENDTALLEN" name="Er waren 3,500 mensen aanwezig.">
             <rule><!-- thousands -->
                 <pattern>
                     <token><exception regexp="yes">[0-9]</exception></token>
@@ -25524,8 +25540,8 @@ regexp case-insensitive maken: (?i)
 				<example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
 			</rule>
 		</rulegroup>
-<!-- too many falses, has to be analysed further
-		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="temp_off">
+		<!-- too many falses, has to be analysed further
+		<rulegroup id="MEERVOUD_EKV" name="Meervoud verwacht" default="off">
 			<rule>
 				<antipattern>
 					<token postag="SENT_START"/>
