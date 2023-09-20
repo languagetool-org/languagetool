@@ -210,7 +210,16 @@
       </disambig>
     </rule>
   </rulegroup>
-
+  <rule id="TAO_ADV" name="disambiguate tão as an adverb">
+    <pattern>
+      <token postag="V.+" regexp="yes"/>
+      <marker>
+        <token>tão</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <example type="untouched">Ela ficou tão bonita!</example>
+  </rule>
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule>
       <antipattern>
@@ -622,6 +631,15 @@
        </and>
        </marker>
       </antipattern>
+      <antipattern>
+          <unify>
+                <feature id="number"><type id="plural"></type></feature>
+                <token postag_regexp="yes" postag="N.+"/>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+            </unify>
+            <token postag_regexp="yes" postag="R." min="0" max="3"/>
+            <token postag_regexp="yes" postag="(N|AQ)..P.+" regexp="yes">.+ais$</token>
+      </antipattern>
       <pattern>
           <token postag="R.+" postag_regexp="yes">
             <exception scope='previous' postag="(A|C|D|PP|R|V).+|_PUNCT" postag_regexp="yes"/>
@@ -637,6 +655,8 @@
       </pattern>
       <disambig action="filter" postag="V.+"/>
       <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
+      <example type="untouched">Os espaços não formais são bons.</example>
+      <example type="untouched">As bagagens não convencionais não cabem.</example>
     </rule>
     <rule>
       <pattern>
@@ -3889,4 +3909,42 @@
     <disambig action="replace"><wd pos="RM"/></disambig>
 <!--    <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>-->
   </rule>
+
+  <rule id="PRECISA_NOT_ADJ" name="Remove adj tag from 'precisa' in obvious cases">
+      <pattern>
+          <token postag_regexp="yes" postag="N.+|PP.+"/>
+          <marker>
+              <token regexp="yes" postag_regexp="yes" postag="AQ0[FM].0">precisas?|preciso</token>
+          </marker>
+          <token postag_regexp="yes" postag="SPS00(:.+)?" regexp="yes">d.+</token>
+      </pattern>
+      <disambig action="remove" postag="A.+"/>
+      <!-- error introduced on purpose to check agreement rules -->
+      <example
+          inputform="precisa[precisar/VMIP3S0,precisar/VMM02S0,preciso/AQ0FS0]"
+          outputform="precisa[precisar/VMIP3S0,precisar/VMM02S0]"
+          type="ambiguous">
+          Os meninos <marker>precisa</marker> das mães.
+      </example>
+  </rule>
+
+  <rulegroup id="REMOVE_PODAR_FROM_MODAL_PODER" name="Remove 'podar' tags from obvious 'poder' cases">
+      <rule>
+          <pattern>
+              <marker>
+                  <token inflected="yes" postag_regexp="yes" postag="V.+">poder</token>
+              </marker>
+              <token postag_regexp="yes" postag="R." min="0" max="2"/>
+              <token regexp="yes" min="0">&pronomes_obliquos;</token>
+              <token postag="VMN0000"/>
+          </pattern>
+          <disambig action="remove"><wd lemma="podar"/></disambig>
+          <example
+              inputform="pode[podar/VMM03S0,podar/VMSP1S0,podar/VMSP3S0,poder/VMIP3S0,poder/VMM02S0]"
+              outputform="pode[poder/VMIP3S0,poder/VMM02S0]"
+              type="ambiguous">
+              Ele <marker>pode</marker> não me dizer.
+          </example>
+      </rule>
+  </rulegroup>
 </rules>

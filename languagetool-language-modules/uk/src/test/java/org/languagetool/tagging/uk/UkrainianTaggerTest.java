@@ -353,8 +353,9 @@ public class UkrainianTaggerTest {
   
   @Test
   public void testDynamicTaggingFixedParts() throws IOException {
-    TestTools.myAssert("пів-України", "пів-України/[пів-України]noun:inanim:p:v_dav:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_mis:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_naz:prop:geo:ua_1992"
-        + "|пів-України/[пів-України]noun:inanim:p:v_oru:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_rod:prop:geo:ua_1992|пів-України/[пів-України]noun:inanim:p:v_zna:prop:geo:ua_1992"
+    TestTools.myAssert("пів-України", "пів-України/[пів-України]noun:inanim:p:v_dav:prop:geo:nv:ua_1992|пів-України/[пів-України]noun:inanim:p:v_mis:prop:geo:nv:ua_1992"
+        + "|пів-України/[пів-України]noun:inanim:p:v_naz:prop:geo:nv:ua_1992|пів-України/[пів-України]noun:inanim:p:v_oru:prop:geo:nv:ua_1992|пів-України/[пів-України]noun:inanim:p:v_rod:prop:geo:nv:ua_1992"
+        + "|пів-України/[пів-України]noun:inanim:p:v_zna:prop:geo:nv:ua_1992"
         , tokenizer, tagger);
 
     TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_dav:nv:prop|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_mis:nv:prop"
@@ -364,7 +365,7 @@ public class UkrainianTaggerTest {
         + "|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_oru:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_rod:nv:prop|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_zna:nv:prop"
         , tokenizer, tagger);
 
-    TestTools.myAssert("пів-години", "пів-години/[пів-години]noun:inanim:p:v_dav:bad|пів-години/[пів-години]noun:inanim:p:v_mis:bad|пів-години/[пів-години]noun:inanim:p:v_naz:bad|пів-години/[пів-години]noun:inanim:p:v_oru:bad|пів-години/[пів-години]noun:inanim:p:v_rod:bad|пів-години/[пів-години]noun:inanim:p:v_zna:bad"
+    TestTools.myAssert("пів-години", "пів-години/[пів-години]noun:inanim:p:v_dav:nv:bad|пів-години/[пів-години]noun:inanim:p:v_mis:nv:bad|пів-години/[пів-години]noun:inanim:p:v_naz:nv:bad|пів-години/[пів-години]noun:inanim:p:v_oru:nv:bad|пів-години/[пів-години]noun:inanim:p:v_rod:nv:bad|пів-години/[пів-години]noun:inanim:p:v_zna:nv:bad"
         , tokenizer, tagger);
   }        
 

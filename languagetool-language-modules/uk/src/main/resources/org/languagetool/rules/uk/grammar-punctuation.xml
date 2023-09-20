@@ -1998,6 +1998,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   
       <rule>
         <pattern>
+          <token>,</token>
+          <token>принаймні</token>
+          <token>,</token>
+        </pattern>
+        <message>Слово «\2» не буває вставним словом і комами не відокремлюється (хоча кому можуть диктувати інші конструкції)</message>
+        <suggestion> \2</suggestion>
+        <example correction=" принаймні">і<marker>, принаймні,</marker> не сподобалося</example>
+      </rule>
+  
+      <rule>
+        <pattern>
           <token regexp="yes">[ій]</token>
           <marker>
             <token regexp="yes">[ву]се-таки</token>

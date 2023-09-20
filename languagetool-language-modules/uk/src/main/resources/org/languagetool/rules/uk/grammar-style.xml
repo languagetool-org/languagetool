@@ -4066,6 +4066,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="distavaty_vs_nabovaty" name="Діставати і Набувати">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">дістати|діставати</token>
+          </marker>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="adj:m:.*" min="0"/>
+          <token>розголосу</token>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="(verb.*)" postag_replace="$1">набути</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(verb.*)" postag_replace="$1">набувати</match></suggestion>
+        <example correction="набула|(набувати)">версія про отруєння Моцарта <marker>дістала</marker> розголосу.</example>
+        <example correction="(набути)|набувала">версія про отруєння Моцарта <marker>діставала</marker> розголосу.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="po_v_mis_vs_z_v_rod" name="по + м.в. і з + р.в.">
       <antipattern>
         <token>відділенню</token>

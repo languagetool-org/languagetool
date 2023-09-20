@@ -590,6 +590,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
       case "HE_VERB_AGR":               return -12;  // prefer other more specific rules (e.g. AI models, PRP_VBG)
+      case "MD_BASEFORM":               return -12;  // prefer other more specific rules (e.g. AI models)
       case "IT_VBZ":                    return -12;  // prefer other more specific rules (e.g. AI models)
       case "PRP_THE":                   return -12;  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)
       case "PRP_JJ":                    return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
@@ -612,7 +613,6 @@ public class English extends Language implements AutoCloseable {
       case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
-      case "CONFUSION_RULE":            return -20;
       case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
       case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion

@@ -1688,7 +1688,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <example type="ambiguous" inputform="dreihundertdreißig[dreihundertdreißig]" outputform="dreihundertdreißig[dreihundertdreißig/ZAL]">Das Ungeheuer verbrachte <marker>dreihundertdreißig</marker> Jahre in der Höhle.</example>
         <example type="ambiguous" inputform="hundertdreiundzwanzig[hundertdreiundzwanzig]" outputform="hundertdreiundzwanzig[hundertdreiundzwanzig/ZAL]">Meine Lieblingszahl ist <marker>hundertdreiundzwanzig</marker>.</example>
         <example type="ambiguous" inputform="tausendundeins[tausendundeins]" outputform="tausendundeins[tausendundeins/ZAL]">Zähl erst bis <marker>tausendundeins</marker> und such mich dann.</example>
-        <example type="ambiguous" inputform="tausendeins[tausendeins]" outputform="tausendeins[tausendeins/ZAL]">Zähl erst bis <marker>tausendeins</marker> und such mich dann.</example>
     </rule>
     <!--<rule id="ZAHLEN_2" name="Zahlen (2)">
         <pattern case_sensitive="yes">
@@ -2170,6 +2169,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="Morgenstund hat Gold im Mund" id="IGNORE_MORGENSTUND">
+        <pattern case_sensitive="yes">
+            <token>Morgenstund</token>
+            <token>hat</token>
+            <token>Gold</token>
+            <token>im</token>
+            <token>Mund</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="bei Hempels unterm Sofa" id="IGNORE_HEMPELS">
+        <pattern case_sensitive="yes">
+            <token>bei</token>
+            <token>Hempels</token>
+            <token>unterm</token>
+            <token>Sofa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rulegroup name="Ofenbach Duo" id="OFENBACH"><!--Ofenbach ist ein französisches House-Duo aus Paris.-->
         <rule><!--1-->
@@ -5211,7 +5231,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent|Physical|Secure|Historical|Hidden|Approved|Diagnostic|Pragmatic</token>
+                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent|Physical|Secure|Historical|Hidden|Approved|Diagnostic|Pragmatic|Presidential</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -5219,7 +5239,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent|Physical|Secure|Historical|Hidden|Approved|Diagnostic|Pragmatic</token>
+                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional|Speciali[sz]ed|Silent|Physical|Secure|Historical|Hidden|Approved|Diagnostic|Pragmatic|Presidential</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token regexp="yes">and|or|for|of|&amp;|\/</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
@@ -6575,17 +6595,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?</token>
+                    <token regexp="yes" case_sensitive="yes">Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?|Haacks?</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" case_sensitive="yes">Herr|Frau|Doktor|Professor|Prof|[HFDM]r|Mrs|.*([Pp]räsident|[Mm]inister)</token>
+                <token regexp="yes" case_sensitive="yes">Herrn?|Frau|Fräulein|Firma|Doktor|Direktor|Professor|Prof|[HFDM]r|Mrs|.*([Pp]räsident|[Mm]inister|[Gg]eneral)|sagten?|erläuterte?|erklärten?</token>
                 <token min="0">.</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">Haases?Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?</token>
+                    <token regexp="yes" case_sensitive="yes">Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?|Haacks?</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -8068,6 +8088,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="IGNORE_2ND_LEVEL_SUPPORT" name="ignore '2nd-Level-Support'">
         <pattern>
             <token regexp="yes" case_sensitive="yes">(1st|First|2nd|Second|3rd|Third)-Level-(Kundensupport|Support)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_LEGAL_PARAGRAPHS" name="ignore paragraph numbers 'Absatz 2aa'">
+        <pattern>
+            <token regexp="yes">.*(Absatz|Absätzen?|Paragra(ph|f)(en)?|Artikels?)</token>
+            <marker>
+                <token regexp="yes">\d{1,2}[abcdef]{2}</token>
+            </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

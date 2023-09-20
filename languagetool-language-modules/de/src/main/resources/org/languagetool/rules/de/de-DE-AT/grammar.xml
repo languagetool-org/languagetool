@@ -36,6 +36,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="WEIST_DU_DE" name="weist (weißt) du">
+            <antipattern>
+                <token>weist</token>
+                <token>du</token>
+                <token skip="-1">das</token>
+                <token regexp="yes">[.!]|aus|da?rauf(hin)?|hin</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*farbe</token>
+                <token regexp="yes">weiss|weiß</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">WEISST</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">weiss?t|wei(ss?|ß)</token>
+                </marker>
+                <token>du</token>
+                <token min="0">,</token>
+                <token regexp="yes">ob|wo|wie|was|wann|warum|wieso|weshalb|wer|woran|womit|worauf|wozu|dass?</token>
+            </pattern>
+            <message>Das korrekte Verb hier scheint <suggestion>weißt</suggestion> (Form von 'wissen') zu sein.</message>
+            <example correction="Weißt"><marker>Weist</marker> du, ob das richtig ist?</example>
+            <example correction="Weißt"><marker>Weist</marker> du, dass ich dich wirklich gern hab?</example>
+        </rule>
         <rule id="WEISS" name="weiss (weiß)">
             <antipattern>
                 <token regexp="yes">Herrn?|Frau|Fräulein|Gebrüder</token>

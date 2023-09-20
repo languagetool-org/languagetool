@@ -424,6 +424,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("hyper ") &&
                    !k.getReplacement().toLowerCase().startsWith("micro ") &&
                    !k.getReplacement().toLowerCase().startsWith("counter ") &&
+                   !k.getReplacement().toLowerCase().startsWith("over ") &&
+                   !k.getReplacement().toLowerCase().startsWith("under ") &&
                    !k.getReplacement().toLowerCase().startsWith("cyber ") &&
                    !k.getReplacement().toLowerCase().startsWith("hydro ") &&
                    !k.getReplacement().toLowerCase().startsWith("ergo ") &&
@@ -714,6 +716,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("litterly ", Arrays.asList("literally"));
     s.put("Litterly ", Arrays.asList("Literally"));
     s.put("abt", Arrays.asList("about"));
+    s.put("ley", Arrays.asList("let"));
+    s.put("Ley", Arrays.asList("Let"));
     s.put("becuz", Arrays.asList("because"));
     s.put("becus", Arrays.asList("because"));
     s.put("lullabys", Arrays.asList("lullabies"));

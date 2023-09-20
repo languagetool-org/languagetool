@@ -86,6 +86,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Ayto. de Madrid.");
     testSplit("¿Quién sabe hablar francés mejor: Tom o Mary?");
     testSplit("Hola, Albert: ", "Me puedes decir tu correo?");
+    testSplit("LanguageTooler GmbH recaudará de tu cuenta a través de GoCardless Ltd. la cantidad debajo mencionada.");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");

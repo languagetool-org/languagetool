@@ -60,36 +60,40 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(rule.ignorePotentiallyMisspelledWord("Prioritätsdings"), is(true));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Prioritätsdings."), is(true));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungsschäden"), is(true));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings"), is(true));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings."), is(true));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungs-Schäden"), is(true));
-    assertThat(rule.ignorePotentiallyMisspelledWord("haltungschäden"), is(false));  // lowercase
-    assertThat(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"), is(false));  // lowercase
-    assertThat(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"), is(false));  // lowercase
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungschäden"), is(false));  // missing infix-s
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltung-Schäden"), is(false));  // missing infix-s
-    assertThat(rule.ignorePotentiallyMisspelledWord("Hultungsschäden"), is(false));  // misspelling in first word
-    assertThat(rule.ignorePotentiallyMisspelledWord("Hultungs-Schäden"), is(false));  // misspelling in first word
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungsscheden"), is(false));  // misspelling in second part
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungs-Scheden"), is(false));  // misspelling in second part
-    assertThat(rule.ignorePotentiallyMisspelledWord("HaltungsSchäden"), is(false));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungsei"), is(false));  // second part too short
-    assertThat(rule.ignorePotentiallyMisspelledWord("Haltungs-Ei"), is(false));  // second part too short
-    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsnach"), is(false));  // second part not a noun
-    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"), is(false));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."), is(false));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"), is(false));  // 3 parts not yet supported
-    assertThat(rule.ignorePotentiallyMisspelledWord("Leistung"), is(false));  // not a compound
-    assertThat(rule.ignorePotentiallyMisspelledWord("Leistungs"), is(false));  // not a compound
-    assertThat(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"), is(false));  // from prohibit.txt
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände."));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings."));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungsschäden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings."));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungs-Schäden"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungschäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungschäden"));  // missing infix-s
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltung-Schäden"));  // missing infix-s
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungsschäden"));  // misspelling in first word
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungs-Schäden"));  // misspelling in first word
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsscheden"));  // misspelling in second part
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Scheden"));  // misspelling in second part
+    assertFalse(rule.ignorePotentiallyMisspelledWord("HaltungsSchäden"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsei"));  // second part too short
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Ei"));  // second part too short
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsnach"));  // second part not a noun
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));  // 3 parts not yet supported
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistung"));  // not a compound
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungs"));  // not a compound
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
     // special cases:
-    assertThat(rule.ignorePotentiallyMisspelledWord("Actionsspaß"), is(false));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Jungsnamen"), is(false));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"), is(false));
-    assertThat(rule.ignorePotentiallyMisspelledWord("Absprungsrate"), is(false));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate"));
   }
 
   @Test
@@ -594,7 +598,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("durchsichtbar", "durchsichtig", rule, lt);
     assertFirstSuggestion("offensichtiges", "offensichtliches", rule, lt);
     assertFirstSuggestion("zurverfühgung", "zur Verfügung", rule, lt);
-    assertFirstSuggestion("Verständlichkeitsfragen", "Verständnisfragen", rule, lt);
     assertFirstSuggestion("Bewusstliches", "Bewusstes", rule, lt);
     assertFirstSuggestion("leidensvolle", "leidvolle", rule, lt);
     assertFirstSuggestion("augensichtlich", "augenscheinlich", rule, lt);

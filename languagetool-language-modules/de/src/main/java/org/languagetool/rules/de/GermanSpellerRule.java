@@ -65,7 +65,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
-    // some of these are taken fom hunspell's dictionary where non-suggested words use tag "/n":
+    // some of these are taken from hunspell's dictionary where non-suggested words use tag "/n":
     "verjuden", "verjudet", "verjudeter", "verjudetes", "verjudeter", "verjudeten", "verjudetem",
     "entjuden", "entjudet", "entjudete", "entjudetes", "entjudeter", "entjudeten", "entjudetem",
     "auschwitzmythos",
@@ -1056,7 +1056,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[dD]urchsichtbar(e[mnrs]?)?", "bar", "ig");
     putRepl("[oO]ffensichtig(e[mnrs]?)?", "ig", "lich");
     putRepl("[zZ]urverfühgung", "verfühgung", " Verfügung");
-    putRepl("[vV]erständlichkeitsfragen?", "lichkeits", "nis");
     putRepl("[sS]pendeangebot(e[ns]?)?", "[sS]pende", "Spenden");
     putRepl("gahrnichts?", "gahr", "gar ");
     putRepl("[aA]ugensichtlich(e[mnrs]?)?", "sicht", "schein");
@@ -1490,6 +1489,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Arzte", w -> Arrays.asList("Ärzte", "Arzt"));
     put("Arzten", "Ärzten");
     put("Alternatief", "Alternativ");
+    put("Pkt", w -> Arrays.asList("Pkt.", "Pakt", "Punkt", "Akt"));
     put("intere", w -> Arrays.asList("interne", "innere", "hintere", "untere"));
     put("Eon", w -> Arrays.asList("Ein", "E.ON"));
     put("unterschiede", w -> Arrays.asList("Unterschiede", "unterscheide", "unterschiebe", "unterschieden"));
@@ -1547,6 +1547,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("löchen", w -> Arrays.asList("löschen", "löchern", "Köchen"));
     put("wergen",  w -> Arrays.asList("werfen", "werben", "werten"));
     put("Wasn",  w -> Arrays.asList("Was denn", "Was ein", "Was"));
+    putRepl("schammig(e[mnrs]?)?", "schamm", "schwamm");
   }
 
   @Override
@@ -1606,6 +1607,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static GermanWordSplitter getSplitter() {
     try {
       return new GermanWordSplitter(false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  private static final GermanWordSplitter nonStrictSplitter = getNonStrictSplitter();
+  private static GermanWordSplitter getNonStrictSplitter() {
+    try {
+      GermanWordSplitter splitter = new GermanWordSplitter(false);
+      splitter.setStrictMode(false);
+      return splitter;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -2074,7 +2085,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (missingAdjPattern.matcher(word).matches()) {
       String firstPart = uppercaseFirstChar(word.replaceFirst(adjSuffix + "(er|es|en|em|e)?", ""));
       // We append "test" to see if the word plus "test" is accepted as a compound. This way, we get the
-      // infix 's" handled properly (e.g. "arbeitsartig" is okay, "arbeitartig" is not). It does not accept
+      // infix 's' handled properly (e.g. "arbeitsartig" is okay, "arbeitartig" is not). It does not accept
       // all compounds, though, as hunspell's compound detection is limited ("Zwiebacktest"):
       // TODO: see isNeedingFugenS()
       // https://www.sekada.de/korrespondenz/rechtschreibung/artikel/grammatik-in-diesen-faellen-steht-das-fugen-s/
@@ -2132,15 +2143,29 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
     // Deals with two-part compounds only and could be extended.
     List<String> parts = splitter.splitWord(word.replaceFirst("\\.$", ""));
+    boolean nonStrictMode = false;
+    if (parts.size() == 1) {
+      parts = nonStrictSplitter.splitWord(word.replaceFirst("\\.$", ""));
+      nonStrictMode = true;
+    }
     String part1 = null;
     String part2 = null;
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
+      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
+        // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
+        part1 = part1 + "s";
+        part2 = part2.substring(1);
+      }
     } else if (parts.size() == 3 && parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
       // e.g. "Prioritäts-Dings" gets split like "Priorität", "s", "dings" -> treat it as if there was no "-":
       part1 = parts.get(0) + "s";
       part2 = lowercaseFirstChar(parts.get(2));
+    }
+    if (word.contains("-" + part2)) {
+      // don't accept e.g. "Implementierungs-pflicht"
+      return false;
     }
     if (part1 != null && part2 != null) {
       if (startsWithLowercase(part2)) {
@@ -2148,10 +2173,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         if (part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") && isNoun(part2uc)) {
           String part1noInfix = part1.substring(0, part1.length()-1);
           // don't assume very short parts (like "Ei") are correct, these can easily be typos:
-          if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || part1noInfix.matches("Action|Jung|Wahrung") ||
+          if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
+              part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
               part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
             return false;
           }
+          System.out.println("Accepting " + word);
           return true;
         }
       }
@@ -2747,6 +2774,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (word.matches("(Holz|Spiegel)panel(s|en?)?")) {
       return topMatch(word.replaceFirst("panel", "paneel"));
     }
+    if (word.matches("SBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?")) {
+      return topMatch(word.replaceFirst("SBahn", "S-Bahn"));
+    }
+    if (word.matches("UBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?")) {
+      return topMatch(word.replaceFirst("UBahn", "U-Bahn"));
+    }
     switch (word) {
       case "Büffet":
       case "Buffett":
@@ -3216,36 +3249,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "umgangsprachlich": return topMatch("umgangssprachlich");
       case "E-Mai": return topMatch("E-Mail");
       case "E-Mais": return topMatch("E-Mails");
-      case "Ubahn": return topMatch("U-Bahn");
-      case "UBahn": return topMatch("U-Bahn");
-      case "Ubahnen": return topMatch("U-Bahnen");
-      case "UBahnen": return topMatch("U-Bahnen");
-      case "Ubahnhof": return topMatch("U-Bahnhof");
-      case "UBahnhof": return topMatch("U-Bahnhof");
-      case "Ubahnhofs": return topMatch("U-Bahnhofs");
-      case "UBahnhofs": return topMatch("U-Bahnhofs");
-      case "Ubahnhöfe": return topMatch("U-Bahnhöfe");
-      case "UBahnhöfe": return topMatch("U-Bahnhöfe");
-      case "Ubahnhöfen": return topMatch("U-Bahnhöfen");
-      case "UBahnhöfen": return topMatch("U-Bahnhöfen");
-      case "Ubahnlinie": return topMatch("U-Bahnlinie");
-      case "UBahnlinie": return topMatch("U-Bahnlinie");
-      case "Ubahnlinien": return topMatch("U-Bahnlinien");
-      case "UBahnlinien": return topMatch("U-Bahnlinien");
-      case "Ubahnnetz": return topMatch("U-Bahnnetz");
-      case "UBahnnetz": return topMatch("U-Bahnnetz");
-      case "Ubahnnetze": return topMatch("U-Bahnnetze");
-      case "UBahnnetze": return topMatch("U-Bahnnetze");
-      case "Ubahnnetzes": return topMatch("U-Bahnnetzes");
-      case "UBahnnetzes": return topMatch("U-Bahnnetzes");
-      case "Ubahntunnel": return topMatch("U-Bahntunnel");
-      case "UBahntunnel": return topMatch("U-Bahntunnel");
-      case "Ubahntunnels": return topMatch("U-Bahntunnels");
-      case "UBahntunnels": return topMatch("U-Bahntunnels");
-      case "UBahnzug": return topMatch("U-Bahnzug");
-      case "UBahnzugs": return topMatch("U-Bahnzugs");
-      case "UBahnzüge": return topMatch("U-Bahnzüge");
-      case "UBahnzügen": return topMatch("U-Bahnzügen");
       case "Gelantine": return topMatch("Gelatine");
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
@@ -3517,6 +3520,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "tatsachliches": return topMatch("tatsächliches");
       case "tatsachlichen": return topMatch("tatsächlichen");
       case "tatsachlichem": return topMatch("tatsächlichem");
+      case "ungelungen": return topMatch("misslungen");
+      case "ungelungene": return topMatch("misslungene");
+      case "ungelungener": return topMatch("misslungener");
+      case "ungelungenes": return topMatch("misslungenes");
+      case "ungelungenen": return topMatch("misslungenen");
+      case "ungelungenem": return topMatch("misslungenem");
       case "totkrank": return topMatch("todkrank");
       case "totkranke": return topMatch("todkranke");
       case "totkranker": return topMatch("todkranker");
@@ -3544,6 +3553,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Prigozhins": return topMatch("Prigoschins");
       case "unhilfreich": return topMatch("unbehilflich");
       case "gestriffen": return topMatch("gestreift");
+      case "dererseits": return topMatch("ihrerseits");
       case "Regattas": return topMatch("Regatten");
       case "Segelregattas": return topMatch("Segelregatten");
       case "Brics-Staat": return topMatch("BRICS-Staat");
@@ -3555,7 +3565,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Eurocup": return topMatch("EuroCup");
       case "Eurocups": return topMatch("EuroCups");
       case "etc": return topMatch("etc.");
-      case "Vermögensteuer": return topMatch("Vermögenssteuer");
+      case "Ressorthotel": return topMatch("Resorthotel");
+      case "Ressorthotels": return topMatch("Resorthotels");
+      case "Kleidungstück": return topMatch("Kleidungsstück");
+      case "Kleidungstücks": return topMatch("Kleidungsstücks");
+      case "Kleidungstückes": return topMatch("Kleidungsstückes");
+      case "Kleidungstücke": return topMatch("Kleidungsstücke");
+      case "Kleidungstücken": return topMatch("Kleidungsstücken");
+      case "unrentierlich": return topMatch("unrentabel");
+      case "unrentierliche": return topMatch("unrentable");
+      case "unrentierlicher": return topMatch("unrentabler");
+      case "unrentierliches": return topMatch("unrentables");
+      case "unrentierlichen": return topMatch("unrentablen");
+      case "unrentierlichem": return topMatch("unrentablem");
+      case "Hinterweltler": return topMatch("Hinterwäldler");
+      case "Hinterweltlers": return topMatch("Hinterwäldlers");
+      case "Hinterweltlern": return topMatch("Hinterwäldlern");
     }
     return Collections.emptyList();
   }

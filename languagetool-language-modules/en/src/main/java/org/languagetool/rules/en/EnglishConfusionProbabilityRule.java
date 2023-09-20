@@ -23,6 +23,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -703,8 +704,28 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       tokenRegex("and|&"),
       posRegex("NNP"),
       token("do") // vs 'to'
+    ),
+    Arrays.asList(
+      //...responded quickly to Mustaf Sheikh's request to wear his religious head gear, use break time for prayer, and combine his breaks for Friday attendance...
+      token("break"),
+      new PatternTokenBuilder().tokenRegex("times?").setSkip(10).build(),
+      token("breaks")
+    ),
+    Arrays.asList(
+      // The language added in 3.5 was an attempt to show how much EEFT does vs. EnronOnline.
+      tokenRegex("how|what"),
+      new PatternTokenBuilder().tokenRegex("much|many").min(0).setSkip(3).build(),
+      token("does")
+    ),
+    Arrays.asList(
+      // Maybe we should pull over and dose him.
+      posRegex("MD"),
+      posRegex("VB"),
+      posRegex("IN|RP"),
+      token("and"),
+      token("dose")
     )
-  );
+    );
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
