@@ -50,25 +50,10 @@ public class SimpleReplaceVerbsRuleTest {
     // correct sentences:
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("sanitizaban"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("clickeaban"));
     assertEquals(1, matches.length);
-    assertEquals("desinfectaban", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("[clicaban, cliqueaban, hacían clic]", matches[0].getSuggestedReplacements().toString());
 
-    matches = rule.match(lt.getAnalyzedSentence("saniticen"));
-    assertEquals(1, matches.length);
-    assertEquals("desinfecten", matches[0].getSuggestedReplacements().get(0));
-    
-    matches = rule.match(lt.getAnalyzedSentence("mutearse"));
-    assertEquals(1, matches.length);
-    assertEquals("silenciarse", matches[0].getSuggestedReplacements().get(0));
-    
-    matches = rule.match(lt.getAnalyzedSentence("mutearlos"));
-    assertEquals(1, matches.length);
-    assertEquals("silenciarlos", matches[0].getSuggestedReplacements().get(0));
-    
-    //matches = rule.match(langTool.getAnalyzedSentence("sanitícenla"));
-    //assertEquals(1, matches.length);
-    //assertEquals("desinféctenla", matches[0].getSuggestedReplacements().get(0));
   }
 
 }
