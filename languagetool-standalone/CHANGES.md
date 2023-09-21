@@ -5,6 +5,11 @@
 #### Dutch
   * tagger and spelling dictionaries have been moved to an external dependency (dutch-pos-dict v 0.1)
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
 ## 6.2 (2023-07-02)
 
 #### Catalan
