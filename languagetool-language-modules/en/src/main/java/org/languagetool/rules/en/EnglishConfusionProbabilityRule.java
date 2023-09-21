@@ -724,6 +724,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       posRegex("IN|RP"),
       token("and"),
       token("dose")
+    ),
+    Arrays.asList(
+      // But your Mother's constant implications that your some big victim and I'm a very big asshole has worn very thin and it's inappropriate and rude.
+      token("your"),
+      posRegex("DT")
     )
     );
 
