@@ -554,7 +554,6 @@ public class English extends Language implements AutoCloseable {
       case "PLURALITY_CONFUSION_OF_NNS_OF_NN": return -1; // prefer several compound rules
       case "NP_TO_IS":                  return -1;  // prefer other more specific rules
       case "REPEATED_VERBS":            return -1;  // prefer other rules
-      case "MD_JJ":                     return -2;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
       case "NNP_COMMA_QUESTION":        return -2;  // prefer other more specific rules
       case "VB_TO_NN_DT":               return -2;  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
       case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
@@ -589,6 +588,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
+      case "MD_JJ":                     return -12;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
       case "HE_VERB_AGR":               return -12;  // prefer other more specific rules (e.g. AI models, PRP_VBG)
       case "MD_BASEFORM":               return -12;  // prefer other more specific rules (e.g. AI models)
       case "IT_VBZ":                    return -12;  // prefer other more specific rules (e.g. AI models)

@@ -379,8 +379,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static List<SuggestedReplacement> cleanSuggestions(RuleMatch ruleMatch) {
     return ruleMatch.getSuggestedReplacementObjects().stream()
-      .filter(k -> !k.getReplacement().startsWith("re ") &&
-                   !k.getReplacement().startsWith("en ") &&
+      .filter(k -> !k.getReplacement().toLowerCase().startsWith("re ") &&
+                   !k.getReplacement().toLowerCase().startsWith("en ") &&
                    !k.getReplacement().toLowerCase().startsWith("co ") &&
                    !k.getReplacement().toLowerCase().startsWith("cl ") &&
                    !k.getReplacement().toLowerCase().startsWith("de ") &&
@@ -425,6 +425,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("micro ") &&
                    !k.getReplacement().toLowerCase().startsWith("counter ") &&
                    !k.getReplacement().toLowerCase().startsWith("over ") &&
+                   !k.getReplacement().toLowerCase().startsWith("overs ") &&
+                   !k.getReplacement().toLowerCase().startsWith("overt ") &&
                    !k.getReplacement().toLowerCase().startsWith("under ") &&
                    !k.getReplacement().toLowerCase().startsWith("cyber ") &&
                    !k.getReplacement().toLowerCase().startsWith("hydro ") &&

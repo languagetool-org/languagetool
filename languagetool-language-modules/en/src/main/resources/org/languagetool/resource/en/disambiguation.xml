@@ -8260,6 +8260,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>work</token>
             <token regexp="yes">with|for|at</token>
         </antipattern>
+        <antipattern><!-- We can't just fucking drive down the road playing I Spy or some shit ... -->
+            <token postag="MD" />
+            <token postag="RB" />
+            <token postag="RB" />
+            <token regexp="yes">fuckin['g]</token>
+            <token postag="VB" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern><!-- We can't just fucking drive down the road playing I Spy or some shit ... -->
+            <token postag="MD" />
+            <token postag="RB" />
+            <token regexp="yes">fuckin['g]</token>
+            <token postag="VB" chunk="E-NP-singular" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -16932,5 +16945,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="BY_NO_NOUN" name="'by' no noun">
+        <pattern>
+            <marker>
+                <token>by</token>
+            </marker>
+            <token regexp="yes">the|my|y?our|his|her|their|all|th[oe]se</token>
+        </pattern>
+        <disambig action="remove" postag="NN" />
     </rule>
 </rules>
