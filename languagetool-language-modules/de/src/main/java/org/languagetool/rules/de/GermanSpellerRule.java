@@ -3578,6 +3578,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "unrentierliches": return topMatch("unrentables");
       case "unrentierlichen": return topMatch("unrentablen");
       case "unrentierlichem": return topMatch("unrentablem");
+      case "Hinterweltlerin": return topMatch("Hinterwäldlerin");
+      case "Hinterweltlerinnen": return topMatch("Hinterwäldlerinnen");
       case "Hinterweltler": return topMatch("Hinterwäldler");
       case "Hinterweltlers": return topMatch("Hinterwäldlers");
       case "Hinterweltlern": return topMatch("Hinterwäldlern");
