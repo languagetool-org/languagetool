@@ -3256,6 +3256,100 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction=""><marker>A</marker> Ms. Ono called to see you.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DELETE_INSPACEUNDERSCORESP_ERROR_IDS_000044" name="">
+            <rule>  <!-- about -->
+                <pattern>
+                    <token regexp="yes" inflected="yes">ask|know|tell</token>
+                    <token min="0" postag="NNP|PRP_O.*" postag_regexp="yes" />
+                    <marker>
+                        <token>about</token>
+                    </marker>
+                </pattern>
+                <example correction="">Sami knows <marker>about</marker> everything.</example>
+                <example correction="">Tom didn't have to tell me <marker>about</marker> what happened.</example>
+            </rule>
+            <rule>  <!-- by -->
+                <pattern>
+                    <marker>
+                        <token>by</token>
+                    </marker>
+                    <token postag="PRP_R.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">You have to do that <marker>by</marker> yourselves.</example>
+                <example correction="">I was told not to repair it <marker>by</marker> myself.</example>
+            </rule>
+            <rule>  <!-- for -->
+                <pattern>
+                    <marker>
+                        <token>for</token>
+                    </marker>
+                    <token min="0" regexp="yes">early|later?</token>
+                    <token min="0" postag="DT" />
+                    <token min="0" regexp="yes">last|next</token>
+                    <token regexp="yes">morning|afternoon|evening|night|day|week|month|year|quarter|semester|today|yesterday</token>
+                </pattern>
+                <example correction="">I will see if I can get room 3907 <marker>for</marker> this afternoon.</example>
+                <example correction="">They wanted the t-shirts <marker>for</marker> early next week.</example>
+                <example correction="">The Enron Building in Houston is closed <marker>for</marker> today, Tuesday, September 11, 2001.</example>
+            </rule>
+            <rule>  <!-- in -->
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token>a</token>
+                    <token regexp="yes">day|week|month|year</token>
+                </pattern>
+                <example correction="">They completed the rounds several times <marker>in</marker> a day.</example>
+                <example correction="">It only updates Graph API once <marker>in</marker> a day.</example>
+            </rule>
+            <rule>  <!-- like -->
+                <pattern>
+                    <token chunk_re="E-NP.*" />
+                    <token min="0" max="2" postag="RB" />
+                    <token inflected="yes">be</token>
+                    <token min="0" max="2" postag="RB" />
+                    <marker>
+                        <token>like</token>
+                    </marker>
+                    <token chunk_re="B-NP.*" />
+                </pattern>
+                <example correction="">Sami was pretty much <marker>like</marker> Layla's boss.</example>
+            </rule>
+            <rule>  <!-- of -->
+                <pattern>
+                    <token>inside</token>
+                    <marker>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <example correction="">He hurried, pulling Mira inside <marker>of</marker> the car.</example>
+            </rule>
+            <rule>  <!-- with I -->
+                <pattern>
+                    <token chunk_re="E-NP.*" />
+                    <marker>
+                        <token>with</token>
+                    </marker>
+                    <token postag="VBG" />
+                </pattern>
+                <example correction="">I would like your help <marker>with</marker> finding some information specific for the West Coast.</example>
+                <example correction="">He has problems <marker>with</marker> sleeping.</example>
+            </rule>
+            <rule>  <!-- with II -->
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token min="0" postag="RB" />
+                    <token postag="VBN" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token>with</token>
+                    </marker>
+                    <token chunk_re="B-NP.*" />
+                </pattern>
+                <example correction="">I like the ones that are painted <marker>with</marker> different colors.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DELETE_PERIOD" name="">
             <rule>  <!-- don't delete ellipsis at end of sentence -->
                 <pattern>
@@ -3502,7 +3596,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">The team <marker>lead</marker> thought that the numbers were correct.</example>
-        </rule>
+            </rule>
             <rule>  <!-- km² -->
                 <pattern>
                     <marker>
