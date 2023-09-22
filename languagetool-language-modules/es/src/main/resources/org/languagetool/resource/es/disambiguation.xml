@@ -730,6 +730,16 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">pre|pos|post</token>
+                </marker>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[\p{Lu}\d].*</token>
+            </pattern>
+            <disambig action="replace" postag="RG"/>
+        </rule>
     </rulegroup>
     <rule id="DEMASIADO" name="demasiado">
         <pattern>
