@@ -3191,6 +3191,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">And<marker>,</marker> you two had been friends for so long that you forgot.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DELETE_NFPSPACEUNDERSCORESP" name="">
+            <rule>  <!-- don't delete list items -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>*</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>*</marker> I'm a list item</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DELETE_DTSPACEUNDERSCORESP" name="">
             <rule>  <!-- combined with other rule, unnecessarily removes the noun phrase -->
                 <pattern>
