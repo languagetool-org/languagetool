@@ -8,22 +8,21 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Properties;
-import java.util.Scanner;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 import org.languagetool.tools.Tools;
 import org.languagetool.tools.DiffsAsMatches;
 import org.languagetool.tools.PseudoMatch;
 
+import javax.xml.bind.DatatypeConverter;
+
 public class SentenceAnnotator {
 
   static HashMap<String, List<RemoteRuleMatch>> cachedMatches;
+
+  private static final String timestamp = String.format("%1$tY-%1$tm-%1$td", new Date());
 
   public static void main(String[] args) throws Exception {
     long start = System.currentTimeMillis();
@@ -76,8 +75,7 @@ public class SentenceAnnotator {
     System.out.println(printTimeFromStart(start, "Total time:"));
   }
 
-  private static void runAnnotation(AnnotatorConfig cfg) throws IOException {
-
+  private static void runAnnotation(AnnotatorConfig cfg) throws IOException, NoSuchAlgorithmException {
     List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
     int numSentence = 0;
     Scanner sc = new Scanner(System.in);
@@ -96,6 +94,7 @@ public class SentenceAnnotator {
         break;
       }
       String sentence = line;
+      String sentenceHash = md5FromSentence(sentence);
       numSentence++;
       if (numSentence < startLine) {
         continue;
@@ -233,7 +232,7 @@ public class SentenceAnnotator {
         }
 
         if (!errorType.isEmpty()) {
-          printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
+          printOutputLine(cfg, sentenceHash, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
               suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
@@ -268,6 +267,7 @@ public class SentenceAnnotator {
           + "Line: " + line);
       }
       String sentence = parts[0].replaceAll("__", "");
+      String sentenceHash = md5FromSentence(sentence);
       String correctedSentence = parts[1].replaceAll("__", "");
       List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
       if (parts.length < 3) {
@@ -341,7 +341,7 @@ public class SentenceAnnotator {
           replacement = iEMatch.getReplacements().get(0);
           break;
         }
-        printOutputLine(cfg, numSentence, formattedOriginalSentence, formattedCorrectSentence, errorType,
+        printOutputLine(cfg, sentenceHash, formattedOriginalSentence, formattedCorrectSentence, errorType,
             detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
@@ -372,11 +372,21 @@ public class SentenceAnnotator {
     return row;
   }
 
-  static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
-      String correctedSentence, String errorType, String detectedErrorStr, String suggestion, int suggestionPos,
-      int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
+  private static String md5FromSentence(String sentence) throws NoSuchAlgorithmException {
+    MessageDigest md5 = MessageDigest.getInstance("MD5");
+    md5.update(sentence.getBytes());
+    byte[] digest = md5.digest();
+    return DatatypeConverter.printHexBinary(digest);
+  }
+
+  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash,
+                                      String errorSentence, String correctedSentence, String errorType,
+                                      String detectedErrorStr, String suggestion, int suggestionPos,
+                                      int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
-      String.valueOf(numSentence),
+      sentenceHash,
+      cfg.userName,
+      timestamp,
       errorSentence,
       correctedSentence,
       errorType,
@@ -606,7 +616,7 @@ public class SentenceAnnotator {
       // System.out.println("Analyzing file: " + fileName);
       fileName = fileName.substring(0, fileName.lastIndexOf('.'));
       if (outputFilePath.isEmpty()) {
-        outputFile = new File(inputFile.getParentFile() + "/" + fileName + "-annotations.tsv");
+        outputFile = new File(inputFile.getParentFile() + "/" + fileName + "-annotations.csv");
       } else {
         outputFile = new File(outputFilePath);
       }
