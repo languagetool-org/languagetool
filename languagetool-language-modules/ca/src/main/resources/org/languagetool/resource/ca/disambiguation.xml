@@ -1046,12 +1046,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="segon_ordinal" name="segon (ordinal) amb error de gènere">
         <pattern>
             <marker>
-                <token postag="AO0MS0">segon</token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">segon|bo</token>
             </marker>
             <!-- anàlisi, síndrome...  -->
-            <token postag="NCFS000"/>
+            <token postag="NCF.*" postag_regexp="yes"/>
         </pattern>
-        <disambig action="filter" postag="AO0MS0"/>
+        <disambig action="filter" postag="A.*"/>
     </rule>
     <rule id="dos_o_mes" name="dos o més">
         <pattern>
