@@ -8426,6 +8426,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>as bagagens não convencionais agora desaparecerão</example>
         </antipattern>
 
+        <antipattern>
+            <token postag='(SPS00:)?[DP][ADIPRT]..P.+' postag_regexp='yes'/>
+            <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+            <token min='1' max='2' postag='RG' postag_regexp='no'/>
+            <token postag='VMIS.+' postag_regexp='yes'/>
+            <token postag='VMN0000' postag_regexp='no'/>
+            <example>As unhas nunca mais pude arranjar.</example>
+        </antipattern>
+
         <rule> <!-- #1: eu + verb -->
             <antipattern>
                 <token regexp='yes' case_sensitive='yes'>e|ou</token>
