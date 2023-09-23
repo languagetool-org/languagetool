@@ -1423,16 +1423,27 @@
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-11-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
-          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token postag='SENT_START|_PUNCT|I|SPS00:DA.+' postag_regexp='yes'>
+              <exception regexp='yes'>como|já|mas|também</exception> <!-- Used specific words because POSes remove valid entries -->
+          </token>
           <token postag='DP1.+' postag_regexp='yes'/>
-          <token regexp='yes'>car[ao]s?|estimad[ao]s?|excelentes?|excelentíssim[ao]s?|querid[ao]s?</token>
+          <token regexp='yes'>adoráv(el|eis)|amantes?|amig[ao]s?|car[ao]s?|clientes?|colaborador(es)?|colegas?|companheir[ao]s?|empregad[ao]s?|estimad[ao]s?|excelentes?|excelentíssim[ao]s?|filh[ao]s?|funcionári[ao]s?|inimig[ao]s?|irmã(s|o|os)?|mães?|médic[ao]s?|pais?|prim[ao]s?|professor(res)?|querid[ao]s?</token>
+          <token min='0' max='2' postag='NC.+|AQ.+|NP.+|UNKNOWN' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='V.+|RG'/>
+          </token>
+          <token postag='_QUOT|_PUNCT|CC|SENT_END' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='V.+|RG'/>
+              <exception scope='next' postag_regexp='yes' postag='[DP]P.+'/>
+          </token>
           <example>Meus caros músicos, se achar que é necessário uma música ungida para tocar, componha uma.</example>
           <example>E eles dizem a ela com amor: “Minha querida criança”.</example>
           <example>Obrigado por tudo, meu caro Joshua!</example>
+          <example>Olá, meus amigos e amigas de longa data.</example>
+          <example>Não iria antes ligar pro meu pai.</example>
+          <example>Valeu minha querida amiga, beijinhos!!!</example>
+          <example>Então meu caro Kotscho, somente Deus sabe a hora e quanto tempo de vida ainda teremos.</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-11-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <antipattern>
           <unify>
