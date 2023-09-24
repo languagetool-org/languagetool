@@ -2622,7 +2622,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
     for (int i = idx; i < words.size(); i++) {
       String word = words.get(i);
-      if (!(word.endsWith("-") || StringUtils.equalsAny(word, ",", "/", "&", "und", "oder", "bzw.", "beziehungsweise", "sowie") || word.trim().isEmpty())) {
+      if (!(word.endsWith("-") || StringUtils.equalsAny(word, ",", "/", "&", "und", "oder", "bzw.", "beziehungsweise", "sowie", "statt") || word.trim().isEmpty())) {
         return word;
       }
     }
