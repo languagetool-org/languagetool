@@ -1710,6 +1710,20 @@
       -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
       <short>Erro de colocação pronominal</short>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='VMP00.+|VMIS.+|RG|VM[NG]0000|NC.+|AQ.+'/>
+          </token>
+          <token regexp='yes'>e|ou</token>
+          <token>se</token>
+          <token postag='VMI[MPS]3.+|VMM03.+' postag_regexp='yes'>
+              <exception scope='next' postag_regexp='yes' postag='RM|NC.+|AQ.+|SPS00:DA.+|_PUNCT_COMMA|SENT_END'/>
+          </token>
+          <example>Os polícias escolhem os alvos, e se avançam ou se recuam para eles.</example>
+          <example>Poucas são as pessoas que pensam e se preocupam com esses animais que estão esperando a morte nos matadouros.</example>
+          <example>Algum tempo depois ele me reconhece e se precipita em minha direção, com gestos amistosos.</example>
+          <example>Ethan e seu melhor amigo, Benny Weir (Atticus Dean Mitchell), a seguem e se deparam com Sarah comendo um rato.</example>
+        </antipattern>
 
         <!-- MARCOAGPINTO 2023-05-06 (Checked/Enhanced) (2-MAR-2023+) *START* -->
         <antipattern>
