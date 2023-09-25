@@ -3947,4 +3947,34 @@
           </example>
       </rule>
   </rulegroup>
+
+  <rulegroup id="REMOVE_BASTIR_FROM_BASTAR" name="Remove 'bastir' tags from obvious 'bastar' cases">
+      <!-- this word is completely archaic; the infinitive has literally *one* hit in a 1.1 billion word corpus... -->
+      <antipattern> <!-- except bastir cases that have no overlap with bastar, e.g. 'bastiu' -->
+          <token inflected="yes">bastir
+              <exception inflected="yes">bastar</exception>
+          </token>
+      </antipattern>
+      <rule>
+          <pattern>
+              <token inflected="yes">bastar</token>
+          </pattern>
+          <disambig action="remove"><wd lemma="bastir"/></disambig>
+      </rule>
+  </rulegroup>
+
+  <rulegroup id="REMOVE_IRIAR_FROM_IR" name="Remove 'bastir' tags from obvious 'bastar' cases">
+      <!-- very rare verb, seems to only occur in corpora as a typo for 'iria'... -->
+      <antipattern> <!-- except bastir cases that have no overlap with ir, e.g. 'iriava' -->
+          <token inflected="yes">iriar
+              <exception inflected="yes">ir</exception>
+          </token>
+      </antipattern>
+      <rule>
+          <pattern>
+              <token regexp="yes">iria[sm]?</token>
+          </pattern>
+          <disambig action="remove"><wd lemma="iriar"/></disambig>
+      </rule>
+  </rulegroup>
 </rules>
