@@ -8733,6 +8733,8 @@ USA
             <example correction="devida">Não vos posso dar a atenção <marker>que merecem</marker>.</example>
         </rule>
         <!-- PARA TER ACONTECIDO para acontecer -->
+
+
         <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 + 2023-02-26 (Checked/Enhanced) (25-JUL-2022+) -->
@@ -8741,6 +8743,18 @@ USA
       Isso por eu ter estado a ler o artigo. → Isso por eu estar a ler o artigo.
       Isso por eu ter estado a ler o artigo. → Isso por estar a ler o artigo.
       -->
+
+            <antipattern>
+                <token>por</token>
+                <token min='0' max='1' postag='RN' postag_regexp='no'/>
+                <token>ter</token>
+                <token postag='VMP00P.+' postag_regexp='yes'/>
+                <token min='0' max='1'>de</token>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <example>Posso ir diretamente a exame por ter carradas de ECTS.</example>
+                <example>A faixa diferencia-se dos demais temas de Carnaval dos anos anteriores por não ter batidas aceleradas ou um refrão repetitivo, tendo uma levada de black music "mid-time".</example>
+            </antipattern>
+
             <rule>
                 <pattern>
                     <token regexp='no'>por</token>

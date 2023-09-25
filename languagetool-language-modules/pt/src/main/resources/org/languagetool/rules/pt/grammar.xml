@@ -1398,6 +1398,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+            <antipattern>
+                <token inflected='yes'>impor</token>
+                <token postag='SPS00:DA0MP0' postag_regexp='no'/>
+                <token>outros</token>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <example>Eles preferem impor aos outros regras.</example>
+            </antipattern>
             <antipattern> <!-- picky rule covered by 'AS_MILHARES_DE_PESSOAS' -->
                 <token postag='(SPS00:)?[DP][ADIPR].FP.+' postag_regexp='yes'/>
                 <token regexp="yes">&numeros_masculinos;</token>
