@@ -73,8 +73,15 @@ public class GermanCompoundTokenizer implements Tokenizer {
       // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if "sport"
       // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
       words.add("synonym");
-      words.add("aufbringung"); // Aufbringungsfläche
+      words.add("aufbringung");
       words.add("robustheit");
+      words.add("nachuntersuchung");
+      words.add("erstkommunion");
+      words.add("hauptstadt");
+      words.add("neustart");
+      words.add("polarisierung");
+      words.add("vollstreckbarkeit");
+      words.add("vollziehung");
       words.trimToSize();
       return words;
     }
@@ -121,7 +128,6 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Freibergs", asList("Freibergs"));
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
-    wordSplitter.addException("Außerhaus", asList("Außerhaus"));
   }
 
   @Override
