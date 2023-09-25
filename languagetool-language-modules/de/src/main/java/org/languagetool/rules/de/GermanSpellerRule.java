@@ -2170,7 +2170,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
               part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
             return false;
           }
-          System.out.println("Accepting " + word);
           return true;
         }
       }
