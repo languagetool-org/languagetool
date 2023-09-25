@@ -477,6 +477,7 @@ public class German extends Language implements AutoCloseable {
       case "PRP_VER_PRGK": return -13; // lower prio than ZUSAMMENGESETZTE_VERBEN
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
       case "SAGT_RUFT": return -13; // prefer case rules, DE_VERBAGREEMENT, AI and speller
+      case "KANNST_WERDEN": return -13; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -14; // lower prio than SAGT_SAGT, but higher than GERMAN_WORD_REPEAT_RULE
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
