@@ -76,29 +76,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("aufbringung");
       words.add("robustheit");
       words.add("nachuntersuchung");
-      words.add("diskussion");
-      words.add("digitalisierung");
-      words.add("einbringung");
       words.add("erstkommunion");
-      words.add("festung");
-      words.add("gärung");
+      words.add("hauptstadt");
       words.add("neustart");
-      words.add("indossierung");
-      words.add("neuerung");
-      words.add("furor");
       words.add("polarisierung");
-      words.add("population");
-      words.add("bestand");
-      words.add("prävention");
-      words.add("region");
-      words.add("sozialwissenschaft");
-      words.add("stiftung");
-      words.add("lehrstuhl");
-      words.add("transfektion");
       words.add("vollstreckbarkeit");
       words.add("vollziehung");
-      words.add("wertung");
-      words.add("überflutung");
       words.trimToSize();
       return words;
     }
@@ -145,7 +128,6 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Freibergs", asList("Freibergs"));
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
-    wordSplitter.addException("Außerhaus", asList("Außerhaus"));
   }
 
   @Override
