@@ -82,7 +82,9 @@ public class GermanCompoundTokenizer implements Tokenizer {
   
   public GermanCompoundTokenizer(boolean strictMode) throws IOException {
     wordSplitter = new ExtendedGermanWordSplitter(false);
-    // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
+    wordSplitter.setStrictMode(strictMode);
+    wordSplitter.setMinimumWordLength(3);
+    // add exceptions here so we don't need to update JWordSplitter for every exception we find:
     //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
     //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
     wordSplitter.addException("Alkoholabstinenz", asList("Alkohol", "abstinenz"));
@@ -120,8 +122,6 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
     wordSplitter.addException("Außerhaus", asList("Außerhaus"));
-    wordSplitter.setStrictMode(strictMode);
-    wordSplitter.setMinimumWordLength(3);
   }
 
   @Override
