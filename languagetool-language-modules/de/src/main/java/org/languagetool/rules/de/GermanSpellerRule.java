@@ -1611,19 +1611,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       throw new RuntimeException(e);
     }
   }
-  private static final GermanWordSplitter nonStrictSplitter = getNonStrictSplitter();
-  private static GermanWordSplitter getNonStrictSplitter() {
-    try {
-      GermanWordSplitter splitter = new GermanWordSplitter(false);
-      splitter.setStrictMode(false);
-      return splitter;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
+  private final GermanCompoundTokenizer nonStrictCompoundTokenizer;
   private final Synthesizer synthesizer;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
@@ -1645,6 +1636,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
+    nonStrictCompoundTokenizer = GermanCompoundTokenizer.getStrictInstance();
     synthesizer = language.getSynthesizer();
   }
 
@@ -2142,10 +2134,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // ends with some specific chars, which indicate the need for the infix-s.
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
     // Deals with two-part compounds only and could be extended.
-    List<String> parts = splitter.splitWord(word.replaceFirst("\\.$", ""));
+    List<String> parts = compoundTokenizer.tokenize(word.replaceFirst("\\.$", ""));
     boolean nonStrictMode = false;
     if (parts.size() == 1) {
-      parts = nonStrictSplitter.splitWord(word.replaceFirst("\\.$", ""));
+      parts = nonStrictCompoundTokenizer.tokenize(word.replaceFirst("\\.$", ""));
       nonStrictMode = true;
     }
     String part1 = null;
