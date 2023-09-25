@@ -19,9 +19,11 @@
 
 package org.languagetool.rules.ca;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,6 +105,19 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     }
 
     return true;
+  }
+
+  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
+    List<String> replacements = new ArrayList<>();
+    // add the other symbol together with the original symbol, needs to be moved by the user
+    if (symbol.symbolType == Symbol.Type.Closing) {
+      replacements.add(otherSymbol + symbol);
+    } else {
+      replacements.add(symbol + otherSymbol);
+    }
+    // add the option to remove the original symbol
+    replacements.add("");
+    return replacements;
   }
 
 }
