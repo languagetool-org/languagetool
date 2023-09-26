@@ -11984,6 +11984,25 @@ USA
             <message>Substitua por <suggestion>nada vai</suggestion>.</message>
             <example correction="nada vai">Em princípio <marker>as coisas não vão</marker> melhorar.</example>
         </rule>
+
+
+        <rule id='PARA_SER_MELHORADA_A_MELHORAR' name="Para/a ser melhorad(a/o) → a melhorar">
+            <!-- IDEA shorten_it -->
+            <pattern>
+                <token postag="NC.+|AQ.+" postag_regexp='yes'/>
+                <marker>
+                    <token regexp='yes'>a|para</token>
+                    <token regexp='yes'>ser(em)?</token>
+                    <token regexp='yes'>melhorad[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>a melhorar</suggestion>
+            <example correction="a melhorar">Outra limitação <marker>para ser melhorada</marker> passa pela inclusão de novas equações.</example>
+            <example correction="a melhorar">Outro ponto <marker>a ser melhorado</marker> é a inclusão de novas equações.</example>
+        </rule>
+
+
         <!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
         <rulegroup id='PRESENTE_PRESENCIAL' name="é presencial">
