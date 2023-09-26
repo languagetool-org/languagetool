@@ -62,6 +62,7 @@ public class GermanSpellerRuleTest {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände."));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Absenkungsvorgaben"));  // triggers use of nonStrictSplitter (2023-09-26, might change...)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings."));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungsschäden"));
