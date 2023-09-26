@@ -14752,6 +14752,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- MARCOAGPINTO 2020-06-15 *END* -->
         </rulegroup>
 
+        <rulegroup id="ABREVIATURA_DE_PAGINA_PG" name="Abreviatura de 'página' como 'pg' ou 'pag'." default="temp_off">
+            <antipattern> <!-- ... petagrams, for the freaks out there talking about 10^15 grams :p -->
+                <token regexp="yes">\d+</token>
+                <token case_sensitive="yes">Pg</token>
+                <token negate="yes" regexp="yes">\d+</token>
+                <example>A galáxia deve pesar 50 Pg.</example>
+            </antipattern>
+
+            <rule id="ABREVIATURA_DE_PAGINA_PG_PLURAL">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">pa?gs</token>
+                        <token postag="_PUNCT_PERIOD" min="0" spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <message>Se for a abreviatura de &quot;páginas&quot;, prefira <suggestion>pp.</suggestion> ou <suggestion>págs.</suggestion>.</message>
+                <example correction="pp.|págs.">O texto está entre as <marker>pgs.</marker> 4 e 50.</example>
+            </rule>
+
+            <rule id="ABREVIATURA_DE_PAGINA_PG_SINGULAR">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">pa?g</token>
+                        <token postag="_PUNCT_PERIOD" min="0" spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <message>Se for a abreviatura de &quot;página&quot;, prefira <suggestion>p.</suggestion> ou <suggestion>pág.</suggestion>.</message>
+                <example correction="p.|pág.">Leiam a <marker>pg.</marker> 203.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="ABREVIATIONS" name="Abreviaturas: p.ex. sr. -> Sr.">
             <!--  Based on German gramar.xml rule, by Tiago F. Santos, 2018-07-13      -->
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-o-uso-de-maiusculas-e-de-minusculas/30160</url>
@@ -14787,33 +14818,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id='SI_UNITS_CASE' name="Unidades do Sistema Internacional: Km/km">
-            <!--  Based on Catalan KILO_LOWERCASE rule, by Tiago F. Santos, 2017-02-27      -->
             <url>https://pt.wikipedia.org/wiki/Prefixos_do_Sistema_Internacional_de_Unidades</url>
-            <short>Erro de capitalização</short>
-
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *START* -->
-            <!--
-      THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
-      As forças estão organizadas numa hierarquia C2.
-      -->
             <antipattern>
                 <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
                 <token min="0" max="1">de</token>
                 <token case_sensitive='yes'>C2</token>
+                <example>As forças estão organizadas numa hierarquia C2.</example> 
             </antipattern>
-            <!-- 2022-10-02 -->
-            <!--
-      O grupo detém pouca análise de alvos, C2 ou capacidade de aprendizagem.
-      -->
             <antipattern>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token case_sensitive='yes'>C2</token>
                 <token postag='CC' postag_regexp='no'/>
+                <example>O grupo detém pouca análise de alvos, C2 ou capacidade de aprendizagem.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
-            <rule>
+            <rule> <!-- #1 -->
                 <pattern case_sensitive="yes">
                     <or>
                         <token postag_regexp='yes' postag='Z.+'/>
@@ -14831,20 +14851,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="km^2">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km^2</marker>, sendo a vigésima quarta maior do Brasil e a quin…</example>
                 <example correction="kW">120 <marker>KW</marker> de potência</example>
             </rule>
-            <rule>
+
+            <rule> <!-- #2 -->
+                <antipattern> <!-- added to take care of 'pg.' as an (incorrect) abbrev. for 'página' -->
+                    <token case_sensitive="yes">pg</token>
+                    <token spacebefore="no" postag="_PUNCT_PERIOD" min="0"/>
+                    <token regexp="yes">\d+</token>
+                    <example>Viremos agora à pg. 40.</example>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag_regexp='yes' postag='Z.+' skip='3'/>
                     <marker>
                         <token regexp="yes">[yzptg][gmlsJNWCVSFTH]([\^⁻])?[23²³]?
-                            <exception>pH</exception></token>
+                        <exception>pH</exception>
+                    </token>
                     </marker>
                 </pattern>
-                <message>Unidades do Sistema Internacional superiores a "quilo" são escritas com minúsculas.</message>
+                <message>Unidades do Sistema Internacional superiores a "quilo" são escritas com maiúsculas.</message>
                 <suggestion><match no='2' case_conversion="startupper"/></suggestion>
                 <example correction="TJ">Estimaram-se forças de 30 <marker>tJ</marker> por m².</example>
                 <example correction="GW">120 <marker>gW</marker> de potência</example>
             </rule>
-            <rule>
+
+            <rule> <!-- #3 -->
                 <pattern case_sensitive="yes">
                     <token regexp='yes'>K[glm]</token>
                 </pattern>
