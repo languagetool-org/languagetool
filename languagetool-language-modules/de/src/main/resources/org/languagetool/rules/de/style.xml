@@ -2973,11 +2973,14 @@ USA
                 <pattern>
                     <token>rein-</token>
                     <token skip="-1">und</token>
-                    <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">raus.*</token>
+                    <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">raus.*
+                        <exception>rausschlüpfen</exception>
+                    </token>
                 </pattern>
                 <message>'\1 \2 \3' ist umgangssprachlich.</message>
                 <suggestion>ein- <match no="2" include_skipped="all"/> <match no="3" regexp_match="^[Rr]aus" regexp_replace="aus"/></suggestion>
                 <example correction="ein- und erst dann ausstecken">Laden Sie vor dem ersten Gebrauch Ihr Gerät, indem Sie das Netzteil in die Steckdose <marker>rein- und erst dann rausstecken</marker>, wenn das grüne Licht leuchtet.</example>
+                <example>Man kann einfach bequem rein- und rausschlüpfen.</example><!-- wrong suggestion-->
             </rule>
 	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[12] -->
                 <pattern>
