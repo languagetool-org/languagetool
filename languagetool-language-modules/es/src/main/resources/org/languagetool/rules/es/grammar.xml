@@ -8871,7 +8871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">Contamos con <marker>el</marker> una vez.</example>
                 <example>Es nuestra obligación ayudarnos el uno al otro.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <pattern>
                     <marker>
                         <token>el</token>
@@ -8886,7 +8886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El primero consiste en elementos de la propia empresa.</example>
                 <example>No es el mismo de antes.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <pattern>
                     <token postag="V...3S." postag_regexp="yes"><exception postag="NC[MC][SN].*|A..[MC][SN].|_GN_MS" postag_regexp="yes"/><exception inflected="yes">ser</exception></token>
                     <marker>
@@ -17309,7 +17309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Somos seres hechos de tradiciones.</example>
             <!-- allowed missing "que" : que Dios quiere sean llevadas a cabo -->
         </rule>
-        <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
+        <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="off">
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
@@ -17979,7 +17979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo') o <suggestion>porque</suggestion> ('por razón de que')?</message>
                 <example correction="por qué|porque">¿Recuerda ya <marker>por que</marker> estamos aquí?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="15">porque</token>
                     <token postag="V.S.*" postag_regexp="yes"/>
