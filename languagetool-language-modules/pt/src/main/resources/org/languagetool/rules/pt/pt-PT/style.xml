@@ -2590,6 +2590,21 @@ USA
             <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
         </rule>
 
+        <rule id='PARA_SER_MELHORADA_A_MELHORAR' name="Para/a ser melhorad(a/o) → a melhorar" default="temp_off">
+            <!-- IDEA shorten_it -->
+            <pattern>
+                <token postag="NC.+|AQ.+" postag_regexp='yes'/>
+                <marker>
+                    <token regexp='yes'>a|para</token>
+                    <token regexp='yes'>ser(em)?</token>
+                    <token regexp='yes'>melhorad[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>a melhorar</suggestion>
+            <example correction="a melhorar">Outra limitação <marker>para ser melhorada</marker> passa pela inclusão de novas equações.</example>
+            <example correction="a melhorar">Outro ponto <marker>a ser melhorado</marker> é a inclusão de novas equações.</example>
+        </rule>
 
         <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
         <rulegroup id='SIMPLIFICAR_PP_OBJ_IND_V2' name="[pt-PT][Simplificar] Pronome pessoal no dativo" type='style' tone_tags="objective">
