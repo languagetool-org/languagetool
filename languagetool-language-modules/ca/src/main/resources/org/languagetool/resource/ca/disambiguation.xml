@@ -10387,8 +10387,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </antipattern>
         <rule id="dosPP_VERB" name="dos pronoms personals més verb">
             <antipattern>
-                <token>el</token>
-                <token>la</token>
+                <!-- 'els' l': combinació vàlida de pronoms -->
+                <token regexp="yes">la|el|les|l|ls</token>
+                <token regexp="yes">l'|la|el</token>
             </antipattern>
             <antipattern>
                 <token>l'</token>
@@ -10397,6 +10398,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <antipattern>
                 <token regexp="yes">ho|hi|la|lo|el|nos|los</token>
                 <token>en</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <marker>
@@ -13525,6 +13532,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="P0_DA" name="pronom feble i article: pronom feble">
+        <antipattern>
+            <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+            <token postag="DA.*" postag_regexp="yes"/>
+            <token postag="DA.*" postag_regexp="yes"/>
+            <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
+        </antipattern>
         <!--mogut per "L'ens"-->
         <pattern>
             <marker>
@@ -14252,6 +14265,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <antipattern>
             <token>es</token>
             <token regexp="yes">sobre|encara</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+            <token postag="DA.*" postag_regexp="yes"/>
+            <token postag="DA.*" postag_regexp="yes"/>
+            <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
         </antipattern>
         <rule>
             <pattern>
