@@ -1721,6 +1721,10 @@ class CaseRuleAntiPatterns {
       csRegex("Koalition(en?)?")
     ),
     Arrays.asList(
+      csToken("Oval"),
+      csRegex("Offices?")
+    ),
+    Arrays.asList(
       csRegex("[A-ZÄÖÜ].+stereotypen?")
     )
   );

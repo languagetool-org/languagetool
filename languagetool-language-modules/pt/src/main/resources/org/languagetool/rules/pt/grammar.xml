@@ -11369,12 +11369,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <antipattern> <!-- horas antes, anos depois -->
                 <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
                 <token postag_regexp="yes" postag="R." min="0" max="2"/>
-                <token postag_regexp="yes" postag="[ADPZ]...P.+" min="0"/>
+                <token postag_regexp="yes" postag="([ADP].|Z)..P.+" min="0">
+                    <exception postag_regexp="yes" postag="DA.+"/> <!-- definite articles are stuff like 'os dias de...', prob. not adverbial -->
+                </token>
                 <token regexp="yes">&expressoes_de_tempo_simples;</token>
-                <token regexp="yes">antes|após|depois|mais</token>
+                <!-- <token regexp="yes">antes|após|depois|mais|atrás</token> -->
                 <example>Chegou horas antes do aparecimento do príncipe Mohammed.</example>
                 <example>Estaria chegando minutos depois.</example>
                 <example>Aconteceria apenas anos mais tarde.</example>
+                <example>Aconteceu três anos atrás.</example>
+                <example>Aconteceu dois dias depois de ele ter voltado de Tóquio.</example>
+                <example>Ficou quase dois anos presa.</example>
+                <example>Ficou dez semanas consecutivas na primeira posição.</example>
             </antipattern>
             <antipattern> <!-- vai ficar alguns dias -->
                 <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>

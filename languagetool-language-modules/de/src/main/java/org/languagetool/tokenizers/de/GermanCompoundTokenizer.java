@@ -82,6 +82,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("polarisierung");
       words.add("vollstreckbarkeit");
       words.add("vollziehung");
+      words.add("kasko");
       words.trimToSize();
       return words;
     }
