@@ -83,6 +83,7 @@ public class RemoteRuleConfig {
   public Map<String, String> options = new HashMap<>();
   public String language;
   public String type;
+  public Integer maxSentenceLength;
 
   public RemoteRuleConfig() {
   }
@@ -101,6 +102,7 @@ public class RemoteRuleConfig {
     this.options = new HashMap<>(copy.options);
     this.language = copy.language;
     this.type = copy.type;
+    this.maxSentenceLength= copy.maxSentenceLength;
   }
 
   public static RemoteRuleConfig getRelevantConfig(String rule, List<RemoteRuleConfig> configs) {
@@ -142,6 +144,10 @@ public class RemoteRuleConfig {
 
   public int getPort() {
     return port != null ? port : DEFAULT_PORT;
+  }
+
+  public Integer getMaxSentenceLength() {
+    return maxSentenceLength;
   }
 
   public long getDownMilliseconds() {

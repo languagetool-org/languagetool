@@ -48,6 +48,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Streams;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import com.sun.xml.bind.v2.TODO;
 import io.grpc.*;
 import io.grpc.internal.DnsNameResolverProvider;
 import org.jetbrains.annotations.Nullable;
@@ -72,18 +73,18 @@ import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
  *
  * See #create(Language, ResourceBundle, RemoteRuleConfig, boolean, String, String, Map)  for an easy way to add rules; return rule in Language::getRelevantRemoteRules
  * add it like this:
-  <pre>
-   public List&lt;Rule&gt; getRelevantRemoteRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
-     List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(super.getRelevantRemoteRules(
-     messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages));
-     Rule exampleRule = GRPCRule.create(messageBundle,
-       RemoteRuleConfig.getRelevantConfig("EXAMPLE_ID", configs),
-      "EXAMPLE_ID", "example_rule_id",
-      Collections.singletonMap("example_match_id", "example_rule_message"));
-     rules.add(exampleRule);
-     return rules;
-   }
-  </pre>
+ <pre>
+ public List&lt;Rule&gt; getRelevantRemoteRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+ List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(super.getRelevantRemoteRules(
+ messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages));
+ Rule exampleRule = GRPCRule.create(messageBundle,
+ RemoteRuleConfig.getRelevantConfig("EXAMPLE_ID", configs),
+ "EXAMPLE_ID", "example_rule_id",
+ Collections.singletonMap("example_match_id", "example_rule_message"));
+ rules.add(exampleRule);
+ return rules;
+ }
+ </pre>
  */
 public abstract class GRPCRule extends RemoteRule {
   public static final String CONFIG_TYPE = "grpc";
@@ -93,6 +94,8 @@ public abstract class GRPCRule extends RemoteRule {
   private static final int DEFAULT_BATCH_SIZE = 8;
   public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
   private static final String DEFAULT_DESCRIPTION = "INTERNAL - dynamically loaded rule supported by remote server";
+  /*TODO Delete this temporal fix as this is for speeding up execution for too long sentences*/
+  private final int maxSentenceLength = serviceConfiguration.getMaxSentenceLength() == null ? Integer.MAX_VALUE : serviceConfiguration.getMaxSentenceLength();
 
   public static String cleanID(String id) {
     return id.replaceAll("[^a-zA-Z0-9_]", "_").toUpperCase();
@@ -175,7 +178,7 @@ public abstract class GRPCRule extends RemoteRule {
       }
     }
   }
-  
+
   private static final LoadingCache<RemoteRuleConfig, Connection> servers =
     CacheBuilder.newBuilder().build(CacheLoader.from(serviceConfiguration -> {
       if (serviceConfiguration == null) {
@@ -203,14 +206,14 @@ public abstract class GRPCRule extends RemoteRule {
       .getOrDefault("analyzed", "false")
       .equalsIgnoreCase("true");
     this.batchSize = Integer.parseInt(config.getOptions().getOrDefault("batchSize",
-                                                                       String.valueOf(DEFAULT_BATCH_SIZE)));
+      String.valueOf(DEFAULT_BATCH_SIZE)));
     synchronized (servers) {
       Connection conn = null;
-        try {
-          conn = servers.get(serviceConfiguration);
-        } catch (Exception e) {
-          logger.error("Could not connect to remote service at " + serviceConfiguration, e);
-        }
+      try {
+        conn = servers.get(serviceConfiguration);
+      } catch (Exception e) {
+        logger.error("Could not connect to remote service at " + serviceConfiguration, e);
+      }
       this.conn = conn;
     }
   }
@@ -241,31 +244,35 @@ public abstract class GRPCRule extends RemoteRule {
   @Override
   protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
     List<Long> ids = Collections.emptyList();
-    if (textSessionId != null) {
-      ids = Collections.nCopies(sentences.size(), textSessionId);
-    }
+    // TODO this is a temp fix to avoid sending too long sentences to the server
+    List<AnalyzedSentence> filteredSentences = sentences.stream()
+      .filter(s -> s.getText().length() <= maxSentenceLength)
+      .collect(Collectors.toList());
 
+    if (textSessionId != null) {
+      ids = Collections.nCopies(filteredSentences.size(), textSessionId);
+    }
     if (sendAnalyzedData) {
       List<MLServerProto.AnalyzedMatchRequest> requests = new ArrayList<>();
 
-      for (int offset = 0; offset < sentences.size(); offset += batchSize) {
+      for (int offset = 0; offset < filteredSentences.size(); offset += batchSize) {
         MLServerProto.AnalyzedMatchRequest req = MLServerProto.AnalyzedMatchRequest.newBuilder()
-          .addAllSentences(sentences
-            .subList(offset, Math.min(sentences.size(), offset + batchSize))
+          .addAllSentences(filteredSentences
+            .subList(offset, Math.min(filteredSentences.size(), offset + batchSize))
             .stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
           .setInputLogging(inputLogging)
           .addAllTextSessionID(textSessionId != null ?
-            ids.subList(offset, Math.min(sentences.size(), offset + batchSize))
+            ids.subList(offset, Math.min(filteredSentences.size(), offset + batchSize))
             : Collections.emptyList())
           .build();
         requests.add(req);
       }
-      return new AnalyzedMLRuleRequest(requests, sentences);
+      return new AnalyzedMLRuleRequest(requests, filteredSentences);
     } else {
       List<MLServerProto.MatchRequest> requests = new ArrayList<>();
 
-      for (int offset = 0; offset < sentences.size(); offset += batchSize) {
-        List<String> text = sentences.stream().map(AnalyzedSentence::getText).map(s -> {
+      for (int offset = 0; offset < filteredSentences.size(); offset += batchSize) {
+        List<String> text = filteredSentences.stream().map(AnalyzedSentence::getText).map(s -> {
           if (whitespaceNormalisation) {
             // non-breaking space can be treated as normal space
             return s.replaceAll(WHITESPACE_REGEX, " ");
@@ -277,15 +284,15 @@ public abstract class GRPCRule extends RemoteRule {
           .addAllSentences(text.subList(offset, Math.min(text.size(), offset + batchSize)))
           .setInputLogging(inputLogging)
           .addAllTextSessionID(textSessionId != null ?
-                              ids.subList(offset, Math.min(text.size(), offset + batchSize))
-                              : Collections.emptyList())
+            ids.subList(offset, Math.min(text.size(), offset + batchSize))
+            : Collections.emptyList())
           .build();
         requests.add(req);
       }
       if (requests.size() > 1) {
-        logger.debug("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
+        logger.debug("Split {} sentences into {} requests for {}", filteredSentences.size(), requests.size(), getId());
       }
-      return new MLRuleRequest(requests, sentences, textSessionId);
+      return new MLRuleRequest(requests, filteredSentences, textSessionId);
     }
   }
 
@@ -362,14 +369,14 @@ public abstract class GRPCRule extends RemoteRule {
 
   private List<RuleMatch> getRuleMatches(List<AnalyzedSentence> sentences, List<MatchResponse> responses) {
     BiFunction<MLServerProto.MatchList, AnalyzedSentence, Stream<RuleMatch>> createMatch = (matchList, sentence) -> matchList.getMatchesList().stream().map(match -> {
-      String description = match.getRuleDescription();
-      if (description == null || description.isEmpty()) {
-        description = this.getDescription();
+        String description = match.getRuleDescription();
         if (description == null || description.isEmpty()) {
-          throw new RuntimeException("Missing description for rule with ID " + match.getId() + "_" + match.getSubId());
+          description = this.getDescription();
+          if (description == null || description.isEmpty()) {
+            throw new RuntimeException("Missing description for rule with ID " + match.getId() + "_" + match.getSubId());
+          }
         }
-      }
-      GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description);
+        GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description);
         String message = match.getMatchDescription();
         String shortMessage = match.getMatchShortDescription();
         if (message == null || message.isEmpty()) {
@@ -409,10 +416,10 @@ public abstract class GRPCRule extends RemoteRule {
     );
 
     List<RuleMatch> matches = Streams.zip(
-      responses.stream()
-        .flatMap(res -> res.getSentenceMatchesList().stream()),
-      sentences.stream(),
-      createMatch)
+        responses.stream()
+          .flatMap(res -> res.getSentenceMatchesList().stream()),
+        sentences.stream(),
+        createMatch)
       .flatMap(Function.identity()).collect(Collectors.toList());
     return matches;
   }
@@ -435,8 +442,8 @@ public abstract class GRPCRule extends RemoteRule {
    * @param messages for i18n; = JLanguageTool.getMessageBundle(lang)
    * @param config configuration for remote rule server;
    *               options: secure, clientKey, clientCertificate, rootCertificate
-                   use RemoteRuleConfig.getRelevantConfig(id, configs)
-                   to load this in Language::getRelevantRemoteRules
+  use RemoteRuleConfig.getRelevantConfig(id, configs)
+  to load this in Language::getRelevantRemoteRules
    * @param id ID of rule
    * @param descriptionKey key in MessageBundle.properties for rule description
    * @param messagesByID mapping match.sub_id -&gt; key in MessageBundle.properties for RuleMatch's message
@@ -464,8 +471,8 @@ public abstract class GRPCRule extends RemoteRule {
    * @param language rule language
    * @param config configuration for remote rule server;
    *               options: secure, clientKey, clientCertificate, rootCertificate
-                   use RemoteRuleConfig.getRelevantConfig(id, configs)
-                   to load this in Language::getRelevantRemoteRules
+  use RemoteRuleConfig.getRelevantConfig(id, configs)
+  to load this in Language::getRelevantRemoteRules
    * @param id ID of rule
    * @param description rule description
    * @param messagesByID mapping match.sub_id to RuleMatch's message
