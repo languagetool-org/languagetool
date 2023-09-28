@@ -178,5 +178,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example>donde se pueden contemplar decenas de piezas industriales vagones y locomotoras de vapor</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_ES_HYDRA_LEO_CP_SITILDE_SI" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sí</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <example correction=""><marker>Sí</marker> que hacía tiempo que no nos veíamos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
+                    <marker>
+                        <token>sí</token>
+                    </marker>
+                    <token regexp="yes">[,;]</token>
+                </pattern>
+                <example correction=""><marker>Sí</marker>, es el efecto que tiene el fármaco.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
