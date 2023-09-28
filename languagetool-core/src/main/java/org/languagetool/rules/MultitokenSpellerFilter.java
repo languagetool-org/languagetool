@@ -30,18 +30,16 @@ import java.util.Map;
 
 public class MultitokenSpellerFilter extends RuleFilter {
 
+  /* Put a multi-token expression inside a single token to find spelling suggestions */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
     PatternRule pr = (PatternRule) match.getRule();
     SpellingCheckRule spellingRule = pr.getLanguage().getDefaultSpellingRule();
-    String originalStr = match.getOriginalErrorStr();
-    AnalyzedTokenReadings[] atrsArray = new AnalyzedTokenReadings[2];
-    AnalyzedTokenReadings atrs0 = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", ""));
-    AnalyzedTokenReadings atrs1 = new AnalyzedTokenReadings(new AnalyzedToken(originalStr, null, null));
-    atrsArray[0] = atrs0;
-    atrsArray[1] = atrs1;
-    AnalyzedSentence sentence = new AnalyzedSentence(atrsArray);
+    AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[] {
+      new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", "")),
+      new AnalyzedTokenReadings(new AnalyzedToken(match.getOriginalErrorStr(), null, null))
+    });
     RuleMatch[] matches = spellingRule.match(sentence);
     if (matches.length < 1 || matches[0].getSuggestedReplacements().isEmpty()) {
       return null;
