@@ -43,7 +43,7 @@ public class MultitokenSpellerFilter extends RuleFilter {
     atrsArray[1] = atrs1;
     AnalyzedSentence sentence = new AnalyzedSentence(atrsArray);
     RuleMatch[] matches = spellingRule.match(sentence);
-    if (matches.length < 1) {
+    if (matches.length < 1 || matches[0].getSuggestedReplacements().isEmpty()) {
       return null;
     }
     match.setSuggestedReplacements(matches[0].getSuggestedReplacements());

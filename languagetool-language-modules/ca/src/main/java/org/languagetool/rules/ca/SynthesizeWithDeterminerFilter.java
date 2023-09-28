@@ -65,10 +65,6 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
-    if (match.getSentence().getText().contains("el roges")) {
-      int ii=0;
-      ii++;
-    }
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
     boolean synthAllForms = getOptional("synthAllForms", arguments, "false").equalsIgnoreCase("true")? true: false;
@@ -93,9 +89,9 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
     // second-best suggestion
     String secondGenderNumber = "";
     if (lemmaFrom-1 > 0) {
-      String determinerPostag = patternTokens[lemmaFrom - 1].readingWithTagRegex("D.*").getPOSTag();
-      if (determinerPostag != null) {
-        secondGenderNumber = determinerPostag.substring(3,5);
+      AnalyzedToken reading = patternTokens[lemmaFrom - 1].readingWithTagRegex("D.*");
+      if (reading != null) {
+        secondGenderNumber = reading.getPOSTag().substring(3,5);
       }
     }
     for (String tag : synth.getPossibleTags()) {
