@@ -92,6 +92,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
+  private final Set<String> wordsNeedingInfixS          = new HashSet<>();
+  private final Set<String> wordsWithoutInfixS          = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -1611,10 +1613,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       throw new RuntimeException(e);
     }
   }
+  private static final GermanWordSplitter nonStrictSplitter = getNonStrictSplitter();
+  private static GermanWordSplitter getNonStrictSplitter() {
+    try {
+      GermanWordSplitter splitter = new GermanWordSplitter(false);
+      splitter.setStrictMode(false);
+      return splitter;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
-  private final GermanCompoundTokenizer nonStrictCompoundTokenizer;
   private final Synthesizer synthesizer;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
@@ -1636,8 +1647,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
-    nonStrictCompoundTokenizer = GermanCompoundTokenizer.getNonStrictInstance();
     synthesizer = language.getSynthesizer();
+    loadFile("/de/words_infix_s.txt", wordsNeedingInfixS);
+    loadFile("/de/words_no_infix_s.txt", wordsWithoutInfixS);
+  }
+
+  private void loadFile(String fileInClasspath, Set<String> set) {
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(fileInClasspath);
+    for (String line : lines) {
+      if (!line.startsWith("#")) {
+        set.add(line.trim());
+      }
+    }
   }
 
   @Override
@@ -2134,15 +2155,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // ends with some specific chars, which indicate the need for the infix-s.
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
     // Deals with two-part compounds only and could be extended.
-    String wordWithoutDot = word.replaceFirst("\\.$", "");
-    List<String> parts = compoundTokenizer.tokenize(wordWithoutDot);
+    List<String> parts = splitter.splitWord(word.replaceFirst("\\.$", ""));
     boolean nonStrictMode = false;
     if (parts.size() == 1) {
-      parts = nonStrictCompoundTokenizer.tokenize(wordWithoutDot);
+      parts = nonStrictSplitter.splitWord(word.replaceFirst("\\.$", ""));
       nonStrictMode = true;
     }
-    String part1 = null;
-    String part2 = null;
+    String part1;
+    String part2;
+    boolean hasInfixS = false;
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
@@ -2150,29 +2171,38 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
         part1 = part1 + "s";
         part2 = part2.substring(1);
+        hasInfixS = true;
       }
     } else if (parts.size() == 3 && parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
       // e.g. "Prioritäts-Dings" gets split like "Priorität", "s", "dings" -> treat it as if there was no "-":
       part1 = parts.get(0) + "s";
       part2 = lowercaseFirstChar(parts.get(2));
+      hasInfixS = true;
+    } else {
+      // more than two parts can be supported later
+      return false;
     }
     if (word.contains("-" + part2)) {
       // don't accept e.g. "Implementierungs-pflicht"
       return false;
     }
-    if (part1 != null && part2 != null) {
-      if (startsWithLowercase(part2)) {
-        String part2uc = uppercaseFirstChar(part2);
-        if (part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") && isNoun(part2uc)) {
-          String part1noInfix = part1.substring(0, part1.length()-1);
-          // don't assume very short parts (like "Ei") are correct, these can easily be typos:
-          if (part1noInfix.length() <= 3 || part2uc.length() <= 3 || part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
-              part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
-              part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
-            return false;
-          }
-          return true;
+    if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
+      String part1noInfix = part1.substring(0, part1.length()-1);
+      String part2uc = uppercaseFirstChar(part2);
+      if ((part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") || wordsNeedingInfixS.contains(part1noInfix)) &&
+          isNoun(part2uc)) {
+        // don't assume very short parts (like "Ei") are correct, these can easily be typos:
+        if (part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
+            part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
+            part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
+          return false;
         }
+        if (wordsNeedingInfixS.contains(part1noInfix)) {
+          System.out.println("Accepting1 " + word);
+        } else {
+          System.out.println("Accepting2 " + word);
+        }
+        return true;
       }
     }
     return false;
