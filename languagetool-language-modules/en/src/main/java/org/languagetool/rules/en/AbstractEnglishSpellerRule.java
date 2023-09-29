@@ -466,7 +466,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("d ") &&
                    !k.getReplacement().toLowerCase().startsWith("p ") &&
                    !k.getReplacement().toLowerCase().startsWith("v ") &&
-                   !k.getReplacement().toLowerCase().startsWith("s ") &&
                    !k.getReplacement().toLowerCase().startsWith("h ") &&
                    !k.getReplacement().toLowerCase().startsWith("r ") &&
                    !k.getReplacement().toLowerCase().startsWith("s ") &&
@@ -684,8 +683,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("teasering", Arrays.asList("teasing"));
     s.put("stealed", Arrays.asList("stole", "stolen"));
     s.put("stealt", Arrays.asList("stole", "stolen"));
-    s.put("whaddya", Arrays.asList("what do you"));
-    s.put("Whaddya", Arrays.asList("What do you"));
     s.put("ignight", Arrays.asList("ignite"));
     s.put("Ignight", Arrays.asList("Ignite"));
     s.put("ignights", Arrays.asList("ignites"));
