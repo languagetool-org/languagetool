@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.spelling.CachingWordListLoader;
-import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.de.GermanSynthesizer;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.CombiningTagger;
 import org.languagetool.tagging.ManualTagger;

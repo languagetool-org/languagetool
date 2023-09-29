@@ -21,7 +21,7 @@ package org.languagetool.rules.br;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Breton;
+import org.languagetool.language.br.Breton;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

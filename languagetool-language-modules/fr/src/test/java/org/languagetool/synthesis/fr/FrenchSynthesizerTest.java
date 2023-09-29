@@ -20,7 +20,6 @@ package org.languagetool.synthesis.fr;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.synthesis.FrenchSynthesizer;
 
 import java.io.IOException;
 import java.util.Arrays;

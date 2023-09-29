@@ -21,7 +21,7 @@ package org.languagetool.tokenizers.pl;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 

@@ -20,14 +20,11 @@
 package org.languagetool.tagging.disambiguation.pt;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.language.PortugalPortuguese;
-import org.languagetool.language.Portuguese;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;

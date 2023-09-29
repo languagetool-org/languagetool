@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.ro;
 
-import org.languagetool.language.Romanian;
+import org.languagetool.language.ro.Romanian;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 

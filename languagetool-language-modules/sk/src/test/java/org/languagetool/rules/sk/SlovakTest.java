@@ -20,7 +20,7 @@ package org.languagetool.rules.sk;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Slovak;
+import org.languagetool.language.sk.Slovak;
 
 import java.io.IOException;
 

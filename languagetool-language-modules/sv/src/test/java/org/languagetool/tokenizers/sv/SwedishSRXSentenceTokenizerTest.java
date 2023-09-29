@@ -20,7 +20,7 @@ package org.languagetool.tokenizers.sv;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Swedish;
+import org.languagetool.language.sv.Swedish;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class SwedishSRXSentenceTokenizerTest {

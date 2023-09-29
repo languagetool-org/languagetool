@@ -21,7 +21,7 @@ package org.languagetool.rules.es;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Spanish;
+import org.languagetool.language.es.Spanish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;

@@ -21,7 +21,7 @@ package org.languagetool.rules.br;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Breton;
+import org.languagetool.language.br.Breton;
 import org.languagetool.rules.*;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;

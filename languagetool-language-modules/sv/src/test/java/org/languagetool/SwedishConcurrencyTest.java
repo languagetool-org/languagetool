@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Swedish;
+import org.languagetool.language.sv.Swedish;
 
 public class SwedishConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

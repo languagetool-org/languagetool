@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 
 import java.io.IOException;
 

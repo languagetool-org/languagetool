@@ -20,8 +20,9 @@
 package org.languagetool.tagging.disambiguation.fr;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.language.French;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.fr.French;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
@@ -60,6 +61,4 @@ public class FrenchHybridDisambiguator extends AbstractDisambiguator {
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
     return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
   }
-
-
 }

@@ -21,7 +21,7 @@ package org.languagetool.tagging.pl;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;

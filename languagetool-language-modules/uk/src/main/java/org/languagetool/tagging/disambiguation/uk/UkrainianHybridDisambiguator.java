@@ -34,7 +34,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.uk.Ukrainian;
 import org.languagetool.rules.uk.CaseGovernmentHelper;
 import org.languagetool.rules.uk.InflectionHelper;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;

@@ -23,6 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.en.EnglishChunkFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;

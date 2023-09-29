@@ -20,7 +20,7 @@
 package org.languagetool.rules.nl;
 
 import java.io.IOException;
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 public class DutchSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {

@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 
 import java.io.IOException;
 import java.util.List;

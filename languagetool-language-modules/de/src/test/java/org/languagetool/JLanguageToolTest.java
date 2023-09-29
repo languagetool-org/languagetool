@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 

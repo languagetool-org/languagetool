@@ -19,7 +19,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.Tag;
-import org.languagetool.language.Catalan;
+import org.languagetool.language.ca.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;

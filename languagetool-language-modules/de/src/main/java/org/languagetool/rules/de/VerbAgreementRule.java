@@ -23,7 +23,7 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.German;
+import org.languagetool.language.de.German;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;

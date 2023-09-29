@@ -19,8 +19,8 @@
 package org.languagetool.dev.eval;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.BritishEnglish;
-import org.languagetool.language.English;
+import org.languagetool.language.en.BritishEnglish;
+import org.languagetool.language.en.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.markup.AnnotatedText;

@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.commandline.CommandLineTools;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 

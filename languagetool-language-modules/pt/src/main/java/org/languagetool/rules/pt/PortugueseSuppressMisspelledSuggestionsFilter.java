@@ -20,7 +20,7 @@
 package org.languagetool.rules.pt;
 
 import java.io.IOException;
-import org.languagetool.language.BrazilianPortuguese;
+import org.languagetool.language.pt.BrazilianPortuguese;
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 public class PortugueseSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {

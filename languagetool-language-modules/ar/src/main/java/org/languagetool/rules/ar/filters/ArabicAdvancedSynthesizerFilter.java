@@ -20,7 +20,7 @@
 package org.languagetool.rules.ar.filters;
 
 
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;

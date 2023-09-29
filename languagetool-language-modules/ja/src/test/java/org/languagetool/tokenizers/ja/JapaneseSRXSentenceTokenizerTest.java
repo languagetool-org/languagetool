@@ -21,7 +21,7 @@ package org.languagetool.tokenizers.ja;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Japanese;
+import org.languagetool.language.ja.Japanese;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class JapaneseSRXSentenceTokenizerTest {

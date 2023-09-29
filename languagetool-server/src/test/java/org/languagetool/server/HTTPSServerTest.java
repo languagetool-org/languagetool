@@ -21,8 +21,8 @@ package org.languagetool.server;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.Language;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.German;
+import org.languagetool.language.de.GermanyGerman;
 
 import java.io.File;
 import java.io.IOException;

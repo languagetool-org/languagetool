@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.uk.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
 public class MorfologikUkrainianSpellerRuleTest {

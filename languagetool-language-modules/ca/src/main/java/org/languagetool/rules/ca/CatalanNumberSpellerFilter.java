@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.language.Catalan;
+import org.languagetool.language.ca.Catalan;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;

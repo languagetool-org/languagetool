@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 import java.io.IOException;

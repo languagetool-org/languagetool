@@ -152,17 +152,17 @@ public final class Languages {
 
   static boolean hasPremium(String className) {
     return className.matches("org\\.languagetool\\.language\\.(" +
-      "Portuguese|AngolaPortuguese|BrazilianPortuguese|MozambiquePortuguese|PortugalPortuguese|" +
-      "German|GermanyGerman|AustrianGerman|SwissGerman|" +
-      "Dutch|French|Spanish|" +
-      "English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish" +
+      "pt\\.Portuguese|pt\\.AngolaPortuguese|pt\\.BrazilianPortuguese|pt\\.MozambiquePortuguese|pt\\.PortugalPortuguese|" +
+      "de\\.German|de\\.GermanyGerman|de\\.AustrianGerman|de\\.SwissGerman|" +
+      "nl\\.Dutch|fr\\.French|es\\.Spanish|" +
+      "en\\.English|en\\.AustralianEnglish|en\\.AmericanEnglish|en\\.BritishEnglish|en\\.CanadianEnglish|en\\.NewZealandEnglish|en\\.SouthAfricanEnglish" +
       ")");
   }
 
   /**
    * Get the Language object for the given language class name or try to create it and add to dynamic languages.
    *
-   * @param className e.g. <code>org.languagetool.language.English</code>
+   * @param className e.g. <code>org.languagetool.language.en.English</code>
    * @return a Language object
    * @throws RuntimeException if language not found in classpath
    * @since 5.0

@@ -20,7 +20,7 @@ package org.languagetool.tokenizers;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Persian;
+import org.languagetool.language.fa.Persian;
 
 public class PersianSRXSentenceTokenizerTest {
 

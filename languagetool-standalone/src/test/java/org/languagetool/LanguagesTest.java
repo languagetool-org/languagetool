@@ -122,10 +122,10 @@ public class LanguagesTest {
 
   @Test
   public void testHasPremium() {
-    assertTrue(Languages.hasPremium("org.languagetool.language.Portuguese"));
-    assertTrue(Languages.hasPremium("org.languagetool.language.GermanyGerman"));
-    assertTrue(Languages.hasPremium("org.languagetool.language.AmericanEnglish"));
-    assertFalse(Languages.hasPremium("org.languagetool.language.Danish"));
+    assertTrue(Languages.hasPremium("org.languagetool.language.pt.Portuguese"));
+    assertTrue(Languages.hasPremium("org.languagetool.language.de.GermanyGerman"));
+    assertTrue(Languages.hasPremium("org.languagetool.language.en.AmericanEnglish"));
+    assertFalse(Languages.hasPremium("org.languagetool.language.da.Danish"));
   }
 
   @Test

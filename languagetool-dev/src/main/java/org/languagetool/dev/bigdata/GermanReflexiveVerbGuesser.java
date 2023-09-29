@@ -19,7 +19,7 @@
 package org.languagetool.dev.bigdata;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.synthesis.Synthesizer;
 

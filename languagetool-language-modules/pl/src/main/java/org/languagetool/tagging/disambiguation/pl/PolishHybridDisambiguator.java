@@ -21,7 +21,7 @@ package org.languagetool.tagging.disambiguation.pl;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;

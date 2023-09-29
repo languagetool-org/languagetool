@@ -21,7 +21,7 @@ package org.languagetool.tagging.ca;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Catalan;
+import org.languagetool.language.ca.Catalan;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 

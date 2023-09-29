@@ -20,7 +20,7 @@ package org.languagetool.dev.dumpcheck;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;

@@ -20,7 +20,7 @@ package org.languagetool.rules.ga;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Irish;
+import org.languagetool.language.ga.Irish;
 import org.languagetool.rules.PartialPosTagFilter;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;

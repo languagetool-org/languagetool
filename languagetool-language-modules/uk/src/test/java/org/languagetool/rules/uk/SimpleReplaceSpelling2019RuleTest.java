@@ -26,7 +26,7 @@ import java.io.IOException;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian1992;
+import org.languagetool.language.uk.Ukrainian1992;
 import org.languagetool.rules.RuleMatch;
 
 

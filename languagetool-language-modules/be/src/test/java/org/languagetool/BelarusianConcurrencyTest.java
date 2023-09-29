@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Belarusian;
+import org.languagetool.language.be.Belarusian;
 
 public class BelarusianConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

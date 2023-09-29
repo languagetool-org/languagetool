@@ -19,7 +19,7 @@
 package org.languagetool.dev;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.GermanSpellerRule;
 

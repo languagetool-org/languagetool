@@ -21,7 +21,7 @@ package org.languagetool.rules.km;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Khmer;
+import org.languagetool.language.km.Khmer;
 
 import java.io.IOException;
 

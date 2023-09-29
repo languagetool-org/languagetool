@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Asturian;
+import org.languagetool.language.ast.Asturian;
 
 public class AsturianConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

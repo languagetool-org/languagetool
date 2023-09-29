@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 

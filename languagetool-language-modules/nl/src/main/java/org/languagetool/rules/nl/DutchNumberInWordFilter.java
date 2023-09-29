@@ -19,7 +19,7 @@
 package org.languagetool.rules.nl;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;

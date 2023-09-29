@@ -25,7 +25,6 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.CharacterCodingException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +33,6 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
 import morfologik.speller.Speller;

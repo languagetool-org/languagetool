@@ -29,6 +29,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
+import org.languagetool.chunking.de.GermanChunker;
 
 public class GermanChunkerTest {
 

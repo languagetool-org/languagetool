@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.Catalan;
+
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;

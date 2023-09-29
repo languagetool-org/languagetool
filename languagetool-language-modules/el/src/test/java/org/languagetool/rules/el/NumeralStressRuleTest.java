@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Greek;
+import org.languagetool.language.el.Greek;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

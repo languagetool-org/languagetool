@@ -29,8 +29,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.*;
-import org.languagetool.chunking.GermanChunker;
-import org.languagetool.language.German;
+import org.languagetool.chunking.de.GermanChunker;
+import org.languagetool.language.de.German;
 import org.languagetool.rules.RuleMatch;
 
 public class SubjectVerbAgreementRuleTest {

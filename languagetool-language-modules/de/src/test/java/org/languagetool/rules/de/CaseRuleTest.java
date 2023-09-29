@@ -24,7 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.de.German;
 
 import java.io.IOException;
 

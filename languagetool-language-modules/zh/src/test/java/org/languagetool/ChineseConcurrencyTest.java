@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Chinese;
+import org.languagetool.language.zh.Chinese;
 
 public class ChineseConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

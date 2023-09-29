@@ -26,6 +26,7 @@ import java.util.List;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.language.fr.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.SentenceTokenizer;
 

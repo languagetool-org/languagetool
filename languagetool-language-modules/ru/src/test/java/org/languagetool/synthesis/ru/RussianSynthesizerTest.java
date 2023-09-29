@@ -21,7 +21,6 @@ package org.languagetool.synthesis.ru;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.Russian;
 
 import java.io.IOException;
 import java.util.Arrays;

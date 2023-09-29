@@ -22,7 +22,7 @@ package org.languagetool.tokenizers.fr;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 

@@ -21,6 +21,7 @@ package org.languagetool.synthesis;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.synthesis.de.GermanSynthesizer;
 
 import java.io.IOException;
 import java.util.Arrays;

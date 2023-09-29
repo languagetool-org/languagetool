@@ -20,7 +20,6 @@ package org.languagetool.synthesis.ro;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.Romanian;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -20,7 +20,7 @@ package org.languagetool.rules.it;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Italian;
+import org.languagetool.language.it.Italian;
 
 import java.io.IOException;
 import java.util.Arrays;

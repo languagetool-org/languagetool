@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.es;
 
-import org.languagetool.language.Spanish;
+import org.languagetool.language.es.Spanish;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;

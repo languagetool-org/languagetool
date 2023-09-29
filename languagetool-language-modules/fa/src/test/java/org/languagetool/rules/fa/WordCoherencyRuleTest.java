@@ -21,7 +21,7 @@ package org.languagetool.rules.fa;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Persian;
+import org.languagetool.language.fa.Persian;
 import org.languagetool.rules.TextLevelRule;
 import org.languagetool.rules.patterns.PatternRuleTest;
 

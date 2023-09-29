@@ -21,7 +21,7 @@ package org.languagetool.rules.sv;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Swedish;
+import org.languagetool.language.sv.Swedish;
 
 import java.io.IOException;
 

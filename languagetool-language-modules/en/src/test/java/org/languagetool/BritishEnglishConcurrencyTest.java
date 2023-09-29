@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.BritishEnglish;
+import org.languagetool.language.en.BritishEnglish;
 
 public class BritishEnglishConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

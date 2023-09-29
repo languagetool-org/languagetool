@@ -20,7 +20,7 @@ package org.languagetool.rules.be;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Belarusian;
+import org.languagetool.language.be.Belarusian;
 
 import java.io.IOException;
 import java.util.Arrays;

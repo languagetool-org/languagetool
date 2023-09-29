@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Greek;
+import org.languagetool.language.el.Greek;
 
 public class GreekConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

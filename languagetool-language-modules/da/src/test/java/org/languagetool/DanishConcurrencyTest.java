@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Danish;
+import org.languagetool.language.da.Danish;
 
 public class DanishConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

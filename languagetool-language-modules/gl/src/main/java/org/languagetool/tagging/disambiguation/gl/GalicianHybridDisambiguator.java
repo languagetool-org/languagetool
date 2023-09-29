@@ -22,7 +22,7 @@ package org.languagetool.tagging.disambiguation.gl;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.language.Galician;
+import org.languagetool.language.gl.Galician;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;

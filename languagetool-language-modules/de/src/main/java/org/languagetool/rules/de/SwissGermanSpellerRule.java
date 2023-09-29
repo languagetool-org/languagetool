@@ -19,7 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.UserConfig;
-import org.languagetool.language.German;
+import org.languagetool.language.de.German;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 

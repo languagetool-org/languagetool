@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
-import org.languagetool.language.Romanian;
+import org.languagetool.language.ro.Romanian;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;

@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.SimpleGerman;
+import org.languagetool.language.de_simple.SimpleGerman;
 
 import java.io.IOException;
 import java.util.Arrays;

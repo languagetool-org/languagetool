@@ -24,7 +24,7 @@ import org.apache.lucene.util.BytesRef;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.en.AmericanEnglish;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.File;

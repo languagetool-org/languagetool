@@ -22,8 +22,8 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.Catalan;
-import org.languagetool.language.ValencianCatalan;
+import org.languagetool.language.ca.Catalan;
+import org.languagetool.language.ca.ValencianCatalan;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 

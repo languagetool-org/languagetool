@@ -21,7 +21,7 @@ package org.languagetool.rules.ml;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Malayalam;
+import org.languagetool.language.ml.Malayalam;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

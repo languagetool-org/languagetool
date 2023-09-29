@@ -19,12 +19,8 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.BrazilianPortuguese;
-import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.BaseSynthesizer;
-import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 
 import java.util.Map;

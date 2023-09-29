@@ -19,7 +19,7 @@
 package org.languagetool.dev.bigdata;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.en.AmericanEnglish;
 import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 

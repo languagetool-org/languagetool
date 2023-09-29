@@ -25,7 +25,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
-import org.languagetool.language.German;
+import org.languagetool.language.de.German;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;

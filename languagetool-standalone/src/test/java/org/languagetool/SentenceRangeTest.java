@@ -22,8 +22,8 @@ package org.languagetool;
 
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.en.AmericanEnglish;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;

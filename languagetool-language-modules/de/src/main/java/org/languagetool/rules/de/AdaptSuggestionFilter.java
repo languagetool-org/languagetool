@@ -22,11 +22,11 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
+import org.languagetool.language.de.German;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestionFilter;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.de.GermanSynthesizer;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tools.StringTools;
 

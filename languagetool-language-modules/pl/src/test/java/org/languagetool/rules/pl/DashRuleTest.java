@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 

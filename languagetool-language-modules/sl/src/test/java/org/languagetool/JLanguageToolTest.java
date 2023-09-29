@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.Slovenian;
+import org.languagetool.language.sl.Slovenian;
 
 import java.io.IOException;
 

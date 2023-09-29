@@ -19,10 +19,10 @@
 package org.languagetool.rules.fr;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
-import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.synthesis.fr.FrenchSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 
 import java.util.Map;

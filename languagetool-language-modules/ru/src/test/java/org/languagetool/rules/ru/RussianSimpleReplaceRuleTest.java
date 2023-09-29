@@ -22,7 +22,7 @@ package org.languagetool.rules.ru;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Russian;
+import org.languagetool.language.ru.Russian;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

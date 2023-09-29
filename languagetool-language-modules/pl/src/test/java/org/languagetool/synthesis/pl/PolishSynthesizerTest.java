@@ -21,7 +21,6 @@ package org.languagetool.synthesis.pl;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.Polish;
 
 import java.io.IOException;
 import java.util.Arrays;

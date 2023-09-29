@@ -20,10 +20,9 @@ package org.languagetool.rules.pt;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.BrazilianPortuguese;
-import org.languagetool.language.PortugalPortuguese;
+import org.languagetool.language.pt.BrazilianPortuguese;
+import org.languagetool.language.pt.PortugalPortuguese;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 

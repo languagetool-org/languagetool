@@ -20,8 +20,8 @@ package org.languagetool.rules.pt;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.BrazilianPortuguese;
-import org.languagetool.language.PortugalPortuguese;
+import org.languagetool.language.pt.BrazilianPortuguese;
+import org.languagetool.language.pt.PortugalPortuguese;
 
 import java.io.IOException;
 import java.util.Arrays;

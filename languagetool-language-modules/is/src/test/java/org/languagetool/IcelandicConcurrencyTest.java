@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Icelandic;
+import org.languagetool.language.is.Icelandic;
 
 public class IcelandicConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

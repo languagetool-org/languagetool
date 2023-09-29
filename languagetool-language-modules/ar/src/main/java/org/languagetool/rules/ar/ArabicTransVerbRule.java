@@ -22,7 +22,7 @@ package org.languagetool.rules.ar;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;

@@ -21,7 +21,7 @@ package org.languagetool.rules.ru;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Russian;
+import org.languagetool.language.ru.Russian;
 
 import java.io.IOException;
 import java.util.Collections;

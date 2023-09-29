@@ -20,7 +20,7 @@ package org.languagetool.tokenizers.it;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Italian;
+import org.languagetool.language.it.Italian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class ItalianSRXSentenceTokenizerTest {

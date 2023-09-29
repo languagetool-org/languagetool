@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.BrazilianPortuguese;
+import org.languagetool.language.pt.BrazilianPortuguese;
 
 public class BrazilianPortugueseConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

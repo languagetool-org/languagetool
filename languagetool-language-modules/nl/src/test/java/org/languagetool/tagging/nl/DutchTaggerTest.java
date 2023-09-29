@@ -23,7 +23,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 

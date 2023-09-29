@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.ValencianCatalan;
+import org.languagetool.language.ca.ValencianCatalan;
 
 public class ValencianCatalanConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

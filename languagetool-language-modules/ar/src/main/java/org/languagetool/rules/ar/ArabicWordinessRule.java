@@ -19,7 +19,7 @@
  */
 package org.languagetool.rules.ar;
 
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;

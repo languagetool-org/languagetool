@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Tagalog;
+import org.languagetool.language.tl.Tagalog;
 
 public class TagalogConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

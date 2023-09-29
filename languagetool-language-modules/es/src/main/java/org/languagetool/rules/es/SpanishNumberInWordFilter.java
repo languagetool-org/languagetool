@@ -19,7 +19,7 @@
 package org.languagetool.rules.es;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Spanish;
+import org.languagetool.language.es.Spanish;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;

@@ -20,7 +20,7 @@ package org.languagetool.rules.ru;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Russian;
+import org.languagetool.language.ru.Russian;
 import org.languagetool.rules.PartialPosTagFilter;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;

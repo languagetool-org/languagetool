@@ -20,7 +20,7 @@ package org.languagetool.rules.sl;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Slovenian;
+import org.languagetool.language.sl.Slovenian;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -23,7 +23,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Swedish;
+import org.languagetool.language.sv.Swedish;
 import org.languagetool.tagging.sv.SwedishTagger;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Galician;
+import org.languagetool.language.gl.Galician;
 
 public class GalicianConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Esperanto;
+import org.languagetool.language.eo.Esperanto;
 
 public class EsperantoConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

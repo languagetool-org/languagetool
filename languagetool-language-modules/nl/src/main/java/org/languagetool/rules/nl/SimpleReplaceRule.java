@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 import org.languagetool.rules.*;
 
 /**

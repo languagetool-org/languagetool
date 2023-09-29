@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
