@@ -25,14 +25,14 @@ import edu.washington.cs.knowitall.regex.ExpressionFactory;
 /**
  * @since 2.9
  */
-final class TokenExpressionFactory extends ExpressionFactory<ChunkTaggedToken> {
+public final class TokenExpressionFactory extends ExpressionFactory<ChunkTaggedToken> {
 
   private final boolean caseSensitive;
 
   /**
    * @param caseSensitive whether word tokens should be compared case-sensitively - also used for regular expressions
    */
-  TokenExpressionFactory(boolean caseSensitive) {
+  public TokenExpressionFactory(boolean caseSensitive) {
     this.caseSensitive = caseSensitive;
   }
 
