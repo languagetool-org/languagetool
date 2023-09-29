@@ -26,7 +26,10 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MultitokenSpellerFilter extends RuleFilter {
 
@@ -34,6 +37,7 @@ public class MultitokenSpellerFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
+    boolean keepSpaces = getOptional("keepSpaces", arguments, "true").equalsIgnoreCase("true")? true: false;
     PatternRule pr = (PatternRule) match.getRule();
     SpellingCheckRule spellingRule = pr.getLanguage().getDefaultSpellingRule();
     AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[] {
@@ -44,7 +48,18 @@ public class MultitokenSpellerFilter extends RuleFilter {
     if (matches.length < 1 || matches[0].getSuggestedReplacements().isEmpty()) {
       return null;
     }
-    match.setSuggestedReplacements(matches[0].getSuggestedReplacements());
+    List<String> replacements = new ArrayList<>();
+    if (keepSpaces) {
+      // Only suggestions that contain a white space
+      replacements.addAll(matches[0].getSuggestedReplacements().stream()
+        .filter(str -> str.contains(" ")).collect(Collectors.toList()));
+    } else {
+      replacements.addAll(matches[0].getSuggestedReplacements());
+    }
+    if (replacements.isEmpty()) {
+      return null;
+    }
+    match.setSuggestedReplacements(replacements);
     return match;
   }
 }
