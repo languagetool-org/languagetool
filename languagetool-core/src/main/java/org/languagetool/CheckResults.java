@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,8 +37,13 @@ public class CheckResults {
   private final List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
 
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
+    this(ruleMatches, ignoredRanges, Collections.emptyList());
+  }
+
+  public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges, List<ExtendedSentenceRange> extendedSentenceRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
+    addExtendedSentenceRanges(extendedSentenceRanges);
   }
 
   public List<Range> getIgnoredRanges() {
@@ -52,10 +58,19 @@ public class CheckResults {
   public List<SentenceRange> getSentenceRanges() {
     return sentenceRanges;
   }
+
   public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
     this.sentenceRanges.addAll(sentenceRanges);
   }
-  
+
+  public List<ExtendedSentenceRange> getExtendedSentenceRanges() {
+    return extendedSentenceRanges;
+  }
+
+  public void addExtendedSentenceRanges(List<ExtendedSentenceRange> extendedSentenceRanges) {
+    this.extendedSentenceRanges.addAll(extendedSentenceRanges);
+  }
+
   public void setIgnoredRanges(List<Range> ignoredRanges) {
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
   }

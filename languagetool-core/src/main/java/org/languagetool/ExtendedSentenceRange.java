@@ -20,24 +20,23 @@
 
 package org.languagetool;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-public final class ExtendedSentenceRange extends SentenceRange {
-  
-  private final Map<String, Float> languageConfidenceRates = new TreeMap<>(); //languageCode;0-1 confidenceRate from LanguageDetectionService
-  private final Map<String, Float> sentenceScoring = new TreeMap<>(); //Style; 0-1 score from scoring model
-  
-    
-  ExtendedSentenceRange(int fromPos, int toPos) {
-    super(fromPos, toPos);
+public final class ExtendedSentenceRange {
+
+  private final SentenceRange sentenceRange;
+  private final Map<String, Float> languageConfidenceRates = new LinkedHashMap<>(); //languageCode;0-1 confidenceRate from LanguageDetectionService
+//  private final Map<String, Float> sentenceScoring = new LinkedHashMap<>(); //Style; 0-1 score from scoring model
+
+
+  ExtendedSentenceRange(SentenceRange sentenceRanges) {
+    this.sentenceRange = sentenceRanges;
   }
-  
+
   public void addLanguageConfidenceRate(String languageCode, Float confidenceRate) {
     this.languageConfidenceRates.put(languageCode, confidenceRate);
   }
-  
+
   public void addSentenceScoring(String style, Float score) {
     this.sentenceScoring.put(style, score);
   }

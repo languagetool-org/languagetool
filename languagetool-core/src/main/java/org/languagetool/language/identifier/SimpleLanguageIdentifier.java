@@ -20,7 +20,9 @@
 
 package org.languagetool.language.identifier;
 
+import io.vavr.Tuple2;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
@@ -165,6 +167,12 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
   @Override
   public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs) {
     return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp);
+  }
+
+  @NotNull
+  @Override
+  public List<DetectedLanguage> getDetectedLanguageScores(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs, int count) {
+    return Collections.emptyList();
   }
 
   @Nullable

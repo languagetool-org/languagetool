@@ -927,7 +927,11 @@ public class JLanguageTool {
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, toneTags, textSessionID, sentences, analyzedSentences);
-    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(annotatedText, sentences));
+
+
+    List<SentenceRange> sentenceRanges = SentenceRange.getRangesFromSentences(annotatedText, sentences);
+
+    checkResults.addSentenceRanges(sentenceRanges);
     return checkResults;
   }
 
@@ -2001,7 +2005,8 @@ public class JLanguageTool {
 
     private CheckResults getOtherRuleMatches(Set<ToneTag> toneTags) {
       List<RuleMatch> ruleMatches = new ArrayList<>();
-      List<Range> ignoreRanges = new ArrayList<>();
+//      List<Range> ignoreRanges = new ArrayList<>(); //TODO: remove later
+      List<SentenceRange> sentenceRanges = new ArrayList<>();
       int textWordCounter = sentences.stream().map(sentenceData -> sentenceData.wordCount).reduce(0, Integer::sum);
       int wordCounter = 0;
       float tmpErrorsPerWord = 0.0f;
@@ -2037,10 +2042,15 @@ public class JLanguageTool {
             }
             for (RuleMatch elem : sentenceMatches) {
               RuleMatch thisMatch = adjustRuleMatchPos(elem, sentence.startOffset, sentence.startColumn, sentence.startLine, sentence.text, annotatedText);
-              if (elem.getErrorLimitLang() != null) {
-                Range ignoreRange = new Range(sentence.startOffset, sentence.startOffset + sentence.text.length(), elem.getErrorLimitLang());
+              if (!elem.getNewLanguageMatches().isEmpty()) {
+                //TODO: remove after the addon is updated
+                Range ignoreRange = new Range(sentence.startOffset, sentence.startOffset + sentence.text.length(), elem.getNewLanguageMatches().entrySet().iterator().next().getKey());
                 if (!ignoreRanges.contains(ignoreRange)) {
                   ignoreRanges.add(ignoreRange);
+                }
+                SentenceRange sentenceRange = new SentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.length());
+                if (!sentenceRanges.contains(sentenceRange)) {
+                  sentenceRanges.add(sentenceRange);
                 }
               }
               ruleMatches.add(thisMatch);
