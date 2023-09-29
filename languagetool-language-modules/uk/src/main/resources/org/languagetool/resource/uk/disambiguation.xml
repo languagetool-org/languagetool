@@ -140,7 +140,8 @@
 
   <rule name="Знахідний для осіб лише після в/у" id="anim_v_zna_rare">
     <antipattern>
-      <token regexp="yes">[ву]</token> 
+      <token regexp="yes">[ву]|на|між|меж[іи]</token> 
+      <token regexp="yes" min="0">його|її|їх</token>
       <token postag_regexp="yes" postag="adj:p:v_zna:rinanim(?!.*pron).*" min="0" max="2">
         <exception postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
       </token>
@@ -155,6 +156,7 @@
     <example type="ambiguous"
         inputform="президенти[президент/noun:anim:p:v_kly,президент/noun:anim:p:v_naz,президент/noun:anim:p:v_zna:rare]"
         outputform="президенти[президент/noun:anim:p:v_kly,президент/noun:anim:p:v_naz]">Отакі <marker>президенти</marker>.</example>
+    <example type="untouched">Записався в його шанувальники.</example>
     <example type="untouched">Пішов в президенти.</example>
     <example type="untouched">кандидат в народні депутати.</example>
   </rule>
@@ -175,6 +177,21 @@
         outputform="точок[точка/noun:inanim:p:v_rod]">20 <marker>точок</marker>.</example>
   </rule>
 -->
+
+  <rule name="Ніж - conj" id="nizh_conj">
+    <pattern>
+      <token regexp="yes">менше?|більше?</token>
+      <token min="0">,</token>
+      <marker>
+        <token>ніж</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="conj:subord" />
+    <example type="ambiguous"
+        inputform="ніж[ніж/conj:subord,ніж/noun:inanim:m:v_naz,ніж/noun:inanim:m:v_zna]"
+        outputform="ніж[ніж/conj:subord]">менше <marker>ніж</marker> 1.</example>
+    <example type="untouched">сталевий ніж</example>
+  </rule>
 
   <rule name="Дуже і дужий" id="duzhe_adv">
     <antipattern>
@@ -4324,6 +4341,10 @@
   </rule>
 
   <rule name="присл і прикм с.р." id="adv_adj_n_krasche">
+    <antipattern>
+      <token postag_regexp="yes" postag="prep.*"/>
+      <token postag_regexp="yes" postag="adj.*" regexp="yes">.*краще</token>
+    </antipattern>
     <pattern>
       <marker>
         <and>
@@ -4339,6 +4360,7 @@
         outputform="найкраще[найкраще/adv:comps:&amp;predic]">І <marker>найкраще</marker> буде поїхати зараз.</example>
     <example type="untouched">найкраще село</example>
     <example type="untouched">краще національне життя</example>
+    <example type="untouched">за краще брати</example>
   </rule>
 
   <rule name="присл і прикм с.р." id="adv_adj_n_ranishe">

@@ -373,11 +373,11 @@ public class TokenAgreementNumrNounRule extends Rule {
             masterInflections.removeAll(pVnazZna);
             masterInflections.add(new Inflection("p", "v_rod", null));
           }
-          else if( numrToken.matches("((.+-)?(двоє|двох|троє|.+еро|.+ьох))|обидвоє|обидвох|обоє|обох") ) {
+          else if( numrToken.matches("((.+-)?(двоє|двох|троє|.+еро|.+ьох))|обидвоє|обидвох|обоє|обох|двійко") ) {
             masterInflections.removeAll(pVnazZna);
             masterInflections.add(new Inflection("p", "v_rod", null));
           }
-          else if( numrToken.matches("(не)?багато|(не|чи)?мало|с[тк]ільки(-то|сь)?|.+-скільки|кілько") ) {
+          else if( numrToken.matches("(не)?багато|багато-багато|(не|чи)?мало|с[тк]ільки(-то|сь)?|.+-скільки|кілько") ) {
             masterInflections.removeAll(pVnazZna);
             masterInflections.add(new Inflection("p", "v_rod", null));
             masterInflections.add(new Inflection("m", "v_rod", null));

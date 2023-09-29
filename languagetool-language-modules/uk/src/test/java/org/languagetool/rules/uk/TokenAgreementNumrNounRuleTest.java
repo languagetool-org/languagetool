@@ -88,6 +88,7 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     
 
     assertEmptyMatch("багато часу");
+    assertEmptyMatch("Минуло багато-багато часу");
     assertEmptyMatch("багато заліза");
     assertHasError("як багато білку", "багато білка", "багато білки", "багато білок", "багато білків");
 
@@ -367,7 +368,9 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEquals(0, rule.match(sent).length);
 
     readings.clear();
-    
+
+    readings.clear();
+
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("три", "numr:p:v_zna", "три"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("основні", "adj:p:v_zna:rinanim:compb", "основний"), 0));

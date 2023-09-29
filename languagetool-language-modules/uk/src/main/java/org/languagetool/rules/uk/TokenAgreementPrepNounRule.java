@@ -88,8 +88,8 @@ public class TokenAgreementPrepNounRule extends Rule {
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-
     AnalyzedTokenReadings prepTokenReadings = null;
+    
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
 
@@ -97,13 +97,13 @@ public class TokenAgreementPrepNounRule extends Rule {
       String thisToken = tokenReadings.getCleanToken();
 
       // через, м’яко кажучи, невеликої популярності
-      if( prepTokenReadings != null ) {
-        int insertEndPos = findInsertEnd(prepTokenReadings, tokens, i, false);
-        if( insertEndPos > 0 ) {
-          i=insertEndPos;
-          continue;
-        }
-      }
+//      if( prepTokenReadings != null ) {
+//        int insertEndPos = findInsertEnd(prepTokenReadings, tokens, i, false);
+//        if( insertEndPos > 0 ) {
+//          i=insertEndPos;
+//          continue;
+//        }
+//      }
 
       if (posTag == null
           || posTag.contains(IPOSTag.unknown.getText()) ){
@@ -167,13 +167,6 @@ public class TokenAgreementPrepNounRule extends Rule {
           continue;
         }
 
-        if( tokens.length > i+1
-            && (prep.equals("окрім") || prep.equals("крім"))
-            && tokens[i+1].getToken().equalsIgnoreCase("як") ) {
-          prepTokenReadings = null;
-          continue;
-        }
-        
         prepTokenReadings = tokenReadings;
         continue;
       }

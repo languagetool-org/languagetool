@@ -194,6 +194,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("тривав довгих десять раундів");
     
     assertEmptyMatch("лежали всю дорогу");
+    assertEmptyMatch("мріяли все життя");
     
     // v:n + inf
     assertEmptyMatch("сподобалося гуляти");

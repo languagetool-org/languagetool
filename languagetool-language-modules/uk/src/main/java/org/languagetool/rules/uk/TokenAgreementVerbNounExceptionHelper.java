@@ -52,7 +52,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
-    // сміялася всю дорого
+    // сміялася всю дорогу
     if( nounAdjPos < tokens.length-1
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("adj:f:v_zna.*"))
         && tokens[nounAdjPos+1].getCleanToken().equals("дорогу") ) {
