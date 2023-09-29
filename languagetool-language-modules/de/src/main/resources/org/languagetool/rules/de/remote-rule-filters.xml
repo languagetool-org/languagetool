@@ -1804,5 +1804,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD__PERIOD__PERIOD.*" name=""><!-- gGEC wants to remove the 3 dots and start the sentence with a capital letter-->
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no" case_sensitive="yes">[a-zäöü].+</token>
+                </pattern>
+                <example correction=""><marker>...mit</marker> der Zeit heilt der Schmerz.</example>
+                <example correction=""><marker>...und</marker> das doch wohl nur durch unseren lieben Außenminister!</example>
+            </rule>
+        </rulegroup>
+
     </category>
 </rules>
