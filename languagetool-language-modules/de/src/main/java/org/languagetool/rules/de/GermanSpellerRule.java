@@ -1648,8 +1648,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
     synthesizer = language.getSynthesizer();
-    loadFile("languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/words_infix_s.txt", wordsNeedingInfixS);
-    loadFile("languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/words_no_infix_s.txt", wordsWithoutInfixS);
+    loadFile("/de/words_infix_s.txt", wordsNeedingInfixS);
+    loadFile("/de/words_no_infix_s.txt", wordsWithoutInfixS);
   }
 
   private void loadFile(String fileInClasspath, Set<String> set) {
@@ -2644,7 +2644,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
     for (int i = idx; i < words.size(); i++) {
       String word = words.get(i);
-      if (!(word.endsWith("-") || StringUtils.equalsAny(word, ",", "/", "&", "und", "oder", "bzw.", "beziehungsweise", "sowie") || word.trim().isEmpty())) {
+      if (!(word.endsWith("-") || StringUtils.equalsAny(word, ",", "/", "&", "und", "oder", "bzw.", "beziehungsweise", "sowie", "statt")) || word.trim().isEmpty())) {
         return word;
       }
     }
