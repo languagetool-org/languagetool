@@ -3988,6 +3988,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
 
+            <antipattern>
+                <token postag='RM' postag_regexp='no'/>
+                <token>a</token> <!-- Disambiguator needs to be fixed. It has DA.+ instead of SPS00 -->
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token postag='SPS00|SPS00:DA..[SN].+' postag_regexp='yes'/>
+                <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+                <example>Ao nos referimos a conflitos militares, nomeadamente a situações de guerra.</example>
+            </antipattern>
+
             <!-- MARCOAGPINTO 2023-03-04 + 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
             <antipattern>
                 <token>home</token>
