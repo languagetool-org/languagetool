@@ -13544,6 +13544,42 @@ USA
         </rulegroup>
 
 
+        <rulegroup id='TORNAR_MELHOR_PIOR_MELHORAR_PIORAR' name="[Simplificar] Tornar melhor/pior → melhorar/simplificar" default="temp_off">
+            <!--IDEA shorten_it-->
+
+            <!-- #1: melhorar -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token postag='D[AD].+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token regexp="yes">melhor(es)?</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>melhorar</match> \2 \3</suggestion>
+                <example correction="melhora as coisas">Isto só <marker>torna as coisas melhores</marker>.</example>
+            </rule>
+
+            <!-- #2: piorar -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token postag='D[AD].+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token regexp="yes">pior(es)?</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>piorar</match> \2 \3</suggestion>
+                <example correction="piora as coisas">Isto só <marker>torna as coisas piores</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <!-- PARA QUE SAIBAM para saberem -->
         <rulegroup id='QUE_SUBJ_VS_INF_PESS' name="[Simplificar] Para que + Verbo → Para + Verbo " type='style'>
             <!--IDEA shorten_it-->
