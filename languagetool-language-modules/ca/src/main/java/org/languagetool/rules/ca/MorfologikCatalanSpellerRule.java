@@ -21,6 +21,7 @@ package org.languagetool.rules.ca;
 
 import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tools.StringTools;
@@ -35,6 +36,12 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
   private String dictFilename;
   private static final String SPELLING_FILE = "/ca/spelling.txt";
+
+  @Override
+  public List<String> getAdditionalSpellingFileNames() {
+    return Arrays.asList("/ca/"+SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,
+      "/ca/multiwords.txt");
+  }
 
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
