@@ -560,7 +560,6 @@ public class English extends Language implements AutoCloseable {
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
-      case "DT_NN_ARE_AME":             return -2;  // prefer other more specific rules
       case "CANT_JJ":                   return -2;  // prefer other more specific rules
       case "WOULD_A":                   return -2;  // prefer other more specific rules
       case "I_AM_VB":                   return -2;  // prefer other rules
@@ -596,6 +595,12 @@ public class English extends Language implements AutoCloseable {
       case "PRP_THE":                   return -12;  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)
       case "PRP_JJ":                    return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "SINGULAR_NOUN_VERB_AGREEMENT": return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
+      case "SINGULAR_AGREEMENT_SENT_START": return -12;    // prefer AI
+      case "SUBJECTVERBAGREEMENT_2": return -12;    // prefer AI
+      case "DT_NN_ARE_AME": return -12;    // prefer AI
+      case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
+      case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
+      case "SENT_START_PRPS_JJ_NN_VBP": return -12;  // prefer AI
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
