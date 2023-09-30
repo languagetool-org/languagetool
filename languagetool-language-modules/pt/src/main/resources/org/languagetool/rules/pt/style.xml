@@ -9865,6 +9865,53 @@ USA
         </rule>
 
 
+        <rulegroup id='SER_SIGNIFICATIVO' name="[Universitário][Científico] 'fazer toda a diferença' → 'ser significativo'" type="style" tone_tags="academic"  tags="picky" default="temp_off">
+
+            <!-- #1: é significativo -->
+            <rule>
+                <pattern>
+                    <token postag='VMN0.S.+' postag_regexp='yes' skip='-1'/>
+                    <marker>
+                        <token regexp='yes'>faz(em)?</token>
+                        <token>toda</token>
+                        <token>a</token>
+                        <token>diferença</token>
+                    </marker>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot;.</message>
+                <suggestion>é significativo</suggestion>
+                <example correction="é significativo">Acrescentar mais uma palavra <marker>faz toda a diferença</marker>.</example>
+                <example correction="é significativo">Acrescentar mais umas palavras <marker>fazem toda a diferença</marker>.</example>
+            </rule>
+
+            <!-- #2: são significativos, é/são significativa(s) -->
+            <rule>
+                <pattern>
+                    <token postag='DA.+' postag_regexp='yes' skip='-1'>
+                        <exception postag_regexp='yes' postag='VMN0.S.+'/>
+                    </token>
+                    <marker>
+                        <and>
+                            <token regexp='yes'>faz(em)?
+                                <exception scope='previous' postag_regexp='no' postag='CS'/> <!-- que -->
+                            </token>
+                            <token postag="VMIP3.+" postag_regexp='yes'/>
+                        </and>
+                        <token>toda</token>
+                        <token>a</token>
+                        <token>diferença</token>
+                    </marker>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot;.</message>
+                <suggestion><match no='1' postag='D.0.(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='D.0(..)0' postag_replace='AQ0$10'>significativo</match></suggestion>
+                <example correction="é significativa">A nova equação <marker>faz toda a diferença</marker>.</example>
+                <example correction="são significativas">As novas equações <marker>fazem toda a diferença</marker>.</example>
+                <example correction="são significativos">Os novos conceitos <marker>fazem toda a diferença</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <!-- NÃO SE PODE APAGAR é indelével -->
         <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="[Universitário][Científico] 'não se pode apagar' → 'é indelével'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
