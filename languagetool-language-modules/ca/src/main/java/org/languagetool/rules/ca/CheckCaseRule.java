@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ca;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -26,9 +27,12 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractCheckCaseRule;
 
+import static org.languagetool.JLanguageTool.getDataBroker;
+
 public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   private static final String FILE_NAME = "/ca/check_case.txt";
+  private static final String GLOBAL_SPELLING = "spelling_global.txt";
   private static final Locale CA_LOCALE = new Locale("ca");
   
   public CheckCaseRule(ResourceBundle messages, Language language) {
@@ -39,6 +43,11 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
   @Override
   public List<String> getFileNames() {
     return Arrays.asList(FILE_NAME);
+  }
+
+  @Override
+  public List<URL> getFilePaths() {
+    return Arrays.asList(getDataBroker().getFromResourceDirAsUrl(GLOBAL_SPELLING));
   }
 
   @Override
