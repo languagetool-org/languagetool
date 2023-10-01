@@ -164,7 +164,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
           } else {
             firstTokens = token.split(" ");
             firstToken = firstTokens[0];
-
             if (mStartSpace.containsKey(firstToken)) {
               if (mStartSpace.get(firstToken) < firstTokens.length) {
                 mStartSpace.put(firstToken, firstTokens.length);
@@ -206,9 +205,11 @@ public class MultiWordChunker extends AbstractDisambiguator {
       if (tok.length() < 1) {
         continue;
       }
-      // If the second token is not whitespace, concatenate it
-      if (i + 1 < anTokens.length && !anTokens[i + 1].isWhitespace()) {
-        tok = tok + output[i + 1].getToken();
+      // If the next token is not whitespace, concatenate it
+      int k = i + 1;
+      while (k < anTokens.length && !anTokens[k].isWhitespace()) {
+        tok = tok + output[k].getToken();
+        k++;
       }
 
       if (checkCanceled != null && checkCanceled.checkCancelled()) {
