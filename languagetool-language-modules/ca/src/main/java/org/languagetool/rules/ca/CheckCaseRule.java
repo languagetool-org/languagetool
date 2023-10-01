@@ -32,7 +32,6 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   private static final String FILE_NAME = "/ca/check_case.txt";
-  private static final String GLOBAL_SPELLING = "spelling_global.txt";
   private static final Locale CA_LOCALE = new Locale("ca");
   
   public CheckCaseRule(ResourceBundle messages, Language language) {
@@ -43,11 +42,6 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
   @Override
   public List<String> getFileNames() {
     return Arrays.asList(FILE_NAME);
-  }
-
-  @Override
-  public List<URL> getFilePaths() {
-    return Arrays.asList(getDataBroker().getFromResourceDirAsUrl(GLOBAL_SPELLING));
   }
 
   @Override
