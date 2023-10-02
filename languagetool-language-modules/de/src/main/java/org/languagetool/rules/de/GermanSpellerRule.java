@@ -2147,10 +2147,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // ends with some specific chars, which indicate the need for the infix-s.
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
     // Deals with two-part compounds only and could be extended.
-    List<String> parts = compoundTokenizer.tokenize(word.replaceFirst("\\.$", ""));
+    String wordNoDot = word.replaceFirst("\\.$", "");
+    List<String> parts = compoundTokenizer.tokenize(wordNoDot);
     boolean nonStrictMode = false;
     if (parts.size() == 1) {
-      parts = nonStrictCompoundTokenizer.tokenize(word.replaceFirst("\\.$", ""));
+      parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
       nonStrictMode = true;
     }
     String part1;
