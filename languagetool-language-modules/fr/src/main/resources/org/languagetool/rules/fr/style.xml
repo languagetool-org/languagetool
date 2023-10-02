@@ -21187,4 +21187,552 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="ainsi|alors|en conséquence|de ce fait">Le vin blanc est <marker>donc</marker> idéal pour accompagner les viandes blanches.</example>
         </rule>
     </category>
+    <category id="PONCTUATION_STYLE_OS" name="Ponctuation style OS">
+        <rulegroup id="PAS_DE_VIRGULE_STYLE" name="Pas de virgule style">
+            <rule tags="picky">
+                <antipattern>
+                    <token postag="[NJVA].*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token regexp="yes">-elles?|-je|-tu|-ils?|-on|-nous|-vous</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <example>Rosalie adore manger, et jeûner lui est une véritable torture.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="[NJVA].*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token>cette</token>
+                    <token>fois</token>
+                </antipattern>
+                <antipattern>
+                    <token>bien</token>
+                    <token>sûr</token>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="[DNJV].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>comme</token>
+                    <token>on</token>
+                    <token>dit</token>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="[DNJV].*" postag_regexp="yes"/>
+                    <example>Il est grand, comme on dit, et arrive à monter là-haut.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="[NJVA].*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="[DNJV].*" postag_regexp="yes" skip="-1"/>
+                    <token postag="M fin inte"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="[NJVA].*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="[DNJV].*" postag_regexp="yes" skip="-1"/>
+                    <token regexp="yes">et|ou|&amp;</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">,</token>
+                    <token regexp="yes" skip="-1">et|ou|ô|&amp;</token>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="[DNJV].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V.* inf" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* ppa.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V.* ppa.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 s" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V.* 3 s" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* 3 p" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="V.* 3 p" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token regexp="yes" case_sensitive="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token>vous</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.* 2 p" postag_regexp="yes"/>
+                    <example>Commencez tout de suite, ou vous serez en retard.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token regexp="yes" case_sensitive="yes">et|ou|&amp;</token>
+                    <token inflected="yes" min="0" max="1">ne</token>
+                    <token>nous</token>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.* 1 p" postag_regexp="yes"/>
+                    <example>Commencez tout de suite, ou nous serons en retard.</example>
+                </antipattern>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception postag="[NJ].*" postag_regexp="yes"/>
+                        <exception regexp="yes">[a-z]</exception></token>
+                    <token postag="A" min="0" max="3"/>
+                    <marker>
+                        <token>,</token>
+                        <token regexp="yes" case_sensitive="yes">et|ou|&amp;</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception regexp="yes">(?-i)[A-Z].*</exception>
+                        <exception postag="[NJ].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>La virgule est généralement omise.</message>
+                <suggestion> \4</suggestion>
+                <example correction=" et">Il faut respirer<marker>, et</marker> bouger.</example>
+            </rule>
+            <rule tags="picky">
+                <antipattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="P.*" postag_regexp="yes" skip="-1"/>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="3">,</token>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token>d'</token>
+                    <token regexp="yes">autres?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token>à</token>
+                    <token regexp="yes">moins|condition</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ça|cela|ceci</token>
+                    <token regexp="yes">dit|fait</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token>à</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="5">auquel|auxquels|auxquelles|duquel|desquels|desquelles|qui|que|qu'</token>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token postag="R pers obj.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="10">,</token>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token postag="R pers obj.*|A" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="V.* inf" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                        <exception regexp="yes">(?-i)[A-Z].*|authentique</exception>
+                        <exception postag="[NJ].*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="A" min="0" max="3">
+                        <exception>voire</exception></token>
+                    <token>,</token>
+                    <token postag="P.*" postag_regexp="yes">
+                        <exception regexp="yes">voilà|voici|vu|des|devant|derrière|après|avant|audit|passé|malgré|pendant|selon</exception></token>
+                </pattern>
+                <message>Cette virgule met en évidence la dernière partie de la phrase et peut être omise pour fluidifier la lecture.</message>
+                <suggestion>\1 \2 \4</suggestion>
+                <example correction="danse avec">Il <marker>danse, avec</marker> sa femme.</example>
+            </rule>
+            <rule tags="picky">
+                <pattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                        <exception postag="[JN].*" postag_regexp="yes"/>
+                    </token>
+                    <marker>
+                        <token>,</token>
+                        <token postag="A">
+                            <exception regexp="yes">en|par|non|outre|hier|sinon|oui|à|etc|ex|même|d'|sans|là|ici|ne|n'|voire|bien|soit</exception></token>
+                        <token>,</token>
+                    </marker>
+                </pattern>
+                <message>La virgule peut être omise.</message>
+                <suggestion> \3</suggestion>
+                <suggestion> \3,</suggestion>
+                <example correction=" notamment| notamment,">Il ne vient<marker>, notamment,</marker> le mardi.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>à</token>
+                    <token>savoir</token>
+                    <token skip="10">,</token>
+                    <token>,</token>
+                </antipattern>
+                <pattern>
+                    <token>à
+                        <exception scope="previous" postag="M nonfin|SENT_START|UNKNOWN" postag_regexp="yes"/>
+                        <exception scope="previous" regexp="yes">bon|choses?|trucs?</exception></token>
+                    <token>savoir</token>
+                    <token>,</token>
+                </pattern>
+                <message>La virgule peut être omise.</message>
+                <suggestion>à savoir</suggestion>
+                <example correction="à savoir">Il est important <marker>à savoir,</marker> crucial.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>très</token>
+                    <token>,</token>
+                    <token>trop</token>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>très</token>
+                    <token>,</token>
+                    <token>difficile</token>
+                    <token inflected="yes">de</token>
+                </antipattern>
+                <antipattern>
+                    <token>très</token>
+                    <token>,</token>
+                    <token regexp="yes">meilleures|sincères</token>
+                    <token>salutations</token>
+                </antipattern>
+                <antipattern>
+                    <token>mais</token>
+                    <token>pas</token>
+                    <token>trop</token>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="5" regexp="yes">[-,]</token>
+                    <token regexp="yes">parfois|desfois|pas</token>
+                    <token>trop</token>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>trop</token>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">plaire</token>
+                    <token>trop</token>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">très|trop|vraiment</token>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes">
+                        <exception regexp="yes">dit|plein|tiens|promis|désolée?s?|perso|quitte|roman|traduite?s?|chers?|chères?|sortie?s?|interpretée?s?</exception></token>
+                </pattern>
+                <message>La virgule peut être omise.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="très importants">Ils sont <marker>très, importants</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>si</token>
+                    <token>besoin</token>
+                    <token>est</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>il</token>
+                    <token>me</token>
+                    <token>semble</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>quoi</token>
+                    <token>qu'</token>
+                    <token>il</token>
+                    <token>en</token>
+                    <token>soit</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>ce</token>
+                    <token regexp="yes" skip="10">que|qu'|qui</token>
+                    <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|devenir|être|para[îi]tre|rester|sembler</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>qui</token>
+                    <token>plus</token>
+                    <token>est</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>quelque</token>
+                    <token postag="[NJ].*" postag_regexp="yes" min="0" max="1"/>
+                    <token inflected="yes" skip="3">que</token>
+                    <token regexp="yes">soit|soient</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="5"/>
+                    <token postag="V.* ind psim.*|V.* ind futu.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token>par</token>
+                    <example>Et finalement elle s'en fut, caressée par la fraîche brise matinale.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="20">,</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                    <token>par</token>
+                    <example>Et finalement elle s'en fut, caressée par la fraîche brise matinale.</example>
+                </antipattern>
+                <antipattern>
+                    <token>ça</token>
+                    <token>y</token>
+                    <token>est</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>qui</token>
+                    <token>que</token>
+                    <token>ce</token>
+                    <token>soit</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token>bon</token>
+                    <token>dieu</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|devenir|être|para[îi]tre|rester|sembler
+                        <exception regexp="yes">(?-i)[A-Z].*</exception>
+                        <exception postag="[NJ].*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="A" min="0" max="3">
+                        <exception regexp="yes">là|debout|loin|près|droite|gauche|soit|peu|ne|n'|juste|&jours_semaine;|en|par|de|à|fort|tout</exception></token>
+                    <token>,</token>
+                    <token postag="J.*" postag_regexp="yes">
+                        <exception regexp="yes">chers?|désolée?s?|accompagnée?s?|chères?|seule?s?|(?-i)[A-Z].*|traduit|tels?|telles?</exception></token>
+                </pattern>
+                <message>Cette virgule met en évidence la dernière partie de la phrase et peut être omise pour fluidifier la lecture.</message>
+                <suggestion>\1 \2 \4</suggestion>
+                <suggestion>\1 \2 : \4</suggestion>
+                <example correction="est beau|est : beau">Il <marker>est, beau</marker>.</example>
+            </rule>
+            <rule tags="picky">
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">devant|derrière|entre</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>loin</token>
+                    <token regexp="yes">devant|derrière|entre</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">,</token>
+                    <token regexp="yes">devant|derrière|entre|malgré</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">&mois_annee;|&jours_semaine;|&unites_temps;</token>
+                    <token>durant</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">faire</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>face</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>face</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>voilà</token>
+                    <token>,</token>
+                    <token regexp="yes">[mts]on|[mts]es|[mts]a</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* ppr" postag_regexp="yes"/>
+                    <token regexp="yes">avec|sans</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>avec</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes" skip="-1"/>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>même</token>
+                    <token regexp="yes">avec|sans</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>par</token>
+                    <token>contre</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="[NJ].*" postag_regexp="yes"/>
+                    <token>suivant</token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="P">
+                        <exception regexp="yes">après|avant|hors|vu|face|grâce|part|plein|revoilà|voici|voilà|courant|instar|audit|passé|attendu</exception>
+                    </token>
+                    <token>,</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette virgule est facultative.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="entre le">Il est <marker>entre, le</marker> 10 et le 20.</example>
+            </rule>
+            <rule tags="picky">
+                <antipattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="P.*" postag_regexp="yes" skip="-1"/>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="3">,</token>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token regexp="yes">aux?|des|du</token>
+                    <token regexp="yes">contraire|moins|plus|mieux|demeurant</token>
+                    <token><exception postag="[YK]|J.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">comme|que|qu'|qui</token>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token regexp="yes">aux?|des|du</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V.* (ind|con|sub).*" postag_regexp="yes">
+                        <exception regexp="yes">(?-i)[A-Z].*|authentique</exception>
+                        <exception postag="[NJ].*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="A" min="0" max="3"/>
+                    <token>,</token>
+                    <token regexp="yes">aux?|des|du</token>
+                </pattern>
+                <message>Cette virgule met en évidence la dernière partie de la phrase et peut être omise pour fluidifier la lecture.</message>
+                <suggestion>\1 \2 \4</suggestion>
+                <example correction="mange des">Il <marker>mange, des</marker> fruits.</example>
+            </rule>
+        </rulegroup>
+    </category>
+
 </rules>
