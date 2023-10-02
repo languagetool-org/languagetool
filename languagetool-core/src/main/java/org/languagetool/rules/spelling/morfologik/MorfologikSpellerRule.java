@@ -595,6 +595,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       for (String part : parts) {
           if (isMisspelled(part)) {
               List<String> partSuggestions = speller1.getSuggestions(part);
+              if (partSuggestions.size() == 0) {
+                  partSuggestions = speller2.getSuggestions(part);
+              }
               if (partSuggestions.size() > 0) {
                   String suggestion = getHyphenatedWordSuggestion(parts, i, partSuggestions.get(0));
                   topSuggestions.add(new SuggestedReplacement(suggestion));
