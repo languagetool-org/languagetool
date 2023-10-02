@@ -93,6 +93,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_TENSE" name="">
             <rule>
                 <pattern>
+                    <token chunk="B-NP-singular" />
+                    <token chunk="E-NP-singular" />
+                    <marker>
+                        <token>confirm</token>
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token postag="VB[DZ]" postag_regexp="yes" chunk="B-VP" />
+                </pattern>
+                <example correction="">The broker <marker>confirm</marker> indicates we sold the swap.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>.</token>
                     <token>.</token>
                     <token>.</token>
@@ -245,6 +257,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </pattern>
                     <example correction="">We did just <marker>see</marker> the film.</example>
                 </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_LECTOR_MISSING_DETERMINER_THE" name="">
+            <rule>  <!-- incorrect capitalization -->
+                <antipattern>
+                    <token>
+                        <exception postag="NNP" />
+                        <exception>FYI</exception>
+                    </token>
+                    <token postag="," />
+                    <token regexp="yes" case_sensitive="yes" postag="V.*" postag_regexp="yes">[A-Z][a-z]+</token>
+                </antipattern>
+                <pattern>
+                    <token postag="," />
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes" postag="V.*" postag_regexp="yes">[A-Z][a-z]+</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[a-z]+</token>
+                </pattern>
+                <example correction="">FYI, <marker>Attached</marker> document is a specification of the network design optimization program.</example>
+                <example correction="">Mike, <marker>Following</marker> request has been made for a number of people.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_MISSING_PUNCTUATION" name="">
             <rule>
