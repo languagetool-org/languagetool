@@ -62,6 +62,10 @@ public class WordRepeatBeginningRule extends TextLevelRule {
         || token.equals("—") || token.equals("⭐️") || token.equals("⚠️");
   }
 
+  public boolean isSentenceException(AnalyzedSentence sentence) {
+    return false;
+  }
+
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     String lastToken = "";
@@ -70,6 +74,10 @@ public class WordRepeatBeginningRule extends TextLevelRule {
     int pos = 0;
     AnalyzedSentence prevSentence = null;
     for (AnalyzedSentence sentence : sentences) {
+      if (isSentenceException(sentence)) {
+        prevSentence = null;
+        continue;
+      }
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       String token = "";
       if (tokens.length > 1) {
