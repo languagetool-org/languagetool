@@ -9865,7 +9865,7 @@ USA
         </rule>
 
 
-        <rulegroup id='SER_SIGNIFICATIVO' name="[Universitário][Científico] 'fazer toda a diferença' → 'ser significativo'" type="style" tone_tags="academic"  tags="picky">
+        <rulegroup id='SER_SIGNIFICATIVO' name="[Universitário][Científico] 'fazer toda a diferença' → 'ser significativo/expressivo'" type="style" tone_tags="academic" tags="picky">
 
             <!-- #1: é significativo -->
             <rule>
@@ -9878,10 +9878,11 @@ USA
                         <token>diferença</token>
                     </marker>
                 </pattern>
-                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot;.</message>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot; ou &quot;expressivo&quot;.</message>
                 <suggestion>é significativo</suggestion>
-                <example correction="é significativo">Acrescentar mais uma palavra <marker>faz toda a diferença</marker>.</example>
-                <example correction="é significativo">Acrescentar mais umas palavras <marker>fazem toda a diferença</marker>.</example>
+                <suggestion>é expressivo</suggestion>
+                <example correction="é significativo|é expressivo">Acrescentar mais uma palavra <marker>faz toda a diferença</marker>.</example>
+                <example correction="é significativo|é expressivo">Acrescentar mais umas palavras <marker>fazem toda a diferença</marker>.</example>
             </rule>
 
             <!-- #2: são significativos, é/são significativa(s) -->
@@ -9902,11 +9903,12 @@ USA
                         <token>diferença</token>
                     </marker>
                 </pattern>
-                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot;.</message>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot; ou &quot;expressivo&quot;.</message>
                 <suggestion><match no='1' postag='D.0.(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='D.0(..)0' postag_replace='AQ0$10'>significativo</match></suggestion>
-                <example correction="é significativa">A nova equação <marker>faz toda a diferença</marker>.</example>
-                <example correction="são significativas">As novas equações <marker>fazem toda a diferença</marker>.</example>
-                <example correction="são significativos">Os novos conceitos <marker>fazem toda a diferença</marker>.</example>
+                <suggestion><match no='1' postag='D.0.(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='D.0(..)0' postag_replace='AQ0$10'>expressivo</match></suggestion>
+                <example correction="é significativa|é expressiva">A nova equação <marker>faz toda a diferença</marker>.</example>
+                <example correction="são significativas|são expressivas">As novas equações <marker>fazem toda a diferença</marker>.</example>
+                <example correction="são significativos|são expressivos">Os novos conceitos <marker>fazem toda a diferença</marker>.</example>
             </rule>
 
         </rulegroup>
