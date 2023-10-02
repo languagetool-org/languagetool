@@ -29,6 +29,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY quote '["“”„]'>
     <!ENTITY hyphen "(?:[–\-—])">
+    <!ENTITY non_english '[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя]'>
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
@@ -3663,7 +3664,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>  <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">.*[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
                     </marker>
                 </pattern>
                 <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
@@ -3699,7 +3700,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule> <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">.*[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
                     </marker>
                 </pattern>
                 <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
@@ -3722,7 +3723,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule> <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">.*[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
                     </marker>
                 </pattern>
                 <example correction="">After serving six months, he escaped with the help of Abdullah <marker>Çatlı</marker>, second-in-command of the Grey Wolves, and fled to Bulgaria, which was a base of operations for the Turkish mafia.</example>
@@ -3732,7 +3733,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule> <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">.*[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
                     </marker>
                 </pattern>
                 <example correction="">On 1 February 1979, in Istanbul, under orders from the Grey Wolves, he murdered Abdi <marker>İpekçi</marker>, editor of the major Turkish newspaper Milliyet.</example>
@@ -3752,7 +3753,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule> <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">.*[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
                         <token />
                         <token />
                         <token />
