@@ -83,6 +83,13 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertHasError("сиплять дуст");
     assertHasError("Охочих навчитися цьому ремеслу");
     assertHasError("поступилася португальці");
+    
+    // complicated case with понад
+//    assertHasError("зайнявся понад двісті справ");
+//    assertEmptyMatch("сидять понад міру");
+//    assertEmptyMatch("тягнуться понад воду");
+//    assertEmptyMatch("прибуло понад мільйон");
+    
     //TODO:
 //    assertHasError("планується провесні церемонію");
 //    assertHasError("Відчувається, що тримаєте рук на пульсі часу");

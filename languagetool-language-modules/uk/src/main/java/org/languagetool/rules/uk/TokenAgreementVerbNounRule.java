@@ -169,6 +169,11 @@ public class TokenAgreementVerbNounRule extends Rule {
         continue;
       }
 
+      // понад - very complicated
+      // зайнявся понад тисячу справ
+//      if( tokens[i].getCleanToken().equals("понад") )
+//        continue;
+
       if( isSkip(tokens, i) ) {
 //        i++;
         state = null;

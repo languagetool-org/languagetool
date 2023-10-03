@@ -159,6 +159,7 @@ public class TokenAgreementPrepNounRule extends Rule {
           continue;
         }
 
+        // з понад тисячі
         if( prep.equals("понад") )
           continue;
 
