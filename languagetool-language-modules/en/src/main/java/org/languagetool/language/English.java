@@ -601,6 +601,7 @@ public class English extends Language implements AutoCloseable {
       case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
       case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
       case "SENT_START_PRPS_JJ_NN_VBP": return -12;  // prefer AI
+      case "SINGULAR_NOUN_ADV_AGREEMENT": return -12;  // prefer AI
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO

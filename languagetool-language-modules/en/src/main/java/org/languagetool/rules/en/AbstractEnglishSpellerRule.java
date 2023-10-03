@@ -713,6 +713,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Repetions", Arrays.asList("Repetitions"));
     s.put("rom", Arrays.asList("room"));
     s.put("th", Arrays.asList("the"));
+    s.put("transman", Arrays.asList("trans man"));
+    s.put("Transman", Arrays.asList("Trans man"));
+    s.put("transmen", Arrays.asList("trans men"));
+    s.put("Transmen", Arrays.asList("Trans men"));
+    s.put("transwoman", Arrays.asList("trans woman"));
+    s.put("Transwoman", Arrays.asList("Trans woman"));
+    s.put("transwomen", Arrays.asList("trans women"));
+    s.put("Transwomen", Arrays.asList("Trans women"));
     s.put("litterly ", Arrays.asList("literally"));
     s.put("Litterly ", Arrays.asList("Literally"));
     s.put("abt", Arrays.asList("about"));
