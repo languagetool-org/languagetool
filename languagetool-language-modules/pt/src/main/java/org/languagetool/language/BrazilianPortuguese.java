@@ -57,10 +57,4 @@ public class BrazilianPortuguese extends Portuguese {
     return new String[]{"BR"};
   }
 
-  @Nullable
-  @Override
-  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) {
-    return new HunspellRule(messages, this, null, null);
-  }
-
 }

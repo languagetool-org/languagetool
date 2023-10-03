@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
@@ -102,6 +103,12 @@ public class Portuguese extends Language implements AutoCloseable {
     return new SRXSentenceTokenizer(this);
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikPortugueseSpellerRule(messages, this, null, null);
+  }
+
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
@@ -111,7 +118,8 @@ public class Portuguese extends Language implements AutoCloseable {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
-            new HunspellRule(messages, this, userConfig, altLanguages),
+            new MorfologikPortugueseSpellerRule(messages, this, userConfig, altLanguages),
+            //new HunspellRule(messages, this, userConfig, altLanguages),
             new LongSentenceRule(messages, userConfig, 50),
             new LongParagraphRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,
