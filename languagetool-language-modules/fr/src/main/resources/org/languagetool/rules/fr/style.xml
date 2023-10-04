@@ -1787,6 +1787,15 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="avance">C'est <marker>avance vers l'avant</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="R.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">défense|aider|secourir|aides?|secours?|soutiens?|soutenir|appuyer|collaborer|coopérer|protéger|assistance|appui|collaboration|coopération|protection|renfort|secours|soutien|concours|connivence|appoint|main-forte</token>
+                    <token postag="A" min="0" max="3"/>
+                    <token skip="2">et</token>
+                    <token inflected="yes" regexp="yes">défense|aider|secourir|aides?|secours?|soutiens?|soutenir|appuyer|collaborer|coopérer|protéger|assistance|appui|collaboration|coopération|protection|renfort|secours|soutien|concours|connivence|appoint|main-forte</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <example>Pour nous protéger et protéger nos collègues.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token inflected="yes" regexp="yes">défense|aider|secourir|aides?|secours?|soutiens?|soutenir|appuyer|collaborer|coopérer|protéger|assistance|appui|collaboration|coopération|protection|renfort|secours|soutien|concours|connivence|appoint|main-forte</token>
