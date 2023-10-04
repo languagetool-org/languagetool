@@ -60,6 +60,8 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände."));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
@@ -85,7 +87,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsnach"));  // second part not a noun
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."));
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));  // 3 parts not yet supported
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstestnachweis"));  // 4 or more parts not yet supported
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistung"));  // not a compound
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungs"));  // not a compound
     assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt

@@ -2171,8 +2171,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       part1 = parts.get(0) + "s";
       part2 = lowercaseFirstChar(parts.get(2));
       hasInfixS = true;
+    } else if (parts.size() == 3 && !word.contains("-")) {
+      // e.g. Hundefutterschachtel = Hunde, Futter, Schachtel
+      part1 = parts.get(0);
+      part2 = parts.get(1);
+      String compound1 = parts.get(0) + parts.get(1);
+      String compound1noS = compound1.replaceFirst("s$", "");
+      String compound2 = uppercaseFirstChar(parts.get(1)) + parts.get(2);
+      boolean compound1ok =
+        !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
+        !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
+      boolean compound2ok =
+        !isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2);
+      return compound1ok && compound2ok;
     } else {
-      // more than two parts can be supported later
+      // more than three parts can be supported later
       return false;
     }
     if (word.contains("-" + part2)) {
