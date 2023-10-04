@@ -271,7 +271,6 @@ public class Catalan extends Language {
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
-      case "CA_MULTITOKEN_SPELLING": return -95;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
@@ -282,6 +281,9 @@ public class Catalan extends Language {
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
       case "ELA_GEMINADA_WIKI": return -200;
+    }
+    if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
+      return -95;
     }
     if (id.startsWith("CA_SIMPLE_REPLACE_MULTIWORDS")) {
       return 70;
