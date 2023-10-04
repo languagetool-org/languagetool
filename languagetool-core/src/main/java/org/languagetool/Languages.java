@@ -153,9 +153,13 @@ public final class Languages {
   static boolean hasPremium(String className) {
     return className.matches("org\\.languagetool\\.language\\.(" +
       "pt\\.Portuguese|pt\\.AngolaPortuguese|pt\\.BrazilianPortuguese|pt\\.MozambiquePortuguese|pt\\.PortugalPortuguese|" +
+      "Portuguese|AngolaPortuguese|BrazilianPortuguese|MozambiquePortuguese|PortugalPortuguese|" +
       "de\\.German|de\\.GermanyGerman|de\\.AustrianGerman|de\\.SwissGerman|" +
+      "German|GermanyGerman|AustrianGerman|SwissGerman|" +
       "nl\\.Dutch|fr\\.French|es\\.Spanish|" +
+      "Dutch|French|Spanish|" +
       "en\\.English|en\\.AustralianEnglish|en\\.AmericanEnglish|en\\.BritishEnglish|en\\.CanadianEnglish|en\\.NewZealandEnglish|en\\.SouthAfricanEnglish" +
+      "English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish" +
       ")");
   }
 
