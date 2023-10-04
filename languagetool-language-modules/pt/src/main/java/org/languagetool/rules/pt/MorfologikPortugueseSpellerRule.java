@@ -33,6 +33,6 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       language = language.getDefaultLanguageVariant();
     }
     this.language = language;
-    this.dictFilename = "/pt/hunspell/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    this.dictFilename = "/pt/spelling/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 }
