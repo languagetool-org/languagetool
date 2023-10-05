@@ -874,6 +874,203 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>réellement</suggestion>
             <example correction="complètement|réellement">C'est <marker>totalement</marker> inhabituel.</example>
         </rule>
+        <rulegroup id="QUESTION_REGISTRE_SOUTENU" name="question registre soutenu" tags="picky" tone_tags="formal">
+            <rule>
+                <antipattern>
+                    <token>qu'</token>
+                    <token>est</token>
+                    <token>-ce</token>
+                    <token regexp="yes">qu'|que</token>
+                    <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">[aâeéèêioôœuy].*</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aâeéèêioôœuy]</token>
+                </antipattern>
+                <antipattern>
+                    <token>qu'</token>
+                    <token>est</token>
+                    <token>-ce</token>
+                    <token regexp="yes">qu'|que</token>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>en</token>
+                    <token>train</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">branler|foutre|ficher|raconter|venir|chipoter|fabriquer|mijoter</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>qu'</token>
+                        <token>est</token>
+                        <token>-ce</token>
+                        <token regexp="yes">qu'|que</token>
+                        <token postag="R pers suj.*" postag_regexp="yes">
+                            <exception postag="R pers suj 1 s"/></token>
+                        <token postag="V.*" postag_regexp="yes" skip="-1">
+                            <exception scope="next" regexp="yes">cet?|cette|ces</exception>
+                            <exception regexp="yes">[aâeéèêioôœuy].*|&H_ASPIRE;</exception></token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+                <suggestion>que \6-\5</suggestion>
+                <example correction="Que fait-il"><marker>Qu'est-ce qu'il fait</marker> ?</example>
+                <example><marker>Qu'est-ce qu'il mange</marker> ?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>qu'</token>
+                    <token>est</token>
+                    <token>-ce</token>
+                    <token regexp="yes">qu'|que</token>
+                    <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">[aâeéèêioôœuy].*</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.*[aâeéèêioôœuy]</token>
+                </antipattern>
+                <antipattern>
+                    <token>qu'</token>
+                    <token>est</token>
+                    <token>-ce</token>
+                    <token regexp="yes">qu'|que</token>
+                    <token postag="R pers suj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">[aâeéèêioôœuy].*|&H_ASPIRE;</token>
+                    <token regexp="yes">[mts]on|[mts]a|[mts]es|notre|votre|bien</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>qu'</token>
+                        <token>est</token>
+                        <token>-ce</token>
+                        <token regexp="yes">qu'|que</token>
+                        <token postag="R pers suj.*" postag_regexp="yes">
+                            <exception postag="R pers suj 1 s"/></token>
+                        <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">[aâeéèêioôœuy].*|&H_ASPIRE;
+                            <exception scope="next" regexp="yes">cet?|cette|ces</exception>
+                            <exception inflected="yes">foutre</exception>
+                            <exception scope="next" inflected="yes">foutre</exception></token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+                <suggestion>qu'\6-\5</suggestion>
+                <example correction="Qu'ajoutons-nous"><marker>Qu'est-ce que nous ajoutons</marker> ?</example>
+                <example><marker>Qu'est-ce qu'elle a</marker> ?</example>
+                <example><marker>Qu'est-ce que j'aime</marker> ?</example>
+                <example><marker>Qu’est-ce que tu as</marker> foutu ?</example>
+                <example><marker>Qu'est-ce qu'il a</marker> ce bébé là ?</example>
+                <example><marker>Qu'est-ce qu'il aime</marker>, votre père ?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>qu'</token>
+                    <token>est</token>
+                    <token>-ce</token>
+                    <token regexp="yes">qu'|que</token>
+                    <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">[aâeéèêioôœuy].*</token>
+                    <token postag="R pers obj.*" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">.*[aâeéèêioôœuy]</token>
+                    <token postag="M fin inte"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>qu'</token>
+                        <token>est</token>
+                        <token>-ce</token>
+                        <token regexp="yes">qu'|que</token>
+                        <token postag="R pers suj.*" postag_regexp="yes">
+                            <exception postag="R pers suj 1 s"/></token>
+                        <token postag="R pers obj.*" postag_regexp="yes">
+                            <exception regexp="yes">t'|s'|m'|en|y</exception></token>
+                        <token postag="V.*" postag_regexp="yes" skip="-1">
+                            <exception scope="next" regexp="yes">cet?|cette|ces</exception></token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+                <suggestion>que \6 \7-\5</suggestion>
+                <example correction="Que lui fait-il"><marker>Qu'est-ce qu'il lui fait</marker> ?</example>
+                <example><marker>Qu'est-ce que j'en retire</marker> ?</example>
+                <example><marker>Qu'est-ce qu'il se passe</marker> ?</example>
+                <example><marker>Qu'est-ce qu'elle t'apporte</marker> ?</example>
+                <example><marker>Qu'est-ce qu'on nous a</marker> dit ?</example>
+                <example><marker>Qu'est-ce que tu y trouves</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>qu'</token>
+                        <token>est</token>
+                        <token>-ce</token>
+                        <token regexp="yes">qu'|que</token>
+                        <token postag="R pers suj.*" postag_regexp="yes">
+                            <exception postag="R pers suj 1 s"/></token>
+                        <token regexp="yes">en|y</token>
+                        <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+                <suggestion>qu'\6 \7-\5</suggestion>
+                <example correction="Qu'en fait-il"><marker>Qu'est-ce qu'il en fait</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>qu'</token>
+                        <token>est</token>
+                        <token>-ce</token>
+                        <token regexp="yes">qu'|que</token>
+                        <token postag="R pers suj.*" postag_regexp="yes">
+                            <exception postag="R pers suj 1 s"/></token>
+                        <token regexp="yes">t'|s'|m'</token>
+                        <token postag="V.*" postag_regexp="yes" skip="-1">
+                            <exception scope="next" regexp="yes">cet?|cette|ces</exception></token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+                <suggestion>que \6\7-\5</suggestion>
+                <example correction="Que t'apporte-elle"><marker>Qu'est-ce qu'elle t'apporte</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>qu'</token>
+                        <token>est</token>
+                        <token>-ce</token>
+                        <token regexp="yes">qu'|que</token>
+                        <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">[aâeéèêioôœuy].*
+                            <exception postag="R pers suj 1 s"/></token>
+                        <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">.*[aâeéèêioôœuy]$
+                            <exception scope="next" regexp="yes">cet?|cette|ces</exception></token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+                <suggestion>qu'\6-t-\5</suggestion>
+                <example correction="Qu'a-t-on"><marker>Qu'est-ce qu'on a</marker> dit ?</example>
+                <example><marker>Qu'est-ce que tu y trouves</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>qu'</token>
+                        <token>est</token>
+                        <token>-ce</token>
+                        <token regexp="yes">qu'|que</token>
+                        <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">[aâeéèêioôœuy].*
+                            <exception postag="R pers suj 1 s"/></token>
+                        <token postag="R pers obj.*" postag_regexp="yes" min="0" max="1">
+                            <exception regexp="yes">t'|s'|m'|en|y</exception></token>
+                        <token postag="V.*" postag_regexp="yes" skip="-1" regexp="yes">.*[aâeéèêioôœuy]$
+                            <exception scope="next" regexp="yes">cet?|cette|ces</exception></token>
+                    </marker>
+                    <token postag="M fin inte"/>
+                </pattern>
+                <message>Dans le registre de langue soutenu, une inversion entre le sujet et le verbe peut être privilégiée.</message>
+                <suggestion>que \6 \7-t-\5</suggestion>
+                <example correction="Que nous a-t-on"><marker>Qu'est-ce qu'on nous a</marker> dit ?</example>
+                <example><marker>Qu'est-ce que tu y trouves</marker> ?</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style" tone_tags="clarity">
         <!--The following rules were created by Hugo Voisard
