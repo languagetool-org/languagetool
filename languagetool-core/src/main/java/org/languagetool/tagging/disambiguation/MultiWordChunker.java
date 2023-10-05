@@ -59,6 +59,10 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private String separator;
   private String defaultTag = null;
 
+  private boolean addIgnoreSpeelling = false;
+
+  public static String tagForNotAddingTags = "_NONE_";
+
   /**
    * @param filename file text with multiwords and tags
    */
@@ -226,12 +230,21 @@ public class MultiWordChunker extends AbstractDisambiguator {
           if (!anTokens[j].isWhitespace()) {
             tokens.append(anTokens[j].getToken());
             String toks = tokens.toString();
-            if (mFull.containsKey(toks)) {
+            if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
               if (finalLen == 0) { // the key has only one token
                 output[i] = setAndAnnotate(output[i], new AnalyzedToken(toks, mFull.get(toks).getPOSTag(), mFull.get(toks).getLemma()));
               } else {
                 output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
                 output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
+              }
+            }
+            if (mFull.containsKey(toks) && addIgnoreSpeelling) {
+              if (finalLen == 0) {
+                output[i].ignoreSpelling();
+              } else {
+                for (int m = i; m <= finalLen; m++) {
+                  output[m].ignoreSpelling();
+                }
               }
             }
           } else {
@@ -252,9 +265,14 @@ public class MultiWordChunker extends AbstractDisambiguator {
         while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
           tokens.append(anTokens[j].getToken());
           String toks = tokens.toString();
-          if (mFull.containsKey(toks)) {
+          if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
             output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
             output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
+          }
+          if (mFull.containsKey(toks) && addIgnoreSpeelling) {
+            for (int m = i; m <= j; m++) {
+              output[m].ignoreSpelling();
+            }
           }
           j++;
         }
@@ -302,6 +320,11 @@ public class MultiWordChunker extends AbstractDisambiguator {
       throw new RuntimeException(e);
     }
     return lines;
+  }
+
+  /* set the ignorespelling attribute for the multi-token phrases*/
+  public void setIgnoreSpelling(boolean ignoreSpeelling) {
+    addIgnoreSpeelling = ignoreSpeelling;
   }
 
 }
