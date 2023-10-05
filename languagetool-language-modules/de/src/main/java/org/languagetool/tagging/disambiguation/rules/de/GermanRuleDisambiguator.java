@@ -25,6 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 import java.io.IOException;
@@ -33,8 +34,12 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
   
   private final Disambiguator disambiguator;
 
+  private final MultiWordChunker multitokenSpeller = new MultiWordChunker(
+    "/de/multitoken-spelling.txt", false, false, MultiWordChunker.tagForNotAddingTags);
+
   public GermanRuleDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
+    multitokenSpeller.setIgnoreSpelling(true);
   }
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
@@ -44,6 +49,6 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(input, checkCanceled);
+    return disambiguator.disambiguate(multitokenSpeller.disambiguate(input), checkCanceled);
   }
 }
