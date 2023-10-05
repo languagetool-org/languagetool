@@ -570,7 +570,7 @@ public class German extends Language implements AutoCloseable {
         }
       }
 
-      Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J_HRIG|" +
+      Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|" +
         "AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
       if (pattern.matcher(id).find()) {
         return -1;
