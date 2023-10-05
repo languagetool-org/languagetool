@@ -59,7 +59,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private String separator;
   private String defaultTag = null;
 
-  private boolean addIgnoreSpeelling = false;
+  private boolean addIgnoreSpelling = false;
 
   public static String tagForNotAddingTags = "_NONE_";
 
@@ -238,7 +238,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
                 output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
               }
             }
-            if (mFull.containsKey(toks) && addIgnoreSpeelling) {
+            if (mFull.containsKey(toks) && addIgnoreSpelling) {
               if (finalLen == 0) {
                 output[i].ignoreSpelling();
               } else {
@@ -269,7 +269,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
             output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
             output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
           }
-          if (mFull.containsKey(toks) && addIgnoreSpeelling) {
+          if (mFull.containsKey(toks) && addIgnoreSpelling) {
             for (int m = i; m <= j; m++) {
               output[m].ignoreSpelling();
             }
@@ -324,7 +324,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   /* set the ignorespelling attribute for the multi-token phrases*/
   public void setIgnoreSpelling(boolean ignoreSpeelling) {
-    addIgnoreSpeelling = ignoreSpeelling;
+    addIgnoreSpelling = ignoreSpeelling;
   }
 
 }
