@@ -3599,6 +3599,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Hinterweltlers": return topMatch("Hinterwäldlers");
       case "Hinterweltlern": return topMatch("Hinterwäldlern");
       case "erstrecht": return topMatch("erst recht");
+      case "klangheimlich": return topMatch("klammheimlich");
+      case "klangheimliche": return topMatch("klammheimliche");
+      case "klangheimlicher": return topMatch("klammheimlicher");
+      case "klangheimliches": return topMatch("klammheimliches");
+      case "klangheimlichen": return topMatch("klammheimlichen");
+      case "klangheimlichem": return topMatch("klammheimlichem");
     }
     return Collections.emptyList();
   }
