@@ -43,6 +43,7 @@ import org.languagetool.tools.Tools;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
@@ -541,6 +542,43 @@ public class German extends Language implements AutoCloseable {
       if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD") {
         // less prio than spell checker
         return -4;
+      }
+      if (id.startsWith("AI_DE_GGEC_UNNECESSARY_PUNCTUATION")) {
+        // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
+        return -2;
+      }
+
+      // gGEC IDs that should have less prio than rules with default prio
+      // e. g. ABKUERZUNG_FEHLENDE_PUNKTE
+      String[] ggecIds = {
+        "AI_DE_GGEC_REPLACEMENT_ADJECTIVE",
+        "AI_DE_GGEC_REPLACEMENT_ADVERB",
+        "AI_DE_GGEC_REPLACEMENT_NOUN",
+        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE",
+        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL",
+        "AI_DE_GGEC_REPLACEMENT_OTHER",
+        "AI_DE_GGEC_REPLACEMENT_VERB",
+        "AI_DE_GGEC_REPLACEMENT_VERB_FORM",
+        "AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE",
+        "AI_DE_GGEC_UNNECESSARY_OTHER",
+        "AI_DE_GGEC_UNNECESSARY_SPACE"
+      };
+
+      for (String gId: ggecIds) {
+        if (id == gId) {
+          return -1;
+        }
+      }
+
+      Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|" +
+        "AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
+      if (pattern.matcher(id).find()) {
+        return -1;
+      }
+
+      if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL") {
+        // less prio than EMAIL
+        return 0;
       }
       return 1;
     }
