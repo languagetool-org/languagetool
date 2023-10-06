@@ -24278,7 +24278,59 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
 		<rulegroup id="LOSSE_AANHALING" name="Los aanhalingsteken" type="typographical" default="temp_off">
-			<!-- Todo: another rule for opening apostrophes -->
+			<!-- opening apostrophes -->
+			<rule>
+			    <antipattern>
+			        <token>'</token>
+			        <token spacebefore="no" regexp="yes">[a-z]</token>
+			        <example>Theater 't Fonteintje</example>
+			    </antipattern>
+				<antipattern>
+				    <token skip="-1">'</token>
+					<token regexp="yes">['‘’]</token>
+					<example>Er zijn sporters die kunnen leven van hun 'bekendheid’ na het sporten.</example>
+				</antipattern>
+				<antipattern>
+				    <token>'</token>
+				    <token postag="UNKNOWN" spacebefore="no"/>
+				    <example>Wenselijkheid gebruik 'hover'-links</example>
+				</antipattern>
+				<antipattern>
+				    <token>'</token>
+				    <token min="0" spacebefore="no"/>
+				    <token postag="UNKNOWN"/>
+				    <example>Een hoog 'nou en'-gehalte.</example>
+				</antipattern>
+				<antipattern>
+				    <token>'</token>
+				    <token spacebefore="no" regexp="yes">[0-9]{2}(-.*|s)?</token>
+				    <example>Dat gebeurde in '45.</example>
+				</antipattern>
+				<antipattern>
+				    <token>'</token>
+				    <token spacebefore="no" regexp="yes" postag_regexp="yes" postag="UNKNOWN|ENM.*">[a-z]{1,2}</token>
+				    <example>We speelden Texas Hold 'em.</example>
+				</antipattern>
+				<antipattern>
+				    <token>'</token>
+				    <token spacebefore="no" regexp="yes">s-.*</token>
+				    <example>Groeten uit 's-Hertogenbosch!</example>
+				</antipattern>
+				<antipattern>
+				    <token>'</token>
+				    <token regexp="yes">.*ie|es|cha</token>
+				</antipattern>
+                <pattern>
+                	<marker>
+                		<token spacebefore="yes" skip="10" regexp="yes">'.*</token>
+                		<token regexp="yes" postag="SENT_END">[.?!]</token>
+                	</marker>
+                </pattern>
+				<message>Let op: er staat een recht aanhalingsteken in deze zin zonder rechte tegenhanger.</message>
+				<suggestion><match no="1" include_skipped="all"/>'\2</suggestion>
+				<example correction="'Hè bah'.">Ze zei <marker>'Hè bah.</marker></example>
+			</rule>
+			<!-- closing apostrophes -->
 			<rule>
 				<antipattern>
 					<token>'</token>
@@ -24307,12 +24359,15 @@ regexp case-insensitive maken: (?i)
 					<token spacebefore="no"/>
 					<example>Lil' Kleine</example>
 				</antipattern>
-				<pattern>
-					<token skip="10" postag="SENT_START"/>
-					<token regexp="yes">.*'</token>
-				</pattern>
+                <pattern>
+                	<token postag="SENT_START"/>
+                	<marker>
+                		<token skip="10"></token>
+                		<token regexp="yes">.*'</token>
+                	</marker>
+                </pattern>
 				<message>Let op: er staat een recht aanhalingsteken in deze zin zonder rechte tegenhanger.</message>
-				<suggestion>'<match no="1" include_skipped="following"/>\2</suggestion>
+				<suggestion>'<match no="2" include_skipped="all"/>\3</suggestion>
 				<example correction="'Hè bah'"><marker>Hè bah'</marker>, zei ze.</example>
 			</rule>
 		</rulegroup>
