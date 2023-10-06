@@ -11214,14 +11214,16 @@ USA
             <rule>
                 <pattern>
                     <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
                     <marker>
                         <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                         <token>de</token>
                         <token>dentro</token>
                     </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>\2 <match no='2' postag='NC.+' postag_regexp='yes'>interno</match></suggestion>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>interno</match></suggestion>
                 <example correction="pessoas internas">Nesta empresa só é permitido <marker>pessoas de dentro</marker>.</example>
             </rule>
 
@@ -11229,14 +11231,16 @@ USA
             <rule>
                 <pattern>
                     <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
                     <marker>
                         <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                         <token>de</token>
                         <token>fora</token>
                     </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>\2 <match no='2' postag='NC.+' postag_regexp='yes'>externo</match></suggestion>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>externo</match></suggestion>
                 <example correction="pessoas externas">Nesta empresa só é permitido <marker>pessoas de fora</marker>.</example>
             </rule>
 
