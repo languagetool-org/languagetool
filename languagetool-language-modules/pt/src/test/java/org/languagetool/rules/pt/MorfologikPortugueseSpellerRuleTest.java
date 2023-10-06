@@ -17,6 +17,11 @@ public class MorfologikPortugueseSpellerRuleTest {
       Languages.getLanguageForShortCode("pt-PT"), null, null);
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-PT"));
 
+    // CamelCase
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ShintaroW.")).length);
+    // all upper case
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("SHINTAROW.")).length);
+
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A família.")).length);
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("A familia."));
     assertEquals(1, matches.length);
@@ -43,6 +48,17 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertEquals("autoconhecimento", matches[0].getSuggestedReplacements().get(0));
     assertEquals(14, matches[0].getFromPos());
     assertEquals(29, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("Shintaro Wada"));
+    assertEquals(1, matches.length);
+    assertEquals("Sintamo", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("Sr. Kato nos ensina inglês"));
+    assertEquals(1, matches.length);
+    assertEquals("Fato", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(4, matches[0].getFromPos());
+    assertEquals(8, matches[0].getToPos());
+
   }
 
   public void testBrazilPortugueseSpelling() throws Exception {
