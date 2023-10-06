@@ -35,6 +35,7 @@ public class SentenceAnnotator {
       AnnotatorConfig cfg = new AnnotatorConfig();
       cfg.remoteServer = prop.getProperty("remoteServer", "http://localhost:8081").trim();
       cfg.userName = prop.getProperty("userName", "").trim();
+      cfg.annotatorName = prop.getProperty("annotatorName", "").trim();
       cfg.apiKey = prop.getProperty("apiKey", "").trim();
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
@@ -385,7 +386,7 @@ public class SentenceAnnotator {
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
       sentenceHash,
-      cfg.userName,
+      cfg.annotatorName,
       timestamp,
       errorSentence,
       correctedSentence,
@@ -576,6 +577,7 @@ public class SentenceAnnotator {
   static private class AnnotatorConfig {
     String remoteServer;
     String userName;
+    String annotatorName;
     String apiKey;
     String inputFilePath;
     String outputFilePath;
