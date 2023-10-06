@@ -11206,6 +11206,47 @@ USA
             </rule>
         </rulegroup>
 
+
+        <rulegroup id='DE_FORA_EXTERNO_DE_DENTRO_INTERNO' name="Simplificar: de dentro/fora → interno/externo" default="temp_off">
+            <!--IDEA shorten_it-->
+
+            <!-- #1: de dentro → interno -->
+            <rule>
+                <pattern>
+                    <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
+                    <marker>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token>de</token>
+                        <token>dentro</token>
+                    </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>interno</match></suggestion>
+                <example correction="pessoas internas">Nesta empresa só é permitido <marker>pessoas de dentro</marker>.</example>
+            </rule>
+
+            <!-- #2: de fora → externo -->
+            <rule>
+                <pattern>
+                    <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
+                    <marker>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token>de</token>
+                        <token>fora</token>
+                    </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>externo</match></suggestion>
+                <example correction="pessoas externas">Nesta empresa só é permitido <marker>pessoas de fora</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
         <rule id='ERRO_TRADUÇÃO_TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'" tone_tags="objective">
             <!-- IDEA shorten_it formal-->
