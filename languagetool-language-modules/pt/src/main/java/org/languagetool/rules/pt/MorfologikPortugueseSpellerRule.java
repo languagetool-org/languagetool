@@ -21,8 +21,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public String getId() {
-    return "MORFOLOGIK_RULE_"
-      + language.getShortCodeWithCountryAndVariant().replace("-", "_").toUpperCase();
+    return "HUNSPELL_RULE";
+    /*return "MORFOLOGIK_RULE_"
+      + language.getShortCodeWithCountryAndVariant().replace("-", "_").toUpperCase();*/
   }
 
   public MorfologikPortugueseSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
