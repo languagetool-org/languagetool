@@ -489,7 +489,23 @@ public class GrammalecteRule extends Rule {
     "typo_cohérence_guillemets_chevrons_fermants",
     "typo_cohérence_guillemets_chevrons_ouvrants",
     "typo_cohérence_guillemets_doubles_fermants",
-    "typo_cohérence_guillemets_doubles_ouvrants"
+    "typo_cohérence_guillemets_doubles_ouvrants",
+    "g2__conf_par_vconj__b1_a1_1",
+    "conf_1e_1a_1es",
+    "g2__conf_a_à_verbe__b15_a7_1",
+    "typo_espace_avant_signe_fermant",
+    "g2__date_journée_jour_mois_année__b1_a1_4",
+    "g2__conf_incohérences_globales__b3_a1_1",
+    "g2__typo_ordinaux_chiffres_incorrects__b9_a1_1",
+    "g2__conj_1s_sans_sujet_xxxai__b4_a1_1",
+    "g2__conf_dès_des_dés__b3_a2_1",
+    "g2__pleo_substantifs__b11_a1_1",
+    "g2__pleo_substantifs__b12_a1_1",
+    "g2__pleo_substantifs__b1_a1_1",
+    "g2__pleo_verbes__b4_a1_1",
+    "g2__pleo_verbes__b8_a1_1",
+    "g2__pleo_locutions__b7_a1_1",
+    "g2__pleo_verbes__b7_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
