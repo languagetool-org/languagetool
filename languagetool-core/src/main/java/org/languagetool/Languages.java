@@ -27,9 +27,16 @@ import org.languagetool.tools.StringTools;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.URL;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Helper methods to list all supported languages and to get language objects
@@ -42,11 +49,7 @@ public final class Languages {
   private static final String PROPERTIES_KEY = "languageClasses";
   private static final Language NOOP_LANGUAGE = new NoopLanguage();
 
-  private static final List<Language> languages = getAllLanguages();
-  private static final List<Language> dynLanguages = new ArrayList<>();
-
-  private static final List<Language> staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
-  private static final List<Language> staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
+  private static final List<Language> staticAndDynamicLanguages = new ArrayList<>();
 
   private Languages() {
   }
@@ -63,7 +66,6 @@ public final class Languages {
     } else {
       throw new RuntimeException("Please specify a dictPath that ends in '.dict' (Morfologik binary dictionary) or '.dic' (Hunspell dictionary): " + dictPath);
     }
-    dynLanguages.add(lang);
     staticAndDynamicLanguages.add(lang);
     return lang;
   }
@@ -95,12 +97,23 @@ public final class Languages {
     return getStaticAndDynamicLanguages();
   }
 
+  private static List<Language> staticAndDynamicLanguagesImmutable;
+
   private static List<Language> getStaticAndDynamicLanguages() {
+    if (staticAndDynamicLanguagesImmutable == null) {
+      staticAndDynamicLanguages.addAll(getAllLanguages());
+      staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
+    }
     return staticAndDynamicLanguagesImmutable;
   }
 
+  private static List<Language> languages;
+
   private static List<Language> getAllLanguages() {
-    List<Language> languages = new ArrayList<>();
+    if (languages != null) {
+      return languages;
+    }
+    List<Language> staticLanguages = new ArrayList<>();
     Set<String> languageClassNames = new HashSet<>();
     try {
       Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
@@ -123,7 +136,7 @@ public final class Languages {
                 // contains both <format>zip</format> and <format>dir</format>):
                 continue;
               }
-              languages.add(createLanguageObjects(url, className));
+              staticLanguages.add(createLanguageObjects(url, className));
               languageClassNames.add(className);
             }
           }
@@ -132,7 +145,8 @@ public final class Languages {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    return Collections.unmodifiableList(languages);
+    languages = Collections.unmodifiableList(staticLanguages);
+    return languages;
   }
 
   private static Language createLanguageObjects(URL url, String className) {
@@ -177,7 +191,6 @@ public final class Languages {
       Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
       Constructor<?> constructor = aClass.getConstructor();
       Language language = (Language) constructor.newInstance();
-      dynLanguages.add(language);
       staticAndDynamicLanguages.add(language);
       return language;
     } catch (ClassNotFoundException e) {
@@ -283,7 +296,7 @@ public final class Languages {
         return firstFallbackLanguage;
       }
     }
-    for (Language aLanguage : languages) {
+    for (Language aLanguage : getAllLanguages()) {
       if (aLanguage.getShortCodeWithCountryAndVariant().equals("en-US")) {
         return aLanguage;
       }
@@ -378,10 +391,7 @@ public final class Languages {
     // use default variant if available:
     for (Language language : getStaticAndDynamicLanguages()) {
       if (language.getShortCode().equals(locale.getLanguage()) && language.hasVariant()) {
-        Language defaultVariant = language.getDefaultLanguageVariant();
-        if (defaultVariant != null) {
-          return defaultVariant;
-        }
+        return language.getDefaultLanguageVariant();
       }
     }
     // use the first match otherwise (which should be the only match):
