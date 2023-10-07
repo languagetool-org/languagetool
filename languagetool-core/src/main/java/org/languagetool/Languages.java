@@ -42,9 +42,10 @@ public final class Languages {
   private static final String PROPERTIES_KEY = "languageClasses";
   private static final Language NOOP_LANGUAGE = new NoopLanguage();
 
-  private static final List<Language> languages = getAllLanguages();
   private static final List<Language> dynLanguages = new ArrayList<>();
-  
+
+  private static List<Language> languages;
+
   private Languages() {
   }
 
@@ -92,6 +93,9 @@ public final class Languages {
   }
 
   private static List<Language> getStaticAndDynamicLanguages() {
+    if (languages == null) {
+      languages = getAllLanguages();
+    }
     return Stream.concat(languages.stream(), dynLanguages.stream()).collect(Collectors.toList());
   }
 
