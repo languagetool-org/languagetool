@@ -2006,7 +2006,7 @@ public class JLanguageTool {
     private CheckResults getOtherRuleMatches(Set<ToneTag> toneTags) {
       List<RuleMatch> ruleMatches = new ArrayList<>();
 //      List<Range> ignoreRanges = new ArrayList<>(); //TODO: remove later
-      List<SentenceRange> sentenceRanges = new ArrayList<>();
+      List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
       int textWordCounter = sentences.stream().map(sentenceData -> sentenceData.wordCount).reduce(0, Integer::sum);
       int wordCounter = 0;
       float tmpErrorsPerWord = 0.0f;
@@ -2049,8 +2049,10 @@ public class JLanguageTool {
                   ignoreRanges.add(ignoreRange);
                 }
                 SentenceRange sentenceRange = new SentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.length());
-                if (!sentenceRanges.contains(sentenceRange)) {
-                  sentenceRanges.add(sentenceRange);
+                ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentenceRange);
+                extendedSentenceRange.addLanguageConfidenceRate(elem.getNewLanguageMatches());
+                if (!extendedSentenceRanges.contains(extendedSentenceRange)) {
+                  extendedSentenceRanges.add(extendedSentenceRange);
                 }
               }
               ruleMatches.add(thisMatch);
@@ -2082,7 +2084,7 @@ public class JLanguageTool {
                   + StringUtils.abbreviate(sentence.analyzed.toTextString(), 500) + "</sentcontent>", e);
         }
       }
-      return new CheckResults(ruleMatches, ignoreRanges);
+      return new CheckResults(ruleMatches, ignoreRanges, );
     }
 
     private LineColumnPosition findLineColumn(int offset) {

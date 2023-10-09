@@ -20,6 +20,8 @@
 
 package org.languagetool;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 public final class ExtendedSentenceRange {
@@ -29,23 +31,44 @@ public final class ExtendedSentenceRange {
 //  private final Map<String, Float> sentenceScoring = new LinkedHashMap<>(); //Style; 0-1 score from scoring model
 
 
-  ExtendedSentenceRange(SentenceRange sentenceRanges) {
+  ExtendedSentenceRange(@NotNull SentenceRange sentenceRanges) {
     this.sentenceRange = sentenceRanges;
-  }
-
-  public void addLanguageConfidenceRate(String languageCode, Float confidenceRate) {
-    this.languageConfidenceRates.put(languageCode, confidenceRate);
-  }
-
-  public void addSentenceScoring(String style, Float score) {
-    this.sentenceScoring.put(style, score);
   }
 
   public Map<String, Float> getLanguageConfidenceRates() {
     return Collections.unmodifiableMap(languageConfidenceRates);
   }
 
-  public Map<String, Float> getSentenceScoring() {
-    return Collections.unmodifiableMap(sentenceScoring);
+  public void addLanguageConfidenceRate(Map<String, Float> languageConfidenceRates) {
+    this.languageConfidenceRates.putAll(languageConfidenceRates);
+  }
+
+//  public void addSentenceScoring(String style, Float score) {
+//    this.sentenceScoring.put(style, score);
+//  }
+
+//  public Map<String, Float> getSentenceScoring() {
+//    return Collections.unmodifiableMap(sentenceScoring);
+//  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ExtendedSentenceRange that = (ExtendedSentenceRange) o;
+
+    if (!sentenceRange.equals(that.sentenceRange)) return false;
+    if (!languageConfidenceRates.equals(that.languageConfidenceRates)) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = sentenceRange.hashCode();
+    result = 31 * result + languageConfidenceRates.hashCode();
+    return result;
   }
 }
