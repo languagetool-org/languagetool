@@ -441,7 +441,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     } else {
       definitiveSugestions.addAll(suggestions);
     }
-
     match.setSuggestedReplacements(definitiveSugestions);
     return match;
 
