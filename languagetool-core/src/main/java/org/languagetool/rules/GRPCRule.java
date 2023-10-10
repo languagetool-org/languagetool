@@ -93,6 +93,8 @@ public abstract class GRPCRule extends RemoteRule {
   private static final int DEFAULT_BATCH_SIZE = 8;
   public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
   private static final String DEFAULT_DESCRIPTION = "INTERNAL - dynamically loaded rule supported by remote server";
+  /*TODO Delete this temporal fix as this is for speeding up execution for too long sentences*/
+  private int maxSentenceLength;
 
   public static String cleanID(String id) {
     return id.replaceAll("[^a-zA-Z0-9_]", "_").toUpperCase();
@@ -175,7 +177,7 @@ public abstract class GRPCRule extends RemoteRule {
       }
     }
   }
-  
+
   private static final LoadingCache<RemoteRuleConfig, Connection> servers =
     CacheBuilder.newBuilder().build(CacheLoader.from(serviceConfiguration -> {
       if (serviceConfiguration == null) {
@@ -199,6 +201,8 @@ public abstract class GRPCRule extends RemoteRule {
 
   public GRPCRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
     super(language, messages, config, inputLogging);
+
+    config.maxSentenceLength = serviceConfiguration.getMaxSentenceLength() == null ? Integer.MAX_VALUE : serviceConfiguration.getMaxSentenceLength();
     sendAnalyzedData = config.getOptions()
       .getOrDefault("analyzed", "false")
       .equalsIgnoreCase("true");
@@ -241,31 +245,35 @@ public abstract class GRPCRule extends RemoteRule {
   @Override
   protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
     List<Long> ids = Collections.emptyList();
-    if (textSessionId != null) {
-      ids = Collections.nCopies(sentences.size(), textSessionId);
-    }
+    // TODO this is a temp fix to avoid sending too long sentences to the server
+    List<AnalyzedSentence> filteredSentences = sentences.stream()
+      .filter(s -> s.getText().length() <= maxSentenceLength)
+      .collect(Collectors.toList());
 
+    if (textSessionId != null) {
+      ids = Collections.nCopies(filteredSentences.size(), textSessionId);
+    }
     if (sendAnalyzedData) {
       List<MLServerProto.AnalyzedMatchRequest> requests = new ArrayList<>();
 
-      for (int offset = 0; offset < sentences.size(); offset += batchSize) {
+      for (int offset = 0; offset < filteredSentences.size(); offset += batchSize) {
         MLServerProto.AnalyzedMatchRequest req = MLServerProto.AnalyzedMatchRequest.newBuilder()
-          .addAllSentences(sentences
-            .subList(offset, Math.min(sentences.size(), offset + batchSize))
+          .addAllSentences(filteredSentences
+            .subList(offset, Math.min(filteredSentences.size(), offset + batchSize))
             .stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
           .setInputLogging(inputLogging)
           .addAllTextSessionID(textSessionId != null ?
-            ids.subList(offset, Math.min(sentences.size(), offset + batchSize))
+            ids.subList(offset, Math.min(filteredSentences.size(), offset + batchSize))
             : Collections.emptyList())
           .build();
         requests.add(req);
       }
-      return new AnalyzedMLRuleRequest(requests, sentences);
+      return new AnalyzedMLRuleRequest(requests, filteredSentences);
     } else {
       List<MLServerProto.MatchRequest> requests = new ArrayList<>();
 
-      for (int offset = 0; offset < sentences.size(); offset += batchSize) {
-        List<String> text = sentences.stream().map(AnalyzedSentence::getText).map(s -> {
+      for (int offset = 0; offset < filteredSentences.size(); offset += batchSize) {
+        List<String> text = filteredSentences.stream().map(AnalyzedSentence::getText).map(s -> {
           if (whitespaceNormalisation) {
             // non-breaking space can be treated as normal space
             return s.replaceAll(WHITESPACE_REGEX, " ");
@@ -283,9 +291,9 @@ public abstract class GRPCRule extends RemoteRule {
         requests.add(req);
       }
       if (requests.size() > 1) {
-        logger.debug("Split {} sentences into {} requests for {}", sentences.size(), requests.size(), getId());
+        logger.debug("Split {} sentences into {} requests for {}", filteredSentences.size(), requests.size(), getId());
       }
-      return new MLRuleRequest(requests, sentences, textSessionId);
+      return new MLRuleRequest(requests, filteredSentences, textSessionId);
     }
   }
 
@@ -362,14 +370,14 @@ public abstract class GRPCRule extends RemoteRule {
 
   private List<RuleMatch> getRuleMatches(List<AnalyzedSentence> sentences, List<MatchResponse> responses) {
     BiFunction<MLServerProto.MatchList, AnalyzedSentence, Stream<RuleMatch>> createMatch = (matchList, sentence) -> matchList.getMatchesList().stream().map(match -> {
-      String description = match.getRuleDescription();
-      if (description == null || description.isEmpty()) {
-        description = this.getDescription();
+        String description = match.getRuleDescription();
         if (description == null || description.isEmpty()) {
-          throw new RuntimeException("Missing description for rule with ID " + match.getId() + "_" + match.getSubId());
+          description = this.getDescription();
+          if (description == null || description.isEmpty()) {
+            throw new RuntimeException("Missing description for rule with ID " + match.getId() + "_" + match.getSubId());
+          }
         }
-      }
-      GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description);
+        GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description);
         String message = match.getMatchDescription();
         String shortMessage = match.getMatchShortDescription();
         if (message == null || message.isEmpty()) {

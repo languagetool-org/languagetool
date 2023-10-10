@@ -43,7 +43,9 @@ import java.util.List;
 public class SpanishHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/es/multiwords.txt", true, true);
+  private final Disambiguator chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, "NPCN000");
   private final Disambiguator disambiguator;
+
 
   public SpanishHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
@@ -60,7 +62,7 @@ public class SpanishHybridDisambiguator extends AbstractDisambiguator {
    */
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    AnalyzedSentence analyzedSentence = chunker.disambiguate(input, checkCanceled);
+    AnalyzedSentence analyzedSentence = chunker.disambiguate(chunkerGlobal.disambiguate(input), checkCanceled);
     
     /* Put the results of the MultiWordChunker in a more appropriate and useful way
       <NP..></NP..> becomes NP.. NP..

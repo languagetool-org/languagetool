@@ -22617,6 +22617,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes" inflected="yes">maestro<exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="addComma:true"/>
+                <message>Probablemente falta una coma. O bien revise la concordancia de «\1» con los nombres precedentes.</message>
+                <example correction=", maestra| maestro">Disculpe el retraso<marker> maestra</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="key:value"/>
@@ -30054,7 +30064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">,</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">&abreviaturas;|Co<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
+                    <token regexp="yes">&abreviaturas;|Co|col|coop<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
                     <token spacebefore="no">.</token>
                 </antipattern>
                 <antipattern>
@@ -32204,6 +32214,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sr.">Vive con el <marker>Sr</marker> García.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>etc</token>
+                    <token>.</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">etc|Etc</token>
                 </pattern>
@@ -34268,6 +34282,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PROPER_NOUNS" name="nombres propios">
+        <rule id="LIBREOFFICE" name="LibreOffice">
+            <pattern>
+                <token>libre</token>
+                <token min="0">-</token>
+                <token regexp="yes">off?ice</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>LibreOffice</suggestion> (paquete ofimático)?</message>
+            <url>https://es.wikipedia.org/wiki/LibreOffice</url>
+            <example correction="LibreOffice">Puedes instalar LanguageTool en <marker>Libre-Office</marker>.</example>
+        </rule>
         <rulegroup id="PERSONAJES_FAMOSOS" name="nombres de personajes famosos">
             <rule>
                 <antipattern case_sensitive="yes">
@@ -34557,6 +34581,247 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>Núñez Feijóo</suggestion> (político español)?</message>
                 <url>https://es.wikipedia.org/wiki/Alberto_N%C3%BA%C3%B1ez_Feij%C3%B3o</url>
                 <example correction="Núñez Feijóo"><marker>Nuñez Fejioo</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="MULTITOKEN_SPELLING" name="Errores ortográficos" type="misspelling">
+        <!-- Avoid antipatterns because the AP doesn't prevent the filter to be executed -->
+        <rulegroup id="ES_MULTITOKEN_SPELLING_FOUR" name="errores de ortografía en nombres propios (4 elementos)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN"><exception regexp="yes">&particles_of;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="The Dark Knight Rises"><marker>The Derk Knight Rises</marker>.</example>
+                <!--<example correction="Rocky Mountain National Park"><marker>Rocky Mountains National Park</marker>.</example>-->
+                <example>Tokyo Marble Chocolate.</example>
+                <example>Ctrl + Shift + R</example>
+                <example>+=n</example>
+                <example>&lt;= maxDate</example>
+                <example>== day</example>
+                <example>University of the Arts London</example>
+                <example>Montse Saez | Administración | Web master: FA? | Administración |</example>
+                <example>=mx+p</example>
+                <example>=2Fx/ρvS</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ES_MULTITOKEN_SPELLING_THREE" name="errores de ortografía en nombres propios (3 elementos)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Yuval Noah Harari"><marker>yuval Noha Harari</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Yuval Noah Harari"><marker>Yuval Noha Hariri</marker>.</example>
+                <example correction="Yuval Noah Harari"><marker>Yuval Noha Harari</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="NPMSSP0"/>
+                    <token postag="NPMSSP0"/>
+                    <token postag="UNKNOWN"/>
+                    <example>José María Cuevas</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="NPFSSP0"/>
+                    <token postag="NPFSSP0"/>
+                    <token postag="UNKNOWN"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Yuval Noah Harari"><marker>Yuval Noha hariri</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Yuval Noah Harari"><marker>Yuvl Noha Hariri</marker>.</example>
+                <example>Tokyo Marble Chocolate.</example>
+                <example>Ctrl + Shift + R</example>
+                <example>+=n</example>
+                <example>&lt;= maxDate</example>
+                <example>== day</example>
+                <example>University of the Arts London</example>
+                <example>Montse Saez | Administración | Web master: FA? | Administración |</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token regexp="yes">&particles_of;</token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:&particles_of;"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Antoine de Saint-Exupéry"><marker>Antoin de Saint-Exupéry</marker>.</example>
+                <example correction="University of Texas"><marker>Universiti of Tejas</marker>.</example>
+                <!--sierra de Sa Verdera-->
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="NPMSSP0"/>
+                    <token postag="NPMSSP0"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NPFSSP0"/>
+                    <token postag="NPFSSP0"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">sant|santa</token>
+                    <token postag="NP.SSP0" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                    <token regexp="yes">&particles_of;</token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:&particles_of;"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Leonardo da Vinci"><marker>Leonardo Da Vinsi</marker>.</example>
+                <example correction="University of Texas"><marker>Universiti of Texes</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ES_MULTITOKEN_SPELLING_TWO" name="errores de ortografía en nombres propios (dos elementos)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="keepSpaces:true"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Britney Spears"><marker>britaney speers</marker>.</example>
+                <example correction="Britney Spears"><marker>britney speers</marker>.</example>
+                <example correction="García Márquez"><marker>Garcìa Mrquez</marker>.</example>
+                <example correction="García Márquez"><marker>Garcìa Mraquez</marker>.</example>
+                <example correction="René Magritte"><marker>Rene Magrite</marker></example>
+                <example correction="Marie Curie"><marker>Marie Cuirie</marker></example>
+                <example>y venderlo</example>
+                <example>Massachusetts Institute of Technology</example>
+                <example>el piano inicial d'I want you back</example>
+                <example>arribaria al seu cim amb The wiz</example>
+                <example>+ appendText</example>
+                <example>&lt;br /</example>
+                <example>600md+</example>
+                <example>7c+</example>
+                <example>= $target</example>
+                <example>Alexander von Bach.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token spacebefore="no">-</token>
+                    <token postag="NP.*" postag_regexp="yes" spacebefore="no"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="NP.*" postag_regexp="yes"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="keepSpaces:true"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Lluís Llach"><marker>Lluís Lach</marker>.</example>
+                <example correction="Michael Jordan"><marker>Michael Jortan</marker>.</example>
+                <example correction="Stephen Hawking"><marker>Stephen Hawkins</marker></example>
+                <example correction="Virginia Woolf"><marker>Virginia Wolf</marker></example>
+                <example correction="Cyndi Lauper"><marker>Cindy Lauper</marker></example>
+                <example correction="Yuval Harari"><marker>Yuval Hariri</marker></example>
+                <example>Introduïu açí el resultat.</example>
+                <example>Anna-Greta Winberg</example>
+                <example>Jean-Pierre Jeunet</example>
+                <example>DIMARTS 14-M COOP.</example>
+                <example>A més també es va vendre el Citroën AX elèctric.</example>
+                <!--<example>Jean-François Davy</example>-->
+                <example>–Robert Downey Jr.–</example>
+                <example>Yolanda Perez</example>
+                <example>Yolanda Pérez</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">&particles_of;</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception>sir</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token regexp="yes">\p{Lu}[\p{Ll}·]+<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="keepSpaces:true"/>
+                <message>Posible error de ortografía.</message>
+                <!--<example correction="Michael Jordan"><marker>Michel Jordan</marker>.</example>-->
+                <example correction="Michael Jordan"><marker>Mihael Jordan</marker>.</example>
+                <example correction="Woody Allen"><marker>Woodie Alen</marker></example>
+                <example correction="Virginia Woolf"><marker>Viginia Woolf</marker></example>
+                <example correction="García Márquez"><marker>Garcia Marquez</marker>.</example>
+                <example>Carlos Linares</example>
+                <example>Yolanda Perez</example>
+                <example>Yolanda Pérez</example>
+                <example>Alexander von Bach.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios amb guionet" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{Lu}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token spacebefore="no">-</token>
+                    <token postag="UNKNOWN" spacebefore="no" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Saint-Exupéry"><marker>Sant-Exupery</marker>.</example>
+                <example correction="Toulouse-Lautrec"><marker>Toulose-Lautrec</marker></example>
+                <!--Time-Life-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                    <token spacebefore="no">-</token>
+                    <token postag="UNKNOWN" spacebefore="no" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Saint-Exupéry"><marker>Saint-Exupery</marker>.</example>
             </rule>
         </rulegroup>
     </category>
