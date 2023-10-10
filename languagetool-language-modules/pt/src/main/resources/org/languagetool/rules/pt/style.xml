@@ -9914,6 +9914,66 @@ USA
         </rulegroup>
 
 
+        <rule id='FAZER_EXERCER' name="[Universitário][Científico] Verbo Fazer → Verbo Exercer" type="style" tone_tags="academic" is_goal_specific="true" tags="picky" default="temp_off">
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>atividade</token>
+                <token inflected='yes'>físico</token>
+                <example>Conclusão, estava em jejum e fazendo atividade física pesada.</example>
+                <example>Faça atividades físicas todos os dias.</example>
+                <example>Tom nunca faz atividades físicas.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>fazer</token>
+                <token min='1' max='3' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='VMN03.+' postag_regexp='yes'/>
+                <example>Com o objetivo de fazer as forças alemãs acreditarem que a invasão aliada viria de Pas-de-Calais, a força fantasma foi esta...</example>
+            </antipattern>
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='CC' skip='2'/>
+                <token inflected='yes'>fazer</token>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>força</token>
+                <example>...ilhas ou facetas de desgaste nos dentes e tem uma alavancagem mandíbula que não é projetado para as fazer muita forças para cortar e triturar.</example>
+                <example>O médico disse para não fazer força.</example>
+                <example>O médico disse para eu não fazer força.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>fazer</token>
+                <token postag='PI.+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>direito</token>
+                <example>Só por uma vez na minha vida, eu queria fazer algo direito.</example>
+                <example>Pau torto também faz fogo direito.</example>
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token inflected='yes'>fazer</token>
+                </marker>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <!-- The "AND" below assures that it doesn't inflect to verbs only, like it did with some forms of "poder" -->
+                <and>
+                    <token regexp='yes' inflected='yes'>atividade|autoridade|cargo|cidadania|control[eo]|direito|domínio|força|função|influência|liberdade|liderença|mandato|medicina|ministério|poder|pressão|profissão|tensão|terror|trabalhador|violência
+                        <exception scope='previous'>nada</exception>
+                    </token> <!-- Add words here when they are found -->
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </and>
+            </pattern>
+            <message>Se for um texto científico/universitário, pondere empregar o termo &quot;exercer&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exercer</match></suggestion>
+            <example correction="exercem">Os ativistas <marker>fazem</marker> pressão nas manifestações.</example>
+            <example correction="exercem">Os ativistas <marker>fazem</marker> muita pressão nas manifestações.</example>
+            <example>O que milênios não fizeram pode acontecer num minuto.</example>
+            <example>O que o seu marido fez pode ser apenas um milagre.</example>
+            <example>Nunca me passou pela cabeça que o que eu estava fazendo poderia ser ilegal.</example>
+            <example>Durante e depois das apresentações, os participantes e o público que se fez presente puderam se deliciar com comidas típicas e se divertir com música ao vivo.</example>
+            <example>Parece que o Tom não consegue fazer nada direito.</example>
+            <example>Hoje não consigo fazer nada direito.</example>
+        </rule>
+
+
         <!-- NÃO SE PODE APAGAR é indelével -->
         <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="[Universitário][Científico] 'não se pode apagar' → 'é indelével'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
