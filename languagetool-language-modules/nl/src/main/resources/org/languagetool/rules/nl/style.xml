@@ -4320,22 +4320,26 @@ USA
 		<rulegroup id="STEEN_BIJDRAGEN" name="Een steentje bijdragen">
 			<rule>
 				<pattern>
-					<token skip="6" regexp="yes">steen|steentje</token>
+					<token regexp="yes">steen|steentje</token>
+					<token skip="3"/>
 					<token inflected="yes">bijdragen</token>
 				</pattern>
 				<message>Pas op voor clichés. Als dit figuurlijk is kunt u het misschien op een andere manier uitdrukken.</message>
-				<example correction="">Ik wil dat ze snel hun <marker>steentje komen bijdragen</marker>.</example>
+				<suggestion>bijdrage <match no="2" include_skipped="all"/> <match no="3" postag_regexp="yes" postag="WKW.*(ONV|INF|1EP|3EP)?">leveren</match></suggestion>
+				<example correction="bijdrage komen leveren">Ik wil dat ze snel hun <marker>steentje komen bijdragen</marker>.</example>
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token inflected="yes" skip="6">dragen</token>
-					<token regexp="yes" skip="4">steen|steentje</token>
+					<token inflected="yes">dragen</token>
+					<token skip="5"/>
+					<token regexp="yes">steen|steentje</token>
+					<token skip="3"/>
 					<token>bij</token>
 				</pattern>
 				<message>Pas op voor clichés. Als dit figuurlijk is kunt u het misschien op een andere manier uitdrukken.</message>
-				<example correction="">Ze <marker>dragen hun steentje wel bij</marker>.</example>
-				<example>Er is geen correct voorbeeld van.</example>
+				<suggestion><match no="1" postag_regexp="yes" postag="WKW.*(ONV|INF|1EP|3EP)?">leveren</match> <match no="2" include_skipped="all"/> bijdrage <match no="4" include_skipped="all"/></suggestion>
+			    <example correction="leveren op deze manier hun bijdrage toch wel">Ze <marker>dragen op deze manier hun steentje toch wel bij</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="VINKENTOUW" name="Op het vinkentouw">

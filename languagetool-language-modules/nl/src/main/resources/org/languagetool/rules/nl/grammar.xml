@@ -18648,6 +18648,21 @@ regexp case-insensitive maken: (?i)
 				<example correction="'s werelds">Hij heeft <marker>s werelds</marker> grootste mond.</example>
 				<example>Hij heeft 's werelds grootste mond.</example>
 			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>s</token>
+						<token spacebefore="no" regexp="yes">&APOSTROPH;</token>
+						<token regexp="yes">avonds|middags|nachts|ochtends|anderendaags|werelds|morgens</token>
+					</marker>
+				</pattern>
+				<message>De apostrof hoort aan de andere kant: <suggestion>\2\1 \3</suggestion>.</message>
+				<example correction="'s middags">Wij aten <marker>s' middags</marker> warm.</example>
+				<example correction="'s ochtends">Na een nacht varen <marker>s' ochtends</marker> lekker uitgeslapen in Hull.</example>
+				<example correction="'s avonds">Als ik naar het feestje van mijn nichtjes ga weet ik dat het taart is en <marker>s' avonds</marker> nog eens pistolekes.</example>
+				<example correction="'s werelds">Hij heeft <marker>s' werelds</marker> grootste mond.</example>
+				<example>Hij heeft 's werelds grootste mond.</example>
+			</rule>
 		</rulegroup>
 		<!--
 		2014-08-21 TaalTik
