@@ -61,6 +61,8 @@ public class GermanSpellerRuleTest {
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank")); 
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank")); 
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinsskühlschrank"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel")); 
     assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
