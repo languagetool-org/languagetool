@@ -49,7 +49,6 @@ public class GRPCRuleTest {
     config.ruleId = RULE_ID;
     config.url = "localhost";
     config.port = 50000;
-    config.maxSentenceLength= 30;
 
     rule = new GRPCRule(new Demo(), JLanguageTool.getMessageBundle(), config, true) {
       @Override
