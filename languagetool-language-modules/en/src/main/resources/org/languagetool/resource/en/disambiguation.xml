@@ -16956,4 +16956,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="NN" />
     </rule>
+    
+    <rule id="LIKE_TO_VERB" name="'like' only verb">
+        <pattern>
+            <token chunk_re="E-NP.*" postag="NNP?S" postag_regexp="yes" />
+            <marker>
+                <token>like</token>
+            </marker>
+            <token>to</token>
+            <token postag="VB" chunk_re=".-VP" />
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
 </rules>

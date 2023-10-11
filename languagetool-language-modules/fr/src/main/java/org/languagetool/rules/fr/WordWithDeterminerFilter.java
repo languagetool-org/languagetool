@@ -50,25 +50,24 @@ public class WordWithDeterminerFilter extends RuleFilter {
   private static final List<String> exceptionsDeterminer =
     Arrays.asList("bels", "fols", "mols", "nouvels");
 
-  private static JLanguageTool lt;
+  private static final JLanguageTool lt = Languages.getLanguageForShortCode("fr").createDefaultJLanguageTool();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-    if (lt == null) {
-      lt = Languages.getLanguageForShortCode("fr").createDefaultJLanguageTool();
-      // disable rules to avoid an infinite loop
-      //lt.disableCategory(new CategoryId("AGREEMENT"));
-      for (Rule r : lt.getAllRules()) {
-          if (r.getCategory().getId().toString().equals("CAT_ELISION") || r.getId().equals("CET_CE")
-                || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE") || r.getId().equals("MON_NFS")
-                || r.getId().equals("VIEUX")) {
-              lt.enableRule(r.getId());
-            } else {
-              lt.disableRule(r.getId());
-            }
-        }
+
+    // disable rules to avoid an infinite loop
+    //lt.disableCategory(new CategoryId("AGREEMENT"));
+    for (Rule r : lt.getAllRules()) {
+      if (r.getCategory().getId().toString().equals("CAT_ELISION") || r.getId().equals("CET_CE")
+        || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE") || r.getId().equals("MON_NFS")
+        || r.getId().equals("VIEUX")) {
+        lt.enableRule(r.getId());
+      } else {
+        lt.disableRule(r.getId());
+      }
     }
+
     String wordFrom = getRequired("wordFrom", arguments);
     String determinerFrom = getRequired("determinerFrom", arguments);
     int posWord = 0;

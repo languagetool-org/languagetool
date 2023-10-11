@@ -57,6 +57,11 @@ public class MultiWordChunker extends AbstractDisambiguator {
   
   private final static String DEFAULT_SEPARATOR = "\t";
   private String separator;
+  private String defaultTag = null;
+
+  private boolean addIgnoreSpelling = false;
+
+  public static String tagForNotAddingTags = "_NONE_";
 
   /**
    * @param filename file text with multiwords and tags
@@ -76,6 +81,13 @@ public class MultiWordChunker extends AbstractDisambiguator {
     this.filename = filename;
     this.allowFirstCapitalized = allowFirstCapitalized;
     this.allowAllUppercase = allowAllUppercase;
+  }
+
+  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, String defaultTag) {
+    this.filename = filename;
+    this.allowFirstCapitalized = allowFirstCapitalized;
+    this.allowAllUppercase = allowAllUppercase;
+    this.defaultTag = defaultTag;
   }
 
   /*
@@ -112,13 +124,17 @@ public class MultiWordChunker extends AbstractDisambiguator {
       List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
         String[] tokenAndTag = posToken.split(separator);
-        if (tokenAndTag.length != 2) {
+        if (tokenAndTag.length != 2 && defaultTag == null) {
           throw new RuntimeException(
               "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
         }
+        if (tokenAndTag.length != 1 && defaultTag != null) {
+          throw new RuntimeException(
+            "Invalid format in " + filename + ": '" + posToken + "', expected one element with no separator");
+        }
         List<String> tokens = new ArrayList<>();
         String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());
-        String tag = interner.computeIfAbsent(tokenAndTag[1], Function.identity());
+        String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:tokenAndTag[1]), Function.identity());
         tokens.add(originalToken);
         if (allowFirstCapitalized) {
           String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
@@ -152,7 +168,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
           } else {
             firstTokens = token.split(" ");
             firstToken = firstTokens[0];
-
             if (mStartSpace.containsKey(firstToken)) {
               if (mStartSpace.get(firstToken) < firstTokens.length) {
                 mStartSpace.put(firstToken, firstTokens.length);
@@ -194,9 +209,11 @@ public class MultiWordChunker extends AbstractDisambiguator {
       if (tok.length() < 1) {
         continue;
       }
-      // If the second token is not whitespace, concatenate it
-      if (i + 1 < anTokens.length && !anTokens[i + 1].isWhitespace()) {
-        tok = tok + output[i + 1].getToken();
+      // If the next token is not whitespace, concatenate it
+      int k = i + 1;
+      while (k < anTokens.length && !anTokens[k].isWhitespace()) {
+        tok = tok + output[k].getToken();
+        k++;
       }
 
       if (checkCanceled != null && checkCanceled.checkCancelled()) {
@@ -213,9 +230,22 @@ public class MultiWordChunker extends AbstractDisambiguator {
           if (!anTokens[j].isWhitespace()) {
             tokens.append(anTokens[j].getToken());
             String toks = tokens.toString();
-            if (mFull.containsKey(toks)) {
-              output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
-              output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
+            if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
+              if (finalLen == 0) { // the key has only one token
+                output[i] = setAndAnnotate(output[i], new AnalyzedToken(toks, mFull.get(toks).getPOSTag(), mFull.get(toks).getLemma()));
+              } else {
+                output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
+                output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
+              }
+            }
+            if (mFull.containsKey(toks) && addIgnoreSpelling) {
+              if (finalLen == 0) {
+                output[i].ignoreSpelling();
+              } else {
+                for (int m = i; m <= finalLen; m++) {
+                  output[m].ignoreSpelling();
+                }
+              }
             }
           } else {
             if (j > 1 && !anTokens[j - 1].isWhitespace()) { // avoid multiple whitespaces
@@ -235,9 +265,14 @@ public class MultiWordChunker extends AbstractDisambiguator {
         while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
           tokens.append(anTokens[j].getToken());
           String toks = tokens.toString();
-          if (mFull.containsKey(toks)) {
+          if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
             output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
             output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
+          }
+          if (mFull.containsKey(toks) && addIgnoreSpelling) {
+            for (int m = i; m <= j; m++) {
+              output[m].ignoreSpelling();
+            }
           }
           j++;
         }
@@ -285,6 +320,11 @@ public class MultiWordChunker extends AbstractDisambiguator {
       throw new RuntimeException(e);
     }
     return lines;
+  }
+
+  /* set the ignorespelling attribute for the multi-token phrases*/
+  public void setIgnoreSpelling(boolean ignoreSpeelling) {
+    addIgnoreSpelling = ignoreSpeelling;
   }
 
 }

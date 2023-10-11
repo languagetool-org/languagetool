@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.es;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.Tag;
@@ -77,6 +78,8 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
   private static final List<String> EXCEPCIONS_START = Arrays.asList("el", "la", "los", "las", "punto", "artículo",
       "módulo", "parte", "sesión", "unidad", "tema", "n");
+
+  private static final List<String> SENTENCE_EXCEPCIONS = Arrays.asList("por un", "por otro", "por otra", "por una");
   
   static {
     // based on https://www.pinterest.com/pin/229542912245527548/
@@ -161,4 +164,16 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   private List<String> getDifferentAdverbsOfSameCategory(String adverb, Set<String> adverbsOfCategory) {
     return adverbsOfCategory.stream().filter(adv -> !adv.equals(adverb)).collect(Collectors.toList());
   }
+
+  @Override
+  public boolean isSentenceException(AnalyzedSentence sentence) {
+    String s = sentence.getText();
+    for (String exception : SENTENCE_EXCEPCIONS) {
+      if (s.toLowerCase().startsWith(exception)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

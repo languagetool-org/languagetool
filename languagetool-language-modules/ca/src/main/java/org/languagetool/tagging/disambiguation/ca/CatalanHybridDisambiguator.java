@@ -42,6 +42,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/ca/multiwords.txt", true, true);
+  private final Disambiguator chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, "NPCN000");
   private final Disambiguator disambiguator;
 
   /**
@@ -56,7 +57,7 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
       throws IOException {
-    AnalyzedSentence analyzedSentence = chunker.disambiguate(input);
+    AnalyzedSentence analyzedSentence = chunker.disambiguate(chunkerGlobal.disambiguate(input));
     
     /* Put the results of the MultiWordChunker in a more appropriate and useful way
       <NP..></NP..> becomes NP.. NP..

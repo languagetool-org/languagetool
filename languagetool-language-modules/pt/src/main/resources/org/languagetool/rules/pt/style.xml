@@ -9865,6 +9865,115 @@ USA
         </rule>
 
 
+        <rulegroup id='SER_SIGNIFICATIVO' name="[Universitário][Científico] 'fazer toda a diferença' → 'ser significativo/expressivo'" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
+
+            <!-- #1: é significativo -->
+            <rule>
+                <pattern>
+                    <token postag='VMN0.S.+' postag_regexp='yes' skip='-1'/>
+                    <marker>
+                        <token regexp='yes'>faz(em)?</token>
+                        <token>toda</token>
+                        <token>a</token>
+                        <token>diferença</token>
+                    </marker>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot; ou &quot;expressivo&quot;.</message>
+                <suggestion>é significativo</suggestion>
+                <suggestion>é expressivo</suggestion>
+                <example correction="é significativo|é expressivo">Acrescentar mais uma palavra <marker>faz toda a diferença</marker>.</example>
+                <example correction="é significativo|é expressivo">Acrescentar mais umas palavras <marker>fazem toda a diferença</marker>.</example>
+            </rule>
+
+            <!-- #2: são significativos, é/são significativa(s) -->
+            <rule>
+                <pattern>
+                    <token postag='DA.+' postag_regexp='yes' skip='-1'>
+                        <exception postag_regexp='yes' postag='VMN0.S.+'/>
+                    </token>
+                    <marker>
+                        <and>
+                            <token regexp='yes'>faz(em)?
+                                <exception scope='previous' postag_regexp='no' postag='CS'/> <!-- que -->
+                            </token>
+                            <token postag="VMIP3.+" postag_regexp='yes'/>
+                        </and>
+                        <token>toda</token>
+                        <token>a</token>
+                        <token>diferença</token>
+                    </marker>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot; ou &quot;expressivo&quot;.</message>
+                <suggestion><match no='1' postag='D.0.(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='D.0(..)0' postag_replace='AQ0$10'>significativo</match></suggestion>
+                <suggestion><match no='1' postag='D.0.(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='D.0(..)0' postag_replace='AQ0$10'>expressivo</match></suggestion>
+                <example correction="é significativa|é expressiva">A nova equação <marker>faz toda a diferença</marker>.</example>
+                <example correction="são significativas|são expressivas">As novas equações <marker>fazem toda a diferença</marker>.</example>
+                <example correction="são significativos|são expressivos">Os novos conceitos <marker>fazem toda a diferença</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
+
+        <rule id='FAZER_EXERCER' name="[Universitário][Científico] Verbo Fazer → Verbo Exercer" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>atividade</token>
+                <token inflected='yes'>físico</token>
+                <example>Conclusão, estava em jejum e fazendo atividade física pesada.</example>
+                <example>Faça atividades físicas todos os dias.</example>
+                <example>Tom nunca faz atividades físicas.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>fazer</token>
+                <token min='1' max='3' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='VMN03.+' postag_regexp='yes'/>
+                <example>Com o objetivo de fazer as forças alemãs acreditarem que a invasão aliada viria de Pas-de-Calais, a força fantasma foi esta...</example>
+            </antipattern>
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='CC' skip='2'/>
+                <token inflected='yes'>fazer</token>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>força</token>
+                <example>...ilhas ou facetas de desgaste nos dentes e tem uma alavancagem mandíbula que não é projetado para as fazer muita forças para cortar e triturar.</example>
+                <example>O médico disse para não fazer força.</example>
+                <example>O médico disse para eu não fazer força.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>fazer</token>
+                <token postag='PI.+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>direito</token>
+                <example>Só por uma vez na minha vida, eu queria fazer algo direito.</example>
+                <example>Pau torto também faz fogo direito.</example>
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token inflected='yes'>fazer</token>
+                </marker>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <!-- The "AND" below assures that it doesn't inflect to verbs only, like it did with some forms of "poder" -->
+                <and>
+                    <token regexp='yes' inflected='yes'>atividade|autoridade|cargo|cidadania|control[eo]|direito|domínio|força|função|influência|liberdade|liderença|mandato|medicina|ministério|poder|pressão|profissão|tensão|terror|trabalhador|violência
+                        <exception scope='previous'>nada</exception>
+                    </token> <!-- Add words here when they are found -->
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </and>
+            </pattern>
+            <message>Se for um texto científico/universitário, pondere empregar o termo &quot;exercer&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exercer</match></suggestion>
+            <example correction="exercem">Os ativistas <marker>fazem</marker> pressão nas manifestações.</example>
+            <example correction="exercem">Os ativistas <marker>fazem</marker> muita pressão nas manifestações.</example>
+            <example>O que milênios não fizeram pode acontecer num minuto.</example>
+            <example>O que o seu marido fez pode ser apenas um milagre.</example>
+            <example>Nunca me passou pela cabeça que o que eu estava fazendo poderia ser ilegal.</example>
+            <example>Durante e depois das apresentações, os participantes e o público que se fez presente puderam se deliciar com comidas típicas e se divertir com música ao vivo.</example>
+            <example>Parece que o Tom não consegue fazer nada direito.</example>
+            <example>Hoje não consigo fazer nada direito.</example>
+        </rule>
+
+
         <!-- NÃO SE PODE APAGAR é indelével -->
         <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="[Universitário][Científico] 'não se pode apagar' → 'é indelével'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
@@ -11156,6 +11265,47 @@ USA
                 <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> na criação do algoritmo.</example>
             </rule>
         </rulegroup>
+
+
+        <rulegroup id='DE_FORA_EXTERNO_DE_DENTRO_INTERNO' name="Simplificar: de dentro/fora → interno/externo">
+            <!--IDEA shorten_it-->
+
+            <!-- #1: de dentro → interno -->
+            <rule>
+                <pattern>
+                    <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
+                    <marker>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token>de</token>
+                        <token>dentro</token>
+                    </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>interno</match></suggestion>
+                <example correction="pessoas internas">Nesta empresa só é permitido <marker>pessoas de dentro</marker>.</example>
+            </rule>
+
+            <!-- #2: de fora → externo -->
+            <rule>
+                <pattern>
+                    <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
+                    <marker>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token>de</token>
+                        <token>fora</token>
+                    </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>externo</match></suggestion>
+                <example correction="pessoas externas">Nesta empresa só é permitido <marker>pessoas de fora</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
 
         <!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
         <rule id='ERRO_TRADUÇÃO_TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'" tone_tags="objective">
@@ -13539,6 +13689,42 @@ USA
                 <example correction="para o ser humano atuar">Isto <marker>para que o ser humano atue</marker> segundo a vontade divina.</example>
                 <example correction="para os seres humanos atuarem">Isto <marker>para que os seres humanos atuem</marker> segundo a vontade divina.</example>
 
+            </rule>
+
+        </rulegroup>
+
+
+        <rulegroup id='TORNAR_MELHOR_PIOR_MELHORAR_PIORAR' name="[Simplificar] Tornar melhor/pior → melhorar/simplificar">
+            <!--IDEA shorten_it-->
+
+            <!-- #1: melhorar -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token postag='D[AD].+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token regexp="yes">melhor(es)?</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>melhorar</match> \2 \3</suggestion>
+                <example correction="melhora as coisas">Isto só <marker>torna as coisas melhores</marker>.</example>
+            </rule>
+
+            <!-- #2: piorar -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token postag='D[AD].+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token regexp="yes">pior(es)?</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>piorar</match> \2 \3</suggestion>
+                <example correction="piora as coisas">Isto só <marker>torna as coisas piores</marker>.</example>
             </rule>
 
         </rulegroup>

@@ -32,10 +32,12 @@ import java.util.stream.Collectors;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.PosTagHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +51,13 @@ import org.slf4j.LoggerFactory;
 public class TokenAgreementVerbNounRule extends Rule {
   
   private static final Logger logger = LoggerFactory.getLogger(TokenAgreementVerbNounRule.class);
+  private static final List<String> MODALS = Arrays.asList("бути", "могти", "змогти", "мати", "хотіти", "мусити", "намагатися", "вдатися", "доводитися");
 
-  public TokenAgreementVerbNounRule(ResourceBundle messages) throws IOException {
+  private final Synthesizer synthesizer;
+
+  public TokenAgreementVerbNounRule(ResourceBundle messages, Language ukrainian) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
+    synthesizer = ukrainian.getSynthesizer();
   }
 
   @Override
@@ -108,9 +114,10 @@ public class TokenAgreementVerbNounRule extends Rule {
           continue;
       }
 
-      if( PosTagHelper.hasPosTagStart(tokenReadings, "verb") ) {
+      if( PosTagHelper.hasPosTagStart(tokenReadings, "verb") 
+          || PosTagHelper.hasPosTagStart(tokenReadings, "advp") ) {
         
-        if( LemmaHelper.hasLemma(tokenReadings, Arrays.asList("бути", "могти", "змогти", "мати", "хотіти", "мусити", "намагатися", "вдатися", "доводитися"), "verb") ) {
+        if( LemmaHelper.hasLemma(tokenReadings, MODALS, "verb") ) {
           state = null;
           break;
         }
@@ -129,7 +136,7 @@ public class TokenAgreementVerbNounRule extends Rule {
             continue;
           }
 
-          if( ! verbPosTag.startsWith("verb")
+          if( ! verbPosTag.matches("(verb|advp).*")
               || verbPosTag.contains("abbr")
               || "значить".equals(token.getToken())
               || "читай".equals(token.getToken())
@@ -161,6 +168,11 @@ public class TokenAgreementVerbNounRule extends Rule {
         state = null;
         continue;
       }
+
+      // понад - very complicated
+      // зайнявся понад тисячу справ
+//      if( tokens[i].getCleanToken().equals("понад") )
+//        continue;
 
       if( isSkip(tokens, i) ) {
 //        i++;
@@ -310,7 +322,26 @@ public class TokenAgreementVerbNounRule extends Rule {
                 state.verbTokenReadings.get(0).getToken(), formatInflections(cases), 
                 state.nounAdjIndirTokenReadings.get(0).getToken(), TokenAgreementAdjNounRule.formatInflections(nounAdjInflections2, false));
 
+            if( state.verbTokenReadings.get(0).getLemma().equals("сипіти") ) {
+              msg += ". Можливо ви мали на увазі слово «си́пати», а не «сипі́ти»?";
+            }
+            else if( state.verbTokenReadings.get(0).getLemma().equals("сиплячи") ) {
+              msg += ". Можливо ви мали на увазі «сиплючи»?";
+            }
+            
             RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.verbAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+            
+            // TODO: need to adjust highlight to the verb to replace instead of the noun
+//            if( state.verbTokenReadings.get(0).getToken().equalsIgnoreCase("сиплячи") ) {
+//              potentialRuleMatch.addSuggestedReplacement("сиплючи");
+//            }
+            
+            List<String> suggestions = getSuggestions(state.cases, tokenReadings);
+            if( tokenReadings.getCleanToken().equals("піку") && suggestions.contains("піка") ) {
+              suggestions = Arrays.asList("піка");
+            }
+            potentialRuleMatch.addSuggestedReplacements(suggestions);
+            
             ruleMatches.add(potentialRuleMatch);
           }
         }
@@ -320,6 +351,32 @@ public class TokenAgreementVerbNounRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private List<String> getSuggestions(Set<String> cases, AnalyzedTokenReadings tokenReadings) {
+    List<String> suggestions = new ArrayList<>();
+    if( cases.isEmpty() )
+      return suggestions;
+    
+    String requiredPostTagsRegEx = ":(" + String.join("|", cases) + ")";
+    
+    for (AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
+    
+      String oldPosTag = analyzedToken.getPOSTag();
+      
+      if( oldPosTag == null || ! oldPosTag.contains(":v_") )
+        continue;
+      
+      String posTag = oldPosTag.replaceFirst(":v_[a-z]+", requiredPostTagsRegEx);
+
+      try {
+        String[] synthesized = synthesizer.synthesize(analyzedToken, posTag, true);
+        suggestions.addAll( Arrays.asList(synthesized) );
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return suggestions;
   }
 
   private String formatInflections(Set<String> cases) {

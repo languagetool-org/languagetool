@@ -205,6 +205,7 @@ public class Catalan extends Language {
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
       case "CONEIXO_CONEC": return 50;
+      case "COMETES_INCORRECTES": return 50; // greater than PRONOMS_FEBLES
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
       case "DESDE_UN": return 40;
       case "MOTS_NO_SEPARATS": return 40;
@@ -281,6 +282,9 @@ public class Catalan extends Language {
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
       case "ELA_GEMINADA_WIKI": return -200;
+    }
+    if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
+      return -95;
     }
     if (id.startsWith("CA_SIMPLE_REPLACE_MULTIWORDS")) {
       return 70;

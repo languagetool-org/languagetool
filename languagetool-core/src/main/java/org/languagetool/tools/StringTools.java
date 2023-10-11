@@ -597,7 +597,7 @@ public final class StringTools {
    * All non-ASCII characters are replaced with "_", EXCEPT for
    * Latin-1 ranges U+00C0-U+00D6 and U+00D8-U+00DE.
    *
-   * "de" locales have a special implementation (ä => ae, etc.).
+   * "de" locales have a special implementation (ä =&gt; ae, etc.).
    *
    * @param language LT language object, used to apply language-specific normalisation rules.
    *

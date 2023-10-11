@@ -92,6 +92,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "in car",
     "client side",
     "server side",
+    "worry some", // suggestion for worrysome
     "code named",
     "code naming",
     "in house",
@@ -466,7 +467,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("d ") &&
                    !k.getReplacement().toLowerCase().startsWith("p ") &&
                    !k.getReplacement().toLowerCase().startsWith("v ") &&
-                   !k.getReplacement().toLowerCase().startsWith("s ") &&
                    !k.getReplacement().toLowerCase().startsWith("h ") &&
                    !k.getReplacement().toLowerCase().startsWith("r ") &&
                    !k.getReplacement().toLowerCase().startsWith("s ") &&
@@ -684,8 +684,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("teasering", Arrays.asList("teasing"));
     s.put("stealed", Arrays.asList("stole", "stolen"));
     s.put("stealt", Arrays.asList("stole", "stolen"));
-    s.put("whaddya", Arrays.asList("what do you"));
-    s.put("Whaddya", Arrays.asList("What do you"));
     s.put("ignight", Arrays.asList("ignite"));
     s.put("Ignight", Arrays.asList("Ignite"));
     s.put("ignights", Arrays.asList("ignites"));
@@ -716,6 +714,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Repetions", Arrays.asList("Repetitions"));
     s.put("rom", Arrays.asList("room"));
     s.put("th", Arrays.asList("the"));
+    s.put("transman", Arrays.asList("trans man"));
+    s.put("Transman", Arrays.asList("Trans man"));
+    s.put("transmen", Arrays.asList("trans men"));
+    s.put("Transmen", Arrays.asList("Trans men"));
+    s.put("transwoman", Arrays.asList("trans woman"));
+    s.put("Transwoman", Arrays.asList("Trans woman"));
+    s.put("transwomen", Arrays.asList("trans women"));
+    s.put("Transwomen", Arrays.asList("Trans women"));
     s.put("litterly ", Arrays.asList("literally"));
     s.put("Litterly ", Arrays.asList("Literally"));
     s.put("abt", Arrays.asList("about"));

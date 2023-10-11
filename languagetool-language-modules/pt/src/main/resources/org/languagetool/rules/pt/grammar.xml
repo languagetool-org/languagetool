@@ -3988,6 +3988,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
 
+            <antipattern>
+                <token postag='RM' postag_regexp='no'/>
+                <token>a</token> <!-- Disambiguator needs to be fixed. It has DA.+ instead of SPS00 -->
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token postag='SPS00|SPS00:DA..[SN].+' postag_regexp='yes'/>
+                <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+                <example>Ao nos referimos a conflitos militares, nomeadamente a situações de guerra.</example>
+            </antipattern>
+
             <!-- MARCOAGPINTO 2023-03-04 + 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
             <antipattern>
                 <token>home</token>
@@ -11369,12 +11378,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <antipattern> <!-- horas antes, anos depois -->
                 <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
                 <token postag_regexp="yes" postag="R." min="0" max="2"/>
-                <token postag_regexp="yes" postag="[ADPZ]...P.+" min="0"/>
+                <token postag_regexp="yes" postag="([ADP].|Z)..P.+" min="0">
+                    <exception postag_regexp="yes" postag="DA.+"/> <!-- definite articles are stuff like 'os dias de...', prob. not adverbial -->
+                </token>
                 <token regexp="yes">&expressoes_de_tempo_simples;</token>
-                <token regexp="yes">antes|após|depois|mais</token>
+                <!-- <token regexp="yes">antes|após|depois|mais|atrás</token> -->
                 <example>Chegou horas antes do aparecimento do príncipe Mohammed.</example>
                 <example>Estaria chegando minutos depois.</example>
                 <example>Aconteceria apenas anos mais tarde.</example>
+                <example>Aconteceu três anos atrás.</example>
+                <example>Aconteceu dois dias depois de ele ter voltado de Tóquio.</example>
+                <example>Ficou quase dois anos presa.</example>
+                <example>Ficou dez semanas consecutivas na primeira posição.</example>
             </antipattern>
             <antipattern> <!-- vai ficar alguns dias -->
                 <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
@@ -11427,7 +11442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <pattern>
                     <marker>
                         <token postag_regexp="yes" postag="V...3S.+" inflected="yes" regexp="yes">&verbos_nao_impessoais;
-                            <exception>sobre</exception>
+                            <exception regexp="yes">sobre|entre</exception>
                             <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
                             <exception postag_regexp="yes" postag="SPS00|VMN0000"/>
                             <exception scope="next" regexp="yes">a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
@@ -14902,7 +14917,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-       <rule id="URL_INICIAL" name="Evitar URLs to começo de frase por causa de problemas com maiúsculas">
+       <rule id="URL_INICIAL" name="Evitar URLs to começo de frase por causa de problemas com maiúsculas" default="off">
            <antipattern> <!-- sentence is made up *only* of URL -->
                <token postag="SENT_START"/>
                <token postag="_IS_URL" max="-1"/>
@@ -21181,7 +21196,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='CONFUSED_WORDS' name="Confusão de Palavras">
-        <rule id="NOTAS_FICAIS" name="Notas ficais -> fiscais" default="temp_off">
+        <rule id="NOTAS_FICAIS" name="Notas ficais -> fiscais">
             <pattern>
                 <token>notas</token>
                 <token>ficais</token>

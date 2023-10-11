@@ -1783,10 +1783,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Das hat auch er <marker>auf die harte Tour</marker> gelernt.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_EXCLAMATION" name="">
              <rule>
                 <regexp mark="1">(!)(!)</regexp>
                 <example correction="">Dieser Film gefällt<marker>!</marker>!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_PUNCTUATION_HORIZONTAL_ELLIPSIS__ES__PERIOD__PERIOD__PERIOD__ES" name=""><!-- gGEC wants to change "Aber" to lower case-->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>…</token>
+                        <token skip="-1" spacebefore="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    </marker>
+                    <token postag="PKT"/>
+                </pattern>
+                <example correction="">Heute war ich schnell <marker>… Aber</marker> gestern war einfach nicht mein Tag!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD__PERIOD__PERIOD.*" name=""><!-- gGEC wants to remove the 3 dots and start the sentence with a capital letter-->
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no" case_sensitive="yes">[a-zäöü].+</token>
+                </pattern>
+                <example correction=""><marker>...mit</marker> der Zeit heilt der Schmerz.</example>
+                <example correction=""><marker>...und</marker> das doch wohl nur durch unseren lieben Außenminister!</example>
             </rule>
         </rulegroup>
 

@@ -1008,7 +1008,7 @@ public class SingleDocument {
   
   /**
    * remove a ignore once entry for point x, y from queue and set the mark
-   * if x < 0 remove all ignore once entries for paragraph y
+   * if x &lt; 0 remove all ignore once entries for paragraph y
    */
   public void removeIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
     ignoredMatches.removeIgnoredMatch(x, y, ruleId);
@@ -1024,7 +1024,7 @@ public class SingleDocument {
   
   /**
    * remove a ignore Permanent entry for point x, y from queue and set the mark
-   * if x < 0 remove all ignore once entries for paragraph y
+   * if x &lt; 0 remove all ignore once entries for paragraph y
    */
   public void removePermanentIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
     permanentIgnoredMatches.removeIgnoredMatch(x, y, ruleId);

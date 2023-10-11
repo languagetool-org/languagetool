@@ -29,6 +29,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY quote '["“”„]'>
     <!ENTITY hyphen "(?:[–\-—])">
+    <!ENTITY non_english '[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя]'>
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
@@ -91,6 +92,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_TENSE" name="">
+            <rule>
+                <pattern>
+                    <token chunk="B-NP-singular" />
+                    <token chunk="E-NP-singular" />
+                    <marker>
+                        <token>confirm</token>
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token postag="VB[DZ]" postag_regexp="yes" chunk="B-VP" />
+                </pattern>
+                <example correction="">The broker <marker>confirm</marker> indicates we sold the swap.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>.</token>
@@ -245,6 +258,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </pattern>
                     <example correction="">We did just <marker>see</marker> the film.</example>
                 </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_LECTOR_MISSING_DETERMINER_THE" name="">
+            <rule>  <!-- incorrect capitalization -->
+                <antipattern>
+                    <token>
+                        <exception postag="NNP" />
+                        <exception>FYI</exception>
+                    </token>
+                    <token postag="," />
+                    <token regexp="yes" case_sensitive="yes" postag="V.*" postag_regexp="yes">[A-Z][a-z]+</token>
+                </antipattern>
+                <pattern>
+                    <token postag="," />
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes" postag="V.*" postag_regexp="yes">[A-Z][a-z]+</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[a-z]+</token>
+                </pattern>
+                <example correction="">FYI, <marker>Attached</marker> document is a specification of the network design optimization program.</example>
+                <example correction="">Mike, <marker>Following</marker> request has been made for a number of people.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_MISSING_PUNCTUATION" name="">
             <rule>
@@ -3630,7 +3664,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>  <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">.*[ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
                     </marker>
                 </pattern>
                 <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
@@ -3666,7 +3700,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule> <!-- non-English characters -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">.*[ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя].*</token>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
                     </marker>
                 </pattern>
                 <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
@@ -3685,6 +3719,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction=""><marker>LanguageTool</marker> for Windows 0.3</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NNP_FOR_NNP" name="">
+            <rule> <!-- non-English characters -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
+                    </marker>
+                </pattern>
+                <example correction="">After serving six months, he escaped with the help of Abdullah <marker>Çatlı</marker>, second-in-command of the Grey Wolves, and fled to Bulgaria, which was a base of operations for the Turkish mafia.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NNP_FOR_NNP_ERROR_IDS_000051" name="">
+            <rule> <!-- non-English characters -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
+                    </marker>
+                </pattern>
+                <example correction="">On 1 February 1979, in Istanbul, under orders from the Grey Wolves, he murdered Abdi <marker>İpekçi</marker>, editor of the major Turkish newspaper Milliyet.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NNP_FOR_NNP_ERROR_IDS_000052" name="">
             <rule>  <!-- capitalization of covid-19 -->
                 <pattern>
@@ -3693,6 +3747,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Lots of people got <marker>Covid-19</marker> at our last meetup.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NNPSPACE''SPACEUNDERSCORESPSPACECOLONSPACEUNDERSCORESPSPACEDT_FOR_NNP" name="">
+            <rule> <!-- non-English characters -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
+                        <token />
+                        <token />
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction="">Komisar added that at the scene of the Mercedes-Benz crash where he died, he was found with a passport under the name of "Mehmet <marker>Özbay" — an</marker> alias also used by Ağca.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_OPEN_QUOTESPACENNSPACE''_FOR_OPEN_QUOTESPACEOPEN_QUOTE" name="">

@@ -431,6 +431,11 @@ public class VerbAgreementRule extends TextLevelRule {
       posRegex("VER:.*")
     ),
     asList(
+      tokenRegex("glaube?|denke?|hoffe?|vermute?|behaupte?|wette?"),  // "Wir haben da ein monatliches Limit, in das wir glaube ich schon für September reingelaufen sind."
+      token("ich"),
+      posRegex("ADV.*|SUB.*|UNKNOWN|ADJ.*|PA[12].*|ART.*|PRP.*|PRO.*")
+    ),
+    asList(
       tokenRegex("ich"),  // "Ich weiß, was ich tun werde, falls etwas geschehen sollte."
       pos("VER:INF:NON"),
       token("werde")
