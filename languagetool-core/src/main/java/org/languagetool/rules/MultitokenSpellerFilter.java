@@ -18,12 +18,14 @@
  */
 package org.languagetool.rules;
 
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class MultitokenSpellerFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
+
     boolean keepSpaces = getOptional("keepSpaces", arguments, "true").equalsIgnoreCase("true")? true: false;
     String requireRegexp = getOptional("requireRegexp", arguments);
     String underlinedError = match.getOriginalErrorStr();
@@ -62,6 +65,8 @@ public class MultitokenSpellerFilter extends RuleFilter {
       replacements = replacements.stream()
         .filter(str -> str.matches(".*\\b(" + requireRegexp + ")\\b.*")).collect(Collectors.toList());
     }
+    replacements = replacements.stream()
+      .filter(str -> LevenshteinDistance.getDefaultInstance().apply(str, underlinedError)<6).collect(Collectors.toList());
     if (replacements.isEmpty()) {
       return null;
     }
