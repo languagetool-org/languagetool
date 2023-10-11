@@ -39,7 +39,6 @@ public class MultitokenSpellerFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
-
     boolean keepSpaces = getOptional("keepSpaces", arguments, "true").equalsIgnoreCase("true")? true: false;
     String requireRegexp = getOptional("requireRegexp", arguments);
     String underlinedError = match.getOriginalErrorStr();
