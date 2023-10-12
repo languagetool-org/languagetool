@@ -121,4 +121,9 @@ public class PortugueseWordTokenizerTest {
     testTokenise("N.º69", new String[]{"N", ".", "º69"});  // the '.' char splits it
     testTokenise("N.º 80085", new String[]{"N", ".", "º", " ", "80085"});  // the '.' char splits it
   }
+
+  @Test
+  public void testDoNotTokeniseEmoji() {
+    testTokenise("☺☺☺Só", new String[]{"☺☺☺Só"});
+  }
 }

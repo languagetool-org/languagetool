@@ -107,6 +107,17 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testBrazilPortugueseSpellingSplitsEmoji() throws Exception {
+    assertSingleError("☺☺☺Só", br_lt, br_rule, new String[]{"☺☺☺ Só"});
+  }
+
+  @Test
+  public void testBrazilPortugueseSpellingDoesNotCheckXForVezes() throws Exception {
+    assertNoErrors("10X", br_lt, br_rule);
+    assertNoErrors("5x", br_lt, br_rule);
+  }
+
+  @Test
   public void testEuropeanPortugueseSpelling() throws Exception {
     MorfologikPortugueseSpellerRule rule = new MorfologikPortugueseSpellerRule(TestTools.getMessages("pt"),
       Languages.getLanguageForShortCode("pt-PT"), null, null);
