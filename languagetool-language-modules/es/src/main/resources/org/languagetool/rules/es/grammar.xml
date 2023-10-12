@@ -26007,6 +26007,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="VULVA_VUELVA" name="vulva -> vuelva" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>vulva</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>vuelva</suggestion>?</message>
+                <example correction="vuelva">No quiero que se <marker>vulva</marker> a producir.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LAMO_LLAMO" name="confusión: lamer/llamar">
             <antipattern>
                 <token inflected="yes">lamer</token>
@@ -27860,9 +27870,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="A_VER_HABER" name="a ver->haber">
             <url>https://languagetool.org/insights/es/publicacion/a-ver-o-haber/</url>
             <antipattern>
-                <token inflected="yes" regexp="yes">ir|acudir|correr</token>
+                <token inflected="yes" regexp="yes">ir|acudir|correr|volver</token>
                 <token>a</token>
                 <token postag="V.N.*" postag_regexp="yes" inflected="yes">ver</token>
+                <example>Espero que no se vuelva a ver afectado.</example>
             </antipattern>
             <rule>
                 <pattern>
