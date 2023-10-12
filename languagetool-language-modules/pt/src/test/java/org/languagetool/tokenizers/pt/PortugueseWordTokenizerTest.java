@@ -132,4 +132,10 @@ public class PortugueseWordTokenizerTest {
     // the tilde here is a unicode modifier char; normally, the unicode a-tilde (ã) is used
     testTokenise("Não", new String[]{"Não"});
   }
+
+  @Test
+  public void testTokeniseRarePunctuation() {
+    testTokenise("⌈Herói⌋", new String[]{"⌈", "Herói", "⌋"});
+    testTokenise("″Santo Antônio do Manga″", new String[]{"″", "Santo", " ", "Antônio", " ", "do", " ", "Manga", "″"});
+  }
 }
