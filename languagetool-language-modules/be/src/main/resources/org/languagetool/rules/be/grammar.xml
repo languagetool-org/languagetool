@@ -34,7 +34,7 @@
         <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
             <rule>
                 <antipattern>
-                    <token regexp='yes'>(прэзідыум|кансіліум|кантынуум|радыус|страус|соус|трыумф|трыумфальн|трыумфава|трыумфатар|калегіум|вакуум|траур|ноу-хау|ток-шоу|фрау|шоу|Ландау|Каратау|Дахау|Цеміртау|аул|баул|аука)[агеёзійкмнсуўхьыюя]{0,3}</token>
+                    <token regexp='yes'>(аука|аул|баул|вакуум|прэзідыум|калегіум|кансіліум|кантынуум|ноу-хау|радыус|соус|страус|трыумвір|трыумвірат|трыумф|трыумфава|трыумфальн|трыумфатар|ток-шоу|фрау|шоу|Дахау|Каратау|Ландау|Цеміртау|Саудаўск|сауд)[агеёзійкмнсуўхьыюя]{0,3}</token>
                 </antipattern>
                 <antipattern>
                     <token regexp='yes' case_sensitive="yes">.*[АЕЁІОУЫЭЮЯаеёіоуыэюя][-]?У.*</token>
@@ -221,6 +221,7 @@
             </rule>
         </rulegroup>
     </category>
+
     <category id="CAT2" name="Граматыка">
         <rulegroup name="Ужываньне склонаў" id="SKLONY">
             <rule default="on" id="pa_fakcie" name="Словазлучэнне: «па факце»">
@@ -247,6 +248,7 @@
             </rule>
         </rulegroup>
     </category>
+
     <category id="CAT3" name="Стыль">
         <rule id="PARTICLE_Za_Z" name="Ужыванне часціц: «жа» і «ж»">
             <pattern case_sensitive="yes">
@@ -360,6 +362,7 @@
             </rule>
         </rulegroup>
     </category>
+
     <category id="CAT4" name="Фразеялогія">
         <rule id="punkt_hledzannia" name="Няправільнае выкарыстанне слова «кропка» замест «пункт»">
             <pattern>
@@ -433,6 +436,7 @@
             </rule>
         </rulegroup>
     </category>
+
     <category id="CAT5" name="Семантычныя памылкі">
         <rulegroup id="INVALID_DATE" name="Няправільная дата, напр.: «31 лютага 2014»">
             <rule>
@@ -903,5 +907,28 @@
                 <example>Аднак, прымаючы пад увагу прадуктыўнасць суфікса ‑ina (гл. Слаўскі, SP, 120–123), не выключана магчымасць самастойнага ўтварэння..</example>
             </rule>
         </rulegroup>
+    </category>
+
+    <category id="CAT6" name="Лексіка">
+        <rule id="poviad" name="Украінізм для слоў расказ/апавяданне" tags="picky">
+            <antipattern>
+                <token regexp='yes'>аповед[агеёзійкмнсуўхьыюя]{0,3}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>апавяда(ць|ю|еш|е|ем|еце|юць|ючы|нне|ння|нню|ннем|нні|нняў|нням|ннях|ннямі)</token>
+            </antipattern>
+            <pattern>
+                <token regexp='yes'>(а|рас)п[оа]в[яе]д[агеёзійкмнсуўхцьыюя]{0,4}</token>
+            </pattern>
+            <message>Як відаць, вы ўжылі адзін з нелітаратурных украінізмаў накшталт «апавяд», «расповед», «распавядаць» і пад. Лепш ужыць адно з літаратурных слоў: расказ, расказванне (дзеянне), расказваць, апавяданне, ававядаць, аповесць, паведаць, паведаміць. Таксама дапушчальна ўжываць «аповед».</message>
+            <short>Нелітаратурнае слова</short>
+            <example correction="">пачну свой <marker>расповед</marker> з…</example>
+            <example correction="">Ён напісаў кароценькі <marker>апавяд</marker>.</example>
+            <example correction="">А я зараз <marker>распавяду</marker> адкуль на Беларусь рыхтаваўся напад.</example>
+            <example>А я зараз раскажу адкуль на Беларусь рыхтаваўся напад.</example>
+            <example>Яго аповедам захапляліся мільёны.</example>
+            <example>Так апавядае, нібы сама бачыла.</example>
+            <example>Цікавае апавяданне.</example>
+        </rule>
     </category>
 </rules>
