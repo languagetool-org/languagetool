@@ -101,8 +101,15 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
-  public void testTokeniseUserMentions() {
+  public void testDoNotTokeniseUserMentions() {
     // Twitter and whatnot; same as English
     testTokenise("@user", new String[]{"@user"});
+  }
+
+  @Test
+  public void testDoNotTokeniseCurrency() {
+    testTokenise("R$45,00", new String[]{"R$45,00"});
+    testTokenise("US$249,99", new String[]{"US$249,99"});
+    testTokenise("€2.000,00", new String[]{"€2.000,00"});
   }
 }
