@@ -91,6 +91,13 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testBrazilPortugueseSpellingDoesNotCheckUserCurrencyValues() throws Exception {
+    assertNoErrors("R$45,00", br_lt, br_rule);
+    assertNoErrors("US$1.000,00", br_lt, br_rule);
+    assertNoErrors("€99,99", br_lt, br_rule);
+  }
+
+  @Test
   public void testEuropeanPortugueseSpelling() throws Exception {
     MorfologikPortugueseSpellerRule rule = new MorfologikPortugueseSpellerRule(TestTools.getMessages("pt"),
       Languages.getLanguageForShortCode("pt-PT"), null, null);
