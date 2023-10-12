@@ -354,7 +354,9 @@
   <rule id="TOMAR" name="tomar (not noun)">
     <pattern>
       <!-- TODO: exceptions -->
-      <token regexp="yes">tomas?</token>
+      <token regexp="yes">tomas?
+        <exception scope='previous' postag_regexp='yes' negate_pos='yes' postag='NC.+|AQ.+|NP.+'/>
+      </token>
     </pattern>
     <disambig action="remove" postag="NC.*"/>
   </rule>
