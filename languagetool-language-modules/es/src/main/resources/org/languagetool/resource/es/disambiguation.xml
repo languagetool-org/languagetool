@@ -138,6 +138,12 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="NCMP000"/>
     </rule>
+    <rule id="HAS" name="has, estás (voseo)">
+        <pattern>
+            <token postag="VAIP2V0" regexp="yes">has|estás</token>
+        </pattern>
+        <disambig action="remove" postag="VAIP2V0"/>
+    </rule>
     <rulegroup id="PUNCT" name="puntuación">
         <rule>
             <pattern>
@@ -699,7 +705,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">paleo|histórico|hispano|anglo</token>
+                    <token regexp="yes">paleo|histórico|hispano|anglo|pos</token>
                 </marker>
                 <token spacebefore="no">-</token>
                 <token postag="[NA].*" postag_regexp="yes" spacebefore="no"/>
@@ -723,6 +729,16 @@ Copyright (C) 2011 Juan Martorell
                 <token inflected="yes">fitosanitario</token>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">pre|pos|post</token>
+                </marker>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[\p{Lu}\d].*</token>
+            </pattern>
+            <disambig action="replace" postag="RG"/>
         </rule>
     </rulegroup>
     <rule id="DEMASIADO" name="demasiado">
@@ -7768,6 +7784,15 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="ABREVIATURAS_CON_PUNTO" name="abreviaturas con punto">
+        <pattern>
+            <marker>
+                <token regexp="yes" case_sensitive="yes">&abreviaturas;</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <!-- CHUNKER -->
     <rulegroup id="PERIFRASIS_VERBALES" name="perífrasis verbales">
         <rule>

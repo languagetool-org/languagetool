@@ -62,6 +62,19 @@ public class SpellingCheckRuleTest {
     assertThat(lt.check("fudeldu laberwort").size(), is(0));
     assertThat(lt.check("Fudeldu laberwort").size(), is(0));  // Uppercase at sentence start is okay
     assertThat(lt.check("Fudeldu Laberwort").size(), is(2));  // Different case somewhere other than at sentence start is not okay
+
   }
 
+  @Test
+  public void testMultitokenSpelling() throws IOException {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    assertThat(lt.check("Bresegard bei Eldena").size(), is(0));
+    assertThat(lt.check("Feichten an der Alz").size(), is(0));
+    assertThat(lt.check("Groß Oesingen").size(), is(0));
+    assertThat(lt.check("Eching am Ammersee").size(), is(0));
+
+    assertThat(lt.check("Gross Oesingen").size(), is(2));
+    assertThat(lt.check("Groß Oessingen").size(), is(1));
+    assertThat(lt.check("Eching am Ammerse").size(), is(2));
+  }
 }

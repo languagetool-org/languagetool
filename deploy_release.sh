@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 #
 # LanguageTool, a natural language style checker
 # Copyright (C) 2021 Stefan Viol (https://stevio.de)
@@ -18,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 # USA
 #
-if [ $# -ne 2 ]; then
+if [ $# -lt 2 ]; then
   echo "Usage: `basename $0` Version Test"
   echo "Examples:"
   echo "  ./`basename $0` 5.6.1 full"
@@ -35,23 +36,25 @@ fi
 #mvn -Drevision=5.6 -P release clean package -fn
 echo "Version: $1";
 echo "Test: $2"
+echo "Use mvnd: $3"
 
 VERSION=$1
 TEST=$2
-
+MVN_COMMAND=$(if [ $3 = "true" ]; then echo "mvnd"; else echo "mvn"; fi)
+echo "Use maven command: $MVN_COMMAND"
 case "$TEST" in
   "fae" | "fn")
-    COMMAND="mvn -Drevision=$VERSION clean deploy -$TEST"
+    COMMAND="$MVN_COMMAND -Drevision=$VERSION clean deploy -$TEST"
     echo "$COMMAND"
     $COMMAND
     ;;
   "none")
-    COMMAND="mvn -Drevision=$VERSION clean deploy -DskipTests"
+    COMMAND="$MVN_COMMAND -Drevision=$VERSION clean deploy -DskipTests"
     echo "$COMMAND"
     $COMMAND  
     ;;
   "full")
-    COMMAND="mvn -Drevision=$VERSION clean deploy"
+    COMMAND="$MVN_COMMAND -Drevision=$VERSION clean deploy"
     echo "$COMMAND"
     $COMMAND
     ;;

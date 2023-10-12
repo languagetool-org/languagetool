@@ -91,7 +91,7 @@
     <distributionManagement>
         <repository>
             <id>repo.languagetool.org</id>
-            <name>languagetool-os-snapshot</name>
+            <name>languagetool-os-release</name>
             <url>https://repo.languagetool.org/artifactory/languagetool-os-release/</url>
         </repository>
         <snapshotRepository>
@@ -102,8 +102,15 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <repositories>
+        <repository>
+            <id>repo.languagetool.org</id>
+            <url>https://repo.languagetool.org/artifactory/languagetool-os-snapshot/</url>
+        </repository>
+    </repositories>
+
     <properties>
-        <revision>6.3-SNAPSHOT</revision>
+        <revision>6.4-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -168,7 +175,7 @@
         <commons-validator>1.7</commons-validator>
 
         <de.danielnaber.german-pos-dict.version>1.2.4</de.danielnaber.german-pos-dict.version>
-        <de.danielnaber.jwordsplitter.version>4.5</de.danielnaber.jwordsplitter.version>
+        <de.danielnaber.jwordsplitter.version>4.7</de.danielnaber.jwordsplitter.version>
 
         <edu.washington.cs.knowitall.openregex.version>1.1.1</edu.washington.cs.knowitall.openregex.version>
 
@@ -205,18 +212,19 @@
         <org.softcatala.catalan-pos-dict.version>2.22</org.softcatala.catalan-pos-dict.version>
         <org.tukaani.version>1.8</org.tukaani.version>
 
-        <frensh-pos-dict.version>0.5</frensh-pos-dict.version>
+        <french-pos-dict.version>0.5</french-pos-dict.version>
         <guava.version>32.1.1-jre</guava.version>
         <jackson.version>2.14.2</jackson.version>
         <languagetool-ga-dicts.version>0.02</languagetool-ga-dicts.version>
         <lombok.version>1.18.22</lombok.version>
         <lucene.version>5.5.5</lucene.version>
         <morfologik.version>2.1.9</morfologik.version>
-        <morfologik-ukrainian-lt.version>6.1.5</morfologik-ukrainian-lt.version>
+        <morfologik-ukrainian-lt.version>6.3.0</morfologik-ukrainian-lt.version>
         <optimaize.languagedetector.language-detector.version>0.6</optimaize.languagedetector.language-detector.version>
         <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
         <spanish-pos-dict.version>2.0</spanish-pos-dict.version>
         <portuguese-pos-dict.version>0.3</portuguese-pos-dict.version>
+        <dutch-pos-dict.version>0.1</dutch-pos-dict.version>
         <tech.units.indriya.version>1.3</tech.units.indriya.version>
         <ecs-logging-java.version>1.3.2</ecs-logging-java.version>
 
@@ -707,7 +715,7 @@
             <dependency>
                 <groupId>org.languagetool</groupId>
                 <artifactId>french-pos-dict</artifactId>
-                <version>${frensh-pos-dict.version}</version>
+                <version>${french-pos-dict.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.carrot2</groupId>
@@ -934,6 +942,21 @@
                 <groupId>org.languagetool</groupId>
                 <artifactId>portuguese-pos-dict</artifactId>
                 <version>${portuguese-pos-dict.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.carrot2</groupId>
+                        <artifactId>morfologik-fsa</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.carrot2</groupId>
+                        <artifactId>morfologik-stemming</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>dutch-pos-dict</artifactId>
+                <version>${dutch-pos-dict.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.carrot2</groupId>

@@ -616,7 +616,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token regexp="yes">der|die|das|wie|wann|wer|was|wieso|warum|wo(zu|mit|hin)?</token>
                     </marker>
                 </pattern>
-                <example correction="">@Emanuel Peter <marker>das</marker> trifft auch auf euch zu.</example>
+                <suggestion>, \4</suggestion>
+                <example correction=", das">@Emanuel Peter<marker> das</marker> trifft auch auf euch zu.</example>
             </rule>
             <rule>
                 <pattern>
@@ -626,7 +627,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token regexp="yes">der|die|das|wie|wann|wer|was|wieso|warum|wo(zu|mit|hin)?</token>
                     </marker>
                 </pattern>
-                <example correction="">@Emanuel <marker>das</marker> trifft auch auf euch zu.</example>
+                <suggestion>, \3</suggestion>
+                <example correction=", das">@Emanuel<marker> das</marker> trifft auch auf euch zu.</example>
             </rule>
             <rule>
                 <pattern>
@@ -639,7 +641,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token regexp="yes">der|die|das|wie|wann|wer|was|wieso|warum|wo(zu|mit|hin)?</token>
                     </marker>
                 </pattern>
-                <example correction="">@Emanuel van der Vet <marker>das</marker> trifft auch auf dich zu?</example>
+                <suggestion>, \6</suggestion>
+                <example correction=", das">@Emanuel van der Vet<marker> das</marker> trifft auch auf dich zu?</example>
             </rule>
             <rule>
                 <pattern>
@@ -1196,6 +1199,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_KOMMA_MISSING_COMMA" name="">
             <rule>
                 <pattern>
+                    <token postag="UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+n</token>
+                    <marker>
+                        <token>haben</token>
+                    </marker>
+                </pattern>
+                <example correction="">4 Wochen wäre auch OK, wenn die 100 Leute onboarden <marker>haben</marker> die schon viel mehr Zeit als wir investiert</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="ADJ.*" postag_regexp="yes"></token>
                     <marker>
                         <token regexp="yes">morgen|tag|abend</token>
@@ -1674,7 +1686,136 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </marker>
                 <token postag="ART.*GEN.*" postag_regexp="yes"/>
             </pattern>
-            <example correction="">Handschriftliches können Sie <marker>mit</marker> der Scanfunktion des Tools, elektronische Texte direkt in einer der zahlreichen Versionen überprüfen lassen.<marker>bed English</marker>.</example>
+            <suggestion>, mit</suggestion>
+            <example correction=", mit">Handschriftliches können Sie<marker> mit</marker> der Scanfunktion des Tools, elektronische Texte direkt in einer der zahlreichen Versionen überprüfen lassen.<marker>bed English</marker>.</example>
         </rule>
+
+        <!-- ====================================================================== -->
+        <!-- Antipatterns for AI_DE_GGEC_.* -->
+        <!-- ====================================================================== -->
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_PUNCTUATION.*" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token regexp="yes">[„“]</token>
+                </pattern>
+                <example correction="">Das ist ein grünes Haus<marker>“</marker>.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">[~—−–]</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>–</marker> Hier wird ein Spiegelstrich verwendet.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_OTHERCASE" name="">
+            <rule><!--1-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[A-ZÄÖÜ]{1,30}</token>
+                </pattern>
+                <example correction="">Das ist <marker>MEIN</marker> Haus.</example>
+                <example correction="">Er ist Chef der Firma <marker>METACOM</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
+            <rule><!--1-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Du|Dir|Dich|Dein(e[rnms]?)?|Euch|Eue?re[rmns]?</token>
+                </pattern>
+                <example correction="">Wir wünschen dir alles Gute zu <marker>Deinem</marker> Geburtstag.</example>
+                <example correction="">Die Kinder freuen sich schon auf <marker>Dich</marker>!</example>
+            </rule>
+            <rule><!--2-->
+                <pattern case_sensitive="yes">
+                    <token postag_regexp="yes" postag="PRO:PER:NOM:PLU.*">Ihr</token>
+                </pattern>
+                <example correction="">Kommt <marker>Ihr</marker> morgen auf die Messe?</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN_FORM" name="">
+            <rule><!--1-->
+                <pattern case_sensitive="yes">
+                    <token postag="SUB.*ADJ" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].*ende[mnrs]?</token>
+                </pattern>
+                <example correction="">Nicht nur für die <marker>Besuchenden</marker> eurer Webseite interessant.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PRONOUN" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token>alles</token>
+                    <token>alles</token>
+                    <token min="0">alles</token>
+                    <token min="0">erdenklich</token>
+                    <token regexp="yes">Gute|Liebe</token>
+                </pattern>
+                <example correction="">Ich wünsche Dir <marker>alles alles erdenklich Liebe</marker> zum Geburtstag.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_ADVERB" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token>sehr</token>
+                    <token>sehr</token>
+                    <token min="0">sehr</token>
+                    <token postag="ADJ.*|PRO.*" postag_regexp="yes" />
+                </pattern>
+                <example correction=""> Ich bin <marker>sehr sehr skeptisch</marker> wegen des Datenschutzes.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_DETERMINER_FORM" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token>auf</token>
+                    <token>die</token>
+                    <token>harte</token>
+                    <token>Tour</token>
+                </pattern>
+                <example correction="">Das hat auch er <marker>auf die harte Tour</marker> gelernt.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_EXCLAMATION" name="">
+             <rule>
+                <regexp mark="1">(!)(!)</regexp>
+                <example correction="">Dieser Film gefällt<marker>!</marker>!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_PUNCTUATION_HORIZONTAL_ELLIPSIS__ES__PERIOD__PERIOD__PERIOD__ES" name=""><!-- gGEC wants to change "Aber" to lower case-->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>…</token>
+                        <token skip="-1" spacebefore="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    </marker>
+                    <token postag="PKT"/>
+                </pattern>
+                <example correction="">Heute war ich schnell <marker>… Aber</marker> gestern war einfach nicht mein Tag!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD__PERIOD__PERIOD.*" name=""><!-- gGEC wants to remove the 3 dots and start the sentence with a capital letter-->
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no" case_sensitive="yes">[a-zäöü].+</token>
+                </pattern>
+                <example correction=""><marker>...mit</marker> der Zeit heilt der Schmerz.</example>
+                <example correction=""><marker>...und</marker> das doch wohl nur durch unseren lieben Außenminister!</example>
+            </rule>
+        </rulegroup>
+
     </category>
 </rules>

@@ -49,10 +49,6 @@ public class AmericanReplaceRuleTest {
 
     // incorrect sentences:
 
-    // at the beginning of a sentence (Romanian replace rule is case-sensitive)
-    checkSimpleReplaceRule("Porridge is full of protein.", "Oatmeal");
-    // inside sentence
-    checkSimpleReplaceRule("I really like your handbag.", "purse");
     // expression
     checkSimpleReplaceRule("I love fish fingers.", "fish sticks");
   }

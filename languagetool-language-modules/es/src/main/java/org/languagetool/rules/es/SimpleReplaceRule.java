@@ -59,7 +59,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public final String getId() {
-    return "ES_SIMPLE_REPLACE";
+    return "ES_SIMPLE_REPLACE_SIMPLE";
   }
 
   @Override

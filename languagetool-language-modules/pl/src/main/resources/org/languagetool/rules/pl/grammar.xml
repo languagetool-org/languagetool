@@ -24017,6 +24017,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+        <rule id="KOCHANKA_GAZOWA" name="„kochanka gazowa” (kuchenka gazowa)">
+            <pattern>
+                <unify><feature id="gender"><type id="f"/></feature><feature id="number"/><feature id="case"/>
+                    <marker>
+                    <token inflected="yes">kochanka</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">gazowy|turystyczny|elektryczny</token>
+                </unify>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="ocha" regexp_replace="uche"/></suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example correction="Kuchenka"><marker>Kochanka</marker> turystyczna jest jak konserwa turystyczna.</example>
+        </rule>
         <rulegroup id="ZMIANIE_PODLEJA_ZMIANIE_PODLEGAJA" name="„Zmianie podleją” (Zmianie podlegają)">
         <rule>
             <pattern>

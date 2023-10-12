@@ -48,6 +48,19 @@ public class CatalanDisambiguationRuleTest {
 
   @Test
   public void testChunker() throws IOException {
+
+    TestTools
+      .myAssert(
+        "Jean-Luc Mélanchon",
+        "/[null]SENT_START Jean-Luc/[Jean-Luc Mélanchon]NPMSSP0  /[null]null Mélanchon/[Jean-Luc Mélanchon]NPMSSP0|Mélanchon/[Mélanchon]_possible_nompropi",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools
+      .myAssert(
+        "Yuval Noha Hariri",
+        "/[null]SENT_START Yuval/[Yuval]NPCN000  /[null]null Noha/[null]null  /[null]null Hariri/[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
     TestTools
     .myAssert(
         "Abans-d'ahir va ser",

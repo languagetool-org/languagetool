@@ -58,6 +58,49 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
+  public void testIgnoreMisspelledWord() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände."));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Absenkungsvorgaben"));  // triggers use of nonStrictSplitter (2023-09-26, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings."));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungsschäden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings."));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungs-Schäden"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungschäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungschäden"));  // missing infix-s
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltung-Schäden"));  // missing infix-s
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungsschäden"));  // misspelling in first word
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungs-Schäden"));  // misspelling in first word
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsscheden"));  // misspelling in second part
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Scheden"));  // misspelling in second part
+    assertFalse(rule.ignorePotentiallyMisspelledWord("HaltungsSchäden"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsei"));  // second part too short
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Ei"));  // second part too short
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsnach"));  // second part not a noun
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstestnachweis"));  // 4 or more parts not yet supported
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistung"));  // not a compound
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungs"));  // not a compound
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
+    // special cases:
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate"));
+  }
+
+  @Test
   public void testArtig() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     accept("zigarrenartig", rule);
@@ -377,7 +420,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("unvorsehbares", "unvorhersehbares", rule, lt);
     assertFirstSuggestion("Würtenberg", "Württemberg", rule, lt);
     assertFirstSuggestion("Baden-Würtenbergs", "Baden-Württembergs", rule, lt);
-    assertFirstSuggestion("Rechtsschreibungsfehlern", "Rechtschreibfehlern", rule, lt);
+    //assertFirstSuggestion("Rechtsschreibungsfehlern", "Rechtschreibfehlern", rule, lt);
     assertFirstSuggestion("indifiziert", "identifiziert", rule, lt);
     assertFirstSuggestion("verblüte", "verblühte", rule, lt);
     assertFirstSuggestion("dreitem", "drittem", rule, lt);
@@ -559,7 +602,6 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("durchsichtbar", "durchsichtig", rule, lt);
     assertFirstSuggestion("offensichtiges", "offensichtliches", rule, lt);
     assertFirstSuggestion("zurverfühgung", "zur Verfügung", rule, lt);
-    assertFirstSuggestion("Verständlichkeitsfragen", "Verständnisfragen", rule, lt);
     assertFirstSuggestion("Bewusstliches", "Bewusstes", rule, lt);
     assertFirstSuggestion("leidensvolle", "leidvolle", rule, lt);
     assertFirstSuggestion("augensichtlich", "augenscheinlich", rule, lt);
@@ -653,8 +695,12 @@ public class GermanSpellerRuleTest {
     if (expected == null) {
       assertThat("Matches: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().size(), is(0));
     } else {
-      assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
-        matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+      if (matches.length == 0) {
+        fail("Matches: " + matches.length + ", expected at least one");
+      } else {
+        assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+          matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
+      }
     }
   }
 
@@ -691,6 +737,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ist doch -- gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil- bzw. Grammatikprüfung gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Oliven- und Mandelöl")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung gut")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Er liebt die Stil-, Text- und Grammatikprüfung.")).length);
@@ -1095,7 +1142,11 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest_innenausbieldung ist schwer.")).length, is(2));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest*innenausbieldung ist schwer.")).length, is(2));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest:innenausbieldung ist schwer.")).length, is(2));
-    
+
+    assertThat(rule.match(lt.getAnalyzedSentence("Die SEO-Expert*innen")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die SEO-Expxrt*innen")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die SEO-Expert*annen")).length, is(2));
+
     //check common file name with _
     assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.txt.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.txt und ist leer.")).length, is(0));

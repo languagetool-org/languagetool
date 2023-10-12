@@ -26,6 +26,8 @@
 
 -->
 
+<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+
   <!DOCTYPE rules [
     <!ENTITY % messages  SYSTEM "../../../resource/pt/entities/messages.ent" >
     %messages;
@@ -104,7 +106,7 @@
 
 
     <!-- Termos informais específicos pt_PT - the rule also tests with adding a "s" (plural) at the end of each word -->
-    <!ENTITY informal "abéculas?|ajavardar|anhar|anjinhos?|bacan[ao]s?|badalos?|baita|baixinh[ao]s?|balof[ao]s?|baril|barracadas?|batelada|baza|bazam|bazas|bazaste|bazei|bazámos|bazamos|beijoqueir[ao]s?|bejecas?|bichan[ao]s?|bichinh[ao]s?|biscates?|bitaites?|blablablá|boazonas?|bonz(ão|ões)|bófias?|bonzudos?|bora|borgas?|bués?|cadê|calhamaços?|camandros?|camisinhas?|caraças|carago|caramba|carangos?|carradas?|casinhas?|casórios?|caxamolas?|certinh[ao]s?|chaval[ao]s?|chiça|chilindrós?|cocó|coisar|copião|cornear|cum|cuscar|cusc[ao]s?|cuzinhos?|danad[ao]s?|drunfos?|encrencas?|engonhanço|engonhar|epa|esbardalhar|estrambótic[ao]s?|estrilho|fartazanas?|festarolas?|fezadas?|fixes|fixolas|fofinh[ao]s?|fónix|gabarolas?|gaj[ao]s?|garinas?|gatunar|gentinhas?|gosmas?|guit[ao]|gunas?|janad[ao]s?|javardices?|jolas?|larachas?|lelés?|mãezinhas?|mag[ao]nos?|mamalhud[ao]s?|mamocas?|man[ao]s?|marad[ao]s?|maralhas?|marimbar|melgar|milhent[ao]s?|moinas?|motoqueir[ao]s?|népias?|oi|olhómetros?|paizinhos?|papão|papo|passarocas?|peid[ao]s?|peidar|petiza?|piadolas?|piegas|porrada|porras?|porre|porreiros?|poxa|poucochinhos?|prenhas?|putos?|quecas?|queridinh[ao]s?|rabiosques?|rapaziadas?|tabefes?|tadinh[ao]s?|tanas|trampas?|transar|traques?|tretas?|trouxas?|vaquinhas?|velhot[ae]s?|vó|vô|xi|xixi|zilh(ão|ões)">
+    <!ENTITY informal "abébias?|abéculas?|ajavardar|anhar|anjinhos?|bacan[ao]s?|badalos?|baita|baixinh[ao]s?|balof[ao]s?|baril|barracadas?|batelada|baza|bazam|bazas|bazaste|bazei|bazámos|bazamos|beijoqueir[ao]s?|bejecas?|bichan[ao]s?|bichinh[ao]s?|biscates?|bitaites?|blablablá|boazonas?|bonz(ão|ões)|bófias?|bonzudos?|bora|borgas?|bués?|cadê|calhamaços?|camandros?|camisinhas?|caraças|carago|caramba|carangos?|carradas?|casinhas?|casórios?|caxamolas?|certinh[ao]s?|chaval[ao]s?|chiça|chilindrós?|cocó|coisar|copião|cornear|cum|cuscar|cusc[ao]s?|cuzinhos?|danad[ao]s?|drunfos?|encrencas?|engonhanço|engonhar|epa|esbardalhar|estrambótic[ao]s?|estrilho|fartazanas?|festarolas?|fezadas?|fixes|fixolas|fofinh[ao]s?|fónix|gabarolas?|gaj[ao]s?|garinas?|gatunar|gentinhas?|gosmas?|guit[ao]|gunas?|janad[ao]s?|javardices?|jolas?|larachas?|lelés?|mãezinhas?|mag[ao]nos?|mamalhud[ao]s?|mamocas?|man[ao]s?|marad[ao]s?|maralhas?|marimbar|melgar|milhent[ao]s?|modernaç[ao]s?|moinas?|motoqueir[ao]s?|népias?|oi|olhómetros?|paizinhos?|papão|papo|passarocas?|peid[ao]s?|peidar|petiza?|piadolas?|piegas|porrada|porras?|porre|porreiros?|poxa|poucochinhos?|prenhas?|putos?|quecas?|queridinh[ao]s?|rabiosques?|rapaziadas?|tabefes?|tadinh[ao]s?|tanas|trampas?|transar|traques?|tretas?|trouxas?|vaquinhas?|velhot[ae]s?|vó|vô|xi|xixi|zilh(ão|ões)">
 
 
     <!-- Termos depreciativos específicos pt_PT - the rule uses inflected='yes' to get all forms -->
@@ -869,6 +871,22 @@
         <example>Ele se tornou um aluno brilhante mas somente à custa de sua saúde.</example>
         <example>O consumo de gorduras n-6 aumentou à custa das gorduras n-3.</example>
       </rule>
+
+
+      <rule id='INVARIABLE_NOUNS_POR_MOMENTO_POR_MOMENTOS' name="[pt-PT] 'por momento'/'por momentos'">
+        <pattern>
+          <marker>
+            <token>por</token>
+            <token>momento</token>
+          </marker>
+        </pattern>
+        <message>Esta expressão é invariável.</message>
+        <suggestion>por momentos</suggestion>
+        <example correction="Por momentos"><marker>Por momento</marker> vi a nossa vida a andar para trás.</example>
+        <example correction="Por momentos"><marker>Por momento</marker> a Ana pareceu-me bem.</example>
+      </rule>
+
+
     </rulegroup>
 
 
@@ -1407,16 +1425,27 @@
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-11-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
-          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token postag='SENT_START|_PUNCT|I|SPS00:DA.+' postag_regexp='yes'>
+              <exception regexp='yes'>como|já|mas|também</exception> <!-- Used specific words because POSes remove valid entries -->
+          </token>
           <token postag='DP1.+' postag_regexp='yes'/>
-          <token regexp='yes'>car[ao]s?|estimad[ao]s?|excelentes?|excelentíssim[ao]s?|querid[ao]s?</token>
+          <token regexp='yes' inflected='yes'>adorável|amante|amigo|caro|cliente|colaborador|colega|companheiro|empregado|estimado|excelente|excelentíssimo|filho|funcionário|inimigo|irmão|mãe|médico|pai|primo|professor|querido</token>
+          <token min='0' max='2' postag='NC.+|AQ.+|NP.+|UNKNOWN' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='V.+|RG'/>
+          </token>
+          <token postag='_QUOT|_PUNCT|CC|SENT_END' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='V.+|RG'/>
+              <exception scope='next' postag_regexp='yes' postag='[DP]P.+'/>
+          </token>
           <example>Meus caros músicos, se achar que é necessário uma música ungida para tocar, componha uma.</example>
           <example>E eles dizem a ela com amor: “Minha querida criança”.</example>
           <example>Obrigado por tudo, meu caro Joshua!</example>
+          <example>Olá, meus amigos e amigas de longa data.</example>
+          <example>Não iria antes ligar pro meu pai.</example>
+          <example>Valeu minha querida amiga, beijinhos!!!</example>
+          <example>Então meu caro Kotscho, somente Deus sabe a hora e quanto tempo de vida ainda teremos.</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-11-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <antipattern>
           <unify>
@@ -1683,6 +1712,20 @@
       -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
       <short>Erro de colocação pronominal</short>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='VMP00.+|VMIS.+|RG|VM[NG]0000|NC.+|AQ.+'/>
+          </token>
+          <token regexp='yes'>e|ou</token>
+          <token>se</token>
+          <token postag='VMI[MPS]3.+|VMM03.+' postag_regexp='yes'>
+              <exception scope='next' postag_regexp='yes' postag='RM|NC.+|AQ.+|SPS00:DA.+|_PUNCT_COMMA|SENT_END'/>
+          </token>
+          <example>Os polícias escolhem os alvos, e se avançam ou se recuam para eles.</example>
+          <example>Poucas são as pessoas que pensam e se preocupam com esses animais que estão esperando a morte nos matadouros.</example>
+          <example>Algum tempo depois ele me reconhece e se precipita em minha direção, com gestos amistosos.</example>
+          <example>Ethan e seu melhor amigo, Benny Weir (Atticus Dean Mitchell), a seguem e se deparam com Sarah comendo um rato.</example>
+        </antipattern>
 
         <!-- MARCOAGPINTO 2023-05-06 (Checked/Enhanced) (2-MAR-2023+) *START* -->
         <antipattern>
@@ -2361,6 +2404,16 @@
           <token postag_regexp='yes' postag='NP.+|NC.+|AQ0.+'/>
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
           <token postag='VMN0000|VMII.+' postag_regexp='yes'/>
+        </antipattern>
+        <antipattern>
+          <token>se</token>
+          <token regexp='yes'>for(em)?</token>
+          <example>Os estudos avançam e se for superior ao estimado, recuam.</example>
+          <example>Se for pelos Correios pode demorar de 20 a 60 dias e se for por Courrier de 10 a 15 dias.</example>
+          <example>Quanto ao período,é indeterminado e pode variar conforme o motivo do uso mas se for para fins anti aging, é a longo prazo.</example>
+          <example>Repita isso se for homem!</example>
+          <example>Só fale comigo se for estritamente necessário.</example>
+          <example>Não quero machucar o Tom, mas vou fazê-lo se for preciso.</example>
         </antipattern>
         <pattern>
           <token postag='V.+|PD.+|PP.+|CC|NP.+|Z0.+|NC.+|AQ0.+' postag_regexp='yes'>

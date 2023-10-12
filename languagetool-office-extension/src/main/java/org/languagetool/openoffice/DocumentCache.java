@@ -2087,6 +2087,9 @@ public class DocumentCache implements Serializable {
           to++;
         }
         to = paragraphs.size() - to + 1;
+        if (to < 0) {
+          to = 0;
+        }
       }
       return new ChangedRange(from, to, oldCache.paragraphs.size(), paragraphs.size());
     } finally {

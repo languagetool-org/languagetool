@@ -164,7 +164,7 @@ public class Ukrainian extends Language {
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
 
-        new TokenAgreementVerbNounRule(messages),
+        new TokenAgreementVerbNounRule(messages, this),
         new TokenAgreementNounVerbRule(messages),
         new TokenAgreementAdjNounRule(messages, this),
         new TokenAgreementPrepNounRule(messages, this),

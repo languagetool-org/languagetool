@@ -99,7 +99,8 @@ public class MorfologikMultiSpeller {
               String line;
               while ((line = br.readLine()) != null) {
                 if (!line.startsWith("#")) {
-                  lines.add(StringUtils.substringBefore(line,"#").trim().getBytes(UTF_8));
+                  String[] parts = line.split("[#\t;]");
+                  lines.add(parts[0].trim().getBytes(UTF_8));
                 }
               }
               return lines;

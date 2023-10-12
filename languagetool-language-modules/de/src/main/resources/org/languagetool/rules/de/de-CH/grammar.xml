@@ -30,10 +30,35 @@
 <!--suppress ProblematicWhitespace -->
 <rules lang="de-CH" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
-
     <!-- ====================================================================== -->
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
+    <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="WEIST_DU_CH" name="weist (weißt) du">
+            <antipattern>
+                <token>weist</token>
+                <token>du</token>
+                <token skip="-1">das</token>
+                <token regexp="yes">[.!]|aus|da?rauf(hin)?|hin</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.*farbe</token>
+                <token>weiss</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">wei(s|ß)t?|weiss</token>
+                </marker>
+                <token>du</token>
+                <token min="0">,</token>
+                <token regexp="yes">ob|wo|wie|was|wann|warum|wieso|weshalb|wer|woran|womit|worauf|wozu|dass?</token>
+            </pattern>
+            <message>Das korrekte Verb hier scheint <suggestion>weisst</suggestion> zu sein.</message>
+            <example correction="Weisst"><marker>Weist</marker> du, ob das richtig ist?</example>
+            <example correction="Weisst"><marker>Weist</marker> du, dass ich dich wirklich gern hab?</example>
+        </rule>
+    </category>
+
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
         <rulegroup id="WAEHRUNGSANGABEN_CHF" name="Währungsangaben in CHF mit Punkt statt Komma, z. B. '45,00 CHF (45.00 CHF)'">
             <url>https://www.rotstift-ag.ch/rechtschreibregeln/W/waehrungen.html</url>
