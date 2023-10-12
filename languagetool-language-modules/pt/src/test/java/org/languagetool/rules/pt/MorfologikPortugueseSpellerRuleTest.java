@@ -70,13 +70,9 @@ public class MorfologikPortugueseSpellerRuleTest {
 
     assertNoErrors("Covid-19, COVID-19, covid-19.", lt, rule);
 
-    // 'ja' not corrected to 'já'!
-    assertSingleError("eu ja fiz isso.", lt, rule, new String[]{"já"});
     assertSingleError("eu so", lt, rule, new String[]{"só"});
     assertSingleError("é so", lt, rule, new String[]{"só"});
 
-    // corrected to bizarre 'autoconheci emen'
-    assertSingleErrorAndPos("- Encontre no autoconheciemen", lt, rule, new String[]{"autoconhecimento"}, 14, 29);
     assertSingleErrorAndPos("Sr. Kato nos ensina inglês", lt, rule, new String[]{"Fato"}, 4, 8);
   }
 
@@ -95,6 +91,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("R$45,00", br_lt, br_rule);
     assertNoErrors("US$1.000,00", br_lt, br_rule);
     assertNoErrors("€99,99", br_lt, br_rule);
+    assertNoErrors("US$", br_lt, br_rule);
   }
 
   @Test
@@ -115,6 +112,22 @@ public class MorfologikPortugueseSpellerRuleTest {
   public void testBrazilPortugueseSpellingDoesNotCheckXForVezes() throws Exception {
     assertNoErrors("10X", br_lt, br_rule);
     assertNoErrors("5x", br_lt, br_rule);
+  }
+
+  @Test
+  public void testBrazilPortugueseSpellingFailsWithModifierDiacritic() throws Exception {
+    assertNoErrors("Não", br_lt, br_rule);  // proper 'ã' char
+    // this is acceptable because LT converts these compound chars to the proper ones
+    assertSingleError("Não", br_lt, br_rule, new String[]{"Não"});  // modifier tilde
+  }
+
+  @Test
+  public void testBrazilPortugueseSpellingMorfologikWeirdness() throws Exception {
+    // 'ja' not corrected to 'já'!
+    assertSingleError("eu ja fiz isso.", br_lt, br_rule, new String[]{"já"});
+    // corrected to bizarre 'autoconheci emen'
+    assertSingleErrorAndPos("- Encontre no autoconheciemen", br_lt, br_rule,
+      new String[]{"autoconhecimento"}, 14, 29);
   }
 
   @Test

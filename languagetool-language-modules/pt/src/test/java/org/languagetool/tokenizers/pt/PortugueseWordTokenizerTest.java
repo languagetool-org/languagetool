@@ -126,4 +126,10 @@ public class PortugueseWordTokenizerTest {
   public void testDoNotTokeniseEmoji() {
     testTokenise("☺☺☺Só", new String[]{"☺☺☺Só"});
   }
+
+  @Test
+  public void testDoNotTokeniseModifierDiacritics() {
+    // the tilde here is a unicode modifier char; normally, the unicode a-tilde (ã) is used
+    testTokenise("Não", new String[]{"Não"});
+  }
 }
