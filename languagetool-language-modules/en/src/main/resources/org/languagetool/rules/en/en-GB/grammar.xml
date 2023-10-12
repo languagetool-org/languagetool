@@ -252,6 +252,12 @@ USA
             <example correction="licence">Please show me your <marker>license</marker>.</example>
         </rule>
         <rule id="LICENCE_LICENSE_NOUN_PLURAL" name="Licenses/Licences (noun)">
+            <antipattern>
+                <token chunk_re=".-NP-.*"/>
+                <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">licenses</token>
+                <token chunk_re=".-NP-.*"/>
+            <example>The verb licenses a bare infinitive.</example>
+            </antipattern>
             <pattern>
                 <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">licenses</token>
             </pattern>
