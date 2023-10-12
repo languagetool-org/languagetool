@@ -58,6 +58,13 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertErrorLength(sentence, 1, lt, rule, suggestions);
   }
 
+  private void assertTwoWayDialectError(String sentenceBR, String sentencePT) throws IOException {
+    assertNoErrors(sentenceBR, ltBR, ruleBR);
+    assertSingleError(sentenceBR, ltPT, rulePT, new String[]{sentencePT});
+    assertNoErrors(sentencePT, ltPT, rulePT);
+    assertSingleError(sentencePT, ltBR, ruleBR, new String[]{sentenceBR});
+  }
+
   @Test
   public void testBrazilPortugueseSpelling() throws Exception {
     assertSingleError("ShintaroW.", ltBR, ruleBR, new String[]{});
@@ -73,6 +80,23 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("é so", ltBR, ruleBR, new String[]{"só"});
 
     assertSingleErrorAndPos("Sr. Kato nos ensina inglês", ltBR, ruleBR, new String[]{"Fato"}, 4, 8);
+  }
+
+  @Test
+  public void testPortugueseHyphenatedClitics() throws Exception {
+    assertNoErrors("diz-se", ltBR, ruleBR);
+    assertNoErrors("fá-lo-á", ltBR, ruleBR);
+    assertNoErrors("dir-lhe-ia", ltBR, ruleBR);
+    assertNoErrors("amar-nos-emos", ltBR, ruleBR);
+    assertNoErrors("dê-mo", ltBR, ruleBR);
+  }
+
+  // these are obviously failing for now
+  @Test
+  public void testPortugueseSymmetricalDialectDifferences() throws Exception {
+    assertTwoWayDialectError("anônimo", "anónimo");
+    assertTwoWayDialectError("detecção", "deteção");
+    assertTwoWayDialectError("dezesseis", "dezasseis");
   }
 
   @Test
@@ -126,6 +150,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("″Santo Antônio do Manga″", ltBR, ruleBR);
   }
 
+  // TODO: get rid of this test, of course
   @Test
   public void testBrazilPortugueseSpellingMorfologikWeirdness() throws Exception {
     // 'ja' not corrected to 'já'!
