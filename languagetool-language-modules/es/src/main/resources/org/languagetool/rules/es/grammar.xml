@@ -306,6 +306,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="MIN_DIAS_SEMANA" name="Días de la semana en minúscula">
             <antipattern>
+                <token regexp="yes">[\.\?!]</token>
+                <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
+                <token regexp="yes" case_sensitive="yes">&dias_semana_may;</token>
+                <example>"¿Qué día es hoy?" "Miércoles".</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">&dias_semana_may;</token>
                 <token regexp="yes">del?</token>
                 <token regexp="yes">[A-ZÁÉÍÓÚÑ].+</token>
