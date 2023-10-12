@@ -20,7 +20,6 @@
 package org.languagetool.tokenizers.pt;
 
 import org.junit.Test;
-import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -33,33 +32,77 @@ import static org.junit.Assert.assertEquals;
 public class PortugueseWordTokenizerTest {
   final PortugueseWordTokenizer wordTokenizer = new PortugueseWordTokenizer();
 
-  private void testTokenisation(String sentence, String[] tokens) {
+  private void testTokenise(String sentence, String[] tokens) {
     assertArrayEquals(tokens, wordTokenizer.tokenize(sentence).toArray());
   }
 
   @Test
-  public void testTokenize() {
-    testTokenisation("Isto é\u00A0um teste", new String[]{"Isto", " ", "é", " ", "um", " ", "teste"});
-    testTokenisation("Isto\rquebra", new String[]{"Isto", "\r", "quebra"});
+  public void testTokeniseBreakChars() {
+    testTokenise("Isto é\u00A0um teste", new String[]{"Isto", " ", "é", " ", "um", " ", "teste"});
+    testTokenise("Isto\rquebra", new String[]{"Isto", "\r", "quebra"});
+  }
 
-    // Hyphen with no whitespace
-    testTokenisation("Agora isto sim é-mesmo!-um teste.",
+  @Test
+  public void testTokeniseHyphenNoWhiteSpace() {
+    testTokenise("Agora isto sim é-mesmo!-um teste.",
       new String[]{"Agora", " ", "isto", " ", "sim", " ", "é", "-", "mesmo", "!", "-", "um", " ", "teste", "."});
+  }
 
-    // Hyphen at the end of the word
-    testTokenisation("Agora isto é- realmente!- um teste.",
+  @Test
+  public void testTokeniseWordFinalHyphen() {
+    testTokenise("Agora isto é- realmente!- um teste.",
       new String[]{"Agora", " ", "isto", " ", "é", "-", " ", "realmente", "!", "-", " ", "um", " ", "teste", "."});
+  }
 
-    // M dash
-    testTokenisation("Agora isto é—realmente!—um teste.",
+  @Test
+  public void testTokeniseMDash() {
+    testTokenise("Agora isto é—realmente!—um teste.",
       new String[]{"Agora", " ", "isto", " ", "é", "—", "realmente", "!", "—", "um", " ", "teste", "."});
+  }
 
-    // More fun with hyphens
-    testTokenisation("sex-appeal", new String[]{"sex-appeal"});
-    testTokenisation("Aix-en-Provence", new String[]{"Aix-en-Provence"});
-    testTokenisation("Montemor-o-Novo", new String[]{"Montemor-o-Novo"});
+  @Test
+  public void testTokeniseHyphenatedSingleToken() {
+    testTokenise("sex-appeal", new String[]{"sex-appeal"});
+    testTokenise("Aix-en-Provence", new String[]{"Aix-en-Provence"});
+    testTokenise("Montemor-o-Novo", new String[]{"Montemor-o-Novo"});
+  }
 
+  @Test
+  public void testTokeniseHyphenatedSplit() {
+    testTokenise("Paris-São Paulo", new String[]{"Paris", "-", "São", " ", "Paulo"});
+  }
+
+  @Test
+  public void testTokeniseHyphenatedClitics() {
+    testTokenise("diz-se", new String[]{"diz", "-", "se"});
+  }
+
+  @Test
+  public void testTokeniseMesoclisis() {
+    testTokenise("fá-lo-á", new String[]{"fá", "-", "lo", "-", "á"});
+    testTokenise("dir-lhe-ia", new String[]{"dir", "-", "lhe", "-", "ia"});
+    testTokenise("banhar-nos-emos", new String[]{"banhar", "-", "nos", "-", "emos"});
+  }
+
+  @Test
+  public void testTokeniseApostrophe() {
+    // is
+    testTokenise("d'água", new String[]{"d", "'", "água"});
+    testTokenise("d’água", new String[]{"d", "’", "água"});
+    // should be
+    // testTokenise("d’água", new String[]{"d’", "água"});
+    // testTokenise("d'água", new String[]{"d'", "água"});
+  }
+
+  @Test
+    public void testTokeniseHashtags() {
     // Twitter and whatnot; same as English
-    testTokenisation("#CantadasDoBem @user", new String[]{"#", "CantadasDoBem", " ", "@user"});
+    testTokenise("#CantadasDoBem", new String[]{"#", "CantadasDoBem"});
+  }
+
+  @Test
+  public void testTokeniseUserMentions() {
+    // Twitter and whatnot; same as English
+    testTokenise("@user", new String[]{"@user"});
   }
 }
