@@ -26007,6 +26007,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="VULVA_VUELVA" name="vulva -> vuelva" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <marker>
+                        <token>vulva</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vuelva</suggestion>?</message>
+                <example correction="vuelva">No quiero que se <marker>vulva</marker> a producir.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LAMO_LLAMO" name="confusión: lamer/llamar">
             <antipattern>
                 <token inflected="yes">lamer</token>
@@ -27860,9 +27872,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="A_VER_HABER" name="a ver->haber">
             <url>https://languagetool.org/insights/es/publicacion/a-ver-o-haber/</url>
             <antipattern>
-                <token inflected="yes" regexp="yes">ir|acudir|correr</token>
+                <token inflected="yes" regexp="yes">ir|acudir|correr|volver</token>
                 <token>a</token>
                 <token postag="V.N.*" postag_regexp="yes" inflected="yes">ver</token>
+                <example>Espero que no se vuelva a ver afectado.</example>
             </antipattern>
             <rule>
                 <pattern>
@@ -30064,7 +30077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">,</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">&abreviaturas;|Co<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
+                    <token regexp="yes">&abreviaturas;|Co|col|coop<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
                     <token spacebefore="no">.</token>
                 </antipattern>
                 <antipattern>
@@ -32214,6 +32227,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sr.">Vive con el <marker>Sr</marker> García.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>etc</token>
+                    <token>.</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">etc|Etc</token>
                 </pattern>
@@ -34671,7 +34688,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&particles_of;</token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:&particles_of;"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Antoine de Saint-Exupéry"><marker>Antoin de Saint-Exupéry</marker>.</example>
                 <example correction="University of Texas"><marker>Universiti of Tejas</marker>.</example>
@@ -34695,7 +34712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&particles_of;</token>
                     <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:&particles_of;"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Leonardo da Vinci"><marker>Leonardo Da Vinsi</marker>.</example>
                 <example correction="University of Texas"><marker>Universiti of Texes</marker>.</example>
@@ -34712,7 +34729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                     <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="keepSpaces:true"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Britney Spears"><marker>britaney speers</marker>.</example>
                 <example correction="Britney Spears"><marker>britney speers</marker>.</example>
@@ -34720,7 +34737,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="García Márquez"><marker>Garcìa Mraquez</marker>.</example>
                 <example correction="René Magritte"><marker>Rene Magrite</marker></example>
                 <example correction="Marie Curie"><marker>Marie Cuirie</marker></example>
-                <example correction="Yuval Harari"><marker>Yuval Hariri</marker></example>
                 <example>y venderlo</example>
                 <example>Massachusetts Institute of Technology</example>
                 <example>el piano inicial d'I want you back</example>
@@ -34751,13 +34767,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NP.*" postag_regexp="yes"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                     <token postag="UNKNOWN"><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="keepSpaces:true"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Lluís Llach"><marker>Lluís Lach</marker>.</example>
                 <example correction="Michael Jordan"><marker>Michael Jortan</marker>.</example>
                 <example correction="Stephen Hawking"><marker>Stephen Hawkins</marker></example>
                 <example correction="Virginia Woolf"><marker>Virginia Wolf</marker></example>
                 <example correction="Cyndi Lauper"><marker>Cindy Lauper</marker></example>
+                <example correction="Yuval Harari"><marker>Yuval Hariri</marker></example>
                 <example>Introduïu açí el resultat.</example>
                 <example>Anna-Greta Winberg</example>
                 <example>Jean-Pierre Jeunet</example>
@@ -34783,7 +34800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception>sir</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                     <token regexp="yes">\p{Lu}[\p{Ll}·]+<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none"/>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="keepSpaces:true"/>
                 <message>Posible error de ortografía.</message>
                 <!--<example correction="Michael Jordan"><marker>Michel Jordan</marker>.</example>-->
                 <example correction="Michael Jordan"><marker>Mihael Jordan</marker>.</example>
@@ -34803,7 +34820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">-</token>
                     <token postag="UNKNOWN" spacebefore="no" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none keepSpaces:false"/>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Saint-Exupéry"><marker>Sant-Exupery</marker>.</example>
                 <example correction="Toulouse-Lautrec"><marker>Toulose-Lautrec</marker></example>
@@ -34815,7 +34832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">-</token>
                     <token postag="UNKNOWN" spacebefore="no" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
                 </pattern>
-                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="none:none keepSpaces:false"/>
+                <filter class="org.languagetool.rules.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Saint-Exupéry"><marker>Saint-Exupery</marker>.</example>
             </rule>

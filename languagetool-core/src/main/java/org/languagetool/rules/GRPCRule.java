@@ -94,7 +94,6 @@ public abstract class GRPCRule extends RemoteRule {
   public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
   private static final String DEFAULT_DESCRIPTION = "INTERNAL - dynamically loaded rule supported by remote server";
   /*TODO Delete this temporal fix as this is for speeding up execution for too long sentences*/
-  private int maxSentenceLength;
 
   public static String cleanID(String id) {
     return id.replaceAll("[^a-zA-Z0-9_]", "_").toUpperCase();
@@ -196,13 +195,13 @@ public abstract class GRPCRule extends RemoteRule {
 
   private final Connection conn;
   private final int batchSize;
-
   private final boolean sendAnalyzedData;
+  private int maxSentenceLength;
 
   public GRPCRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
     super(language, messages, config, inputLogging);
 
-    config.maxSentenceLength = serviceConfiguration.getMaxSentenceLength() == null ? Integer.MAX_VALUE : serviceConfiguration.getMaxSentenceLength();
+    this.maxSentenceLength = Integer.parseInt(config.getOptions().getOrDefault("maxSentenceLength", String.valueOf(Integer.MAX_VALUE)));
     sendAnalyzedData = config.getOptions()
       .getOrDefault("analyzed", "false")
       .equalsIgnoreCase("true");

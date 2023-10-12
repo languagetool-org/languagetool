@@ -9719,7 +9719,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token>
                         <!-- no té cap quantitat -->
-                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">som|era|va|seré|fou|recull|queda|resulta|estic|troba</exception></token>
+                        <token postag="NC.*|A.*|V.P.*|DN.*" postag_regexp="yes"><exception regexp="yes">som|era|va|seré|fou|recull|queda|resulta|estic|troba|estaria|estaries</exception></token>
                     </and>
                 </marker>
                 <token><exception postag="P[P0].*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
@@ -10894,7 +10894,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="D[^R].*" postag_regexp="yes"><exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
                     <token postag="A.*|V.P.*|DN.*" postag_regexp="yes"><exception postag="AQ0CN0"/></token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="AQ0CN0"/></token>
-                    <token postag="N.*" postag_regexp="yes"><exception postag="DN.*|V.G.*" postag_regexp="yes"/><exception regexp="yes">si|passa|dins|era|quina|però</exception></token>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="DN.*|V.G.*" postag_regexp="yes"/><exception regexp="yes">si|passa|dins|era|quina|però|fou</exception></token>
                 </marker>
             </unify>
         </pattern>
@@ -12596,7 +12596,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="V.[SIM].*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">era|va|seré|fou|queda|troba</exception><exception postag="_GV_" postag_regexp="yes"/></token>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">era|va|seré|fou|queda|troba|estaria|estaries</exception><exception postag="_GV_" postag_regexp="yes"/></token>
                     <!--_GN_.*-->
                 </and>
             </marker>
@@ -12654,6 +12654,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="nNom0" name="no Nom">
         <!-- no són noms si no han concordat amb determinants. Mogut per "ens ensenya"-->
+        <antipattern>
+            <token>personal</token>
+            <token regexp="yes">de|d'</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -13817,6 +13821,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="nNom1" name="no Nom">
         <!-- repetit després de DetNom per "pel vers de tradició" -->
+        <antipattern>
+            <token>personal</token>
+            <token regexp="yes">de|d'</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
