@@ -91,10 +91,19 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
-  public void testBrazilPortugueseSpellingDoesNotCheckUserCurrencyValues() throws Exception {
+  public void testBrazilPortugueseSpellingDoesNotCheckCurrencyValues() throws Exception {
     assertNoErrors("R$45,00", br_lt, br_rule);
     assertNoErrors("US$1.000,00", br_lt, br_rule);
     assertNoErrors("€99,99", br_lt, br_rule);
+  }
+
+  @Test
+  public void testBrazilPortugueseSpellingDoesNotCheckNumberAbbreviations() throws Exception {
+    assertNoErrors("Nº666", br_lt, br_rule);  // superscript 'o'
+    assertNoErrors("N°42189", br_lt, br_rule);  // degree symbol, we'll do this in XML rules
+    assertNoErrors("Nº 420", br_lt, br_rule);
+    assertNoErrors("N.º69", br_lt, br_rule);
+    assertNoErrors("N.º 80085", br_lt, br_rule);
   }
 
   @Test

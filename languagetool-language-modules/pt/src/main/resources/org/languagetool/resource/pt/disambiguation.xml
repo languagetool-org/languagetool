@@ -3894,6 +3894,24 @@
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="NUMBER_ABBREV_IGNORE_NO_PERIOD">
+        <pattern>
+            <token regexp="yes">[nN][°º]\d*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NUMBER_ABBREV_IGNORE_WITH_PERIOD">
+        <pattern>
+            <token regexp="yes">[nN]</token>
+            <token spacebefore="no" regexp="yes">\.</token>
+            <maker>
+                <token regexp="yes" spacebefore="no">[°º]\d*</token>
+            </maker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
   </rulegroup>
 
   <!--  <rulegroup name="Ignore spelling of domain names" id="IMMUNIZE_DOMAIN_NAMES">

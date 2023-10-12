@@ -112,4 +112,13 @@ public class PortugueseWordTokenizerTest {
     testTokenise("US$249,99", new String[]{"US$249,99"});
     testTokenise("€2.000,00", new String[]{"€2.000,00"});
   }
+
+  @Test
+  public void testTokeniseNumberAbbreviation() {
+    testTokenise("Nº666", new String[]{"Nº666"});  // superscript 'o'
+    testTokenise("N°666", new String[]{"N°666"});  // degree symbol
+    testTokenise("Nº 420", new String[]{"Nº", " ", "420"});
+    testTokenise("N.º69", new String[]{"N", ".", "º69"});  // the '.' char splits it
+    testTokenise("N.º 80085", new String[]{"N", ".", "º", " ", "80085"});  // the '.' char splits it
+  }
 }
