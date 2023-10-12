@@ -12,6 +12,20 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class MorfologikPortugueseSpellerRuleTest {
+  private final MorfologikPortugueseSpellerRule br_rule = getBRSpellerRule();
+  private final JLanguageTool br_lt = getBRLanguageTool();
+
+  public MorfologikPortugueseSpellerRuleTest() throws IOException {
+  }
+
+  private MorfologikPortugueseSpellerRule getBRSpellerRule() throws IOException {
+    return new MorfologikPortugueseSpellerRule(TestTools.getMessages("pt"),
+      Languages.getLanguageForShortCode("pt-BR"), null, null);
+  }
+
+  private JLanguageTool getBRLanguageTool() {
+    return new JLanguageTool(Languages.getLanguageForShortCode("pt-BR"));
+  }
 
   private void assertErrorLength(String sentence, int length, JLanguageTool lt,
                                         MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
@@ -44,9 +58,8 @@ public class MorfologikPortugueseSpellerRuleTest {
 
   @Test
   public void testBrazilPortugueseSpelling() throws Exception {
-    MorfologikPortugueseSpellerRule rule = new MorfologikPortugueseSpellerRule(TestTools.getMessages("pt"),
-      Languages.getLanguageForShortCode("pt-BR"), null, null);
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-BR"));
+    JLanguageTool lt = br_lt;
+    MorfologikPortugueseSpellerRule rule = br_rule;
 
     assertSingleError("ShintaroW.", lt, rule, new String[]{});
     assertSingleError("SHINTAROW.", lt, rule, new String[]{});
@@ -65,6 +78,16 @@ public class MorfologikPortugueseSpellerRuleTest {
     // corrected to bizarre 'autoconheci emen'
     assertSingleErrorAndPos("- Encontre no autoconheciemen", lt, rule, new String[]{"autoconhecimento"}, 14, 29);
     assertSingleErrorAndPos("Sr. Kato nos ensina inglês", lt, rule, new String[]{"Fato"}, 4, 8);
+  }
+
+  @Test
+  public void testBrazilPortugueseSpellingDoesNotCheckHashtags() throws Exception {
+    assertNoErrors("#CantadaBoBem", br_lt, br_rule);
+  }
+
+  @Test
+  public void testBrazilPortugueseSpellingDoesNotCheckUserMentions() throws Exception {
+    assertNoErrors("@nomeDoUsuario", br_lt, br_rule);
   }
 
   @Test
