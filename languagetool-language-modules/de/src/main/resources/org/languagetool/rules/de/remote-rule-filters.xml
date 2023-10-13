@@ -1694,6 +1694,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_DE_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">(c|k|m)?m</token>
+                    <token regexp="yes">²|³</token>
+                </pattern>
+                <example correction="">Meine Wohnung ist 300 <marker>m²</marker> groß.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]*₂</token>
+                </pattern>
+                <example correction="">Diese Formel enthält <marker>CO₂</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_PUNCTUATION.*" name="">
             <rule><!--1-->
                 <pattern>
