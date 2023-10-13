@@ -94,7 +94,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
   private final Set<String> wordsWithoutInfixS          = new HashSet<>();
-  private final Set<String> germanPrefix         = new HashSet<>();
+  private final Set<String> germanPrefixes              = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -1643,7 +1643,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     synthesizer = language.getSynthesizer();
     loadFile("/de/words_infix_s.txt", wordsNeedingInfixS);
     loadFile("/de/words_no_infix_s.txt", wordsWithoutInfixS);
-    loadFile("/de/german_prefix.txt", germanPrefix);
+    loadFile("/de/german_prefix.txt", germanPrefixes);
   }
 
   private void loadFile(String fileInClasspath, Set<String> set) {
@@ -2181,7 +2181,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String compound1noS = compound1.replaceFirst("s$", "");
       String compound2 = uppercaseFirstChar(parts.get(1)) + parts.get(2);
       boolean compound1ok = false;
-      if (germanPrefix.contains(part2)){
+      if (germanPrefixes.contains(part2)) {
         compound1ok = (!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) || ignorePotentiallyMisspelledWord(part1+parts.get(2)); // Weinkühlschrank gets split into Wein, kühl, schrank
       } else {
         compound1ok =
