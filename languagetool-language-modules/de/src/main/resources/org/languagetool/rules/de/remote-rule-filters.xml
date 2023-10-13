@@ -192,6 +192,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>wie</token>
+                    </marker>
+                    <token skip="-1">
+                        <exception postag="VER.*" postag_regexp="yes"/>
+                        <exception postag="VER.*" postag_regexp="yes" scope="next"/>
+                    </token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <suggestion>, wie</suggestion>
+                <example correction=", wie">Ich kann zwar immer noch elektrisch heizen<marker> wie</marker> auch jetzt in der Küche.</example>
+            </rule>
             <rule><!-- avoid loop MC_2 w/ FEHLERHAFTES_KOMMA_ALLG[1] -->
                 <pattern>
                     <token postag="VER:(MOD|AUX).*" postag_regexp="yes"/>
