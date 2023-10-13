@@ -1199,6 +1199,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_KOMMA_MISSING_COMMA" name="">
             <rule>
                 <pattern>
+                    <marker>
+                        <token postag="ADJ.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="ADV.*" postag_regexp="yes"/>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">Meine Anfrage wirkt <marker>effektiv</marker> etwas konfus.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+n</token>
                     <marker>
                         <token>haben</token>
