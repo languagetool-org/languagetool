@@ -34838,6 +34838,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios amb guionet" default="temp_off">
+            <antipattern>
+                <token regexp="yes">.+</token>
+                <token>-</token>
+                <token><match no="0"/></token>
+                <example>Boo-Boo</example>
+                <example>Fei-fei</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">\p{Lu}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;</exception></token>
