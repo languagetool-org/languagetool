@@ -20129,6 +20129,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="ignore_pp" name="ignorar pp (punts penrcentuals">
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d \.,]+\dpp</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d \.,]+\d</token>
+                <marker>
+                    <token>pp</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule id="IGNORE_SPELLING_LE" name="ignorar le">
         <pattern>
             <marker>

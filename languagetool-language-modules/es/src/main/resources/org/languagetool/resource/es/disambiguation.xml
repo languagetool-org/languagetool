@@ -7644,6 +7644,23 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="ignore_pp" name="ignorar pp (puntos porcentuales">
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d \.,]+\dpp</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d \.,]+\d</token>
+                <marker>
+                    <token>pp</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="onomatopeyas" name="algunas onomatopeyas">
         <rule>
             <pattern>
