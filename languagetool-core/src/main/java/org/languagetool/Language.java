@@ -955,6 +955,10 @@ public abstract class Language {
     return rm;
   }
 
+  public String prepareLineForSpeller(String s) {
+    return s;
+  }
+
   /**
    * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
    *

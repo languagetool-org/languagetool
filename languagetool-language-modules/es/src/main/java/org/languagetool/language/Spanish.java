@@ -285,5 +285,19 @@ public class Spanish extends Language implements AutoCloseable {
     String newReplacement = m.replaceAll("$1$2");
     return newReplacement;
   }
-  
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String parts[] = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (!tag.startsWith("N"))
+        return "";
+    }
+    return line;
+  }
 }
