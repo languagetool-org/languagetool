@@ -45,6 +45,9 @@ public class MultitokenSpellerFilter extends RuleFilter {
     String underlinedError = match.getOriginalErrorStr();
     PatternRule pr = (PatternRule) match.getRule();
     SpellingCheckRule spellingRule = pr.getLanguage().getDefaultSpellingRule();
+    if (discardRunOnWords(underlinedError, spellingRule)) {
+      return null;
+    }
     AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[] {
       new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", "")),
       new AnalyzedTokenReadings(new AnalyzedToken(underlinedError, null, null))
@@ -76,6 +79,23 @@ public class MultitokenSpellerFilter extends RuleFilter {
     }
     match.setSuggestedReplacements(replacements);
     return match;
+  }
+
+  private boolean discardRunOnWords(String underlinedError, SpellingCheckRule spellingRule) throws IOException {
+    String parts[] = underlinedError.split(" ");
+    if (parts.length == 2) {
+      String sugg1a = parts[0].substring(0, parts[0].length() - 1);
+      String sugg1b = parts[0].substring(parts[0].length() - 1) + parts[1];
+      if (!spellingRule.isMisspelled(sugg1a) && !spellingRule.isMisspelled(sugg1b)) {
+        return true;
+      }
+      String sugg2a = parts[0].substring(0, parts[0].length() - 1);
+      String sugg2b = parts[0].substring(parts[0].length() - 1) + parts[1];
+      if (!spellingRule.isMisspelled(sugg2a) && !spellingRule.isMisspelled(sugg2b)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private int numberOf(String s, String t) {
