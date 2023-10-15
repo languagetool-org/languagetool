@@ -26,6 +26,7 @@ import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,18 +55,22 @@ public class MultitokenSpellerFilter extends RuleFilter {
     }
     List<String> replacements = new ArrayList<>();
     replacements.addAll(matches[0].getSuggestedReplacements());
+    int numSpaces = numberOf(underlinedError, " ");
+    int numHyphens = numberOf(underlinedError, "-");
     if (keepSpaces) {
       // Only suggestions that keep the number of white spaces
-      int numSpaces = numberOfSpaces(underlinedError);
       replacements = replacements.stream()
-        .filter(str -> numberOfSpaces(str) == numSpaces).collect(Collectors.toList());
+        .filter(str -> numberOf(str, " ") == numSpaces).collect(Collectors.toList());
     }
+    int decreaseDistance = 0;
     if (requireRegexp != null) {
       replacements = replacements.stream()
         .filter(str -> str.matches(".*\\b(" + requireRegexp + ")\\b.*")).collect(Collectors.toList());
+      decreaseDistance = 2;
     }
+    int maxLevenshteinDistance = 2 + (numSpaces + numHyphens) * 2 - decreaseDistance;
     replacements = replacements.stream()
-      .filter(str -> LevenshteinDistance.getDefaultInstance().apply(str, underlinedError)<6).collect(Collectors.toList());
+      .filter(str -> ponderatedDistance(str, underlinedError) < maxLevenshteinDistance).collect(Collectors.toList());
     if (replacements.isEmpty()) {
       return null;
     }
@@ -73,7 +78,27 @@ public class MultitokenSpellerFilter extends RuleFilter {
     return match;
   }
 
-  private int numberOfSpaces(String s) {
-    return s.length() - s.replaceAll(" ", "").length();
+  private int numberOf(String s, String t) {
+    return s.length() - s.replaceAll(t, "").length();
+  }
+
+  private int ponderatedDistance (String s1, String s2) {
+    int distance = levenshteinDistance(s1, s2);
+    String parts1[] = s1.split(" ");
+    String parts2[] = s2.split(" ");
+    if (parts1.length == parts2.length && parts1.length > 1) {
+      for (int i=0; i<parts1.length; i++) {
+        if (levenshteinDistance(parts1[i], parts2[i]) == 0) {
+          distance++;
+        }
+      }
+    }
+    return distance;
+  }
+
+  private int levenshteinDistance(String s1, String s2) {
+    return LevenshteinDistance.getDefaultInstance().apply(
+      StringTools.removeDiacritics(s1.toLowerCase()),
+      StringTools.removeDiacritics(s2.toLowerCase()));
   }
 }
