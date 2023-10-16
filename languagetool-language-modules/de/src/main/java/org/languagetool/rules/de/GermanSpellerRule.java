@@ -2185,7 +2185,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         compound1ok = 
           ((!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) ||  // Weinkühlschrank gets split into Wein, kühl, schrank
           ignorePotentiallyMisspelledWord(part1+parts.get(2))) &&
-          parts.get(2).length() > 3;  //Vorraus --> Vor, rau, s
+          parts.get(2).length() >= 3;  //Vorraus --> Vor, rau, s
       } else {
         compound1ok =
           !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
