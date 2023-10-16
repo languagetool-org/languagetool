@@ -3620,10 +3620,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule> <!-- this rule should be a style rule + picky -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">(any|every|no|some)body|daddy|holiday|hubby|momma|gran|sea|tech|\d*(st|nd|rd|th)|#|.*µ.*|.*[²³]|info|homie|doc|admin|org|accommodation|takeaway|AM|PM</token>
+                        <token regexp="yes">annum|(any|every|no|some)(body|thing)|bro|daddy|holiday|hubby|momma|mother|gran(ny)?|pussy|sea|shit|tech|\d*(st|nd|rd|th)|#|.*µ.*|.*[²³]|info|homie|doc|admin|org|accommodation|takeaway|AM|PM</token>
                     </marker>
                 </pattern>
-                <example correction=""><marker>Everybody</marker> said there was nothing she could do.</example>
+                <example correction=""><marker>Everybody</marker> said she couldn't do a thing.</example>
                 <example correction="">His <marker>daddy</marker> warned him about it.</example>
                 <example correction="">He refused to go on <marker>holiday</marker> with his parents.</example>
                 <example correction="">I went swimming in the <marker>sea</marker>.</example>
@@ -3632,7 +3632,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">My confirmation <marker>#</marker> is 95632170.</example>
                 <example correction="">It gains up to 3 <marker>µm</marker> in size.</example>
                 <example correction="">Thanks for the <marker>info</marker>.</example>
-            </rule>
+                <example correction=""><marker>Mother</marker> goes to the hospital in the morning.</example>
+                <example correction="">It will produce 600,000 tons of ethylene and 85,000 tons of propylene per <marker>annum</marker>.</example>
+                <example correction="">A Northern fairytale begins "Once upon a time" A Southern fairytale begins "Y'all ain't gonna believe this <marker>shit</marker>."</example>
+                <example correction="">You're not telling me <marker>something</marker>.</example>
+        </rule>
             <rule><!-- times with AM/PM -->
                 <pattern>
                     <token postag="CD"/>
