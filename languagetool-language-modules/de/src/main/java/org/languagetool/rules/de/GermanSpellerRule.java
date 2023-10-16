@@ -2183,9 +2183,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       boolean compound1ok = false;
       if (germanPrefixes.contains(part2)) {
         compound1ok = 
-          ((!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) ||  // Weinkühlschrank gets split into Wein, kühl, schrank
+          (((!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) ||  // Weinkühlschrank gets split into Wein, kühl, schrank
           ignorePotentiallyMisspelledWord(part1+parts.get(2))) &&
-          parts.get(2).length() >= 3;  //Vorraus --> Vor, rau, s
+          parts.get(2).length() >= 3) ||  //Vorraus --> Vor, rau, s
+          (!isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||   //Menschenrechtsdemos as 'rechts' is in germanPrefixes
+          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS)); 
       } else {
         compound1ok =
           !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
