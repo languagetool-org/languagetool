@@ -688,5 +688,16 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("Yuval Noah Harari", matches[0].getSuggestedReplacements().get(0));
 
+      matches = rule.match(lt.getAnalyzedSentence("inhalàmbrica"));
+      assertEquals(1, matches.length);
+      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
+
+      matches = rule.match(lt.getAnalyzedSentence("inhal·làmbricament"));
+      assertEquals(1, matches.length);
+      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
+
+      matches = rule.match(lt.getAnalyzedSentence("innal·làmbricamente"));
+      assertEquals(1, matches.length);
+      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
     }
 }

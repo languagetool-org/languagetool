@@ -19,13 +19,28 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSuppressIfAnyRuleMatchesFilter;
+import org.languagetool.rules.Rule;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SuppressIfAnyRuleMatchesFilter extends AbstractSuppressIfAnyRuleMatchesFilter {
 
+  private List<String> ruleIds = Arrays.asList("QUE_INICIAL_AMBACCENT_NOVERB",
+    "QUE_INICIAL_SENSEACCENT_HO", "QUE_INICIAL_AMBACCENT_VERB", "MES2");
+
   @Override
   protected JLanguageTool getJLanguageTool() {
-    return new Catalan().createDefaultJLanguageTool();
+    JLanguageTool lt = Languages.getLanguageForShortCode("ca-ES").createDefaultJLanguageTool();
+    for (Rule r: lt.getAllActiveRules()) {
+      if (!ruleIds.contains(r.getId())) {
+        lt.disableRule(r.getId());
+      }
+    }
+    return lt;
+
   }
 }
