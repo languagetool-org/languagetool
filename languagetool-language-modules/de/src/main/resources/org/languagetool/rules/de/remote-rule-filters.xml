@@ -1720,6 +1720,38 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_DE_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_NOUN" name="">
+            <rule>
+                <pattern>
+                    <token>™</token>
+                </pattern>
+                <example correction="">Das Zeichen <marker>™</marker> bedeutet trade mark.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_ADJECTIVE" name="">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>e</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token spacebefore="no">V</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <example correction="">Ein eingetragener Verein (<marker>e.</marker>V.) ist ein nicht-wirtschaftlicher Verein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">[0-9]{1,2}</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>10.</marker> Die Sonne scheint hell am wolkenlosen Himmel.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_OTHER" name="">
             <rule><!--1-->
                 <pattern>
