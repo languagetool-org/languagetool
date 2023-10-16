@@ -3115,10 +3115,38 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">He claims that "<marker>Interest</marker> is the cause; follow-through is the result."</example>
             </rule>
+            <rule>  <!-- titles etc. -->
+                <pattern>
+                    <token regexp="yes">&quote;</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                    </marker>
+                    <token min="0" max="2" regexp="yes" case_sensitive="yes">[a-z]+</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                </pattern>
+                <example correction="">..., Adaptation, "<marker>Evidence</marker> for Darwinian...</example>
+            </rule>
+            <rule>
+                <pattern>   <!-- all caps -->
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]{2,30}</token>
+                    </marker>
+                </pattern>
+                <example correction="">..., you have the <marker>RIGHT</marker> to:</example>
+            </rule>
+            <rule>
+                <pattern>   <!-- bachelors masters degree -->
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Bachelor|Master</token>
+                    </marker>
+                    <token>'s</token>
+                </pattern>
+                <example correction=""> ...day, I have a <marker>Bachelor</marker>’s in Marketing...</example>
+            </rule>
             <rule>  <!-- frequently disabled, legal jargon. Can add other frequently disabled words here. -->
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes">Company</token>
+                        <token regexp="yes" case_sensitive="yes">Company|Contract|Euroscepticism|Government</token>
                     </marker>
                 </pattern>
                 <example correction="">The complaint charges that the defendants misrepresented and concealed material facts concerning the <marker>Company</marker>'s financial transactions with two partnerships established by Enron's Chief Financial Officer, which resulted in substantial losses to Enron and a reduction in shareholders' equity of over $1 billion.</example>
