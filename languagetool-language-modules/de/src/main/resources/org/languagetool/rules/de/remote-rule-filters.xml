@@ -1721,6 +1721,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_OTHER" name="">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>e</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token spacebefore="no">V</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <example correction="">Ein eingetragener Verein (<marker>e.</marker>V.) ist ein nicht-wirtschaftlicher Verein.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_OTHER" name="">
             <rule><!--1-->
                 <pattern>
                     <token postag="SENT_START"/>
