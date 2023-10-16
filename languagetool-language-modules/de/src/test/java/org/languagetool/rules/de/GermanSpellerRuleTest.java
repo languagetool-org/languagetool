@@ -60,6 +60,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
     assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank")); 
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank")); 
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinsskühlschrank"));
