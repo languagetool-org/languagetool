@@ -25103,9 +25103,8 @@ regexp case-insensitive maken: (?i)
 					<token postag="SENT_END"/>
 				</antipattern>
 				<antipattern>
-					<token>Gezegend</token>
-					<token>zij</token>
-					<token regexp="yes">je|u</token>
+					<token regexp="yes">gezegend|uitgerekend</token>
+					<token regexp="yes">zij|hij</token>
 				</antipattern>
 				<antipattern>
 					<token inflected="yes">zijn</token>
@@ -25117,7 +25116,7 @@ regexp case-insensitive maken: (?i)
 					<marker>
 						<token postag="WKW:VTD:ONV" regexp="yes">.*d<exception postag="WKW:TGW:1EP"/></token>
 					</marker>
-					<token regexp="yes">hij|zij|men|u</token>
+					<token case_sensitive="yes" regexp="yes">hij|zij</token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>.</message>
 				<example correction="verhuist">Dan <marker>verhuisd</marker> hij.</example>
@@ -25134,7 +25133,7 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<pattern>
 					<marker>
-						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:GRD"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig|bezig</exception></token>
+						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:GRD"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig|bezig|jou|nadien</exception></token>
 					</marker>
 					<token>zich</token>
 				</pattern>
@@ -25146,10 +25145,26 @@ regexp case-insensitive maken: (?i)
 					<token skip="5">zich</token>
 					<token>heeft</token>
 				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="WKW.*INF"/>
+					<token>zich</token>
+					<token postag="WKW:TGW:1EP"/>
+				</antipattern>
+				<antipattern>
+					<token>zich</token>
+					<token>denk</token>
+					<token>ik</token>
+					<example>Dat kan hij zich denk ik niet voorstellen</example>
+				</antipattern>
+				<antipattern>
+					<token>zich</token>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag_regexp="yes" postag="WKW.*INF"/>
+				</antipattern>
 				<pattern>
 					<token>zich</token>
 					<marker>
-						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:STL:ONV"/><exception regexp="yes">men|bereid|beter|indien|maar|minder|jou|nader|nadien|schuil</exception></token>
+						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:STL:ONV|BYW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|minder|verspreid|jou|nader|nadien|schuil</exception></token>
 					</marker>
 				</pattern>
 				<message>U bedoelt vast: <suggestion><match no="2" postag="WKW:TGW:3EP"/></suggestion>.</message>
