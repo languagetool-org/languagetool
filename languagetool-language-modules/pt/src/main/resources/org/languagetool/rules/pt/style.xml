@@ -124,27 +124,61 @@ USA
             </rule>
         </rulegroup>
 
+
         <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags="clarity">
+        <!-- TO-DO: DI.+ ; It will require messing with the antipattern since DI.+ is more than a mere "[ao]s?" from DA.+ -->
+            <antipattern>
+                <token postag='RM'>
+                    <exception scope='previous' regexp='yes'>agora|apenas|após|aqui|assim|até|bem|cá|como|depois|embora|enquanto|esquerda|hoje|lá|mais|manhã|mesmo|modo|muito|onde|ontem|pois|quando|quase|só|também|tão|tarde</exception> <!-- RG -->
+                </token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+' postag_regexp='yes'>
+                    <exception regexp='yes'>[ao]s?|com|de|por|sem</exception>
+                    <exception scope='next' regexp='yes'>agora|apenas|após|aqui|assim|até|bem|cá|como|depois|embora|enquanto|esquerda|hoje|lá|mais|manhã|mesmo|modo|muito|onde|ontem|pois|quando|quase|só|também|tão|tarde</exception> <!-- RG -->
+                    <exception scope='next' postag_regexp='yes' postag='Z0.+'/>
+                </token>
+                <example>Depois de tentar em vão encontrá-lo, eles lentamente seguem em frente.</example>
+                <example>O Tom raramente vai para lugares como esse.</example>
+                <example>As indicações para os Tribunais de Contas geralmente recaem sobre agentes políticos, notadamente deputados.</example>
+                <example>Mas os cientistas estão certos de que esse tipo de reprodução somente acontece sob circunstâncias exclusivas.</example>
+                <example>Esse hormônio normalmente aumenta após a refeição, contribuindo para a saciação.</example>
+                <example>O ser humano é um animal que ocasionalmente pensa sobre a morte.</example>
+                <example>Tom normalmente vai para a escola com a Mary.</example>
+                <example>O homem que normalmente ama sob o sol adora arrebatadamente sob a lua.</example>
+                <example>Uma tempestade estava supostamente presente durante a aterrissagem.</example>
+            </antipattern>
+
             <pattern>
-                <token negate_pos="yes" postag='SENT_START'/>
                 <marker>
-                    <token postag='RM' regexp="yes">.+mente</token>
-                    <or>
-                        <token postag='V.+' postag_regexp='yes'>
-                            <exception postag_regexp='yes' postag='SPS.+|AQ0.+|NC.+'/>
-                        </token>
-                        <token>são</token>
-                    </or>
-                    <token postag='VMP00.+' postag_regexp='yes'/>
+                    <token postag='RM'>
+                        <exception scope='previous' postag_regexp='yes' postag='SENT_START|VMIP1.+|VMN0000|VMP00.+|VMIS.+|VMN0000X'/>
+                        <exception scope='previous' regexp='yes'>agora|apenas|após|aqui|assim|até|bem|cá|como|depois|embora|enquanto|esquerda|hoje|lá|mais|manhã|mesmo|modo|muito|onde|ontem|pois|quando|quase|só|também|tão|tarde</exception> <!-- RG -->
+                        <exception scope='previous' regexp='yes'>es[st][ae]s?|is[st]o|para|por|porque|quanto|quem?|sem?</exception> <!-- Force specific words to avoid false positives-->
+                        <exception scope='previous' regexp='yes' inflected='yes'>estar|ir|poder|ser</exception> <!-- Force specific verbs to avoid false positives-->
+                        <exception regexp='yes'>exclusivamente|simplesmente|somente|unicamente</exception> <!-- Force specific adverbs at start -->
+                    </token>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|SPS0.+|VMI[IP]2.+|VMIM3.+|VMP00.+'/>
+                    </token>
+                    <token postag='VMP00.+|SPS00|DA.+' postag_regexp='yes'>
+                        <exception regexp='no'>como</exception> <!-- Force specific words to avoid false positives-->
+                    </token>
                 </marker>
-                <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
             </pattern>
             <message>&clarity_intro; prefira mover o advérbio.</message>
-            <suggestion>\3 \2 \4</suggestion>
-            <example correction="é frequentemente dado">Em alusão ao dinheiro <marker>frequentemente é dado</marker> o exemplo do Tio Patinhas.</example>
+            <suggestion>\2 \1 \3</suggestion>
+            <example correction="é frequentemente dado">Sobre dinheiro <marker>frequentemente é dado</marker> o exemplo do Patinhas.</example>
+            <example correction="incluem explicitamente a">Estas equações <marker>explicitamente incluem a</marker> aleatoriedade.</example>
+            <example correction="incluem explicitamente o">Estas equações <marker>explicitamente incluem o</marker> acaso.</example>
             <example>Você tem realmente ouvido para a música.</example>
             <example>As vésperas de Natal e ano novo são geralmente marcadas pela união de parentes distantes.</example>
+            <example>A Índia possui um dos maiores suprimentos de tório do mundo, com quantidades comparativamente baixas de urânio.</example>
+            <example>Mesmo não gostando da personagem, simplesmente devorei o livro.</example>
+            <example>Ele precisa decidir se responde de forma imprecisa, ignora a pergunta ou simplesmente abandona o questionário.</example>
+            <example>Nessas ocasiões, somente será dado continuidade ao processo de produção após a correção do(s) arquivo(s).</example>
+            <example>O produto somente estará reservado ao cliente após a finalização do pedido e aprovação pela operadora de cartão.</example>
         </rule>
+
 
         <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style" default="off" tone_tags="clarity">
             <antipattern>
