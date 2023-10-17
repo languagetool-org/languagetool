@@ -12671,33 +12671,62 @@ USA
         </rulegroup>
 
 
-        <!-- DO INIMIGO/ADVERSÁRIO/ALIADO/OPONENTE inimiga/adversário/aliada/oponente -->
-        <rule id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="[Simplificar] D[ao](s) + inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s) → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky'>
+        <rulegroup id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="[Simplificar] 'do inimigo/adversário/aliado/oponente' → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-02-12/14 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-      O objetivo é alcançar a bandeira do inimigo. → O objetivo é alcançar a bandeira inimiga.
-      O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terreno inimigo.
-      -->
-            <pattern>
-                <token regexp='yes'>às?|[ao]s?</token>
-                <token postag='NC.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='DI.+|Z0.+|VMIP3S0'/>
-                </token>
-                <marker>
-                    <token regexp='yes'>d[ao]s?</token>
-                    <token regexp='yes'>inimig[ao]s?|adversári[ao]s?|aliad[ao]s?|oponentes?</token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
-            <message>&simplify_msg;</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="inimiga">O objetivo é alcançar a bandeira <marker>do inimigo</marker>.</example>
-            <example correction="oponente">As forças da NATO querem alcançar a bandeira <marker>dos oponentes</marker>.</example>
-            <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
-            <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
-            <example>Os exércitos inimigos foram vencidos.</example>
-        </rule>
+
+            <!-- #1: Number/gender agreement depends on using "às?|[ao]s?" -->
+            <rule>
+                <pattern>
+                    <token regexp='yes'>às?|[ao]s?</token>
+                    <token postag='NC.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
+                    </token>
+                    <marker>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
+                <message>&simplify_msg;</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="inimiga">O objetivo é alcançar a bandeira <marker>do inimigo</marker>.</example>
+                <example correction="oponente">As forças da NATO querem alcançar a bandeira <marker>dos oponentes</marker>.</example>
+                <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
+                <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
+                <example>Os exércitos inimigos foram vencidos.</example>
+            </rule>
+
+            <!-- #2: Number/gender agreement depends on using "de|d[ao]s?" -->
+            <rule>
+                <antipattern>
+                    <token postag='V.+|PP.+' postag_regexp='yes'/>
+                    <token postag='SPS00:DA0F.+' postag_regexp='yes'/>
+                    <token postag='NCF.+' postag_regexp='yes'/>
+                    <token regexp='yes'>de|d[ao]s?</token>
+                    <example>...iras polaco-lituanas no período entre-guerras, embora reconhecidas pela Conferência de Embaixadores dos Aliados da Primeira Guerra Mundial e pela Liga das Nações, </example>
+                    <example>...hola, a qual ao virar-se à procura dos navios britânicos deixaram-no situado na vanguarda do ataque dos Aliados.</example>
+                </antipattern>
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
+                    </token>
+                    <token regexp='yes'>de|d[ao]s?</token>
+                    <token postag='NC.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
+                    </token>
+                    <marker>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:NC.* postagFrom:1 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
+                <message>&simplify_msg;</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="inimiga">O objetivo é controlar a linha de comunicação <marker>do inimigo</marker>.</example>
+                <example correction="inimigas">O objetivo é controlar as linhas de comunicação <marker>do inimigo</marker>.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <!-- DE FORMA/MODO + ADJ adv -->
