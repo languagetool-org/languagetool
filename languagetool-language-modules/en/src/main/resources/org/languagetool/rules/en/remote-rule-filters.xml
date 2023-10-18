@@ -3540,6 +3540,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">1978 – Mike Bryan (middle name <marker>unknown),</marker> American tennis player</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_INSERT_PERIOD" name="">
+            <rule>  <!-- don't move period inside of brackets -->
+                <pattern>   <!-- run a diff locally to ensure this doesn't remove too many matches -->
+                    <marker>
+                        <token />
+                    </marker>
+                    <token regexp="yes">\)|\]|\}</token>
+                </pattern>
+                <example correction="">Social media this week is flooded with images that might or might not come from Israel and Gaza, and there are lots of calls of ‘Generative AI fakes!’ (In principle, if you don’t want to believe it, it must be a <marker>fake</marker>).</example>
+                <example correction="">Social media this week is flooded with images that might or might not come from Israel and Gaza, and there are lots of calls of ‘Generative AI fakes!’ (In principle, if you don’t want to believe it, it must be a <marker>fake</marker>)</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_CC_FOR_CC" name="">
             <rule>  <!-- don't swap ampersand for 'and' -->
                 <pattern>
