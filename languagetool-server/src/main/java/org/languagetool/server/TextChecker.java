@@ -597,6 +597,12 @@ abstract class TextChecker {
     // no lazy computation at later points (outside of timeout enforcement)
     // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
     res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
+    res.forEach(checkResults -> {
+      System.out.println(mode);
+      System.out.println(checkResults.getExtendedSentenceRanges());
+      System.out.println(checkResults.getSentenceRanges());
+    });
+
 
     setHeaders(httpExchange);
 
@@ -630,33 +636,6 @@ abstract class TextChecker {
       }
       hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));
     }
-
-    //### Start multiLangPart
-    //TODO: implement recheck of ignoreRanges
-    if (isMultiLangEnabled) {
-      log.debug("Not implemented yet");
-//      long startTimeRecheck = System.currentTimeMillis();
-//      Map<String, List<Range>> rangesOrderedByLanguage = new HashMap<>();
-//      res.forEach(checkResults -> {
-//        checkResults.getIgnoredRanges().forEach(range -> {
-//          List<Range> sentenceRanges = rangesOrderedByLanguage.getOrDefault(range.getLang(), new ArrayList<>());
-//          sentenceRanges.add(range);
-//          rangesOrderedByLanguage.put(range.getLang(), sentenceRanges);
-//        });
-//      });
-//      rangesOrderedByLanguage.forEach((shortLangCode, ranges) -> {
-//        Language rangeLanguage = Languages.getLanguageForShortCode(shortLangCode);
-//        StringBuilder languageTextBuilder = new StringBuilder();
-//        ranges.forEach(range -> {
-//          String text = range.getAnalyzedSentence().getText().trim() + " ";
-//          languageTextBuilder.append(text);
-//        });
-//        AnnotatedText finalTextToCheckAgain = new AnnotatedTextBuilder().addText(languageTextBuilder.toString().trim()).build();
-//      });
-//      long endTimeRecheck = System.currentTimeMillis();
-//      log.trace("Time needed for recheck other languages: {}", (endTimeRecheck - startTimeRecheck) / 1000f);
-    }
-    //### End multiLangPart
 
     int compactMode = Integer.parseInt(params.getOrDefault("c", "0"));
     String response = getResponse(aText, lang, detLang, motherTongue, res, hiddenMatches, incompleteResultReason, compactMode,
@@ -833,36 +812,6 @@ abstract class TextChecker {
     } else {
       List<CheckResults> res = new ArrayList<>();
       res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
-//      NOTE: Not needed anymore. The "multilingual" parameter is not used.
-//      if (preferredLangs.size() < 2 || parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
-//        res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
-//      } 
-//      else {
-//        // support for multilingual texts:
-//        try {
-//          Language mainLang = getLanguageVariantForCode(detLang.getDetectedLanguage().getShortCode(), preferredVariants);
-//          List<Language> secondLangs = new ArrayList<>();
-//          for (String preferredLangCode : preferredLangs) {
-//            if (!preferredLangCode.equals(mainLang.getShortCode())) {
-//              secondLangs.add(getLanguageVariantForCode(preferredLangCode, preferredVariants));
-//              break;
-//            }
-//          }
-//          LanguageAnnotator annotator = new LanguageAnnotator();
-//          List<FragmentWithLanguage> fragments = annotator.detectLanguages(aText.getPlainText(), mainLang, secondLangs);
-//          List<Language> langs = new ArrayList<>();
-//          langs.add(mainLang);
-//          langs.addAll(secondLangs);
-//          Map<Language, AnnotatedTextBuilder> lang2builder = getBuilderMap(fragments, new HashSet<>(langs));
-//          for (Map.Entry<Language, AnnotatedTextBuilder> entry : lang2builder.entrySet()) {
-//            res.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
-//          }
-//        } catch (Exception e) {
-//          log.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
-//            "falling back to single language.", e);
-//          res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
-//        }
-//      }
       return res;
     }
   }

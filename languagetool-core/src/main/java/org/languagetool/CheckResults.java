@@ -18,23 +18,25 @@
  */
 package org.languagetool;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.RuleMatch;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @since 5.3
  */
 public class CheckResults {
 
+  @Getter
   private List<RuleMatch> ruleMatches;
-  private List<Range> ignoredRanges;
-  private final List<SentenceRange> sentenceRanges = new ArrayList<>();
+  @Getter
+  private final List<Range> ignoredRanges;
   private final List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
+  private final List<SentenceRange> sentenceRanges = new ArrayList<>();
+
 
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
     this(ruleMatches, ignoredRanges, Collections.emptyList());
@@ -43,36 +45,32 @@ public class CheckResults {
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges, List<ExtendedSentenceRange> extendedSentenceRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
-    addExtendedSentenceRanges(extendedSentenceRanges);
-  }
-
-  public List<Range> getIgnoredRanges() {
-    return ignoredRanges;
-  }
-
-  public List<RuleMatch> getRuleMatches() {
-    return ruleMatches;
+    this.extendedSentenceRanges.addAll(Objects.requireNonNull(extendedSentenceRanges));
   }
 
   @NotNull
   public List<SentenceRange> getSentenceRanges() {
-    return sentenceRanges;
-  }
-
-  public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
-    this.sentenceRanges.addAll(sentenceRanges);
+    return Collections.unmodifiableList(this.sentenceRanges);
   }
 
   public List<ExtendedSentenceRange> getExtendedSentenceRanges() {
-    return extendedSentenceRanges;
+    return extendedSentenceRanges.stream().sorted().collect(Collectors.toList());
   }
 
-  public void addExtendedSentenceRanges(List<ExtendedSentenceRange> extendedSentenceRanges) {
-    this.extendedSentenceRanges.addAll(extendedSentenceRanges);
-  }
-
-  public void setIgnoredRanges(List<Range> ignoredRanges) {
-    this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
+  public void addSentenceRanges(@NotNull List<SentenceRange> sentenceRanges, String languageCode, boolean update) {
+    this.sentenceRanges.addAll(sentenceRanges);
+    sentenceRanges.forEach(range -> {
+      ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(range);
+      extendedSentenceRange.addLanguageConfidenceRate(Collections.singletonMap(languageCode,1.0f));
+      if (update) {
+        extendedSentenceRanges.remove(extendedSentenceRange);
+        extendedSentenceRanges.add(extendedSentenceRange);
+      } else {
+        if (!extendedSentenceRanges.contains(extendedSentenceRange)) {
+          extendedSentenceRanges.add(extendedSentenceRange);
+        }
+      }
+    });
   }
 
   public void setRuleMatches(List<RuleMatch> ruleMatches) {

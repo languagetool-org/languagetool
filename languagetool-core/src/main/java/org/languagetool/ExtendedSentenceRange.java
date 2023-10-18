@@ -24,12 +24,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public final class ExtendedSentenceRange {
+public final class ExtendedSentenceRange implements Comparable<ExtendedSentenceRange> {
 
   private final SentenceRange sentenceRange;
   private final Map<String, Float> languageConfidenceRates = new LinkedHashMap<>(); //languageCode;0-1 confidenceRate from LanguageDetectionService
-//  private final Map<String, Float> sentenceScoring = new LinkedHashMap<>(); //Style; 0-1 score from scoring model
-
 
   ExtendedSentenceRange(@NotNull SentenceRange sentenceRanges) {
     this.sentenceRange = sentenceRanges;
@@ -43,26 +41,12 @@ public final class ExtendedSentenceRange {
     this.languageConfidenceRates.putAll(languageConfidenceRates);
   }
 
-//  public void addSentenceScoring(String style, Float score) {
-//    this.sentenceScoring.put(style, score);
-//  }
-
-//  public Map<String, Float> getSentenceScoring() {
-//    return Collections.unmodifiableMap(sentenceScoring);
-//  }
-
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     ExtendedSentenceRange that = (ExtendedSentenceRange) o;
-
-    if (!sentenceRange.equals(that.sentenceRange)) return false;
-    if (!languageConfidenceRates.equals(that.languageConfidenceRates)) return false;
-
-    return true;
+    return sentenceRange.equals(that.sentenceRange);
   }
 
   @Override
@@ -70,5 +54,15 @@ public final class ExtendedSentenceRange {
     int result = sentenceRange.hashCode();
     result = 31 * result + languageConfidenceRates.hashCode();
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return sentenceRange + ":" + languageConfidenceRates;
+  }
+
+  @Override
+  public int compareTo(@NotNull ExtendedSentenceRange o) {
+    return this.sentenceRange.compareTo(o.sentenceRange);
   }
 }

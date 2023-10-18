@@ -927,11 +927,8 @@ public class JLanguageTool {
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, toneTags, textSessionID, sentences, analyzedSentences);
-
-
     List<SentenceRange> sentenceRanges = SentenceRange.getRangesFromSentences(annotatedText, sentences);
-
-    checkResults.addSentenceRanges(sentenceRanges);
+    checkResults.addSentenceRanges(sentenceRanges, language.getShortCode(), false);
     return checkResults;
   }
 
@@ -1059,8 +1056,8 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-
-    return new CheckResults(ruleMatches, res.getIgnoredRanges());
+    //#jump3
+    return new CheckResults(ruleMatches, res.getIgnoredRanges(), res.getExtendedSentenceRanges());
   }
 
   private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches) {
@@ -1940,15 +1937,18 @@ public class JLanguageTool {
     public CheckResults call() throws Exception {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       List<Range> ignoreRanges = new ArrayList<>();
+      List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
       if (mode == Mode.ALL) {
         ruleMatches.addAll(getTextLevelRuleMatches());
         CheckResults otherRuleMatches = getOtherRuleMatches(toneTags);
         ruleMatches.addAll(otherRuleMatches.getRuleMatches());
         ignoreRanges.addAll(otherRuleMatches.getIgnoredRanges());
+        extendedSentenceRanges.addAll(otherRuleMatches.getExtendedSentenceRanges());
       } else if (mode == Mode.ALL_BUT_TEXTLEVEL_ONLY) {
         CheckResults otherRuleMatches = getOtherRuleMatches(toneTags);
         ruleMatches.addAll(otherRuleMatches.getRuleMatches());
         ignoreRanges.addAll(otherRuleMatches.getIgnoredRanges());
+        extendedSentenceRanges.addAll(otherRuleMatches.getExtendedSentenceRanges());
       } else if (mode == Mode.TEXTLEVEL_ONLY) {
         ruleMatches.addAll(getTextLevelRuleMatches());
       } else {
@@ -1956,7 +1956,7 @@ public class JLanguageTool {
       }
       // can't call applyCustomRuleFilters here, done in performCheck ->
       // should run just once w/ complete list of matches
-      return new CheckResults(ruleMatches, ignoreRanges);
+      return new CheckResults(ruleMatches, ignoreRanges, extendedSentenceRanges);
     }
 
     private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
@@ -2005,7 +2005,7 @@ public class JLanguageTool {
 
     private CheckResults getOtherRuleMatches(Set<ToneTag> toneTags) {
       List<RuleMatch> ruleMatches = new ArrayList<>();
-//      List<Range> ignoreRanges = new ArrayList<>(); //TODO: remove later
+      List<Range> ignoreRanges = new ArrayList<>(); //TODO: remove later
       List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
       int textWordCounter = sentences.stream().map(sentenceData -> sentenceData.wordCount).reduce(0, Integer::sum);
       int wordCounter = 0;
@@ -2028,7 +2028,6 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-
             List<Rule> rules = new ArrayList<>(this.rules.rulesForSentence(sentence.analyzed));
             rules.addAll(userConfig.getRules());
             sentenceMatches = checkAnalyzedSentence(paraMode, rules, sentence.analyzed, checkRemoteRules, textWordCounter);
@@ -2048,6 +2047,9 @@ public class JLanguageTool {
                 if (!ignoreRanges.contains(ignoreRange)) {
                   ignoreRanges.add(ignoreRange);
                 }
+                //#jump1
+                System.out.println("langscorings in lt: " + elem.getNewLanguageMatches());
+                //TODO not the correct sentence ranges here
                 SentenceRange sentenceRange = new SentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.length());
                 ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentenceRange);
                 extendedSentenceRange.addLanguageConfidenceRate(elem.getNewLanguageMatches());
@@ -2084,7 +2086,8 @@ public class JLanguageTool {
                   + StringUtils.abbreviate(sentence.analyzed.toTextString(), 500) + "</sentcontent>", e);
         }
       }
-      return new CheckResults(ruleMatches, ignoreRanges, );
+      System.out.println(extendedSentenceRanges);
+      return new CheckResults(ruleMatches, ignoreRanges, extendedSentenceRanges);
     }
 
     private LineColumnPosition findLineColumn(int offset) {
