@@ -3542,7 +3542,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
         <rulegroup id="QB_EN_INSERT_PERIOD" name="">
             <rule>  <!-- don't move period inside of brackets -->
-                <pattern>   <!-- run a diff locally to ensure this doesn't remove too many matches -->
+                <antipattern>   <!-- exception for sentence splitting -->
+                    <token />
+                    <token regexp="yes">&quote;</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                    <example>...don’t come out alive" My brother sl...</example>
+                </antipattern>
+                <pattern>
                     <marker>
                         <token />
                     </marker>
