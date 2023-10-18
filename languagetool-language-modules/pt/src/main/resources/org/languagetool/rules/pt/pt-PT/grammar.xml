@@ -32,6 +32,9 @@
     <!ENTITY % messages  SYSTEM "../../../resource/pt/entities/messages.ent" >
     %messages;
 
+    <!ENTITY currency_symbols "\p{Lu}*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]">
+    <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
+
     <!ENTITY palavras_estrangeiras "up|at|mother|cher|cherie|chérie|POV|father|nothing|press|dead|selected|left|width|height|within|love|life|loser?s?|secret|influential|most|king|week|function|length|yeah|welcome|these|but|top|too|in|return|go|goes|baby|shop|appeal|trade|toys?|or|who|of|years?|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|ya|spot|games?|are|by|couldn?|can|wouldn?|might|the|is|and|for|your|back|that|you|he|she|its?|we|they|him|her|them|good|bad|les?|chicos?|novi[oa]s?|herman[oa]s?|ballo|y|del|abrazo|una|besot?e?|con|placer|on|peut|dans|tout|vous|je|chaque|lui|avec|pas|du|aus|den|der|die|écoles?|une|ont|féderations?|thêatres?|des|qui|au|societés?|académies?|pour|notre|sur|institute?|ich|sie|weil|wir|mio?|degli|della|di|tuo|tra">
 
     <!ENTITY meses_ano_abrev "abr|ago|dez|fev|jan|jul|jun|mai|mar|nov|out|set">
@@ -4189,5 +4192,61 @@
       <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
       <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
     </rule>
+  </category>
+
+  <category id="TYPOGRAPHY" name="Tipografia">
+      <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="Posição dos símbolos de moeda: '100£ (£100)">
+          <pattern>
+              <token regexp="yes">\d+([,.]\d+)*</token>
+              <token regexp="yes">&currency_symbols;
+                  <exception>€</exception>
+              </token>
+          </pattern>
+          <message>Símbolos de moeda internacionais se escrevem, via de regra, antes do valor.</message>
+          <suggestion>\2\1</suggestion>
+          <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+          <short>Mova o símbolo da moeda para antes do valor</short>
+          <example correction="£100">Deve <marker>100£</marker>.</example>
+          <example correction="£100.00">Deve <marker>100.00£</marker>.</example>
+          <example>Preciso de 400€.</example>
+      </rule>
+
+      <rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="Posição do símbolo do euro: '€100 (100 €)">
+          <pattern>
+              <token>€</token>
+              <token regexp="yes">\d+([,.]\d+)*</token>
+          </pattern>
+          <message>O símbolo do euro deve seguir o valor monetário.</message>
+          <suggestion>\2&nbsp;\1</suggestion>
+          <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+          <short>Mova &quot;€&quot; para depois do valor</short>
+          <example correction="100&nbsp;€">Deve <marker>€100</marker>.</example>
+      </rule>
+
+      <rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
+          <pattern>
+              <token regexp="yes">&currency_symbols;
+                  <exception>€</exception>
+              </token>
+              <token regexp="yes" spacebefore="yes">\d+([,.]\d+)*</token>
+          </pattern>
+          <message>Os símbolos monetários internacionais não se separam do valor por um espaço.</message>
+          <suggestion>\1\2</suggestion>
+          <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+          <short>Remover o espaço</short>
+          <example correction="R$100">Custa <marker>R$ 100</marker>.</example>
+      </rule>
+
+      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
+          <pattern>
+              <token regexp="yes">\d+([,.]\d+)*</token>
+              <token spacebefore="no">€</token>
+          </pattern>
+          <message>O símbolo do euro se separa do valor monetário por um espaço.</message>
+          <suggestion>\1&nbsp;\2</suggestion>
+          <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+          <short>Adicionar um espaço</short>
+          <example correction="100&nbsp;€">Custa <marker>100€</marker>.</example>
+      </rule>
   </category>
 </rules>

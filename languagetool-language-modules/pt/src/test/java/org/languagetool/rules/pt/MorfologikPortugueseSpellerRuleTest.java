@@ -112,8 +112,11 @@ public class MorfologikPortugueseSpellerRuleTest {
   @Test
   public void testBrazilPortugueseSpellingDoesNotCheckCurrencyValues() throws Exception {
     assertNoErrors("R$45,00", ltBR, ruleBR);
+    assertNoErrors("R$ 3", ltBR, ruleBR);
     assertNoErrors("US$1.000,00", ltBR, ruleBR);
     assertNoErrors("€99,99", ltBR, ruleBR);
+    assertNoErrors("6£", ltBR, ruleBR);
+    assertNoErrors("30 R$", ltBR, ruleBR);
     assertNoErrors("US$", ltBR, ruleBR);
   }
 

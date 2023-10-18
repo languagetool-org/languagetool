@@ -15642,14 +15642,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>por</token>
                     </or>
                     <marker>
-                        <token regexp="yes">[KHDCNF][gmlsJNWCVSFTH]([\^⁻])?[23²³]?
-                            <exception regexp='yes'>DJ|FC</exception></token>
+                        <token regexp="yes">[KHDCNF][gmlsJNWCVSFTH]([\^⁻])?[23]?
+                            <exception regexp='yes'>DJ|FC</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Unidades do Sistema Internacional iguais ou inferiores a "quilo" são escritas com minúsculas.</message>
                 <suggestion><match no='2' case_conversion="startlower"/></suggestion>
                 <example correction="km">A 30 <marker>Km</marker> de distância.</example>
-                <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km²</marker>, sendo a vigésima quarta maior do Brasil e a quin…</example>
+                <example correction="km">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km</marker>², sendo a vigésima quarta maior do Brasil e a quin…</example>
                 <example correction="km^2">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km^2</marker>, sendo a vigésima quarta maior do Brasil e a quin…</example>
                 <example correction="kW">120 <marker>KW</marker> de potência</example>
             </rule>
@@ -42087,73 +42088,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
             <example correction="©">Copyright <marker>(C)</marker> 2010 O Estado da Gramática</example>
             <example>Isto é uma lista: (a) item, (b) 2 itens, (c) 2014 itens.</example>
-        </rule>
-
-        <rulegroup type="locale-violation" id='CURRENCY' name="Posição dos símbolos de moeda: '100£ (£100)">
-            <rule>
-                <antipattern>
-                    <token regexp="yes" skip="-1">&palavras_estrangeiras;</token>
-                    <token regexp="yes">[\d\,\.]+[$£¥\u8371]</token>
-                    <example>Your 300$ Euro demurrage</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes" skip="-1">[\d\,\.]+[$£¥€\u8371]</token>
-                    <token regexp="yes">&palavras_estrangeiras;</token>
-                    <example>20$ dollars a week</example>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">[\d\,\.]+[$£¥\u8371]
-                        <exception regexp="yes">[$£¥€\u8371][\d\,\.]+</exception>
-                        <exception regexp="yes">[\d\,\.]+€</exception></token>
-                </pattern>
-                <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion><match no='1' regexp_match="([\d\,\.]+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
-                <short>Coloque a divisa no início</short>
-                <example correction="£100">Deve <marker>100£</marker>.</example>
-                <example correction="£100.00">Deve <marker>100.00£</marker>.</example>
-                <example>Houve uma taxa de cancelamento de 150€ no dia da partida.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[\d\,\.]+</token>
-                    <token regexp="yes">[$£¥\u8371]</token>
-                </pattern>
-                <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion>\2\1</suggestion>.</message>
-                <short>Coloque a divisa no início</short>
-                <example correction="£100">Deve <marker>100 £</marker>.</example>
-                <example correction="£100.00">Deve <marker>100.00 £</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[€\u8371]</token>
-                    <token regexp="yes">\d+(?:[\,\.]\d+)?</token>
-                </pattern>
-                <message>O símbolo de euro é colocado depois do valor: <suggestion>\2 \1</suggestion>.</message>
-                <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-                <short>Coloque a divisa no fim</short>
-                <example correction="100 €">Deve <marker>€ 100</marker>.</example>
-                <example correction="100,00 €">Deve <marker>€ 100,00</marker>.</example>
-            </rule>
-        </rulegroup>
-
-        <rule type="whitespace" id='CURRENCY_SPACE' name="Símbolos monetários sem espaço em branco: '$ 100' ($100)">
-            <pattern>
-                <token regexp="yes">[$£¥\u8371]</token>
-                <token regexp="yes" spacebefore="yes">\d+(?:[\,\.]\d+)?</token>
-            </pattern>
-            <message>Os símbolos monetários internacionais não são separados por um espaço: <suggestion>\1\2</suggestion>.</message>
-            <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-            <short>Remover espaço</short>
-            <example correction="$100">Deve-se <marker>$ 100</marker>.</example>
-        </rule>
-
-        <rule type="whitespace" id='CURRENCY_SPACE_2' name="Espaço em branco antes de símbolos monetários: '100,00€' (100,00 €)">
-            <pattern>
-                <token regexp="yes">\d+(?:[\,\.]\d+)?[€]</token>
-            </pattern>
-            <message>Os símbolos monetários do euro (€) são separados por um espaço<suggestion><match no='1' regexp_match="(\d+)([€\u8371])" regexp_replace="$1 $2"/></suggestion>.</message>
-            <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-            <short>Erro tipográfico</short>
-            <example correction="100 €">Deve-se <marker>100€</marker>.</example>
         </rule>
 
         <rulegroup id='PT_SMART_QUOTES' name="Aspas inteligentes (“”)" tags="picky">

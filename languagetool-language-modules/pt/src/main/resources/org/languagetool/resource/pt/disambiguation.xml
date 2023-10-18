@@ -3888,9 +3888,18 @@
       <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule id="CURRENCY_SPELLING_IGNORE">
+    <rule id="CURRENCY_SPELLING_PRE_IGNORE">
         <pattern>
-            <token regexp="yes">\p{Lu}*&currency_symbols;(\d+(\.\d+)?(,\d{2})?)?</token>
+            <token regexp="yes">&currency_symbols;</token>
+            <token regexp="yes">(\d+(\.\d+)?(,\d{2})?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="CURRENCY_SPELLING_POST_IGNORE">
+        <pattern>
+            <token regexp="yes">(\d+(\.\d+)?(,\d{2})?)?</token>
+            <token regexp="yes">&currency_symbols;</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

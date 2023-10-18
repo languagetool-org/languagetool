@@ -124,6 +124,11 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
+  public void testTokeniseExponent() {
+    testTokenise("km²", new String[]{"km", "²"});
+  }
+
+  @Test
   public void testDoNotTokeniseEmoji() {
     testTokenise("☺☺☺Só", new String[]{"☺☺☺Só"});
   }
