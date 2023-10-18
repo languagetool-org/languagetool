@@ -30068,6 +30068,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rulegroup id="APOSTROFO_ANO" name="los '90 > los 90" premium="no" default="temp_off">
+            <url>https://www.rae.es/dpd/ap%C3%B3strofo</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">los|años?|d?el|y</token>
+                    <marker>
+                        <token regexp="yes">['‘]</token>
+                        <token regexp="yes">\d\d</token>
+                    </marker>
+                </pattern>
+                <message>Si se desea indicar abreviadamente el año, no debe usarse el apóstrofo.</message>
+                <suggestion>\3</suggestion>
+                <example correction="90">Me acuerdo que en mayo del <marker>'90</marker> hice un bello viaje a Italia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token min="0" regexp="yes">['‘]</token>
+                    <token regexp="yes">\d\d.*</token>
+                    <token regexp="yes">[\—\-\/\,]</token>
+                    <marker>
+                        <token regexp="yes">['‘]</token>
+                        <token regexp="yes">\d\d</token>
+                    </marker>
+                </pattern>
+                <message>Si se desea indicar abreviadamente el año, no debe usarse el apóstrofo.</message>
+                <suggestion>\5</suggestion>
+                <example correction="72">Grabado en los años '71—<marker>'72</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COMA_Y_PUNTO" name="dos signos de puntuación: coma y punto">
             <rule>
                 <antipattern>
