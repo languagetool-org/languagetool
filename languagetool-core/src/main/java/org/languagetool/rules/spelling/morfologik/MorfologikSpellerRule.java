@@ -569,12 +569,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));
       }
     }
-    List<SuggestedReplacement> topSuggestions = new ArrayList<>();
-    if (defaultSuggestions.size() == 0 && userSuggestions.size() == 0 && word.contains("-"))  {
-        addHyphenSuggestions(word.split("-"), topSuggestions);
-    }
     //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-    topSuggestions.addAll(getAdditionalTopSuggestions(defaultSuggestions, word));
+    List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
     topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
     defaultSuggestions.addAll(0, topSuggestions);
     //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
@@ -589,35 +585,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     defaultSuggestions = orderSuggestions(defaultSuggestions, word);
 
     return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
-  }
-    private void addHyphenSuggestions(String[] parts, List<SuggestedReplacement> topSuggestions) throws IOException {
-      int i = 0;
-      for (String part : parts) {
-        if (isMisspelled(part)) {
-          List<String> partSuggestions = speller1.getSuggestions(part);
-          if (partSuggestions.size() == 0) {
-              partSuggestions = speller2.getSuggestions(part);
-          }
-          if (partSuggestions.size() > 0) {
-              String suggestion = getHyphenatedWordSuggestion(parts, i, partSuggestions.get(0));
-              topSuggestions.add(new SuggestedReplacement(suggestion));
-          }
-        }
-        i++;
-      }
-  }
-
-  @NotNull
-  private String getHyphenatedWordSuggestion(String[] parts, int currentPos, String currentPostSuggestion) {
-      List<String> newParts = new ArrayList<>();
-      for (int j = 0; j < parts.length; j++) {
-        if (currentPos == j) {
-          newParts.add(currentPostSuggestion);
-        } else {
-          newParts.add(parts[j]);
-        }
-      }
-      return String.join("-", newParts);
   }
 
   @NotNull
