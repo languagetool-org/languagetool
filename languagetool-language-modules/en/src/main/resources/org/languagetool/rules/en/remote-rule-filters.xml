@@ -3153,15 +3153,31 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_NNP_FOR_JJ_ERROR_IDS_000022" name=""> <!-- should be picky -->
+            <rule>  <!-- all caps -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    </marker>
+                </pattern>
+                <example correction="">Hit the <marker>DELETE</marker> key on your keyboard.</example>
+            </rule>
+            <rule>  <!-- frequently disabled -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">False|True|(North|South|East|West)(ern)?|Central|Middle</token>
+                    </marker>
+                </pattern>
+                <example correction="">The value is initialized to <marker>False</marker>.</example>
+                <example correction="">A second phase of the project, to cost $1.1 billion, would extend the line into <marker>Northern</marker> California.</example>
+            </rule>
             <rule>  <!-- frequently disabled followed by another capital -->
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">Assistant|Executive|Happy|Lead|(North|South|East|West)(ern)?|Junior|Senior</token>
+                        <token regexp="yes" case_sensitive="yes">Assistant|Executive|Happy|Lead|Junior|Senior|Principal</token>
                     </marker>
                     <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
                 </pattern>
                 <example correction="">We look forward to continuing the momentum in 2001 and wish you and your family a pleasant holiday season and a <marker>Happy</marker> New Year.</example>
-                <example correction="">A second phase of the project, to cost $1.1 billion, would extend the line into <marker>Northern</marker> California.</example>
             </rule>
             <rule>  <!-- capitalized according to style guides -->
                 <pattern>
