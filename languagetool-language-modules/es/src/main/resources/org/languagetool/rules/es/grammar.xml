@@ -20594,6 +20594,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
+                <token postag="NCMP.*|AQ.MP.*" postag_regexp="yes"/>
+                <token>,</token>
+                <token postag="V.SP3P.*" postag_regexp="yes"/>
+                <token postag="DD0MP.*" postag_regexp="yes"/>
+                <token postag="NCF[SP].*|AQ.F[SP].*" postag_regexp="yes"/>
+                <example>Los topónimos son aquellos sustantivos con los que llamamos a diferentes lugares geográficos, sean estos montañas, ríos, etc.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="NCFP.*|AQ.FP.*" postag_regexp="yes"/>
+                <token>,</token>
+                <token postag="V.SP3P.*" postag_regexp="yes"/>
+                <token postag="DD0FP.*" postag_regexp="yes"/>
+                <token postag="NCM[SP].*|AQ.M[SP].*" postag_regexp="yes"/>
+                <example>Nos encanta visitar iglesias, sean estas lugares de interés turístico o no.</example>
+            </antipattern>
+            <antipattern>
                 <!-- nouns used as adjectives -->
                 <token>medio</token>
                 <token inflected="yes" regexp="yes">vampiro|&gentilicios;</token>
