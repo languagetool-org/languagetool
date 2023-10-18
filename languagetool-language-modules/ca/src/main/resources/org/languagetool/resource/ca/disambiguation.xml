@@ -5425,6 +5425,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes">efecte|tipus</token>
+                <marker>
+                    <token postag="NCFS000">cascada</token>
+                </marker>
+                <token><exception postag="AQ.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="NCFS000"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token>anys</token>
                 <marker>
                     <token>llum</token>
