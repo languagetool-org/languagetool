@@ -42,11 +42,12 @@ import java.util.List;
  */
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
+  private final MultiWordChunker chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
   private final Disambiguator disambiguator;
 
   public EnglishHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
+    chunker.setIgnoreSpelling(true);
   }
 
   @Override
@@ -91,7 +92,6 @@ public class EnglishHybridDisambiguator extends AbstractDisambiguator {
           lemma = analyzedToken.getLemma();
           AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
           aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "EN_HybridDisambiguator");
-          aTokens[i].ignoreSpelling();
           nextPOSTag = POSTag;
         }
       }
