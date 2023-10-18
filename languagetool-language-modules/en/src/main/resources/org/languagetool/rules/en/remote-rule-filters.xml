@@ -3642,6 +3642,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">...t least 10% to <marker>≥40%</marker>) [24,31]. The...</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_DTSPACEUNDERSCORESPSPACENN_FOR_NN" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="P?DT" postag_regexp="yes" />
+                        <token regexp="yes">anglicisms?</token>
+                    </marker>
+                </pattern>
+                <example correction="">I want to find alternatives to <marker>the anglicism</marker>. </example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_JJ_FOR_JJ" name="">
             <rule>
                 <pattern>
@@ -3666,7 +3677,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule> <!-- this rule should be a style rule + picky -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">annum|(any|every|no|some)(body|thing)|bro|daddy|holiday|hubby|momma|mother|gran(ny)?|pussy|sea|shit|tech|\d*(st|nd|rd|th)|#|.*µ.*|.*[²³]|info|homie|doc|admin|org|accommodation|takeaway|AM|PM</token>
+                        <token regexp="yes">annum|(any|every|no|some)(body|thing)|bro|daddy|hare|holiday|hubby|momma|mother|gran(ny)?|pussy|sea|shit|tech|\d*(st|nd|rd|th)|#|.*µ.*|.*[²³]|info|homie|doc|admin|org|accommodation|takeaway|AM|PM</token>
                     </marker>
                 </pattern>
                 <example correction=""><marker>Everybody</marker> said she couldn't do a thing.</example>
@@ -3682,6 +3693,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">It will produce 600,000 tons of ethylene and 85,000 tons of propylene per <marker>annum</marker>.</example>
                 <example correction="">A Northern fairytale begins "Once upon a time" A Southern fairytale begins "Y'all ain't gonna believe this <marker>shit</marker>."</example>
                 <example correction="">You're not telling me <marker>something</marker>.</example>
+                <example correction="">It's a fable about a very speedy <marker>hare</marker> who brags about his talents.</example>
         </rule>
             <rule><!-- times with AM/PM -->
                 <pattern>
@@ -3821,6 +3833,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Komisar added that at the scene of the Mercedes-Benz crash where he died, he was found with a passport under the name of "Mehmet <marker>Özbay" — an</marker> alias also used by Ağca.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NNS_FOR_NN_ERROR_IDS_000013" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">anglicisms?</token>
+                    </marker>
+                </pattern>
+                <example correction="">I want to find alternatives to <marker>anglicisms</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_OPEN_QUOTESPACENNSPACE''_FOR_OPEN_QUOTESPACEOPEN_QUOTE" name="">
