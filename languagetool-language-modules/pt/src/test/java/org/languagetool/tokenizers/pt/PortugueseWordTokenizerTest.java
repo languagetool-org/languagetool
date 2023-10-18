@@ -107,10 +107,11 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
-  public void testDoNotTokeniseCurrency() {
-    testTokenise("R$45,00", new String[]{"R$45,00"});
-    testTokenise("US$249,99", new String[]{"US$249,99"});
-    testTokenise("€2.000,00", new String[]{"€2.000,00"});
+  public void testTokeniseCurrency() {
+    testTokenise("R$45,00", new String[]{"R$", "45,00"});
+    testTokenise("5£", new String[]{"5", "£"});
+    testTokenise("US$249,99", new String[]{"US$", "249,99"});
+    testTokenise("€2.000,00", new String[]{"€", "2.000,00"});
   }
 
   @Test

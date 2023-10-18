@@ -23,10 +23,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -44,6 +46,20 @@ public class WordTokenizer implements Tokenizer {
   private static final Pattern DOMAIN_CHARS = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9-]+");
   private static final Pattern NO_PROTOCOL_URL = Pattern.compile("([a-zA-Z0-9][a-zA-Z0-9-]+\\.)?([a-zA-Z0-9][a-zA-Z0-9-]+)\\.([a-zA-Z0-9][a-zA-Z0-9-]+)/.*");
   private static final Pattern E_MAIL = Pattern.compile("(?<!:)@?\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
+  // For now, to prevent very aggressive tokenisation, we're limiting this to symbols that are coterminous with or
+  // end in a *special* currency glyph, like "$" or "US$", respectively.
+  //
+  // Not contemplated:
+  // - currency symbols made up only of regular alphabetic glyphs, e.g. "Bs", "zł";
+  // - official, ASCII-only, three-letter currency symbols, e.g. "USD", "EUR";
+  // - glyphs from right-to-left writing scripts.
+  private static final String CURRENCY_SYMBOLS = "[A-Z]*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]";
+  // Really loose, but will only be used in conjunction with CURRENCY_SYMBOLS above, and we actually want to catch
+  // potentially incorrect number formats, so that we tokenise them properly and are able to correct them more easily.
+  private static final String CURRENCY_VALUE =  "\\d+(?:[.,]\\d+)*";
+  private static final Pattern CURRENCY_EXPRESSION = Pattern.compile(String.format("(?:(%s)(%s)|(%s)(%s))",
+    CURRENCY_SYMBOLS, CURRENCY_VALUE, CURRENCY_VALUE, CURRENCY_SYMBOLS));
+
 
   /*
    * Possibly problematic characters for tokenization:
@@ -244,4 +260,25 @@ public class WordTokenizer implements Tokenizer {
     return false;
   }
 
+  public boolean isCurrencyExpression(String token) {
+    return CURRENCY_EXPRESSION.matcher(token).matches();
+  }
+
+  public List<String> splitCurrencyExpression(String token) {
+    List<String> newList = new ArrayList<>();
+    Matcher matcher = CURRENCY_EXPRESSION.matcher(token);
+    while (matcher.find()) {
+      if (matcher.group(1) != null && matcher.group(2) != null) {
+        newList.add(matcher.group(1));
+        newList.add(matcher.group(2));
+      } else if (matcher.group(3) != null && matcher.group(4) != null) {
+        newList.add(matcher.group(3));
+        newList.add(matcher.group(4));
+      }
+    }
+    if (newList.size() == 0) {
+      newList.add(token);
+    }
+    return newList;
+  }
 }

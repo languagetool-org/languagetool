@@ -159,7 +159,9 @@ public class PortugueseWordTokenizer extends WordTokenizer {
     final List<String> l = new ArrayList<>();
     synchronized (this) { // speller is not thread-safe
       if (!s.isEmpty()) {
-        if (!s.contains("-")) {
+        if (isCurrencyExpression(s)) {
+          l.addAll(splitCurrencyExpression(s));
+        } else if (!s.contains("-")) {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
