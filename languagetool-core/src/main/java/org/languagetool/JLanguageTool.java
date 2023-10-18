@@ -928,7 +928,7 @@ public class JLanguageTool {
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, toneTags, textSessionID, sentences, analyzedSentences);
     List<SentenceRange> sentenceRanges = SentenceRange.getRangesFromSentences(annotatedText, sentences);
-    checkResults.addSentenceRanges(sentenceRanges, language.getShortCode(), false);
+    checkResults.addSentenceRanges(sentenceRanges);
     return checkResults;
   }
 
@@ -1056,7 +1056,6 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    //#jump3
     return new CheckResults(ruleMatches, res.getIgnoredRanges(), res.getExtendedSentenceRanges());
   }
 
@@ -2007,6 +2006,7 @@ public class JLanguageTool {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       List<Range> ignoreRanges = new ArrayList<>(); //TODO: remove later
       List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
+
       int textWordCounter = sentences.stream().map(sentenceData -> sentenceData.wordCount).reduce(0, Integer::sum);
       int wordCounter = 0;
       float tmpErrorsPerWord = 0.0f;
@@ -2014,6 +2014,8 @@ public class JLanguageTool {
       for (int i = 0, sentencesSize = sentences.size(); i < sentencesSize; i++) {
         SentenceData sentence = sentences.get(i);
         wordCounter += sentence.wordCount;
+        ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.trim().length(), language.getShortCode());
+        extendedSentenceRanges.add(extendedSentenceRange);
         try {
           //comment in to trigger an exception via input text:
           //if (analyzedSentence.getText().contains("fakecrash")) {
@@ -2047,15 +2049,7 @@ public class JLanguageTool {
                 if (!ignoreRanges.contains(ignoreRange)) {
                   ignoreRanges.add(ignoreRange);
                 }
-                //#jump1
-                System.out.println("langscorings in lt: " + elem.getNewLanguageMatches());
-                //TODO not the correct sentence ranges here
-                SentenceRange sentenceRange = new SentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.length());
-                ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentenceRange);
-                extendedSentenceRange.addLanguageConfidenceRate(elem.getNewLanguageMatches());
-                if (!extendedSentenceRanges.contains(extendedSentenceRange)) {
-                  extendedSentenceRanges.add(extendedSentenceRange);
-                }
+                extendedSentenceRange.updateLanguageConfidenceRates(elem.getNewLanguageMatches());
               }
               ruleMatches.add(thisMatch);
               if (listener != null) {
@@ -2086,7 +2080,6 @@ public class JLanguageTool {
                   + StringUtils.abbreviate(sentence.analyzed.toTextString(), 500) + "</sentcontent>", e);
         }
       }
-      System.out.println(extendedSentenceRanges);
       return new CheckResults(ruleMatches, ignoreRanges, extendedSentenceRanges);
     }
 

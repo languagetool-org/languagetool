@@ -34,7 +34,7 @@ public class CheckResults {
   private List<RuleMatch> ruleMatches;
   @Getter
   private final List<Range> ignoredRanges;
-  private final List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
+  private final List<ExtendedSentenceRange> extendedSentenceRanges;
   private final List<SentenceRange> sentenceRanges = new ArrayList<>();
 
 
@@ -45,7 +45,8 @@ public class CheckResults {
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges, List<ExtendedSentenceRange> extendedSentenceRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
-    this.extendedSentenceRanges.addAll(Objects.requireNonNull(extendedSentenceRanges));
+    this.extendedSentenceRanges = Objects.requireNonNull(extendedSentenceRanges);
+//    extendedSentenceRanges.forEach(extendedSentenceRange -> this.sentenceRanges.add(new SentenceRange(extendedSentenceRange.getFromPos(), extendedSentenceRange.getToPos())));
   }
 
   @NotNull
@@ -53,24 +54,12 @@ public class CheckResults {
     return Collections.unmodifiableList(this.sentenceRanges);
   }
 
-  public List<ExtendedSentenceRange> getExtendedSentenceRanges() {
-    return extendedSentenceRanges.stream().sorted().collect(Collectors.toList());
+  public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
+    this.sentenceRanges.addAll(sentenceRanges);
   }
 
-  public void addSentenceRanges(@NotNull List<SentenceRange> sentenceRanges, String languageCode, boolean update) {
-    this.sentenceRanges.addAll(sentenceRanges);
-    sentenceRanges.forEach(range -> {
-      ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(range);
-      extendedSentenceRange.addLanguageConfidenceRate(Collections.singletonMap(languageCode,1.0f));
-      if (update) {
-        extendedSentenceRanges.remove(extendedSentenceRange);
-        extendedSentenceRanges.add(extendedSentenceRange);
-      } else {
-        if (!extendedSentenceRanges.contains(extendedSentenceRange)) {
-          extendedSentenceRanges.add(extendedSentenceRange);
-        }
-      }
-    });
+  public List<ExtendedSentenceRange> getExtendedSentenceRanges() {
+    return extendedSentenceRanges.stream().sorted().collect(Collectors.toList());
   }
 
   public void setRuleMatches(List<RuleMatch> ruleMatches) {

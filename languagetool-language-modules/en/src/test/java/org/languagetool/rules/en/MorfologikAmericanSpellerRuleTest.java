@@ -372,7 +372,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
       System.out.println("===================");
       System.out.println("S:" + analyzedSentence.getText());
       for (RuleMatch match : matches) {
-        System.out.println("  getErrorLimitLang: " + match.getErrorLimitLang());
+        System.out.println("  getErrorLimitLang: " + match.getNewLanguageMatches());
       }
     }
   }

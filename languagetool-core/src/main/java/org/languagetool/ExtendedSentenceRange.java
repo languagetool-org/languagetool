@@ -20,24 +20,32 @@
 
 package org.languagetool;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public final class ExtendedSentenceRange implements Comparable<ExtendedSentenceRange> {
 
-  private final SentenceRange sentenceRange;
-  private final Map<String, Float> languageConfidenceRates = new LinkedHashMap<>(); //languageCode;0-1 confidenceRate from LanguageDetectionService
+  @Getter
+  private final int fromPos;
+  @Getter
+  private final int toPos;
+  @Getter
+  private final Map<String, Float> languageConfidenceRates; //languageCode;0-1 confidenceRate from LanguageDetectionService
 
-  ExtendedSentenceRange(@NotNull SentenceRange sentenceRanges) {
-    this.sentenceRange = sentenceRanges;
+  ExtendedSentenceRange(int fromPos, int toPos, String languageCode) {
+    this(fromPos, toPos, Collections.singletonMap(languageCode, 1.0f));
   }
 
-  public Map<String, Float> getLanguageConfidenceRates() {
-    return Collections.unmodifiableMap(languageConfidenceRates);
+  ExtendedSentenceRange(int fromPos, int toPos, @NotNull Map<String, Float> languageConfidenceRates) {
+    this.fromPos = fromPos;
+    this.toPos = toPos;
+    this.languageConfidenceRates = new LinkedHashMap<>(languageConfidenceRates);
   }
 
-  public void addLanguageConfidenceRate(Map<String, Float> languageConfidenceRates) {
+  public void updateLanguageConfidenceRates(@NotNull Map<String, Float> languageConfidenceRates) {
+    this.languageConfidenceRates.clear();
     this.languageConfidenceRates.putAll(languageConfidenceRates);
   }
 
@@ -45,24 +53,24 @@ public final class ExtendedSentenceRange implements Comparable<ExtendedSentenceR
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ExtendedSentenceRange that = (ExtendedSentenceRange) o;
-    return sentenceRange.equals(that.sentenceRange);
+    ExtendedSentenceRange extendedSentenceRange = (ExtendedSentenceRange) o;
+    return fromPos == extendedSentenceRange.fromPos && toPos == extendedSentenceRange.toPos;
   }
 
   @Override
   public int hashCode() {
-    int result = sentenceRange.hashCode();
-    result = 31 * result + languageConfidenceRates.hashCode();
+    int result = fromPos;
+    result = 31 * result + toPos;
     return result;
   }
 
   @Override
   public String toString() {
-    return sentenceRange + ":" + languageConfidenceRates;
+    return fromPos + "-" + toPos + ":" + languageConfidenceRates;
   }
 
   @Override
   public int compareTo(@NotNull ExtendedSentenceRange o) {
-    return this.sentenceRange.compareTo(o.sentenceRange);
+    return Integer.compare(this.fromPos, o.fromPos);
   }
 }

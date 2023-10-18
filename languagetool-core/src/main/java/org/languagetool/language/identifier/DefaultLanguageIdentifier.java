@@ -291,15 +291,11 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
           scores.keySet().removeIf(k -> k.equals("da"));
         }
         if (!preferredLangs.isEmpty() && (text.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD || limitOnPreferredLangs)) {
-          //System.out.println("remove? " + preferredLangs + " <-> " + scores);
           boolean wasRemoved = scores.keySet().removeIf(k -> !preferredLangs.contains(k));
           if (wasRemoved && scores.isEmpty() && limitOnPreferredLangs) {
             //TODO: just to see how often we would return no results because of that parameter -> remove later
             logger.warn("No language detected for text after remove all not preferred languages from score.");
           }
-          //System.out.println("-> " + b + " ==> " + scores);
-//          result = getHighestScoringResult(scores);
-          //add login was wäre wenn ansonsten hier so lassen
           source += "+prefLang(forced: " + limitOnPreferredLangs + ")";
         }
       } catch (FastTextDetector.FastTextException e) {
@@ -335,7 +331,8 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
       Map<String, Double> ordertScores = getOrdertScores(scores, count);
       for (Map.Entry<String, Double> entry : ordertScores.entrySet()) {
         if (entry.getKey() != null && LanguageIdentifierService.INSTANCE.canLanguageBeDetected(entry.getKey(), additionalLangs)) {
-          detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(entry.getKey(), additionalLangs), entry.getValue().floatValue(), source));
+          float rate = Math.round(entry.getValue() * 100.0) / 100.0f; // Convert to a non-scientific float and potentially round down
+          detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(entry.getKey(), additionalLangs), rate, source));
         }
       }
     } else {
@@ -347,9 +344,6 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
           // wrong for short cleanText (e.g. 0.99 for a test that's misclassified). Don't
           // use 1.0 because we can never be totally sure...
           newScore = (float) (0.99/ (30.0 / Math.min(text.length(), 30)));
-          System.out.println("fasttext  : " + highestScoringResult.getValue());
-          System.out.println("newScore  : " + newScore);
-//            result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
         } else {
           newScore = highestScoringResult.getValue().floatValue();
         }

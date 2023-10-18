@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
@@ -36,6 +37,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -69,6 +72,12 @@ public class RemoteLangDetect extends LanguageIdentifier {
   @Override
   public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs) {
     return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp);
+  }
+
+  @NotNull
+  @Override
+  public List<DetectedLanguage> getDetectedLanguageScores(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs, int count) {
+    return Collections.singletonList(this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp));
   }
 
   @Nullable

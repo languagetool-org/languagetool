@@ -65,7 +65,6 @@ public class ForeignLanguageChecker {
         Map<String, Float> results = new LinkedHashMap<>(MAX_SCORING_LANGUAGES);
         if (!detectedLanguageScores.isEmpty()) {
           for (int i = 0; i < detectedLanguageScores.size(); i++) {
-            System.out.println("loop"+i);
             DetectedLanguage detectedLanguage = detectedLanguageScores.get(i);
             Language language = detectedLanguage.getDetectedLanguage();
             //The text main language still has the highest threshold
@@ -80,8 +79,8 @@ public class ForeignLanguageChecker {
               detectedLanguage.getDetectionConfidence(),
               detectedLanguage.getDetectionSource());
             results.put(language.getShortCode(), detectedLanguage.getDetectionConfidence());
-            return results;
           }
+          return results;
         } else {
           return Collections.singletonMap(NO_FOREIGN_LANG_DETECTED, 0.99f);
         }

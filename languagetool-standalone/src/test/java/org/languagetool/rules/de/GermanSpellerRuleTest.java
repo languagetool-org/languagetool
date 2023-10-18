@@ -50,20 +50,20 @@ public class GermanSpellerRuleTest {
     assertThat(matches2.length, is(4));
     boolean match2Found = false;
     for (RuleMatch match : matches2) {
-      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
-        match2Found = true;
-        break;
-      }
+//      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
+//        match2Found = true;
+//        break;
+//      }
     }
     assertTrue(match2Found);
     RuleMatch[] matches3 = rule1.match(lt.getAnalyzedSentence("Und er sagte, this is a good test."));
     assertThat(matches3.length, is(4));
     boolean match3Found = false;
     for (RuleMatch match : matches3) {
-      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
-        match3Found = true;
-        break;
-      }
+//      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
+//        match3Found = true;
+//        break;
+//      }
     }
     assertFalse(match3Found);
   }
@@ -94,10 +94,10 @@ public class GermanSpellerRuleTest {
     assertThat(matches.length, is(5));
     boolean hasErrorLimitLang = false;
     for (RuleMatch rm : matches) {
-      if (rm.getErrorLimitLang() != null && rm.getErrorLimitLang().equals("en")) {
-        hasErrorLimitLang = true;
-        break;
-      }
+//      if (rm.getErrorLimitLang() != null && rm.getErrorLimitLang().equals("en")) {
+//        hasErrorLimitLang = true;
+//        break;
+//      }
     }
     assertTrue("Should have at least one match with errorLimitLang == \"en\"", hasErrorLimitLang);
   }

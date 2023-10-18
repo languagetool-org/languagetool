@@ -82,7 +82,7 @@ public abstract class LanguageIdentifier {
   public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs);
 
   @NotNull
-  public abstract List<DetectedLanguage> getDetectedLanguageScores(String sentence, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs, int count);
+  public abstract List<DetectedLanguage> getDetectedLanguageScores(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs, int count);
 
   /**
    * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
