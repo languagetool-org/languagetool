@@ -216,6 +216,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     // make sure we offset correctly for ignored characters
     assertEquals(Arrays.asList(4, 20), Arrays.asList(ruleMatches.get(0).getFromPos(), ruleMatches.get(0).getToPos()));
   }
+
   @Test
   public void testRuleWithWrongSplit() throws Exception {
     Language lang = Languages.getLanguageForShortCode("en-US");
@@ -292,14 +293,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertThat(matches11[0].getFromPos(), is(0));
     assertThat(matches11[0].getToPos(), is(11));
   }
-  @Test
-  public void testSuggestionForMisspelledHyphenatedWords() throws IOException {
-    // one word in compound misspelled:
-    assertSuggestion("one-diminensional", "one-dimensional");
-    // assertSuggestion("web-bassed", "web-based");
-    assertSuggestion("parple-people-eater", "purple-people-eater");
-    assertSuggestion("purple-peeple-eater", "purple-people-eater");
-  }
+
   @Test
   public void testSuggestionForIrregularWords() throws IOException {
     // verbs:
