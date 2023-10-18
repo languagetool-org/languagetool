@@ -49,6 +49,15 @@ public class CatalanDisambiguationRuleTest {
   @Test
   public void testChunker() throws IOException {
 
+
+    TestTools
+      .myAssert(
+        "New York University",
+        "/[null]SENT_START New/[New York University]NPCN000  /[null]null York/[New York University]NPCN000|York/[York]_possible_nompropi"
+          + "  /[null]null University/[New York University]NPCN000|University/[University]_possible_nompropi",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+
     TestTools
       .myAssert(
         "Jean-Luc Mélanchon",

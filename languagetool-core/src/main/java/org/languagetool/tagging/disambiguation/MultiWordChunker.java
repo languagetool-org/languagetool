@@ -60,6 +60,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private String defaultTag = null;
 
   private boolean addIgnoreSpelling = false;
+  private boolean isRemovePreviousTags = false;
 
   public static String tagForNotAddingTags = "_NONE_";
 
@@ -278,6 +279,9 @@ public class MultiWordChunker extends AbstractDisambiguator {
         }
       }
     }
+    if (isRemovePreviousTags) {
+      return new AnalyzedSentence(removePreviousTags(output));
+    }
     return new AnalyzedSentence(output);
   }
 
@@ -323,8 +327,99 @@ public class MultiWordChunker extends AbstractDisambiguator {
   }
 
   /* set the ignorespelling attribute for the multi-token phrases*/
-  public void setIgnoreSpelling(boolean ignoreSpeelling) {
-    addIgnoreSpelling = ignoreSpeelling;
+  public void setIgnoreSpelling(boolean ignoreSpelling) {
+    addIgnoreSpelling = ignoreSpelling;
+  }
+  public void  setRemovePreviousTags (boolean removePreviousTags) {
+    isRemovePreviousTags = removePreviousTags;
+  }
+
+  /* Put the results of the MultiWordChunker in a more appropriate and useful way
+      <NP..></NP..> becomes NP.. NP..
+      For ES, PT, CA <NCMS000></NCMS000> becomes NCMS000 AQ0MS0
+      The individual original tags are removed */
+  private AnalyzedTokenReadings[] removePreviousTags(AnalyzedTokenReadings[] aTokens) {
+    int i=0;
+    String POSTag = "";
+    String lemma = "";
+    String nextPOSTag = "";
+    AnalyzedToken analyzedToken = null;
+    while (i < aTokens.length) {
+      if (!aTokens[i].isWhitespace()) {
+        if (!nextPOSTag.isEmpty()) {
+          AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
+          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
+            nextPOSTag = "";
+            lemma = "";
+          }
+          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken),
+            "HybridDisamb");
+        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
+          POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
+          lemma = analyzedToken.getLemma();
+          AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
+          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "HybridDisamb");
+          nextPOSTag = getNextPosTag(POSTag);
+        }
+      }
+      i++;
+    }
+    return aTokens;
+  }
+
+  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
+    List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    for (AnalyzedToken reading : aTokens[i]) {
+      String POSTag = reading.getPOSTag();
+      if (POSTag != null) {
+        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
+          l.add(reading);
+        }
+      }
+    }
+    // choose the longest one
+    if (l.size() > 0) {
+      AnalyzedToken selectedAT = null;
+      int maxDistance = 0;
+      for (AnalyzedToken at : l) {
+        String tag = "</" + at.getPOSTag().substring(1);
+        String cleanTag = at.getPOSTag().substring(1, at.getPOSTag().length() - 2);
+        String lemma = at.getLemma();
+        int distance = 1;
+        while (i + distance < aTokens.length) {
+          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
+            if (distance > maxDistance) {
+              maxDistance = distance;
+              selectedAT = at;
+            }
+            if (distance == maxDistance && !isLowPriorityTag(cleanTag)) {
+              maxDistance = distance;
+              selectedAT = at;
+            }
+            break;
+          }
+          distance++;
+        }
+      }
+      return selectedAT;
+    }
+    return null;
+  }
+
+  private String getNextPosTag(String postag) {
+    if (postag.startsWith("NC")) {
+      // for ES, PT, CA
+      return "AQ0" + postag.substring(2, 4) + "0";
+    } else if (postag.startsWith("N ")) {
+      // French
+      return "J " + postag.substring(2);
+    }
+    return postag;
+  }
+
+  private boolean isLowPriorityTag(String tag) {
+    // CA, ES
+    return tag.equals("NPCN000");
   }
 
 }

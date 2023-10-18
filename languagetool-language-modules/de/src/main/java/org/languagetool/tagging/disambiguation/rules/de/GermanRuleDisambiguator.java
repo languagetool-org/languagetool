@@ -49,6 +49,6 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(multitokenSpeller.disambiguate(input), checkCanceled);
+    return disambiguator.disambiguate(multitokenSpeller.disambiguate(input, checkCanceled), checkCanceled);
   }
 }
