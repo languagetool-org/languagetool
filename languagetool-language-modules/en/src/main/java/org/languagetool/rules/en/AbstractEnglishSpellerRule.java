@@ -402,6 +402,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("extra ") &&
                    !k.getReplacement().toLowerCase().startsWith("mega ") &&
                    !k.getReplacement().toLowerCase().startsWith("meta ") &&
+                   !k.getReplacement().toLowerCase().startsWith("poly ") &&
                    !k.getReplacement().toLowerCase().startsWith("uni ") &&
                    !k.getReplacement().toLowerCase().startsWith("anti ") &&
                    !k.getReplacement().toLowerCase().startsWith("necro ") &&
@@ -758,6 +759,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Definally", Arrays.asList("Definitely"));
     s.put("handable", Arrays.asList("handleable"));
     s.put("Handable", Arrays.asList("Handleable"));
+    s.put("sal-ammoniac", Arrays.asList("sal ammoniac"));
+    s.put("mumbo-jumbo", Arrays.asList("mumbo jumbo"));
+    s.put("Mumbo-jumbo", Arrays.asList("Mumbo jumbo"));
+    s.put("Mumbo-Jumbo", Arrays.asList("Mumbo Jumbo"));
     s.put("Tuffed", Arrays.asList("Toughed"));
     s.put("tuffed", Arrays.asList("toughed"));
     s.put("Tuffest", Arrays.asList("Toughest"));
