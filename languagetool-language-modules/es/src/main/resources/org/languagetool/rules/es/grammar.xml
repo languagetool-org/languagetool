@@ -32103,6 +32103,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>"Sí", dijo.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <!-- quoting a punctuation mark -->
+                    <token spacebefore="yes">"</token>
+                    <token spacebefore="no" regexp="yes">\p{P}</token>
+                    <token spacebefore="no">"</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token/>
@@ -32127,6 +32133,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>"Ahora sí"</example>
             </rule>
             <rule>
+                <antipattern>
+                    <!-- quoting a punctuation mark -->
+                    <token spacebefore="yes">"</token>
+                    <token spacebefore="no" regexp="yes">\p{P}</token>
+                    <token spacebefore="no">"</token>
+                </antipattern>
                 <antipattern>
                     <marker>
                         <token>;</token>
