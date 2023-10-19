@@ -4822,7 +4822,8 @@ regexp case-insensitive maken: (?i)
 				</rule>
 			</rulegroup>
 
-			<rulegroup id="TIC_TIK" name="waarschuwing bij gebruik tik i.p.v. tic ">
+			<rulegroup id="TIC_TIK" name="waarschuwing bij gebruik tik i.p.v. tic " default="off">
+				<!-- 5% apply rate, "tic" is less common than "tik" -->
 				<rule>
 					<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token inflected="yes" skip="-1">incasseren</token><token postag="SENT_END"/></antipattern>
 					<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token case_sensitive="yes">Tik</token></antipattern>
@@ -9702,8 +9703,8 @@ regexp case-insensitive maken: (?i)
 				<pattern case_sensitive="yes">
 					<token>di</token>
 				</pattern>
-				<message>Bedoelt u hier: <suggestion>dinsdag</suggestion> of <suggestion>d.i.</suggestion> (dit is)?</message>
-				<example correction="dinsdag|d.i.">Ik houd op <marker>di</marker> een spreekbeurt.</example>
+				<message>Bedoelt u hier <suggestion>dinsdag</suggestion>, of is het een typfout van <suggestion>die</suggestion>?</message>
+				<example correction="dinsdag|die">Ik houd op <marker>di</marker> een spreekbeurt.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="CS" name="cso → c.s.">
@@ -10161,7 +10162,8 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="VREEMD_VRZ_HIJ" name="Vreemd voorzetsel">
+		<rulegroup id="VREEMD_VRZ_HIJ" name="Vreemd voorzetsel" default="off">
+			<!-- needs to be improved, near 0 applies -->
 			<rule>
 				<antipattern>
 					<token>neem</token>
