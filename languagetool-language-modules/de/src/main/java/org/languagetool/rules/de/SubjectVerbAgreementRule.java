@@ -174,20 +174,14 @@ public class SubjectVerbAgreementRule extends Rule {
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       pos("ZAL"),
-      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
-      posRegex("VER:3:SIN:.*")
-    ),
-    Arrays.asList(
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      tokenRegex("einige|viele|wenige|mehrere"),
-      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
+      tokenRegex("Tage|Monate|Jahre"),
       posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       posRegex("ADV:MOD|ADJ:PRD:GRU"),
       pos("ZAL"),
-      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
+      tokenRegex("Tage|Monate|Jahre"),
       posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
@@ -362,7 +356,7 @@ public class SubjectVerbAgreementRule extends Rule {
       posRegex("SUB:GEN:PLU:.+"),
       pos("KON:NEB"),
       posRegex("SUB:GEN:PLU:.+"),
-      tokenRegex("ist|w[äa]r")
+      tokenRegex("ist|war")
     ),
     Arrays.asList( // Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.
       new PatternTokenBuilder().csToken("Laut").setSkip(4).build(),
@@ -370,80 +364,6 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("ist|war"),
       tokenRegex("d(er|ie|as)"),
       posRegex("SUB:NOM:SIN:.+")
-    ),
-    Arrays.asList( // Für Tunesiens Tourismusindustrie mit seinen Stränden, Oasen und antiken Kulturschätzen ist das Attentat ein verheerender Rückschlag.
-      tokenRegex("ist|war"),
-      tokenRegex("d(er|ie|as)"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB:NOM:SIN:.+"),
-      posRegex("(ART|PRO:POS).*SIN.*"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB:NOM:SIN:.+")
-    ),
-    Arrays.asList( // Die gute Nachricht vorweg: Die Mehrheit der Ehen sind tatsächlich ein Bund fürs Leben.
-      tokenRegex("die"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      tokenRegex("Mehrheit"),
-      tokenRegex("der|dieser|aller|unse?rer|[dsm]einer|euer|eurer|ihrer"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB.*NOM.*PLU.*"),
-      tokenRegex("sind|w[äa]ren")
-    ),
-    Arrays.asList( // Man darf jedoch auch nicht glauben, weil die Brustvergrößerungscremes ein Allheilmittel sind, jedoch sind Sie optimal um Ihr Selbstvertrauen zu erhöhen
-      tokenRegex("weil|da|denn|dass"),
-      tokenRegex("die|diese|solche|alle|viele|beide|einige|[mkds]eine|eure|unse?re|ihre"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB.*NOM.*PLU.*"),
-      tokenRegex("ein"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB.*NOM.*SIN.*"),
-      tokenRegex("sind|w[äa]ren")
-    ),
-    Arrays.asList( // Die Rechte der Kinder sind universell.
-      tokenRegex("alle|die(se)?|einige|keine|viele|solche"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB.*NOM.*PLU.*"),
-      tokenRegex("der|unse?rer|euer|eurer|[dsm]einer|dieser|solcher|aller|einiger|vieler|ihrer|beider"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB.*GEN.*PLU.*"),
-      posRegex("VER.*PLU.*")
-    ),
-    Arrays.asList(
-      // Ich verspreche dir, dass wir ein tolles Team sind.
-      tokenRegex("wir|sie|die|alle|diese|einige|manche|viele|sonstige"),
-      posRegex("ART.*|PRO:(POS|DEM|IND).*"),
-      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
-      posRegex("SUB.*SIN.*"),
-      posRegex("VER.*PLU.*")
-    ),
-    Arrays.asList(
-      // Ich verspreche dir, dass wir ein wirklich tolles Team sind.
-      tokenRegex("wir|sie|die|alle|diese|einige|manche|viele|sonstige"),
-      posRegex("ART.*|PRO:(POS|DEM|IND).*"),
-      posRegex("(ADJ|PA[12]).*|ADV.*"),
-      posRegex("(ADJ|PA[12]).*"),
-      posRegex("SUB.*SIN.*"),
-      posRegex("VER.*PLU.*")
-    ),
-    Arrays.asList(
-      new PatternTokenBuilder().token("sie").setSkip(-1).build(),
-      tokenRegex("sind|w[äa]ren")
-    ),
-    Arrays.asList(
-      tokenRegex("weder"),
-      tokenRegex("er|es|sie"),
-      new PatternTokenBuilder().token("noch").setSkip(-1).build(),
-      tokenRegex("sind|w[äa]ren")
-    ),
-    Arrays.asList(
-      new PatternTokenBuilder().posRegex("SUB.*PLU.*").setSkip(5).build(),
-      tokenRegex("sind|w[äa]ren")
-    ),
-    Arrays.asList(
-      tokenRegex("Teile"),
-      tokenRegex("de[rs]|diese[sr]|[msd]?eine[rs]"),
-      new PatternTokenBuilder().posRegex("SUB.*|EIG.*|UNKNOWN").setSkip(-1).build(),
-      tokenRegex("sind|w[äa]ren")
     )
   );
 

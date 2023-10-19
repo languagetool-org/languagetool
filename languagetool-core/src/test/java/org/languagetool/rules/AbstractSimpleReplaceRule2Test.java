@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 
 public class AbstractSimpleReplaceRule2Test {
   
@@ -88,8 +88,8 @@ public class AbstractSimpleReplaceRule2Test {
       return Locale.ENGLISH;
     }
     @Override
-    public CaseSensitivy getCaseSensitivy() {
-      return CaseSensitivy.CS;
+    public boolean isCaseSensitive() {
+      return true;
     }
   }
 
@@ -97,8 +97,9 @@ public class AbstractSimpleReplaceRule2Test {
     MyCaseInsensitiveRule(ResourceBundle messages, Language language) {
       super(messages, language);
     }
-    public CaseSensitivy getCaseSensitivy() {
-      return CaseSensitivy.CI;
+    @Override
+    public boolean isCaseSensitive() {
+      return false;
     }
   }
 }

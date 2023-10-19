@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.fa;
 
-import org.languagetool.Language;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -34,8 +33,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/fa/replace.txt");
 
-  public SimpleReplaceRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+  public SimpleReplaceRule(ResourceBundle messages) throws IOException {
+    super(messages);
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("وی <marker>حاظر</marker> به همکاری شد."),
@@ -43,7 +42,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

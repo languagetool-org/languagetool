@@ -18,11 +18,11 @@
  */
 package org.languagetool.server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.UUID;
 
 /**
   Used via Jackson-databind + myBatis -&gt; return info from DB via JSON in /users/me route
@@ -41,16 +41,12 @@ public class ExtendedUserInfo {
   public Long subscription_months;
   public String geo_ip_country;
   public Long managed_accounts;
-  public UUID groupId;
-  public String groupRole;
-
 
   // for jackson-databind deserialization
   public ExtendedUserInfo() {}
 
   // for myBatis deserialization
-  public ExtendedUserInfo(String addon_token, String api_key, String email, String name, Date premium_from, Date premium_to, Timestamp cancel_date, Long subscription_months, String geo_ip_country,
-   Long managed_accounts, UUID groupId, String groupRole) {
+  public ExtendedUserInfo(String addon_token, String api_key, String email, String name, Date premium_from, Date premium_to, Timestamp cancel_date, Long subscription_months, String geo_ip_country, Long managed_accounts) {
 
     this.addon_token = addon_token;
     this.api_key = api_key;
@@ -62,8 +58,6 @@ public class ExtendedUserInfo {
     this.subscription_months = subscription_months;
     this.geo_ip_country = geo_ip_country;
     this.managed_accounts = managed_accounts;
-    this.groupId = groupId;
-    this.groupRole = groupRole;
   }
 
   @Override
@@ -80,8 +74,6 @@ public class ExtendedUserInfo {
       .append("subscription_months", subscription_months)
       .append("geo_ip_country", geo_ip_country)
       .append("managed_accounts", managed_accounts)
-      .append("groupId", groupId)
-      .append("groupRole", groupRole)
       .toString();
   }
 
@@ -131,14 +123,4 @@ public class ExtendedUserInfo {
   public Long getManaged_accounts() {
     return managed_accounts;
   }
-
-  public UUID getGroupId() {
-    return groupId;
-  }
-
-  public String getGroupRole() {
-    return groupRole;
-  }
-
-  
 }

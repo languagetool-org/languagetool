@@ -73,7 +73,7 @@ public class Galician extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return GalicianSynthesizer.INSTANCE;
+    return new GalicianSynthesizer(this);
   }
 
   @Override
@@ -118,8 +118,8 @@ public class Galician extends Language {
             new ParagraphRepeatBeginningRule(messages, this),
             new PunctuationMarkAtParagraphEnd(messages, this),
             // Specific to Galician:
-            new SimpleReplaceRule(messages, this),
-            new CastWordsRule(messages, this),
+            new SimpleReplaceRule(messages),
+            new CastWordsRule(messages),
             new GalicianRedundancyRule(messages),
             new GalicianWordinessRule(messages),
             new GalicianBarbarismsRule(messages),

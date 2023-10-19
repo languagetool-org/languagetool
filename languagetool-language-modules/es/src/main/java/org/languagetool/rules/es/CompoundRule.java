@@ -40,7 +40,6 @@ public class CompoundRule extends AbstractCompoundRule {
             "Se escribe junto sin espacio ni guion.",
             "Se escribe junto o con un guion.",
             "Error de palabra compuesta");
-    super.useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>Guinea Conakri</marker>."),
                    Example.fixed("<marker>Guinea-Conakri</marker>."));
   }
@@ -52,7 +51,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Palabras compuestas con guion: $match";
+    return "Palabras compuestas con guion";
   }
 
   @Override

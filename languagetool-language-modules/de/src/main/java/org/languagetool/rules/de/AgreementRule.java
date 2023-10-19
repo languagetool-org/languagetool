@@ -86,17 +86,11 @@ public class AgreementRule extends Rule {
     Ins, Zur
   }
 
-  /*
   private static final String MSG = "Möglicherweise fehlende grammatische Übereinstimmung " +
     "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' statt 'mein kleines Haus'";
   private static final String MSG2 = "Möglicherweise fehlende grammatische Übereinstimmung " +
     "von Kasus, Numerus oder Genus. Beispiel: 'mein schönes kleiner Haus' statt 'mein schönes kleines Haus'";
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
-  */
-
-  private static final String MSG = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
-  private static final String MSG2 = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
-  private static final String SHORT_MSG = "Evtl. passen Wörter grammatisch nicht zusammen.";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
     "zu",
@@ -134,7 +128,6 @@ public class AgreementRule extends Rule {
     "weit",
     "wirklich",
     "gerade",
-    "vereint",
     "überwiegend",
     "gewollt",
     "angestrengt",
@@ -168,7 +161,6 @@ public class AgreementRule extends Rule {
     "nichts",
     "alles",   // "Ruhe vor dem alles verheerenden Sturm", "Alles Große und Edle ist einfacher Art."
     "dies",
-    "ebendies",
     "ich",
     "dir",
     "dich",
@@ -231,7 +223,6 @@ public class AgreementRule extends Rule {
     "Wüstenrot", // Name
     "Rückgrad", // found by speller
     "Rückgrads", // found by speller
-    "Anteilname", // found by speller
     "Aalen", // Plural form of "Aal" but also large city in Germany
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
@@ -256,7 +247,6 @@ public class AgreementRule extends Rule {
   public AgreementRule(ResourceBundle messages, German language) {
     this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
-    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/deklination/"));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut."));
     antiPatterns = cacheAntiPatterns(language, allAntiPatterns);
@@ -386,9 +376,6 @@ public class AgreementRule extends Rule {
    * @return index of first non-modifier token
    */
   private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
-    if (startAt < tokens.length && tokens[startAt].getToken().matches("relativ") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().matches("gesehen")) {
-      startAt += 2;
-    }
     if (startAt < tokens.length && tokens[startAt].getToken().matches("viel|weit") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().matches("weniger|eher")) {
       startAt += 2;
     } else if (startAt + 1 < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
@@ -464,7 +451,7 @@ public class AgreementRule extends Rule {
       if (comma) {
         boolean prep = tokens[pos-1].hasPosTagStartingWith("PRP:");
         relPronoun = tokens[pos].hasAnyLemma(REL_PRONOUN_LEMMAS);
-        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies") || tokens[pos].hasLemma("ebendies")));
+        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies")));
       }
     }
     return false;
@@ -497,16 +484,11 @@ public class AgreementRule extends Rule {
       if (compoundMatch != null) {
         return compoundMatch;
       }
-      /*
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
       String errorDetails = errorCategories.isEmpty() ?
             "Kasus, Genus oder Numerus" : String.join(" und ", errorCategories);
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung des " + errorDetails + ".";
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus";
-      */
-
-      String msg = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
-      String shortMsg = "Evtl. passen Wörter grammatisch nicht zusammen.";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token2.getEndPos(), msg, shortMsg);
       // this will not give a match for compounds that are not in the dictionary...
       //ruleMatch.setUrl(Tools.getUrl("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));

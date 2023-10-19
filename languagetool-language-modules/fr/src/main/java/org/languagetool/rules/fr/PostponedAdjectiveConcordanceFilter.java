@@ -18,12 +18,6 @@
  */
 package org.languagetool.rules.fr;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.FrenchSynthesizer;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +26,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.French;
+import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.FrenchSynthesizer;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and at
@@ -117,6 +118,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern INFINITIVE = Pattern.compile("V.* inf"); 
   private static final Pattern GV = Pattern.compile("_GV_");
   
+  private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
+
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
   boolean punctuationAppeared = false;
@@ -408,8 +411,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
         j++;
       }
     }
-
-    FrenchSynthesizer synth = FrenchSynthesizer.INSTANCE;
 
     // The rule matches
     // Synthesize suggestions  

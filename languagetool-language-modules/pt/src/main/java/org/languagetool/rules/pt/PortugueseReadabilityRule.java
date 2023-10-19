@@ -80,8 +80,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
     }
   }
 
-  @Override
-  public String printMessageLevel(int level) {
+  private static String printMessageLevel(int level) {
     String sLevel = null;
     if (level == 0) {
       sLevel = "Muito complexo";
@@ -133,7 +132,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
    * http://ridi.ibict.br/bitstream/123456789/273/1/EnyIS2007.pdf
    */
   @Override
-  public double getFleschReadingEase(double asl, double asw) {
+  protected double getFleschReadingEase(double asl, double asw) {
     return 206.84 - (1.02 * asl) - ( 60.0 * asw);  //  Portuguese
   }
   

@@ -20,37 +20,18 @@ package org.languagetool.synthesis;
 
 import org.languagetool.Language;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * French word form synthesizer.
  */
 public class FrenchSynthesizer extends BaseSynthesizer {
 
-  public static final FrenchSynthesizer INSTANCE = new FrenchSynthesizer();
-
-  private static final List<String> exceptionsEgrave = Arrays.asList(new String[]{"burkinabè", "koinè", "épistémè"});
-
-  /** @deprecated use {@link #INSTANCE} */
   public FrenchSynthesizer(Language lang) {
-    this();
+    super("fr/fr.sor", "/fr/french_synth.dict", "/fr/french_tags.txt", lang);
   }
-
-  private FrenchSynthesizer() {
-    super("fr/fr.sor", "/fr/french_synth.dict", "/fr/french_tags.txt", "fr");
-  }
-
+  
   @Override
   protected boolean isException(String w) {
     // remove: qq, qqe...
-    if (w.startsWith("qq")) {
-      return true;
-    }
-    // informè V ind pres 1 s
-    if (w.endsWith("è") && !exceptionsEgrave.contains(w.toLowerCase())) {
-      return true;
-    }
-    return false;
+    return w.startsWith("qq");  
   }
 }

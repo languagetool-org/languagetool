@@ -31,13 +31,7 @@ public class GalicianSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/gl/galician_synth.dict";
   private static final String TAGS_FILE_NAME = "/gl/galician_tags.txt";
 
-  public static final GalicianSynthesizer INSTANCE = new GalicianSynthesizer();
-
-  /** @deprecated use {@link #INSTANCE} */
   public GalicianSynthesizer(Language lang) {
-    this();
-  }
-  private GalicianSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "gl");
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 }

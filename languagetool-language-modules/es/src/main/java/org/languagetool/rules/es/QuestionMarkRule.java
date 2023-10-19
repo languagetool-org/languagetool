@@ -21,7 +21,6 @@ package org.languagetool.rules.es;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
-import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,8 @@ public class QuestionMarkRule extends TextLevelRule {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
-    addExamplePair(Example.wrong("<marker>Qué</marker> pasa?"), Example.fixed("<marker>¿Qué</marker> pasa?"));
+    addExamplePair(Example.wrong("<marker>Que</marker> pasa?"),
+                   Example.fixed("<marker>¿Que</marker> pasa?"));
   }
 
   @Override
@@ -64,67 +64,41 @@ public class QuestionMarkRule extends TextLevelRule {
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      int needsInvQuestionMarkAt = hasTokenAtPos("?", tokens);
-      int needsInvExclMarkAt = hasTokenAtPos("!", tokens);
-      boolean endsWithColon = tokens[tokens.length -1].getToken().equals(":");
-      if (needsInvQuestionMarkAt > 1 || needsInvExclMarkAt > 1) {
+      boolean needsInvQuestionMark = hasTokenAtEnd("?", tokens);
+      boolean needsInvExclMark = hasTokenAtEnd("!", tokens);
+      boolean endsWithColon = hasTokenAtEnd(":", tokens);
+      if (needsInvQuestionMark || needsInvExclMark) {
         boolean hasInvQuestionMark = false;
         boolean hasInvExlcMark = false;
         AnalyzedTokenReadings firstToken = null;
         for (int i = 0; i < tokens.length; i++) {
-          if (firstToken == null && !tokens[i].isSentenceStart()
-              && !StringTools.isPunctuationMark(tokens[i].getToken())) {
+          if (firstToken == null && !tokens[i].isSentenceStart()) {
             firstToken = tokens[i];
           }
-          if (tokens[i].getToken().equals("¿") && i < needsInvQuestionMarkAt) {
+          if (tokens[i].getToken().equals("¿")) {
             hasInvQuestionMark = true;
-          } else if (tokens[i].getToken().equals("¡") && i < needsInvExclMarkAt) {
+          } else if (tokens[i].getToken().equals("¡")) {
             hasInvExlcMark = true;
           }
-          // possibly a sentence end
-          if (!tokens[i].isSentenceEnd()
-            && (tokens[i].getToken().equals("?") && i > needsInvQuestionMarkAt
-            || tokens[i].getToken().equals("!") && i > needsInvExclMarkAt)) {
-            firstToken = null;
-          }
           // put the question mark in: ¿de qué... ¿para cuál... ¿cómo...
-          if (i > 2 && i + 2 < tokens.length) {
-            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC") && tokens[i + 1].hasPosTag("SPS00")
-              && (tokens[i + 2].hasPosTagStartingWith("PT") || tokens[i + 2].hasPosTagStartingWith("DT"))) {
-              firstToken = tokens[i];
-            }
+          if (i > 2 && i + 1 < tokens.length) {
             if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("SPS00")
-              && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
-              firstToken = tokens[i];
-            }
-            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC")
-              && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
+                && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
               firstToken = tokens[i];
             }
             if (tokens[i - 1].getToken().equals(",")
-              && (tokens[i].hasPosTagStartingWith("PT") || tokens[i].hasPosTagStartingWith("DT"))) {
-              firstToken = tokens[i];
-            }
-            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC")
-              && (tokens[i + 1].getToken().equals("no") || tokens[i + 1].getToken().equals("sí"))) {
-              firstToken = tokens[i];
-            }
-          }
-          if (i > 2 && i < tokens.length) {
-            if (tokens[i - 1].getToken().equals(",")
-              && (tokens[i].getToken().equals("no") || tokens[i].getToken().equals("sí")
-              || tokens[i].getToken().equals("eh"))) {
+                && (tokens[i].hasPosTagStartingWith("PT") || tokens[i].hasPosTagStartingWith("DT"))) {
               firstToken = tokens[i];
             }
           }
         }
         if (firstToken != null) {
           String s = null;
-          if (needsInvQuestionMarkAt > 1 && needsInvExclMarkAt > 1) {
+          if (needsInvQuestionMark && needsInvExclMark) {
             // ignore for now, e.g. "¡¿Nunca tienes clases o qué?!"
-          } else if (needsInvQuestionMarkAt > 1 && !hasInvQuestionMark) {
+          } else if (needsInvQuestionMark && !hasInvQuestionMark) {
             s = "¿";
-          } else if (needsInvExclMarkAt > 1 && !hasInvExlcMark) {
+          } else if (needsInvExclMark && !hasInvExlcMark) {
             s = "¡";
           }
           if (s != null) { // && !prevSentEndsWithColon: skip sentences with ':' due to unclear sentence boundaries
@@ -142,14 +116,11 @@ public class QuestionMarkRule extends TextLevelRule {
     return toRuleMatchArray(matches);
   }
 
-  private int hasTokenAtPos(String ch, AnalyzedTokenReadings[] tokens) {
-    int i = tokens.length - 1;
-    while (i > 0) {
-      if (tokens[i].getToken().equals(ch)) {
-        return i;
-      }
-      i--;
+  private boolean hasTokenAtEnd(String ch, AnalyzedTokenReadings[] tokens) {
+    if (tokens[tokens.length - 1].isParagraphEnd() && !tokens[tokens.length - 1].getToken().equals(ch)
+        && tokens.length >= 2) {
+      return tokens[tokens.length - 2].getToken().equals(ch);
     }
-    return -1;
+    return tokens[tokens.length - 1].getToken().equals(ch);
   }
 }

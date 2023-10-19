@@ -30,7 +30,7 @@
 
 	<xs:element name="rules">
 		<xs:complexType>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:choice minOccurs="1" maxOccurs="unbounded" >
 				<xs:element ref="unification" />
 				<xs:element ref="phrases"/>
 				<xs:element ref="category"/>
@@ -74,9 +74,26 @@
 			<xs:attribute ref="type" />
 			<xs:attribute name="external" type="binaryYesNo" />
 			<xs:attribute name="tab" />
-		    <xs:attribute ref="tags" />
-		    <xs:attribute ref="tone_tags" />
-			<xs:attribute name="is_goal_specific" type="xs:boolean"/>
+			<xs:attribute name="tags">
+		        <xs:simpleType>
+		            <xs:list>
+		                <xs:simpleType>
+		                    <xs:restriction base="xs:NMTOKEN">
+		                        <xs:enumeration value="default" />
+		                        <xs:enumeration value="picky" />
+		                        <xs:enumeration value="academic" />
+		                        <xs:enumeration value="clarity" />
+		                        <xs:enumeration value="professional" />
+		                        <xs:enumeration value="creative" />
+								<xs:enumeration value="customer" />
+								<xs:enumeration value="jobapp" />
+								<xs:enumeration value="objective" />
+								<xs:enumeration value="elegant" />
+		                    </xs:restriction>
+		                </xs:simpleType>
+		            </xs:list>
+		        </xs:simpleType>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
@@ -106,9 +123,26 @@
 			<xs:attribute name="premium" type="binaryYesNo"/>
 			<xs:attribute name="id" type="xs:ID" use="required" />
 			<xs:attribute ref="type" />
-		    <xs:attribute ref="tags" />
-		    <xs:attribute ref="tone_tags" />
-			<xs:attribute name="is_goal_specific" type="xs:boolean"/>
+			<xs:attribute name="tags" >
+			    <xs:simpleType>
+			        <xs:list>
+			            <xs:simpleType>
+			                <xs:restriction base="xs:NMTOKEN">
+			                    <xs:enumeration value="default" />
+			                    <xs:enumeration value="picky" />
+			                    <xs:enumeration value="academic" />
+			                    <xs:enumeration value="clarity" />
+			                    <xs:enumeration value="professional" />
+			                    <xs:enumeration value="creative" />
+								<xs:enumeration value="customer" />
+								<xs:enumeration value="jobapp" />
+								<xs:enumeration value="objective" />
+								<xs:enumeration value="elegant" />
+			                </xs:restriction>
+			            </xs:simpleType>
+			        </xs:list>
+			    </xs:simpleType>
+			</xs:attribute>
 		    <xs:attribute name="min_prev_matches" use="optional">
 		        <xs:simpleType>
 		            <xs:restriction base="xs:integer">
@@ -166,38 +200,6 @@
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:attribute>
-    
-    <xs:attribute name="tags">
-        <xs:simpleType>
-            <xs:restriction base="xs:string">
-                <xs:enumeration value="default" />
-                <xs:enumeration value="picky" />
-            </xs:restriction>
-        </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="tone_tags">
-        <xs:simpleType>
-            <xs:list>
-                <xs:simpleType>
-                    <xs:restriction base="xs:NMTOKEN">
-                        <xs:enumeration value="clarity" />
-                        <xs:enumeration value="formal" />
-                        <xs:enumeration value="professional" />
-                        <xs:enumeration value="confident" />
-                        <xs:enumeration value="academic" />
-                        <xs:enumeration value="povrem" />
-                        <xs:enumeration value="scientific" />
-                        <xs:enumeration value="objective" />
-                        <xs:enumeration value="persuasive" />
-                        <xs:enumeration value="informal" />
-                        <xs:enumeration value="povadd" />
-                        <xs:enumeration value="positive" />
-                        <xs:enumeration value="general" />
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:list>
-        </xs:simpleType>
-    </xs:attribute>  
 
 	<xs:annotation>
 		<xs:documentation xml:lang="en"> The rule element. The
@@ -233,9 +235,7 @@
 			<xs:attribute name="name" type="xs:string" />
 			<xs:attribute name="id" type="xs:ID" />
 			<xs:attribute ref="type" />
-		    <xs:attribute ref="tags" />
-		    <xs:attribute ref="tone_tags" />
-			<xs:attribute name="is_goal_specific" type="xs:boolean"/>
+			<xs:attribute name="tags" />
 		    <xs:attribute name="min_prev_matches" use="optional">
 		        <xs:simpleType>
 		            <xs:restriction base="xs:integer">
@@ -380,7 +380,7 @@
 	<xs:element name="example" xml:space="preserve">
 	<xs:complexType mixed="true">
 	  <xs:choice minOccurs="0" maxOccurs="unbounded">
-		<xs:element name="marker">
+		<xs:element name="marker" >
 			<xs:complexType>
 				<xs:simpleContent>
 					<xs:extension base="xs:string"/>

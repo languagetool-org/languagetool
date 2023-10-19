@@ -30,6 +30,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 /**
  * Checks that a sentence starts with an uppercase letter.
@@ -43,13 +44,10 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
-          "n", // n/a
-          "w", // w/o
           "x86",
           "ⓒ",
           "ø", // used as bullet point
-          "cc", // cc @daniel => "Cc @daniel" is strange
-          "pH"
+          "cc" // cc @daniel => "Cc @daniel" is strange
   ));
 
   private final Language language;
@@ -91,10 +89,6 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
     return messages.getString("desc_uppercase_sentence");
   }
 
-  protected boolean isException(AnalyzedTokenReadings[] tokens, int tokenIdx) {
-    return false;
-  }
-
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     String lastParagraphString = "";
@@ -126,9 +120,6 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         thirdToken = firstDutchToken;
         matchTokenPos = 3;
       }
-
-      if( isException(tokens, matchTokenPos) )
-        return toRuleMatchArray(ruleMatches);
 
       String checkToken = firstToken;
       if (thirdToken != null) {
@@ -163,8 +154,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         preventError = true;
       }
 
-      if (isPrevSentenceNumberedList || isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()
-      || tokens[matchTokenPos].hasPosTag("_IS_URL")) {
+      if (isPrevSentenceNumberedList || isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()) {
         preventError = true;
       }
 
@@ -219,20 +209,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   }
 
   private boolean isQuoteStart(String word) {
-    String[] baseQuoteStrings = { "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿" };
-    // pt-BR uses dashes to introduce dialogue >:(
-    // will keep it separate as other locales may expect line-initial m-dashes
-    // in enumerations not to introduce capital letters
-    String[] searchStrings;
-    if (language.getShortCode().equals("pt")) {
-      String[] portugueseDialogueDashes = { "-", "–", "—" };
-      searchStrings = new String[baseQuoteStrings.length + portugueseDialogueDashes.length];
-      System.arraycopy(baseQuoteStrings, 0, searchStrings, 0, baseQuoteStrings.length);
-      System.arraycopy(portugueseDialogueDashes, 0, searchStrings, baseQuoteStrings.length, portugueseDialogueDashes.length);
-    } else {
-      searchStrings = baseQuoteStrings;
-    }
-    return StringUtils.equalsAny(word, searchStrings);
+    return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿");
   }
 
   @Override

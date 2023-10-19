@@ -49,7 +49,6 @@ public abstract class AbstractCompoundRule extends Rule {
   protected final Language lang;                 // used by LO/OO Linguistic Service 
   // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
   protected boolean sentenceStartsWithUpperCase = true;
-  protected boolean subRuleSpecificIds;
 
   @Override
   public abstract String getId();
@@ -60,10 +59,6 @@ public abstract class AbstractCompoundRule extends Rule {
   @Override
   public int estimateContextForSureMatch() {
     return 1;
-  }
-
-  public void useSubRuleSpecificIds() {
-    subRuleSpecificIds = true;
   }
 
   /** @since 3.0 */
@@ -165,16 +160,7 @@ public abstract class AbstractCompoundRule extends Rule {
           if (replacement.isEmpty()) {
             break;
           }
-          int startPos = firstMatchToken.getStartPos();
-          int endPos = atr.getEndPos();
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, shortDesc);
-          if (subRuleSpecificIds) {
-            String id = StringTools.toId(getId() + "_" + stringToCheck, lang);
-            String description = getDescription().replace("$match", origStringToCheck);
-            SpecificIdRule subRuleId = new SpecificIdRule(id, description, isPremium(), getCategory(),
-              getLocQualityIssueType(), getTags());
-            ruleMatch = new RuleMatch(subRuleId, sentence, startPos, endPos, msg, shortDesc);
-          }
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
           ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {

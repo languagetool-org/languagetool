@@ -95,16 +95,16 @@ public class Irish extends Language implements AutoCloseable {
       new ParagraphRepeatBeginningRule(messages, this),
       new WordRepeatRule(messages, this),
       new MorfologikIrishSpellerRule(messages, this, userConfig, altLanguages),
-      new LogainmRule(messages, this),
-      new PeopleRule(messages, this),
-      new SpacesRule(messages, this),
+      new LogainmRule(messages),
+      new PeopleRule(messages),
+      new SpacesRule(messages),
       new CompoundRule(messages, this, userConfig),
-      new PrestandardReplaceRule(messages, this),
-      new IrishReplaceRule(messages, this),
-      new IrishFGBEqReplaceRule(messages, this),
-      new EnglishHomophoneRule(messages, this),
+      new PrestandardReplaceRule(messages),
+      new IrishReplaceRule(messages),
+      new IrishFGBEqReplaceRule(messages),
+      new EnglishHomophoneRule(messages),
       new DhaNoBeirtRule(messages),
-      new DativePluralStandardReplaceRule(messages, this),
+      new DativePluralStandardReplaceRule(messages),
       new IrishSpecificCaseRule(messages)
     );
   }
@@ -118,7 +118,7 @@ public class Irish extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return IrishSynthesizer.INSTANCE;
+    return new IrishSynthesizer(this);
   }
 
   @Override

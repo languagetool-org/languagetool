@@ -21,8 +21,6 @@ package org.languagetool.rules.patterns;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Tag;
-import org.languagetool.ToneTag;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
@@ -32,7 +30,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,7 +45,7 @@ public class PatternRuleLoaderTest {
   public void testGetRules() throws Exception {
     PatternRuleLoader prg = new PatternRuleLoader();
     String name = "/xx/grammar.xml";
-    List<AbstractPatternRule> rules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name, null);
+    List<AbstractPatternRule> rules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name);
     assertTrue(rules.size() >= 30);
 
     Rule demoRule1 = getRuleById("DEMO_RULE", rules);
@@ -103,128 +101,6 @@ public class PatternRuleLoaderTest {
     assertNull("http://fake-server.org/rule-group-url", nextRule.getUrl());
   }
 
-  @Test
-  public void testPremiumXmlFlag() throws IOException {
-    PatternRuleLoader prg = new PatternRuleLoader();
-    String nameNonPremium = "/xx/grammar-nonPremium.xml";
-    List<AbstractPatternRule> rulesInNonPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(nameNonPremium), nameNonPremium, null);
-    Rule rule1 = getRuleById("F-NP_C-NP_RG-NP_R-NP", rulesInNonPremiumFile);
-    assertFalse(rule1.isPremium());
-    Rule rule2 = getRuleById("F-NP_C-NP_RG-NP_R-P", rulesInNonPremiumFile);
-    assertTrue(rule2.isPremium());
-    Rule rule3 = getRuleById("F-NP_C-NP_RG-P_R-NP", rulesInNonPremiumFile);
-    assertFalse(rule3.isPremium());
-    Rule rule4 = getRuleById("F-NP_C-NP_RG-P_R-P", rulesInNonPremiumFile);
-    assertTrue(rule4.isPremium());
-    Rule rule5 = getRuleById("F-NP_C-P_RG-NP_R-NP", rulesInNonPremiumFile);
-    assertFalse(rule5.isPremium());
-    Rule rule6 = getRuleById("F-NP_C-P_RG-NP_R-P", rulesInNonPremiumFile);
-    assertFalse(rule6.isPremium());
-    Rule rule7 = getRuleById("F-NP_C-P_RG-P_R-NP", rulesInNonPremiumFile);
-    assertFalse(rule7.isPremium());
-    Rule rule8 = getRuleById("F-NP_C-P_RG-P_R-P", rulesInNonPremiumFile);
-    assertTrue(rule8.isPremium());
-    
-    String namePremium = "/xx/grammar-premium.xml";
-    List<AbstractPatternRule> rulesInPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(namePremium), namePremium, null);
-    Rule rule9 = getRuleById("F-P_C-P_RG-P_R-P", rulesInPremiumFile);
-    assertTrue(rule9.isPremium());
-    Rule rule10 = getRuleById("F-P_C-P_RG-P_R-NP", rulesInPremiumFile);
-    assertFalse(rule10.isPremium());
-    Rule rule11 = getRuleById("F-P_C-P_RG-NP_R-P", rulesInPremiumFile);
-    assertTrue(rule11.isPremium());
-    Rule rule12 = getRuleById("F-P_C-P_RG-NP_R-NP", rulesInPremiumFile);
-    assertFalse(rule12.isPremium());
-    Rule rule13 = getRuleById("F-P_C-NP_RG-P_R-NP", rulesInPremiumFile);
-    assertFalse(rule13.isPremium());
-    Rule rule14 = getRuleById("F-P_C-NP_RG-P_R-P", rulesInPremiumFile);
-    assertTrue(rule14.isPremium());
-    Rule rule15 = getRuleById("F-P_C-NP_RG-NP_R-NP", rulesInPremiumFile);
-    assertFalse(rule15.isPremium());
-    Rule rule16 = getRuleById("F-P_C-NP_RG-NP_R-P", rulesInPremiumFile);
-    assertTrue(rule16.isPremium());
-  }
-  
-  @Test
-  public void testToneTagsAttribute() throws IOException {
-    PatternRuleLoader prg = new PatternRuleLoader();
-    String styleRuleFile = "/xx/style.xml";
-    List<AbstractPatternRule> styleRules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(styleRuleFile), styleRuleFile, null);
-    
-    Rule formalClarityToneRule = getRuleById("Formal_Clarity_TONE_RULE", styleRules);
-    assertTrue(formalClarityToneRule.hasToneTag(ToneTag.formal));
-    assertTrue(formalClarityToneRule.hasToneTag(ToneTag.clarity));
-    assertEquals(2, formalClarityToneRule.getToneTags().size());
-    assertFalse(formalClarityToneRule.isGoalSpecific());
-    
-    Rule noToneRule = getRuleById("NO_TONE_RULE", styleRules);
-    assertTrue(noToneRule.getToneTags().isEmpty());
-    assertFalse(noToneRule.isGoalSpecific());
-    
-    Rule confidentAcademicScientificToneRule = getRuleById("CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE", styleRules);
-    assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.confident));
-    assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.academic));
-    assertTrue(confidentAcademicScientificToneRule.hasToneTag(ToneTag.scientific));
-    assertEquals(3, confidentAcademicScientificToneRule.getToneTags().size());
-    assertFalse(confidentAcademicScientificToneRule.isGoalSpecific());
-    
-    Rule confidentAcademicToneRule = getRuleById("CONFIDENT_ACADEMIC_TONE_RULE", styleRules);
-    assertTrue(confidentAcademicToneRule.hasToneTag(ToneTag.confident));
-    assertTrue(confidentAcademicToneRule.hasToneTag(ToneTag.academic));
-    assertEquals(2, confidentAcademicToneRule.getToneTags().size());
-    assertFalse(confidentAcademicToneRule.isGoalSpecific());
-    
-    Rule pickyClarityConfidentAcademicToneRule = getRuleById("PICKY-CLARITY_CONFIDENT_ACADEMIC_TONE_RULE",styleRules);
-    assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.clarity));
-    assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.confident));
-    assertTrue(pickyClarityConfidentAcademicToneRule.hasToneTag(ToneTag.academic));
-    assertEquals(3, pickyClarityConfidentAcademicToneRule.getToneTags().size());
-    assertTrue(pickyClarityConfidentAcademicToneRule.hasTag(Tag.picky));
-    assertFalse(pickyClarityConfidentAcademicToneRule.isGoalSpecific());
-    
-    Rule pickyClarityConfidentAcademicScientificToneRule = getRuleById("PICKY-CLARITY_CONFIDENT_ACADEMIC_SCIENTIFIC_TONE_RULE", styleRules);
-    assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.clarity));
-    assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.confident));
-    assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.academic));
-    assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasToneTag(ToneTag.scientific));
-    assertEquals(4, pickyClarityConfidentAcademicScientificToneRule.getToneTags().size());
-    assertTrue(pickyClarityConfidentAcademicScientificToneRule.hasTag(Tag.picky));
-    assertFalse(pickyClarityConfidentAcademicScientificToneRule.isGoalSpecific());
-
-    Rule persuasiveObjectiveToneRule = getRuleById("PERSUASIVE_OBJECTIVE_TONE_RULE", styleRules);
-    assertTrue(persuasiveObjectiveToneRule.hasToneTag(ToneTag.persuasive));
-    assertTrue(persuasiveObjectiveToneRule.hasToneTag(ToneTag.objective));
-    assertEquals(2, persuasiveObjectiveToneRule.getToneTags().size());
-    assertFalse(persuasiveObjectiveToneRule.isGoalSpecific());
-    
-    Rule persuasiveObjectiveInformalToneRule = getRuleById("PERSUASIVE_OBJECTIVE_INFORMAL_TONE_RULE", styleRules);
-    assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.persuasive));
-    assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.objective));
-    assertTrue(persuasiveObjectiveInformalToneRule.hasToneTag(ToneTag.informal));
-    assertEquals(3, persuasiveObjectiveInformalToneRule.getToneTags().size());
-    assertFalse(persuasiveObjectiveInformalToneRule.isGoalSpecific());
-    
-    Rule persuasiveGoalSpecificToneRule = getRuleById("PERSUASIVE_GOAL_SPECIFIC_TONE_RULE", styleRules);
-    assertTrue(persuasiveGoalSpecificToneRule.hasToneTag(ToneTag.persuasive));
-    assertTrue(persuasiveGoalSpecificToneRule.isGoalSpecific());
-    
-    Rule persuasiveNotGoalSpecificToneRule = getRuleById("PERSUASIVE_NOT_GOAL_SPECIFIC_TONE_RULE", styleRules);
-    assertTrue(persuasiveNotGoalSpecificToneRule.hasToneTag(ToneTag.persuasive));
-    assertFalse(persuasiveNotGoalSpecificToneRule.isGoalSpecific());
-    
-    Rule isGoalSpecificRule = getRuleById("IS_GOAL_SPECIFIC_RULE_GROUP_FALSE_OVERRIDE_TEST_1", styleRules);
-    assertTrue(isGoalSpecificRule.isGoalSpecific());
-    
-    Rule isNotSetGoalSpecificRule = getRuleById("IS_GOAL_SPECIFIC_RULE_GROUP_FALSE_OVERRIDE_TEST_2", styleRules);
-    assertFalse(isNotSetGoalSpecificRule.isGoalSpecific());
-    
-    Rule isNotGoalSpecificRule = getRuleById("IS_GOAL_SPECIFIC_RULE_GROUP_FALSE_OVERRIDE_TEST_3", styleRules);
-    assertFalse(isNotGoalSpecificRule.isGoalSpecific());
-
-    Rule isGoalSpecificFromCategoryRule = getRuleById("IS_GOAL_SPECIFIC_FROM_CATEGORY", styleRules);
-    assertTrue(isGoalSpecificFromCategoryRule.isGoalSpecific());
-  }
-
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {
     Set<String> categories = new HashSet<>();
     for (AbstractPatternRule rule : rules) {
@@ -260,7 +136,7 @@ public class PatternRuleLoaderTest {
     String decrypted = decrypt(encrypted);
     System.out.println("decrypted: " + decrypted);
     PatternRuleLoader loader = new PatternRuleLoader();
-    List<AbstractPatternRule> rules = loader.getRules(new ByteArrayInputStream(decrypted.getBytes(StandardCharsets.UTF_8)), "<unknown>", null);
+    List<AbstractPatternRule> rules = loader.getRules(new ByteArrayInputStream(decrypted.getBytes(StandardCharsets.UTF_8)), "<unknown>");
     System.out.println("Loaded " + rules.size() + " rules");
   }
 

@@ -36,19 +36,10 @@ import java.util.*;
 public class GermanSynthesizer extends BaseSynthesizer {
 
   public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
-  private static final Set<String> REMOVE = new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer",
-      // old spellings still in the synthesizer dict:
-      "angepaßt", "beschloß", "biß", "entschloß", "ergoß", "faßt", "genoß", "paßt", "paßte", "preßt", "preßte", "riß",
-      "schloß", "streßtest", "vergißt", "verlaß", "verläßt", "vermiß", "vermißt",
-      "wißt", "wußtest", "wüßtest"));
+  private static final Set<String> REMOVE = new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
 
-  /** @deprecated use {@link #INSTANCE} */
   public GermanSynthesizer(Language lang) {
-    this();
-  }
-
-  private GermanSynthesizer() {
-    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", "de");
+    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", lang);
   }
 
   @Override
@@ -82,19 +73,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
     if (result.length == 0) {
       return getCompoundForms(token, posTag, posTagRegExp);
     }
-    String[] array = Arrays.stream(result).filter(k -> !REMOVE.contains(k)).toArray(String[]::new);
-    /*
-    // log cases where 'ß' is in a word and it's probably old spelling:
-    String other = null;
-    for (String s : array) {
-      if (s.contains("ß")) {
-        other = s.replaceAll("ß", "ss");
-      }
-    }
-    if (other != null && Arrays.asList(array).contains(other)) {
-      System.out.println(">>"+ Arrays.toString(array));
-    }*/
-    return array;
+    return Arrays.stream(result).filter(k -> !REMOVE.contains(k)).toArray(String[]::new);
   }
 
   @NotNull

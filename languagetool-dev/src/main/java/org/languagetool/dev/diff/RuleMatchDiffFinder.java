@@ -152,9 +152,9 @@ public class RuleMatchDiffFinder {
       }
     }
     if (fullMode) {
-      fw.write(". <a href='../" + langCode + "/" + enc(filename) + "'>Today's list</a>");
+      fw.write(". <a href='../" + langCode + "/" + filename + "'>Today's list</a>");
     } else {
-      fw.write(". <a href='../" + langCode + "_full/" + enc(filename) + "'>Full list</a>");
+      fw.write(". <a href='../" + langCode + "_full/" + filename + "'>Full list</a>");
     }
     String shortRuleId = ruleId.replaceFirst("^.* / ", "").replaceFirst("\\[[0-9]+\\]", "");
     fw.write(".  " + getAnalyticsLink(shortRuleId, langCode));
@@ -420,10 +420,6 @@ public class RuleMatchDiffFinder {
     List<OutputFile> outputFiles = new ArrayList<>();
     for (Map.Entry<String, List<RuleMatchDiff>> entry : keyToDiffs.entrySet()) {
       String filename = "result_" + entry.getKey().replaceAll("/", "_").replaceAll("[\\s_]+", "_") + ".html";
-      /*if (filename.length() > 100) {
-        System.out.println("WARN: Skipping " + filename);
-        continue;
-      }*/
       File outputFile = new File(outputDir, filename);
       if (entry.getValue().size() > 0) {
         outputFiles.add(new OutputFile(outputFile, entry.getValue()));
@@ -500,7 +496,7 @@ public class RuleMatchDiffFinder {
         }
         fw.write("<td>");
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
-        fw.write("  <a href='" + enc(file) + "'>" + id + "</a>");
+        fw.write("  <a href='" + file + "'>" + id + "</a>");
         fw.write("  " + getAnalyticsLink(id, langCode));
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {

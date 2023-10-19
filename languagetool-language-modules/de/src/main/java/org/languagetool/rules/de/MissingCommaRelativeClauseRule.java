@@ -56,12 +56,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
       ),
       Arrays.asList(
         token("anstelle"),
-        regex("diese[rsm]|de[rsm]|dessen|jene[rsm]|[dms]?eine[rsm]|ihre[rs]|eure[sr]|unse?re[sr]")
-      ),
-      Arrays.asList(
-        token("im"),
-        token("Zuge"),
-        token("dessen")
+        regex("diese[rs]")
       ),
       Arrays.asList(
         csToken("mit"),
@@ -90,7 +85,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("SUB:DAT.*")
       ),
       Arrays.asList( // ... denen sie ausgesetzt sind.
-        posRegex("PA2:PRD:GRU:VER|VER:PA2.*"),
+        posRegex("PA2:PRD:GRU:VER"),
         csToken("sind"),
         posRegex("PKT")
       ),
@@ -115,55 +110,19 @@ public class MissingCommaRelativeClauseRule extends Rule {
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
       ),
       Arrays.asList(
-        // Komma an der falschen Stelle
-        regex("ja|mal"),
-        csToken("was")
-      ),
-      Arrays.asList(
-        // Komma an der falschen Stelle
-        posRegex("SENT_START|PKT"),
-        csToken("aber"),
-        regex("solange|wenn|wo|wie|was"),
-        regex("du|er|sie|sich|man|euch|uns|die|der|das")
-      ),
-      Arrays.asList(
-        // Komma an der falschen Stelle
-        csToken("selbst"),
-        csToken("wenn"),
-        regex("du|er|sie|sich|man|euch|uns|die|der|das"),
-        regex("die|der|das")
-      ),
-      Arrays.asList(
-        // Komma an der falschen Stelle
-        csToken("wie"),
-        regex("die|der|das")
-      ),
-      Arrays.asList( 
-        // Kein Komma in "weder ... noch ..."
-        new PatternTokenBuilder().setSkip(12).matchInflectedForms().token("weder").build(),
-        token("noch")
-      ),
-      Arrays.asList(
         posRegex("VER:.*1:SIN:KJ1:.+"),
         posRegex("VER:MOD:[12]:.+"),
         posRegex("PKT|KON:NEB")
       ),
-      Arrays.asList(
-        // Er warnt auch vor Autos, die soeben überholt haben bzw. überholt wurden.
-        posRegex("VER:.+"),
-        csToken("bzw"),
-        csToken("."),
-        posRegex("VER:.+")
-      ),
       // … Planungen, die sich noch auf die ganze Stadt bezogen wurden aufgegeben.
       Arrays.asList(
         regex("w[eu]rden"),
-        posRegex("PA2:PRD:GRU:VER|VER:PA2.*"),
+        pos("PA2:PRD:GRU:VER"),
         pos("PKT")
       ),
       // Der Beitrag, den Sie versucht haben aufzurufen, existiert nicht mehr oder wurde verschoben.
       Arrays.asList(
-        posRegex("PA2:PRD:GRU:VER|VER:PA2.*"),
+        pos("PA2:PRD:GRU:VER"),
         regex("haben?|hatten?"),
         posRegex("VER:EIZ.*"),
         pos("PKT")
@@ -222,7 +181,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
    */
   private static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
     return (tokens[n].matchesPosTagRegex("(VER:[1-3]:|VER:.*:[1-3]:).*")
-        && !tokens[n].matchesPosTagRegex("(ZAL|AD[JV]|ART|SUB|PRO:POS|PRP).*")
+        && !tokens[n].matchesPosTagRegex("(ZAL|AD[JV]|ART|SUB|PRO:POS).*")
         && (!tokens[n].hasPosTagStartingWith("VER:INF:") || !tokens[n-1].getToken().equals("zu"))
         && !tokens[n].isImmunized()
       );
@@ -501,7 +460,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
    * is a special combination of four verbs combination
    */
   private static boolean isFourCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
-    return tokens[first].hasPartialPosTag("KJ2") && tokens[first + 1].hasPartialPosTag("PA2")
+    return tokens[first].hasPartialPosTag("KJ2") && tokens[first + 1].hasPosTagStartingWith("PA2")
         && tokens[first + 2].matchesPosTagRegex("VER:(.*INF|PA[12]).*")
         && tokens[last].matchesPosTagRegex("VER:(MOD|AUX).*");
   }
@@ -510,7 +469,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
    * is participle
    */
   private static boolean isPar(AnalyzedTokenReadings token) {
-    return token.hasPosTagStartingWith("PA2:") || token.hasPosTagStartingWith("VER:PA2");
+    return token.hasPosTagStartingWith("PA2:");
   }
 
   /**
@@ -776,7 +735,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
           if( nToken > 0) {
             int startToken = nToken - (isPrp(tokens[nToken - 1]) ? 2 : 1);
             RuleMatch match = new RuleMatch(this, sentence, tokens[startToken].getStartPos(), tokens[nToken].getEndPos(),
-              "Sowohl angehängte als auch eingeschobene Relativsätze werden durch Kommas vom Hauptsatz getrennt.");
+                "Sollten Sie hier ein Komma einfügen?");
             if(nToken - startToken > 1) {
               match.setSuggestedReplacement(tokens[startToken].getToken() + ", " + tokens[nToken - 1].getToken() + " " + tokens[nToken].getToken());
             } else {

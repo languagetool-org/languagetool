@@ -104,7 +104,8 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Écoute", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Écouté", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("Coûte", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("Écoutè", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("Coûte", matches[0].getSuggestedReplacements().get(3));
 
     matches = rule.match(lt.getAnalyzedSentence("ecrit-il"));
     assertEquals(1, matches.length);
@@ -169,7 +170,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "avaisje", "avais-je");
     assertSuggestion(rule, lt, "damazon", "d'Amazon", "d'amazone", "d'Amazone");
     assertSuggestion(rule, lt, "deja", "déjà", "d'EA");
-    assertSuggestion(rule, lt, "depeche-toi", "Dépêche", "Dépêché", "D'empêché", "D'évêché", "Repêché");
+    assertSuggestion(rule, lt, "depeche-toi", "Dépêche", "Dépêché", "Dépêchè", "D'empêché", "D'évêché", "Repêché");
     assertSuggestion(rule, lt, "sattendre", "s'attendre", "attendre");
     assertSuggestion(rule, lt, "darriver", "d'arriver", "arriver");
     assertSuggestion(rule, lt, "Situé àseulement 9 km", "seulement", "à seulement");

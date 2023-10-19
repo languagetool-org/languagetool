@@ -34,12 +34,9 @@ public class WordListValidatorTest {
           "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
           "___INSERT___" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
-          "ŚśŌōżúïÎôêâû" +
-          "ÇÃÕÚÊÂÔ" +
-          "ă" +
-          "å" +
+          "ŚśōżúïÎôêâû" +
           "'’" +
-          "./%-]+" +
+          "./-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
 
   // Words that are valid but with special characters so that we don't want to
@@ -90,7 +87,6 @@ public class WordListValidatorTest {
           "Hyndluljóð",
           "Kazanlǎk",
           "Kesäranta",
-          "Krišjānis",
           "Kŭrdzhali",
           "Malko Tŭrnovo",
           "Rígsþula",
@@ -147,44 +143,27 @@ public class WordListValidatorTest {
           "S&P",
           "ČSSR",
           "V&D",
-          "Loïc/S",
           "İlkay",
           "Gündoğan",
           "Tuğrul",
-          "Kīlauea",
-          "Māori",
-          "Chișinău",
-          "Chișinău/S",
-          "Křetínský/S",
-          "Terzić",
-          "Jūjutsu/S",
           "Ñuñoa",
           "Stevanović",
           "Børge",
           "Børge/S",
-          "Bjørn Gulden/S",
           "Snæfellsjökull/S",
-          "Višegrad/S",
           "Clément/S",
           "Snæfellsjökull",
-          "Grudziądz",
-          "Skåneland",
-          "Øresund",
-          "Jokić",
           "Ibišević",
           "Fríður",
           "Łódź",
           "Ørsted",
           "Samsø/S",
-          "Kılıçdaroğlu/S",
-          "Vlahović/S",
           "Sønderborg/S",
           "Sønderborg",
           "Mirotić",
           "Subotić",
           "Pÿur",
           "Subašić",
-          "Wałęsa",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "elektromobilność", // for PL
@@ -225,7 +204,7 @@ public class WordListValidatorTest {
         SpellingCheckRule sRule = (SpellingCheckRule) rule;
         String file = sRule.getSpellingFileName();
         if (JLanguageTool.getDataBroker().resourceExists(file) && !checked.contains(file)) {
-          System.out.println("Checking validity of word list file " + file);
+          System.out.println("Checking " + file);
           CachingWordListLoader loader = new CachingWordListLoader();
           List<String> words = loader.loadWords(file);
           validateWords(words, file);

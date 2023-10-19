@@ -23,7 +23,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.Map;
@@ -69,46 +68,6 @@ public abstract class RuleFilter {
 
   protected String getOptional(String key, Map<String, String> map) {
     return map.get(key);
-  }
-
-  protected String getOptional(String key, Map<String, String> map, String defaultValue) {
-    String value = map.get(key);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
-  }
-
-  protected int getPosition(String fromStr, AnalyzedTokenReadings[] patternTokens, RuleMatch match) {
-    int i;
-    if (fromStr.startsWith("marker")) {
-      i = 0;
-      while (i < patternTokens.length && patternTokens[i].getStartPos() < match.getFromPos()) {
-        i++;
-      }
-      i++;
-      if (fromStr.length()>6) {
-        i += Integer.parseInt(fromStr.replace("marker", ""));
-      }
-    } else {
-      i = Integer.parseInt(fromStr);
-    }
-    if (i < 1 || i > patternTokens.length) {
-      throw new IllegalArgumentException("RuleFilter: Index out of bounds in "
-        + match.getRule().getFullId() + ", value: " + fromStr);
-    }
-    return i - 1;
-  }
-
-  protected boolean isMatchAtSentenceStart(AnalyzedTokenReadings[] tokens, RuleMatch match) {
-    int i = 0;
-    while (i < tokens.length && tokens[i].getStartPos() < match.getFromPos()) {
-      i++;
-    }
-    while (i > 0 && StringTools.isPunctuationMark(tokens[i].getToken())) {
-      i--;
-    }
-    return i == 0;
   }
 
 }

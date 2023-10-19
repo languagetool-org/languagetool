@@ -58,8 +58,6 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
         || repetitionOf("does", tokens, position)) && (position + 1 < tokens.length)
         && tokens[position + 1].getToken().equalsIgnoreCase("n't")) {
       return true;
-    } else if (repetitionOf("her", tokens, position) && posIsIn(tokens, position - 2, "VB", "VBP", "VBZ", "VBG", "VBD", "VBN") && posIsIn(tokens, position + 1, "NN", "NNS", "NN:U", "NN:UN", "NNP")) {
-      return true;   // "Please pass her her phone."
     } else if (repetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
     } else if (repetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "MD", "NN", "PRP$", "JJ", "VBZ", "VBD")) {
@@ -80,10 +78,6 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (repetitionOf("s", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("['’`´‘]")) {
       return true; // It's S.T.E.A.M.
-    } else if (repetitionOf("in", tokens, position) && position > 2 && tokens[position - 3].getToken().matches("log(ged|s)?|sign(ed|s)?")) {
-      return true; // log them in in the
-    } else if (repetitionOf("in", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("log(ged|s)?|sign(ed|s)?")) {
-      return true; // log in in the
     } else if (repetitionOf("a", tokens, position) && position > 1 && tokens[position - 2].getToken().equals(".")) {
       return true; // "a.k.a a"
     } else if (repetitionOf("on", tokens, position) && position > 1 && tokens[position - 2].getToken().equals(".")) {

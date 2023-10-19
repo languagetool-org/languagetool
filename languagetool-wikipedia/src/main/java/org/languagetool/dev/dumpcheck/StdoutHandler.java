@@ -32,20 +32,14 @@ import java.util.List;
 class StdoutHandler extends ResultHandler {
 
   private final ContextTools contextTools = new ContextTools();
-  private final boolean verbose;
 
   StdoutHandler(int maxSentences, int maxErrors) {
     this(maxSentences, maxErrors, CONTEXT_SIZE);
   }
 
   StdoutHandler(int maxSentences, int maxErrors, int contextSize) {
-    this(maxSentences, maxErrors, contextSize, false);
-  }
-
-  StdoutHandler(int maxSentences, int maxErrors, int contextSize, boolean verbose) {
     super(maxSentences, maxErrors);
     contextTools.setContextSize(contextSize);
-    this.verbose = verbose;
     //contextTools.setContextSize(100);
     //contextTools.setErrorMarker("**", "**");
     //contextTools.setEscapeHtml(false);
@@ -65,10 +59,6 @@ class StdoutHandler extends ResultHandler {
         }
         if (match.getRule().isDefaultTempOff()) {
           output += " [temp_off]";
-        }
-        if (verbose && match.getRule() instanceof AbstractPatternRule) {
-          AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
-          output += " ruleLine=" + pRule.getXmlLineNumber();
         }
         System.out.println(output);
         String msg = match.getMessage();

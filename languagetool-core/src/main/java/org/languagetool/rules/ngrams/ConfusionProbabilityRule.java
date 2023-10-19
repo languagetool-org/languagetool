@@ -375,18 +375,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
       super(messages, lm, lang);
       this.id = Objects.requireNonNull(id);
       this.desc = desc;
-      if (lang.getShortCode().equals("en") &&
-          (id.equals("CONFUSION_RULE_BARE_BEAR") || id.equals("CONFUSION_RULE_BEAR_BARE"))) {
-        this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/spelling-bear-vs-bare-with-me/"));
-      }
-      if (lang.getShortCode().equals("en") &&
-          (id.equals("CONFUSION_RULE_DISCREET_DISCRETE") || id.equals("CONFUSION_RULE_DISCRETE_DISCREET"))) {
-        this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/discrete-vs-discreet/"));
-      }
-      if (lang.getShortCode().equals("en") &&
-        (id.equals("CONFUSION_RULE_PRECEDENTS_PRECEDENCE") || id.equals("CONFUSION_RULE_PRECEDENCE_PRECEDENTS"))) {
-        this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/precedence-or-precedent/"));
-      }
     }
     @Override
     public String getId() {

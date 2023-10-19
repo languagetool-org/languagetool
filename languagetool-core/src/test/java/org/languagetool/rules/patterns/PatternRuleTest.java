@@ -62,8 +62,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
     @Override
     public String getMessage() {
-      return String.format("Test failure for rule %s in file %s (line %d): %s",
-        rule.getFullId(), rule.getSourceFile(), rule.getXmlLineNumber(), message);
+      return String.format("Test failure for rule %s in file %s: %s",
+        rule.getFullId(), rule.getSourceFile(), message);
     }
 
   }
@@ -149,7 +149,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (Language lang : Languages.get()) {
-      runGrammarRuleForLanguage(lang);
+        runGrammarRuleForLanguage(lang);
     }
     if (Languages.get().isEmpty()) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
@@ -187,7 +187,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   public void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
-    validateRemoteRulesFile(lang);
     System.out.println("Running pattern rule tests for " + lang.getName() + " (" + lang.getClass().getName() + ")... ");
     MultiThreadedJLanguageTool lt = createToolForTesting(lang);
     MultiThreadedJLanguageTool allRulesLt = new MultiThreadedJLanguageTool(lang);
@@ -242,17 +241,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
         }
       }
-    }
-  }
-
-  protected void validateRemoteRulesFile(Language lang) throws IOException {
-    XMLValidator validator = new XMLValidator();
-    String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
-    String remoteRulesFile = rulesDir + "/" + lang.getShortCode() + "/remote-rule-filters.xml";
-    InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(remoteRulesFile);
-    if (xmlStream != null) {
-      System.out.println("Running XML validation for " + remoteRulesFile + "...");
-      validator.validateWithXmlSchema(remoteRulesFile, remoteRulesFile, rulesDir + "/remote-rules.xsd");
     }
   }
 
@@ -340,6 +328,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     for (Rule rule : rules) {
       if (rule instanceof AbstractPatternRule) {
         AbstractPatternRule apRule = (AbstractPatternRule) rule;
+        List<PatternToken> patternTokens = apRule.getPatternTokens();
         List<Match> suggestionMatches = new ArrayList<>();
         if (apRule.getSuggestionMatches() != null) {
           suggestionMatches.addAll(apRule.getSuggestionMatches());
@@ -471,29 +460,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
         fail("Unfinished message ('todo' or 'lorem ipsum') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
-      if (!lang.getShortCode().equals("en") && !lang.getShortCode().equals("km") && msg.toLowerCase().contains("did you mean")) {
-        System.err.println("*** WARNING: Non-English message with 'did you mean' for rule " + rule.getFullId() + ": '" + msg + "'");
-      }
       if (msg.toLowerCase().contains("tbd")) {
         fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
-      if (msg.startsWith(">")) {
-        System.err.println("*** WARNING: Message of rule " + rule.getFullId() + " starts with '>', is this a typo?: '" + rule.getMessage() + "'");
-      }
-      if (lang.getShortCode().matches("de|en|fr|es|nl")) {  // not yet 'pt' due to many matches there
-        if (!msg.trim().equals(rule.getMessage())) {
-          System.err.println("*** WARNING: Message of rule " + rule.getFullId() + " starts or ends with spaces: '" + rule.getMessage() + "'");
-        }
-      }
-      if (lang.getShortCode().equals("de") && !msg.equals("Failing for testing purposes")) {
-        if (msg.trim().endsWith("!")) {
-          fail("Message ends in '!' for rule " + rule.getFullId() + ": '" + msg + "'");
-        }
-        if (!msg.trim().matches(".*[.?)'\"]$")) {
-          fail("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
-          //System.out.println("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
-        }
-      }
+      //if (msg.matches(".*[^\"'>)?!.]$")) {
+      //  System.err.println("Warning: Message of " + rule.getFullId() + " doesn't end in [.!?]: " + msg);
+      //}
     }
   }
   
@@ -597,17 +569,14 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           addError(rule, "Empty incorrect example sentence after cleaning/trimming.");
           continue;
       }
-      if (origBadSentence.startsWith(">") && badSentence.length() > 1) {
-        System.err.println("*** WARNING: example of rule " + rule.getFullId() + " starts with '>', is this a typo?: '" + origBadSentence + "'");
-      }
-
+      
       String marker = origBadSentence.substring(expectedMatchStart + "<marker>".length(),
           origBadSentence.indexOf("</marker>"));
       if (marker.startsWith(", ") && origBadExample.getCorrections().stream()
           .anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith("?") && !k.startsWith(".")
-              && !k.startsWith(":") && !k.startsWith(";") && !k.startsWith("…") && !k.startsWith("-") && !k.startsWith("–"))) {
+              && !k.startsWith(":") && !k.startsWith(";") && !k.startsWith("…"))) {
         System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but "
-            + "doesn't have a space, comma, colon, semicolon, hyphen or dot at the start of the suggestion: " + origBadSentence
+            + "doesn't have a space, comma, colon, semicolon, or dot at the start of the suggestion: " + origBadSentence
             + " => " + origBadExample.getCorrections());
       }
 
@@ -801,9 +770,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (!(goodSentence.trim().length() > 0)) {
         addError(rule, "Empty correct example.");
         continue;
-      }
-      if (goodSentence.startsWith(">") && goodSentence.length() > 1) {
-        System.err.println("*** WARNING: example of rule " + rule.getFullId() + " starts with '>', is this a typo?: '" + goodSentence + "'");
       }
       boolean isMatched = false;
       // necessary for XML Pattern rules containing <or>

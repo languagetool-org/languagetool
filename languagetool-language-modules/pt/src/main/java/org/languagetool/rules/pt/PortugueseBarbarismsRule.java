@@ -19,7 +19,6 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -52,12 +51,11 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
     return Collections.singletonList(path);
   }
 
-  public PortugueseBarbarismsRule(ResourceBundle messages, String path, Language language) {
-    super(messages, language);
+  public PortugueseBarbarismsRule(ResourceBundle messages, String path) {
+    super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
-    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),
                    Example.fixed("<marker>currículo</marker>"));
   }
@@ -69,7 +67,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Palavras de origem estrangeira evitáveis: $match";
+    return "Palavras de origem estrangeira evitáveis";
   }
 
   @Override
@@ -79,7 +77,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "\"$match\" é um estrangeirismo. É preferível dizer $suggestions.";
+    return "'$match' é um estrangeirismo. É preferível dizer $suggestions.";
   }
 
   @Override

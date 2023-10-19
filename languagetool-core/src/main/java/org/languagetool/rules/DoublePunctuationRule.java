@@ -72,12 +72,12 @@ public class DoublePunctuationRule extends Rule {
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       String nextToken = null;
-      String prevPrevToken = null;
+      String prevToken = null;
       if (i < tokens.length - 1) {
         nextToken = tokens[i + 1].getToken();
       }
       if (i > 1) {
-        prevPrevToken = tokens[i - 2].getToken();
+        prevToken = tokens[i - 2].getToken();
       }
       if (".".equals(token)) {
         dotCount++;
@@ -88,13 +88,7 @@ public class DoublePunctuationRule extends Rule {
         dotCount = 0;
         startPos = tokens[i].getStartPos();
       }
-
-
-      if (dotCount == 2 && !".".equals(nextToken) && !"…".equals(nextToken) &&
-          !"/".equals(token) && !"/".equals(nextToken) &&  /* Unix path */
-          !"\\".equals(token) && !"\\".equals(nextToken) &&  /* Windows path */
-          !"?".equals(prevPrevToken) && !"!".equals(prevPrevToken) &&
-          !"…".equals(prevPrevToken) && !".".equals(prevPrevToken)) {
+      if (dotCount == 2 && !".".equals(nextToken) && !"?".equals(prevToken) && !"!".equals(prevToken) && !"…".equals(prevToken)) {
         int fromPos = Math.max(0, startPos - 1);
         RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, startPos + 1,
             getDotMessage(), messages.getString("double_dots_short"));

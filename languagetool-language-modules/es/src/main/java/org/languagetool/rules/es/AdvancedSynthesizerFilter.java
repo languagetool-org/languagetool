@@ -20,6 +20,7 @@
 package org.languagetool.rules.es;
 
 
+import org.languagetool.language.Spanish;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
@@ -33,9 +34,11 @@ import org.languagetool.synthesis.es.SpanishSynthesizer;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
+  private final SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
+  
   @Override
   protected Synthesizer getSynthesizer() {
-    return SpanishSynthesizer.INSTANCE;
+    return synth;
   }
 
 }

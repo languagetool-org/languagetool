@@ -25,8 +25,8 @@ import org.languagetool.chunking.Chunker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.patterns.Unifier;
@@ -73,8 +73,6 @@ public abstract class Language {
   private static final Pattern INSIDE_SUGGESTION = Pattern.compile("<suggestion>(.+?)</suggestion>");
   private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
-  private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
 
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
@@ -201,6 +199,7 @@ public abstract class Language {
     return Collections.emptyList();
   }
 
+
   /**
    * Get a list of rules that can optionally use a {@link LanguageModel}. Returns an empty list for
    * languages that don't have such rules.
@@ -212,6 +211,7 @@ public abstract class Language {
     return Collections.emptyList();
   }
 
+
   /**
    * For rules that depend on a remote server; based on {@link org.languagetool.rules.RemoteRule}
    * will be executed asynchronously, with timeout, retries, etc.  as configured
@@ -219,27 +219,19 @@ public abstract class Language {
    */
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
                                            GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging)
-      throws IOException {
+    throws IOException {
     List<Rule> rules = new ArrayList<>();
+
     GRPCPostProcessing.configure(this, configs);
+
     rules.addAll(GRPCRule.createAll(this, configs, inputLogging));
-    configs.stream()
+
+     configs.stream()
       .filter(config -> config.getRuleId().startsWith("TEST"))
       .map(c -> new TestRemoteRule(this, c))
       .forEach(rules::add);
-    rules.removeIf(rule -> {
-      String activeRemoteRuleAbTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("abtest"); //abtest option value must match the abtest value from server.properties
-      List<String> activeAbTestsForUser = userConfig.getAbTest();
-      if (activeRemoteRuleAbTest != null && !activeRemoteRuleAbTest.trim().isEmpty()) { // A/B-Test active for remote rule
-        if (activeAbTestsForUser == null) {
-          return true; // No A/B-Tests are not active for user
-        }
-        return !activeAbTestsForUser.contains(activeRemoteRuleAbTest); // A/B-Test an active remote rule A/B-Test is active for this user
-      } else {
-        return false; // No A/B-Test active for remote rule
-      }
-    });
-    return rules;
+
+     return rules;
   }
 
   /**
@@ -252,6 +244,34 @@ public abstract class Language {
     ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig,
     Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
     return Function.identity();
+  }
+
+  /**
+   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
+   * @return a {@link Word2VecModel} or {@code null} if this language doesn't support one
+   * @since 4.0
+   */
+  @Nullable
+  public Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return null;
+  }
+
+  /**
+   * Get a list of rules that require a {@link Word2VecModel}. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.0
+   */
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return Collections.emptyList();
+  }
+
+  /**
+   * Get a list of rules that load trained neural networks. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.4
+   */
+  public List<Rule> getRelevantNeuralNetworkModels(ResourceBundle messages, File modelDir) {
+    return Collections.emptyList();
   }
 
   /**
@@ -335,24 +355,12 @@ public abstract class Language {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
-    if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.STYLE_FILE)) {
-      String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.STYLE_FILE;
-      ruleFiles.add(customFile);
-    }
-    if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE)) {
-      String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE;
-      ruleFiles.add(customFile);
-    }
     if (getShortCodeWithCountryAndVariant().length() > 2) {
       String fileName = getShortCode() + "/"
               + getShortCodeWithCountryAndVariant()
               + "/" + JLanguageTool.PATTERN_FILE;
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
-      }
-      String styleFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/" + JLanguageTool.STYLE_FILE;
-      if (dataBroker.ruleFileExists(styleFileName)) {
-        ruleFiles.add(dataBroker.getRulesDir() + "/" + styleFileName);
       }
       String premiumFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/grammar-premium.xml";
       if (dataBroker.ruleFileExists(premiumFileName)) {
@@ -364,12 +372,12 @@ public abstract class Language {
 
   /**
    * Languages that have country variants need to overwrite this to select their most common variant.
-   * @return default country variant
+   * @return default country variant or {@code null}
    * @since 1.8
    */
-  @NotNull
+  @Nullable
   public Language getDefaultLanguageVariant() {
-    return this;
+    return null;
   }
 
   /**
@@ -466,6 +474,7 @@ public abstract class Language {
     if (wordTokenizer == null) {
       wordTokenizer = createDefaultWordTokenizer();
     }
+
     return wordTokenizer;
   }
 
@@ -530,18 +539,6 @@ public abstract class Language {
    */
   public void setPostDisambiguationChunker(Chunker chunker) {
     postDisambiguationChunker = chunker;
-  }
-
-  /**
-   * Create a shared instance of JLanguageTool to use in rules for further processing
-   * Instances are shared by Language
-   * @since 6.1
-   * @return a shared JLanguageTool instance for this language
-   */
-  public JLanguageTool createDefaultJLanguageTool() {
-    Language self = this;
-    Class clazz = this.getClass();
-    return languagetoolInstances.computeIfAbsent(clazz, _class -> new JLanguageTool(self));
   }
 
   /**
@@ -663,7 +660,7 @@ public abstract class Language {
             }
           }
           if (!ignore) {
-            rules.addAll(ruleLoader.getRules(is, fileName, this));
+            rules.addAll(ruleLoader.getRules(is, fileName));
             patternRules = Collections.unmodifiableList(rules);
           }
         } finally {
@@ -923,7 +920,7 @@ public abstract class Language {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
   
-  /**
+  /*
    * @since 5.1 
    * Some rules contain the field min_matches to check repeated patterns 
    */
@@ -931,43 +928,9 @@ public abstract class Language {
     return false;
   }
   
-  /** 
-   * @since 5.6 
-   * Adjust suggestions depending on the enabled rules
-   */
+  /** @since 5.6 */
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
 	  return ruleMatches;
   }
   
-  /**
-   * @since 6.0 
-   * Adjust suggestion 
-   */
-  public String adaptSuggestion(String s) {
-    return s;
-  }
-
-  public String getConsistencyRulePrefix() {
-    return "PREFIXFORCONSISTENCYRULES_";
-  }
-
-  public RuleMatch adjustMatch(RuleMatch rm, List<String> features) {
-    return rm;
-  }
-
-  public String prepareLineForSpeller(String s) {
-    return s;
-  }
-
-  /**
-   * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
-   *
-   * @param ruleMatches
-   * @param text
-   * @param enabledRules
-   * @return filtered ruleMatches
-   */
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
-    return ruleMatches;
-  }
 }

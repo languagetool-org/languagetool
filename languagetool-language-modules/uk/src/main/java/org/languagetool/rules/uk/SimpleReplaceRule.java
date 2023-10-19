@@ -24,7 +24,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.uk.IPOSTag;
@@ -47,13 +50,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   private final MorfologikUkrainianSpellerRule morfologikSpellerRule;
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public SimpleReplaceRule(ResourceBundle messages, MorfologikUkrainianSpellerRule morfologikSpellerRule,
-                           final Language language) throws IOException {
-    super(messages, language);
+  public SimpleReplaceRule(ResourceBundle messages, MorfologikUkrainianSpellerRule morfologikSpellerRule) throws IOException {
+    super(messages);
     setIgnoreTaggedWords();
     this.morfologikSpellerRule = morfologikSpellerRule;
   }

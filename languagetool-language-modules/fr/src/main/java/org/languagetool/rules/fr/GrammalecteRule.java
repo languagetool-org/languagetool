@@ -53,7 +53,7 @@ public class GrammalecteRule extends Rule {
   private final GlobalConfig globalConfig;
 
   // https://github.com/languagetooler-gmbh/languagetool-premium/issues/197:
-  static final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
+  private final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
     "tab_fin_ligne",
     "apostrophe_typographique",
     "typo_guillemets_typographiques_doubles_ouvrants",
@@ -63,7 +63,6 @@ public class GrammalecteRule extends Rule {
     "nbsp_avant_deux_points",  // Useful only if we decide to have the rest of the non-breakable space rules.
     "nbsp_ajout_avant_double_ponctuation",  // Useful only if we decide to have the rest of the non-breakable space rules.
     "apostrophe_typographique_après_t",  // Not useful. While being the technically correct character, it does not matter much.
-    "typo_point_collé_à_mot_suivant", // many FPs: file extensions, domain names...
     "typo_tiret_début_ligne",  // Arguably the same as 50671 and 17342 ; the french special character for lists is a 'tiret cadratin' ; so it should be that instead of a dash. Having it count as a mistake is giving access to the otherwise unaccessible special character. However, lists are a common occurrence, and the special character does not make a real difference. Not really useful but debatable
     "typo_guillemets_typographiques_simples_fermants",
     "typo_apostrophe_incorrecte",
@@ -86,8 +85,6 @@ public class GrammalecteRule extends Rule {
     "esp_avant_après_tiret", // picky
     "nbsp_après_tiret1", // picky
     "nbsp_après_tiret2", // picky
-    "nbsp_après_tiret3", // picky
-    "nbsp_après_chevrons_fermants", // picky
     "esp_mélangés1", // picky
     "esp_mélangés2", // picky
     "tab_début_ligne",
@@ -106,7 +103,6 @@ public class GrammalecteRule extends Rule {
     "g0__imp_verbes_composés_impératifs__b12_a2_1",
     "g0__imp_verbes_composés_impératifs__b12_a3_1",
     "g0__imp_verbes_composés_impératifs__b5_a2_1",
-    "g2__date_journée_jour_mois_année_",
     "g2__gn_tous_det_nom__b1_a2_1",
     "g2__gn_tous_det_nom__b2_a2_1",
     "g2__gn_tous_nom__b2_a1_1",
@@ -422,90 +418,7 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b4_a1_1",
     "g2__conf_a_à_verbe__b7_a1_1",
     "g2__conf_a_à_verbe__b8_a1_1",
-    "g3__gn_la_3m__b1_a1_1",
-    "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
-    "typo_guillemets_perdus",
-    "g2__conj_2p_sans_sujet__b1_a1_1",
-    "typo_signe_multiplication",
-    "typo_écriture_invariable",
-    "gv1__ppas_avoir_été__b2_a3_1",
-    "num_grand_nombre_avec_points",
-    "g2__conj_tu__b1_a1_1",
-    "typo_guillemets_doubles_ouvrants_non_fermé",
-    "g2__maj_gentilés__b3_a1_1",
-    "typo_signe_moins",
-    "g3__conf_numérique_digital__b1_a1_1",
-    "g2__conf_start_nom_ppas__b1_a1_1",
-    "typo_guillemets_fin",
-    "g2__conf_non_verbe_après_préverbes__b2_a1_1",
-    "g2__maj_gentilés__b3_a2_1",
-    "g2__typo_ordinaux_chiffres_romains_exposants__b9_a1_1",
-    "g3__gn_pfx_de_2m__b1_a1_1",
-    "eepi_écriture_épicène_pluriel_e",
-    "g2__chim_molécules__b1_a1_1",
-    "g3__conf_numérique_digital__b2_a1_1",
-    "doublon",
-    "typo_guillemets_doubles_fermants_non_ouverts",
-    "g2__conf_non_verbe_après_préverbes__b5_a3_1",
-    "gv1__imp_verbe_groupe2_groupe3_t__b2_a1_1",
-    "gv2__conj_les_nom__b1_a3_1",
-    "g2__conj_1p_sans_sujet__b1_a1_1",
-    "typo_points_suspension_après_espace",
-    "typo_guillemets_doubles_ouvrants_non_fermés",
-    "g2__conf_de_vconj__b1_a1_1",
-    "g2__conf_déterminant_mas_sing_verbe__b1_a1_1",
-    "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_",
-    "g3__infi_de_verbe__b5_a1_1",
-    "typo_points_superflus",
-    "g2__conf_la_là__b2_a1_1",
-    "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_1",
-    "g2__conf_non_verbe_après_préverbes__b5_a2_1",
-    "g2__conj_je__b2_a1_1",
-    "gv1__conf_vc_int_imp_verbe__b1_a1_1",
-    "date_nombres",
-    "gv1__imp_confusion_2e_pers_pluriel__b5_a1_1",
-    "g2__conf_tu_non_verbe__b1_a3_1",
-    "g2__conf_si_vconj__b2_a1_1",
-    "g2__conf_on_non_verbe__b1_a3_1",
-    "g2__conf_on_non_verbe__b2_a3_1",
-    "g2__conj_on__b1_a1_1",
-    "g3__gn_start_prn_1m__b1_a1_1",
-    "gv2__conj_vinfi_suj__b1_a1_1",
-    "g2__conf_plus_plu__b5_a1_1",
-    "g3__gn_det_epi_plur_3m__b1_a2_1",
-    "g3__gn_det_epi_sing_3m__b1_a3_1",
-    "g2__conf_sur_vconj__b1_a1_1",
-    "typo_guillemets_ouvrants_inverses1",
-    "typo_guillemets_ouvrants_inverses2",
-    "typo_guillemets_ouvrants_inverses3",
-    "typo_guillemets_fermants_inverses",
-    "typo_commencement_guillemets",
-    "typo_guillemets_typographiques_simples_doubles_fermants",
-    "typo_guillemets_typographiques_simples_doubles_ouvrants",
-    "typo_guillemets_ouvrants_perdus",
-    "typo_guillemets_fermants_perdus",
-    "typo_guillemet_simple_fermant_non_ouvert",
-    "typo_guillemet_simple_ouvrant_non_fermé",
-    "typo_cohérence_guillemets_chevrons_fermants",
-    "typo_cohérence_guillemets_chevrons_ouvrants",
-    "typo_cohérence_guillemets_doubles_fermants",
-    "typo_cohérence_guillemets_doubles_ouvrants",
-    "g2__conf_par_vconj__b1_a1_1",
-    "conf_1e_1a_1es",
-    "g2__conf_a_à_verbe__b15_a7_1",
-    "typo_espace_avant_signe_fermant",
-    "g2__date_journée_jour_mois_année__b1_a1_4",
-    "g2__conf_incohérences_globales__b3_a1_1",
-    "g2__typo_ordinaux_chiffres_incorrects__b9_a1_1",
-    "g2__conj_1s_sans_sujet_xxxai__b4_a1_1",
-    "g2__conf_dès_des_dés__b3_a2_1",
-    "g2__pleo_substantifs__b11_a1_1",
-    "g2__pleo_substantifs__b12_a1_1",
-    "g2__pleo_substantifs__b1_a1_1",
-    "g2__pleo_verbes__b4_a1_1",
-    "g2__pleo_verbes__b8_a1_1",
-    "g2__pleo_locutions__b7_a1_1",
-    "g2__pleo_verbes__b7_a1_1"
+    "g3__gn_la_3m__b1_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
@@ -559,7 +472,8 @@ public class GrammalecteRule extends Rule {
       lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl, e);
+      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
+      e.printStackTrace();
     } finally {
       huc.disconnect();
     }

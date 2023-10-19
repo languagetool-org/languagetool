@@ -127,37 +127,6 @@ public class VerbAgreementRule extends TextLevelRule {
       token("gehe")
     ),
     asList(
-      // Ich bin du
-      token("ich"),
-      tokenRegex("bin|war"),
-      token("du")
-    ),
-    asList(
-      // Dann beende du den Auftrag und bring sie ihrem Vater.
-      tokenRegex("darum|deswegen|dann|bitte|so|,|-"),
-      posRegex("VER:IMP:SIN.*"),
-      token("du")
-    ),
-    Arrays.asList(
-      // - Wirst du ausflippen?
-      tokenRegex("[-–]"),
-      posRegex("VER:.*(AUX|MOD).*"),
-      token("du"),
-      posRegex("VER:INF.*")
-    ),
-    asList(
-      tokenRegex("-(du|ich|er|sie|wir|ihr)"),
-      posRegex("VER.*")
-    ),
-    asList(
-      tokenRegex("bin|war|wär"),
-      tokenRegex("i|icke?")
-    ),
-    asList(
-      tokenRegex("i|icke?"),
-      tokenRegex("bin|war|wär")
-    ),
-    asList(
       token("du"),
       token("schlafen"),
       token("gehst")
@@ -194,20 +163,6 @@ public class VerbAgreementRule extends TextLevelRule {
       tokenRegex("ich|wir|sie|er|es")
     ),
     asList(
-      tokenRegex("ich|wir|sie|er|es"),
-      posRegex("VER.*INF.*"),
-      tokenRegex("muß|mußten?|müßt?en?") // alte rechtschreibung (andere fehler)
-    ),
-    asList(
-      tokenRegex("mußt|müßtest|mußtest"), // alte rechtschreibung (andere fehler)
-      token("du")
-    ),
-    asList(
-      token("du"),
-      posRegex("VER.*INF.*"),
-      tokenRegex("mußt|müßtest|mußtest") // alte rechtschreibung (andere fehler)
-    ),
-    asList(
       token("ich"),
       tokenRegex("würd|könnt|werd|wollt|sollt|müsst|fürcht"),
       tokenRegex("['’`´‘]")
@@ -231,11 +186,8 @@ public class VerbAgreementRule extends TextLevelRule {
       // wie du war ich auch
       token("wie"),
       tokenRegex("du|ihr|er|es|sie"),
-      posRegex("VER.*")
-    ),
-    asList(
-      tokenRegex("[-:]"),
-      posRegex("VER.*(MOD|AUX).*")
+      tokenRegex("bin|war"),
+      token("ich")
     ),
     asList(
       // Arabic names: Aryat Abraha bin Sabah Kaaba
@@ -267,20 +219,6 @@ public class VerbAgreementRule extends TextLevelRule {
        // Ich will nicht so wie er enden.
        new PatternTokenBuilder().tokenRegex("so|genauso|ähnlich").matchInflectedForms().setSkip(2).build(),
        token("wie"),
-       tokenRegex("er|sie|du|ihr|ich"),
-       posRegex("VER.*")
-     ),
-     asList(
-       // Ich will wie er aussehen
-       posRegex("VER.*(MOD|AUX).*"),
-       token("wie"),
-       tokenRegex("er|sie|du|ihr|ich"),
-       posRegex("VER.*INF.*")
-     ),
-     asList(
-       // Ich will wie er aussehen
-       token("wie"),
-       posRegex("ADJ:PRD:GRU.*"),
        tokenRegex("er|sie|du|ihr|ich"),
        posRegex("VER.*")
      ),
@@ -431,33 +369,19 @@ public class VerbAgreementRule extends TextLevelRule {
       posRegex("VER:.*")
     ),
     asList(
-      tokenRegex("glaube?|denke?|hoffe?|vermute?|behaupte?|wette?"),  // "Wir haben da ein monatliches Limit, in das wir glaube ich schon für September reingelaufen sind."
-      token("ich"),
-      posRegex("ADV.*|SUB.*|UNKNOWN|ADJ.*|PA[12].*|ART.*|PRP.*|PRO.*")
-    ),
-    asList(
       tokenRegex("ich"),  // "Ich weiß, was ich tun werde, falls etwas geschehen sollte."
       pos("VER:INF:NON"),
       token("werde")
     ),
     asList(
-      posRegex("VER:IMP:SIN:.*"),  // "Kümmere du dich mal nicht darum!"
+      pos("VER:IMP:SIN:SFT"),  // "Kümmere du dich mal nicht darum!"
       token("du"),
-      tokenRegex("dich|dein|deine[srnm]?|mal")
-    ),
-    asList(
-      posRegex("VER:IMP:SIN:.*"),  // "Nee, geh du!"
-      token("du"),
-      token("!")
+      tokenRegex("dich|dein|deine[srnm]?")
     ),
     asList(
       token("sei"),
       token("du"),
       token("selbst")
-    ),
-    asList(
-      token("bin"),
-      tokenRegex("dran|dabei")
     ),
     asList(
       token("als"),  // "Du bist in dem Moment angekommen, als ich gegangen bin."

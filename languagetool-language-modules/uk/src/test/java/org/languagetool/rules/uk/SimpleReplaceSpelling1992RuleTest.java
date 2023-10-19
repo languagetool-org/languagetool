@@ -35,11 +35,10 @@ public class SimpleReplaceSpelling1992RuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
-    SimpleReplaceSpelling1992Rule rule = new SimpleReplaceSpelling1992Rule(TestTools.getEnglishMessages(),
-      lt.getLanguage());
+    SimpleReplaceSpelling1992Rule rule = new SimpleReplaceSpelling1992Rule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Це — новий проєкт для фоє."));

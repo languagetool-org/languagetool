@@ -33,10 +33,8 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ru.RussianHybridDisambiguator;
 import org.languagetool.tagging.ru.RussianTagger;
-import org.languagetool.tokenizers.ru.RussianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,17 +87,12 @@ public class Russian extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return RussianSynthesizer.INSTANCE;
+    return new RussianSynthesizer(this);
   }
 
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SRXSentenceTokenizer(this);
-  }
-
-  @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new RussianWordTokenizer();
   }
 
   @Override
@@ -145,12 +138,12 @@ public class Russian extends Language implements AutoCloseable {
             new CommaWhitespaceRule(messages,
                     Example.wrong("Не род<marker> ,</marker> а ум поставлю в воеводы."),
                     Example.fixed("Не род<marker>,</marker> а ум поставлю в воеводы.")),
-        //  new DoublePunctuationRule(messages),  // replace to xml rule
+            new DoublePunctuationRule(messages),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Закончилось лето. <marker>дети</marker> снова сели за школьные парты."),
                     Example.fixed("Закончилось лето. <marker>Дети</marker> снова сели за школьные парты.")),
             new MorfologikRussianSpellerRule(messages, this, userConfig, altLanguages),
-        //  new WordRepeatRule(messages, this), // move to RussianSimpleWordRepeatRule
+            new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
 	    new SentenceWhitespaceRule(messages),
             new WhiteSpaceBeforeParagraphEnd(messages, this),  
@@ -171,7 +164,6 @@ public class Russian extends Language implements AutoCloseable {
             new RussianUnpairedBracketsRule(messages, this),
             new RussianCompoundRule(messages, this, userConfig),
             new RussianSimpleReplaceRule(messages),
-            new RussianSimpleWordRepeatRule(messages, this),
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
             new RussianWordRootRepeatRule(messages),
@@ -216,16 +208,16 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
-      case "RU_DASH_RULE":                  return 12;  // higher prio than RU_COMPOUNDS
+      case "RU_DASH_RULE":                  return 12;   // higher prio than RU_COMPOUNDS
       case "RU_COMPOUNDS":                  return 11;
-      case "RUSSIAN_SIMPLE_REPLACE_RULE":   return 10;  // higher prio than spell checker
+      case "RUSSIAN_SIMPLE_REPLACE_RULE":   return 10;   // higher prio than spell checker
       case "RUSSIAN_SPECIFIC_CASE":         return 9;   // higher prio than spell checker
-      case "MORFOLOGIC_RULE_RU_RU_YO":      return 2;   // spell checker yo
-      case "MORFOLOGIC_RULE_RU_RU":         return 1;   // standard spell checker yo+ie
+      case "MORFOLOGIC_RULE_RU_RU_YO":      return 2;   //  spell checker yo
+      case "MORFOLOGIC_RULE_RU_RU":         return 1;   //  standard spell checker yo+ie
 
 
       case "Word_root_repeat":              return -1;
-      case "PUNCT_DPT_2":                   return -2;
+
       case "TOO_LONG_PARAGRAPH":            return -15;
     }
     return super.getPriorityForId(id);

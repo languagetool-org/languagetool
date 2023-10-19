@@ -41,7 +41,7 @@ public class DisambiguationPatternRule extends AbstractTokenBasedRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
-    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, IGNORE_SPELLING, FILTERALL, ADDCHUNK
+    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, IGNORE_SPELLING, FILTERALL
   }
 
   private final String disambiguatedPOS;
@@ -71,8 +71,7 @@ public class DisambiguationPatternRule extends AbstractTokenBasedRule {
         && disambAction != DisambiguatorAction.IMMUNIZE
         && disambAction != DisambiguatorAction.REPLACE
         && disambAction != DisambiguatorAction.FILTERALL
-        && disambAction != DisambiguatorAction.IGNORE_SPELLING
-        && disambAction != DisambiguatorAction.ADDCHUNK) {
+        && disambAction != DisambiguatorAction.IGNORE_SPELLING) {
       throw new NullPointerException("disambiguated POS cannot be null with posSelect == null and " + disambAction);
     }
     this.disambiguatedPOS = disambiguatedPOS;

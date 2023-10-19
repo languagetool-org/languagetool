@@ -19,7 +19,10 @@
 package org.languagetool.rules.spelling.hunspell;
 
 import java.io.Closeable;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 public interface HunspellDictionary extends Closeable {
   /**
@@ -27,24 +30,18 @@ public interface HunspellDictionary extends Closeable {
    * @param word the word to check
    * @return true if the word is spelled correctly
    */
-  boolean spell(String word);
+  public boolean spell(String word);
 
   /**
    * Add word to the run-time dictionary
    * @param word the word to add
    */
-  void add(String word);
+  public void add(String word);
 
   /**
    * Search suggestions for the word
    * @param word the word to get suggestions for
    * @return the list of suggestions
    */
-  List<String> suggest(String word);
-
-  /**
-   * Indicate resource is closed.
-   * @return true when closed, otherwise false.
-   */
-  boolean isClosed();
+  public List<String> suggest(String word);
 }

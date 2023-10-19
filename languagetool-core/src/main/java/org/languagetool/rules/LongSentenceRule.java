@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.UserConfig;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 /**
  * A rule that warns on long sentences.
@@ -38,10 +38,7 @@ import java.util.regex.Pattern;
 public class LongSentenceRule extends TextLevelRule {
 
   public static final String RULE_ID = "TOO_LONG_SENTENCE";
-
-  private static final Pattern QUOTED_SENT_END = Pattern.compile("[?!.][\"“”„»«]", Pattern.DOTALL);
-  private static final Pattern SENT_END = Pattern.compile("[?!.]");
-
+  
   private final ResourceBundle messages;
   private final int maxWords;
 
@@ -62,7 +59,7 @@ public class LongSentenceRule extends TextLevelRule {
 
   @Override
   public String getDescription() {
-    return MessageFormat.format(messages.getString("long_sentence_rule_desc"), maxWords);
+    return "Finds long sentences";
   }
 
   @Override
@@ -95,10 +92,6 @@ public class LongSentenceRule extends TextLevelRule {
         pos += sentence.getCorrectedTextLength();
         continue;
       }
-      if (QUOTED_SENT_END.matcher(sentence.getText()).find()) {
-        pos += sentence.getCorrectedTextLength();
-        continue;
-      }
       String msg = getMessage();
       int i = 0;
       List<Integer> fromPos = new ArrayList<>();
@@ -118,26 +111,29 @@ public class LongSentenceRule extends TextLevelRule {
               fromPosToken = tokens[i];
             }
             if (numWords == maxWords) {
+
               //Get last word token
               if (toPosToken == null) {
                 for (int j = tokens.length - 1; j >= 0; j--) {
                   if (isWordCount(tokens[j].getToken())) {
-                    if (tokens.length > j + 1 && SENT_END.matcher(tokens[j+1].getToken()).matches()) {
+                    if (tokens.length > j + 1 && tokens[j+1].getToken().equals(".")) {
                       toPosToken = tokens[j + 1];
                     } else {
                       toPosToken = tokens[j];
+
                     }
                     break;
                   }
                 }
               }
+
               if (fromPosToken != null && toPosToken != null) {
                 fromPos.add(fromPosToken.getStartPos());
-                toPos.add(toPosToken.getEndPos());
+                toPos.add(toPosToken.getEndPos() - 1);
               } else {
                 //keep old logic if we could not find word tokens
                 fromPos.add(tokens[0].getStartPos());
-                toPos.add(tokens[tokens.length - 1].getEndPos());
+                toPos.add(tokens[tokens.length - 1].getEndPos() - 1);
               }
               break;
             }
@@ -186,4 +182,7 @@ public class LongSentenceRule extends TextLevelRule {
   public String getConfigureText() {
     return messages.getString("guiLongSentencesText");
   }
+
+
+
 }

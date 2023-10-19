@@ -53,8 +53,4 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     return "TOO_LONG_SENTENCE_DE";
   }
 
-  public String getShortMessage() {
-    return "Langer Satz";
-  }
-
 }

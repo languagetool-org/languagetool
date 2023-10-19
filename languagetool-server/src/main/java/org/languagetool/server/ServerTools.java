@@ -21,16 +21,15 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.languagetool.JLanguageTool;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static org.languagetool.JLanguageTool.*;
 
 /**
  * @since 3.4
@@ -38,7 +37,6 @@ import static org.languagetool.JLanguageTool.*;
 final class ServerTools {
 
   private final static Pattern sentContentPattern = Pattern.compile("<sentcontent>.*</sentcontent>", Pattern.DOTALL);
-  private static final Logger logger = LoggerFactory.getLogger(ServerTools.class);
 
   private ServerTools() {
   }
@@ -135,7 +133,9 @@ final class ServerTools {
   }
 
   static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config) {
-    if (params.get("username") != null) {
+    if (params.get("token") != null) {
+      return UserLimits.getLimitsFromToken(config, params.get("token"));
+    } else if (params.get("username") != null) {
       if (params.get("apiKey") != null && params.get("password") != null) {
         throw new BadRequestException("apiKey AND password was set, set only apiKey");
       }
@@ -160,30 +160,30 @@ final class ServerTools {
   }
 
   @NotNull
-  static Mode getMode(Map<String, String> params) {
-    Mode mode;
+  static JLanguageTool.Mode getMode(Map<String, String> params) {
+    JLanguageTool.Mode mode;
     if (params.get("mode") != null) {
       String modeParam = params.get("mode");
       if ("textLevelOnly".equals(modeParam)) {
-        mode = Mode.TEXTLEVEL_ONLY;
+        mode = JLanguageTool.Mode.TEXTLEVEL_ONLY;
       } else if ("allButTextLevelOnly".equals(modeParam)) {
-        mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
+        mode = JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY;
       } else if ("all".equals(modeParam)) {
-        mode = Mode.ALL;
+        mode = JLanguageTool.Mode.ALL;
       } else if ("batch".equals(modeParam)) {
         // used in undocumented API for /words/add, /words/delete; ignore
-        mode = Mode.ALL;
+        mode = JLanguageTool.Mode.ALL;
       } else {
         throw new BadRequestException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");
       }
     } else {
-      mode = Mode.ALL;
+      mode = JLanguageTool.Mode.ALL;
     }
     return mode;
   }
 
   @NotNull
-  static String getModeForLog(Mode mode) {
+  static String getModeForLog(JLanguageTool.Mode mode) {
     switch (mode) {
       case TEXTLEVEL_ONLY: return "tlo";
       case ALL_BUT_TEXTLEVEL_ONLY: return "!tlo";
@@ -193,36 +193,35 @@ final class ServerTools {
   }
 
   @NotNull
-  static Level getLevel(Map<String, String> params) {
-    Level level;
+  static JLanguageTool.Level getLevel(Map<String, String> params) {
+    JLanguageTool.Level level;
     if (params.get("level") != null) {
       String param = params.get("level");
       if ("default".equals(param)) {
-        level = Level.DEFAULT;
+        level = JLanguageTool.Level.DEFAULT;
       } else if ("picky".equals(param)) {
-        level = Level.PICKY;
+        level = JLanguageTool.Level.PICKY;
       } else if ("academic".equals(param)) {
-        level = Level.ACADEMIC;
+        level = JLanguageTool.Level.ACADEMIC;
       } else if ("clarity".equals(param)) {
-        level = Level.CLARITY;
+        level = JLanguageTool.Level.CLARITY;
       } else if ("professional".equals(param)) {
-        level = Level.PROFESSIONAL;
+        level = JLanguageTool.Level.PROFESSIONAL;
       } else if ("creative".equals(param)) {
-        level = Level.CREATIVE;
+        level = JLanguageTool.Level.CREATIVE;
       } else if ("customer".equals(param)) {
-        level = Level.CUSTOMER;
+        level = JLanguageTool.Level.CUSTOMER;
       } else if ("jobapp".equals(param)) {
-        level = Level.JOBAPP;
+        level = JLanguageTool.Level.JOBAPP;
       } else if ("objective".equals(param)) {
-        level = Level.OBJECTIVE;
+        level = JLanguageTool.Level.OBJECTIVE;
       } else if ("elegant".equals(param)) {
-        level = Level.ELEGANT;
+        level = JLanguageTool.Level.ELEGANT;
       } else {
-        throw new BadRequestException("Unknown value '" + param + "' for parameter 'level'. Valid values: " +
-          Arrays.stream(Level.values()).map(k -> k.toString().toLowerCase()).collect(Collectors.joining(", ")));
+        throw new BadRequestException("If 'level' is set, it must be set to 'default' or 'picky'");
       }
     } else {
-      level = Level.DEFAULT;
+      level = JLanguageTool.Level.DEFAULT;
     }
     return level;
   }

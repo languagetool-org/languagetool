@@ -29,7 +29,6 @@ import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
@@ -42,11 +41,10 @@ public class SimpleReplaceRuleTest {
 
   @Before
   public void setup() throws IOException {
-    Language ukrainian = new Ukrainian();
-    morfologikSpellerRule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), ukrainian,
+    morfologikSpellerRule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
         null, Collections.emptyList());
 
-    rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, ukrainian);
+    rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
   }
   
   @Test
@@ -102,7 +100,7 @@ public class SimpleReplaceRuleTest {
 
   @Test
   public void testRulePartOfMultiword() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("на думку проводжаючих"));
         assertEquals(1, matches.length);
@@ -110,7 +108,7 @@ public class SimpleReplaceRuleTest {
 
   @Test
   public void testSubstandards() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("А шо такого?"));
     assertEquals(1, matches.length);
@@ -120,7 +118,7 @@ public class SimpleReplaceRuleTest {
 
   @Test
   public void testMisspellings() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("ганделик"));
     assertEquals(1, matches.length);
@@ -131,7 +129,7 @@ public class SimpleReplaceRuleTest {
 
   @Test
   public void testRuleByTag() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("спороутворюючого"));
     assertEquals(1, matches.length);

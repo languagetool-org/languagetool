@@ -39,8 +39,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class Ukrainian extends Language {
-  public static final Pattern IGNORED_CHARS = Pattern.compile("[\u00AD\u0301]");
-
   private static final List<String> RULE_FILES = Arrays.asList(
       "grammar-spelling.xml",
       "grammar-grammar.xml",
@@ -56,7 +54,7 @@ public class Ukrainian extends Language {
 
   @Override
   public Pattern getIgnoredCharactersRegex() {
-    return IGNORED_CHARS;
+    return Pattern.compile("[\u00AD\u0301]");
   }
 
   @Override
@@ -99,7 +97,7 @@ public class Ukrainian extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return UkrainianSynthesizer.INSTANCE;
+    return new UkrainianSynthesizer(this);
   }
 
   @Override
@@ -143,7 +141,7 @@ public class Ukrainian extends Language {
             Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом,— все смачне")),
 
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
-        new UkrainianUppercaseSentenceStartRule(messages, this,
+        new UppercaseSentenceStartRule(messages, this,
             Example.wrong("<marker>речення</marker> має починатися з великої."),
             Example.fixed("<marker>Речення</marker> має починатися з великої")),
 
@@ -164,23 +162,23 @@ public class Ukrainian extends Language {
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
 
-        new TokenAgreementVerbNounRule(messages, this),
+        new TokenAgreementVerbNounRule(messages),
         new TokenAgreementNounVerbRule(messages),
-        new TokenAgreementAdjNounRule(messages, this),
-        new TokenAgreementPrepNounRule(messages, this),
-        new TokenAgreementNumrNounRule(messages, this),
+        new TokenAgreementAdjNounRule(messages),
+        new TokenAgreementPrepNounRule(messages),
+        new TokenAgreementNumrNounRule(messages),
 
         new MixedAlphabetsRule(messages),
 
-        new SimpleReplaceSoftRule(messages, this),
+        new SimpleReplaceSoftRule(messages),
         new SimpleReplaceRenamedRule(messages),
         getSpellingReplacementRule(messages),
-        new SimpleReplaceRule(messages, morfologikSpellerRule, this)
+        new SimpleReplaceRule(messages, morfologikSpellerRule)
     );
   }
 
   protected Rule getSpellingReplacementRule(ResourceBundle messages) throws IOException {
-    return new SimpleReplaceSpelling1992Rule(messages, this);
+    return new SimpleReplaceSpelling1992Rule(messages);
   }
 
   @Override

@@ -53,9 +53,6 @@ public class OfficeSpreadsheetTools {
    */
   public static boolean isSpreadsheetDocument(XComponent xComponent) {
     XServiceInfo xInfo = UnoRuntime.queryInterface(XServiceInfo.class, xComponent);
-    if (xInfo == null) {
-      return false;
-    }
     return xInfo.supportsService("com.sun.star.sheet.SpreadsheetDocument");
   }
 
@@ -180,7 +177,8 @@ public class OfficeSpreadsheetTools {
           }
         }
       }
-      return new ParagraphContainer(paragraphs, locales, pageBegins);
+      OfficeDrawTools o = new OfficeDrawTools();
+      return o.new ParagraphContainer(paragraphs, locales, pageBegins);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
     }

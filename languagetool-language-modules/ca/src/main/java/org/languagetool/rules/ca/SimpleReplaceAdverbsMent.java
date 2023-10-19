@@ -19,7 +19,6 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.Tag;
-import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
@@ -46,12 +45,12 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
   
   public SimpleReplaceAdverbsMent(final ResourceBundle messages) throws IOException {
-    super(messages, new Catalan());
+    super(messages);
     super.setCategory(new Category(new CategoryId("PICKY_STYLE"), "regles d'estil, mode perfeccionaista"));
     super.setLocQualityIssueType(ITSIssueType.Style);
     super.setDefaultOff();
@@ -67,7 +66,7 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Alternatives a adverbis acabats en -ment: $match";
+    return "Alternatives a adverbis acabats en -ment.";
   }
 
   @Override

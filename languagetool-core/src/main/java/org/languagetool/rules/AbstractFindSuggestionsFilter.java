@@ -20,10 +20,13 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -37,7 +40,7 @@ import org.languagetool.tools.StringTools;
 
 public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
-  final protected int MAX_SUGGESTIONS = 10;
+  final private int MAX_SUGGESTIONS = 10;
 
   abstract protected Tagger getTagger();
 
@@ -48,7 +51,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("Faltes")) {
+//    if (match.getSentence().getText().contains("Ils prefere")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -61,7 +64,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     String desiredPostag = getRequired("desiredPostag", arguments);
     String priorityPostag = getOptional("priorityPostag", arguments);
     String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
-    // suppress match if there are no suggestions
+    // supress match if there are no suggestions
     String suppressMatch = getOptional("suppressMatch", arguments);
     boolean bSuppressMatch = false;
     if (suppressMatch != null && suppressMatch.equalsIgnoreCase("true")) {
@@ -80,15 +83,12 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
     if (wordFrom != null && desiredPostag != null) {
       int posWord = 0;
-      if (wordFrom.startsWith("marker")) {
+      if (wordFrom.equals("marker")) {
         while (posWord < patternTokens.length && (patternTokens[posWord].getStartPos() < match.getFromPos()
             || patternTokens[posWord].isSentenceStart())) {
           posWord++;
         }
         posWord++;
-        if (wordFrom.length()>6) {
-          wordFrom += Integer.parseInt(wordFrom.replace("marker", ""));
-        }
       } else {
         posWord = Integer.parseInt(wordFrom);
       }
@@ -117,15 +117,11 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
           regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.UNICODE_CASE);
         }
         List<String> suggestions = getSpellingSuggestions(atrWord);
-        int usedPriorityPostagPos = 0;
         if (suggestions.size() > 0) {
           for (String suggestion : suggestions) {
             // TODO: do not tag capitalized words with tags for lower case
             List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(Collections.singletonList(cleanSuggestion(suggestion)));
             for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
-              if (isSuggestionException(analyzedSuggestion)) {
-                continue;
-              }
               if (replacements.size() >= 2 * MAX_SUGGESTIONS) {
                 break;
               }
@@ -144,8 +140,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
                       replacement = StringTools.uppercaseFirstChar(replacement);
                     }
                     if (priorityPostag!= null && analyzedSuggestion.matchesPosTagRegex(priorityPostag)) {
-                      replacements.add(usedPriorityPostagPos, replacement);
-                      usedPriorityPostagPos++;
+                      replacements.add(0, replacement);
                       used = true;
                     } else {
                       replacements.add(replacement);
@@ -200,61 +195,40 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     boolean replacementsUsed = false;
     if (generateSuggestions) {
       for (String s : match.getSuggestedReplacements()) {
-        if (s.contains("{suggestion}") || s.contains("{Suggestion}") || s.contains("{SUGGESTION}")) {
+        if (s.contains("{suggestion}") || s.contains("{Suggestion}")) {
           replacementsUsed = true;
           for (String s2 : replacements) {
             if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
               break;
             }
             if (s.contains("{suggestion}")) {
-              if (!definitiveReplacements.contains(s2)) {
-                definitiveReplacements.add(s.replace("{suggestion}", s2));
-              }
-            } else if (s.contains("{Suggestion}")) {
-              if (!definitiveReplacements.contains(StringTools.uppercaseFirstChar(s2))) {
-                definitiveReplacements.add(s.replace("{Suggestion}", StringTools.uppercaseFirstChar(s2)));
-              }
+              definitiveReplacements.add(s.replace("{suggestion}", s2));
             } else {
-              if (!definitiveReplacements.contains(s2.toUpperCase())) {
-                definitiveReplacements.add(s.replace("{SUGGESTION}", s2.toUpperCase()));
-              }
+              definitiveReplacements.add(s.replace("{Suggestion}", StringTools.uppercaseFirstChar(s2)));
             }
           }
         } else {
-          if (!definitiveReplacements.contains(s)) {
-            definitiveReplacements.add(s);
-          }
+          definitiveReplacements.add(s);
         }
       }
       if (!replacementsUsed) {
         if (replacements.size()==0) {
           Collections.sort(replacements2, stringComparator);
           for (String replacement : replacements2) {
-            if (!replacements.contains(replacement) && !definitiveReplacements.contains(replacement)) {
+            if (!replacements.contains(replacement)) {
               replacements.add(replacement);
             }
           }  
         }
-        for (String replacement: replacements) { 
-          if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
-            break;
-          }
-          if (!definitiveReplacements.contains(replacement)) {
-            definitiveReplacements.add(replacement);
-          }
-        }
+        definitiveReplacements.addAll(replacements.stream().limit(MAX_SUGGESTIONS).collect(Collectors.toList()));
       }
     }
 
     if (!definitiveReplacements.isEmpty()) {
-      ruleMatch.setSuggestedReplacements(definitiveReplacements.stream().distinct().collect(Collectors.toList()));
+      ruleMatch.setSuggestedReplacements(definitiveReplacements);
     }
     return ruleMatch;
   }
-
-  protected boolean isSuggestionException(AnalyzedTokenReadings analyzedSuggestion) {
-    return false;
-  };
 
   private boolean equalWithoutDiacritics(String s, String t) {
     return StringTools.removeDiacritics(s).equalsIgnoreCase(StringTools.removeDiacritics(t));

@@ -18,12 +18,9 @@
  */
 package org.languagetool;
 
-import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.w3c.dom.*;
-import org.w3c.dom.ls.LSInput;
-import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -35,7 +32,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.*;
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -108,7 +104,7 @@ public final class XMLValidator {
       if (schemaUrl == null) {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
-      validateInternal(new StreamSource(xmlStream), schemaUrl, filename);
+      validateInternal(new StreamSource(xmlStream), schemaUrl);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
@@ -123,33 +119,26 @@ public final class XMLValidator {
   public void validateWithXmlSchema(String baseFilename, String filename, String xmlSchemaPath) throws IOException {
     try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename);
          InputStream baseXmlStream = JLanguageTool.getDataBroker().getAsStream(baseFilename)) {
-      if (xmlStream == null) {
-        throw new IOException("File not found in classpath: " + filename);
-      }
-      if (baseXmlStream == null ) {
-        throw new IOException("File not found in classpath: " + baseFilename);
+      if (xmlStream == null || baseXmlStream == null ) {
+        throw new IOException("Files not found in classpath: " + filename + ", " + baseFilename);
       }
       URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
       if (schemaUrl == null) {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
-      validateInternal(mergeIntoSource(baseXmlStream, xmlStream, baseFilename), schemaUrl, baseFilename);
+      validateInternal(mergeIntoSource(baseXmlStream, xmlStream), schemaUrl);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }
 
-  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream, String baseXmlPath) throws Exception {
+  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream) throws Exception {
     DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
     domFactory.setIgnoringComments(true);
     domFactory.setValidating(false);
     domFactory.setNamespaceAware(true);
 
     DocumentBuilder builder = domFactory.newDocumentBuilder();
-    ResourceDataBroker broker = JLanguageTool.getDataBroker();
-    URL absoluteUrl = broker.getAsURL(baseXmlPath);
-    EntityResolver entityResolver = new RuleEntityResolver();
-    builder.setEntityResolver(entityResolver);
     Document baseDoc = builder.parse(baseXmlStream);
     Document ruleDoc = builder.parse(xmlStream);
 
@@ -172,14 +161,14 @@ public final class XMLValidator {
    * @param xmlSchemaPath XML schema file in classpath
    * @since 2.3
    */
-  public void validateStringWithXmlSchema(String xml, String xmlSchemaPath, String xmlPath) throws IOException {
+  public void validateStringWithXmlSchema(String xml, String xmlSchemaPath) throws IOException {
     try {
       URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
       if (schemaUrl == null) {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
-      try (ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {
-        validateInternal(new StreamSource(stream), schemaUrl, xmlPath);
+      try (ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes("utf-8"))) {
+        validateInternal(new StreamSource(stream), schemaUrl);
       }
     } catch (SAXException e) {
       throw new RuntimeException(e);
@@ -209,159 +198,17 @@ public final class XMLValidator {
     saxParser.parse(is, new ErrorHandler());
   }
 
-  private void validateInternal(Source xmlSrc, URL xmlSchema, String xmlPath) throws SAXException, IOException {
-    Validator validator = getValidator(xmlSchema, xmlPath);
+  private void validateInternal(Source xmlSrc, URL xmlSchema) throws SAXException, IOException {
+    Validator validator = getValidator(xmlSchema);
     validator.validate(xmlSrc);
   }
 
-  private Validator getValidator(URL xmlSchema, String xmlPath) throws SAXException {
+  private Validator getValidator(URL xmlSchema) throws SAXException {
     SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     Schema schema = sf.newSchema(xmlSchema);
     Validator validator = schema.newValidator();
-
-    validator.setResourceResolver(new LSRuleEntityResolver());
     validator.setErrorHandler(new ErrorHandler());
     return validator;
-  }
-
-  /**
-   * Defines an EntityResolver-like object (cf. {@link RuleEntityResolver}) as used by DOM. TBH I haven't gone very
-   * deep into the differences between DOM and SAX, but I don't think it should matter that much here. The logic for
-   * constructing the input sources/streams is the same.
-   */
-  static class LSRuleEntityResolver implements LSResourceResolver {
-    @Override
-    public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
-      if (systemId != null && systemId.endsWith(".ent")) {
-        try {
-          return new EntityAsInput(publicId, systemId);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      return null;
-    }
-
-  }
-
-  /**
-   * Defines an input source based on the correct path to external entities.
-   */
-  static class EntityAsInput implements LSInput {
-    private RuleEntityResolver ruleEntityResolver = new RuleEntityResolver();
-    private String systemId;
-    private String publicId;
-    private InputStream inputStream;
-
-    private URL entitiesUrl;
-    @Override
-    public Reader getCharacterStream() {
-      return null;
-    }
-
-    @Override
-    public void setCharacterStream(Reader characterStream) {
-    }
-
-    @Override
-    public InputStream getByteStream() {
-      return this.inputStream;
-    }
-
-    @Override
-    public void setByteStream(InputStream inputStream) {
-    }
-
-    @Override
-    public String getStringData() {
-      return null;
-    }
-
-    public InputStream getInputStream() {
-      System.out.println("GET FOO GET FOO");
-      return this.inputStream;
-    }
-
-    /**
-     * Set InputStream from the value of the entities URL.
-     * @throws IOException if the file pointed to is invalid, or we end up getting an unreadable stream from it some
-     *                     other way
-     */
-    public void setInputStream() throws IOException {
-      if (systemId != null && systemId.endsWith(".ent")) {
-        this.inputStream = ruleEntityResolver.getInputStreamLTEntities(this.systemId);
-      }
-    }
-
-    @Override
-    public void setStringData(String stringData) {
-    }
-
-    @Override
-    public String getSystemId() {
-      return this.systemId;
-    }
-
-    /**
-     * Compute absolute path to entities file from source XML URL and relative path (systemId param).
-     * @param systemId relative URI pointing to entity file
-     */
-    @Override
-    public void setSystemId(String systemId) {
-      this.systemId = systemId;
-    }
-
-    @Override
-    public String getPublicId() {
-      return this.publicId;
-    }
-
-    /**
-     * Compute absolute path to entities file from source XML URL and relative path (systemId param).
-     * @param publicId relative URI pointing to entity file
-     */
-    @Override
-    public void setPublicId(String publicId) {
-      this.publicId = publicId;
-    }
-
-    @Override
-    public String getBaseURI() {
-      return null;
-    }
-
-    @Override
-    public void setBaseURI(String baseURI) {
-    }
-
-    @Override
-    public String getEncoding() {
-      return null;
-    }
-
-    @Override
-    public void setEncoding(String encoding) {
-    }
-
-    @Override
-    public boolean getCertifiedText() {
-      return false;
-    }
-
-    @Override
-    public void setCertifiedText(boolean certifiedText) {
-    }
-
-    /**
-     * @param publicId from outer context, entity URI
-     * @param systemId from outer context, entity URI (if you ask me the precise difference between publicId and
-     *                 systemId I will cry)
-     */
-    public EntityAsInput(String publicId, String systemId) throws IOException {
-      this.setPublicId(publicId);
-      this.setSystemId(systemId);
-      this.setInputStream();
-    }
   }
 
   /**
@@ -386,4 +233,5 @@ public final class XMLValidator {
     }
 
   }
+
 }

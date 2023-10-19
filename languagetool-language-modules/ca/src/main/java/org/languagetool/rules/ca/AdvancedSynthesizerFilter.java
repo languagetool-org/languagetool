@@ -20,6 +20,7 @@
 package org.languagetool.rules.ca;
 
 
+import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -33,9 +34,11 @@ import org.languagetool.synthesis.ca.CatalanSynthesizer;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
+  private final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
+  
   @Override
   protected Synthesizer getSynthesizer() {
-    return CatalanSynthesizer.INSTANCE;
+    return synth;
   }
 
 }

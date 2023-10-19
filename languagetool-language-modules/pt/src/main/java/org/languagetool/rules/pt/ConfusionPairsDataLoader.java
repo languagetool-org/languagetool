@@ -23,8 +23,9 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
 import java.io.InputStream;
-import java.io.SequenceInputStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Load data for {@link AccentuationCheckRule}.
@@ -34,33 +35,32 @@ class ConfusionPairsDataLoader {
 
   private static final String FILE_ENCODING = "utf-8";
 
-  Map<String, AnalyzedTokenReadings> loadWords(List<String> filepaths) {
+  Map<String, AnalyzedTokenReadings> loadWords(String path) {
     final Map<String, AnalyzedTokenReadings> map = new HashMap<>();
-      for (String filepath : filepaths) {
-        final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(filepath);
-        try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
-          while (scanner.hasNextLine()) {
-            final String line = scanner.nextLine().trim();
-            if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
-              continue;
-            }
-            final String[] parts = line.split(";");
-            if (parts.length != 3) {
-              throw new RuntimeException("Format error in file " + filepath + ", line: "
-                + line + ", " + "expected 3 semicolon-separated parts, got "
-                + parts.length);
-            }
-            final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
-            if (!map.containsKey(parts[0])) {
-              map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
-            } else {
-              AnalyzedTokenReadings atrs = map.get(parts[0]);
-              atrs.addReading(analyzedToken, "");
-              map.replace(parts[0], atrs);
-            }
-          }
+    final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine().trim();
+        if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
+          continue;
+        }
+        final String[] parts = line.split(";");
+        if (parts.length != 3) {
+          throw new RuntimeException("Format error in file " + path + ", line: "
+                  + line + ", " + "expected 3 semicolon-separated parts, got "
+                  + parts.length);
+        }
+        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
+        if (!map.containsKey(parts[0])) {
+          map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
+        } else {
+          AnalyzedTokenReadings atrs = map.get(parts[0]);
+          atrs.addReading(analyzedToken, "");
+          map.replace(parts[0], atrs);
         }
       }
-      return map;
+    }
+    return map;
   }
+  
 }

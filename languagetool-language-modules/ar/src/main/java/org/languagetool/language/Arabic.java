@@ -90,7 +90,7 @@ public class Arabic extends Language implements AutoCloseable {
 
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return ArabicSynthesizer.INSTANCE;
+    return new ArabicSynthesizer(this);
   }
 
   @Override
@@ -127,8 +127,7 @@ public class Arabic extends Language implements AutoCloseable {
       new ArabicWordCoherencyRule(messages),
       new ArabicWordinessRule(messages),
       new ArabicWrongWordInContextRule(messages),
-      new ArabicTransVerbRule(messages),
-      new ArabicInflectedOneWordReplaceRule(messages)
+      new ArabicTransVerbRule(messages)
     );
   }
 

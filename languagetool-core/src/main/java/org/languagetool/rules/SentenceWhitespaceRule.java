@@ -68,8 +68,10 @@ public class SentenceWhitespaceRule extends TextLevelRule {
         isFirstSentence = false;
       } else {
         if (!prevSentenceEndsWithWhitespace && tokens.length > 1) {
+          int startPos = 0;
           String firstToken = tokens[1].getToken();
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, pos, pos+firstToken.length(), getMessage(prevSentenceEndsWithNumber));
+          int endPos = firstToken.length();
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+startPos, pos+endPos, getMessage(prevSentenceEndsWithNumber));
           ruleMatch.setSuggestedReplacement(" " + firstToken);
           ruleMatches.add(ruleMatch);
         }

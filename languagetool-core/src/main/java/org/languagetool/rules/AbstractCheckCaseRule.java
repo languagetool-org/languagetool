@@ -33,13 +33,11 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Jaume Ortolà
  */
 public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
-  private final Language language;
 
   public AbstractCheckCaseRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    this.language = language;
-    setLocQualityIssueType(ITSIssueType.Typographical);
-    setCategory(Categories.CASING.getCategory(messages));
+    super.setLocQualityIssueType(ITSIssueType.Typographical);
+    super.setCategory(Categories.CASING.getCategory(messages));
   }
 
   @Override
@@ -106,7 +104,7 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
           }
           ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
           if (subRuleSpecificIds) {
-            ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + correctPhrase, language));
+            ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + correctPhrase));
           }
           if (crtWordCount + sentStart == i) {
             // Capitalize suggestion at the sentence start
@@ -133,7 +131,7 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
 
   private boolean isPunctuationStart(String word) {
     return StringUtils.getDigits(word).length() > 0 // e.g. postal codes
-        || StringTools.isPunctuationMark(word) || StringTools.isNotWordCharacter(word);
+        || StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘", "¡", "¿", "-", "–", "—", "―", "‒");
   }
 
 }

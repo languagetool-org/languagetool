@@ -25,12 +25,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.noop.NoopLanguage;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.ForeignLanguageChecker;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
@@ -128,13 +130,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
+    long sentLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
     boolean isFirstWord = true;
-    boolean gotResultsFromForeignLanguageChecker = false;
-    Long sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1; 
-    ForeignLanguageChecker foreignLanguageChecker = null;
-    if (userConfig != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) { //only create instance if user has 2 or more preferredLanguages
-      foreignLanguageChecker = new ForeignLanguageChecker(language.getShortCode(), sentence.getText(), sentenceLength, userConfig.getPreferredLanguages());
-    }
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
@@ -204,13 +201,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
         isFirstWord = false;
       }
-      if (foreignLanguageChecker != null && !gotResultsFromForeignLanguageChecker) {
-        String langCode = foreignLanguageChecker.check(ruleMatches.size());
-        if (langCode != null) {
-          if (!langCode.equals(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED)) {
-            ruleMatches.get(0).setErrorLimitLang(langCode);
-          }
-          gotResultsFromForeignLanguageChecker = true;
+      
+      if (sentLength >= 3) {
+        float errRatio = (float)ruleMatches.size() / sentLength;
+        if (errRatio >= 0.5) {
+          ruleMatches.get(0).setErrorLimitLang(NoopLanguage.SHORT_CODE);
         }
       }
     }
@@ -253,9 +248,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
       languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
     }
-    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1, language);
-    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2, language);
-    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3, language);
+    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1);
+    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2);
+    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3);
     setConvertsCase(speller1.convertsCase());
   }
 
@@ -265,7 +260,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
            token.isIgnoredBySpeller() ||
            isUrl(token.getToken()) ||
            isEMail(token.getToken()) ||
-           (ignoreTaggedWords && token.isTagged() ) || // && !isProhibited(token.getToken())
+           (ignoreTaggedWords && token.isTagged() && !isProhibited(token.getToken())) ||
            ignoreToken(tokens, idx);
   }
 
@@ -370,7 +365,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
               ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
                   messages.getString("spelling"), messages.getString("desc_spelling_short"));
-              ruleMatch.setType(RuleMatch.Type.UnknownWord);
               beforeSuggestionStr = prevWord + " ";
               ruleMatch.setSuggestedReplacement(sugg);
             }
@@ -416,7 +410,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
               ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),
                   messages.getString("spelling"), messages.getString("desc_spelling_short"));
-              ruleMatch.setType(RuleMatch.Type.UnknownWord);
               afterSuggestionStr = " " + nextWord;
               ruleMatch.setSuggestedReplacement(sugg);
             }
@@ -434,8 +427,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int translationSuggestionCount = 0;
     boolean preventFurtherSuggestions = false;
     
-    //Translator translator = getTranslator(globalConfig);
-    Translator translator = null;
+    Translator translator = getTranslator(globalConfig);
     if (translator != null && ruleMatch == null && motherTongue != null &&
         language.getShortCode().equals("en") && motherTongue.getShortCode().equals("de")) {
       List<PhraseToTranslate> phrasesToTranslate = new ArrayList<>();
@@ -481,7 +473,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (ruleMatch == null) {
       ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), messages.getString("spelling"),
               messages.getString("desc_spelling_short"));
-      ruleMatch.setType(RuleMatch.Type.UnknownWord);
     }
     
     //word starting with numbers or bullets    

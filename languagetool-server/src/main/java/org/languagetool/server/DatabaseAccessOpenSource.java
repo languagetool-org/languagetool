@@ -66,7 +66,6 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
         properties.setProperty("password", config.getDatabasePassword());
         properties.setProperty("premium", Premium.isPremiumVersion() ? "Premium" : "OpenSource");
         properties.setProperty("timeout", String.valueOf(config.getDbTimeoutSeconds()));
-        properties.setProperty("poolMaximumActiveConnections", String.valueOf(config.getDbMaxConnections()));
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
 
         // try to close connections even on hard restart
@@ -140,7 +139,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   @Override
   UserInfoEntry getUserInfoWithApiKey(String username, String apiKey) {
     Long userId = getUserId(username, apiKey);
-    UserInfoEntry user = new UserInfoEntry(userId, username, null, null, null, null, null, null, null, null, apiKey, null, null, null);
+    UserInfoEntry user = new UserInfoEntry(userId, username, null, null, null, null, null, null, null, null,  apiKey, null);
     return user;
   }
 
@@ -202,7 +201,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
       throw new IllegalArgumentException("apiKey must be set");
     }
     if (sqlSessionFactory == null) {
-      throw new AuthException("This is the endpoint for the basic version of LanguageTool. " +
+      throw new IllegalStateException("This is the endpoint for the basic version of LanguageTool. " +
         "When using 'username' and 'apiKey' to access the premium version, use api.languagetoolplus.com instead.");
     }
     try {

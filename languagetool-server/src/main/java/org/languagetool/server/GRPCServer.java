@@ -1,6 +1,5 @@
 package org.languagetool.server;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,10 +7,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import org.apache.commons.cli.*;
 import org.languagetool.*;
 import org.languagetool.rules.GRPCUtils;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerProto.AnalyzeResponse;
 import org.languagetool.rules.ml.MLServerProto.ProcessResponse;
 import org.languagetool.rules.ml.MLServerProto.ProcessingOptions;
@@ -29,13 +28,10 @@ public class GRPCServer extends ProcessingServerImplBase
   private UserConfig userConfig;
   private GlobalConfig globalConfig;
 
-  public GRPCServer() {
+  public GRPCServer(HTTPServerConfig serverConfig) {
+    pool = new PipelinePool(serverConfig, null, false);
     userConfig = new UserConfig();
     globalConfig = new GlobalConfig();
-  }
-
-  public void initPool(HTTPServerConfig serverConfig) {
-    pool = new PipelinePool(serverConfig, null, false);
   }
 
   private PipelineSettings buildSettings(ProcessingOptions options) {
@@ -53,17 +49,14 @@ public class GRPCServer extends ProcessingServerImplBase
    */
   public void analyze(org.languagetool.rules.ml.MLServerProto.AnalyzeRequest request,
       io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.AnalyzeResponse> responseObserver) {
-    if (pool == null) {
-      responseObserver.onError(new IllegalStateException("Pool not initialized"));
-      return;
-    }
     try {
       log.info("Handling analyze request");
-       PipelineSettings settings = buildSettings(request.getOptions());
-       Pipeline pipeline = pool.getPipeline(settings);
-       List<AnalyzedSentence> sentences = pipeline.analyzeText(request.getText());
+      // TODO: enable this again when fixed
+      // PipelineSettings settings = buildSettings(request.getOptions());
+      // Pipeline pipeline = pool.getPipeline(settings);
+      // List<AnalyzedSentence> sentences = pipeline.analyzeText(request.getText());
       AnalyzeResponse response = AnalyzeResponse.newBuilder()
-         .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+        // .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
         .build();
       responseObserver.onNext(response);
       responseObserver.onCompleted();
@@ -77,10 +70,6 @@ public class GRPCServer extends ProcessingServerImplBase
    */
   public void process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request,
       io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.ProcessResponse> responseObserver) {
-    if (pool == null) {
-      responseObserver.onError(new IllegalStateException("Pool not initialized"));
-      return;
-    }
     try {
       log.info("Handling process request: {}", request);
       PipelineSettings settings = buildSettings(request.getOptions());
@@ -109,60 +98,14 @@ public class GRPCServer extends ProcessingServerImplBase
     }
   }
 
-  private Options getCommandLineOptions() {
-    Options options = new Options();
-    options.addOption(Option.builder().longOpt("config").hasArg().required().build());
-    options.addOption(Option.builder().longOpt("port").hasArg().build());
-    options.addOption(Option.builder().longOpt("cert").hasArg().build());
-    options.addOption(Option.builder().longOpt("key").hasArg().build());
-    return options;
-  }
-
-  private CommandLine parseCommandLine(String[] args) throws ParseException {
-    CommandLineParser parser = new DefaultParser();
-    return parser.parse(getCommandLineOptions(), args);
-  }
-
   public static void main(String[] args) throws Exception {
-    GRPCServer instance = new GRPCServer();
-
-    int port = 8080;
-    File cert = null, key = null;
-    HTTPServerConfig config;
-
-    try {
-      CommandLine cli = instance.parseCommandLine(args);
-      String certPath = cli.getOptionValue("cert");
-      String keyPath = cli.getOptionValue("key");
-      if (certPath != null && keyPath != null) {
-        cert = new File(certPath);
-        key = new File(keyPath);
-      }
-      if (cli.hasOption("port")) {
-        port = Integer.parseInt(cli.getOptionValue("port"));
-      }
-      if (cli.hasOption("config")) {
-        config = new HTTPServerConfig(new String[] { "--config", cli.getOptionValue("config")});
-      } else {
-        config = new HTTPServerConfig();
-      }
-    } catch (Exception e) {
-      HelpFormatter help = new HelpFormatter();
-      help.printHelp("GRPCServer", instance.getCommandLineOptions());
-      System.exit(1);
-      return;
-    }
-
-    instance.initPool(config);
-
+    HTTPServerConfig config = new HTTPServerConfig(args);
+    GRPCServer instance = new GRPCServer(config);
     Executor executor = Executors.newCachedThreadPool();
-    ServerBuilder builder = ServerBuilder.forPort(port)
+    Server server = ServerBuilder.forPort(config.getPort())
       .addService(instance)
-      .executor(executor);
-    if (cert != null && key != null) {
-      builder = builder.useTransportSecurity(cert, key);
-    }
-    Server server = builder.build();
+      .executor(executor)
+      .build();
     server.start();
     System.out.println("port=" + server.getPort());
     server.awaitTermination();

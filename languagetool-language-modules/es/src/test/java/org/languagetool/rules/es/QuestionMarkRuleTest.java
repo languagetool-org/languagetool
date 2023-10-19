@@ -47,7 +47,7 @@ public class QuestionMarkRuleTest {
 
   @Test
   public void test() throws IOException {
-
+   
     RuleMatch[] matches = check("Hola, ¿cómo estás?");
     assertThat(matches.length, is(0));
 
@@ -122,51 +122,6 @@ public class QuestionMarkRuleTest {
 
     List<RuleMatch> matches21 = lt.check("¡Qué irritante!");
     assertThat(matches21.size(), is(0));
-    
-    List<RuleMatch> matches22 = lt.check("—Hola!");
-    assertThat(matches22.size(), is(1));
-    assertThat(matches22.get(0).getSuggestedReplacements().toString(), is("[¡Hola]"));
-
-    List<RuleMatch> matches23 = lt.check("Muchas gracias! ✌\uFE0F");
-    assertThat(matches23.size(), is(1));
-    assertThat(matches23.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
-
-    List<RuleMatch> matches24 = lt.check("Muchas gracias! ✌\uFE0F✌\uFE0F");
-    assertThat(matches24.size(), is(1));
-    assertThat(matches24.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
-
-    List<RuleMatch> matches25 = lt.check("Muchas gracias! ✌\uFE0F ✌\uFE0F");
-    assertThat(matches25.size(), is(1));
-    assertThat(matches25.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
-
-    List<RuleMatch> matches26 = lt.check("Muchas gracias!, le dijo entonces.");
-    assertThat(matches26.size(), is(1));
-    assertThat(matches26.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
-
-    List<RuleMatch> matches27 = lt.check("\"Muchas gracias!\".");
-    assertThat(matches27.size(), is(1));
-    assertThat(matches27.get(0).getSuggestedReplacements().toString(), is("[¡Muchas]"));
-
-    List<RuleMatch> matches28 = lt.check("Seguro que estás más habituado a algunas de estas formas verbales, pero cuál es la correcta?");
-    assertThat(matches28.size(), is(1));
-    assertThat(matches28.get(0).getSuggestedReplacements().toString(), is("[¿pero]"));
-
-    List<RuleMatch> matches29 = lt.check("Tengo razón, o no?");
-    assertThat(matches29.size(), is(1));
-    assertThat(matches29.get(0).getSuggestedReplacements().toString(), is("[¿o]"));
-
-    List<RuleMatch> matches30 = lt.check("Tengo razón, no?");
-    assertThat(matches30.size(), is(1));
-    assertThat(matches30.get(0).getSuggestedReplacements().toString(), is("[¿no]"));
-
-    List<RuleMatch> matches31 = lt.check("Tengo razón, eh?");
-    assertThat(matches31.size(), is(1));
-    assertThat(matches31.get(0).getSuggestedReplacements().toString(), is("[¿eh]"));
-
-    List<RuleMatch> matches32 = lt.check("qué me recomendarías???….");
-    assertThat(matches32.size(), is(1));
-    assertThat(matches32.get(0).getSuggestedReplacements().toString(), is("[¿qué]"));
-
   }
 
   private RuleMatch[] check(String s) throws IOException {

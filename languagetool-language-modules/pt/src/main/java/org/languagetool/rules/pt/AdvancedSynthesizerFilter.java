@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.pt;
 
+import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
@@ -32,9 +33,11 @@ import org.languagetool.synthesis.pt.PortugueseSynthesizer;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
+  private final PortugueseSynthesizer synth = new PortugueseSynthesizer(new Portuguese());
+  
   @Override
   protected Synthesizer getSynthesizer() {
-    return PortugueseSynthesizer.INSTANCE;
+    return synth;
   }
   
   @Override

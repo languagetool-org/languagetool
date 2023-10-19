@@ -142,12 +142,6 @@ public class EnglishUnpairedBracketsRuleTest {
                       "a) New York\n" +
                       "b) Boston\n");
     assertCorrectText("\n\n" +
-        "1.) New York\n" +
-        "2.) Boston\n");
-    assertCorrectText("\n\n" +
-        "XII.) New York\n" +
-        "XIII.) Boston\n");
-    assertCorrectText("\n\n" +
                       "A) New York\n" +
                       "B) Boston\n" +
                       "C) Foo\n");

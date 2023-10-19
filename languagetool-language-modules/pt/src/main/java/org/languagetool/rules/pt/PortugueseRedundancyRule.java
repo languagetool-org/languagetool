@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.Language;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -26,7 +25,10 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.net.URL;
 
 /**
@@ -41,21 +43,18 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   public static final String PT_REDUNDANCY_REPLACE = "PT_REDUNDANCY_REPLACE";
 
+  private static final String FILE_NAME = "/pt/redundancies.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
-
-  private final String path;
 
   @Override
   public List<String> getFileNames() {
-    return Collections.singletonList(path);
+    return Collections.singletonList(FILE_NAME);
   }
 
-  public PortugueseRedundancyRule(ResourceBundle messages, String path, Language language) {
-    super(messages, language);
-    this.path = Objects.requireNonNull(path);
-    setCategory(Categories.REDUNDANCY.getCategory(messages));
+  public PortugueseRedundancyRule(ResourceBundle messages) {
+    super(messages, new Portuguese());
+    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>duna de areia</marker>"),
                    Example.fixed("<marker>duna</marker>"));
   }
@@ -67,7 +66,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "1. Pleonasmos e redundâncias: $match";
+    return "1. Pleonasmos e redundâncias";
   }
 
   @Override
@@ -77,7 +76,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "\"$match\" é um pleonasmo. É preferível dizer $suggestions";
+    return "'$match' é um pleonasmo. É preferível dizer $suggestions";
   }
 
   @Override

@@ -171,7 +171,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   @Override
   protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
                                          RuleSet ruleSet, ParagraphHandling paraMode,
-                                         AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules, Set<ToneTag> toneTags) {
+                                         AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) {
     List<Rule> allRules = ruleSet.allRules();
     List<SentenceData> sentences = computeSentenceData(analyzedSentences, sentenceTexts);
 
@@ -197,7 +197,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
         // less need for special treatment of remote rules when execution is already parallel
         CheckResults res = new TextCheckCallable(RuleSet.plain(Collections.singletonList(rule)),
           RuleSet.filterList(applicable, sentences),
-          paraMode, annotatedText, listener, mode, level, true, toneTags).call();
+          paraMode, annotatedText, listener, mode, level, true).call();
         if (!res.getRuleMatches().isEmpty()) {
           synchronized (ruleMatches) {
             ruleMatches.put(index, res.getRuleMatches());

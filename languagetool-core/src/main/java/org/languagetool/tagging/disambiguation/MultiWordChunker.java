@@ -57,12 +57,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
   
   private final static String DEFAULT_SEPARATOR = "\t";
   private String separator;
-  private String defaultTag = null;
-
-  private boolean addIgnoreSpelling = false;
-  private boolean isRemovePreviousTags = false;
-
-  public static String tagForNotAddingTags = "_NONE_";
 
   /**
    * @param filename file text with multiwords and tags
@@ -82,13 +76,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
     this.filename = filename;
     this.allowFirstCapitalized = allowFirstCapitalized;
     this.allowAllUppercase = allowAllUppercase;
-  }
-
-  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, String defaultTag) {
-    this.filename = filename;
-    this.allowFirstCapitalized = allowFirstCapitalized;
-    this.allowAllUppercase = allowAllUppercase;
-    this.defaultTag = defaultTag;
   }
 
   /*
@@ -125,17 +112,13 @@ public class MultiWordChunker extends AbstractDisambiguator {
       List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
         String[] tokenAndTag = posToken.split(separator);
-        if (tokenAndTag.length != 2 && defaultTag == null) {
+        if (tokenAndTag.length != 2) {
           throw new RuntimeException(
               "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
         }
-        if (tokenAndTag.length != 1 && defaultTag != null) {
-          throw new RuntimeException(
-            "Invalid format in " + filename + ": '" + posToken + "', expected one element with no separator");
-        }
         List<String> tokens = new ArrayList<>();
         String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());
-        String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:tokenAndTag[1]), Function.identity());
+        String tag = interner.computeIfAbsent(tokenAndTag[1], Function.identity());
         tokens.add(originalToken);
         if (allowFirstCapitalized) {
           String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
@@ -169,6 +152,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
           } else {
             firstTokens = token.split(" ");
             firstToken = firstTokens[0];
+
             if (mStartSpace.containsKey(firstToken)) {
               if (mStartSpace.get(firstToken) < firstTokens.length) {
                 mStartSpace.put(firstToken, firstTokens.length);
@@ -210,11 +194,9 @@ public class MultiWordChunker extends AbstractDisambiguator {
       if (tok.length() < 1) {
         continue;
       }
-      // If the next token is not whitespace, concatenate it
-      int k = i + 1;
-      while (k < anTokens.length && !anTokens[k].isWhitespace()) {
-        tok = tok + output[k].getToken();
-        k++;
+      // If the second token is not whitespace, concatenate it
+      if (i + 1 < anTokens.length && !anTokens[i + 1].isWhitespace()) {
+        tok = tok + output[i + 1].getToken();
       }
 
       if (checkCanceled != null && checkCanceled.checkCancelled()) {
@@ -231,22 +213,9 @@ public class MultiWordChunker extends AbstractDisambiguator {
           if (!anTokens[j].isWhitespace()) {
             tokens.append(anTokens[j].getToken());
             String toks = tokens.toString();
-            if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
-              if (finalLen == 0) { // the key has only one token
-                output[i] = setAndAnnotate(output[i], new AnalyzedToken(toks, mFull.get(toks).getPOSTag(), mFull.get(toks).getLemma()));
-              } else {
-                output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
-                output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
-              }
-            }
-            if (mFull.containsKey(toks) && addIgnoreSpelling) {
-              if (finalLen == 0) {
-                output[i].ignoreSpelling();
-              } else {
-                for (int m = i; m <= finalLen; m++) {
-                  output[m].ignoreSpelling();
-                }
-              }
+            if (mFull.containsKey(toks)) {
+              output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
+              output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
             }
           } else {
             if (j > 1 && !anTokens[j - 1].isWhitespace()) { // avoid multiple whitespaces
@@ -266,21 +235,13 @@ public class MultiWordChunker extends AbstractDisambiguator {
         while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
           tokens.append(anTokens[j].getToken());
           String toks = tokens.toString();
-          if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
+          if (mFull.containsKey(toks)) {
             output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
             output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
-          }
-          if (mFull.containsKey(toks) && addIgnoreSpelling) {
-            for (int m = i; m <= j; m++) {
-              output[m].ignoreSpelling();
-            }
           }
           j++;
         }
       }
-    }
-    if (isRemovePreviousTags) {
-      return new AnalyzedSentence(removePreviousTags(output));
     }
     return new AnalyzedSentence(output);
   }
@@ -324,102 +285,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
       throw new RuntimeException(e);
     }
     return lines;
-  }
-
-  /* set the ignorespelling attribute for the multi-token phrases*/
-  public void setIgnoreSpelling(boolean ignoreSpelling) {
-    addIgnoreSpelling = ignoreSpelling;
-  }
-  public void  setRemovePreviousTags (boolean removePreviousTags) {
-    isRemovePreviousTags = removePreviousTags;
-  }
-
-  /* Put the results of the MultiWordChunker in a more appropriate and useful way
-      <NP..></NP..> becomes NP.. NP..
-      For ES, PT, CA <NCMS000></NCMS000> becomes NCMS000 AQ0MS0
-      The individual original tags are removed */
-  private AnalyzedTokenReadings[] removePreviousTags(AnalyzedTokenReadings[] aTokens) {
-    int i=0;
-    String POSTag = "";
-    String lemma = "";
-    String nextPOSTag = "";
-    AnalyzedToken analyzedToken = null;
-    while (i < aTokens.length) {
-      if (!aTokens[i].isWhitespace()) {
-        if (!nextPOSTag.isEmpty()) {
-          AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
-          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
-            nextPOSTag = "";
-            lemma = "";
-          }
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken),
-            "HybridDisamb");
-        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
-          POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
-          lemma = analyzedToken.getLemma();
-          AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "HybridDisamb");
-          nextPOSTag = getNextPosTag(POSTag);
-        }
-      }
-      i++;
-    }
-    return aTokens;
-  }
-
-  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
-    List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-    for (AnalyzedToken reading : aTokens[i]) {
-      String POSTag = reading.getPOSTag();
-      if (POSTag != null) {
-        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
-          l.add(reading);
-        }
-      }
-    }
-    // choose the longest one
-    if (l.size() > 0) {
-      AnalyzedToken selectedAT = null;
-      int maxDistance = 0;
-      for (AnalyzedToken at : l) {
-        String tag = "</" + at.getPOSTag().substring(1);
-        String cleanTag = at.getPOSTag().substring(1, at.getPOSTag().length() - 2);
-        String lemma = at.getLemma();
-        int distance = 1;
-        while (i + distance < aTokens.length) {
-          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
-            if (distance > maxDistance) {
-              maxDistance = distance;
-              selectedAT = at;
-            }
-            if (distance == maxDistance && !isLowPriorityTag(cleanTag)) {
-              maxDistance = distance;
-              selectedAT = at;
-            }
-            break;
-          }
-          distance++;
-        }
-      }
-      return selectedAT;
-    }
-    return null;
-  }
-
-  private String getNextPosTag(String postag) {
-    if (postag.startsWith("NC")) {
-      // for ES, PT, CA
-      return "AQ0" + postag.substring(2, 4) + "0";
-    } else if (postag.startsWith("N ")) {
-      // French
-      return "J " + postag.substring(2);
-    }
-    return postag;
-  }
-
-  private boolean isLowPriorityTag(String tag) {
-    // CA, ES
-    return tag.equals("NPCN000");
   }
 
 }

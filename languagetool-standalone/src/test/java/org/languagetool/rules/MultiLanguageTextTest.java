@@ -39,7 +39,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class MultiLanguageTextTest {
 
@@ -55,42 +56,23 @@ public class MultiLanguageTextTest {
   }
   
   @Test
-  @Ignore //TODO: need rework: works only with preferred languages in userConfig
   public void testEnglishInGermanDetected() throws IOException {
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     RuleMatch[] matches1 = germanSpellerRule.match(lt.getAnalyzedSentence("He is a very cool guy from Poland."));
-    boolean match1Found = false;
-    for (RuleMatch match : matches1) {
-      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
-        match1Found = true;
-        break;
-      }
-    }
-    assertTrue("It was expected to find a match.", match1Found);
+    RuleMatch lastMatch1 = matches1[matches1.length - 1];
+    assertEquals("en", lastMatch1.getErrorLimitLang());
 
     RuleMatch[] matches2 = germanSpellerRule.match(lt.getAnalyzedSentence("How are you?"));
-    boolean match2Found = false;
-    for (RuleMatch match : matches2) {
-      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
-        match2Found = true;
-        break;
-      }
-    }
-    assertTrue("It was expected to find a match.", match2Found);
+    RuleMatch lastMatch2 = matches2[1];
+    assertEquals("en", lastMatch2.getErrorLimitLang());
 
     RuleMatch[] matches3 = germanSpellerRule.match(lt.getAnalyzedSentence("CONFIDENTIALITY NOTICE:"));
-    boolean match3Found = false;
-    for (RuleMatch match : matches3) {
-      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
-        match3Found = true;
-        break;
-      }
-    }
-    assertTrue("It was expected to find a match.", match3Found);
+    RuleMatch lastMatch3 = matches3[matches3.length - 1];
+    assertEquals("en", lastMatch3.getErrorLimitLang());
   }
 
   @Test
-  @Ignore //TODO: need rework: works only with preferred languages in userConfig 
+  @Ignore
   public void testWithLanguageIdentifier() throws IOException {
     LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(1000, new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin"));
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);

@@ -196,59 +196,12 @@ public class CaseRuleTest {
     assertGood("Klar, dass wir das brauchen.");
     assertGood("Das wird Scholz' engster Vertrauter Wolfgang Schmidt übernehmen.");
     assertGood("Bei der Fülle an Vorgaben kann das schnell vergessen werden.");
-    assertGood("Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...");
 
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
     assertGood("Liebe Kund:in");
     assertGood("Wir sollten das mal labeln.");
     assertGood("Teil 1: Der unaufhaltsame Aufstieg Bonapartes");
-    assertGood("Der Absatz bestimmt, in welchem Maße diese Daten Dritten zugänglich gemacht werden.");
-    assertGood("Der TN spricht Russisch - Muttersprache");
-
-    assertGood("Ich musste das Video mehrmals stoppen, um mir über das Gesagte Gedanken zu machen.");
-    assertGood("Während Besagtes Probleme verursachte.");
-    assertGood("Während der Befragte Geschichten erzählte.");
-    assertGood("Während ein Befragter Geschichten erzählte.");
-    assertGood("... für welche ein Befragter Geld ausgegeben hat.");
-    assertGood("Während die Befragte Geld verdiente.");
-    assertGood("Während die Besagte Geschichten erzählte.");
-    assertGood("Sind dem Zahlungspflichtigen Kosten entstanden?");
-    assertGood("Jetzt, wo Protestierende und Politiker sich streiten");
-    assertGood("Während die Besagte Geld verdiente.");
-    assertGood("Die Nacht, die Liebe, dazu der Wein — zu nichts Gutem Ratgeber sein.");
-    assertGood("Warum tun die Menschen Böses?");
-    assertGood("Und das Vergangene Revue passieren lassen");
-    assertGood("Seither ist das Französische Amtssprache in Frankreich.");
-    assertGood("Für die Betreute Kontoauszüge holen.");
-    assertGood("Das verstehen Deutsche halt nicht.");
-    assertGood("12:00 - 13:00 Gemeinsames Mittagessen");
-    assertGood("12:00 Gemeinsames Mittagessen");
-    assertGood("Meld dich, wenn du Großes vorhast.");
-    assertGood("Muss nicht der Einzelne Einschränkungen der Freiheit hinnehmen, wenn die Sicherheit der Menschen und des Staates mehr gefährdet sind?");
-    assertGood("Wie reißt ein Einzelner Millionen aus ihren Sitzen?");
-    assertGood("Der Aphorismus will nicht Dumme gescheit, sondern Gescheite nachdenklich machen.");
-    assertGood("Während des Hochwassers den Eingeschlossenen Wasser und Nahrung bringen");
-    assertGood("Aus dem Stein der Weisen macht ein Dummer Schotter.");
-    assertGood("Auf dem Weg zu ihnen begegnet der Halbwüchsige Revolverhelden und Indianern.");
-    assertBad("Während des Hochwassers den Eingeschlossenen Menschen Nahrung bringen");
-    assertBad("Während Gefragte Menschen antworteten.");
-    // assertBad("Ich werde die Blaue Akte brauchen.");
-    assertBad("Ich brauche eine Gratis App die Ohne WLAN.");
-    assertBad("Alle Kommunikationsmedien die Meinem Widersacher dienen werden.");
-    assertBad("Ich wünsche dir Alles Liebe.");
-    assertBad("Das Auto Meines Vaters wird in Italien produziert.");
-    assertBad("Nach Böhm-Bawerk steht die Allgemeine Profitrate und die Theorie der Produktionspreise im Widerspruch zum Wertgesetz des ersten Bandes.");
-    assertBad("Ich sehe da keine Absolute Schranke.");
-    assertBad("Manns und Fontanes Gesammelten Werken.");
-    assertBad("Und das Neue Haus.");
-    assertBad("Das sind die Die Lehrer.");
-    assertBad("An der flachen Decke zeigt ein Großes Bildnis die Geburt Christi und die ewige Anbetung der Hirten.");
-    assertBad("Und das Gesagte Wort.");
-    assertBad("Und die Gesagten Wörter.");
-    assertBad("Und meine Erzählte Geschichte.");
-    assertBad("Und diese Erzählten Geschichten.");
-    assertBad("Und eine Neue Zeit.");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -364,9 +317,6 @@ public class CaseRuleTest {
     assertGood("Die ausgewählten Leute werden gut betreut.");
     //assertBad("Die ausgewählten werden gut betreut.");
     assertBad("Die Ausgewählten Leute werden gut betreut.");
-
-    assertBad("Er war dort Im März 2000.");
-    assertBad("Er war dort Im Jahr 96.");
 
     // used to trigger error because of wrong POS tagging:
     assertGood("Die Schlinge zieht sich zu.");

@@ -20,6 +20,7 @@
 package org.languagetool.rules.gl;
 
 
+import org.languagetool.language.Galician;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
@@ -33,9 +34,11 @@ import org.languagetool.synthesis.gl.GalicianSynthesizer;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
+  private final GalicianSynthesizer synth = new GalicianSynthesizer(new Galician());
+  
   @Override
   protected Synthesizer getSynthesizer() {
-    return GalicianSynthesizer.INSTANCE;
+    return synth;
   }
 
 }

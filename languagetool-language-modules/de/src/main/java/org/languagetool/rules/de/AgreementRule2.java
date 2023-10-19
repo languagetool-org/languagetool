@@ -113,7 +113,6 @@ public class AgreementRule2 extends Rule {
     asList(token("richtig")),    // "Richtig Kaffee kochen ..."
     asList(token("weiß")),       // "Weiß Papa, dass ..."
     asList(token("speziell")),   // "Speziell Flugfähigkeit hat sich unabhängig voneinander ..."
-    asList(token("proaktiv")),   // "Speziell Flugfähigkeit hat sich unabhängig voneinander ..."
     asList(token("halb")),       // "Halb Traum, halb Wirklichkeit"
     asList(token("hinter")),     // "Hinter Bäumen"
     asList(token("vermutlich")), // "Vermutlich Ende 1813 erkrankte..."
@@ -137,7 +136,6 @@ public class AgreementRule2 extends Rule {
     asList(token("researchs")),  // engl.
     asList(token("security")),   // engl.
     asList(token("business")),   // oft engl.
-    asList(token("Universal")),   // oft engl.
     asList(token("voll"), token("Sorge")),
     asList(token("Total"), tokenRegex("Tankstellen?")),
     asList(token("Ganz"), token("Gentleman")),
@@ -147,18 +145,20 @@ public class AgreementRule2 extends Rule {
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer|Brand).*")),
-    asList(tokenRegex("Digital|Fair|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden|Human"), tokenRegex("(Initiative|Office|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive|Learning|Publishing|Signage|Value|Entertainment|Museum|Register|Society|Union|Institute|Symposium|Style|Design|Edition).*")),
+    asList(tokenRegex("Digital|Fair|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden|Human"), tokenRegex("(Initiative|Office|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive|Learning|Publishing|Signage|Value|Entertainment|Museum|Register|Society|Union|Institute|Symposium|Style|Design).*")),
     asList(token("Smart")),
     asList(token("International"), tokenRegex("Society|Olympic|Space")),
     asList(token("GmbH"))
   );
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  private final GermanSynthesizer synthesizer;
 
   public AgreementRule2(ResourceBundle messages, Language language) {
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Kleiner Haus</marker> am Waldrand"),
                    Example.fixed("<marker>Kleines Haus</marker> am Waldrand"));
     antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
+    synthesizer = new GermanSynthesizer(language);
   }
 
   @Override
@@ -231,7 +231,7 @@ public class AgreementRule2 extends Rule {
         if (number == null) {
           continue;
         }
-        String[] forms = GermanSynthesizer.INSTANCE.synthesize(adjToken, "ADJ:NOM:" + number + ":" + gender + ":GRU:SOL", true);
+        String[] forms = synthesizer.synthesize(adjToken, "ADJ:NOM:" + number + ":" + gender + ":GRU:SOL", true);
         for (String s : forms) {
           String fullSugg = uppercaseFirstChar(s) + " " + nounToken.getToken();
           if (!suggestions.contains(fullSugg)) {

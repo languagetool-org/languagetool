@@ -18,9 +18,6 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
-import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
@@ -46,27 +43,26 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
   
-  public SimpleReplaceDiacriticsIEC(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+  public SimpleReplaceDiacriticsIEC(final ResourceBundle messages) throws IOException {
+    super(messages);
     super.setCategory(new Category(new CategoryId("DIACRITICS_IEC"), "Z) Accents diacrítics segons l'IEC"));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setDefaultOn();
     this.setCheckLemmas(false);
-    super.useSubRuleSpecificIds();
   }  
 
   @Override
   public final String getId() {
-    return "CA_SIMPLE_REPLACE_DIACRITICS_IEC";
+    return "CA_SIMPLEREPLACE_DIACRITICS_IEC";
   }
 
  @Override
   public String getDescription() {
-    return "Accents diacrítics segons les normes noves (2017): $match";
+    return "Accents diacrítics segons les normes noves (2017)";
   }
 
   @Override
@@ -83,14 +79,10 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
   public boolean isCaseSensitive() {
     return false;
   }
-
+  
   @Override
   public Locale getLocale() {
     return CA_LOCALE;
   }
 
-  @Override
-  protected boolean isTokenException(AnalyzedTokenReadings atr) {
-    return atr.hasPosTagStartingWith("NP");
-  }
 }

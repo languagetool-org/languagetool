@@ -92,20 +92,6 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
-    "Bedienstete",
-    "Bediensteter",
-    "Feierwütiger",
-    "Feierwütige",
-    "Feierwütigen",
-    "Dritten",
-    "Berufstätige",
-    "Berufstätigen",
-    "Erwerbstätige",
-    "Erwerbstätigen",
-    "Tatverdächtige",
-    "Tatverdächtigen",
-    "Konsumierende",
-    "Konsumierenden",
     "Verliebter",
     "Verliebte",
     "Beängstigendes",
@@ -114,12 +100,6 @@ public class CaseRule extends Rule {
     "Verantwortlicher",
     "Verantwortliche",
     "Verantwortlichen",
-    "Beschuldigte",
-    "Beschuldigten",
-    "Beklagte",
-    "Beklagten",
-    "Befragte",
-    "Befragten",
     "Hingerichtete",
     "Lehrende",
     "Lehrender",
@@ -128,26 +108,14 @@ public class CaseRule extends Rule {
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
     "Apart", // eng
-    "Universal", // eng
-    "Multinational", // eng
-    "Additional", // eng
     "Smart", // eng
-    "Adverse", // eng
     "Different", // eng
     "Light", // eng
     "Legal", // eng
-    "Computational", // eng
-    "Holder", // eng
-    "Just", // eng
-    "Lost", // eng
-    "Fundamental", // eng
-    "Quick", // eng
-    "Infernal", // eng
     "Fit", // eng
     "Fair", // eng
     "Viral", // eng
     "Tough", // eng
-    "Indoor", // eng
     "Superb", // eng und Automodell
     "Resilient", // eng
     "Hexagonal", // eng
@@ -576,7 +544,6 @@ public class CaseRule extends Rule {
     "Hunderttausend",   // groß und klein möglich 
     "Hyperwallet", // Anglizismus
     "Ihnen",
-    "Ihrerseits",
     "Ihr",
     "Ihre",
     "Ihrem",
@@ -620,14 +587,9 @@ public class CaseRule extends Rule {
     "Nähten",
     "Narkoseverfahren",
     "Neuem",
-    "Neugeborene",
-    "Neugeborenen",
-    "Neugeborenes",
     "Nr",
     "Nutze",   // zu Nutze
-    "Obdachlose",
     "Obdachloser",
-    "Obdachlosen",
     "Oder",   // der Fluss
     "Ohrfeige",
     "Patsche",
@@ -639,8 +601,6 @@ public class CaseRule extends Rule {
     "Sachverständiger",
     "Sankt",
     "Schaulustige",
-    "Schaulustigen",
-    "Schaulustiger",
     "Scheine",
     "Scheiße",
     "Schuft",
@@ -714,14 +674,12 @@ public class CaseRule extends Rule {
     "Deinen",
     "Deiner",
     "Deines",
-    "Deinerseits",
     "Dich",
     "Dir",
     "Du",
     "Euch",
     "Euer",
     "Eure",
-    "Euern",
     "Eurem",
     "Euren",
     "Eures",

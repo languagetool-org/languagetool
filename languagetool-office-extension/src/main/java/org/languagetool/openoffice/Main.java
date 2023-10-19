@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import com.sun.star.lang.*;
+
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
@@ -41,8 +42,8 @@ public class Main extends WeakBase implements XJobExecutor,
 
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
-      "com.sun.star.linguistic2.Proofreader",
-      OfficeTools.LT_SERVICE_NAME };
+          "com.sun.star.linguistic2.Proofreader",
+          OfficeTools.LT_SERVICE_NAME };
 
   private XComponentContext xContext;
   private MultiDocumentsHandler documents;
@@ -106,7 +107,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public final boolean hasLocale(Locale locale) {
-    return MultiDocumentsHandler.hasLocale(locale);
+    return documents.hasLocale(locale);
   }
 
   /**
@@ -178,9 +179,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public static XSingleComponentFactory __getComponentFactory(String sImplName) {
     SingletonFactory xFactory = null;
     if (sImplName.equals(Main.class.getName())) {
-      xFactory = new SingletonFactory(false);
-    } else if (sImplName.equals(LanguageToolSpellChecker.class.getName())) {
-      xFactory = new SingletonFactory(true);
+      xFactory = new SingletonFactory();
     }
     return xFactory;
   }
@@ -190,9 +189,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Default method called by LO/OO extensions
    */
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
-    boolean ret = Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
-    ret = ret && Factory.writeRegistryServiceInfo(LanguageToolSpellChecker.class.getName(), LanguageToolSpellChecker.getServiceNames(), regKey);
-    return ret;
+    return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
   }
 
   /**
@@ -250,7 +247,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public String getServiceDisplayName(Locale locale) {
-    return MultiDocumentsHandler.getServiceDisplayName(locale);
+    return documents.getServiceDisplayName(locale);
   }
 
   /**
@@ -261,15 +258,5 @@ public class Main extends WeakBase implements XJobExecutor,
   public void disposing(EventObject source) {
     documents.disposing(source);
   }
-/*
-  @Override
-  public boolean isValid(String word, Locale locale, PropertyValue[] Properties) throws IllegalArgumentException {
-    return documents.isValid(word, locale, Properties);
-  }
 
-  @Override
-  public XSpellAlternatives spell(String word, Locale locale, PropertyValue[] properties) throws IllegalArgumentException {
-    return documents.spell(word, locale, properties);
-  }
-*/
 }

@@ -81,13 +81,6 @@ public final class TokenAgreementNounVerbExceptionHelper {
       return true;
     }
 
-    // це була (не має значення, бо це - part)
-//    if( tokens[nounPos].getCleanToken().equalsIgnoreCase("це") 
-//        && LemmaHelper.hasLemma(tokens[verbPos], "бути") ) {
-//      logException();
-//      return true;
-//    }
-
     if( Arrays.asList("правда").contains(tokens[nounPos].getToken().toLowerCase()) ) {
       logException();
       return true;
@@ -884,5 +877,5 @@ public final class TokenAgreementNounVerbExceptionHelper {
       logger.debug("exception: " /*+ stackTraceElement.getFileName()*/ + stackTraceElement.getLineNumber());
     }
   }
-  
+
 }

@@ -27,8 +27,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
@@ -103,19 +101,6 @@ public class SwJLanguageTool {
       return mlt.getAllRules(); 
     } else {
       return lt.getAllRules(); 
-    }
-  }
-
-  /**
-   * Get all active rules
-   */
-  public List<Rule> getAllActiveRules() {
-    if (isRemote) {
-      return rlt.getAllActiveRules();
-    } else if (isMultiThread) {
-        return mlt.getAllActiveRules(); 
-    } else {
-      return lt.getAllActiveRules(); 
     }
   }
 
@@ -198,6 +183,19 @@ public class SwJLanguageTool {
   }
 
   /**
+   * Activate word2vec rules
+   */
+  public void activateWord2VecModelRules(File indexDir) throws IOException {
+    if (!isRemote) {
+      if (isMultiThread) {
+        mlt.activateWord2VecModelRules(indexDir); 
+      } else {
+        lt.activateWord2VecModelRules(indexDir); 
+      }
+    }
+  }
+
+  /**
    * check text by LT
    * default: check only grammar
    * local: LT checks only grammar (spell check is not implemented locally)
@@ -237,11 +235,11 @@ public class SwJLanguageTool {
   /**
    * Get a list of tokens from a sentence
    * This Method may be used only for local checks
-   * use local lt for remote checks
+   * Returns null for remote checks
    */
   public List<String> sentenceTokenize(String text) {
     if (isRemote) {
-      return lt.sentenceTokenize(text);
+      return null;
     } else if (isMultiThread) {
         return mlt.sentenceTokenize(text); 
     } else {
@@ -252,53 +250,16 @@ public class SwJLanguageTool {
   /**
    * Analyze sentence
    * This Method may be used only for local checks
-   * use local lt for remote checks
+   * Returns null for remote checks
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
     if (isRemote) {
-      return lt.getAnalyzedSentence(sentence);
+      return null;
     } else if (isMultiThread) {
         return mlt.getAnalyzedSentence(sentence); 
     } else {
       return lt.getAnalyzedSentence(sentence); 
     }
-  }
-
-  /**
-   * Analyze text
-   * This Method may be used only for local checks
-   * use local lt for remote checks
-   */
-  public List<AnalyzedSentence> analyzeText(String text) throws IOException {
-    if (isRemote) {
-      return lt.analyzeText(text);
-    } else if (isMultiThread) {
-        return mlt.analyzeText(text); 
-    } else {
-      return lt.analyzeText(text); 
-    }
-  }
-
-  /**
-   * get the lemmas of a word
-   * @throws IOException 
-   */
-  public List<String> getLemmasOfWord(String word) throws IOException {
-    List<String> lemmas = new ArrayList<String>();
-    Language language = getLanguage();
-    List<String> words = new ArrayList<>();
-    words.add(word);
-    List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(words);
-    for (AnalyzedTokenReadings aToken : aTokens) {
-      List<AnalyzedToken> readings = aToken.getReadings();
-      for (AnalyzedToken reading : readings) {
-        String lemma = reading.getLemma();
-        if (lemma != null) {
-          lemmas.add(lemma);
-        }
-      }
-    }
-    return lemmas;
   }
 
   /**

@@ -41,6 +41,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Spanish extends Language implements AutoCloseable {
+
+  private static final Language DEFAULT_VARIANT = new Spanish();
   
   private LanguageModel languageModel;
 
@@ -64,7 +66,7 @@ public class Spanish extends Language implements AutoCloseable {
   }
   
   public Language getDefaultLanguageVariant() {
-    return Languages.getLanguageForShortCode("es");
+    return DEFAULT_VARIANT;
   }
 
   @NotNull
@@ -75,7 +77,7 @@ public class Spanish extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new SpanishHybridDisambiguator(getDefaultLanguageVariant());
+    return new SpanishHybridDisambiguator();
   }
 
   @Override
@@ -86,7 +88,7 @@ public class Spanish extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return SpanishSynthesizer.INSTANCE;
+    return new SpanishSynthesizer(this);
   }
 
   @Override
@@ -125,7 +127,7 @@ public class Spanish extends Language implements AutoCloseable {
             new SpanishWrongWordInContextRule(messages),
             new LongSentenceRule(messages, userConfig, 60),
             new LongParagraphRule(messages, this, userConfig),
-            new SimpleReplaceRule(messages, this),
+            new SimpleReplaceRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SpanishWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
@@ -194,35 +196,29 @@ public class Spanish extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
-    if (id.startsWith("ES_SIMPLE_REPLACE_SIMPLE")) {
-      return 30;
-    }
-    if (id.startsWith("ES_COMPOUNDS")) {
-      return 50;
+    if (id.startsWith("ES_SIMPLE_REPLACE")) {
+      id = "ES_SIMPLE_REPLACE";
     }
     switch (id) {
+      case "ES_COMPOUNDS": return 50;
       case "CONFUSIONS2": return 50; // greater than CONFUSIONS
-      case "RARE_WORDS": return 50;
       case "LOS_MAPUCHE": return 50;
       case "TE_TILDE": return 50;
-      case "DE_TILDE": return 50; // greater than CONTRACCIONES
       case "PLURAL_SEPARADO": return 50;
-      case "PERSONAJES_FAMOSOS": return 50;
       case "INCORRECT_EXPRESSIONS": return 40;
       case "MISSPELLING": return 40;  
       case "CONFUSIONS": return 40;
       case "NO_SEPARADO": return 40;
       case "PARTICIPIO_MS": return 40;
-      case "VERBO_MODAL_INFINITIVO": return 40; // greater than DIACRITICS
       case "EL_NO_TILDE": return 40; // greater than SE_CREO
       case "SE_CREO": return 35; // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
       case "DIACRITICS": return 30;
       case "POR_CIERTO": return 30;
       case "DEGREE_CHAR": return 30; // greater than SPACE_UNITIES
       case "LO_LOS": return 30;
+      case "ES_SIMPLE_REPLACE": return 30; // greater than typography rules
       case "ETCETERA": return 30; // greater than other typography rules
       case "P_EJ": return 30; // greater than other typography rules
-      case "SE_CREO2": return 25; 
       //case "ESPACIO_DESPUES_DE_PUNTO": return 25; // greater than other typography rules
       case "AGREEMENT_ADJ_NOUN_AREA": return 30; // greater than AGREEMENT_DET_NOUN
       case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
@@ -233,17 +229,14 @@ public class Spanish extends Language implements AutoCloseable {
       case "AGREEMENT_DET_NOUN": return 15;
       //case "PRONOMBRE_SIN_VERBO": return 20;
       case "AGREEMENT_DET_ADJ": return 10;
-      case "CONFUSION_ES_SE": return 20; //lower than diacrtics rules
       case "HALLA_HAYA": return 10;
       case "VALLA_VAYA": return 10;
       case "SI_AFIRMACION": return 10; // less than DIACRITICS
       case "TE_TILDE2": return 10; // less than PRONOMBRE_SIN_VERBO
+      case "SINGLE_CHARACTER": return 5;
       case "SEPARADO": return 1;
-      case "ES_SPLIT_WORDS": return -10;
-      case "U_NO": return -10;
       case "E_EL": return -10;
       case "EL_TILDE": return -10;
-      case "SINGLE_CHARACTER": return -15; // less than ES_SPLIT_WORDS
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERB": return -20;
       case "SUBJUNTIVO_FUTURO": return -30;
@@ -255,14 +248,12 @@ public class Spanish extends Language implements AutoCloseable {
       case "MULTI_ADJ": return -30;
       case "SUBJUNTIVO_INCORRECTO": return -40;
       case "COMMA_SINO": return -40;
-      case "COMMA_SINO2": return -40;
       case "VOSEO": return -40;
       case "REPETITIONS_STYLE": return -50;
       case "MORFOLOGIK_RULE_ES": return -100;
       case "PHRASE_REPETITION": return -150;
       case "SPANISH_WORD_REPEAT_RULE": return -150;
       case "UPPERCASE_SENTENCE_START": return -200;
-      case "ES_QUESTION_MARK": return -250;
     }
 
     if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)
@@ -280,27 +271,19 @@ public class Spanish extends Language implements AutoCloseable {
   private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
   
   @Override
-  public String adaptSuggestion(String replacement) {
-    Matcher m = ES_CONTRACTIONS.matcher(replacement);
-    String newReplacement = m.replaceAll("$1$2");
-    return newReplacement;
-  }
-
-  @Override
-  public String prepareLineForSpeller(String line) {
-    String parts[] = line.split("#");
-    if (parts.length == 0) {
-      return line;
-    }
-    String[] formTag = parts[0].split("[\t;]");
-    if (formTag.length > 1) {
-      String tag = formTag[1].trim();
-      if (!tag.startsWith("N")) {
-        return "";
-      } else {
-        return formTag[0].trim();
+  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      List<String> replacements = rm.getSuggestedReplacements();
+      List<String> newReplacements = new ArrayList<>();
+      for (String s : replacements) {
+        Matcher m = ES_CONTRACTIONS.matcher(s);
+        s= m.replaceAll("$1$2");
+        newReplacements.add(s);
       }
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      newRuleMatches.add(newMatch);
     }
-    return line;
+    return newRuleMatches;
   }
 }

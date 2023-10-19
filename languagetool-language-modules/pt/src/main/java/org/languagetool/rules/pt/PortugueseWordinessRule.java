@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.Language;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -26,7 +25,10 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.net.URL;
 
 /**
@@ -41,21 +43,18 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
   public static final String PT_WORDINESS_REPLACE = "PT_WORDINESS_REPLACE";
 
+  private static final String FILE_NAME = "/pt/wordiness.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
-
-  private final String path;
 
   @Override
   public List<String> getFileNames() {
-    return Collections.singletonList(path);
+    return Collections.singletonList(FILE_NAME);
   }
 
-  public PortugueseWordinessRule(ResourceBundle messages, String path, Language language) {
-    super(messages, language);
-    this.path = Objects.requireNonNull(path);
-    setCategory(Categories.REDUNDANCY.getCategory(messages));
+  public PortugueseWordinessRule(ResourceBundle messages) {
+    super(messages, new Portuguese());
+    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>Raramente é o caso em que acontece</marker> isto."),
                    Example.fixed("<marker>Raramente acontece</marker> isto."));
   }
@@ -67,7 +66,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "2. Expressões prolixas: $match";
+    return "2. Expressões prolixas";
   }
 
   @Override
@@ -77,7 +76,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "\"$match\" é uma expressão prolixa. É preferível dizer $suggestions.";
+    return "'$match' é uma expressão prolixa. É preferível dizer $suggestions.";
   }
 
   @Override

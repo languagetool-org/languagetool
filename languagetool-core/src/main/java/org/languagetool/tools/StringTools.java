@@ -66,9 +66,6 @@ public final class StringTools {
   public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
   private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
-  private static final Pattern NOT_WORD_CHARACTER = Pattern.compile("[^\\p{L}]", Pattern.DOTALL);
-
-  private static final Pattern NOT_WORD_STR = Pattern.compile("[^\\p{L}]+", Pattern.DOTALL);
 
   private StringTools() {
     // only static stuff
@@ -129,21 +126,6 @@ public final class StringTools {
       }
     }
     return true;
-  }
-
-  /**
-   * Returns true if the given list of string is made up of all-uppercase words.
-   * If the list contains only numbers or punctuation marks it is not considered all-uppercase
-   */
-  public static boolean isAllUppercase(List<String> strList) {
-    boolean isInputAllUppercase = true;
-    boolean isAllNotLetters = true;
-    for (int i = 0; i < strList.size(); i++) {
-      isInputAllUppercase = isInputAllUppercase && StringTools.isAllUppercase(strList.get(i));
-      isAllNotLetters = isAllNotLetters && (StringTools.isNotWordString(strList.get(i))
-        || StringTools.isPunctuationMark(strList.get(i)));
-    }
-    return isInputAllUppercase && ! isAllNotLetters;
   }
 
   /**
@@ -517,29 +499,6 @@ public final class StringTools {
   public static String normalizeNFC(String str) {
     return Normalizer.normalize(str, Normalizer.Form.NFC);
   }
-  
-  /**
-   * Apply to inputString the casing of modelString
-   * @param inputString, modelString 
-   * @return string
-   */
-  public static String preserveCase(String inputString, String modelString) {
-    if (modelString.isEmpty()) {
-      return inputString; 
-    }
-    // modelString="L'" is ambiguous, apply capitalization
-    if (isCapitalizedWord(modelString)) {
-      return uppercaseFirstChar(inputString.toLowerCase()); 
-    }
-    if (isAllUppercase(modelString)) {
-      return inputString.toUpperCase(); 
-    }  
-//    if (!isNotAllLowercase(modelString)) {
-//      return inputString.toLowerCase();
-//    }
-    return inputString;
-    
-  }
 
   @Nullable
   public static String asString(CharSequence s) {
@@ -568,7 +527,7 @@ public final class StringTools {
    * Loads file, ignoring comments (lines starting with {@code #}).
    * @param path path in resource dir
    * @since 4.6
-   * @deprecated use DataBroker#getFromResourceDirAsLines(java.lang.String) instead (NOTE: it won't handle comments)
+   * @deprecated use DataBroker#getFromResourceDirAsLines(java.lang.String) instead
    */
   public static List<String> loadLines(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
@@ -592,33 +551,11 @@ public final class StringTools {
 
   /**
    * Will turn a string into a typical rule ID, i.e. uppercase and
-   * "_" instead of spaces.
-   *
-   * All non-ASCII characters are replaced with "_", EXCEPT for
-   * Latin-1 ranges U+00C0-U+00D6 and U+00D8-U+00DE.
-   *
-   * "de" locales have a special implementation (ä =&gt; ae, etc.).
-   *
-   * @param language LT language object, used to apply language-specific normalisation rules.
-   *
+   * "_" instead of spaces. Does NOT replace all non-ASCII characters.
    * @since 5.1
    */
-  public static String toId(String input, Language language) {
-    String languageCode = language.getShortCode();
-    String normalisedId;
-    normalisedId = input.toUpperCase().trim()
-      .replace(' ', '_')
-      .replace("'", "_Q_");
-    // Standard toUpperCase implementation already converts ß to SS, so that'll be done for all locales and there's no
-    // need to run a separate replace here.
-    if (Objects.equals(languageCode, "de")) {
-      normalisedId = normalisedId
-        .replace("Ä", "AE")
-        .replace("Ü", "UE")
-        .replace("Ö", "OE");
-    }
-    normalisedId = normalisedId.replaceAll("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]", "_");
-    return normalisedId;
+  public static String toId(String input) {
+    return input.toUpperCase().replace(' ', '_').replace("'", "_Q_");
   }
 
   /**
@@ -636,59 +573,6 @@ public final class StringTools {
   public static boolean isPunctuationMark(String input) {
     return PUNCTUATION_PATTERN.matcher(input).matches();
   }
-  
-  /**
-   * Whether the string is a punctuation mark
-   * @since 6.1
-   */
-  public static boolean isNotWordCharacter(String input) {
-    return NOT_WORD_CHARACTER.matcher(input).matches();
-  }
-  
-  
-  /**
-   * Difference between two strings (only one difference)
-   * @return: List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
-   * @since 6.2
-   */
-  
-  public static List<String> getDifference(String s1, String s2) {
-    List<String> results = new ArrayList<>();
-    if (s1.equals(s2)) {
-      results.add(s1);
-      results.add("");
-      results.add("");
-      results.add("");
-      return results;
-    }
-    int l1 = s1.length();
-    int l2 = s2.length();
-    int fromStart = 0;
-    while (fromStart < l1 && fromStart < l2 && s1.charAt(fromStart) == s2.charAt(fromStart)) {
-      fromStart++;
-    }
-    int fromEnd = 0;
-    while (fromEnd < l1 && fromEnd < l2 && s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
-      fromEnd++;
-    }
-    // corrections (e.g. stress vs stresses)
-    while (fromStart > l1 - fromEnd) {
-      fromEnd--;
-    }
-    while (fromStart > l2 - fromEnd) {
-      fromEnd--;
-    }
-    // common string at start
-    results.add(s1.substring(0, fromStart));
-    // diff in string1
-    results.add(s1.substring(fromStart, l1 - fromEnd));
-    // diff in string2
-    results.add(s2.substring(fromStart, l2 - fromEnd));
-    // common string at end
-    results.add(s1.substring(l1 - fromEnd, l1));
-    return results;
-  }
-  
   
   /*
    * Invent a wrong word to find possible replacements. 
@@ -744,32 +628,5 @@ public final class StringTools {
       return s.replace("ü", "ù");
     }
     return s + "-";
-  }
-
-  /**
-    * Return <code>str</code> without tashkeel characters
-    * @param str input str
-    */
-   public static String removeTashkeel(String str) {
-     String striped = str.replaceAll("["
-       + "\u064B"  // Fathatan
-       + "\u064C"  // Dammatan
-       + "\u064D"  // Kasratan
-       + "\u064E"  // Fatha
-       + "\u064F"  // Damma
-       + "\u0650"  // Kasra
-       + "\u0651"  // Shadda
-       + "\u0652"  // Sukun
-       + "\u0653"  // Maddah Above
-       + "\u0654"  // Hamza Above
-       + "\u0655"  // Hamza Below
-       + "\u0656"  // Subscript Alef
-       + "\u0640"  // Tatweel
-       + "]", "");
-      return striped;
-    }
-
-  public static boolean isNotWordString(String input) {
-    return NOT_WORD_STR.matcher(input).matches();
   }
 }

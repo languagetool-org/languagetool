@@ -46,10 +46,11 @@ public class ArabicDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   public ArabicDiacriticsRule(ResourceBundle messages) {
     super(messages, new Arabic());
-    setCategory(Categories.STYLE.getCategory(messages));
+    // setDefaultOff();
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>تجربة</marker>"),
-                   Example.fixed("<marker>تجرِِبة</marker>"));
+      Example.fixed("<marker>تجرِِبة</marker>"));
   }
 
   @Override

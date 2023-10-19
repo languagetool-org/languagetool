@@ -46,13 +46,13 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
   private CatalanSynthesizer synth;
   
   public AbstractSimpleReplaceLemmasRule(final ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+    super(messages);
     //this.setIgnoreTaggedWords();
     synth = (CatalanSynthesizer) language.getSynthesizer();
   }  
   
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongLemmas;
   }
   

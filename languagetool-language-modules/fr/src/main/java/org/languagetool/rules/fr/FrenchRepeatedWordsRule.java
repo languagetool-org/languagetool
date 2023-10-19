@@ -18,18 +18,21 @@
  */
 package org.languagetool.rules.fr;
 
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
-import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.FrenchSynthesizer;
 
-import java.util.Map;
-import java.util.ResourceBundle;
+public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
-public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule {
+  private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
 
+  
   public FrenchRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new French());
     //super.setDefaultTempOff();
@@ -59,7 +62,7 @@ public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule {
   
   @Override
   protected Synthesizer getSynthesizer() {
-    return FrenchSynthesizer.INSTANCE;
+    return synth;
   }
   
   @Override

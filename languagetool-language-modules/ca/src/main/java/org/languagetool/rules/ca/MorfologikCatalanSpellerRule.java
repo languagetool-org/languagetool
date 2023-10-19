@@ -21,7 +21,6 @@ package org.languagetool.rules.ca;
 
 import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tools.StringTools;
@@ -37,19 +36,12 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private String dictFilename;
   private static final String SPELLING_FILE = "/ca/spelling.txt";
 
-  @Override
-  public List<String> getAdditionalSpellingFileNames() {
-    return Arrays.asList("/ca/"+SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,
-      "/ca/multiwords.txt", "/ca/spelling-special.txt");
-  }
-
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)([A-ZÀÈÉÍÒÓÚÇ][\\p{Ll}·]+)$",
-      Pattern.UNICODE_CASE);
+  private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)([A-ZÀÈÉÍÒÓÚÇ][\\p{Ll}·]+)$", Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
-      "^(pod|ultra|eco|tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g|l|m) (..+)|.+ s$",
+      "^(pod|ultra|eco|tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])[90]?(h?[aeiouàéèíòóú].*)$",
@@ -67,8 +59,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GUIONET_FINAL = Pattern.compile(
       "^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPLIT_SUGGESTIONS = Pattern
-      .compile("^(..+\\p{L}|en|de|del|al|dels|als|a|i|o|amb)(\\d+)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|en|de|del|al|dels|als|a|i|o|amb)(\\d+)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
@@ -78,13 +70,6 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final Pattern VERB_INF = Pattern.compile("V.N.*");
   private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
-  
-  /* lemma exceptions */
-  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
-  public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
-
-  private static final List<String> inalambric = Arrays.asList("inalàmbric", "inalàmbrica", "inalàmbrics", "inalàmbriques", "inalàmbricament", "inalàmbricamente");
-
   private CatalanTagger tagger;
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -126,40 +111,13 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
-      String replacement = suggestions.get(i).getReplacement();
-      if (inalambric.contains(replacement.toLowerCase())) {
-        newSuggestions = new ArrayList<>();
-        newSuggestions.add(new SuggestedReplacement("sense fils"));
-        newSuggestions.add(new SuggestedReplacement("sense fil"));
-        newSuggestions.add(new SuggestedReplacement("sense cables"));
-        newSuggestions.add(new SuggestedReplacement("autònom"));
-        return newSuggestions;
-      }
-      // remove always
-      if (replacement.equalsIgnoreCase("como")) {
-        continue;
-      }
-      boolean ignoreSuggestion = false;
-      String[] wordsToAnalyze = replacement.split(" ");
-      List<AnalyzedTokenReadings> newatrs = tagger.tag(Arrays.asList(wordsToAnalyze));
-      for (AnalyzedTokenReadings newatr : newatrs) {
-        if (newatr.hasAnyLemma(LemmasToIgnore) && !newatr.hasAnyLemma(LemmasToAllow)) {
-          ignoreSuggestion = true;
-        }
-      }
-      if (ignoreSuggestion) {
-        continue;
-      }
-      // l'_ : remove superfluous space
-      if (replacement.contains("' ")) {
-        suggestions.get(i).setReplacement(replacement.replace("' ", "'"));
-      }
-      // remove wrong split prefixes
-      if (PREFIX_AMB_ESPAI.matcher(replacement).matches()) {
-        continue;
-      }
 
-      // Don't change first suggestions if they match word without diacritics
+      // remove wrong split prefixes
+      if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
+        continue;
+      }
+      
+   // Don't change first suggestions if they match word without diacritics
       int posNewSugg = 0;
       while (newSuggestions.size() > posNewSugg
           && StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())
@@ -168,7 +126,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       }
 
       // move some split words to first place
-      Matcher matcher = PARTICULA_INICIAL.matcher(replacement);
+      Matcher matcher = PARTICULA_INICIAL.matcher(suggestions.get(i).getReplacement());
       if (matcher.matches()) {
         String newSuggestion = matcher.group(2);
         List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
@@ -178,15 +136,15 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
           continue;
         }
       }
-
-      String suggWithoutDiacritics = StringTools.removeDiacritics(replacement);
-      if (StringTools.removeDiacritics(word).equalsIgnoreCase(suggWithoutDiacritics)) {
+      
+      String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
+      if (word.equalsIgnoreCase(suggWithoutDiacritics)) {
         newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
 
       // move words with apostrophe or hyphen to second position
-      String cleanSuggestion = replacement.replaceAll("'", "").replaceAll("-", "");
+      String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
         if (posNewSugg == 0) {
           posNewSugg = 1;
@@ -247,8 +205,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("ajust")
-          || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
+      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
       if (recursive) {
@@ -256,7 +213,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         if (moresugg.size() > 0) {
           String newWord;
           if (suggestionPosition == 1) {
-            newWord = moresugg.get(0) + matcher.group(2); // .toLowerCase()
+            newWord = moresugg.get(0) + matcher.group(2); //.toLowerCase()
           } else {
             newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
           }

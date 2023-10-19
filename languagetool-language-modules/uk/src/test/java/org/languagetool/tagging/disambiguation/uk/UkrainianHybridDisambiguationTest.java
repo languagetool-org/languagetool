@@ -188,12 +188,12 @@ public class UkrainianHybridDisambiguationTest {
   public void testDisambiguatorForInanimVKly() throws IOException {
 
     TestTools.myAssert("Поломане крило",
-      "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf"
+      "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf:coll"
       + "  /[null]null крило/[крило]noun:inanim:n:v_naz|крило/[крило]noun:inanim:n:v_zna|крило/[крити]verb:imperf:past:n",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("більше того,",
-        "/[null]SENT_START більше/[більше]adv:compc:&predic|більше/[більший]adj:n:v_kly:compc|більше/[більший]adj:n:v_naz:compc|більше/[більший]adj:n:v_zna:compc"
+        "/[null]SENT_START більше/[більше]adv:compc|більше/[більший]adj:n:v_kly:compc|більше/[більший]adj:n:v_naz:compc|більше/[більший]adj:n:v_zna:compc"
         + "  /[null]null того/[те]noun:inanim:n:v_rod:&pron:dem|того/[той]adj:m:v_rod:&pron:dem|того/[той]adj:m:v_zna:ranim:&pron:dem|того/[той]adj:n:v_rod:&pron:dem"
         + " ,/[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -412,14 +412,7 @@ public class UkrainianHybridDisambiguationTest {
         + "  /[null]null"
         + " Гокінґ/[Гокінґ]noun:anim:m:v_naz:prop:lname:alt", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
-
-    // nv:nv
-    TestTools.myAssert("А. Маслоу",
-        "/[null]SENT_START"
-          + " А./[А.]noun:anim:m:v_dav:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_naz:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_oru:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_rod:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_zna:nv:abbr:prop:fname"
-          + "  /[null]null Маслоу/[Маслоу]noun:anim:m:v_dav:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_naz:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_oru:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_rod:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_zna:nv:prop:lname",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
-
+    
   }
 
   @Test
@@ -499,17 +492,6 @@ public class UkrainianHybridDisambiguationTest {
       + " 18/[18]number"
       + "  /[null]null"
       + " ст./[ст.]noun:inanim:f:v_dav:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_naz:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_oru:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_rod:nv:abbr:xp1|ст./[ст.]noun:inanim:f:v_zna:nv:abbr:xp1|ст./[ст.]noun:inanim:n:v_dav:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_naz:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_oru:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_rod:nv:abbr:xp2|ст./[ст.]noun:inanim:n:v_zna:nv:abbr:xp2",
-      tokenizer, sentenceTokenizer, tagger, disambiguator);
-
-    TestTools.myAssert("18 мм рт. ст.",
-      "/[null]SENT_START"
-      + " 18/[18]number"
-      + "  /[null]null"
-      + " мм/[мм]noun:inanim:m:v_dav:nv:abbr|мм/[мм]noun:inanim:m:v_naz:nv:abbr|мм/[мм]noun:inanim:m:v_oru:nv:abbr|мм/[мм]noun:inanim:m:v_rod:nv:abbr|мм/[мм]noun:inanim:m:v_zna:nv:abbr|мм/[мм]noun:inanim:p:v_dav:nv:abbr|мм/[мм]noun:inanim:p:v_naz:nv:abbr|мм/[мм]noun:inanim:p:v_oru:nv:abbr|мм/[мм]noun:inanim:p:v_rod:nv:abbr|мм/[мм]noun:inanim:p:v_zna:nv:abbr"
-      + "  /[null]null"
-      + " рт./[рт.]adj:m:v_dav:nv:abbr|рт./[рт.]adj:m:v_naz:nv:abbr|рт./[рт.]adj:m:v_oru:nv:abbr|рт./[рт.]adj:m:v_rod:nv:abbr|рт./[рт.]adj:m:v_zna:rinanim:nv:abbr"
-      + "  /[null]null"
-      + " ст./[ст.]noun:inanim:m:v_dav:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_naz:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_oru:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_rod:nv:abbr:xp3|ст./[ст.]noun:inanim:m:v_zna:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_dav:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_naz:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_oru:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_rod:nv:abbr:xp3|ст./[ст.]noun:inanim:p:v_zna:nv:abbr:xp3",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
@@ -603,8 +585,6 @@ public class UkrainianHybridDisambiguationTest {
         + ".[</S>]",
         analyzedSentence.toString());
 
-    analyzedSentence = lt.getAnalyzedSentence("\u0301");
-    assertEquals("<S> </S> ", analyzedSentence.toString());
   }
 
   
@@ -640,7 +620,7 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("два Володьки", 
         "/[null]SENT_START "
         + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
-        + "/[null]null Володьки/[Володька]noun:anim:p:v_naz:prop:fname",
+        + "/[null]null Володьки/[Володька]noun:anim:p:v_naz:prop:fname:coll",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("два Бойка", 

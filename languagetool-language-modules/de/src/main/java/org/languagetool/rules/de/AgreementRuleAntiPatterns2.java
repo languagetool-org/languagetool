@@ -216,7 +216,7 @@ class AgreementRuleAntiPatterns2 {
     asList(
       csToken("zum"),
       csToken("einen"),
-      posRegex("(ADJ|PA[12]):.+")
+      posRegex("ADJ:.+")
     ),
     asList(
       token("auf"),
@@ -224,7 +224,7 @@ class AgreementRuleAntiPatterns2 {
       csToken("Lauer")
     ),
     asList(
-      tokenRegex("(eben)?dieser"),
+      token("dieser"),
       csToken("eine"),
       pos("SUB:NOM:SIN:MAS")
     ),
@@ -269,7 +269,7 @@ class AgreementRuleAntiPatterns2 {
       new PatternTokenBuilder().tokenRegex("haben|tun").matchInflectedForms().build()
     ),
     asList(
-      tokenRegex("(eben)?dieser"),
+      csToken("dieser"),
       csToken("einen"),
       pos("SUB:DAT:SIN:FEM")
     ),
@@ -328,11 +328,6 @@ class AgreementRuleAntiPatterns2 {
     asList(
       csToken("Total"),
       tokenRegex("Tankstellen?")
-    ),
-    asList(
-      posRegex("ART:.*"),
-      csToken("Bund"),
-      csToken("Naturschutz")
     ),
     asList(
       csToken("Real"),
@@ -474,7 +469,7 @@ class AgreementRuleAntiPatterns2 {
       tokenRegex("Suite[sn]?")
     ),
     asList( // Deine Abt.
-      tokenRegex("die|eine|unsere|meine|ihre|eure|(eben)?diese|seine|deine"),
+      tokenRegex("die|eine|unsere|meine|ihre|eure|diese|seine|deine"),
       csToken("Abt"),
       token("."),
       tokenRegex(".+")
@@ -596,36 +591,36 @@ class AgreementRuleAntiPatterns2 {
     ),
     asList(
       new PatternTokenBuilder().csToken("meinen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|(eben)?dies(es)?"),
+      csRegex("das|dies(es)?"),
       new PatternTokenBuilder().token("wirklich").min(0).build(),
       token("Ernst")
     ),
     asList(
       new PatternTokenBuilder().csToken("nehmen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|(eben)?dies(es)?"),
+      csRegex("das|dies(es)?"),
       new PatternTokenBuilder().token("wirklich").min(0).build(),
       token("Ernst")
     ),
     asList(
       // ... dann spart das Zeit und Geld.
       new PatternTokenBuilder().csToken("sparen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|(eben)?dies(es)?"),
+      csRegex("das|dies|dieses"),
       token("Zeit"),
       token("und"),
       csRegex("Geld|Nerven")
     ),
     asList(
-      csRegex("das|es|(eben)?dies"),
+      csRegex("das|es|dies"),
       csRegex("bedeutete?"),
       csRegex("Krieg|Ärger")
     ),
     asList(
       // In der aktuellen Niedrigzinsphase bedeutet das sehr geringe Zinsen, die aber deutlich ansteigen können.
       csRegex("bedeutete?"),
-      csRegex("das|(eben)?dies")
+      csRegex("das|dies")
     ),
     asList(
-      csRegex("das|es|(eben)?dies"),
+      csRegex("das|es|dies"),
       csRegex("weite"),
       token("Teile")
     ),
@@ -639,7 +634,7 @@ class AgreementRuleAntiPatterns2 {
       posRegex("VER.*[123].*"),
       tokenRegex("und|oder|aber"),
       new PatternTokenBuilder().posRegex("PRP.*").min(0).build(),
-      tokenRegex("der|die|das|dem|den")  // nicht 'des' weil sonst nicht gefunden: "Wir haben das Abo beendet und des Betrag erstattet."
+      posRegex("ART:DEF.*")
     ),
     asList( // weil man oft bei **anderen schreckliches Essen** vorgesetzt bekommt
       tokenRegex("bei|zum"),

@@ -106,8 +106,6 @@ public class SentenceSourceChecker {
             .desc("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
                   "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
             .required().build());
-    options.addOption(Option.builder().longOpt("csv")
-            .desc("print matches in a simple CSV format, marking matches like '__matched words__'").build());
     options.addOption(Option.builder().longOpt("max-sentences").argName("number").hasArg()
             .desc("maximum number of sentences to check").build());
     options.addOption(Option.builder().longOpt("max-errors").argName("number").hasArg()
@@ -116,6 +114,8 @@ public class SentenceSourceChecker {
             .desc("context size per error, in characters").build());
     options.addOption(Option.builder().longOpt("languagemodel").argName("indexDir").hasArg()
             .desc("directory with a '3grams' sub directory that contains an ngram index").build());
+    options.addOption(Option.builder().longOpt("neuralnetworkmodel").argName("baseDir").hasArg()
+            .desc("base directory for saved neural network models (deprecated)").build());
     options.addOption(Option.builder().longOpt("remoterules").argName("configFile").hasArg()
             .desc("JSON file with configuration of remote rules").build());
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
@@ -130,12 +130,6 @@ public class SentenceSourceChecker {
             .desc("Print the duration of analysis in milliseconds").build());
     options.addOption(Option.builder().longOpt("nerUrl").argName("url").hasArg()
             .desc("URL of a named entity recognition service").build());
-    options.addOption(Option.builder().longOpt("skip-exceptions")
-            .desc("Whether internal Java exceptions should only be printed instead of stopping this script").build());
-    options.addOption(Option.builder().longOpt("print-correct")
-            .desc("Print sentences in which no error is found").build());
-    options.addOption(Option.builder("v").longOpt("verbose")
-            .desc("More verbose output on STDOUT, like the line number of the rule in the grammar.xml").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -158,6 +152,8 @@ public class SentenceSourceChecker {
     String[] additionalCategoryIds = options.hasOption("also-enable-categories") ? options.getOptionValue("also-enable-categories").split(",") : null;
     String[] fileNames = options.getOptionValues('f');
     File languageModelDir = options.hasOption("languagemodel") ? new File(options.getOptionValue("languagemodel")) : null;
+    File word2vecModelDir = options.hasOption("word2vecmodel") ? new File(options.getOptionValue("word2vecmodel")) : null;
+    File neuralNetworkModelDir = options.hasOption("neuralnetworkmodel") ? new File(options.getOptionValue("neuralnetworkmodel")) : null;
     File remoteRules = options.hasOption("remoterules") ? new File(options.getOptionValue("remoterules")) : null;
     Pattern filter = options.hasOption("filter") ? Pattern.compile(options.getOptionValue("filter")) : null;
     String ruleSource = options.hasOption("rulesource") ? options.getOptionValue("rulesource") : null;
@@ -165,18 +161,20 @@ public class SentenceSourceChecker {
     Language lang = Languages.getLanguageForShortCode(langCode);
     Language motherTongue = motherTongueCode != null ? Languages.getLanguageForShortCode(motherTongueCode) : null;
     GlobalConfig globalConfig = new GlobalConfig();
-    System.out.println("Premium: " + Premium.isPremiumVersion());
     if (options.hasOption("nerUrl")) {
       System.out.println("Using NER service: " + options.getOptionValue("nerUrl"));
       globalConfig.setNERUrl(options.getOptionValue("nerUrl"));
-    }
-    if (options.hasOption("print-correct")) {
-      System.out.println("In print-correct mode, will only print sentences for which no error is found.");
     }
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang, motherTongue, -1, globalConfig, null);
     lt.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       lt.activateLanguageModelRules(languageModelDir);
+    }
+    if (word2vecModelDir != null) {
+      lt.activateWord2VecModelRules(word2vecModelDir);
+    }
+    if (neuralNetworkModelDir != null) {
+      lt.activateNeuralNetworkRules(neuralNetworkModelDir);
     }
     int activatedBySource = 0;
     for (Rule rule : lt.getAllRules()) {
@@ -187,7 +185,7 @@ public class SentenceSourceChecker {
       if (ruleSource != null) {
         boolean enable = false;
         if (rule instanceof AbstractPatternRule) {
-          String sourceFile = rule.getSourceFile();
+          String sourceFile = ((AbstractPatternRule) rule).getSourceFile();
           if (sourceFile != null && sourceFile.endsWith("/" + ruleSource) && !rule.isDefaultOff()) {
             enable = true;
             activatedBySource++;
@@ -234,12 +232,10 @@ public class SentenceSourceChecker {
     int ignoredCount = 0;
     boolean skipMessageShown = false;
     try {
-      if (options.hasOption("csv"))  {
-        resultHandler = new CSVHandler(maxSentences, maxErrors);
-      } else if (propFile != null) {
+      if (propFile != null) {
         resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
       } else {
-        resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize, options.hasOption("verbose"));
+        resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize);
       }
       MixingSentenceSource mixingSource = MixingSentenceSource.create(Arrays.asList(fileNames), lang, filter);
       while (mixingSource.hasNext()) {
@@ -256,28 +252,18 @@ public class SentenceSourceChecker {
         }
         try {
           AnnotatedText annotatedText = new AnnotatedTextBuilder().addText(sentence.getText()).build();
-          CheckResults matches = lt.check2(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
-            JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY, new HashSet<>(Arrays.asList(ToneTag.values())), null);
-          if (options.hasOption("print-correct")) {
-            if (matches.getRuleMatches().size() == 0) {
-              System.out.println(sentence.getText());
-            }
-          } else {
-            resultHandler.handleResult(sentence, matches.getRuleMatches(), lang);
-          }
+          List<RuleMatch> matches = lt.check(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
+            JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY);
+          resultHandler.handleResult(sentence, matches, lang);
           sentenceCount++;
           if (sentenceCount % 5000 == 0) {
             System.err.printf("%s sentences checked...\n", NumberFormat.getNumberInstance(Locale.US).format(sentenceCount));
           }
-          ruleMatchCount += matches.getRuleMatches().size();
+          ruleMatchCount += matches.size();
         } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
           throw e;
         } catch (Exception e) {
-          if (options.hasOption("skip-exceptions")) {
-            e.printStackTrace();
-          } else {
-            throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
-          }
+          throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
         }
       }
       ignoredCount = mixingSource.getIgnoredCount();
@@ -343,7 +329,7 @@ public class SentenceSourceChecker {
       for (String categoryId : additionalCategoryIds) {
         for (Rule rule : lt.getAllRules()) {
           CategoryId id = rule.getCategory().getId();
-          if (id.toString().equals(categoryId)) {
+          if (id != null && id.toString().equals(categoryId)) {
             System.out.println("Activating " + rule.getId() + " in category " + categoryId);
             lt.enableRule(rule.getId());
           }

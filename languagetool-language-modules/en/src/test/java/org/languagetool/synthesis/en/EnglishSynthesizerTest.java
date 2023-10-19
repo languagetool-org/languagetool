@@ -21,6 +21,7 @@ package org.languagetool.synthesis.en;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.English;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class EnglishSynthesizerTest {
 
   @Test
   public void testSynthesizeStringString() throws IOException {
-    EnglishSynthesizer synth = EnglishSynthesizer.INSTANCE;
+    EnglishSynthesizer synth = new EnglishSynthesizer(new English());
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     assertEquals("[was, were]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));

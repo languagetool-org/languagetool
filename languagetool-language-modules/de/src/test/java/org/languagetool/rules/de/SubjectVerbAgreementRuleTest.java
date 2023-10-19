@@ -158,9 +158,6 @@ public class SubjectVerbAgreementRuleTest {
         "Die Katze ist schön.",
         "Die eine Katze ist schön.",
         "Eine Katze ist schön.",
-        "Für Tunesiens Tourismusindustrie mit seinen Stränden, Oasen und antiken Kulturschätzen ist das Attentat ein verheerender Rückschlag.",
-        "Man darf jedoch auch nicht glauben, weil die Brustvergrößerungscremes ein Allheilmittel sind, jedoch sind Sie optimal um Ihr Selbstvertrauen zu erhöhen",
-        "Die Rechte der Kinder sind universell.",
         "Beiden Filmen war kein Erfolg beschieden.",
         "In einigen Fällen ist der vermeintliche Beschützer schwach.",
         "Was Wasser für die Fische ist.",
@@ -442,8 +439,7 @@ public class SubjectVerbAgreementRuleTest {
         "Julia sagte, dass Vater und Mutter zu Hause sind.",
         "Damit müssen sie zurechtkommen, wenn Kinder zu Hause sind.",
         "Auch Studien zu Zink sind vielversprechend.",
-        "Die Züge vor Ort sind nicht klimatisiert.",
-        "Ich verspreche dir, dass wir ein tolles Team sind."
+        "Die Züge vor Ort sind nicht klimatisiert."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

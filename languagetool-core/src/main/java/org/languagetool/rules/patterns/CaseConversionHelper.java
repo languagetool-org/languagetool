@@ -70,9 +70,6 @@ public final class CaseConversionHelper {
       case ALLLOWER:
         token = token.toLowerCase();
         break;
-      case NOTASHKEEL:
-        token = StringTools.removeTashkeel(token);
-        break;
       default:
         break;
     }

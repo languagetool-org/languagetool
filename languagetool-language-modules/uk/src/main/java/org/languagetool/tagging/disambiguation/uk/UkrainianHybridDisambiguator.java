@@ -487,20 +487,6 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       if (!ST_ABBR.equals(tokens[i].getToken()))
         continue;
 
-      // 10 мм рт. ст.
-      if (i > 1) {
-        if (tokens[i - 1].getToken().equals("рт.")) {
-          Pattern pattern = Pattern.compile("noun.*:xp3.*");
-          removeTokensWithout(tokens[i], pattern);
-          continue;
-        }
-        else {
-          Pattern pattern = Pattern.compile("(?!.*:xp3).*");
-          removeTokensWithout(tokens[i], pattern);
-        }
-      }
-
-      
       // стаття/сторінка
       if (i < tokens.length - 1) {
         if (tokens[i + 1].getToken().matches("[0-9]+([.,–—-][0-9]+)?")) {
@@ -508,10 +494,10 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
           if (i > 2 && ST_ABBR.equals(tokens[i - 1].getToken())) {
             pattern = Pattern.compile("noun:inanim:p:.*");
-            removeTokensWithout(tokens[i - 1], pattern);
+            remove(tokens[i - 1], pattern);
           }
 
-          removeTokensWithout(tokens[i], pattern);
+          remove(tokens[i], pattern);
           continue;
         }
 
@@ -522,7 +508,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         if (LemmaHelper.hasLemma(tokens[i + 1], "ложка") 
             || tokens[i + 1].getToken().equals("л.")) {
           Pattern pattern = Pattern.compile("adj:[fp]:.*");
-          removeTokensWithout(tokens[i], pattern);
+          remove(tokens[i], pattern);
           i++;
           continue;
         }
@@ -531,7 +517,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         if (LemmaHelper.hasLemma(tokens[i + 1],
             Arrays.asList("лейтенант", "сержант", "солдат", "науковий", "медсестра"))) {
           Pattern pattern = Pattern.compile("adj:m:.*");
-          removeTokensWithout(tokens[i], pattern);
+          remove(tokens[i], pattern);
           i++;
           continue;
         }
@@ -539,7 +525,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         // станція
         if (STATION_NAME_PATTERN.matcher(tokens[i + 1].getToken()).matches()) {
           Pattern pattern = Pattern.compile("noun:inanim:f:.*");
-          removeTokensWithout(tokens[i], pattern);
+          remove(tokens[i], pattern);
           i++;
           continue;
         }
@@ -552,10 +538,10 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
           if (i < tokens.length - 1 && ST_ABBR.equals(tokens[i + 1].getToken())) {
             pattern = Pattern.compile("noun:inanim:p:.*");
-            removeTokensWithout(tokens[i + 1], pattern);
+            remove(tokens[i + 1], pattern);
           }
 
-          removeTokensWithout(tokens[i], pattern);
+          remove(tokens[i], pattern);
           i++;
           continue;
         }
@@ -564,10 +550,10 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
           if (i < tokens.length - 1 && ST_ABBR.equals(tokens[i + 1].getToken())) {
             pattern = Pattern.compile("noun:inanim:p:.*");
-            removeTokensWithout(tokens[i + 1], pattern);
+            remove(tokens[i + 1], pattern);
           }
 
-          removeTokensWithout(tokens[i], pattern);
+          remove(tokens[i], pattern);
           i++;
           continue;
         }
@@ -620,7 +606,7 @@ TODO:
 */
 
 
-  private static void removeTokensWithout(AnalyzedTokenReadings readings, Pattern pattern) {
+  private static void remove(AnalyzedTokenReadings readings, Pattern pattern) {
       List<AnalyzedToken> analyzedTokens = readings.getReadings();
       for (int j = analyzedTokens.size()-1; j>=0; j--) {
         AnalyzedToken analyzedToken = analyzedTokens.get(j);
@@ -641,7 +627,7 @@ TODO:
       if( lnamePosTag == null || ! lnamePosTag.contains(LAST_NAME_TAG) )
         continue;
       
-      lnamePosTag = lnamePosTag.replaceAll(":(alt|nv|ua_\\d{4}|xp\\d)", "");
+      lnamePosTag = lnamePosTag.replaceAll(":(alt|ua_\\d{4}|xp\\d)", "");
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":nv:abbr:prop:"+initialType), initialsToken);

@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.Language;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -49,14 +48,13 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
     return Collections.singletonList(path);
   }
 
-  public PortugueseArchaismsRule(ResourceBundle messages, String path, Language language) {
-    super(messages, language);
+  public PortugueseArchaismsRule(ResourceBundle messages, String path) {
+    super(messages, new Portuguese());
     this.path = Objects.requireNonNull(path);
-    setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     //addExamplePair(Example.wrong("<marker>câmera</marker>"),  // TODO
     //               Example.fixed("<marker>câmara</marker>"));
-    this.useSubRuleSpecificIds();
   }
 
   @Override
@@ -76,7 +74,7 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "\"$match\" é um arcaísmo. É preferível dizer $suggestions.";
+    return "'$match' é um arcaísmo. É preferível dizer $suggestions.";
   }
 
   @Override

@@ -20,7 +20,7 @@ public abstract class LemmaHelper {
   public static final List<String> MONTH_LEMMAS = Arrays.asList("січень", "лютий", "березень", "квітень", "травень", "червень", "липень", 
       "серпень", "вересень", "жовтень", "листопад", "грудень");
   public static final List<String> DAYS_OF_WEEK = Arrays.asList("понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя");
-  public static final List<String> TIME_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить", "хвилька",
+  public static final List<String> TIME_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить",
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття", "квартал");
   public static final Set<String> TIME_PLUS_LEMMAS = new HashSet<>(Arrays.asList(
       "секунда", "хвилина", "хвилинка", "година", "годинка", "півгодини", "час", "день", "ніч", "ніченька", "вечір", "ранок", "тиждень", "місяць", "доба",
@@ -29,10 +29,8 @@ public abstract class LemmaHelper {
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячоліття", "квартал",
       "понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя", "вихідний", "уїк-енд", "уїкенд", "вікенд",
       "січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень",
-      "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "грам", "літр", "тонна", "центнер", "миля",
-      "десяток", "сотня", "тисяча", 
-      "відсоток", "пара", "раз", "крок", "тайм", "мить", "період", "термін", "сезон",
-      "гривня", "копійка"));
+      "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "грам", "літр", "тонна", "миля",
+      "десяток", "сотня", "тисяча", "відсоток", "пара", "раз", "крок", "тайм", "мить", "період", "термін", "сезон"));
       //, "раз", - опрацьовуємо окремо);
   public static final List<String> TIME_LEMMAS_SHORT = Arrays.asList("секунда", "хвилина", "година", "рік");
 
@@ -108,9 +106,9 @@ public abstract class LemmaHelper {
     return false;
   }
 
-  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, String lemma) {
+  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, String lemmas) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
-      if( lemma.equals(analyzedToken.getLemma()) ) {
+      if( lemmas.equals(analyzedToken.getLemma()) ) {
         return true;
       }
     }

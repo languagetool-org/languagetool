@@ -18,12 +18,6 @@
  */
 package org.languagetool.rules.es;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.es.SpanishSynthesizer;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +25,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.Spanish;
+import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.es.SpanishSynthesizer;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and at
@@ -105,6 +106,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
   
+  private static final SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
+
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
   boolean punctuationAppeared = false;
@@ -117,7 +120,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       int kk=0;
       kk++;
     }*/
-    boolean addComma = getOptional("addComma", arguments, "false").equalsIgnoreCase("true")? true : false;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;  
     int j;
@@ -384,8 +386,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
     }
 
-    SpanishSynthesizer synth = SpanishSynthesizer.INSTANCE;
-
     // The rule matches
     // Synthesize suggestions  
     List<String> suggestions = new ArrayList<>();
@@ -430,18 +430,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {
       suggestions.remove(tokens[patternTokenPos].getToken().toLowerCase());
     }
-    List<String> definitiveSugestions = new ArrayList<>();
-    if (addComma) {
-      definitiveSugestions.add(", " + tokens[patternTokenPos].getToken());
-      for (String s : suggestions) {
-        definitiveSugestions.add(" " + s);
-      }
-      match.setOffsetPosition(match.getFromPos() - 1,  match.getToPos());
-      match.setSentencePosition(match.getFromPosSentence() - 1, match.getToPosSentence());
-    } else {
-      definitiveSugestions.addAll(suggestions);
-    }
-    match.setSuggestedReplacements(definitiveSugestions);
+    match.setSuggestedReplacements(suggestions);
     return match;
 
   }

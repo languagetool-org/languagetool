@@ -18,20 +18,13 @@
  */
 package org.languagetool.server;
 
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import io.opentelemetry.api.common.Attributes;
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.StatusCode;
-import io.opentelemetry.context.Scope;
-import io.opentelemetry.semconv.trace.attributes.SemanticAttributes;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
-import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
@@ -61,7 +54,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private static final Logger logger = LoggerFactory.getLogger(LanguageToolHttpHandler.class);
 
   static final String API_DOC_URL = "https://languagetool.org/http-api/swagger-ui/#/default";
-  static final String REQUEST_LIMIT_ACCESS_TOKEN_HEADER  = "X-Request-Limit-Access-Token";
   
   private static final String ENCODING = "utf-8";
 
@@ -99,12 +91,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     boolean incrementHandleCount = false;
     String requestId = getRequestId(httpExchange);
     MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
-    Attributes attributes = Attributes.builder()
-                  .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
-                  .put("request.id", requestId)
-                  .build();
-    Span globalSpan = TelemetryProvider.INSTANCE.createSpan("handle-http-request", attributes);
-    try (Scope scope = globalSpan.makeCurrent()) {
+    try {
       URI requestedUri = httpExchange.getRequestURI();
       String path = requestedUri.getRawPath();
       logger.info("Handling {} {}", httpExchange.getRequestMethod(), path);
@@ -163,7 +150,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
-      if (requestLimiter != null && limitPath(path) && !allowSkipRequestLimit(httpExchange.getRequestHeaders())) {
+      if (requestLimiter != null && limitPath(path)) {
         try {
           UserLimits userLimits = ServerTools.getUserLimits(parameters, config);
           requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
@@ -176,9 +163,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           return;
         }
       }
-      if (errorRequestLimiter != null &&
-          !allowSkipRequestLimit(httpExchange.getRequestHeaders()) &&
-          !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, parameters, httpExchange.getRequestHeaders())) {
+      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, parameters, httpExchange.getRequestHeaders())) {
         String textSizeMessage = getTextOrDataSizeMessage(parameters);
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts. " +
                 textSizeMessage +
@@ -197,9 +182,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (path.startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
           String pathWithoutVersion = path.substring("/v2/".length());
-          final Map<String, String> finalParameters = parameters;
-          final String finalRemoteAddress = remoteAddress;
-          TelemetryProvider.INSTANCE.createSpan("/v2", Attributes.empty(), () -> apiV2.handleRequest(pathWithoutVersion, httpExchange, finalParameters, errorRequestLimiter, finalRemoteAddress, config));
+          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
         } else if (path.endsWith("/Languages")) {
           throw new BadRequestException("You're using an old version of our API that's not supported anymore. Please see " + API_DOC_URL);
         } else if (path.equals("/")) {
@@ -258,28 +241,15 @@ class LanguageToolHttpHandler implements HttpHandler {
       long endTime = System.currentTimeMillis();
       logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace, endTime-startTime);
       sendError(httpExchange, errorCode, "Error: " + response);
-      globalSpan.recordException(e);
-      globalSpan.setStatus(StatusCode.ERROR);
+
     } finally {
       logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
       mdcRequestID.close();
-      globalSpan.setAttribute(SemanticAttributes.HTTP_STATUS_CODE, httpExchange.getResponseCode());
-      globalSpan.end();
       if (incrementHandleCount) {
         reqCounter.decrementHandleCount(reqId);
       }
     }
-  }
-
-  private boolean allowSkipRequestLimit(Headers requestHeaders) {
-    if (config.getRequestLimitAccessToken() == null) {
-      return false;
-    }
-    if (!requestHeaders.containsKey(REQUEST_LIMIT_ACCESS_TOKEN_HEADER)) {
-      return false;
-    }
-    return config.getRequestLimitAccessToken().equals(requestHeaders.getFirst(REQUEST_LIMIT_ACCESS_TOKEN_HEADER));
   }
 
   /**

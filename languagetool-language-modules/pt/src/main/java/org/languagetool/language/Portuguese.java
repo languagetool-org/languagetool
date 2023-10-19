@@ -23,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.pt.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -43,6 +45,8 @@ import java.util.*;
  */
 public class Portuguese extends Language implements AutoCloseable {
 
+  private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
+
   private LanguageModel languageModel;
 
   @Override
@@ -62,7 +66,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return Languages.getLanguageForShortCode("pt-PT");
+    return PORTUGAL_PORTUGUESE;
   }
 
   @Override
@@ -83,7 +87,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new PortugueseHybridDisambiguator(getDefaultLanguageVariant());
+    return new PortugueseHybridDisambiguator();
   }
 
   @Override
@@ -94,7 +98,7 @@ public class Portuguese extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return PortugueseSynthesizer.INSTANCE;
+    return new PortugueseSynthesizer(this);
   }
 
   @Override
@@ -126,16 +130,15 @@ public class Portuguese extends Language implements AutoCloseable {
             new PunctuationMarkAtParagraphEnd(messages, this, true),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages, this, userConfig),
-            new PortugueseColourHyphenationRule(messages, this, userConfig),
-            new PortugueseReplaceRule(messages, this),
-            new PortugueseBarbarismsRule(messages, "/pt/barbarisms.txt", this),
+            new PortugueseReplaceRule(messages),
+            new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt.txt"),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
-            new PortugueseClicheRule(messages, "/pt/cliches.txt", this),
+            new PortugueseClicheRule(messages),
             new PortugueseFillerWordsRule(messages, this, userConfig),
-            new PortugueseRedundancyRule(messages, "/pt/redundancies.txt", this),
-            new PortugueseWordinessRule(messages, "/pt/wordiness.txt", this),
-            //new PortugueseWeaselWordsRule(messages),
-            new PortugueseWikipediaRule(messages, "/pt/wikipedia.txt", this),
+            new PortugueseRedundancyRule(messages),
+            new PortugueseWordinessRule(messages),
+            new PortugueseWeaselWordsRule(messages),
+            new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
@@ -144,8 +147,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseWordCoherencyRule(messages),
             new PortugueseUnitConversionRule(messages),
             new PortugueseReadabilityRule(messages, this, userConfig, true),
-            new PortugueseReadabilityRule(messages, this, userConfig, false),
-            new DoublePunctuationRule(messages)
+            new PortugueseReadabilityRule(messages, this, userConfig, false)
     );
   }
 
@@ -167,6 +169,18 @@ public class Portuguese extends Language implements AutoCloseable {
     return Arrays.asList(
             new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
+  }
+
+  /** @since 4.0 */
+  @Override
+  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return new Word2VecModel(indexDir + File.separator + getShortCode());
+  }
+
+  /** @since 4.0 */
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /** @since 3.6 */
@@ -214,13 +228,6 @@ public class Portuguese extends Language implements AutoCloseable {
       case "DEGREE_MINUTES_SECONDS":    return 30;
       case "INTERJECTIONS_PUNTUATION":  return 20;
       case "CONFUSION_POR":             return 10;
-      case "PARONYM_POLITICA_523":             return 10;
-      case "PARONYM_PRONUNCIA_262":             return 10;
-      case "PARONYM_CRITICA_397":             return 10;
-      case "PARONYM_INICIO_169":             return 10;
-      case "LP_PARONYMS":             return 10;
-      case "PARONYM_MUSICO_499_bis":             return 10;
-      case "NA_NÃO":             return 10;
       case "VERB_COMMA_CONJUNCTION":    return 10; // greater than PORTUGUESE_WORD_REPEAT_RULE
       case "HOMOPHONE_AS_CARD":         return  5;
       case "TODOS_FOLLOWED_BY_NOUN_PLURAL":    return  3;
@@ -243,22 +250,14 @@ public class Portuguese extends Language implements AutoCloseable {
       case "BIASED_OPINION_WORDS":      return -31;
       case "WEAK_WORDS":                return -32;
       case "PT_AGREEMENT_REPLACE":      return -35;
-      case "CONTA_TO":      return -44;
       case "PT_DIACRITICS_REPLACE":     return -45;   // prefer over spell checker
       case "DIACRITICS":     return -45;
       case "PT_COMPOUNDS_POST_REFORM":     return -45;
-      case "AUX_VERBO":     return -45;
       case "HUNSPELL_RULE":             return -50;
-      case "CRASE_CONFUSION":           return -54;
-      case "NAO_MILITARES":           return -54;
-      case "NA_QUELE":           return -54;
-      case "NOTAS_FICAIS": return -54;
+      case "CRASE_CONFUSION":           return -55;
       case "GENERAL_VERB_AGREEMENT_ERRORS":           return -55;
-      case "GENERAL_NUMBER_AGREEMENT_ERRORS":           return -56;
-      case "GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS":           return -56;
       case "FINAL_STOPS":               return -75;
       case "EU_NÓS_REMOVAL":            return -90;
-      case "FAZER_USO_DE-USAR-RECORRER":            return -90;
       case "T-V_DISTINCTION":           return -100;
       case "T-V_DISTINCTION_ALL":       return -101;
       case "REPEATED_WORDS":            return -210;

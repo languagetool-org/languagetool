@@ -35,7 +35,7 @@ public class RussianSynthesizerTest {
 
   @Test
   public final void testSynthesizeString() throws IOException {
-    RussianSynthesizer synth = RussianSynthesizer.INSTANCE;
+    RussianSynthesizer synth = new RussianSynthesizer(new Russian());
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     assertEquals("[семья]", Arrays.toString(synth.synthesize(dummyToken("семья"), "NN:Inanim:Fem:Sin:Nom")));

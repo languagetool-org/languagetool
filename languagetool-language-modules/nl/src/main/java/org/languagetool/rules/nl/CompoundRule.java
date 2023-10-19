@@ -40,7 +40,6 @@ public class CompoundRule extends AbstractCompoundRule {
             "Deze uitdrukking hoort mogelijk aan elkaar, eventueel met een koppelteken.",
             "Koppeltekenprobleem");
     super.sentenceStartsWithUpperCase = true;
-    super.useSubRuleSpecificIds();
   }
 
   @Override
@@ -50,7 +49,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Woorden die aaneengeschreven horen, bijvoorbeeld 'zee-egel' i.p.v. 'zee egel': $match";
+    return "Woorden die aaneengeschreven horen, bijvoorbeeld 'zee-egel' i.p.v. 'zee egel'";
   }
 
   @Override

@@ -41,11 +41,7 @@ public class DictionaryMatchFilter implements RuleMatchFilter {
     Set<String> dictionary = new HashSet<>(userConfig.getAcceptedWords());
 
     return ruleMatches.stream().filter(match -> {
-      // at this point, the offsets we get from match are already converted to be pointing to the text with markup
-      // so we need to compute the substring based on that
-      // using anything else leads to StringIndexOutOfBoundsErrors or getting the wrong text
-      // if there's no markup, this is just equal to the original text
-      String covered = text.getTextWithMarkup().substring(match.getFromPos(), match.getToPos());
+      String covered = text.getPlainText().substring(match.getFromPos(), match.getToPos());
       return !dictionary.contains(covered);
     }).collect(Collectors.toList());
   }

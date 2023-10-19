@@ -22,6 +22,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
@@ -42,7 +44,7 @@ import com.sun.star.uno.XComponentContext;
  * @since 4.3
  * @author Fred Kruse, Marcin Miłkowski
  */
-public class MessageHandler {
+class MessageHandler {
   
   private static final String logLineBreak = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
@@ -89,7 +91,7 @@ public class MessageHandler {
   /**
    * Show an error in a dialog
    */
-  public static void showError(Throwable e) {
+  static void showError(Throwable e) {
     printException(e);
     if (testMode) {
       throw new RuntimeException(e);
@@ -110,7 +112,7 @@ public class MessageHandler {
   /**
    * Write to log-file
    */
-  public static void printToLogFile(String str) {
+  static void printToLogFile(String str) {
     try (OutputStream stream = new FileOutputStream(OfficeTools.getLogFilePath(), true);
         OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
         BufferedWriter br = new BufferedWriter(writer)
@@ -139,7 +141,7 @@ public class MessageHandler {
    * Shows a message in a dialog box
    * @param txt message to be shown
    */
-  public static void showMessage(String txt) {
+  static void showMessage(String txt) {
     showMessage(txt, true);
   }
 

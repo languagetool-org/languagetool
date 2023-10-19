@@ -56,11 +56,7 @@ public abstract class Rule {
 
   @Nullable
   private List<Tag> tags;
-  
-  @Nullable
-  private List<ToneTag> toneTags;
 
-  private boolean isGoalSpecific = false;
   private List<CorrectExample> correctExamples;
   private List<IncorrectExample> incorrectExamples;
   private List<ErrorTriggeringExample> errorTriggeringExamples;
@@ -548,46 +544,6 @@ public abstract class Rule {
   public boolean hasTag(Tag tag) {
     return tags != null && tags.contains(tag);
   }
-  
-  /**
-   * @since 6.2
-   */
-  public void addToneTags(List<String> toneTags) {
-    if (toneTags == null || toneTags.isEmpty()) {
-      return;
-    }
-    List<ToneTag> tags = this.toneTags;
-    if (tags == null) {
-      this.toneTags = tags = new ArrayList<>();
-    }
-    for (String toneTag : toneTags) {
-      if (tags.stream().noneMatch(k -> k.name().equals(toneTag))) {
-        tags.add(ToneTag.valueOf(toneTag));
-      }
-    }
-  }
-
-  /**
-   * @since 6.2
-   */
-  public void setToneTags(List<ToneTag> toneTags) {
-    this.toneTags = toneTags.isEmpty() ? null : Objects.requireNonNull(toneTags);
-  }
-  
-  /**
-   * @since 6.2
-   */
-  @NotNull
-  public List<ToneTag> getToneTags() {
-    return this.toneTags == null ? Collections.emptyList() : this.toneTags;
-  }
-
-  /**
-   * @since 6.2
-   */
-  public boolean hasToneTag(ToneTag toneTag) {
-    return this.toneTags != null && this.toneTags.contains(toneTag);
-  }
 
   public boolean isPremium() {
     return isPremium;
@@ -611,13 +567,5 @@ public abstract class Rule {
   
   public int getDistanceTokens() {
     return distanceTokens;
-  }
-  
-  public boolean isGoalSpecific() {
-    return isGoalSpecific;
-  }
-
-  public void setGoalSpecific(boolean goalSpecific) {
-    isGoalSpecific = goalSpecific;
   }
 }

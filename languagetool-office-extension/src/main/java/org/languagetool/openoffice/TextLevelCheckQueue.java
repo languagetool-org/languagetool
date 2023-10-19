@@ -27,6 +27,7 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 
 import com.sun.star.lang.Locale;
+import com.sun.star.lang.XComponent;
 
 /**
  * Class of a queue to handle parallel check of text level rules
@@ -40,23 +41,26 @@ public class TextLevelCheckQueue {
   public static final int STOP_FLAG = 2;
   public static final int DISPOSE_FLAG = 3;
 
+  private static final int MAX_WAIT = 5000;
+  
   private static final int HEAP_CHECK_INTERVAL = 50;
-  private static final int MAX_CHECK_PER_THREAD = 50;
 
   private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
-//  private Object queueWakeup = new Object();
+  private Object queueWakeup = new Object();
   private MultiDocumentsHandler multiDocHandler;
   private SortedTextRules sortedTextRules = null;
 
-  private QueueIterator queueIterator = null;
+  private QueueIterator queueIterator;
   private TextParagraph lastStart = null;
   private TextParagraph lastEnd = null;
   private int lastCache = -1;
   private String lastDocId = null;
   private Language lastLanguage = null;
+  private int lastCursorPara = -1;
+  private XComponent lastCursorComponent = null;
   private boolean interruptCheck = false;
   private boolean queueRuns = false;
-//  private boolean queueWaits = false;
+  private boolean queueWaits = false;
   
   private int numSinceHeapTest = 0;
 
@@ -65,8 +69,8 @@ public class TextLevelCheckQueue {
   
   TextLevelCheckQueue(MultiDocumentsHandler multiDocumentsHandler) {
     multiDocHandler = multiDocumentsHandler;
-//    queueIterator = new QueueIterator();
-//    queueIterator.start();
+    queueIterator = new QueueIterator();
+    queueIterator.start();
     debugMode = OfficeTools.DEBUG_MODE_TQ;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
   }
@@ -149,16 +153,12 @@ public class TextLevelCheckQueue {
    * wake up the waiting iteration of the queue
    */
   private void wakeupQueue() {
-//    synchronized(queueWakeup) {
+    synchronized(queueWakeup) {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: wakeupQueue: wake queue");
       }
-//      queueWakeup.notify();
-//    }
-      if (queueIterator == null) {
-        queueIterator = new QueueIterator();
-        queueIterator.start();
-      }
+      queueWakeup.notify();
+    }
   }
 
   /**
@@ -182,9 +182,9 @@ public class TextLevelCheckQueue {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: setStop: stop queue");
       }
-      textRuleQueue.add(0, queueEntry);
+      textRuleQueue.add(queueEntry);
     }
-//    wakeupQueue();
+    wakeupQueue();
   }
   
   /**
@@ -199,11 +199,9 @@ public class TextLevelCheckQueue {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: setReset: reset queue");
       }
-      synchronized(textRuleQueue) {
-        textRuleQueue.clear();
-      }
       textRuleQueue.add(queueEntry);
     }
+//    doReset();
     wakeupQueue();
   }
   
@@ -225,12 +223,29 @@ public class TextLevelCheckQueue {
         }
       }
     }
-//    if (wait && !queueWaits && lastStart != null && lastDocId != null && lastDocId.equals(docId)) {
-    if (wait && queueRuns && lastStart != null && lastDocId != null && lastDocId.equals(docId)) {
+    if (wait && !queueWaits && lastStart != null && lastDocId != null && lastDocId.equals(docId)) {
       lastDocId = null;
     }
   }
   
+  /**
+   * Set interrupt and wait till finish last check
+   */
+  private void waitForInterrupt() {
+    interruptCheck = true;
+    MessageHandler.printToLogFile("TextLevelCheckQueue: waitForInterrupt: Interrupt initiated");
+    wakeupQueue();
+    int n = 0;
+    while (interruptCheck && n < MAX_WAIT) {
+      try {
+        Thread.sleep(1);
+        n++;
+      } catch (InterruptedException e) {
+        MessageHandler.showError(e);
+      }
+    }
+  }
+
   /**
    *  get the document by ID
    */
@@ -256,11 +271,10 @@ public class TextLevelCheckQueue {
           return null;
         }
         Locale locale = docCache.getTextParagraphLocale(nStart);
-        if (locale != null && MultiDocumentsHandler.hasLocale(locale)) {
-          return MultiDocumentsHandler.getLanguage(locale);
+        if (locale != null && multiDocHandler.hasLocale(locale)) {
+          return multiDocHandler.getLanguage(locale);
         }
-        MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " 
-            + (locale == null ? "null" : OfficeTools.localeToString(locale)));
+        MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " + OfficeTools.localeToString(locale));
       }
     }
     if (debugMode) {
@@ -293,8 +307,15 @@ public class TextLevelCheckQueue {
    * gives back information if queue is waiting
    */
   public boolean isWaiting() {
-//    return queueWaits;
-    return !queueRuns;
+    return queueWaits;
+  }
+  
+  /**
+   * reset LanguageToo; do an new initialization
+   */
+  private void doReset() {
+    textRuleQueue.clear();
+    queueIterator.initLangtool(null);
   }
   
   /**
@@ -302,6 +323,30 @@ public class TextLevelCheckQueue {
    */
   QueueEntry getNextQueueEntry(TextParagraph nPara, String docId) {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
+/*
+    if (!DocumentCursorTools.isBusy() && !ViewCursorTools.isBusy() && !FlatParagraphTools.isBusy()) {
+      XComponent xComponent = OfficeTools.getCurrentComponent(multiDocHandler.getContext());
+      ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+      TextParagraph cursorPara = viewCursor.getViewCursorParagraph();
+      if (cursorPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
+        if (lastCursorPara < 0 || cursorPara.number != lastCursorPara || lastCursorComponent == null || !lastCursorComponent.equals(xComponent)) {
+          lastCursorComponent = xComponent;
+          lastCursorPara = cursorPara.number;
+          for (int n = 0; n < documents.size(); n++) {
+            if (xComponent.equals(documents.get(n).getXComponent())) {
+              docId = documents.get(n).getDocID();
+              break;
+            }
+          }
+          nPara = cursorPara;
+          if (debugMode) {
+            MessageHandler.printToLogFile("TextLevelCheckQueue: getNextQueueEntry: Next Paragraph set to View Cursor: Type = " + nPara.type 
+                + ", number = " + nPara.number + ", docId = " + docId);
+          }
+        }
+      }
+    }
+*/
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
       if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed() && documents.get(n).getDocumentType() == DocumentType.WRITER) {
@@ -357,30 +402,11 @@ public class TextLevelCheckQueue {
     return true;
   }
 
-  /**
-   *  run a queue entry for the specific document
-   */
-  void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) {
-    if (testHeapSpace()) {
-      SingleDocument document = getSingleDocument(qEntry.docId);
-      if (document != null && !document.isDisposed()) {
-        if (debugMode) {
-          MessageHandler.printToLogFile("TextLevelCheckQueue: runQueueEntry: nstart = " + qEntry.nStart.number + "; nEnd = "  + qEntry.nEnd.number 
-              + "; nCache = "  + qEntry.nCache + "; nCheck = "  + qEntry.nCheck + "; overrideRunning = "  + qEntry.overrideRunning);
-        }
-        document.runQueueEntry(qEntry.nStart, qEntry.nEnd, qEntry.nCache, qEntry.nCheck, qEntry.overrideRunning, lt);
-      }
-    } else {
-      MessageHandler.printToLogFile("Warning: Not enough heap space; text level queue stopped!");
-      setStop();
-    }
-  }
-  
   
   /**
    * Internal class to store queue entries
    */
-  static class QueueEntry {
+  class QueueEntry {
     TextParagraph nStart;
     TextParagraph nEnd;
     int nCache;
@@ -435,9 +461,6 @@ public class TextLevelCheckQueue {
         return false;
       }
       QueueEntry e = (QueueEntry) o;
-      if (nStart == null || nEnd == null || e.nStart == null || e.nEnd == null) {
-        return false;
-      }
       if (nStart.type == e.nStart.type && nStart.number == e.nStart.number && nEnd.number == e.nEnd.number
           && nCache == e.nCache && nCheck == e.nCheck && docId.equals(e.docId)) {
         return true;
@@ -449,8 +472,7 @@ public class TextLevelCheckQueue {
      * entry is equal but number of cache is smaller then new entry e
      */
     public boolean isEqualButSmallerCacheNumber(QueueEntry e) {
-      if (e == null || nStart == null || nEnd == null 
-          || e.nStart == null || e.nEnd == null || nStart.type != e.nStart.type) {
+      if (e == null || nStart.type != e.nStart.type) {
         return false;
       }
       if (nStart.number >= e.nStart.number && nEnd.number <= e.nEnd.number && nCache < e.nCache && docId.equals(e.docId)) {
@@ -463,8 +485,7 @@ public class TextLevelCheckQueue {
      * entry is obsolete and should be replaced by new entry e
      */
     public boolean isObsolete(QueueEntry e) {
-      if (e == null || nStart == null  || nEnd == null || e.nStart == null || e.nEnd == null
-          || nCheck != e.nCheck || nCache != e.nCache || nStart.type != e.nStart.type || docId == null || !docId.equals(e.docId)) {
+      if (e == null || nCheck != e.nCheck || nCache != e.nCache || nStart.type != e.nStart.type || !docId.equals(e.docId)) {
         return false;
       }
       if (nCheck < -1 || (nCheck == -1 && e.nStart.number >= nStart.number && e.nStart.number <= nEnd.number) 
@@ -474,15 +495,33 @@ public class TextLevelCheckQueue {
       return false;
     }
 
+    /**
+     *  run a queue entry for the specific document
+     */
+    void runQueueEntry(MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) {
+      if (testHeapSpace()) {
+        SingleDocument document = getSingleDocument(docId);
+        if (document != null && !document.isDisposed()) {
+          if (debugMode) {
+            MessageHandler.printToLogFile("TextLevelCheckQueue: runQueueEntry: nstart = " + nStart.number + "; nEnd = "  + nEnd.number 
+                + "; nCache = "  + nCache + "; nCheck = "  + nCheck + "; overrideRunning = "  + overrideRunning);
+          }
+          document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, lt);
+        }
+      } else {
+        MessageHandler.printToLogFile("Warning: Not enough heap space; text level queue stopped!");
+        setStop();
+      }
+    }
+    
   }
 
   /**
    * class for automatic iteration of the queue
    */
-  private class QueueIterator extends Thread {
+  class QueueIterator extends Thread {
     
     private SwJLanguageTool lt;
-    private int numCheck = 0;
 
       
     public QueueIterator() {
@@ -499,7 +538,7 @@ public class TextLevelCheckQueue {
       if (lt != null) {
         multiDocHandler.initCheck(lt);
         String langCode = OfficeTools.localeToString(multiDocHandler.getLocale());
-        sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules(langCode), false);
+        sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules(langCode));
       }
     }
     
@@ -514,24 +553,10 @@ public class TextLevelCheckQueue {
         if (debugMode) {
           MessageHandler.printToLogFile("TextLevelCheckQueue: run: queue started");
         }
-        while (numCheck < MAX_CHECK_PER_THREAD) {
-//          queueWaits = false;
+        for (;;) {
+          queueWaits = false;
           if (interruptCheck) {
-/*            
-            MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt check - queue ended");
-            textRuleQueue.clear();
-            interruptCheck = false;
-            queueRuns = false;
-            queueIterator = null;
-            return;
-*/
-            try {
-              Thread.sleep(50);
-            } catch (InterruptedException e) {
-              MessageHandler.printException(e);
-            }
-            interruptCheck = false;
-            continue;
+            MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt ended");
           }
           if (textRuleQueue.isEmpty()) {
             synchronized(textRuleQueue) {
@@ -566,25 +591,20 @@ public class TextLevelCheckQueue {
                 }
               }
             }
-//            synchronized(queueWakeup) {
+            synchronized(queueWakeup) {
               try {
                 if (debugMode) {
                   MessageHandler.printToLogFile("TextLevelCheckQueue: run: queue waits");
                 }
                 lastStart = null;
                 lastEnd = null;
-//                queueWaits = true;
-//                queueWakeup.wait();
-                queueRuns = false;
-                queueIterator = null;
-                return;
+                queueWaits = true;
+                queueWakeup.wait();
               } catch (Throwable e) {
                 MessageHandler.showError(e);
-                queueRuns = false;
-                queueIterator = null;
                 return;
               }
-//            }
+            }
           } else {
             QueueEntry queueEntry;
             synchronized(textRuleQueue) {
@@ -601,13 +621,12 @@ public class TextLevelCheckQueue {
               }
               queueRuns = false;
               interruptCheck = false;
-              queueIterator = null;
               return;
             } else if (queueEntry.special == RESET_FLAG) {
               if (debugMode) {
                 MessageHandler.printToLogFile("TextLevelCheckQueue: run: reset queue");
               }
-//              synchronized(queueWakeup) {
+              synchronized(queueWakeup) {
                 try {
                   if (debugMode) {
                     MessageHandler.printToLogFile("TextLevelCheckQueue: run: queue waits");
@@ -615,17 +634,14 @@ public class TextLevelCheckQueue {
                   lastStart = null;
                   lastEnd = null;
                   lastLanguage = null;
-//                  queueWaits = true;
+                  queueWaits = true;
                   interruptCheck = false;
-//                  queueWakeup.wait();
-                  continue;
+                  queueWakeup.wait();
                 } catch (Throwable e) {
                   MessageHandler.showError(e);
-                  queueRuns = false;
-                  queueIterator = null;
                   return;
                 }
-//              }
+              }
             } else {
               if (debugMode) {
                 MessageHandler.printToLogFile("TextLevelCheckQueue: run: run queue entry: docId = " + queueEntry.docId + ", nStart.type = " + queueEntry.nStart.type 
@@ -646,17 +662,10 @@ public class TextLevelCheckQueue {
                   entryLanguage = getLanguage(queueEntry.docId, queueEntry.nStart);
                 }
                 if (entryLanguage != null) {
-                  if (lt == null || lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
+                  if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
                     lastLanguage = entryLanguage;
                     if (!interruptCheck) {
                       initLangtool(lastLanguage);
-                      if (lt == null) {
-                        MessageHandler.printToLogFile("TextLevelCheckQueue: run: lt == null: lastLanguage == " 
-                            + (lastLanguage == null ? "null" : lastLanguage.getShortCodeWithCountryAndVariant()));
-                        queueRuns = false;
-                        queueIterator = null;
-                        return;
-                      }
                     }
                     if (!interruptCheck) {
                       sortedTextRules.activateTextRulesByIndex(queueEntry.nCache, lt);
@@ -675,8 +684,7 @@ public class TextLevelCheckQueue {
                   MessageHandler.printToLogFile("TextLevelCheckQueue: run: entryLanguage == null: lt set to null"); 
                 }
                 if (!interruptCheck) {
-                  numCheck++;
-                  runQueueEntry(queueEntry, multiDocHandler, entryLanguage == null ? null : lt);
+                  queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
                 }
                 queueEntry = null;
                 if (debugModeTm) {
@@ -699,13 +707,6 @@ public class TextLevelCheckQueue {
         }
       } catch (Throwable e) {
         MessageHandler.showError(e);
-        queueRuns = false;
-        queueIterator = null;
-      }
-      queueRuns = false;
-      queueIterator = null;
-      if (numCheck >= MAX_CHECK_PER_THREAD) {
-        wakeupQueue();
       }
     }
     

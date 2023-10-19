@@ -45,7 +45,7 @@ public class SimpleGrammarJekavianReplaceRule extends AbstractSimpleReplaceRule 
   }
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 

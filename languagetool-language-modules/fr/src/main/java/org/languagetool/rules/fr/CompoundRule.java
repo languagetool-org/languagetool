@@ -42,7 +42,6 @@ public class CompoundRule extends AbstractCompoundRule {
             "Erreur de trait d’union");
     addExamplePair(Example.wrong("Le <marker>Haut Rhin</marker>."),
                    Example.fixed("Le <marker>Haut-Rhin</marker>."));
-    super.useSubRuleSpecificIds();
   }
 
   @Override
@@ -52,7 +51,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Mots avec trait d’union : $match";
+    return "Mots avec trait d’union";
   }
 
   @Override

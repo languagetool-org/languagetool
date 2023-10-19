@@ -36,7 +36,7 @@ public final class Match {
 
   /** Possible string case conversions. **/
   public enum CaseConversion {
-    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER, PRESERVE, FIRSTUPPER, NOTASHKEEL
+    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER, PRESERVE, FIRSTUPPER
   }
 
   public enum IncludeRange {

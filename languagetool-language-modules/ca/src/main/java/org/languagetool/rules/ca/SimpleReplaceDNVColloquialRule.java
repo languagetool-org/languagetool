@@ -57,7 +57,6 @@ public class SimpleReplaceDNVColloquialRule extends AbstractSimpleReplaceLemmasR
     wrongLemmas = cache.getUnchecked("/ca/replace_dnv_colloquial.txt");
     super.setCategory(Categories.COLLOQUIALISMS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
-    super.useSubRuleSpecificIds();
   }  
 
   @Override

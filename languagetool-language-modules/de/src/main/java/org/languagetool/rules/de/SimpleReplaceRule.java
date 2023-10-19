@@ -37,7 +37,6 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    useSubRuleSpecificIds();
   }
 
   @Override
@@ -52,7 +51,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Prüft auf bestimmte falsche Wörter/Phrasen: $match";
+    return "Prüft auf bestimmte falsche Wörter/Phrasen";
   }
 
   @Override
@@ -63,8 +62,19 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   @Override
   public String getMessage() {
     return "Meinten Sie vielleicht $suggestions?";
+    //return "Dieses Wort steht in der Liste der nicht erlaubten Wörter.";
   }
 
+  @Override
+  public String getSuggestionsSeparator() {
+    return ", ";
+  }
+
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
+  
   @Override
   public Locale getLocale() {
     return DE_LOCALE;

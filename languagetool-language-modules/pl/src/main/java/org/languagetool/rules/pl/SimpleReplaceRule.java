@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.languagetool.Language;
 import org.languagetool.rules.*;
 
 /**
@@ -44,12 +43,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   private static final Locale PL_LOCALE = new Locale("pl");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public SimpleReplaceRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+  public SimpleReplaceRule(ResourceBundle messages) throws IOException {
+    super(messages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCategory(new Category(new CategoryId("PRAWDOPODOBNE_LITEROWKI"), "Prawdopodobne literówki"));
     setCheckLemmas(false);

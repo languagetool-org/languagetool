@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -21,19 +20,9 @@ public class CaseGovernmentHelper {
 
   static {
     CASE_GOVERNMENT_MAP.put("згідно з", new HashSet<>(Arrays.asList("v_oru")));
-    
-    Map<String, Set<String>> DERIVATIVES_MAP = loadMap("/uk/derivats.txt");
-    for(Entry<String, Set<String>> entry: DERIVATIVES_MAP.entrySet()) {
-      HashSet<String> set = new HashSet<>();
-      CASE_GOVERNMENT_MAP.put(entry.getKey(), set);
-      for(String verb: entry.getValue()) {
-        Set<String> rvs = CASE_GOVERNMENT_MAP.get(verb);
-        if( rvs != null ) {
-          set.addAll(rvs);
-        }
-      }
-    }
   }
+  
+
   
   private static Map<String, Set<String>> loadMap(String path) {
     Map<String, Set<String>> result = new HashMap<>();
@@ -59,13 +48,44 @@ public class CaseGovernmentHelper {
   
   public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, Pattern startPosTag, String rvCase) {
     return getCaseGovernments(analyzedTokenReadings, startPosTag).contains(rvCase);
+  /*
+    // special case - only some inflections of мати
+    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) 
+        && rvCase.equals("v_inf")  )
+      return true;
+    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:(futr).*")) 
+        && rvCase.equals("v_inf")  )
+      return true;
+    
+    for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
+      if( token.getPOSTag() == null )
+        continue;
+      if( startPosTag != null && ! startPosTag.matcher(token.getPOSTag()).matches() )
+        continue;
+      
+      if( rvCase.equals("v_oru") && PosTagHelper.hasPosTagPart(token, "adjp:pasv") )
+        return true;
+      
+      if( CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) 
+            && CASE_GOVERNMENT_MAP.get(token.getLemma()).contains(rvCase) ) {
+          return true;
+      }
+
+      // TODO: more universal advp -> verb conversion
+      if( token.getPOSTag().startsWith("advp") ) {
+        String vLemma = getAdvpVerbLemma(token);
+        
+        if( CASE_GOVERNMENT_MAP.containsKey(vLemma)
+            && CASE_GOVERNMENT_MAP.get(vLemma).contains(rvCase) )
+          return true;
+      }
+      
+    }
+    return false;
+    */
   }
 
   public static Set<String> getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, String startPosTag) {
-    if( "verb".equals(startPosTag) && PosTagHelper.hasPosTagStart(analyzedTokenReadings.getReadings().get(0), "advp") ) {
-      startPosTag = "advp";
-    }
-    
     LinkedHashSet<String> list = new LinkedHashSet<>();
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( ! token.hasNoTag()
@@ -85,10 +105,6 @@ public class CaseGovernmentHelper {
   }
 
   public static Set<String> getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, Pattern posTag) {
-//    if( "verb".equals(startPosTag) && PosTagHelper.hasPosTagStart(analyzedTokenReadings.getReadings().get(0), "advp") ) {
-//      startPosTag = "advp";
-//    }
-
     LinkedHashSet<String> list = new LinkedHashSet<>();
 
     // special case - only some inflections of мати
@@ -153,7 +169,5 @@ public class CaseGovernmentHelper {
     }
    return vLemma; 
   }
-
-  static final String USED_U_INSTEAD_OF_A_MSG = ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
   
 }

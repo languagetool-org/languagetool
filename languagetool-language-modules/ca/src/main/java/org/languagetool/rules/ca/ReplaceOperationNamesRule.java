@@ -48,7 +48,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
   
@@ -63,11 +63,10 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
   
 
   public ReplaceOperationNamesRule(final ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+    super(messages);
     super.setLocQualityIssueType(ITSIssueType.Style);
     super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries")); 
     synth = (CatalanSynthesizer) language.getSynthesizer();
-    super.useSubRuleSpecificIds();
   }  
 
   @Override
@@ -77,7 +76,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "S'ha d'evitar com a nom d'operació tècnica: $match";
+    return "Noms d'operació tècnica: buidat/buidatge";
   }
 
   @Override

@@ -31,14 +31,8 @@ public class UkrainianSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/uk/ukrainian_synth.dict";
   private static final String TAGS_FILE_NAME = "/uk/ukrainian_tags.txt";
 
-  public static final UkrainianSynthesizer INSTANCE = new UkrainianSynthesizer();
-
-  /** @deprecated use {@link #INSTANCE} */
   public UkrainianSynthesizer(Language lang) {
-    this();
-  }
-  private UkrainianSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "uk");
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
   
 }

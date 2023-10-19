@@ -30,6 +30,6 @@ public class BelarusianConcurrencyTest extends AbstractLanguageConcurrencyTest {
 
   @Override
   protected String createSampleText() {
-    return "Гэта старонка была сцёрта. Ніжэй паказаны журнал сціранняў і пераносаў для гэтай старонкі.";
+    return "Гэтая старонка была сцёртая. Ніжэй паказаны журнал сціранняў і пераносаў для гэтайстаронкі.";
   }
 }

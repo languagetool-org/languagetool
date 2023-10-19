@@ -29,8 +29,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
-import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
@@ -50,10 +49,10 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("Jo pensem")) {
-//      int ii=0;
-//      ii++;
-//    }
+    //if (match.getSentence().getText().contains("Das ist wider der Vernunft")) {
+    //  int ii=0;
+    //  ii++;
+    //}
 
     String postagSelect = getRequired("postagSelect", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
@@ -61,14 +60,11 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
     
     int postagFrom = 0;
-    if (postagFromStr.startsWith("marker")) {
+    if (postagFromStr.equals("marker")) {
       while (postagFrom < patternTokens.length && patternTokens[postagFrom].getStartPos() < match.getFromPos()) {
         postagFrom++;
       }
       postagFrom++;
-      if (postagFromStr.length()>6) {
-        postagFrom += Integer.parseInt(postagFromStr.replace("marker", ""));
-      }
     } else {
       postagFrom = Integer.parseInt(postagFromStr);
     }
@@ -77,14 +73,11 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           + match.getRule().getFullId() + ", value: " + postagFromStr);
     }
     int lemmaFrom = 0;
-    if (lemmaFromStr.startsWith("marker")) {
+    if (lemmaFromStr.equals("marker")) {
       while (lemmaFrom < patternTokens.length && patternTokens[lemmaFrom].getStartPos() < match.getFromPos()) {
         lemmaFrom++;
       }
       lemmaFrom++;
-      if (lemmaFromStr.length()>6) {
-        lemmaFrom += Integer.parseInt(lemmaFromStr.replace("marker", ""));
-      }
     } else {
       lemmaFrom = Integer.parseInt(lemmaFromStr);
     }
@@ -126,7 +119,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           if (isSuggestionException(nr, desiredPostag)) {
             continue;
           }
-          if (r.contains("{suggestion}") || r.contains("{Suggestion}") || r.contains("{SUGGESTION}")) {
+          if (r.contains("{suggestion}") || r.contains("{Suggestion}")) {
             suggestionUsed = true;
           }
           if (isWordCapitalized) {
@@ -137,27 +130,13 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           }
           String completeSuggestion = r.replace("{suggestion}", nr);
           completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
-          completeSuggestion = completeSuggestion.replace("{SUGGESTION}", nr.toUpperCase());
-          if (!replacementsList.contains(completeSuggestion)) {
-            replacementsList.add(completeSuggestion);
-          }
+          replacementsList.add(completeSuggestion);
         }
       }
       if (!suggestionUsed) {
         replacementsList.addAll(Arrays.asList(replacements));
       }
-      
-      List<String> adjustedReplacementsList = new ArrayList<>();
-      Rule rule = match.getRule();
-      if (rule instanceof AbstractPatternRule) {  
-        Language lang = ((AbstractPatternRule) rule).getLanguage();
-        for (String replacement : replacementsList) {
-          adjustedReplacementsList.add(lang.adaptSuggestion(replacement));  
-        }
-      } else {
-        adjustedReplacementsList = replacementsList;
-      }
-      newMatch.setSuggestedReplacements(adjustedReplacementsList);
+      newMatch.setSuggestedReplacements(replacementsList);
       return newMatch;
     }
     return match;

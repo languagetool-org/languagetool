@@ -117,9 +117,8 @@ public final class PatternTestTools {
           // <token postag="..."><exception scope="next">foo</exception</token>
           
           // We now allow scope="next" without skip="..."
-          if (exception.hasNextException()) {
+          if (exception.hasNextException())
             continue;
-          }
 
 //          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
 //            warn("The " + lang + " rule: "
@@ -326,10 +325,6 @@ public final class PatternTestTools {
           String ruleId,
           int tokenIndex) {
 
-    if (isRegularExpression && (stringValue.startsWith("|") || stringValue.endsWith("|")) && !stringValue.endsWith("\\|")) {
-      fail("Regex of " + ruleId + " starts or ends with '|', which is probably invalid: " + stringValue);
-    }
-
     // Check that the string value does not contain token separator.
     if (!isPos && !isRegularExpression && stringValue.length() > 1) {
       // Example: <token>foo bar</token> can't be valid because
@@ -472,13 +467,11 @@ public final class PatternTestTools {
                         + part + ") within " + "\"" + stringValue + "\".");
               } else {
                 // Duplicate disjunction parts "Foo|foo" since element ignores case.
-                if (!(part.equals("K") && ruleId.startsWith("AI_NL_HYDRA_LEO_MISSING_COMMA"))) {
-                  warn("The " + lang + " rule: "
-                    + ruleId + ", token [" + tokenIndex + "], contains duplicated "
-                    + "non case sensitive disjunction part ("
-                    + part + ") within " + "\"" + stringValue + "\". Did you "
-                    + "forget case_sensitive=\"yes\"?");
-                }
+                warn("The " + lang + " rule: "
+                        + ruleId + ", token [" + tokenIndex + "], contains duplicated "
+                        + "non case sensitive disjunction part ("
+                        + part + ") within " + "\"" + stringValue + "\". Did you "
+                        + "forget case_sensitive=\"yes\"?");
               }
             }
             partSetNoCase.add(partNoCase);

@@ -32,7 +32,7 @@ final class TokenAgreementAdjNounExceptionHelper {
   static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "а", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
   static final Pattern CONJ_FOR_PLURAL_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
   static final Pattern CONJ_FOR_PLURAL_WITH_COMMA_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL_WITH_COMMA, "|"));
-  private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|двійко|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо|півтор[аи]");
+  private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо");
   private static final Pattern VERB_NOT_INSERT_PATTERN = Pattern.compile("verb(?!.*insert)");
 
 
@@ -976,7 +976,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // adjp:pasv + adj:v_oru + noun (case governed by adjp)
     // підсвічений синім діамант
     if( adjPos > 1
-        && PosTagHelper.hasPosTagPart(tokens[adjPos-1], "adjp:pasv")
+        && PosTagHelper.hasPosTagPart(tokens[adjPos-1], "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTag(tokens[adjPos], "adj.*v_oru.*")
         && ! Collections.disjoint(InflectionHelper.getAdjInflections(tokens[adjPos-1].getReadings()), slaveInflections) ) {
       logException();
@@ -989,7 +989,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // оприлюднений депутатом Юрієм
     // вкриті плющем будинки
     // всі вкриті плющем
-    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv")
+    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTagPart(tokens[nounPos], "v_oru") ) {
       logException();
       return true;

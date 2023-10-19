@@ -172,8 +172,7 @@ public class FlatParagraphTools {
    * Change text of flat paragraph nPara 
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
-  public XFlatParagraph getFlatParagraphAt(int nPara) {
-    OfficeTools.waitForLO();
+  synchronized public XFlatParagraph getFlatParagraphAt (int nPara) {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -220,7 +219,7 @@ public class FlatParagraphTools {
         }
         return null;
       }
-      return new String(xFlatPara.getText());
+      return xFlatPara.getText();
     } finally {
       isBusy--;
     }
@@ -230,7 +229,7 @@ public class FlatParagraphTools {
    * Returns Current Paragraph Number from FlatParagaph
    * Returns -1 if it fails
    */
-  public int getCurNumFlatParagraph() {
+  synchronized public int getCurNumFlatParagraph() {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getCurrentFlatParagraph();
@@ -246,7 +245,6 @@ public class FlatParagraphTools {
         tmpXFlatPara = xFlatParaIter.getParaBefore(tmpXFlatPara);
         pos++;
       }
-      xFlatParaIter = getXFlatParagraphIterator(xComponent);
       return pos;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -262,7 +260,6 @@ public class FlatParagraphTools {
    */
   @Nullable
   public FlatParagraphContainer getAllFlatParagraphs(Locale fixedLocale) {
-    OfficeTools.waitForLO();
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -276,95 +273,37 @@ public class FlatParagraphTools {
       List<Locale> locales = new ArrayList<>();
       List<int[]> footnotePositions = new ArrayList<>();
       XFlatParagraph tmpFlatPara = xFlatPara;
-      List<Integer> sortedTextIds = getIntPropertyValue("SortedTextId", tmpFlatPara) == -1 ? null : new ArrayList<>();
-      int documentElementsCount = sortedTextIds == null ? -1 : getIntPropertyValue("DocumentElementsCount", tmpFlatPara);
       Locale locale = null;
       while (tmpFlatPara != null) {
-        String text = new String(tmpFlatPara.getText());
+        String text = tmpFlatPara.getText();
         int len = text.length();
         allParas.add(0, text);
-        footnotePositions.add(0, getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
+        footnotePositions.add(0, getPropertyValues("FootnotePositions", tmpFlatPara));
         // add just one local for the whole paragraph
         locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(0, locale);
-        if (sortedTextIds != null) {
-          sortedTextIds.add(0, getIntPropertyValue("SortedTextId", tmpFlatPara));
-        }
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
       tmpFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
       while (tmpFlatPara != null) {
-        String text = new String(tmpFlatPara.getText());
+        String text = tmpFlatPara.getText();
         int len = text.length();
         allParas.add(text);
-        footnotePositions.add(getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
+        footnotePositions.add(getPropertyValues("FootnotePositions", tmpFlatPara));
         locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(locale);
         if (debugMode) {
           printPropertyValueInfo(tmpFlatPara);
         }
-        if (sortedTextIds != null) {
-          sortedTextIds.add(getIntPropertyValue("SortedTextId", tmpFlatPara));
-        }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
-      xFlatParaIter = getXFlatParagraphIterator(xComponent);
-      return new FlatParagraphContainer(allParas, locales, footnotePositions, sortedTextIds, documentElementsCount);
+      return new FlatParagraphContainer(allParas, locales, footnotePositions);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     } finally {
       isBusy--;
     }
-  }
-  
-  /**
-   * Returns Text of some FlatParagraphs defined in a List
-   * Returns null if it fails
-   */
-  @Nullable
-  public List<String> getFlatParagraphs(List<Integer> nParas) {
-    OfficeTools.waitForLO();
-    isBusy++;
-    try {
-      XFlatParagraph xFlatPara = getLastFlatParagraph();
-      if (xFlatPara == null) {
-        if (debugMode) {
-          MessageHandler.printToLogFile("FlatParagraphTools: getAllFlatParagraphs: FlatParagraph == null");
-        }
-        return null;
-      }
-      List<String> sParas = new ArrayList<>();
-      XFlatParagraph tmpFlatPara = xFlatPara;
-      while (tmpFlatPara != null) {
-        xFlatPara = tmpFlatPara;
-        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
-      }
-      int nFlat = 0;
-      int nPara = 0;
-      while (xFlatPara != null && nPara < nParas.size()) {
-        if (nFlat == nParas.get(nPara)) {
-          String text = new String(xFlatPara.getText());
-          sParas.add(text);
-          nPara++;
-        }
-        xFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
-        nFlat++;
-      }
-      return sParas;
-    } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;           // Return null as method failed
-    } finally {
-      isBusy--;
-    }
-  }
-  
-  /**
-   * Get a save Locale 
-   */
-  private static Locale getSaveLocale(String language, String country, String variant) {
-    return new Locale(new String(language), new String(country), new String(variant));
   }
   
   /**
@@ -376,7 +315,7 @@ public class FlatParagraphTools {
     if (locale == null || locale.Language.isEmpty()) {
       locale = flatPara.getPrimaryLanguageOfText(first, len);
     }
-    return getSaveLocale(locale.Language, locale.Country, locale.Variant);
+    return locale;
   }
   
   /**
@@ -411,7 +350,7 @@ public class FlatParagraphTools {
       }
       if (len == 0 && lastLocale != null) {
         return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
-            getSaveLocale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+            new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
       }
       if (len < 2) {
         return getParagraphLanguage(flatPara, start, len);
@@ -433,7 +372,7 @@ public class FlatParagraphTools {
       }
       if (locales.keySet().size() == 0) {
         return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
-            getSaveLocale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+            new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
       }
       Locale biggestLocal = null;
       int biggestLocalNumber = 0;
@@ -456,7 +395,7 @@ public class FlatParagraphTools {
         if (debugMode) {
           MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: is multilingual locale: " + OfficeTools.localeToString(biggestLocal));
         }
-        return getSaveLocale(biggestLocal.Language, biggestLocal.Country, OfficeTools.MULTILINGUAL_LABEL + biggestLocal.Variant);
+        return new Locale(biggestLocal.Language, biggestLocal.Country, OfficeTools.MULTILINGUAL_LABEL + biggestLocal.Variant);
       }
     } finally {
       isBusy--;
@@ -484,8 +423,7 @@ public class FlatParagraphTools {
    * Returns Number of all FlatParagraphs of Document from current FlatParagraph
    * Returns negative value if it fails
    */
-  public int getNumberOfAllFlatPara() {
-    OfficeTools.waitForLO();
+  synchronized public int getNumberOfAllFlatPara() {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -519,73 +457,30 @@ public class FlatParagraphTools {
   /** 
    * Returns positions of properties by name 
    */
-  private Object getPropertyValueAsObject(String propName, XFlatParagraph xFlatPara) {
-    try {
-      if (xFlatPara == null) {
-        if (debugMode) {
-          MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValueAsObject: FlatParagraph == null");
-        }
-        return  null;
+  private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
+    if (xFlatPara == null) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: FlatParagraph == null");
       }
-      XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
-      if (paraProps == null) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValueAsObject: XPropertySet == null");
-        return  null;
-      }
-      return paraProps.getPropertyValue(propName);
-    } catch (Throwable t) {
-      MessageHandler.printException(t);
+      return  new int[]{};
     }
-    return null;
-  }
-  
-  /** 
-   * Returns positions of properties by name 
-   */
-  private int[] getIntArrayPropertyValue(String propName, XFlatParagraph xFlatPara) {
+    XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
+    if (paraProps == null) {
+      MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: XPropertySet == null");
+      return  new int[]{};
+    }
+    Object propertyValue;
     try {
-      Object propertyValue = getPropertyValueAsObject(propName, xFlatPara);
-      if (propertyValue == null) {
-        if (debugMode) {
-          MessageHandler.printToLogFile("FlatParagraphTools: getIntArrayPropertyValue: propertyValue == null");
-        }
-        return  new int[]{};
-      }
+      propertyValue = paraProps.getPropertyValue(propName);
       if (propertyValue instanceof int[]) {
         return (int[]) propertyValue;
       } else {
-        MessageHandler.printToLogFile("FlatParagraphTools: getIntArrayPropertyValue: Not of expected type int[]: " + propertyValue + ": " + propertyValue);
+        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: Not of expected type int[]: " + propertyValue + ": " + propertyValue);
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
     }
     return new int[]{};
-  }
-  
-  /** 
-   * Returns positions of properties by name 
-   */
-  private int getIntPropertyValue(String propName, XFlatParagraph xFlatPara) {
-    try {
-      Object propertyValue = getPropertyValueAsObject(propName, xFlatPara);
-      if (propertyValue == null) {
-        if (debugMode) {
-          MessageHandler.printToLogFile("FlatParagraphTools: getIntPropertyValue: propertyValue == null");
-        }
-        return  -1;
-      }
-      if (propertyValue instanceof Integer) {
-        return (int) propertyValue;
-      } else {
-        if (debugMode) {
-          MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: Not of expected type int: " + propertyValue + ": " + propertyValue);
-        }
-        return -1;
-      }
-    } catch (Throwable t) {
-      MessageHandler.printException(t);
-    }
-    return -1;
   }
   
   /** 
@@ -606,13 +501,7 @@ public class FlatParagraphTools {
       XPropertySetInfo propertySetInfo = paraProps.getPropertySetInfo();
       
       for (Property property : propertySetInfo.getProperties()) {
-        int nValue;
-        if (property.Name.equals("FootnotePositions") || property.Name.equals("FieldPositions")) {
-          nValue = ((int[]) paraProps.getPropertyValue(property.Name)).length;
-        } else {
-          nValue = (int) paraProps.getPropertyValue(property.Name);
-        }
-        MessageHandler.printToLogFile("Name : " + property.Name + "; Type : " + property.Type.getTypeName() + "; Value : " + nValue + "; Handle : " + property.Handle);
+        MessageHandler.printToLogFile("Name : " + property.Name + "; Type : " + property.Type.getTypeName() + "; Attributes : " + property.Attributes + "; Handle : " + property.Handle);
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
@@ -623,8 +512,7 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
-  public void setFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
-    OfficeTools.waitForLO();
+  synchronized public void setFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -683,8 +571,7 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked
    */
-  public void setFlatParasAsChecked() {
-    OfficeTools.waitForLO();
+  synchronized public void setFlatParasAsChecked() {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -714,8 +601,7 @@ public class FlatParagraphTools {
   /**
    * Get information of checked status of all paragraphs
    */
-  public List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
-    OfficeTools.waitForLO();
+  synchronized public List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
     isBusy++;
     List<Boolean> isChecked = new ArrayList<>();
     try {
@@ -753,7 +639,7 @@ public class FlatParagraphTools {
    * else the marks are added to the existing marks
    */
 
-  public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas) {
+  synchronized public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas) {
     isBusy++;
     try {
       if (changedParas == null || changedParas.isEmpty()) {
@@ -790,7 +676,6 @@ public class FlatParagraphTools {
       if (debugMode && tmpFlatPara == null) {
         MessageHandler.printToLogFile("FlatParagraphTools: markParagraphs: tmpFlatParagraph == null");
       }
-      xFlatParaIter = getXFlatParagraphIterator(xComponent);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     } finally {
@@ -868,8 +753,7 @@ public class FlatParagraphTools {
    * Change text of flat paragraph nPara 
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
-  public void changeTextOfParagraph (int nPara, int nStart, int nLen, String newText) {
-    OfficeTools.waitForLO();
+  synchronized public void changeTextOfParagraph (int nPara, int nStart, int nLen, String newText) {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -906,8 +790,7 @@ public class FlatParagraphTools {
    * Change text of flat paragraph nPara 
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
-  public void setLanguageOfParagraph (int nPara, int nStart, int nLen, Locale locale) {
-    OfficeTools.waitForLO();
+  synchronized public void setLanguageOfParagraph (int nPara, int nStart, int nLen, Locale locale) {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -949,27 +832,15 @@ public class FlatParagraphTools {
     return isBusy > 0;
   }
   
-  /**
-   *  Reset the busy flag
-   */
-  public static void reset() {
-    isBusy = 0;
-  }
-  
-  public static class FlatParagraphContainer {
+  public class FlatParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<int[]> footnotePositions;
-    public List<Integer> sortedTextIds;
-    public int documentElementsCount;
     
-    FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions, 
-        List<Integer> sortedTextIds, int documentElementsCount) {
+    FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions) {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.footnotePositions = footnotePositions;
-      this.sortedTextIds = sortedTextIds;
-      this.documentElementsCount = documentElementsCount;
     }
   }
   

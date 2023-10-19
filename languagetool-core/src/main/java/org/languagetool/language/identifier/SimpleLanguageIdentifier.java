@@ -32,8 +32,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import java.io.IOException;
 import java.util.*;
 
-import static org.languagetool.JLanguageTool.getDataBroker;
-
 @Slf4j
 public class SimpleLanguageIdentifier extends LanguageIdentifier {
 
@@ -54,8 +52,7 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
       if (spellingRuleLanguage == null) {
         spellingRuleLanguage = language;
       }
-      ResourceBundle bundle = getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(spellingRuleLanguage.getShortCodeWithCountryAndVariant()));
-      SpellingCheckRule defaultSpellingCheckRule = spellingRuleLanguage.getDefaultSpellingRule(bundle);
+      SpellingCheckRule defaultSpellingCheckRule = spellingRuleLanguage.getDefaultSpellingRule(JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(spellingRuleLanguage.getShortCodeWithCountryAndVariant())));
       if (defaultSpellingCheckRule != null) {
         spellingCheckRules.put(language.getShortCode(), defaultSpellingCheckRule);
       } else {
@@ -69,7 +66,7 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
     log.info("Init SimpleLanguageIdentifier with {}", preferredLangCodes);
     preferredLangCodes.forEach(langCode -> {
       Language language = Languages.getLanguageForShortCode(langCode);
-      SpellingCheckRule defaultSpellingRule = language.getDefaultSpellingRule(getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(langCode)));
+      SpellingCheckRule defaultSpellingRule = language.getDefaultSpellingRule(JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(langCode)));
       if (defaultSpellingRule != null) {
         spellingCheckRules.put(language.getShortCode(), defaultSpellingRule);
       }
@@ -159,12 +156,6 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
     } else {
       return null;
     }
-  }
-
-  @Nullable
-  @Override
-  public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs) {
-    return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp);
   }
 
   @Nullable

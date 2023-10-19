@@ -73,7 +73,7 @@ public class Configuration {
   static final boolean DEFAULT_IS_PREMIUM = false;
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
   static final boolean DEFAULT_USE_LT_DICTIONARY = true;
-  static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = false;
+  static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = true;
   static final boolean DEFAULT_SAVE_LO_CACHE = true;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
@@ -92,6 +92,7 @@ public class Configuration {
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
   private static final String FIXED_LANGUAGE_KEY = "fixedLanguage";
   private static final String NGRAM_DIR_KEY = "ngramDir";
+  private static final String WORD2VEC_DIR_KEY = "word2vecDir";
   private static final String AUTO_DETECT_KEY = "autoDetect";
   private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
@@ -173,6 +174,7 @@ public class Configuration {
   private Language motherTongue = null;
   private Language fixedLanguage = null;
   private File ngramDirectory;
+  private File word2vecDirectory;
   private boolean runServer;
   private boolean autoDetect;
   private boolean taggerShowsDisambigLog;
@@ -247,6 +249,7 @@ public class Configuration {
   /**
    * Initialize variables and clears Maps, Sets and Lists
    */
+  
   public void initOptions() {
     configForOtherLanguages.clear();
     underlineColors.clear();
@@ -263,6 +266,7 @@ public class Configuration {
 
     enabledRulesOnly = false;
     ngramDirectory = null;
+    word2vecDirectory = null;
     runServer = false;
     autoDetect = false;
     taggerShowsDisambigLog = false;
@@ -316,6 +320,7 @@ public class Configuration {
     this.motherTongue = configuration.motherTongue;
     this.fixedLanguage = configuration.fixedLanguage;
     this.ngramDirectory = configuration.ngramDirectory;
+    this.word2vecDirectory = configuration.word2vecDirectory;
     this.runServer = configuration.runServer;
     this.autoDetect = configuration.autoDetect;
     this.taggerShowsDisambigLog = configuration.taggerShowsDisambigLog;
@@ -431,14 +436,6 @@ public class Configuration {
   public void removeDisabledRuleIds(Set<String> ruleIds) {
     disabledRuleIds.removeAll(ruleIds);
     enabledRuleIds.addAll(ruleIds);
-  }
-
-  public void removeDisabledRuleId(String ruleId) {
-    disabledRuleIds.remove(ruleId);
-  }
-
-  public void removeEnabledRuleId(String ruleId) {
-    enabledRuleIds.remove(ruleId);
   }
 
   public void setEnabledRuleIds(Set<String> ruleIds) {
@@ -882,6 +879,23 @@ public class Configuration {
   }
 
   /**
+   * Directory with word2vec data or null.
+   * @since 4.0
+   */
+  @Nullable
+  public File getWord2VecDirectory() {
+    return word2vecDirectory;
+  }
+
+  /**
+   * Sets the directory with word2vec data (may be null).
+   * @since 4.0
+   */
+  public void setWord2VecDirectory(File dir) {
+    this.word2vecDirectory = dir;
+  }
+
+  /**
    * @since 2.8
    */
   public Map<ITSIssueType, Color> getErrorColors() {
@@ -1235,6 +1249,10 @@ public class Configuration {
     if (ngramDir != null) {
       ngramDirectory = new File(ngramDir);
     }
+    String word2vecDir = (String) props.get(prefix + WORD2VEC_DIR_KEY);
+    if (word2vecDir != null) {
+      word2vecDirectory = new File(word2vecDir);
+    }
 
     autoDetect = "true".equals(props.get(prefix + AUTO_DETECT_KEY));
     taggerShowsDisambigLog = "true".equals(props.get(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY));
@@ -1536,6 +1554,7 @@ public class Configuration {
     allProfileKeys.add(LANGUAGE_KEY);
     allProfileKeys.add(FIXED_LANGUAGE_KEY);
     allProfileKeys.add(NGRAM_DIR_KEY);
+    allProfileKeys.add(WORD2VEC_DIR_KEY);
     allProfileKeys.add(AUTO_DETECT_KEY);
     allProfileKeys.add(TAGGER_SHOWS_DISAMBIG_LOG_KEY);
     allProfileKeys.add(SERVER_RUN_KEY);
@@ -1630,6 +1649,9 @@ public class Configuration {
     }
     if (ngramDirectory != null) {
       props.setProperty(prefix + NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
+    }
+    if (word2vecDirectory != null) {
+      props.setProperty(prefix + WORD2VEC_DIR_KEY, word2vecDirectory.getAbsolutePath());
     }
     props.setProperty(prefix + AUTO_DETECT_KEY, Boolean.toString(autoDetect));
     props.setProperty(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));

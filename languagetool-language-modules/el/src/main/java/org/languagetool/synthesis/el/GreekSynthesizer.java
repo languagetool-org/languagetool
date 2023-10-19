@@ -30,14 +30,7 @@ public class GreekSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/el/greek_synth.dict";
   private static final String TAGS_FILE_NAME = "/el/greek_tags.txt";
 
-  public static final GreekSynthesizer INSTANCE = new GreekSynthesizer();
-
-  /** @deprecated use {@link #INSTANCE} */
   public GreekSynthesizer(Language lang) {
-    this();
-  }
-
-  private GreekSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "el");
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 }

@@ -191,27 +191,11 @@ public final class PosTagHelper {
       if( analyzedToken.getPOSTag() != null
           && ! analyzedToken.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME)
           && ! analyzedToken.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
-        
         if (!analyzedToken.getPOSTag().contains(posTagPart))
           return false;
-
-        foundTag = true;
-      }
-    }
-    return foundTag;
-  }
-
-  public static boolean hasPosTagAll(List<AnalyzedToken> analyzedTokenReadings, Pattern posTag) {
-    boolean foundTag = false;
-    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
-      if( analyzedToken.getPOSTag() != null
-          && ! analyzedToken.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME)
-          && ! analyzedToken.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
-
-        if (! posTag.matcher(analyzedToken.getPOSTag()).matches())
-          return false;
-        
-        foundTag = true;
+        if( ! foundTag ) {
+          foundTag = analyzedToken.getPOSTag().contains(posTagPart);
+        }
       }
     }
     return foundTag;

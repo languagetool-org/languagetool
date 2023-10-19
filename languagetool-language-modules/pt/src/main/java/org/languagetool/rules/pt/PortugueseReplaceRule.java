@@ -18,12 +18,13 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,15 +46,14 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   private static final Locale PT_LOCALE = new Locale("pt");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public PortugueseReplaceRule(ResourceBundle messages, Language language) {
-    super(messages, language);
+  public PortugueseReplaceRule(ResourceBundle messages) {
+    super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
-    useSubRuleSpecificIds();
     /*addExamplePair(Example.wrong("<marker>device</marker>"),
                    Example.fixed("<marker>dispositivo</marker>"));*/
   }

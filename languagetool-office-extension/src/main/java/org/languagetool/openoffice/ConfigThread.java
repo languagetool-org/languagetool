@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.Frame;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,8 +28,6 @@ import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.rules.Rule;
-
-import com.sun.star.uno.XComponentContext;
 
 /**
  * A thread that shows the configuration dialog which lets the
@@ -62,9 +61,6 @@ class ConfigThread extends Thread {
   public void run() {
     if(!documents.javaVersionOkay()) {
       return;
-    }
-    if (!documents.isJavaLookAndFeelSet()) {
-      documents.setJavaLookAndFeel();
     }
     documents.setConfigurationDialog(cfgDialog);
     try {

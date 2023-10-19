@@ -30,14 +30,8 @@ public class IrishSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/ga/irish_synth.dict";
   private static final String TAGS_FILE_NAME = "/ga/irish_tags.txt";
 
-  public static final IrishSynthesizer INSTANCE = new IrishSynthesizer();
-
-  /** @deprecated use {@link #INSTANCE} */
   public IrishSynthesizer(Language lang) {
-    this();
-  }
-  private IrishSynthesizer() {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "ga");
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
 }

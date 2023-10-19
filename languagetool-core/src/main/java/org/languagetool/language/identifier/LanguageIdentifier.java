@@ -75,9 +75,6 @@ public abstract class LanguageIdentifier {
    */
   @Nullable
   public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp);
-  
-  @Nullable 
-  public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs);
 
   /**
    * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
@@ -92,7 +89,7 @@ public abstract class LanguageIdentifier {
    */
   public String cleanAndShortenText(String text) {
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
-    shortText = shortText.replaceAll("[\uFEFF\u2063]+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
+    shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
     shortText = REMOVE_URL_FILTER.filter(shortText);
     shortText = REMOVE_EMAIL_SIGNATURE_FILTER.filter(shortText);
     shortText = REMOVE_MENTION_FILTER.filter(shortText);
@@ -135,7 +132,7 @@ public abstract class LanguageIdentifier {
         result = entry.getKey();
       }
     }
-    return new AbstractMap.SimpleImmutableEntry<>(result, max);  
+    return new AbstractMap.SimpleImmutableEntry<>(result, max);
   }
 
   protected static class ParsedLanguageLists {

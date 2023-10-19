@@ -26,13 +26,11 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -44,47 +42,34 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
  * <p>Unlike AbstractSimpleReplaceRule, it supports phrases (Ex: "aqua forte" -&gt; "acvaforte").
+ *
  * Note: Merge this into {@link AbstractSimpleReplaceRule}
  *
  * @author Ionuț Păduraru
  */
 public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
-  public enum CaseSensitivy {CS, CI, CSExceptAtSentenceStart}
-
   private final Language language;
-
   protected boolean subRuleSpecificIds;
   
   public abstract List<String> getFileNames();
-
-  public List<URL> getFilePaths(){
-    return null;
-  }
-
   @Override
   public abstract String getId();
-  /**
-   * @return A string where {@code $match} will be replaced with the matching word.
-   */
   @Override
   public abstract String getDescription();
   public abstract String getShort();
-
   /**
    * @return A string where {@code $match} will be replaced with the matching word
    * and {@code $suggestions} will be replaced with the alternatives. This is the string
    * shown to the user.
    */
   public abstract String getMessage();
-
   /**
    * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.  
    */
   public String getSuggestionsSeparator() {
     return ", ";
   }
-
   /**
    * locale used on case-conversion
    */
@@ -95,7 +80,12 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           .build(new CacheLoader<PathsAndLanguage, List<Map<String, SuggestionWithMessage>>>() {
             @Override
             public List<Map<String, SuggestionWithMessage>> load(@NotNull PathsAndLanguage lap) throws IOException {
-              return loadWords(lap.paths, lap.lang, lap.caseSensitive, lap.checkingCase);
+              List<Map<String, SuggestionWithMessage>> maps = new ArrayList<>();
+              for (String path : lap.paths) {
+                List<Map<String, SuggestionWithMessage>> l = loadWords(path, lap.lang, lap.caseSensitive, lap.checkingCase);
+                maps.addAll(l);
+              }
+              return maps;
             }
           });
 
@@ -113,8 +103,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     subRuleSpecificIds = true;
   }
   
-  public CaseSensitivy getCaseSensitivy() {
-    return CaseSensitivy.CI;
+  /**
+   * use case-sensitive matching.
+   */
+  public boolean isCaseSensitive() {
+    return false;
   }
 
   /**
@@ -122,15 +115,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public List<Map<String, SuggestionWithMessage>> getWrongWords(boolean checkingCase) {
     try {
-      boolean caseSen = getCaseSensitivy() == CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart;
-      List<URL> filePaths = new ArrayList<>();
-      if (getFilePaths() != null) {
-        filePaths.addAll(getFilePaths());
-      }
-      for (String fileName : getFileNames()) {
-        filePaths.add(getDataBroker().getFromRulesDirAsUrl(fileName));
-      }
-      return cache.get(new PathsAndLanguage(filePaths, language, caseSen, checkingCase));
+      return cache.get(new PathsAndLanguage(getFileNames(), language, isCaseSensitive(), checkingCase));
     } catch (ExecutionException e) {
       throw new RuntimeException(e);
     }
@@ -139,66 +124,65 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   /**
    * Load the list of words.
    * Same as {@link AbstractSimpleReplaceRule#loadFromPath} but allows multiple words and a custom message (optional).
-   * @param fileUrls the file from classpath to load
+   * @param filename the file from classpath to load
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    */
-  private static List<Map<String, SuggestionWithMessage>> loadWords(List<URL> fileUrls, Language lang, boolean caseSensitive, boolean checkingCase)
+  private static List<Map<String, SuggestionWithMessage>> loadWords(String filename, Language lang, boolean caseSensitive, boolean checkingCase)
           throws IOException {
     List<Map<String, SuggestionWithMessage>> list = new ArrayList<>();
-    for (URL fileUrl : fileUrls) {
-      InputStream stream =  fileUrl.openStream();
-      try (
-        InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(isr))
-      {
-        String line;
-        int msgCount = 0;
-        int lineCount = 0;
-        while ((line = br.readLine()) != null) {
-          line = line.trim();
-          if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
-            continue;
-          }
-          if (line.contains("  ") && !lang.getShortCode().equals("ar")) {
-            throw new RuntimeException("More than one consecutive space in " + fileUrl.toString() + " - use a tab character as a delimiter for the message: " + line);
-          }
-          if (checkingCase) {
-            String[] parts = line.split("=");
-            line = parts[0].toLowerCase().trim() + "=" + parts[0].trim();
-            if (parts.length == 2) {
-              line = line + "\t" + parts[1].trim();
-            }
-          }
-          String[] parts = line.split("\t");
-          String confPair = parts[0];
-          lineCount++;
-          String msg;
-          if (parts.length == 1) {
-            msg = null;
-          } else if (parts.length == 2) {
-            msg = parts[1];
-            msgCount++;
-          } else {
-            throw new IOException("Format error in file " + fileUrl.toString()
-              + ". Expected at most 1 '=' character and at most 1 tab character. Line: " + line);
-          }
-          String[] confPairParts = confPair.split("=");
-          String[] wrongForms = confPairParts[0].split("\\|"); // multiple incorrect forms
-          for (String wrongForm : wrongForms) {
-            int wordCount = getWordCount(lang, wrongForm);
-            for (int i = list.size(); i < wordCount; i++) {  // grow if necessary
-              list.add(new HashMap<>());
-            }
-            String searchToken = caseSensitive ? wrongForm : wrongForm.toLowerCase();
-            if (!checkingCase && searchToken.equals(confPairParts[1])) {
-              throw new IOException("Format error in file " + fileUrl.toString()
-                + ". Found same word on left and right side of '='. Line: " + line);
-            }
-            SuggestionWithMessage sugg = new SuggestionWithMessage(confPairParts[1], msg);
-            list.get(wordCount - 1).put(searchToken, sugg);
-          }
+    InputStream stream = getDataBroker().getFromRulesDirAsStream(filename);
+    try (
+      InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
+      BufferedReader br = new BufferedReader(isr)) 
+    {
+      String line;
+      while ((line = br.readLine()) != null) {
+        String[] origLineParts = line.split("=");
+        if (origLineParts.length == 2 && origLineParts[0].trim().equals(origLineParts[1].trim())) {
+          throw new IOException("Format error in file " +  getDataBroker().getFromRulesDirAsUrl(filename)
+            + ". Found same word on left and right side of '='. Line: " + line);
         }
-        //System.out.println(msgCount + " of " + lineCount + " have a specific message in " + filename);
+        line = line.trim();
+        if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
+          continue;
+        }
+        if (checkingCase) {
+          String[] parts = line.split("=");
+          line = parts[0].toLowerCase().trim() + "=" + parts[0].trim();
+          if (parts.length == 2) {
+            line = line + "\t" + parts[1].trim();
+          } 
+        }
+        String[] parts = line.split("=");
+        if (parts.length != 2) {
+          throw new IOException("Format error in file " + getDataBroker().getFromRulesDirAsUrl(filename)
+                  + ". Expected exactly 1 '=' character. Line: " + line);
+        }
+        String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
+        for (String wrongForm : wrongForms) {
+          int wordCount = 0;
+          List<String> tokens = lang.getWordTokenizer().tokenize(wrongForm);
+          for (String token : tokens) {
+            if (!StringTools.isWhitespace(token)) {
+              wordCount++;
+            }
+          }
+          // grow if necessary
+          for (int i = list.size(); i < wordCount; i++) {
+            list.add(new HashMap<>());
+          }
+          SuggestionWithMessage sugg;
+          if (parts[1].contains("\t")) {
+            String[] suggestionParts = parts[1].split("\t");
+            if (suggestionParts.length != 2) {
+              throw new IOException("Invalid format - use only one tab character to separate suggestion from the message: " + line);
+            }
+            sugg = new SuggestionWithMessage(suggestionParts[0], suggestionParts[1]);
+          } else {
+            sugg = new SuggestionWithMessage(parts[1]);
+          }
+          list.get(wordCount - 1).put(caseSensitive ? wrongForm : wrongForm.toLowerCase(), sugg);
+        }
       }
     }
     // seal the result (prevent modification from outside this class)
@@ -207,17 +191,6 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       result.add(Collections.unmodifiableMap(map));
     }
     return Collections.unmodifiableList(result);
-  }
-
-  private static int getWordCount(Language lang, String wrongForm) {
-    int wordCount = 0;
-    List<String> tokens = lang.getWordTokenizer().tokenize(wrongForm);
-    for (String token : tokens) {
-      if (!StringTools.isWhitespace(token)) {
-        wordCount++;
-      }
-    }
-    return wordCount;
   }
 
   protected void addToQueue(AnalyzedTokenReadings token,
@@ -267,15 +240,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       for (int j = 0; j < len; j++) { // longest words first
         String crt = variants.get(j);
         int crtWordCount = len - j;
-        SuggestionWithMessage crtMatch;
-        if (getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart && i - crtWordCount == 0) {  // at sentence start, words can be uppercase
-          crtMatch = wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
-        } else {
-          boolean caseSen = getCaseSensitivy() == CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart;
-          crtMatch = caseSen ?
-            wrongWords.get(crtWordCount - 1).get(crt) :
-            wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
-        }
+        SuggestionWithMessage crtMatch = isCaseSensitive() ?
+          wrongWords.get(crtWordCount - 1).get(crt) :
+          wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
         if (crtMatch != null) {
           List<String> replacements = Arrays.asList(crtMatch.getSuggestion().split("\\|"));
           String msgSuggestions = "";
@@ -287,31 +254,18 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           String msg = getMessage().replaceFirst("\\$match", crt).replaceFirst("\\$suggestions", msgSuggestions);
           if (crtMatch.getMessage() != null) {
-            if (!crtMatch.getMessage().startsWith("http://") && !crtMatch.getMessage().startsWith("https://")) {
-              msg = crtMatch.getMessage();
-            }
+            msg = crtMatch.getMessage();
           }
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          RuleMatch ruleMatch;
+          ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
           if (subRuleSpecificIds) {
-            String id = StringTools.toId(getId() + "_" + crt, language);
-            String desc = getDescription().replace("$match", crt);
-            SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
-            ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShort());
+            ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
           }
-          if (crtMatch.getMessage() != null && (crtMatch.getMessage().startsWith("http://") || crtMatch.getMessage().startsWith("https://"))) {
-            ruleMatch.setUrl(Tools.getUrl(crtMatch.getMessage()));
-          }
-          if ((getCaseSensitivy() != CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart)
-               && StringTools.startsWithUppercase(crt)) {
-            //String covered = sentence.getText().substring(startPos, endPos);
+          if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {
-              String repl = StringTools.uppercaseFirstChar(replacements.get(k));
-              replacements.set(k, repl);
-              //if (covered.equals(repl)) {
-              //  System.err.println("suggestion == original text for '" + covered + "' in AbstractSimpleReplaceRule2");
-              //}
+              replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
             }
           }
           ruleMatch.setSuggestedReplacements(replacements);
@@ -341,32 +295,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return false;
   }
 
-  /**
-   * Create a warning if a key word of the replacement rule is not allowed by the speller rule.
-   */
-  public boolean checkKeyWordsAreKnownToSpeller() {
-    return false;
-  }
-
-  /**
-   * Create a warning if a key word of the replacement rule is allowed by the speller rule.
-   */
-  public boolean checkKeyWordsAreUnknownToSpeller() {
-    return false;
-  }
-
-  public boolean separateKeyWordsBySpeller() {
-    return false;
-  }
-
   static class PathsAndLanguage {
-    final List<URL> paths;
+    final List<String> paths;
     final Language lang;
     final boolean caseSensitive;
     final boolean checkingCase;
 
-    PathsAndLanguage(List<URL> filePaths, Language language, boolean caseSensitive, boolean checkingCase) {
-      this.paths = Objects.requireNonNull(filePaths);
+    PathsAndLanguage(List<String> fileNames, Language language, boolean caseSensitive, boolean checkingCase) {
+      this.paths = Objects.requireNonNull(fileNames);
       this.lang = Objects.requireNonNull(language);
       this.caseSensitive = caseSensitive;
       this.checkingCase = checkingCase;

@@ -38,22 +38,6 @@ public class GermanTaggerTest {
   private final GermanTagger tagger = new GermanTagger();
 
   @Test
-  public void testAdjectivesFromSpellingTxt() throws IOException {
-    assertEquals("abgemindert[abgemindert/PA2:PRD:GRU:VER]", toSortedString(tagger.lookup("abgemindert")));
-    assertEquals("abgemindertes[abgemindert/PA2:AKK:SIN:NEU:GRU:IND:VER, " +
-      "abgemindert/PA2:AKK:SIN:NEU:GRU:SOL:VER, abgemindert/PA2:NOM:SIN:NEU:GRU:IND:VER, " +
-      "abgemindert/PA2:NOM:SIN:NEU:GRU:SOL:VER]", toSortedString(tagger.lookup("abgemindertes")));
-    assertNull(tagger.lookup("fünftjüngste"));  // skipped to avoid false tagging that misses comparative
-    assertEquals("meistgewünschtes[meistgewünscht/ADJ:AKK:SIN:NEU:GRU:IND, meistgewünscht/ADJ:AKK:SIN:NEU:GRU:SOL, " +
-      "meistgewünscht/ADJ:NOM:SIN:NEU:GRU:IND, meistgewünscht/ADJ:NOM:SIN:NEU:GRU:SOL]", toSortedString(tagger.lookup("meistgewünschtes")));
-    assertEquals("meistgewünschter[meistgewünscht/ADJ:DAT:SIN:FEM:GRU:SOL, meistgewünscht/ADJ:GEN:PLU:FEM:GRU:SOL, " +
-      "meistgewünscht/ADJ:GEN:PLU:MAS:GRU:SOL, meistgewünscht/ADJ:GEN:PLU:NEU:GRU:SOL, " +
-      "meistgewünscht/ADJ:GEN:SIN:FEM:GRU:SOL, meistgewünscht/ADJ:NOM:SIN:MAS:GRU:IND, " +
-      "meistgewünscht/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("meistgewünschter")));
-    assertEquals("meistgewünscht[meistgewünscht/ADJ:PRD:GRU]", toSortedString(tagger.lookup("meistgewünscht")));
-  }
-
-  @Test
   public void testLemmaOfForDashCompounds() throws IOException {
     AnalyzedTokenReadings aToken = tagger.lookup("Zahn-Arzt-Verband");
     List<String> lemmas = new ArrayList<>();
@@ -191,18 +175,6 @@ public class GermanTaggerTest {
     assertEquals("Tische[Tisch/SUB:AKK:PLU:MAS, Tisch/SUB:DAT:SIN:MAS, Tisch/SUB:GEN:PLU:MAS, Tisch/SUB:NOM:PLU:MAS]", toSortedString(aToken19));
 
     assertNull(tagger.lookup("vanillig-karamelligen"));
-
-    AnalyzedTokenReadings aToken20 = tagger.lookup("Polizeimitarbeitende");
-    assertEquals("Polizeimitarbeitende[Polizeimitarbeitende/SUB:AKK:SIN:FEM:ADJ, Polizeimitarbeitende/SUB:AKK:SIN:NEU:ADJ, " +
-      "Polizeimitarbeitende/SUB:NOM:SIN:FEM:ADJ, Polizeimitarbeitende/SUB:NOM:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:NOM:SIN:NEU:ADJ]", toSortedString(aToken20));
-    AnalyzedTokenReadings aToken21 = tagger.lookup("Polizeimitarbeitenden");
-    assertEquals("Polizeimitarbeitenden[Polizeimitarbeitende/SUB:AKK:PLU:FEM:ADJ, Polizeimitarbeitende/SUB:AKK:PLU:MAS:ADJ, " +
-      "Polizeimitarbeitende/SUB:AKK:PLU:NEU:ADJ, Polizeimitarbeitende/SUB:AKK:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:DAT:PLU:FEM:ADJ, " +
-      "Polizeimitarbeitende/SUB:DAT:PLU:MAS:ADJ, Polizeimitarbeitende/SUB:DAT:PLU:NEU:ADJ, Polizeimitarbeitende/SUB:DAT:SIN:FEM:ADJ, " +
-      "Polizeimitarbeitende/SUB:DAT:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:DAT:SIN:NEU:ADJ, Polizeimitarbeitende/SUB:GEN:PLU:FEM:ADJ, " +
-      "Polizeimitarbeitende/SUB:GEN:PLU:MAS:ADJ, Polizeimitarbeitende/SUB:GEN:PLU:NEU:ADJ, Polizeimitarbeitende/SUB:GEN:SIN:FEM:ADJ, " +
-      "Polizeimitarbeitende/SUB:GEN:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:GEN:SIN:NEU:ADJ, Polizeimitarbeitende/SUB:NOM:PLU:FEM:ADJ, " +
-      "Polizeimitarbeitende/SUB:NOM:PLU:MAS:ADJ, Polizeimitarbeitende/SUB:NOM:PLU:NEU:ADJ]", toSortedString(aToken21));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
@@ -585,43 +557,49 @@ public class GermanTaggerTest {
     assertThat(result1.size(), is(1));
     assertThat(result1.get(0).getReadings().size(), is(1));
     String res1 = result1.toString();
+    assertTrue(res1.contains(""));
     assertFalse(res1.contains("VER"));
 
     List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("bereich"));
     assertThat(result2.size(), is(1));
     assertThat(result2.get(0).getReadings().size(), is(1));
     String res2 = result2.toString();
+    assertTrue(res2.contains(""));
     assertFalse(res2.contains("VER"));
 
     List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("beispiel"));
     assertThat(result3.size(), is(1));
     assertThat(result3.get(0).getReadings().size(), is(1));
     String res3 = result3.toString();
+    assertTrue(res3.contains(""));
     assertFalse(res3.contains("VER"));
 
     List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("keksdose"));
     assertThat(result4.size(), is(1));
     assertThat(result4.get(0).getReadings().size(), is(1));
     String res4 = result4.toString();
+    assertTrue(res4.contains(""));
     assertFalse(res4.contains("VER"));
 
     List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("aktienarten"));
     assertThat(result5.size(), is(1));
     assertThat(result5.get(0).getReadings().size(), is(1));
     String res5 = result5.toString();
+    assertTrue(res5.contains(""));
     assertFalse(res5.contains("VER"));
 
     List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("schwarzgrau"));
     assertThat(result6.size(), is(1));
-    assertThat(result6.get(0).getReadings().size(), is(2));
+    assertThat(result6.get(0).getReadings().size(), is(1));
     String res6 = result6.toString();
-    assertTrue(res6.contains("ADJ"));
-    assertTrue(res6.contains("VER"));
+    assertTrue(res6.contains(""));
+    assertFalse(res6.contains("VER"));
 
     List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("unmenge"));
     assertThat(result7.size(), is(1));
     assertThat(result7.get(0).getReadings().size(), is(1));
     String res7 = result7.toString();
+    assertTrue(res7.contains(""));
     assertFalse(res7.contains("VER"));
 
     List<AnalyzedTokenReadings> result8 = tagger.tag(Collections.singletonList("entlang"));

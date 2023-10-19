@@ -75,12 +75,9 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
   protected static final Unit<Temperature> FAHRENHEIT = CELSIUS.multiply(5.0/9.0).shift(-32);
   // limit size of matched number to (possibly) avoid hangups
-  // we need a different regex for including a word boundary (\b), instead of just prepending that
-  // because otherwise negative numbers aren't correctly recognized
   protected static final String NUMBER_REGEX = "(-?[0-9]{1,32}[0-9,.]{0,32})";
-  protected static final String NUMBER_REGEX_WITH_BOUNDARY = "(-?\\b[0-9]{1,32}[0-9,.]{0,32})";
 
-  protected final Pattern numberRangePart = Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + "$");
+  protected final Pattern numberRangePart = Pattern.compile("\\b" + NUMBER_REGEX + "$");
   
   private static final double DELTA = 1e-2;
   private static final double ROUNDING_DELTA = 0.05;
@@ -91,7 +88,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
   // for patterns that require a custom number parsing function
   protected Map<Pattern, Map.Entry<Unit, Function<MatchResult, Double>>> specialPatterns = new HashMap<>();
-  protected Map<Unit, List<String>> unitSymbols = new HashMap<>();
+  protected Map<Unit, List<String>>  unitSymbols = new HashMap<>();
   // for recognizing conversions made by this rule or the user
   protected List<Pattern> convertedPatterns = new ArrayList<>();
   // units to use for conversions
@@ -109,7 +106,6 @@ public abstract class AbstractUnitConversionRule extends Rule {
           Pattern.compile("\\d+[-‐–]\\d+"),   // "3-5 pounds"
           Pattern.compile("\\d+/\\d+"),   // "1/4 mile"
           Pattern.compile("\\d+:\\d+"),   // "A 2:1 cup"
-          Pattern.compile("Pfund Sterling"),   // "1.800 Pfund Sterling" (German)
           Pattern.compile("\\d+⁄\\d+")    // "1⁄4 cup" (it's not the standard slash)
   );
 
@@ -196,7 +192,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
    */
   protected void addUnit(String pattern, Unit base, String symbol, double factor, boolean metric) {
     Unit unit = base.multiply(factor);
-    unitPatterns.put(Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + "[\\s\u00A0]{0," + WHITESPACE_LIMIT + "}" + pattern + "\\b"), unit);
+    unitPatterns.put(Pattern.compile("\\b" + NUMBER_REGEX + "\\s{0," + WHITESPACE_LIMIT + "}" + pattern + "\\b"), unit);
     unitSymbols.putIfAbsent(unit, new ArrayList<>());
     unitSymbols.get(unit).add(symbol);
     if (metric && !metricUnits.contains(unit)) {
@@ -213,7 +209,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     addUnit("t", KILOGRAM, "t", 1e3, true);
 
     addUnit("lb", POUND, "lb", 1, false);
-    //addUnit("oz", OUNCE, "oz", 1, false); -- probably not useful, see https://github.com/languagetooler-gmbh/languagetool-premium/issues/4560
+    addUnit("oz", OUNCE, "oz", 1, false);
 
     addUnit("mi", MILE, "mi", 1, false);
     addUnit("yd", YARD, "yd", 1, false);
@@ -273,8 +269,9 @@ public abstract class AbstractUnitConversionRule extends Rule {
     addUnit("l", LITRE, "l", 1, true);
     addUnit("ml", LITRE, "ml", 1e-3, true);
 
-    addUnit("°F", FAHRENHEIT, "°F", 1, false);
-    addUnit("°C", CELSIUS, "°C", 1, true);
+
+    addUnit( "°F", FAHRENHEIT, "°F", 1, false);
+    addUnit( "°C", CELSIUS, "°C", 1, true);
 
     convertedPatterns.add(Pattern.compile("\\s*\\((?:ca. )?" + NUMBER_REGEX + "\\s*([^)]+)\\s*\\)"));
 
@@ -415,8 +412,11 @@ public abstract class AbstractUnitConversionRule extends Rule {
     if (!hyphenInNumber) {
       return false;
     }
+
     String textBefore = sentence.getText().substring(0, matcher.start());
-    return numberRangePart.matcher(textBefore).find();
+    boolean endsWithNumberRangePart = numberRangePart.matcher(textBefore).find();
+
+    return endsWithNumberRangePart;
   }
 
   private void tryConversion(AnalyzedSentence sentence, List<RuleMatch> matches, Pattern unitPattern, Double customValue, Unit customUnit, Matcher unitMatcher, List<Map.Entry<Integer, Integer>> ignoreRanges) {

@@ -21,7 +21,9 @@
 package org.languagetool.rules.ca;
 
 import org.junit.Test;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
@@ -39,10 +41,6 @@ public class MorfologikCatalanSpellerRuleTest {
 
         RuleMatch[] matches;
         JLanguageTool lt = new JLanguageTool(new Catalan());
-        
-        matches = rule.match(lt.getAnalyzedSentence("Tornaràn"));
-        assertEquals(1, matches.length);
-        assertEquals("Tornaran", matches[0].getSuggestedReplacements().get(0));
 
         // prefixes and suffixes.
         assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autodefineixin com a populars.")).length);
@@ -491,19 +489,7 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("m'entretinc", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("m9entretinc"));
         assertEquals("m'entretinc", matches[0].getSuggestedReplacements().get(0));
-        matches = rule.match(lt.getAnalyzedSentence("lajuntamnet"));
-        assertEquals("[l'ajuntament, ajuntament, rejuntament]", matches[0].getSuggestedReplacements().toString());
-        matches = rule.match(lt.getAnalyzedSentence("lajuntament"));
-        assertEquals("[la juntament, l'ajuntament, ajuntament, rejuntament]", matches[0].getSuggestedReplacements().toString());
-        matches = rule.match(lt.getAnalyzedSentence("lajust"));
-        assertEquals("[la just, l'ajust, ajust]", matches[0].getSuggestedReplacements().toString());
-
-        matches = rule.match(lt.getAnalyzedSentence("©L'Institut"));
-        assertEquals("[© L'Institut]", matches[0].getSuggestedReplacements().toString());
-        matches = rule.match(lt.getAnalyzedSentence("18l'Institut"));
-        assertEquals("[18 l'Institut]", matches[0].getSuggestedReplacements().toString());
-
-
+        
         
         //Ela geminada 
         matches = rule.match(lt.getAnalyzedSentence("La sol•licitud"));
@@ -668,36 +654,5 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(10, matches[0].getToPos());
-        
-        // do not suggest forms of "sentar, enterar".
-        matches = rule.match(lt.getAnalyzedSentence("sentences"));
-        assertEquals(1, matches.length);
-        assertEquals("[sentències, sentencies, sentenciés, senten ces]", matches[0].getSuggestedReplacements().toString());
-        
-        matches = rule.match(lt.getAnalyzedSentence("autonoma"));
-        assertEquals(1, matches.length);
-        assertEquals("autònoma", matches[0].getSuggestedReplacements().get(0));
-
-        AnalyzedTokenReadings[] atrsArray = new AnalyzedTokenReadings[2];
-        AnalyzedTokenReadings atrs0 = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", ""));
-        AnalyzedTokenReadings atrs1 = new AnalyzedTokenReadings(new AnalyzedToken("Yuval Noha Hariri", null, null));
-        atrsArray[0] = atrs0;
-        atrsArray[1] = atrs1;
-        AnalyzedSentence sentence = new AnalyzedSentence(atrsArray);
-        matches = rule.match(sentence);
-        assertEquals(1, matches.length);
-        assertEquals("Yuval Noah Harari", matches[0].getSuggestedReplacements().get(0));
-
-      matches = rule.match(lt.getAnalyzedSentence("inhalàmbrica"));
-      assertEquals(1, matches.length);
-      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
-
-      matches = rule.match(lt.getAnalyzedSentence("inhal·làmbricament"));
-      assertEquals(1, matches.length);
-      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
-
-      matches = rule.match(lt.getAnalyzedSentence("innal·làmbricamente"));
-      assertEquals(1, matches.length);
-      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
     }
 }

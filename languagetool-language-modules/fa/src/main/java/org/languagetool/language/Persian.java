@@ -79,7 +79,7 @@ public class Persian extends Language {
         new PersianDoublePunctuationRule(messages),
         new PersianWordRepeatBeginningRule(messages, this),
         new PersianWordRepeatRule(messages, this),
-        new SimpleReplaceRule(messages, this),
+        new SimpleReplaceRule(messages),
         new PersianSpaceBeforeRule(messages, this),
         new WordCoherencyRule(messages)
     );

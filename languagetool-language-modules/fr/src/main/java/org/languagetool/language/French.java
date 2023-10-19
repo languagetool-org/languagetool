@@ -61,14 +61,10 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"FR", "", "LU", "MC", "CM",  "CI", "HT", "ML", "SN", "CD", "MA", "RE"};
-    //  "BE", "CH", "CA",
+    return new String[]{"FR", "", "BE", "CH", "CA", "LU", "MC", "CM",
+            "CI", "HT", "ML", "SN", "CD", "MA", "RE"};
   }
 
-  @Override
-  public Language getDefaultLanguageVariant() {
-    return Languages.getLanguageForShortCode("fr");
-  }
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
@@ -78,7 +74,7 @@ public class French extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return FrenchSynthesizer.INSTANCE;
+    return new FrenchSynthesizer(this);
   }
   
   @Override
@@ -124,7 +120,8 @@ public class French extends Language implements AutoCloseable {
             new CompoundRule(messages, this, userConfig),
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this),
-            new SimpleReplaceRule(messages, this),
+            new SimpleReplaceRule(messages),
+            new AnglicismReplaceRule(messages),
             new FrenchRepeatedWordsRule(messages)
     );
   }
@@ -236,7 +233,9 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
+    switch (id) { 
+      case "FR_COMPOUNDS": return 500; // greater than agreement rules
+      case "FR_SIMPLE_REPLACE": return 150;
       case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
       case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
       case "SA_CA_SE": return 100; // greater than D_N
@@ -292,8 +291,6 @@ public class French extends Language implements AutoCloseable {
       case "ACCORD_PLURIEL_ORDINAUX": return 10; // needs higher priority than D_J
       case "SUJET_AUXILIAIRE": return 10; // needs higher priority than JE_VERBE; TU_VERBE; IL_VERBE; ILS_VERBE; ON_VERBE;
       case "ADJ_ADJ_SENT_END": return 10; // needs higher priority than ACCORD_COULEUR
-      case "OU_PAS": return 10; // needs higher priority than VERBE_OBJ
-      case "PLACE_DE_LA_VIRGULE": return 10; // needs higher priority than C_EST_QUOI
       case "SE_CE": return -10; // needs higher priority than ELISION
       case "SYNONYMS": return -10; // less than ELISION
       case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
@@ -356,12 +353,7 @@ public class French extends Language implements AutoCloseable {
       case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
     }
-    if (id.startsWith("FR_COMPOUNDS")) {
-      return 500;
-    }
-    if (id.startsWith("FR_SIMPLE_REPLACE")) {
-      return 150;
-    }
+
     if (id.startsWith("grammalecte_")) {
       return -150;
     }
@@ -369,6 +361,7 @@ public class French extends Language implements AutoCloseable {
     if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
       return -101;
     }
+
     return super.getPriorityForId(id);
   }
   
@@ -381,16 +374,13 @@ public class French extends Language implements AutoCloseable {
     if (enabledRules.contains("APOS_TYP")) {
       List<RuleMatch> newRuleMatches = new ArrayList<>();
       for (RuleMatch rm : ruleMatches) {
-        List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
-        List<SuggestedReplacement> newReplacements = new ArrayList<>();
-        for (SuggestedReplacement s : replacements) {
-          String newReplStr = s.getReplacement();
-          if (s.getReplacement().length() > 1) {
-            newReplStr = s.getReplacement().replace("'", "’");
+        List<String> replacements = rm.getSuggestedReplacements();
+        List<String> newReplacements = new ArrayList<>();
+        for (String s : replacements) {
+          if (s.length() > 1) {
+            s = s.replace("'", "’");
           }
-          SuggestedReplacement newRepl = new SuggestedReplacement(s);
-          newRepl.setReplacement(newReplStr);
-          newReplacements.add(newRepl);
+          newReplacements.add(s);
         }
         RuleMatch newMatch = new RuleMatch(rm, newReplacements);
         newRuleMatches.add(newMatch);

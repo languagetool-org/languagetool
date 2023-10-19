@@ -39,6 +39,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
 
   private final ArabicTagger tagger;
   private final ArabicTagManager tagmanager;
+  private final ArabicSynthesizer synthesizer;
   private final List<Map<String, SuggestionWithMessage>> wrongWords;
 
   public ArabicTransVerbRule(ResourceBundle messages) {
@@ -46,6 +47,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
     tagger = new ArabicTagger();
     tagger.enableNewStylePronounTag();
     tagmanager = new ArabicTagManager();
+    synthesizer = new ArabicSynthesizer(new Arabic());
 
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
@@ -213,7 +215,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
       newposTag = tagmanager.setFlag(newposTag, "OPTION", 'D');
     // generate the new preposition according to modified postag
     AnalyzedToken prepAToken = new AnalyzedToken(word, newposTag, word);
-    String[] newwordList = ArabicSynthesizer.INSTANCE.synthesize(prepAToken, newposTag);
+    String[] newwordList = synthesizer.synthesize(prepAToken, newposTag);
     String newWord = "";
     if (newwordList.length != 0) {
       newWord = newwordList[0];

@@ -1998,17 +1998,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   
       <rule>
         <pattern>
-          <token>,</token>
-          <token>принаймні</token>
-          <token>,</token>
-        </pattern>
-        <message>Слово «\2» не буває вставним словом і комами не відокремлюється (хоча кому можуть диктувати інші конструкції)</message>
-        <suggestion> \2</suggestion>
-        <example correction=" принаймні">і<marker>, принаймні,</marker> не сподобалося</example>
-      </rule>
-  
-      <rule>
-        <pattern>
           <token regexp="yes">[ій]</token>
           <marker>
             <token regexp="yes">[ву]се-таки</token>
@@ -2384,7 +2373,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>тому
             <exception scope="previous">,</exception>
-            <exception scope="previous" postag="SENT_START"/>
           </token>
           <token>що</token>
         </pattern>
@@ -2393,7 +2381,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>\1, \2</suggestion>
         <example correction=", тому що|тому, що">спізнився<marker> тому що</marker> проспав.</example>
         <example correction=", тому що|тому, що">спізнився не<marker> тому що</marker> проспав, ...</example>
-        <example>Тому що ми застрягли</example>
       </rule>
     </rulegroup>
 

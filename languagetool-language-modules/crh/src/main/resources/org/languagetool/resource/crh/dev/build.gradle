@@ -1,0 +1,151 @@
+plugins {
+    id 'java'
+//    id 'eclipse'
+    id 'maven-publish'
+}
+
+String ltToolsVersion = '5.9'
+
+String langCode="crh"
+
+//String packageDir="${projectDir}"
+String resourceDir="${projectDir}/.."
+String outResDir="${projectDir}/.."
+String tmpDir="build/tmp"
+
+String inputDir="${projectDir}"
+String inputDictFile="pos_dict.txt"
+
+
+def ltDir="../../../../../../../../../.."
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+configurations{
+  provided {
+        description = 'Configuration for generating the dictionaries'
+  }
+}
+
+dependencies {
+    provided 'org.languagetool:languagetool-tools:' + ltToolsVersion
+}
+
+// for git-bash
+def convert(String filename) {
+  if( filename.contains(":\\") ) {
+      return filename.replaceFirst(/(?i)([a-z]):\//, '$1/').replace('\\', '/')
+  }
+  return filename
+}
+
+task prepareDict(type: Exec) {
+    def srcDict="${inputDir}/$inputDictFile"
+    def outFile="${tmpDir}/all.tagged.tmp"
+
+    inputs.file srcDict
+    outputs.file outFile
+
+    workingDir "$projectDir"
+
+    doFirst {
+        println "Preparing dict file $inputDictFile"
+        new File("$workingDir/$tmpDir").mkdirs()
+    }
+
+    srcDict = convert(srcDict)
+    
+//    def cmd = "cat ${srcDict} | tr ' ' '\\t' | LC_ALL=POSIX sort -u > ${outFile}"
+    def cmd = "cat ${srcDict} | grep -v ' ' | LC_ALL=POSIX sort -u > ${outFile} && grep -vE ':(undesirable_tags)' ${outFile} > ${outFile}.synth"
+
+    commandLine "sh", "-c", "${cmd}"
+}
+
+
+task posDict(type: JavaExec, dependsOn: prepareDict) {
+    def outputDict="${outResDir}/crimean_tatar.dict"
+
+    inputs.files tasks.prepareDict.outputs
+    outputs.file outputDict
+
+    workingDir "$projectDir"
+
+    classpath = files(configurations.provided.files)
+    mainClass = 'org.languagetool.tools.POSDictionaryBuilder'
+    jvmArgs "-Xmx12g"
+    
+    args "-i", "${tmpDir}/all.tagged.tmp"
+    args "-info", "${projectDir}/../crimean_tatar.info"
+    args "-o", "${outputDict}"
+}
+
+task synthDict(type: JavaExec, dependsOn: prepareDict) {
+    def outputDict="${outResDir}/crimean_tatar_synth.dict"
+
+    inputs.files tasks.prepareDict.outputs
+    outputs.file outputDict
+
+    workingDir "$projectDir"
+
+    classpath = files(configurations.provided.files)
+    mainClass = 'org.languagetool.tools.SynthDictionaryBuilder'
+    jvmArgs "-Xmx12g"
+    
+    args "-i", "${tmpDir}/all.tagged.tmp.synth"
+    args "-info", "${projectDir}/../crimean_tatar_synth.info"
+    args "-o", "${outputDict}"
+}
+
+
+task prepareSpellWords(type: Exec) {
+    def srcDict="${inputDir}/$inputDictFile"
+//    def srcDict="${inputDir}/words_spell.txt"
+    def outFile="${tmpDir}/spell.words.tmp"
+
+    inputs.file srcDict
+    outputs.file outFile
+
+    workingDir "$projectDir"
+
+    doFirst {
+        new File(tmpDir).mkdirs()
+    }
+    
+    srcDict = convert(srcDict)
+    
+    def cmd = "cat ${srcDict} | cut -f 1 | grep -v ' ' | LC_ALL=POSIX sort -u > ${outFile}"
+
+    commandLine "sh", "-c", "${cmd}"
+}
+
+
+task spellDict(type: JavaExec, dependsOn: prepareSpellWords) {
+    def spellOutDir="${outResDir}/hunspell"
+    def outFile="${spellOutDir}/crh_UA.dict"
+
+    inputs.files tasks.prepareSpellWords.outputs.files
+    outputs.file outFile
+
+    workingDir "$projectDir"
+
+    classpath = files(configurations.provided.files)
+    mainClass = 'org.languagetool.tools.SpellDictionaryBuilder'
+    jvmArgs "-Xmx12g"
+    
+    args "-i", "${tmpDir}/spell.words.tmp"
+    args "-info", "${resourceDir}/hunspell/crh_UA.info"
+    args "-o", "${outFile}"
+
+    doFirst() {
+        new File(spellOutDir).mkdirs()
+    }
+}
+
+
+
+processResources.dependsOn(posDict, synthDict, spellDict)
+compileJava.enabled = false

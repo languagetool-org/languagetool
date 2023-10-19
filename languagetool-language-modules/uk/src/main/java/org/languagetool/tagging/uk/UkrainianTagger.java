@@ -25,11 +25,9 @@ import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -57,11 +55,7 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern DATE = Pattern.compile("[\\d]{1,2}\\.[\\d]{1,2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("[-\u2013][«\"„]");
-  private static final Pattern COMPOUND_WITH_QUOTES_REGEX2 = Pattern.compile("[»\"“][-\u2013]");
-  private static final Pattern MISSING_APO = Pattern.compile("([бвгґдзкмнпрстфхш])([єїюя])");
-  private static final Pattern MISSING_HYPHEN = Pattern.compile("([а-яіїєґ']+)(небудь)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern CAPS_INSIDE_WORD = Pattern.compile("[а-яіїєґ'-]*[а-яіїєґ][А-ЯІЇЄҐ][а-яіїєґ][а-яіїєґ'-]*");
+  private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("-[«\"„]");
 
 
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, locale);
@@ -92,9 +86,9 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( TIME.matcher(word).matches() ) {
-        List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-        additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.time.getText(), word));
-        return additionalTaggedTokens;
+      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.time.getText(), word));
+      return additionalTaggedTokens;
     }
 
     if ( DATE.matcher(word).matches() ) {
@@ -116,52 +110,12 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
-    if ( word.length() > 5 && CAPS_INSIDE_WORD.matcher(word).matches() ) {
-      List<TaggedWord> wdList = wordTagger.tag(word.toLowerCase());
-      if( wdList.size() > 0 ) {
-        wdList = PosTagHelper.adjust(wdList, null, null, ":alt");
-        return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
-      }
-    }
-
-    if ( word.length() > 4 ) {
-      Matcher matcher = MISSING_APO.matcher(word);
-      if (matcher.find()) {
-        List<TaggedWord> wdList = wordTagger.tag(matcher.replaceFirst("$1'$2"));
-        wdList = PosTagHelper.filter2(wdList, Pattern.compile("(?!.*:(bad|arch|alt|abbr|slang|subst|short|long)).*"));
-        if( wdList.size() > 0 ) {
-          wdList = wdList.stream()
-              .map(w -> new TaggedWord(w.getLemma(), PosTagHelper.addIfNotContains(w.getPosTag(), ":bad")))
-              .collect(Collectors.toList());
-//          wdList = PosTagHelper.adjust(wdList, null, null, ":bad");
-          return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
-        }
-      }
-    }
-
-    if ( word.length() > 5 ) {
-      Matcher matcher = MISSING_HYPHEN.matcher(word);
-      if (matcher.matches()) {
-        List<TaggedWord> wdList = wordTagger.tag(matcher.group(1).toLowerCase());
-        if( wdList.size() > 0 && PosTagHelper.hasPosTagPart2(wdList, "pron")) {
-          wdList = PosTagHelper.adjust(wdList, null, "-"+matcher.group(2).toLowerCase(), ":bad");
-          return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
-        }
-      }
-    }
-
-    word = Ukrainian.IGNORED_CHARS.matcher(word).replaceAll("");
-    
     if ( word.length() >= 3 && word.indexOf('-') > 0 ) {
 
       // екс-«депутат»
-      // "заступницю"-колаборантку
-      if( word.length() >= 6 ) {
-        if (COMPOUND_WITH_QUOTES_REGEX.matcher(word).find()
-            || COMPOUND_WITH_QUOTES_REGEX2.matcher(word).find()) {
-          String adjustedWord = word.replaceAll("[«»\"„“]", "");
-          return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
-        }
+      if( word.length() >= 6 && COMPOUND_WITH_QUOTES_REGEX.matcher(word).find() ) {
+        String adjustedWord = word.replaceAll("[«»\"„“]", "");
+        return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
       }
 
       try {
@@ -173,7 +127,7 @@ public class UkrainianTagger extends BaseTagger {
         return new ArrayList<>();
       }
     }
-    
+
     return compoundTagger.guessOtherTags(word);
   }
 

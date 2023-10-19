@@ -23,7 +23,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.es.SpanishTagger;
 
@@ -43,7 +42,7 @@ import java.util.stream.Collectors;
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   private static final Pattern PREFIX_WITH_WHITESPACE = Pattern.compile(
-      "^(ultra|eco|tele|anti|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|hiper|trans|re|g|l|m) (..+)|.+ s$",
+      "^(ultra|eco|tele|anti|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|hiper|trans|re|g) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CAMEL_CASE = Pattern.compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", Pattern.UNICODE_CASE);
   private static final Pattern PARTICULA_FINAL = Pattern.compile("^(..+) (que|cual)$",
@@ -73,12 +72,6 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   // Use this rule in LO/OO extension despite being a spelling rule
   public boolean useInOffice() {
     return true;
-  }
-
-  @Override
-  public List<String> getAdditionalSpellingFileNames() {
-    return Arrays.asList("/es/"+ SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,
-      "/es/multiwords.txt");
   }
 
   @Override

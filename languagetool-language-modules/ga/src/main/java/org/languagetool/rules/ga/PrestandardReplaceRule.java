@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.ga;
 
-import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -45,12 +44,12 @@ public class PrestandardReplaceRule extends AbstractSimpleReplaceRule {
   private static final Locale GA_LOCALE = new Locale("GA");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public PrestandardReplaceRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+  public PrestandardReplaceRule(final ResourceBundle messages) throws IOException {
+    super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("“Ní <marker>baoghal</marker> daoibh,” ar sise."),

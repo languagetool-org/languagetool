@@ -35,11 +35,11 @@ import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.ca.CatalanTagger;
-import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches incorrect verbs (including all inflected forms) and
  * suggests correct ones instead.
+ * 
  * Loads the relevant words from <code>rules/ca/replace_verbs.txt</code>.
  * 
  * @author Jaume Ortolà
@@ -50,7 +50,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
@@ -58,17 +58,16 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   private static final String endings = "a|ada|ades|am|ant|ar|ara|aran|arem|aren|ares|areu|aria|arien|aries|arà|aràs|aré|aríem|aríeu|assen|asses|assin|assis|at|ats|au|ava|aven|aves|e|ec|ega|eguda|egudes|eguem|eguen|eguera|egueren|egueres|egues|eguessen|eguesses|eguessin|eguessis|egueu|egui|eguin|eguis|egut|eguts|egué|eguérem|eguéreu|egués|eguéssem|eguésseu|eguéssim|eguéssiu|eguí|eix|eixem|eixen|eixent|eixeran|eixerem|eixeren|eixeres|eixereu|eixeria|eixerien|eixeries|eixerà|eixeràs|eixeré|eixeríem|eixeríeu|eixes|eixessen|eixesses|eixessin|eixessis|eixeu|eixi|eixia|eixien|eixies|eixin|eixis|eixo|eixé|eixérem|eixéreu|eixés|eixéssem|eixésseu|eixéssim|eixéssiu|eixí|eixíem|eixíeu|em|en|es|esc|esca|escuda|escudes|escut|escuts|esquem|esquen|esquera|esqueren|esqueres|esques|esquessen|esquesses|esquessin|esquessis|esqueu|esqui|esquin|esquis|esqué|esquérem|esquéreu|esqués|esquéssem|esquésseu|esquéssim|esquéssiu|esquí|essen|esses|essin|essis|eu|i|ia|ida|ides|ien|ies|iguem|igueu|im|in|int|ir|ira|iran|irem|iren|ires|ireu|iria|irien|iries|irà|iràs|iré|iríem|iríeu|is|isc|isca|isquen|isques|issen|isses|issin|issis|it|its|iu|ix|ixen|ixes|o|à|àrem|àreu|às|àssem|àsseu|àssim|àssiu|àvem|àveu|éixer|és|éssem|ésseu|éssim|éssiu|í|íem|íeu|írem|íreu|ís|íssem|ísseu|íssim|íssiu|ïs";
   private static final Pattern desinencies_1conj_0 = Pattern.compile("(.+?)(" + endings + ")");
   private static final Pattern desinencies_1conj_1 = Pattern.compile("(.+)(" + endings + ")");
-  private final CatalanTagger tagger;
-  private final CatalanSynthesizer synth;
+  private CatalanTagger tagger;
+  private CatalanSynthesizer synth;
 
   public SimpleReplaceVerbsRule(final ResourceBundle messages, Language language) {
-    super(messages, language);
+    super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setIgnoreTaggedWords();
     tagger = (CatalanTagger) language.getTagger();
     synth = (CatalanSynthesizer) language.getSynthesizer();
-    super.useSubRuleSpecificIds();
   }
 
   @Override
@@ -78,7 +77,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Verb incorrecte: $match";
+    return "Detecta verbs incorrectes i proposa suggeriments de canvi";
   }
 
   @Override
@@ -188,22 +187,22 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
       // synthesize replacements
       if (analyzedTokenReadings != null) {
         List<String> possibleReplacements = new ArrayList<>();
-        String[] synthesized;
+        String[] synthesized = null;
         List<String> replacementInfinitives = wrongWords.get(infinitive);
         for (String replacementInfinitive : replacementInfinitives) {
           if (replacementInfinitive.startsWith("(")) {
-            possibleReplacements.add(StringTools.preserveCase(replacementInfinitive, originalTokenStr));
+            possibleReplacements.add(replacementInfinitive);
           } else {
-            // the first part is the verb
-            String[] parts = replacementInfinitive.split(" "); 
+            String[] parts = replacementInfinitive.split(" "); // the first part
+                                                               // is the verb
             AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0], "V.*", parts[0]);
             for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
               try {
-                String posTag = analyzedToken.getPOSTag();
+                String POSTag = analyzedToken.getPOSTag();
                 if (infinitiveAsAnTkn.getLemma().equals("haver")) {
-                  posTag = "VA" + posTag.substring(2);
+                  POSTag = "VA" + POSTag.substring(2);
                 }
-                synthesized = synth.synthesize(infinitiveAsAnTkn, posTag);
+                synthesized = synth.synthesize(infinitiveAsAnTkn, POSTag);
               } catch (IOException e) {
                 throw new RuntimeException(
                     "Could not synthesize: " + infinitiveAsAnTkn + " with tag " + analyzedToken.getPOSTag(), e);
@@ -212,9 +211,8 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
                 for (int j = 1; j < parts.length; j++) {
                   s = s.concat(" ").concat(parts[j]);
                 }
-                String ps = StringTools.preserveCase(s, originalTokenStr);
-                if (!possibleReplacements.contains(ps)) {
-                  possibleReplacements.add(ps);
+                if (!possibleReplacements.contains(s)) {
+                  possibleReplacements.add(s);
                 }
               }
             }

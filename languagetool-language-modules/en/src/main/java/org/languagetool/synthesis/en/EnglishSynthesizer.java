@@ -60,15 +60,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
   private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en")));
 
-  public static final EnglishSynthesizer INSTANCE = new EnglishSynthesizer();
-
-  /** @deprecated use {@link #INSTANCE} */
   public EnglishSynthesizer(Language lang) {
-    this();
-  }
-
-  private EnglishSynthesizer() {
-    super(SOR_FILE_NAME, RESOURCE_FILENAME, TAGS_FILE_NAME, "en");
+    super(SOR_FILE_NAME, RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
   }
 
   /**

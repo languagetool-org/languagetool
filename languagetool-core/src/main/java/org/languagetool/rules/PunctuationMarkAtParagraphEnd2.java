@@ -42,9 +42,7 @@ public class PunctuationMarkAtParagraphEnd2 extends TextLevelRule {
     this.lang = Objects.requireNonNull(lang);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
-//  setDefaultTempOff();  // TODO
-    setDefaultOff(); 
-
+    setDefaultTempOff();  // TODO
   }
 
   @Override

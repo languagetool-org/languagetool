@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.Languages;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -37,18 +38,18 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
 
   private static final Locale EN_US_LOCALE = new Locale("en-US");
 
-  private final String path;
+  private final String PATH;
 
   @Override
   public List<String> getFileNames() {
-	  return Collections.singletonList(path);
+	  return Collections.singletonList(PATH);
   }
 
   public AmericanReplaceRule(ResourceBundle messages, String path) {
     super(messages, new AmericanEnglish());
-    this.path = Objects.requireNonNull(path);
-    useSubRuleSpecificIds();
-    setCategory(Categories.STYLE.getCategory(messages));
+    this.PATH = Objects.requireNonNull(path);
+    
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Are baked <marker>crisps</marker> healthy?"),
                    Example.fixed("Are baked <marker>chips</marker> healthy?"));
@@ -61,7 +62,7 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "British words easily confused in American English: $match";
+    return "British words easily confused in American English";
   }
 
   @Override
@@ -73,6 +74,7 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
   public String getMessage() {
 	  return "'$match' is a common British expression. Consider using expressions more common to American English.";
   }
+
 
   @Override
   public Locale getLocale() {

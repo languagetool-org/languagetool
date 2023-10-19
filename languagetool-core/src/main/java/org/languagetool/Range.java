@@ -18,8 +18,6 @@
  */
 package org.languagetool;
 
-import lombok.Getter;
-
 import java.util.Objects;
 
 /**
@@ -31,7 +29,6 @@ public class Range {
   private final int fromPos;
   private final int toPos;
   private final String lang;
-
 
   Range(int fromPos, int toPos, String lang) {
     this.fromPos = fromPos;

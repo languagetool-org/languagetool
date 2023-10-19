@@ -55,8 +55,6 @@ public class JLanguageToolTest {
     matches = tool.check(annotatedText, true, ParagraphHandling.NORMAL, listener, Mode.ALL, Level.DEFAULT);
     assertEquals(1, matches.size());
     assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
-    
-    tool.check("vrai/faux avec explication : Les droits d'accès, également appelés permissions ou autorisations, sont des règles définissant");
 
   }
 }

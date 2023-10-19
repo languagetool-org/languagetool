@@ -18,81 +18,85 @@
  */
 package org.languagetool.rules.uk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.function.Consumer;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.RuleMatch;
 
-public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
+public class TokenAgreementVerbNounRuleTest {
+
+  private JLanguageTool lt;
+  private TokenAgreementVerbNounRule rule;
 
   @Before
   public void setUp() throws IOException {
-    rule = new TokenAgreementVerbNounRule(TestTools.getMessages("uk"), lt.getLanguage());
+    rule = new TokenAgreementVerbNounRule(TestTools.getMessages("uk"));
+    lt = new JLanguageTool(new Ukrainian());
   }
 
   @Test
   public void testRuleTP() throws IOException {
 
-//    assertHasError("виграло війську");
+//    assertMatches(1, "виграло війську");
     assertMatches(1, "вибирався Києві", c -> assertTrue(c.contains("орудний")));
-    assertHasError("вповільнятися підлоги");
-    assertHasError("вповільнятися дерев'яні підлоги");
-    assertHasError("встановити електроні датчики");
-    assertHasError("пройтися трьом книгам");
-    assertHasError("Існує Західноєвропейській союз");
-    assertHasError("почався справжнісінькій абстинентний синдром");
-    assertHasError("досягнув піку");
-    assertHasError("сягне піку");
-    assertHasError("сягнувши піку");
-    assertHasError("побачив озброєнні формування");
-    assertHasError("втрапили халепу");
-    assertHasError("доведено світовім досвідом");
-    assertHasError("боятися закордоном");
-    assertHasError("з точки зори антилатинської");
-//    assertHasError("поєднатися одне ціле");
-    assertHasError("не вірить свої очам");
-//    assertHasError("Якщо вірити складеними львівськими митниками документам");
-    assertHasError("зменшити впив країні");
-    assertHasError("займатися модернізацію закладів");
-    assertHasError("вважать засобами масової інформації");
-    assertHasError("вийшли фотку");
-    assertHasError("визнання догорів недійсними");
-    assertHasError("що купуються нову техніку");
-    assertHasError("наживаються дільці");
-    assertHasError("зусилля наблизити перемовин");
-    assertHasError("витіснено протестувальники");
-    assertHasError("фіктивних догорів оренди");
-    assertHasError("Крим залишається територію України");
-    assertHasError("Навожу відомі слова");
-    assertHasError("розвиток рикну житла");
-    assertHasError("покращення епідемічного станув країні");
-    assertHasError("вчасно приходить всі профілактичні огляди");
-    assertHasError("із наймеш благополучної частини");
-    assertHasError("почуватиметься вправі");
-    assertHasError("важко уявити  країн Балтії");
-//    assertHasError("все залежить нас");
-    assertHasError("користується попи том");
-    assertHasError("ще більше погрішать ситуацію");
-    assertHasError("стався також вибув метану");
-    assertHasError("від спати єдиного податку");
-    assertHasError("прочитати сааме цю книжку");
-    assertHasError("сиплять дуст");
-    assertHasError("Охочих навчитися цьому ремеслу");
-    assertHasError("поступилася португальці");
-    
-    // complicated case with понад
-//    assertHasError("зайнявся понад двісті справ");
-//    assertEmptyMatch("сидять понад міру");
-//    assertEmptyMatch("тягнуться понад воду");
-//    assertEmptyMatch("прибуло понад мільйон");
-    
+    assertMatches(1, "вповільнятися підлоги");
+    assertMatches(1, "вповільнятися дерев'яні підлоги");
+    assertMatches(1, "встановити електроні датчики");
+    assertMatches(1, "пройтися трьом книгам");
+    assertMatches(1, "Існує Західноєвропейській союз");
+    assertMatches(1, "почався справжнісінькій абстинентний синдром");
+    assertMatches(1, "досягнув піку");
+    assertMatches(1, "сягне піку");
+    assertMatches(1, "побачив озброєнні формування");
+    assertMatches(1, "втрапили халепу");
+    assertMatches(1, "доведено світовім досвідом");
+    assertMatches(1, "боятися закордоном");
+    assertMatches(1, "з точки зори антилатинської");
+//    assertMatches(1, "поєднатися одне ціле");
+    assertMatches(1, "не вірить свої очам");
+//    assertMatches(1, "Якщо вірити складеними львівськими митниками документам");
+    assertMatches(1, "зменшити впив країні");
+    assertMatches(1, "займатися модернізацію закладів");
+    assertMatches(1, "вважать засобами масової інформації");
+    assertMatches(1, "вийшли фотку");
+    assertMatches(1, "визнання догорів недійсними");
+    assertMatches(1, "що купуються нову техніку");
+    assertMatches(1, "наживаються дільці");
+    assertMatches(1, "зусилля наблизити перемовин");
+    assertMatches(1, "витіснено протестувальники");
+    assertMatches(1, "фіктивних догорів оренди");
+    assertMatches(1, "Крим залишається територію України");
+    assertMatches(1, "Навожу відомі слова");
+    assertMatches(1, "розвиток рикну житла");
+    assertMatches(1, "покращення епідемічного станув країні");
+    assertMatches(1, "вчасно приходить всі профілактичні огляди");
+    assertMatches(1, "із наймеш благополучної частини");
+    assertMatches(1, "почуватиметься вправі");
+    assertMatches(1, "важко уявити  країн Балтії");
+//    assertMatches(1, "все залежить нас");
+    assertMatches(1, "користується попи том");
+    assertMatches(1, "ще більше погрішать ситуацію");
+    assertMatches(1, "стався також вибув метану");
+    assertMatches(1, "від спати єдиного податку");
+    assertMatches(1, "прочитати сааме цю книжку");
+    assertMatches(1, "сиплять дуст");
+    assertMatches(1, "Охочих навчитися цьому ремеслу");
+    assertMatches(1, "поступилася португальці");
     //TODO:
-//    assertHasError("планується провесні церемонію");
-//    assertHasError("Відчувається, що тримаєте рук на пульсі часу");
+//    assertMatches(1, "планується провесні церемонію");
+//    assertMatches(1, "Відчувається, що тримаєте рук на пульсі часу");
     // ADJ + PLURAL
 //      assertEmptyMatch("повинні складати нежирна їжа, білкові продукти");
   }
@@ -201,7 +205,6 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("тривав довгих десять раундів");
     
     assertEmptyMatch("лежали всю дорогу");
-    assertEmptyMatch("мріяли все життя");
     
     // v:n + inf
     assertEmptyMatch("сподобалося гуляти");
@@ -213,12 +216,6 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("ні сіло ні впало Комітет держбезпеки");
     
     assertEmptyMatch("звичайна, якщо не сказати слабка, людина");
-    
-    assertEmptyMatch("займаючись кожен своїми справами");
-    
-    //TODO: v_rod + збірн v_zna
-//    assertEmptyMatch("поназбиравши купу обіцянок");
-//     assertEmptyMatch("купуючи-продаючи долари");
   }
 
   @Test
@@ -234,19 +231,19 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("пробирається людині під шкіру");
     assertEmptyMatch("їхав їй назустріч");
     assertEmptyMatch("біжать йому навперейми");
-    assertHasError("Фабрика Миколая вперше запрацювала Львові у 2001 році");
+    assertMatches(1, "Фабрика Миколая вперше запрацювала Львові у 2001 році");
 
     assertEmptyMatch("Квапитися їй нікуди");
     assertEmptyMatch("хворіти їй ніколи");
     assertEmptyMatch("Жити родині нема де.");
     assertEmptyMatch("Евакуюватися нам не було куди");
 
-    assertHasError("жити селянам");
+    assertMatches(1, "жити селянам");
 
     assertEmptyMatch("нічим пишатися жителям");
     assertEmptyMatch("куди подітися селянам");
     //TODO:
-//    assertHasError("не вчить нічому поганому");
+//    assertMatches(1, "не вчить нічому поганому");
 //    assertEmptyMatch("як тепер жити нам");
 //    assertEmptyMatch("у разі неможливості зібратися і працювати Верховній Раді");
   }
@@ -255,8 +252,8 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
   public void testRuleTn_V_N_Vinf() throws IOException {
     assertEmptyMatch("маю тобі щось підказати");
     assertEmptyMatch("вміємо цим зазвичай користуватися");
-    assertHasError("вміємо цьому зазвичай користуватися");
-//    assertHasError("заскрегоіти цим зазвичай користуватися");
+    assertMatches(1, "вміємо цьому зазвичай користуватися");
+//    assertMatches(1, "заскрегоіти цим зазвичай користуватися");
     assertEmptyMatch("вони воліли мені якнайбільш ефективно допомогти");
     assertEmptyMatch("воліли заворушень не допускати");
 //    assertEmptyMatch("не втомлюються десятиріччями боротися Берлін і Венеція");
@@ -269,21 +266,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("довелося план «Б» застосовувати");
     
-    assertEmptyMatch("сподіваючися щось розтлумачити");
-    assertEmptyMatch("Резюмуючи політик наголосив");
-    //TODO:
-    assertEmptyMatch("пригадує посміхаючись Аскольд");
-    assertHasError("неопізнаний літаючи об’єкт");
-    assertHasError("знищила існуючи бази даних");
-
-    assertEmptyMatch("сидячи ціле життя");
-    assertEmptyMatch("Не претендуючи жодною мірою");
-    
     //TODO: too long
 //    assertEmptyMatch("уміє одним жестом, одним нюансом інтонації сказати");
   }
-  
-  
 
   @Test
   public void testRuleTn_V_Vinf_N() throws IOException {
@@ -312,7 +297,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     // TODO: advp ending is not straight
 //    assertEmptyMatch("поклавши спати старого Якима");
 //    assertEmptyMatch("став все частіше згадуватися незвичайний наслідок");
-//    assertHasError("не має змоги на сто відсотків реалізуватися себе в ролі");
+//    assertMatches(1, "не має змоги на сто відсотків реалізуватися себе в ролі");
     // TODO: 2 inf verbs
 //    assertEmptyMatch("перестають діяти й розвиватися демократичні");
   }
@@ -352,14 +337,14 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("готовність спілкуватися людини");
     
     assertEmptyMatch("небажання вибачатися пов’язане з національною гордістю");
-    assertHasError("бажання постійно вчитися новому");
-    assertHasError("Кіно вчить вмінню простими словами");
-    assertHasError("Черга вчитися мистецтву мовчання");
-    assertHasError("у своєму виступі на конференції порадив української владі звернуть увагу");
+    assertMatches(1, "бажання постійно вчитися новому");
+    assertMatches(1, "Кіно вчить вмінню простими словами");
+    assertMatches(1, "Черга вчитися мистецтву мовчання");
+    assertMatches(1, "у своєму виступі на конференції порадив української владі звернуть увагу");
     //TODO:
 //    assertEmptyMatch("про потребу покаятися представникам влади");
-//    assertHasError("Це зумовлює необхідність формувати резервів");
-//    assertHasError("пацієнтів будь-якої можливості одужати неприпустима");
+//    assertMatches(1, "Це зумовлює необхідність формувати резервів");
+//    assertMatches(1, "пацієнтів будь-якої можливості одужати неприпустима");
   }
   
   @Test
@@ -391,7 +376,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("працювати правоохоронцям досить складно");
     assertEmptyMatch("звертатися пенсіонерам не потрібно");
     assertEmptyMatch("Їхати мені було не страшно");
-    assertHasError("навчитися цьому досить легко");
+    assertMatches(1, "навчитися цьому досить легко");
   }
   
   @Test
@@ -409,7 +394,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("Заспокоювати стали найагресивнішого");
     assertEmptyMatch("платити доведеться повну вартість");
     assertEmptyMatch("закінчити цей огляд хочеться словами");
-    assertHasError("все досліджуйте і постійно навчайтеся новому.");
+    assertMatches(1, "все досліджуйте і постійно навчайтеся новому.");
     //TODO: їм also verb
 //    assertEmptyMatch("їсти їм доведеться траву");
   }
@@ -451,7 +436,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("відбувся чверть століття тому");
     //TODO:
     //  assertEmptyMatch("нарубав лісу"); // v_rod
-//    assertHasError("Про це повідомляє Української правди із посланням на співрозмовників");
+//    assertMatches(1, "Про це повідомляє Української правди із посланням на співрозмовників");
 //    assertEmptyMatch("не виїхало більшість автобусів");
   }
   
@@ -500,7 +485,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
   @Test
   public void testRuleTnVrod() throws IOException {
     assertEmptyMatch("не мав меблів");
-//    assertHasError("не мав меблі");
+//    assertMatches(1, "не мав меблі");
     assertEmptyMatch("не повинен пропускати жодного звуку");
     assertEmptyMatch("не став витрачати грошей");
     assertEmptyMatch("казала цього не робити");
@@ -525,7 +510,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("не стане сили");
     //TODO:
-//    assertHasError("не відбувалися якихось серйозних");
+//    assertMatches(1, "не відбувалися якихось серйозних");
   }
 
   
@@ -537,5 +522,33 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     //TODO:
 //    assertEmptyMatch("триває повним ходом.");
 //    assertEmptyMatch("скоюються незнайомими жертві злочинцями");
+  }
+  
+  
+  // TODO: reuse from other rules
+  private void assertEmptyMatch(String text) throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(text);
+    try {
+      assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(analyzedSentence)));
+    }
+    catch (AssertionError e) {
+      System.out.println("Sentence: " + analyzedSentence);
+      throw e;
+    }
+  }
+
+  private void assertMatches(int num, String text) throws IOException {
+    assertMatches(num, text, null);
+  }
+
+  private void assertMatches(int num, String text, Consumer<String> c) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(text));
+    assertEquals("Unexpected: " + Arrays.asList(matches), num, matches.length);
+
+    if( c != null ) {
+    for(RuleMatch match: matches) {
+      c.accept(match.getMessage());
+    }
+    }
   }
 }

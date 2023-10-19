@@ -103,8 +103,6 @@ public class VerbAgreementRuleTest {
     assertGood("Max und ich sollten das machen.");
     assertGood("Osama bin Laden stammt aus Saudi-Arabien.");
     assertGood("Solltet ihr das machen?");
-    assertGood("Dann beende du den Auftrag und bring sie ihrem Vater.");
-    assertGood("- Wirst du ausflippen?");
     assertGood("Ein Geschenk, das er einst von Aphrodite erhalten hatte.");
     assertGood("Wenn ich sterben sollte, wer würde sich dann um die Katze kümmern?");
     assertGood("Wenn er sterben sollte, wer würde sich dann um die Katze kümmern?");
@@ -188,8 +186,6 @@ public class VerbAgreementRuleTest {
     assertGood("Und da wir äußerst Laissez-faire sind, kann man das auch machen.");
     assertGood("Duzen, jemanden mit Du anreden, eine Sitte, die bei allen alten Völkern üblich war.");
     assertGood("Schreibtischtäter wie Du sind doch eher selten.");
-    assertGood("Nee, geh du!");
-    //assertGood("Nee, mach du das mal.");
     //assertGood("Ein Mädchen, das genauso wie wir war!");  // known false alarm
     //assertGood("Und bin völlig ohne Idee losgelaufen.");  // known false alarm (could be a picky match maybe)
     // incorrect sentences:

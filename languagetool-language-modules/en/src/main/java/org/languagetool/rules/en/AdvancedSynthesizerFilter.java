@@ -20,6 +20,7 @@
 package org.languagetool.rules.en;
 
 
+import org.languagetool.language.English;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
@@ -33,9 +34,11 @@ import org.languagetool.synthesis.en.EnglishSynthesizer;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
+  private final EnglishSynthesizer synth = new EnglishSynthesizer(new English());
+  
   @Override
   protected Synthesizer getSynthesizer() {
-    return EnglishSynthesizer.INSTANCE;
+    return synth;
   }
 
 }

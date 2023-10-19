@@ -24,7 +24,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
-import io.opentelemetry.api.common.Attributes;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -36,12 +35,12 @@ import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
-import org.languagetool.tools.TelemetryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -73,33 +72,31 @@ class ApiV2 {
 
   void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
                      String remoteAddress, HTTPServerConfig config) throws Exception {
-    String spanName = "/v2/" + path;
     if (path.equals("languages")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleLanguagesRequest(httpExchange));
+      handleLanguagesRequest(httpExchange);
     } else if (path.equals("maxtextlength")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleMaxTextLengthRequest(httpExchange, config));
+      handleMaxTextLengthRequest(httpExchange, config);
     } else if (path.equals("configinfo")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleGetConfigurationInfoRequest(httpExchange, parameters, config));
+      handleGetConfigurationInfoRequest(httpExchange, parameters, config);
     } else if (path.equals("info")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleSoftwareInfoRequest(httpExchange));
+      handleSoftwareInfoRequest(httpExchange);
     } else if (path.equals("check")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config));
+      handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
     } else if (path.equals("words")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleWordsRequest(httpExchange, parameters, config));
+      handleWordsRequest(httpExchange, parameters, config);
     } else if (path.equals("words/add")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleWordAddRequest(httpExchange, parameters, config));
+      handleWordAddRequest(httpExchange, parameters, config);
     } else if (path.equals("words/delete")) {
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleWordDeleteRequest(httpExchange, parameters, config));
+      handleWordDeleteRequest(httpExchange, parameters, config);
     //} else if (path.equals("rule/examples")) {
     //  // private (i.e. undocumented) API for our own use only
     //  handleRuleExamplesRequest(httpExchange, parameters);
     } else if (path.equals("admin/refreshUser")) {
       // private (i.e. undocumented) API for our own use only
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> handleRefreshUserInfoRequest(httpExchange, parameters, config));
+      handleRefreshUserInfoRequest(httpExchange, parameters, config);
     } else if (path.equals("users/me")) {
       // private (i.e. undocumented) API for our own use only
-      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -> 
-        handleGetUserInfoRequest(httpExchange, parameters, config));
+      handleGetUserInfoRequest(httpExchange, config);
     } else {
       throw new PathNotFoundException("Unsupported action: '" + path + "'. Please see " + API_DOC_URL);
     }
@@ -215,7 +212,7 @@ class ApiV2 {
     DatabaseAccess db = DatabaseAccess.getInstance();
     /*
      *  experimental batch mode for adding words,
-     *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word parameter
+     *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word paramater
      */
     if ("batch".equals(parameters.get("mode"))) {
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
@@ -325,7 +322,7 @@ class ApiV2 {
    * Provide information on user that requests this, e.g. for add-on to acquire token + other information
    * Expects user + password via HTTP Basic Auth
    */
-  private void handleGetUserInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws Exception {
+  private void handleGetUserInfoRequest(HttpExchange httpExchange, HTTPServerConfig config) throws Exception {
     if (httpExchange.getRequestMethod().equalsIgnoreCase("options")) {
       ServerTools.setAllowOrigin(httpExchange, allowOriginUrl);
       httpExchange.getResponseHeaders().put("Access-Control-Allow-Methods", Collections.singletonList("GET, OPTIONS"));
@@ -340,38 +337,15 @@ class ApiV2 {
       if (!httpExchange.getRequestHeaders().containsKey("Authorization")) {
         throw new AuthException("Expected Basic Authentication");
       }
-      String authParameter = parameters.getOrDefault("authMethod", "password");
-      if (!(authParameter.equals("password") || 
-            authParameter.equals("apiKey") || 
-            authParameter.equals("addonToken"))) {
-        throw new IllegalArgumentException("Unknown authMethod: " + authParameter);
-      }
-
       String authHeader = httpExchange.getRequestHeaders().getFirst("Authorization");
       BasicAuthentication basicAuthentication = new BasicAuthentication(authHeader);
       String user = basicAuthentication.getUser();
       String password = basicAuthentication.getPassword();
-      UserInfoEntry userInfo = null;
-
-      if (authParameter.equals("password")) {
-        userInfo = DatabaseAccess.getInstance().getUserInfoWithPassword(user, password);
-      } else if (authParameter.equals("addonToken")) {
-        userInfo = DatabaseAccess.getInstance().getUserInfoWithAddonToken(user, password);
-      } else if (authParameter.equals("apiKey")) {
-        userInfo = DatabaseAccess.getInstance().getUserInfoWithApiKey(user, password);
-      }
-
-      String format = parameters.getOrDefault("format", "extended");
+      UserInfoEntry userInfo = DatabaseAccess.getInstance().getUserInfoWithPassword(user, password);
       if (userInfo != null) {
-        if (format.equals("minimal")) {
-          StringWriter sw = new StringWriter();
-          new ObjectMapper().writeValue(sw, userInfo);
-          sendJson(httpExchange, sw);
-        } else {
-          StringWriter sw = new StringWriter();
-          new ObjectMapper().writeValue(sw, DatabaseAccess.getInstance().getExtendedUserInfo(user));
-          sendJson(httpExchange, sw);
-        }
+        StringWriter sw = new StringWriter();
+        new ObjectMapper().writeValue(sw, DatabaseAccess.getInstance().getExtendedUserInfo(user));
+        sendJson(httpExchange, sw);
       } else {
         throw new IllegalStateException("Could not fetch user information");
       }
@@ -485,25 +459,13 @@ class ApiV2 {
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartArray();
       List<Language> languages = new ArrayList<>(Languages.get());
-      Set<String> longCodes = new HashSet<>();
+      languages.sort(Comparator.comparing(Language::getName));
       for (Language lang : languages) {
         g.writeStartObject();
         g.writeStringField("name", lang.getName());
         g.writeStringField("code", lang.getShortCode());
         g.writeStringField("longCode", lang.getShortCodeWithCountryAndVariant());
-        longCodes.add(lang.getShortCodeWithCountryAndVariant());
         g.writeEndObject();
-      }
-      // add mappings like "fr-FR -> fr" because LibreOffice 7.4 needs them:
-      Map<String, Language> codeMap = Languages.getLongCodeToLangMapping();
-      for (Map.Entry<String, Language> entry : codeMap.entrySet()) {
-        if (!longCodes.contains(entry.getKey())) {
-          g.writeStartObject();
-          g.writeStringField("name", entry.getValue().getName());
-          g.writeStringField("code", entry.getValue().getShortCode());
-          g.writeStringField("longCode", entry.getKey());
-          g.writeEndObject();
-        }
       }
       g.writeEndArray();
     }
@@ -539,6 +501,9 @@ class ApiV2 {
     JLanguageTool lt = new JLanguageTool(lang);
     if (textChecker.config.languageModelDir != null) {
       lt.activateLanguageModelRules(textChecker.config.languageModelDir);
+    }
+    if (textChecker.config.word2vecModelDir != null) {
+      lt.activateWord2VecModelRules(textChecker.config.word2vecModelDir);
     }
     List<Rule> rules = lt.getAllRules();
     rules = rules.stream().filter(rule -> !Premium.get().isPremiumRule(rule)).collect(Collectors.toList());

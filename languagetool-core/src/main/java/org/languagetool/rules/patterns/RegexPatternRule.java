@@ -108,7 +108,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
 
         boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(text.charAt(patternMatcher.start()));
         RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, patternMatcher.start(), patternMatcher.end(),
-                processedMessage, shortMessage, startsWithUpperCase, false, processedSuggestionsOutMsg, true);
+                processedMessage, shortMessage, startsWithUpperCase, processedSuggestionsOutMsg);
         if (regexFilter != null) {
           RegexRuleFilterEvaluator ruleFilterEvaluator = new RegexRuleFilterEvaluator(regexFilter);
           RuleMatch filteredMatch = ruleFilterEvaluator.runFilter(getFilterArguments(), ruleMatch, sentenceObj, patternMatcher);

@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStatisticStyleRule;
 
@@ -67,25 +66,11 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   
   public GermanFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);
-    if (userConfig != null) {
-      LinguServices linguServices = userConfig.getLinguServices();
-      if (linguServices != null) {
-        linguServices.setThesaurusRelevantRule(this);
-      }
-    }
   }
 
   private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {
     if (num == 1 || ",".equals(tokens[num - 1].getToken())) {
       return true;
-    }
-    if ("allein".equals(tokens[num].getToken())) {
-      for(int i = 1; i < tokens.length; i++) {
-        if (tokens[i].hasLemma("sein")) {
-          return true;
-        }
-      }
-      return false;
     }
     if ("recht".equals(tokens[num].getToken())) {
       for(int i = 1; i < tokens.length; i++) {
@@ -94,8 +79,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
         }
       }
     }
-    if (num < tokens.length - 1 && ("so".equals(tokens[num].getToken()) || "besonders".equals(tokens[num].getToken())) 
-        && tokens[num + 1].hasPosTagStartingWith("ADJ")) {
+    if (("so".equals(tokens[num].getToken()) || "besonders".equals(tokens[num].getToken())) && tokens[num + 1].hasPosTagStartingWith("ADJ")) {
       return true;
     }
     if(tokens[num].hasPosTagStartingWith("ADJ") && "so".equals(tokens[num - 1].getToken())) {
@@ -143,7 +127,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   @Override
   protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
     if ((nToken > 1 && fillerWords.contains(tokens[nToken - 1].getToken()) && !isException(tokens, nToken - 1)) || 
-        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken + 1))) {
+        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken))) {
       sentenceMessage = DEFAULT_SENTENCE_MSG1;
       return true;
     }

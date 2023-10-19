@@ -49,7 +49,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages, new Romanian());
-    setCategory(Categories.MISC.getCategory(messages));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override

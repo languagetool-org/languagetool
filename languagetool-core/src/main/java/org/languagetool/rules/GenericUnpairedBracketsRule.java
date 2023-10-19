@@ -121,7 +121,6 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (i > 0 && tokens[i-1].getToken().matches("https?://.+") && tokens[i-1].getToken().contains("(")) {
       return false;
     }
-    
     if (i >= 2) {
       String prevPrevToken = tokens[i - 2].getToken();
       String prevToken = tokens[i - 1].getToken();
@@ -133,11 +132,6 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       if (prevPrevToken.equals(";") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
         return false;
       }
-      // Smiley ")))"  TODO: need more testing 
-      // if (prevPrevToken.equals(")") && prevToken.equals(")") && (tokenStr.equals(")") || tokenStr.equals("("))) {
-      // return false;
-      // }
-       
     }
     if (i >= 1) {
       String prevToken = tokens[i - 1].getToken();
@@ -213,8 +207,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean endsLikeRealSentence(String r) {
-    String s = r.trim();
+  private boolean endsLikeRealSentence(String s) {
     return s.endsWith(".") || s.endsWith("?") || s.endsWith("!");
   }
 
@@ -240,22 +233,16 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       boolean isSpecialCase = getSpecialCase(tokens, i, j);
       boolean noException = isNoException(token, tokens, i, j,
               precededByWhitespace, isSpecialCase, symbolStack);
-      
+
       if (noException && precededByWhitespace && token.equals(startSymbols.get(j))) {
         symbolStack.push(new SymbolLocator(new Symbol(startSymbols.get(j), Symbol.Type.Opening), i, startPos, sentence, sentenceIdx));
         return true;
       } else if (noException && (isSpecialCase || tokens[i].isSentenceEnd())
               && token.equals(endSymbols.get(j))) {
-        if ((i > 2 && endSymbols.get(j).equals(")")
-                && (tokens[i - 3].hasPosTag("SENT_START") || tokens[i - 2].isWhitespaceBefore())
-                && tokens[i - 1].getToken().equals(".")
-                && (numerals.matcher(tokens[i - 2].getToken()).matches()
-                && !(!symbolStack.empty()
-                && "(".equals(symbolStack.peek().getSymbol().symbol))))
-        || (i > 1 && endSymbols.get(j).equals(")")
+        if (i > 1 && endSymbols.get(j).equals(")")
                 && (numerals.matcher(tokens[i - 1].getToken()).matches()
                 && !(!symbolStack.empty()
-                && "(".equals(symbolStack.peek().getSymbol().symbol))))) {
+                && "(".equals(symbolStack.peek().getSymbol().symbol)))) {
         } else {
           if (symbolStack.empty()) {
             symbolStack.push(new SymbolLocator(new Symbol(endSymbols.get(j), Symbol.Type.Closing), i, startPos, sentence, sentenceIdx));
@@ -346,7 +333,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       return null;
     }
     RuleMatch match = new RuleMatch(this, sentence, startPos, startPos + symbol.symbol.length(), message);
-    List<String> repl = getSuggestions(lazyFullText, startPos, startPos + symbol.symbol.length(), symbol, otherSymbol);
+    List<String> repl = getSuggestions(lazyFullText, startPos, startPos + symbol.symbol.length());
     if (repl != null) {
       match.setSuggestedReplacements(repl);
     }
@@ -357,11 +344,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return false;
   }
 
-  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
+  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {
     return null;
   }
 
-  protected String findCorrespondingSymbol(Symbol symbol) {
+  private String findCorrespondingSymbol(Symbol symbol) {
     int idx1 = startSymbols.indexOf(symbol.symbol);
     if (idx1 >= 0) {
       return endSymbols.get(idx1);
@@ -376,12 +363,12 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return -1;
   }
 
-  protected static class Symbol {
-    public enum Type {Opening, Closing}
+  static class Symbol {
+    enum Type {Opening, Closing}
     String symbol;
-    public Type symbolType;
+    Type symbolType;
 
-    protected Symbol(String symbol, Type symbolType) {
+    public Symbol(String symbol, Type symbolType) {
       this.symbol = symbol;
       this.symbolType = symbolType;
     }

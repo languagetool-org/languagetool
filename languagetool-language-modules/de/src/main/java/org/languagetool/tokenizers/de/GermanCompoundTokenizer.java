@@ -69,21 +69,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     }
     static Set<String> extendedList() {
       THashSet<String> words = new THashSet<>(EmbeddedGermanDictionary.getWords());
-      // Add compound parts here so we don't need to update JWordSplitter for every missing word we find.
-      // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if "sport"
-      // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
-      words.add("margen");
+      // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
       words.add("synonym");
-      words.add("aufbringung");
-      words.add("robustheit");
-      words.add("nachuntersuchung");
-      words.add("erstkommunion");
-      words.add("hauptstadt");
-      words.add("neustart");
-      words.add("polarisierung");
-      words.add("vollstreckbarkeit");
-      words.add("vollziehung");
-      words.add("kasko");
       words.trimToSize();
       return words;
     }
@@ -91,15 +78,11 @@ public class GermanCompoundTokenizer implements Tokenizer {
   
   public GermanCompoundTokenizer(boolean strictMode) throws IOException {
     wordSplitter = new ExtendedGermanWordSplitter(false);
-    wordSplitter.setStrictMode(strictMode);
-    wordSplitter.setMinimumWordLength(3);
-    // add exceptions here so we don't need to update JWordSplitter for every exception we find:
+    // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
     //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
     //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
-    wordSplitter.addException("Alkoholabstinenz", asList("Alkohol", "abstinenz"));
     wordSplitter.addException("Hallesche", asList("Hallesche"));
     wordSplitter.addException("Kolleggen", asList("Kolleggen"));
-    wordSplitter.addException("Saunieren", asList("Saunieren"));
     wordSplitter.addException("Spielgeleier", asList("Spielgeleier"));
     wordSplitter.addException("Halleschen", asList("Halleschen"));
     wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));
@@ -119,17 +102,15 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Manipulationstricks", asList("Manipulations", "tricks"));
     wordSplitter.addException("Erziehungstrick", asList("Erziehungs", "trick"));
     wordSplitter.addException("Erziehungstricks", asList("Erziehungs", "tricks"));
-    wordSplitter.addException("Messetage", asList("Messe", "tage"));
-    wordSplitter.addException("Messetagen", asList("Messe", "tagen"));
     wordSplitter.addException("karamelligen", asList("karamelligen"));  // != Karamel+Ligen
     wordSplitter.addException("Häkelnadel", asList("Häkel", "nadel"));
     wordSplitter.addException("Häkelnadeln", asList("Häkel", "nadeln"));
     wordSplitter.addException("Freiberg", asList("Freiberg"));
-    wordSplitter.addException("Abtestat", asList("Abtestat"));
-    wordSplitter.addException("Abtestaten", asList("Abtestaten"));
     wordSplitter.addException("Freibergs", asList("Freibergs"));
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
+    wordSplitter.setStrictMode(strictMode);
+    wordSplitter.setMinimumWordLength(3);
   }
 
   @Override

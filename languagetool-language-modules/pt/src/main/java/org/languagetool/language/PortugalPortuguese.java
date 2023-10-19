@@ -43,17 +43,14 @@ public class PortugalPortuguese extends Portuguese {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+    List<Rule> rules = new ArrayList<>();
+    rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new PostReformPortugueseCompoundRule(messages, this, userConfig));
     rules.add(new PostReformPortugueseDashRule(messages));
-    rules.add(new PortugueseAgreementReplaceRule(messages, this));
-    rules.add(new PortugalPortugueseReplaceRule(messages, "/pt/pt-PT/replace.txt", this));
-    rules.add(new PortugueseBarbarismsRule(messages, "/pt/pt-PT/barbarisms.txt", this));
-    rules.add(new PortugueseArchaismsRule(messages, "/pt/pt-PT/archaisms.txt", this));
-    rules.add(new PortugueseClicheRule(messages, "/pt/pt-PT/cliches.txt", this));
-    rules.add(new PortugueseRedundancyRule(messages, "/pt/pt-PT/redundancies.txt", this));
-    rules.add(new PortugueseWordinessRule(messages, "/pt/pt-PT/wordiness.txt", this));
-    rules.add(new PortugueseWikipediaRule(messages, "/pt/pt-PT/wikipedia.txt", this));
+    rules.add(new PortugalPortugueseReplaceRule(messages, "/pt/pt-PT/replace.txt"));
+    rules.add(new PortugueseAgreementReplaceRule(messages));
+    rules.add(new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt-PT.txt"));
+    rules.add(new PortugueseArchaismsRule(messages, "/pt/archaisms-pt-PT.txt"));
     return rules;
   }
 
@@ -70,15 +67,5 @@ public class PortugalPortuguese extends Portuguese {
   @Override
   protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new HunspellRule(messages, this, null, null);
-  }
-
-  @Override
-  public String getOpeningDoubleQuote() {
-    return "«";
-  }
-
-  @Override
-  public String getClosingDoubleQuote() {
-    return "»";
   }
 }

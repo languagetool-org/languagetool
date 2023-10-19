@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.Language;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -26,7 +25,10 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import java.net.URL;
 
@@ -42,22 +44,18 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
 
   public static final String PORTUGUESE_CLICHE_RULE = "PT_CLICHE_REPLACE";
 
-//  private static final String FILE_NAME = "/pt/cliches.txt";
+  private static final String FILE_NAME = "/pt/cliches.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
-
-  private final String path;
 
   @Override
   public final List<String> getFileNames() {
-    return Collections.singletonList(path);
+    return Collections.singletonList(FILE_NAME);
   }
 
-  public PortugueseClicheRule(ResourceBundle messages, String path, Language language) {
-    super(messages, language);
-    this.path = Objects.requireNonNull(path);
-    setCategory(Categories.STYLE.getCategory(messages));
+  public PortugueseClicheRule(ResourceBundle messages) {
+    super(messages, new Portuguese());
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>quente como uma fornalha</marker>"),
                    Example.fixed("<marker>quente</marker>"));
   }
@@ -69,7 +67,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Frases-feitas e expressões idiomáticas: $match";
+    return "Frases-feitas e expressões idiomáticas";
   }
 
   @Override
@@ -79,7 +77,7 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "\"$match\" é uma frase-feita. É preferível dizer $suggestions.";
+    return "'$match' é uma frase-feita. É preferível dizer $suggestions.";
   }
 
   @Override

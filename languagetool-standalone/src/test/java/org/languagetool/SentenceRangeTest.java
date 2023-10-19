@@ -29,6 +29,7 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -65,6 +66,11 @@ public class SentenceRangeTest {
     }
 
     @Override
+    public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+      return new ArrayList<>();
+    }
+
+    @Override
     public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
       return new ArrayList<>();
     }
@@ -94,6 +100,11 @@ public class SentenceRangeTest {
 
     @Override
     public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+      return new ArrayList<>();
+    }
+
+    @Override
+    public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
       return new ArrayList<>();
     }
 

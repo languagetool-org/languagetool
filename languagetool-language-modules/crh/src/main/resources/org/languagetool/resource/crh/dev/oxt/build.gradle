@@ -1,0 +1,60 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+version="0.4"
+
+def hunspellDir="${projectDir}/hunspell"
+
+String inputDictFile="pos_dict.txt"
+String hunspellDict="$hunspellDir/crh_UA.dic"
+
+task hunspell {
+    inputs.files "${projectDir}/../$inputDictFile"
+    outputs.file hunspellDict
+
+    doLast() {
+      exec {
+        executable "sh"
+        args "-c", "cat ${projectDir}/../$inputDictFile | wc -l > $hunspellDict"
+      }
+      exec {
+        executable "sh"
+        args "-c", "cut -f 1 ${projectDir}/../$inputDictFile | sort -u >> $hunspellDict"
+      }
+    }
+}
+
+task prepareFiles {
+
+  doLast() {
+    copy {
+        from "$hunspellDir/crh_UA.aff"
+        from "$hunspellDir/crh_UA.dic"
+        from "spell"
+        into "build/oxt/crh_UA"
+    }
+
+    copy {
+        from "meta-oxt/META-INF"
+        into "build/oxt/META-INF"
+    }
+
+    copy {
+        from "../LICENSE"
+        from "meta-oxt/dictionaries.xcu"
+        from "meta-oxt/icon64.png"
+        from("meta-oxt/description.xml") {
+            filter(ReplaceTokens, tokens: [VERSION: project.version])
+        }
+        into "build/oxt"
+    }
+
+  }
+}
+
+task oxt (type: Zip, dependsOn: prepareFiles) {
+    from 'build/oxt'
+    archiveBaseName = "dict-crh_UA-${project.version}"
+    archiveExtension = "oxt"
+    destinationDirectory = file("build")
+}
+

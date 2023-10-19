@@ -20,27 +20,23 @@ package org.languagetool.language;
 
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.language.identifier.DefaultLanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifierService;
-import org.languagetool.language.identifier.detector.FastTextDetector;
+import org.languagetool.language.identifier.SimpleLanguageIdentifier;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertNotEquals;
 
 public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
 
@@ -68,153 +64,6 @@ public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
     assertThat(ident2.cleanAndShortenText("foo foo.bla@example.com blah"), is("foo   blah"));
     assertThat(ident2.cleanAndShortenText("But @handle said so on twitter!"), is("But  said so on twitter!"));
     assertThat(ident2.cleanAndShortenText("A non\u00A0breaking space."), is("A non breaking space."));
-  }
-  
-  @Test
-  @Ignore
-  public void forcePreferredLanguagesTest() throws IOException {
-    File ngramDataFile = new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip");
-    File fastTextBinaryFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext");
-    File fastTextModelFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin");
-    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier("default")
-            .getDefaultLanguageIdentifier(50, ngramDataFile, fastTextBinaryFile, fastTextModelFile);
-    
-    String text_de_1 = "Mo. 27. Feb. 2023; Konnektor/Lesegerät, TI-Verbindungsprobleme, Netzwerktests, SMC-B Zertifikatskarte Re-Seat; Konnektor-Konfiguration";
-    String text_de_2 = "Mo. 27. Feb. 2023; Konnektor/Lesegerät, TI-Verbindungsprobleme, Netzwerktests, SMC-B Zertifikatskarte; Konnektor-Konfiguration";
-    String text_de_3 = "Mo. 27. Feb. 2023; Konnektor/Lesegerät, Verbindungsprobleme, Netzwerktests, SMC-B Zertifikatskarte; Konnektor-Konfiguration";
-
-    List<String> preferredLangs_1 = Arrays.asList("de", "en");
-
-    DetectedLanguage detectedLanguage_1_without = ident.detectLanguage(text_de_1, Collections.emptyList(), preferredLangs_1, false);
-    DetectedLanguage detectedLanguage_2_without = ident.detectLanguage(text_de_2, Collections.emptyList(), preferredLangs_1, false);
-    DetectedLanguage detectedLanguage_3_without = ident.detectLanguage(text_de_3, Collections.emptyList(), preferredLangs_1, false);
-    Assert.assertNotNull(detectedLanguage_1_without);
-    Assert.assertNotNull(detectedLanguage_2_without);
-    Assert.assertNotNull(detectedLanguage_3_without);
-    Assert.assertEquals("en", detectedLanguage_1_without.toString());
-    Assert.assertFalse(detectedLanguage_1_without.getDetectionSource().endsWith("prefLang(forced: true)"));
-    Assert.assertEquals("sk-SK", detectedLanguage_2_without.toString());
-    Assert.assertFalse(detectedLanguage_2_without.getDetectionSource().endsWith("prefLang(forced: true)"));
-    Assert.assertEquals("sk-SK", detectedLanguage_3_without.toString());
-    Assert.assertFalse(detectedLanguage_3_without.getDetectionSource().endsWith("prefLang(forced: true)"));
-    
-    DetectedLanguage detectedLanguage_1 = ident.detectLanguage(text_de_1, Collections.emptyList(), preferredLangs_1, true);
-    DetectedLanguage detectedLanguage_2 = ident.detectLanguage(text_de_2, Collections.emptyList(), preferredLangs_1, true);
-    DetectedLanguage detectedLanguage_3 = ident.detectLanguage(text_de_3, Collections.emptyList(), preferredLangs_1, true);
-    Assert.assertNotNull(detectedLanguage_1);
-    Assert.assertNotNull(detectedLanguage_2);
-    Assert.assertNotNull(detectedLanguage_3);
-    Assert.assertEquals("en", detectedLanguage_1.toString());
-    Assert.assertTrue(detectedLanguage_1.getDetectionSource().endsWith("prefLang(forced: true)"));
-    Assert.assertEquals("de", detectedLanguage_2.toString());
-    Assert.assertTrue(detectedLanguage_2.getDetectionSource().endsWith("prefLang(forced: true)"));
-    Assert.assertEquals("de", detectedLanguage_3.toString());
-    Assert.assertTrue(detectedLanguage_3.getDetectionSource().endsWith("prefLang(forced: true)"));
-    
-    String text_something = "This should be detected as english, but the user does not have english as preferred language.";
-    List<String> preferredLangs_2 = Arrays.asList("de", "fr");
-    DetectedLanguage notDetectedLang = ident.detectLanguage(text_something, Collections.emptyList(), preferredLangs_2, true);
-    assertEquals("de", notDetectedLang.toString()); //fallback to first preferredLang if none is detected. In this case english was removed because it is not a preferred language.
-  }
-  
-  @Test
-  @Ignore("Requires local files to run")
-  public void fasttextReinitTest() throws IOException, InterruptedException {
-    String failingText = "LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.";
-    String notFailingText = "LanguageTool ist eine freie Software zur Rechtschreib- und Grammatikprüfung für mehrere Sprachen, unter anderem Deutsch und Englisch. Sie spürt Fehler in der Rechtschreibung und Zeichensetzung auf, entdeckt mögliche false friends bei Übersetzungen, führt terminologische Konsistenzprüfungen durch, prüft Kollokationen sowie die stilistische Qualität und die Grammatik.";
-    
-    File ngramDataFile = new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip");
-    File fastTextBinaryFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext");
-    File fastTextModelFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin");
-    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier("default")
-            .getDefaultLanguageIdentifier(50, ngramDataFile, fastTextBinaryFile, fastTextModelFile);
-    
-    FastTextDetector failingFastTextDetector = spy(new FastTextDetector(fastTextModelFile, fastTextBinaryFile));
-    doThrow(new FastTextDetector.FastTextException("Fasttext failure", true)).when(failingFastTextDetector).runFasttext(eq(failingText), any());
-    doThrow(new FastTextDetector.FastTextException("Fasttext failure", true)).when(failingFastTextDetector).runFasttext(eq("This is a test text that should work."), any()); //also throw if the FastTextDetector checks itself
-    doCallRealMethod().when(failingFastTextDetector).runFasttext(eq(notFailingText), any());
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    
-    DetectedLanguage langWithMocked1 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked1);
-    assertEquals("+fallback", langWithMocked1.getDetectionSource());
-    assertEquals("de", langWithMocked1.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    
-    DetectedLanguage langWithoutMocked1 = ident.detectLanguage(notFailingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithoutMocked1);
-    assertEquals("fasttext", langWithoutMocked1.getDetectionSource());
-    assertEquals("de", langWithoutMocked1.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    
-    DetectedLanguage langWithMocked2 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked2);
-    assertEquals("+fallback", langWithMocked2.getDetectionSource());
-    assertEquals("de", langWithMocked2.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked3 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked3);
-    assertEquals("+fallback", langWithMocked3.getDetectionSource());
-    assertEquals("de", langWithMocked3.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    
-    assertEquals(3, ((DefaultLanguageIdentifier) ident).getFasttextInitCounter().get());
-  }
-  
-  @Test
-  @Ignore("Requires local files to run")
-  public void fasttextReinitMultiThreadedTest() throws IOException, InterruptedException {
-    File ngramDataFile = new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip");
-    File fastTextBinaryFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext");
-    File fastTextModelFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin");
-    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
-            .clearLanguageIdentifier("default")
-            .getDefaultLanguageIdentifier(50, ngramDataFile, fastTextBinaryFile, fastTextModelFile);
-    FastTextDetector failingFastTextDetector = spy(new FastTextDetector(fastTextModelFile, fastTextBinaryFile));
-    
-    String text = "LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.";
-
-    //only fail on first time
-    final boolean[] failedCheck = {false};
-    doAnswer(invocation -> {
-      if (failedCheck[0]) {
-        return Collections.singletonMap("en", 1.0);
-      } else {
-        failedCheck[0] = true;
-        throw new FastTextDetector.FastTextException("Fasttext failure", true);
-      }
-    })
-            .when(failingFastTextDetector).runFasttext(eq(text), any());
-
-    //also throw if the FastTextDetector checks itself for the first time
-    final boolean[] failedIsAliveCheck = {false};
-    doAnswer(invocation -> {
-      if (failedIsAliveCheck[0]) {
-        return Collections.singletonMap("en", 1.0);
-      } else {
-        failedIsAliveCheck[0] = true;
-        throw new FastTextDetector.FastTextException("Fasttext failure", true);
-      }
-    })
-            .when(failingFastTextDetector).runFasttext(eq("This is a test text that should work."), any());
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    
-    ExecutorService executorService = Executors.newFixedThreadPool(32);
-    List<Callable<DetectedLanguage>> tasks = new ArrayList<>();
-    for (int i = 0; i < 32; i++) {
-      Callable<DetectedLanguage> callable = () -> {
-        DetectedLanguage dl = ident.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
-        return dl;
-      };
-      tasks.add(callable);
-    }
-    List<Future<DetectedLanguage>> futures = executorService.invokeAll(tasks);
-    executorService.awaitTermination(10, TimeUnit.SECONDS);
-    assertEquals(1, ((DefaultLanguageIdentifier) ident).getFasttextInitCounter().get());
   }
   
   @Test

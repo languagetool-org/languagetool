@@ -23,7 +23,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +40,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
       // Use all-lowercase, matches will be case-insensitive.
       // See https://github.com/languagetool-org/languagetool/issues/1678
-      "on a bye",   // vs buy
       "your (",   // ... so your (English) signature gets ...
       "your slack profile",
       "host to five",   // "... is host to five classical music orchestras"
@@ -269,15 +267,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no everything fine",
       "no we don't",
       "no dont",
-      "which hat to buy", // vs had
-      "her hat", // vs had
-      "his hat", // vs had
-      "my hat", // vs had
-      "party hat", // vs had
-      "95 theses", // vs these
-      "ninety-five theses", // vs these
-      "Ninety-five theses", // vs these
-      "April Theses", // vs these
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
@@ -504,24 +493,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "people from there", // vs their
       "as you well know", // vs known
       "as they well know", // vs known
-      "as we well know", // vs known
-      "close to god", // vs good
-      "close with god", // vs good
-      "see god when", // vs good
-      "in a god", // vs good
-      "he was a god", // vs good
-      "she was a god", // vs good
-      "she gave god", // vs good
-      "he gave god", // vs good
-      "believed in god", // vs good
-      "faith with god", // vs good
-      "days where", // vs were
-      "where, when and why", // vs were
-      "where, when, and why", // vs were
-      "where, when and how", // vs were
-      "where, when, and how", // vs were
-      "where, when and who", // vs were
-      "where, when, and who" // vs were
+      "as we well know" // vs known
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
@@ -536,12 +508,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       token("from"),
       token("there"),
       tokenRegex("turn|walk|go|drive")
-    ),
-    Arrays.asList(
-      // "They told me that they got there first."
-      posRegex("VB.*"),
-      token("there"),
-      token("first")
     ),
     Arrays.asList(
       // Or go to the individual site and then click on the icon, from there turn it to standard.
@@ -704,33 +670,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       tokenRegex("and|&"),
       posRegex("NNP"),
       token("do") // vs 'to'
-    ),
-    Arrays.asList(
-      //...responded quickly to Mustaf Sheikh's request to wear his religious head gear, use break time for prayer, and combine his breaks for Friday attendance...
-      token("break"),
-      new PatternTokenBuilder().tokenRegex("times?").setSkip(10).build(),
-      token("breaks")
-    ),
-    Arrays.asList(
-      // The language added in 3.5 was an attempt to show how much EEFT does vs. EnronOnline.
-      tokenRegex("how|what"),
-      new PatternTokenBuilder().tokenRegex("much|many").min(0).setSkip(3).build(),
-      token("does")
-    ),
-    Arrays.asList(
-      // Maybe we should pull over and dose him.
-      posRegex("MD"),
-      posRegex("VB"),
-      posRegex("IN|RP"),
-      token("and"),
-      token("dose")
-    ),
-    Arrays.asList(
-      // But your Mother's constant implications that your some big victim and I'm a very big asshole has worn very thin and it's inappropriate and rude.
-      token("your"),
-      posRegex("DT")
     )
-    );
+  );
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);

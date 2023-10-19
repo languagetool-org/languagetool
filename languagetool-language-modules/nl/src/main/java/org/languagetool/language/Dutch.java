@@ -40,11 +40,13 @@ import java.util.*;
 
 public class Dutch extends Language {
 
+  private static final Language NETHERLANDS_DUTCH = new Dutch();
+
   private LanguageModel languageModel;
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return Languages.getLanguageForShortCode("nl");
+    return NETHERLANDS_DUTCH;
   }
 
   @Override
@@ -71,7 +73,7 @@ public class Dutch extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return DutchSynthesizer.INSTANCE;
+    return new DutchSynthesizer(this);
   }
 
   @Override
@@ -86,7 +88,7 @@ public class Dutch extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(getDefaultLanguageVariant());
+    return new XmlRuleDisambiguator(this);
   }
 
   @Override
@@ -120,7 +122,7 @@ public class Dutch extends Language {
             new LongSentenceRule(messages, userConfig, 40),
             new LongParagraphRule(messages, this, userConfig),
             new PreferredWordRule(messages),
-            new SpaceInCompoundRule(messages, this),
+            new SpaceInCompoundRule(messages),
             new SentenceWhitespaceRule(messages),
             new CheckCaseRule(messages, this)
     );
@@ -173,30 +175,16 @@ public class Dutch extends Language {
 
   @Override
   protected int getPriorityForId(String id) {
-    if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE) || id.startsWith("NL_SPACE_IN_COMPOUND")) {
-        return 1;
+    if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE)) {
+      return -2;
     }
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
-      // default: 0
-      case "ET_AL": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "N_PERSOONS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "HOOFDLETTERS_OVERBODIG_A": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "IJ_HFDLTRS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "STAM_ZONDER_IK": return -1;  // see https://github.com/languagetool-org/languagetool/issues/7644
-      case "KOMMA_ONTBR": return -1;   // see https://github.com/languagetool-org/languagetool/issues/7644
-      case "KOMMA_AANH": return -1; // needs higher priority than DOUBLE_PUNCTUATION
-      case "KOMMA_KOMMA": return -1; // needs higher priority than DOUBLE_PUNCTUATION
-      case "HET_FIETS": return -2; // first let other rules check for compound words
-      case "JIJ_JOU_JOUW": return -2;  // needs higher priority than JOU_JOUW
-      case "JOU_JOUW": return -3;
-      case "BE": return -3; // needs lower priority than BE_GE_SPLITST
-      case "DOUBLE_PUNCTUATION": return -3;
+      // default : 0
       case "KORT_1": return -5;
       case "KORT_2": return -5;  //so that spelling errors are recognized first
       case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
       case "TOO_LONG_PARAGRAPH": return -15;
-      case "ERG_LANG_WOORD": return -20;  // below spell checker and simple replace rule
       case "DE_ONVERWACHT": return -20;  // below spell checker and simple replace rule
       case "TE-VREEMD": return -20;  // below spell checker and simple replace rule
       // category style : -50

@@ -39,6 +39,7 @@ import java.util.Objects;
 /**
  * An Abstract Pattern Rule that describes a pattern of words or part-of-speech tags 
  * used for PatternRule and DisambiguationPatternRule.
+ * 
  * Introduced to minimize code duplication between those classes.
  * 
  * @author Marcin Miłkowski
@@ -63,8 +64,6 @@ public abstract class AbstractPatternRule extends Rule {
   protected String message;
   protected String sourceFile = null;
   protected RuleMatch.Type type = null; // allow setting custom match types without relying on IssueType
-
-  private int lineNumber = -1;
 
   private final String id;
   private final String description;
@@ -374,31 +373,19 @@ public abstract class AbstractPatternRule extends Rule {
     this.type = type;
   }
 
+  @Experimental
   /**
    * Allows adjusting the behavior of uppercasing suggestions when the matched text started with an upper-case letter
    */
-  @Experimental
   public boolean isAdjustSuggestionCase() {
     return adjustSuggestionCase;
   }
 
+  @Experimental
   /**
    * Allows adjusting the behavior of uppercasing suggestions when the matched text started with an upper-case letter
    */
-  @Experimental
   public void setAdjustSuggestionCase(boolean adjustSuggestionCase) {
     this.adjustSuggestionCase = adjustSuggestionCase;
-  }
-
-  public void setXmlLineNumber(int lineNumber) {
-    this.lineNumber = lineNumber;
-  }
-
-  /**
-   * Returns the line in the XML file where this rule is located. Will return <code>-1</code>
-   * if the line isn't known.
-   */
-  public int getXmlLineNumber() {
-    return this.lineNumber;
   }
 }

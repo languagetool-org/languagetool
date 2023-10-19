@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -44,12 +43,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  public Map<String, List<String>> getWrongWords() {
+  protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public SimpleReplaceRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
+    super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();
@@ -59,12 +58,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public final String getId() {
-    return "CA_SIMPLE_REPLACE_SIMPLE";
+    return "CA_SIMPLE_REPLACE";
   }
 
   @Override
   public String getDescription() {
-    return "Paraula incorrecta: $match";
+    return "Detecta paraules incorrectes i proposa suggeriments de canvi";
   }
 
   @Override

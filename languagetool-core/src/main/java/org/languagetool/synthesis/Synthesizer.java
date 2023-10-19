@@ -19,7 +19,6 @@
 package org.languagetool.synthesis;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.languagetool.AnalyzedToken;
 
@@ -63,11 +62,4 @@ public interface Synthesizer {
    */
   
   String getSpelledNumber(String arabicNumeral);
-  
-  /**
-   * Select the desired POS tag to synthesize
-   */
-  
-  String getTargetPosTag (List<String> posTags, String targetPosTag);
-  
 }

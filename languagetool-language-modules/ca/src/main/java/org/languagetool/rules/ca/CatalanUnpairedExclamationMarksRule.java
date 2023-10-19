@@ -19,21 +19,23 @@
 
 package org.languagetool.rules.ca;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+
 import org.languagetool.Language;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.ITSIssueType;
 
-public class CatalanUnpairedExclamationMarksRule extends CatalanUnpairedQuestionMarksRule {
+public class CatalanUnpairedExclamationMarksRule extends GenericUnpairedBracketsRule {
+  
+  private static final List<String> CA_START_SYMBOLS = Arrays.asList("¡");
+  private static final List<String> CA_END_SYMBOLS   = Arrays.asList("!");
   
   public CatalanUnpairedExclamationMarksRule(ResourceBundle messages, Language language) {
-    super(messages, language);
+    super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
-  }
-
-  @Override
-  public int minToCheckParagraph() {
-    return 1;
   }
 
   @Override
@@ -45,14 +47,5 @@ public class CatalanUnpairedExclamationMarksRule extends CatalanUnpairedQuestion
   public String getId() {
     return "CA_UNPAIRED_EXCLAMATION";
   }
-
-  @Override
-  protected String getStartSymbol() {
-    return "¡";
-  }
-  
-  @Override
-  protected String getEndSymbol() {
-    return "!";
-  }
+    
 }

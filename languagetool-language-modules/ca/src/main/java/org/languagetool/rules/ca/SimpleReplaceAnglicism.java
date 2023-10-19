@@ -19,12 +19,14 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -45,9 +47,9 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceAnglicism(final ResourceBundle messages) throws IOException {
     super(messages, new Catalan());
-    setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    useSubRuleSpecificIds();
+    //super.setTags(Arrays.asList(Tag.picky));
   }
 
   @Override
@@ -57,12 +59,17 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Anglicismes innecessaris: $match";
+    return "Anglicismes innecessaris";
   }
 
   @Override
   public String getShort() {
     return "Anglicisme innecessari";
+  }
+
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
   }
 
   @Override
@@ -80,6 +87,11 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
   }
 
+  @Override
+  public URL getUrl() {
+    return null;
+  }
+  
   @Override
   protected boolean isTokenException(AnalyzedTokenReadings atr) {
     // proper nouns tagged in multiwords are exceptions

@@ -53,9 +53,8 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
   public PortugueseDiacriticsRule(ResourceBundle messages) {
     super(messages, new Portuguese());
     setDefaultOff();
-    setCategory(Categories.TYPOS.getCategory(messages));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>coupe</marker>"),
                    Example.fixed("<marker>coupé</marker>"));
   }
@@ -67,7 +66,7 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Palavras estrangeiras com diacríticos: $match";
+    return "Palavras estrangeiras com diacríticos";
   }
 
   @Override

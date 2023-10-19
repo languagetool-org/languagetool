@@ -46,7 +46,7 @@ public class GermanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   }
 
   @Override
-  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
+  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {
     if (startPos > 0 && endPos <= text.get().length()) {
       String prevCh = text.get().substring(startPos-1, endPos-1);
       String ch = text.get().substring(startPos, endPos);

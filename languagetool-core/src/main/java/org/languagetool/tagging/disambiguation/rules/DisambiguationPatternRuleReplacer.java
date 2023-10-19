@@ -22,7 +22,6 @@ package org.languagetool.tagging.disambiguation.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.tools.StringTools;
@@ -30,7 +29,6 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -42,8 +40,7 @@ import java.util.stream.IntStream;
 class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
   DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
-    // The disambiguation Unifier is always in the default language variant
-    super(rule, rule.getLanguage().getDefaultLanguageVariant().getDisambiguationUnifier());
+    super(rule, rule.getLanguage().getDisambiguationUnifier());
   }
 
   AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {
@@ -216,22 +213,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
       break;
-    case ADDCHUNK:
-      if (newTokenReadings != null && newTokenReadings.length == matchingTokensWithCorrection
-            - startPositionCorrection + endPositionCorrection) {
-        for (int i = 0; i < newTokenReadings.length; i++) {
-          int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-          List<ChunkTag> listChunkTag = new ArrayList<>();
-          listChunkTag.addAll(whTokens[position].getChunkTags());
-          // the POStag is added to the ChunkTag
-          ChunkTag newChunkTag = new ChunkTag(newTokenReadings[i].getPOSTag());
-          if (!listChunkTag.contains(newChunkTag)) {
-            listChunkTag.add(newChunkTag);  
-          }
-          whTokens[position].setChunkTags(listChunkTag);
-        }
-      }
-      break;
     case FILTERALL:
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
         int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
@@ -258,7 +239,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       break;
     case IMMUNIZE:
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
-        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize(rule.getXmlLineNumber());
+        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
       }
       break;
     case IGNORE_SPELLING:
