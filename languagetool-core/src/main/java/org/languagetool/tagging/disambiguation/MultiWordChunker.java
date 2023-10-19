@@ -267,8 +267,15 @@ public class MultiWordChunker extends AbstractDisambiguator {
           tokens.append(anTokens[j].getToken());
           String toks = tokens.toString();
           if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
-            output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
-            output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
+            if (i == j) {
+              String postag = mFull.get(toks).getPOSTag();
+              if (!isLowPriorityTag(postag) || !output[i].hasReading()) {
+                output[i] = setAndAnnotate(output[i], new AnalyzedToken(toks, postag, mFull.get(toks).getLemma()));
+              }
+            } else {
+              output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
+              output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
+            }
           }
           if (mFull.containsKey(toks) && addIgnoreSpelling) {
             for (int m = i; m <= j; m++) {
@@ -357,9 +364,18 @@ public class MultiWordChunker extends AbstractDisambiguator {
         } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
           POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
           lemma = analyzedToken.getLemma();
-          AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "HybridDisamb");
-          nextPOSTag = getNextPosTag(POSTag);
+          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
+            // it is only one token
+            aTokens[i].removeReading(aTokens[i].readingWithTagRegex("</" + POSTag + ">"), "HybridDisamb");
+            aTokens[i].removeReading(aTokens[i].readingWithTagRegex("<" + POSTag + ">"), "HybridDisamb");
+            aTokens[i].addReading(new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma), "HybridDisamb");
+            nextPOSTag = "";
+            lemma = "";
+          } else {
+            AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
+            aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "HybridDisamb");
+            nextPOSTag = getNextPosTag(POSTag);
+          }
         }
       }
       i++;

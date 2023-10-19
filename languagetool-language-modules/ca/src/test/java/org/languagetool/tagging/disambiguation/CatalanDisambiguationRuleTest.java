@@ -49,6 +49,11 @@ public class CatalanDisambiguationRuleTest {
   @Test
   public void testChunker() throws IOException {
 
+    TestTools
+      .myAssert(
+        "COVID-19",
+        "/[null]SENT_START COVID-19/[COVID-19]NCFS000|COVID-19/[covid-19]NCFS000",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools
       .myAssert(
@@ -69,6 +74,13 @@ public class CatalanDisambiguationRuleTest {
         "Yuval Noha Hariri",
         "/[null]SENT_START Yuval/[Yuval]NPCN000  /[null]null Noha/[null]null  /[null]null Hariri/[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools
+      .myAssert(
+        "Yuval Noah Harari",
+        "/[null]SENT_START Yuval/[Yuval Noah Harari]NPCN000  /[null]null Noah/[Noah]_possible_nompropi|Noah/[Yuval Noah Harari]NPCN000  /[null]null Harari/[Harari]_possible_nompropi|Harari/[Yuval Noah Harari]NPCN000",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
 
     TestTools
     .myAssert(
