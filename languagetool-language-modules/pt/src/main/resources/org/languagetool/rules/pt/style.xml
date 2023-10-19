@@ -180,74 +180,102 @@ USA
         </rule>
 
 
-        <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style" default="off" tone_tags="clarity">
+        <rule id='COLOCACAO_ADVÉRBIO_VERBO_ANTES' name="Colocação de advérbio mover verbo" type="style" default="temp_off" tone_tags="clarity">
+
             <antipattern>
-                <token regexp='yes'>mesmo|sempre</token>
                 <token>que</token>
-                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='RG'/>
+                <token postag='RG'/>
+                <token postag='VMI[IPS].S.+' postag_regexp='yes'/>
+                <example>Cara, eu sei que às vezes sou um idiota!</example>
+                <example>Seria tipo a pessoa criar um vampirizador que na verdade é a própria tatuagem?</example>
+                <example>O sermão me tocou de tal forma, que até já estou com vontade de pedir esmolas.</example>
+                <example>A igreja tem uma história muito rica, mas que aos poucos está sendo esquecida.</example>
+                <example>A identidade é um conceito ontológico básico que muitas vezes é expresso pela palavra "mesmo".</example>
+                <example>Ele tem um passado obscuro que aos poucos é revelado a Tom.</example>
+                <example>Também pela oração que aos poucos fui adiando e que agora venho apresentar-Te,por todos meus ouvidos,descuidos e silêncios,novamente te p...</example>
+                <example>Que na verdade era a função inicial do celular.</example>
+                <example>Sua presença leva Steve, que até agora vinha sendo escolhido como o 'guarda do mês', a sentir-se ameaçado.</example>
+                <example>Pensa-se que o seu nome vem da "gens Mamilia", um clã originário de Tusculum que às vezes usava o "cognome" Turrinus, uma forma adjetiva de "turris".</example>
+                <example>O vinho, que até então desfrutava de uma imagem dúbia, entre potencial econômico e bebida "do pecado", passou a ser tema de todos os ...</example>
+            </antipattern>
+
+            <antipattern>
+                <token>que</token>
+                <token regexp='yes'>ainda|às?|aos?|até|cada|em|embora|mais|menos|muit[ao]s?|n[ao]s?</token>
+                <token postag='VMI[IPS].S.+|DI.+|PI.+|Z0.+|NC.+|AQ.+|RG' postag_regexp='yes'/>
+                <token postag='VMI[IPS].S.+' postag_regexp='yes'/>
+                <example>Uma das frutas que mais gosto é a ameixa.</example>
+                <example>E o que mais precisa é de câmbio.</example>
+                <example>Acho que cada um é como cada qual.</example>
+                <example>A flor de que mais gosto é o amor-perfeito.</example>
+                <example>Acho que no fim é uma questão de consciência...</example>
+                <example>Pouco antes a Lilá morre, sendo que no livro está especificado “o corpo ainda vivo de Lilá Brown”.</example>
+                <example>Quatro barreiras persistentes garantem que cada persistência é concluída antes da próxima.</example>
+                <example>O que nos falta é buscar a Deus por Deus.</example>
+                <example>Ou seja, que na lei é impossível de ser salvo, se conheceu a graça e a rejeitou.</example>
+                <example>Apressa-te a viver bem e pensa que cada dia é, por si só, uma vida.</example>
+                <example>Várias espécies são utilizada em maricultura, que no caso é por vezes referida por "mitilicultura".</example>
+                <example>...que há em Brasília profissionais conscientes, ansiosos para exercer a vigilância sobre um poder que no passado foi o principal aliado da imprensa na denúncia de abusos.</example>
+                <example>...lhos para a máfia em Nova Iorque, até que em 1978 ele foi um dos cabeças do Roubo da Lufthansa, que na época foi o maior roubo da história americana.</example>
+                <example>Em 2002, o sistema de pontos foi a de que cada país foi de 2, 4, 6, 8, 10 e 12 pontos para as músicas dos outros.</example>
+                <example>O time enfrenta e derrota o Paulistano, que na época era um dos melhores times do futebol brasileiro.</example>
+                <example>O espírito do romantismo, que no momento dominava a vida cultural da Europa Ocidental, também fez apoio à independência grega politicamente viável.</example>
+                <example>Pois eles buscavam um nome, que representasse tanto o momento que cada um vivia, quanto os integrantes.</example>
+                <example>Em 1931, o diretor de animação Bob Clampett, que na época trabalhava para Warner Bros.</example>
+                <example>Apresentado como um correspondente estrangeiro, antes destemido, mas que no momento trabalhava em relações públicas em Darwin.</example>
+                <example>Ela patrocinava um conhecido lutador de artes marciais mistas, Conor McGregor, que em retorno promovia a empresa através das mídias sociais.</example>
             </antipattern>
 
             <pattern>
-                <token postag='CS'>
-                    <exception>já</exception>
-                    <exception postag_regexp='yes' postag='V.+'/>
+                <token>que
+                    <exception scope='previous' postag_regexp='yes' postag='VMI[IPS].S.+|RG|CS|PD.+|SPS0.+|VMN0000'/>
                 </token>
                 <marker>
-                    <token postag='RG'>
-                        <exception regexp='yes'>aí|ainda|ali|amanhã|aqui|até|completamente|dificilmente|embora|hoje|já|nunca|onde|ontem|ponto|praticamente|provavelmente|quando|quanto|talvez</exception>
-                        <exception regexp='yes'>basicamente|bastante|em|jamais|mais|muito|não|sequer|tal|tão</exception>
-                        <exception postag_regexp='yes' postag='CC|AQ0.+|NC.+|V.+|SPS.+|PI.+|Z0.+'/>
+                    <token regexp='yes'>ainda|às?|aos?|até|cada|em|embora|mais|menos|muit[ao]s?|n[ao]s?</token>
+                    <token postag='RG|NC.+|AQ.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='CC|RN|SPS0.+'/>
+                        <exception>sempre</exception> <!-- Force exceptions -->
                     </token>
-                    <token min="0" max="1" postag='RG'>
-                        <exception regexp='yes'>aí|ainda|ali|amanhã|aqui|até|completamente|dificilmente|embora|hoje|já|nunca|onde|ontem|ponto|praticamente|provavelmente|quando|quanto|talvez</exception>
-                        <exception regexp='yes'>basicamente|bastante|em|jamais|mais|muito|não|sequer|tal|tão</exception>
-                        <exception postag_regexp='yes' postag='CC|AQ0.+|NC.+|V.+|SPS.+|PI.+|Z0.+'/>
-                    </token>
-                    <token postag='V.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='RG|CC|Z0.+'/>
+                    <token postag='VMI[CFIMPS].+' postag_regexp='yes'>
+                        <exception scope='next' postag_regexp='yes' postag='VMN0000|VMP00.+|Z0CN0|CS'/>
+                        <exception postag='VMIP2P0'/>
                     </token>
                 </marker>
-                <token negate_pos="yes" postag='V.+|CC|Z0.+|_PUNCT|RM' postag_regexp='yes'/>
             </pattern>
             <message>Esta frase poderia soar melhor com o verbo antes de \2.</message>
-            <suggestion>\4 \2 \3</suggestion>
-            <example correction="serão cada vez">Vamos usar resoluções que <marker>cada vez serão</marker> mais comuns nos computadores recentes.</example>
-            <example>Eu estou tão cansado que mal posso andar.</example>
-            <example>Ele olhou para o que antes era a escrivaninha do meu pai.</example>
-            <example>Após perder a aposta, abandonou-se ao fracasso, pedindo abrigo para os que antes recriminava.</example>
-            <example>O rapaz, que sempre fora gentil à moça, foi bem acolhido pela sogra.</example>
-            <example>Eu sabia que hoje seria divertido.</example>
-            <example>Desde o começo percebi que algo estava mal.</example>
-            <example>É melhor estar meio certo que completamente errado.</example>
-            <example>Toda pessoa é uma lua e tem um lado negro que nunca mostra para ninguém.</example>
-            <example>A Austrália Meridional foi fundada como uma "província livre", que nunca foi uma colónia penal.</example>
-            <example>Ela desconfiou que talvez tivesse que estudar fora.</example>
-            <example>Guarde o dinheiro, que hoje convido eu.</example>
-            <example>Pensei que hoje era segunda.</example>
-            <example>Deixe a linguiça assando mais um pouco, que ainda está crua.</example>
-            <example>Meu pai, que nunca foi gentil comigo, veio me ver.</example>
-            <example>Diz-se que aqui é quente.</example>
-            <example>Diz-se que aqui está quente.</example>
-            <example>Eram eles que tão lamentavelmente gemiam.</example>
-            <example>Não seja tão impaciente!</example>
-            <example>Como sempre que posso.</example>
-            <example>Ela o cumprimentou alegremente como sempre fez.</example>
-            <example>Seja sempre feita a vontade de Deus.</example>
-            <example>Francisco, pensei que ontem era dia 11.</example>
-            <example>A princípio, Otto ficou imóvel, tão surpreso e espantado que nem sequer pensou em fugir.</example>
-            <example>Na real, os dois estão tendo uma temporada muito, mas muito superio,, ao que sequer sonharam antes dela começar.</example>
-            <example>O que mais aconteceu ontem?</example>
-            <example>Terá sido esta a fase que mais ajudou a formar o seu espírito reformador.</example>
-            <example>Agora podia ele dedicar-se aos cuidados do seu jardim, o que mais apreciava no mundo.</example>
-            <example>Eu te juro que jamais voltarei a fazê-lo.</example>
-            <example>Minha mãe foi a mulher mais bela que jamais conheci.</example>
-            <example>Benesses que jamais postulei nem procurei, como inúmeras vezes demonstrado.</example>
-            <example>Essa foi a melhor resposta que não é uma resposta que jamais recebi da Comissão.</example>
-            <example>Você é ilusionista? Porque sempre que olho para você, todas as outras pessoas desaparecem.</example>
-            <example>Lembremos o ambiente tenebroso de “Resident Evil” original, em que sempre que abríamos uma porta e entrávamos numa sala corria um arrepio na espinha.</example>
-            <example>É a pusilanimidade do pensamento pseudo-esquerdista que sempre que vê a oportunidade cai de boca no reacionarismo e na manutenção das estruturas do capital.</example>
-            <example>É uma luta inglória, porque mesmo que traga benefícios para a população, não gere custos ao Executivo.</example>
+            <suggestion><match no='4' case_conversion='preserve'/> \2 \3</suggestion>
+            <example correction="será cada vez">Use a app que <marker>cada vez será</marker> mais comum nos computadores novos.</example>
+            <example correction="serão cada vez">Usem apps que <marker>cada vez serão</marker> mais comuns nos computadores novos.</example>
+            <example correction="serão cada vez">Use as apps que <marker>cada vez serão</marker> mais comuns nos computadores novos.</example>
+            <example>Outros podem ter se unido para formar o núcleo do que mais tarde seria chamado de Windward Maroons.</example>
+            <example>Por que muitos projetos estão condenados ao fracasso desde o primeiro momento?</example>
+            <example>Nos dias que se seguiram, à medida que mais corpos eram encontrados, mais notícias eram reveladas.</example>
+            <example>Mas a verdade é que muitas pessoas estão à procura de um serviço personalizado e diferenciado.</example>
+            <example>Acho que muitas pessoas estarão lá hoje.</example>
+            <example>Acho que muita gente estará lá hoje.</example>
+            <example>Chama-se Raquel Aboab e é filha de um converso que em tempos foi atirado para a fogueira, respondeu calmamente Diogo Pacheco.</example>
+            <example>O Tomás pensava que à noite era cercado por espíritos ameaçadores.</example>
+            <example>A Islândia, que mais tarde foi transferida do controle britânico para o controle americano, declarou a independência em 1944.</example>
+            <example>Os somalis no Quênia têm historicamente habitado o Distrito da Fronteira do Norte, que mais tarde foi renomeado para Província do Nordeste.</example>
+            <example>Com poucos meses de venda e já até podemos dizer que em breve irá brigar pela vice liderança.</example>
+            <example>No entanto, você também precisa entender que muitas pessoas vão excluir seus comentários como spam.</example>
+            <example>E foi do Brasil que veio a solução militar que em breve iria pôr fim ao domínio flamengo.</example>
+            <example>Mary Shelley trabalhava em um conto que mais tarde iria evoluir para Frankenstein.</example>
+            <example>Porém, o que eu mais gostei foi que aos poucos conseguimos educá-lo e isso foi um grande ensinamento pros meus filhos.</example>
+            <example>Ouvi que muitas meninas usam biquínis nessa praia.</example>
+            <example>O repórter revelou que muitos adolescentes são alcoólatras.</example>
+            <example>É curioso o padrão (de geometria variável) que muitos sportinguistas usam quando se referem aos jornais, aos da Cofina em particular.</example>
+            <example>Em 2012, começaram a surgir rumores que ela estaria se envolvendo com o ator Johnny Depp, que na época estava se divorciando.</example>
+            <example>A fraude nas opções binárias é cada vez mais comum e é por isso que muitas pessoas culpam todo o sistema de negociação de opções binárias.</example>
+            <example>A tentativa de remendar aquilo que até agora seria um "buraco" nos normativos legais em questões de serviços mínimos na educação (leiam a alínea d, po...</example>
+            <example>Você sente isso no seu corpo, inclusive esse foi um ano em que muitas doenças vieram à tona, tanto físicas como psíquicas.</example>
+            <example>Até hoje, diversas respostas foram encontradas com a mesma frequência em que mais perguntas surgem em consequência dos próprios questionamentos.</example>
+            <example>De sublinhar que no sábado decorrem também a cerimónia de entrega dos prémios Mérito e Carreira, atribuídos pelas Associações Distritai...</example>
+            <example>...dois mundos são retratados como um sonho, e, geralmente, leva Alice em um momento para perceber que ao redor mudaram.</example>
+            <example>...com o próprio Oglethorpe a frente e, Charleston, na Carolina do Sul, desde onde se dirigiram ao que mais tarde seria Savannah, a primeira colônia britânica na Geórgia.</example>
         </rule>
+
 
         <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar" tags="picky" tone_tags="clarity">
             <antipattern>
