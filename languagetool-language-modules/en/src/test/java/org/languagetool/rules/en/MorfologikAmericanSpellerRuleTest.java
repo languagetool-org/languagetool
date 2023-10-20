@@ -361,23 +361,6 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   }
 
   @Test
-  @Ignore
-  public void testInteractiveMultilingualSignatureCase() throws IOException {
-    String sig = "-- " +
-            "Department of Electrical and Electronic Engineering\n" +
-            "Office XY, Sackville Street Building, The University of Manchester, Manchester\n";
-    List<AnalyzedSentence> analyzedSentences = lt.analyzeText("Hallo Herr Müller, wie geht\n\n" + sig);
-    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-      RuleMatch[] matches = rule.match(analyzedSentence);
-      System.out.println("===================");
-      System.out.println("S:" + analyzedSentence.getText());
-      for (RuleMatch match : matches) {
-        System.out.println("  getErrorLimitLang: " + match.getNewLanguageMatches());
-      }
-    }
-  }
-
-  @Test
   public void testGetOnlySuggestions() throws IOException {
     assertThat(rule.getOnlySuggestions("cemetary").size(), is(1));
     assertThat(rule.getOnlySuggestions("cemetary").get(0).getReplacement(), is("cemetery"));
