@@ -74,8 +74,6 @@ public class GermanCompoundTokenizer implements Tokenizer {
       // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
       words.add("margen");
       words.add("synonym");
-      words.add("margen");
-      words.add("synonym");
       words.add("aufbringung");
       words.add("robustheit");
       words.add("nachuntersuchung");
