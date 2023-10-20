@@ -191,6 +191,10 @@ public class CatalanUnpairedBracketsRuleTest {
         .check("-Benvinguda!\n");
     assertEquals(1, matches.size());
     assertEquals("[¡Benvinguda]", matches.get(0).getSuggestedReplacements().toString());
+
+    matches = tool.check("-Tinc raó, oi?\n");
+    assertEquals(1, matches.size());
+    assertEquals("[¿oi]", matches.get(0).getSuggestedReplacements().toString());
     
   }
 

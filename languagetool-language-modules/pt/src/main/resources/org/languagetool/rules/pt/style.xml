@@ -23,14 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
 
-<!--
-⚠️  Atenção — Contribuintes Open-Source ⚠️
-        A partir de junho de 2023, regras de estilo utilizarão TONE TAGS (tags de tom).
-        Estas tags nos dão um controle mais preciso sobre as circunstâncias sob as quais as nossas regras são ativadas.
-        Esta funcionalidade ainda está em desenvolvimento. Por isso, gostaríamos de pedir que, por enquanto, adicionem @susanaboatto e/ou @p-goulart como revisores dos seus pull requests sempre que quiserem contribuir regras de estilo que façam uso das tone tags.
-       Atualmente, existe suporte para as seguintes tags: clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, povadd, and positive.
-       Para informações mais detalhadas, pedimos que se familiarizem com a nossa documentação (em inglês): https://dev.languagetool.org/style_tone_tags
--->
+<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
 
 <!DOCTYPE rules [
     <!ENTITY % messages  SYSTEM "../../resource/pt/entities/messages.ent" >
@@ -131,27 +124,61 @@ USA
             </rule>
         </rulegroup>
 
+
         <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags="clarity">
+        <!-- TO-DO: DI.+ ; It will require messing with the antipattern since DI.+ is more than a mere "[ao]s?" from DA.+ -->
+            <antipattern>
+                <token postag='RM'>
+                    <exception scope='previous' regexp='yes'>agora|apenas|após|aqui|assim|até|bem|cá|como|depois|embora|enquanto|esquerda|hoje|lá|mais|manhã|mesmo|modo|muito|onde|ontem|pois|quando|quase|só|também|tão|tarde</exception> <!-- RG -->
+                </token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+' postag_regexp='yes'>
+                    <exception regexp='yes'>[ao]s?|com|de|por|sem</exception>
+                    <exception scope='next' regexp='yes'>agora|apenas|após|aqui|assim|até|bem|cá|como|depois|embora|enquanto|esquerda|hoje|lá|mais|manhã|mesmo|modo|muito|onde|ontem|pois|quando|quase|só|também|tão|tarde</exception> <!-- RG -->
+                    <exception scope='next' postag_regexp='yes' postag='Z0.+'/>
+                </token>
+                <example>Depois de tentar em vão encontrá-lo, eles lentamente seguem em frente.</example>
+                <example>O Tom raramente vai para lugares como esse.</example>
+                <example>As indicações para os Tribunais de Contas geralmente recaem sobre agentes políticos, notadamente deputados.</example>
+                <example>Mas os cientistas estão certos de que esse tipo de reprodução somente acontece sob circunstâncias exclusivas.</example>
+                <example>Esse hormônio normalmente aumenta após a refeição, contribuindo para a saciação.</example>
+                <example>O ser humano é um animal que ocasionalmente pensa sobre a morte.</example>
+                <example>Tom normalmente vai para a escola com a Mary.</example>
+                <example>O homem que normalmente ama sob o sol adora arrebatadamente sob a lua.</example>
+                <example>Uma tempestade estava supostamente presente durante a aterrissagem.</example>
+            </antipattern>
+
             <pattern>
-                <token negate_pos="yes" postag='SENT_START'/>
                 <marker>
-                    <token postag='RM' regexp="yes">.+mente</token>
-                    <or>
-                        <token postag='V.+' postag_regexp='yes'>
-                            <exception postag_regexp='yes' postag='SPS.+|AQ0.+|NC.+'/>
-                        </token>
-                        <token>são</token>
-                    </or>
-                    <token postag='VMP00.+' postag_regexp='yes'/>
+                    <token postag='RM'>
+                        <exception scope='previous' postag_regexp='yes' postag='SENT_START|VMIP1.+|VMN0000|VMP00.+|VMIS.+|VMN0000X'/>
+                        <exception scope='previous' regexp='yes'>agora|apenas|após|aqui|assim|até|bem|cá|como|depois|embora|enquanto|esquerda|hoje|lá|mais|manhã|mesmo|modo|muito|onde|ontem|pois|quando|quase|só|também|tão|tarde</exception> <!-- RG -->
+                        <exception scope='previous' regexp='yes'>es[st][ae]s?|is[st]o|para|por|porque|quanto|quem?|sem?</exception> <!-- Force specific words to avoid false positives-->
+                        <exception scope='previous' regexp='yes' inflected='yes'>estar|ir|poder|ser</exception> <!-- Force specific verbs to avoid false positives-->
+                        <exception regexp='yes'>exclusivamente|simplesmente|somente|unicamente</exception> <!-- Force specific adverbs at start -->
+                    </token>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|SPS0.+|VMI[IP]2.+|VMIM3.+|VMP00.+'/>
+                    </token>
+                    <token postag='VMP00.+|SPS00|DA.+' postag_regexp='yes'>
+                        <exception regexp='no'>como</exception> <!-- Force specific words to avoid false positives-->
+                    </token>
                 </marker>
-                <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
             </pattern>
             <message>&clarity_intro; prefira mover o advérbio.</message>
-            <suggestion>\3 \2 \4</suggestion>
-            <example correction="é frequentemente dado">Em alusão ao dinheiro <marker>frequentemente é dado</marker> o exemplo do Tio Patinhas.</example>
+            <suggestion>\2 \1 \3</suggestion>
+            <example correction="é frequentemente dado">Sobre dinheiro <marker>frequentemente é dado</marker> o exemplo do Patinhas.</example>
+            <example correction="incluem explicitamente a">Estas equações <marker>explicitamente incluem a</marker> aleatoriedade.</example>
+            <example correction="incluem explicitamente o">Estas equações <marker>explicitamente incluem o</marker> acaso.</example>
             <example>Você tem realmente ouvido para a música.</example>
             <example>As vésperas de Natal e ano novo são geralmente marcadas pela união de parentes distantes.</example>
+            <example>A Índia possui um dos maiores suprimentos de tório do mundo, com quantidades comparativamente baixas de urânio.</example>
+            <example>Mesmo não gostando da personagem, simplesmente devorei o livro.</example>
+            <example>Ele precisa decidir se responde de forma imprecisa, ignora a pergunta ou simplesmente abandona o questionário.</example>
+            <example>Nessas ocasiões, somente será dado continuidade ao processo de produção após a correção do(s) arquivo(s).</example>
+            <example>O produto somente estará reservado ao cliente após a finalização do pedido e aprovação pela operadora de cartão.</example>
         </rule>
+
 
         <rule id='COLOCACAO_ADVERBIO' name="Colocação de advérbio" type="style" default="off" tone_tags="clarity">
             <antipattern>
@@ -8313,8 +8340,32 @@ USA
 
     </category>
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
+
+        <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
+            <pattern>
+                <token postag='SENT_START|AQ.+|NC.+|NP.+|CS|CC' postag_regexp='yes'/>
+                <marker>
+                    <token inflected='yes'>tomar
+                        <exception scope='previous' postag_regexp='yes' postag='V.+|PP.+'/>
+                        <exception scope='previous' regexp='yes'>decis(ão|ões)</exception>
+                    </token>
+                </marker>
+                <token min='0' max='2' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|RG' postag_regexp='yes'/>
+                <token regexp='yes'>cert[ao]s?|determinad[ao]s?|diferentes?|divers[ao]s?|enormes?|formas?|imens[ao]s?|inúmer[ao]s|múltipl[ao]s|vári[ao]s|variad[ao]s</token>
+                <token postag='AQ.+|NC.+|PI.+' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>bebida|café|caneca|cerveja|chá|colher|copo|drink|frasco|garfo|garrafa|garrafão|xícara|shot|su[mc]o|vinho|gelado|sorvete|blíster|caixa|comprimido|contracetivo|embalagem|medicação|medicamento|pílula|remédio|autocarro|automóvel|avião|carrinha|carro|jato|ônibus|táxi|veículo|comboio|trem|voo|barc[ao]|bote|canoa|ferry|banho|duche</exception> <!-- Add more words as they are found -->
+                </token>
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever &quot;assumir&quot;.</message>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
+            <example correction="assume">O crime <marker>toma</marker> formas impensáveis.</example>
+            <example correction="assume">O crime <marker>toma</marker> formas diversas.</example>
+            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> diversas formas.</example>
+            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> as mais diversas formas.</example>
+        </rule>
+
         <!-- SENDO CONSIDERADA considerada -->
-        <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style' tags="academic">
+        <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style' tone_tags="academic">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-18/19/20 (25-JUL-2022+) -->
             <!--
@@ -8711,6 +8762,8 @@ USA
             <example correction="devida">Não vos posso dar a atenção <marker>que merecem</marker>.</example>
         </rule>
         <!-- PARA TER ACONTECIDO para acontecer -->
+
+
         <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 + 2023-02-26 (Checked/Enhanced) (25-JUL-2022+) -->
@@ -8719,6 +8772,18 @@ USA
       Isso por eu ter estado a ler o artigo. → Isso por eu estar a ler o artigo.
       Isso por eu ter estado a ler o artigo. → Isso por estar a ler o artigo.
       -->
+
+            <antipattern>
+                <token>por</token>
+                <token min='0' max='1' postag='RN' postag_regexp='no'/>
+                <token>ter</token>
+                <token postag='VMP00P.+' postag_regexp='yes'/>
+                <token min='0' max='1'>de</token>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <example>Posso ir diretamente a exame por ter carradas de ECTS.</example>
+                <example>A faixa diferencia-se dos demais temas de Carnaval dos anos anteriores por não ter batidas aceleradas ou um refrão repetitivo, tendo uma levada de black music "mid-time".</example>
+            </antipattern>
+
             <rule>
                 <pattern>
                     <token regexp='no'>por</token>
@@ -8854,14 +8919,13 @@ USA
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
             </rule>
         </rulegroup>
-
-
-        <!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
-        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic">
+        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token inflected='yes' skip='3'>fazer</token>
-                <token regexp='yes'>&vocativos;</token>
+                <token regexp='yes'>&vocativos;|calor|frio|d*</token>
                 <example>Quis fazer aquela pessoa pagar.</example>
+                <example>Ontem fez calor.</example>
+                <example>Ontem fez 30 graus</example>
             </antipattern>
             <antipattern>
                 <token>o</token>
@@ -8870,12 +8934,6 @@ USA
                 <token regexp='yes'>quando|com</token>
                 <example>O que fazer quando tudo der errado?</example>
             </antipattern>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
-            <!--
-                 MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-            -->
-
-            <!-- MARCOAGPINTO 2023-05-21 (Checked/Enhanced) (2-MAR-2023+) *START* -->
             <antipattern>
                 <token postag='NP.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
@@ -8883,9 +8941,6 @@ USA
                 <token regexp='yes'>coisas?</token>
                 <example>Ele afirmou que foi assim que Deus fez as coisas.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-05-21 (Checked/Enhanced) (2-MAR-2023+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token regexp='yes'>usos?|is[st]o</token>
@@ -8899,9 +8954,6 @@ USA
                 <example>Faz uso de dados, traz desdobramentos e projeções de cenário, assim como contextos passados.</example>
                 <example>Mantenha seu médico informado ao fazer uso deste produto.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2023-02-16 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='SPS00|DA.+|DD.+' postag_regexp='yes'/>
@@ -8915,8 +8967,6 @@ USA
                 <example>Eu gostaria de ter feito a coisa certa.</example>
                 <example>Ela faz as unhas toda semana.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-02-16 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token>pouco</token>
@@ -9163,7 +9213,6 @@ USA
                 <token postag='AQ+' postag_regexp='yes'/>
                 <example>Sei que fiz você feliz.</example>
                 <example>Sei que fiz a minha família feliz.</example>
-                <!--<example>Só queria fazer-lhe feliz.</example>-->
             </antipattern>
             <antipattern>
                 <token inflected='yes'>fazer</token>
@@ -9174,7 +9223,6 @@ USA
                 <example>Farei você pagar por isso.</example>
                 <example>Farei-lhe pagar por isso.</example>
                 <example>Anotei tudo, fazendo assim você tomar cuidado.</example>
-                <!--<example>Farei você se arrepender por isso.</example>-->
             </antipattern>
             <antipattern>
                 <token case_sensitive='yes'>FI</token>
@@ -9185,7 +9233,6 @@ USA
                 <token postag='PP+|N+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
                 <example>Farei a minha irmã fazê-lo.</example>
-                <!--<example>Farei você fazê-lo.</example>-->
             </antipattern>
             <antipattern>
                 <token inflected='yes'>fazer</token>
@@ -9263,120 +9310,36 @@ USA
                 <token min='0'>diferença</token>
                 <example>Prestar atenção faz toda diferença.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *START* -->
-            <!--
-            Hoje faz 21 anos que entrei para a empresa.
-            Faz quatro anos que eu estudo francês.
-            Faz uma semana que a gente se encontrou.
-            Você não sabia que ele morreu faz dois anos?
-            Sempre faz um tempo tão horrível em abril?
-            Não falo com Tom já faz um tempo.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
-                <token postag='Z0.+' postag_regexp='yes'/>
-                <token regexp='yes'>&expressoes_de_tempo;</token>
-                <token postag='CS|RG|_PUNCT' postag_regexp='yes'/>
+                <token postag='Z.+' postag_regexp='yes'/>
+                <token regexp='yes'>&expressoes_de_tempo;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</token>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *START* -->
-            <!--
-            HITS IN 600000 SENTENCES:
-            BEFORE:9643
-            AFTER:9087
-            -->
-
-            <!--
-            Faço parte do clube de natação.
-            Estou feliz em fazer parte desse projeto.
-            Segundo a TV, fará tempo bom hoje.
-            Eu tive de fazer hora extra ontem.
-            Faz um tempão que não a vejo.
-            Faz algumas horas que eu estou lendo isso.
-            Este celular é feito de papel eletrônico.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate="yes" regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
                 <token regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
+                <example>Este celular é feito de papel eletrônico.</example>
             </antipattern>
-
-            <!--
-            Eles sempre fazem piadas sobre o chefe.
-            E não esqueça de fazer seguro de viagem.
-            Tornou-se o primeiro coreano a entrar na parada, feito conquistado antes da sua primeira turnê mundial.
-            Fiz esse vestido sozinha.
-            Eu mesmo fiz esta comida.
-            Você está fazendo isso errado.
-            Está com um cheiro meio desagradável, mas tenho medo de mexer e fazer algo errado.
-            Sendo assim, vamos fazer algo divertido.
-            Esta resposta a fez ficar zangada.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate_pos="yes" postag='VMP.+' postag_regexp='yes'/>
                 <token postag='VMP.+' postag_regexp='yes'/>
+                <example>Esta resposta a fez ficar zangada.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *START* -->
-            <!--
-            HITS IN 600000 SENTENCES:
-            BEFORE:9087
-            AFTER:8627
-            -->
-            <!--
-            Fora da pista os dois fizeram crescer o incidente com entrevistas provocantes.
-            Faça vir o médico, porque estou doente.
-            O gelo fez cair as flores dos damasqueiros.
-            Selecione apenas itens com a mesma finalidade para fazer e finalizar o seu pedido.
-            Saiba como fazer para lavar o veículo corretamente e evitar danos ao seu veículo.
-            Os humanos não foram feitos para viver para sempre.
-            Como faço para atualizar meu cadastro?
-            Tenho de fazer o jantar hoje.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate_pos="yes" postag='VMN0000'/>
                 <token postag='VMN0000'/>
+                <example>Tenho de fazer o jantar hoje.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
-            <!--
-            BASED ON THE ANTIPATTERNS FROM RULE ID: VER_OBSERVAR_CONSTATAR
-            HITS IN 600000 SENTENCES:
-            BEFORE:8627
-            AFTER:8477
-            -->
-            <!--
-            Estes sapatos são feitos na Itália.
-            Diga-me o que você fez em Tóquio.
-            Assim como inúmeros outros padres da Igreja e teólogos de então fizeram referência a José.
-            Faça a Dida feliz, vai?
-            Quer conhecer o mundo todo, mas se der para fazer escala em Paris, a cada voo, melhor ainda!
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
                 <token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
                 <token postag='NP.+' postag_regexp='yes'/>
+                <example>Estes sapatos são feitos na Itália.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *START* -->
-            <!--
-            HITS IN 600000 SENTENCES:
-            BEFORE:8476
-            AFTER:8310
-            -->
-            <!--
-            Nós conseguimos fazê-lo entender.
-            Falei por muito tempo, e consegui fazê-la crer em mim.
-            Acima de tudo, ele respeitava-me e fazia-me sentir em paz comigo mesma e com a vida.
-            Fizeram-me ir lá sozinho.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
@@ -9384,26 +9347,14 @@ USA
                 <token postag='VMN0000|VMIP1.+' postag_regexp='yes'>
                     <exception postag_regexp='yes' postag='AQ.+|RG|CS'/> <!-- Can't use NC.+ because it removes the verb "USO", "FEZ-SE USO DE" - 2022-04-06 -->
                 </token>
+                <example>Nós conseguimos fazê-lo entender.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *END* -->
-
-            <!--
-            Ele a fez sua esposa.
-            Ele me fez seu assistente.
-            Ele não pôde cumprir a promessa que fez ao pai dele.
-            Ele não fez nada errado.
-            Ele me fez esperar mais de uma hora.
-            O que eu faço é problema meu.
-            O que você faz é mais importante do que o que você diz.
-            -->
             <antipattern>
                 <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
                 <token postag='PP.+|DP.+|V.+' postag_regexp='yes'/>
+                <example>Ele me fez seu assistente.</example>
             </antipattern>
-            <!--
-            O que você fez neste verão?
-            -->
             <antipattern>
                 <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
@@ -9411,26 +9362,15 @@ USA
                     <exception postag='CC'/>
                 </token>
                 <token postag='PP.+|DP.*|V.+' postag_regexp='yes'/>
+                <example>O que você fez neste verão?</example>
             </antipattern>
-            <!--
-            Vamos fazer um teste de gravidez.
-            Kato fez muitas perguntas sobre os Estados Unidos para ele.
-            Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.
-            O presidente fez uma declaração sobre o assunto.
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token/>
                 <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
                 <token postag='SPS.+' postag_regexp='yes'/>
+                <example>Vamos fazer um teste de gravidez.</example>
             </antipattern>
-            <!--
-            Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.
-            Isto é fulcral para fazer face à escalada de violência.
-            A lei serve para fazer imperar os direitos sobre todas as pessoas.
-            Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.
-            Uma fagulha é suficiente para fazer explodir a pólvora.
-            -->
             <antipattern>
                 <token postag='CC|SPS.+' postag_regexp='yes'/>
                 <token inflected='yes'>fazer</token>
@@ -9438,16 +9378,8 @@ USA
                     <exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
                 </token>
                 <token postag='NP.+|SPS.+|DA.+|DI.+' postag_regexp='yes'/>
+                <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *START* -->
-            <!--
-            Isso faz-lhe admirar?
-            Isso faz-se notar?
-            Ela fez-se passar por outra pessoa.
-            O telegrama foi um truque para fazê-la vir para casa.
-            Sim, senhor, falo o italiano o bastante para fazer-me compreender.
-            Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.
-            -->
             <antipattern>
                 <token postag='PD.+|PP.+|CC|RG' postag_regexp='yes'>
                     <exception>se</exception>
@@ -9459,30 +9391,17 @@ USA
                     <exception regexp='yes'>partes?</exception>
                     <exception postag_regexp='yes' postag='CS|SPS.+|NC.+|AQ0.+|VMG0000'/>
                 </token>
+                <example>Isso faz-se notar?</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *START* -->
-            <!--
-            Tom está sempre tentando fazer todo mundo pensar que ele é legal.
-            E faça quantas perguntas achar que deva!
-            E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.
-            A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!
-            O que faz uma piada ser uma piada?
-            -->
             <antipattern>
                 <token inflected='yes'>fazer</token>
                 <token min="0" max="1" negate_pos="yes" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 <token postag='VMN0000'/>
                 <token negate="yes" regexp='yes'>[.,?!;]</token>
+                <example>E faça quantas perguntas achar que deva!</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *END* -->
-
             <rule>
-                <!--
-                Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
-                -->
                 <pattern>
                     <token/>
                     <marker>
@@ -9542,9 +9461,6 @@ USA
                 <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
                 <example>O que faz uma piada ser uma piada?</example>
             </rule>
-            <!--
-            Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
-            -->
             <rule>
                 <pattern>
                     <marker>
@@ -9601,7 +9517,6 @@ USA
                 <example>O que faz uma piada ser uma piada?</example>
             </rule>
         </rulegroup>
-
 
         <!-- PARA CONCLUIR em suma -->
         <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky' tone_tags="academic">
@@ -9986,6 +9901,115 @@ USA
         </rule>
 
 
+        <rulegroup id='SER_SIGNIFICATIVO' name="[Universitário][Científico] 'fazer toda a diferença' → 'ser significativo/expressivo'" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
+
+            <!-- #1: é significativo -->
+            <rule>
+                <pattern>
+                    <token postag='VMN0.S.+' postag_regexp='yes' skip='-1'/>
+                    <marker>
+                        <token regexp='yes'>faz(em)?</token>
+                        <token>toda</token>
+                        <token>a</token>
+                        <token>diferença</token>
+                    </marker>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot; ou &quot;expressivo&quot;.</message>
+                <suggestion>é significativo</suggestion>
+                <suggestion>é expressivo</suggestion>
+                <example correction="é significativo|é expressivo">Acrescentar mais uma palavra <marker>faz toda a diferença</marker>.</example>
+                <example correction="é significativo|é expressivo">Acrescentar mais umas palavras <marker>fazem toda a diferença</marker>.</example>
+            </rule>
+
+            <!-- #2: são significativos, é/são significativa(s) -->
+            <rule>
+                <pattern>
+                    <token postag='DA.+' postag_regexp='yes' skip='-1'>
+                        <exception postag_regexp='yes' postag='VMN0.S.+'/>
+                    </token>
+                    <marker>
+                        <and>
+                            <token regexp='yes'>faz(em)?
+                                <exception scope='previous' postag_regexp='no' postag='CS'/> <!-- que -->
+                            </token>
+                            <token postag="VMIP3.+" postag_regexp='yes'/>
+                        </and>
+                        <token>toda</token>
+                        <token>a</token>
+                        <token>diferença</token>
+                    </marker>
+                </pattern>
+                <message>Se for um texto científico/universitário, pondere empregar o termo &quot;significativo&quot; ou &quot;expressivo&quot;.</message>
+                <suggestion><match no='1' postag='D.0.(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='D.0(..)0' postag_replace='AQ0$10'>significativo</match></suggestion>
+                <suggestion><match no='1' postag='D.0.(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='D.0(..)0' postag_replace='AQ0$10'>expressivo</match></suggestion>
+                <example correction="é significativa|é expressiva">A nova equação <marker>faz toda a diferença</marker>.</example>
+                <example correction="são significativas|são expressivas">As novas equações <marker>fazem toda a diferença</marker>.</example>
+                <example correction="são significativos|são expressivos">Os novos conceitos <marker>fazem toda a diferença</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
+
+        <rule id='FAZER_EXERCER' name="[Universitário][Científico] Verbo Fazer → Verbo Exercer" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>atividade</token>
+                <token inflected='yes'>físico</token>
+                <example>Conclusão, estava em jejum e fazendo atividade física pesada.</example>
+                <example>Faça atividades físicas todos os dias.</example>
+                <example>Tom nunca faz atividades físicas.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>fazer</token>
+                <token min='1' max='3' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='VMN03.+' postag_regexp='yes'/>
+                <example>Com o objetivo de fazer as forças alemãs acreditarem que a invasão aliada viria de Pas-de-Calais, a força fantasma foi esta...</example>
+            </antipattern>
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='CC' skip='2'/>
+                <token inflected='yes'>fazer</token>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>força</token>
+                <example>...ilhas ou facetas de desgaste nos dentes e tem uma alavancagem mandíbula que não é projetado para as fazer muita forças para cortar e triturar.</example>
+                <example>O médico disse para não fazer força.</example>
+                <example>O médico disse para eu não fazer força.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>fazer</token>
+                <token postag='PI.+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>direito</token>
+                <example>Só por uma vez na minha vida, eu queria fazer algo direito.</example>
+                <example>Pau torto também faz fogo direito.</example>
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token inflected='yes'>fazer</token>
+                </marker>
+                <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
+                <!-- The "AND" below assures that it doesn't inflect to verbs only, like it did with some forms of "poder" -->
+                <and>
+                    <token regexp='yes' inflected='yes'>atividade|autoridade|cargo|cidadania|control[eo]|direito|domínio|força|função|influência|liberdade|liderença|mandato|medicina|ministério|poder|pressão|profissão|tensão|terror|trabalhador|violência
+                        <exception scope='previous'>nada</exception>
+                    </token> <!-- Add words here when they are found -->
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </and>
+            </pattern>
+            <message>Se for um texto científico/universitário, pondere empregar o termo &quot;exercer&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exercer</match></suggestion>
+            <example correction="exercem">Os ativistas <marker>fazem</marker> pressão nas manifestações.</example>
+            <example correction="exercem">Os ativistas <marker>fazem</marker> muita pressão nas manifestações.</example>
+            <example>O que milênios não fizeram pode acontecer num minuto.</example>
+            <example>O que o seu marido fez pode ser apenas um milagre.</example>
+            <example>Nunca me passou pela cabeça que o que eu estava fazendo poderia ser ilegal.</example>
+            <example>Durante e depois das apresentações, os participantes e o público que se fez presente puderam se deliciar com comidas típicas e se divertir com música ao vivo.</example>
+            <example>Parece que o Tom não consegue fazer nada direito.</example>
+            <example>Hoje não consigo fazer nada direito.</example>
+        </rule>
+
+
         <!-- NÃO SE PODE APAGAR é indelével -->
         <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="[Universitário][Científico] 'não se pode apagar' → 'é indelével'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
@@ -10318,6 +10342,12 @@ USA
                     <token regexp='yes'>vai|vá</token>
                     <token postag='VMN0000'/>
                     <example>Por favor, vá para o quarto.</example>
+                </antipattern>
+                <antipattern>
+                    <token>vai</token>
+                    <token>ter</token>
+                    <token>com</token>
+                    <example>Quando o Rui vai ter com a Ana tem de apanhar um táxi.</example>
                 </antipattern>
                 <pattern>
                     <and>
@@ -10692,36 +10722,74 @@ USA
     </category>
 
     <category id="SCIENTIFIC" name="Linguagem científica" type="style" tone_tags="scientific">
-        <rule id="NUMERO_DE_MOLS" name="Número de mols -> massa molecular" default="temp_off" tags="picky" is_goal_specific="true">
-            <pattern>
-                <token>número</token>
-                <token>de</token>
-                <token regexp="yes">mol(e?s)?</token>
-            </pattern>
-            <message>&scientific_intro; prefira <suggestion>quantidade de matéria</suggestion>.</message>
-            <example correction="quantidade de matéria">Uma amostra com alto <marker>número de mols</marker>.</example>
-        </rule>
+        <rulegroup id="NUMERO_DE_MOLS" name="Número de mols -> massa molecular" tags="picky" is_goal_specific="true">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+MS.+" min="0"/>
+                    <token>número</token>
+                    <token>de</token>
+                    <token regexp="yes">mol(e?s)?</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;quantidade de matéria&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> <match no="2" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> quantidade de matéria</suggestion>
+                <example correction="Esta alta quantidade de matéria"><marker>Este alto número de mols</marker> da amostra.</example>
+            </rule>
 
-        <rule id="PESO_MOLECULAR" name="Peso molecular -> massa molecular" default="temp_off" tags="picky" is_goal_specific="true">
-            <pattern>
-                <token>peso</token>
-                <token>molecular</token>
-            </pattern>
-            <message>&scientific_intro; prefira <suggestion>massa molecular</suggestion>.</message>
-            <example correction="massa molecular">Uma amostra com alto <marker>peso molecular</marker>.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+CS.+" min="0"/>
+                    <token>número</token>
+                    <token>de</token>
+                    <token regexp="yes">mol(e?s)?</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;quantidade de matéria&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> \2 quantidade de matéria</suggestion>
+                <example correction="Esta insignificante quantidade de matéria"><marker>Este insignificante número de mols</marker> da amostra.</example>
+            </rule>
+        </rulegroup>
 
-        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro -> constante" default="temp_off" tags="picky" is_goal_specific="true">
+        <rulegroup id="PESO_MOLECULAR" name="Peso molecular -> massa molecular" tags="picky" is_goal_specific="true">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+MS.+" min="0"/>
+                    <token>peso</token>
+                    <token>molecular</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;massa molecular&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> <match no="2" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> massa molecular</suggestion>
+                <example correction="da massa molecular">A compreensão <marker>do peso molecular</marker> do elemento.</example>
+                <example correction="baixa massa molecular">Componentes de <marker>baixo peso molecular</marker> encontrados em diversas espécies vegetais.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
+                    <token postag_regexp="yes" postag="A.+CS.+" min="0"/>
+                    <token>peso</token>
+                    <token>molecular</token>
+                </pattern>
+                <message>&scientific_intro; prefira &quot;massa molecular&quot;.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> \2 massa molecular</suggestion>
+                <example correction="essa insignificante massa molecular">Ignore <marker>esse insignificante peso molecular</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro -> constante" tags="picky" is_goal_specific="true">
             <pattern>
+                <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
                 <token>número</token>
                 <token>de</token>
                 <token>Avogadro</token>
             </pattern>
-            <message>&scientific_intro; prefira <suggestion>constante de Avogadro</suggestion>.</message>
-            <example correction="constante de Avogadro">Calculamos com o <marker>número de Avogadro</marker>.</example>
+            <message>&scientific_intro; prefira &quot;constante de Avogadro&quot;.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(.+)MS(.+)" postag_replace="$1FS$2"/> constante de Avogadro</suggestion>
+            <example correction="a constante de Avogadro">Calculamos com <marker>o número de Avogadro</marker>.</example>
         </rule>
 
-        <rule id="GRAU_CENTIGRADO" name="Preferir 'grau Celius' a 'grau centígrado'." default="temp_off">
+        <rule id="GRAU_CENTIGRADO" name="Preferir 'grau Celius' a 'grau centígrado'.">
             <pattern>
                 <token regexp="yes">graus?</token>
                 <marker>
@@ -11233,6 +11301,47 @@ USA
                 <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> na criação do algoritmo.</example>
             </rule>
         </rulegroup>
+
+
+        <rulegroup id='DE_FORA_EXTERNO_DE_DENTRO_INTERNO' name="Simplificar: de dentro/fora → interno/externo">
+            <!--IDEA shorten_it-->
+
+            <!-- #1: de dentro → interno -->
+            <rule>
+                <pattern>
+                    <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
+                    <marker>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token>de</token>
+                        <token>dentro</token>
+                    </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>interno</match></suggestion>
+                <example correction="pessoas internas">Nesta empresa só é permitido <marker>pessoas de dentro</marker>.</example>
+            </rule>
+
+            <!-- #2: de fora → externo -->
+            <rule>
+                <pattern>
+                    <token regexp='yes' inflected='yes'>aceitar|contratar|empregar|passar|permitir|promover|ser|ter</token> <!-- Add verbs here when found -->
+                    <token min='0' max='1' regexp='yes' inflected='yes'>o|a:o</token>
+                    <marker>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token>de</token>
+                        <token>fora</token>
+                    </marker>
+                    <token postag='_PUNCT|RM' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\3 <match no='3' postag='NC.+' postag_regexp='yes'>externo</match></suggestion>
+                <example correction="pessoas externas">Nesta empresa só é permitido <marker>pessoas de fora</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
 
         <!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
         <rule id='ERRO_TRADUÇÃO_TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'" tone_tags="objective">
@@ -12061,6 +12170,7 @@ USA
             <message>Substitua por <suggestion>nada vai</suggestion>.</message>
             <example correction="nada vai">Em princípio <marker>as coisas não vão</marker> melhorar.</example>
         </rule>
+
         <!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
         <rulegroup id='PRESENTE_PRESENCIAL' name="é presencial">
@@ -12595,33 +12705,62 @@ USA
         </rulegroup>
 
 
-        <!-- DO INIMIGO/ADVERSÁRIO/ALIADO/OPONENTE inimiga/adversário/aliada/oponente -->
-        <rule id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="[Simplificar] D[ao](s) + inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s) → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky'>
+        <rulegroup id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="[Simplificar] 'do inimigo/adversário/aliado/oponente' → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky' default="temp_off">
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-02-12/14 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-      O objetivo é alcançar a bandeira do inimigo. → O objetivo é alcançar a bandeira inimiga.
-      O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terreno inimigo.
-      -->
-            <pattern>
-                <token regexp='yes'>às?|[ao]s?</token>
-                <token postag='NC.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='DI.+|Z0.+|VMIP3S0'/>
-                </token>
-                <marker>
-                    <token regexp='yes'>d[ao]s?</token>
-                    <token regexp='yes'>inimig[ao]s?|adversári[ao]s?|aliad[ao]s?|oponentes?</token>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
-            <message>&simplify_msg;</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="inimiga">O objetivo é alcançar a bandeira <marker>do inimigo</marker>.</example>
-            <example correction="oponente">As forças da NATO querem alcançar a bandeira <marker>dos oponentes</marker>.</example>
-            <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
-            <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
-            <example>Os exércitos inimigos foram vencidos.</example>
-        </rule>
+
+            <!-- #1: Number/gender agreement depends on using "às?|[ao]s?" -->
+            <rule>
+                <pattern>
+                    <token regexp='yes'>às?|[ao]s?</token>
+                    <token postag='NC.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
+                    </token>
+                    <marker>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
+                <message>&simplify_msg;</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="inimiga">O objetivo é alcançar a bandeira <marker>do inimigo</marker>.</example>
+                <example correction="oponente">As forças da NATO querem alcançar a bandeira <marker>dos oponentes</marker>.</example>
+                <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
+                <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
+                <example>Os exércitos inimigos foram vencidos.</example>
+            </rule>
+
+            <!-- #2: Number/gender agreement depends on using "de|d[ao]s?" -->
+            <rule>
+                <antipattern>
+                    <token postag='V.+|PP.+' postag_regexp='yes'/>
+                    <token postag='SPS00:DA0F.+' postag_regexp='yes'/>
+                    <token postag='NCF.+' postag_regexp='yes'/>
+                    <token regexp='yes'>de|d[ao]s?</token>
+                    <example>...iras polaco-lituanas no período entre-guerras, embora reconhecidas pela Conferência de Embaixadores dos Aliados da Primeira Guerra Mundial e pela Liga das Nações, </example>
+                    <example>...hola, a qual ao virar-se à procura dos navios britânicos deixaram-no situado na vanguarda do ataque dos Aliados.</example>
+                </antipattern>
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
+                    </token>
+                    <token regexp='yes'>de|d[ao]s?</token>
+                    <token postag='NC.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
+                    </token>
+                    <marker>
+                        <token regexp='yes'>d[ao]s?</token>
+                        <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:NC.* postagFrom:1 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
+                <message>&simplify_msg;</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="inimiga">O objetivo é controlar a linha de comunicação <marker>do inimigo</marker>.</example>
+                <example correction="inimigas">O objetivo é controlar as linhas de comunicação <marker>do inimigo</marker>.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <!-- DE FORMA/MODO + ADJ adv -->
@@ -13615,6 +13754,42 @@ USA
                 <example correction="para o ser humano atuar">Isto <marker>para que o ser humano atue</marker> segundo a vontade divina.</example>
                 <example correction="para os seres humanos atuarem">Isto <marker>para que os seres humanos atuem</marker> segundo a vontade divina.</example>
 
+            </rule>
+
+        </rulegroup>
+
+
+        <rulegroup id='TORNAR_MELHOR_PIOR_MELHORAR_PIORAR' name="[Simplificar] Tornar melhor/pior → melhorar/simplificar">
+            <!--IDEA shorten_it-->
+
+            <!-- #1: melhorar -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token postag='D[AD].+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token regexp="yes">melhor(es)?</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>melhorar</match> \2 \3</suggestion>
+                <example correction="melhora as coisas">Isto só <marker>torna as coisas melhores</marker>.</example>
+            </rule>
+
+            <!-- #2: piorar -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token postag='D[AD].+' postag_regexp='yes'/>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token regexp="yes">pior(es)?</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>piorar</match> \2 \3</suggestion>
+                <example correction="piora as coisas">Isto só <marker>torna as coisas piores</marker>.</example>
             </rule>
 
         </rulegroup>
@@ -15334,6 +15509,15 @@ USA
                 <example>...is estratégicos para a retirada dos produtos pelos próprios clientes quanto a de uso de drones para fazer entregas estão sendo avaliadas pela Diálogo Logística para serem implantadas no país.</example>
             </antipattern>
 
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token>fazer</token>
+                <token postag='VMIP2S0' postag_regexp='no'/>
+                <example>Às 17h já costumo estar a fazer batalhas de xadrez.</example>
+                <example>Esse cara chega, começa a fazer consultas sem conversar comigo antes...</example>
+            </antipattern>
+
             <pattern>
                 <marker>
                     <token>fazer</token>
@@ -16976,6 +17160,17 @@ USA
             Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
             Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá marcar a consulta.
             -->
+
+            <antipattern>
+                <token inflected='yes'>ir</token>
+                <token postag='SPS00|DA.+|DI.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>e|para</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SENT_END'/>
+                <example>Havia colegas que gozavam por eu estar sempre a ir a orais para passar.</example>
+            </antipattern>
+
             <pattern>
                 <token inflected='yes'>ir
                     <exception inflected='yes'>ser</exception>
@@ -18380,7 +18575,7 @@ USA
     </category>
 
     <category id="GENERAL" name="Regras gerais de estilo" type="style" tone_tags="general">
-        <rule id="GRAU_KELVIN" name="Evitar 'grau' antes da unidade Kelvin" default="temp_off">
+        <rule id="GRAU_KELVIN" name="Evitar 'grau' antes da unidade Kelvin">
             <pattern>
                 <token regexp="yes">graus?</token>
                 <token>kelvin</token>

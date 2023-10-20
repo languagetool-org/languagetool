@@ -6451,6 +6451,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="NN.*"/>
             <token postag="SENT_END"/>
         </antipattern>
+        <antipattern>
+            <token>t</token>
+            <token>he</token>
+        </antipattern>
         <antipattern><!-- Incorrect grammar: more than one tests is -->
             <token regexp="yes">more|less</token>
             <token>than</token>
@@ -6968,7 +6972,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="NN.*">
-                    <exception regexp="yes" case_sensitive="yes">Here|WHO|why</exception>
+                    <exception regexp="yes" case_sensitive="yes">Here|WHO</exception>
+                    <exception>why</exception>
                 </token>
                 <marker>
                     <token spacebefore="no">'s<exception inflected="yes">have</exception></token>
@@ -6989,6 +6994,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">I'm sure her car's in the garage.</example><!-- #4542 -->
             <example type="untouched">My hair's messed up this morning.</example><!-- #4542 -->
             <example type="untouched">Your mother's brought each of you something.</example><!-- #4542 -->
+            <example type="untouched">Why's everyone staring at you?</example>
             <example type="untouched">I think her car's seen better days.</example><!-- #4542 -->
             <example type="untouched">Because of the complexity, John's had to work carefully.</example><!-- #4542 -->
             <example type="untouched">Because of the deadline, the engineer's had to work overtime.</example><!-- #4542 -->
@@ -8253,6 +8259,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNP" />
             <token>work</token>
             <token regexp="yes">with|for|at</token>
+        </antipattern>
+        <antipattern><!-- We can't just fucking drive down the road playing I Spy or some shit ... -->
+            <token postag="MD" />
+            <token postag="RB" />
+            <token postag="RB" />
+            <token regexp="yes">fuckin['g]</token>
+            <token postag="VB" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern><!-- We can't just fucking drive down the road playing I Spy or some shit ... -->
+            <token postag="MD" />
+            <token postag="RB" />
+            <token regexp="yes">fuckin['g]</token>
+            <token postag="VB" chunk="E-NP-singular" />
         </antipattern>
         <pattern>
             <marker>
@@ -16269,7 +16288,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule><!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*[a-z0-9].*</token>
-                <token min="0" regexp="yes">[\)\(,\/]</token>
+                <token min="0" regexp="yes">[\)\(,\/:]</token>
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
                 </marker>
@@ -16281,7 +16300,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
                 </marker>
-                <token min="0" regexp="yes">[\)\(,\/]</token>
+                <token min="0" regexp="yes">[\)\(,\/:]</token>
                 <token regexp="yes">.*[a-z0-9].*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -16316,7 +16335,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token>(</token>
             <marker>
-                <token case_sensitive="yes">ish</token>
+                <token case_sensitive="yes" skip="-1">ish</token>
             </marker>
             <token>)</token>
         </pattern>
@@ -16926,5 +16945,27 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="BY_NO_NOUN" name="'by' no noun">
+        <pattern>
+            <marker>
+                <token>by</token>
+            </marker>
+            <token regexp="yes">the|my|y?our|his|her|their|all|th[oe]se</token>
+        </pattern>
+        <disambig action="remove" postag="NN" />
+    </rule>
+    
+    <rule id="LIKE_TO_VERB" name="'like' only verb">
+        <pattern>
+            <token chunk_re="E-NP.*" postag="NNP?S" postag_regexp="yes" />
+            <marker>
+                <token>like</token>
+            </marker>
+            <token>to</token>
+            <token postag="VB" chunk_re=".-VP" />
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
     </rule>
 </rules>

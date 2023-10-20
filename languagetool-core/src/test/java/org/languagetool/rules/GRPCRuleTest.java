@@ -31,7 +31,9 @@ import org.languagetool.language.Demo;
 import org.languagetool.rules.ml.MLServerProto;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 
 @Ignore("Requires local ML server")
 public class GRPCRuleTest {
@@ -47,7 +49,6 @@ public class GRPCRuleTest {
     config.ruleId = RULE_ID;
     config.url = "localhost";
     config.port = 50000;
-
 
     rule = new GRPCRule(new Demo(), JLanguageTool.getMessageBundle(), config, true) {
       @Override
@@ -72,5 +73,12 @@ public class GRPCRuleTest {
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     AnalyzedSentence s  = lt.getAnalyzedSentence("This is a test.");
     Arrays.asList(rule.match(s)).forEach(System.out::println);
+  }
+  @Test
+  public void testMaxLength() throws IOException {
+    JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
+    AnalyzedSentence s  = lt.getAnalyzedSentence("This is a test with size of more than 30 letters test.");
+    List<RuleMatch> matches = Arrays.asList(rule.match(s));
+    assert matches.size() == 0;
   }
 }

@@ -36,10 +36,10 @@ public class SimpleReplaceSoftRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SimpleReplaceSoftRule rule = new SimpleReplaceSoftRule(TestTools.getEnglishMessages());
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    SimpleReplaceSoftRule rule = new SimpleReplaceSoftRule(TestTools.getEnglishMessages(), lt.getLanguage());
 
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Ці рядки повинні збігатися."));

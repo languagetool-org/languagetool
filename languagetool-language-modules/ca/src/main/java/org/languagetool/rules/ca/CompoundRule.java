@@ -40,6 +40,7 @@ public class CompoundRule extends AbstractCompoundRule {
             "S'escriu junt sense espai ni guionet.",
             "S'escriu junt o amb guionet.",
             "Error de mot compost");
+    this.useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>Ryan-Air</marker>."),
                    Example.fixed("<marker>Ryanair</marker>."));
   }
@@ -51,7 +52,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Paraules compostes amb guió";
+    return "Paraules compostes amb guionet: $match";
   }
 
   @Override

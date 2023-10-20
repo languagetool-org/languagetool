@@ -22,6 +22,8 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 
+<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+
 <!DOCTYPE rules [
         <!ENTITY % messages  SYSTEM "../../resource/pt/entities/messages.ent" >
         <!ENTITY % datetime  SYSTEM "../../resource/pt/entities/datetime.ent" >
@@ -210,7 +212,16 @@
       </disambig>
     </rule>
   </rulegroup>
-
+  <rule id="TAO_ADV" name="disambiguate tão as an adverb">
+    <pattern>
+      <token postag="VMIP3P0" postag_regexp="no"/>
+      <marker>
+        <token>tão</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <example type="untouched">Ela ficou tão bonita!</example>
+  </rule>
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule>
       <antipattern>
@@ -337,6 +348,15 @@
     <pattern>
       <!-- TODO: exceptions -->
       <token regexp="yes">pensar|achar|fez|ninguém|sempre|alguém</token>
+    </pattern>
+    <disambig action="remove" postag="NC.*"/>
+  </rule>
+  <rule id="TOMAR" name="tomar (not noun)">
+    <pattern>
+      <!-- TODO: exceptions -->
+      <token regexp="yes">tomas?
+        <exception scope='previous' postag_regexp='yes' negate_pos='yes' postag='NC.+|AQ.+|NP.+'/>
+      </token>
     </pattern>
     <disambig action="remove" postag="NC.*"/>
   </rule>
@@ -622,6 +642,15 @@
        </and>
        </marker>
       </antipattern>
+      <antipattern>
+          <unify>
+                <feature id="number"><type id="plural"></type></feature>
+                <token postag_regexp="yes" postag="N.+"/>
+                <token postag_regexp="yes" postag="A.+" min="0"/>
+            </unify>
+            <token postag_regexp="yes" postag="R." min="0" max="3"/>
+            <token postag_regexp="yes" postag="(N|AQ)..P.+" regexp="yes">.+ais$</token>
+      </antipattern>
       <pattern>
           <token postag="R.+" postag_regexp="yes">
             <exception scope='previous' postag="(A|C|D|PP|R|V).+|_PUNCT" postag_regexp="yes"/>
@@ -637,6 +666,8 @@
       </pattern>
       <disambig action="filter" postag="V.+"/>
       <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
+      <example type="untouched">Os espaços não formais são bons.</example>
+      <example type="untouched">As bagagens não convencionais não cabem.</example>
     </rule>
     <rule>
       <pattern>
@@ -1346,6 +1377,11 @@
       <example type="untouched">Um <marker>mal trabalhador</marker> reclama de suas ferramentas.</example><!-- triggers MAL_MAU_CONFUSION -->
     </rule>
     <rule>
+      <antipattern>
+        <token postag="D.+" postag_regexp="yes"/>
+        <token postag="R.+|D.+" postag_regexp="yes"/>
+        <token postag="CC"/>
+      </antipattern>
       <pattern>
         <marker>
           <unify>
@@ -2820,47 +2856,44 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="ORDINALS" name="Ordinais">
-    <!-- Created by Tiago F. Santos, Portuguese rule 	-->
-    <rule>
-      <antipattern>
-          <token regexp='yes'>\d+[\.&#57347;]?º</token>
-          <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token>
-      </antipattern>
-      <pattern>
-          <token regexp='yes'>\d+[\.&#57347;]?[oº]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCMS000"/></disambig>
-    </rule>
-    <rule>
-      <antipattern>
-        <token regexp='yes'>\d+[\.&#57347;]?ª</token>
-        <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token>
-      </antipattern>
-      <pattern>
-        <token regexp='yes'>\d+[\.&#57347;]?[aª]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCFS000"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d+[\.&#57347;]?[oº][sˢ]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCMP000"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>\d+[\.&#57347;]?ª</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCFS000"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d+[\.&#57347;]?[aª][sˢ]</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCFP000"/></disambig>
-    </rule>
-  </rulegroup>
+  <!-- This rule makes no sense; it appears someone got confused at some point...
+       anyway changing ordinals to nouns wholesale is bad for America. -->
+<!--   <rulegroup id="ORDINALS" name="Ordinais">  -->
+    <!-- <rule> -->
+    <!--   <antipattern> -->
+    <!--       <token regexp='yes'>\d+[\.&#57347;]?º</token> -->
+    <!--       <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token> -->
+    <!--   </antipattern> -->
+    <!--   <pattern> -->
+    <!--       <token regexp='yes'>\d+[\.&#57347;]?[oº]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCMS000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--     <token regexp='yes'>\d+[\.&#57347;]?[aª]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCFS000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--       <token regexp="yes">\d+[\.&#57347;]?[oº][sˢ]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCMP000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--       <token regexp='yes'>\d+[\.&#57347;]?ª</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCFS000"/></disambig> -->
+    <!-- </rule> -->
+    <!-- <rule> -->
+    <!--   <pattern> -->
+    <!--       <token regexp="yes">\d+[\.&#57347;]?[aª][sˢ]</token> -->
+    <!--   </pattern> -->
+    <!--   <disambig action="replace"><wd pos="NCFP000"/></disambig> -->
+    <!-- </rule> -->
+  <!-- </rulegroup> -->
 
   <rulegroup id="HOURS" name="Horas">
     <rule>
@@ -2919,7 +2952,7 @@
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>Monte|&precede_nome_proprio_M;</token>
+          <token regexp='yes'>&precede_nome_proprio_M;</token>
           <token postag='NP.+' postag_regexp='yes' regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000_"/></disambig>
@@ -3892,4 +3925,72 @@
     <disambig action="replace"><wd pos="RM"/></disambig>
 <!--    <example inputform="francamente[Francamente/I]" outputform="francamente[Francamente/I,francamente/RM]" type="ambiguous">Falou <marker>francamente</marker> em soluções.</example>-->
   </rule>
+
+  <rule id="PRECISA_NOT_ADJ" name="Remove adj tag from 'precisa' in obvious cases">
+      <pattern>
+          <token postag_regexp="yes" postag="N.+|PP.+"/>
+          <marker>
+              <token regexp="yes" postag_regexp="yes" postag="AQ0[FM].0">precisas?|preciso</token>
+          </marker>
+          <token postag_regexp="yes" postag="SPS00(:.+)?" regexp="yes">d.+</token>
+      </pattern>
+      <disambig action="remove" postag="A.+"/>
+      <!-- error introduced on purpose to check agreement rules -->
+      <example
+          inputform="precisa[precisar/VMIP3S0,precisar/VMM02S0,preciso/AQ0FS0]"
+          outputform="precisa[precisar/VMIP3S0,precisar/VMM02S0]"
+          type="ambiguous">
+          Os meninos <marker>precisa</marker> das mães.
+      </example>
+  </rule>
+
+  <rulegroup id="REMOVE_PODAR_FROM_MODAL_PODER" name="Remove 'podar' tags from obvious 'poder' cases">
+      <rule>
+          <pattern>
+              <marker>
+                  <token inflected="yes" postag_regexp="yes" postag="V.+">poder</token>
+              </marker>
+              <token postag_regexp="yes" postag="R." min="0" max="2"/>
+              <token regexp="yes" min="0">&pronomes_obliquos;</token>
+              <token postag="VMN0000"/>
+          </pattern>
+          <disambig action="remove"><wd lemma="podar"/></disambig>
+          <example
+              inputform="pode[podar/VMM03S0,podar/VMSP1S0,podar/VMSP3S0,poder/VMIP3S0,poder/VMM02S0]"
+              outputform="pode[poder/VMIP3S0,poder/VMM02S0]"
+              type="ambiguous">
+              Ele <marker>pode</marker> não me dizer.
+          </example>
+      </rule>
+  </rulegroup>
+
+  <rulegroup id="REMOVE_BASTIR_FROM_BASTAR" name="Remove 'bastir' tags from obvious 'bastar' cases">
+      <!-- this word is completely archaic; the infinitive has literally *one* hit in a 1.1 billion word corpus... -->
+      <antipattern> <!-- except bastir cases that have no overlap with bastar, e.g. 'bastiu' -->
+          <token inflected="yes">bastir
+              <exception inflected="yes">bastar</exception>
+          </token>
+      </antipattern>
+      <rule>
+          <pattern>
+              <token inflected="yes">bastar</token>
+          </pattern>
+          <disambig action="remove"><wd lemma="bastir"/></disambig>
+      </rule>
+  </rulegroup>
+
+  <rulegroup id="REMOVE_IRIAR_FROM_IR" name="Remove 'bastir' tags from obvious 'bastar' cases">
+      <!-- very rare verb, seems to only occur in corpora as a typo for 'iria'... -->
+      <antipattern> <!-- except bastir cases that have no overlap with ir, e.g. 'iriava' -->
+          <token inflected="yes">iriar
+              <exception inflected="yes">ir</exception>
+          </token>
+      </antipattern>
+      <rule>
+          <pattern>
+              <token regexp="yes">iria[sm]?</token>
+          </pattern>
+          <disambig action="remove"><wd lemma="iriar"/></disambig>
+      </rule>
+  </rulegroup>
 </rules>

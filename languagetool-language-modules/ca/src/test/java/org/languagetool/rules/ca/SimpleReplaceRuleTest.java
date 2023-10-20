@@ -40,8 +40,8 @@ public class SimpleReplaceRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new SimpleReplaceRule(TestTools.getMessages("ca"));
     lt = new JLanguageTool(new Catalan());
+    rule = new SimpleReplaceRule(TestTools.getMessages("ca"), lt.getLanguage());
   }
 
   @Test

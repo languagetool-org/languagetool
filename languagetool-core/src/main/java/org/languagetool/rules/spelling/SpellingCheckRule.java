@@ -76,8 +76,8 @@ public abstract class SpellingCheckRule extends Rule {
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
-  private static final String CUSTOM_SPELLING_FILE = "/hunspell/spelling_custom.txt";
-  private static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
+  protected static final String CUSTOM_SPELLING_FILE = "/hunspell/spelling_custom.txt";
+  protected static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;
@@ -280,6 +280,8 @@ public abstract class SpellingCheckRule extends Rule {
 
   /**
    * Returns true iff the token at the given position should be ignored by the spell checker.
+   * Use {@link #ignorePotentiallyMisspelledWord(String)} if the check you want to implement is slightly
+   * computationally expensive.
    */
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
     List<String> words = new ArrayList<>();
@@ -333,6 +335,15 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     return ignoreWord(words.get(idx));
+  }
+
+  /**
+   * Like {@link #ignoreWord(String)}, but will only be called after the standard spell
+   * check has run and considered this word to be incorrect. This way, tests run here
+   * can be a bit more computationally expensive.
+   */
+  protected boolean ignorePotentiallyMisspelledWord(String words) throws IOException {
+    return false;
   }
 
   /**

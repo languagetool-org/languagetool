@@ -125,7 +125,7 @@ public class Spanish extends Language implements AutoCloseable {
             new SpanishWrongWordInContextRule(messages),
             new LongSentenceRule(messages, userConfig, 60),
             new LongParagraphRule(messages, this, userConfig),
-            new SimpleReplaceRule(messages),
+            new SimpleReplaceRule(messages, this),
             new SimpleReplaceVerbsRule(messages, this),
             new SpanishWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
@@ -194,11 +194,13 @@ public class Spanish extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
-    if (id.startsWith("ES_SIMPLE_REPLACE")) {
-      id = "ES_SIMPLE_REPLACE";
+    if (id.startsWith("ES_SIMPLE_REPLACE_SIMPLE")) {
+      return 30;
+    }
+    if (id.startsWith("ES_COMPOUNDS")) {
+      return 50;
     }
     switch (id) {
-      case "ES_COMPOUNDS": return 50;
       case "CONFUSIONS2": return 50; // greater than CONFUSIONS
       case "RARE_WORDS": return 50;
       case "LOS_MAPUCHE": return 50;
@@ -218,7 +220,6 @@ public class Spanish extends Language implements AutoCloseable {
       case "POR_CIERTO": return 30;
       case "DEGREE_CHAR": return 30; // greater than SPACE_UNITIES
       case "LO_LOS": return 30;
-      case "ES_SIMPLE_REPLACE": return 30; // greater than typography rules
       case "ETCETERA": return 30; // greater than other typography rules
       case "P_EJ": return 30; // greater than other typography rules
       case "SE_CREO2": return 25; 
@@ -284,5 +285,22 @@ public class Spanish extends Language implements AutoCloseable {
     String newReplacement = m.replaceAll("$1$2");
     return newReplacement;
   }
-  
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String parts[] = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (!tag.startsWith("N")) {
+        return "";
+      } else {
+        return formTag[0].trim();
+      }
+    }
+    return line;
+  }
 }

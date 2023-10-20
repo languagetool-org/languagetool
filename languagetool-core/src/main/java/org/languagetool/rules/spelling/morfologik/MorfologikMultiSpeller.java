@@ -28,12 +28,14 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
@@ -86,20 +88,27 @@ public class MorfologikMultiSpeller {
           .build(new CacheLoader<BufferedReaderWithSource, List<byte[]>>() {
             @Override
             public List<byte[]> load(@NotNull BufferedReaderWithSource reader) throws IOException {
-              List<byte[]> lines = getLines(reader.reader, reader.readerPath);
+              List<byte[]> lines = getLines(reader.reader, reader.readerPath, reader.language);
               if (reader.languageVariantReader != null) {
-                lines.addAll(getLines(reader.languageVariantReader, reader.readerPath));
+                lines.addAll(getLines(reader.languageVariantReader, reader.readerPath, reader.language));
                 lines.add(SpellingCheckRule.LANGUAGETOOL.getBytes());  // adding here so it's also used for suggestions
               }
               return lines;
             }
 
-            private List<byte[]> getLines(BufferedReader br, String path) throws IOException {
+            private List<byte[]> getLines(BufferedReader br, String path, Language lang) throws IOException {
               List<byte[]> lines = new ArrayList<>();
               String line;
               while ((line = br.readLine()) != null) {
-                if (!line.startsWith("#")) {
-                  lines.add(StringUtils.substringBefore(line,"#").trim().getBytes(UTF_8));
+                if (lang != null) {
+                  line = lang.prepareLineForSpeller(line);
+                }
+                if (line.startsWith("#") || line.isEmpty()) {
+                  continue;
+                }
+                line = line.split("#")[0].trim();
+                if (!line.isEmpty()) {
+                  lines.add(line.getBytes(UTF_8));
                 }
               }
               return lines;
@@ -117,8 +126,10 @@ public class MorfologikMultiSpeller {
   private final String userDictName;
   private final UserDictCacheKey userDictCacheKey;
 
+  private final Language language;
+
   public MorfologikMultiSpeller(String binaryDictPath, List<String> plainTextPaths, String languageVariantPlainTextPath, int maxEditDistance) throws IOException {
-    this(binaryDictPath, plainTextPaths, languageVariantPlainTextPath, null, maxEditDistance);
+    this(binaryDictPath, plainTextPaths, languageVariantPlainTextPath, null, maxEditDistance, null);
   }
 
   /**
@@ -128,13 +139,13 @@ public class MorfologikMultiSpeller {
    * @since 4.2
    */
   public MorfologikMultiSpeller(String binaryDictPath, List<String> plainTextPaths, String languageVariantPlainTextPath,
-    UserConfig userConfig, int maxEditDistance) throws IOException {
+    UserConfig userConfig, int maxEditDistance, Language lang) throws IOException {
     this(binaryDictPath,
          getBufferedReader(plainTextPaths),
          plainTextPaths,
          languageVariantPlainTextPath == null ? null : new BufferedReader(new InputStreamReader(getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextPath), UTF_8)),
          languageVariantPlainTextPath,
-         userConfig, maxEditDistance);
+         userConfig, maxEditDistance, lang);
     for (String plainTextPath : plainTextPaths) {
       if (plainTextPath != null &&
         (!plainTextPath.endsWith(".txt") ||
@@ -161,7 +172,8 @@ public class MorfologikMultiSpeller {
    */
   public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, List<String> plainTextReaderPath,
                                 BufferedReader languageVariantPlainTextReader, String languageVariantPlainTextPath, UserConfig userConfig,
-                                int maxEditDistance) throws IOException {
+                                int maxEditDistance, Language lang) throws IOException {
+    this.language = lang;
     if (userConfig == null || userConfig.getAcceptedWords() == null || userConfig.getAcceptedWords().isEmpty()) {
       premiumUid = null;
       userDictName = null;
@@ -247,7 +259,7 @@ public class MorfologikMultiSpeller {
       BufferedReader languageVariantPlainTextReader, String languageVariantPlainTextPath, String dictPath, int maxEditDistance) throws IOException {
     List<byte[]> lines = new ArrayList<>();
     for (String plainTextReaderPath : plainTextReaderPaths) {
-      List<byte[]> l = dictCache.getUnchecked(new BufferedReaderWithSource(plainTextReader, plainTextReaderPath, languageVariantPlainTextReader, languageVariantPlainTextPath));
+      List<byte[]> l = dictCache.getUnchecked(new BufferedReaderWithSource(plainTextReader, plainTextReaderPath, languageVariantPlainTextReader, languageVariantPlainTextPath, language));
       lines.addAll(l);
     }
     if (lines.isEmpty()) {
@@ -384,12 +396,14 @@ public class MorfologikMultiSpeller {
     private final String readerPath;
     private final BufferedReader languageVariantReader;
     private final String languageVariantPath;
+    private final Language language;
 
-    BufferedReaderWithSource(BufferedReader reader, String readerPath, BufferedReader languageVariantReader, String languageVariantPath) {
+    BufferedReaderWithSource(BufferedReader reader, String readerPath, BufferedReader languageVariantReader, String languageVariantPath, Language language) {
       this.reader = Objects.requireNonNull(reader);
       this.readerPath = Objects.requireNonNull(readerPath);
       this.languageVariantReader = languageVariantReader;
       this.languageVariantPath = languageVariantPath;
+      this.language = language;
     }
 
     @Override

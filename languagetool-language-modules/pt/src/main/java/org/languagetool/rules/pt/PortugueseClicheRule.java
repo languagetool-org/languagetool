@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.Language;
 import org.languagetool.language.Portuguese;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -51,8 +52,8 @@ public class PortugueseClicheRule extends AbstractSimpleReplaceRule2 {
     return Collections.singletonList(path);
   }
 
-  public PortugueseClicheRule(ResourceBundle messages, String path) {
-    super(messages, new Portuguese());
+  public PortugueseClicheRule(ResourceBundle messages, String path, Language language) {
+    super(messages, language);
     this.path = Objects.requireNonNull(path);
     setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);

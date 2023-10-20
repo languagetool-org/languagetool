@@ -43,6 +43,7 @@ import org.languagetool.tools.Tools;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
@@ -218,7 +219,7 @@ public class German extends Language implements AutoCloseable {
     return Arrays.asList(
       new UpperCaseNgramRule(messages, languageModel, this),
       new GermanConfusionProbabilityRule(messages, languageModel, this),
-      new ProhibitedCompoundRule(messages, languageModel, userConfig)
+      new ProhibitedCompoundRule(messages, languageModel, userConfig, this)
     );
   }
 
@@ -290,11 +291,14 @@ public class German extends Language implements AutoCloseable {
       case "WRONG_SPELLING_PREMIUM_INTERNAL": return 10;
       case "OLD_SPELLING_INTERNAL": return 10;
       case "DE_COMPOUNDS": return 10;
+      case "E_MAIL_SIGNATUR": return 10;
       case "TELEFON_NR": return 10;
       case "IRGEND_COMPOUND": return 10;
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "BEI_GOOGLE" : return 2;   // prefer over agreement rules and VOR_BEI
       case "EINE_ORIGINAL_RECHNUNG_TEST" : return 2;   // prefer over agreement rules
+      case "VON_SEITEN_RECOMMENDATION" : return 2;   // prefer over AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE
+      case "AUFFORDERUNG_SIE" : return 2;   // prefer over AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE
       case "VONSTATTEN_GEHEN" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
       case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
       case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
@@ -405,7 +409,6 @@ public class German extends Language implements AutoCloseable {
       case "VER123_VERAUXMOD": return -1; // prefer casing rules
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "DE_AGREEMENT2": return -1;  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions
-      case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "KOMMA_NEBEN_UND_HAUPTSATZ": return -1;  // prefer SAGT_RUFT
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
@@ -477,6 +480,7 @@ public class German extends Language implements AutoCloseable {
       case "PRP_VER_PRGK": return -13; // lower prio than ZUSAMMENGESETZTE_VERBEN
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
       case "SAGT_RUFT": return -13; // prefer case rules, DE_VERBAGREEMENT, AI and speller
+      case "KANNST_WERDEN": return -13; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -14; // lower prio than SAGT_SAGT, but higher than GERMAN_WORD_REPEAT_RULE
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
@@ -533,6 +537,50 @@ public class German extends Language implements AutoCloseable {
     }
     if (id.startsWith("AI_DE_KOMMA")) {
       return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA
+    }
+    if (id.startsWith("AI_DE_GGEC")) {
+      if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD") {
+        // less prio than spell checker
+        return -4;
+      }
+      if (id.startsWith("AI_DE_GGEC_UNNECESSARY_PUNCTUATION")) {
+        // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
+        return -2;
+      }
+
+      // gGEC IDs that should have less prio than rules with default prio
+      // e. g. ABKUERZUNG_FEHLENDE_PUNKTE
+      String[] ggecIds = {
+        "AI_DE_GGEC_REPLACEMENT_ADJECTIVE",
+        "AI_DE_GGEC_REPLACEMENT_ADVERB",
+        "AI_DE_GGEC_REPLACEMENT_NOUN",
+        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE",
+        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL",
+        "AI_DE_GGEC_REPLACEMENT_OTHER",
+        "AI_DE_GGEC_REPLACEMENT_VERB",
+        "AI_DE_GGEC_REPLACEMENT_VERB_FORM",
+        "AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE",
+        "AI_DE_GGEC_UNNECESSARY_OTHER",
+        "AI_DE_GGEC_UNNECESSARY_SPACE"
+      };
+
+      for (String gId: ggecIds) {
+        if (id == gId) {
+          return -1;
+        }
+      }
+
+      Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|" +
+        "AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
+      if (pattern.matcher(id).find()) {
+        return -1;
+      }
+
+      if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL") {
+        // less prio than EMAIL
+        return 0;
+      }
+      return 1;
     }
     return super.getPriorityForId(id);
   }

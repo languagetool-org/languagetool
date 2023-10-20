@@ -126,15 +126,16 @@ public class Portuguese extends Language implements AutoCloseable {
             new PunctuationMarkAtParagraphEnd(messages, this, true),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages, this, userConfig),
-            new PortugueseReplaceRule(messages),
-            new PortugueseBarbarismsRule(messages, "/pt/barbarisms.txt"),
+            new PortugueseColourHyphenationRule(messages, this, userConfig),
+            new PortugueseReplaceRule(messages, this),
+            new PortugueseBarbarismsRule(messages, "/pt/barbarisms.txt", this),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
-            new PortugueseClicheRule(messages, "/pt/cliches.txt"),
+            new PortugueseClicheRule(messages, "/pt/cliches.txt", this),
             new PortugueseFillerWordsRule(messages, this, userConfig),
-            new PortugueseRedundancyRule(messages, "/pt/redundancies.txt"),
-            new PortugueseWordinessRule(messages, "/pt/wordiness.txt"),
+            new PortugueseRedundancyRule(messages, "/pt/redundancies.txt", this),
+            new PortugueseWordinessRule(messages, "/pt/wordiness.txt", this),
             //new PortugueseWeaselWordsRule(messages),
-            new PortugueseWikipediaRule(messages, "/pt/wikipedia.txt"),
+            new PortugueseWikipediaRule(messages, "/pt/wikipedia.txt", this),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
@@ -251,11 +252,13 @@ public class Portuguese extends Language implements AutoCloseable {
       case "CRASE_CONFUSION":           return -54;
       case "NAO_MILITARES":           return -54;
       case "NA_QUELE":           return -54;
+      case "NOTAS_FICAIS": return -54;
       case "GENERAL_VERB_AGREEMENT_ERRORS":           return -55;
       case "GENERAL_NUMBER_AGREEMENT_ERRORS":           return -56;
       case "GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS":           return -56;
       case "FINAL_STOPS":               return -75;
       case "EU_NÓS_REMOVAL":            return -90;
+      case "COLOCAÇÃO_ADVÉRBIO":            return -90;
       case "FAZER_USO_DE-USAR-RECORRER":            return -90;
       case "T-V_DISTINCTION":           return -100;
       case "T-V_DISTINCTION_ALL":       return -101;

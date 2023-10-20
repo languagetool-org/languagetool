@@ -21,6 +21,7 @@ package org.languagetool.rules.ca;
 
 import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tools.StringTools;
@@ -35,6 +36,12 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
   private String dictFilename;
   private static final String SPELLING_FILE = "/ca/spelling.txt";
+
+  @Override
+  public List<String> getAdditionalSpellingFileNames() {
+    return Arrays.asList("/ca/"+SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,
+      "/ca/multiwords.txt", "/ca/spelling-special.txt");
+  }
 
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
@@ -75,7 +82,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   /* lemma exceptions */
   public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
   public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
-  
+
+  private static final List<String> inalambric = Arrays.asList("inalàmbric", "inalàmbrica", "inalàmbrics", "inalàmbriques", "inalàmbricament", "inalàmbricamente");
+
   private CatalanTagger tagger;
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -117,8 +126,15 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
-      
       String replacement = suggestions.get(i).getReplacement();
+      if (inalambric.contains(replacement.toLowerCase())) {
+        newSuggestions = new ArrayList<>();
+        newSuggestions.add(new SuggestedReplacement("sense fils"));
+        newSuggestions.add(new SuggestedReplacement("sense fil"));
+        newSuggestions.add(new SuggestedReplacement("sense cables"));
+        newSuggestions.add(new SuggestedReplacement("autònom"));
+        return newSuggestions;
+      }
       // remove always
       if (replacement.equalsIgnoreCase("como")) {
         continue;

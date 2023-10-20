@@ -216,7 +216,7 @@ class AgreementRuleAntiPatterns2 {
     asList(
       csToken("zum"),
       csToken("einen"),
-      posRegex("ADJ:.+")
+      posRegex("(ADJ|PA[12]):.+")
     ),
     asList(
       token("auf"),

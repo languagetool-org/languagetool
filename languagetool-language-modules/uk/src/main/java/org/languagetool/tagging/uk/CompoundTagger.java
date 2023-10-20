@@ -568,7 +568,7 @@ class CompoundTagger {
       if( vid.equals("v_kly") )
         continue;
 
-      String posTag = rightPosTag.replace("v_rod", vid).replaceFirst(":[mfn]:v_", ":p:v_") + addTag;
+      String posTag = rightPosTag.replace("v_rod", vid).replaceFirst(":[mfn]:v_", ":p:v_") + ":nv" + addTag;
       AnalyzedToken token = new AnalyzedToken(word, posTag, word);
       if( ! newAnalyzedTokens.contains(token) ) {
         newAnalyzedTokens.add(token);

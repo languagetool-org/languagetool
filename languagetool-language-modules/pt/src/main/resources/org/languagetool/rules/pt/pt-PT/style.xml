@@ -22,7 +22,12 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
+
+<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+
 <!DOCTYPE rules [
+    <!ENTITY % messages  SYSTEM "../../../resource/pt/entities/messages.ent" >
+    %messages;
 
         <!ENTITY meses_ano_abrev "abr|ago|dez|fev|jan|jul|jun|mai|mar|nov|out|set">
         <!ENTITY meses_ano "abril|agosto|dezembro|fevereiro|janeiro|julho|junho|maio|março|novembro|outubro|setembro">
@@ -2585,6 +2590,21 @@ USA
             <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
         </rule>
 
+        <rule id='PARA_SER_MELHORADA_A_MELHORAR' name="Para/a ser melhorad(a/o) → a melhorar">
+            <!-- IDEA shorten_it -->
+            <pattern>
+                <token postag="NC.+|AQ.+" postag_regexp='yes'/>
+                <marker>
+                    <token regexp='yes'>a|para</token>
+                    <token regexp='yes'>ser(em)?</token>
+                    <token regexp='yes'>melhorad[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>a melhorar</suggestion>
+            <example correction="a melhorar">Outra limitação <marker>para ser melhorada</marker> passa pela inclusão de novas equações.</example>
+            <example correction="a melhorar">Outro ponto <marker>a ser melhorado</marker> é a inclusão de novas equações.</example>
+        </rule>
 
         <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
         <rulegroup id='SIMPLIFICAR_PP_OBJ_IND_V2' name="[pt-PT][Simplificar] Pronome pessoal no dativo" type='style' tone_tags="objective">
@@ -2932,6 +2952,16 @@ USA
                 <token>à</token>
                 <token>prova</token>
                 <token>de</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp='yes' postag='VMIP.+'/>
+                <token min='0' max='1' postag='RG'/>
+                <token>à</token>
+                <token postag_regexp='yes' postag='AQ.[CM].+|NC[CM].+'/>
+                <token>de</token>
+                <token postag_regexp='yes' postag='NC.+|AQ.+|NP.+|DI.+|CS|V.+'/>
+                <example>Estou sempre à cuca de palavras em falta nos dicionários open-source.</example>
+                <example>Os títulos estão à guarda de Bancos sólidos e as suas cotações diárias são observáveis em qualquer praça financeira mundial.</example>
             </antipattern>
             <pattern>
                 <token negate="yes">se</token>

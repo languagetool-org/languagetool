@@ -86,11 +86,11 @@ public class Catalan extends Language {
             new CatalanUnpairedExclamationMarksRule(messages, this),
             new CatalanWrongWordInContextRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
-            new SimpleReplaceBalearicRule(messages),
-            new SimpleReplaceRule(messages),
+            new SimpleReplaceBalearicRule(messages, this),
+            new SimpleReplaceRule(messages, this),
             new SimpleReplaceMultiwordsRule(messages),
             new ReplaceOperationNamesRule(messages, this),
-            new SimpleReplaceDiacriticsIEC(messages),
+            new SimpleReplaceDiacriticsIEC(messages, this),
             new SimpleReplaceAnglicism(messages), 
             new PronomFebleDuplicateRule(messages),
             new CheckCaseRule(messages, this),
@@ -202,12 +202,10 @@ public class Catalan extends Language {
     switch (id) {
       case "CONFUSIONS2": return 80;
       case "DEU_NI_DO": return 80; // greater then rules about pronouns
-      case "CA_SIMPLE_REPLACE_MULTIWORDS": return 70;
-      case "CA_SIMPLE_REPLACE_BALEARIC": return 60;
-      case "CA_COMPOUNDS": return 50;
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
       case "CONEIXO_CONEC": return 50;
+      case "COMETES_INCORRECTES": return 50; // greater than PRONOMS_FEBLES
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
       case "DESDE_UN": return 40;
       case "MOTS_NO_SEPARATS": return 40;
@@ -215,17 +213,15 @@ public class Catalan extends Language {
       case "ESPERANT_US_AGRADI": return 40;
       case "ESPAIS_SOBRANTS": return 40; // greater than L
       case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
+      case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
       case "CA_SPLIT_WORDS": return 30;
       case "PRONOMS_FEBLES_TEMPS_VERBAL": return 35;
       case "ET_AL": return 30; // greater than apostrophes and pronouns
       case "PRONOMS_FEBLES_COLLOQUIALS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
-      case "CONFUSIONS_PRONOMS_FEBLES": return 30; // greater than ES (DIACRITICS)
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
       case "PRONOMS_FEBLES_DARRERE_VERB": return 30; // greater than PRONOMS_FEBLES_SOLTS2
-      case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
-      case "CA_SIMPLE_REPLACE_VERBS": return 28; // greater than PRONOMS_FEBLES_SOLTS2
       case "HAVER_SENSE_HAC": return 28; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
@@ -251,7 +247,6 @@ public class Catalan extends Language {
       case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
       case "SELS_EN_VA": return 10;
-      case "CA_SIMPLE_REPLACE_ANGLICISM": return 10;
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
       case "CONCORDANCES_DET_NOM": return 5;
@@ -287,6 +282,29 @@ public class Catalan extends Language {
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
       case "ELA_GEMINADA_WIKI": return -200;
+    }
+    if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
+      return -95;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_MULTIWORDS")) {
+      return 70;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_BALEARIC")) {
+      return 60;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_VERBS")) {
+      return 28;
+    }if (id.startsWith("CA_SIMPLE_REPLACE_ANGLICISM")) {
+      return 10;
+    }
+    if (id.startsWith("CA_COMPOUNDS")) {
+      return 50;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_DIACRITICS_IEC")) {
+      return 0;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE")) {
+      return 30;
     }
     return super.getPriorityForId(id);
   }
@@ -402,6 +420,23 @@ public class Catalan extends Language {
     s = s.replace(" ,", ",");
     return s;
   }
-  
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String parts[] = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (!tag.startsWith("N")) {
+        return "";
+      } else {
+        return formTag[0].trim();
+      }
+    }
+    return line;
+  }
   
 }

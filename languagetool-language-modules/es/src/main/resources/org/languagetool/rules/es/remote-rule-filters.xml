@@ -76,6 +76,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_ES_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SPS.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">\d.*</token>
+                </pattern>
+                <example correction="">El aforo proyectado es de <marker>entre</marker> 9500 y 10 200 personas.</example>
+            </rule>
             <!-- ignore noun + adj if there is agreement -->
             <rule>
                 <pattern>
@@ -167,6 +176,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">la realidad de <marker>tamañas</marker> barbaridades</example>
                 <example>donde se pueden contemplar decenas de piezas industriales vagones y locomotoras de vapor</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">pretérito|futuro|condicional</token>
+                    </marker>
+                    <token regexp="yes">perfecto|imperfecto|simple</token>
+                </pattern>
+                <example correction="">En concreto, se trata de la primera y tercera persona del singular del <marker>pretérito</marker> imperfecto o indefinido del modo indicativo del verbo ir</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_ES_HYDRA_LEO_CP_SITILDE_SI" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sí</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <example correction=""><marker>Sí</marker> que hacía tiempo que no nos veíamos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
+                    <marker>
+                        <token>sí</token>
+                    </marker>
+                    <token regexp="yes">[,;]</token>
+                </pattern>
+                <example correction=""><marker>Sí</marker>, es el efecto que tiene el fármaco.</example>
             </rule>
         </rulegroup>
     </category>

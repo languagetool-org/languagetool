@@ -32,12 +32,12 @@ public final class Contributor {
    * @param name full name
    * @param url URL to homepage or similar (optional)
    */
-  Contributor(String name, String url) {
+  public Contributor(String name, String url) {
     this.name = Objects.requireNonNull(name, "name cannot be null");
     this.url = url;
   }
 
-  Contributor(String name) {
+   public Contributor(String name) {
     this(name, null);
   }
   

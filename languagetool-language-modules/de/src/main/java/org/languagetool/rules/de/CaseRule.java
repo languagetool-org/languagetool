@@ -576,6 +576,7 @@ public class CaseRule extends Rule {
     "Hunderttausend",   // groß und klein möglich 
     "Hyperwallet", // Anglizismus
     "Ihnen",
+    "Ihrerseits",
     "Ihr",
     "Ihre",
     "Ihrem",
@@ -619,6 +620,9 @@ public class CaseRule extends Rule {
     "Nähten",
     "Narkoseverfahren",
     "Neuem",
+    "Neugeborene",
+    "Neugeborenen",
+    "Neugeborenes",
     "Nr",
     "Nutze",   // zu Nutze
     "Obdachlose",
@@ -710,6 +714,7 @@ public class CaseRule extends Rule {
     "Deinen",
     "Deiner",
     "Deines",
+    "Deinerseits",
     "Dich",
     "Dir",
     "Du",

@@ -52,10 +52,10 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
-    // сміялася всю дорого
+    // сміялася всю дорогу/цілою дорогою
     if( nounAdjPos < tokens.length-1
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("adj:f:v_zna.*"))
-        && tokens[nounAdjPos+1].getCleanToken().equals("дорогу") ) {
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("adj:[fn]:v_(zna|oru).*"))
+        && LemmaHelper.hasLemma(tokens[nounAdjPos+1], Arrays.asList("дорога", "життя", "міра"), Pattern.compile("noun:inanim:[fn]:v_(zna|oru).*")) ) {
       logException();
       return true;
     }
@@ -67,6 +67,12 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
+    // займаючись кожен своїми справами
+    if( LemmaHelper.hasLemma(tokens[nounAdjPos], Arrays.asList("кожний"), Pattern.compile(".*v_naz.*")) ) {
+      logException();
+      return true;
+    }
+    
     // звалося Подєбради
     if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("зватися", "називатися"))
         && Character.isUpperCase(tokens[nounAdjPos].getCleanToken().charAt(0)) ) {
@@ -326,12 +332,11 @@ public final class TokenAgreementVerbNounExceptionHelper {
           return true;
       }
     }
-
     
     // V + N + V:INF
     // вміємо цим зазвичай користуватися
     if( nounAdjPos < tokens.length - 1
-        && CaseGovernmentHelper.hasCaseGovernment(state.verbAnalyzedTokenReadings, PosTagHelper.VERB_PATTERN, "v_inf") ) {
+        && CaseGovernmentHelper.hasCaseGovernment(state.verbAnalyzedTokenReadings, PosTagHelper.VERB_ADVP_PATTERN, "v_inf") ) {
       int v2pos = LemmaHelper.tokenSearch(tokens, state.nounPos+1, PosTagHelper.VERB_PATTERN, null, Pattern.compile("[a-z].*"), Dir.FORWARD);
       if( v2pos >= 0 && v2pos <= state.nounPos+5
           && agrees(tokens[v2pos], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings) 
@@ -357,6 +362,32 @@ public final class TokenAgreementVerbNounExceptionHelper {
           logException();
           return true;
         }
+      }
+    }
+    
+    // ADVP + N + V
+    // резюмуючи політик наголосив
+    if( nounAdjPos < tokens.length - 1
+        && PosTagHelper.hasPosTagStart(tokens[verbPos], "advp") ) {
+      int v2pos = LemmaHelper.tokenSearch(tokens, state.nounPos+1, PosTagHelper.VERB_PATTERN, null, Pattern.compile("[a-z].*"), Dir.FORWARD);
+      if( v2pos >= 0 && v2pos <= state.nounPos+3 ) { 
+        if( agrees(tokens[v2pos], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings) ) { 
+          logException();
+          return true;
+        }
+      }
+    }
+    
+    // V + ADVP + N
+    // пригадує посміхаючись Аскольд - only: сміючись, посміхаючись; if more generic hides TP
+    // TP: знищила існуючи бази даних
+    if( verbPos > 1
+        && PosTagHelper.hasPosTagStart(tokens[verbPos], "advp")
+        && Arrays.asList("посміхаючись", "сміючись").contains(tokens[verbPos].getCleanToken())
+        && PosTagHelper.hasPosTagStart(tokens[verbPos-1], "verb")) {
+      if( agrees(tokens[verbPos-1], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings) ) { 
+        logException();
+        return true;
       }
     }
 

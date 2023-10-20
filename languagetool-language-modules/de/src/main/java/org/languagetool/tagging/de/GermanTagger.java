@@ -632,7 +632,7 @@ public class GermanTagger extends BaseTagger {
           } else if (!(idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).equals(".") && sentenceTokens.get(idxPos+2).matches("com|net|org|de|at|ch|fr|uk|gov"))) {  // TODO: find better way to ignore domains
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size() - 1);
-            if (StringTools.startsWithUppercase(word)) {
+            if (StringTools.startsWithUppercase(word) && !StringUtils.containsAny(lastPart, "freie", "freier", "freien", "freies", "freiem")) {
               lastPart = uppercaseFirstChar(lastPart);
             }
             List<TaggedWord> partTaggerTokens = getWordTagger().tag(lastPart);

@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -48,8 +49,8 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseReplaceRule(ResourceBundle messages) {
-    super(messages);
+  public PortugueseReplaceRule(ResourceBundle messages, Language language) {
+    super(messages, language);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     useSubRuleSpecificIds();

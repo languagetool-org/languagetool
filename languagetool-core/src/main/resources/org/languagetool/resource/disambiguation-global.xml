@@ -86,6 +86,12 @@ Copyright (C) 2021 Jaume Ortolà
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">#.+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
     </rulegroup>
     <rulegroup name="Ignore spelling of domain names" id="GLOBAL_IGNORE_DOMAIN_NAMES">
         <rule>
@@ -125,6 +131,19 @@ Copyright (C) 2021 Jaume Ortolà
                 <token spacebefore="no" regexp="yes">&domain_names;</token>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z0-9\-]+</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token spacebefore="no" postag="_IS_URL"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_IS_URL"/>
+                <wd pos="_IS_URL"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule name="Ignore spelling of acronym 'tl;dr'" id="GLOBAL_IGNORE_TL_DR">
@@ -166,7 +185,7 @@ Copyright (C) 2021 Jaume Ortolà
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rulegroup id="IGNORE_FUNCTION_NAMES" name="ignore function names">
+    <rulegroup id="GLOBAL_IGNORE_FUNCTION_NAMES" name="ignore function names">
         <!-- e.g. file.setName() -->
         <rule>
             <pattern>
@@ -208,7 +227,7 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-    <rule id="SIC_IGNORE_SPELLING" name="ignore spelling of '[sic]'">
+    <rule id="GLOBAL_SIC_IGNORE_SPELLING" name="ignore spelling of '[sic]'">
         <pattern>
             <token regexp="yes">[\[\(]</token>
             <token>sic</token>
@@ -216,7 +235,7 @@ Copyright (C) 2021 Jaume Ortolà
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rulegroup id="OP_IGNORE_SPELLING" name="ignore spelling of op. (music works)">
+    <rulegroup id="GLOBAL_OP_IGNORE_SPELLING" name="ignore spelling of op. (music works)">
         <rule>
             <pattern>
                 <marker>
@@ -237,14 +256,52 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
-    <rule id="ENGLISH_ORDINAL_NUMBERS" name="ignore spelling of English ordinal numbers">
+    <rule id="GLOBAL_ENGLISH_ORDINAL_NUMBERS" name="ignore spelling of English ordinal numbers">
         <pattern>
-            <token regexp="yes" case_sensitive="yes">
-                \d*1(st|ST)|\d*2(nd|ND)|\d*3(rd|RD)|\d+(th|TH)
-                <exception regexp="yes">[123](th|TH)|\d*11(st|ST)|\d*12(nd|ND)|\d*13(rd|RD)</exception>
-            </token>
+            <token regexp="yes" case_sensitive="yes"> \d*1(st|ST)|\d*2(nd|ND)|\d*3(rd|RD)|\d+(th|TH) <exception regexp="yes">[123](th|TH)|\d*11(st|ST)|\d*12(nd|ND)|\d*13(rd|RD)</exception> </token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="GLOBAL_CREATIVE_COMMONS" name="Creative Commons">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">NonCommercial|Attribution|ShareAlike|NoDerivatives</token>
+                </marker>
+                <token>-</token>
+                <token regexp="yes">NonCommercial|Attribution|ShareAlike|NoDerivatives</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">NonCommercial|Attribution|ShareAlike|NoDerivatives</token>
+                <token>-</token>
+                <marker>
+                    <token regexp="yes">NonCommercial|Attribution|ShareAlike|NoDerivatives</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">BY|NC|SA|ND</token>
+                </marker>
+                <token>-</token>
+                <token regexp="yes">BY|NC|SA|ND</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">BY|NC|SA|ND</token>
+                <token>-</token>
+                <marker>
+                    <token regexp="yes">BY|NC|SA|ND</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

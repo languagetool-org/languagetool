@@ -68,8 +68,8 @@ public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      boolean needsInvQuestionMark = hasTokenAtEnd(getEndSymbol(), tokens);
-      if (needsInvQuestionMark) {
+      int needsInvQuestionMarkAt = hasTokenAtPos(getEndSymbol(), tokens);
+      if (needsInvQuestionMarkAt > 1) {
         boolean hasInvQuestionMark = false;
         // boolean hasInvExlcMark = false;
         AnalyzedTokenReadings firstToken = null;
@@ -78,28 +78,49 @@ public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
               && !StringTools.isPunctuationMark(tokens[i].getToken())) {
             firstToken = tokens[i];
           }
-          if (tokens[i].getToken().equals(getStartSymbol())) {
+          if (tokens[i].getToken().equals(getStartSymbol()) && i < needsInvQuestionMarkAt) {
             hasInvQuestionMark = true;
           }
           // possibly a sentence end
-          if (!tokens[i].isSentenceEnd() && tokens[i].getToken().equals(getEndSymbol())) {
+          if (!tokens[i].isSentenceEnd() && tokens[i].getToken().equals(getEndSymbol())
+            && i < needsInvQuestionMarkAt) {
             firstToken = null;
           }
           // put the question mark in: ¿de què... ¿de quina
-          if (i > 2 && i + 1 < tokens.length) {
+          // put the question mark in: ¿de qué... ¿para cuál... ¿cómo...
+          if (i > 2 && i + 2 < tokens.length) {
+            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC") && tokens[i + 1].hasPosTag("SPS00")
+              && (tokens[i + 2].hasPosTagStartingWith("PT") || tokens[i + 2].hasPosTagStartingWith("DT"))) {
+              firstToken = tokens[i];
+            }
             if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("SPS00")
-                && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
+              && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
+              firstToken = tokens[i];
+            }
+            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC")
+              && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
               firstToken = tokens[i];
             }
             if (tokens[i - 1].getToken().equals(",")
-                && (tokens[i].hasPosTagStartingWith("PT") || tokens[i].hasPosTagStartingWith("DT"))) {
+              && (tokens[i].hasPosTagStartingWith("PT") || tokens[i].hasPosTagStartingWith("DT"))) {
+              firstToken = tokens[i];
+            }
+            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("CC")
+              && (tokens[i + 1].getToken().equals("no") || tokens[i + 1].getToken().equals("sí"))) {
+              firstToken = tokens[i];
+            }
+          }
+          if (i > 2 && i < tokens.length) {
+            if (tokens[i - 1].getToken().equals(",")
+              && (tokens[i].getToken().equals("no") || tokens[i].getToken().equals("sí")
+              || tokens[i].getToken().equals("oi") || tokens[i].getToken().equals("eh"))) {
               firstToken = tokens[i];
             }
           }
         }
         if (firstToken != null) {
           String s = null;
-          if (needsInvQuestionMark && !hasInvQuestionMark) {
+          if (needsInvQuestionMarkAt > 1 && !hasInvQuestionMark) {
             s = getStartSymbol();
           }
           if (s != null) { // && !prevSentEndsWithColon: skip sentences with ':' due to unclear sentence
@@ -118,11 +139,14 @@ public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
     return toRuleMatchArray(matches);
   }
 
-  private boolean hasTokenAtEnd(String ch, AnalyzedTokenReadings[] tokens) {
-    if (tokens[tokens.length - 1].isParagraphEnd() && !tokens[tokens.length - 1].getToken().equals(ch)
-        && tokens.length >= 2) {
-      return tokens[tokens.length - 2].getToken().equals(ch);
+  private int hasTokenAtPos(String ch, AnalyzedTokenReadings[] tokens) {
+    int i = tokens.length - 1;
+    while (i > 0) {
+      if (tokens[i].getToken().equals(ch)) {
+        return i;
+      }
+      i--;
     }
-    return tokens[tokens.length - 1].getToken().equals(ch);
+    return -1;
   }
 }

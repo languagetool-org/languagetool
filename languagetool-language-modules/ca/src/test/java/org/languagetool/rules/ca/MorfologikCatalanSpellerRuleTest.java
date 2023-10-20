@@ -21,9 +21,7 @@
 package org.languagetool.rules.ca;
 
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
@@ -680,5 +678,26 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("autònoma", matches[0].getSuggestedReplacements().get(0));
 
+        AnalyzedTokenReadings[] atrsArray = new AnalyzedTokenReadings[2];
+        AnalyzedTokenReadings atrs0 = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", ""));
+        AnalyzedTokenReadings atrs1 = new AnalyzedTokenReadings(new AnalyzedToken("Yuval Noha Hariri", null, null));
+        atrsArray[0] = atrs0;
+        atrsArray[1] = atrs1;
+        AnalyzedSentence sentence = new AnalyzedSentence(atrsArray);
+        matches = rule.match(sentence);
+        assertEquals(1, matches.length);
+        assertEquals("Yuval Noah Harari", matches[0].getSuggestedReplacements().get(0));
+
+      matches = rule.match(lt.getAnalyzedSentence("inhalàmbrica"));
+      assertEquals(1, matches.length);
+      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
+
+      matches = rule.match(lt.getAnalyzedSentence("inhal·làmbricament"));
+      assertEquals(1, matches.length);
+      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
+
+      matches = rule.match(lt.getAnalyzedSentence("innal·làmbricamente"));
+      assertEquals(1, matches.length);
+      assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
     }
 }

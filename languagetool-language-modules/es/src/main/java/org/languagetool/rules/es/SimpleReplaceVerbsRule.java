@@ -65,7 +65,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   private final SpanishSynthesizer synth;
 
   public SimpleReplaceVerbsRule(final ResourceBundle messages, Language language) {
-    super(messages);
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setIgnoreTaggedWords();
@@ -91,7 +91,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Verbo incorrecto.";
+    return "Verbo incorrecto: $match";
   }
 
   @Override

@@ -42,13 +42,13 @@ public class BrazilianPortuguese extends Portuguese {
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new PostReformPortugueseCompoundRule(messages, this, userConfig));
     rules.add(new PostReformPortugueseDashRule(messages));
-    rules.add(new BrazilianPortugueseReplaceRule(messages, "/pt/pt-BR/replace.txt"));
-    rules.add(new PortugueseBarbarismsRule(messages, "/pt/pt-BR/barbarisms.txt"));
-    rules.add(new PortugueseArchaismsRule(messages, "/pt/pt-BR/archaisms.txt"));
-    rules.add(new PortugueseClicheRule(messages, "/pt/pt-BR/cliches.txt"));
-    rules.add(new PortugueseRedundancyRule(messages, "/pt/pt-BR/redundancies.txt"));
-    rules.add(new PortugueseWordinessRule(messages, "/pt/pt-BR/wordiness.txt"));
-    rules.add(new PortugueseWikipediaRule(messages, "/pt/pt-BR/wikipedia.txt"));
+    rules.add(new BrazilianPortugueseReplaceRule(messages, "/pt/pt-BR/replace.txt", this));
+    rules.add(new PortugueseBarbarismsRule(messages, "/pt/pt-BR/barbarisms.txt", this));
+    rules.add(new PortugueseArchaismsRule(messages, "/pt/pt-BR/archaisms.txt", this));
+    rules.add(new PortugueseClicheRule(messages, "/pt/pt-BR/cliches.txt", this));
+    rules.add(new PortugueseRedundancyRule(messages, "/pt/pt-BR/redundancies.txt", this));
+    rules.add(new PortugueseWordinessRule(messages, "/pt/pt-BR/wordiness.txt", this));
+    rules.add(new PortugueseWikipediaRule(messages, "/pt/pt-BR/wikipedia.txt", this));
     return rules;
   }
 

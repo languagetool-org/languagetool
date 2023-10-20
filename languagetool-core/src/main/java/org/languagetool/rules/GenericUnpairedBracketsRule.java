@@ -346,7 +346,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       return null;
     }
     RuleMatch match = new RuleMatch(this, sentence, startPos, startPos + symbol.symbol.length(), message);
-    List<String> repl = getSuggestions(lazyFullText, startPos, startPos + symbol.symbol.length());
+    List<String> repl = getSuggestions(lazyFullText, startPos, startPos + symbol.symbol.length(), symbol, otherSymbol);
     if (repl != null) {
       match.setSuggestedReplacements(repl);
     }
@@ -357,11 +357,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return false;
   }
 
-  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {
+  protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
     return null;
   }
 
-  private String findCorrespondingSymbol(Symbol symbol) {
+  protected String findCorrespondingSymbol(Symbol symbol) {
     int idx1 = startSymbols.indexOf(symbol.symbol);
     if (idx1 >= 0) {
       return endSymbols.get(idx1);
@@ -376,12 +376,12 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return -1;
   }
 
-  static class Symbol {
-    enum Type {Opening, Closing}
+  protected static class Symbol {
+    public enum Type {Opening, Closing}
     String symbol;
-    Type symbolType;
+    public Type symbolType;
 
-    public Symbol(String symbol, Type symbolType) {
+    protected Symbol(String symbol, Type symbolType) {
       this.symbol = symbol;
       this.symbolType = symbolType;
     }

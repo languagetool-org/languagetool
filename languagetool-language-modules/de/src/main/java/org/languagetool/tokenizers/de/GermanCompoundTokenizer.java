@@ -69,8 +69,23 @@ public class GermanCompoundTokenizer implements Tokenizer {
     }
     static Set<String> extendedList() {
       ObjectOpenHashSet<String> words = new ObjectOpenHashSet<>(EmbeddedGermanDictionary.getWords());
-      // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
+      // Add compound parts here so we don't need to update JWordSplitter for every missing word we find.
+      // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if "sport"
+      // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
+      words.add("margen");
       words.add("synonym");
+      words.add("margen");
+      words.add("synonym");
+      words.add("aufbringung");
+      words.add("robustheit");
+      words.add("nachuntersuchung");
+      words.add("erstkommunion");
+      words.add("hauptstadt");
+      words.add("neustart");
+      words.add("polarisierung");
+      words.add("vollstreckbarkeit");
+      words.add("vollziehung");
+      words.add("kasko");
       words.trim();
       return words;
     }
@@ -78,6 +93,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
 
   public GermanCompoundTokenizer(boolean strictMode) throws IOException {
     wordSplitter = new ExtendedGermanWordSplitter(false);
+    wordSplitter.setStrictMode(strictMode);
+    wordSplitter.setMinimumWordLength(3);
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:
     //wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
     //wordSplitter.addException("Sportshorts", asList("Sport", "shorts"));
@@ -115,8 +132,6 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Freibergs", asList("Freibergs"));
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
-    wordSplitter.setStrictMode(strictMode);
-    wordSplitter.setMinimumWordLength(3);
   }
 
   @Override

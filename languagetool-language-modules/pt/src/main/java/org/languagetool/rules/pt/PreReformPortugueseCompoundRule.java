@@ -41,6 +41,7 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
             "Este conjunto forma uma palavra composta.");
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
+    this.useSubRuleSpecificIds();
   }
 
   @Override

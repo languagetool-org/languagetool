@@ -91,6 +91,9 @@ public class PronomFebleDuplicateRule extends Rule {
 
       if (!inVerbGroup || i==tokens.length-1) {
         if (isThereErrorInLemmas (lemesPronomsAbans, lemesPronomsDespres, tokens, lastVerbPos)) {
+          if (inVerbGroup && i==tokens.length-1) {
+            i++;
+          }
           final RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[initPos].getStartPos(),
             tokens[i-1].getEndPos(), ruleMessage, shortMessage);
           List<String> replacements = new ArrayList<>();
@@ -169,6 +172,9 @@ public class PronomFebleDuplicateRule extends Rule {
       return true;
     }
     if (lemesPronomsAbans.contains("en") && lemesPronomsDespres.contains("en")) {
+      return true;
+    }
+    if (lemesPronomsAbans.contains("ell") && lemesPronomsDespres.contains("ell")) {
       return true;
     }
     return false;

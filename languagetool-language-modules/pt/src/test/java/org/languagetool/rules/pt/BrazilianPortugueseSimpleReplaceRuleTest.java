@@ -35,8 +35,9 @@ public class BrazilianPortugueseSimpleReplaceRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new BrazilianPortugueseReplaceRule(TestTools.getMessages("pt"), "/pt/pt-BR/replace.txt");
     lt = new JLanguageTool(new Portuguese());
+    rule = new BrazilianPortugueseReplaceRule(TestTools.getMessages("pt"), "/pt/pt-BR/replace.txt",
+      lt.getLanguage());
   }
 
   @Test

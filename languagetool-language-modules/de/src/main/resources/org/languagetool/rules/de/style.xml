@@ -1730,6 +1730,36 @@ USA
                 <example>Heute ist Präsi Obama zu Gast im Podcast.</example>
                 <example>Heute ist der Präsi zu Gast im Podcast.</example>
             </rule>
+            <rule><!--5-->
+                <pattern>
+                    <token case_sensitive="yes">Bib
+                        <exception regexp="yes" scope="next">Gourmand|Fit</exception>
+                    </token>
+                </pattern>
+                <message>'Bib' ist umgangssprachlich. Möchten Sie das Wort ausschreiben?</message>
+                <suggestion>Bibliothek</suggestion>
+                <example correction="Bibliothek">Ich gehe heute in die <marker>Bib</marker>.</example>
+                <example>Auch der Michelin Guide „Bib Gourmand Deutschland“ wird erst 2019 wieder neu aufgelegt.</example>
+                <example>Seit 2009 gibt es das Programm „Bib Fit“ für Vorschulkinder</example>
+            </rule>
+            <rule><!--6-->
+                <antipattern><!-- the correct writing of the brand is BIBS but just in case-->
+                    <token skip="-1">Bibs</token>
+                    <token regexp="yes">schnuller.*|online.*|shops?|offiziell.*|dänisch.*|Designs?|Baby.*|Babies</token>
+                    <example>Bibs stellt viele feine Babyprodukte in natürlichen Farben her.</example>
+                </antipattern>
+                <antipattern><!-- the correct writing of the brand is BIBS but just in case-->
+                    <token skip="-1" regexp="yes">schnuller.*|online.*|shops?|offiziell.*|dänisch.*|Designs?|Baby.*|Babies</token>
+                    <token>Bibs</token>
+                    <example>Dort gibt es Babyprodukte in natürlichen Farben von Bibs.</example>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Bibs</token>
+                </pattern>
+                <message>'Bibs' ist umgangssprachlich. Möchten Sie das Wort ausschreiben?</message>
+                <suggestion>Bibliotheken</suggestion>
+                <example correction="Bibliotheken">Wie viele <marker>Bibs</marker> hat diese Uni?.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FERNSEHENGUCKEN" name="'Fernsehen gucken (fernsehen)'" tone_tags="formal">
             <rule>
@@ -2943,11 +2973,14 @@ USA
                 <pattern>
                     <token>rein-</token>
                     <token skip="-1">und</token>
-                    <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">raus.*</token>
+                    <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">raus.*
+                        <exception>rausschlüpfen</exception>
+                    </token>
                 </pattern>
                 <message>'\1 \2 \3' ist umgangssprachlich.</message>
                 <suggestion>ein- <match no="2" include_skipped="all"/> <match no="3" regexp_match="^[Rr]aus" regexp_replace="aus"/></suggestion>
                 <example correction="ein- und erst dann ausstecken">Laden Sie vor dem ersten Gebrauch Ihr Gerät, indem Sie das Netzteil in die Steckdose <marker>rein- und erst dann rausstecken</marker>, wenn das grüne Licht leuchtet.</example>
+                <example>Man kann einfach bequem rein- und rausschlüpfen.</example><!-- wrong suggestion-->
             </rule>
 	        <rule default="temp_off"><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[12] -->
                 <pattern>
@@ -3789,12 +3822,20 @@ USA
                 <token skip="-1" regexp="yes">da|hier|dort|Schwamm|drunter|drauf|oben</token>
                 <token>drüber</token>
             </antipattern>
+            <antipattern>
+                <token>drüber</token>
+                <token regexp="yes" inflected="yes">lesen|schauen</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes" skip="-1">lesen|schauen</token>
+                <token>drüber</token>
+            </antipattern>
             <pattern>
                 <token>drüber</token>
             </pattern>
             <message>Möchten Sie ein weniger umgangssprachliches Wort verwenden, um Ihren Schreibstil zu verbessern?</message>
             <suggestion>darüber</suggestion>
-            <example correction="darüber">Ich schaue später mal <marker>drüber</marker>.</example>
+            <example correction="darüber">Ich springe später mal <marker>drüber</marker>.</example>
             <example>Ich schaue da später mal drüber.</example>
         </rule>
         <rule id="DRUNTER" name="drunter (darunter)" tone_tags="formal">
@@ -6295,7 +6336,7 @@ USA
                 <example correction="Mithilfe"><marker>Mit Hilfe</marker> gefälschter Urinproben sei das Doping verschleiert worden.</example>
                 <example correction="mithilfe">Etliche Produkte, die für den Menschen interessant sind, werden <marker>mit Hilfe</marker> technisch veränderter Bakterien hergestellt.</example>
             </rule>
-            <rule><!--2-->
+            <rule default="off"><!--[2] replaced by new rule-->
                 <pattern>
                     <marker>
                         <token>von</token>
