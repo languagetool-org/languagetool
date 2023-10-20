@@ -1774,6 +1774,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_OTHER" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token regexp="yes">[a-zäöü]*</token>
+                    <token regexp="yes">[⁰¹²³⁴⁵⁶⁷⁸⁹]*</token>
+                </pattern>
+                <example correction="">Die Majcoat 200 SOB bekommst du durch den Lieferwertrabatt und bei Bestellung über den Webshop mit -5% zu 2,79 €/<marker>m²</marker>.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]*[₀₁₂₃₄₅₆₇₈₉]*</token>
+                </pattern>
+                <example correction="">Diese Formel enthält <marker>CO₂</marker>.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][A-Z]+</token>
+                </pattern>
+                <example correction="">Mit Ablauf des Vertrages erlischt das Recht des <marker>SPONSORS</marker> die Identifikation des Athleten zu verwenden</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN" name="">
             <rule><!--1-->
                 <pattern>
