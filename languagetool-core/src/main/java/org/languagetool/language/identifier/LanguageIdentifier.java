@@ -21,7 +21,6 @@
 package org.languagetool.language.identifier;
 
 import com.optimaize.langdetect.text.TextFilter;
-import io.vavr.Tuple2;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

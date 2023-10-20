@@ -597,26 +597,6 @@ abstract class TextChecker {
     // no lazy computation at later points (outside of timeout enforcement)
     // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
     res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
-    res.forEach(checkResults -> {
-      if(mode.equals(JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY) || mode.equals(JLanguageTool.Mode.ALL)) {
-        String textWithMarkup = aText.getTextWithMarkup();
-        System.out.println("###########MultiLang###########");
-        System.out.println("ExtendedRanges: " + checkResults.getExtendedSentenceRanges());
-        System.out.println("CorrectRanges: " + checkResults.getSentenceRanges());
-        System.out.println("Text splitted by ExtendedRanges");
-        checkResults.getExtendedSentenceRanges().forEach(range -> {
-          System.out.println(textWithMarkup.substring(range.getFromPos(), range.getToPos()));
-        });
-        System.out.println("###########");
-        System.out.println("Text splitted by CorrectRanges");
-        checkResults.getSentenceRanges().forEach(range -> {
-          System.out.println(textWithMarkup.substring(range.getFromPos(), range.getToPos()));
-        });
-        System.out.println("###########");
-        System.out.println("###########MultiLang###########");
-      }
-    });
-
 
     setHeaders(httpExchange);
 

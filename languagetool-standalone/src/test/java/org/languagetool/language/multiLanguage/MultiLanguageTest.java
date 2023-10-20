@@ -30,8 +30,6 @@ import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.de.GermanSpellerRule;
-import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +52,7 @@ public class MultiLanguageTest {
   private static JLanguageTool englishJLanguageToolWPL;
 
   @BeforeClass
-  public static void setup() throws IOException {
+  public static void setup() {
     LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, new File(ngramData), new File(fastTextBinary), new File(fastTextModel));
 
     germanJLanguageTool = new JLanguageTool(GERMAN_DE, null, userConfig);

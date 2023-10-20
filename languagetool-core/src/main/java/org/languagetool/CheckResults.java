@@ -46,6 +46,7 @@ public class CheckResults {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
     this.extendedSentenceRanges = Objects.requireNonNull(extendedSentenceRanges);
+    //TODO: use this later
 //    extendedSentenceRanges.forEach(extendedSentenceRange -> this.sentenceRanges.add(new SentenceRange(extendedSentenceRange.getFromPos(), extendedSentenceRange.getToPos())));
   }
 

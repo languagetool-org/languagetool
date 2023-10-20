@@ -66,8 +66,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private Type type = Type.Other;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private boolean autoCorrect = false;
-
-  //  private String errorLimitLang;
   private Map<String, Float> newLanguageMatches = new LinkedHashMap<>();
 
   private String specificRuleId = "";
@@ -601,7 +599,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * The language that the text might be in if the error limit has been reached.
    *
-   * @since 6.3
+   * @since 6.4
    */
   public Map<String, Float> getNewLanguageMatches() {
     return newLanguageMatches;
@@ -612,7 +610,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * sentence and can ignore errors there. Note: will not have an effect for text-level rules.
    *
    * @param newLanguageMatches a map of possible languages this could be instead
-   * @since 6.3
+   * @since 6.4
    */
   public void setNewLanguageMatches(Map<String, Float> newLanguageMatches) {
     this.newLanguageMatches = newLanguageMatches;

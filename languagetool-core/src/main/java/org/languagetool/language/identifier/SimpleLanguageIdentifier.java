@@ -20,7 +20,6 @@
 
 package org.languagetool.language.identifier;
 
-import io.vavr.Tuple2;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

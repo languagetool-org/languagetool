@@ -26,8 +26,6 @@ import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.RemoveMinorityScriptsTextFilter;
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
-import io.vavr.Tuple;
-import io.vavr.Tuple2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;

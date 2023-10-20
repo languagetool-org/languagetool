@@ -37,7 +37,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
