@@ -494,7 +494,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (!mStartsWithNumbersBulletsExceptions.matches()) {
         firstPart = mStartsWithNumbersBullets.group(1);
         secondPart = mStartsWithNumbersBullets.group(2);
-        if ((!isMisspelled(speller1, secondPart) || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
+        List<String> secondPartTokens = this.language.getWordTokenizer().tokenize(secondPart);
+        boolean multitokenIsMisspeled = secondPartTokens.stream().anyMatch(str -> isMisspelled(speller1, str));;
+        if ((!multitokenIsMisspeled || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
           ruleMatch.addSuggestedReplacement(firstPart + " " + secondPart);
           preventFurtherSuggestions = true;
         } else {

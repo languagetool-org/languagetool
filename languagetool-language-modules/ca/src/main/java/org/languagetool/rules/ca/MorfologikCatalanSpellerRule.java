@@ -96,7 +96,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     } else {
       tagger = CatalanTagger.INSTANCE_CAT;
     }
-    dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + "_spelling" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
   @Override
@@ -223,15 +223,15 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     String suggestion = "";
-    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", false);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
-    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'", true);
-    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-", true);
-    suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true);
+    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'");
+    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-");
+    suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ");
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);
     }
@@ -239,7 +239,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
 
   private String findSuggestion(String suggestion, String word, Pattern wordPattern, Pattern postagPattern,
-      int suggestionPosition, String separator, boolean recursive) throws IOException {
+      int suggestionPosition, String separator) throws IOException {
     if (!suggestion.isEmpty()) {
       return suggestion;
     }
@@ -250,18 +250,6 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("ajust")
           || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
-      }
-      if (recursive) {
-        List<String> moresugg = this.speller1.getSuggestions(newSuggestion);
-        if (moresugg.size() > 0) {
-          String newWord;
-          if (suggestionPosition == 1) {
-            newWord = moresugg.get(0) + matcher.group(2); // .toLowerCase()
-          } else {
-            newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
-          }
-          return findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
-        }
       }
     }
     return "";
