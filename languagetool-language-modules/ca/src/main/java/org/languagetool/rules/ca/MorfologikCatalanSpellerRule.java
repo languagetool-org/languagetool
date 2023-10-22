@@ -67,6 +67,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GUIONET_FINAL = Pattern.compile(
       "^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+  private static final Pattern GUIONET_FINAL_GERUNDI = Pattern.compile(
+    "^([\\p{L}·]+n)(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPLIT_SUGGESTIONS = Pattern
       .compile("^(..+\\p{L}|en|de|del|al|dels|als|a|i|o|amb)(\\d+)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$",
@@ -77,6 +81,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final Pattern VERB_INF = Pattern.compile("V.N.*");
+  private static final Pattern VERB_GER = Pattern.compile("V.G.*");
   private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
   
   /* lemma exceptions */
@@ -223,15 +228,16 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     String suggestion = "";
-    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'");
-    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-");
-    suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ");
+    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", "");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", "");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", "");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", "");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", "");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", "");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'", "");
+    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL_GERUNDI, VERB_GER, 1, "-", "t");
+    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-", "");
+    suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", "");
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);
     }
@@ -239,17 +245,17 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
 
   private String findSuggestion(String suggestion, String word, Pattern wordPattern, Pattern postagPattern,
-      int suggestionPosition, String separator) throws IOException {
+      int suggestionPosition, String separator, String addStr) throws IOException {
     if (!suggestion.isEmpty()) {
       return suggestion;
     }
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
-      String newSuggestion = matcher.group(suggestionPosition);
+      String newSuggestion = matcher.group(suggestionPosition) + addStr;
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
       if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("ajust")
           || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
-        return matcher.group(1) + separator + matcher.group(2);
+        return matcher.group(1) + addStr + separator + matcher.group(2);
       }
     }
     return "";

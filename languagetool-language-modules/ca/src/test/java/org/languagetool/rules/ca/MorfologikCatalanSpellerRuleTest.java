@@ -505,12 +505,12 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("norueg"));
     assertEquals("noruega", matches[0].getSuggestedReplacements().get(0));
     assertEquals("noruec", matches[0].getSuggestedReplacements().get(1));
-    //TODO: improve
     matches = rule.match(lt.getAnalyzedSentence("prenense"));
-    assertEquals("pretensa", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("pretense", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("prenen se", matches[0].getSuggestedReplacements().get(2));
-    //assertEquals("prenent-se", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("prenent-se", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("pretensa", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("pretense", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("prenen se", matches[0].getSuggestedReplacements().get(3));
+
     matches = rule.match(lt.getAnalyzedSentence("cual"));
     assertEquals("qual", matches[0].getSuggestedReplacements().get(0));
 
