@@ -235,6 +235,86 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
 
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
+        <rulegroup id="ZAHL_FORMAT_PREMIUM" name="Er wiegt ungefähr 10000 (10.000) KG.">
+            <antipattern>
+                <token regexp="yes">\.|,|.*Nr\.?|No\.?|HRA|HRB|.*Nummer</token>
+                <token regexp="yes">(\d){5,30}</token>
+            </antipattern>
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(\d){5,6}</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">KG|G|Gramm|Kilo(gramm)?|KM|Kilometer|M|CM|DM|MM|((Milli|Centi|Deci)?meter)|T(onnen)?|((K|M|G|T|P)i?)?B(it|ytes?)?|Usern?|Zeichen|Sätzen?|Sekunden|Minuten|Stunden|Nutzern?|Schritten?|(\(See\)-)?Meilen|Wörtern?|Menschen|Tagen?|[£$€]|Euro?|Dollar|USD</token>
+                </pattern>
+                <message>Durch Punkte als Tausender-Trennzeichen lässt sich die Lesbarkeit verbessern.</message>
+                <suggestion><match no="1" regexp_match="^(.+)(\d{3})$" regexp_replace="$1.$2" /></suggestion>
+                <example correction="100.000">Hier werden bestimmt <marker>100000</marker> GB an Daten gespeichert.</example>
+                <example>1 € = 1,95583 DM.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(\d){7,9}</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">KG|G|Gramm|Kilo(gramm)?|KM|Kilometer|M|CM|DM|MM|((Milli|Centi|Deci)?meter)|T(onnen)?|((K|M|G|T|P)i?)?B(it|ytes?)?|Usern?|Zeichen|Sätzen?|Sekunden|Minuten|Stunden|Nutzern?|Schritten?|(\(See\)-)?Meilen|Wörtern?|Menschen|Tagen?|[£$€]|Euro?|Dollar|USD</token>
+                </pattern>
+                <message>Durch Punkte als Tausender-Trennzeichen lässt sich die Lesbarkeit verbessern.</message>
+                <suggestion><match no="1" regexp_match="^(.+)(\d{3})(\d{3})$" regexp_replace="$1.$2.$3" /></suggestion>
+                <example correction="1.500.000">Hier werden bestimmt <marker>1500000</marker> GB an Daten gespeichert.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(\d){5,30}</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">KG|G|Gramm|Kilo(gramm)?|KM|Kilometer|M|CM|DM|MM|((Milli|Centi|Deci)?meter)|T(onnen)?|((K|M|G|T|P)i?)?B(it|ytes?)?|Usern?|Zeichen|Sätzen?|Sekunden|Minuten|Stunden|Nutzern?|Schritten?|(\(See\)-)?Meilen|Wörtern?|Menschen|Tagen?|[£$€]|Euro?|Dollar|USD</token>
+                </pattern>
+                <message>Durch Punkte als Tausender-Trennzeichen lässt sich die Lesbarkeit verbessern.</message>
+                <example correction="">Hier werden bestimmt <marker>1000000</marker> GB an Daten gespeichert.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}
+                            <exception>0</exception>
+                        </token>
+                        <token>,</token>
+                        <token regexp="yes" spacebefore="no">\d\d\d</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">User|Zeichen|Nutzer|Schritte|Wörter|Menschen|Tage|[£$€]|Euro?</token>
+                </pattern>
+                <message>Als Tausendertrennzeichen sollte der Punkt benutzt werden.</message>
+                <suggestion>\1.\3</suggestion>
+                <example correction="999.999">Die App hat ungefähr <marker>999,999</marker> Nutzer.</example>
+                <example correction="20.000">Ich gehe jeden Tag <marker>20,000</marker> Schritte.</example>
+                <example correction="1.100">Das ganze kostet dann etwa <marker>1,100</marker> $.</example>
+                <example>250, 300, 500, oder 750 Nutzer</example>
+                <example>Die Eier kosten 0,134 €/kg.</example>
+            </rule>
+            <rule><!--5-->
+                <antipattern>
+                    <!-- de-CH: "15'000.00" -->
+                    <token regexp="yes">['’`]</token>
+                    <token regexp="yes">\d\d\d</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d\d\d
+                            <exception case_sensitive="yes" scope="previous">CHF</exception>
+                        </token>
+                        <token>.</token>
+                        <token spacebefore="no">00</token>
+                    </marker>
+                </pattern>
+                <message>Hier muss entweder das Trennzeichen verschoben oder durch ein Komma ersetzt werden, oder eine weitere Null angehängt werden.</message>
+                <suggestion>\1,\3</suggestion>
+                <suggestion><match no="1" regexp_match="(\d\d?)(\d)" regexp_replace="$1.$200"/></suggestion>
+                <suggestion>\1\2<match no="3">000</match></suggestion>
+                <example correction="400,00|40.000|400.000">Wir brauchen <marker>400.00</marker> neue Wohnungen jährlich zu erschwinglichen Preisen.</example>
+                <example>Bei Bussen ist mit einer Gebühr von CHF 600.00 zu rechnen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Typografische Anführungszeichen" tags="picky">
             <url>https://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen</url>
             <short>Typografische Anführungszeichen</short>
