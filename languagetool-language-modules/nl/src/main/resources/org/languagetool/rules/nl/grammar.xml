@@ -14152,6 +14152,21 @@ regexp case-insensitive maken: (?i)
 				<example correction="Ic-treinen"><marker>IC-treinen</marker> zijn snel.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="INTEGENDEEL_KOMMA" name="Integendeel(,) het klopt niet." default="off">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>integendeel</token>
+						<token postag_regexp="yes" postag="VNW.*|BYW|GET.*">
+							<exception>zelfs</exception>
+						</token>
+					</marker>
+				</pattern>
+				<message>Als u na '\2' een pauze hoort (dat lijkt hier het geval), voeg dan een komma toe: <suggestion>\2, \3</suggestion>.</message>
+				<example correction="Integendeel, het"><marker>Integendeel het</marker> klopt niet.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling" tags="picky">
 			<rule>
 				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
