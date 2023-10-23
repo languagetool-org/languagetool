@@ -163,6 +163,17 @@ public class CleanOverlappingFilterTest {
     assertThat(matches16.size(), is(1)); // filtering
     assertThat(matches16.get(0).getRule().getId(), is("COMMA_LOW_PRIORITY"));
 
+    // same suggestion for the same place
+
+    RuleMatch ruleMatch7 = new RuleMatch(new FakeRule("MISSING_THE_HIGH_PRIORITY"), sentence, 5, 10, "msg1");
+    ruleMatch7.addSuggestedReplacement("of the");
+    RuleMatch ruleMatch8 = new RuleMatch(new FakeRule("MISSING_THE_LOW_PRIORITY"), sentence, 11, 15, "msg2");
+    ruleMatch8.addSuggestedReplacement("the provisions");
+    List<RuleMatch> matches17 = Arrays.asList(ruleMatch7, ruleMatch8);
+    matches17 = filter.filter(matches17);
+    assertThat(matches17.size(), is(1)); // filtering
+    assertThat(matches17.get(0).getRule().getId(), is("MISSING_THE_HIGH_PRIORITY"));
+
     try {
       List<RuleMatch> unordered = Arrays.asList(
         new RuleMatch(new FakeRule("P1_RULE"), sentence, 11, 12, "msg2"),
@@ -191,12 +202,14 @@ public class CleanOverlappingFilterTest {
         case "P2_RULE":
         case "P2_PREMIUM_RULE":
         case "COMMA_HIGH_PRIORITY":
+        case "MISSING_THE_HIGH_PRIORITY":
                         return 2;
         case "P1_RULE":
         case "P1_RULE_B":
         case "P1_PREMIUM_RULE":
         case "COMMA_LOW_PRIORITY":
         case "COMMA_LOW_PRIORITY2":
+        case "MISSING_THE_LOW_PRIORITY":
                         return 1;
         case "MISC":    return 0;
         default: throw new RuntimeException("No priority defined for " + id);
