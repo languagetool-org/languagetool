@@ -18,10 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import java.util.List;
 import java.util.ResourceBundle;
 
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
@@ -79,17 +77,6 @@ public class StyleTooOftenUsedVerbRule extends AbstractStyleTooOftenUsedWordRule
         token.hasPosTagStartingWith("ART") || token.hasPosTagStartingWith("ADJ");
   }
   
-  private String getLemmaForPosTagStartsWith(String startPos, AnalyzedTokenReadings token) {
-    List<AnalyzedToken> readings = token.getReadings();
-    for (AnalyzedToken reading : readings) {
-      String posTag = reading.getPOSTag();
-      if (posTag != null && posTag.startsWith(startPos)) {
-        return reading.getLemma();
-      }
-    }
-    return null;
-  }
-
   @Override
   protected String toAddedLemma(AnalyzedTokenReadings token) {
     return getLemmaForPosTagStartsWith("VER:", token);

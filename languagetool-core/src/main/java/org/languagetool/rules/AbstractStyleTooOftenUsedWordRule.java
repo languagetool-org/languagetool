@@ -26,10 +26,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.rules.Category.Location;
 
 /**
@@ -234,5 +231,16 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
   public int minToCheckParagraph() {
     return -1;
   }
- 
+
+  protected String getLemmaForPosTagStartsWith(String startPos, AnalyzedTokenReadings token) {
+    List<AnalyzedToken> readings = token.getReadings();
+    for (AnalyzedToken reading : readings) {
+      String posTag = reading.getPOSTag();
+      if (posTag != null && posTag.startsWith(startPos)) {
+        return reading.getLemma();
+      }
+    }
+    return null;
+  }
+
 }
