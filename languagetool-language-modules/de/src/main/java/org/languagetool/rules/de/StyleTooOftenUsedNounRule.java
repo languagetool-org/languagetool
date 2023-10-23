@@ -37,8 +37,6 @@ public class StyleTooOftenUsedNounRule extends AbstractStyleTooOftenUsedWordRule
   
   private static final int DEFAULT_MIN_PERCENT = 5;
 
-  String sentenceMessage = null;
-  
   public StyleTooOftenUsedNounRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);
     if (userConfig != null) {

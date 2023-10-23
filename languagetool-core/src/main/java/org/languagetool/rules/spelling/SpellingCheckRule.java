@@ -512,8 +512,7 @@ public abstract class SpellingCheckRule extends Rule {
   protected void addIgnoreWords(String line) {
     if (!tokenizeNewWords()) {
       wordsToBeIgnored.add(line);
-    }
-    else {
+    } else {
       // if line consists of several words (separated by " "), a DisambiguationPatternRule
       // will be created where each words serves as a case-sensitive and non-inflected PatternToken
       // so that the entire multi-word entry is ignored by the spell checker
@@ -521,7 +520,7 @@ public abstract class SpellingCheckRule extends Rule {
       if (tokens.size() > 1) {
         //System.out.println("Tokenized multi-token: " + line);
         List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
-        for(String token : tokens) {
+        for (String token : tokens) {
           if (token.trim().isEmpty()) {
             continue;
           }
