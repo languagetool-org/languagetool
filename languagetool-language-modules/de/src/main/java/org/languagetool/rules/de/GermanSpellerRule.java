@@ -2195,7 +2195,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       boolean compound2ok =
         !isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2);
-
       return compound1ok && compound2ok;
     } else {
       // more than three parts can be supported later
@@ -2205,21 +2204,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // don't accept e.g. "Implementierungs-pflicht"
       return false;
     }
+    // don't assume very short parts (like "Ei") are correct, these can easily be typos:
     if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
       String part1noInfix = part1.substring(0, part1.length()-1);
       String part2uc = uppercaseFirstChar(part2);
       if ((part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") || wordsNeedingInfixS.contains(part1noInfix)) &&
           isNoun(part2uc)) {
-        // don't assume very short parts (like "Ei") are correct, these can easily be typos:
         if (part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
             part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
             part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
           return false;
-        }
-        if (wordsNeedingInfixS.contains(part1noInfix)) {
-          System.out.println("Accepting1 " + word);
-        } else {
-          System.out.println("Accepting2 " + word);
         }
         return true;
       }
