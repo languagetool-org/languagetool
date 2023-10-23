@@ -15312,17 +15312,32 @@ regexp case-insensitive maken: (?i)
 				<example correction="oma's">Het zijn onze <marker>oma,s</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BULLET_SPATIE" name="Na een bullet hoort een spatie" tags="picky">
+
+		<rulegroup id="BULLET_SPATIE" name="Zet na een bullet een spatie" default="temp_off">
 			<rule>
 				<pattern>
-					<token postag_regexp="yes" postag="SENT_START|START"/>
+					<token postag="SENT_START"/>
 					<marker>
-						<token regexp="yes">-[A-Z][a-z].*</token>
+						<token regexp="yes">[-•*—·–]</token>
+						<token spacebefore="no"></token>
 					</marker>
 				</pattern>
-				<message>Na het teken voor een nieuw aandachtspunt hoort een spatie.</message>
-				<suggestion><match no="2" regexp_match="^-" regexp_replace="- "/></suggestion>
-				<example correction="- Het"><marker>-Het</marker> kost geld.</example>
+				<message>Na een bullet hoort een spatie: <suggestion>\2 \3</suggestion>.</message>
+				<example correction="* Dat"><marker>*Dat</marker> is vreemd.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="METER_PUNT" name="Op 50 m.(m) gelegen." default="temp_off">
+			<rule>
+				<pattern>
+				<token postag_regexp="yes" postag="GET:ARA.*"/>
+				<marker>
+					<token>m</token>
+					<token>.<exception postag="SENT_END"/></token>
+				</marker>
+				</pattern>
+				<message>Meter heeft geen punt: <suggestion>m</suggestion>.</message>
+				<example correction="m">Zwembad op 50 <marker>m.</marker> gelegen.</example>
 			</rule>
 		</rulegroup>
 
