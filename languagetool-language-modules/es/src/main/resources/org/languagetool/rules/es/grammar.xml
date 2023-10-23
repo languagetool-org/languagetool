@@ -13931,6 +13931,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SIGLAS" name="siglas" default="on">
             <url>https://languagetool.org/insights/es/publicacion/como-se-escriben-las-siglas/</url>
             <rule>
+                <antipattern>
+                    <token postag="D[^P]0FP0|DP..P.*" postag_regexp="yes"/>
+                    <token regexp="yes">[AEIOU]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="1" postag="V(.){3}3P.*" postag_regexp="yes" regexp="yes" inflected="yes">ser|parecer|lucir</token>
+                    <token regexp="yes">[AEIOU]</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
