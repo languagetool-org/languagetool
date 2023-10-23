@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -438,5 +439,8 @@ public class Catalan extends Language {
     }
     return line;
   }
-  
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return CatalanMultitokenSpeller.INSTANCE;
+  }
 }

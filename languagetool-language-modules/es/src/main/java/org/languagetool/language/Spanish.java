@@ -25,6 +25,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.es.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -302,5 +303,9 @@ public class Spanish extends Language implements AutoCloseable {
       }
     }
     return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return SpanishMultitokenSpeller.INSTANCE;
   }
 }

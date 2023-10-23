@@ -772,4 +772,11 @@ public final class StringTools {
   public static boolean isNotWordString(String input) {
     return NOT_WORD_STR.matcher(input).matches();
   }
+
+  /*
+   * Number of ocurreces of string t inside string s
+   */
+  public static int numberOf(String s, String t) {
+    return s.length() - s.replaceAll(t, "").length();
+  }
 }

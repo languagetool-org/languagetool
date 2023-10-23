@@ -32,6 +32,7 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -969,5 +970,9 @@ public abstract class Language {
    */
   public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     return ruleMatches;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return null;
   }
 }
