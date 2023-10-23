@@ -505,7 +505,8 @@ public class GrammalecteRule extends Rule {
     "g2__pleo_verbes__b4_a1_1",
     "g2__pleo_verbes__b8_a1_1",
     "g2__pleo_locutions__b7_a1_1",
-    "g2__pleo_verbes__b7_a1_1"
+    "g2__pleo_verbes__b7_a1_1",
+    "g2__conf_de_du_d__b1_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
