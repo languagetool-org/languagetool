@@ -43,11 +43,9 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
 
   private final int minPercent;
   private final int defaultMinPercent;
+  private final Map<String, Integer> wordMap = new HashMap<>();
+
   private boolean withoutDirectSpeech = false;
-  
-  private int numWords;
-  
-  private Map<String, Integer> wordMap = new HashMap<>();
 
   public AbstractStyleTooOftenUsedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent) {
     this(messages, lang, userConfig, minPercent, DEFAULT_ACTIVATION);
@@ -116,11 +114,6 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
     return 1;
   }
 
-  @Override
-  public int getMaxConfigurableValue() {
-    return 100;
-  }
-  
   public Map<String, Integer> getWordMap() {
     return wordMap;
   }
@@ -167,7 +160,7 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
    */
   private List<String> getTooOftenUsedWords() {
     List<String> words = new ArrayList<>();
-    numWords = 0;
+    int numWords = 0;
     for (String word : wordMap.keySet()) {
       numWords += wordMap.get(word);
     }
