@@ -31540,7 +31540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="COMILLAS_INCORRECTAS" name="Confusión comillas de apertura/apóstrofo" default="temp_off">
+        <rulegroup id="COMILLAS_APOSTROFO" name="Confusión comillas de apertura/apóstrofo" default="temp_off">
             <short>Carácter incorrecto</short>
             <rule>
                 <pattern>
@@ -32070,7 +32070,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">¡</token>
                     <marker>
-                        <token postag="SENT_END"><exception regexp="yes">¡|¿|\?|\.</exception></token>
+                        <token postag="SENT_END"><exception regexp="yes">¡|¿|\?|\.|:</exception></token>
                     </marker>
                 </pattern>
                 <message>Símbolo de exclamación desparejado.</message>
@@ -32087,6 +32087,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Símbolo de exclamación desparejado.</message>
                 <suggestion>!</suggestion>
                 <example correction="!">¡Qué bonito<marker>.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">¡</token>
+                    <marker>
+                        <token postag="SENT_END">:</token>
+                    </marker>
+                </pattern>
+                <message>Símbolo de exclamación desparejado.</message>
+                <suggestion>!:</suggestion>
+                <example correction="!:">¡Qué bonito<marker>:</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="INCORRECT_SPACES" name="espacios sobrantes">
