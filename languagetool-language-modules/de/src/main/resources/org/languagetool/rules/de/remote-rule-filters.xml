@@ -1922,8 +1922,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
-        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD__PERIOD__PERIOD.*" name=""><!-- gGEC wants to remove the 3 dots and start the sentence with a capital letter-->
-            <rule>
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD__PERIOD__PERIOD.*" name="">
+            <rule><!-- gGEC wants to remove the 3 dots and start the sentence with a capital letter-->
                 <pattern>
                     <token>.</token>
                     <token>.</token>
@@ -1932,6 +1932,29 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>...mit</marker> der Zeit heilt der Schmerz.</example>
                 <example correction=""><marker>...und</marker> das doch wohl nur durch unseren lieben Außenminister!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
+            <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
+                <pattern case_sensitive="yes">
+                    <token>mydays</token>
+                </pattern>
+                <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE" name="">
+            <rule><!-- FP -->
+                <pattern>
+                    <token>von</token>
+                    <token>Seiten</token>
+                    <token min="0">dritter</token>
+                    <token min="0">zu</token>
+                    <token postag_regexp="yes" postag="VER.*" />
+                </pattern>
+                <example correction="">Die Werbung wird <marker>von Seiten</marker> blockiert.</example>
+                <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten</marker> Dritter zu beeinflussen.</example>
             </rule>
         </rulegroup>
 
