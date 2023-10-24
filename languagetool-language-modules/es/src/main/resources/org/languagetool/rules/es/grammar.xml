@@ -32935,6 +32935,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es de “gran calidad”.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="2" regexp="yes" inflected="yes">TV|televisión|televisor|pantalla|monitor|rin|tubería|sensor</token>
+                    <token skip="2" postag="SPS.*|CC" postag_regexp="yes"/>
+                    <token regexp="yes">\d[\d\., ]*</token>
+                    <token>"</token>
+                    <example>Tengo una TV de 30".</example>
+                </antipattern>
                 <pattern>
                     <!--<token><exception>"</exception></token>-->
                     <token><exception regexp="yes">['‘«\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
