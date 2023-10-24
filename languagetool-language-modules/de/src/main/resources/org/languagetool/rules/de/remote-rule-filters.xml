@@ -1938,7 +1938,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
             <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
                 <pattern case_sensitive="yes">
-                    <token>mydays</token>
+                    <token>mydays</token><!-- can be extended by other words-->
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>
@@ -1949,12 +1949,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern>
                     <token>von</token>
                     <token>Seiten</token>
-                    <token min="0">dritter</token>
+                    <token min="0" regexp="yes">dritter|anderer</token>
                     <token min="0">zu</token>
                     <token postag_regexp="yes" postag="VER.*" />
                 </pattern>
                 <example correction="">Die Werbung wird <marker>von Seiten blockiert</marker>.</example>
                 <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten Dritter zu beeinflussen</marker>.</example>
+                <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten anderer zu beeinflussen</marker>.</example>
             </rule>
         </rulegroup>
 
