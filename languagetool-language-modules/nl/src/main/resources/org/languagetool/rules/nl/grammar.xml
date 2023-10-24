@@ -14152,7 +14152,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="Ic-treinen"><marker>IC-treinen</marker> zijn snel.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="INTEGENDEEL_KOMMA" name="Integendeel(,) het klopt niet." default="temp_off">
+		<rulegroup id="INTEGENDEEL_KOMMA" name="Integendeel(,) het klopt niet.">
 			<rule>
 				<pattern>
 					<token postag="SENT_START"/>
@@ -15349,12 +15349,12 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="METER_PUNT" name="Op 50 m.(m) gelegen." default="temp_off">
+		<rulegroup id="METER_PUNT" name="Op 50 m.(m) gelegen.">
 			<rule>
 				<pattern>
 				<token postag_regexp="yes" postag="GET:ARA.*"/>
 				<marker>
-					<token>m</token>
+					<token case_sensitive="yes">m</token>
 					<token>.<exception postag="SENT_END"/></token>
 				</marker>
 				</pattern>
