@@ -31540,6 +31540,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
+        <rulegroup id="COMILLAS_INCORRECTAS" name="Confusión comillas de apertura/apóstrofo" default="temp_off">
+            <short>Carácter incorrecto</short>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">[lnmtsd]'|[\(«“]</exception><exception postag="SENT_START"/></token>
+                        <token spacebefore="no">‘</token>
+                        <token spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <message>El carácter de apertura de comillas simples no se usa como apóstrofo.</message>
+                <suggestion>\1’\3</suggestion>
+                <suggestion>\1'\3</suggestion>
+                <example correction="Sa’ūdiyyah|Sa'ūdiyyah">As-<marker>Sa‘ūdiyyah</marker>.</example>
+                <example correction="-’Arabiyyah|-'Arabiyyah">Al<marker>-‘Arabiyyah</marker>.</example>
+                <example>Los historiales clínicos (‘medical records’)</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">[lnmtsd]'|[\(«“]</exception><exception postag="SENT_START"/></token>
+                        <token spacebefore="no">‘</token>
+                    </marker>
+                </pattern>
+                <message>El carácter de apertura de comillas simples no se usa como apóstrofo.</message>
+                <suggestion>\1’</suggestion>
+                <suggestion>\1'</suggestion>
+                <example correction="Sa’|Sa'">As-<marker>Sa‘</marker>ūdiyyah.</example>
+                <example correction="-’|-'">Al<marker>-‘</marker>Arabiyyah.</example>
+                <example>Los historiales clínicos (‘medical records’)</example>
+            </rule>
+        </rulegroup>
         <rule id="DOBLE_ESPACIO" name="doble espacio">
             <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
             <!-- TODO: add "nnbsp" -->
