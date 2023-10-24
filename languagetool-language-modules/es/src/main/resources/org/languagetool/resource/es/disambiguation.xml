@@ -7706,6 +7706,18 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule id="APOSTROPHE" name="apóstrofo, no comillas">
+        <pattern>
+            <token regexp="yes">\p{L}+<exception regexp="yes">[\(«“]</exception><exception postag="SENT_START"/></token>
+            <marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+            </marker>
+            <token spacebefore="no" regexp="yes">\p{L}+</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="_allow_apostophe"/>
+        </disambig>
+    </rule>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
         <rule>
             <!-- lowercase word + abbreviation with no vowels -->

@@ -68,7 +68,8 @@ public class SpanishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     }
     
     if ((tokenStr.equals("’") || tokenStr.equals("'"))
-        && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))) {
+        && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A")
+        ||tokens[i].hasPosTag("_allow_apostophe"))) {
       return false;
     }
     
