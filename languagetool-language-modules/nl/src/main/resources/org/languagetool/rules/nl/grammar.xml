@@ -15340,8 +15340,9 @@ regexp case-insensitive maken: (?i)
 					<token postag="SENT_START"/>
 					<marker>
 						<token regexp="yes">[-•*—·–]</token>
-						<token spacebefore="no"></token>
+						<token spacebefore="no" regexp="yes">[a-z].*</token>
 					</marker>
+					<token/>
 				</pattern>
 				<message>Na een bullet hoort een spatie: <suggestion>\2 \3</suggestion>.</message>
 				<example correction="* Dat"><marker>*Dat</marker> is vreemd.</example>
