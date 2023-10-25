@@ -2218,11 +2218,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return true;
       }
     }
-    /*if (!hasInfixS && part1.length() >= 3 && part2.length() >= 3 && startsWithLowercase(part2) &&
+    if (!hasInfixS && part1.length() >= 3 && part2.length() >= 3 && startsWithLowercase(part2) &&
         wordsWithoutInfixS.contains(part1) && !isMisspelled(part1) && !isMisspelled(uppercaseFirstChar(part2))) {
-      System.out.println("***" + part1 + " " + part2);
-      return true;
-    }*/
+      System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
+      //return true;
+    }
     return false;
   }
 
