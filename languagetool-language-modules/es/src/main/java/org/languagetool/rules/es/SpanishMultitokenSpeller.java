@@ -29,7 +29,7 @@ public class SpanishMultitokenSpeller extends MultitokenSpeller {
 
   protected SpanishMultitokenSpeller() {
     super(Languages.getLanguageForShortCode("es"),
-      Arrays.asList("/es/multiwords.txt", "/spelling_global.txt"));
+      Arrays.asList("/es/multiwords.txt", "/spelling_global.txt", "/es/hyphenated_words.txt"));
   }
 
 }
