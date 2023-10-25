@@ -17121,6 +17121,23 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="ALINEA_PUNT" name="3. Het grote bos" default="temp_off">
+			<!-- replaces NL_SIMPLE_REPLACE___HET, which needs antipatterns -->
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token regexp="yes">[0-9]</token>
+						<token case_sensitive="yes" regexp="yes">Het|De|Een</token>
+					</marker>
+				</pattern>
+				<message>Gewoonlijk zet men een punt achter het nummer van een alinea.</message>
+				<suggestion>\2. \3</suggestion>
+				<suggestion>\2: \3</suggestion>
+				<example correction="3. Het|3: Het"><marker>3 Het</marker> grote bos</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="PUNT_UITR" name=".! of .?">
 			<rule>
 				<antipattern><token>.</token><token spacebefore="no" regexp="yes">[a-z]</token><token spacebefore="no">.</token></antipattern>
