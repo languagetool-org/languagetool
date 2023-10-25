@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -42,12 +44,17 @@ public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter 
     for (String replacement : match.getSuggestedReplacements()) {
       String newSentence = sentence.substring(0, match.getFromPos()) + replacement
           + sentence.substring(match.getToPos());
-      List<RuleMatch> matches = lt.check(newSentence);
-      for (RuleMatch m : matches) {
-        if (ruleIDs.contains(m.getRule().getId())) {
-          if ((m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos())
-              || (match.getToPos() >= m.getFromPos() && match.getToPos() <= m.getToPos())) {
-            return null;
+      AnalyzedSentence analyzedSentence = lt.analyzeText(newSentence).get(0);
+      for (Rule r: lt.getAllActiveRules()) {
+        if (getRuleIdsToCheck().contains(r.getId())) {
+          RuleMatch matches[] = r.match(analyzedSentence);
+          for (RuleMatch m : matches) {
+            if (ruleIDs.contains(m.getRule().getId())) {
+              if ((m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos())
+                || (match.getToPos() >= m.getFromPos() && match.getToPos() <= m.getToPos())) {
+                return null;
+              }
+            }
           }
         }
       }
@@ -56,5 +63,7 @@ public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter 
   }
   
   protected abstract JLanguageTool getJLanguageTool();
+
+  protected abstract List<String> getRuleIdsToCheck();
 
 }

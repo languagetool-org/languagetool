@@ -31,18 +31,16 @@ import java.util.Map;
 
 public class SuppressIfAnyRuleMatchesFilter extends AbstractSuppressIfAnyRuleMatchesFilter {
   private final static JLanguageTool lt = Languages.getLanguageForShortCode("ca-ES").createDefaultJLanguageTool();
-  static {
-    List<String> ruleIds = Arrays.asList("QUE_INICIAL_AMBACCENT_NOVERB",
-      "QUE_INICIAL_SENSEACCENT_HO", "QUE_INICIAL_AMBACCENT_VERB", "MES2");
-    for (Rule r: lt.getAllActiveRules()) {
-      if (!ruleIds.contains(r.getId())) {
-        lt.disableRule(r.getId());
-      }
-    }
-  }
+
+  private final List<String> ruleIds = Arrays.asList("QUE_INICIAL_AMBACCENT_NOVERB",
+    "QUE_INICIAL_SENSEACCENT_HO", "QUE_INICIAL_AMBACCENT_VERB", "MES2");
   
   @Override
   protected JLanguageTool getJLanguageTool() {
     return lt;
+  }
+
+  protected List<String> getRuleIdsToCheck() {
+    return ruleIds;
   }
 }

@@ -22,10 +22,17 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.AbstractSuppressIfAnyRuleMatchesFilter;
 
+import java.util.Collections;
+import java.util.List;
+
 public class SuppressIfAnyRuleMatchesFilter extends AbstractSuppressIfAnyRuleMatchesFilter {
 
   @Override
   protected JLanguageTool getJLanguageTool() {
     return new Spanish().createDefaultJLanguageTool();
+  }
+
+  protected List<String> getRuleIdsToCheck() {
+    return Collections.emptyList();
   }
 }
