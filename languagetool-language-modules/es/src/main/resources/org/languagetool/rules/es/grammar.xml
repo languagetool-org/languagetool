@@ -26066,6 +26066,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="CONFUSION_ELE_I" name="Carlos lll -> Carlos III" default="temp_off">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <marker>
+                        <token spacebefore="yes">l<exception scope="next" regexp="yes">&apostrophe;</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>I</suggestion>
+                <example correction="I">Era el rey Carlos <marker>l</marker>.</example>
+                <example>Alqueria Nova l'.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <marker>
+                        <token spacebefore="yes">ll</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>II</suggestion>
+                <example correction="II">Era el rey Carlos <marker>ll</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag_regexp="yes" postag="NP.*" regexp="yes">\p{Lu}.*</token>
+                    <marker>
+                        <token spacebefore="yes" regexp="yes">Il|lI<exception postag="NP.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>II</suggestion>
+                <example correction="II">Era el rey Carlos <marker>lI</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <marker>
+                        <token spacebefore="yes">lll</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>III</suggestion>
+                <example correction="III">Era el rey Carlos <marker>lll</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token case_sensitive="yes">EI</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula.</message>
+                <suggestion><match no="3" regexp_match="EI" regexp_replace="El" case_conversion="firstupper"/></suggestion>
+                <example correction="El"><marker>EI</marker> Sr. David.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VULVA_VUELVA" name="vulva -> vuelva">
             <rule>
                 <pattern>
