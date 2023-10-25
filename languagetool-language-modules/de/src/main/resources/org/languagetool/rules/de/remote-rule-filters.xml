@@ -1945,17 +1945,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE" name="">
-            <rule><!-- FP -->
+            <rule><!-- 1 -->
                 <pattern>
                     <token>von</token>
                     <token>Seiten</token>
                     <token min="0" regexp="yes">dritter|anderer</token>
-                    <token min="0">zu</token>
                     <token postag_regexp="yes" postag="VER.*" />
                 </pattern>
                 <example correction="">Die Werbung wird <marker>von Seiten blockiert</marker>.</example>
+                <example correction="">Wir können keine Inhalte <marker>von Seiten Dritter überprüfen</marker>.</example>
+            </rule>
+            <rule><!-- 2 -->
+                <pattern>
+                    <token>von</token>
+                    <token>Seiten</token>
+                    <token min="0" regexp="yes">dritter|anderer</token>
+                    <token>zu</token>
+                    <token postag_regexp="yes" postag="VER.*" />
+                </pattern>
                 <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten Dritter zu beeinflussen</marker>.</example>
-                <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten anderer zu beeinflussen</marker>.</example>
             </rule>
         </rulegroup>
 
