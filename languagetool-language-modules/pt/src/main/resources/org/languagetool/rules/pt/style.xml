@@ -12740,13 +12740,17 @@ USA
             <!-- #1: Number/gender agreement depends on using "às?|[ao]s?" -->
             <rule>
                 <pattern>
-                    <token regexp='yes'>às?|[ao]s?</token>
+                    <token regexp='yes'>às?|[ao]s?
+                        <exception scope='previous' postag='RG'/>
+                    </token>
                     <token postag='NC.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
                     </token>
                     <marker>
                         <token regexp='yes'>d[ao]s?</token>
-                        <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente</token>
+                        <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente
+                            <exception scope='next' regexp='yes'>de|em</exception> <!-- Limited SPS00 -->
+                        </token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:NC.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:NC[\b1C][\b2N].*" />
@@ -12757,6 +12761,9 @@ USA
                 <example>Sabiam localizar os rastros dos animais e as trilhas inimigas.</example>
                 <example>No mês de Abril de 1945, durante a invasão aliada, a cidade foi tomada sem grande resistência pelos americanos.</example>
                 <example>Os exércitos inimigos foram vencidos.</example>
+                <example>No final do ano, o pêndulo da superioridade aérea pendeu mais uma vez a favor dos Aliados.</example>
+                <example>O bispo tomou o cavalo, pondo o rei do adversário em xeque.</example>
+                <example>Enquanto isso, os representantes dos Aliados em Viena, sem o apoio de seus respectivos governos, tentaram derrubar o governo de Kun e substituí-...</example>
             </rule>
 
             <!-- #2: Number/gender agreement depends on using "de|d[ao]s?" -->
@@ -12768,6 +12775,17 @@ USA
                     <token regexp='yes'>de|d[ao]s?</token>
                     <example>...iras polaco-lituanas no período entre-guerras, embora reconhecidas pela Conferência de Embaixadores dos Aliados da Primeira Guerra Mundial e pela Liga das Nações, </example>
                     <example>...hola, a qual ao virar-se à procura dos navios britânicos deixaram-no situado na vanguarda do ataque dos Aliados.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='VMN0000' postag_regexp='no'/>
+                    <token min='0' max='1' postag='SPS00|(SPS00:)?DA0.P.+' postag_regexp='yes'/>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token regexp='yes'>de|d[ao]s?</token>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token regexp='yes'>d[ao]s</token>
+                    <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <example>...ou este plano de invasão óbvio para os japoneses; eles foram capazes de prever os planos de invasão dos Aliados com precisão e, assim, ajustar o seu plano defensivo, a Operação Ketsugō, em conformidade.</example>
+                <example>A retomada das ofensivas por parte da Rússia deveria facilitar a concessão de créditos dos Aliados.</example>
                 </antipattern>
                 <pattern>
                     <token postag='NC.+' postag_regexp='yes'>
