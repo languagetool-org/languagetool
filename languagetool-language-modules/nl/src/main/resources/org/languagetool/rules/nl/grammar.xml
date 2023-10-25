@@ -17065,6 +17065,62 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="JA_KOMMA" name="Dus ja(,) volgens mij wel." default="temp_off">
+			<!-- Can replace and find more errors than current simple replaces for (ja, ...) -->
+			<rule>
+				<antipattern>
+					<token>nou</token>
+					<token>ja</token>
+					<token>zeg</token>
+				</antipattern>
+				<antipattern>
+					<token>woord</token>
+					<token>voor</token>
+					<token>ja</token>
+				</antipattern>
+				<antipattern>
+					<token>ja</token>
+					<token regexp="yes">ja|rule|zuster|hoor</token>
+				</antipattern>
+				<antipattern>
+					<token>ja</token>
+					<token>te</token>
+					<token postag_regexp="yes" postag="WKW.*INF"/>
+					<example>Ik zal proberen toch ja te zeggen.</example>
+				</antipattern>
+				<antipattern>
+					<token>ja</token>
+					<token regexp="yes">en|of</token>
+					<token regexp="yes">nee.*</token>
+					<example>Wat is hierop uw antwoord, ja of neen?</example>
+				</antipattern>
+				<antipattern>
+					<token>van</token>
+					<token>ja</token>
+					<token>tot</token>
+					<example>Van ja tot amen.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="-1" inflected="yes">zeggen</token>
+					<token>ja</token>
+					<token regexp="yes">tegen|op</token>
+				</antipattern>
+				<pattern>
+					<token regexp="yes">[a-z].*
+						<exception postag_regexp="yes" postag="SENT_START|ITP:KMA"/>
+					</token>
+					<marker>
+						<token case_sensitive="yes">ja</token>
+						<token spacebefore="yes" regexp="yes">[a-z].*
+							<exception postag_regexp="yes" postag="UNKNOWN|WKW.*"/>
+						</token>
+					</marker>
+				</pattern>
+				<message>Waarschijnlijk ontbreekt hier een komma: <suggestion>Ja, \3</suggestion>.</message>
+				<example correction="Ja, volgens">Dus <marker>ja volgens</marker> mij wel.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="PUNT_UITR" name=".! of .?">
 			<rule>
 				<antipattern><token>.</token><token spacebefore="no" regexp="yes">[a-z]</token><token spacebefore="no">.</token></antipattern>
