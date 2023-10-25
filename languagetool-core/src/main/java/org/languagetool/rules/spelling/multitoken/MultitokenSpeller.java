@@ -54,11 +54,11 @@ public class MultitokenSpeller {
   }
 
   public List<String> getSuggestions(String word, int maxEditDistance) throws IOException {
-    List<String> candidates = new ArrayList<>();
     if (discardRunOnWords(word)) {
-     return candidates;
+     return Collections.emptyList();
     }
     HashMap<String, String> set = chooseHashMap(word);
+    Map<String, Integer> weightedCandidates = new TreeMap<>();
     String firstChar = StringTools.removeDiacritics(word.substring(0,1).toLowerCase());
     for (Map.Entry<String, String> candidate : set.entrySet()) {
       // require that the first letter is correct to speed up the generation of suggestions even more
@@ -68,15 +68,18 @@ public class MultitokenSpeller {
       if (Math.abs(candidate.getValue().length() - word.length()) > MAX_LENGTH_DIFF) {
         continue;
       }
+      if (StringTools.convertToTitleCaseIteratingChars(candidate.getKey()).equals(word)) {
+        return Collections.emptyList();
+      }
       int distance = ponderatedDistance(candidate.getValue(), word);
       if (distance < maxEditDistance) {
-        candidates.add(candidate.getKey());
+        weightedCandidates.put(candidate.getKey(), distance);
       }
-      if (distance < maxEditDistance - 1) {
+      if (distance < 1) {
         break;
       }
     }
-    return candidates;
+    return new ArrayList<>(weightedCandidates.keySet());
   }
 
   private int levenshteinDistance(String s1, String s2) {
