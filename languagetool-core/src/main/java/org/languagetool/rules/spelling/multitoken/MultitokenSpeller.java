@@ -23,6 +23,7 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.morfologik.WeightedSuggestion;
 import org.languagetool.tools.StringTools;
 
 import java.io.BufferedReader;
@@ -58,7 +59,7 @@ public class MultitokenSpeller {
      return Collections.emptyList();
     }
     HashMap<String, String> set = chooseHashMap(word);
-    Map<String, Integer> weightedCandidates = new TreeMap<>();
+    List<WeightedSuggestion> weightedCandidates = new ArrayList<>();
     String firstChar = StringTools.removeDiacritics(word.substring(0,1).toLowerCase());
     for (Map.Entry<String, String> candidate : set.entrySet()) {
       // require that the first letter is correct to speed up the generation of suggestions even more
@@ -73,13 +74,19 @@ public class MultitokenSpeller {
       }
       int distance = ponderatedDistance(candidate.getValue(), word);
       if (distance < maxEditDistance) {
-        weightedCandidates.put(candidate.getKey(), distance);
+        weightedCandidates.add(new WeightedSuggestion(candidate.getKey(), distance));
       }
       if (distance < 1) {
         break;
       }
     }
-    return new ArrayList<>(weightedCandidates.keySet());
+    Collections.sort(weightedCandidates);
+    List<String> results = new ArrayList<>();
+    for (WeightedSuggestion weightedSuggestion : weightedCandidates) {
+      results.add(weightedSuggestion.getWord());
+    }
+    return results;
+
   }
 
   private int levenshteinDistance(String s1, String s2) {

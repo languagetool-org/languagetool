@@ -22,17 +22,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-class WeightedSuggestion implements Comparable<WeightedSuggestion> {
+public class WeightedSuggestion implements Comparable<WeightedSuggestion> {
 
   private final String word;
   private final int weight;
 
-  WeightedSuggestion(String word, int weight) {
+  public WeightedSuggestion(String word, int weight) {
     this.word = Objects.requireNonNull(word);
     this.weight = weight;
   }
 
-  String getWord() {
+  public String getWord() {
     return word;
   }
 
