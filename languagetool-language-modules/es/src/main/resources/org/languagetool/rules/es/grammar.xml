@@ -31545,7 +31545,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token><exception regexp="yes">[\(«“]</exception><exception postag="SENT_START"/></token>
+                        <token><exception regexp="yes">[\(«“"‘]</exception><exception postag="SENT_START"/></token>
+                        <token spacebefore="no">‘</token>
+                        <token spacebefore="no" regexp="yes">[.;,!?]</token>
+                    </marker>
+                </pattern>
+                <message>El carácter de apertura de comillas probablemente incorrecto.</message>
+                <suggestion>\1’\3</suggestion>
+                <example correction="Húrin’.">‘Los hijos de <marker>Húrin‘.</marker></example>
+                <example>Los historiales clínicos (‘medical records’)</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">[\(«“"‘]</exception><exception postag="SENT_START"/></token>
                         <token spacebefore="no">‘</token>
                         <token spacebefore="no"/>
                     </marker>
@@ -31560,15 +31573,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token><exception regexp="yes">[\(«“]</exception><exception postag="SENT_START"/></token>
+                        <token><exception regexp="yes">[\(«“"‘]</exception><exception postag="SENT_START"/></token>
                         <token spacebefore="no">‘</token>
                     </marker>
                 </pattern>
-                <message>El carácter de apertura de comillas simples no se usa como apóstrofo.</message>
+                <message>El carácter de apertura de comillas probablemente incorrecto.</message>
                 <suggestion>\1’</suggestion>
-                <suggestion>\1'</suggestion>
-                <example correction="Sa’|Sa'">As-<marker>Sa‘</marker>ūdiyyah.</example>
-                <example correction="-’|-'">Al<marker>-‘</marker>Arabiyyah.</example>
+                <example correction="Anillos’">Ha ilustrado ‘El Hobbit’, ‘El Señor de los <marker>Anillos‘</marker> y ‘Los hijos de Húrin’.</example>
                 <example>Los historiales clínicos (‘medical records’)</example>
             </rule>
         </rulegroup>
