@@ -27,9 +27,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.languagetool.openoffice.OfficeTools.LoErrorType;
+
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.text.TextMarkupType;
 
 /**
  * Class for storing and handle the LT results prepared to use in LO/OO
@@ -205,6 +208,14 @@ class ResultCache implements Serializable {
   }
 
   /**
+   * get cache entry of paragraph without read lock 
+   */
+  CacheEntry getUnsafeCacheEntry(int numberOfParagraph) {
+    SerialCacheEntry entry = entries.get(numberOfParagraph);
+    return entry == null ? null : new CacheEntry(entry);
+  }
+
+  /**
    * get cache entry of paragraph
    */
   SerialCacheEntry getSerialCacheEntry(int numberOfParagraph) {
@@ -214,6 +225,17 @@ class ResultCache implements Serializable {
     } finally {
       rwLock.readLock().unlock();
     }
+  }
+
+  /**
+   * get Proofreading errors of on paragraph from cache
+   */
+  SingleProofreadingError[] getUnsafeMatches(int numberOfParagraph) {
+    SerialCacheEntry entry = entries.get(numberOfParagraph);
+    if (entry == null) {
+      return null;
+    }
+    return entry.getErrorArray();
   }
 
   /**
@@ -288,7 +310,7 @@ class ResultCache implements Serializable {
    * get Proofreading errors of sentence out of paragraph matches from cache
    */
   SingleProofreadingError[] getFromPara(int numberOfParagraph,
-                                        int startOfSentencePosition, int endOfSentencePosition) {
+                                        int startOfSentencePosition, int endOfSentencePosition, LoErrorType errType) {
     rwLock.readLock().lock();
     try {
       SerialCacheEntry entry = entries.get(numberOfParagraph);
@@ -297,7 +319,10 @@ class ResultCache implements Serializable {
       }
       List<SingleProofreadingError> errorList = new ArrayList<>();
       for (SingleProofreadingError eArray : entry.getErrorArray()) {
-        if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
+        if ((errType == LoErrorType.BOTH 
+            || (errType == LoErrorType.GRAMMAR && eArray.nErrorType == TextMarkupType.PROOFREADING)
+            || (errType == LoErrorType.SPELL && eArray.nErrorType == TextMarkupType.SPELLCHECK))
+            && eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
           errorList.add(eArray);
         }
       }
@@ -309,7 +334,7 @@ class ResultCache implements Serializable {
 
   /**
    * Compares to Entries
-   * true if the both entries are identically
+   * true if the both entries are NOT identically
    */
   static boolean areDifferentEntries(SerialCacheEntry newEntries, SerialCacheEntry oldEntries) {
     if (newEntries == null || oldEntries == null) {
@@ -321,16 +346,19 @@ class ResultCache implements Serializable {
       return true;
     }
     for (SingleProofreadingError nError : newErrorArray) {
-      boolean found = false;
-      for (SingleProofreadingError oError : oldErrorArray) {
-        if (nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
-                && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
-          found = true;
-          break;
+      if (nError.nErrorType != TextMarkupType.SPELLCHECK) {
+        boolean found = false;
+        for (SingleProofreadingError oError : oldErrorArray) {
+            if (nError.nErrorType != TextMarkupType.SPELLCHECK
+                && nError.nErrorStart == oError.nErrorStart && nError.nErrorLength == oError.nErrorLength
+                    && nError.aRuleIdentifier.equals(oError.aRuleIdentifier)) {
+              found = true;
+              break;
+            }
+          }
+        if (!found) {
+          return true;
         }
-      }
-      if (!found) {
-        return true;
       }
     }
     return false;

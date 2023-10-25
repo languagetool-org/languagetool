@@ -71,8 +71,8 @@ public class DocumentCache implements Serializable {
   private final List<SerialLocale> locales = new ArrayList<SerialLocale>(); // stores the language of the paragraphs;
   private final List<int[]> footnotes = new ArrayList<int[]>();             // stores the footnotes of the paragraphs;
   private final List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>(); // stores the deleted characters (report changes) of the paragraphs;
-  protected final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
-  private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
+  private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
+  protected final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;                 // stores the document type (Writer, Impress, Calc)
   private List<Integer> sortedTextIds = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)
   private Map<Integer, Integer> headingMap;
@@ -173,7 +173,6 @@ public class DocumentCache implements Serializable {
       refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
     }
     setSingleParagraphsCacheToNull(document.getParagraphsCache());
-    this.docLocale = getMostUsedLanguage(locales);
     isReset = false;
   }
 
@@ -364,6 +363,7 @@ public class DocumentCache implements Serializable {
         }
         this.sortedTextIds.addAll(sortedTextIds);
       }
+      this.docLocale = getMostUsedLanguage(locales);
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1016,6 +1016,12 @@ public class DocumentCache implements Serializable {
         }
       }
       MessageHandler.printToLogFile("\nDocument cache: mapParagraphsWNI: unknown paragraphs: " + nUnknown);
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of Flat Paragraphs: " + paragraphs.size());
+      MessageHandler.printToLogFile(
+          "DocumentCache: mapParagraphs: Number of Text Paragraphs: " + toParaMapping.get(CURSOR_TYPE_TEXT).size());
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of footnotes: " + footnotes.size());
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of locales: " + locales.size());
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of Deleted Chars: " + deletedCharacters.size());
     }
     int notMapped = 0;
     for (int n = 0; n < sortedTextIds.size(); n++) {
@@ -1103,6 +1109,7 @@ public class DocumentCache implements Serializable {
       nFootnote = toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size();
       nEndnote = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size();
       nHeaderFooter = toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size();
+      docLocale = getMostUsedLanguage(locales);
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: reset: isImpress: Number of paragraphse: " + paragraphs.size());
         for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
@@ -1190,7 +1197,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraph(int n, String sPara) {
     rwLock.writeLock().lock();
     try {
-      paragraphs.set(n, sPara);
+      if (n >= 0 && n < paragraphs.size()) {
+        paragraphs.set(n, sPara);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1200,10 +1209,14 @@ public class DocumentCache implements Serializable {
    * set Flat Paragraph and Locale at Index
    */
   public void setFlatParagraph(int n, String sPara, Locale locale) {
-    locales.set(n, new SerialLocale(locale));
+    if (n >= 0 && n < locales.size()) {
+      locales.set(n, new SerialLocale(locale));
+    }
     rwLock.writeLock().lock();
     try {
-      paragraphs.set(n, sPara);
+      if (n >= 0 && n < paragraphs.size()) {
+        paragraphs.set(n, sPara);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1234,10 +1247,12 @@ public class DocumentCache implements Serializable {
   public void setMultilingualFlatParagraph(int n) {
     rwLock.writeLock().lock();
     try {
-      SerialLocale locale = locales.get(n);
-      if (!locale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
-        locale.Variant = OfficeTools.MULTILINGUAL_LABEL + locale.Variant;
-        locales.set(n, locale);
+      if (n >= 0 && n < locales.size()) {
+        SerialLocale locale = locales.get(n);
+        if (!locale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
+          locale.Variant = OfficeTools.MULTILINGUAL_LABEL + locale.Variant;
+          locales.set(n, locale);
+        }
       }
     } finally {
       rwLock.writeLock().unlock();
@@ -1262,7 +1277,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphLocale(int n, Locale locale) {
     rwLock.writeLock().lock();
     try {
-      locales.set(n, new SerialLocale(locale));
+      if (n >= 0 && n < locales.size()) {
+        locales.set(n, new SerialLocale(locale));
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1286,7 +1303,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphFootnotes(int n, int[] footnotePos) {
     rwLock.writeLock().lock();
     try {
-      footnotes.set(n, footnotePos);
+      if (n >= 0 && n < footnotes.size()) {
+        footnotes.set(n, footnotePos);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1331,7 +1350,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphDeletedCharacters(int n, List<Integer> deletedChars) {
     rwLock.writeLock().lock();
     try {
-      deletedCharacters.set(n, deletedChars);
+      if (n >= 0 && n < deletedCharacters.size()) {
+        deletedCharacters.set(n, deletedChars);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -2210,7 +2231,15 @@ public class DocumentCache implements Serializable {
   }
   
   public Locale getDocumentLocale() {
-    return docLocale.toLocaleWithoutLabel();
+    rwLock.readLock().lock();
+    try {
+      if (docLocale == null) {
+        return null;
+      }
+      return docLocale.toLocaleWithoutLabel();
+    } finally {
+      rwLock.readLock().unlock();
+    }
   }
   
   class ChangedRange {

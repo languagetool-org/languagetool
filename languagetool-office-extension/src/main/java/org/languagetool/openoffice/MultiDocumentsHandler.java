@@ -41,6 +41,7 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
+import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
@@ -206,6 +207,10 @@ public class MultiDocumentsHandler {
       }
       if (!isSameLanguage || recheck || checkImpressDocument) {
         boolean initDocs = (lt == null || recheck || checkImpressDocument);
+        if (initDocs) {
+          MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: lt " + (lt == null ? "==" : "!=") 
+              + " null; recheck = " + recheck + "; checkImpressDocument = " + checkImpressDocument);
+        }
         checkImpressDocument = false;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
@@ -239,7 +244,7 @@ public class MultiDocumentsHandler {
       MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: Start getCheckResults at single document: " + paraText);
     }
 //    handleLtDictionary(paraText);
-    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt);
+    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt, LoErrorType.GRAMMAR);
     if (lt.doReset()) {
       // langTool.doReset() == true: if server connection is broken ==> switch to internal check
       MessageHandler.showMessage(messages.getString("loRemoteSwitchToLocal"));
@@ -945,6 +950,9 @@ public class MultiDocumentsHandler {
           }
         }
       }
+/*    
+ *    The spell rules will not be disabled (test version)
+ *         
       List<Rule> allRules = checkImpressDocument ? lt.getAllActiveRules() : lt.getAllActiveOfficeRules();
       for (Rule rule : allRules) {
         if (rule.isDictionaryBasedSpellingRule()) {
@@ -955,6 +963,7 @@ public class MultiDocumentsHandler {
           }
         }
       }
+*/
       recheck = false;
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
@@ -1595,7 +1604,7 @@ public class MultiDocumentsHandler {
             }
           }
           resetIgnoredMatches();
-          resetCheck();
+//          resetCheck();
         }
         if (debugMode) {
           MessageHandler.printToLogFile("MultiDocumentsHandler: trigger: Start Spell And Grammar Check Dialog");
