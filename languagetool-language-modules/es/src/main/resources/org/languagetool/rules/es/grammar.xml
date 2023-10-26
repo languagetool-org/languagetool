@@ -10966,15 +10966,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>este</token>
                     <example>Se derrumbó tras unas obras llevadas a cabo en 1995, dejando este al descubierto.</example>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">rumbo|sección</token>
+                    <token>este</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>este</token>
                     </marker>
-                    <token>al</token>
-                    <token regexp="yes">tanto|corriente|quite|lado|margen|alcance|sol|aire|fresco|acecho|día|caer|servicio|nivel|borde|pie|frente|cargo|mando|rojo|descubierto</token>
+                    <token regexp="yes">al?</token>
+                    <token min="0" regexp="yes">las?|una?</token>
+                    <token regexp="yes">&context_ESTE_AL_LA;</token>
                 </pattern>
                 <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
                 <example correction="esté">Que no <marker>este</marker> al tanto.</example>
+                <example correction="esté">Lo que permite que cualquier negocio <marker>este</marker> a la vanguardia.</example>
             </rule>
             <rule>
                 <pattern>
