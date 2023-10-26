@@ -55,5 +55,9 @@ public class CheckCaseRuleTest {
     assertEquals(1, matches.length);
     assertEquals("een bisschop", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(lt.getAnalyzedSentence("Dit is een video op dVD."));
+    assertEquals(1, matches.length);
+    assertEquals("dvd", matches[0].getSuggestedReplacements().get(0));
+
   }
 }

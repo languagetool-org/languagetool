@@ -34,6 +34,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
   private final Language language;
+  public boolean ignoreShortUppercaseWords = true;
 
   public AbstractCheckCaseRule(ResourceBundle messages, Language language) {
     super(messages, language);
@@ -95,7 +96,16 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
           // The phrase is correct. Don't look into shorter phrases inside this phrase.
           break;
         }
-        if (originalPhrase.equals(originalPhrase.toUpperCase())) {
+        if (ignoreShortUppercaseWords) {
+          if (originalPhrase.equals(originalPhrase.toUpperCase())) {
+            // Toggle is ON and it's a capitalized sentence, continue
+            continue;
+          }
+        } else if (originalPhrase.length() < 5) {
+          //System.out.println("toggle off, <5 chars");
+          // Toggle OFF and <5 chars
+        } else {
+          //toggle OFF but >5 chars
           continue;
         }
         if (correctPhrase != null && !correctPhrase.equals(originalPhrase)) {
@@ -129,6 +139,14 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  public boolean ignoreShortUppercaseWords() {
+    return ignoreShortUppercaseWords;
+  }
+
+  public void setIgnoreShortUppercaseWords(boolean value) {
+    ignoreShortUppercaseWords = value;
   }
 
   private boolean isPunctuationStart(String word) {
