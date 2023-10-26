@@ -5856,6 +5856,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token/>
                 <token>continua</token>
             </antipattern>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token>continua</token>
+                    </marker>
+                    <token>con</token>
+                </pattern>
+                <message>Si es del v. 'continuar', se escribe con tilde. Correcto si es un adjetivo.</message>
+                <suggestion><match no="2" regexp_match="(?iu)ua" regexp_replace="úa"/></suggestion>
+                <example correction="continúa">El cliente no <marker>continua</marker> con el proceso.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
