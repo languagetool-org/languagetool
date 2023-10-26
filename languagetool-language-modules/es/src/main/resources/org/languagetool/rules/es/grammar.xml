@@ -10960,6 +10960,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="3" postag="N.[MC][SN].*|A..[MC][NS]." postag_regexp="yes"/>
                 <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
             </antipattern>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="V.*|SP.*|DA.*|_PUNCT.*|SENT_START" postag_regexp="yes"/>
+                    <token>este</token>
+                    <example>Se derrumbó tras unas obras llevadas a cabo en 1995, dejando este al descubierto.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token>al</token>
+                    <token regexp="yes">tanto|corriente|quite|lado|margen|alcance|sol|aire|fresco|acecho|día|caer|servicio|nivel|borde|pie|frente|cargo|mando|rojo|descubierto</token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Que no <marker>este</marker> al tanto.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
