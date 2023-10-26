@@ -7816,7 +7816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <antipattern>
                     <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
                     <token postag='CC' postag_regexp='no'/>
-                    <token regexp='yes'>as?|umas?</token>
+                    <token regexp='yes'>as?|das?|umas?</token>
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <token regexp='yes'>pelos?</token>
                     <token regexp='yes'>qua(l|is)</token>
@@ -7825,7 +7825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Cite-me uma regra que proíba este estudo ou a metodologia pelo qual foi conduzido.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp='yes'>as?|umas?</token>
+                    <token regexp='yes'>as?|das?|umas?</token>
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <marker>
                         <token regexp='yes'>pelos?</token>
@@ -7836,13 +7836,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='3' postag='SPS00:DA0M(.)0' postag_replace='SPS00:DA0F$10'>por:o</match></suggestion>
                 <example correction="pela">Esta foi a razão <marker>pelo</marker> qual ele concebeu a equação.</example>
                 <example correction="pelas">Estas foram as razões <marker>pelos</marker> quais ele concebeu a equação.</example>
+                <example correction="pelas">Esta foi uma das razões <marker>pelos</marker> quais ele concebeu a equação.</example>
             </rule>
 
             <rule id='PELA_QUAL_PELO_QUAL' name="Concordância Género: 'pela' qual → 'pelo'" default="temp_off">
                 <antipattern>
                     <token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
                     <token postag='CC' postag_regexp='no'/>
-                    <token regexp='yes'>os?|u(m|ns)</token>
+                    <token regexp='yes'>os?|dos?|u(m|ns)</token>
                     <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
                     <token regexp='yes'>pelas?</token>
                     <token regexp='yes'>qua(l|is)</token>
@@ -7851,7 +7852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Cite-me uma regra que proíba esta conversação ou o método pela qual foi conduzida.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp='yes'>os?|u(m|ns)</token>
+                    <token regexp='yes'>os?|dos?|u(m|ns)</token>
                     <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
                     <marker>
                         <token regexp='yes'>pelas?</token>
@@ -7862,6 +7863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='3' postag='SPS00:DA0F(.)0' postag_replace='SPS00:DA0M$10'>por:o</match></suggestion>
                 <example correction="pelo">Este foi o motivo <marker>pela</marker> qual ele concebeu a equação.</example>
                 <example correction="pelos">Estes foram os motivos <marker>pelas</marker> quais ele concebeu a equação.</example>
+                <example correction="pelos">Este foi um dos motivos <marker>pelas</marker> quais ele concebeu a equação.</example>
             </rule>
 
             <rule>
