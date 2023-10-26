@@ -1942,6 +1942,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">mords</token>
+                    </marker>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Das ist aber <marker>mords</marker> klein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">mords</token>
+                    </marker>
+                    <token>was</token>
+                    <token>los</token>
+                </pattern>
+                <example correction="">Hier ist heute aber <marker>mords</marker> was los.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE" name="">
