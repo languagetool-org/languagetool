@@ -7815,17 +7815,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id='PELO_QUAL_PELA_QUAL' name="Concordância Género: 'pelo' qual → 'pela'" default="temp_off">
                 <antipattern>
                     <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
-                    <token postag='CC' postag_regexp='no'/>
-                    <token regexp='yes'>as?|das?|umas?</token>
+                    <token min='0' max='1' postag='CC|RG' postag_regexp='yes'/>
+                    <token postag='SPS00|(SPS00:)?[DP]..F.+' postag_regexp='yes'/> <!-- female -->
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <token regexp='yes'>pelos?</token>
                     <token regexp='yes'>qua(l|is)</token>
-                    <token regexp='yes' inflected='yes'>ser|estar</token>
-                    <token postag='VMP00.M' postag_regexp='yes'/>
+                    <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar</token>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='VMP00.F'/>
+                    </token>
                     <example>Cite-me uma regra que proíba este estudo ou a metodologia pelo qual foi conduzido.</example>
+                    <example>Trata do aspecto criativo da faculdade da linguagem e aborda os processos de transformação pelos quais passa o sintagma.</example>
+                    <example>...e na cláusula democrática do Protocolo de Ushuaia por ruptura na democracia do país diante da crise pelo qual atravessa.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp='yes'>as?|das?|umas?</token>
+                    <token postag='SPS00|(SPS00:)?[DP]..F.+' postag_regexp='yes'/> <!-- female, SPS00="a" -->
                     <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
                     <marker>
                         <token regexp='yes'>pelos?</token>
@@ -7842,17 +7846,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id='PELA_QUAL_PELO_QUAL' name="Concordância Género: 'pela' qual → 'pelo'" default="temp_off">
                 <antipattern>
                     <token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
-                    <token postag='CC' postag_regexp='no'/>
-                    <token regexp='yes'>os?|dos?|u(m|ns)</token>
+                    <token min='0' max='1' postag='CC|RG' postag_regexp='yes'/>
+                    <token postag='(SPS00:)?[DP]..M.+' postag_regexp='yes'/> <!-- male -->
                     <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
                     <token regexp='yes'>pelas?</token>
                     <token regexp='yes'>qua(l|is)</token>
-                    <token regexp='yes' inflected='yes'>ser|estar</token>
-                    <token postag='VMP00.F' postag_regexp='yes'/>
+                    <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar</token>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='VMP00.M'/>
+                    </token>
+                    <example>Cite-me uma regra que proíba esta conversação ou o método pela qual foi conduzida.</example>
                     <example>Cite-me uma regra que proíba esta conversação ou o método pela qual foi conduzida.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp='yes'>os?|dos?|u(m|ns)</token>
+                    <token postag='(SPS00:)?[DP]..M.+' postag_regexp='yes'/> <!-- male -->
                     <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
                     <marker>
                         <token regexp='yes'>pelas?</token>
