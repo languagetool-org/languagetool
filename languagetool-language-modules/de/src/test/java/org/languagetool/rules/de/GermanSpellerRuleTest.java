@@ -60,6 +60,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Discorum"));  // "Disco, rum" and "rum" is only 3 chars and thus too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeberverhandlungen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
