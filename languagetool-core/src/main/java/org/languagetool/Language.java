@@ -536,8 +536,9 @@ public abstract class Language {
   /**
    * Create a shared instance of JLanguageTool to use in rules for further processing
    * Instances are shared by Language
+   * As this is a shared instance, do not modify (add or remove) any rules or filters.
    *
-   * Do not call this in a static block or to initialize a static field in rules or filters.
+   * Do not call this in a static block or to initialize a static JLanguageTool field in rules or filters classes, this could lead to a deadlock during initialization.
    *
    * @since 6.1
    * @return a shared JLanguageTool instance for this language

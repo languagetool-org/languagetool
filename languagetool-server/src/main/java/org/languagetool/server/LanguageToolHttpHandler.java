@@ -123,7 +123,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
         String pathWithoutVersion = path.substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
-          if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.") || textCheckerV2.checkerQueueAlmostFull()) {
+          String message = "Healthcheck failed: There are currently too many parallel requests.";
+          if (workQueueFull(httpExchange, parameters, message) || textCheckerQueueFull(httpExchange, message)) {
             ServerMetricsCollector.getInstance().logFailedHealthcheck();
             return;
           } else {
@@ -317,6 +318,14 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
       String message = response + " queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize();
       logError(message, HTTP_UNAVAILABLE, parameters, httpExchange);
+      sendError(httpExchange, HTTP_UNAVAILABLE, "Error: " + response);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean textCheckerQueueFull(HttpExchange httpExchange, String response) throws IOException {
+    if(textCheckerV2.checkerQueueAlmostFull()) {
       sendError(httpExchange, HTTP_UNAVAILABLE, "Error: " + response);
       return true;
     }
