@@ -516,31 +516,42 @@ public class UpperCaseNgramRule extends Rule {
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
     antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
 
+    initTrie();
+    initSpeller();
     if (userConfig != null && linguServices == null) {
       linguServices = userConfig.getLinguServices();
-      initTrie();
     }
+  }
+
+  private void initSpeller() {
     if (spellerRule == null) {
-      initTrie();
-      try {
-        spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+      synchronized (UpperCaseNgramRule.class) {
+        if (spellerRule == null) {
+          try {
+            spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }
       }
     }
   }
 
   private void initTrie() {
-    CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();
-    List<String> words = new ArrayList<>();
-    words.addAll(cachingWordListLoader.loadWords("en/specific_case.txt"));
-    words.addAll(cachingWordListLoader.loadWords("spelling_global.txt"));
-    Map<String,String> map = new HashMap<>();
-    for (String word : words) {
-      map.put(word, word);
-    }
-    synchronized (exceptionTrie) {
-      exceptionTrie.build(map);
+    if (exceptionTrie == null) {
+      synchronized (UpperCaseNgramRule.class) {
+        if (exceptionTrie == null) {
+          CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();
+          List<String> words = new ArrayList<>();
+          words.addAll(cachingWordListLoader.loadWords("en/specific_case.txt"));
+          words.addAll(cachingWordListLoader.loadWords("spelling_global.txt"));
+          Map<String,String> map = new HashMap<>();
+          for (String word : words) {
+            map.put(word, word);
+          }
+          exceptionTrie.build(map);
+        }
+      }
     }
   }
 
