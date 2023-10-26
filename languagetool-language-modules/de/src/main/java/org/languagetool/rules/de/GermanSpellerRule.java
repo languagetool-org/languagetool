@@ -2218,7 +2218,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return true;
       }
     }
-    if (!hasInfixS && part1.length() >= 3 && part2.length() >= 4 && startsWithLowercase(part2) &&
+    if (!hasInfixS && part1.length() >= 3 && part2.length() >= 4 && !part2.contains("-") && startsWithLowercase(part2) &&
         wordsWithoutInfixS.contains(part1) && !isMisspelled(part1) && !isMisspelled(uppercaseFirstChar(part2))) {
       System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
       //return true;
