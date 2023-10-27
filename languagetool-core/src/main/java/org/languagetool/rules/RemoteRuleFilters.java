@@ -184,7 +184,7 @@ public final class RemoteRuleFilters {
   }
 
   static Map<String, List<AbstractPatternRule>> load(Language lang) {
-    JLanguageTool lt = new JLanguageTool(lang);
+    JLanguageTool lt = lang.createDefaultJLanguageTool();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     String filename = dataBroker.getRulesDir() + "/" + getFilename(lang);
     try {
