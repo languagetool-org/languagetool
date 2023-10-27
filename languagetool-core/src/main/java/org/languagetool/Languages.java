@@ -44,7 +44,10 @@ public final class Languages {
 
   private static final List<Language> languages = getAllLanguages();
   private static final List<Language> dynLanguages = new ArrayList<>();
-  
+
+  private static final List<Language> staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
+  private static final List<Language> staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
+
   private Languages() {
   }
 
@@ -61,6 +64,7 @@ public final class Languages {
       throw new RuntimeException("Please specify a dictPath that ends in '.dict' (Morfologik binary dictionary) or '.dic' (Hunspell dictionary): " + dictPath);
     }
     dynLanguages.add(lang);
+    staticAndDynamicLanguages.add(lang);
     return lang;
   }
   
@@ -88,11 +92,11 @@ public final class Languages {
    * @return an unmodifiable list
    */
   public static List<Language> getWithDemoLanguage() {
-    return Collections.unmodifiableList(getStaticAndDynamicLanguages());
+    return getStaticAndDynamicLanguages();
   }
 
   private static List<Language> getStaticAndDynamicLanguages() {
-    return Stream.concat(languages.stream(), dynLanguages.stream()).collect(Collectors.toList());
+    return staticAndDynamicLanguagesImmutable;
   }
 
   private static List<Language> getAllLanguages() {
@@ -174,6 +178,7 @@ public final class Languages {
       Constructor<?> constructor = aClass.getConstructor();
       Language language = (Language) constructor.newInstance();
       dynLanguages.add(language);
+      staticAndDynamicLanguages.add(language);
       return language;
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Class '" + className + " could not be found in classpath", e);
