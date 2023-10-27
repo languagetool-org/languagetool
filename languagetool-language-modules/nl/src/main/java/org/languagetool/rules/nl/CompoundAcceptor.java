@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.nl;
 
+import com.google.common.collect.ImmutableSet;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,13 +37,13 @@ import java.util.Set;
 public class CompoundAcceptor {
 
   // compound parts that need an 's' appended to be used as first part of the compound:
-  private final Set<String> needsS = new HashSet<>(Arrays.asList(
+  private final Set<String> needsS = ImmutableSet.of(
     "bedrijfs", "passagiers", "dorps", "gezichts", "lijdens", "besturings", "verbrandings", "bestemmings", "schoonheids"
-  ));
+  );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
-  private final Set<String> noS = new HashSet<>(Arrays.asList(
+  private final Set<String> noS = ImmutableSet.of(
     "woning", "kinder", "fractie", "schade", "energie", "gemeente", "dienst", "wereld", "telefoon", "aandeel", "zwanger", "papier"
-  ));
+  );
 
   private final MorfologikDutchSpellerRule speller;
 
