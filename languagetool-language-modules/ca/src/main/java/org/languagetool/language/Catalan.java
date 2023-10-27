@@ -431,7 +431,7 @@ public class Catalan extends Language {
     String[] formTag = parts[0].split("[\t;]");
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
-      if (!tag.startsWith("NP")) {
+      if (!tag.startsWith("N")) {
         return "";
       } else {
         return formTag[0].trim();

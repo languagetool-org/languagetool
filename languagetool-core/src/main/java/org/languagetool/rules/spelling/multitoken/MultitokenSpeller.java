@@ -71,7 +71,8 @@ public class MultitokenSpeller {
       if (Math.abs(candidateLowercase.length() - word.length()) > MAX_LENGTH_DIFF) {
         continue;
       }
-      if (StringTools.convertToTitleCaseIteratingChars(candidate).equals(word)) {
+      if (candidate.equals(candidate.toLowerCase())
+        && StringTools.convertToTitleCaseIteratingChars(candidate).equals(word)) {
         return Collections.emptyList();
       }
       int distance = levenshteinDistance(candidateLowercase, word);
