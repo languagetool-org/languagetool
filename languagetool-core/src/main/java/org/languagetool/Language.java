@@ -100,10 +100,9 @@ public abstract class Language {
   private Chunker postDisambiguationChunker;
   private Synthesizer synthesizer;
 
-  private final String shortCodeWithCountryAndVariant;
+  private String shortCodeWithCountryAndVariant;
 
   protected Language() {
-    shortCodeWithCountryAndVariant = buildShortCodeWithCountryAndVariant();
   }
 
   /**
@@ -644,6 +643,13 @@ public abstract class Language {
    * @since 3.6
    */
   public final String getShortCodeWithCountryAndVariant() {
+    if (shortCodeWithCountryAndVariant == null) {
+      synchronized (this) {
+        if (shortCodeWithCountryAndVariant == null) {
+          shortCodeWithCountryAndVariant = buildShortCodeWithCountryAndVariant();
+        }
+      }
+    }
     return shortCodeWithCountryAndVariant;
   }
 
@@ -947,7 +953,7 @@ public abstract class Language {
 
   @Override
   public int hashCode() {
-    return shortCodeWithCountryAndVariant.hashCode();
+    return getShortCodeWithCountryAndVariant().hashCode();
   }
   
   /**
