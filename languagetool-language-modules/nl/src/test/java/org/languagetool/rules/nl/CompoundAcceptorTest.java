@@ -37,25 +37,24 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("VRF-regels"));
     assertFalse(acceptor.acceptCompound("VRFregels"));
 
-    //assertTrue(acceptor.acceptCompound("winkeldiefstal"));
-    //assertFalse(acceptor.acceptCompound("winkelsdiefstal"));
-
     assertTrue(acceptor.acceptCompound("bedrijfsregels"));
     assertFalse(acceptor.acceptCompound("bedrijfregels"));
 
-    //assertTrue(acceptor.acceptCompound("zwangerschap"));
-    //assertFalse(acceptor.acceptCompound("zwangersschap"));
+    assertTrue(acceptor.acceptCompound("Bedrijfsbrommer"));
+    assertFalse(acceptor.acceptCompound("Bedrijfbrommer"));
 
-    //assertTrue(acceptor.acceptCompound("papierversnipperaar"));
-    //assertFalse(acceptor.acceptCompound("papiersversnipperaar"));
+    assertTrue(acceptor.acceptCompound("zwangerschap"));
+    assertFalse(acceptor.acceptCompound("zwangersschap"));
+
+    assertTrue(acceptor.acceptCompound("Papierversnipperaar"));
+    assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
   }
 
   @Test
   public void testAcceptCompoundInternal() throws IOException {
     CompoundAcceptor acceptor = new CompoundAcceptor();
     assertTrue(acceptor.acceptCompound("passagiers", "schip"));
-    //assertTrue(acceptor.acceptCompound("papier", "versnipperaar"));
-    //assertTrue(acceptor.acceptCompound("winkel", "diefstal"));
+    assertTrue(acceptor.acceptCompound("papier", "versnipperaar"));
   }
 
 }
