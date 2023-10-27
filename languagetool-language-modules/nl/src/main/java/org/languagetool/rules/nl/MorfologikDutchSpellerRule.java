@@ -30,12 +30,19 @@ import java.util.ResourceBundle;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
+  private final static CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
     this(messages, language, userConfig, Collections.emptyList());
   }
   
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+  }
+
+  @Override
+  protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
+    return compoundAcceptor.acceptCompound(word);
   }
 
   @Override

@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * TEST ONLY FOR NOW.
  * Accept Dutch compounds that are not accepted by the speller. This code
  * is supposed to accept more words in order to extend the speller, but it's not meant
  * to accept all valid compounds.
@@ -38,20 +37,25 @@ import java.util.Set;
  */
 public class CompoundAcceptor {
 
-  // Define "needsS" and "noS" patterns
+  // compound parts that need an 's' appended to be used as first part of the compound:
   // "teit", "ing", "heid", "schap", "ker"
   private final Set<String> needsS1 = new HashSet<>(Arrays.asList(
     "bedrijfs", "passagiers" //, "dorps", "gezichts", "lijdens", "besturings", "verbrandings", "bestemmings", "schoonheids"
   ));
+  // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS1 = new HashSet<>(Arrays.asList(
     "sport", "woning" //, "kinder", "fractie", "zout", "schade", "energie", "gemeente", "dienst", "wereld", "telefoon", "winkel", "aandeel", "zwanger", "papier"
   ));
 
   private final MorfologikDutchSpellerRule speller;
 
-  CompoundAcceptor() throws IOException {
-    Language dutch = Languages.getLanguageForShortCode("nl");
-    speller = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), dutch, null);
+  CompoundAcceptor() {
+    try {
+      Language dutch = Languages.getLanguageForShortCode("nl");
+      speller = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), dutch, null);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   boolean acceptCompound(String word) throws IOException {
