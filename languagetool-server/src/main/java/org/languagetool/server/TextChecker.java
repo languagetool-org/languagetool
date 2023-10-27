@@ -757,6 +757,19 @@ abstract class TextChecker {
 
   }
 
+  public boolean checkerQueueAlmostFull() {
+    if (this.executorService instanceof ThreadPoolExecutor) {
+      ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) this.executorService;
+      int maxQueueSize = config.getTextCheckerQueueSize();
+      int queuesize = threadPoolExecutor.getQueue().size();
+      if (queuesize > maxQueueSize/2) { //should not happen in normal cases (workQueue.size() == config.getTextCheckerQueueSize())
+        log.warn("TextChecker queue is almost full requests in queue: {} active request: {}", queuesize, threadPoolExecutor.getActiveCount());
+        return true;
+      }
+    }
+    return false;
+  }
+
   @NotNull
   private Map<String, Integer> getRuleMatchCount(List<CheckResults> res) {
     Map<String, Integer> ruleMatchCount = new HashMap<>();

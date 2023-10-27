@@ -325,6 +325,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (!isMisspelled(speller1, word) && !isProhibited(word)) {
       return ruleMatches;
     }
+
+    if (ignorePotentiallyMisspelledWord(word)) {
+      return ruleMatches;
+    }
     
     //the current word is already dealt with in the previous match, so do nothing
     if (ruleMatchesSoFar.size() > 0 && ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1).getToPos() > startPos) {

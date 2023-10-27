@@ -49,14 +49,14 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
 public class UpperCaseNgramRule extends Rule {
 
   public static final int THRESHOLD = 50;
-  private static MorfologikAmericanSpellerRule spellerRule;
+  private static MorfologikAmericanSpellerRule spellerRule = null;
   private static LinguServices linguServices = null;
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
     "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied"
   ));
-  private static final AhoCorasickDoubleArrayTrie<String> exceptionTrie = new AhoCorasickDoubleArrayTrie<>();
+  private static AhoCorasickDoubleArrayTrie<String> exceptionTrie = null;
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
       token("Hugs"), token("and"), token("Kisses")
@@ -516,31 +516,43 @@ public class UpperCaseNgramRule extends Rule {
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
     antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
 
+    initTrie();
+    initSpeller();
     if (userConfig != null && linguServices == null) {
       linguServices = userConfig.getLinguServices();
-      initTrie();
     }
+  }
+
+  private void initSpeller() {
     if (spellerRule == null) {
-      initTrie();
-      try {
-        spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+      synchronized (UpperCaseNgramRule.class) {
+        if (spellerRule == null) {
+          try {
+            spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }
       }
     }
   }
 
   private void initTrie() {
-    CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();
-    List<String> words = new ArrayList<>();
-    words.addAll(cachingWordListLoader.loadWords("en/specific_case.txt"));
-    words.addAll(cachingWordListLoader.loadWords("spelling_global.txt"));
-    Map<String,String> map = new HashMap<>();
-    for (String word : words) {
-      map.put(word, word);
-    }
-    synchronized (exceptionTrie) {
-      exceptionTrie.build(map);
+    if (exceptionTrie == null) {
+      synchronized (UpperCaseNgramRule.class) {
+        if (exceptionTrie == null) {
+          exceptionTrie = new AhoCorasickDoubleArrayTrie<>();
+          CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();
+          List<String> words = new ArrayList<>();
+          words.addAll(cachingWordListLoader.loadWords("en/specific_case.txt"));
+          words.addAll(cachingWordListLoader.loadWords("spelling_global.txt"));
+          Map<String,String> map = new HashMap<>();
+          for (String word : words) {
+            map.put(word, word);
+          }
+          exceptionTrie.build(map);
+        }
+      }
     }
   }
 

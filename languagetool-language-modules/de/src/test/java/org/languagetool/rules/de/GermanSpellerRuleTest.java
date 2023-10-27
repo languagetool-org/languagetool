@@ -60,9 +60,13 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Azubikommt"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Wachtums-Pistole"));  // split as "Wacht, ums-Pistole"
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Discorum"));  // "Disco, rum" and "rum" is only 3 chars and thus too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeberverhandlungen"));
-    assertTrue(rule.ignorePotentiallyMisspelledWord("Menschenrechtsdemos"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
     assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank")); 

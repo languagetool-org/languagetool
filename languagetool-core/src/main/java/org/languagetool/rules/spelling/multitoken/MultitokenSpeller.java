@@ -61,23 +61,32 @@ public class MultitokenSpeller {
     HashMap<String, String> set = chooseHashMap(word);
     List<WeightedSuggestion> weightedCandidates = new ArrayList<>();
     String firstChar = StringTools.removeDiacritics(word.substring(0,1).toLowerCase());
-    for (Map.Entry<String, String> candidate : set.entrySet()) {
+    for (Map.Entry<String, String> entry : set.entrySet()) {
+      String candidateLowercase = entry.getValue();
+      String candidate = entry.getKey();
       // require that the first letter is correct to speed up the generation of suggestions even more
-      if (!candidate.getValue().substring(0,1).equals(firstChar)) {
+      if (!candidateLowercase.substring(0,1).equals(firstChar)) {
         continue;
       }
-      if (Math.abs(candidate.getValue().length() - word.length()) > MAX_LENGTH_DIFF) {
+      if (Math.abs(candidateLowercase.length() - word.length()) > MAX_LENGTH_DIFF) {
         continue;
       }
-      if (StringTools.convertToTitleCaseIteratingChars(candidate.getKey()).equals(word)) {
+      if (candidate.equals(candidate.toLowerCase())
+        && StringTools.convertToTitleCaseIteratingChars(candidate).equals(word)) {
         return Collections.emptyList();
       }
-      int distance = ponderatedDistance(candidate.getValue(), word);
-      if (distance < maxEditDistance) {
-        weightedCandidates.add(new WeightedSuggestion(candidate.getKey(), distance));
-      }
+      int distance = levenshteinDistance(candidateLowercase, word);
       if (distance < 1) {
+        weightedCandidates.clear();
+        weightedCandidates.add(new WeightedSuggestion(candidate, distance));
         break;
+      }
+      int adjustMaxEditDistance = 0;
+      if (oneTokenIsRight(candidate, word)) {
+        adjustMaxEditDistance = -1;
+      }
+      if (distance < maxEditDistance + adjustMaxEditDistance) {
+        weightedCandidates.add(new WeightedSuggestion(candidate, distance));
       }
     }
     Collections.sort(weightedCandidates);
@@ -96,18 +105,17 @@ public class MultitokenSpeller {
       StringTools.removeDiacritics(s2.toLowerCase()));
   }
 
-  private int ponderatedDistance (String s1, String s2) {
-    int distance = levenshteinDistance(s1, s2);
+  private boolean oneTokenIsRight (String s1, String s2) {
     String parts1[] = s1.split(" ");
     String parts2[] = s2.split(" ");
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
-        if (levenshteinDistance(parts1[i], parts2[i]) == 0) {
-          distance++;
+        if (parts1[i].equals(parts2[i])) {
+          return true;
         }
       }
     }
-    return distance;
+    return false;
   }
 
   private void initMultitokenSpeller(List<String> filePaths) {
