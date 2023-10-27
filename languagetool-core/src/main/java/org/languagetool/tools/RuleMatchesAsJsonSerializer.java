@@ -273,10 +273,10 @@ public class RuleMatchesAsJsonSerializer {
   }
 
   private void writeContext(JsonGenerator g, RuleMatch match, AnnotatedText text, ContextTools contextTools) throws IOException {
-    String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
-    int contextOffset = context.indexOf(START_MARKER);
-    context = context.replaceFirst(START_MARKER, "");
     if (compactMode != 1) {
+      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
+      int contextOffset = context.indexOf(START_MARKER);
+      context = context.replaceFirst(START_MARKER, "");
       g.writeObjectFieldStart("context");
       g.writeStringField("text", context);
       g.writeNumberField("offset", contextOffset);
