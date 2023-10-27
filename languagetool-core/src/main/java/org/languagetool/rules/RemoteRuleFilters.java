@@ -41,6 +41,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,7 +56,7 @@ public final class RemoteRuleFilters {
   
   public static final String RULE_FILE = "remote-rule-filters.xml";
 
-  private static final LoadingCache<Language, Map<String, List<AbstractPatternRule>>> rules =
+  private static final LoadingCache<Language, Map<Pattern, List<AbstractPatternRule>>> rules =
     CacheBuilder.newBuilder()
       .build(CacheLoader.from(RemoteRuleFilters::load));
 
@@ -70,7 +71,7 @@ public final class RemoteRuleFilters {
     // load all relevant filters for given matches
     Set<String> matchIds = matches.stream().map(m -> m.getRule().getId()).collect(Collectors.toSet());
     List<AbstractPatternRule> filters = rules.get(lang).entrySet().stream()
-      .filter(e -> matchIds.stream().anyMatch(id -> id.matches(e.getKey())))
+      .filter(e -> matchIds.stream().anyMatch(id -> e.getKey().matcher(id).matches()))
       .flatMap(e -> e.getValue().stream())
       .collect(Collectors.toList());
 
@@ -183,7 +184,7 @@ public final class RemoteRuleFilters {
       });
   }
 
-  static Map<String, List<AbstractPatternRule>> load(Language lang) {
+  static Map<Pattern, List<AbstractPatternRule>> load(Language lang) {
     JLanguageTool lt = lang.createDefaultJLanguageTool();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     String filename = dataBroker.getRulesDir() + "/" + getFilename(lang);
@@ -193,7 +194,14 @@ public final class RemoteRuleFilters {
       for (AbstractPatternRule rule : allRules) {
         rules.computeIfAbsent(rule.getId(), k -> new ArrayList<>()).add(rule);
       }
-      return rules;
+      Map<Pattern, List<AbstractPatternRule>> result = new HashMap<>();
+      // we treat rule ids in this file as regexes over rule IDs of matches
+      // compile them once here and then reuse
+      rules.forEach((ruleId, ruleList) -> {
+        Pattern key = Pattern.compile(ruleId);
+        result.put(key, ruleList);
+      });
+      return result;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
