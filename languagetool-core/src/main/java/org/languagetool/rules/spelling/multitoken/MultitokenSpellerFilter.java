@@ -46,15 +46,8 @@ public class MultitokenSpellerFilter extends RuleFilter {
     boolean keepSpaces = getOptional("keepSpaces", arguments, "true").equalsIgnoreCase("true")? true: false;
     String requireRegexp = getOptional("requireRegexp", arguments);
     String underlinedError = match.getOriginalErrorStr();
-    int numSpaces = StringTools.numberOf(underlinedError, " ");
-    int numHyphens = StringTools.numberOf(underlinedError, "-");
-    int decreaseDistance = 0;
-    if (requireRegexp != null) {
-      decreaseDistance = 2;
-    }
-    int maxLevenshteinDistance = 2 + (numSpaces + numHyphens) * 2 - decreaseDistance;
     Language lang = ((PatternRule) match.getRule()).getLanguage();
-    List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError, maxLevenshteinDistance);
+    List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError);
     if (replacements.isEmpty()) {
       return null;
     }

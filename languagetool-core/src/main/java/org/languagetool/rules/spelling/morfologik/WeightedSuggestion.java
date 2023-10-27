@@ -36,7 +36,7 @@ public class WeightedSuggestion implements Comparable<WeightedSuggestion> {
     return word;
   }
 
-  int getWeight() {
+  public int getWeight() {
     return weight;
   }
 

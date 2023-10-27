@@ -54,11 +54,14 @@ public class MultitokenSpeller {
     initMultitokenSpeller(filePaths);
   }
 
-  public List<String> getSuggestions(String word, int maxEditDistance) throws IOException {
+  public List<String> getSuggestions(String word) throws IOException {
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
     }
-    HashMap<String, String> set = chooseHashMap(word);
+    String wordLowercase = StringTools.removeDiacritics(word.toLowerCase());
+    int numSpaces = StringTools.numberOf(word, " ");
+    int numHyphens = StringTools.numberOf(word, "-");
+    HashMap<String, String> set = chooseHashMap(word, numSpaces, numHyphens);
     List<WeightedSuggestion> weightedCandidates = new ArrayList<>();
     String firstChar = StringTools.removeDiacritics(word.substring(0,1).toLowerCase());
     for (Map.Entry<String, String> entry : set.entrySet()) {
@@ -75,47 +78,62 @@ public class MultitokenSpeller {
         && StringTools.convertToTitleCaseIteratingChars(candidate).equals(word)) {
         return Collections.emptyList();
       }
-      int distance = levenshteinDistance(candidateLowercase, word);
+      int distance = levenshteinDistance(candidateLowercase, wordLowercase);
       if (distance < 1) {
         weightedCandidates.clear();
         weightedCandidates.add(new WeightedSuggestion(candidate, distance));
         break;
       }
-      int adjustMaxEditDistance = 0;
-      if (oneTokenIsRight(candidate, word)) {
-        adjustMaxEditDistance = -1;
-      }
-      if (distance < maxEditDistance + adjustMaxEditDistance) {
+      //int maxEditDistance = (1 + numSpaces + numHyphens - numberOfCorrectTokens(candidateLowercase, wordLowercase)) * 2;
+      int maxEditDistance = (int) (0.35 * (candidateLowercase.length() - numberOfCorrectChars(candidateLowercase, wordLowercase)));
+      if (distance <= maxEditDistance) {
         weightedCandidates.add(new WeightedSuggestion(candidate, distance));
       }
     }
+    if (weightedCandidates.isEmpty()) {
+      return Collections.emptyList();
+    }
     Collections.sort(weightedCandidates);
     List<String> results = new ArrayList<>();
-    for (WeightedSuggestion weightedSuggestion : weightedCandidates) {
-      results.add(weightedSuggestion.getWord());
+    int weightFirstCandidate = weightedCandidates.get(0).getWeight();
+    for (WeightedSuggestion weightedCandidate : weightedCandidates) {
+      if (weightedCandidate.getWeight() - weightFirstCandidate < 1) {
+        results.add(weightedCandidate.getWord());
+      }
     }
     return results;
-
   }
 
   private int levenshteinDistance(String s1, String s2) {
-    return LevenshteinDistance.getDefaultInstance().apply(
-      //StringTools.removeDiacritics(s1.toLowerCase()),
-      s1,
-      StringTools.removeDiacritics(s2.toLowerCase()));
+    return LevenshteinDistance.getDefaultInstance().apply(s1, s2);
   }
 
-  private boolean oneTokenIsRight (String s1, String s2) {
+  private int numberOfCorrectTokens(String s1, String s2) {
     String parts1[] = s1.split(" ");
     String parts2[] = s2.split(" ");
+    int correctTokens = 0;
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
         if (parts1[i].equals(parts2[i])) {
-          return true;
+          correctTokens++;
         }
       }
     }
-    return false;
+    return correctTokens;
+  }
+
+  private int numberOfCorrectChars(String s1, String s2) {
+    String parts1[] = s1.split(" ");
+    String parts2[] = s2.split(" ");
+    int correctTokens = 0;
+    if (parts1.length == parts2.length && parts1.length > 1) {
+      for (int i=0; i<parts1.length; i++) {
+        if (parts1[i].equals(parts2[i])) {
+          correctTokens += parts1[i].length();
+        }
+      }
+    }
+    return correctTokens;
   }
 
   private void initMultitokenSpeller(List<String> filePaths) {
@@ -156,9 +174,7 @@ public class MultitokenSpeller {
     }
   }
 
-  private HashMap<String, String> chooseHashMap(String word) {
-    int numSpaces = StringTools.numberOf(word, " ");
-    int numHyphens = StringTools.numberOf(word, "-");
+  private HashMap<String, String> chooseHashMap(String word, int numSpaces, int numHyphens) {
     if (numSpaces==1) {
       return oneSpace;
     } else if (numSpaces==2) {

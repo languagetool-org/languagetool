@@ -25,6 +25,7 @@ import org.languagetool.language.BalearicCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -106,6 +107,32 @@ public class JLanguageToolTest {
     matches = tool.check("A nivell d'ensenyament superior.");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(),
         "[En l'àmbit d', A escala d', A , En , Pel que fa a , Quant a ]");
+
+  }
+
+  @Test
+  public void testMultitokenSpeller() throws IOException {
+    Language lang = new Catalan();
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A paso").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A sin").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A xente").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A lus").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A Month").toString());
+    assertEquals("[peix espasa]", lang.getMultitokenSpeller().getSuggestions("peis espaba").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Jean-François Davy").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("finç abui").toString());
+    assertEquals("[Led Zeppelin]", lang.getMultitokenSpeller().getSuggestions("Led Zepelin").toString());
+    assertEquals("[Marie Curie]", lang.getMultitokenSpeller().getSuggestions("Marie Cuirie").toString());
+    assertEquals("[William Byrd]", lang.getMultitokenSpeller().getSuggestions("William Bird").toString());
+    assertEquals("[Lluís Llach]", lang.getMultitokenSpeller().getSuggestions("Lluis Llach").toString());
+    assertEquals("[University of Texas]", lang.getMultitokenSpeller().getSuggestions("Universiti of Tejas").toString());
+    assertEquals("[Cyndi Lauper]", lang.getMultitokenSpeller().getSuggestions("Cindy Lauper").toString());
+    assertEquals("[García Márquez]", lang.getMultitokenSpeller().getSuggestions("Garcìa Mraquez").toString());
+    assertEquals("[Yuval Noah Harari]", lang.getMultitokenSpeller().getSuggestions("yuval Noha Harari").toString());
+    assertEquals(Collections.emptyList(), lang.getMultitokenSpeller().getSuggestions("Frederic Udina"));
+    assertEquals(Collections.emptyList(), lang.getMultitokenSpeller().getSuggestions("Josep Maria Piñol"));
+    assertEquals("[José María Aznar]", lang.getMultitokenSpeller().getSuggestions("Jose Maria Asnar").toString());
+    assertEquals("[José María Aznar]", lang.getMultitokenSpeller().getSuggestions("José María Asnar").toString());
 
   }
 
