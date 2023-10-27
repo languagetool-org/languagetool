@@ -100,6 +100,12 @@ public abstract class Language {
   private Chunker postDisambiguationChunker;
   private Synthesizer synthesizer;
 
+  private final String shortCodeWithCountryAndVariant;
+
+  protected Language() {
+    shortCodeWithCountryAndVariant = buildShortCodeWithCountryAndVariant();
+  }
+
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
    * For most languages this is a two-letter code according to ISO 639-1,
@@ -638,6 +644,10 @@ public abstract class Language {
    * @since 3.6
    */
   public final String getShortCodeWithCountryAndVariant() {
+    return shortCodeWithCountryAndVariant;
+  }
+
+  private String buildShortCodeWithCountryAndVariant() {
     String name = getShortCode();
     if (getCountries().length == 1 && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
@@ -937,7 +947,7 @@ public abstract class Language {
 
   @Override
   public int hashCode() {
-    return getShortCodeWithCountryAndVariant().hashCode();
+    return shortCodeWithCountryAndVariant.hashCode();
   }
   
   /**
