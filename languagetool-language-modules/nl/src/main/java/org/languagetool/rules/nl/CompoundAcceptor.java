@@ -38,13 +38,12 @@ import java.util.Set;
 public class CompoundAcceptor {
 
   // compound parts that need an 's' appended to be used as first part of the compound:
-  // "teit", "ing", "heid", "schap", "ker"
-  private final Set<String> needsS1 = new HashSet<>(Arrays.asList(
-    "bedrijfs", "passagiers" //, "dorps", "gezichts", "lijdens", "besturings", "verbrandings", "bestemmings", "schoonheids"
+  private final Set<String> needsS = new HashSet<>(Arrays.asList(
+    "bedrijfs", "passagiers", "dorps", "gezichts", "lijdens", "besturings", "verbrandings", "bestemmings", "schoonheids"
   ));
   // compound parts that must not have an 's' appended to be used as first part of the compound:
-  private final Set<String> noS1 = new HashSet<>(Arrays.asList(
-    "sport", "woning" //, "kinder", "fractie", "zout", "schade", "energie", "gemeente", "dienst", "wereld", "telefoon", "winkel", "aandeel", "zwanger", "papier"
+  private final Set<String> noS = new HashSet<>(Arrays.asList(
+    "woning", "kinder", "fractie", "schade", "energie", "gemeente", "dienst", "wereld", "telefoon", "aandeel", "zwanger", "papier"
   ));
 
   private final MorfologikDutchSpellerRule speller;
@@ -79,11 +78,11 @@ public class CompoundAcceptor {
     boolean okWithDash = false;
     boolean okWithoutS = false;
     if (part1.endsWith("s")) {
-      okWithS = spellingOk(part1.replaceFirst("s$", "")) && spellingOk(part2) && needsS1.contains(part1);
+      okWithS = spellingOk(part1.replaceFirst("s$", "")) && spellingOk(part2) && needsS.contains(part1.toLowerCase());
     } else if ( part1.endsWith("-")) {
       okWithDash = abbrevOk(part1) && spellingOk(part2);
     } else {
-      okWithoutS = spellingOk(part1) && spellingOk(part2) && noS1.contains(part1);
+      okWithoutS = spellingOk(part1) && spellingOk(part2) && noS.contains(part1.toLowerCase());
     }
     //System.out.println(" okWithS: " + okWithS + ", okWithoutS " + okWithoutS);
     return okWithS || okWithDash || okWithoutS;
@@ -96,7 +95,7 @@ public class CompoundAcceptor {
 
   private boolean spellingOk(String nonCompound) throws IOException {
     AnalyzedSentence as = new AnalyzedSentence(new AnalyzedTokenReadings[] {
-      new AnalyzedTokenReadings(new AnalyzedToken(nonCompound, "FAKE_POS", "fakeLemma"))
+      new AnalyzedTokenReadings(new AnalyzedToken(nonCompound.toLowerCase(), "FAKE_POS", "fakeLemma"))
     });
     RuleMatch[] matches = speller.match(as);
     return matches.length == 0;
