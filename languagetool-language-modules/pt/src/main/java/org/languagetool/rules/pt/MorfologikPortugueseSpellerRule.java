@@ -7,6 +7,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
@@ -34,6 +35,10 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       language = language.getDefaultLanguageVariant();
     }
     this.language = language;
-    this.dictFilename = "/pt/spelling/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    if (Objects.equals(language.getShortCodeWithCountryAndVariant(), "pt-BR")) {
+      this.dictFilename = "/pt/spelling/pt-BR" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    } else {
+      this.dictFilename = "/pt/spelling/pt-PT" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    }
   }
 }

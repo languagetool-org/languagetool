@@ -32,6 +32,10 @@ public class MorfologikPortugueseSpellerRuleTest {
   private void assertErrorLength(String sentence, int length, JLanguageTool lt,
                                         MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
+    // TODO: just debugging, must delete later!
+    if (matches.length > 0) {
+      System.out.println(matches[0].getSuggestedReplacements());
+    }
     assertEquals(length, matches.length);
     for (int i = 0; i < suggestions.length; i++) {
       assertEquals(suggestions[i], matches[0].getSuggestedReplacements().get(i));
@@ -41,10 +45,10 @@ public class MorfologikPortugueseSpellerRuleTest {
   private void assertSingleErrorAndPos(String sentence, JLanguageTool lt, MorfologikPortugueseSpellerRule rule,
                                        String[] suggestions, int fromPos, int toPos) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(1, matches.length);
     for (int i = 0; i < suggestions.length; i++) {
       assertEquals(suggestions[i], matches[0].getSuggestedReplacements().get(i));
     }
+    assertEquals(1, matches.length);
     assertEquals(fromPos, matches[0].getFromPos());
     assertEquals(toPos, matches[0].getToPos());
   }
@@ -54,7 +58,7 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   private void assertSingleError(String sentence, JLanguageTool lt,
-                                        MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
+                                 MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
     assertErrorLength(sentence, 1, lt, rule, suggestions);
   }
 
@@ -63,6 +67,11 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError(sentenceBR, ltPT, rulePT, new String[]{sentencePT});
     assertNoErrors(sentencePT, ltPT, rulePT);
     assertSingleError(sentencePT, ltBR, ruleBR, new String[]{sentenceBR});
+  }
+
+  @Test
+  public void testSanity() throws Exception {
+    assertNoErrors("oogaboogatestword", ltBR, ruleBR);
   }
 
   @Test
@@ -161,6 +170,23 @@ public class MorfologikPortugueseSpellerRuleTest {
     // corrected to bizarre 'autoconheci emen'
     assertSingleErrorAndPos("- Encontre no autoconheciemen", ltBR, ruleBR,
       new String[]{"autoconhecimento"}, 14, 29);
+  }
+
+  @Test
+  public void testCustomReplacements() throws Exception {
+    // Testing the info file.
+    // Here it's less about the error (though of course that's important), and more about the suggestions.
+    // We want our custom-defined patterns to prioritise specific types of suggestions.
+    assertSingleError("vinheram", ltBR, ruleBR, new String[]{"vieram"});
+    assertSingleError("recadações", ltBR, ruleBR, new String[]{"arrecadações"});
+    assertSingleError("me dis", ltBR, ruleBR, new String[]{"diz"});
+    assertSingleError("ebook", ltBR, ruleBR, new String[]{"e-book"});
+    assertSingleError("quizese", ltBR, ruleBR, new String[]{"quisesse"}); // this one's tricky to get working
+    assertSingleError("cabesse", ltBR, ruleBR, new String[]{"coubesse"});
+    assertSingleError("andância", ltBR, ruleBR, new String[]{"andança"});
+    assertSingleError("abto", ltBR, ruleBR, new String[]{"hábito"});
+    // this one is overkill, from hunspell, we can prob. comment it out
+    assertSingleError("difissio", ltBR, ruleBR, new String[]{"difícil"});
   }
 
   @Test
