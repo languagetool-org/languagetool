@@ -75,6 +75,13 @@ public abstract class Language {
   private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
+  private static final Pattern SUGGESTION_OPEN_TAG = Pattern.compile("<suggestion>");
+  private static final Pattern SUGGESTION_CLOSE_TAG = Pattern.compile("</suggestion>");
+
+  private static final Pattern ELLIPSIS = Pattern.compile("\\.\\.\\.");
+  private static final Pattern NBSPACE1 = Pattern.compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)");
+  private static final Pattern NBSPACE2 = Pattern.compile("\\b([a-zA-Z]\\.) ");
+
   private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
 
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
@@ -856,7 +863,9 @@ public abstract class Language {
   /** @since 5.1 */
   public String toAdvancedTypography(String input) {
     if (!isAdvancedTypographyEnabled()) {
-      return input.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
+      return SUGGESTION_CLOSE_TAG.matcher(
+        SUGGESTION_OPEN_TAG.matcher(input).replaceAll(getOpeningDoubleQuote())
+      ).replaceAll(getClosingDoubleQuote());
     }
     String output = input;
    
@@ -874,11 +883,11 @@ public abstract class Language {
     }
     
     // Ellipsis (for all languages?)
-    output = output.replaceAll("\\.\\.\\.", "…");
+    output = ELLIPSIS.matcher(output).replaceAll("…");
     
     // non-breaking space
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ", "$1\u00a0");
+    output = NBSPACE1.matcher(output).replaceAll("$1\u00a0$2");
+    output = NBSPACE2.matcher(output).replaceAll("$1\u00a0");
     
     Matcher matcher = APOSTROPHE.matcher(output);
     output = matcher.replaceAll("$1’$2");
@@ -909,8 +918,10 @@ public abstract class Language {
     for (int i = 0; i < preservedStrings.size(); i++) {
       output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
     }
-    
-    return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
+
+    return SUGGESTION_CLOSE_TAG.matcher(
+      SUGGESTION_OPEN_TAG.matcher(output).replaceAll(getOpeningDoubleQuote())
+    ).replaceAll(getClosingDoubleQuote());
   }
 
   /**
