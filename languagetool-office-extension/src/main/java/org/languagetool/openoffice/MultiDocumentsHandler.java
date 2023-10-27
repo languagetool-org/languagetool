@@ -207,10 +207,6 @@ public class MultiDocumentsHandler {
       }
       if (!isSameLanguage || recheck || checkImpressDocument) {
         boolean initDocs = (lt == null || recheck || checkImpressDocument);
-        if (initDocs) {
-          MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: lt " + (lt == null ? "==" : "!=") 
-              + " null; recheck = " + recheck + "; checkImpressDocument = " + checkImpressDocument);
-        }
         checkImpressDocument = false;
         if (!isSameLanguage) {
           docLanguage = langForShortName;

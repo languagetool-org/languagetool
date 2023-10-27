@@ -353,11 +353,12 @@ public class SingleDocument {
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
       }
+//      MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum);
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
           docLanguage, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
-//      MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
           paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara, errType);
+//    MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum + " done");
 //      MessageHandler.printToLogFile("Single document: Check Paragraph: resultCache for Para " + paraNum + ": "
 //          + (paragraphsCache.get(0).getCacheEntry(paraNum) == null 
 //          ? "null" : paragraphsCache.get(0).getCacheEntry(paraNum).errorArray.length));
@@ -748,7 +749,7 @@ public class SingleDocument {
    * create a queue entry 
    * used by getNextQueueEntry
    */
-  private QueueEntry createQueueEntry(TextParagraph nPara, int nCache) {
+  QueueEntry createQueueEntry(TextParagraph nPara, int nCache) {
     int nCheck = mDocHandler.getNumMinToCheckParas().get(nCache);
     int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
     int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);
