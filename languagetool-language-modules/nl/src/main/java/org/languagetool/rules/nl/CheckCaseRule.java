@@ -34,6 +34,8 @@ public class CheckCaseRule extends AbstractCheckCaseRule {
   public CheckCaseRule(ResourceBundle messages, Language language) {
     super(messages, language);
     useSubRuleSpecificIds();
+    // do not ignore abbreviations like "apk, dvd" etc
+    setIgnoreShortUppercaseWords(false);
   }
 
   @Override
