@@ -56,9 +56,10 @@ public final class RemoteRuleFilters {
   
   public static final String RULE_FILE = "remote-rule-filters.xml";
 
-  private static final LoadingCache<Language, Map<Pattern, List<AbstractPatternRule>>> rules =
+  private static final LoadingCache<Language, List<Map.Entry<Pattern, List<AbstractPatternRule>>>> rules =
     CacheBuilder.newBuilder()
-      .build(CacheLoader.from(RemoteRuleFilters::load));
+      .build(CacheLoader.from((lang) -> compilePatterns(RemoteRuleFilters.load(lang))));
+
 
   private RemoteRuleFilters() {
   }
@@ -70,7 +71,7 @@ public final class RemoteRuleFilters {
     }
     // load all relevant filters for given matches
     Set<String> matchIds = matches.stream().map(m -> m.getRule().getId()).collect(Collectors.toSet());
-    List<AbstractPatternRule> filters = rules.get(lang).entrySet().stream()
+    List<AbstractPatternRule> filters = rules.get(lang).stream()
       .filter(e -> matchIds.stream().anyMatch(id -> e.getKey().matcher(id).matches()))
       .flatMap(e -> e.getValue().stream())
       .collect(Collectors.toList());
@@ -184,7 +185,7 @@ public final class RemoteRuleFilters {
       });
   }
 
-  static Map<Pattern, List<AbstractPatternRule>> load(Language lang) {
+  static Map<String, List<AbstractPatternRule>> load(Language lang) {
     JLanguageTool lt = lang.createDefaultJLanguageTool();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     String filename = dataBroker.getRulesDir() + "/" + getFilename(lang);
@@ -194,18 +195,23 @@ public final class RemoteRuleFilters {
       for (AbstractPatternRule rule : allRules) {
         rules.computeIfAbsent(rule.getId(), k -> new ArrayList<>()).add(rule);
       }
-      Map<Pattern, List<AbstractPatternRule>> result = new HashMap<>();
-      // we treat rule ids in this file as regexes over rule IDs of matches
-      // compile them once here and then reuse
-      rules.forEach((ruleId, ruleList) -> {
-        Pattern key = Pattern.compile(ruleId);
-        result.put(key, ruleList);
-      });
-      return result;
+      return rules;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
+
+  static List<Map.Entry<Pattern, List<AbstractPatternRule>>> compilePatterns(Map<String, List<AbstractPatternRule>> rules) {
+    List<Map.Entry<Pattern, List<AbstractPatternRule>>> result = new ArrayList<>(rules.size());
+    // we treat rule ids in this file as regexes over rule IDs of matches
+    // compile them once here and then reuse
+    rules.forEach((ruleId, ruleList) -> {
+      Pattern key = Pattern.compile(ruleId);
+      result.add(new AbstractMap.SimpleImmutableEntry<>(key, ruleList));
+    });
+    return result;
+  }
+
 
   @NotNull
   static String getFilename(Language lang) {
