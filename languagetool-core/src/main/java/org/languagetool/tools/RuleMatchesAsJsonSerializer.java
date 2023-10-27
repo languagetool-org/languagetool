@@ -30,6 +30,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Write rule matches and some meta information as JSON.
@@ -114,6 +115,7 @@ public class RuleMatchesAsJsonSerializer {
         }
         writeIgnoreRanges(g, res);
         writeSentenceRanges(g, res);
+        writeExtendedSentenceRanges(g, res);
         g.writeEndObject();
       }
     } catch (IOException e) {
@@ -227,6 +229,29 @@ public class RuleMatchesAsJsonSerializer {
         g.writeNumber(range.getFromPos());
         g.writeNumber(range.getToPos());
         g.writeEndArray();
+      }
+    }
+    g.writeEndArray();
+  }
+
+  private void writeExtendedSentenceRanges(JsonGenerator g, List<CheckResults> res) throws IOException{
+    g.writeArrayFieldStart("extendedSentenceRanges");
+    for (CheckResults r : res) {
+      for (ExtendedSentenceRange range : r.getExtendedSentenceRanges()) {
+        g.writeStartObject();
+        g.writeNumberField("from", range.getFromPos());
+        g.writeNumberField("to", range.getToPos());
+        g.writeArrayFieldStart("detectedLanguages");
+        for (Map.Entry<String, Float> entry : range.getLanguageConfidenceRates().entrySet()) {
+          String language = entry.getKey();
+          Float rate = entry.getValue();
+          g.writeStartObject();
+          g.writeStringField("language", language);
+          g.writeNumberField("rate", rate);
+          g.writeEndObject();
+        }
+        g.writeEndArray();
+        g.writeEndObject();
       }
     }
     g.writeEndArray();

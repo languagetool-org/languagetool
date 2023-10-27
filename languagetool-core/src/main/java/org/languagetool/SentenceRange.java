@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.markup.AnnotatedText;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.Objects;
  * A range in a text that makes up a sentence.
  * @since 5.8
  */
-public class SentenceRange {
+public class SentenceRange implements Comparable<SentenceRange>{
 
   private final int fromPos;
   private final int toPos;
@@ -93,5 +94,10 @@ public class SentenceRange {
   @Override
   public int hashCode() {
     return Objects.hash(fromPos, toPos);
+  }
+
+  @Override
+  public int compareTo(@NotNull SentenceRange o) {
+    return Integer.compare(this.fromPos, o.fromPos);
   }
 }
