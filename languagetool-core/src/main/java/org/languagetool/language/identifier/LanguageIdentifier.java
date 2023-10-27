@@ -142,7 +142,7 @@ public abstract class LanguageIdentifier {
     return new AbstractMap.SimpleImmutableEntry<>(result, max);  
   }
 
-  protected Map<String, Double> getOrdertScores(Map<String, Double> scores, int count) {
+  protected Map<String, Double> getOrderedScores(Map<String, Double> scores, int count) {
     ArrayList<Map.Entry<String, Double>> entries = new ArrayList<>(scores.entrySet());
     entries.sort(Map.Entry.comparingByValue(Collections.reverseOrder()));
     Map<String, Double> sortedScores = new LinkedHashMap<>();

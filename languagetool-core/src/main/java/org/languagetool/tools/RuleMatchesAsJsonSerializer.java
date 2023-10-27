@@ -235,7 +235,7 @@ public class RuleMatchesAsJsonSerializer {
   }
 
   private void writeExtendedSentenceRanges(JsonGenerator g, List<CheckResults> res) throws IOException{
-    g.writeArrayFieldStart("extendedSenteceRanges");
+    g.writeArrayFieldStart("extendedSentenceRanges");
     for (CheckResults r : res) {
       for (ExtendedSentenceRange range : r.getExtendedSentenceRanges()) {
         g.writeStartObject();

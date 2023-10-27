@@ -326,8 +326,8 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
 
     List<DetectedLanguage> detectedLanguages = new LinkedList<>();
     if (count > 1) {
-      Map<String, Double> ordertScores = getOrdertScores(scores, count);
-      for (Map.Entry<String, Double> entry : ordertScores.entrySet()) {
+      Map<String, Double> orderedScores = getOrderedScores(scores, count);
+      for (Map.Entry<String, Double> entry : orderedScores.entrySet()) {
         if (entry.getKey() != null && LanguageIdentifierService.INSTANCE.canLanguageBeDetected(entry.getKey(), additionalLangs)) {
           float rate = Math.round(entry.getValue() * 100.0) / 100.0f; // Convert to a non-scientific float and potentially round down
           detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(entry.getKey(), additionalLangs), rate, source));

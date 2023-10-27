@@ -34,6 +34,7 @@ public class CheckResults {
   private List<RuleMatch> ruleMatches;
   @Getter
   private final List<Range> ignoredRanges;
+  @Getter
   private final List<ExtendedSentenceRange> extendedSentenceRanges;
   private final List<SentenceRange> sentenceRanges = new ArrayList<>();
 
@@ -45,9 +46,10 @@ public class CheckResults {
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges, List<ExtendedSentenceRange> extendedSentenceRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
-    this.extendedSentenceRanges = Objects.requireNonNull(extendedSentenceRanges);
-    //TODO: use this later
-//    extendedSentenceRanges.forEach(extendedSentenceRange -> this.sentenceRanges.add(new SentenceRange(extendedSentenceRange.getFromPos(), extendedSentenceRange.getToPos())));
+    this.extendedSentenceRanges = Objects.requireNonNull(extendedSentenceRanges.stream().sorted().collect(Collectors.toList()));
+    //TODO: use this later, when we are sure the sentenceRanges (from extendedSentenceRange) are are correct.
+    // Right now the sentenceRanges are calculated different from those in extendedSentenceRange.
+    // extendedSentenceRanges.forEach(extendedSentenceRange -> this.sentenceRanges.add(new SentenceRange(extendedSentenceRange.getFromPos(), extendedSentenceRange.getToPos())));
   }
 
   @NotNull
@@ -57,10 +59,6 @@ public class CheckResults {
 
   public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
     this.sentenceRanges.addAll(sentenceRanges);
-  }
-
-  public List<ExtendedSentenceRange> getExtendedSentenceRanges() {
-    return extendedSentenceRanges.stream().sorted().collect(Collectors.toList());
   }
 
   public void setRuleMatches(List<RuleMatch> ruleMatches) {
