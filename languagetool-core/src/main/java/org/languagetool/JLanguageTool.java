@@ -518,6 +518,7 @@ public class JLanguageTool {
    */
   public void setOutput(PrintStream printStream) {
     this.printStream = printStream;
+    GlobalConfig.setVerbose(printStream != null);
   }
 
   /**
