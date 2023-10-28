@@ -63,7 +63,6 @@ public class CompoundAcceptor {
     for (int i = 3; i < word.length() - 3; i++) {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
-      //System.out.println("parts: " + part1 + " " + part2);
       if (acceptCompound(part1, part2)) {
         System.out.println(part1+part2 + " -> accepted");
         return true;
@@ -73,18 +72,13 @@ public class CompoundAcceptor {
   }
 
   boolean acceptCompound(String part1, String part2) throws IOException {
-    boolean okWithS = false;
-    boolean okWithDash = false;
-    boolean okWithoutS = false;
     if (part1.endsWith("s")) {
-      okWithS = needsS.contains(part1.toLowerCase()) && spellingOk(part1.replaceFirst("s$", "")) && spellingOk(part2);
-    } else if ( part1.endsWith("-")) {
-      okWithDash = abbrevOk(part1) && spellingOk(part2);
+      return needsS.contains(part1.toLowerCase()) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
+    } else if (part1.endsWith("-")) {
+      return abbrevOk(part1) && spellingOk(part2);
     } else {
-      okWithoutS = noS.contains(part1.toLowerCase()) && spellingOk(part1) && spellingOk(part2);
+      return noS.contains(part1.toLowerCase()) && spellingOk(part1) && spellingOk(part2);
     }
-    //System.out.println(" okWithS: " + okWithS + ", okWithoutS " + okWithoutS);
-    return okWithS || okWithDash || okWithoutS;
   }
 
   private boolean abbrevOk(String nonCompound) {
