@@ -80,11 +80,11 @@ public class CompoundAcceptor {
     boolean okWithDash = false;
     boolean okWithoutS = false;
     if (part1.endsWith("s")) {
-      okWithS = spellingOk(part1.replaceFirst("s$", "")) && spellingOk(part2) && needsS.contains(part1.toLowerCase());
+      okWithS = needsS.contains(part1.toLowerCase()) && spellingOk(part1.replaceFirst("s$", "")) && spellingOk(part2);
     } else if ( part1.endsWith("-")) {
       okWithDash = abbrevOk(part1) && spellingOk(part2);
     } else {
-      okWithoutS = spellingOk(part1) && spellingOk(part2) && noS.contains(part1.toLowerCase());
+      okWithoutS = noS.contains(part1.toLowerCase()) && spellingOk(part1) && spellingOk(part2);
     }
     //System.out.println(" okWithS: " + okWithS + ", okWithoutS " + okWithoutS);
     return okWithS || okWithDash || okWithoutS;
