@@ -68,10 +68,7 @@ public class CompoundAcceptor {
         System.out.println(part1+part2 + " -> accepted");
         return true;
       }
-      //System.out.println(" -> not accepted");
     }
-
-    // add abbreviations
     return false;
   }
 
@@ -91,7 +88,7 @@ public class CompoundAcceptor {
   }
 
   private boolean abbrevOk(String nonCompound) {
-    //for compound words like IRA-akkoord, JPG-bestand
+    // for compound words like IRA-akkoord, JPG-bestand
     return nonCompound.matches("[A-Z][A-Z][A-Z]-");
   }
 
