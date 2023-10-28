@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Accept Dutch compounds that are not accepted by the speller. This code
@@ -35,6 +36,8 @@ import java.util.Set;
  * It works on 2-part compounds only for now.
  */
 public class CompoundAcceptor {
+
+  private static final Pattern acronymPattern = Pattern.compile("[A-Z][A-Z][A-Z]-");
 
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
@@ -83,7 +86,7 @@ public class CompoundAcceptor {
 
   private boolean abbrevOk(String nonCompound) {
     // for compound words like IRA-akkoord, JPG-bestand
-    return nonCompound.matches("[A-Z][A-Z][A-Z]-");
+    return acronymPattern.matcher(nonCompound).matches();
   }
 
   private boolean spellingOk(String nonCompound) throws IOException {
