@@ -13416,6 +13416,24 @@ USA
         </rulegroup>
 
 
+        <rule id='QUALQUER_QUE_SEJA_FOSSE_INDEPENDENTEMENTE' name="[Simplificar] 'qualquer/quaisquer que seja(m)/fosse(m)' → 'independentemente'" type="style" default="temp_off">
+            <!--IDEA shorten_it-->
+            <pattern>
+                <marker>
+                    <token regexp="yes">qua(l|is)quer</token>
+                    <token>que</token>
+                    <token regexp="yes">(seja|fosse)m?</token>
+                    <token regexp="yes">[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>independentemente <match no='4' postag='DA0(..)0' postag_replace='SPS00:DA0$10'>de:o</match></suggestion>
+            <example correction="independentemente do">O Rui vencerá <marker>qualquer que seja o</marker> resultado.</example>
+            <example correction="independentemente do">O Rui vencia <marker>qualquer que fosse o</marker> desfecho.</example>
+            <example correction="independentemente dos">Os resultados mantêm-se <marker>quaisquer que sejam os</marker> valores.</example>
+        </rule>
+
+
         <!-- QUE NÃO DÁ PARA VOLTAR ATRÁS irreversível -->
         <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="[Simplificar] 'que não dá para voltar atrás' → 'irreversível'" tone_tags="formal" type="style">
             <!--IDEA shorten_it-->
