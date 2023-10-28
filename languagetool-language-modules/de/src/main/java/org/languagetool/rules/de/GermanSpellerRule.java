@@ -3639,6 +3639,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "raufklickst": return topMatch("draufklickst");
       case "Aquaplanning": return topMatch("Aquaplaning");
       case "Aquaplannings": return topMatch("Aquaplanings");
+      case "Kibbutz": return topMatch("Kibbuz");
     }
     return Collections.emptyList();
   }
