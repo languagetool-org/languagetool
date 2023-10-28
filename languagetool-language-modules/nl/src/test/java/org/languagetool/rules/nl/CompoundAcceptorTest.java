@@ -48,6 +48,8 @@ public class CompoundAcceptorTest {
 
     assertTrue(acceptor.acceptCompound("Papierversnipperaar"));
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
+
+    assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
   }
 
   @Test

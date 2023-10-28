@@ -57,6 +57,9 @@ public class CompoundAcceptor {
   }
 
   boolean acceptCompound(String word) throws IOException {
+    if (word.length() > 25) {  // prevent long runtime
+      return false;
+    }
     for (int i = 3; i < word.length() - 3; i++) {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
