@@ -2392,6 +2392,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
             lastEqual = firstChange;
           }
           int lastDialogEqual = dialogText.length() - orgText.length() + lastEqual;
+          if (lastDialogEqual < firstChange) {
+            firstChange += dialogText.length() - orgText.length();
+          }
           word = orgText.substring(firstChange, lastEqual);
           replace = dialogText.substring(firstChange, lastDialogEqual);
           changeTextOfParagraph(y, firstChange, lastEqual - firstChange, replace, currentDocument, viewCursor);
