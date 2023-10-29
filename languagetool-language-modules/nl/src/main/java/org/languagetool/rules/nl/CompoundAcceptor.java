@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 public class CompoundAcceptor {
 
   private static final Pattern acronymPattern = Pattern.compile("[A-Z][A-Z][A-Z]-");
+  private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-z]*");
 
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
@@ -90,6 +91,9 @@ public class CompoundAcceptor {
   }
 
   private boolean spellingOk(String nonCompound) throws IOException {
+    if (!normalCasePattern.matcher(nonCompound).matches()) {
+      return false;   // e.g. kinderenHet -> split as kinder,enHet
+    }
     AnalyzedSentence as = new AnalyzedSentence(new AnalyzedTokenReadings[] {
       new AnalyzedTokenReadings(new AnalyzedToken(nonCompound.toLowerCase(), "FAKE_POS", "fakeLemma"))
     });

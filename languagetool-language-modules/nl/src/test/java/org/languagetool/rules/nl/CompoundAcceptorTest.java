@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.nl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -50,6 +51,15 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
+    assertFalse(acceptor.acceptCompound("kinderenHet"));
+    assertFalse(acceptor.acceptCompound("kindernee"));
+  }
+
+  @Ignore("Use for interactive debugging")
+  @Test
+  public void testAcceptCompoundInteractive() throws IOException {
+    CompoundAcceptor acceptor = new CompoundAcceptor();
+    assertFalse(acceptor.acceptCompound("kindernee"));
   }
 
   @Test
