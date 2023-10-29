@@ -84,9 +84,13 @@ public class MultitokenSpeller {
         weightedCandidates.add(new WeightedSuggestion(candidate, distance));
         break;
       }
+      if (candidate.equals("Julián Marías")) {
+        int ii=0;
+        ii++;
+      }
       //int maxEditDistance = (1 + numSpaces + numHyphens - numberOfCorrectTokens(candidateLowercase, wordLowercase)) * 2;
-      int maxEditDistance = (int) (0.35 * (candidateLowercase.length() - numberOfCorrectChars(candidateLowercase, wordLowercase)));
-      if (distance <= maxEditDistance) {
+
+      if (distance <= maxEditDistance(candidateLowercase, wordLowercase)) {
         weightedCandidates.add(new WeightedSuggestion(candidate, distance));
       }
     }
@@ -102,6 +106,16 @@ public class MultitokenSpeller {
       }
     }
     return results;
+  }
+
+  private int maxEditDistance(String candidateLowercase, String wordLowercase) {
+    int totalLength = candidateLowercase.length();
+    int correctLength = totalLength - numberOfCorrectChars(candidateLowercase, wordLowercase);
+    if (correctLength <= 7) {
+      return 2;
+    }
+    //TODO: better: distance 2 per word!
+    return (int) (2 + 0.25 * (correctLength - 7));
   }
 
   private int levenshteinDistance(String s1, String s2) {
