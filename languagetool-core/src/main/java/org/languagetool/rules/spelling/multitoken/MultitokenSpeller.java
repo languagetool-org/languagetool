@@ -78,18 +78,16 @@ public class MultitokenSpeller {
         && StringTools.convertToTitleCaseIteratingChars(candidate).equals(word)) {
         return Collections.emptyList();
       }
-      int distance = levenshteinDistance(candidateLowercase, wordLowercase);
+      List<Integer> distances = distancesPerWord(candidateLowercase, wordLowercase);
+      int distance = distances.stream().reduce(0, Integer::sum);
       if (distance < 1) {
         weightedCandidates.clear();
-        weightedCandidates.add(new WeightedSuggestion(candidate, distance));
+        weightedCandidates.add(new WeightedSuggestion(candidate, 0));
         break;
       }
-      if (candidate.equals("Julián Marías")) {
-        int ii=0;
-        ii++;
+      if (distances.stream().anyMatch(j -> j > 2)) {
+        continue;
       }
-      //int maxEditDistance = (1 + numSpaces + numHyphens - numberOfCorrectTokens(candidateLowercase, wordLowercase)) * 2;
-
       if (distance <= maxEditDistance(candidateLowercase, wordLowercase)) {
         weightedCandidates.add(new WeightedSuggestion(candidate, distance));
       }
@@ -109,13 +107,26 @@ public class MultitokenSpeller {
   }
 
   private int maxEditDistance(String candidateLowercase, String wordLowercase) {
-    int totalLength = candidateLowercase.length();
+    int totalLength = wordLowercase.length();
     int correctLength = totalLength - numberOfCorrectChars(candidateLowercase, wordLowercase);
     if (correctLength <= 7) {
       return 2;
     }
-    //TODO: better: distance 2 per word!
     return (int) (2 + 0.25 * (correctLength - 7));
+  }
+
+  private List<Integer> distancesPerWord(String s1, String s2) {
+    List<Integer> distances = new ArrayList<>();
+    String parts1[] = s1.split("[ -]");
+    String parts2[] = s2.split("[ -]");
+    if (parts1.length == parts2.length && parts1.length > 1) {
+      for (int i=0; i<parts1.length; i++) {
+        distances.add(levenshteinDistance(parts1[i], parts2[i]));
+      }
+    } else {
+      distances.add(levenshteinDistance(s1, s2));
+    }
+    return distances;
   }
 
   private int levenshteinDistance(String s1, String s2) {
@@ -204,13 +215,16 @@ public class MultitokenSpeller {
   private boolean discardRunOnWords(String underlinedError) throws IOException {
     String parts[] = underlinedError.split(" ");
     if (parts.length == 2) {
+      if (StringTools.isCapitalizedWord(parts[1])) {
+        return false;
+      }
       String sugg1a = parts[0].substring(0, parts[0].length() - 1);
       String sugg1b = parts[0].substring(parts[0].length() - 1) + parts[1];
       if (!spellingRule.isMisspelled(sugg1a) && !spellingRule.isMisspelled(sugg1b)) {
         return true;
       }
-      String sugg2a = parts[0].substring(0, parts[0].length() - 1);
-      String sugg2b = parts[0].substring(parts[0].length() - 1) + parts[1];
+      String sugg2a = parts[0] + parts[1].substring(0,1);
+      String sugg2b = parts[1].substring(1, parts[1].length());
       if (!spellingRule.isMisspelled(sugg2a) && !spellingRule.isMisspelled(sugg2b)) {
         return true;
       }
