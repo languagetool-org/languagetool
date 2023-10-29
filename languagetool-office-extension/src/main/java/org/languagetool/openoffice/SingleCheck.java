@@ -626,7 +626,9 @@ class SingleCheck {
     }
     String word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
     if (!mDocHandler.getLinguisticServices().isCorrectSpell(word, lang)) {
-      MessageHandler.printToLogFile("SingleCheck: checkParaRules: not correct spelled word: " + word + "; lang: " + lang.toString());
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("SingleCheck: checkParaRules: not correct spelled word: " + word + "; lang: " + lang.toString());
+      }
       return true;
     }
     return false;

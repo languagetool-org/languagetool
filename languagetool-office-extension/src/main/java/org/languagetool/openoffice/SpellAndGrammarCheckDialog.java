@@ -34,6 +34,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -54,7 +55,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
@@ -80,6 +80,7 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 // import org.languagetool.gui.Configuration;
 import org.languagetool.gui.Tools;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
 import org.languagetool.openoffice.OfficeDrawTools.UndoMarkupContainer;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
@@ -167,7 +168,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final static String checkStatusCheck = messages.getString("loCheckStatusCheck"); 
   private final static String labelCheckProgress = messages.getString("loLabelCheckProgress");
   private final static String loBusyMessage = messages.getString("loBusyMessage");
-  private final static String loWaitMessage = messages.getString("loWaitMessage");
+//  private final static String loWaitMessage = messages.getString("loWaitMessage");
   
   private static int nLastFlat = 0;
   
@@ -175,9 +176,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final MultiDocumentsHandler documents;
   private ExtensionSpellChecker spellChecker;
   
+  private WaitDialogThread inf;
   private SwJLanguageTool lt = null;
-//  private SwJLanguageTool ltSpellChecker = null;
-//  private Language lastSpellLanguage = null;
   private Language lastLanguage;
   private Locale locale;
   private int checkType = 0;
@@ -187,12 +187,13 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private int dialogX = -1;
   private int dialogY = -1;
   private boolean hasUncheckedParas = false;
-//  private int lastPara = -1;
   
-  SpellAndGrammarCheckDialog(XComponentContext xContext, MultiDocumentsHandler documents, Language language) {
+  
+  SpellAndGrammarCheckDialog(XComponentContext xContext, MultiDocumentsHandler documents, Language language, WaitDialogThread inf) {
     debugMode = OfficeTools.DEBUG_MODE_CD;
     this.xContext = xContext;
     this.documents = documents;
+    this.inf = inf;
     lastLanguage = language;
     locale = LinguisticServices.getLocale(language);
     if(!documents.javaVersionOkay()) {
@@ -230,23 +231,28 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
       }
-      InformationThread inf = new InformationThread(loWaitMessage);
-      inf.start();
+//      InformationThread inf = new InformationThread(loWaitMessage);
+//      inf.start();
       SingleDocument currentDocument = getCurrentDocument(false);
+      if (inf.canceled()) {
+        return;
+      }
       if (currentDocument == null || docCache == null || docCache.size() <= 0) {
         inf.close();
         MessageHandler.showMessage(loBusyMessage);
         documents.setLtDialogIsRunning(false);
         return;
       }
-      LtCheckDialog checkDialog = new LtCheckDialog(xContext, currentDocument);
+      LtCheckDialog checkDialog = new LtCheckDialog(xContext, currentDocument, inf);
+      if (inf.canceled()) {
+        return;
+      }
       documents.setLtDialog(checkDialog);
-//      waitForCache(currentDocument);
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
-//        if (runTime > OfficeTools.TIME_TOLERANCE) {
+        if (runTime > OfficeTools.TIME_TOLERANCE) {
           MessageHandler.printToLogFile("CheckDialog: Time to initialise dialog: " + runTime);
-//        }
+        }
       }
       inf.close();
       checkDialog.show();
@@ -283,75 +289,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
   }
   
   /**
-   * Actualize writer document cache
-   *//*
-  private void actualizeWriterDocumentCache(SingleDocument document) {
-    if (docType == DocumentType.WRITER) {
-      XComponent xComponent = document.getXComponent();
-      DocumentCache oldCache = new DocumentCache(docCache);
-      docCache.refresh(document, LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
-      if (!oldCache.isEmpty() && !docCache.isEmpty()) {
-        if (oldCache.size() != docCache.size()) {
-          int from = 0;
-          int to = 1;
-          // to prevent spontaneous recheck of nearly the whole text
-          // the change of text contents has to be checked first
-          // ignore headers and footers and the change of function inside of them
-          while (from < docCache.size() && from < oldCache.size() 
-              && (docCache.getNumberOfTextParagraph(from).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-              || docCache.getFlatParagraph(from).equals(oldCache.getFlatParagraph(from)))) {
-            from++;
-          }
-          boolean isTextChange = from < docCache.size() && from < oldCache.size();
-          if (isTextChange) {
-            // if change in text is found check the number of text paragraphs which have changed
-            while (to <= docCache.size() && to <= oldCache.size()
-                && (docCache.getNumberOfTextParagraph(docCache.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-                || docCache.getFlatParagraph(docCache.size() - to).equals(
-                        oldCache.getFlatParagraph(oldCache.size() - to)))) {
-              to++;
-            }
-            to = docCache.size() - to;
-            if (to < 0) {
-              to = 0;
-            }
-          } else {
-            // if no change in text is found check the number of flat paragraphs which have changed
-            from = 0;
-            while (from < docCache.size() && from < oldCache.size()
-                && (docCache.getNumberOfTextParagraph(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-                || docCache.getFlatParagraph(from).equals(oldCache.getFlatParagraph(from)))) {
-              from++;
-            }
-            while (to <= docCache.size() && to <= oldCache.size()
-                && (docCache.getNumberOfTextParagraph(docCache.size() - to).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-                || docCache.getFlatParagraph(docCache.size() - to).equals(
-                        oldCache.getFlatParagraph(oldCache.size() - to)))) {
-              to++;
-            }
-            to = docCache.size() - to;
-          }
-          if (debugMode) {
-            MessageHandler.printToLogFile("CheckDialog: actualizeWriterDocumentCache: Changed paragraphs: from:" + from + ", to: " + to);
-          }
-          for (ResultCache cache : document.getParagraphsCache()) {
-            cache.removeAndShift(from, to, oldCache.size(), docCache.size());
-          }
-          for (int i = from; i < to; i++) {
-            document.removeResultCache(i, true);
-          }
-        } else {
-          for (int i = 0; i < docCache.size(); i++) {
-            if (!docCache.getFlatParagraph(i).equals(oldCache.getFlatParagraph(i))) {
-              document.removeResultCache(i, true);
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  /**
    * Get the current document
    * Wait until it is initialized (by LO/OO)
    */
@@ -379,13 +316,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
       docCache = currentDocument.getDocumentCache();
       if (docType != DocumentType.WRITER) {
         actualizeNonWriterDocumentCache(currentDocument);
-/*        
-      } else if (docCache.size() == 0) {
-        XComponent xComponent = currentDocument.getXComponent();
-        docCache.refresh(currentDocument, LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
-      } else if (actualize) {
-        actualizeWriterDocumentCache(currentDocument);
-*/
       }
     }
     return currentDocument;
@@ -487,7 +417,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
       document.getFlatParagraphTools().changeTextOfParagraph(nFPara, nStart, nLength, replace);
     }
     docCache.setFlatParagraph(nFPara, sPara);
-//    document.getMultiDocumentsHandler().handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nFPara));
     document.removeResultCache(nFPara, true);
     document.removeIgnoredMatch(nFPara, true);
     if (documents.getConfiguration().useTextLevelQueue() && !documents.getConfiguration().noBackgroundCheck()) {
@@ -531,147 +460,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
       return null;
     }
   }
-/*  
-  private CheckError getNextErrorInParagraph (int x, int nFPara, SingleDocument document, 
-      DocumentCursorTools docTools, boolean checkFrames) throws Throwable {
-    if (docCache.isAutomaticGenerated(nFPara)) {
-      return null;
-    }
-    String text = docCache.getFlatParagraph(nFPara);
-    locale = docCache.getFlatParagraphLocale(nFPara);
-    if (locale.Language.equals("zxx")) { // unknown Language 
-      locale = documents.getLocale();
-    }
-    int[] footnotePosition = docCache.getFlatParagraphFootnotes(nFPara);
 
-    CheckError sError = null;
-    SingleProofreadingError gError = null;
-
-    if (checkType != 2) {
-      sError = getNextSpellErrorInParagraph (x, nFPara, text, locale, document, docTools);
-    }
-    if (checkType != 1 && (checkFrames || docCache.getParagraphType(nFPara) != DocumentCache.CURSOR_TYPE_SHAPE)) {
-      gError = getNextGrammatikErrorInParagraph(x, nFPara, text, footnotePosition, locale, document);
-    }
-    if (sError != null) {
-      if (gError != null && gError.nErrorStart < sError.error.nErrorStart) {
-        return new CheckError(locale, gError);
-      }
-      return sError; 
-    } else if (gError != null) {
-      return new CheckError(locale, gError);
-    } else {
-      return null;
-    }
-  }
-*/  
-  /**
-   * Get the first spelling error in the flat paragraph nPara at or after character position x
-   * @throws Throwable 
-   *//*
-  private CheckError getNextSpellErrorInParagraph (int x, int nPara, String text, Locale locale, SingleDocument document, 
-      DocumentCursorTools docTools) throws Throwable {
-    List<CheckError> spellErrors;
-    spellErrors = getSpellErrorInParagraph(nPara, text, locale, document, docTools);
-    if (spellErrors != null) {
-      for (CheckError spellError : spellErrors) {
-        if (spellError.error != null && spellError.error.nErrorStart >= x) {
-          if (debugMode) {
-            MessageHandler.printToLogFile("CheckDialog: getNextSpellErrorInParagraph: Next Error: ErrorStart == " + spellError.error.nErrorStart + ", x: " + x);
-          }
-          return spellError;
-        }
-      }
-    }
-    return null;
-  }
-  
-  /**
-   * Get the first grammatical error in the flat paragraph y at or after character position x
-   *//*
-  private List<CheckError> getSpellErrorInParagraph(int nPara, String text, Locale locale, SingleDocument document, 
-      DocumentCursorTools docTools) throws Throwable {
-    if (text == null || text.isEmpty()) {
-      return null;
-    }
-    List<CheckError> errorArray = new ArrayList<CheckError>();
-    List<RuleMatch> matches;
-    if (lt.isRemote()) {
-      matches = lt.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
-    } else {
-      Language language = MultiDocumentsHandler.getLanguage(locale);
-      if (ltSpellChecker == null || lastLanguage == null || !lastSpellLanguage.equals(language)) {
-        lastSpellLanguage = language;
-        Configuration config = documents.getConfiguration();
-        ltSpellChecker = new SwJLanguageTool(language, config.getMotherTongue(), null, config, null, false);
-        for (Rule rule : ltSpellChecker.getAllActiveOfficeRules()) {
-          if (!rule.isDictionaryBasedSpellingRule()) {
-            ltSpellChecker.disableRule(rule.getId());
-          }
-        }
-      }
-      matches = ltSpellChecker.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
-    }
-    for (RuleMatch match : matches) {
-      String word = text.substring(match.getFromPos(), match.getToPos());
-      if (!document.isIgnoreOnce(match.getFromPos(), match.getToPos(), nPara, spellRuleId)
-          && !spellChecker.getLinguServices().isCorrectSpell(word, locale) 
-          && !docTools.isProtectedCharacter(docCache.getNumberOfTextParagraph(nPara), (short) match.getFromPos())) {
-        SingleProofreadingError aError = new SingleProofreadingError();
-        aError.nErrorType = TextMarkupType.SPELLCHECK;
-        aError.aFullComment = JLanguageTool.getMessageBundle().getString("desc_spelling");
-        aError.aShortComment = aError.aFullComment;
-        aError.nErrorStart = match.getFromPos();
-        aError.nErrorLength = match.getToPos() - match.getFromPos();
-        aError.aRuleIdentifier = spellRuleId;
-        PropertyValue[] propertyValues = new PropertyValue[1];
-        int ucolor = Color.RED.getRGB() & 0xFFFFFF;
-        propertyValues[0] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
-        aError.aProperties = propertyValues;
-        errorArray.add(new CheckError(locale, aError));
-        if (match.getSuggestedReplacements() != null) {
-          aError.aSuggestions = match.getSuggestedReplacements().toArray(new String[match.getSuggestedReplacements().size()]);
-        } else {
-          aError.aSuggestions = new String[0];
-        }
-      }
-    }
-    return errorArray;
-  }
-*/
-  /**
-   * Get the proofreading result from cache
-   * wait until all caches are filled
-   *//*
-  private boolean waitForCache(SingleDocument document) {
-    int nWait = 0;
-    while (nWait < 3000) {
-      for (int cacheNum = 0; cacheNum < document.getMultiDocumentsHandler().getNumMinToCheckParas().size(); cacheNum++) {
-        if (cacheNum == 0 || document.getMultiDocumentsHandler().isSortedRuleForIndex(cacheNum)) {
-          if(document.getParagraphsCache().get(cacheNum).hasAnError(document.getDocumentCache().size())) {
-          //  Note: unsafe matches are needed to prevent the thread to get into a read lock
-            return true;
-          }
-        }
-      }
-      try {
-        Thread.sleep(10);
-      } catch (InterruptedException e) {
-        MessageHandler.showError(e);
-      }
-      nWait++;
-    }
-    MessageHandler.printToLogFile("CheckDialog: waitForCache failed");
-    return false;
-  }
-*/  
   /**
    * Get the proofreading result from cache
    */
+  @SuppressWarnings("null")
   SingleProofreadingError[] getErrorsFromCache(int nFPara) {
-//    SingleDocument document = documents.getCurrentDocument();
-//    MessageHandler.printToLogFile("CheckDialog: getErrorsFromCache: Number of Entries: " + document.getParagraphsCache().get(0).getNumberofNotNullEntries()
-//        + "; Number of Errors: " + document.getParagraphsCache().get(0).getNumberofErrors());
     int nWait = 0;
     boolean noNull = true;
     SingleDocument document = null;
@@ -681,10 +475,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       for (int cacheNum = 0; cacheNum < documents.getNumMinToCheckParas().size(); cacheNum++) {
         if (!docCache.isAutomaticGenerated(nFPara) && (cacheNum == 0 || (documents.isSortedRuleForIndex(cacheNum) 
                                 && !document.getDocumentCache().isSingleParagraph(nFPara)))) {
-  //        CacheEntry entry = document.getParagraphsCache().get(cacheNum).getCacheEntry(nFPara);
           SingleProofreadingError[] pErrors = document.getParagraphsCache().get(cacheNum).getSafeMatches(nFPara);
           //  Note: unsafe matches are needed to prevent the thread to get into a read lock
-  //        if (entry == null) {
           if (pErrors == null) {
             noNull = false;
             hasUncheckedParas = true;
@@ -692,7 +484,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
 //            MessageHandler.printToLogFile("CheckDialog: getErrorsFromCache: Para: : " + paraText);
             errors.add(null);
           } else {
-  //          errors.add(entry.errorArray);
             errors.add(pErrors);
           }
         } else {
@@ -715,41 +506,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
     }
     return document.mergeErrors(errors, nFPara);
-/*    
-    int nWait = 0;
-    int nullCache = -1;
-    while (nWait < 300) {
-      List<SingleProofreadingError[]> errors = new ArrayList<>();
-      nullCache = -1;
-      document = documents.getCurrentDocument();
-      for (int cacheNum = 0; cacheNum < documents.getNumMinToCheckParas().size(); cacheNum++) {
-        if (cacheNum == 0 || document.getMultiDocumentsHandler().isSortedRuleForIndex(cacheNum)) {
-          CacheEntry entry = document.getParagraphsCache().get(cacheNum).getUnsafeCacheEntry(nFPara);
-          //  Note: unsafe matches are needed to prevent the thread to get into a read lock
-          if (entry == null) {
-            nullCache = cacheNum;
-            errors.add(null);
-            break;
-          } else {
-            errors.add(entry.errorArray);
-          }
-        } else {
-          errors.add(new SingleProofreadingError[0]);
-        }
-      }
-      if (nullCache < 0) {
-        return document.mergeErrors(errors, nFPara);
-      }
-      try {
-        Thread.sleep(100);
-      } catch (InterruptedException e) {
-        MessageHandler.showError(e);
-      }
-      nWait++;
-    }
-    MessageHandler.printToLogFile("CheckDialog: getErrorsFromCache: Cache(" + nullCache + ") is null for Paragraph: " + nFPara);
-    return null;
-*/
   }
   
   /**
@@ -1040,6 +796,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private boolean isSpellError = false;
     private boolean focusLost = false;
     private boolean blockSentenceError = true;
+    private boolean isDisposed = false;
     private boolean atWork = false;
     private boolean uncheckedParasLeft = false;
 
@@ -1048,7 +805,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     /**
      * the constructor of the class creates all elements of the dialog
      */
-    public LtCheckDialog(XComponentContext xContext, SingleDocument document) {
+    public LtCheckDialog(XComponentContext xContext, SingleDocument document, WaitDialogThread inf) {
       long startTime = 0;
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
@@ -1180,6 +937,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
 //          }
             startTime = System.currentTimeMillis();
         }
+        if (inf.canceled()) {
+          return;
+        }
 
         errorDescription.setEditable(false);
         errorDescription.setLineWrap(true);
@@ -1241,7 +1001,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
 //          }
             startTime = System.currentTimeMillis();
         }
-        
+        if (inf.canceled()) {
+          return;
+        }
         
         checkTypeButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckAllButton")));
         checkTypeButtons[0].setSelected(true);
@@ -1493,7 +1255,32 @@ public class SpellAndGrammarCheckDialog extends Thread {
             t.start();
           }
         });
-  
+        
+        dialog.addWindowListener(new WindowListener() {
+          @Override
+          public void windowOpened(WindowEvent e) {
+          }
+          @Override
+          public void windowClosing(WindowEvent e) {
+            closeDialog();
+          }
+          @Override
+          public void windowClosed(WindowEvent e) {
+          }
+          @Override
+          public void windowIconified(WindowEvent e) {
+          }
+          @Override
+          public void windowDeiconified(WindowEvent e) {
+          }
+          @Override
+          public void windowActivated(WindowEvent e) {
+          }
+          @Override
+          public void windowDeactivated(WindowEvent e) {
+          }
+        });
+        
         checkProgress.setStringPainted(true);
         checkProgress.setIndeterminate(true);
   
@@ -1511,6 +1298,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("CheckDialog: Time to initialise Buttons: " + runTime);
 //          }
             startTime = System.currentTimeMillis();
+        }
+        if (inf.canceled()) {
+          return;
         }
         
         //  Define panels
@@ -1698,6 +1488,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("CheckDialog: Time to initialise panels: " + runTime);
 //          }
             startTime = System.currentTimeMillis();
+        }
+        if (inf.canceled()) {
+          return;
         }
 
         dialog.pack();
@@ -1982,6 +1775,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
         removeMarkups();
         CheckError checkError = getNextError(startAtBegin);
+        if (isDisposed) {
+          return;
+        }
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: Error is " + (checkError == null ? "Null" : "NOT Null"));
         }
@@ -2244,7 +2040,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       int nWhile = 0;
       while (nWhile < DIALOG_LOOPS) {
-        MessageHandler.printToLogFile("\nCheckDialog: getNextError: Loop: " + nWhile + "\n");
+        if (debugMode) {
+          MessageHandler.printToLogFile("\nCheckDialog: getNextError: Loop: " + nWhile + "\n");
+        }
         if (uncheckedParasLeft) {
           uncheckedParasLeft = false;
         } else {
@@ -2288,6 +2086,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
         while (y < docCache.size() && y >= lastPara && nextError == null && (endOfRange < 0 || nStart < endOfRange)) {
           setProgressValue(endOfRange < 0 ? y - lastPara : nStart + (lastY == y ? lastX : 0), endOfRange < 0);
           nextError = getNextErrorInParagraph (x, y, currentDocument, docCursor, true);
+          if(isDisposed) {
+            return null;
+          }
           if (debugMode) {
             MessageHandler.printToLogFile("CheckDialog: getNextError: endOfRange = " + endOfRange + ", startOfRange = " 
                   + startOfRange + ", nStart = " + nStart + ", lastX = " + lastX + ", lastPara = " + lastPara);
@@ -2328,6 +2129,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
           while (y < lastPara) {
             setProgressValue(docCache.size() + y - lastPara, true);
             nextError = getNextErrorInParagraph (0, y, currentDocument, docCursor, true);
+            if(isDisposed) {
+              return null;
+            }
             if (nextError != null) {
   //            if (nextError.error.aRuleIdentifier.equals(spellRuleId)) {
               if (nextError.error.nErrorType == TextMarkupType.SPELLCHECK) {
@@ -2435,6 +2239,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * closes the dialog
      */
     public void closeDialog() {
+      isDisposed = true;
       removeMarkups();
       dialog.setVisible(false);
       if (debugMode) {
@@ -3057,50 +2862,4 @@ public class SpellAndGrammarCheckDialog extends Thread {
     
   }
   
-  /**
-   * class to run a dialog in a separate thread
-   * closing if lost focus
-   */
-  private class InformationThread extends Thread {
-    private final String text;
-    private JDialog dialog = null;
-    private boolean isGone = false;
-
-    InformationThread(String text) {
-      this.text = text;
-    }
-
-    @Override
-    public void run() {
-      JOptionPane pane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE);
-      if (isGone) {  //  The dialog was closed before the thread runs
-        return;
-      }
-      dialog = pane.createDialog(null, UIManager.getString("OptionPane.messageDialogTitle", null));
-      if (isGone) {  //  The dialog was closed before the thread runs
-        return;
-      }
-      dialog.setModal(false);
-      dialog.setAutoRequestFocus(true);
-      dialog.setAlwaysOnTop(true);
-      dialog.addWindowFocusListener(new WindowFocusListener() {
-        @Override
-        public void windowGainedFocus(WindowEvent e) {
-        }
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-//          dialog.setVisible(false);
-        }
-      });
-      dialog.setVisible(true);
-    }
-    
-    public void close() {
-      if (dialog == null) {
-        isGone = true;
-      } else {
-        dialog.setVisible(false);
-      }
-    }
-  }
 }

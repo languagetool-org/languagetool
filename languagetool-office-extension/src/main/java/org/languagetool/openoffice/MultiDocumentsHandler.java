@@ -19,6 +19,8 @@
 package org.languagetool.openoffice;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -30,6 +32,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import org.jetbrains.annotations.Nullable;
@@ -1528,11 +1534,17 @@ public class MultiDocumentsHandler {
   /**
    * Triggers the events from LT menu
    */
+  @SuppressWarnings("null")
   public void trigger(String sEvent) {
     try {
       long startTime = 0;
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
+      }
+      WaitDialogThread waitDialog = null;
+      if (("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) && !useOrginalCheckDialog && !dialogIsRunning) {
+        waitDialog = new WaitDialogThread("waitDialog", messages.getString("loWaitMessage"));
+        waitDialog.start();
       }
       if (!testDocLanguage(true)) {
         MessageHandler.printToLogFile("Test for document language failed: Can't trigger event: " + sEvent);
@@ -1570,6 +1582,9 @@ public class MultiDocumentsHandler {
       } else if ("renewMarkups".equals(sEvent)) {
         renewMarkups();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
+        if (waitDialog.isGone) {
+          return;
+        }
         if (useOrginalCheckDialog) {
           if ("checkDialog".equals(sEvent) ) {
             OfficeTools.dispatchCmd(".uno:SpellingAndGrammarDialog", xContext);
@@ -1583,7 +1598,7 @@ public class MultiDocumentsHandler {
           return;
         }
         setLtDialogIsRunning(true);
-        SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
+        SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage, waitDialog);
         if ("checkAgainDialog".equals(sEvent)) {
           SingleDocument document = getCurrentDocument();
           if (document != null) {
@@ -1611,7 +1626,7 @@ public class MultiDocumentsHandler {
           MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
           return;
         }
-        SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
+        SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage, null);
         checkDialog.nextError();
       } else if ("refreshCheck".equals(sEvent)) {
         if (ltDialog != null) {
@@ -2086,4 +2101,98 @@ public class MultiDocumentsHandler {
     
   }
 
+  /**
+   * class to run a dialog in a separate thread
+   * closing if lost focus
+   */
+  public class WaitDialogThread extends Thread {
+    private final String dialogName;
+    private final String text;
+    private JDialog dialog = null;
+    private boolean isGone = false;
+
+    WaitDialogThread(String dialogName, String text) {
+      this.dialogName = dialogName;
+      this.text = text;
+    }
+
+    @Override
+    public void run() {
+      JLabel textLabel = new JLabel(text);
+      JButton cancelBottom = new JButton(messages.getString("guiCancelButton"));
+      cancelBottom.addActionListener(e -> {
+        close();
+      });
+      dialog = new JDialog();
+      dialog.setName("InformationThread");
+      dialog.setTitle(dialogName);
+      dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+      dialog.addWindowListener(new WindowListener() {
+        @Override
+        public void windowOpened(WindowEvent e) {
+        }
+        @Override
+        public void windowClosing(WindowEvent e) {
+          close();
+        }
+        @Override
+        public void windowClosed(WindowEvent e) {
+        }
+        @Override
+        public void windowIconified(WindowEvent e) {
+        }
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+        }
+        @Override
+        public void windowActivated(WindowEvent e) {
+        }
+        @Override
+        public void windowDeactivated(WindowEvent e) {
+        }
+      });
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridBagLayout());
+      GridBagConstraints cons = new GridBagConstraints();
+      cons.insets = new Insets(2, 2, 2, 2);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.anchor = GridBagConstraints.NORTHWEST;
+      cons.fill = GridBagConstraints.BOTH;
+      panel.add(textLabel, cons);
+      cons.gridy++;
+      panel.add(cancelBottom, cons);
+      dialog.add(panel);
+      dialog.pack();
+      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+      Dimension frameSize = dialog.getSize();
+      dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
+          screenSize.height / 2 - frameSize.height / 2);
+      dialog.setLocationByPlatform(true);
+      dialog.setAutoRequestFocus(true);
+      dialog.setVisible(true);
+      dialog.setAlwaysOnTop(true);
+      dialog.toFront();
+      if (debugMode) {
+        MessageHandler.printToLogFile("WaitDialogThread: run: Dialog is running");
+      }
+    }
+    
+    public boolean canceled() {
+      return isGone;
+    }
+    
+    public void close() {
+      if (debugMode) {
+        MessageHandler.printToLogFile("WaitDialogThread: close: Dialog closed");
+      }
+      if (dialog == null) {
+        isGone = true;
+      } else {
+        dialog.setVisible(false);
+        dialog.dispose();
+      }
+    }
+  }
 }
+
