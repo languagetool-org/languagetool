@@ -112,13 +112,13 @@ O `yılnıñ` evel. => O `yıldan` evel.
 Beş `aylar`. => Beş `ay`.
 
 #### 12) Fiil şahisi uyğulaşması 
-  1-nci şahis:
+  1.-nci şahis:
     1. Men `yaptı`. => Men `yaptım`.
     2. Biz `yaptılar`. => Biz `yaptıq`.
-  2-nci şahis:
+  2.-nci şahis:
     1. Sen `yaptı`. => Sen `yaptıñ`.
     2. Siz `yaptılar`. => Siz `yaptıñız`.
-  3-nci şahis:
+  3.-nci şahis:
     1. Asan `yaptım`. => Asan `yaptı`.
     2. Olar `yaptıq`. => Olar `yaptılar`.
 
