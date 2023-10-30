@@ -14,58 +14,58 @@
 
 ### Орфографія
 
-#### Cemi afiksi hatası
+#### 1) Cemi afiksi hatası
 Defterimde `hataler` yaptım. => Defterimde `hatalar` yaptım.
 
-#### Orta sozuq sesiniñ tüşmesi
+#### 2) Orta sozuq sesiniñ tüşmesi
 Yeter, `ağızıñnı` qapat! => Yeter, `ağzıñnı` qapat!
 Asan `vaqıtında` yetişmedi. => Asan `vaqtında` yetişmedi.
 
-#### Yañğıravuqlıq
+#### 3) Yañğıravuqlıq
 `Eleki` bozulğan edi. => `Elegi` bozulğan edi.
 Terek `tüpünde` mışıçıq yattı. => Terek `tübünde` mışıçıq yattı.
 
-#### İsim ekileşmesi
+#### 4) İsim ekileşmesi
 Menim `ağa qardaşlarım` Aqmescitte yaşaylar. => Menim `ağa-qardaşlarım` Aqmescitte yaşaylar.
 Endi `ana babalarımnen` yaşayım. => Endi `ana-babalarımnen` yaşayım.
 
 ### Граматика
 
-#### Sual edadı ayırması
+#### 1) Sual edadı ayırması
 Alma rengi `qırmızı mı`? => Alma rengi `qırmızımı`?
 
-#### Sual edatnıñ türk şeklinde yazılması
+#### 2) Sual edatnıñ türk şeklinde yazılması
 Bu `yapar mısıñ`? => Bu `yaparsıñmı`?
 
-#### Minnetdarlıq forması
+#### 3) Minnetdarlıq forması
 `Saña` sağ ol. => `Sen` sağ ol.
 
-#### Şahis uyğulaşması
+#### 4) Şahis uyğulaşması
 Menim `dostu`. => Menim `dostum`.
 Siziñ `dostlar`. => Siziñ `dostlarıñız`.
 
-#### Sade infinitiv
+#### 5) Sade infinitiv
 Endi `yapmağa` kerek. => Endi `yapmaq` kerek.
 
-#### Sebep edadındaki keliş uyğulaşması
+#### 6) Sebep edadındaki keliş uyğulaşması
 Şu `sebepten` içün. => Şu `sebepniñ` içün.
 
-#### Vaqıt edadındaki keliş uyğulaşması
+#### 7) Vaqıt edadındaki keliş uyğulaşması
 O `yılnıñ` evel. => O `yıldan` evel.
 
-#### Munasebetçi kelişi uyğulaşması
+#### 8) Munasebetçi kelişi uyğulaşması
 `Terekniñ` qarşı oturdı. => `Terekke` qarşı oturdı.
 
-#### Fiildeki çıqış kelişi uyğulaşması
+#### 9) Fiildeki çıqış kelişi uyğulaşması
 `Dostumnı` soradım. => `Dostumdan` soradım.
 
-#### Soñ sözündeki çıqış kelişi uyğulaşması
+#### 10) Soñ sözündeki çıqış kelişi uyğulaşması
 `Kelgen` soñ. => `Kelgenden` soñ.
 
-#### Sayı cemisi uyğulaşması
+#### 11) Sayı cemisi uyğulaşması
 Beş `aylar`. => Beş `ay`.
 
-#### Fiil şahisi uyğulaşması
+#### 12) Fiil şahisi uyğulaşması
 Biz `yaptılar`. => Biz `yaptıq`.
 
 
