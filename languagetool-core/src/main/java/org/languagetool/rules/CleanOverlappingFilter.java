@@ -71,7 +71,9 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
         // duplicate suggestion for the same position
         if (suggestion.indexOf(" ") > 0 && prevSuggestion.indexOf(" ") > 0
           && ruleMatch.getFromPos() == prevRuleMatch.getToPos() + 1) {
-          if (prevSuggestion.split(" ")[1].equals(suggestion.split(" ")[0])) {
+          String parts[] = suggestion.split(" ");
+          String partsPrev[] = prevSuggestion.split(" ");
+          if (partsPrev.length > 1 && parts.length > 1 && partsPrev[1].equals(parts[0])) {
             isDuplicateSuggestion = true;
           }
         }
