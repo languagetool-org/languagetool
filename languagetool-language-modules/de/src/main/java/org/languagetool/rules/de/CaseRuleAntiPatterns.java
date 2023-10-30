@@ -1725,6 +1725,11 @@ class CaseRuleAntiPatterns {
       csRegex("Offices?")
     ),
     Arrays.asList(
+      // "Er studierte an der Hebräischen Universität Jerusalem."
+      csRegex("Hebräischen?"),
+      csRegex("Universität|Bibel")
+    ),
+    Arrays.asList(
       csRegex("[A-ZÄÖÜ].+stereotypen?")
     )
   );
