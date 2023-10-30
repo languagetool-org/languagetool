@@ -17065,8 +17065,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="JA_KOMMA" name="Dus ja(,) volgens mij wel." default="temp_off">
-			<!-- Can replace and find more errors than current simple replaces for (ja, ...) -->
+		<rulegroup id="JA_KOMMA" name="Dus ja(,) volgens mij wel.">
 			<rule>
 				<antipattern>
 					<token>nou</token>
@@ -17116,12 +17115,13 @@ regexp case-insensitive maken: (?i)
 						</token>
 					</marker>
 				</pattern>
-				<message>Waarschijnlijk ontbreekt hier een komma: <suggestion>Ja, \3</suggestion>.</message>
-				<example correction="Ja, volgens">Dus <marker>ja volgens</marker> mij wel.</example>
+				<message>Waarschijnlijk ontbreekt hier een komma: <suggestion>ja, \3</suggestion>.</message>
+				<example correction="ja, volgens">Dus <marker>ja volgens</marker> mij wel.</example>
+				<example correction="ja, ik">Dat klopt <marker>ja ik</marker> ga morgen weg.</example>
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="ALINEA_PUNT" name="3. Het grote bos" default="temp_off">
+		<rulegroup id="ALINEA_PUNT" name="3. Het grote bos">
 			<!-- replaces NL_SIMPLE_REPLACE___HET, which needs antipatterns -->
 			<rule>
 				<pattern>
