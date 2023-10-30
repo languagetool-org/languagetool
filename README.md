@@ -15,36 +15,36 @@
 ### Орфографія
 
 #### 1) Cemi afiksi hatası
-  1. 'lar':
-    Defterimde `hataler` yaptım. => Defterimde `hatalar` yaptım.
-  3. 'ler':
-    `Tereklar` kördim. => `Terekler` kördim.
+  1. 'lar':<br />
+    Defterimde `hataler` yaptım. => Defterimde `hatalar` yaptım.<br />
+  3. 'ler':<br />
+    `Tereklar` kördim. => `Terekler` kördim.<br />
 
 
 #### 2) Orta sozuq sesiniñ tüşmesi
-  1. 'ağız':
-    Yeter, `ağızıñnı` qapat! => Yeter, `ağzıñnı` qapat!
-  2. 'vaqıt':
-    Asan `vaqıtında` yetişmedi. => Asan `vaqtında` yetişmedi.
-  3. 'fikir':
-    Bu mevzuda iç `fikirimiz` yoqtur. => Bu mevzuda iç `fikrimiz` yoqtur. 
-  4. 'burun':
-    Onıñ `burunı` uzundır. => Onıñ `burnu` uzundır. 
-  5. 'ilim':
-    Universitetimizde fizika `ilimini` ögrenemiz. => Universitetimizde fizika `ilmini` ögrenemiz.
-  6. 'ömür':
-    Bitamnıñ `ömürü` uzun ve bahtlı. => Bitamnıñ `ömrü` uzun ve bahtlı. 
-  7. 'oğul':
-    Menim `oğulum` mektepte oquy. => Menim `oğlum` mektepte oquy. 
+  1. 'ağız':<br />
+    Yeter, `ağızıñnı` qapat! => Yeter, `ağzıñnı` qapat!<br />
+  2. 'vaqıt':<br />
+    Asan `vaqıtında` yetişmedi. => Asan `vaqtında` yetişmedi.<br />
+  3. 'fikir':<br />
+    Bu mevzuda iç `fikirimiz` yoqtur. => Bu mevzuda iç `fikrimiz` yoqtur. <br />
+  4. 'burun':<br />
+    Onıñ `burunı` uzundır. => Onıñ `burnu` uzundır. <br />
+  5. 'ilim':<br />
+    Universitetimizde fizika `ilimini` ögrenemiz. => Universitetimizde fizika `ilmini` ögrenemiz.<br />
+  6. 'ömür':<br />
+    Bitamnıñ `ömürü` uzun ve bahtlı. => Bitamnıñ `ömrü` uzun ve bahtlı. <br />
+  7. 'oğul':<br />
+    Menim `oğulum` mektepte oquy. => Menim `oğlum` mektepte oquy. <br />
 
 #### 3) Yañğıravuqlıq
-  1. Esas:
-    `Eleki` bozulğan edi. => `Elegi` bozulğan edi.
-    `Talepimiz` acele oldı. => `Talebimiz` acele oldı.
-  2. Tüp:
-     Terek `tüpünde` mışıçıq yattı. => Terek `tübünde` mışıçıq yattı.
-  3. Cep:
-     `Cepinde` aqça çoq. => `Cebinde` aqça çoq.
+  1. Esas:<br />
+    `Eleki` bozulğan edi. => `Elegi` bozulğan edi.<br />
+    `Talepimiz` acele oldı. => `Talebimiz` acele oldı.<br />
+  2. Tüp:<br />
+     Terek `tüpünde` mışıçıq yattı. => Terek `tübünde` mışıçıq yattı.<br />
+  3. Cep:<br />
+     `Cepinde` aqça çoq. => `Cebinde` aqça çoq.<br />
 
 
 #### 4) İsim ekileşmesi
@@ -60,38 +60,38 @@ Ahtem uçurımdan özenge `aman aman` tüşti. => Ahtem uçurımdan özenge `ama
 ### Граматика
 
 #### 1) Sual edadı ayırması
-  1. 'mı':
-    Alma rengi `qırmızı mı`? => Alma rengi `qırmızımı`?
-    İşiñni `yaptıñ mı` => İşiñni `yaptıñmı`?
-  3. 'mi':
-     `Tünevin mi` keldik? => `Tünevinmi` keldik?
-     Alma `güzel mi`? => Alma `güzelmi`?
+  1. 'mı':<br />
+    Alma rengi `qırmızı mı`? => Alma rengi `qırmızımı`?<br />
+    İşiñni `yaptıñ mı` => İşiñni `yaptıñmı`?<br />
+  3. 'mi':<br />
+     `Tünevin mi` keldik? => `Tünevinmi` keldik?<br />
+     Alma `güzel mi`? => Alma `güzelmi`?<br />
 
 #### 2) Sual edatnıñ türk şeklinde yazılması
-  1. 'mısıñ':
-    Bu `yapar mısıñ`? => Bu `yaparsıñmı`?
-  2. 'misiñ':
-     Bizge `keler` misiñ? => Bizge `kelersiñmi`?
+  1. 'mısıñ':<br />
+    Bu `yapar mısıñ`? => Bu `yaparsıñmı`?<br />
+  2. 'misiñ':<br />
+     Bizge `keler` misiñ? => Bizge `kelersiñmi`?<br />
 
 #### 3) Minnetdarlıq forması
 `Saña` sağ ol. => `Sen` sağ ol.
 
 #### 4) Şahis uyğulaşması
-  1-nci şahis:
-    1. Menim `dostu`. => Menim `dostum`.
-    2. Bizim `dostlar`. => Bizim `dostlarımız`.
-  2-nci şahis:
-    1. Seniñ `dostu`. => Seniñ `dostuñ`.
-    2. Siziñ `dostlar`. => Siziñ `dostlarıñız`.
-  3-nci şahis:
-    1. Asannıñ `dost`. => Asannıñ `dostu`.
-    2. Olarnıñ `dostlar`. => Olarnıñ `dostları`.
+  1-nci şahis:<br />
+    1. Menim `dostu`. => Menim `dostum`.<br />
+    2. Bizim `dostlar`. => Bizim `dostlarımız`.<br />
+  2-nci şahis:<br />
+    1. Seniñ `dostu`. => Seniñ `dostuñ`.<br />
+    2. Siziñ `dostlar`. => Siziñ `dostlarıñız`.<br />
+  3-nci şahis:<br />
+    1. Asannıñ `dost`. => Asannıñ `dostu`.<br />
+    2. Olarnıñ `dostlar`. => Olarnıñ `dostları`.<br />
 
 #### 5) Sade infinitiv
-  1. '-mağa':
-    Endi `yapmağa` kerek. => Endi `yapmaq` kerek.
-  2. '-mege':
-     Endi `ketmege` kerek. => Endi `ketmek` kerek.
+  1. '-mağa':<br />
+    Endi `yapmağa` kerek. => Endi `yapmaq` kerek.<br />
+  2. '-mege':<br />
+     Endi `ketmege` kerek. => Endi `ketmek` kerek.<br />
 
 #### 6) Sebep edadındaki keliş uyğulaşması
 Şu `sebepten` içün. => Şu `sebepniñ` içün.
@@ -112,15 +112,15 @@ O `yılnıñ` evel. => O `yıldan` evel.
 Beş `aylar`. => Beş `ay`.
 
 #### 12) Fiil şahisi uyğulaşması 
-  1.-nci şahis:
-    1. Men `yaptı`. => Men `yaptım`.
-    2. Biz `yaptılar`. => Biz `yaptıq`.
-  2.-nci şahis:
-    1. Sen `yaptı`. => Sen `yaptıñ`.
-    2. Siz `yaptılar`. => Siz `yaptıñız`.
-  3.-nci şahis:
-    1. Asan `yaptım`. => Asan `yaptı`.
-    2. Olar `yaptıq`. => Olar `yaptılar`.
+  1.-nci şahis:<br />
+    1. Men `yaptı`. => Men `yaptım`.<br />
+    2. Biz `yaptılar`. => Biz `yaptıq`.<br />
+  2.-nci şahis:<br />
+    1. Sen `yaptı`. => Sen `yaptıñ`.<br />
+    2. Siz `yaptılar`. => Siz `yaptıñız`.<br />
+  3.-nci şahis:<br />
+    1. Asan `yaptım`. => Asan `yaptı`.<br />
+    2. Olar `yaptıq`. => Olar `yaptılar`.<br />
 
 
 ### License
