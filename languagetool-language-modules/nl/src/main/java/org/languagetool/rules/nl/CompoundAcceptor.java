@@ -21,10 +21,13 @@ package org.languagetool.rules.nl;
 import com.google.common.collect.ImmutableSet;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.Tagger;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -42,19 +45,76 @@ public class CompoundAcceptor {
 
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
-    "bedrijfs", "passagiers", "dorps", "gezichts", "lijdens", "besturings", "verbrandings", "bestemmings", "schoonheids"
+    "bedrijfs",
+    "passagiers",
+    "dorps",
+    "gezichts",
+    "lijdens",
+    "besturings",
+    "verbrandings",
+    "bestemmings",
+    "schoonheids",
+    "gevechts",
+    "arbeiders",
+    "overlijdens",
+    "verzekerings",
+    "vrijwilligers",
+    "personeels",
+    "bevolkings",
+    "onderhouds",
+    "verkiezings",
+    "huisvestings",
+    "samenwerkings",
+    "bestemmings",
+    "beveiligings",
+    "veiligheids",
+    "aansprakelijkheids",
+    "rechtvaardigheids"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
-    "woning", "kinder", "fractie", "schade", "energie", "gemeente", "dienst", "wereld", "telefoon", "aandeel", "zwanger", "papier"
+    "woning",
+    "kinder",
+    "fractie",
+    "schade",
+    "energie",
+    "gemeente",
+    "dienst",
+    "wereld",
+    "telefoon",
+    "aandeel",
+    "zwanger",
+    "papier",
+    "televisie",
+    "achtergrond",
+    "mensenrechten",
+    "organisatie",
+    "literatuur",
+    "onderwijs",
+    "informatie",
+    "studenten",
+    "productie",
+    "vrouwen",
+    "mannen",
+    "karakter",
+    "theater",
+    "competitie",
+    "politie",
+    "luchtvaart",
+    "belangen",
+    "vreugde",
+    "ruimtevaart",
+    "contract"
   );
 
   private final MorfologikDutchSpellerRule speller;
+  private final Tagger tagger;
 
   CompoundAcceptor() {
     try {
       Language dutch = Languages.getLanguageForShortCode("nl");
       speller = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), dutch, null);
+      tagger = dutch.getTagger();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -77,12 +137,17 @@ public class CompoundAcceptor {
 
   boolean acceptCompound(String part1, String part2) throws IOException {
     if (part1.endsWith("s")) {
-      return needsS.contains(part1.toLowerCase()) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
+        return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
     } else if (part1.endsWith("-")) {
       return abbrevOk(part1) && spellingOk(part2);
     } else {
-      return noS.contains(part1.toLowerCase()) && spellingOk(part1) && spellingOk(part2);
+      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2);
     }
+  }
+
+  boolean isNoun(String word) throws IOException {
+    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Arrays.asList(word));
+    return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW"));
   }
 
   private boolean abbrevOk(String nonCompound) {
