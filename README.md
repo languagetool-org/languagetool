@@ -16,7 +16,7 @@
 
 #### 1) Cemi afiksi hatası
   1. 'lar'
-    Defterimde `hataler` yaptım. => Defterimde `hatalar` yaptım.
+    ##### Defterimde `hataler` yaptım. => Defterimde `hatalar` yaptım.
   2. 'ler'
     `Tereklar` kördim. => `Terekler` kördim.
 
