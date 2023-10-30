@@ -55,45 +55,15 @@ USA
           <pattern>
             <token regexp="yes">.*[ыуоа]+[бджгълмнрвйзчфхкпстыуоа]+лер</token>
           </pattern>
-          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[ыуоа]+[бджгълмнрвйзчфхкпстыуоа]+)?(лер)" regexp_replace="$1лар"/></suggestion></message>
+          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[ыуоа]+[бджгълмнрвйзчфхкпст]+)?(лер)" regexp_replace="$1лар"/></suggestion></message>
           <example correction="хаталар">Дефтеримде <marker>хаталер</marker> яптым.</example>
         </rule>
         <rule>
           <pattern>
             <token regexp="yes">.*[еюёя]+[бджгълмнрвйзчфхкпстеюёя]+лар</token>
           </pattern>
-          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[еюёя]+[бджгълмнрвйзчфхкпстеюёя]+)(лар)" regexp_replace="$1лер"/></suggestion></message>
+          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[еюёя]+[бджгълмнрвйзчфхкпст]+)(лар)" regexp_replace="$1лер"/></suggestion></message>
           <example correction="Тереклер"><marker>Тереклар</marker> корьдим.</example>
-        </rule>
-      </rulegroup>
-      <rulegroup id="DATIVE_AFFIX_CONFUSION" name="Doğrultuv kelişiniñ hatası">
-        <rule>
-          <pattern>
-            <token regexp="yes">.*[uoıa]+[bcdğjlmnñoruvyzuoıa]+(qa|ge|ke)</token>
-          </pattern>
-          <message>Doğrultuv kelişiniñ hatası: <suggestion ><match no="1" regexp_match="(.*[uoıa]+[bcdğjlmnñoruvyzuoıa]+)(qa|ge|ke)" regexp_replace="$1ğa"/></suggestion></message>
-          <example correction="toyğa">Doslarımnen <marker>toyge</marker> keldim.</example>
-        </rule>
-        <rule>
-          <pattern>
-            <token regexp="yes">.*[eiüöâ]+[bcdğjlmnñörüvyzeiüöâ]+(qa|ğa|ke)</token>
-          </pattern>
-          <message>Doğrultuv kelişiniñ hatası: <suggestion ><match no="1" regexp_match="(.*[eiüöâ]+[bcdğjlmnñörüvyzeiüöâ]+)(qa|ğa|ke)" regexp_replace="$1ge"/></suggestion></message>
-          <example correction="poyezdge">Dostumnen <marker>poyezdğa</marker> yetişmedim.</example>
-        </rule>
-        <rule>
-          <pattern>
-            <token regexp="yes">.*[uoıa]+[çfhqpst]+(ğa|ge|ke)</token>
-          </pattern>
-          <message>Doğrultuv kelişiniñ hatası: <suggestion ><match no="1" regexp_match="(.*[uoıa]+[açfhıkopstu]+)(ğa|ge|ke)" regexp_replace="$1qa"/></suggestion></message>
-          <example correction="Dostqa"><marker>Dostğa</marker> bardıq.</example>
-        </rule>
-        <rule>
-          <pattern>
-            <token regexp="yes">.*[eiüöâ]+[çfhkpst]+(qa|ğa|ge)</token>
-          </pattern>
-          <message>Doğrultuv kelişiniñ hatası: <suggestion ><match no="1" regexp_match="(.*[eiüöâ]+[âçfehköpstü]+)(qa|ğa|ge)" regexp_replace="$1ke"/></suggestion></message>
-          <example correction="Samolötke"><marker>Samolötge</marker> yetişmedik.</example>
         </rule>
       </rulegroup>
       <rulegroup id="MIDDLE_VOWEL_EXCLUSIOON" name="Orta sozuq sesiniñ tüşmesi">
@@ -141,9 +111,10 @@ USA
         </rule>
         <rule>
           <pattern>
-            <token regexp="yes">fikiri.*</token>
+            <token regexp="yes">[fF]ikiri.*</token>
           </pattern>
-          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(fikiri)(.*)" regexp_replace="fikri$2"/></suggestion></message>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="([fF])(ikiri)(.*)" regexp_replace="$1ikri$3"/></suggestion></message>
+          <example correction="Fikrim"><marker>Fikirim</marker> uzaqlarda.</example>
           <example correction="fikrimiz">Bu mevzuda iç <marker>fikirimiz</marker> yoqtur.</example>
         </rule>
         <rule>
@@ -161,24 +132,6 @@ USA
           </pattern>
           <message>Oğul sözüni şöyle yazmamalı: <suggestion >oğlu</suggestion></message>
           <example correction="oğlu">Memetniñ <marker>oğlusı</marker> mektepte oquy!</example>
-        </rule>
-      </rulegroup>
-      <rulegroup id="CONFIRMATION_AFFIX_CONFUSION" name="Tasdıqlama yalğamalarının yazılması">
-        <rule>
-          <pattern>
-            <token regexp="yes">.*[eiüöâuoıaUOIAEİÜÖÂbcdğjlmnñrvyz](t[ıi]r)</token>
-          </pattern>
-          <message>Tasdıqlama yalğamaları şöyle yazılmalı: <suggestion ><match no="1" regexp_match="(.*[eiüöâuoıaUOIAEİÜÖÂbcdğjlmnñrvyz])(t)([ıi]r)" regexp_replace="$1d$3"/></suggestion></message>
-          <example correction="ayatımızdır">Bu bizim <marker>ayatımıztır</marker>.</example>
-          <example correction="evimizdir">Bizim <marker>evimiztir</marker>.</example>
-        </rule>
-        <rule>
-          <pattern>
-            <token regexp="yes">.*[çfhkpst](d[ıi]r)</token>
-          </pattern>
-          <message>Tasdıqlama yalğamaları şöyle yazılmalı: <suggestion ><match no="1" regexp_match="(.*[çfhkpst])(d)([ıi]r)" regexp_replace="$1t$3"/></suggestion></message>
-          <example correction="cevaptır">Pek yahşı <marker>cevapdır</marker>.</example>
-          <example correction="kerektir">Barmaq <marker>kerekdir</marker>.</example>
         </rule>
       </rulegroup>
       <!--
@@ -224,16 +177,8 @@ USA
       <rulegroup id="MISSVOCALIZATION" name="Yañğıravuqlıq">
         <rule>
           <pattern>
-            <token regexp="yes">([Yy]a|.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ])q[uüıi](m|m[ıi]z|ñ|ñ[ıi]ız|n)?.*</token>
-          </pattern>
-          <message>Yañğıravuqlıq yapılmalı: <suggestion ><match no="1" regexp_match="([Yy]a|.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ])(q)([uüiı](m|m[ıi]z|ñ|ñ[ıi]z|n)?.*)" regexp_replace="$1ğ$3"/></suggestion></message>
-          <example correction="Mışığıñnıñ"><marker>Mışıqıñnıñ</marker> közleri güzeldir.</example>
-          <example correction="yağımızda">Tuvğan <marker>yaqımızda</marker> tabiat güzeldir.</example>
-        </rule>
-        <rule>
-          <pattern>
             <token regexp="yes">.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ]k[uüıi](m|m[ıi]z|ñ|ñ[ıi]z|n)?.*
-            <exception regexp="yes">.*(daki|deki|taki|teki)(m|m[ıi]z|ñ|ñ[ıi]z|n)?.*</exception>
+            <exception regexp="yes">.*(diki|daki|deki|taki|teki)(m|m[ıi]z|ñ|ñ[ıi]z|n)?.*</exception>
             </token>
           </pattern>
           <message>Yañğıravuqlıq yapılmalı: <suggestion ><match no="1" regexp_match="(.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ])(k)([uüiı](m|m[ıi]z|ñ|ñ[ıi]z|n)?.*)" regexp_replace="$1g$3"/></suggestion></message>
@@ -480,7 +425,7 @@ USA
         <rule>
           <pattern>
             <marker>
-              <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*(nomn|gent|accs|loct|exod).*"></token>
+              <token postag_regexp="yes" postag="(NOUN|ADJF|NUMR|PRTF).*(nomn|gent|accs|loct|exod).*"></token>
             </marker>
             <token regexp="yes">qarşı|köre|taba|doğru|qadar</token>
           </pattern>
@@ -490,18 +435,6 @@ USA
           <example correction="Terekke"><marker>Terekniñ</marker> qarşı oturdı.</example>
         </rule> 
       </rulegroup>
-      <rule id="GENITIVE_CASE_COLLOCATION" name="Saiplik kelişi uyğulaşması">
-        <pattern>
-          <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*gent.*"></token>
-          <marker>
-            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*nomn"></token>
-          </marker>
-        </pattern>
-        <message>Saiplik kelişi şöyle uyğulaşmalı: 
-          <suggestion><match no="2" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)" postag_replace="$1:poss:3per:sing"/></suggestion>
-        </message>
-        <example correction="arabası">Dostumnıñ <marker>araba</marker>.</example>
-      </rule> 
 
       <rule id="EXODIVE_VERB_CASE_COLLOCATION" name="Fiildeki çıqış kelişi uyğulaşması">
         <pattern>
@@ -533,6 +466,7 @@ USA
         <pattern>
           <token postag_regexp="yes" postag="NUMR.*">
             <exception regexp="yes">.*(ci|cı)</exception>
+            <exception>bir</exception>
           </token>
           <marker>
             <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF):plur.*"></token>
@@ -545,18 +479,20 @@ USA
       </rule> 
       
       <rulegroup id="VERB_PERSON_COORDINATION" name="Fiil şahisi uyğulaşması">
+      <!--
         <rule>
           <pattern>
             <token postag="NPRO:subst:1per:sing:nomn"></token>
             <marker>
-            <token postag_regexp="yes" postag="VERB.*:(2per|3per):(sing|plur).*"></token>
+              <token postag_regexp="yes" postag="VERB.*:(2per|3per):(sing|plur).*"></token>
             </marker>
           </pattern>
           <message>Fiil şahisleri uyğulaşmalılar: 
             <suggestion><match no="2" postag_regexp="yes" postag="(VERB.*):(2per|3per):sing(.*)" postag_replace="$1:1per:sing$3"/></suggestion>
           </message>
           <example correction="yaptım">Men <marker>yaptı</marker>.</example>
-        </rule> 
+          <example correction="oña">Men <marker>oña</marker> yalıñız aytqan edim.</example>
+        </rule> -->
         <rule>
           <pattern>
             <token postag="NPRO:subst:1per:plur:nomn"></token>
