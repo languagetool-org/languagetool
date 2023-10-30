@@ -69,39 +69,5 @@ public class EnglishHybridDisambiguator extends AbstractDisambiguator {
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
     return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
   }
-  
-  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
-    List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-    for (AnalyzedToken reading : aTokens[i]) {
-      String POSTag = reading.getPOSTag();
-      if (POSTag != null) {
-        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
-          l.add(reading);
-        }
-      }
-    }
-    // choose the longest one
-    if (l.size() > 0) { 
-      AnalyzedToken selectedAT = null;
-      int maxDistance = 0;
-      for (AnalyzedToken at : l) {
-        String tag = "</" + at.getPOSTag().substring(1);
-        String lemma = at.getLemma();
-        int distance = 1;
-        while (i + distance < aTokens.length) {
-          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
-            if (distance > maxDistance) {
-              maxDistance = distance;
-              selectedAT = at;
-            }
-            break;
-          }
-          distance++;
-        }
-      }
-      return selectedAT;
-    }
-    return null;
-  }
 
 }
