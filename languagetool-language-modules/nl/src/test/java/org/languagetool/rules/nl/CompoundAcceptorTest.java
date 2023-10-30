@@ -52,7 +52,8 @@ public class CompoundAcceptorTest {
 
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
     assertFalse(acceptor.acceptCompound("kinderenHet"));
-    assertFalse(acceptor.acceptCompound("kindernee"));
+    assertFalse(acceptor.acceptCompound("kindergaan"));
+    assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
   }
 
   @Ignore("Use for interactive debugging")
