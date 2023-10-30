@@ -396,6 +396,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("con ") &&
                    !k.getReplacement().startsWith("ins ") && // instable (ins table)
                    !k.getReplacement().toLowerCase().startsWith("pre ") &&
+                   !k.getReplacement().toLowerCase().startsWith("socio ") &&
+                   !k.getReplacement().toLowerCase().startsWith("proto ") &&
+                   !k.getReplacement().toLowerCase().startsWith("neo ") &&
+                   !k.getReplacement().toLowerCase().startsWith("geo ") &&
                    !k.getReplacement().toLowerCase().startsWith("inter ") &&
                    !k.getReplacement().toLowerCase().startsWith("multi ") &&
                    !k.getReplacement().toLowerCase().startsWith("retro ") &&
@@ -778,6 +782,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("fundracing", Arrays.asList("fundraising"));
     s.put("Fundraced", Arrays.asList("Fundraised"));
     s.put("fundraced", Arrays.asList("fundraised"));
+    s.put("withing", Arrays.asList("within"));
+    s.put("Withing", Arrays.asList("Within"));
     s.put("hollyday", Arrays.asList("holiday"));
     s.put("Hollyday", Arrays.asList("Holiday"));
     s.put("hollydays", Arrays.asList("holidays"));
