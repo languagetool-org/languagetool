@@ -94,9 +94,9 @@
             <rule><!--2-->
                 <pattern>
                     <token regexp="yes">CHF|s?Fr\.?|Franken?|Schweizerfranken?|Schwiizerfranken?|Rappen?|Rp\.?|JPY|Yen|¥</token>
-                    <token regexp="yes">[0-9].*|–</token>
+                    <token regexp="yes">[0-9].*|(–|-)</token>
                     <token>,</token>
-                    <token regexp="yes">[0-9]{2}|–</token>
+                    <token regexp="yes">[0-9]{2}|(–|-)</token>
                 </pattern>
                 <message>Währungsangaben in Schweizer Franken (und Yen) werden mit einem Punkt statt Komma geschrieben.</message>
                 <suggestion>\1 \2.\4</suggestion>
