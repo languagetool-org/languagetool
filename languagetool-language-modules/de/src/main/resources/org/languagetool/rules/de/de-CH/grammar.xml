@@ -505,35 +505,51 @@
 
     <category id="STYLE" name="Style" type="style">
 
-    <rule id="HABE_GESTANDEN" name="Er hat (ist) da eine Stunde lang gestanden." tone_tags="clarity" default="temp_off">
-        <antipattern>
-            <token regexp="yes">alles|nichts|gleich|Tat|sofort|schlussendlich|schließlich</token>
-            <token>gestanden</token>
-            <example>Er hat die Tat gestanden.</example>
-        </antipattern>
-        <pattern>
-            <token postag="EIG:NOM:.+|PRO:PER:NOM:.+" postag_regexp="yes">
-                <exception regexp="yes">das|es</exception>
-                <exception postag="ART:.+" postag_regexp="yes"/>
-            </token>
-            <marker>
-                <token inflected="yes">haben
-                    <exception postag="PRO:.+" postag_regexp="yes"/>
+        <rule id="HABE_GESTANDEN" name="Er hat (ist) da eine Stunde lang gestanden." tone_tags="clarity" default="temp_off">
+            <antipattern>
+                <token regexp="yes">alles|nichts|gleich|Tat|sofort|schlussendlich|schließlich</token>
+                <token>gestanden</token>
+                <example>Er hat die Tat gestanden.</example>
+            </antipattern>
+            <pattern>
+                <token postag="EIG:NOM:.+|PRO:PER:NOM:.+" postag_regexp="yes">
+                    <exception regexp="yes">das|es</exception>
+                    <exception postag="ART:.+" postag_regexp="yes"/>
                 </token>
-            </marker>
-            <token skip="4">
-                <exception scope="next" regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
-                <exception regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
-                <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes"/>
-                <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes" scope="next"/>
-            </token>
-            <token postag="VER:PA2:.+" postag_regexp="yes" regexp="yes" inflected="yes">sitzen|stehen|liegen</token>
-            <token postag="PKT"></token>
-        </pattern>
-        <message>Im Schweiter Deutsch wird das Perfekt von '\4' standardmässig mit dem Hilfsverb 'sein' gebildet.</message>
-        <suggestion><match no="2" postag=".*" postag_regexp="yes" case_conversion="startlower">sein</match></suggestion>
-        <example correction="ist">Er <marker>hat</marker> da eine Stunde lang gestanden.</example>
-    </rule>
+                <marker>
+                    <token inflected="yes">haben
+                        <exception postag="PRO:.+" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token skip="4">
+                    <exception scope="next" regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
+                    <exception regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
+                    <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes"/>
+                    <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes" scope="next"/>
+                </token>
+                <token postag="VER:PA2:.+" postag_regexp="yes" regexp="yes" inflected="yes">sitzen|stehen|liegen</token>
+                <token postag="PKT"></token>
+            </pattern>
+            <message>Im Schweiter Deutsch wird das Perfekt von '\4' standardmässig mit dem Hilfsverb 'sein' gebildet.</message>
+            <suggestion><match no="2" postag=".*" postag_regexp="yes" case_conversion="startlower">sein</match></suggestion>
+            <example correction="ist">Er <marker>hat</marker> da eine Stunde lang gestanden.</example>
+        </rule>
+
+    </category>
+
+    <category id="IDIOMS" name="Redewendungen">
+
+        <rule id="OCHS_VORM_BERG" name="Ochs vorm Berg (Esel am Berg)" default="temp_off">
+            <pattern>
+                <token>wie</token>
+                <token>der</token>
+                <token>Ochs</token>
+                <token>vorm</token>
+                <token>Berg</token>
+            </pattern>
+            <message>Im Schweizer Deutsch lautet die Redewendung <suggestion>wie der Esel am Berg</suggestion>.</message>
+            <example correction="wie der Esel am Berg">Und jetzt stehst du da <marker>wie der Ochs vorm Berg</marker>.</example>
+        </rule>
 
     </category>
 </rules>
