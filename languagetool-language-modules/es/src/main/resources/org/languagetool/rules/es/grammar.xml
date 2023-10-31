@@ -436,6 +436,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="MOTO_GP" name="MotoGP">
+            <pattern>
+                <token>moto</token>
+                <token min="0">-</token>
+                <token>gp</token>
+            </pattern>
+            <message>La escritura adecuada es <suggestion>MotoGP</suggestion> (categoría de motociclismo).</message>
+            <url>https://es.wikipedia.org/wiki/MotoGP</url>
+            <example correction="MotoGP">Participa en la categoría de <marker>moto gp</marker>.</example>
+        </rule>
         <rulegroup id="CONTRACORRIENTE" name=" *contracorriente, *a contra corriente">
             <url>http://www.fundeu.es/recomendacion/a-contracorrienteo-contra-corriente/</url>
             <rule>
@@ -35144,6 +35154,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Saint-Exupéry"><marker>Saint-Exupery</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes"  spacebefore="no">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Rimski-Kórsakov"><marker>Rimsky-Kórsakov</marker>.</example>
             </rule>
         </rulegroup>
     </category>
