@@ -400,6 +400,24 @@
                 <suggestion>“</suggestion>
                 <example correction="»|“">Er klickte den "Gefällt mir<marker>"</marker>-Button.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>„</token>
+                </pattern>
+                <message>Im Schweizerischen werden standardmäßig die Guillemets (« ») gesetzt.</message>
+                <suggestion>«</suggestion>
+                <example correction="«"><marker>„</marker>Ich bin müde“, sagte er.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>“
+                        <exception scope="previous" postag="SENT_START"/>
+                    </token>
+                </pattern>
+                <message>Im Schweizerischen werden standardmäßig die Guillemets (« ») gesetzt.</message>
+                <suggestion>»</suggestion>
+                <example correction="»">„Ich bin müde<marker>“</marker>, sagte er.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ANFUEHRUNGSZEICHEN_CH_FR" name="»wörtliche Rede« («wörtliche Rede»)" default="temp_off">
             <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[1] -->
