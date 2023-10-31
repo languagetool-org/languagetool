@@ -60,6 +60,23 @@
     </category>
 
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
+
+        <rulegroup id="ZEITANGABEN" name="Zeitangaben" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token>:</token>
+                    </marker>
+                    <token regexp="yes">[0-9]+</token>
+                    <token>Uhr</token>
+                </pattern>
+                <message>Im Schweizer Schriftdeutsch wird bei Uhrzeitangaben standardmässig ein Punkt gesetzt.</message>
+                <suggestion>.</suggestion>
+                <example correction=".">Es ist jetzt genau 15<marker>:</marker>30 Uhr.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="WAEHRUNGSANGABEN_CHF" name="Währungsangaben in CHF mit Punkt statt Komma, z. B. '45,00 CHF (45.00 CHF)'">
             <url>https://www.rotstift-ag.ch/rechtschreibregeln/W/waehrungen.html</url>
             <rule><!--1-->
@@ -400,21 +417,21 @@
                 <suggestion>“</suggestion>
                 <example correction="»|“">Er klickte den "Gefällt mir<marker>"</marker>-Button.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="temp_off"><!-- [16] -->
                 <pattern>
                     <token>„</token>
                 </pattern>
-                <message>Im Schweizerischen werden standardmäßig die Guillemets (« ») gesetzt.</message>
+                <message>Im Schweizerischen werden standardmässig die Guillemets (« ») gesetzt.</message>
                 <suggestion>«</suggestion>
                 <example correction="«"><marker>„</marker>Ich bin müde“, sagte er.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="temp_off"><!-- [17] -->
                 <pattern>
                     <token>“
                         <exception scope="previous" postag="SENT_START"/>
                     </token>
                 </pattern>
-                <message>Im Schweizerischen werden standardmäßig die Guillemets (« ») gesetzt.</message>
+                <message>Im Schweizerischen werden standardmässig die Guillemets (« ») gesetzt.</message>
                 <suggestion>»</suggestion>
                 <example correction="»">„Ich bin müde<marker>“</marker>, sagte er.</example>
             </rule>
