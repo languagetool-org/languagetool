@@ -194,6 +194,18 @@ class ResultCache implements Serializable {
   }
 
   /**
+   * Size of cache (size of entries)
+   */
+  int size() {
+    rwLock.readLock().lock();
+    try {
+      return entries.size();
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
    * get cache entry of paragraph
    */
   int getNumberofNotNullEntries() {

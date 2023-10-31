@@ -113,7 +113,9 @@ public class MultiDocumentsHandler {
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
   private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
   private static AboutDialog aboutDialog = null;           //  about dialog (show only one about panel)
-  private boolean dialogIsRunning = false;          //  The dialog was started     
+  private boolean dialogIsRunning = false;          //  The dialog was started
+  private WaitDialogThread waitDialog = null;
+
   
   private XComponentContext xContext;               //  The context of the document
   private final List<SingleDocument> documents;     //  The List of LO documents to be checked
@@ -603,7 +605,14 @@ public class MultiDocumentsHandler {
    *  get LinguisticServices
    */
   public LinguisticServices getLinguisticServices() {
-     return linguServices;
+    if (linguServices == null) {
+      linguServices = new LinguisticServices(xContext);
+      OfficeProductInfo officeProductInfo = OfficeTools.getOfficeProductInfo(xContext);
+      if (officeProductInfo != null && officeProductInfo.osArch.equals("x86")) {
+        Tools.setLinguisticServices(linguServices);
+      }
+    }
+    return linguServices;
   }
   
   /**
@@ -1541,9 +1550,8 @@ public class MultiDocumentsHandler {
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
       }
-      WaitDialogThread waitDialog = null;
       if (("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) && !useOrginalCheckDialog && !dialogIsRunning) {
-        waitDialog = new WaitDialogThread("waitDialog", messages.getString("loWaitMessage"));
+        waitDialog = new WaitDialogThread("Please wait", messages.getString("loWaitMessage"));
         waitDialog.start();
       }
       if (!testDocLanguage(true)) {
@@ -1582,9 +1590,6 @@ public class MultiDocumentsHandler {
       } else if ("renewMarkups".equals(sEvent)) {
         renewMarkups();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
-        if (waitDialog.isGone) {
-          return;
-        }
         if (useOrginalCheckDialog) {
           if ("checkDialog".equals(sEvent) ) {
             OfficeTools.dispatchCmd(".uno:SpellingAndGrammarDialog", xContext);
@@ -1595,6 +1600,9 @@ public class MultiDocumentsHandler {
         }
         closeDialogs();
         if (dialogIsRunning) {
+          return;
+        }
+        if (waitDialog == null || waitDialog.canceled()) {
           return;
         }
         setLtDialogIsRunning(true);
@@ -2105,11 +2113,11 @@ public class MultiDocumentsHandler {
    * class to run a dialog in a separate thread
    * closing if lost focus
    */
-  public class WaitDialogThread extends Thread {
+  class WaitDialogThread extends Thread {
     private final String dialogName;
     private final String text;
     private JDialog dialog = null;
-    private boolean isGone = false;
+    private boolean isCanceled = false;
 
     WaitDialogThread(String dialogName, String text) {
       this.dialogName = dialogName;
@@ -2121,19 +2129,20 @@ public class MultiDocumentsHandler {
       JLabel textLabel = new JLabel(text);
       JButton cancelBottom = new JButton(messages.getString("guiCancelButton"));
       cancelBottom.addActionListener(e -> {
-        close();
+        close_intern();
       });
       dialog = new JDialog();
+      Container contentPane = dialog.getContentPane();
       dialog.setName("InformationThread");
       dialog.setTitle(dialogName);
-      dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+      dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       dialog.addWindowListener(new WindowListener() {
         @Override
         public void windowOpened(WindowEvent e) {
         }
         @Override
         public void windowClosing(WindowEvent e) {
-          close();
+          close_intern();
         }
         @Override
         public void windowClosed(WindowEvent e) {
@@ -2154,41 +2163,55 @@ public class MultiDocumentsHandler {
       JPanel panel = new JPanel();
       panel.setLayout(new GridBagLayout());
       GridBagConstraints cons = new GridBagConstraints();
-      cons.insets = new Insets(2, 2, 2, 2);
+      cons.insets = new Insets(16, 24, 16, 24);
       cons.gridx = 0;
       cons.gridy = 0;
-      cons.anchor = GridBagConstraints.NORTHWEST;
+      cons.weightx = 1.0f;
+      cons.weighty = 10.0f;
+      cons.anchor = GridBagConstraints.CENTER;
       cons.fill = GridBagConstraints.BOTH;
       panel.add(textLabel, cons);
       cons.gridy++;
+      cons.fill = GridBagConstraints.NONE;
       panel.add(cancelBottom, cons);
-      dialog.add(panel);
+      contentPane.setLayout(new GridBagLayout());
+      cons = new GridBagConstraints();
+      cons.insets = new Insets(16, 32, 16, 32);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.weightx = 1.0f;
+      cons.weighty = 1.0f;
+      cons.anchor = GridBagConstraints.NORTHWEST;
+      cons.fill = GridBagConstraints.BOTH;
+      contentPane.add(panel);
       dialog.pack();
       Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
       Dimension frameSize = dialog.getSize();
       dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
           screenSize.height / 2 - frameSize.height / 2);
-      dialog.setLocationByPlatform(true);
       dialog.setAutoRequestFocus(true);
-      dialog.setVisible(true);
       dialog.setAlwaysOnTop(true);
       dialog.toFront();
       if (debugMode) {
         MessageHandler.printToLogFile("WaitDialogThread: run: Dialog is running");
       }
+      dialog.setVisible(true);
     }
     
     public boolean canceled() {
-      return isGone;
+      return isCanceled;
     }
     
     public void close() {
+      close_intern();
+    }
+    
+    public void close_intern() {
       if (debugMode) {
         MessageHandler.printToLogFile("WaitDialogThread: close: Dialog closed");
       }
-      if (dialog == null) {
-        isGone = true;
-      } else {
+      isCanceled = true;
+      if (dialog != null) {
         dialog.setVisible(false);
         dialog.dispose();
       }
