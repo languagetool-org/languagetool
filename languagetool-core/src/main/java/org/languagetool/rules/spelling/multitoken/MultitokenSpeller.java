@@ -55,6 +55,7 @@ public class MultitokenSpeller {
   }
 
   public List<String> getSuggestions(String word) throws IOException {
+    word = word.replaceAll("\\p{Zs}+", " ");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
     }
