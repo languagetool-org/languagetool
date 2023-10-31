@@ -1869,6 +1869,32 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>  <!-- no comma in middle of noun phrase I -->
+                <antipattern>
+                    <token chunk="B-NP-plural" />
+                    <token chunk="B-NP-plural" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token chunk="B-NP-plural" />
+                    </marker>
+                    <token chunk_re="[IE]-NP-plural" />
+                </pattern>
+                <example correction="">She was found guilty and sentenced to <marker>ninety</marker> days in the Sacramento County</example>
+            </rule>
+            <rule>  <!-- no comma in middle of noun phrase II -->
+                <antipattern>
+                    <token chunk="B-NP-singular" />
+                    <token chunk="B-NP-singular" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token chunk="B-NP-singular" />
+                    </marker>
+                    <token chunk_re="[IE]-NP-singular" />
+                </pattern>
+                <example correction="">She was found guilty and sentenced to <marker>a</marker> day</example>
+            </rule>
             <rule>  <!-- pattern taken from IF_NO_COMMA -->
                 <pattern>
                     <marker>
@@ -3851,11 +3877,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Komisar added that at the scene of the Mercedes-Benz crash where he died, he was found with a passport under the name of "Mehmet <marker>Özbay" — an</marker> alias also used by Ağca.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NNS_FOR_NN" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">anglicisms?|litigations?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Experience includes trademark, trade dress, trade secret, and patent <marker>litigations</marker> in numerous disciplines.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NNS_FOR_NN_ERROR_IDS_000013" name="">
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">anglicisms?</token>
+                        <token regexp="yes">anglicisms?|litigations?</token>
                     </marker>
                 </pattern>
                 <example correction="">I want to find alternatives to <marker>anglicisms</marker>.</example>

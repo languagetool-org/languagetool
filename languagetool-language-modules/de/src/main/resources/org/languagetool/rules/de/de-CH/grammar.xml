@@ -61,6 +61,19 @@
 
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
 
+        <rulegroup id="ABKUERZUNGEN_OHNE_PKT_CH" name="Abkürzungen ohne Punkt" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">dtl|gemeindt|mdal|österr|bair|Wz
+                        <exception scope="next">.</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint der Abkürzungepunkt zu fehlen.</message>
+                <suggestion>\1.</suggestion>
+                <example correction="mdal.">Das bedeutet <marker>mdal</marker> Semmel.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="ZEITANGABEN" name="Zeitangaben" default="temp_off">
             <rule>
                 <pattern>
@@ -68,7 +81,7 @@
                     <marker>
                         <token>:</token>
                     </marker>
-                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
                     <token>Uhr</token>
                 </pattern>
                 <message>Im Schweizer Schriftdeutsch wird bei Uhrzeitangaben standardmässig ein Punkt gesetzt.</message>
