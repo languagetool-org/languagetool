@@ -13485,13 +13485,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>
         </rule>
 
-        <rulegroup id='IR_CONTRACTION_NOUN' name="Ir + na/no + nome">
-            <!--      Created by Marco A.G.Pinto, 2017-07-XX      -->
-            <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
-      -->
 
-            <!-- MARCOAGPINTO 2023-01-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <rule id='IR_CONTRACTION_NOUN' name="Ir + 'na/no' + nome → à/ao" default="temp_off">
+        <!-- To do: remove verb "mercar" ("mercado") POS? It removes all valid entries using "mercado" -->
+        <!-- This is a very hard to code rule. It will require further enhancements in the future (2023-10-31). -->
+
             <antipattern>
                 <token postag='VMN0000' postag_regexp='no'/>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
@@ -13501,63 +13499,164 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>n[ao]s?</token>
                 <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 <example>O peão focar-se-ia no semáforo da estrada.</example>
+                <example>As canções de Gitte manter-se-iam nas listas alemãs de discos nas décadas seguintes, apesar de não ter o mesmo sucesso como na década de 1960.</example>
+                <example>Jataí e São Pedro de Alcântara transformar-se-iam na atual cidade de Jataizinho; São Jerônimo daria origem a Araporangas.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-01-26 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
             <antipattern>
-                <token skip='3'>ainda</token>
-                <token inflected='yes'>ir
-                    <exception regexp='yes'>foi|fora|indo</exception></token>
-                <token regexp='yes'>n[ao]</token>
+                <token inflected='yes'>ir</token>
+                <token regexp='yes'>n[ao]s?</token>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token min='0' max='1' regexp='yes'>bo[am]|m(?:au|á|esma|esmo)|própri[ao]|exat[ao]</token>
+                <token regexp='yes'>caminho|sentido|direção|via|trilha|caminhada</token>
+                <example>Estamos a ir no bom caminho.</example>
+                <example>Vamos no mesmo caminho.</example>
+                <example>E ver os meus filhos felizes enche-me o coração e é a demonstração de que tudo vai no bom caminho.</example>
+                <example>Eu vou no meu caminho.</example>
+                <example>Você vá na sua via.</example>
+                <example>Você vai na minha direção.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='V.+|CC|RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='SPS00|_PUNCT|RN' postag_regexp='yes'/>
+                <and>
+                    <token inflected='yes'>ir</token>
+                    <token postag='VMI[IS]3.+' postag_regexp='yes'/> <!-- foi/foram, ia/íamos -->
+                </and>
+                <token regexp='yes'>n[ao]s?</token>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token min="1" max="4" postag='NC.+|AQ.+|NP.+|UNKNOWN' postag_regexp='yes'/>
+                <token postag='SPS0.+|D.+|_PUNCT' postag_regexp='yes'/>
+                <example>Tanto que todas as vezes que me machuquei foi na saída do boi.</example>
+                <example>A última vez que nos vimos foi no aniversário da Ana, no ano retrasado.</example>
+                <example>A primeira vez que esta função surgiu foi no trabalho de Leonhard Euler, que, ao estudar a distribuição dos números primos, mostrou que a série</example>
+                <example>Como foi na Austrália?</example>
+                <example>- Como foi na biblioteca?</example>
+                <example>A partir de agora, a humanidade, como foi na Babilônia, ...poderá usar um dos mais antigos e eficienes poderes de todos os tempos.</example>
             </antipattern>
             <antipattern>
-                <token inflected='yes'>ir
-                    <exception regexp='yes'>foi|fora|indo</exception></token>
-                <token regexp='yes'>n[ao]</token>
-                <token regexp='yes'>&dias_semana;</token>
+                <token postag='VMIP3.+|VMN03.+' postag_regexp='yes'>
+                    <exception postag='CC'/>
+                    <exception scope='previous' postag='SENT_START|VMII.+' postag_regexp='yes'/>
+                    <exception scope='next' regexp='yes'>para|pra</exception>
+                </token>
+                <token min='0' max='1' postag='SPS00|_PUNCT|RN' postag_regexp='yes'/>
+                <and>
+                    <token inflected='yes'>ir</token>
+                    <token postag='VMN0000|VMN03.+' postag_regexp='yes'/> <!-- ir/irem. VMN0000 was required because in specific sentences it was the only POS shown -->
+                </and>
+                <token regexp='yes'>n[ao]s?</token>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token min="1" max="4" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='SPS0.+|D.+|_PUNCT' postag_regexp='yes'/>
+                <example>Luke resolve ir na missão de destruir a Estrela da Morte, com R2 como copiloto, e consegue.</example>
+                <example>Onde você planeja ir nas férias?</example>
+                <example>Este livro não pode ir na mala.</example>
+                <example>...de uma religião e a aplicam de maneira absurda para ter o controle pelo medo, para ninguém ousar ir na contramão do poder.</example>
             </antipattern>
-            <rule>
-                <pattern>
-                    <token inflected='yes'>ir
-                        <exception regexp='yes'>foi|fora|indo</exception></token>
-                    <token>na</token>
-                    <token postag='N.F.+' postag_regexp='yes'>
-                        <exception regexp='yes'>alma|cabeça|direc?ção|primeira|semana|última</exception>
-                        <exception postag='(AO|Z).+' postag_regexp='yes'/></token>
-                </pattern>
-                <message>Substitua por <suggestion>\1 à \3</suggestion>.</message>
-                <example correction="ir à praia">Tenho de <marker>ir na praia</marker>.</example>
-                <example>Tenho de <marker>ir à praia</marker>.</example>
-                <example>O menor número registrado foi na faixa etária entre 50 a 54 anos…</example>
-                <example>Ele disse que quem estabelece a % de incapacidade é o médico a que vou na sexta.</example>
-                <example>Já vou na quarta versão.</example>
-                <example>Já vai na terceira temporada.</example>
-                <example>É o que lhe vai na alma.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token regexp='yes'>bom|m(?:au|esmo)</token>
-                    <token regexp='yes'>caminho|sentido</token>
-                </antipattern>
-                <pattern>
-                    <token inflected='yes'>ir
-                        <exception regexp='yes'>foi|fora|indo</exception></token>
-                    <token>no</token>
-                    <token postag='N.M.+' postag_regexp='yes'>
-                        <exception regexp='yes'>adro|caminho|encalço|primeiro|sentido|último</exception>
-                        <exception postag='(AO|Z).+' postag_regexp='yes'/></token>
-                </pattern>
-                <message>Substitua por <suggestion>\1 ao \3</suggestion>.</message>
-                <example correction="ir ao ginásio">Tenho de <marker>ir no ginásio</marker>.</example>
-                <example>Tenho de <marker>ir ao ginásio</marker>.</example>
-                <example>Quero viajar para fora no ano que vem.</example>
-                <example>Já vou no último capítulo.</example>
-                <example>A procissão ainda vai no adro.</example>
-                <example>Isto vai no bom caminho.</example>
-                <example>Ainda 2018 vai no início…</example>
-                <example>Já vai no segundo tempo, e ainda não houve desempate.</example>
-            </rule>
-        </rulegroup>
+
+            <antipattern>
+                <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                <token regexp='no'>foi</token>
+                <token regexp='yes'>n[ao]s?</token>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token min="1" max="4" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='RG' postag_regexp='no'/>
+                <token postag='SPS0.+|D.+|CS|PE.+' postag_regexp='yes'/>
+                <example>Foi na sequência da batalha que Héracles, passando por Tégea, seduziu Auge, filha de Aleu.</example>
+                <example>Foi no jantar do Inspector Chefe, eu estava um pouco bêbedo, Tenente Columbo.</example>
+                <example>Foi no seu post também que descobri que ela é autora de "Ps.</example>
+                <example>Foi no museu que teve a oportunidade de preparar sua monografia de 520 páginas, publicada em 1979.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>ir</token>
+                <token regexp='yes'>n[ao]s?</token>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token regexp='yes'>&partes_do_dia;|&expressoes_de_tempo;</token>
+                <token postag='RM|RG|CS|CC|SPS0.+|[DP].+|NC.+|AQ.+|AO.+|Z0.+' postag_regexp='yes'/>
+                <example>Foi aonde eu e meus pais fomos na noite que eles foram...</example>
+                <example>Não posso ir na semana que vem.</example>
+                <example>Se for no período da manhã, a primeira coisa que você vai dizer é bom dia.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes'>ir</token>
+                <token regexp='yes'>n[ao]s?</token>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token min="1" max="4" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                    <exception postag='VMP00.+' postag_regexp='yes'/>
+                </token>
+                <token postag='VMP00.+' postag_regexp='yes'/>
+                <example>Você deveria ir na posição oposta.</example>
+                <example>... "Phacochoerus" inclui duas espécies: "Phacochoerus africanus" e "Phacochoerus aethiopicus", que já foram no passado consideradas uma única espécie, e que ainda são consideradas sinónimos por alguns autores.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='V.+|CS|RG|NC.+|AQ.+|NP.+|CC' postag_regexp='yes'/>
+                <token min='0' max='1' postag='SPS00|_PUNCT|RN' postag_regexp='yes'/>
+                <and>
+                    <token inflected='yes'>ir</token>
+                    <token postag='VMSI.+' postag_regexp='yes'/>
+                </and>
+                <token regexp='yes'>n[ao]s?</token>
+                <example>Não o vejo com frequência, mas quando acontece, é como se fosse na faculdade.</example>
+                <example>...u os trabalhadores embora, exigindo não ser perturbado e proibindo a entrada de quem quer que fosse na igreja.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='RG'/>
+                <token postag='PP.+' postag_regexp='yes'/>
+                <token inflected='yes'>estar</token>
+                <token inflected='yes'>ir</token>
+                <token regexp='yes'>n[ao]s?</token>
+                <example>Como você está indo na sua nova companhia?</example>
+                <example>Como você está indo na escola?</example>
+                <example>Como você está indo no seu novo emprego?</example>
+            </antipattern>
+
+            <pattern>
+                <token postag='V.+|PP.+|NC.+|AQ.+|NP.+|SENT_START' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>ir|viajar</exception> <!-- Add more verbs if found -->
+                    <exception scope='previous' regexp='yes'>aonde|em|onde</exception> <!-- specific RG + others -->
+                    <exception scope='previous' postag='AO.+|SPS00:D[AI].+|VMN0000' postag_regexp='yes'/>
+                    <exception postag='AO.+' postag_regexp='yes'/>
+                </token>
+                <token min='0' max='1' postag='SPS00|_PUNCT|RN' postag_regexp='yes'/>
+                <token inflected='yes'>ir
+                    <exception scope='previous' postag='CS|PP3CN000' postag_regexp='yes'/>
+                </token>
+                <marker>
+                    <token regexp='yes'>n[ao]s?</token>
+                </marker>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'>
+                    <exception regexp='yes'>almas?|braços?|cabeças?|carros?|comboios?|comédias?|contramão|conversas?|direc?ç(ão|ões)|embalage(m|ns)|encalços?|episódios?|fígados?|filmes?|formas?|futuros?|instintos?|listas?|lugar(es)?|malas?|mentes?|mesas?|metr[oô]s?|novelas?|partes?|postos?|pr[éê]mios?|propósitos?|recompensas?|rodas?|rostos?|sentidos?|simultâne[ao]s?|thrillers?|tre(m|ns)|vidas?</exception> <!-- List of words that antipatterns can't deal with, using the logic: "vou/vai + na/no + word" -->
+                    <exception regexp='yes'>&dias_semana;|&dias_semana_abrev;|&expressoes_de_tempo;</exception>
+                    <exception postag='(AO|Z).+|V.+|SPS0.+|[DP].+|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+                </token>
+            </pattern>
+            <message>Substitua por <suggestion><match no='4' postag='SPS00:DA0(..)0' postag_replace='SPS00:DA0$10'>a:o</match></suggestion>.</message>
+            <example correction="à">Tenho de ir <marker>na</marker> praia.</example>
+            <example correction="à">Vou <marker>na</marker> praia.</example>
+            <example correction="ao">Tenho de ir <marker>no</marker> ginásio.</example>
+            <example correction="ao">Tenho de ir <marker>no</marker> seu ginásio.</example>
+            <example>Eu vou no domingo.</example>
+            <example>Eu quero estudar fora no ano que vem.</example>
+            <example>Se for no período da manhã, a primeira coisa que você vai dizer é bom dia.</example>
+            <example>Enquanto eles estavam fora no feriado, seus vizinhos tomaram conta do cachorro.</example>
+            <example>Não me apetece ir no próximo ano.</example>
+            <example>Bem, se for na forma de um soco na sua cara, então, sim.</example>
+            <example>Onde você irá nas férias?</example>
+            <example>Aonde você vai na próxima semana?</example>
+            <example>Então, eu sugeri que ela vai fora no trem.</example>
+            <example>Sua última mensagem foi no Natal de 1971.</example>
+            <example>Meu primeiro invento foi na universidade.</example>
+            <example>O maior movimento da operação foi na estação Cinelândia, com mais de 1/3 do total de passageiros.</example>
+            <example>Sua estreia no oeste foi na Ópera de Nice com A Rainha de Espadas em 1989.</example>
+            <example>O único lugar onde Kellan Kyle sempre se sentiu em casa foi no centro de um palco.</example>
+            <example>Minha primeira escolha vai ser alguém que eu sei que vai ser confortável fora no deserto.</example>
+        </rule>
+
 
         <rulegroup id='SPECIAL_COMPARATIVES' name="Comparativos Especiais">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
