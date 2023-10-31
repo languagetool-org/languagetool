@@ -685,5 +685,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
 
     </category>
+    <category id="STYLE" name="Style" type="style">
+
+        <rule id="IST_GESTANDEN" name="Er ist (hat) da eine Stunde lang gestanden." tone_tags="formal">
+            <pattern>
+                <token postag="EIG:NOM:.+|PRO:PER:NOM:.+" postag_regexp="yes">
+                    <exception regexp="yes">das|es</exception>
+                    <exception postag="ART:.+" postag_regexp="yes"/>
+                </token>
+                <marker>
+                    <token inflected="yes">sein
+                        <exception postag="PRO:.+" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token skip="4">
+                    <exception scope="next" regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
+                    <exception regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
+                    <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes"/>
+                    <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes" scope="next"/>
+                </token>
+                <token postag="VER:PA2:.+" postag_regexp="yes" regexp="yes" inflected="yes">stehen|sitzen|liegen|schlafen|leben|lieben|glauben|staunen</token>
+                <token postag="PKT"></token>
+            </pattern>
+            <message>Standardsprachlich wird das Perfekt von '\4' mit dem Hilfsverb 'haben' gebildet.</message>
+            <suggestion><match no="2" postag=".*" postag_regexp="yes" case_conversion="startlower">haben</match></suggestion>
+            <example correction="hat">Er <marker>ist</marker> da eine Stunde lang gestanden.</example>
+            <example correction="habe">Ich <marker>bin</marker> eine Stunde auf der Bank gesessen.</example>
+            <example correction="hast">Du <marker>bist</marker> noch im Bett gelegen, als ich zur Arbeit gefahren bin.</example>
+            <example>Er ist es gewohnt, nach der Arbeit am Kamin zu sitzen.</example>
+
+        </rule>
+    </category>
 </rules>
 
