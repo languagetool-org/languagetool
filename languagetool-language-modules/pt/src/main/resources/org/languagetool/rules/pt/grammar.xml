@@ -40719,6 +40719,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>O telefone é 99999-9999.</example>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">\d{4}|\d{5}|\d{6}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{1}</token>
+                    <example>Conta corrente 666666-6.</example>
+                    <example>Agência 6666-6.</example>
+                </antipattern>
+                <antipattern>
+                    <token>0001</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{1,2}</token>
+                    <example>A empresa 66.666.666/0001-06 está baixada</example>
+                </antipattern>
+                <antipattern>
                     <token>Estrada</token>
                     <token>Nacional</token>
                     <token regexp="yes">\d{3}</token>
@@ -40781,9 +40794,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
                 <pattern>
-                    <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                    <token regexp='yes'>\d{1}%?|\d{2}%?|\d{3}%?|1\d{3}|20\d{2}|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                     <token regexp="yes">—|&hifen;</token>
-                    <token regexp='yes'>\d+%?|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
+                    <token regexp='yes'>\d{1}%?|\d{2}%?|\d{3}%?|1\d{3}|20\d{2}|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                 </pattern>
                 <message>Se pretende indicar uma gama temporal ou numérica, deve utilizar o meio-travessão.</message>
                 <suggestion>\1 – \3</suggestion>
