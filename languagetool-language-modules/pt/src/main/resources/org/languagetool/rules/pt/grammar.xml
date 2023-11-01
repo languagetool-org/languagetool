@@ -7811,6 +7811,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='A.+' postag_regexp='yes'/>
                 <example>Deixei o local um pouco irritada.</example>
             </antipattern>
+
+            <rule id='PELO_QUAL_PELA_QUAL' name="Concordância: 'pelo' → 'pela'" default="temp_off">
+                <antipattern>
+                    <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='CC|RG' postag_regexp='yes'/>
+                    <token postag='SPS00|(SPS00:)?[DP]..F.+' postag_regexp='yes'/> <!-- female -->
+                    <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+                    <token regexp='yes'>pelos?</token>
+                    <token regexp='yes'>qua(l|is)</token>
+                    <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar</token>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='VMP00.F'/>
+                    </token>
+                    <example>Cite-me uma regra que proíba este estudo ou a metodologia pelo qual foi conduzido.</example>
+                    <example>Trata do aspecto criativo da faculdade da linguagem e aborda os processos de transformação pelos quais passa o sintagma.</example>
+                    <example>...e na cláusula democrática do Protocolo de Ushuaia por ruptura na democracia do país diante da crise pelo qual atravessa.</example>
+                </antipattern>
+                <pattern>
+                    <token postag='SPS00|(SPS00:)?[DP]..F.+' postag_regexp='yes'/> <!-- female, SPS00="a" -->
+                    <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+                    <marker>
+                        <token regexp='yes'>pelos?</token>
+                    </marker>
+                    <token regexp='yes'>qua(l|is)</token>
+                </pattern>
+                <message>Possível erro de concordância. Verifique se não quis dizer:</message>
+                <suggestion><match no='3' postag='SPS00:DA0M(.)0' postag_replace='SPS00:DA0F$10'>por:o</match></suggestion>
+                <example correction="pela">Esta foi a razão <marker>pelo</marker> qual ele concebeu a equação.</example>
+                <example correction="pelas">Estas foram as razões <marker>pelos</marker> quais ele concebeu a equação.</example>
+                <example correction="pelas">Esta foi uma das razões <marker>pelos</marker> quais ele concebeu a equação.</example>
+            </rule>
+
+            <rule id='PELA_QUAL_PELO_QUAL' name="Concordância: 'pela' → 'pelo'" default="temp_off">
+                <antipattern>
+                    <token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='CC|RG' postag_regexp='yes'/>
+                    <token postag='(SPS00:)?[DP]..M.+' postag_regexp='yes'/> <!-- male -->
+                    <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
+                    <token regexp='yes'>pelas?</token>
+                    <token regexp='yes'>qua(l|is)</token>
+                    <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar</token>
+                    <token postag='V.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='VMP00.M'/>
+                    </token>
+                    <example>Cite-me uma regra que proíba esta conversação ou o método pela qual foi conduzida.</example>
+                </antipattern>
+                <pattern>
+                    <token postag='(SPS00:)?[DP]..M.+' postag_regexp='yes'/> <!-- male -->
+                    <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
+                    <marker>
+                        <token regexp='yes'>pelas?</token>
+                    </marker>
+                    <token regexp='yes'>qua(l|is)</token>
+                </pattern>
+                <message>Possível erro de concordância. Verifique se não quis dizer:</message>
+                <suggestion><match no='3' postag='SPS00:DA0F(.)0' postag_replace='SPS00:DA0M$10'>por:o</match></suggestion>
+                <example correction="pelo">Este foi o motivo <marker>pela</marker> qual ele concebeu a equação.</example>
+                <example correction="pelos">Estes foram os motivos <marker>pelas</marker> quais ele concebeu a equação.</example>
+                <example correction="pelos">Este foi um dos motivos <marker>pelas</marker> quais ele concebeu a equação.</example>
+            </rule>
+
             <rule>
                 <antipattern>
                     <token postag='SPS00'/>
