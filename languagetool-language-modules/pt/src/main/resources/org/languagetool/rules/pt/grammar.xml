@@ -39296,7 +39296,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="Serra Leoa"><marker>serra leoa</marker></example>
             </rule>
         </rulegroup>
-
+        <rule id="QUIS_QUIZ" name="Confusão de palavras: quis (verbo) vs. quiz (substantivo)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>quiz</token>
+                </marker>
+                <token postag="VMN.+" postag_regexp="yes"/>
+            </pattern>
+            <message>Caso se refira ao verbo &quot;querer&quot;, considere substituir por <suggestion>quis</suggestion>.</message>
+            <example correction="quis">Eu não <marker>quiz</marker> fazer o almoço.</example>
+        </rule>
 
     </category>
 
