@@ -30700,6 +30700,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='CONFUSÃO_AO_OU' name="Confusão de termos: ao/ou" default="temp_off">
+            <pattern>
+                <token postag='NC.+|AQ.+|SENT_START' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='SP[0S]00|RG|CC|VMP00.+'/>
+                </token>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <marker>
+                    <token>ao</token>
+                </marker>
+                <token postag='VM[IMS].+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='VMN.+|VMIP1S0|RG|CC|SPS00'/>
+                </token>
+                <token postag='D[AIP].+|SPS00' postag_regexp='yes'/>
+            </pattern>
+            <message>Possível confusão de termos.</message>
+            <suggestion>ou</suggestion>
+            <example correction="ou">Venda o monitor <marker>ao</marker> parta o porquinho mealheiro.</example>
+            <example correction="ou">Vendam o monitor <marker>ao</marker> partam o porquinho mealheiro.</example>
+            <example correction="ou">Venda o monitor <marker>ao</marker> quebre um mealheiro.</example>
+            <example correction="ou">Vendam o monitor <marker>ao</marker> quebrem uns mealheiros.</example>
+        </rule>
+
+
         <!-- APROXIMA a próxima -->
         <rule id='CONFUSÃO_APROXIMA_A_PRÓXIMA' name="[Confusão] aproxima/'a próxima'">
             <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-05 (25-JUN-2021+)      -->
