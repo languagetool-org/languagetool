@@ -113,6 +113,9 @@ public class JLanguageToolTest {
   @Test
   public void testMultitokenSpeller() throws IOException {
     Language lang = new Catalan();
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Marina Buisan").toString());
+    assertEquals("[Homo sapiens]", lang.getMultitokenSpeller().getSuggestions("Homos Sapiens").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Garcia Horta").toString());
     assertEquals("[John Venn]", lang.getMultitokenSpeller().getSuggestions("Jon Benn").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("josue garcia").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Franco more").toString());

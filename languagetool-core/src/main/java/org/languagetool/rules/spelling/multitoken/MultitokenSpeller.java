@@ -112,11 +112,11 @@ public class MultitokenSpeller {
   private int maxEditDistance(String candidateLowercase, String wordLowercase) {
     int totalLength = wordLowercase.length();
     int correctLength = totalLength - numberOfCorrectChars(candidateLowercase, wordLowercase);
-    if (correctLength <= 7) {
-      return 2;
-    }
     Float firstCharWrong = firstCharacterDistances(candidateLowercase, wordLowercase).stream().reduce(Float.valueOf(0), Float::sum);
-    return (int) (2 + 0.25 * (correctLength - 7) - 0.5 * firstCharWrong);
+    if (correctLength <= 7) {
+      return (int) (2 - firstCharWrong);
+    }
+    return (int) (2 + 0.25 * (correctLength - 7) - 0.6 * firstCharWrong);
   }
 
   private List<Integer> distancesPerWord(String s1, String s2) {
@@ -154,10 +154,10 @@ public class MultitokenSpeller {
       return 0;
     }
     if (a == 's' && b == 'z' || a == 'z' && b == 's') {
-      return 0.5F;
+      return 0.2F;
     }
     if (a == 'b' && b == 'v' || a == 'v' && b == 'b') {
-      return 0.5F;
+      return 0.2F;
     }
     return 1;
   }
