@@ -7812,7 +7812,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Deixei o local um pouco irritada.</example>
             </antipattern>
 
-            <rule id='PELO_QUAL_PELA_QUAL' name="Concordância Género: 'pelo' qual → 'pela'" default="temp_off">
+            <rule id='PELO_QUAL_PELA_QUAL' name="Concordância: 'pelo' → 'pela'" default="temp_off">
                 <antipattern>
                     <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
                     <token min='0' max='1' postag='CC|RG' postag_regexp='yes'/>
@@ -7836,14 +7836,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                     <token regexp='yes'>qua(l|is)</token>
                 </pattern>
-                <message>Possível erro de concordância de género.</message>
+                <message>Possível erro de concordância. Verifique se não quis dizer:</message>
                 <suggestion><match no='3' postag='SPS00:DA0M(.)0' postag_replace='SPS00:DA0F$10'>por:o</match></suggestion>
                 <example correction="pela">Esta foi a razão <marker>pelo</marker> qual ele concebeu a equação.</example>
                 <example correction="pelas">Estas foram as razões <marker>pelos</marker> quais ele concebeu a equação.</example>
                 <example correction="pelas">Esta foi uma das razões <marker>pelos</marker> quais ele concebeu a equação.</example>
             </rule>
 
-            <rule id='PELA_QUAL_PELO_QUAL' name="Concordância Género: 'pela' qual → 'pelo'" default="temp_off">
+            <rule id='PELA_QUAL_PELO_QUAL' name="Concordância: 'pela' → 'pelo'" default="temp_off">
                 <antipattern>
                     <token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
                     <token min='0' max='1' postag='CC|RG' postag_regexp='yes'/>
@@ -7865,7 +7865,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                     <token regexp='yes'>qua(l|is)</token>
                 </pattern>
-                <message>Possível erro de concordância de género.</message>
+                <message>Possível erro de concordância. Verifique se não quis dizer:</message>
                 <suggestion><match no='3' postag='SPS00:DA0F(.)0' postag_replace='SPS00:DA0M$10'>por:o</match></suggestion>
                 <example correction="pelo">Este foi o motivo <marker>pela</marker> qual ele concebeu a equação.</example>
                 <example correction="pelos">Estes foram os motivos <marker>pelas</marker> quais ele concebeu a equação.</example>
