@@ -36,6 +36,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 
 import org.jetbrains.annotations.Nullable;
@@ -2131,6 +2132,8 @@ public class MultiDocumentsHandler {
       cancelBottom.addActionListener(e -> {
         close_intern();
       });
+      JProgressBar progressBar = new JProgressBar();
+      progressBar.setIndeterminate(true);
       dialog = new JDialog();
       Container contentPane = dialog.getContentPane();
       dialog.setName("InformationThread");
@@ -2171,6 +2174,8 @@ public class MultiDocumentsHandler {
       cons.anchor = GridBagConstraints.CENTER;
       cons.fill = GridBagConstraints.BOTH;
       panel.add(textLabel, cons);
+      cons.gridy++;
+      panel.add(progressBar, cons);
       cons.gridy++;
       cons.fill = GridBagConstraints.NONE;
       panel.add(cancelBottom, cons);
