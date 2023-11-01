@@ -113,6 +113,11 @@ public class JLanguageToolTest {
   @Test
   public void testMultitokenSpeller() throws IOException {
     Language lang = new Catalan();
+    assertEquals("[John Venn]", lang.getMultitokenSpeller().getSuggestions("Jon Benn").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("josue garcia").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Franco more").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("maria Lopez").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("carlos fesi").toString());
     assertEquals("[Nikolai Rimski-Kórsakov]", lang.getMultitokenSpeller().getSuggestions("Nicolai Rimski-Kórsakov").toString());
     assertEquals("[Rimski-Kórsakov]", lang.getMultitokenSpeller().getSuggestions("Rimsky-Korsakov").toString());
     assertEquals("[Johann Sebastian Bach]", lang.getMultitokenSpeller().getSuggestions("Johan Sebastián Bach").toString());
@@ -144,6 +149,7 @@ public class JLanguageToolTest {
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Jean-François Davy").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("finç abui").toString());
     assertEquals("[Led Zeppelin]", lang.getMultitokenSpeller().getSuggestions("Led Zepelin").toString());
+    assertEquals("[Led Zeppelin]", lang.getMultitokenSpeller().getSuggestions("Led Sepelin").toString());
     assertEquals("[Marie Curie]", lang.getMultitokenSpeller().getSuggestions("Marie Cuirie").toString());
     assertEquals("[William Byrd]", lang.getMultitokenSpeller().getSuggestions("William Bird").toString());
     assertEquals("[Lluís Llach]", lang.getMultitokenSpeller().getSuggestions("Lluis Llach").toString());

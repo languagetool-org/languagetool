@@ -56,6 +56,8 @@ public class MultitokenSpeller {
 
   public List<String> getSuggestions(String word) throws IOException {
     word = word.replaceAll("\\p{Zs}+", " ");
+    word = word.replaceAll("- ", "-");
+    word = word.replaceAll(" -", "-");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
     }
@@ -113,7 +115,8 @@ public class MultitokenSpeller {
     if (correctLength <= 7) {
       return 2;
     }
-    return (int) (2 + 0.25 * (correctLength - 7));
+    Float firstCharWrong = firstCharacterDistances(candidateLowercase, wordLowercase).stream().reduce(Float.valueOf(0), Float::sum);
+    return (int) (2 + 0.25 * (correctLength - 7) - 0.5 * firstCharWrong);
   }
 
   private List<Integer> distancesPerWord(String s1, String s2) {
@@ -128,6 +131,35 @@ public class MultitokenSpeller {
       distances.add(levenshteinDistance(s1, s2));
     }
     return distances;
+  }
+
+  private List<Float> firstCharacterDistances(String s1, String s2) {
+    List<Float> distances = new ArrayList<>();
+    String parts1[] = s1.split("[ -]");
+    String parts2[] = s2.split("[ -]");
+    if (parts1.length == parts2.length && parts1.length > 1) {
+      for (int i=0; i<parts1.length; i++) {
+
+        distances.add(charDistance(parts1[i].charAt(0), parts2[i].charAt(0)));
+      }
+    } else {
+      distances.add((float) 0);
+    }
+    return distances;
+  }
+
+  private float charDistance (char a, char b) {
+    //TODO: full keyboard distances
+    if (a == b) {
+      return 0;
+    }
+    if (a == 's' && b == 'z' || a == 'z' && b == 's') {
+      return 0.5F;
+    }
+    if (a == 'b' && b == 'v' || a == 'v' && b == 'b') {
+      return 0.5F;
+    }
+    return 1;
   }
 
   private int levenshteinDistance(String s1, String s2) {
