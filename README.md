@@ -49,12 +49,19 @@
 
 #### 4) İsim ekileşmesi
 Menim `ağa qardaşlarım` Aqmescitte yaşaylar. => Menim `ağa-qardaşlarım` Aqmescitte yaşaylar.
+
 Endi `ana babalarımnen` yaşayım. => Endi `ana-babalarımnen` yaşayım.
+
 Bala bağçasına çoq `bala çağalar` keldiler. => Bala bağçasına çoq `bala-çağalar` keldiler.
+
 Toyumızğa çoq `soy soplarımıznı` çağırdıq. => Toyumızğa çoq `soy-soplarımıznı` çağırdıq.
+
 Toyumızda `çalğı çağana` çoq çaldı. => Toyumızda `çalğı-çağana` çoq çaldı.
+
 Qardaşım `alış verişni` yapa. => Qardaşım `alış-verişni` yapa.
+
 Memetnen `ara sıra` körüşemiz. => Memetnen `ara-sıra` körüşemiz.
+
 Ahtem uçurımdan özenge `aman aman` tüşti. => Ahtem uçurımdan özenge `aman-aman` tüşti. 
 
 ### Граматика
@@ -77,15 +84,17 @@ Ahtem uçurımdan özenge `aman aman` tüşti. => Ahtem uçurımdan özenge `ama
 `Saña` sağ ol. => `Sen` sağ ol.
 
 #### 4) Şahis uyğulaşması
-  1-nci şahis:<br />
-    1. Menim `dostu`. => Menim `dostum`.<br />
-    2. Bizim `dostlar`. => Bizim `dostlarımız`.<br />
-  2-nci şahis:<br />
-    1. Seniñ `dostu`. => Seniñ `dostuñ`.<br />
-    2. Siziñ `dostlar`. => Siziñ `dostlarıñız`.<br />
-  3-nci şahis:<br />
-    1. Asannıñ `dost`. => Asannıñ `dostu`.<br />
-    2. Olarnıñ `dostlar`. => Olarnıñ `dostları`.<br />
+1-nci şahis:<br />
+ 1. Menim `dostu`. => Menim `dostum`.<br />
+ 2. Bizim `dostlar`. => Bizim `dostlarımız`.<br />
+  
+2-nci şahis:<br />
+ 1. Seniñ `dostu`. => Seniñ `dostuñ`.<br />
+ 2. Siziñ `dostlar`. => Siziñ `dostlarıñız`.<br />
+ 
+3-nci şahis:<br />
+ 1. Asannıñ `dost`. => Asannıñ `dostu`.<br />
+ 2. Olarnıñ `dostlar`. => Olarnıñ `dostları`.<br />
 
 #### 5) Sade infinitiv
   1. '-mağa':<br />
@@ -112,16 +121,18 @@ O `yılnıñ` evel. => O `yıldan` evel.
 Beş `aylar`. => Beş `ay`.
 
 #### 12) Fiil şahisi uyğulaşması 
-  1.-nci şahis:<br />
-    1. Men `yaptı`. => Men `yaptım`.<br />
-    2. Biz `yaptılar`. => Biz `yaptıq`.<br />
-  2.-nci şahis:<br />
-    1. Sen `yaptı`. => Sen `yaptıñ`.<br />
-    2. Siz `yaptılar`. => Siz `yaptıñız`.<br />
-  3.-nci şahis:<br />
-    1. Asan `yaptım`. => Asan `yaptı`.<br />
-    2. Olar `yaptıq`. => Olar `yaptılar`.<br />
-
+1.-nci şahis:
+ 1. Men `yaptı`. => Men `yaptım`.
+ 1. Biz `yaptılar`. => Biz `yaptıq`.
+    
+1.-nci şahis:
+ 1. Sen `yaptı`. => Sen `yaptıñ`.
+ 1. Siz `yaptılar`. => Siz `yaptıñız`.
+    
+1.-nci şahis:
+ 1. Asan `yaptım`. => Asan `yaptı`.
+ 1. Olar `yaptıq`. => Olar `yaptılar`.
+    
 
 ### License
 Цей репозиторій є форком офіційного репозиторія LanguageTool, тому всі аспекти ліцензії та документації успадковуються.
