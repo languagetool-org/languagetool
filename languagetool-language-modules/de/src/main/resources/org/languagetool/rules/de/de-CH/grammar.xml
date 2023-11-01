@@ -104,6 +104,21 @@
                 <suggestion>.</suggestion>
                 <example correction=".">Das Seminar startet um 15<marker>:</marker>00.</example>
             </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token regexp="yes">[0-9][0-9]</token>
+                    <marker>
+                        <token>:</token>
+                    </marker>
+                    <token regexp="yes">[0-9][0-9]</token>
+                    <token regexp="yes">bis</token>
+                    <token regexp="yes">[0-9][0-9]</token>
+                    <token regexp="yes">:|\.</token>
+                </pattern>
+                <message>Im Schweizer Schriftdeutsch wird bei Uhrzeitangaben standardmässig ein Punkt gesetzt.</message>
+                <suggestion>.</suggestion>
+                <example correction=".">Das Seminar von 15<marker>:</marker>00 bis 16.00 Uhr statt.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="WAEHRUNGSANGABEN_CHF" name="Währungsangaben in CHF mit Punkt statt Komma, z. B. '45,00 CHF (45.00 CHF)'">
