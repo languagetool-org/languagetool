@@ -348,7 +348,10 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
         detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(highestScoringResult.getKey(), additionalLangs), newScore, source));
       }
     }
-    if (detectedLanguages.isEmpty() && !preferredLangs.isEmpty() && Languages.isLanguageSupported(preferredLangs.get(0))) {
+    if (detectedLanguages.isEmpty() && !preferredLangs.isEmpty() &&
+      preferredLangs.get(0) != null &&
+      !preferredLangs.get(0).trim().isEmpty() &&
+      Languages.isLanguageSupported(preferredLangs.get(0))) {
       source += "+fallbackToPrefLang";
       detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(preferredLangs.get(0)), 0.1f, source));
     }
