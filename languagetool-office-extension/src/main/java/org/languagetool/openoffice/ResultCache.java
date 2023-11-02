@@ -43,7 +43,7 @@ import com.sun.star.text.TextMarkupType;
 class ResultCache implements Serializable {
 
   private static final long serialVersionUID = 2L;
-  private Map<Integer, SerialCacheEntry> entries;
+  private final Map<Integer, SerialCacheEntry> entries = new HashMap<Integer, SerialCacheEntry>();
   
   private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
   
@@ -73,10 +73,9 @@ class ResultCache implements Serializable {
   void replace(ResultCache cache) {
     rwLock.writeLock().lock();
     try {
-      if (cache == null || cache.entries == null) {
-        entries = new HashMap<>();
-      } else {
-        entries = cache.getMap();
+      entries.clear();
+      if (cache != null && !cache.entries.isEmpty()) {
+        entries.putAll(cache.getMap());
       }
     } finally {
       rwLock.writeLock().unlock();
@@ -120,8 +119,8 @@ class ResultCache implements Serializable {
     }
     rwLock.writeLock().lock();
     try {
-      Map<Integer, SerialCacheEntry> tmpEntries = entries;
-      entries = new HashMap<>();
+      Map<Integer, SerialCacheEntry> tmpEntries = new HashMap<Integer, SerialCacheEntry>(entries);
+      entries.clear();
       if (shift < 0) {
         for (int i : tmpEntries.keySet()) {
           if (i >= firstParagraph - shift) {
@@ -195,6 +194,54 @@ class ResultCache implements Serializable {
   }
 
   /**
+   * Size of cache (size of entries)
+   */
+  int size() {
+    rwLock.readLock().lock();
+    try {
+      return entries.size();
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get cache entry of paragraph
+   */
+  int getNumberofNotNullEntries() {
+    rwLock.readLock().lock();
+    try {
+      int num = 0;
+      for (int n : entries.keySet()) {
+        if (entries.get(n) != null) {
+          num++;
+        }
+      }
+      return num;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get cache entry of paragraph
+   */
+  int getNumberofErrors() {
+    rwLock.readLock().lock();
+    try {
+      int num = 0;
+      for (int n : entries.keySet()) {
+        if (entries.get(n) != null) {
+          num += entries.get(n).errorArray.length;
+        }
+      }
+      return num;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
    * get cache entry of paragraph
    */
   CacheEntry getCacheEntry(int numberOfParagraph) {
@@ -216,6 +263,27 @@ class ResultCache implements Serializable {
   }
 
   /**
+   * cache has an Error or has reached a limit of entries
+   */
+  boolean hasAnError(int limit) {
+    rwLock.readLock().lock();
+    try {
+      if (entries.size() >= limit) {
+        return true;
+      }
+      Set<Integer> paras = new HashSet<>(entries.keySet());
+      for (int n : paras) {
+        if (entries.get(n).errorArray.length > 0) {
+          return true;
+        }
+      }
+      return false;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
    * get cache entry of paragraph
    */
   SerialCacheEntry getSerialCacheEntry(int numberOfParagraph) {
@@ -229,13 +297,22 @@ class ResultCache implements Serializable {
 
   /**
    * get Proofreading errors of on paragraph from cache
+   * get an error array, if a prargrapherray exists
    */
-  SingleProofreadingError[] getUnsafeMatches(int numberOfParagraph) {
-    SerialCacheEntry entry = entries.get(numberOfParagraph);
-    if (entry == null) {
-      return null;
+  SingleProofreadingError[] getSafeMatches(int numberOfParagraph) {
+    rwLock.readLock().lock();
+    try {
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
+      if (entry == null) {
+        return null;
+      }
+      if (entry.errorArray == null) {
+        return (new SingleProofreadingError[0]);
+      }
+      return entry.getErrorArray();
+    } finally {
+      rwLock.readLock().unlock();
     }
-    return entry.getErrorArray();
   }
 
   /**

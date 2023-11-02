@@ -34,7 +34,6 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.ResultCache.CacheEntry;
-import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -44,8 +43,6 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
-
-import static java.lang.System.arraycopy;
 
 /**
  * Class for processing one LO/OO check request
@@ -266,17 +263,19 @@ class SingleCheck {
           int textPos = startPos;
           if (textPos < 0) textPos = 0;
           for (RuleMatch myRuleMatch : paragraphMatches) {
-            int startErrPos = myRuleMatch.getFromPos();
-            if (debugMode > 2) {
-              MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: Cache = " + cacheNum 
-                  + ", startPos = " + startPos + ", endPos = " + endPos + ", startErrPos = " + startErrPos);
-            }
-            if (startErrPos >= startPos && startErrPos < endPos) {
-              int toPos = docCache.getTextParagraph(textPara).length();
-              if (toPos > 0) {
-                errorList.add(correctRuleMatchWithFootnotes(
-                    createOOoError(myRuleMatch, -textPos, footnotePos),
-                      footnotePos, docCache.getTextParagraphDeletedCharacters(textPara)));
+            if (isCorrectRuleMatch(myRuleMatch, textToCheck, lt.getLanguage())) {
+              int startErrPos = myRuleMatch.getFromPos();
+              if (debugMode > 2) {
+                MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: Cache = " + cacheNum 
+                    + ", startPos = " + startPos + ", endPos = " + endPos + ", startErrPos = " + startErrPos);
+              }
+              if (startErrPos >= startPos && startErrPos < endPos) {
+                int toPos = docCache.getTextParagraph(textPara).length();
+                if (toPos > 0) {
+                  errorList.add(correctRuleMatchWithFootnotes(
+                      createOOoError(myRuleMatch, -textPos, footnotePos),
+                        footnotePos, docCache.getTextParagraphDeletedCharacters(textPara)));
+                }
               }
             }
           }
@@ -562,7 +561,8 @@ class SingleCheck {
         if (mLt == null || (isTextParagraph && docCache.isAutomaticGenerated(nFPara))) {
           paragraphMatches = null;
         } else {
-          paragraphMatches = mLt.check(removeFootnotes(paraText, footnotePos, deletedChars), true, JLanguageTool.ParagraphHandling.NORMAL);
+          paraText = removeFootnotes(paraText, footnotePos, deletedChars);
+          paragraphMatches = mLt.check(paraText, true, JLanguageTool.ParagraphHandling.NORMAL);
         }
         if (isDisposed()) {
           return null;
@@ -576,12 +576,14 @@ class SingleCheck {
         } else {
           List<SingleProofreadingError> errorList = new ArrayList<>();
           for (RuleMatch myRuleMatch : paragraphMatches) {
-            int toPos = myRuleMatch.getToPos();
-            if (toPos > paraText.length()) {
-              toPos = paraText.length();
+            if (isCorrectRuleMatch(myRuleMatch, paraText, lt.getLanguage())) {
+              int toPos = myRuleMatch.getToPos();
+              if (toPos > paraText.length()) {
+                toPos = paraText.length();
+              }
+              errorList.add(correctRuleMatchWithFootnotes(
+                  createOOoError(myRuleMatch, 0, footnotePos), footnotePos, deletedChars));
             }
-            errorList.add(correctRuleMatchWithFootnotes(
-                createOOoError(myRuleMatch, 0, footnotePos), footnotePos, deletedChars));
           }
           if (!errorList.isEmpty()) {
             if (debugMode > 1) {
@@ -613,6 +615,23 @@ class SingleCheck {
       MessageHandler.showError(t);
     }
     return null;
+  }
+  
+  /**
+   * is a grammar error or a correct spell error
+   */
+  private boolean isCorrectRuleMatch(RuleMatch ruleMatch, String text, Language lang) {
+    if (!ruleMatch.getRule().isDictionaryBasedSpellingRule()) {
+      return true;
+    }
+    String word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
+    if (!mDocHandler.getLinguisticServices().isCorrectSpell(word, lang)) {
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("SingleCheck: checkParaRules: not correct spelled word: " + word + "; lang: " + lang.toString());
+      }
+      return true;
+    }
+    return false;
   }
   
   /**
@@ -701,7 +720,7 @@ class SingleCheck {
     if (url != null) {
       nDim++;
     }
-    if (underlineColor != Color.blue) {
+    if (underlineColor != Color.blue || ruleMatch.getRule().isDictionaryBasedSpellingRule()) {
       nDim++;
     }
     if (underlineType != Configuration.UNDERLINE_WAVE || (config.markSingleCharBold() && aError.nErrorLength == 1)) {
@@ -718,10 +737,16 @@ class SingleCheck {
         propertyValues[n] = new PropertyValue("FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE);
         n++;
       }
-      if (underlineColor != Color.blue) {
-        int ucolor = underlineColor.getRGB() & 0xFFFFFF;
+      if (ruleMatch.getRule().isDictionaryBasedSpellingRule()) {
+        int ucolor = Color.red.getRGB() & 0xFFFFFF;
         propertyValues[n] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
         n++;
+      } else {
+        if (underlineColor != Color.blue) {
+          int ucolor = underlineColor.getRGB() & 0xFFFFFF;
+          propertyValues[n] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
+          n++;
+        }
       }
       if (underlineType != Configuration.UNDERLINE_WAVE) {
         propertyValues[n] = new PropertyValue("LineType", -1, underlineType, PropertyState.DIRECT_VALUE);

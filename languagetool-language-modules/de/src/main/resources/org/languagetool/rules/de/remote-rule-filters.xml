@@ -1720,6 +1720,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_DE_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup name="" id="AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD">
+            <rule>
+                <pattern>
+                    <token>österr</token>
+                    <token>.</token>
+                </pattern>
+                <example correction="">Das <marker>österr.</marker> Parlament tagt heute.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_NOUN" name="">
             <rule>
                 <pattern>
@@ -1775,6 +1785,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_OTHER" name="">
+            <rule>
+                <pattern>
+                    <token>plemplem</token>
+                </pattern>
+                <example correction="">Du bist doch echt <marker>plemplem</marker>!</example>
+            </rule>
             <rule><!--1-->
                 <pattern>
                     <token regexp="yes">[a-zäöü]*</token>
@@ -1938,25 +1954,63 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
             <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
                 <pattern case_sensitive="yes">
-                    <token>mydays</token><!-- can be extended by other words-->
+                    <token regexp="yes">mydays|essie</token><!-- can be extended by other words-->
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">mords</token>
+                    </marker>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Das ist aber <marker>mords</marker> klein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">mords</token>
+                    </marker>
+                    <token>was</token>
+                    <token>los</token>
+                </pattern>
+                <example correction="">Hier ist heute aber <marker>mords</marker> was los.</example>
             </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE" name="">
-            <rule><!-- FP -->
+            <rule><!-- 1 -->
                 <pattern>
                     <token>von</token>
                     <token>Seiten</token>
                     <token min="0" regexp="yes">dritter|anderer</token>
-                    <token min="0">zu</token>
                     <token postag_regexp="yes" postag="VER.*" />
                 </pattern>
                 <example correction="">Die Werbung wird <marker>von Seiten blockiert</marker>.</example>
-                <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten Dritter zu beeinflussen</marker>.</example>
-                <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten anderer zu beeinflussen</marker>.</example>
+                <example correction="">Wir können keine Inhalte <marker>von Seiten Dritter überprüfen</marker>.</example>
             </rule>
+            <rule><!-- 2 -->
+                <pattern>
+                    <token>von</token>
+                    <token>Seiten</token>
+                    <token min="0" regexp="yes">dritter|anderer</token>
+                    <token>zu</token>
+                    <token postag_regexp="yes" postag="VER.*" />
+                </pattern>
+                <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten Dritter zu beeinflussen</marker>.</example>
+            </rule>
+            <rule><!--3 --><!--errors found and corrected by other (recommendation) rules-->
+                <pattern>
+                    <token>zu</token>
+                    <token regexp="yes">(un)?gunsten</token>
+                </pattern>
+                <example correction="">Das Verhältnis hat sich  <marker>zu Gunsten</marker> von China verschoben.</example><!--right, but not recommended, found by EMPFOHLENE_ZUSAMMENSCHREIBUNG-->
+                <example correction="">Das Verhältnis hat sich  <marker>zu gunsten</marker> von China verschoben.</example><!--wrong, but corrected by ZU_GUNSTEN_KLEIN-->
+                <example correction="">Das Verhältnis hat sich  <marker>zu Ungunsten</marker> von China verschoben.</example><!--right, but not recommended, EMPFOHLENE_ZUSAMMENSCHREIBUNG-->
+                <example correction="">Das Verhältnis hat sich  <marker>zu ungunsten</marker> von China verschoben.</example><!--wrong, but corrected by ZU_GUNSTEN_KLEIN-->
+            </rule>
+
         </rulegroup>
 
     </category>

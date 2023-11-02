@@ -436,6 +436,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="MOTO_GP" name="MotoGP">
+            <pattern>
+                <token>moto</token>
+                <token min="0">-</token>
+                <token>gp</token>
+            </pattern>
+            <message>La escritura adecuada es <suggestion>MotoGP</suggestion> (categoría de motociclismo).</message>
+            <url>https://es.wikipedia.org/wiki/MotoGP</url>
+            <example correction="MotoGP">Participa en la categoría de <marker>moto gp</marker>.</example>
+        </rule>
         <rulegroup id="CONTRACORRIENTE" name=" *contracorriente, *a contra corriente">
             <url>http://www.fundeu.es/recomendacion/a-contracorrienteo-contra-corriente/</url>
             <rule>
@@ -5858,6 +5868,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token>continua</token>
+                    </marker>
+                    <token>con</token>
+                </pattern>
+                <message>Si es del v. 'continuar', se escribe con tilde. Correcto si es un adjetivo.</message>
+                <suggestion><match no="2" regexp_match="(?iu)ua" regexp_replace="úa"/></suggestion>
+                <example correction="continúa">El cliente no <marker>continua</marker> con el proceso.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token regexp="yes">continua|continuas</token>
                     </marker>
@@ -10948,6 +10970,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="3" postag="N.[MC][SN].*|A..[MC][NS]." postag_regexp="yes"/>
                 <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
             </antipattern>
+            <rule>
+                <antipattern>
+                    <token postag="V.*|SP.*|DA.*|_PUNCT.*|SENT_START" postag_regexp="yes"/>
+                    <token>este</token>
+                    <example>Se derrumbó tras unas obras llevadas a cabo en 1995, dejando este al descubierto.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">rumbo|sección</token>
+                    <token>este</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token regexp="yes">al?</token>
+                    <token min="0" regexp="yes">las?|una?</token>
+                    <token regexp="yes">&context_ESTE_AL_LA;</token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Que no <marker>este</marker> al tanto.</example>
+                <example correction="esté">Lo que permite que cualquier negocio <marker>este</marker> a la vanguardia.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
@@ -26066,6 +26110,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="E_L" name="E l -> El">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[EeAa]</token>
+                <token>l<exception scope="next" spacebefore="no">&apostrophe;</exception></token>
+            </pattern>
+            <message>¿Quería decir <suggestion>\1\2</suggestion>?</message>
+            <example correction="El"><marker>E l</marker> otro día.</example>
+        </rule>
+        <rulegroup id="CONFUSION_ELE_I" name="Carlos lll -> Carlos III">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token spacebefore="yes">l<exception scope="next" regexp="yes">&apostrophe;</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>I</suggestion>
+                <example correction="I">Era el rey Carlos <marker>l</marker>.</example>
+                <example>Alqueria Nova l'.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token spacebefore="yes">ll</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>II</suggestion>
+                <example correction="II">Era el rey Carlos <marker>ll</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag_regexp="yes" postag="NP.*" regexp="yes">\p{Lu}.*</token>
+                    <marker>
+                        <token spacebefore="yes" regexp="yes">Il|lI<exception postag="NP.*" postag_regexp="yes"/><exception scope="next" spacebefore="no">-</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>II</suggestion>
+                <example correction="II">Era el rey Carlos <marker>lI</marker>.</example>
+                <example>Park Il-soon.</example>
+                <example>Kim Il-Sung.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <marker>
+                        <token spacebefore="yes">lll</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula (números romanos).</message>
+                <suggestion>III</suggestion>
+                <example correction="III">Era el rey Carlos <marker>lll</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token case_sensitive="yes">EI</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión entre la letra ele minúscula y la letra i mayúscula.</message>
+                <suggestion><match no="3" regexp_match="EI" regexp_replace="El" case_conversion="firstupper"/></suggestion>
+                <example correction="El"><marker>EI</marker> Sr. David.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VULVA_VUELVA" name="vulva -> vuelva">
             <rule>
                 <pattern>
@@ -31540,7 +31653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="COMILLAS_APOSTROFO" name="Confusión comillas de apertura/apóstrofo" default="temp_off">
+        <rulegroup id="COMILLAS_APOSTROFO" name="Confusión comillas de apertura/apóstrofo">
             <short>Carácter incorrecto</short>
             <rule>
                 <pattern>
@@ -34811,6 +34924,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_THREE" name="errores de ortografía en nombres propios (3 elementos)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">.+</token>
+                <token><match no="0"/></token>
+                <token><match no="0"/></token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
@@ -34908,6 +35026,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_TWO" name="errores de ortografía en nombres propios (dos elementos)" default="temp_off">
+            <antipattern>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no"/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes">\p{Lu}.*</token>
@@ -34954,7 +35076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="NP.*" postag_regexp="yes"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="keepSpaces:true"/>
                 <message>Posible error de ortografía.</message>
@@ -34973,6 +35095,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>–Robert Downey Jr.–</example>
                 <example>Yolanda Perez</example>
                 <example>Yolanda Pérez</example>
+                <example>Best Seller</example>
             </rule>
             <rule>
                 <antipattern>
@@ -35002,7 +35125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Alexander von Bach.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios amb guionet" default="temp_off">
+        <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios con guion" default="temp_off">
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token>-</token>
@@ -35031,6 +35154,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Saint-Exupéry"><marker>Saint-Exupery</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes"  spacebefore="no">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Rimski-Kórsakov"><marker>Rimsky-Kórsakov</marker>.</example>
             </rule>
         </rulegroup>
     </category>

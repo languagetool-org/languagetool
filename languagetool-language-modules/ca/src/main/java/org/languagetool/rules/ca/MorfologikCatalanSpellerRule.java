@@ -278,4 +278,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     return false;
   }
 
+  // Do not tokenize new words from spelling.txt...
+  // Multi-token words should be in multiwords.txt
+  protected boolean tokenizeNewWords() {
+    return false;
+  }
+
 }

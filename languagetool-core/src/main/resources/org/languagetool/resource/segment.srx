@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Wat God buiten Christus is. 2.</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Handelingen van het Genootschap van Brugge, CXVI, 1979, pp. 125</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1540,6 +1540,11 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<!--Do not break after abbreviation of type a.b.c.-->
+<rule break="no">
+<beforebreak>\s([a-z]\.){2,10}\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>[ ]is[.][ ]</beforebreak>
 <afterbreak>[0-9]\.($|[ ])</afterbreak>
@@ -1641,6 +1646,10 @@
 <beforebreak>\b(geb|[Gg]em|get|gld|id|[Ii]ncl|ind|inf|ing|intern|[Ss]ec|inz|ir|jhr|jkvr)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<rule break="yes">
+<beforebreak>\.(nl|be|com)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b(jl|jr|kr|kt|lic|ll|lt|lw|max|[Mm]evr|mi|[Mm]in|mld)\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -1712,6 +1721,11 @@
 <rule break="no">
 <beforebreak>\b\p{L}\.\s</beforebreak>
 <afterbreak>\p{L}\.\s</afterbreak>
+</rule>
+<!--Break also when the next sentence has no capital-->
+<rule break="yes">
+<beforebreak>\s((is|op|in|af|ik|ze|om|me|je|na|nu|al|ja|II|VS|EU|er|we|tv|he|ga|hè|hé|TV|as|ei|SP|pc|wc|PC|IV|IS|NS|ok|AD|OK|at|OM|cd|VN|it|EK|In|pa|AZ|up|IT|FM|VI|ui|la|CD|CV|pr|ie|cv|WW|GB|Jo|Ad|Aa|UK|HD|oa|VU))\.\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b\p{L}\.</beforebreak>
@@ -4864,7 +4878,7 @@
 <rule break="no">
 <beforebreak>\b(Ltd|[Ee]ds?|[Cc]oords?|\d+(r|n|t|è|é|a|rs|ns|es)|seg|masc|fem|sing|pl|adj|adv|g|kg|m|km|cm|ha|u|h|hrs|s|ss|alt|cant|cast|cert|com|dir|grs?|nom|parc|pres|set|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>[\-¡¿«»"'\u2018\u201C\p{Ps}\u2012\u2013\u2014\u2015\u2053]*\p{Ll}</afterbreak>
-</rule>   
+</rule>
 <!-- Any word in acronyms like U.S.A.F or F. B. I. or C. or c.s.p. or p. e. -->
 <rule break="no">
 <beforebreak>\b(\p{L}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
@@ -5070,7 +5084,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(cts?|[Cc]a|chem|chin|Chr|cresc|[Dd]at|desgl|ders|dgl|Dipl|Dir?|Doz?|durchg|durchges|Dr|dt|ebd|Ed|[Ee]igt?l|akt|[Ee]ngl|Erg|al|et[cw]|Etw|ev|[Ee]vtl?|[Ee]xkl|Expl|Exz)\.[\u00A0\s]{1,2}</beforebreak>
+<beforebreak>\b(cts?|[Cc]a|chem|chin|Chr|cresc|[Dd]at|desgl|ders|dgl|Dipl|Dir?|Doz?|durchg|durchges|Dr|[Dd]t|ebd|Ed|[Ee]igt?l|akt|[Ee]ngl|Erg|al|et[cw]|Etw|ev|[Ee]vtl?|[Ee]xkl|Expl|Exz)\.[\u00A0\s]{1,2}</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">

@@ -9846,11 +9846,6 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>pp</token><token regexp="yes">[0-9]+([-][0-9+])?</token><token>pp</token></antipattern>
 				<antipattern>
 					<token case_sensitive="yes" spacebefore="yes" regexp="yes">[Pp]p</token>
-					<token spacebefore="no">.<exception postag="SENT_END"></exception></token>
-					<example>Handelingen van het Genootschap van Brugge, CXVI, 1979, pp. 125–131</example>
-				</antipattern>
-				<antipattern>
-					<token case_sensitive="yes" spacebefore="yes" regexp="yes">[Pp]p</token>
 					<token postag_regexp="yes" postag="GET.*"></token>
 					<example>66, 2, 1976, pp 266–276</example>
 				</antipattern>
@@ -17065,8 +17060,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="JA_KOMMA" name="Dus ja(,) volgens mij wel." default="temp_off">
-			<!-- Can replace and find more errors than current simple replaces for (ja, ...) -->
+		<rulegroup id="JA_KOMMA" name="Dus ja(,) volgens mij wel.">
 			<rule>
 				<antipattern>
 					<token>nou</token>
@@ -17116,25 +17110,9 @@ regexp case-insensitive maken: (?i)
 						</token>
 					</marker>
 				</pattern>
-				<message>Waarschijnlijk ontbreekt hier een komma: <suggestion>Ja, \3</suggestion>.</message>
-				<example correction="Ja, volgens">Dus <marker>ja volgens</marker> mij wel.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="ALINEA_PUNT" name="3. Het grote bos" default="temp_off">
-			<!-- replaces NL_SIMPLE_REPLACE___HET, which needs antipatterns -->
-			<rule>
-				<pattern>
-					<token postag="SENT_START"/>
-					<marker>
-						<token regexp="yes">[0-9]</token>
-						<token case_sensitive="yes" regexp="yes">Het|De|Een</token>
-					</marker>
-				</pattern>
-				<message>Gewoonlijk zet men een punt achter het nummer van een alinea.</message>
-				<suggestion>\2. \3</suggestion>
-				<suggestion>\2: \3</suggestion>
-				<example correction="3. Het|3: Het"><marker>3 Het</marker> grote bos</example>
+				<message>Waarschijnlijk ontbreekt hier een komma: <suggestion>ja, \3</suggestion>.</message>
+				<example correction="ja, volgens">Dus <marker>ja volgens</marker> mij wel.</example>
+				<example correction="ja, ik">Dat klopt <marker>ja ik</marker> ga morgen weg.</example>
 			</rule>
 		</rulegroup>
 
@@ -24342,6 +24320,23 @@ regexp case-insensitive maken: (?i)
                 <example correction="”">Hij drukte op de "Vind ik leuk<marker>"</marker>-knop.</example>
             </rule>
         </rulegroup>
+
+		<rulegroup id="ALINEA_PUNT" name="3. Het grote bos" tags="picky">
+			<!-- replaces NL_SIMPLE_REPLACE___HET, which needs antipatterns -->
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token regexp="yes">[0-9]</token>
+						<token case_sensitive="yes" regexp="yes">Het|De|Een</token>
+					</marker>
+				</pattern>
+				<message>Gewoonlijk zet men een punt achter het nummer van een alinea.</message>
+				<suggestion>\2. \3</suggestion>
+				<suggestion>\2: \3</suggestion>
+				<example correction="3. Het|3: Het"><marker>3 Het</marker> grote bos</example>
+			</rule>
+		</rulegroup>
 
         <rulegroup id="TYPOGRAFISCHE_AANHALINGSTEKENS_2" name="Typografische enkele aanhalingstekens" tags="picky" type="typographical" default="off">
         	<!-- Rule works well, enable when advanced typography goes live -->

@@ -164,16 +164,19 @@ public class DocumentCache implements Serializable {
       return;
     }
     isReset = true;
-    if (debugMode) {
-      MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
+    try {
+      if (debugMode) {
+        MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
+      }
+      if (docType != DocumentType.WRITER) {
+        refreshImpressCalcCache(xComponent);
+      } else {
+        refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
+      }
+      setSingleParagraphsCacheToNull(document.getParagraphsCache());
+    } finally {
+      isReset = false;
     }
-    if (docType != DocumentType.WRITER) {
-      refreshImpressCalcCache(xComponent);
-    } else {
-      refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
-    }
-    setSingleParagraphsCacheToNull(document.getParagraphsCache());
-    isReset = false;
   }
 
   /**

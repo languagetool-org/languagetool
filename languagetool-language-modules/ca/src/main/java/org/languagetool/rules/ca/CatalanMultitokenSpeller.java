@@ -29,7 +29,7 @@ public class CatalanMultitokenSpeller extends MultitokenSpeller {
 
   protected CatalanMultitokenSpeller() {
     super(Languages.getLanguageForShortCode("ca-ES"),
-      Arrays.asList("/ca/multiwords.txt", "/spelling_global.txt"));
+      Arrays.asList("/ca/multiwords.txt", "/spelling_global.txt", "/ca/hyphenated_words.txt"));
   }
 
 }

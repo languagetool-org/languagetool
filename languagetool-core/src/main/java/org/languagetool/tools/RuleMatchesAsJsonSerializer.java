@@ -30,6 +30,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Write rule matches and some meta information as JSON.
@@ -114,6 +115,7 @@ public class RuleMatchesAsJsonSerializer {
         }
         writeIgnoreRanges(g, res);
         writeSentenceRanges(g, res);
+        writeExtendedSentenceRanges(g, res);
         g.writeEndObject();
       }
     } catch (IOException e) {
@@ -232,6 +234,29 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndArray();
   }
 
+  private void writeExtendedSentenceRanges(JsonGenerator g, List<CheckResults> res) throws IOException{
+    g.writeArrayFieldStart("extendedSentenceRanges");
+    for (CheckResults r : res) {
+      for (ExtendedSentenceRange range : r.getExtendedSentenceRanges()) {
+        g.writeStartObject();
+        g.writeNumberField("from", range.getFromPos());
+        g.writeNumberField("to", range.getToPos());
+        g.writeArrayFieldStart("detectedLanguages");
+        for (Map.Entry<String, Float> entry : range.getLanguageConfidenceRates().entrySet()) {
+          String language = entry.getKey();
+          Float rate = entry.getValue();
+          g.writeStartObject();
+          g.writeStringField("language", language);
+          g.writeNumberField("rate", rate);
+          g.writeEndObject();
+        }
+        g.writeEndArray();
+        g.writeEndObject();
+      }
+    }
+    g.writeEndArray();
+  }
+
   private String cleanSuggestion(String s) {
     if (lang != null) {
       return lang.toAdvancedTypography(s); //.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote())
@@ -273,10 +298,10 @@ public class RuleMatchesAsJsonSerializer {
   }
 
   private void writeContext(JsonGenerator g, RuleMatch match, AnnotatedText text, ContextTools contextTools) throws IOException {
-    String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
-    int contextOffset = context.indexOf(START_MARKER);
-    context = context.replaceFirst(START_MARKER, "");
     if (compactMode != 1) {
+      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
+      int contextOffset = context.indexOf(START_MARKER);
+      context = context.replaceFirst(START_MARKER, "");
       g.writeObjectFieldStart("context");
       g.writeStringField("text", context);
       g.writeNumberField("offset", contextOffset);

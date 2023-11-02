@@ -28,12 +28,15 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * Expand lines according to their suffix, e.g. {@code foo/S} becomes {@code [foo, foos]}.
  * @since 3.0
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
+
+  private static final Pattern ESCAPE_REGEX = Pattern.compile("\\\\");
 
   private static final LoadingCache<String, String[]> verbFormCache = CacheBuilder.newBuilder()
     .expireAfterAccess(10, TimeUnit.MINUTES)
@@ -163,6 +166,6 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
     if (idx != -1) {
       s = s.substring(0, idx);
     }
-    return s.replaceAll("\\\\", "").trim();
+    return ESCAPE_REGEX.matcher(s).replaceAll("").trim();
   }
 }

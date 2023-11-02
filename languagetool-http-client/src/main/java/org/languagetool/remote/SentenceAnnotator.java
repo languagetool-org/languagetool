@@ -146,6 +146,7 @@ public class SentenceAnnotator {
         switch (response) {
         case "r":
           sentence = line;
+          fpMatches.clear();
           cfg.outStrB = new StringBuilder();
           break;
         case "q":

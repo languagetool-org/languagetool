@@ -619,11 +619,13 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param historicalAnnotations the historicalAnnotations to set
    */
   private void setHistoricalAnnotations(String historicalAnnotations) {
-    this.historicalAnnotations = historicalAnnotations;
+    if (GlobalConfig.isVerbose()) {
+      this.historicalAnnotations = historicalAnnotations;
+    }
   }
   
   private void addHistoricalAnnotations(String oldValue, String ruleApplied) {
-    if (!ruleApplied.isEmpty()) {
+    if (!ruleApplied.isEmpty() && GlobalConfig.isVerbose()) {
       this.historicalAnnotations = this.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldValue + " -> "
           + this;
     }

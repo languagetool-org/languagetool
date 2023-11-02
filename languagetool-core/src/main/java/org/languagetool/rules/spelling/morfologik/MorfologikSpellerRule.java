@@ -205,10 +205,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         isFirstWord = false;
       }
       if (foreignLanguageChecker != null && !gotResultsFromForeignLanguageChecker) {
-        String langCode = foreignLanguageChecker.check(ruleMatches.size());
-        if (langCode != null) {
-          if (!langCode.equals(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED)) {
-            ruleMatches.get(0).setErrorLimitLang(langCode);
+        Map<String, Float> langCodesScoring = foreignLanguageChecker.check(ruleMatches.size());
+        if (!langCodesScoring.isEmpty()) {
+          if (langCodesScoring.get(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED) == null) {
+            ruleMatches.get(0).setNewLanguageMatches(langCodesScoring);
           }
           gotResultsFromForeignLanguageChecker = true;
         }
@@ -323,6 +323,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     RuleMatch ruleMatch = null;
     
     if (!isMisspelled(speller1, word) && !isProhibited(word)) {
+      return ruleMatches;
+    }
+
+    if (ignorePotentiallyMisspelledWord(word)) {
       return ruleMatches;
     }
     

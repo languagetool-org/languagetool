@@ -252,18 +252,15 @@ public class SingleDocument {
       mDocHandler.setUseOriginalCheckDialog();
     }
 
-    if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
+    if (!hasSortedTextId && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
         && (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || docCache.isResetRunning())) {
       //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
       //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
-//      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
-//          docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, true, isMouseRequest, false);
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
           docLanguage, numParasToCheck, true, isMouseRequest, false);
       paRes.aErrors = singleCheck.checkParaRules(paraText, locale, 
                                     footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false, errType);
       closeDocumentCursor();
-//      viewCursor = null;
       return paRes;
     }
     if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
@@ -353,11 +350,12 @@ public class SingleDocument {
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
       }
+//      MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum);
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
           docLanguage, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
-//      MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
           paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara, errType);
+//    MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum + " done");
 //      MessageHandler.printToLogFile("Single document: Check Paragraph: resultCache for Para " + paraNum + ": "
 //          + (paragraphsCache.get(0).getCacheEntry(paraNum) == null 
 //          ? "null" : paragraphsCache.get(0).getCacheEntry(paraNum).errorArray.length));
@@ -608,7 +606,7 @@ public class SingleDocument {
    * read caches from file
    */
   void readCaches() {
-    if (numParasToCheck != 0 && docType == DocumentType.WRITER) {
+    if (numParasToCheck != 0 && docType != DocumentType.CALC) {
       cacheIO = new CacheIO(xComponent);
       boolean cacheExist = cacheIO.readAllCaches(config, mDocHandler);
       if (cacheExist) {
@@ -629,7 +627,7 @@ public class SingleDocument {
    * write caches to file
    */
   void writeCaches() {
-    if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType == DocumentType.WRITER) {
+    if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType != DocumentType.CALC) {
       MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
       DocumentCache docCache = new DocumentCache(this.docCache);
       List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
@@ -748,7 +746,7 @@ public class SingleDocument {
    * create a queue entry 
    * used by getNextQueueEntry
    */
-  private QueueEntry createQueueEntry(TextParagraph nPara, int nCache) {
+  QueueEntry createQueueEntry(TextParagraph nPara, int nCache) {
     int nCheck = mDocHandler.getNumMinToCheckParas().get(nCache);
     int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
     int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);

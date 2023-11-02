@@ -60,6 +60,67 @@
     </category>
 
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
+
+        <rulegroup id="ABKUERZUNGEN_OHNE_PKT_CH" name="Abkürzungen ohne Punkt" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">dtl|gemeindt|mdal|österr|bair|Wz|süddt
+                        <exception scope="next">.</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint der Abkürzungepunkt zu fehlen.</message>
+                <suggestion>\1.</suggestion>
+                <example correction="mdal.">Das bedeutet <marker>mdal</marker> Semmel.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ZEITANGABEN" name="Zeitangaben">
+            <rule><!--1-->
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token>:</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>Uhr</token>
+                </pattern>
+                <message>Im Schweizer Schriftdeutsch wird bei Uhrzeitangaben standardmässig ein Punkt gesetzt.</message>
+                <suggestion>.</suggestion>
+                <example correction=".">Es ist jetzt genau 15<marker>:</marker>30 Uhr.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token regexp="yes">bis|um|von|ab</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token>:</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">[0-9][0-9]
+                        <exception scope="next" regexp="yes">[0-9]</exception>
+                        <exception scope="next">:</exception>
+                    </token>
+                </pattern>
+                <message>Im Schweizer Schriftdeutsch wird bei Uhrzeitangaben standardmässig ein Punkt gesetzt.</message>
+                <suggestion>.</suggestion>
+                <example correction=".">Das Seminar startet um 15<marker>:</marker>00.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token regexp="yes">[0-9][0-9]</token>
+                    <marker>
+                        <token>:</token>
+                    </marker>
+                    <token regexp="yes">[0-9][0-9]</token>
+                    <token>bis</token>
+                    <token regexp="yes">[0-9][0-9]</token>
+                    <token regexp="yes">:|\.</token>
+                </pattern>
+                <message>Im Schweizer Schriftdeutsch wird bei Uhrzeitangaben standardmässig ein Punkt gesetzt.</message>
+                <suggestion>.</suggestion>
+                <example correction=".">Das Seminar von 15<marker>:</marker>00 bis 16.00 Uhr statt.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="WAEHRUNGSANGABEN_CHF" name="Währungsangaben in CHF mit Punkt statt Komma, z. B. '45,00 CHF (45.00 CHF)'">
             <url>https://www.rotstift-ag.ch/rechtschreibregeln/W/waehrungen.html</url>
             <rule><!--1-->
@@ -77,9 +138,9 @@
             <rule><!--2-->
                 <pattern>
                     <token regexp="yes">CHF|s?Fr\.?|Franken?|Schweizerfranken?|Schwiizerfranken?|Rappen?|Rp\.?|JPY|Yen|¥</token>
-                    <token regexp="yes">[0-9].*|–</token>
+                    <token regexp="yes">[0-9].*|(–|-)</token>
                     <token>,</token>
-                    <token regexp="yes">[0-9]{2}|–</token>
+                    <token regexp="yes">[0-9]{2}|(–|-)</token>
                 </pattern>
                 <message>Währungsangaben in Schweizer Franken (und Yen) werden mit einem Punkt statt Komma geschrieben.</message>
                 <suggestion>\1 \2.\4</suggestion>
@@ -400,6 +461,24 @@
                 <suggestion>“</suggestion>
                 <example correction="»|“">Er klickte den "Gefällt mir<marker>"</marker>-Button.</example>
             </rule>
+            <rule default="temp_off"><!-- [16] -->
+                <pattern>
+                    <token>„</token>
+                </pattern>
+                <message>Im Schweizerischen werden standardmässig die Guillemets (« ») gesetzt.</message>
+                <suggestion>«</suggestion>
+                <example correction="«"><marker>„</marker>Ich bin müde“, sagte er.</example>
+            </rule>
+            <rule default="temp_off"><!-- [17] -->
+                <pattern>
+                    <token>“
+                        <exception scope="previous" postag="SENT_START"/>
+                    </token>
+                </pattern>
+                <message>Im Schweizerischen werden standardmässig die Guillemets (« ») gesetzt.</message>
+                <suggestion>»</suggestion>
+                <example correction="»">„Ich bin müde<marker>“</marker>, sagte er.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ANFUEHRUNGSZEICHEN_CH_FR" name="»wörtliche Rede« («wörtliche Rede»)" default="temp_off">
             <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[1] -->
@@ -466,5 +545,55 @@
                 <example correction="»">James Bond führte noch an: »Ich trinke meinen Martini geschüttelt, nicht gerührt<marker>«</marker></example>
             </rule>
         </rulegroup>
+    </category>
+
+    <category id="STYLE" name="Style" type="style">
+
+        <rule id="HABE_GESTANDEN" name="Er hat (ist) da eine Stunde lang gestanden." tone_tags="clarity" default="temp_off">
+            <antipattern>
+                <token regexp="yes">alles|nichts|gleich|Tat|sofort|schlussendlich|schließlich</token>
+                <token>gestanden</token>
+                <example>Er hat die Tat gestanden.</example>
+            </antipattern>
+            <pattern>
+                <token postag="EIG:NOM:.+|PRO:PER:NOM:.+" postag_regexp="yes">
+                    <exception regexp="yes">das|es</exception>
+                    <exception postag="ART:.+" postag_regexp="yes"/>
+                </token>
+                <marker>
+                    <token inflected="yes">haben
+                        <exception postag="PRO:.+" postag_regexp="yes"/>
+                    </token>
+                </marker>
+                <token skip="4">
+                    <exception scope="next" regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
+                    <exception regexp="yes">/|und|&amp;|oder|“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'|–|es</exception>
+                    <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes"/>
+                    <exception postag="PKT|VER:(AUX|MOD):.+|PRO:REF:.+" postag_regexp="yes" scope="next"/>
+                </token>
+                <token postag="VER:PA2:.+" postag_regexp="yes" regexp="yes" inflected="yes">sitzen|stehen|liegen</token>
+                <token postag="PKT"></token>
+            </pattern>
+            <message>Im Schweiter Deutsch wird das Perfekt von '\4' standardmässig mit dem Hilfsverb 'sein' gebildet.</message>
+            <suggestion><match no="2" postag=".*" postag_regexp="yes" case_conversion="startlower">sein</match></suggestion>
+            <example correction="ist">Er <marker>hat</marker> da eine Stunde lang gestanden.</example>
+        </rule>
+
+    </category>
+
+    <category id="IDIOMS" name="Redewendungen">
+
+        <rule id="OCHS_VORM_BERG" name="Ochs vorm Berg (Esel am Berg)">
+            <pattern>
+                <token>wie</token>
+                <token>der</token>
+                <token>Ochs</token>
+                <token>vorm</token>
+                <token>Berg</token>
+            </pattern>
+            <message>Im Schweizer Deutsch lautet die Redewendung <suggestion>wie der Esel am Berg</suggestion>.</message>
+            <example correction="wie der Esel am Berg">Und jetzt stehst du da <marker>wie der Ochs vorm Berg</marker>.</example>
+        </rule>
+
     </category>
 </rules>

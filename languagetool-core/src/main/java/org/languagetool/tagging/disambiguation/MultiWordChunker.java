@@ -220,26 +220,25 @@ public class MultiWordChunker extends AbstractDisambiguator {
       if (checkCanceled != null && checkCanceled.checkCancelled()) {
         break;
       }
-
-      StringBuilder tokens = new StringBuilder();
-      int finalLen = 0;
       if (mStartSpace.containsKey(tok)) {
+        int finalLen = 0;
+        StringBuilder keyBuilder = new StringBuilder();
         int len = mStartSpace.get(tok);
         int j = i;
         int lenCounter = 0;
         while (j < anTokens.length  && j - i < MAX_TOKENS_IN_MULTIWORD) {
           if (!anTokens[j].isWhitespace()) {
-            tokens.append(anTokens[j].getToken());
-            String toks = tokens.toString();
-            if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
+            keyBuilder.append(anTokens[j].getToken());
+            String keyStr = keyBuilder.toString();
+            if (mFull.containsKey(keyStr) && !mFull.get(keyStr).getPOSTag().equals(tagForNotAddingTags)) {
               if (finalLen == 0) { // the key has only one token
-                output[i] = setAndAnnotate(output[i], new AnalyzedToken(toks, mFull.get(toks).getPOSTag(), mFull.get(toks).getLemma()));
+                output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), mFull.get(keyStr).getPOSTag(), mFull.get(keyStr).getLemma()));
               } else {
-                output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
-                output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
+                output[i] = prepareNewReading(keyStr, output[i].getToken(), output[i], false);
+                output[finalLen] = prepareNewReading(keyStr, anTokens[finalLen].getToken(), output[finalLen], true);
               }
             }
-            if (mFull.containsKey(toks) && addIgnoreSpelling) {
+            if (mFull.containsKey(keyStr) && addIgnoreSpelling) {
               if (finalLen == 0) {
                 output[i].ignoreSpelling();
               } else {
@@ -250,7 +249,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
             }
           } else {
             if (j > 1 && !anTokens[j - 1].isWhitespace()) { // avoid multiple whitespaces
-              tokens.append(' ');
+              keyBuilder.append(' ');
               lenCounter++;
             }
             if (lenCounter == len) {
@@ -263,21 +262,22 @@ public class MultiWordChunker extends AbstractDisambiguator {
       }
       if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
         int j = i;
+        StringBuilder keyBuilder = new StringBuilder();
         while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
-          tokens.append(anTokens[j].getToken());
-          String toks = tokens.toString();
-          if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
+          keyBuilder.append(anTokens[j].getToken());
+          String keyStr = keyBuilder.toString();
+          if (mFull.containsKey(keyStr) && !mFull.get(keyStr).getPOSTag().equals(tagForNotAddingTags)) {
             if (i == j) {
-              String postag = mFull.get(toks).getPOSTag();
+              String postag = mFull.get(keyStr).getPOSTag();
               if (!isLowPriorityTag(postag) || !output[i].hasReading()) {
-                output[i] = setAndAnnotate(output[i], new AnalyzedToken(toks, postag, mFull.get(toks).getLemma()));
+                output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), postag, mFull.get(keyStr).getLemma()));
               }
             } else {
-              output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
-              output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
+              output[i] = prepareNewReading(keyStr, anTokens[i].getToken(), output[i], false);
+              output[j] = prepareNewReading(keyStr, anTokens[j].getToken(), output[j], true);
             }
           }
-          if (mFull.containsKey(toks) && addIgnoreSpelling) {
+          if (mFull.containsKey(keyStr) && addIgnoreSpelling) {
             for (int m = i; m <= j; m++) {
               output[m].ignoreSpelling();
             }
