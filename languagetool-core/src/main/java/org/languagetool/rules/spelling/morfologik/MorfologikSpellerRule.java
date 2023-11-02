@@ -20,7 +20,6 @@ package org.languagetool.rules.spelling.morfologik;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.vdurmont.emoji.EmojiManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,7 +70,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   
   private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
   private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
-
+  private static final Pattern WORD_FOR_SPELLER = Pattern.compile("^[\\p{L}\\d\\p{P}\\p{Zs}]+$");
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -660,7 +659,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected static boolean isEmoji(String word) {
     if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
       // some symbols such as emojis (😂) have a string length that equals 2
-      return EmojiManager.isOnlyEmojis(word);
+      return !WORD_FOR_SPELLER.matcher(word).matches();
     }
     return false;
   }

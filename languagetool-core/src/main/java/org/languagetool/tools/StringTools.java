@@ -19,6 +19,7 @@
 package org.languagetool.tools;
 
 import com.google.common.xml.XmlEscapers;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Tools for working with strings.
@@ -67,8 +69,15 @@ public final class StringTools {
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
   private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
   private static final Pattern NOT_WORD_CHARACTER = Pattern.compile("[^\\p{L}]", Pattern.DOTALL);
-
   private static final Pattern NOT_WORD_STR = Pattern.compile("[^\\p{L}]+", Pattern.DOTALL);
+  private static final Pattern CHARS_NOT_FOR_SPELLING = Pattern.compile("[^\\p{L}\\d\\p{P}\\p{Zs}]");
+
+  private static final String[] WHITESPACE_ARRAY = new String[20];
+  static {
+    for (int i = 0; i < 20; i++) {
+      WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
+    }
+  }
 
   private StringTools() {
     // only static stuff
@@ -798,5 +807,19 @@ public final class StringTools {
       converted.append(ch);
     }
     return converted.toString();
+  }
+
+  /*
+   * Replace characters that are not letters, digits, punctuation or white spaces
+   * by white spaces
+   */
+  public static String stringForSpeller(String s) {
+    Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+    while (matcher.find()) {
+      String found = matcher.group(0);
+      // some symbols such as emojis (😂) have a string length larger than 1
+      s = s.replaceAll(found, WHITESPACE_ARRAY[found.length()]);
+    }
+    return s;
   }
 }
