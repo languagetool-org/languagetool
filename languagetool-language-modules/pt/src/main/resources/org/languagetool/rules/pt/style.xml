@@ -8751,15 +8751,7 @@ USA
             <suggestion>durante \5 \6</suggestion>
             <example correction="há décadas|durante décadas">Estas deficiências persistem <marker>ao longo de décadas</marker>.</example>
         </rule>
-        <!-- TEMAS NÃO COBERTOS PELO ARTIGO temas não abrangidos pelo artigo -->
         <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger" tone_tags="academic">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-02 (25-JUL-2022+) -->
-            <!--
-      Em relação a temas não cobertos por este documento. → Em relação a temas não abrangidos por este documento.
-      Temos assuntos cobertos pelo documento. → Temos assuntos abrangidos pelo documento.
-      Este tema não é coberto por este documento. → Este tema não é abrangido por este documento.
-      Este tema está coberto por este documento. → Este tema está abrangido por este documento.
-      -->
             <pattern>
                 <token regexp='yes' inflected='yes'>alinha|artigo|assunto|matéria|ponto|problema|problemática|questão|tema|temática|termo|tópico</token>
                 <token min="0" max="1" postag="RN" postag_regexp="no"/> <!-- "não" -->
@@ -8776,9 +8768,7 @@ USA
             <example correction="abrangido">Este tema não é <marker>coberto</marker> por este documento.</example>
             <example correction="abrangido">Este tema está <marker>coberto</marker> por este documento.</example>
         </rule>
-        <!-- 	ATENÇÃO QUE VERB_MERECER atenção devida-->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-23 (21-OCT-2020+)     -->
-        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="Atenção devida" tone_tags="academic">
+        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="Atenção devida" tone_tags="formal">
             <!-- IDEA shorten_it -->
             <pattern>
                 <token>atenção</token>
@@ -8850,12 +8840,7 @@ USA
             </rule>
         </rulegroup>
 
-        <!-- CONTRÁRIO oposto -->
-        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style" tags="picky" tone_tags="academic">
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
-            <!--
-            A Ana percebeu exatamente o contrário! → A Ana percebeu exatamente o oposto!
-            -->
+        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='RM'/>
@@ -8917,7 +8902,7 @@ USA
 
 
         <!-- USAR empregar -->
-        <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky">
+        <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky" tone_tags="formal" is_goal_specific="true">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-31 (Enhanced) (17-MAR-2021+) *START* -->
             <rule>
                 <pattern>
@@ -9547,13 +9532,7 @@ USA
             </rule>
         </rulegroup>
 
-        <!-- PARA CONCLUIR em suma -->
-        <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky' tone_tags="academic">
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13/19 (5-JUN-2022+)      -->
-            <!--
-            E, para concluir: os valores batem bem. → E, em suma: os valores batem bem.
-            E, resumidamente: os valores batem bem. → E, em suma: os valores batem bem.
-            -->
+        <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
             <rule>
                 <pattern>
                     <or>
@@ -9600,11 +9579,7 @@ USA
 
 
         <!-- PENSAR EM ponderar -->
-        <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="[Científico] Pensar em → ponderar" type="style" tags="picky" tone_tags="academic">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 + 2022-02-08 (25-JUL-2022+) -->
-            <!--
-            Estou a pensar em comprar o PC da televisão. → Estou a ponderar comprar o PC da televisão.
-            -->
+        <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="[Científico] Pensar em → ponderar" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <or>
                     <token/>
@@ -9647,22 +9622,8 @@ USA
         </rule>
 
 
-        <!-- TER NOME ter designação -->
-        <rulegroup id='CIENTÍFICO_TER_NOME_DESIGNAÇÃO' name="[Científico] Ter 'nome' → 'designação'" type="style">
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-05/10 (25-JUL-2022+)      -->
-            <!--
-            O projeto tem este nome por ser impressionante. → O projeto tem esta designação por ser impressionante.
-            (It may require the user to make small gender changes in the end of the sentence)
-            (Basically, it checks for "nome" and, next to it, "por/para/de")
-            -->
-
-            <rule>
-                <!--
-                A equação tem o nome DE técnica quantitativa. → A equação é designada POR técnica quantitativa.
-                As equações têm o nome DE técnica quantitativa. → As equações são designadas POR técnica quantitativa.
-                O projeto tem o nome DE técnica quantitativa. → O projeto é designado POR técnica quantitativa.
-                Os projetos têm o nome DE técnica quantitativa. → Os projetos são designados POR técnica quantitativa.
-                -->
+        <rulegroup id='CIENTÍFICO_TER_NOME_DESIGNAÇÃO' name="[Científico] Ter 'nome' → 'designação'" type="style" tone_tags="formal">
+                        <rule>
                 <pattern>
                     <token postag='NC[FM].+' postag_regexp='yes'/>
                     <marker>
@@ -9907,11 +9868,6 @@ USA
 
 
         <rule id='CIENTÍFICO_DAR_CONFERIR' name="[Universitário][Científico] dar → conferir" type="style" tone_tags="academic">
-            <!--
-            It uses filters:
-              -de → velocidade, integridade, etc.
-              -ez → rapidez, etc.
-            -->
             <pattern>
                 <marker>
                     <token inflected='yes'>dar</token>
@@ -10101,27 +10057,7 @@ USA
         </rulegroup>
 
 
-        <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
-        <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[Universitário] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky" tone_tags="academic">
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
-            <!--
-            Ficou demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-            Fica demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-            Ficou provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-            Fica provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-
-            demonstramos
-            VMIP1P0
-
-            demonstrámos
-            VMIS1P0
-
-            demonstro
-            VMIP1S0
-
-            demonstrei
-            VMIS1S0
-            -->
+        <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[Universitário] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
                     <and>
@@ -10134,10 +10070,11 @@ USA
             </pattern>
             <message>&thesis_msg;</message>
             <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
+            <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS3S0'/>-se</suggestion>
             <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
             <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
             <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1S0'/></suggestion>
-            <example correction="Demonstramos|Demonstro|Demonstrei"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
+            <example correction="Demonstramos|Demonstrou-se|Demonstro|Demonstrei"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
         </rule>
 
 
@@ -10676,15 +10613,7 @@ USA
         </rulegroup>
 
 
-        <!-- QUE REFERIREMOS A SEGUIR referidas a seguir -->
         <rule id='PHD_TESE_REFERIREMOS_A_SEGUIR_REFERIDAS_REFERIDOS' name="[Universitário] Expressões do tipo 'que/como referiremos a seguir' → 'referidas a seguir'" type="style" tags="picky" tone_tags="academic">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-04/05 (2-MAR-2023+) -->
-            <!--
-            Existem algumas críticas ao modelo, que referiremos a seguir. → Existem algumas críticas ao modelo, referidas a seguir.
-            Existem algumas críticas ao modelo, como referiremos a seguir. → Existem algumas críticas ao modelo, referidas a seguir.
-            Existem algumas críticas ao modelo, que referiremos de seguida. → Existem algumas críticas ao modelo, referidas a seguir.
-            Existem algumas críticas ao modelo, como referiremos de seguida. → Existem algumas críticas ao modelo, referidas a seguir.
-            -->
             <pattern>
                 <marker>
                     <token regexp='yes'>que|como</token>
@@ -15332,10 +15261,6 @@ USA
         <!-- SER CAPAZ DE conseguir -->
         <rule id='SER_CAPAZ_DE_CONSEGUIR' name="[Simplificar] Ser capaz de → Conseguir" type="style" tags='picky'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-11 (25-JUN-2021+)      -->
-            <!--
-      Apesar de não serem capazes de arrasar a cidade. → Apesar de não conseguirem arrasar a cidade.
-      -->
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token>do</token>
@@ -17256,15 +17181,8 @@ USA
         </rule>
 
 
-        <!-- NÃO SABIA/SABIAM NADA nada sabia/sabiam -->
-        <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic">
+        <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 + 2022-07-06 + 2022-08-27 (5-JUN-2022+)      -->
-            <!--
-            O Rui não sabia nada do assunto. → O Rui nada sabia do assunto.
-            Tu não sabias nada do assunto. → Tu nada sabias do assunto.
-            Os amigos não sabiam nada do assunto. → Os amigos nada sabiam do assunto.
-            -->
             <antipattern>
                 <token>não</token>
                 <token postag='VMI[ISM].+' postag_regexp='yes'/>
@@ -18081,8 +17999,7 @@ USA
         </rule>
 
 
-        <!-- VER observar/constatar -->
-        <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky" tone_tags="academic">
+        <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token inflected='yes' skip='-1'>ver</token>
                 <token regexp='yes'>filmes?|vídeos?|séries?|mensagem|mensagens|cenas?|televisão|tv|lado</token>
@@ -18095,15 +18012,6 @@ USA
                 <token>não</token>
                 <token inflected='yes'>ver</token>
             </antipattern>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-22 + 2022-02-06 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-            É fácil como podem ver na figura. → É fácil como podem constatar na figura.
-
-            HITS IN 600000 SENTENCES:
-            BEFORE:2859
-            AFTER:2164
-            -->
-
             <!--
             Ela não pode ter me visto na festa.
             Você se importaria em vir e me ver no sábado?
