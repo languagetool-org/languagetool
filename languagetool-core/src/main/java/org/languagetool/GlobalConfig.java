@@ -34,6 +34,19 @@ public class GlobalConfig {
   private File beolingusFile;
   private String nerUrl;
 
+  private static boolean verbose = false;
+
+  /**
+   * @return whether we need to track additional information like e.g. the disambiguation log to show in verbose mode
+   */
+  public static boolean isVerbose() {
+    return verbose;
+  }
+
+  public static void setVerbose(boolean verbose) {
+    GlobalConfig.verbose = verbose;
+  }
+
   public void setGrammalecteServer(String serverUrl) {
     grammalecteServer = serverUrl;
   }
@@ -78,6 +91,7 @@ public class GlobalConfig {
   public String getNerUrl() {
     return nerUrl;
   }
+
 
   @Override
   public boolean equals(Object o) {

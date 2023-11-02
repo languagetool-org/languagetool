@@ -42,7 +42,8 @@ public class SentenceRange implements Comparable<SentenceRange>{
   public static List<SentenceRange> getRangesFromSentences(AnnotatedText annotatedText, List<String> sentences) {
     List<SentenceRange> sentenceRanges = new ArrayList<>();
     int pos = 0;
-    int diff = annotatedText.getTextWithMarkup().length() - annotatedText.getPlainText().length();
+    int markupTextLength = annotatedText.getTextWithMarkup().length();
+    int diff = markupTextLength - annotatedText.getPlainText().length();
     for (String sentence : sentences) {
       if (sentence.trim().isEmpty()) {
         //No content no sentence
@@ -58,10 +59,10 @@ public class SentenceRange implements Comparable<SentenceRange>{
 
       int fromPosOrig = fromPos + diff;
       int toPosOrig = toPos + diff;
-      if (fromPosOrig != annotatedText.getTextWithMarkup().length()) {
+      if (fromPosOrig != markupTextLength) {
         fromPosOrig = annotatedText.getOriginalTextPositionFor(fromPos, false);
       }
-      if (toPosOrig != annotatedText.getTextWithMarkup().length()) {
+      if (toPosOrig != markupTextLength) {
         toPosOrig = annotatedText.getOriginalTextPositionFor(toPos, true);
       }
       sentenceRanges.add(new SentenceRange(fromPosOrig, toPosOrig));

@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -91,7 +92,7 @@ public abstract class GRPCRule extends RemoteRule {
 
   private static final Logger logger = LoggerFactory.getLogger(GRPCRule.class);
   private static final int DEFAULT_BATCH_SIZE = 8;
-  public static final String WHITESPACE_REGEX = "[\u00a0\u202f\ufeff\ufffd]";
+  public static final Pattern WHITESPACE_REGEX = Pattern.compile("[\u00a0\u202f\ufeff\ufffd]");
   private static final String DEFAULT_DESCRIPTION = "INTERNAL - dynamically loaded rule supported by remote server";
   /*TODO Delete this temporal fix as this is for speeding up execution for too long sentences*/
 
@@ -275,7 +276,7 @@ public abstract class GRPCRule extends RemoteRule {
         List<String> text = filteredSentences.stream().map(AnalyzedSentence::getText).map(s -> {
           if (whitespaceNormalisation) {
             // non-breaking space can be treated as normal space
-            return s.replaceAll(WHITESPACE_REGEX, " ");
+            return WHITESPACE_REGEX.matcher(s).replaceAll(" ");
           } else {
             return s;
           }
