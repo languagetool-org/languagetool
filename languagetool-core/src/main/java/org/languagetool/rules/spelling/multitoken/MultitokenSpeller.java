@@ -137,9 +137,9 @@ public class MultitokenSpeller {
     List<Float> distances = new ArrayList<>();
     String parts1[] = s1.split("[ -]");
     String parts2[] = s2.split("[ -]");
-    if (parts1.length == parts2.length && parts1.length > 1) {
+    // for now, only phrase with two tokens
+    if (parts1.length == parts2.length && parts1.length == 2) {
       for (int i=0; i<parts1.length; i++) {
-
         distances.add(charDistance(parts1[i].charAt(0), parts2[i].charAt(0)));
       }
     } else {
