@@ -2213,7 +2213,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if ((part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") || wordsNeedingInfixS.contains(part1noInfix)) &&
           isNoun(part2uc)) {
         if (part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
-            part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
+            part2uc.matches("First|Firsten") ||  // too easy to mix up 
             part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
           return false;
         }
