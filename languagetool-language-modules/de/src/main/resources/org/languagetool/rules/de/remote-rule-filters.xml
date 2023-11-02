@@ -1954,7 +1954,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
             <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
                 <pattern case_sensitive="yes">
-                    <token>mydays</token><!-- can be extended by other words-->
+                    <token regexp="yes">mydays|essie</token><!-- can be extended by other words-->
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>
@@ -2000,6 +2000,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Diese fremden Inhalte stammen weder von uns noch haben wir die Möglichkeit, den Inhalt <marker>von Seiten Dritter zu beeinflussen</marker>.</example>
             </rule>
+            <rule><!--3 --><!--errors found and corrected by other (recommendation) rules-->
+                <pattern>
+                    <token>zu</token>
+                    <token regexp="yes">(un)?gunsten</token>
+                </pattern>
+                <example correction="">Das Verhältnis hat sich  <marker>zu Gunsten</marker> von China verschoben.</example><!--right, but not recommended, found by EMPFOHLENE_ZUSAMMENSCHREIBUNG-->
+                <example correction="">Das Verhältnis hat sich  <marker>zu gunsten</marker> von China verschoben.</example><!--wrong, but corrected by ZU_GUNSTEN_KLEIN-->
+                <example correction="">Das Verhältnis hat sich  <marker>zu Ungunsten</marker> von China verschoben.</example><!--right, but not recommended, EMPFOHLENE_ZUSAMMENSCHREIBUNG-->
+                <example correction="">Das Verhältnis hat sich  <marker>zu ungunsten</marker> von China verschoben.</example><!--wrong, but corrected by ZU_GUNSTEN_KLEIN-->
+            </rule>
+
         </rulegroup>
 
     </category>
