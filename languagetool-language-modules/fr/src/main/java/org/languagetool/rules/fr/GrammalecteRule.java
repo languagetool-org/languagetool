@@ -533,8 +533,8 @@ public class GrammalecteRule extends Rule {
     "g2__conf_à_vconj__b3_a1_1",
     "gv1__ppas_être_confusion__b4_a4_1",
     "gv2__conj_moi_qui__b1_a1_1",
-    "g2__tu_pronoms_dits__b2_a1_1",
-    "g3__gn_leur_2m__b1_a3_1"
+    "g3__gn_leur_2m__b1_a3_1",
+    "g2__tu_pronoms_dits__b2_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
