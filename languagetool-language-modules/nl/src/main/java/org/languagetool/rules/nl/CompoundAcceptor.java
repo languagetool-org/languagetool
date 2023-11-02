@@ -65,7 +65,6 @@ public class CompoundAcceptor {
     "verkiezings",
     "huisvestings",
     "samenwerkings",
-    "bestemmings",
     "beveiligings",
     "veiligheids",
     "aansprakelijkheids",
@@ -103,8 +102,13 @@ public class CompoundAcceptor {
     "luchtvaart",
     "belangen",
     "vreugde",
+    "pyjama",
     "ruimtevaart",
     "contract"
+  );
+  // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
+  private final Set<String> collidingVowels = ImmutableSet.of(
+    "aa", "ae", "ai", "au", "ee", "ée", "ei", "éi", "eu", "éu", "ie", "ii", "ij", "oe", "oi", "oo", "ou", "ui", "uu"
   );
 
   private final MorfologikDutchSpellerRule speller;
@@ -141,13 +145,20 @@ public class CompoundAcceptor {
     } else if (part1.endsWith("-")) {
       return abbrevOk(part1) && spellingOk(part2);
     } else {
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2);
+      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && checkVowels(part1, part2);
     }
   }
 
   boolean isNoun(String word) throws IOException {
     List<AnalyzedTokenReadings> part2Readings = tagger.tag(Arrays.asList(word));
     return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW"));
+  }
+
+  private boolean checkVowels(String part1, String part2) {
+    char char1 = part1.charAt(part1.length() - 1);
+    char char2 = part2.charAt(0);
+    String vowels = String.valueOf(char1).toLowerCase() + char2;
+    return !collidingVowels.contains(vowels.toLowerCase());
   }
 
   private boolean abbrevOk(String nonCompound) {

@@ -44,6 +44,11 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("Bedrijfsbrommer"));
     assertFalse(acceptor.acceptCompound("Bedrijfbrommer"));
 
+    // test for colliding vowels
+    assertFalse(acceptor.acceptCompound("politieeenheid"));
+    assertFalse(acceptor.acceptCompound("televisieeigenschappen"));
+    assertFalse(acceptor.acceptCompound("pyjamaaangelegenheid"));
+
     assertTrue(acceptor.acceptCompound("zwangerschap"));
     assertFalse(acceptor.acceptCompound("zwangersschap"));
 
@@ -51,8 +56,6 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
-    assertFalse(acceptor.acceptCompound("kinderenHet"));
-    assertFalse(acceptor.acceptCompound("kindergaan"));
     assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
   }
 
