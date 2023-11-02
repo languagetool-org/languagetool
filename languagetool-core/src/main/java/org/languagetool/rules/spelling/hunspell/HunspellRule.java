@@ -454,11 +454,8 @@ public class HunspellRule extends SpellingCheckRule {
             sb.append(' ');
           }
         }
-      } else if (token.length() > 1 && token.codePointCount(0, token.length()) != token.length()) {
-        // some symbols such as emojis (😂) have a string length larger than 1
-        token = StringTools.stringForSpeller(token);
-        sb.append(token);
       } else {
+        token = StringTools.stringForSpeller(token);
         sb.append(token);
       }
     }

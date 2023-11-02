@@ -814,11 +814,13 @@ public final class StringTools {
    * by white spaces
    */
   public static String stringForSpeller(String s) {
-    Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
-    while (matcher.find()) {
-      String found = matcher.group(0);
-      // some symbols such as emojis (😂) have a string length larger than 1
-      s = s.replaceAll(found, WHITESPACE_ARRAY[found.length()]);
+    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
+      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+      while (matcher.find()) {
+        String found = matcher.group(0);
+        // some symbols such as emojis (😂) have a string length larger than 1
+        s = s.replaceAll(found, WHITESPACE_ARRAY[found.length()]);
+      }
     }
     return s;
   }

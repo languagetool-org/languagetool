@@ -262,4 +262,20 @@ public class StringToolsTest {
     assertTrue(StringTools.isCamelCase("iSomeTHING"));
   }
 
+  @Test
+  public void testStringForSpeller() {
+    String arabicChars = "\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0670";
+    assertTrue(StringTools.stringForSpeller(arabicChars).equals(arabicChars));
+
+    String russianChars = "а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я";
+    assertTrue(StringTools.stringForSpeller(russianChars).equals(russianChars));
+
+    String emojiStr = "🧡 Prueva";
+    assertTrue(StringTools.stringForSpeller(emojiStr).equals("   Prueva"));
+
+    emojiStr = "\uD83E\uDDE1\uD83D\uDEB4\uD83C\uDFFD♂\uFE0F Prueva";
+    assertTrue(StringTools.stringForSpeller(emojiStr).equals("         Prueva"));
+
+  }
+
 }
