@@ -54,9 +54,9 @@ public class MultitokenSpeller {
     initMultitokenSpeller(filePaths);
   }
 
-  public List<String> getSuggestions(String word) throws IOException {
-    word = word.replaceAll("\\p{Zs}+", " ");
-    word = word.replaceAll("- ", "-");
+  public List<String> getSuggestions(String originalWord) throws IOException {
+    originalWord = originalWord.replaceAll("\\p{Zs}+", " ");
+    String word = originalWord.replaceAll("- ", "-");
     word = word.replaceAll(" -", "-");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
@@ -70,6 +70,9 @@ public class MultitokenSpeller {
     for (Map.Entry<String, String> entry : set.entrySet()) {
       String candidateLowercase = entry.getValue();
       String candidate = entry.getKey();
+      if (candidate.equals(originalWord)) {
+        break;
+      }
       // require that the first letter is correct to speed up the generation of suggestions even more
       if (!candidateLowercase.substring(0,1).equals(firstChar)) {
         continue;
