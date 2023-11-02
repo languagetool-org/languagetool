@@ -42,6 +42,7 @@ public class JLanguageToolTest {
     };
     final Polish polish = new Polish();
     JLanguageTool tool = new JLanguageTool(new Polish());
+    tool.setOutput(System.out);
     JLanguageTool noRulesTool = new JLanguageTool(noXmlRulesPolish);
     assertEquals("[PL]", Arrays.toString(polish.getCountries()));
     List<RuleMatch> matches = noRulesTool.check("To jest całkowicie prawidłowe zdanie.");
