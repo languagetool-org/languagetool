@@ -3642,7 +3642,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Aquaplanning": return topMatch("Aquaplaning");
       case "Aquaplannings": return topMatch("Aquaplanings");
       case "Kibbutz": return topMatch("Kibbuz");
+      case "Prozentteil": return topMatch("Prozentanteil");
       case "Strebergarten": return topMatch("Schrebergarten");
+      case "Strebergartens": return topMatch("Schrebergartens");
+      case "Strebergärten": return topMatch("Schrebergärten");
     }
     return Collections.emptyList();
   }
