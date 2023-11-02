@@ -98,8 +98,10 @@ public class GrammalecteRule extends Rule {
     "typo_espace_manquant_après2", // false alarm in urls (e.g. '&rk=...')
     "typo_espace_manquant_après3", // false alarm in file names (e.g. 'La teaser.zip')
     "typo_tiret_incise2",  // picky
-    "eepi_écriture_épicène_singulier",
     "g1__bs_vidéoprotection__b1_a1_1",
+    "g2__bs_avoir_été_chez__b1_a1_1",
+    "g2__bs_pour_ne_pas_que__b1_a1_1",
+    "g2__bs_silence_assourdissant__b1_a1_1",
     "g1__eleu_élisions_manquantes__b1_a1_1", // picky
     "typo_tiret_incise1", // picky
     "p_sigle2", // picky
@@ -107,6 +109,8 @@ public class GrammalecteRule extends Rule {
     "g0__imp_verbes_composés_impératifs__b12_a3_1",
     "g0__imp_verbes_composés_impératifs__b5_a2_1",
     "g2__date_journée_jour_mois_année_",
+    "g2__date_journée_jour_mois_année__b1_a1_2",
+    "g2__date_journée_jour_mois_année__b1_a1_1",
     "g2__gn_tous_det_nom__b1_a2_1",
     "g2__gn_tous_det_nom__b2_a2_1",
     "g2__gn_tous_nom__b2_a1_1",
@@ -200,6 +204,9 @@ public class GrammalecteRule extends Rule {
     "g3__gn_det_nom_de_det_nom_adj_sing_plur__b2_a1_1",
     "g3__gn_det_nom_de_det_nom_adj_sing_plur__b6_a1_1",
     "g3__gn_det_nom_et_det_nom__b1_a1_1",
+    "g3__gn_det_fem_plur_2m__b1_a2_1",
+    "g3__gn_det_epi_plur_3m_et__b2_a2_1",
+    "g3__gn_det_les_3m_et__b2_a2_1",
     "g3__gn_du_1m__b1_a1_1",
     "g3__gn_du_1m__b1_a2_1",
     "g3__gn_du_1m__b1_a3_1",
@@ -261,8 +268,10 @@ public class GrammalecteRule extends Rule {
     "g3__gn_les_1m__b3_a1_1",
     "g3__gn_les_2m__b1_a2_1",
     "g3__gn_les_2m__b1_a3_1",
+    "g3__gn_les_2m__b2_a3_1",
     "g3__gn_les_2m__b1_a4_1",
     "g3__gn_les_2m__b2_a4_1",
+    "g3__gn_les_2m_virg__b2_a1_1",
     "g3__gn_leur_1m__b1_a1_1",
     "g3__gn_leur_1m__b1_a2_1",
     "g3__gn_leur_1m__b2_a1_1",
@@ -406,6 +415,9 @@ public class GrammalecteRule extends Rule {
     "g3__conf_à_a_après_verbes__b2_a1_1",
     "g3__infi_à_verbe__b2_a1_1",
     "g3__infi_à_verbe__b3_a1_1",
+    "g3__infi_de_verbe__b4_a1_1",
+    "g3__infi_de_verbe__b5_a1_1",
+    "g3__infi_savoir__b2_a1_1",
     "gv1__ppas_avoir__b2_a1_1",
     "gv1__ppas_avoir__b3_a1_1",
     "gv1__ppas_avoir__b4_a1_1",
@@ -441,7 +453,12 @@ public class GrammalecteRule extends Rule {
     "g2__maj_gentilés__b3_a2_1",
     "g2__typo_ordinaux_chiffres_romains_exposants__b9_a1_1",
     "g3__gn_pfx_de_2m__b1_a1_1",
+    "eepi_écriture_épicène_singulier",
     "eepi_écriture_épicène_pluriel_e",
+    "eepi_écriture_épicène_pluriel_er_ère",
+    "eepi_écriture_épicène_tous_toutes",
+    "eepi_écriture_épicène_pluriel_eux_euses",
+    "eepi_écriture_épicène_pluriel_eur_divers",
     "g2__chim_molécules__b1_a1_1",
     "g3__conf_numérique_digital__b2_a1_1",
     "doublon",
@@ -455,7 +472,6 @@ public class GrammalecteRule extends Rule {
     "g2__conf_de_vconj__b1_a1_1",
     "g2__conf_déterminant_mas_sing_verbe__b1_a1_1",
     "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_",
-    "g3__infi_de_verbe__b5_a1_1",
     "typo_points_superflus",
     "g2__conf_la_là__b2_a1_1",
     "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_1",
@@ -491,7 +507,6 @@ public class GrammalecteRule extends Rule {
     "typo_cohérence_guillemets_doubles_fermants",
     "typo_cohérence_guillemets_doubles_ouvrants",
     "g2__conf_par_vconj__b1_a1_1",
-    "conf_1e_1a_1es",
     "g2__conf_a_à_verbe__b15_a7_1",
     "typo_espace_avant_signe_fermant",
     "g2__date_journée_jour_mois_année__b1_a1_4",
@@ -506,7 +521,20 @@ public class GrammalecteRule extends Rule {
     "g2__pleo_verbes__b8_a1_1",
     "g2__pleo_locutions__b7_a1_1",
     "g2__pleo_verbes__b7_a1_1",
-    "g2__conf_de_du_d__b1_a1_1"
+    "g2__conf_de_du_d__b1_a1_1",
+    "g2__conf_faux_faut__b1_a1_1",
+    "g2__conf_poing_point__b1_a1_1",
+    "g3__conf_foi_fois_foie__b3_a1_1",
+    "gv2__conf_et_est2__b9_a1_1",
+    "g3__conf_est_et__b4_a1_1",
+    "g2__conf_près_prêt_pré__b3_a1_1",
+    "g3__conf_panser_penser__b1_a1_1",
+    "g2__conf_de_vconj__b6_a1_1",
+    "g2__conf_à_vconj__b3_a1_1",
+    "gv1__ppas_être_confusion__b4_a4_1",
+    "gv2__conj_moi_qui__b1_a1_1",
+    "g2__tu_pronoms_dits__b2_a1_1",
+    "g3__gn_leur_2m__b1_a3_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
