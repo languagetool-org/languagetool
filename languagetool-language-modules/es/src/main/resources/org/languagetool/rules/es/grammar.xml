@@ -26110,10 +26110,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="E_L" name="E l -> El" default="temp_off">
+        <rule id="E_L" name="E l -> El">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[EeAa]</token>
-                <token>l</token>
+                <token>l<exception scope="next" spacebefore="no">&apostrophe;</exception></token>
             </pattern>
             <message>¿Quería decir <suggestion>\1\2</suggestion>?</message>
             <example correction="El"><marker>E l</marker> otro día.</example>
@@ -31653,7 +31653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="COMILLAS_APOSTROFO" name="Confusión comillas de apertura/apóstrofo" default="temp_off">
+        <rulegroup id="COMILLAS_APOSTROFO" name="Confusión comillas de apertura/apóstrofo">
             <short>Carácter incorrecto</short>
             <rule>
                 <pattern>
