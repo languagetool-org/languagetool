@@ -3742,6 +3742,21 @@ USA
             <example correction="danificada|avariada">A minha UPS nova vinha <marker>estragada</marker>.</example>
         </rule>
 
+
+        <rule id='QUASE_QUE_PRONOME' name="'quase que + pronome' → 'quase pronome'" type="style" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>quase</token>
+                    <token>que</token>
+                    <token regexp='yes'>&pronomes_obliquos;</token>
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion>\1 \3</suggestion>
+            <example correction="quase me">O cão <marker>quase que me</marker> arrancou a mão.</example>
+        </rule>
+
+
         <!-- SEMANA QUE VEM próxima semana -->
         <rulegroup id='QUE_VEM_PROXIMA' name="[Simplificar] NC + que + vem → próxim(ao)(s) + NC" type="style" tone_tags="formal">
             <!--IDEA shorten_it-->
