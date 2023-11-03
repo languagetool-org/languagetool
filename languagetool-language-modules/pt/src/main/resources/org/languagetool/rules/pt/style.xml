@@ -3668,22 +3668,25 @@ USA
             <example correction="diferem">Os terroristas <marker>são diferentes</marker> dos criminosos comuns.</example>
             <example>Mas eu era diferente das pessoas comuns.</example>
         </rule>
-        <!-- MUITO FRIO -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-02 (2-JUL-2020+)     -->
-        <rule id='MUITO_FRIO' name="Muito frio" tags='picky'>
+
+
+        <rule id='MUITO_FRIO' name="Muito frio" tags='picky' tone_tags="formal" is_goal_specific="true" default="temp_off">
             <pattern>
                 <marker>
                     <token>um</token>
                     <token>frio</token>
-                    <token regexp='yes'>da|de|do</token>
-                    <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0|VMN0000' postag_regexp='yes'/>
+                    <token regexp='yes'>d[ao]s?|de</token>
+                    <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
                 </marker>
-                <token negate="yes" regexp='yes'>as?|os?</token>
+                <token negate="yes" regexp='yes'>[ao]s?</token>
             </pattern>
-            <message>Linguagem informal. Substitua por <suggestion>muito frio</suggestion>.</message>
+            <message>&informal_msg;</message>
+            <suggestion>muito frio</suggestion>
             <suggestion>\1 \2 intenso</suggestion>
             <example correction="muito frio|um frio intenso">Está <marker>um frio de rachar</marker>.</example>
         </rule>
+
+
         <rule id='UMA_COISA_ALGO' name="Algo">
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-06-27    -->
             <pattern>
