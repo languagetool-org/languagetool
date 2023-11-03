@@ -3638,52 +3638,47 @@ USA
             <example>Ele chegou após eu sair.</example>
         </rule>
 
-        <!-- DIFERENTES diferem	-->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 + 2022-06-23 + 2022-07-18 (2-JUL-2020+)     -->
-        <rule id='DIFERENTES' name="Diferir" tags='picky'>
 
-            <!-- 2022-07-18 - workaround, rule needs to be rewritten to remove the negate="yes" -->
-            <antipattern>
-                <token regexp="yes">eu|tu</token>
-                <token inflected='yes'>ser</token>
-                <token regexp="yes">diferentes?</token>
-                <token postag='_PUNCT|CC|DA0.+|SPS00:DA0.+|SPS00' postag_regexp='yes'/>
-                <example>Mas eu era diferente das pessoas comuns.</example>
-            </antipattern>
-
+        <rule id='DIFERENTES' name="Ser diferente → Diferir" tags='picky' default="temp_off">
             <pattern>
+                <token postag='NC.+|AQ.+|NP.+|[DP].+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
                 <marker>
-                    <token inflected='yes'>ser
-                        <exception postag_regexp='yes' postag='VMIP1.+|VMIC.+|VMM.+'/>
-                    </token>
+                    <token inflected='yes'>ser</token>
                     <token regexp="yes">diferentes?</token>
                 </marker>
-                <and>
-                    <token negate_pos="yes" postag='NC[CFM][SP]000|AQ0[CFM][SP]0|_PUNCT|SENT_END' postag_regexp='yes'/>
-                    <token negate="yes" regexp="yes">[.]|as?|os?</token>
-                </and>
+                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+                <token postag='SPS00|SPS00:DA.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='[DP].+|NP.+'/>
+                </token>
             </pattern>
-            <message>Substitua por</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>diferir</match></suggestion>
+            <message>&informal_msg;</message>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>diferir</match></suggestion>
+            <example correction="difere">O terrorista <marker>é diferente</marker> dos criminosos comuns.</example>
             <example correction="diferem">Os terroristas <marker>são diferentes</marker> dos criminosos comuns.</example>
-            <example>Mas eu era diferente das pessoas comuns.</example>
+            <example correction="difere">Ele <marker>é diferente</marker> dos criminosos comuns.</example>
+            <example correction="diferem">Eles <marker>são diferentes</marker> dos criminosos comuns.</example>
         </rule>
-        <!-- MUITO FRIO -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-02 (2-JUL-2020+)     -->
-        <rule id='MUITO_FRIO' name="Muito frio" tags='picky'>
+
+
+        <rule id='MUITO_FRIO' name="Muito frio" tags='picky' tone_tags="formal" is_goal_specific="true" default="temp_off">
             <pattern>
                 <marker>
                     <token>um</token>
                     <token>frio</token>
-                    <token regexp='yes'>da|de|do</token>
-                    <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0|VMN0000' postag_regexp='yes'/>
+                    <token regexp='yes'>d[ao]s?|de</token>
+                    <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
                 </marker>
-                <token negate="yes" regexp='yes'>as?|os?</token>
+                <token negate="yes" regexp='yes'>[ao]s?</token>
             </pattern>
-            <message>Linguagem informal. Substitua por <suggestion>muito frio</suggestion>.</message>
+            <message>&informal_msg;</message>
+            <suggestion>muito frio</suggestion>
             <suggestion>\1 \2 intenso</suggestion>
             <example correction="muito frio|um frio intenso">Está <marker>um frio de rachar</marker>.</example>
         </rule>
+
+
         <rule id='UMA_COISA_ALGO' name="Algo">
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-06-27    -->
             <pattern>
@@ -3738,6 +3733,21 @@ USA
             <suggestion><match no='3' postag='V.+' postag_regexp='yes'>avariar</match></suggestion>
             <example correction="danificada|avariada">A minha UPS nova vinha <marker>estragada</marker>.</example>
         </rule>
+
+
+        <rule id='QUASE_QUE_PRONOME' name="'quase que + pronome' → 'quase pronome'" type="style" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>quase</token>
+                    <token>que</token>
+                    <token regexp='yes'>&pronomes_obliquos;</token>
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion>\1 \3</suggestion>
+            <example correction="quase me">O cão <marker>quase que me</marker> arrancou a mão.</example>
+        </rule>
+
 
         <!-- SEMANA QUE VEM próxima semana -->
         <rulegroup id='QUE_VEM_PROXIMA' name="[Simplificar] NC + que + vem → próxim(ao)(s) + NC" type="style" tone_tags="formal">
@@ -8267,26 +8277,6 @@ USA
                 <example correction="muito cansado|bastante cansado">Estou <marker>cansado para caraças</marker>.</example>
             </rule>
         </rulegroup>
-
-
-        <rule id='É_IGUAL_AO_LITRO' name="É indiferente">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <marker>
-                    <token>é</token>
-                    <token>igual</token>
-                    <token>ao</token>
-                    <token>litro</token>
-                </marker>
-                <token>
-                    <exception regexp="yes">das?|de|dos?</exception>
-                </token>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion>é indiferente</suggestion>
-            <example correction="é indiferente">Tudo o que me diz <marker>é igual ao litro</marker>.</example>
-            <example>Tudo o que me diz <marker>é indiferente</marker>.</example>
-        </rule>
 
 
         <!-- IR_EMBORA INFORMAL -->
@@ -13348,6 +13338,24 @@ USA
             </rule>
 
         </rulegroup>
+
+
+        <rule id='QUALQUER_QUE_SEJA' name="'qualquer/quaisquer que seja(m)/fosse(m)' → 'independentemente'" type="style" default="temp_off">
+            <!--IDEA shorten_it-->
+            <pattern>
+                <marker>
+                    <token regexp="yes">qua(l|is)quer</token>
+                    <token>que</token>
+                    <token regexp="yes">(seja|fosse)m?</token>
+                    <token regexp="yes">[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>independentemente <match no='4' postag='DA0(..)0' postag_replace='SPS00:DA0$10'>de:o</match></suggestion>
+            <example correction="independentemente do">O Rui vencerá <marker>qualquer que seja o</marker> resultado.</example>
+            <example correction="independentemente do">O Rui vencia <marker>qualquer que fosse o</marker> desfecho.</example>
+            <example correction="independentemente dos">Os resultados mantêm-se <marker>quaisquer que sejam os</marker> valores.</example>
+        </rule>
 
 
         <!-- QUE NÃO DÁ PARA VOLTAR ATRÁS irreversível -->

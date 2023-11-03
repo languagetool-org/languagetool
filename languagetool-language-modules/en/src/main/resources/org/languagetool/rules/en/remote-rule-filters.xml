@@ -879,6 +879,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_APOSTROPHE_S_XS" name="">
             <rule>
                 <pattern>
+                    <token chunk_re=".-VP" />
+                    <token chunk="B-PP" />
+                    <marker>
+                        <token chunk_re="B-NP.*">its</token>
+                    </marker>
+                    <token chunk_re="[IE]-NP.*" />
+                </pattern>
+                <example correction="">Hello, are you waiting for <marker>its</marker> time?</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token>Teams</token>
                     </marker>
