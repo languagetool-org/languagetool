@@ -3664,6 +3664,24 @@ USA
     </category>
 
     <category id='FORMAL_SPEECH_PT_PT' name='[pt-PT] Linguagem Formal' type='register' tone_tags="formal">
+
+
+        <rule id='É_IGUAL_AO_LITRO' name="'igual ao litro' → 'indiferente'" tone_tags="formal" default="temp_off">
+            <pattern>
+                <token>é</token>
+                <marker>
+                    <token>igual</token>
+                    <token>ao</token>
+                    <token>litro</token>
+                </marker>
+                <token negate="yes" regexp='yes'>d[ao]s?|de</token>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion>indiferente</suggestion>
+            <example correction="indiferente">Tudo o que me diz é <marker>igual ao litro</marker>.</example>
+        </rule>
+
+
     <!-- TERMOS DEPRECIATIVOS -->
     <rule id='FORMAL_DEPRECIATIVO' name="[pt-PT][Formal] Termos depreciativos">
         <!-- IDEA inclusive -->
