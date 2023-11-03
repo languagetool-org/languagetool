@@ -125,7 +125,7 @@ public class CompoundAcceptor {
   }
 
   boolean acceptCompound(String word) throws IOException {
-    if (word.length() > 25) {  // prevent long runtime
+    if (word.length() > 35) {  // prevent long runtime
       return false;
     }
     for (int i = 3; i < word.length() - 3; i++) {
