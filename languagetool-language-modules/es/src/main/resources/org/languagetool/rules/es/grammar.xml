@@ -26110,6 +26110,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="LES_LAS" name="les -> las" default="temp_off">
+            <pattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <marker>
+                    <token>les</token>
+                </marker>
+            </pattern>
+            <message>¿Quería decir <suggestion>las</suggestion>?</message>
+            <example correction="las">Añade esto a <marker>les</marker> compras.</example>
+        </rule>
         <rule id="E_L" name="E l -> El">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[EeAa]</token>
@@ -35149,7 +35159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                     <token>-</token>
-                    <token postag="UNKNOWN" egexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>
