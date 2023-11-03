@@ -8269,23 +8269,19 @@ USA
         </rulegroup>
 
 
-        <rule id='É_IGUAL_AO_LITRO' name="É indiferente">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+        <rule id='É_IGUAL_AO_LITRO' name="'igual ao litro' → 'indiferente'" default="temp_off">
             <pattern>
+                <token>é</token>
                 <marker>
-                    <token>é</token>
                     <token>igual</token>
                     <token>ao</token>
                     <token>litro</token>
                 </marker>
-                <token>
-                    <exception regexp="yes">das?|de|dos?</exception>
-                </token>
+                <token negate="yes" regexp='yes'>d[ao]s?|de</token>
             </pattern>
             <message>&informal_msg;</message>
-            <suggestion>é indiferente</suggestion>
-            <example correction="é indiferente">Tudo o que me diz <marker>é igual ao litro</marker>.</example>
-            <example>Tudo o que me diz <marker>é indiferente</marker>.</example>
+            <suggestion>indiferente</suggestion>
+            <example correction="indiferente">Tudo o que me diz é <marker>igual ao litro</marker>.</example>
         </rule>
 
 
