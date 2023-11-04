@@ -141,7 +141,7 @@ public class CompoundAcceptor {
 
   boolean acceptCompound(String part1, String part2) throws IOException {
     if (part1.endsWith("s")) {
-        return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
+      return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
     } else if (part1.endsWith("-")) {
       return abbrevOk(part1) && spellingOk(part2);
     } else {
