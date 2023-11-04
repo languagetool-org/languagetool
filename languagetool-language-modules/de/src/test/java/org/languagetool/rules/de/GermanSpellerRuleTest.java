@@ -97,6 +97,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsei"));  // second part too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Ei"));  // second part too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsnach"));  // second part not a noun
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Antwortzugeschnitten"));  // second part not a noun
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstestnachweis"));  // 4 or more parts not yet supported
