@@ -30647,17 +30647,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='AFEAR' name="[Confusão] afear/afiar">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+        <rule id='AFEAR' name="Confusão de termos: afear/afiar" default="temp_off">
             <pattern>
                 <marker>
                     <token inflected='yes'>afear</token>
                 </marker>
-                <token regexp="yes">as?|umas?</token>
-                <token regexp="yes">pontas?|facas?|lâminas?|tesouras?|espadas?</token>
+                <token min='1' max='2' postag_regexp="yes" postag="SPS00|(SPS00:)?[DP].+"/>
+                <token regexp="yes">catanas?|espadas?|espetos?|estacas?|extremidades?|facas?|flechas?|foices?|lâminas?|lanças?|lápis|machados?|navalhas?|pontas?|tesouras?</token>
             </pattern>
-            <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>afiar</match></suggestion>.</message>
+            <message>Possível confusão de termos.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>afiar</match></suggestion>
+            <example correction="afiar">É preciso <marker>afear</marker> a faca.</example>
             <example correction="afiar">É preciso <marker>afear</marker> as facas.</example>
+            <example correction="afiar">É preciso <marker>afear</marker> as suas facas.</example>
         </rule>
 
 
