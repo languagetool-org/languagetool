@@ -8,6 +8,14 @@
 [цей README](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/README.md),
 та [CHANGES](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md).
 
+## Інструкція
+
+Тестуємо перевірку кримськотатарського правопису, що буде одним побічним результатом Корпусу, але вже зараз він буде корисним та привертатиме увагу до можливих помилок в тексті.
+Для використання:
+1. [Встановіть розширення](https://languagetool.org/uk/services) LanguageTool.
+2. Змініть сервер на кримськотатарський: `http://3.131.72.89:8081/v2` в налаштуваннях розширення (chrome-extension://oldceeleldhonbafppcapldpdifcinji/options/options.html) як на фото та Збережіть.
+3. Готово! Можете перевіряти тексти в браузері та в гугл документах.
+
 ## Правила
 
 Найголовніші правила орфографії та граматики наведені нижче
