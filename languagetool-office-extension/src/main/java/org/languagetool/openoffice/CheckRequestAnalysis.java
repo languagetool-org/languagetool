@@ -110,7 +110,7 @@ class CheckRequestAnalysis {
    */
   int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
     //  test if doc cache has changed --> actualize
-    if (!docCache.isActual(documentElementsCount)) {
+    if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && !docCache.isActual(documentElementsCount)) {
 //      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
       if (debugMode > 0) {
@@ -129,7 +129,7 @@ class CheckRequestAnalysis {
               " --> cache actualized, new paraNum: " + paraNum);
       }
     }
-    if (paraNum >= 0) {
+    if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && paraNum >= 0) {
       //  test if paragraph has changed --> actualize all caches for single paragraph
       TextParagraph tPara = docCache.getNumberOfTextParagraph(paraNum);
       DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
