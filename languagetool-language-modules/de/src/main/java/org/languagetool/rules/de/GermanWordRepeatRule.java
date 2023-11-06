@@ -44,6 +44,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      tokenRegex("tägliches?"),
+      csToken("klein"),
+      csToken("klein")
+    ),
+    Arrays.asList(
       csToken("Bora"),
       csToken("Bora")
     ),
