@@ -30647,17 +30647,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='AFEAR' name="[Confusão] afear/afiar">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+        <rule id='AFEAR' name="Confusão de termos: afear/afiar" default="temp_off">
             <pattern>
                 <marker>
                     <token inflected='yes'>afear</token>
                 </marker>
-                <token regexp="yes">as?|umas?</token>
-                <token regexp="yes">pontas?|facas?|lâminas?|tesouras?|espadas?</token>
+                <token min='1' max='2' postag_regexp="yes" postag="SPS00|(SPS00:)?[DP].+"/>
+                <token regexp="yes">catanas?|espadas?|espetos?|estacas?|extremidades?|facas?|flechas?|foices?|lâminas?|lanças?|lápis|machados?|navalhas?|pontas?|tesouras?</token>
             </pattern>
-            <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>afiar</match></suggestion>.</message>
+            <message>Possível confusão de termos.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>afiar</match></suggestion>
+            <example correction="afiar">É preciso <marker>afear</marker> a faca.</example>
             <example correction="afiar">É preciso <marker>afear</marker> as facas.</example>
+            <example correction="afiar">É preciso <marker>afear</marker> as suas facas.</example>
         </rule>
 
 
@@ -31531,7 +31533,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='N[CP].+|RG|CS|PD.+' postag_regexp='yes'/>
                     <token min="0" max="1" postag='RN'/>
                     <marker>
-                        <token regexp="yes">estas?</token>
+                        <token regexp="yes">estas?
+                            <exception scope='next' regexp='yes'>&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
+                        </token>
                     </marker>
                     <token min="0" max="1" postag='PD.+' postag_regexp='yes'/> <!-- dia namorados -->
                     <token postag='VMP00.+|NC.+|AQ.+|VMN0000' postag_regexp='yes'> <!-- dia namorados VMN0000 -->
@@ -31550,6 +31554,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Vocês só sabem dizer (perguntar) onde está escrito isto na bíblia?</example>
                 <example>O que está morto, não pode morrer!</example>
                 <example>Não jogue fora esta revista.</example>
+                <example>...ém para a Liga Europa, com o Vitória a tentar carimbar o seu apuramento para a 3.ª pré-eliminatória esta quinta-feira frente à Jeunesse do Luxemburgo.</example>
+                <example>Tom decidiu que não era realmente necessário lidar com esse problema esta tarde.</example>
+                <example>Precisa ser a Segunda Guerra Mundial esta manhã?</example>
             </rule>
 
             <!--
@@ -31731,14 +31738,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">estas?</token>
                     <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 </antipattern>
-
+                <antipattern>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token regexp="yes">estas?</token>
+                    <token>por</token>
+                    <token postag='RG'/>
+                    <example>Isto causa pressão, pressão esta por vezes intensa que mal se consegue aguentar.</example>
+                </antipattern>
                 <pattern>
                     <token postag='RG|CC|PD.+|NC.+|AQ.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='SPS.+|V.+'/>
                     </token>
                     <token min="0" max="1" postag='RN'/>
                     <marker>
-                        <token regexp="yes">estas?</token>
+                        <token regexp="yes">estas?
+                            <exception scope='next' regexp='yes'>&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
+                        </token>
                     </marker>
                     <token negate_pos="yes" postag='RN|CS|P[ERT].+|RM' postag_regexp='yes'/>
                 </pattern>
@@ -31751,9 +31766,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>A vida não está fácil para a população mundial.</example>
                 <example>Excelente para quem não está doente.</example>
                 <example>No entanto esta não é por si só uma condição suficiente.</example>
+                <example>Quem eu vi na rua esta manhã era George.</example>
+                <example>Ele foi pego pela correnteza esta manhã sua canoa virou.</example>
+                <example>Nós teremos uma convidada especial aqui esta noite.</example>
             </rule>
 
         </rulegroup>
+
 
         <rulegroup id='ESTA_ESTÁ' name="[Confusão] esta/está">
             <rule>
@@ -39312,6 +39331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
         <rule id="QUIS_QUIZ" name="Confusão de palavras: quis (verbo) vs. quiz (substantivo)">
             <pattern>
+                    <token negate_pos="yes" postag="D.+" postag_regexp="yes"/>
                 <marker>
                     <token>quiz</token>
                 </marker>
