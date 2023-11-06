@@ -115,6 +115,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
     put("Filterbubbles", "Filterblasen");
+    put("gunsten", "Gunsten");
+    put("ungunsten", "Ungunsten");
     putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
