@@ -63,6 +63,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
+  private static final Pattern compoundPatternWithHeit = Pattern.compile(".*(heit|keit|ion|ität|schaft|ung|tät)s");
+  private static final Pattern compoundPatternWithAction = Pattern.compile("Action|Session|Champion|Jung|Wahrung");
+  private static final Pattern compoundPatternWithFirst = Pattern.compile("First|Firsten");  // First/First are too easy to mix up
+  private static final Pattern compoundPatternSpecialEnding = Pattern.compile(".*(mus|ss|z)");
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // some of these are taken from hunspell's dictionary where non-suggested words use tag "/n":
@@ -2210,10 +2214,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
       String part1noInfix = part1.substring(0, part1.length()-1);
       String part2uc = uppercaseFirstChar(part2);
-      if ((part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") || wordsNeedingInfixS.contains(part1noInfix)) &&
+      if ((compoundPatternWithHeit.matcher(part1).matches() || wordsNeedingInfixS.contains(part1noInfix)) &&
           isNoun(part2uc)) {
-        if (part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
-            part2uc.matches("First|Firsten") ||  // too easy to mix up 
+        if (compoundPatternWithAction.matcher(part1noInfix).matches() ||
+            compoundPatternWithFirst.matcher(part2uc).matches() ||
             part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
           return false;
         }
@@ -2225,7 +2229,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         part1.length() >= 3 && part2.length() >= 4 &&
         !part2.contains("-") &&
         startsWithLowercase(part2) &&
-        (wordsWithoutInfixS.contains(part1) || (part1.matches(".*(mus|ss|z)") && isNoun(part2uc)) || isOnlyPluralNoun(part1)) &&
+        (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc)) || isOnlyPluralNoun(part1)) &&
         !isMisspelled(part1) &&
         !isMisspelled(part2uc) &&
         isMisspelled(part2) // don't accept e.g. "Azubikommt"
