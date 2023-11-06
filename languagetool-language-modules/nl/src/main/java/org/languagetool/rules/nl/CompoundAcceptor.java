@@ -55,6 +55,7 @@ public class CompoundAcceptor {
     "bestemmings",
     "schoonheids",
     "gevechts",
+    "oorlogs",
     "arbeiders",
     "overlijdens",
     "verzekerings",
@@ -68,7 +69,10 @@ public class CompoundAcceptor {
     "beveiligings",
     "veiligheids",
     "aansprakelijkheids",
-    "rechtvaardigheids"
+    "rechtvaardigheids",
+    "levens",
+    "jongens",
+    "meisjes"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
@@ -104,7 +108,18 @@ public class CompoundAcceptor {
     "vreugde",
     "pyjama",
     "ruimtevaart",
-    "contract"
+    "contract",
+    "hoofd",
+    "woord",
+    "probleem",
+    "school",
+    "feest",
+    "familie",
+    "boeren",
+    "vogel",
+    "lucht",
+    "straat",
+    "voorbeeld"
   );
   // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
   private final Set<String> collidingVowels = ImmutableSet.of(
