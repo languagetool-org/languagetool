@@ -2196,7 +2196,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
       }
       boolean compound2ok =
-        !isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2);
+        (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
       return compound1ok && compound2ok;
     } else {
       // more than three parts can be supported later

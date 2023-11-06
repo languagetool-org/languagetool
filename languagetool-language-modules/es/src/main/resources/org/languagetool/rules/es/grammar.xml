@@ -26110,6 +26110,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="LES_LAS" name="les -> las" default="temp_off">
+            <pattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <marker>
+                    <token>les</token>
+                </marker>
+            </pattern>
+            <message>¿Quería decir <suggestion>las</suggestion>?</message>
+            <example correction="las">Añade esto a <marker>les</marker> compras.</example>
+        </rule>
         <rule id="E_L" name="E l -> El">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[EeAa]</token>
@@ -34900,7 +34910,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="MULTITOKEN_SPELLING" name="Errores ortográficos" type="misspelling">
         <!-- Avoid antipatterns because the AP doesn't prevent the filter to be executed -->
-        <rulegroup id="ES_MULTITOKEN_SPELLING_FOUR" name="errores de ortografía en nombres propios (4 elementos)" default="temp_off">
+        <rulegroup id="ES_MULTITOKEN_SPELLING_FOUR" name="errores de ortografía en nombres propios (4 elementos)" default="on">
             <rule>
                 <pattern>
                     <token postag="UNKNOWN"><exception regexp="yes">&particles_of;</exception></token>
@@ -34923,7 +34933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>=2Fx/ρvS</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ES_MULTITOKEN_SPELLING_THREE" name="errores de ortografía en nombres propios (3 elementos)" default="temp_off">
+        <rulegroup id="ES_MULTITOKEN_SPELLING_THREE" name="errores de ortografía en nombres propios (3 elementos)" default="on">
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token><match no="0"/></token>
@@ -35025,7 +35035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="University of Texas"><marker>Universiti of Texes</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ES_MULTITOKEN_SPELLING_TWO" name="errores de ortografía en nombres propios (dos elementos)" default="temp_off">
+        <rulegroup id="ES_MULTITOKEN_SPELLING_TWO" name="errores de ortografía en nombres propios (dos elementos)" default="on">
             <antipattern>
                 <token spacebefore="no">-</token>
                 <token spacebefore="no"/>
@@ -35125,7 +35135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Alexander von Bach.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios con guion" default="temp_off">
+        <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios con guion" default="on">
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token>-</token>
@@ -35136,8 +35146,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">\p{Lu}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
-                    <token spacebefore="no">-</token>
-                    <token postag="UNKNOWN" spacebefore="no" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token>-</token>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>
@@ -35148,8 +35158,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
-                    <token spacebefore="no">-</token>
-                    <token postag="UNKNOWN" spacebefore="no" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token>-</token>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>
@@ -35158,8 +35168,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
-                    <token spacebefore="no">-</token>
-                    <token regexp="yes"  spacebefore="no">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token>-</token>
+                    <token regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Posible error de ortografía.</message>

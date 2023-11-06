@@ -55,6 +55,7 @@ public class CompoundAcceptor {
     "bestemmings",
     "schoonheids",
     "gevechts",
+    "oorlogs",
     "arbeiders",
     "overlijdens",
     "verzekerings",
@@ -68,7 +69,10 @@ public class CompoundAcceptor {
     "beveiligings",
     "veiligheids",
     "aansprakelijkheids",
-    "rechtvaardigheids"
+    "rechtvaardigheids",
+    "levens",
+    "jongens",
+    "meisjes"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
@@ -104,7 +108,18 @@ public class CompoundAcceptor {
     "vreugde",
     "pyjama",
     "ruimtevaart",
-    "contract"
+    "contract",
+    "hoofd",
+    "woord",
+    "probleem",
+    "school",
+    "feest",
+    "familie",
+    "boeren",
+    "vogel",
+    "lucht",
+    "straat",
+    "voorbeeld"
   );
   // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
   private final Set<String> collidingVowels = ImmutableSet.of(
@@ -125,7 +140,7 @@ public class CompoundAcceptor {
   }
 
   boolean acceptCompound(String word) throws IOException {
-    if (word.length() > 25) {  // prevent long runtime
+    if (word.length() > 35) {  // prevent long runtime
       return false;
     }
     for (int i = 3; i < word.length() - 3; i++) {
@@ -141,11 +156,11 @@ public class CompoundAcceptor {
 
   boolean acceptCompound(String part1, String part2) throws IOException {
     if (part1.endsWith("s")) {
-        return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
+      return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
     } else if (part1.endsWith("-")) {
       return abbrevOk(part1) && spellingOk(part2);
     } else {
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && checkVowels(part1, part2);
+      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
     }
   }
 
@@ -154,11 +169,11 @@ public class CompoundAcceptor {
     return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW"));
   }
 
-  private boolean checkVowels(String part1, String part2) {
+  private boolean hasCollidingVowels(String part1, String part2) {
     char char1 = part1.charAt(part1.length() - 1);
     char char2 = part2.charAt(0);
-    String vowels = String.valueOf(char1).toLowerCase() + char2;
-    return !collidingVowels.contains(vowels.toLowerCase());
+    String vowels = String.valueOf(char1) + char2;
+    return collidingVowels.contains(vowels.toLowerCase());
   }
 
   private boolean abbrevOk(String nonCompound) {
