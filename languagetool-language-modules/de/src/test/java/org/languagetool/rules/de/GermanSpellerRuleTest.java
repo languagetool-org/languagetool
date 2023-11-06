@@ -62,6 +62,8 @@ public class GermanSpellerRuleTest {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(rule.ignorePotentiallyMisspelledWord("Atmosphärenkonzept"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Offenlegungsfrist"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Offenlegungsfirst"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Dachfrist"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Hospizgemeinschaft"));  //no infix-s for compounds: .*z + noun
     assertFalse(rule.ignorePotentiallyMisspelledWord("Azubikommt"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Wachtums-Pistole"));  // split as "Wacht, ums-Pistole"
