@@ -937,7 +937,46 @@ USA
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="style">
 
-        <rule id="I_BIMS_JUGENDSPRACHE" name="Hallo, I bims (ich bin's)" default="temp_off">
+        <rule id="I_BIMS_JUGENDSPRACHE" name="Hallo, I bims (ich bin's)">
+            <antipattern>
+                <token>I</token>
+                <token skip="-1">bims</token>
+                <token>ich</token>
+                <token>bins</token>
+                <example>"I bims" heißt soviel wie "ich bins".</example>
+            </antipattern>
+            <antipattern>
+                <token>I</token>
+                <token skip="-1">bims</token>
+                <token>ich</token>
+                <token>bin</token>
+                <token>'</token>
+                <token>s</token>
+                <example>"I bims" heißt soviel wie "ich bin's".</example>
+            </antipattern>
+            <antipattern>
+                <token>ich</token>
+                <token skip="-1">bins</token>
+                <token>I</token>
+                <token>bims</token>
+                <example>"Ich bins" heißt neuerdings "I bims".</example>
+            </antipattern>
+            <antipattern>
+                <token>ich</token>
+                <token>bin</token>
+                <token>'</token>
+                <token skip="-1">s</token>
+                <token>I</token>
+                <token>bims</token>
+                <example>"Ich bin's" heißt neuerdings "I bims".</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">„|"|'</token>
+                <token>I</token>
+                <token>bims</token>
+                <token regexp="yes">“|"|'</token>
+                <example>"I bims" heißt soviel wie "ich bins".</example>
+            </antipattern>
             <pattern>
                 <token>I</token>
                 <token>bims</token>
