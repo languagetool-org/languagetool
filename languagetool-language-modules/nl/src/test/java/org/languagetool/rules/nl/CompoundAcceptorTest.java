@@ -44,6 +44,9 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("Bedrijfsbrommer"));
     assertFalse(acceptor.acceptCompound("Bedrijfbrommer"));
 
+    assertTrue(acceptor.acceptCompound("straatpuzzel"));
+    assertFalse(acceptor.acceptCompound("straatspuzzel"));
+
     // test for colliding vowels
     assertFalse(acceptor.acceptCompound("politieeenheid"));
     assertFalse(acceptor.acceptCompound("televisieeigenschappen"));
