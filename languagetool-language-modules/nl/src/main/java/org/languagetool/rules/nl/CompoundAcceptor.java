@@ -145,7 +145,7 @@ public class CompoundAcceptor {
     } else if (part1.endsWith("-")) {
       return abbrevOk(part1) && spellingOk(part2);
     } else {
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && checkVowels(part1, part2);
+      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
     }
   }
 
@@ -154,11 +154,11 @@ public class CompoundAcceptor {
     return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW"));
   }
 
-  private boolean checkVowels(String part1, String part2) {
+  private boolean hasCollidingVowels(String part1, String part2) {
     char char1 = part1.charAt(part1.length() - 1);
     char char2 = part2.charAt(0);
-    String vowels = String.valueOf(char1).toLowerCase() + char2;
-    return !collidingVowels.contains(vowels.toLowerCase());
+    String vowels = String.valueOf(char1) + char2;
+    return collidingVowels.contains(vowels.toLowerCase());
   }
 
   private boolean abbrevOk(String nonCompound) {
