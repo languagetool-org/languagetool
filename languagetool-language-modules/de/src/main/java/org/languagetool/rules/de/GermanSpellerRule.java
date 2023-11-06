@@ -3646,6 +3646,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Strebergarten": return topMatch("Schrebergarten");
       case "Strebergartens": return topMatch("Schrebergartens");
       case "Strebergärten": return topMatch("Schrebergärten");
+      case "gunsten": return topMatch("Gunsten");
+      case "ungunsten": return topMatch("Ungunsten");
     }
     return Collections.emptyList();
   }
