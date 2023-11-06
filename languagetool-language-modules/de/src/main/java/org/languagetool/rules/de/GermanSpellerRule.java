@@ -2213,26 +2213,37 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if ((part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") || wordsNeedingInfixS.contains(part1noInfix)) &&
           isNoun(part2uc)) {
         if (part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
-            part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
+            part2uc.matches("First|Firsten") ||  // too easy to mix up 
             part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
           return false;
         }
         return true;
       }
     }
+    String part2uc = uppercaseFirstChar(part2);
     if (!hasInfixS && part1.length() >= 3 && part2.length() >= 4 && !part2.contains("-") && startsWithLowercase(part2) &&
-        wordsWithoutInfixS.contains(part1) && !isMisspelled(part1) &&
-        !isMisspelled(uppercaseFirstChar(part2)) &&
+        (wordsWithoutInfixS.contains(part1) || 
+        (part1.matches(".*(mus|ss|z)") && isNoun(part2uc)) || // Hospizgemeinschaft
+        isPart1PluralNoun(part1)) && // Atmosphärenkonzept
+        !isMisspelled(part1) && !isMisspelled(uppercaseFirstChar(part2)) &&
         isMisspelled(part2) // don't accept e.g. "Azubikommt"
       ) {
-      System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
-      //return true;
+      //System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
+      return true;
     }
     return false;
   }
 
+  private boolean isPart1PluralNoun(String part1) throws IOException {
+    return isPluralNoun(part1) && part1.endsWith("en") && isOnlyNoun(part1);
+  }
+
   private boolean isNoun(String part2uc) throws IOException {
     return getTagger().tag(singletonList(part2uc)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:"));
+  }
+
+  private boolean isPluralNoun(String part1) throws IOException {
+    return getTagger().tag(singletonList(part1)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU:"));
   }
 
   @Override

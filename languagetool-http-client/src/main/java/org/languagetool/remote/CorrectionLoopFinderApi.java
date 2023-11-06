@@ -26,9 +26,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.*;
 
-import java.util.List;
-import java.util.Scanner;
-
 import org.languagetool.tools.Tools;
 
 /**
@@ -52,24 +49,31 @@ public class CorrectionLoopFinderApi {
         }
         continue;
       }
-      List<RemoteRuleMatch> matches = cfg.lt.check(line, cfg.ltConfig, cfg.customParams).getMatches();
-      for (RemoteRuleMatch match : matches) {
-        int suggCount = 0;
-        for (String repl : match.getReplacements().get()) {
-          if (++suggCount > 5) {
-            break;
-          }
-          String corr = new StringBuilder(line).replace(match.getErrorOffset(), match.getErrorOffset()+match.getErrorLength(), repl).toString();
-          //System.out.println(line + " => " + corr);
-          List<RemoteRuleMatch> corrMatches = cfg.lt.check(corr, cfg.ltConfig, cfg.customParams).getMatches();
-          for (RemoteRuleMatch corrMatch : corrMatches) {
-            for (String repl2 : corrMatch.getReplacements().get()) {
-              String corr2 = new StringBuilder(corr).replace(corrMatch.getErrorOffset(), corrMatch.getErrorOffset()+corrMatch.getErrorLength(), repl2).toString();
-              if (corr2.equals(line)) {
-                cfg.out.write("LOOP by " + getFullId(match) + "/" + getFullId(corrMatch) + ": " +
-                  line.substring(match.getErrorOffset(), match.getErrorOffset()+match.getErrorLength()) + " => " + repl + "\n");
-                cfg.out.write("  " + line + "\n");
-                cfg.out.write("  " + corr + "\n");
+      List<RemoteRuleMatch> matches = null;
+      try {
+        matches = cfg.lt.check(line, cfg.ltConfig, cfg.customParams).getMatches();
+      } catch (RuntimeException e) {
+        System.err.println("An exception occurred: " + e.getMessage());
+      }
+      if (matches != null) {
+        for (RemoteRuleMatch match : matches) {
+          int suggCount = 0;
+          for (String repl : match.getReplacements().get()) {
+            if (++suggCount > 5) {
+              break;
+            }
+            String corr = new StringBuilder(line).replace(match.getErrorOffset(), match.getErrorOffset()+match.getErrorLength(), repl).toString();
+            //System.out.println(line + " => " + corr);
+            List<RemoteRuleMatch> corrMatches = cfg.lt.check(corr, cfg.ltConfig, cfg.customParams).getMatches();
+            for (RemoteRuleMatch corrMatch : corrMatches) {
+              for (String repl2 : corrMatch.getReplacements().get()) {
+                String corr2 = new StringBuilder(corr).replace(corrMatch.getErrorOffset(), corrMatch.getErrorOffset()+corrMatch.getErrorLength(), repl2).toString();
+                if (corr2.equals(line)) {
+                  cfg.out.write("LOOP by " + getFullId(match) + "/" + getFullId(corrMatch) + ": " +
+                    line.substring(match.getErrorOffset(), match.getErrorOffset()+match.getErrorLength()) + " => " + repl + "\n");
+                  cfg.out.write("  " + line + "\n");
+                  cfg.out.write("  " + corr + "\n");
+                }
               }
             }
           }

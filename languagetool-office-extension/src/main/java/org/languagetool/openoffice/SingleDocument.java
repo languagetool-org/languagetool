@@ -162,7 +162,7 @@ public class SingleDocument {
     if (xComponent != null) {
       setFlatParagraphTools();
     }
-    if (docType == DocumentType.IMPRESS && ltMenus == null) {
+    if (!mDocHandler.isOpenOffice && docType == DocumentType.IMPRESS && ltMenus == null) {
       ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
   }
@@ -388,7 +388,7 @@ public class SingleDocument {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    if (ltMenus == null && docType == DocumentType.WRITER && paraText.length() > 0) {
+    if (ltMenus == null && !mDocHandler.isOpenOffice && docType == DocumentType.WRITER && paraText.length() > 0) {
       ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
     closeDocumentCursor();
