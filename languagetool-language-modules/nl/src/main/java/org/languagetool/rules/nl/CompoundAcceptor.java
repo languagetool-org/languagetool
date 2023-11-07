@@ -43,6 +43,13 @@ public class CompoundAcceptor {
   private static final Pattern acronymPattern = Pattern.compile("[A-Z][A-Z][A-Z]-");
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
 
+  // if part 1 ends with this, it always needs an 's' appended
+  private final Set<String> alwaysNeedsS = ImmutableSet.of(
+    "heids",
+    "ings",
+    "teits",
+    "schaps"
+  );
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
     "bedrijfs",
@@ -50,26 +57,13 @@ public class CompoundAcceptor {
     "dorps",
     "gezichts",
     "lijdens",
-    "besturings",
-    "verbrandings",
-    "bestemmings",
-    "schoonheids",
     "gevechts",
     "oorlogs",
     "arbeiders",
     "overlijdens",
-    "verzekerings",
     "vrijwilligers",
     "personeels",
-    "bevolkings",
     "onderhouds",
-    "verkiezings",
-    "huisvestings",
-    "samenwerkings",
-    "beveiligings",
-    "veiligheids",
-    "aansprakelijkheids",
-    "rechtvaardigheids",
     "levens",
     "jongens",
     "meisjes"
@@ -159,7 +153,12 @@ public class CompoundAcceptor {
 
   boolean acceptCompound(String part1, String part2) throws IOException {
     if (part1.endsWith("s")) {
-      return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
+      for (String suffix : alwaysNeedsS) {
+        if (part1.toLowerCase().endsWith(suffix)) {
+          return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+        }
+      }
+      return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
     } else if (part1.endsWith("-")) { // abbreviations
       return abbrevOk(part1) && spellingOk(part2);
     } else if (part2.startsWith("-")){ // vowel collision
