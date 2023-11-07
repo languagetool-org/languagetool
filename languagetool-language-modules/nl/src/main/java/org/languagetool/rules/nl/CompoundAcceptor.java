@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 public class CompoundAcceptor {
 
   private static final Pattern acronymPattern = Pattern.compile("[A-Z][A-Z][A-Z]-");
-  private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-z]*");
+  private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
 
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
@@ -119,7 +119,10 @@ public class CompoundAcceptor {
     "vogel",
     "lucht",
     "straat",
-    "voorbeeld"
+    "voorbeeld",
+    "privé",
+    "café",
+    "auto"
   );
   // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
   private final Set<String> collidingVowels = ImmutableSet.of(
@@ -157,8 +160,11 @@ public class CompoundAcceptor {
   boolean acceptCompound(String part1, String part2) throws IOException {
     if (part1.endsWith("s")) {
       return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length()-1)) && spellingOk(part2);
-    } else if (part1.endsWith("-")) {
+    } else if (part1.endsWith("-")) { // abbreviations
       return abbrevOk(part1) && spellingOk(part2);
+    } else if (part2.startsWith("-")){ // vowel collision
+      part2 = part2.substring(1);
+      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels( part1, part2 );
     } else {
       return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
     }
