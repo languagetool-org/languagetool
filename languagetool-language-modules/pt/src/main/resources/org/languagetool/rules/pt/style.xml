@@ -13340,14 +13340,18 @@ USA
         </rulegroup>
 
 
-        <rule id='QUALQUER_QUE_SEJA' name="'qualquer/quaisquer que seja(m)/fosse(m)' → 'independentemente'" type="style" default="temp_off">
+        <rule id='QUALQUER_QUE_SEJA' name="'qualquer/quaisquer que seja(m)/fosse(m)' → 'independentemente'" type="style">
             <!--IDEA shorten_it-->
             <pattern>
                 <marker>
-                    <token regexp="yes">qua(l|is)quer</token>
+                    <token regexp="yes">qua(l|is)quer
+                        <exception scope="previous" postag='SPS00'/>
+                    </token>
                     <token>que</token>
                     <token regexp="yes">(seja|fosse)m?</token>
-                    <token regexp="yes">[ao]s?</token>
+                    <token regexp="yes">[ao]s?
+                        <exception scope='next' regexp='yes'>d[ao]s?</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
@@ -13355,6 +13359,8 @@ USA
             <example correction="independentemente do">O Rui vencerá <marker>qualquer que seja o</marker> resultado.</example>
             <example correction="independentemente do">O Rui vencia <marker>qualquer que fosse o</marker> desfecho.</example>
             <example correction="independentemente dos">Os resultados mantêm-se <marker>quaisquer que sejam os</marker> valores.</example>
+            <example>Maria é uma pessoa muito espontânea; explode por qualquer que seja o motivo.</example>
+            <example>...heiro que mais me remete à minha mãe é o do perfume dela: sempre forte, com presença e notas doces (qualquer que seja o do momento... rs).</example>
         </rule>
 
 
