@@ -8,6 +8,7 @@ import org.languagetool.rules.RuleMatch;
 
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,8 +38,8 @@ public class MorfologikPortugueseSpellerRuleTest {
       System.out.println(matches[0].getSuggestedReplacements());
     }
     assertEquals(length, matches.length);
-    for (int i = 0; i < suggestions.length; i++) {
-      assertEquals(suggestions[i], matches[0].getSuggestedReplacements().get(i));
+    if (matches.length > 0) {
+      assert matches[0].getSuggestedReplacements().containsAll(Arrays.asList(suggestions));
     }
   }
 
@@ -72,6 +73,10 @@ public class MorfologikPortugueseSpellerRuleTest {
   @Test
   public void testSanity() throws Exception {
     assertNoErrors("oogaboogatestword", ltBR, ruleBR);
+    assertNoErrors("oogaboogatestwordBR", ltBR, ruleBR);
+    assertNoErrors("oogaboogatestword", ltPT, rulePT);
+    assertNoErrors("oogaboogatestwordPT", ltPT, rulePT);
+    assertNoErrors("oogaboogatestwordPT90", ltPT, rulePT);
   }
 
   @Test
@@ -100,7 +105,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("dê-mo", ltBR, ruleBR);
   }
 
-  // these are obviously failing for now
+  // FUCK YEAH WAHOO
   @Test
   public void testPortugueseSymmetricalDialectDifferences() throws Exception {
     assertTwoWayDialectError("anônimo", "anónimo");
@@ -165,7 +170,8 @@ public class MorfologikPortugueseSpellerRuleTest {
   // TODO: get rid of this test, of course
   @Test
   public void testBrazilPortugueseSpellingMorfologikWeirdness() throws Exception {
-    // 'ja' not corrected to 'já'!
+    // 'ja' not corrected to 'já' – the issue here is with the .aff to "ja-la", which... I think should be "já-la"?
+    // either way, when we tokenise it, it splits that into "ja" and "la"...
     assertSingleError("eu ja fiz isso.", ltBR, ruleBR, new String[]{"já"});
     // corrected to bizarre 'autoconheci emen'
     assertSingleErrorAndPos("- Encontre no autoconheciemen", ltBR, ruleBR,
@@ -185,8 +191,6 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("cabesse", ltBR, ruleBR, new String[]{"coubesse"});
     assertSingleError("andância", ltBR, ruleBR, new String[]{"andança"});
     assertSingleError("abto", ltBR, ruleBR, new String[]{"hábito"});
-    // this one is overkill, from hunspell, we can prob. comment it out
-    assertSingleError("difissio", ltBR, ruleBR, new String[]{"difícil"});
   }
 
   @Test

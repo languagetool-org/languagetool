@@ -30,7 +30,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   public MorfologikPortugueseSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
                                       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
-    this.setIgnoreTaggedWords();
+    // the tagger tags pt-PT and pt-BR words all the same, as it should, but they're still incorrect if they belong
+    // to the wrong dialect, commenting this out
+    // this.setIgnoreTaggedWords();
     if (language.getShortCodeWithCountryAndVariant().equals("pt")) {
       language = language.getDefaultLanguageVariant();
     }
@@ -38,7 +40,8 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     if (Objects.equals(language.getShortCodeWithCountryAndVariant(), "pt-BR")) {
       this.dictFilename = "/pt/spelling/pt-BR" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
     } else {
-      this.dictFilename = "/pt/spelling/pt-PT" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+      // TODO: work out how to detect the orthographic agreement; user option?
+      this.dictFilename = "/pt/spelling/pt-PT-90" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
     }
   }
 }
