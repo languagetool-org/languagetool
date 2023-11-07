@@ -17705,12 +17705,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>o</token>
                     </marker>
                     <token min="0" postag="_QM_OPEN"/>
-                    <token regexp="yes">^h?[oó].*</token>
+                    <token regexp="yes">^h?[oó].*<exception regexp="yes">&words_H_ASPIRADA;|&words_H_ASPIRADA2;</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan por 'o', la conjunción 'o' se transforma en 'u'.</message>
                 <suggestion>u</suggestion>
                 <short>La conjunción 'o' se transforma en 'u'</short>
                 <example correction="u">El torneo lo disputarán Alemania <marker>o</marker> Honduras.</example>
+                <example>¿El plural de hobby es hobbys o hobbies?</example>
             </rule>
             <rule>
                 <pattern>
@@ -17726,6 +17727,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="u">Quiero hablar de 7 <marker>o</marker> 8 temas.</example>
                 <example correction="u">Han pasado 70 <marker>o</marker> 80 días.</example>
                 <example correction="u">Han pasado 700 <marker>o</marker> 800 días.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>u</token>
+                    </marker>
+                    <token min="0" postag="_QM_OPEN"/>
+                    <and>
+                        <token regexp="yes">&words_H_ASPIRADA;|&words_H_ASPIRADA2;</token>
+                        <token regexp="yes">ho.*</token>
+                    </and>
+                </pattern>
+                <message>Cuando precede a palabras que comienzan con 'h' aspirada, se usa la conjunción 'o', no 'u'.</message>
+                <suggestion>o</suggestion>
+                <short>Ante palabras que comienzan con 'h' aspirada, se usa 'o'</short>
+                <example correction="o">¿Se dice hobbys <marker>u</marker> hobbies?</example>
             </rule>
         </rulegroup>
         <rulegroup id="PORQUE" name="porque/por que/porqué">
