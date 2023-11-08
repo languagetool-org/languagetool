@@ -1448,7 +1448,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("strang", w -> Arrays.asList("Strang", "strengte"));
     put("Gym", w -> Arrays.asList("Fitnessstudio", "Gymnasium"));
     put("Wur", w -> Arrays.asList("Wir", "Zur", "War", "Nur"));
-    put("wir", w -> Arrays.asList("wir", "zur", "war", "nur"));
+    put("wur", w -> Arrays.asList("wir", "zur", "war", "nur"));
     put("Gyms", w -> Arrays.asList("Fitnessstudios", "Gymnasiums"));
     put("gäng", w -> Arrays.asList("ging", "gang"));
     put("di", w -> Arrays.asList("du", "die", "Di.", "der", "den"));
