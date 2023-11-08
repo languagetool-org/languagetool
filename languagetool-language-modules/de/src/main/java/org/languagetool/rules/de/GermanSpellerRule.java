@@ -2338,11 +2338,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.startsWith("[dD]urschnitt")) {
-      suggestion = word.replaceFirst("^urschnitt", "urchschnitt");
-      if (hunspell.spell(suggestion)) {
-        return singletonList(suggestion);
-      }
     } else if (word.startsWith("Bundstift")) {
       suggestion = word.replaceFirst("^Bundstift", "Buntstift");
       if (hunspell.spell(suggestion)) {
