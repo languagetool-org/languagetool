@@ -12193,18 +12193,24 @@ USA
             </rule>
 
         </rulegroup>
-        <!-- ESTAR NO ECRÃ -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
-        <rule id='ESTAR_NO_ECRA' name="Estar no ecrã" tags="picky">
+
+
+        <rule id='ESTAR_NO_ECRA' name="Estar no ecrã" default="temp_off">
+            <!--IDEA shorten_it-->
             <pattern>
-                <token regexp="yes">aqueles?|aquilo|daqueles?|daquilo</token>
-                <token>que</token>
-                <token regexp="yes">aparecem?|está|estão</token>
-                <token regexp="yes">nas?|nos?</token>
-                <token regexp="yes">ecrãs?|écrans?|telas?|visor|visores|monitor|monitores</token>
+                <token postag='(SPS00:)?PD.+' postag_regexp='yes'/>
+                <marker>
+                    <token>que</token>
+                    <token regexp='yes' inflected='yes'>aparecer|estar|exibir|mostrar|observar|ver</token>
+                    <token regexp='yes'>n[ao]s?</token>
+                </marker>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>ecrã|écran|LCD|LED|monitor|OLED|plasma|tela|televisão|televisor|TV|visor</token>
             </pattern>
-            <message>Substitua por <suggestion>\1 \4 \5</suggestion>.</message>
-            <example correction="aquilo no ecrã">Vê tudo <marker>aquilo que está no ecrã</marker>.</example>
+            <message>&simplify_msg;</message>
+            <suggestion>\4</suggestion>
+            <example correction="no">Veja tudo aquilo <marker>que está no</marker> ecrã.</example>
+            <example correction="no">Veja tudo aquilo <marker>que está no</marker> seu ecrã.</example>
         </rule>
 
 
