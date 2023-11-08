@@ -40,6 +40,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
+  private static final Pattern CONTAINS_DIGIT = Pattern.compile(".*\\d.*");
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
@@ -145,6 +146,9 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
       boolean preventError = false;
       if (lastParagraphString.equals(",") || lastParagraphString.equals(";")) {
+        preventError = true;
+      }
+      if (CONTAINS_DIGIT.matcher(tokens[matchTokenPos].getToken()).matches()) {
         preventError = true;
       }
       if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !isSentenceEnd(lastToken)) {
