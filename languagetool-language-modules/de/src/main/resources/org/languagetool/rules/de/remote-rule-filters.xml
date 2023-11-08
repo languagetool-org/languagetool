@@ -1734,11 +1734,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_VERB">
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <token inflected="yes">scheffeln</token>
                 </pattern>
                 <example correction="">Ich habe ganz schön Geld <marker>gescheffelt</marker>.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes">motzen</token>
+                </pattern>
+                <example correction="">Wir <marker>motzen</marker> heute.</example>
             </rule>
         </rulegroup>
 
