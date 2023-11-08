@@ -3329,6 +3329,25 @@ USA
         </rule>
 
 
+        <rule id='SIMPLIFICAR_A_SER_PP_A_INF' name="[pt-PT] Simplificar: há + Adv. intensidade + 'a ser Part.P.' → 'a Inf.'" type="style" default="temp_off">
+            <!-- IDEA shorten_it -->
+            <pattern>
+                <token inflected='yes'>haver</token>
+                <token min='0' max='1' postag='RN|RG' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+                <marker>
+                    <token>a</token>
+                    <token>ser</token>
+                    <token postag='VMP00S.+' postag_regexp='yes'/>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>a <match no='6' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+            <example correction="a escrever">Há bastante <marker>a ser escrito</marker> no livro.</example>
+            <example correction="a fazer">Há ainda muito <marker>a ser feito</marker> na pesquisa.</example>
+        </rule>
+
+
         <rulegroup id='SIMPLIFICAR_A_XXX_DE_VOCÊS' name="[pt-PT][Simplificar] A XXX de vocês → a vossa XXX" tone_tags="objective">
             <!-- IDEA shorten_it -->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->
