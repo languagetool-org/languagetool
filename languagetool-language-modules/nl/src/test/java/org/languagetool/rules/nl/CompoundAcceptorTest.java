@@ -54,6 +54,10 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("IRA-akkoord"));
     assertFalse(acceptor.acceptCompound("iraakkoord"));
 
+    assertTrue(acceptor.acceptCompound("wetenschapsbelasting"));
+    assertFalse(acceptor.acceptCompound("wetenschapbelasting"));
+    assertTrue(acceptor.acceptCompound("Zwangerschapsblijheid"));
+
     assertTrue(acceptor.acceptCompound("VRF-regels"));
     assertFalse(acceptor.acceptCompound("VRFregels"));
 
