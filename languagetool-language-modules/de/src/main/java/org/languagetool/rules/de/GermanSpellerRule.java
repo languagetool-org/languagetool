@@ -2234,7 +2234,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         part1.length() >= 3 && part2.length() >= 4 &&
         !part2.contains("-") &&
         startsWithLowercase(part2) &&
-        (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc)) || isOnlyPluralNoun(part1)) &&
+        (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
         !isMisspelled(part1) &&
         !isMisspelled(part2uc) &&
         isMisspelled(part2) // don't accept e.g. "Azubikommt"
