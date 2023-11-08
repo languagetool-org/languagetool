@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2023 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,14 +33,14 @@ public class UnderlineSpacesFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
     String underlineSpaces = getRequired("underlineSpaces", arguments); // before/after/both
-    int fromPos = getPosition("marker", patternTokens, match);
+    String sentence = match.getSentence().getText();
     if (underlineSpaces.equals("before") || underlineSpaces.equals("both")) {
-      if (patternTokens[fromPos].isWhitespaceBefore()) {
+      if (match.getFromPos() - 1 >= 0
+        && StringTools.isWhitespace(sentence.substring(match.getFromPos() - 1, match.getFromPos()))) {
         match.setOffsetPosition(match.getFromPos() - 1, match.getToPos());
       }
     }
     if (underlineSpaces.equals("after") || underlineSpaces.equals("both")) {
-      String sentence = match.getSentence().getText();
       if (match.getToPos() + 1 < sentence.length()
         && StringTools.isWhitespace(sentence.substring(match.getToPos(), match.getToPos() + 1))) {
         match.setOffsetPosition(match.getFromPos(), match.getToPos() + 1);
