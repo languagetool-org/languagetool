@@ -192,9 +192,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token postag="ART.*|PRO:(POS|IND).*" postag_regexp="yes"/>
+                    <token postag="ART.*|PRO:(POS|IND).*" postag_regexp="yes">
+                        <exception postag="ADV.*" postag_regexp="yes"/>
+                    </token>
                     <marker>
-                        <token postag="SUB.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                        <token postag="SUB.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*
+                            <exception scope="next" postag="SUB.*" postag_regexp="yes"/>
+                        </token>
                     </marker>
                 </pattern>
                 <example correction="">Es hat eine <marker>Weile</marker> gedauert, jetzt weiß ich mehr.</example>
