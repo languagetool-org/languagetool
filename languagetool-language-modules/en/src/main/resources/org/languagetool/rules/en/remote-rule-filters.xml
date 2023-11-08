@@ -3115,6 +3115,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">“My husband’s right.<marker> </marker></example>
             </rule>
         </rulegroup>
+        <rule id="QB_EN_INSERT_PERIOD_ERROR_IDS" name="">
+            <pattern>
+                <token postag="SENT_START" />
+                <token skip="-1" regexp="yes">[•*]</token>
+                <marker>
+                    <token postag="SENT_END" />
+                </marker>
+            </pattern>
+            <example correction="">• This is a <marker>test</marker></example>
+            <example correction="">* This is a <marker>test</marker></example>
+        </rule>
         <rulegroup id="QB_EN_CAPITALIZE_JJ_FOR_NNP_ERROR_IDS_000052" name="">
             <rule>  <!-- capitalization of covid-19 -->
                 <pattern>
