@@ -2210,6 +2210,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // don't accept e.g. "Implementierungs-pflicht"
       return false;
     }
+    if (word.endsWith("gruße")) {  // too big chance of a "...grüße" typo
+      return false;
+    }
     // don't assume very short parts (like "Ei") are correct, these can easily be typos:
     if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
       String part1noInfix = part1.substring(0, part1.length()-1);
