@@ -112,7 +112,7 @@ class ResultCache implements Serializable {
    * Remove all cache entries between firstPara (included) and lastPara (excluded)
    * shift all numberOfParagraph by 'shift'
    */
-  void removeAndShift(int firstParagraph, int lastParagraph, int oldSize, int newSize) {
+  void removeAndShift(int firstParagraph, int oldSize, int newSize) {
     int shift = newSize - oldSize;
     if (firstParagraph < 0 || shift == 0) {
       return;
