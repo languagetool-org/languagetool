@@ -1446,12 +1446,12 @@ public class JLanguageTool {
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
           errorRateLog.forEach(e -> logger.info(LoggingTools.BAD_REQUEST, e));
-          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the whole text contains " + wordCounter + " words " +
-            " this sentence has " + sentenceMatches.size() + " matches");
-          throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the whole text contains " + wordCounter + " words" +
-            " this sentence has " + sentenceMatches.size() + " matches");
+          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() + ". " +
+            "The whole text contains " + wordCounter + " words " +
+            " and this sentence has " + sentenceMatches.size() + " matches.");
+          throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() + ". " +
+            "The whole text contains " + wordCounter + " words" +
+            "and this sentence has " + sentenceMatches.size() + " matches.");
         }
       }
     }
