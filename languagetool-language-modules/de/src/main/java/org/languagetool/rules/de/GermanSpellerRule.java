@@ -87,7 +87,31 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern GENDER_STAR_PATTERN = Pattern.compile("([A-ZÖÄÜ][a-zöäüß]{1,25}|[A-ZÖÄÜ]{1,10}-[A-ZÖÄÜ][a-zöäüß]{1,25})[*:_][a-zöäüß]{1,25}");  // z.B. "Jurist:innenausbildung"
   private static final Pattern FILE_UNDERLINE_PATTERN = Pattern.compile("[a-zA-Z0-9-]{1,25}_[a-zA-Z0-9-]{1,25}\\.[a-zA-Z]{1,5}");
   private static final Pattern MENTION_UNDERLINE_PATTERN = Pattern.compile("@[a-zA-Z0-9-]{1,25}_[a-zA-Z0-9_-]{1,25}");
-  
+
+  private static final Pattern FIRST_UPPER_CASE = Pattern.compile("[A-ZÖÄÜ][a-zöäüß-]+");
+  private static final Pattern HYPHENED_UPPER_WORD = Pattern.compile("[A-ZÖÄÜ][a-zöäüß]+-[\\\\-\\\\s]?[a-zöäüß]+");
+  private static final Pattern HYPHENED_WORD = Pattern.compile("[a-zöäüß]+-[\\-\\s][A-ZÖÄÜa-zöäüß]+");
+
+  private static final Pattern START_WITH_SPIEL = Pattern.compile("Spielzugs?|Spielzugangs?|Spielzuganges|Spielzugbuchs?|Spielzugbüchern?|Spielzuges|Spielzugverluste?|Spielzugverluste[ns]");
+  private static final Pattern END_WITH_SCHAFTE = Pattern.compile( ("[A-ZÖÄÜ][a-zöäß-]+schafte"));
+  private static final Pattern WORD_WITH_PUNCT = Pattern.compile("\\w\\p{Punct}?");
+  private static final Pattern LOWER_CASE_WORD = Pattern.compile("[a-zöäü]-.+");
+  private static final Pattern SPECIAL_CASE = Pattern.compile(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)");
+  private static final Pattern SPECIAL_CASE_WITH_S = Pattern.compile(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s");
+  private static final Pattern AUTENTISCH_WITH_CASES = Pattern.compile("[Aa]utentisch(e[nmsr]?|ste[nmsr]?|ere[nmsr]?)?");
+  private static final Pattern BRILLIANT_WITH_CASES = Pattern.compile("brilliant(e[nmsr]?|ere[nmsr]?|este[nmsr]?)?");
+  private static final Pattern RECHTMASIG_WITH_CASES = Pattern.compile("rechtmässig(e[nmsr]?|ere[nmsr]?|ste[nmsr]?)?");
+  private static final Pattern HOLZ_SPIEGEL_PANEL_COMPOUND = Pattern.compile("(Holz|Spiegel)panel(s|en?)?");
+  private static final Pattern SBHAN_PREFIX = Pattern.compile("SBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?");
+  private static final Pattern UBAHN_PREFIX = Pattern.compile("UBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?");
+
+
+  private static final Pattern START_WITH_NEGER = Pattern.compile("neger.*");
+  private static final Pattern CONTAINES_NEGER = Pattern.compile(".+neger(s|n|in|innen)?");
+  private static final Pattern ENDS_WITH_IBELKEIT_IBLICHKEIT= Pattern.compile(".*ibel[hk]eit$");
+
+
+
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -1701,7 +1725,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected boolean isIgnoredNoCase(String word) {
     return wordsToBeIgnored.contains(word) ||
       // words from spelling.txt also accepted in uppercase (e.g. sentence start, bullet list items):
-      (word.matches("[A-ZÖÄÜ][a-zöäüß-]+") && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
+        (FIRST_UPPER_CASE.matcher(word).matches() && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
       (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
@@ -1716,8 +1740,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
       List<String> tmp = super.getCandidates(parts);
-      tmp = tmp.stream().filter(k -> !k.matches("[A-ZÖÄÜ][a-zöäüß]+-[\\-\\s]?[a-zöäüß]+") &&
-                                     !k.matches("[a-zöäüß]+-[\\-\\s][A-ZÖÄÜa-zöäüß]+")).collect(Collectors.toList());  // avoid e.g. "Direkt-weg"
+      tmp = tmp.stream().filter(k -> !HYPHENED_UPPER_WORD.matcher(k).matches() && !HYPHENED_WORD.matcher(k).matches()).collect(Collectors.toList());  // avoid e.g. "Direkt-weg"
       tmp = tmp.stream().filter(k -> !k.contains("-s-")).collect(Collectors.toList());  // avoid e.g. "Geheimnis-s-voll"
       if (!word.endsWith("-")) {
         tmp = tmp.stream().filter(k -> !k.endsWith("-")).collect(Collectors.toList());  // avoid "xyz-" unless the input word ends in "-"
@@ -1774,7 +1797,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected RuleMatch createWrongSplitMatch(AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int pos, String coveredWord, String suggestion1, String suggestion2, int prevPos) {
-    if (suggestion2.matches("[a-zöäü]-.+")) {
+    if ( LOWER_CASE_WORD.matcher(suggestion2).matches() ) {
       // avoid confusing matches for e.g. "haben -sehr" (was: "habe n-sehr")
       return null;
     }
@@ -1893,7 +1916,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     // Remove suggestions like "Mafiosi s" and "Mafiosi s.":
-    suggestions.removeIf(s -> Arrays.stream(s.split(" ")).anyMatch(k -> k.matches("\\w\\p{Punct}?")));
+    suggestions.removeIf(s -> Arrays.stream(s.split(" ")).anyMatch(k -> WORD_WITH_PUNCT.matcher(k).matches()));
     // This is not quite correct as it might remove valid suggestions that start with "-",
     // but without this we get too many strange suggestions that start with "-" for no apparent reason
     // (e.g. for "Gratifikationskrisem" -> "-Gratifikationskrisen"):
@@ -2052,13 +2075,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   public boolean isMisspelled(String word) {
-    if (word.startsWith("Spielzug") && !word.matches("Spielzugs?|Spielzugangs?|Spielzuganges|Spielzugbuchs?|Spielzugbüchern?|Spielzuges|Spielzugverluste?|Spielzugverluste[ns]")) {
+    if (word.startsWith("Spielzug") && !START_WITH_SPIEL.matcher(word).matches()) {
       return true;
     }
     if (word.startsWith("Standart") && !word.equals("Standarte") && !word.equals("Standarten") && !word.startsWith("Standartenträger") && !word.startsWith("Standartenführer")) {
       return true;
     }
-    if (word.endsWith("schafte") && word.matches("[A-ZÖÄÜ][a-zöäß-]+schafte")) {
+    if (word.endsWith("schafte") && END_WITH_SCHAFTE.matcher(word).matches() ) {
       return true;
     }
     return super.isMisspelled(word);
@@ -2113,22 +2136,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }*/
       if (isMisspelled(word)) {
         if (!isMisspelled(firstPart) &&
-            !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)") &&
+            !SPECIAL_CASE.matcher(firstPart).matches() &&
             isOnlyNoun(firstPart) &&
             !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
           //System.out.println("will accept: " + word);
           return true;
         } else if (!isMisspelled(firstPart) &&
-                   !firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)")) {
+                  !SPECIAL_CASE.matcher(firstPart).matches() ) {
                    //System.out.println("will not accept: " + word);
         } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
-                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s") &&   // "handlungsartig"
+                   SPECIAL_CASE_WITH_S.matcher(firstPart).matches() &&
                    isOnlyNoun(firstPart.replaceFirst("s$", "")) &&
                    !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
           //System.out.println("will accept: " + word);
           return true;
         } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
-                   firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s")) {
+                   SPECIAL_CASE.matcher(firstPart).matches()) {
           //System.out.println("will not accept: " + word);
         }
       }
@@ -2298,7 +2321,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("Und");
     } else if ("Std".equals(word)) {
       return singletonList("Std.");
-    } else if (word.matches(".*ibel[hk]eit$")) {
+    } else if ( ENDS_WITH_IBELKEIT_IBLICHKEIT.matcher(word).matches()) {
       suggestion = word.replaceFirst("el[hk]eit$", "ilität");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
@@ -2817,29 +2840,30 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> l) {
     return l.stream()
       .filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase()))
-      .filter(k -> !k.getReplacement().toLowerCase().matches("neger.*"))
-      .filter(k -> !k.getReplacement().toLowerCase().matches(".+neger(s|n|in|innen)?"))
+      .filter(k -> !START_WITH_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
+      .filter(k -> !CONTAINES_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
       .collect(Collectors.toList());
   }
 
   @Override
   protected List<SuggestedReplacement> getOnlySuggestions(String word) {
-    if (word.matches("[Aa]utentisch(e[nmsr]?|ste[nmsr]?|ere[nmsr]?)?")) {
+
+    if (AUTENTISCH_WITH_CASES.matcher(word).matches()) {
       return topMatch(word.replaceFirst("utent", "uthent"));
     }
-    if (word.matches("brilliant(e[nmsr]?|ere[nmsr]?|este[nmsr]?)?")) {
+    if (BRILLIANT_WITH_CASES.matcher(word).matches()) {
       return topMatch(word.replaceFirst("brilliant", "brillant"));
     }
-    if (word.matches("rechtmässig(e[nmsr]?|ere[nmsr]?|ste[nmsr]?)?")) {
+    if (RECHTMASIG_WITH_CASES.matcher(word).matches()) {
       return topMatch(word.replaceFirst("mässig", "mäßig"));
     }
-      if (word.matches("(Holz|Spiegel)panel(s|en?)?")) {
+      if (HOLZ_SPIEGEL_PANEL_COMPOUND.matcher(word).matches()){
       return topMatch(word.replaceFirst("panel", "paneel"));
     }
-    if (word.matches("SBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?")) {
+    if (SBHAN_PREFIX.matcher(word).matches()) {
       return topMatch(word.replaceFirst("SBahn", "S-Bahn"));
     }
-    if (word.matches("UBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?")) {
+    if (UBAHN_PREFIX.matcher(word).matches()) {
       return topMatch(word.replaceFirst("UBahn", "U-Bahn"));
     }
     switch (word) {
