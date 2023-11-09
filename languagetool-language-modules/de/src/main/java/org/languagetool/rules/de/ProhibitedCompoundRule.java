@@ -55,6 +55,7 @@ public class ProhibitedCompoundRule extends Rule {
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
           new Pair("leser", "eine Person, die liest", "leder", "aus Tierhaut gewonnenes Material"),
+          new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
           new Pair("panel", "ausgewählte Personengruppe", "paneel", "Platte für Wand- und Deckenverkleidungen"),
           new Pair("nabe", "Mittelteil eines Rades", "narbe", "verheilende Wunde"),
           new Pair("first", "höchste Kante an einem geneigten Dach", "frist", "spätester Zeitpunkt"),
