@@ -24,6 +24,8 @@
 <!ENTITY weekdays "панядзелак|аўторак|серада|сераду|чацвер|пятніца|пятніцу|субота|суботу|нядзеля|нядзелю|пн|аў|ср|чц|пт|сб|нд">
 <!ENTITY months "студзень|люты|сакавік|красавік|май|травень|чэрвень|ліпень|жнівень|верасень|кастрычнік|лістапад|снежань|студзеня|лютага|сакавіка|красавіка|мая|траўня|чэрвеня|ліпеня|жніўня|верасня|кастрычніка|лістапада|снежня">
 <!ENTITY abbrevMonths "сту|лют|сак|кра|мая|май|тра|чэр|ліп|жні|вер|кас|ліс|сне">
+<!ENTITY uAfterVowels "аука|аул|баул|вакуум|подыум|прэзідыум|калегіум|кансіліум|кантынуум|ноу-хау|радыус|соус|страус|трыумвір|трыумвірат|трыумф|трыумфава|трыумфальн|трыумфатар|ток-шоу|фрау|шоу|Дахау|Каратау|Ландау|Цеміртау|Саудаўск|Сеул|сауд">
+<!ENTITY beginningU "унія|унію|уніі|урн|унтэр-афіцэр|унтэр|уйма|унікум">
 ]>
 <!-- «» -->
 
@@ -32,9 +34,10 @@
     
     <category id="CAT1" name="Правапіс">
         <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
+            <!--Напісанне у несладовага ўнутры слова-->
             <rule>
                 <antipattern>
-                    <token regexp='yes'>(аука|аул|баул|вакуум|прэзідыум|калегіум|кансіліум|кантынуум|ноу-хау|радыус|соус|страус|трыумвір|трыумвірат|трыумф|трыумфава|трыумфальн|трыумфатар|ток-шоу|фрау|шоу|Дахау|Каратау|Ландау|Цеміртау|Саудаўск|сауд)[агеёзійкмнсуўхьыюя]{0,3}</token>
+                    <token regexp='yes'>(&uAfterVowels;)[агеёзійкмнсуўхьыюя]{0,3}</token>
                 </antipattern>
                 <antipattern>
                     <token regexp='yes' case_sensitive="yes">.*[АЕЁІОУЫЭЮЯаеёіоуыэюя][-]?У.*</token>
@@ -49,11 +52,12 @@
                 <example>вакуумны пыласос</example>
                 <example>Трыумфальная арка</example>
             </rule>
+            <!--Напісанне у несладовага ў пачатку слова-->
             <rule>
                 <antipattern>
                     <token regexp='yes'>.*[аеёіоуыэюя]</token>
                     <token regexp="yes" min="0">[«»„“"]</token>
-                    <token regexp='yes'>(унія|унію|уніі|урн|унтэр-афіцэр|унтэр|уйма|унікум)[агеёзійкмнсуўхьыюя]{0,3}</token>
+                    <token regexp='yes'>(&beginningU;)[агеёзійкмнсуўхьыюя]{0,3}</token>
                 </antipattern>
                 <pattern>
                     <token regexp='yes'>.*[аеёіоуыэюя]</token>
@@ -70,6 +74,7 @@
                 <example>Так званы «унікум».</example>
                 <example correction="ўніверсум">Так званы «<marker>універсум</marker>».</example>
             </rule>
+            <!--Напісанне у складовага ўнутры слова-->
             <rule>
                 <antipattern>
                     <token regexp="yes">.*[аеёіоуыэюя][-]?ў.*</token>
@@ -84,6 +89,7 @@
                 <example correction="дзядуля"><marker>дзядўля</marker></example>
                 <example correction="заурад-урач"><marker>заурад-ўрач</marker></example>
             </rule>
+            <!--Напісанне у складовага ў пачатку слова-->
             <rule>
                 <antipattern>
                     <token regexp="yes">.*[аеёіоуыэюя]</token>
@@ -103,7 +109,6 @@
                 <example>кліча «ў Пагоню!»</example>
                 <example>пачуў «будзь ласкавы» ўпершыню</example>
                 <example correction="у">ён <marker>ў</marker> Полацку</example>
-                <example>кліча «ў Пагоню!»</example>
                 <example correction="у">вокліч «<marker>ў</marker> бой!».</example>
                 <example correction="увайшоў">Карабель «Вараг» <marker>ўвайшоў</marker> у гавань.</example>
             </rule>
@@ -113,7 +118,7 @@
                 <pattern>
                     <token regexp="yes">.*и.*</token>
                 </pattern>
-                <message>Можа павінна быць «і» замест «и»: <suggestion><match no="1" regexp_match="(.*)и(.*)" regexp_replace="$1і$2" /></suggestion></message>
+                <message>Можа павінна быць «і» замест «и»: <suggestion><match no="1" regexp_match="(.*)и(.*)" regexp_replace="$1і$2" /></suggestion>?</message>
                 <short>«И» замест «і»</short>
                 <example>iншыя</example>
                 <example correction="іншыя"><marker>иншыя</marker></example>
@@ -438,6 +443,15 @@
     </category>
 
     <category id="CAT5" name="Семантычныя памылкі">
+        <rule id="REPETITION" name="Паўтор аднаго слова два разы">
+            <pattern>
+                <token regexp="yes">[а-яёіў]+</token>
+                <token><match no="0"/></token>
+            </pattern>
+            <message>Паўтор аднаго слова 2 разы. Вы мелі на ўвазе: <suggestion>\1</suggestion>?</message>
+            <example correction="ведаю">Я <marker>ведаю ведаю</marker> гэта.</example>
+            <example>Я ведаю, ведаю гэта.</example>
+        </rule>
         <rulegroup id="INVALID_DATE" name="Няправільная дата, напр.: «31 лютага 2014»">
             <rule>
                 <pattern>
@@ -931,4 +945,19 @@
             <example>Цікавае апавяданне.</example>
         </rule>
     </category>
+
+    <!-- Праблема са сказамі тыпу «адзін з арганізатараў і кіраўнікоў літаратурных аб'яднанняў «Маладняк» і «Узвышша»»
+    <category id="CAT7" name="Пунктуацыя">
+        <rule id="pairs_without_comma" name="Злучальныя і раздзяляльныя злучнікі без косак">
+            <pattern>
+                <token regexp="yes" skip="-1">ані|ні|і|або|альбо|ці|ды<exception scope="next">,</exception></token>
+                <token><match no="0"/></token>
+            </pattern>          
+            <message>Пропуск коскі ў пералічэнні са злучальнымі або раздзяляльнымі злучнікамі.</message>
+            <short>Нелітаратурнае слова</short>
+            <example correction=""><marker>І ты і</marker> я і ўся наша сям’я</example>
+            <example>Я, ды ён, ды мы ўсе.</example>
+        </rule>
+    </category>
+    -->
 </rules>
