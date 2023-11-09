@@ -84,6 +84,12 @@ public class OfficeTools {
     ONLY_GRAMMAR  //  only grammar check
   }
     
+  public enum LoErrorType {
+    GRAMMAR,      //  grammar error
+    SPELL,        //  spell error
+    BOTH          //  spell and grammar error
+  }
+    
   public static final String EXTENSION_MAINTAINER = "Fred Kruse";
   public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
   public static final int PROOFINFO_UNKNOWN = 0;

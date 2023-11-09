@@ -456,6 +456,10 @@ public class VerbAgreementRule extends TextLevelRule {
       token("selbst")
     ),
     asList(
+      token("bin"),
+      tokenRegex("dran|dabei")
+    ),
+    asList(
       token("als"),  // "Du bist in dem Moment angekommen, als ich gegangen bin."
       token("ich"),
       posRegex("PA2:.*"),

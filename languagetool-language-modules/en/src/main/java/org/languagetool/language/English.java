@@ -436,6 +436,7 @@ public class English extends Language implements AutoCloseable {
       case "ALL_OF_SUDDEN":             return 1;   // higher prio than ALL_MOST_SOME_OF_NOUN
       case "COMMA_PERIOD":              return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
       case "COMMA_CLOSING_PARENTHESIS": return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
+      case "ELLIPSIS":                  return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
       case "HERE_HEAR":                 return 1;   // higher prio than ENGLISH_WORD_REPEAT_RULE
       case "MISSING_POSS_APOS":         return 1;   // higher prio than SINGULAR_NOUN_VERB_AGREEMENT
       case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
@@ -597,6 +598,7 @@ public class English extends Language implements AutoCloseable {
       case "SINGULAR_NOUN_VERB_AGREEMENT": return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "SINGULAR_AGREEMENT_SENT_START": return -12;    // prefer AI
       case "SUBJECTVERBAGREEMENT_2": return -12;    // prefer AI
+      case "THE_SENT_END": return -12;    // prefer AI
       case "DT_NN_ARE_AME": return -12;    // prefer AI
       case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
       case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI

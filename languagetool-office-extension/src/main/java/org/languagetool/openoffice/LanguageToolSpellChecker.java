@@ -157,6 +157,7 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
       if (lastWrongWords.contains(word)) {
         return false;
       }
+//      MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: check word: " + word);
       initSpellChecker(locale);
       if (spellingCheckRule != null) {
         if (!spellingCheckRule.isMisspelled(word)) {

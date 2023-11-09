@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2023 Daniel Naber (http://www.danielnaber.de)
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2023 Jaume Ortolà
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,14 +18,18 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.Catalan;
-import org.languagetool.rules.AbstractSuppressIfAnyRuleMatchesFilter;
+import org.languagetool.Languages;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 
-public class SuppressIfAnyRuleMatchesFilter extends AbstractSuppressIfAnyRuleMatchesFilter {
+import java.util.Arrays;
 
-  @Override
-  protected JLanguageTool getJLanguageTool() {
-    return new Catalan().createDefaultJLanguageTool();
+public class CatalanMultitokenSpeller extends MultitokenSpeller {
+
+  public static final CatalanMultitokenSpeller INSTANCE = new CatalanMultitokenSpeller();
+
+  protected CatalanMultitokenSpeller() {
+    super(Languages.getLanguageForShortCode("ca-ES"),
+      Arrays.asList("/ca/multiwords.txt", "/spelling_global.txt", "/ca/hyphenated_words.txt"));
   }
+
 }

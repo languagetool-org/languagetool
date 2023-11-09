@@ -39,7 +39,7 @@ public class SuggestionFilter {
 
   public SuggestionFilter(Rule rule, Language lang) {
     this.rule = Objects.requireNonNull(rule);
-    this.lt = new JLanguageTool(lang);
+    this.lt = lang.createDefaultJLanguageTool();
   }
 
   public List<String> filter(List<String> replacements, String template) {

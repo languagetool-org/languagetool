@@ -25,8 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
-import org.languagetool.Language;
-import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
@@ -34,7 +32,6 @@ import org.languagetool.tools.StringTools;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -69,7 +66,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private Type type = Type.Other;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private boolean autoCorrect = false;
-  private String errorLimitLang;
+  private Map<String, Float> newLanguageMatches = new LinkedHashMap<>();
 
   private String specificRuleId = "";
 
@@ -602,22 +599,21 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * The language that the text might be in if the error limit has been reached.
    *
-   * @since 5.3
+   * @since 6.4
    */
-  @Nullable
-  public String getErrorLimitLang() {
-    return errorLimitLang;
+  public Map<String, Float> getNewLanguageMatches() {
+    return newLanguageMatches;
   }
 
   /**
    * Call if the error limit is reached for this sentence. The caller will then get text ranges for the
    * sentence and can ignore errors there. Note: will not have an effect for text-level rules.
    *
-   * @param langCode the language this could be instead
-   * @since 5.3
+   * @param newLanguageMatches a map of possible languages this could be instead
+   * @since 6.4
    */
-  public void setErrorLimitLang(String langCode) {
-    this.errorLimitLang = langCode;
+  public void setNewLanguageMatches(Map<String, Float> newLanguageMatches) {
+    this.newLanguageMatches = newLanguageMatches;
   }
 
   /**

@@ -42,11 +42,15 @@ import java.util.List;
  */
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
+  private final MultiWordChunker chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", true, true, MultiWordChunker.tagForNotAddingTags);
   private final Disambiguator disambiguator;
 
   public EnglishHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
+    chunker.setIgnoreSpelling(true);
+    chunker.setRemovePreviousTags(true);
+    chunkerGlobal.setIgnoreSpelling(true);
   }
 
   @Override
@@ -65,74 +69,7 @@ public class EnglishHybridDisambiguator extends AbstractDisambiguator {
    */
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    AnalyzedSentence analyzedSentence = chunker.disambiguate(input, checkCanceled);
-           
-    AnalyzedTokenReadings[] aTokens = analyzedSentence.getTokens();
-    int i=0;
-    String POSTag = "";
-    String lemma = "";
-    String nextPOSTag = "";
-    AnalyzedToken analyzedToken = null;
-    while (i < aTokens.length) {
-      if (!aTokens[i].isWhitespace()) {
-        if (checkCanceled != null && checkCanceled.checkCancelled()) {
-          break;
-        }
-        if (!nextPOSTag.isEmpty()) {
-          AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
-          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
-            nextPOSTag = "";
-            lemma = "";
-          }
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "EN_HybridDisambiguator");
-          aTokens[i].ignoreSpelling();
-        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
-          POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
-          lemma = analyzedToken.getLemma();
-          AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "EN_HybridDisambiguator");
-          aTokens[i].ignoreSpelling();
-          nextPOSTag = POSTag;
-        }
-      }
-      i++;
-    }
-
-    return disambiguator.disambiguate(new AnalyzedSentence(aTokens), checkCanceled);
-  }
-  
-  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
-    List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-    for (AnalyzedToken reading : aTokens[i]) {
-      String POSTag = reading.getPOSTag();
-      if (POSTag != null) {
-        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
-          l.add(reading);
-        }
-      }
-    }
-    // choose the longest one
-    if (l.size() > 0) { 
-      AnalyzedToken selectedAT = null;
-      int maxDistance = 0;
-      for (AnalyzedToken at : l) {
-        String tag = "</" + at.getPOSTag().substring(1);
-        String lemma = at.getLemma();
-        int distance = 1;
-        while (i + distance < aTokens.length) {
-          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
-            if (distance > maxDistance) {
-              distance = maxDistance;
-              selectedAT = at;
-            }
-            break;
-          }
-          distance++;
-        }
-      }
-      return selectedAT;
-    }
-    return null;
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled);
   }
 
 }

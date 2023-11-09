@@ -25,6 +25,7 @@ import org.languagetool.language.BalearicCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -106,6 +107,63 @@ public class JLanguageToolTest {
     matches = tool.check("A nivell d'ensenyament superior.");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(),
         "[En l'àmbit d', A escala d', A , En , Pel que fa a , Quant a ]");
+
+  }
+
+  @Test
+  public void testMultitokenSpeller() throws IOException {
+    Language lang = new Catalan();
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Marina Buisan").toString());
+    assertEquals("[Homo sapiens]", lang.getMultitokenSpeller().getSuggestions("Homos Sapiens").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Garcia Horta").toString());
+    assertEquals("[John Venn]", lang.getMultitokenSpeller().getSuggestions("Jon Benn").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("josue garcia").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Franco more").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("maria Lopez").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("carlos fesi").toString());
+    assertEquals("[Nikolai Rimski-Kórsakov]", lang.getMultitokenSpeller().getSuggestions("Nicolai Rimski-Kórsakov").toString());
+    assertEquals("[Rimski-Kórsakov]", lang.getMultitokenSpeller().getSuggestions("Rimsky-Korsakov").toString());
+    assertEquals("[Johann Sebastian Bach]", lang.getMultitokenSpeller().getSuggestions("Johan Sebastián Bach").toString());
+    assertEquals("[Johann Sebastian Bach]", lang.getMultitokenSpeller().getSuggestions("Johan Sebastián Bach").toString());
+    assertEquals("[Johann Sebastian Bach]", lang.getMultitokenSpeller().getSuggestions("Johann Sebastián Bach").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Plantation Boy").toString());
+    assertEquals("[Woody Allen]", lang.getMultitokenSpeller().getSuggestions("Woodie Alen").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Eugenio Granjo").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Julia García").toString());
+    assertEquals("[Deutsche Bank]", lang.getMultitokenSpeller().getSuggestions("Deustche Bank").toString());
+    assertEquals("[Dmitri Mendeléiev]", lang.getMultitokenSpeller().getSuggestions("Dimitri Mendeleev").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Caralp Mariné").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Andrew Cyrille").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alejandro Varón").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alejandro Mellado").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alejandro Erazo").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alberto Saoner").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("è più").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Josep Maria Jové").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Josep Maria Canudas").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Francisco Javier Dra.").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("the usage of our").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A paso").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A sin").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A xente").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A lus").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("A Month").toString());
+    assertEquals("[peix espasa]", lang.getMultitokenSpeller().getSuggestions("peis espaba").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Jean-François Davy").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("finç abui").toString());
+    assertEquals("[Led Zeppelin]", lang.getMultitokenSpeller().getSuggestions("Led Zepelin").toString());
+    assertEquals("[Led Zeppelin]", lang.getMultitokenSpeller().getSuggestions("Led Sepelin").toString());
+    assertEquals("[Marie Curie]", lang.getMultitokenSpeller().getSuggestions("Marie Cuirie").toString());
+    assertEquals("[William Byrd]", lang.getMultitokenSpeller().getSuggestions("William Bird").toString());
+    assertEquals("[Lluís Llach]", lang.getMultitokenSpeller().getSuggestions("Lluis Llach").toString());
+    assertEquals("[University of Texas]", lang.getMultitokenSpeller().getSuggestions("Universiti of Tejas").toString());
+    assertEquals("[Cyndi Lauper]", lang.getMultitokenSpeller().getSuggestions("Cindy Lauper").toString());
+    assertEquals("[García Márquez]", lang.getMultitokenSpeller().getSuggestions("Garcìa Mraquez").toString());
+    assertEquals("[Yuval Noah Harari]", lang.getMultitokenSpeller().getSuggestions("yuval Noha Harari").toString());
+    assertEquals(Collections.emptyList(), lang.getMultitokenSpeller().getSuggestions("Frederic Udina"));
+    assertEquals(Collections.emptyList(), lang.getMultitokenSpeller().getSuggestions("Josep Maria Piñol"));
+    assertEquals("[José María Aznar]", lang.getMultitokenSpeller().getSuggestions("Jose Maria Asnar").toString());
+    assertEquals("[José María Aznar]", lang.getMultitokenSpeller().getSuggestions("José María Asnar").toString());
 
   }
 

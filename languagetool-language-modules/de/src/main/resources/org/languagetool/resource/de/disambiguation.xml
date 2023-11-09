@@ -6,7 +6,7 @@ German Disambiguation Rules for LanguageTool
 Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
   <!DOCTYPE rules [
-    <!ENTITY zal_adj_ig "jähr|bänd|seit|monat|täg|köpf|tür|spur|geschoss|stöck|mal|teil|lag|stünd|minüt|sekünd|zeil|wöch|stell|räum|schicht|zähn|eck|arm|karät">
+    <!ENTITY zal_adj_ig "jähr|bänd|seit|monat|täg|köpf|tür|spur|geschoss|stöck|mal|teil|lag|stünd|minüt|sekünd|zeil|wöch|stell|räum|schicht|zähn|eck|arm|karät|buchstab">
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun|zehn|elf|zwölf)(zehn|zig)?)(&zal_adj_ig;)">
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|idml|ini|indd|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|scss|sh|shtml|sql|stl|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|web[mp]">
@@ -2169,6 +2169,41 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="bla bla bla" id="IGNORE_BLA_BLA_BLA">
+        <pattern>
+            <token>bla</token>
+            <token min="0">,</token>
+            <token>bla</token>
+            <token min="0">,</token>
+            <token>bla</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="mords was los" id="IGNORE_MORDS_WAS_LOS">
+        <pattern>
+            <token case_sensitive="yes">mords</token>
+            <token>was</token>
+            <token regexp="yes">los|ab</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="mords mäßig" id="IGNORE_MORDS_MAESSIG">
+        <pattern>
+            <token case_sensitive="yes">mords</token>
+            <token postag="ADJ.*" postag_regexp="yes" spacebefore="yes"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="mordsklein" id="IGNORE_SPELLING_MORDSKLEIN">
+        <pattern>
+            <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">mords.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule name="Morgenstund hat Gold im Mund" id="IGNORE_MORGENSTUND">
         <pattern case_sensitive="yes">
@@ -8098,6 +8133,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">\d{1,2}[abcdef]{2}</token>
             </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_UPPERCASED_UNDERSCORED_WORDS" name="ignore words like ">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-Z0-9]+</token>
+            <token>_</token>
+            <token regexp="yes">[A-Z0-9]+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

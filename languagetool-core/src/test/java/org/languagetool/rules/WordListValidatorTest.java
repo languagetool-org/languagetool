@@ -58,6 +58,8 @@ public class WordListValidatorTest {
           "Modrić/S",
           "Miłosz",
           "Arnautović/S",
+          "Sigara böreği",
+          "Sigara böreği/S",
           "Bhagavad-gītā",
           "Sønderjylland/S",
           "Utøya/S",

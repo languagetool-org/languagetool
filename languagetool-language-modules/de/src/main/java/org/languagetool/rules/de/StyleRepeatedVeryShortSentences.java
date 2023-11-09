@@ -53,7 +53,7 @@ public class StyleRepeatedVeryShortSentences extends TextLevelRule {
     setDefaultOff();
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("Das Auto kam <marker>näher.</marker> Der Hund <marker>schlief.</marker> Die Reifen <marker>quietschten.</marker>"),
-        Example.fixed("Das Auto kam näher. Tief und fest schlief der Hund. Die Reifen quietschten."));
+                   Example.fixed("Das Auto kam näher. Tief und fest schlief der Hund. Die Reifen quietschten."));
   }
 
   private final static int MIN_REPEATED = 3;

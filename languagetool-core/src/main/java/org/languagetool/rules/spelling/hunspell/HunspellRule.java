@@ -259,10 +259,10 @@ public class HunspellRule extends SpellingCheckRule {
           }
           ruleMatches.add(ruleMatch);
           if (foreignLanguageChecker != null && !gotResultsFromForeignLanguageChecker) {
-            String langCode = foreignLanguageChecker.check(ruleMatches.size());
-            if (langCode != null) {
-              if (!langCode.equals(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED)) {
-                ruleMatches.get(0).setErrorLimitLang(langCode);
+            Map<String, Float> langCodesScoring = foreignLanguageChecker.check(ruleMatches.size());
+            if (!langCodesScoring.isEmpty()) {
+              if (langCodesScoring.get(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED) == null) {
+                ruleMatches.get(0).setNewLanguageMatches(langCodesScoring);
               }
               gotResultsFromForeignLanguageChecker = true;
             }
@@ -493,29 +493,32 @@ public class HunspellRule extends SpellingCheckRule {
     String wordChars = "";
     // set dictionary only if there are dictionary files:
     Path affPath = null;
-    if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-      String path = getDictionaryPath(langCountry, shortDicPath);
-      if ("".equals(path)) {
-        hunspell = null;
-      } else {
-        affPath = Paths.get(path + ".aff");
-        hunspell = Hunspell.getDictionary(Paths.get(path + ".dic"), affPath);
-        addIgnoreWords();
+    if(!Tools.isExternSpeller()) {    //  use of external speller for OO extension (32-bit)
+                                      //  hunspell doesn't support 32 bit java
+      if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
+        String path = getDictionaryPath(langCountry, shortDicPath);
+        if ("".equals(path)) {
+          hunspell = null;
+        } else {
+          affPath = Paths.get(path + ".aff");
+          hunspell = Hunspell.getDictionary(Paths.get(path + ".dic"), affPath);
+          addIgnoreWords();
+        }
+      } else if (new File(shortDicPath + ".dic").exists()) {
+        // for dynamic languages
+        affPath = Paths.get(shortDicPath + ".aff");
+        hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + ".dic"), affPath);
       }
-    } else if (new File(shortDicPath + ".dic").exists()) {
-      // for dynamic languages
-      affPath = Paths.get(shortDicPath + ".aff");
-      hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + ".dic"), affPath);
-    }
-    if (affPath != null) {
-      try (Scanner sc = new Scanner(affPath)) {
-        while (sc.hasNextLine()) {
-          String line = sc.nextLine();
-          if (line.startsWith("WORDCHARS ")) {
-            String wordCharsFromAff = line.substring("WORDCHARS ".length());
-            //System.out.println("#" + wordCharsFromAff+ "#");
-            wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
-            break;
+      if (affPath != null) {
+        try (Scanner sc = new Scanner(affPath)) {
+          while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (line.startsWith("WORDCHARS ")) {
+              String wordCharsFromAff = line.substring("WORDCHARS ".length());
+              //System.out.println("#" + wordCharsFromAff+ "#");
+              wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
+              break;
+            }
           }
         }
       }

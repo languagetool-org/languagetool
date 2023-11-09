@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.Pattern;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.getHttpReferrer;
@@ -123,7 +124,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
         String pathWithoutVersion = path.substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
-          if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
+          String message = "Healthcheck failed: There are currently too many parallel requests.";
+          if (workQueueFull(httpExchange, parameters, message) || textCheckerQueueFull(httpExchange, message)) {
             ServerMetricsCollector.getInstance().logFailedHealthcheck();
             return;
           } else {
@@ -323,6 +325,14 @@ class LanguageToolHttpHandler implements HttpHandler {
     return false;
   }
 
+  private boolean textCheckerQueueFull(HttpExchange httpExchange, String response) throws IOException {
+    if(textCheckerV2.checkerQueueAlmostFull()) {
+      sendError(httpExchange, HTTP_UNAVAILABLE, "Error: " + response);
+      return true;
+    }
+    return false;
+  }
+
   @NotNull
   private String getTextOrDataSizeMessage(Map<String, String> parameters) {
     String text = parameters.get("text");
@@ -468,8 +478,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     return parameters;
   }
 
+  private static final Pattern QUERY_PARAM_SPLIT = Pattern.compile("&");
+
   private Map<String, String> getParameterMap(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
-    String[] pairs = query.split("[&]");
+    String[] pairs = QUERY_PARAM_SPLIT.split(query);
     Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
       int delimPos = pair.indexOf('=');

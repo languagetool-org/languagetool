@@ -20,10 +20,7 @@
 package org.languagetool.tagging.disambiguation.fr;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.*;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -43,8 +40,12 @@ import java.util.List;
 
 public class FrenchHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/fr/multiwords.txt", true, true);
+  private final MultiWordChunker chunker = new MultiWordChunker("/fr/multiwords.txt", true, true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French(), true);
+
+  public FrenchHybridDisambiguator() {
+    chunker.setRemovePreviousTags(true);
+  }
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
@@ -57,83 +58,8 @@ public class FrenchHybridDisambiguator extends AbstractDisambiguator {
    */
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    AnalyzedSentence analyzedSentence = chunker.disambiguate(input, checkCanceled);
-
-    /*
-     * Put the results of the MultiWordChunker in a more appropriate and useful way
-     * <N..></N..> becomes N.. N.. <N m s></N m s> becomes N m s   J m s
-     * The individual original tags are removed
-     */
-
-    AnalyzedTokenReadings[] aTokens = analyzedSentence.getTokens();
-    int i = 0;
-    String POSTag = "";
-    String lemma = "";
-    String nextPOSTag = "";
-    AnalyzedToken analyzedToken = null;
-    while (i < aTokens.length) {
-      if (!aTokens[i].isWhitespace()) {
-        if (checkCanceled != null && checkCanceled.checkCancelled()) {
-          break;
-        }
-
-        if (!nextPOSTag.isEmpty()) {
-          AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
-          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
-            nextPOSTag = "";
-            lemma = "";
-          }
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken),
-              "FrenchHybridDisambiguator");
-        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
-          POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
-          lemma = analyzedToken.getLemma();
-          AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "FRTHybridDisamb");
-          if (POSTag.startsWith("N ")) {
-            nextPOSTag = "J " + POSTag.substring(2);
-          } else {
-            nextPOSTag = POSTag;
-          }
-        }
-      }
-      i++;
-    }
-
-    return disambiguator.disambiguate(new AnalyzedSentence(aTokens), checkCanceled);
+    return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
   }
 
-  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
-    List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-    for (AnalyzedToken reading : aTokens[i]) {
-      String POSTag = reading.getPOSTag();
-      if (POSTag != null) {
-        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
-          l.add(reading);
-        }
-      }
-    }
-    // choose the longest one
-    if (l.size() > 0) {
-      AnalyzedToken selectedAT = null;
-      int maxDistance = 0;
-      for (AnalyzedToken at : l) {
-        String tag = "</" + at.getPOSTag().substring(1);
-        String lemma = at.getLemma();
-        int distance = 1;
-        while (i + distance < aTokens.length) {
-          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
-            if (distance > maxDistance) {
-              distance = maxDistance;
-              selectedAT = at;
-            }
-            break;
-          }
-          distance++;
-        }
-      }
-      return selectedAT;
-    }
-    return null;
-  }
+
 }

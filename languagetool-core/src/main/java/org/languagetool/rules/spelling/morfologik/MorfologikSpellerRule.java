@@ -205,10 +205,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         isFirstWord = false;
       }
       if (foreignLanguageChecker != null && !gotResultsFromForeignLanguageChecker) {
-        String langCode = foreignLanguageChecker.check(ruleMatches.size());
-        if (langCode != null) {
-          if (!langCode.equals(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED)) {
-            ruleMatches.get(0).setErrorLimitLang(langCode);
+        Map<String, Float> langCodesScoring = foreignLanguageChecker.check(ruleMatches.size());
+        if (!langCodesScoring.isEmpty()) {
+          if (langCodesScoring.get(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED) == null) {
+            ruleMatches.get(0).setNewLanguageMatches(langCodesScoring);
           }
           gotResultsFromForeignLanguageChecker = true;
         }
@@ -253,9 +253,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
       languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
     }
-    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1);
-    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2);
-    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3);
+    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1, language);
+    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2, language);
+    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3, language);
     setConvertsCase(speller1.convertsCase());
   }
 
@@ -323,6 +323,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     RuleMatch ruleMatch = null;
     
     if (!isMisspelled(speller1, word) && !isProhibited(word)) {
+      return ruleMatches;
+    }
+
+    if (ignorePotentiallyMisspelledWord(word)) {
       return ruleMatches;
     }
     
@@ -494,7 +498,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (!mStartsWithNumbersBulletsExceptions.matches()) {
         firstPart = mStartsWithNumbersBullets.group(1);
         secondPart = mStartsWithNumbersBullets.group(2);
-        if ((!isMisspelled(speller1, secondPart) || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
+        List<String> secondPartTokens = this.language.getWordTokenizer().tokenize(secondPart);
+        boolean multitokenIsMisspeled = secondPartTokens.stream().anyMatch(str -> isMisspelled(speller1, str));;
+        if ((!multitokenIsMisspeled || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
           ruleMatch.addSuggestedReplacement(firstPart + " " + secondPart);
           preventFurtherSuggestions = true;
         } else {

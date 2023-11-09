@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,8 +19,8 @@
 
 package org.languagetool.tagging.disambiguation;
 
-import gnu.trove.THashMap;
-
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -52,14 +52,15 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, AnalyzedToken> mFull;
-  
+
   private final static int MAX_TOKENS_IN_MULTIWORD = 20;
-  
+
   private final static String DEFAULT_SEPARATOR = "\t";
   private String separator;
   private String defaultTag = null;
 
   private boolean addIgnoreSpelling = false;
+  private boolean isRemovePreviousTags = false;
 
   public static String tagForNotAddingTags = "_NONE_";
 
@@ -101,15 +102,15 @@ public class MultiWordChunker extends AbstractDisambiguator {
     synchronized (this) {
       if (initialized) return;
 
-      THashMap<String, Integer> mStartSpace = new THashMap<>();
-      THashMap<String, Integer> mStartNoSpace = new THashMap<>();
-      THashMap<String, AnalyzedToken> mFull = new THashMap<>();
+      Object2IntOpenHashMap<String> mStartSpace = new Object2IntOpenHashMap<>();
+      Object2IntOpenHashMap<String> mStartNoSpace = new Object2IntOpenHashMap<>();
+      Object2ObjectOpenHashMap<String, AnalyzedToken> mFull = new Object2ObjectOpenHashMap<>();
 
       fillMaps(mStartSpace, mStartNoSpace, mFull);
 
-      mStartSpace.trimToSize();
-      mStartNoSpace.trimToSize();
-      mFull.trimToSize();
+      mStartSpace.trim();
+      mStartNoSpace.trim();
+      mFull.trim();
 
       this.mStartSpace = mStartSpace;
       this.mStartNoSpace = mStartNoSpace;
@@ -219,26 +220,25 @@ public class MultiWordChunker extends AbstractDisambiguator {
       if (checkCanceled != null && checkCanceled.checkCancelled()) {
         break;
       }
-
-      StringBuilder tokens = new StringBuilder();
-      int finalLen = 0;
       if (mStartSpace.containsKey(tok)) {
+        int finalLen = 0;
+        StringBuilder keyBuilder = new StringBuilder();
         int len = mStartSpace.get(tok);
         int j = i;
         int lenCounter = 0;
         while (j < anTokens.length  && j - i < MAX_TOKENS_IN_MULTIWORD) {
           if (!anTokens[j].isWhitespace()) {
-            tokens.append(anTokens[j].getToken());
-            String toks = tokens.toString();
-            if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
+            keyBuilder.append(anTokens[j].getToken());
+            String keyStr = keyBuilder.toString();
+            if (mFull.containsKey(keyStr) && !mFull.get(keyStr).getPOSTag().equals(tagForNotAddingTags)) {
               if (finalLen == 0) { // the key has only one token
-                output[i] = setAndAnnotate(output[i], new AnalyzedToken(toks, mFull.get(toks).getPOSTag(), mFull.get(toks).getLemma()));
+                output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), mFull.get(keyStr).getPOSTag(), mFull.get(keyStr).getLemma()));
               } else {
-                output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
-                output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
+                output[i] = prepareNewReading(keyStr, output[i].getToken(), output[i], false);
+                output[finalLen] = prepareNewReading(keyStr, anTokens[finalLen].getToken(), output[finalLen], true);
               }
             }
-            if (mFull.containsKey(toks) && addIgnoreSpelling) {
+            if (mFull.containsKey(keyStr) && addIgnoreSpelling) {
               if (finalLen == 0) {
                 output[i].ignoreSpelling();
               } else {
@@ -249,7 +249,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
             }
           } else {
             if (j > 1 && !anTokens[j - 1].isWhitespace()) { // avoid multiple whitespaces
-              tokens.append(' ');
+              keyBuilder.append(' ');
               lenCounter++;
             }
             if (lenCounter == len) {
@@ -262,14 +262,22 @@ public class MultiWordChunker extends AbstractDisambiguator {
       }
       if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
         int j = i;
+        StringBuilder keyBuilder = new StringBuilder();
         while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
-          tokens.append(anTokens[j].getToken());
-          String toks = tokens.toString();
-          if (mFull.containsKey(toks) && !mFull.get(toks).getPOSTag().equals(tagForNotAddingTags)) {
-            output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
-            output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
+          keyBuilder.append(anTokens[j].getToken());
+          String keyStr = keyBuilder.toString();
+          if (mFull.containsKey(keyStr) && !mFull.get(keyStr).getPOSTag().equals(tagForNotAddingTags)) {
+            if (i == j) {
+              String postag = mFull.get(keyStr).getPOSTag();
+              if (!isLowPriorityTag(postag) || !output[i].hasReading()) {
+                output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), postag, mFull.get(keyStr).getLemma()));
+              }
+            } else {
+              output[i] = prepareNewReading(keyStr, anTokens[i].getToken(), output[i], false);
+              output[j] = prepareNewReading(keyStr, anTokens[j].getToken(), output[j], true);
+            }
           }
-          if (mFull.containsKey(toks) && addIgnoreSpelling) {
+          if (mFull.containsKey(keyStr) && addIgnoreSpelling) {
             for (int m = i; m <= j; m++) {
               output[m].ignoreSpelling();
             }
@@ -277,6 +285,9 @@ public class MultiWordChunker extends AbstractDisambiguator {
           j++;
         }
       }
+    }
+    if (isRemovePreviousTags) {
+      return new AnalyzedSentence(removePreviousTags(output));
     }
     return new AnalyzedSentence(output);
   }
@@ -323,8 +334,108 @@ public class MultiWordChunker extends AbstractDisambiguator {
   }
 
   /* set the ignorespelling attribute for the multi-token phrases*/
-  public void setIgnoreSpelling(boolean ignoreSpeelling) {
-    addIgnoreSpelling = ignoreSpeelling;
+  public void setIgnoreSpelling(boolean ignoreSpelling) {
+    addIgnoreSpelling = ignoreSpelling;
+  }
+  public void  setRemovePreviousTags (boolean removePreviousTags) {
+    isRemovePreviousTags = removePreviousTags;
+  }
+
+  /* Put the results of the MultiWordChunker in a more appropriate and useful way
+      <NP..></NP..> becomes NP.. NP..
+      For ES, PT, CA <NCMS000></NCMS000> becomes NCMS000 AQ0MS0
+      The individual original tags are removed */
+  private AnalyzedTokenReadings[] removePreviousTags(AnalyzedTokenReadings[] aTokens) {
+    int i=0;
+    String POSTag = "";
+    String lemma = "";
+    String nextPOSTag = "";
+    AnalyzedToken analyzedToken = null;
+    while (i < aTokens.length) {
+      if (!aTokens[i].isWhitespace()) {
+        if (!nextPOSTag.isEmpty()) {
+          AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);
+          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
+            nextPOSTag = "";
+            lemma = "";
+          }
+          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken),
+            "HybridDisamb");
+        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
+          POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
+          lemma = analyzedToken.getLemma();
+          if (aTokens[i].hasPosTagAndLemma("</" + POSTag + ">", lemma)) {
+            // it is only one token
+            aTokens[i].removeReading(aTokens[i].readingWithTagRegex("</" + POSTag + ">"), "HybridDisamb");
+            aTokens[i].removeReading(aTokens[i].readingWithTagRegex("<" + POSTag + ">"), "HybridDisamb");
+            aTokens[i].addReading(new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma), "HybridDisamb");
+            nextPOSTag = "";
+            lemma = "";
+          } else {
+            AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
+            aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "HybridDisamb");
+            nextPOSTag = getNextPosTag(POSTag);
+          }
+        }
+      }
+      i++;
+    }
+    return aTokens;
+  }
+
+  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
+    List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    for (AnalyzedToken reading : aTokens[i]) {
+      String POSTag = reading.getPOSTag();
+      if (POSTag != null) {
+        if (POSTag.startsWith("<") && POSTag.endsWith(">") && !POSTag.startsWith("</")) {
+          l.add(reading);
+        }
+      }
+    }
+    // choose the longest one
+    if (l.size() > 0) {
+      AnalyzedToken selectedAT = null;
+      int maxDistance = 0;
+      for (AnalyzedToken at : l) {
+        String tag = "</" + at.getPOSTag().substring(1);
+        String cleanTag = at.getPOSTag().substring(1, at.getPOSTag().length() - 2);
+        String lemma = at.getLemma();
+        int distance = 1;
+        while (i + distance < aTokens.length) {
+          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {
+            if (distance > maxDistance) {
+              maxDistance = distance;
+              selectedAT = at;
+            }
+            if (distance == maxDistance && !isLowPriorityTag(cleanTag)) {
+              maxDistance = distance;
+              selectedAT = at;
+            }
+            break;
+          }
+          distance++;
+        }
+      }
+      return selectedAT;
+    }
+    return null;
+  }
+
+  private String getNextPosTag(String postag) {
+    if (postag.startsWith("NC")) {
+      // for ES, PT, CA
+      return "AQ0" + postag.substring(2, 4) + "0";
+    } else if (postag.startsWith("N ")) {
+      // French
+      return "J " + postag.substring(2);
+    }
+    return postag;
+  }
+
+  private boolean isLowPriorityTag(String tag) {
+    // CA, ES
+    return tag.equals("NPCN000");
   }
 
 }

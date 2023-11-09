@@ -214,7 +214,7 @@
   </rulegroup>
   <rule id="TAO_ADV" name="disambiguate tão as an adverb">
     <pattern>
-      <token postag="V.+" regexp="yes"/>
+      <token postag="VMIP3P0" postag_regexp="no"/>
       <marker>
         <token>tão</token>
       </marker>
@@ -348,6 +348,15 @@
     <pattern>
       <!-- TODO: exceptions -->
       <token regexp="yes">pensar|achar|fez|ninguém|sempre|alguém</token>
+    </pattern>
+    <disambig action="remove" postag="NC.*"/>
+  </rule>
+  <rule id="TOMAR" name="tomar (not noun)">
+    <pattern>
+      <!-- TODO: exceptions -->
+      <token regexp="yes">tomas?
+        <exception scope='previous' postag_regexp='yes' negate_pos='yes' postag='NC.+|AQ.+|NP.+'/>
+      </token>
     </pattern>
     <disambig action="remove" postag="NC.*"/>
   </rule>
@@ -2943,7 +2952,7 @@
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>Monte|&precede_nome_proprio_M;</token>
+          <token regexp='yes'>&precede_nome_proprio_M;</token>
           <token postag='NP.+' postag_regexp='yes' regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
       </pattern>
       <disambig action="replace"><wd pos="NPMS000"/><wd pos="NPMS000_"/></disambig>

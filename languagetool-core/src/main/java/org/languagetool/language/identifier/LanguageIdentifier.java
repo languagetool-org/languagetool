@@ -22,6 +22,7 @@ package org.languagetool.language.identifier;
 
 import com.optimaize.langdetect.text.TextFilter;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
@@ -78,6 +79,9 @@ public abstract class LanguageIdentifier {
   
   @Nullable 
   public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs);
+
+  @NotNull
+  public abstract List<DetectedLanguage> getDetectedLanguageScores(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs, int count);
 
   /**
    * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
@@ -136,6 +140,16 @@ public abstract class LanguageIdentifier {
       }
     }
     return new AbstractMap.SimpleImmutableEntry<>(result, max);  
+  }
+
+  protected Map<String, Double> getOrderedScores(Map<String, Double> scores, int count) {
+    ArrayList<Map.Entry<String, Double>> entries = new ArrayList<>(scores.entrySet());
+    entries.sort(Map.Entry.comparingByValue(Collections.reverseOrder()));
+    Map<String, Double> sortedScores = new LinkedHashMap<>();
+    for (int i = 0; i < entries.size() && i < count; i++) {
+      sortedScores.put(entries.get(i).getKey(), entries.get(i).getValue());
+    }
+    return sortedScores;
   }
 
   protected static class ParsedLanguageLists {

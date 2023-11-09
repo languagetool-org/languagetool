@@ -53,6 +53,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "This is the first ever green bond by a municipality.");
     check(0, "Semi Automatic"); // desired?
     check(0, "Night Mare"); // desired?
+    check(0, "This is a multi-module project."); // #9502
     
     // incorrect sentences:
     check(1, "case sensitive", "case-sensitive");

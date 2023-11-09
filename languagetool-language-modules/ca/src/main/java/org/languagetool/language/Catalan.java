@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -256,6 +257,7 @@ public class Catalan extends Language {
       case "VENIR_NO_REFLEXIU": return 5;
       case "DEUS_SEUS": return 5;
       case "SON_BONIC": return 5;
+      case "ACCENTUACIO": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
@@ -277,6 +279,7 @@ public class Catalan extends Language {
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
       case "PHRASE_REPETITION": return -150;
       case "SUBSTANTIUS_JUNTS": return -150;
+      case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "PUNT_FINAL": return -200;
       case "UPPERCASE_SENTENCE_START": return -500;
@@ -420,6 +423,32 @@ public class Catalan extends Language {
     s = s.replace(" ,", ",");
     return s;
   }
-  
-  
+
+  private List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
+  "San Marcos", "Santa Ana", "San Joaquín");
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String parts[] = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (spellerExceptions.contains(form)) {
+      return "";
+    }
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (!tag.startsWith("N")) {
+        return "";
+      } else {
+        return form;
+      }
+    }
+    return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return CatalanMultitokenSpeller.INSTANCE;
+  }
 }

@@ -32,6 +32,7 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -74,6 +75,13 @@ public abstract class Language {
   private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
+  private static final Pattern SUGGESTION_OPEN_TAG = Pattern.compile("<suggestion>");
+  private static final Pattern SUGGESTION_CLOSE_TAG = Pattern.compile("</suggestion>");
+
+  private static final Pattern ELLIPSIS = Pattern.compile("\\.\\.\\.");
+  private static final Pattern NBSPACE1 = Pattern.compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)");
+  private static final Pattern NBSPACE2 = Pattern.compile("\\b([a-zA-Z]\\.) ");
+
   private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
 
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
@@ -91,6 +99,11 @@ public abstract class Language {
   private Chunker chunker;
   private Chunker postDisambiguationChunker;
   private Synthesizer synthesizer;
+
+  private String shortCodeWithCountryAndVariant;
+
+  protected Language() {
+  }
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
@@ -535,6 +548,11 @@ public abstract class Language {
   /**
    * Create a shared instance of JLanguageTool to use in rules for further processing
    * Instances are shared by Language
+   * As this is a shared instance, do not modify (add or remove) any rules or filters.
+   * The alternative to disabling/enabling rules is to select the desired rules from getAllActiveRules(), and run them separately with rule.match(analizedSentence).
+   *
+   * Do not call this in a static block or to initialize a static JLanguageTool field in rules or filters classes, this could lead to a deadlock during initialization.
+   *
    * @since 6.1
    * @return a shared JLanguageTool instance for this language
    */
@@ -625,6 +643,17 @@ public abstract class Language {
    * @since 3.6
    */
   public final String getShortCodeWithCountryAndVariant() {
+    if (shortCodeWithCountryAndVariant == null) {
+      synchronized (this) {
+        if (shortCodeWithCountryAndVariant == null) {
+          shortCodeWithCountryAndVariant = buildShortCodeWithCountryAndVariant();
+        }
+      }
+    }
+    return shortCodeWithCountryAndVariant;
+  }
+
+  private String buildShortCodeWithCountryAndVariant() {
     String name = getShortCode();
     if (getCountries().length == 1 && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
@@ -850,7 +879,9 @@ public abstract class Language {
   /** @since 5.1 */
   public String toAdvancedTypography(String input) {
     if (!isAdvancedTypographyEnabled()) {
-      return input.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
+      return SUGGESTION_CLOSE_TAG.matcher(
+        SUGGESTION_OPEN_TAG.matcher(input).replaceAll(getOpeningDoubleQuote())
+      ).replaceAll(getClosingDoubleQuote());
     }
     String output = input;
    
@@ -868,11 +899,11 @@ public abstract class Language {
     }
     
     // Ellipsis (for all languages?)
-    output = output.replaceAll("\\.\\.\\.", "…");
+    output = ELLIPSIS.matcher(output).replaceAll("…");
     
     // non-breaking space
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ", "$1\u00a0");
+    output = NBSPACE1.matcher(output).replaceAll("$1\u00a0$2");
+    output = NBSPACE2.matcher(output).replaceAll("$1\u00a0");
     
     Matcher matcher = APOSTROPHE.matcher(output);
     output = matcher.replaceAll("$1’$2");
@@ -903,8 +934,10 @@ public abstract class Language {
     for (int i = 0; i < preservedStrings.size(); i++) {
       output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
     }
-    
-    return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
+
+    return SUGGESTION_CLOSE_TAG.matcher(
+      SUGGESTION_OPEN_TAG.matcher(output).replaceAll(getOpeningDoubleQuote())
+    ).replaceAll(getClosingDoubleQuote());
   }
 
   /**
@@ -955,6 +988,10 @@ public abstract class Language {
     return rm;
   }
 
+  public String prepareLineForSpeller(String s) {
+    return s;
+  }
+
   /**
    * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
    *
@@ -965,5 +1002,9 @@ public abstract class Language {
    */
   public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     return ruleMatches;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return null;
   }
 }

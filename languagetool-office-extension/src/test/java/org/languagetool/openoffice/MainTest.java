@@ -23,6 +23,7 @@ import com.sun.star.beans.PropertyValue;
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.ProofreadingResult;
 import org.junit.Test;
+import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.rules.Rule;
 
 import static org.junit.Assert.assertEquals;
@@ -172,7 +173,7 @@ public class MainTest {
       paRes.nStartOfSentencePosition = 0;
       paRes.nBehindEndOfSentencePosition = paragraphs.get(i).length();
       paRes.nStartOfNextSentencePosition = paRes.nBehindEndOfSentencePosition;
-      paRes = document.getCheckResults(paragraphs.get(i), locale, paRes, propertyValues, false, lt, i);
+      paRes = document.getCheckResults(paragraphs.get(i), locale, paRes, propertyValues, false, lt, i, LoErrorType.GRAMMAR);
       if (i == 0) {
         assertEquals(1, paRes.aErrors.length);
         assertTrue(paRes.aErrors[0].aRuleIdentifier.equals("DE_AGREEMENT"));
@@ -334,7 +335,7 @@ public class MainTest {
       paRes.nBehindEndOfSentencePosition = paragraphs.get(i).length();
       paRes.nStartOfNextSentencePosition = paRes.nBehindEndOfSentencePosition;
       propertyValues[0] = new PropertyValue("FootnotePositions", -1, footnotes.get(i), PropertyState.DIRECT_VALUE);
-      paRes = document.getCheckResults(paragraphs.get(i), locale, paRes, propertyValues, false, lt, i);
+      paRes = document.getCheckResults(paragraphs.get(i), locale, paRes, propertyValues, false, lt, i, LoErrorType.GRAMMAR);
       if (i == 0) {
         assertEquals(1, paRes.aErrors.length);
         assertTrue(paRes.aErrors[0].aRuleIdentifier.equals("DE_AGREEMENT"));

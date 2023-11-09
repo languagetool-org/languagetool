@@ -4279,12 +4279,29 @@ For more detailed information, including tag definitions, please check out our d
             </rule>
             <rule>
                 <pattern>
-                    <token>'ve</token>
-                    <token>gotta</token>
+                    <marker>
+                        <token>'ve</token>
+                        <token>gotta</token>
+                    </marker>
+                    <token chunk_re="B-NP.*" />
                 </pattern>
                 <message>The word 'gotta' is informal.</message>
                 <suggestion> got a</suggestion>
                 <example correction=" got a">You<marker>'ve gotta</marker> new car.</example>
+                <example>You've gotta see this.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">has|have|'(s|ve)</token>
+                    <marker>
+                        <token>gotta</token>
+                    </marker>
+                    <token chunk_re=".-VP" />
+                </pattern>
+                <message>'Gotta' is very informal. Consider using 'got to' instead.</message>
+                <suggestion>got to</suggestion>
+                <example correction="got to">You've <marker>gotta</marker> see this.</example>
+                <example>You've gotta new car.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GONNA_TEMP" name="gonna (going to)" default="temp_off">

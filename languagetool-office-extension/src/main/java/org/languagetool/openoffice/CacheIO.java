@@ -234,7 +234,11 @@ public class CacheIO implements Serializable {
    * Test if cache was created with same rules
    */
   private boolean runSameRules(Configuration config, MultiDocumentsHandler mDocHandler) {
-    if (allCaches == null || allCaches.docCache == null || allCaches.docCache.toTextMapping.size() != DocumentCache.NUMBER_CURSOR_TYPES ) {
+    if (allCaches == null || allCaches.docCache == null || allCaches.docCache.toParaMapping.size() != DocumentCache.NUMBER_CURSOR_TYPES ) {
+      if (DEBUG_MODE) {
+        MessageHandler.printToLogFile("allCaches == null: " + (allCaches == null) + "; allCaches.docCache == null: " + (allCaches.docCache == null)
+        + "; allCaches.docCache.toTextMapping.size(): " + (allCaches.docCache.toParaMapping.size()));
+      }
       return false;
     }
     if (!allCaches.ltVersion.equals(JLanguageTool.VERSION)) {
@@ -242,6 +246,14 @@ public class CacheIO implements Serializable {
     }
     if (config.getEnabledRuleIds().size() != allCaches.enabledRuleIds.size() || config.getDisabledRuleIds().size() != allCaches.disabledRuleIds.size() 
           || config.getDisabledCategoryNames().size() != allCaches.disabledCategories.size()) {
+      if (DEBUG_MODE) {
+        MessageHandler.printToLogFile("config.getEnabledRuleIds().size() " + config.getEnabledRuleIds().size() 
+            + "; allCaches.enabledRuleIds.size(): " + allCaches.enabledRuleIds.size() 
+            + "\n config.getDisabledRuleIds().size(): " + config.getDisabledRuleIds().size()
+            + "; allCaches.disabledRuleIds.size(): " + allCaches.disabledRuleIds.size() 
+            + "\n config.getDisabledCategoryNames().size(): " + config.getDisabledCategoryNames().size()
+            + "; allCaches.disabledCategories.size(): " + allCaches.disabledCategories.size()); 
+      }
       return false;
     }
     for (String ruleId : config.getEnabledRuleIds()) {
@@ -416,6 +428,7 @@ public class CacheIO implements Serializable {
     private CacheMap cacheMap;
     private File cacheMapFile;
 
+    @SuppressWarnings("unused")
     CacheFile() {
       this(OfficeTools.getCacheDir());
     }
