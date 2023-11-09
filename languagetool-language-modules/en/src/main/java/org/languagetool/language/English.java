@@ -598,6 +598,7 @@ public class English extends Language implements AutoCloseable {
       case "SINGULAR_NOUN_VERB_AGREEMENT": return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "SINGULAR_AGREEMENT_SENT_START": return -12;    // prefer AI
       case "SUBJECTVERBAGREEMENT_2": return -12;    // prefer AI
+      case "THE_SENT_END": return -12;    // prefer AI
       case "DT_NN_ARE_AME": return -12;    // prefer AI
       case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
       case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
