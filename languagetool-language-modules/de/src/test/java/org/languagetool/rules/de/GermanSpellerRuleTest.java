@@ -112,6 +112,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt
     assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));

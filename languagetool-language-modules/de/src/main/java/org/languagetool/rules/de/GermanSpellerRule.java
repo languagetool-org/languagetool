@@ -2172,6 +2172,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // exclude weird/irrelevant cases (also the splitter can crash on VERY long words)
       return false;
     }
+    if (word.endsWith("gruße") ||   // too big chance of a "...grüße" typo
+        word.endsWith("schaf")      // too big chance of a "...schaft" typo
+    ) {
+      return false;
+    }
     // Accept compounds with infix-s if both parts are known to the speller AND the first part
     // ends with some specific chars, which indicate the need for the infix-s.
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
@@ -2229,9 +2234,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     if (word.contains("-" + part2)) {
       // don't accept e.g. "Implementierungs-pflicht"
-      return false;
-    }
-    if (word.endsWith("gruße")) {  // too big chance of a "...grüße" typo
       return false;
     }
     // don't assume very short parts (like "Ei") are correct, these can easily be typos:
