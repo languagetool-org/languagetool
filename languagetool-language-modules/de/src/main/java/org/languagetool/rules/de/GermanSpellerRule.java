@@ -105,13 +105,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SBHAN_PREFIX = Pattern.compile("SBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?");
   private static final Pattern UBAHN_PREFIX = Pattern.compile("UBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?");
 
-
   private static final Pattern START_WITH_NEGER = Pattern.compile("neger.*");
   private static final Pattern CONTAINES_NEGER = Pattern.compile(".+neger(s|n|in|innen)?");
   private static final Pattern ENDS_WITH_IBELKEIT_IBLICHKEIT= Pattern.compile(".*ibel[hk]eit$");
-
-
-
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
