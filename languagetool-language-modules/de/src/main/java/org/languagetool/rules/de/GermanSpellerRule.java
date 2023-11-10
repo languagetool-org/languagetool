@@ -104,6 +104,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern HOLZ_SPIEGEL_PANEL_COMPOUND = Pattern.compile("(Holz|Spiegel)panel(s|en?)?");
   private static final Pattern SBHAN_PREFIX = Pattern.compile("SBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?");
   private static final Pattern UBAHN_PREFIX = Pattern.compile("UBahn(en|hofs?|zug(e?s)?|zügen?|höfen?|netz(e[ns]?)?|tunnel[sn]?|linien?)?");
+  private static final Pattern SCHAF_PATTERN = Pattern.compile(".{3,}schaf(s|en)?");
+  private static final Pattern SCHAFE_PATTERN = Pattern.compile("(Alpenschaf|Berberschaf|Bergschaf|Blauschaf|Brillenschaf|Dachsteinschaf|Deichschaf|Dickhornschaf|Feinwollschaf|Fettschwanzschaf|Fleischschaf|Fuchsschaf|Glücksschaf|Hausschaf|Jungschaf|Karakulschaf|Klonschaf|Merinoschaf|Milchschaf|Mondschaf|Nutzschaf|Rhönschaf|Riesenwildschaf|Schaukelschaf|Schneeschaf|Steinschaf|Steppenschaf|Superschaf|Waldschaf|Weideschaf|Wildschaf|Wollschaf|Zackelschaf|Zuchtschaf|Zwergblauschaf)(s|en)?");
 
   private static final Pattern START_WITH_NEGER = Pattern.compile("neger.*");
   private static final Pattern CONTAINES_NEGER = Pattern.compile(".+neger(s|n|in|innen)?");
@@ -2071,6 +2073,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   public boolean isMisspelled(String word) {
+    if (SCHAF_PATTERN.matcher(word).matches() && !SCHAFE_PATTERN.matcher(word).matches()) {
+      String variant = word.replaceFirst("schaf$", "schaft").replaceFirst("schafs$", "schaft").replaceFirst("schafen$", "schaften");
+      if (!isMisspelled(variant)) {
+        return true;
+      }
+    }
     if (word.startsWith("Spielzug") && !START_WITH_SPIEL.matcher(word).matches()) {
       return true;
     }
@@ -2173,7 +2181,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return false;
     }
     if (word.endsWith("gruße") ||   // too big chance of a "...grüße" typo
-        word.endsWith("schaf")      // too big chance of a "...schaft" typo
+        word.endsWith("schaf") ||  // too big chance of a "...schaft" typo
+        word.endsWith("schafs") ||
+        word.endsWith("schafen")
     ) {
       return false;
     }
