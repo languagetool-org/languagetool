@@ -294,7 +294,7 @@ public class CompoundAcceptor {
   private final MorfologikDutchSpellerRule speller;
   private final Tagger tagger;
 
-  CompoundAcceptor() {
+  public CompoundAcceptor() {
     try {
       Language dutch = Languages.getLanguageForShortCode("nl");
       speller = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), dutch, null);
@@ -304,7 +304,7 @@ public class CompoundAcceptor {
     }
   }
 
-  boolean acceptCompound(String word) throws IOException {
+  public boolean acceptCompound(String word) throws IOException {
     if (word.length() > 35) {  // prevent long runtime
       return false;
     }

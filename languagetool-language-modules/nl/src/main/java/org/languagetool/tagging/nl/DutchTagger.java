@@ -20,9 +20,11 @@ package org.languagetool.tagging.nl;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.nl.CompoundAcceptor;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -37,7 +39,7 @@ public class DutchTagger extends BaseTagger {
   }
     // custom code to deal with words carrying optional accents
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
@@ -128,6 +130,34 @@ public class DutchTagger extends BaseTagger {
             ignoreSpelling = true;
           }
         }
+
+        // Tag unknown compound words
+        if (l.isEmpty()) {
+          // Before tagging the compound word, see if it's valid with CompoundAcceptor
+          // TODO: probably move CompoundAcceptor here completely
+          CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+          if ( compoundAcceptor.acceptCompound(word) ){
+            for (int i = 3; i < word.length() - 3; i++) {
+              String part1 = word.toLowerCase().substring(0, i);
+              String part2 = word.toLowerCase().substring(i);
+              // first find a match for part2
+              List<AnalyzedToken> part2Readings = asAnalyzedTokenListForTaggedWords(part2, getWordTagger().tag(part2));
+              for( int k=0; k<part2Readings.size(); k++ ){
+                if ( part2Readings.get(k).getPOSTag() != null ){
+                  if ( part2Readings.get(k).getPOSTag().contains("ZNW") ){
+                    // check if part1 is a noun too
+                    if ( getCompoundPOS( part1 ) || getCompoundPOS( part1.substring(0, part1.length() - 1) ) ){
+                      //System.out.println("Adding " + word + " with postag " + part2Readings.get(k).getPOSTag() );
+                      l.add( new AnalyzedToken(word, part2Readings.get(k).getPOSTag(), word) );
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        /*
         //*************** START OF ADDED UNCOMPOUNDER CODE ****************** //
         // (still too) simple uncompounder
         // it needs check for postags and substring
@@ -302,6 +332,7 @@ public class DutchTagger extends BaseTagger {
           }
         }
         // ********* END OF UNCOMPOUNDER CODE *************** //
+        */
       }
 
       // set word to original
@@ -338,6 +369,17 @@ public class DutchTagger extends BaseTagger {
     }
     
     return tokenReadings;
+  }
+
+  private boolean getCompoundPOS( String word ){
+    List<AnalyzedToken> analyzePart1 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+    for( int m=0; m<analyzePart1.size(); m++ ){
+      if ( analyzePart1.get(m).getPOSTag().contains("ZNW:EKV") ) {
+        // it's a noun
+        return true;
+      }
+    }
+    return false;
   }
 
   private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
