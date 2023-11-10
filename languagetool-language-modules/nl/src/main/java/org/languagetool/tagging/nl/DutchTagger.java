@@ -33,7 +33,6 @@ import java.util.*;
  * @author Marcin Milkowski
  */
 public class DutchTagger extends BaseTagger {
-
   public DutchTagger() {
     super("/nl/dutch.dict", new Locale("nl"));
   }
@@ -132,24 +131,22 @@ public class DutchTagger extends BaseTagger {
         }
 
         // Tag unknown compound words
-        if (l.isEmpty()) {
+        if (l.isEmpty() && word.length() < 35) {
           for (int i = 3; i < word.length() - 3; i++) {
             String part1 = word.toLowerCase().substring(0, i);
             String part2 = word.toLowerCase().substring(i);
             // first find a match for part2
             List<AnalyzedToken> part2Readings = asAnalyzedTokenListForTaggedWords(part2, getWordTagger().tag(part2));
             for (AnalyzedToken part2Reading : part2Readings) {
-            if (part2Reading.getPOSTag() != null) {
-              if (part2Reading.getPOSTag().contains("ZNW")) {
+              if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().contains("ZNW")) {
                 // check if part1 is a noun too
                 if (getCompoundPOS(part1) || getCompoundPOS(part1.substring(0, part1.length() - 1))) {
-                    // Now see if it's valid with CompoundAcceptor
-                    // TODO: probably move CompoundAcceptor here completely
-                    CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
-                    if ( compoundAcceptor.acceptCompound(word) ) {
-                      //System.out.println("Adding " + word + " with postag " + part2Reading.getPOSTag() + ", part2 has lemma " + part2Reading.getLemma() );
-                      l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part1 + part2Reading.getLemma()));
-                    }
+                  // Now see if it's valid with CompoundAcceptor
+                  // TODO: probably move CompoundAcceptor here completely
+                  CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+                  if (compoundAcceptor.acceptCompound(word)) {
+                    //System.out.println("Adding " + word + " with postag " + part2Reading.getPOSTag() + ", part2 has lemma " + part2Reading.getLemma());
+                    l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part1 + part2Reading.getLemma()));
                   }
                 }
               }
@@ -372,7 +369,7 @@ public class DutchTagger extends BaseTagger {
     return tokenReadings;
   }
 
-  private boolean getCompoundPOS( String word ){
+  private boolean getCompoundPOS(String word){
     List<AnalyzedToken> analyzePart1 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
     for (AnalyzedToken analyzedToken : analyzePart1) {
         if (analyzedToken.getPOSTag().contains("ZNW:EKV")) {

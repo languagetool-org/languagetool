@@ -26,7 +26,6 @@ import org.languagetool.tagging.Tagger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -49,6 +48,9 @@ public class CompoundAcceptor {
     "ings",
     "teits",
     "schaps"
+  );
+  private final Set<String> excludedWords = ImmutableSet.of(
+    "belastings"
   );
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
@@ -284,7 +286,8 @@ public class CompoundAcceptor {
     "cantate",
     "collecte",
     "mascotte",
-    "fluoride"
+    "fluoride",
+    "belasting"
   );
   // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
   private final Set<String> collidingVowels = ImmutableSet.of(
@@ -322,7 +325,7 @@ public class CompoundAcceptor {
   boolean acceptCompound(String part1, String part2) throws IOException {
     if (part1.endsWith("s")) {
       for (String suffix : alwaysNeedsS) {
-        if (part1.toLowerCase().endsWith(suffix)) {
+        if (part1.toLowerCase().endsWith(suffix) && !excludedWords.contains(part1.toLowerCase())) {
           return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
         }
       }
