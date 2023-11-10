@@ -453,6 +453,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("adv ") &&
                    !k.getReplacement().toLowerCase().startsWith("com ") &&
                    !k.getReplacement().toLowerCase().startsWith("res ") &&
+                   !k.getReplacement().toLowerCase().startsWith("resp ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("ac ") &&
