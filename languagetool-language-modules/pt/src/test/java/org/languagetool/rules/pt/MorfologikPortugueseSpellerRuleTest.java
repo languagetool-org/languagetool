@@ -1,3 +1,21 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package org.languagetool.rules.pt;
 
 import org.junit.Test;
@@ -11,12 +29,16 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class MorfologikPortugueseSpellerRuleTest {
   private final MorfologikPortugueseSpellerRule ruleBR = getSpellerRule("BR");
   private final JLanguageTool ltBR = getLT("BR");
   private final MorfologikPortugueseSpellerRule rulePT = getSpellerRule("PT");
   private final JLanguageTool ltPT = getLT("PT");
+  // This one is used to test the pre-90 agreement spellings
+  private final MorfologikPortugueseSpellerRule ruleMZ = getSpellerRule("MZ");
+  private final JLanguageTool ltMZ = getLT("MZ");
 
   public MorfologikPortugueseSpellerRuleTest() throws IOException {
   }
@@ -43,6 +65,20 @@ public class MorfologikPortugueseSpellerRuleTest {
     }
   }
 
+  private void assertSingleErrorWithNegativeSuggestion(String sentence, JLanguageTool lt,
+                                                       MorfologikPortugueseSpellerRule rule,
+                                                       String badSuggestion) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
+    // TODO: just debugging, must delete later!
+    if (matches.length > 0) {
+      System.out.println(matches[0].getSuggestedReplacements());
+    }
+    assertEquals(1, matches.length);
+    if (matches.length > 0) {
+      assertFalse(matches[0].getSuggestedReplacements().contains(badSuggestion));
+    }
+  }
+
   private void assertSingleErrorAndPos(String sentence, JLanguageTool lt, MorfologikPortugueseSpellerRule rule,
                                        String[] suggestions, int fromPos, int toPos) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
@@ -65,9 +101,16 @@ public class MorfologikPortugueseSpellerRuleTest {
 
   private void assertTwoWayDialectError(String sentenceBR, String sentencePT) throws IOException {
     assertNoErrors(sentenceBR, ltBR, ruleBR);
-    assertSingleError(sentenceBR, ltPT, rulePT, new String[]{sentencePT});
-    assertNoErrors(sentencePT, ltPT, rulePT);
     assertSingleError(sentencePT, ltBR, ruleBR, new String[]{sentenceBR});
+    assertNoErrors(sentencePT, ltPT, rulePT);
+    assertSingleError(sentenceBR, ltPT, rulePT, new String[]{sentencePT});
+  }
+
+  private void assertTwoWayOrthographicAgreementError(String sentence90, String sentence45) throws IOException {
+    assertNoErrors(sentence90, ltPT, rulePT);
+    assertSingleError(sentence45, ltPT, rulePT, new String[]{sentence90});
+    assertNoErrors(sentence45, ltMZ, ruleMZ);
+    assertSingleError(sentence90, ltMZ, ruleMZ, new String[]{sentence45});
   }
 
   @Test
@@ -109,8 +152,66 @@ public class MorfologikPortugueseSpellerRuleTest {
   @Test
   public void testPortugueseSymmetricalDialectDifferences() throws Exception {
     assertTwoWayDialectError("anônimo", "anónimo");
+    assertTwoWayDialectError("tênis", "ténis");
+    assertTwoWayDialectError("ônus", "ónus");
+    // I swear I'm not being immature, there was some weirdness with "pêni"/"pênis" in pt-BR ;)
+    assertTwoWayDialectError("pênis", "pénis");
     assertTwoWayDialectError("detecção", "deteção");
     assertTwoWayDialectError("dezesseis", "dezasseis");
+    // new words from portal da língua portuguesa
+    assertTwoWayDialectError("napoleônia", "napoleónia");
+    assertTwoWayDialectError("hiperêmese", "hiperémese");
+    // orthographic reforms
+    assertTwoWayOrthographicAgreementError("detetar", "detectar");
+    // not working yet
+    assertTwoWayDialectError("detectar", "detetar");
+    // will not work due to tokenisation quirk, bebê-lo, must be fixed
+    // assertTwoWayDialectError("bebê", "bebé");
+  }
+
+  @Test
+  public void testPortugueseSpellingDiminutives() throws Exception {
+    assertNoErrors("franguito", ltBR, ruleBR);
+    assertNoErrors("irmãozinho", ltBR, ruleBR);
+    assertNoErrors("retratozinho", ltBR, ruleBR);
+    assertNoErrors("notebookzinho", ltBR, ruleBR);
+    assertNoErrors("finaizitos", ltBR, ruleBR);
+    assertNoErrors("cafezito", ltBR, ruleBR);
+    assertNoErrors("chorõezitos", ltBR, ruleBR);
+    assertNoErrors("assadito", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellingProductiveAdverbs() throws Exception {
+    assertNoErrors("enciclopedicamente", ltBR, ruleBR);
+    assertNoErrors("nefastamente", ltBR, ruleBR);
+    assertNoErrors("funereamente", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellingValidAbbreviations() throws Exception {
+    // need to understand how to test segment.srx here!
+    assertSingleError("primit", ltBR, ruleBR, new String[]{"primit."});
+    assertSingleError("Islam,", ltBR, ruleBR, new String[]{"Islam."});
+    assertNoErrors("xerogr.", ltBR, ruleBR);
+    assertNoErrors("Baixei a vers. 7.0.0", ltBR, ruleBR);
+    assertSingleError("Sem terminol exata, nunca vamos saber.", ltBR, ruleBR, new String[]{"terminol."});
+  }
+
+  @Test
+  public void testPortugueseSpellingMultiwords() throws Exception {
+    assertSingleError("volant", ltBR, ruleBR, new String[]{});
+    assertNoErrors("verba volant, scripta remnant", ltBR, ruleBR);
+    assertSingleError("Raspberry", ltBR, ruleBR, new String[]{});
+    assertNoErrors("Raspberry Pi", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellingDoesNotSuggestOffensiveWords() throws Exception {
+    // some words should not be suggested; this test makes sure they are *not* in the returned suggestions for
+    // each given incorrectly spelt word
+    assertSingleErrorWithNegativeSuggestion("pwta", ltBR, ruleBR, "puta");
+    assertSingleErrorWithNegativeSuggestion("bâbaca", ltBR, ruleBR, "babaca");
   }
 
   @Test
