@@ -329,9 +329,9 @@ public class CompoundAcceptor {
       return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
     } else if (part1.endsWith("-")) { // abbreviations
       return abbrevOk(part1) && spellingOk(part2);
-    } else if (part2.startsWith("-")){ // vowel collision
+    } else if (part2.startsWith("-")) { // vowel collision
       part2 = part2.substring(1);
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels( part1, part2 );
+      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
     } else {
       return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
     }
