@@ -1749,26 +1749,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL">
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <token>heiliger</token>
                     <token case_sensitive="yes">bimbam</token>
                 </pattern>
                 <example correction=""><marker>Heiliger bimbam</marker>!</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <pattern>
                     <token>papperlapapp</token>
                 </pattern>
                 <example correction="">Das ist doch <marker>papperlapapp</marker></example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <pattern>
                     <token>Lemongrass</token>
                 </pattern>
                 <example correction=""><marker>Lemongrass</marker> ist ein aromatisches Gras, das als traditionelles Gewürz in der asiatischen Küche bekannt ist.</example>
             </rule>
-            <rule>
+            <rule><!--4-->
                 <pattern>
                     <token regexp="yes">das|ein</token>
                     <marker>
@@ -1777,7 +1777,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ähm, das <marker>Dingens</marker> ist hier!</example>
             </rule>
-            <rule>
+            <rule><!--5-->
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">Spüli</token>
@@ -1785,7 +1785,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich muss heute noch <marker>Spüli</marker> kaufen.</example>
             </rule>
-            <rule>
+            <rule><!--6-->
                 <pattern>
                     <token inflected="yes">sein</token>
                     <token min="0" postag="ADV:MOD"/>
@@ -1796,6 +1796,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Das ist total rum wie <marker>num</marker>.</example>
+            </rule>
+            <rule><!--7-->
+                <pattern>
+                    <token regexp="yes">Hammelbeine?</token>
+                </pattern>
+                <example correction="">Ich ziehe dir gleich die <marker>Hammelbeine</marker> lang.</example>
             </rule>
         </rulegroup>
 
