@@ -133,29 +133,30 @@ public class DutchTagger extends BaseTagger {
 
         // Tag unknown compound words
         if (l.isEmpty()) {
-          // Before tagging the compound word, see if it's valid with CompoundAcceptor
-          // TODO: probably move CompoundAcceptor here completely
-          CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
-          if ( compoundAcceptor.acceptCompound(word) ){
-            for (int i = 3; i < word.length() - 3; i++) {
-              String part1 = word.toLowerCase().substring(0, i);
-              String part2 = word.toLowerCase().substring(i);
-              // first find a match for part2
-              List<AnalyzedToken> part2Readings = asAnalyzedTokenListForTaggedWords(part2, getWordTagger().tag(part2));
-              for( int k=0; k<part2Readings.size(); k++ ){
-                if ( part2Readings.get(k).getPOSTag() != null ){
-                  if ( part2Readings.get(k).getPOSTag().contains("ZNW") ){
-                    // check if part1 is a noun too
-                    if ( getCompoundPOS( part1 ) || getCompoundPOS( part1.substring(0, part1.length() - 1) ) ){
-                      //System.out.println("Adding " + word + " with postag " + part2Readings.get(k).getPOSTag() );
-                      l.add( new AnalyzedToken(word, part2Readings.get(k).getPOSTag(), word) );
+          for (int i = 3; i < word.length() - 3; i++) {
+            String part1 = word.toLowerCase().substring(0, i);
+            String part2 = word.toLowerCase().substring(i);
+            // first find a match for part2
+            List<AnalyzedToken> part2Readings = asAnalyzedTokenListForTaggedWords(part2, getWordTagger().tag(part2));
+            for (AnalyzedToken part2Reading : part2Readings) {
+                if (part2Reading.getPOSTag() != null) {
+                    if (part2Reading.getPOSTag().contains("ZNW")) {
+                        // check if part1 is a noun too
+                        if (getCompoundPOS(part1) || getCompoundPOS(part1.substring(0, part1.length() - 1))) {
+                            //System.out.println("Adding " + word + " with postag " + part2Readings.get(k).getPOSTag() );
+                            // Now see if it's valid with CompoundAcceptor
+                            // TODO: probably move CompoundAcceptor here completely
+                            CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+                            if ( compoundAcceptor.acceptCompound(word) ) {
+                              l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), word));
+                            }
+                        }
                     }
-                  }
                 }
-              }
             }
           }
         }
+
 
         /*
         //*************** START OF ADDED UNCOMPOUNDER CODE ****************** //
@@ -373,11 +374,11 @@ public class DutchTagger extends BaseTagger {
 
   private boolean getCompoundPOS( String word ){
     List<AnalyzedToken> analyzePart1 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
-    for( int m=0; m<analyzePart1.size(); m++ ){
-      if ( analyzePart1.get(m).getPOSTag().contains("ZNW:EKV") ) {
-        // it's a noun
-        return true;
-      }
+    for (AnalyzedToken analyzedToken : analyzePart1) {
+        if (analyzedToken.getPOSTag().contains("ZNW:EKV")) {
+            // it's a noun
+            return true;
+        }
     }
     return false;
   }
