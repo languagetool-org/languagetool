@@ -139,20 +139,20 @@ public class DutchTagger extends BaseTagger {
             // first find a match for part2
             List<AnalyzedToken> part2Readings = asAnalyzedTokenListForTaggedWords(part2, getWordTagger().tag(part2));
             for (AnalyzedToken part2Reading : part2Readings) {
-                if (part2Reading.getPOSTag() != null) {
-                    if (part2Reading.getPOSTag().contains("ZNW")) {
-                        // check if part1 is a noun too
-                        if (getCompoundPOS(part1) || getCompoundPOS(part1.substring(0, part1.length() - 1))) {
-                            //System.out.println("Adding " + word + " with postag " + part2Readings.get(k).getPOSTag() );
-                            // Now see if it's valid with CompoundAcceptor
-                            // TODO: probably move CompoundAcceptor here completely
-                            CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
-                            if ( compoundAcceptor.acceptCompound(word) ) {
-                              l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), word));
-                            }
-                        }
+            if (part2Reading.getPOSTag() != null) {
+              if (part2Reading.getPOSTag().contains("ZNW")) {
+                // check if part1 is a noun too
+                if (getCompoundPOS(part1) || getCompoundPOS(part1.substring(0, part1.length() - 1))) {
+                    // Now see if it's valid with CompoundAcceptor
+                    // TODO: probably move CompoundAcceptor here completely
+                    CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+                    if ( compoundAcceptor.acceptCompound(word) ) {
+                      //System.out.println("Adding " + word + " with postag " + part2Reading.getPOSTag() + ", part2 has lemma " + part2Reading.getLemma() );
+                      l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part1 + part2Reading.getLemma()));
                     }
+                  }
                 }
+              }
             }
           }
         }

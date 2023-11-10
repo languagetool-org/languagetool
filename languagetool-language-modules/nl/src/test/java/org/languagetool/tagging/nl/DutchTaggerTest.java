@@ -51,14 +51,14 @@ public class DutchTaggerTest {
 
     //Tag random accepted compound words
     TestTools.myAssert("oorlogsbeker", "oorlogsbeker/[oorlogsbeker]ZNW:EKV:DE_", tokenizer, tagger);
-    TestTools.myAssert("passagierssituaties", "passagierssituaties/[passagierssituaties]ZNW:MRV:DE_", tokenizer, tagger);
+    TestTools.myAssert("passagierssituaties", "passagierssituaties/[passagierssituatie]ZNW:MRV:DE_", tokenizer, tagger);
 
     //As this does not end in "ings", should not be accepted by CompoundAcceptor
     TestTools.myAssert("beoordelinggeschiedenis", "beoordelinggeschiedenis/[null]null", tokenizer, tagger);
     //These do, and are tagged
     TestTools.myAssert("beoordelingsgeschiedenis", "beoordelingsgeschiedenis/[beoordelingsgeschiedenis]ZNW:EKV:DE_", tokenizer, tagger);
-    TestTools.myAssert("beoordelingsgeschiedenisje", "beoordelingsgeschiedenisje/[beoordelingsgeschiedenisje]ZNW:EKV:VRK:HET", tokenizer, tagger);
-    TestTools.myAssert("Beoordelingsgeschiedenisjes", "Beoordelingsgeschiedenisjes/[Beoordelingsgeschiedenisjes]ZNW:MRV:VRK:DE_", tokenizer, tagger);
+    TestTools.myAssert("beoordelingsgeschiedenisje", "beoordelingsgeschiedenisje/[beoordelingsgeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    TestTools.myAssert("Beoordelingsgeschiedenisjes", "Beoordelingsgeschiedenisjes/[beoordelingsgeschiedenis]ZNW:MRV:VRK:DE_", tokenizer, tagger);
 
     // This is not modified, as it's already found in dictionary. If it was, getCompoundPOS would give it postag ZNW:EKV, from "mout".
     TestTools.myAssert("havermout", "havermout/[havermout]ZNW:EKV:DE_", tokenizer, tagger);
