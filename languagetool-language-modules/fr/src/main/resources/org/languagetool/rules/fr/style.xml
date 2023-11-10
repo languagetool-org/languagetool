@@ -97,6 +97,14 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
         ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
+        <rule id="NOUVEL_AN" name="Nouvel An" tone_tags="general" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token>nouvel</token>
+                <token regexp="yes">an</token>
+            </pattern>
+            <message>Si vous parlez de la fête, il faut deux majuscules : <suggestion>Nouvel An</suggestion>. Bonne année !</message>
+            <example correction="Nouvel An">Tu fais quoi pour <marker>nouvel an</marker> cette année ?</example>
+        </rule>
         <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres" type="style" tone_tags="formal">
             <antipattern>
                 <token postag="Y"/>
