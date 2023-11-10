@@ -425,7 +425,8 @@ public class Catalan extends Language {
   }
 
   private List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
-  "San Marcos", "Santa Ana", "San Joaquín");
+  "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz");
+
   @Override
   public String prepareLineForSpeller(String line) {
     String parts[] = line.split("#");
