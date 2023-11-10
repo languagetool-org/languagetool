@@ -109,9 +109,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern START_WITH_NEGER = Pattern.compile("neger.*");
   private static final Pattern CONTAINES_NEGER = Pattern.compile(".+neger(s|n|in|innen)?");
   private static final Pattern ENDS_WITH_IBELKEIT_IBLICHKEIT= Pattern.compile(".*ibel[hk]eit$");
+  private static final Pattern LLMAHLLIG_OR_LLMAHLLICH= Pattern.compile("[aA]llmähll?i(g|ch)(e[mnrs]?)?");
+  private static final Pattern CONTAINS_ZB= Pattern.compile("z[bB].");
+  private static final Pattern ZB= Pattern.compile("z[bB]");
+  private static final Pattern MAYONNAISE = Pattern.compile(".*[mM]a[jy]onn?[äe]se.*");
+  private static final Pattern CONTAINS_RESERVIERUNG = Pattern.compile(".*[rR]es(a|er)[vw]i[he]?rung(en)?");
+  private static final Pattern START_WITH_RESCHASCHIER = Pattern.compile("[rR]eschaschier.+");
+  private static final Pattern END_WITH_LABORANTS = Pattern.compile(".*[lL]aborants$");
+  private static final Pattern PROFESSIONAL = Pattern.compile("[pP]roff?ess?ion([äe])h?ll?(e[mnrs]?)?");
+  private static final Pattern VERSTEHENDNISS = Pattern.compile(("[vV]erstehendniss?(es?)?"));
 
-
-
+  private static final Pattern START_WITH_DIAGNOSZIER = Pattern.compile(("diagno[sz]ier.*"));
+  private static final Pattern COMPOUND_THREE_CHAR_EACH = Pattern.compile("[A-ZÖÄÜ][a-zöäüß]{2,}(ei|öl)$");
+  private static final Pattern SINGLE_CHAR_AND_WORD = Pattern.compile("\\p{L} \\p{L}+");
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -1831,7 +1841,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     suggestions = suggestions.stream().filter(k ->
       !k.equals(word) &&
       (!k.endsWith("-") || word.endsWith("-")) &&  // no "-" at end (#2450)
-      !k.matches("\\p{L} \\p{L}+")  // single chars like in "ü berstenden" (#2610)
+        !SINGLE_CHAR_AND_WORD.matcher(k).matches()// single chars like in "ü berstenden" (#2610)
     ).collect(Collectors.toList());
     return suggestions;
   }
@@ -2366,37 +2376,37 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.matches("[aA]llmähll?i(g|ch)(e[mnrs]?)?")) {
+    } else if (LLMAHLLIG_OR_LLMAHLLICH.matcher(word).matches()) {
       suggestion = word.replaceFirst("llmähll?i(g|ch)", "llmählich");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.matches(".*[mM]a[jy]onn?[äe]se.*")) {
+    } else if (MAYONNAISE.matcher(word).matches()) {
       suggestion = word.replaceFirst("a[jy]onn?[äe]se", "ayonnaise");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.matches(".*[rR]es(a|er)[vw]i[he]?rung(en)?")) {
+    } else if (CONTAINS_RESERVIERUNG.matcher(word).matches()) {
       suggestion = word.replaceFirst("es(a|er)[vw]i[he]?rung", "eservierung");
       if (hunspell.spell(suggestion)) { // suggest e.g. 'Ticketreservierung', but not 'Blödsinnsquatschreservierung'
         return singletonList(suggestion);
       }
-    } else if (word.matches("[rR]eschaschier.+")) {
+    } else if (START_WITH_RESCHASCHIER.matcher(word).matches()) {
       suggestion = word.replaceFirst("schaschier", "cherchier");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.matches(".*[lL]aborants$")) {
+    } else if (END_WITH_LABORANTS.matcher(word).matches()) {
       suggestion = word.replaceFirst("ts$", "ten");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.matches("[pP]roff?ess?ion([äe])h?ll?(e[mnrs]?)?")) {
+    } else if (PROFESSIONAL.matcher(word).matches()) {
       suggestion = word.replaceFirst("roff?ess?ion([äe])h?l{1,2}", "rofessionell");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.matches("[vV]erstehendniss?(es?)?")) {
+    } else if (VERSTEHENDNISS.matcher(word).matches()) {
       suggestion = word.replaceFirst("[vV]erstehendnis", "Verständnis");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
@@ -2406,7 +2416,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (word.matches("diagno[sz]ier.*")) {
+    } else if (START_WITH_DIAGNOSZIER.matcher(word).matches()) {
       suggestion = word.replaceAll("gno[sz]ier", "gnostizier");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
@@ -2427,7 +2437,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("d.\u202fh.");
     } else if (word.equals("ua") || word.equals("ua.")) {
       return singletonList("u.\u202fa.");
-    } else if (word.matches("z[bB]") || word.matches("z[bB].")) {
+    } else if ( ZB.matcher(word).matches() || CONTAINS_ZB.matcher(word).matches() ) {
       return singletonList("z.\u202fB.");
     } else if (word.equals("uvm") || word.equals("uvm.")) {
       return singletonList("u.\u202fv.\u202fm.");
@@ -2682,7 +2692,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean isCompound = nextWord != null &&
       (compoundTokenizer.tokenize(nextWord).size() > 1 ||
        nextWord.indexOf('-') > 0 ||
-       nextWord.matches("[A-ZÖÄÜ][a-zöäüß]{2,}(ei|öl)$"));  // compound tokenizer will only split compounds where each part is >= 3 characters...
+        COMPOUND_THREE_CHAR_EACH.matcher(nextWord).matches());  // compound tokenizer will only split compounds where each part is >= 3 characters...
     if (isCompound) {
       word = removeEnd(word, "-");
       boolean isMisspelled = !hunspell.spell(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
