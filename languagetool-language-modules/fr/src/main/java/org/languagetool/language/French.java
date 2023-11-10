@@ -369,6 +369,10 @@ public class French extends Language implements AutoCloseable {
     if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
       return -101;
     }
+
+    if (id.startsWith("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY")) { // prefer more specific rules (also speller)
+      return -11;
+    }
     return super.getPriorityForId(id);
   }
   
