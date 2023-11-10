@@ -320,20 +320,21 @@ public class CompoundAcceptor {
   }
 
   boolean acceptCompound(String part1, String part2) throws IOException {
+    String part1lc = part1.toLowerCase();
     if (part1.endsWith("s")) {
       for (String suffix : alwaysNeedsS) {
-        if (part1.toLowerCase().endsWith(suffix)) {
+        if (part1lc.endsWith(suffix)) {
           return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
         }
       }
-      return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+      return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
     } else if (part1.endsWith("-")) { // abbreviations
       return abbrevOk(part1) && spellingOk(part2);
     } else if (part2.startsWith("-")) { // vowel collision
       part2 = part2.substring(1);
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
+      return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
     } else {
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
+      return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
     }
   }
 
