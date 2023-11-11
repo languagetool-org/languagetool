@@ -3224,8 +3224,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "gekriecht": return topMatch("gekrochen");
       case "einzigst": return topMatch("einzig");
       case "Einzigst": return topMatch("Einzig");
-      case "Eifelturm": return topMatch("Eiffelturm");
-      case "Eifelturms": return topMatch("Eiffelturms");
+      case "Eifelturm": return topMatch("Eiffelturm", "Der Eiffelturm in Paris ist nach seinem Erbauer Gustave Eiffel benannt");
+      case "Eifelturms": return topMatch("Eiffelturms", "Der Eiffelturm in Paris ist nach seinem Erbauer Gustave Eiffel benannt");
+      case "Eifelturmes": return topMatch("Eiffelturmes", "Der Eiffelturm in Paris ist nach seinem Erbauer Gustave Eiffel benannt");
       case "Jojo-Effekt": return topMatch("Jo-Jo-Effekt");
       case "Jojo-Effekts": return topMatch("Jo-Jo-Effekts");
       case "Enschuldigen": return topMatch("Entschuldigen");
