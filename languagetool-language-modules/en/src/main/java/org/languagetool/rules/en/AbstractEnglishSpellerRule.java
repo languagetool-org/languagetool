@@ -223,10 +223,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           if (!StringTools.startsWithUppercase(covered)) {
             continue;
           }
-          List<String> infos = new ArrayList<>();
+          //List<String> infos = new ArrayList<>();
           long textCount = lm.getCount(covered);
           //System.out.println(textCount + " for " + covered);
-          infos.add(covered + "/" + textCount);
+          //infos.add(covered + "/" + textCount);
           String mostCommonRepl = null;
           long mostCommonReplCount = textCount;
           int i = 0;
@@ -247,7 +247,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                 mostCommonRepl = repl.getReplacement();
                 mostCommonReplCount = replCount;
               }
-              infos.add(repl + "/" + replCount);
+              //infos.add(repl + "/" + replCount);
             } else {
               lookupFailures++;
             }
