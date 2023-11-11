@@ -11229,23 +11229,26 @@ USA
             <example correction="remunerados">O Rui faz trabalhos não <marker>pagos</marker> de noite.</example>
         </rule>
 
-
-        <rule id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: 'Causar dificuldade' → Dificultar" tone_tags="objective" default="temp_off">
+        <rulegroup id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: Causar dificuldade → Dificultar" tone_tags="objective">
             <!--IDEA shorten_it-->
-            <pattern>
-                <marker>
-                    <token regexp="yes" inflected='yes'>causar|criar|originar|provocar</token>
-                    <token regexp="yes">dificuldades?</token>
-                </marker>
-                <token postag='SPS00|(SPS00:)?[DP].+' postag_regexp='yes'>
-                    <exception regexp='no'>para</exception> <!-- Specific SPS00, add more if found -->
-                </token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
-            <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> a criar o algoritmo.</example>
-            <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> na criação do algoritmo.</example>
-        </rule>
+            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
+
+            <!--
+      A equação vai causar dificuldades na criação do algoritmo. → A equação vai dificultar na criação do algoritmo.
+      -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>causar</token>
+                        <token regexp="yes">dificuldades?</token>
+                    </marker>
+                    <token><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
+                <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> na criação do algoritmo.</example>
+            </rule>
+        </rulegroup>
 
 
         <rulegroup id='DE_FORA_EXTERNO_DE_DENTRO_INTERNO' name="Simplificar: de dentro/fora → interno/externo">
