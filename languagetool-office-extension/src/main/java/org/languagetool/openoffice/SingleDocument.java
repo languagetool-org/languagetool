@@ -1007,6 +1007,21 @@ public class SingleDocument {
       }
       ignoredMatches = tmpIgnoredMatches;
     }
+    if (!permanentIgnoredMatches.isEmpty()) {
+      IgnoredMatches tmpIgnoredMatches = new IgnoredMatches();
+      for (int i = 0; i < from; i++) {
+        if (permanentIgnoredMatches.containsParagraph(i)) {
+          tmpIgnoredMatches.put(i, permanentIgnoredMatches.get(i));
+        }
+      }
+      for (int i = to + 1; i < oldSize; i++) {
+        int n = i + newSize - oldSize;
+        if (permanentIgnoredMatches.containsParagraph(i)) {
+          tmpIgnoredMatches.put(n, permanentIgnoredMatches.get(i));
+        }
+      }
+      permanentIgnoredMatches = tmpIgnoredMatches;
+    }
   }
   
   /**
