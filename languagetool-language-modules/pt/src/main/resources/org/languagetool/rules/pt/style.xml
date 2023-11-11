@@ -11305,6 +11305,54 @@ USA
             <example correction="justiceiro">O terrorista julga ser <marker>trazedor da justiça</marker>.</example>
             <example correction="justiceiros">Os terroristas julgam ser <marker>trazedores da justiça</marker>.</example>
         </rule>
+
+
+        <rulegroup id="REMOÇÃO_SUBSTANTIVO_APÓS_MESMO" name="Redação Avançada: remoção de substantivos após 'mesmo'" tone_tags="objective" default="temp_off">
+            <!-- IDEA shorten_it -->
+
+            <!-- #1: 1 noun -->
+            <rule>
+                <pattern>
+                    <token postag_regexp='yes' postag='SPS00|(SPS00:)?[DP].+'/>
+                    <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+                    <token min='0' max='1' postag='_PUNCT'/>
+                    <token regexp='yes'>[ao]s?</token>
+                    <marker>
+                        <token regexp='yes'>mesm[ao]s?</token>
+                        <token><match no='1'/></token>
+                    </marker>
+                    <token/>
+                </pattern>
+                <message>Poderá omitir o substantivo após &quot;mesmo&quot; nesta perífrase.</message>
+                <suggestion>\5</suggestion>
+                <example correction="mesmo">Escolha o ficheiro, o <marker>mesmo ficheiro</marker> anterior.</example>
+                <example correction="mesmo">Escolha um ficheiro, o <marker>mesmo ficheiro</marker> anterior.</example>
+            </rule>
+
+            <!-- #2: 2 nouns -->
+            <rule>
+                <pattern>
+                    <token postag_regexp='yes' postag='SPS00|(SPS00:)?[DP].+'/>
+                    <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+                    <token postag_regexp='yes' postag='NC.+|AQ.+|V.+'/>
+                    <token min='0' max='1' postag='_PUNCT'/>
+                    <token regexp='yes'>[ao]s?</token>
+                    <marker>
+                        <token regexp='yes'>mesm[ao]s?</token>
+                        <token><match no='1'/></token>
+                        <token><match no='2'/></token>
+                    </marker>
+                    <token/>
+                </pattern>
+                <message>Poderá omitir os substantivos após &quot;mesmo&quot; nesta perífrase.</message>
+                <suggestion>\6</suggestion>
+                <example correction="mesmo">Escolha o ficheiro aberto, o <marker>mesmo ficheiro aberto</marker> anterior.</example>
+                <example correction="mesmo">Escolha um ficheiro aberto, o <marker>mesmo ficheiro aberto</marker> anterior.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rulegroup id="ADVERBIOS_MODO_EM_SEQUENCIA" name="Sintaxe: sequências de advérbio de modo" tone_tags="objective">
             <!-- IDEA shorten_it -->
             <!--  Created by Tiago F. Santos, 2017-09-03      -->
