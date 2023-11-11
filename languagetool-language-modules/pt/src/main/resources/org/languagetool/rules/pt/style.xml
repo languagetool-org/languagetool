@@ -11206,29 +11206,23 @@ USA
         </rule>
 
 
-        <!-- TRABALHO MAL PAGO trabalho mal remunerado -->
-        <rule id='TRABALHO_PAGO_REMUNERADO' name="Trabalho 'pago'/'remunerado'" tone_tags="objective">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      O Rui faz trabalho não pago de noite. → O Rui faz trabalho não remunerado de noite.
-      O Rui faz trabalhos não pagos de noite. → O Rui faz trabalhos não remunerados de noite.
-      -->
+        <rule id='TRABALHO_PAGO_REMUNERADO' name="Trabalho 'pago'/'remunerado'" tone_tags="objective" default="temp_off">
             <pattern>
-                <token inflected='yes' regexp="yes">ser|fazer|ter|conseguir</token>
-                <token min="0" max="1" regexp="yes">um|uns</token>
-                <token regexp="yes">trabalhos?</token>
-                <token min="0" max="1" postag='RG|RM' postag_regexp='yes'/>
-                <token min="0" max="1" regexp="yes">não|mal|bem</token>
+                <token inflected='yes' regexp="yes">ser|fazer|ter|conseguir|desempenhar</token>
+                <token min='0' max='1' postag='DI.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>cargo|emprego|função|tarefa|trabalho</token>
+                <token min='0' max='1' postag='RG|RM' postag_regexp='yes'/>
+                <token min='0' max='1' regexp="yes">não|mal|bem</token>
                 <marker>
-                    <token regexp="yes">pagos?</token>
+                    <token regexp="yes">pag[ao]s?</token>
                 </marker>
             </pattern>
             <message>É mais correto empregar o termo &quot;remunerado&quot;.</message>
-            <suggestion><match no='6' postag='VMP00(.)M' postag_replace='VMP00$1M'>remunerar</match></suggestion>
+            <suggestion><match no='6' postag='VMP00(..)' postag_replace='VMP00$1'>remunerar</match></suggestion>
             <example correction="remunerado">O Rui faz trabalho não <marker>pago</marker> de noite.</example>
             <example correction="remunerados">O Rui faz trabalhos não <marker>pagos</marker> de noite.</example>
+            <example correction="remunerada">O Rui desempenha uma função mal <marker>paga</marker> no emprego.</example>
         </rule>
-
 
         <rule id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: 'Causar dificuldade' → Dificultar" tone_tags="objective" default="temp_off">
             <!--IDEA shorten_it-->
