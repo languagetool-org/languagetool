@@ -153,7 +153,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     blogLinks[2] = "https://languagetool.org/insights/post/ise-ize/#another-difference-because-of-foreign-words-%E2%80%9C-og%E2%80%9D-vs-%E2%80%9C-ogue%E2%80%9D";
     
     wordPatterns[3] = Pattern.compile(".*(or|our).*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    blogLinks[3] = "https://languagetool.org/insights/post/our-or/#colour-or-color-%E2%80%94-colourise-or-colorize";
+    blogLinks[3] = "https://languagetool.org/insights/post/our-or/#colour-or-color%E2%80%94colourise-or-colorize";
 
     wordPatterns[4] = Pattern.compile(".*e?able|.*dge?ments?|aging|ageing|ax|axe|.*grame?s?|neuron|neurone|neurons|neurones", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     blogLinks[4] = "https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen";
