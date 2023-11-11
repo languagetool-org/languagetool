@@ -137,13 +137,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static NERService nerPipe = null;
   
-    
-  
   private static final int maxPatterns = 9;
   private static final Pattern[] wordPatterns = new Pattern[maxPatterns];
   private static final String[] blogLinks = new String[maxPatterns];
   static  {
-    wordPatterns[0] = Pattern.compile(".*[yi][zs]e(s|d)?|.*[yi][zs]ings?|.*i[zs]ations?", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[0] = Pattern.compile(".*[yi][zs]e([sd])?|.*[yi][zs]ings?|.*i[zs]ations?", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     blogLinks[0] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
 
     wordPatterns[1] = Pattern.compile(".*(defen[cs]e|offen[sc]e|preten[sc]e).*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -193,7 +191,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         logger.warn("Could not run NER test on '" + sentenceText + "', will assume there are no named entities", e);
       }
     }
-    
     // add custom URLs
     for (RuleMatch match : matches) {
       String misspelledWord = (String) match.getSentence().getText().subSequence(match.getFromPos(), match.getToPos());
@@ -206,9 +203,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           }
         }  
       }
-      
     }
-    
     return matches;
   }
 
@@ -439,7 +434,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("hydro ") &&
                    !k.getReplacement().toLowerCase().startsWith("ergo ") &&
                    !k.getReplacement().toLowerCase().startsWith("fore ") &&
-                   !k.getReplacement().toLowerCase().startsWith("geo ") &&
                    !k.getReplacement().toLowerCase().startsWith("pro ") &&
                    !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
                    !k.getReplacement().toLowerCase().startsWith("psycho ") &&
