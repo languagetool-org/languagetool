@@ -375,174 +375,182 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static List<SuggestedReplacement> cleanSuggestions(RuleMatch ruleMatch) {
     return ruleMatch.getSuggestedReplacementObjects().stream()
-      .filter(k -> !k.getReplacement().toLowerCase().startsWith("re ") &&
-                   !k.getReplacement().toLowerCase().startsWith("en ") &&
-                   !k.getReplacement().toLowerCase().startsWith("co ") &&
-                   !k.getReplacement().toLowerCase().startsWith("cl ") &&
-                   !k.getReplacement().toLowerCase().startsWith("de ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ex ") &&
-                   !k.getReplacement().toLowerCase().startsWith("es ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ab ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ty ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mid ") &&
-                   !k.getReplacement().toLowerCase().startsWith("non ") &&
-                   !k.getReplacement().toLowerCase().startsWith("bio ") &&
-                   !k.getReplacement().toLowerCase().startsWith("bi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("con ") &&
-                   !k.getReplacement().startsWith("ins ") && // instable (ins table)
-                   !k.getReplacement().toLowerCase().startsWith("pre ") &&
-                   !k.getReplacement().toLowerCase().startsWith("socio ") &&
-                   !k.getReplacement().toLowerCase().startsWith("proto ") &&
-                   !k.getReplacement().toLowerCase().startsWith("neo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("geo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("inter ") &&
-                   !k.getReplacement().toLowerCase().startsWith("multi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("retro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("extra ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mega ") &&
-                   !k.getReplacement().toLowerCase().startsWith("meta ") &&
-                   !k.getReplacement().toLowerCase().startsWith("poly ") &&
-                   !k.getReplacement().toLowerCase().startsWith("para ") &&
-                   !k.getReplacement().toLowerCase().startsWith("uni ") &&
-                   !k.getReplacement().toLowerCase().startsWith("anti ") &&
-                   !k.getReplacement().toLowerCase().startsWith("necro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("photo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("post ") &&
-                   !k.getReplacement().toLowerCase().startsWith("sub ") &&
-                   !k.getReplacement().toLowerCase().startsWith("auto ") &&
-                   !k.getReplacement().toLowerCase().startsWith("pl ") &&
-                   !k.getReplacement().startsWith("i ") &&
-                   !k.getReplacement().startsWith("sh ") &&
-                   !k.getReplacement().startsWith("li ") &&
-                   !k.getReplacement().startsWith("ha ") &&
-                   !k.getReplacement().startsWith("st ") &&
-                   !k.getReplacement().toLowerCase().startsWith("dis ") &&
-                   !k.getReplacement().toLowerCase().startsWith("est ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mono ") &&
-                   !k.getReplacement().toLowerCase().startsWith("trans ") &&
-                   !k.getReplacement().toLowerCase().startsWith("neuro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ultra ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mini ") &&
-                   !k.getReplacement().toLowerCase().startsWith("hyper ") &&
-                   !k.getReplacement().toLowerCase().startsWith("micro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("counter ") &&
-                   !k.getReplacement().toLowerCase().startsWith("over ") &&
-                   !k.getReplacement().toLowerCase().startsWith("overs ") &&
-                   !k.getReplacement().toLowerCase().startsWith("overt ") &&
-                   !k.getReplacement().toLowerCase().startsWith("under ") &&
-                   !k.getReplacement().toLowerCase().startsWith("cyber ") &&
-                   !k.getReplacement().toLowerCase().startsWith("hydro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ergo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("fore ") &&
-                   !k.getReplacement().toLowerCase().startsWith("pro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("psycho ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("nano ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ans ") &&
-                   !k.getReplacement().toLowerCase().startsWith("semi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("infra ") &&
-                   !k.getReplacement().toLowerCase().startsWith("hypo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("syn ") &&
-                   !k.getReplacement().toLowerCase().startsWith("adv ") &&
-                   !k.getReplacement().toLowerCase().startsWith("com ") &&
-                   !k.getReplacement().toLowerCase().startsWith("res ") &&
-                   !k.getReplacement().toLowerCase().startsWith("resp ") &&
-                   !k.getReplacement().toLowerCase().startsWith("lo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ed ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ac ") &&
-                   !k.getReplacement().toLowerCase().startsWith("al ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ea ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ge ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mu ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ma ") &&
-                   !k.getReplacement().toLowerCase().startsWith("la ") &&
-                   !k.getReplacement().toLowerCase().startsWith("bis ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ger ") &&
-                   !k.getReplacement().toLowerCase().startsWith("inf ") &&
-                   !k.getReplacement().toLowerCase().startsWith("tar ") &&
-                   !k.getReplacement().toLowerCase().startsWith("f ") &&
-                   !k.getReplacement().toLowerCase().startsWith("k ") &&
-                   !k.getReplacement().toLowerCase().startsWith("l ") &&
-                   !k.getReplacement().toLowerCase().startsWith("b ") &&
-                   !k.getReplacement().toLowerCase().startsWith("e ") &&
-                   !k.getReplacement().toLowerCase().startsWith("c ") &&
-                   !k.getReplacement().toLowerCase().startsWith("d ") &&
-                   !k.getReplacement().toLowerCase().startsWith("p ") &&
-                   !k.getReplacement().toLowerCase().startsWith("v ") &&
-                   !k.getReplacement().toLowerCase().startsWith("h ") &&
-                   !k.getReplacement().toLowerCase().startsWith("r ") &&
-                   !k.getReplacement().toLowerCase().startsWith("s ") &&
-                   !k.getReplacement().toLowerCase().startsWith("t ") &&
-                   !k.getReplacement().toLowerCase().startsWith("u ") &&
-                   !k.getReplacement().toLowerCase().startsWith("w ") &&
-                   !k.getReplacement().toLowerCase().startsWith("um ") &&
-                   !k.getReplacement().toLowerCase().startsWith("oft ") &&
-                   !k.getReplacement().endsWith(" i") &&
-                   !k.getReplacement().endsWith(" ING") &&
-                   !k.getReplacement().endsWith(" able") &&
-                   !k.getReplacement().endsWith(" om") &&
-                   !k.getReplacement().endsWith(" ox") &&
-                   !k.getReplacement().endsWith(" wide") && // (e.g. storewide)
-                   !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
-                   !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
-                   !k.getReplacement().endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
-                   !k.getReplacement().endsWith(" HHH") && // unnecessary suggestion (e.g. for "OHHHH")
-                   !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
-                   !k.getReplacement().endsWith(" ize") && // "advertize"
-                   !k.getReplacement().endsWith(" sh") &&
-                   !k.getReplacement().endsWith(" st") &&
-                   !k.getReplacement().endsWith(" est") &&
-                   !k.getReplacement().endsWith(" ward") &&
-                   !k.getReplacement().endsWith(" ability") && // interruptability
-                   !k.getReplacement().endsWith(" ware") && // drinkware
-                   !k.getReplacement().endsWith(" logy") && // volcanology
-                   !k.getReplacement().endsWith(" ting") && // someting
-                   !k.getReplacement().endsWith(" ion") && // presention
-                   !k.getReplacement().endsWith(" ions") && // sealions
-                   !k.getReplacement().endsWith(" cal") &&
-                   !k.getReplacement().endsWith(" ted") && // "bursted"
-                   !k.getReplacement().endsWith(" sphere") &&
-                   !k.getReplacement().endsWith(" ell") &&
-                   !k.getReplacement().endsWith(" con") &&
-                   !k.getReplacement().endsWith(" sis") &&
-                   !k.getReplacement().endsWith(" like") && // "ribbonlike"
-                   !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
-                   !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
-                   !k.getReplacement().endsWith(" ne") &&
-                   !k.getReplacement().endsWith(" ed") &&
-                   !k.getReplacement().endsWith(" al") &&
-                   !k.getReplacement().endsWith(" ans") &&
-                   !k.getReplacement().endsWith(" mans") &&
-                   !k.getReplacement().endsWith(" ti") &&
-                   !k.getReplacement().endsWith(" de") &&
-                   !k.getReplacement().endsWith(" ea") &&
-                   !k.getReplacement().endsWith(" ge") &&
-                   !k.getReplacement().endsWith(" ab") &&
-                   !k.getReplacement().endsWith(" mi") &&
-                   !k.getReplacement().endsWith(" tar") &&
-                   !k.getReplacement().endsWith(" adv") &&
-                   !k.getReplacement().endsWith(" re") &&
-                   !k.getReplacement().endsWith(" e") &&
-                   !k.getReplacement().endsWith(" c") &&
-                   !k.getReplacement().endsWith(" v") &&
-                   !k.getReplacement().endsWith(" h") &&
-                   !k.getReplacement().endsWith(" s") &&
-                   !k.getReplacement().endsWith(" r") &&
-                   !k.getReplacement().endsWith(" l") &&
-                   !k.getReplacement().endsWith(" u") &&
-                   !k.getReplacement().endsWith(" um") &&
-                   !k.getReplacement().endsWith(" er") &&
-                   !k.getReplacement().endsWith(" es") &&
-                   !k.getReplacement().endsWith(" ex") &&
-                   !k.getReplacement().endsWith(" na") &&
-                   !k.getReplacement().endsWith(" ifs") &&
-                   !k.getReplacement().endsWith(" gs") &&
-                   !k.getReplacement().endsWith(" don") &&
-                   !k.getReplacement().endsWith(" dons") &&
-                   !k.getReplacement().endsWith(" la") &&
-                   !k.getReplacement().endsWith(" ism") &&
-                   !k.getReplacement().endsWith(" ma"))
+      .filter(k -> {
+        String rep = k.getReplacement();
+        if (!rep.contains(" ")) {
+          return true;
+        }
+        String repLc = rep.toLowerCase();
+        return
+          !repLc.startsWith("re ") &&
+          !repLc.startsWith("en ") &&
+          !repLc.startsWith("co ") &&
+          !repLc.startsWith("cl ") &&
+          !repLc.startsWith("de ") &&
+          !repLc.startsWith("ex ") &&
+          !repLc.startsWith("es ") &&
+          !repLc.startsWith("ab ") &&
+          !repLc.startsWith("ty ") &&
+          !repLc.startsWith("mid ") &&
+          !repLc.startsWith("non ") &&
+          !repLc.startsWith("bio ") &&
+          !repLc.startsWith("bi ") &&
+          !repLc.startsWith("con ") &&
+          !repLc.startsWith("pre ") &&
+          !repLc.startsWith("socio ") &&
+          !repLc.startsWith("proto ") &&
+          !repLc.startsWith("neo ") &&
+          !repLc.startsWith("geo ") &&
+          !repLc.startsWith("inter ") &&
+          !repLc.startsWith("multi ") &&
+          !repLc.startsWith("retro ") &&
+          !repLc.startsWith("extra ") &&
+          !repLc.startsWith("mega ") &&
+          !repLc.startsWith("meta ") &&
+          !repLc.startsWith("poly ") &&
+          !repLc.startsWith("para ") &&
+          !repLc.startsWith("uni ") &&
+          !repLc.startsWith("anti ") &&
+          !repLc.startsWith("necro ") &&
+          !repLc.startsWith("photo ") &&
+          !repLc.startsWith("post ") &&
+          !repLc.startsWith("sub ") &&
+          !repLc.startsWith("auto ") &&
+          !repLc.startsWith("pl ") &&
+          !repLc.startsWith("dis ") &&
+          !repLc.startsWith("est ") &&
+          !repLc.startsWith("mono ") &&
+          !repLc.startsWith("trans ") &&
+          !repLc.startsWith("neuro ") &&
+          !repLc.startsWith("ultra ") &&
+          !repLc.startsWith("mini ") &&
+          !repLc.startsWith("hyper ") &&
+          !repLc.startsWith("micro ") &&
+          !repLc.startsWith("counter ") &&
+          !repLc.startsWith("over ") &&
+          !repLc.startsWith("overs ") &&
+          !repLc.startsWith("overt ") &&
+          !repLc.startsWith("under ") &&
+          !repLc.startsWith("cyber ") &&
+          !repLc.startsWith("hydro ") &&
+          !repLc.startsWith("ergo ") &&
+          !repLc.startsWith("fore ") &&
+          !repLc.startsWith("pro ") &&
+          !repLc.startsWith("pseudo ") &&
+          !repLc.startsWith("psycho ") &&
+          !repLc.startsWith("mi ") &&
+          !repLc.startsWith("nano ") &&
+          !repLc.startsWith("ans ") &&
+          !repLc.startsWith("semi ") &&
+          !repLc.startsWith("infra ") &&
+          !repLc.startsWith("hypo ") &&
+          !repLc.startsWith("syn ") &&
+          !repLc.startsWith("adv ") &&
+          !repLc.startsWith("com ") &&
+          !repLc.startsWith("res ") &&
+          !repLc.startsWith("resp ") &&
+          !repLc.startsWith("lo ") &&
+          !repLc.startsWith("ed ") &&
+          !repLc.startsWith("ac ") &&
+          !repLc.startsWith("al ") &&
+          !repLc.startsWith("ea ") &&
+          !repLc.startsWith("ge ") &&
+          !repLc.startsWith("mu ") &&
+          !repLc.startsWith("ma ") &&
+          !repLc.startsWith("la ") &&
+          !repLc.startsWith("bis ") &&
+          !repLc.startsWith("ger ") &&
+          !repLc.startsWith("inf ") &&
+          !repLc.startsWith("tar ") &&
+          !repLc.startsWith("f ") &&
+          !repLc.startsWith("k ") &&
+          !repLc.startsWith("l ") &&
+          !repLc.startsWith("b ") &&
+          !repLc.startsWith("e ") &&
+          !repLc.startsWith("c ") &&
+          !repLc.startsWith("d ") &&
+          !repLc.startsWith("p ") &&
+          !repLc.startsWith("v ") &&
+          !repLc.startsWith("h ") &&
+          !repLc.startsWith("r ") &&
+          !repLc.startsWith("s ") &&
+          !repLc.startsWith("t ") &&
+          !repLc.startsWith("u ") &&
+          !repLc.startsWith("w ") &&
+          !repLc.startsWith("um ") &&
+          !repLc.startsWith("oft ") &&
+          !rep.startsWith("i ") &&
+          !rep.startsWith("sh ") &&
+          !rep.startsWith("li ") &&
+          !rep.startsWith("ha ") &&
+          !rep.startsWith("st ") &&
+          !rep.startsWith("ins ") && // instable (ins table)
+          !rep.endsWith(" i") &&
+          !rep.endsWith(" ING") &&
+          !rep.endsWith(" able") &&
+          !rep.endsWith(" om") &&
+          !rep.endsWith(" ox") &&
+          !rep.endsWith(" wide") && // (e.g. storewide)
+          !rep.endsWith(" less") && // (e.g. permissionless)
+          !rep.endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
+          !rep.endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
+          !rep.endsWith(" HHH") && // unnecessary suggestion (e.g. for "OHHHH")
+          !rep.endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
+          !rep.endsWith(" ize") && // "advertize"
+          !rep.endsWith(" sh") &&
+          !rep.endsWith(" st") &&
+          !rep.endsWith(" est") &&
+          !rep.endsWith(" ward") &&
+          !rep.endsWith(" ability") && // interruptability
+          !rep.endsWith(" ware") && // drinkware
+          !rep.endsWith(" logy") && // volcanology
+          !rep.endsWith(" ting") && // someting
+          !rep.endsWith(" ion") && // presention
+          !rep.endsWith(" ions") && // sealions
+          !rep.endsWith(" cal") &&
+          !rep.endsWith(" ted") && // "bursted"
+          !rep.endsWith(" sphere") &&
+          !rep.endsWith(" ell") &&
+          !rep.endsWith(" con") &&
+          !rep.endsWith(" sis") &&
+          !rep.endsWith(" like") && // "ribbonlike"
+          !rep.endsWith(" full") && // do not suggest "use full" for "useful"
+          !rep.endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
+          !rep.endsWith(" ne") &&
+          !rep.endsWith(" ed") &&
+          !rep.endsWith(" al") &&
+          !rep.endsWith(" ans") &&
+          !rep.endsWith(" mans") &&
+          !rep.endsWith(" ti") &&
+          !rep.endsWith(" de") &&
+          !rep.endsWith(" ea") &&
+          !rep.endsWith(" ge") &&
+          !rep.endsWith(" ab") &&
+          !rep.endsWith(" mi") &&
+          !rep.endsWith(" tar") &&
+          !rep.endsWith(" adv") &&
+          !rep.endsWith(" re") &&
+          !rep.endsWith(" e") &&
+          !rep.endsWith(" c") &&
+          !rep.endsWith(" v") &&
+          !rep.endsWith(" h") &&
+          !rep.endsWith(" s") &&
+          !rep.endsWith(" r") &&
+          !rep.endsWith(" l") &&
+          !rep.endsWith(" u") &&
+          !rep.endsWith(" um") &&
+          !rep.endsWith(" er") &&
+          !rep.endsWith(" es") &&
+          !rep.endsWith(" ex") &&
+          !rep.endsWith(" na") &&
+          !rep.endsWith(" ifs") &&
+          !rep.endsWith(" gs") &&
+          !rep.endsWith(" don") &&
+          !rep.endsWith(" dons") &&
+          !rep.endsWith(" la") &&
+          !rep.endsWith(" ism") &&
+          !rep.endsWith(" ma");
+      })
       .collect(Collectors.toList());
   }
 
