@@ -2070,35 +2070,15 @@ public class DocumentCache implements Serializable {
     refresh(document, fixedLocale, docLocale, xComponent, fromWhere);
     rwLock.readLock().lock();
     try {
-      if (paragraphs == null || paragraphs.isEmpty()) {
+      if (paragraphs == null || paragraphs.isEmpty() || oldCache.paragraphs == null || oldCache.paragraphs.isEmpty()) {
         return null;
       }
       int from = 0;
       int to = 1;
       // to prevent spontaneous recheck of nearly the whole text
-      // the change of text contents has to be checked first
+      // the change of text contents has to be checked, if the size of CURSOR_TYPE_HEADER_FOOTER has not changed
       // ignore headers and footers and the change of function inside of them
-      while (from < paragraphs.size() && from < oldCache.paragraphs.size()
-          && (toTextMapping.get(from).type == CURSOR_TYPE_HEADER_FOOTER
-          || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
-        from++;
-      }
-      boolean isTextChange = from < paragraphs.size() && from < oldCache.paragraphs.size();
-      if (isTextChange) {
-        // if change in text is found check the number of text paragraphs which have changed
-        while (to <= paragraphs.size() && to <= oldCache.paragraphs.size()
-            && (toTextMapping.get(paragraphs.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-            || paragraphs.get(paragraphs.size() - to).equals(
-                    oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
-          to++;
-        }
-        to = paragraphs.size() - to + 1;
-        if (to < 0) {
-          to = 0;
-        }
-      } else {
-        // if no change in text is found check the number of header and footer paragraphs which have changed
-        from = 0;
+      if (oldCache.toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() != toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
         while (from < paragraphs.size() && from < oldCache.paragraphs.size()
             && (toTextMapping.get(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
             || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
@@ -2110,10 +2090,22 @@ public class DocumentCache implements Serializable {
                 oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
           to++;
         }
-        to = paragraphs.size() - to + 1;
-        if (to < 0) {
-          to = 0;
+      } else {
+        while (from < paragraphs.size() && from < oldCache.paragraphs.size()
+            && (toTextMapping.get(from).type == CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
+          from++;
         }
+        while (to <= paragraphs.size() && to <= oldCache.paragraphs.size()
+            && (toTextMapping.get(paragraphs.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(paragraphs.size() - to).equals(
+                    oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
+          to++;
+        }
+      }
+      to = paragraphs.size() - to + 1;
+      if (to < from) {
+        to = from;
       }
       return new ChangedRange(from, to, oldCache.paragraphs.size(), paragraphs.size());
     } finally {
