@@ -78,9 +78,15 @@ public class PossessiusRedundantsFilter extends RuleFilter {
     }
     if (!hasSomePronoun) {
       StringBuilder suggestion = new StringBuilder();
-      suggestion.append(StringTools.preserveCase(transformDavant(dativePronoun.get(persona + number), tokens[posVerb].getToken()),
-        tokens[posVerb].getToken()));
-      suggestion.append(tokens[posVerb].getToken().toLowerCase());
+      if (tokens[posVerb].hasAnyPartialPosTag("VMN", "VMG")) {
+        String pronounSugg = transformDarrere(dativePronoun.get(persona + number), tokens[posVerb].getToken());
+        suggestion.append(tokens[posVerb].getToken());
+        suggestion.append(pronounSugg);
+      } else {
+        String pronounSugg = transformDavant(dativePronoun.get(persona + number), tokens[posVerb].getToken());
+        suggestion.append(StringTools.preserveCase(pronounSugg, tokens[posVerb].getToken()));
+        suggestion.append(tokens[posVerb].getToken().toLowerCase());
+      }
       for (int i = posVerb + 1; i <= posPossessive - 2; i++) {
         if (tokens[i].isWhitespaceBefore()) {
           suggestion.append(" ");
