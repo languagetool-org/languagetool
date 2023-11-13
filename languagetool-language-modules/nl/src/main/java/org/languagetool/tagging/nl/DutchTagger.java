@@ -20,6 +20,7 @@ package org.languagetool.tagging.nl;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.nl.CompoundAcceptor;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -40,6 +41,7 @@ public class DutchTagger extends BaseTagger {
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
+    CompoundAcceptor compoundAcceptor = new CompoundAcceptor(this);
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
@@ -128,6 +130,26 @@ public class DutchTagger extends BaseTagger {
             ignoreSpelling = true;
           }
         }
+
+        // Tag unknown compound words:
+        if (l.isEmpty() && word.length() > 5) {
+          List<String> parts = compoundAcceptor.getParts(word);
+          if (parts.size() == 2) {
+            String part1 = parts.get(0);
+            List<AnalyzedTokenReadings> part2ReadingsList = tag(Collections.singletonList(parts.get(1)));
+            if (part2ReadingsList.size() > 0) {
+              AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
+              String part1lc = part1.toLowerCase();
+              for (AnalyzedToken part2Reading : part2Readings) {
+                if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().contains("ZNW")) {
+                  //System.out.println("Adding " + word + " with postag " + part2Reading.getPOSTag() + ", part2 has lemma " + part2Reading.getLemma());
+                  l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part1lc + part2Reading.getLemma()));
+                }
+              }
+            }
+          }
+        }
+
         //*************** START OF ADDED UNCOMPOUNDER CODE ****************** //
         // (still too) simple uncompounder
         // it needs check for postags and substring
