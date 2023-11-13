@@ -659,7 +659,7 @@ class CheckRequestAnalysis {
     }
     if(!isDisposed()) {
       for (ResultCache cache : paragraphsCache) {
-        cache.removeAndShift(changed.from, changed.oldSize, changed.newSize);
+        cache.removeAndShift(changed.from, changed.to, changed.oldSize, changed.newSize);
       }
       if (useQueue) {
         if (debugMode > 0) {

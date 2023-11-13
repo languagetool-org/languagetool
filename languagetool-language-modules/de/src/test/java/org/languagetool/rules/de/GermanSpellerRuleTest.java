@@ -112,6 +112,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt
     assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
@@ -1118,6 +1119,14 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.isMisspelled("Steuereigenschaften"));
     assertFalse(rule.isMisspelled("Eigenschaften"));
     assertFalse(rule.isMisspelled("wirtschafte"));
+
+    assertTrue(rule.isMisspelled("Gebietskörperschaf"));
+    assertTrue(rule.isMisspelled("Gebietskörperschafs"));
+    assertTrue(rule.isMisspelled("Gebietskörperschafen"));
+    assertTrue(rule.isMisspelled("Freundschaf"));
+    assertFalse(rule.isMisspelled("Wollschaf"));
+    assertFalse(rule.isMisspelled("Wollschafs"));
+    assertFalse(rule.isMisspelled("Wollschafen"));
   }
 
   @Test

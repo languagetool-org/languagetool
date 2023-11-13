@@ -478,6 +478,7 @@ public class English extends Language implements AutoCloseable {
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
       case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
+      case "HYPHEN_TO_EN":              return 1;   // higher prio than DASH_RULE (due to one picky subrule)
       case "EVERY_NOW_AND_THEN":        return 0;
       case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker, less prio than ATTACHE_ATTACH
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
@@ -602,6 +603,7 @@ public class English extends Language implements AutoCloseable {
       case "DT_NN_ARE_AME": return -12;    // prefer AI
       case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
       case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
+      case "VERB_APOSTROPHE_S":   return -12;    // prefer AI
       case "SENT_START_PRPS_JJ_NN_VBP": return -12;  // prefer AI
       case "SINGULAR_NOUN_ADV_AGREEMENT": return -12;  // prefer AI
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR

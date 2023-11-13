@@ -799,4 +799,32 @@ public final class StringTools {
     }
     return converted.toString();
   }
+
+  public static String[] splitCamelCase(String input) {
+    StringBuilder word = new StringBuilder();
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < input.length(); i++) {
+      char currentChar = input.charAt(i);
+      if (Character.isUpperCase(currentChar)) {
+        result.append(word).append(" ");
+        word.setLength(0);
+      }
+      word.append(currentChar);
+    }
+    result.append(word);
+    return result.toString().trim().split(" ");
+  }
+
+  public static String[] splitDigitsAtEnd(String input) {
+    int lastIndex = input.length() - 1;
+    while (lastIndex >= 0 && Character.isDigit(input.charAt(lastIndex))) {
+      lastIndex--;
+    }
+    String nonDigitPart = input.substring(0, lastIndex + 1);
+    String digitPart = input.substring(lastIndex + 1);
+    if (!nonDigitPart.isEmpty() && !digitPart.isEmpty()) {
+      return new String[]{nonDigitPart, digitPart};
+    }
+    return new String[]{input};
+  }
 }
