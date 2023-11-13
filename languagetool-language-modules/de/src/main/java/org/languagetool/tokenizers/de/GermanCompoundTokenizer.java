@@ -130,6 +130,17 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Freibergs", asList("Freibergs"));
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
+    wordSplitter.addException("Digitalisierung", asList("Digitalisierung"));
+    wordSplitter.addException("Abtrocknung", asList("Abtrocknung"));
+    wordSplitter.addException("Erlösung", asList("Erlösung"));
+    wordSplitter.addException("Feuerung", asList("Feuerung"));
+    wordSplitter.addException("Aktivierung", asList("Aktivierung"));
+    wordSplitter.addException("Protokollierung", asList("Protokollierung"));
+    wordSplitter.addException("Budgetierung", asList("Budgetierung"));
+    wordSplitter.addException("Faltung", asList("Faltung"));
+    wordSplitter.addException("Anhäufung", asList("Anhäufung"));
+    wordSplitter.addException("Aufkohlung", asList("Aufkohlung"));
+    wordSplitter.addException("Festigung", asList("Festigung"));
   }
 
   @Override
