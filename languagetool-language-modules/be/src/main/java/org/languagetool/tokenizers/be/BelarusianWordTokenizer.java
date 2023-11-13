@@ -53,7 +53,7 @@ public class BelarusianWordTokenizer extends WordTokenizer {
     List<String> outputlist = new ArrayList<>();
     for (String token : joinEMailsAndUrls(l)) {
       if (token.length() > 1) {
-        outputlist.add(token.replaceAll("\u2019", "'"));
+        outputlist.add(token.replace('’', '\''));
       } else
         outputlist.add(token);
     }
