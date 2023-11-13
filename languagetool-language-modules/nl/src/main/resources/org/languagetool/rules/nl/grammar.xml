@@ -22586,15 +22586,16 @@ regexp case-insensitive maken: (?i)
 				<example correction="ook, hè">Ik <marker>ook he</marker>?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HE_EINDE" name="Lekker weertje he(hè)?">
+		<rulegroup id="HE_EINDE" name="Lekker weertje, he(hè)?">
 			<rule>
 				<antipattern>
 					<token min="2" regexp="yes">he|hé|hè</token>
 				</antipattern>
 				<antipattern>
 					<token>,</token>
-					<token spacebefore="no">hé</token>
+					<token spacebefore="yes">hé</token>
 					<token spacebefore="no">!</token>
+					<example>Hé jij, hé!</example>
 				</antipattern>
 				<pattern>
 					<marker>
@@ -22602,7 +22603,7 @@ regexp case-insensitive maken: (?i)
 					</marker>
 					<token spacebefore="no" regexp="yes">[.?!]</token>
 				</pattern>
-				<message>U bedoelt vast: <suggestion>hè</suggestion>.</message>
+				<message>'He' en 'hé' rijmen op 'zee'. U bedoelt vast: <suggestion>hè</suggestion> (klinkt als 'het').</message>
 				<example correction="hè">Wat een lekker weertje, <marker>he</marker>?</example>
 			</rule>
 		</rulegroup>
