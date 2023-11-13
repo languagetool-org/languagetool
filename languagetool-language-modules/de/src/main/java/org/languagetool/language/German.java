@@ -51,6 +51,8 @@ import java.util.regex.Pattern;
  */
 public class German extends Language implements AutoCloseable {
 
+  private static final Pattern TYPOGRAPHY_PATTERN = Pattern.compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
+
   private LanguageModel languageModel;
 
   /**
@@ -273,8 +275,8 @@ public class German extends Language implements AutoCloseable {
   public String toAdvancedTypography(String input) {
     String output = super.toAdvancedTypography(input);
     //non-breaking space
-    output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
-    output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
+    output = TYPOGRAPHY_PATTERN.matcher(output).replaceAll("$1\u00a0$2");
+    output = TYPOGRAPHY_PATTERN.matcher(output).replaceAll("$1\u00a0$2");
     return output;
   }
   
