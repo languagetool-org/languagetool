@@ -134,6 +134,9 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("sigloXXI"));
     assertEquals("siglo XXI", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(lt.getAnalyzedSentence("gustarÃ\u00ADa"));
+    assertEquals("gustaría", matches[0].getSuggestedReplacements().get(0));
+
     // currencies
     matches = rule.match(lt.getAnalyzedSentence("$100"));
     assertEquals(0, matches.length);
