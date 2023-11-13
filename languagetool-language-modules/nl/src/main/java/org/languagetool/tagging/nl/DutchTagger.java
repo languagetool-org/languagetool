@@ -48,7 +48,7 @@ public class DutchTagger extends BaseTagger {
 
       // make treatment of weird apostrophes same as in tokenizer (R. Baars, 2020-11-06)
       String originalWord = word;
-      word = word.replace("`","'").replace("’","'").replace("‘","'").replace("´","'");
+      word = word.replace('`', '\'').replace('’', '\'').replace('‘', '\'').replace('´', '\'');
       
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(locale);
