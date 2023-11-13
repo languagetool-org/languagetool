@@ -67,10 +67,11 @@ public class DutchTagger extends BaseTagger {
   public DutchTagger() {
     super("/nl/dutch.dict", new Locale("nl"));
   }
-    // custom code to deal with words carrying optional accents
+
+  // custom code to deal with words carrying optional accents
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     CompoundAcceptor compoundAcceptor = new CompoundAcceptor(this);
 
@@ -81,11 +82,11 @@ public class DutchTagger extends BaseTagger {
       String originalWord = word;
       word = word.replace('`', '\'').replace('’', '\'').replace('‘', '\'').replace('´', '\'');
       
-      final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(locale);
-      final boolean isLowercase = word.equals(lowerWord);
-      final boolean isMixedCase = StringTools.isMixedCase(word);
-      final boolean isAllUpper = StringTools.isAllUppercase(word);
+      List<AnalyzedToken> l = new ArrayList<>();
+      String lowerWord = word.toLowerCase(locale);
+      boolean isLowercase = word.equals(lowerWord);
+      boolean isMixedCase = StringTools.isMixedCase(word);
+      boolean isAllUpper = StringTools.isAllUppercase(word);
 
       // assign tokens for flattened word to original word
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(word));
@@ -101,7 +102,7 @@ public class DutchTagger extends BaseTagger {
 
       // tag all-uppercase proper nouns
       if (l.isEmpty() && isAllUpper) {
-        final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
+        String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
@@ -211,14 +212,13 @@ public class DutchTagger extends BaseTagger {
       }
 
       tokenReadings.add(atr);
-      
       pos += word.length();
     }
     
     return tokenReadings;
   }
 
-  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
+  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       l.addAll(taggedTokens);
     }
