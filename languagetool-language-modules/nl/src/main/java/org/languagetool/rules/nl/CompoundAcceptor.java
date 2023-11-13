@@ -26,9 +26,7 @@ import org.languagetool.tagging.Tagger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -41,6 +39,7 @@ public class CompoundAcceptor {
 
   private static final Pattern acronymPattern = Pattern.compile("[A-Z][A-Z][A-Z]-");
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
+  private static final int MAX_WORD_SIZE = 35;
 
   // if part 1 ends with this, it always needs an 's' appended
   private final Set<String> alwaysNeedsS = ImmutableSet.of(
@@ -48,9 +47,6 @@ public class CompoundAcceptor {
     "ings",
     "teits",
     "schaps"
-  );
-  private final Set<String> excludedWords = ImmutableSet.of(
-    "belastings"
   );
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
@@ -286,29 +282,34 @@ public class CompoundAcceptor {
     "cantate",
     "collecte",
     "mascotte",
-    "fluoride",
-    "belasting"
+    "fluoride"
   );
   // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
   private final Set<String> collidingVowels = ImmutableSet.of(
     "aa", "ae", "ai", "au", "ee", "ée", "ei", "éi", "eu", "éu", "ie", "ii", "ij", "oe", "oi", "oo", "ou", "ui", "uu"
   );
 
-  private final MorfologikDutchSpellerRule speller;
-  private final Tagger tagger;
-
-  public CompoundAcceptor() {
+  private static final MorfologikDutchSpellerRule speller;
+  static {
     try {
-      Language dutch = Languages.getLanguageForShortCode("nl");
-      speller = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), dutch, null);
-      tagger = dutch.getTagger();
+      speller = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), Languages.getLanguageForShortCode("nl"), null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public boolean acceptCompound(String word) throws IOException {
-    if (word.length() > 35) {  // prevent long runtime
+  private final Tagger tagger;
+
+  CompoundAcceptor() {
+    tagger = Languages.getLanguageForShortCode("nl").getTagger();
+  }
+
+  public CompoundAcceptor(Tagger tagger) {
+    this.tagger = tagger;
+  }
+
+  boolean acceptCompound(String word) throws IOException {
+    if (word.length() > MAX_WORD_SIZE) {  // prevent long runtime
       return false;
     }
     for (int i = 3; i < word.length() - 3; i++) {
@@ -322,21 +323,40 @@ public class CompoundAcceptor {
     return false;
   }
 
-  boolean acceptCompound(String part1, String part2) throws IOException {
-    if (part1.endsWith("s")) {
-      for (String suffix : alwaysNeedsS) {
-        if (part1.toLowerCase().endsWith(suffix) && !excludedWords.contains(part1.toLowerCase())) {
-          return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
-        }
+  public List<String> getParts(String word) {
+    if (word.length() > MAX_WORD_SIZE) {  // prevent long runtime
+      return Collections.emptyList();
+    }
+    for (int i = 3; i < word.length() - 3; i++) {
+      String part1 = word.substring(0, i);
+      String part2 = word.substring(i);
+      if (acceptCompound(part1, part2)) {
+        return Arrays.asList(part1, part2);
       }
-      return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
-    } else if (part1.endsWith("-")) { // abbreviations
-      return abbrevOk(part1) && spellingOk(part2);
-    } else if (part2.startsWith("-")){ // vowel collision
-      part2 = part2.substring(1);
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels( part1, part2 );
-    } else {
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
+    }
+    return Collections.emptyList();
+  }
+
+  boolean acceptCompound(String part1, String part2) {
+    try {
+      String part1lc = part1.toLowerCase();
+      if (part1.endsWith("s")) {
+        for (String suffix : alwaysNeedsS) {
+          if (part1lc.endsWith(suffix)) {
+            return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+          }
+        }
+        return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+      } else if (part1.endsWith("-")) { // abbreviations
+        return abbrevOk(part1) && spellingOk(part2);
+      } else if (part2.startsWith("-")) { // vowel collision
+        part2 = part2.substring(1);
+        return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
+      } else {
+        return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 

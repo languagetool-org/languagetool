@@ -71,11 +71,3 @@ public class DutchTaggerTest {
     TestTools.myAssert("deur-knop", "deur-knop/[deurknop]ZNW:EKV:DE_", tokenizer, tagger);
   }
 }
-
-
-
-
-
-
-
-
