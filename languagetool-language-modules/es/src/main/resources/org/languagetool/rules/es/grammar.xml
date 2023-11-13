@@ -26139,15 +26139,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="LES_LAS" name="les -> las" default="temp_off">
+        <rule id="HEMO_HEMOS" name="hemo -> hemos" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>hemo</token>
+                </marker>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Quería decir <suggestion>hemos</suggestion> (del verbo 'haber')?</message>
+            <example correction="Hemos"><marker>Hemo</marker> visto algunas mejoras.</example>
+        </rule>
+        <rule id="LES_LAS" name="les -> las">
             <pattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
                 <marker>
-                    <token>les</token>
+                    <token>les<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>¿Quería decir <suggestion>las</suggestion>?</message>
             <example correction="las">Añade esto a <marker>les</marker> compras.</example>
+            <example>Una pastilla idéntica a la de Les Paul.</example>
+            <example>Palau de les Arts.</example>
         </rule>
         <rule id="E_L" name="E l -> El">
             <pattern case_sensitive="yes">
