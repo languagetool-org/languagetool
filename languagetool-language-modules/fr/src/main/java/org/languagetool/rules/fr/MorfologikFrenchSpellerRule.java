@@ -207,11 +207,11 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
      */
     String[] parts = StringTools.splitCamelCase(word);
     if (parts.length > 1) {
-      boolean isTagged = true;
+      boolean isNotMisspelled = true;
       for(String part: parts) {
-        isTagged &= FrenchTagger.INSTANCE.tag(Arrays.asList(part)).get(0).isTagged();
+        isNotMisspelled &= !speller1.isMisspelled(part);
       }
-      if (isTagged) {
+      if (isNotMisspelled) {
         return Collections.singletonList(String.join(" ",parts));
       }
     }

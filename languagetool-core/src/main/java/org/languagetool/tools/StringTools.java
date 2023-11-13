@@ -806,11 +806,17 @@ public final class StringTools {
     }
     StringBuilder word = new StringBuilder();
     StringBuilder result = new StringBuilder();
+    boolean previousIsUppercase = false;
     for (int i = 0; i < input.length(); i++) {
       char currentChar = input.charAt(i);
       if (Character.isUpperCase(currentChar)) {
-        result.append(word).append(" ");
-        word.setLength(0);
+        if (!previousIsUppercase) {
+          result.append(word).append(" ");
+          word.setLength(0);
+        }
+        previousIsUppercase = true;
+      } else {
+        previousIsUppercase = false;
       }
       word.append(currentChar);
     }

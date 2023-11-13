@@ -117,11 +117,11 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
     String[] parts = StringTools.splitCamelCase(word);
     if (parts.length > 1) {
-      boolean isTagged = true;
+      boolean isNotMisspelled = true;
       for(String part: parts) {
-        isTagged &= tagger.tag(Arrays.asList(part)).get(0).isTagged();
+        isNotMisspelled &= !speller1.isMisspelled(part);
       }
-      if (isTagged) {
+      if (isNotMisspelled) {
         return Collections.singletonList(String.join(" ",parts));
       }
     }
