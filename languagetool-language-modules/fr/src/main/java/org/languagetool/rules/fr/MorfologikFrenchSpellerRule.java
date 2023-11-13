@@ -206,7 +206,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     String[] parts = StringTools.splitCamelCase(word);
-    if (parts.length > 1) {
+    if (parts.length > 1 && parts[0].length() > 1) {
       boolean isNotMisspelled = true;
       for(String part: parts) {
         isNotMisspelled &= !speller1.isMisspelled(part);

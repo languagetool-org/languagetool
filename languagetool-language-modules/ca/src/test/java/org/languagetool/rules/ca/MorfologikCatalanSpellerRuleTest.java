@@ -50,6 +50,10 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autoprenia.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autocanta.")).length);
 
+    //apostrophes
+    matches = rule.match(lt.getAnalyzedSentence("lAjuntament"));
+    assertEquals("l'Ajuntament", matches[0].getSuggestedReplacements().get(0));
+
     // word not well-formed with prefix
     assertEquals(1, rule.match(lt.getAnalyzedSentence("S'autopren.")).length);
 
