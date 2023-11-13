@@ -26139,6 +26139,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="CONFUSION_I_EXCLAMACION" name="confusión i -> ¡" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="UNKNOWN" regexp="yes" skip="-1">i\p{Lu}.+</token>
+                </marker>
+                <token>!</token>
+            </pattern>
+            <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+            <message>¿Quería usar un signo de exclamación?</message>
+            <suggestion><match no="1" regexp_match="^i" regexp_replace="¡"/></suggestion>
+            <example correction="¡Hemos"><marker>iHemos</marker> llegado!</example>
+        </rule>
         <rule id="HEMO_HEMOS" name="hemo -> hemos" default="temp_off">
             <pattern>
                 <marker>
