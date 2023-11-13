@@ -3711,6 +3711,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Strebergärten": return topMatch("Schrebergärten");
       case "gunsten": return topMatch("Gunsten");
       case "ungunsten": return topMatch("Ungunsten");
+      case "Situp": return topMatch("Sit-up");
+      case "Situps": return topMatch("Sit-ups");
+      case "Nov": return topMatch("Nov.");
     }
     return Collections.emptyList();
   }
