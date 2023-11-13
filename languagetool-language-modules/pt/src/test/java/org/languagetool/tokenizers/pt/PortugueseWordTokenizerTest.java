@@ -70,6 +70,8 @@ public class PortugueseWordTokenizerTest {
   @Test
   public void testTokeniseHyphenatedSplit() {
     testTokenise("Paris-São Paulo", new String[]{"Paris", "-", "São", " ", "Paulo"});
+    // this word exists in the speller but not the tagger dict; this may become a problem
+    testTokenise("Sem-Peixe", new String[]{"Sem", "-", "Peixe"});
   }
 
   @Test

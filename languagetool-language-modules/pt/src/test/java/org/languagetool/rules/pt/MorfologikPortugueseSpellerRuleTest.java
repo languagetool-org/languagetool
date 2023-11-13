@@ -122,21 +122,38 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("oogaboogatestwordPT90", ltPT, rulePT);
   }
 
+  public void testPortugueseSpelling(JLanguageTool lt, MorfologikPortugueseSpellerRule rule) throws Exception {
+    // inherited from Hunspell tests
+    assertNoErrors("A família.", lt, rule);
+    assertSingleError("A familia.", lt, rule, new String[]{"família", "famílias", "familiar"});
+
+    assertNoErrors("Covid-19, COVID-19, covid-19.", lt, rule);
+
+    assertSingleError("eu so", lt, rule, new String[]{"sou", "só"});
+    assertSingleError("é so", lt, rule, new String[]{"só"});
+
+    assertSingleErrorAndPos("Sr. Kato nos ensina inglês", lt, rule, new String[]{"Fato"}, 4, 8);
+    assertSingleErrorAndPos("- Encontre no autoconheciemen", lt, rule,
+      new String[]{"autoconhecimento"}, 14, 29);
+    assertSingleError("eu ja fiz isso.", lt, rule, new String[]{"já"});
+  }
+
   @Test
-  public void testBrazilPortugueseSpelling() throws Exception {
+  public void testEuropeanPortugueseSpelling() throws Exception {
+    testPortugueseSpelling(ltPT, rulePT);
+  }
+
+  @Test
+  public void testAfricanPortugueseSpelling() throws Exception {
+    testPortugueseSpelling(ltMZ, ruleMZ);
+  }
+
+  @Test
+  public void testBrazilianPortugueseSpelling() throws Exception {
+    testPortugueseSpelling(ltBR, ruleBR);
     assertSingleError("ShintaroW.", ltBR, ruleBR, new String[]{});
     assertSingleError("SHINTAROW.", ltBR, ruleBR, new String[]{});
     assertSingleError("Shintaro Wada", ltBR, ruleBR, new String[]{"Shuntar"});
-
-    assertNoErrors("A família.", ltBR, ruleBR);
-    assertSingleError("A familia.", ltBR, ruleBR, new String[]{"família", "Família", "famílias", "familiar"});
-
-    assertNoErrors("Covid-19, COVID-19, covid-19.", ltBR, ruleBR);
-
-    assertSingleError("eu so", ltBR, ruleBR, new String[]{"só"});
-    assertSingleError("é so", ltBR, ruleBR, new String[]{"só"});
-
-    assertSingleErrorAndPos("Sr. Kato nos ensina inglês", ltBR, ruleBR, new String[]{"Fato"}, 4, 8);
   }
 
   @Test
@@ -146,6 +163,17 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("dir-lhe-ia", ltBR, ruleBR);
     assertNoErrors("amar-nos-emos", ltBR, ruleBR);
     assertNoErrors("dê-mo", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseHyphenationRules() throws Exception {
+    assertNoErrors("Bolsa-Família", ltBR, ruleBR);
+    assertNoErrors("ab-rogava", ltBR, ruleBR);
+    // not symmetrical because 'anti' and 'republicanismo' are both valid words, we need the compound rule active
+    // to catch this!
+    assertNoErrors("antirrepublicanismo", ltPT, rulePT);
+    // good suggestions will need to come from the compounds rule
+    assertSingleError("antirrepublicanismo", ltMZ, ruleMZ, new String[]{"anti-republicanismo"});
   }
 
   // FUCK YEAH WAHOO
@@ -163,6 +191,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertTwoWayDialectError("hiperêmese", "hiperémese");
     // orthographic reforms
     assertTwoWayOrthographicAgreementError("detetar", "detectar");
+    assertTwoWayOrthographicAgreementError("abjeção", "abjecção");
     // not working yet
     assertTwoWayDialectError("detectar", "detetar");
     // will not work due to tokenisation quirk, bebê-lo, must be fixed
@@ -268,17 +297,6 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("″Santo Antônio do Manga″", ltBR, ruleBR);
   }
 
-  // TODO: get rid of this test, of course
-  @Test
-  public void testBrazilPortugueseSpellingMorfologikWeirdness() throws Exception {
-    // 'ja' not corrected to 'já' – the issue here is with the .aff to "ja-la", which... I think should be "já-la"?
-    // either way, when we tokenise it, it splits that into "ja" and "la"...
-    assertSingleError("eu ja fiz isso.", ltBR, ruleBR, new String[]{"já"});
-    // corrected to bizarre 'autoconheci emen'
-    assertSingleErrorAndPos("- Encontre no autoconheciemen", ltBR, ruleBR,
-      new String[]{"autoconhecimento"}, 14, 29);
-  }
-
   @Test
   public void testCustomReplacements() throws Exception {
     // Testing the info file.
@@ -292,35 +310,5 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("cabesse", ltBR, ruleBR, new String[]{"coubesse"});
     assertSingleError("andância", ltBR, ruleBR, new String[]{"andança"});
     assertSingleError("abto", ltBR, ruleBR, new String[]{"hábito"});
-  }
-
-  @Test
-  public void testEuropeanPortugueseSpelling() throws Exception {
-    assertEquals(0, rulePT.match(ltPT.getAnalyzedSentence("A família.")).length);
-    RuleMatch[] matches = rulePT.match(ltPT.getAnalyzedSentence("A familia."));
-    assertEquals(1, matches.length);
-    assertEquals("família", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("famílias", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("familiar", matches[0].getSuggestedReplacements().get(2));
-
-    assertEquals(0, rulePT.match(ltPT.getAnalyzedSentence("Covid-19, COVID-19, covid-19.")).length);
-
-    matches = rulePT.match(ltPT.getAnalyzedSentence("eu ja fiz isso."));
-    assertEquals(1, matches.length);
-    assertEquals("já", matches[0].getSuggestedReplacements().get(0));
-
-    matches = rulePT.match(ltPT.getAnalyzedSentence("eu so"));
-    assertEquals(1, matches.length);
-    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
-
-    matches = rulePT.match(ltPT.getAnalyzedSentence("é so"));
-    assertEquals(1, matches.length);
-    assertEquals("só", matches[0].getSuggestedReplacements().get(0));
-
-    matches = rulePT.match(ltPT.getAnalyzedSentence("- Encontre no autoconheciemen"));
-    assertEquals(1, matches.length);
-    assertEquals("autoconhecimento", matches[0].getSuggestedReplacements().get(0));
-    assertEquals(14, matches[0].getFromPos());
-    assertEquals(29, matches[0].getToPos());
   }
 }

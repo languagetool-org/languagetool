@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,45 +35,39 @@ import static org.junit.Assert.assertThat;
 public class PostReformCompoundRuleTest {
   JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-BR"));
   @Test
-  public void test() throws IOException {
+  public void testPostReformCompounds() throws IOException {
     TestTools.disableAllRulesExcept(lt, "PT_COMPOUNDS_POST_REFORM");
-    // in the compounds TXT as "super-herói*"
-    assertThat(checkCompound("super-herói").size(), is(0));
-    assertThat(checkCompound("super herói").size(), is(1));
-    assertThat(checkCompound("super herói").get(0).getSpecificRuleId(),
-      is("PT_COMPOUNDS_POST_REFORM_SUPER_HERÓI"));
-    assertThat(checkCompound("super herói").get(0).getRule().getDescription(),
-      is("Erro na formação da palavra composta \"super herói\""));
-    assertThat(checkCompound("super herói").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("super herói").get(0).getSuggestedReplacements().get(0), is("super-herói"));
-    // in the compounds TXT as "super-estrela?"
-    assertThat(checkCompound("Super estrela").size(), is(1));
-    assertThat(checkCompound("Super estrela").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("Super estrela").get(0).getSuggestedReplacements().get(0), is("Superestrela"));
-    // in the compounds TXT as "web-site+"
-    assertThat(checkCompound("web-site").size(), is(1));
-    assertThat(checkCompound("web-site").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("web-site").get(0).getSuggestedReplacements().get(0), is("website"));
-    // in the compounds TXT as "Grã-Bretanha*"
-    assertThat(checkCompound("Grã Bretanha").size(), is(1));
-    assertThat(checkCompound("Grã Bretanha").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("Grã Bretanha").get(0).getSuggestedReplacements().get(0), is("Grã-Bretanha"));
-    // in the compounds TXT as "ultra-som?"
-    assertThat(checkCompound("ultra-som").size(), is(1));
-    assertThat(checkCompound("ultra-som").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("ultra-som").get(0).getSuggestedReplacements().get(0), is("ultrassom"));
-    // in the compounds TXT as "ultra-realismo?"
-    assertThat(checkCompound("ultra-realismo").size(), is(1));
-    assertThat(checkCompound("ultra-realismo").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("ultra-realismo").get(0).getSuggestedReplacements().get(0), is("ultrarrealismo"));
-    // in the compounds TXT as "anti-semita?"
-    assertThat(checkCompound("anti semita").size(), is(1));
-    assertThat(checkCompound("anti semita").get(0).getSuggestedReplacements().size(), is(1));
-    assertThat(checkCompound("anti semita").get(0).getSuggestedReplacements().get(0), is("antissemita"));
+    assertValidCompound("super-herói");
+    assert checkCompound("super herói").size() == 1;
+    assert Objects.equals(checkCompound("super herói").get(0).getSpecificRuleId(),
+      "PT_COMPOUNDS_POST_REFORM_SUPER_HERÓI");
+    assert Objects.equals(checkCompound("super herói").get(0).getRule().getDescription(),
+      "Erro na formação da palavra composta \"super herói\"");
+
+    assertInvalidCompound("Super estrela", "Superestrela");
+    assertInvalidCompound("web-site", "website");
+    assertInvalidCompound("Grã Bretanha", "Grã-Bretanha");
+    assertInvalidCompound("ultra-som", "ultrassom");
+    assertInvalidCompound("ultra-realismo", "ultrarrealismo");
+    assertInvalidCompound("anti semita", "antissemita");
+    assertInvalidCompound("arqui-rabino", "arquirrabino");
+    assertInvalidCompound("ópera rock", "ópera-rock");
   }
 
   private List<RuleMatch> checkCompound(String text) throws IOException {
     return lt.check(new AnnotatedTextBuilder().addText(text).build(), true,
       JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY);
+  }
+
+  private void assertValidCompound(String text) throws IOException {
+    assert checkCompound(text).isEmpty();
+  }
+
+  private void assertInvalidCompound(String text, String suggestion) throws IOException {
+    List<RuleMatch> checkedCompound = checkCompound(text);
+    assert checkedCompound.size() == 1;
+    List<String> suggestions = checkedCompound.get(0).getSuggestedReplacements();
+    assert suggestions.size() == 1;
+    assert Objects.equals(suggestions.get(0), suggestion);
   }
 }
