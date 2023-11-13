@@ -140,6 +140,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final int maxPatterns = 9;
   private static final Pattern[] wordPatterns = new Pattern[maxPatterns];
   private static final String[] blogLinks = new String[maxPatterns];
+  private static final Pattern CONTAINS_TOKEN = Pattern.compile(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)");
   static  {
     wordPatterns[0] = Pattern.compile(".*[yi][zs]e([sd])?|.*[yi][zs]ings?|.*i[zs]ations?", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     blogLinks[0] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
@@ -337,9 +338,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> result = super.filterSuggestions(suggestions);
     List<SuggestedReplacement> clean = new ArrayList<>();
     for (SuggestedReplacement suggestion : result) {
-      if (!suggestion.getReplacement().matches(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
+      if (!CONTAINS_TOKEN.matcher(suggestion.getReplacement()).matches())   // e.g. 'timezones' suggests 'timezone s'
         clean.add(suggestion);
-      }
     }
     return clean;
   }
