@@ -52,6 +52,7 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.text.XFlatParagraph;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -304,6 +305,7 @@ public class SingleDocument {
         startTime = System.currentTimeMillis();
       }
       int paraNum;
+//      MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraText);
       if (hasSortedTextId) {
         if (isIntern) {
           paraNum = nPara;
@@ -384,6 +386,10 @@ public class SingleDocument {
             MessageHandler.printToLogFile("Single document: Time to addSynonyms: " + runTime);
           }
         }
+      }
+      if (textIsChanged && numParasToCheck != 0 && config.useTextLevelQueue() && !isDialogRequest
+          && mDocHandler.getTextLevelCheckQueue() != null && !mDocHandler.isTestMode()) {
+        mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
@@ -809,20 +815,29 @@ public class SingleDocument {
    */
   public QueueEntry getQueueEntryForChangedParagraph() {
     if (!disposed && docCache != null && flatPara != null && !changedParas.isEmpty()) {
+      try {  // Wait a little to get all changes on paragraph
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
       Set<Integer> nParas = new HashSet<Integer>(changedParas.keySet());
       for (int nPara : nParas) {
         OfficeTools.waitForLO();
-        String sPara = flatPara.getFlatParagraphAt(nPara).getText();
-        if (sPara != null) {
-          String sChangedPara = changedParas.get(nPara);
-          changedParas.remove(nPara);
-          if (sChangedPara != null && !sChangedPara.equals(sPara)) {
-            docCache.setFlatParagraph(nPara, sPara);
-//            if (!disposed) {
-//              mDocHandler.handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nPara));
-//            }
-            removeResultCache(nPara, false);
-            return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
+        XFlatParagraph xFlatParagraph = flatPara.getFlatParagraphAt(nPara);
+        if (xFlatParagraph != null) {
+          String sPara = xFlatParagraph.getText();
+          if (sPara != null) {
+            String sChangedPara = changedParas.get(nPara);
+            changedParas.remove(nPara);
+            if (sChangedPara != null && !sChangedPara.equals(sPara)) {
+              docCache.setFlatParagraph(nPara, sPara);
+              removeResultCache(nPara, false);
+              if (!changedParas.isEmpty()) {
+                addQueueEntry(nPara, 0, 0, docID, false);
+              } else {
+                return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
+              }
+            }
           }
         }
       }
