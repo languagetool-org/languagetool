@@ -25,6 +25,9 @@ import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
 import java.util.*;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
 
 /**
  * Dutch tagger.
@@ -32,6 +35,34 @@ import java.util.*;
  * @author Marcin Milkowski
  */
 public class DutchTagger extends BaseTagger {
+
+  private static final Pattern PATTERN1_A = compile("([^aeiouáéíóú])(á)([^aeiouáéíóú])");
+  private static final Pattern PATTERN1_E = compile("([^aeiouáéíóú])(é)([^aeiouáéíóú])");
+  private static final Pattern PATTERN1_I = compile("([^aeiouáéíóú])(í)([^aeiouáéíóú])");
+  private static final Pattern PATTERN1_O = compile("([^aeiouáéíóú])(ó)([^aeiouáéíóú])");
+  private static final Pattern PATTERN1_U = compile("([^aeiouáéíóú])(ú)([^aeiouáéíóú])");
+  private static final Pattern CHAR_PATTERN_AA = compile("áá");
+  private static final Pattern CHAR_PATTERN_AE = compile("áé");
+  private static final Pattern CHAR_PATTERN_AI = compile("áí");
+  private static final Pattern CHAR_PATTERN_AU = compile("áú");
+  private static final Pattern CHAR_PATTERN_EE = compile("éé");
+  private static final Pattern CHAR_PATTERN_EI = compile("éí");
+  private static final Pattern CHAR_PATTERN_EU = compile("éú");
+  private static final Pattern CHAR_PATTERN_IE = compile("íé");
+  private static final Pattern CHAR_PATTERN_OE = compile("óé");
+  private static final Pattern CHAR_PATTERN_OI = compile("óí");
+  private static final Pattern CHAR_PATTERN_OO = compile("óó");
+  private static final Pattern CHAR_PATTERN_OU = compile("óú");
+  private static final Pattern CHAR_PATTERN_UI = compile("úí");
+  private static final Pattern CHAR_PATTERN_UU = compile("úú");
+  private static final Pattern CHAR_PATTERN_IJ = compile("íj");
+  private static final Pattern PATTERN2_A = compile("(^|[^aeiou])á([^aeiou]|$)");
+  private static final Pattern PATTERN2_E = compile("(^|[^aeiou])é([^aeiou]|$)");
+  private static final Pattern PATTERN2_I = compile("(^|[^aeiou])í([^aeiou]|$)");
+  private static final Pattern PATTERN2_O = compile("(^|[^aeiou])ó([^aeiou]|$)");
+  private static final Pattern PATTERN2_U = compile("(^|[^aeiou])ú([^aeiou]|$)");
+  private static final Pattern HYPHEN1_PATTERN = compile("(^.*)-(.*$)");
+  private static final Pattern HYPHEN2_PATTERN = compile("([a-z])-([a-z])");
 
   public DutchTagger() {
     super("/nl/dutch.dict", new Locale("nl"));
@@ -80,45 +111,45 @@ public class DutchTagger extends BaseTagger {
         //String word2 = lowerWord;
         String word2 = word; // why the lowerword?
         // remove single accented characters
-        word2 = word2.replaceAll("([^aeiouáéíóú])(á)([^aeiouáéíóú])", "$1a$3");
-        word2 = word2.replaceAll("([^aeiouáéíóú])(é)([^aeiouáéíóú])", "$1e$3");
-        word2 = word2.replaceAll("([^aeiouáéíóú])(í)([^aeiouáéíóú])", "$1i$3");
-        word2 = word2.replaceAll("([^aeiouáéíóú])(ó)([^aeiouáéíóú])", "$1o$3");
-        word2 = word2.replaceAll("([^aeiouáéíóú])(ú)([^aeiouáéíóú])", "$1u$3");
+        word2 = PATTERN1_A.matcher(word2).replaceAll("$1a$3");
+        word2 = PATTERN1_E.matcher(word2).replaceAll("$1e$3");
+        word2 = PATTERN1_I.matcher(word2).replaceAll("$1i$3");
+        word2 = PATTERN1_O.matcher(word2).replaceAll("$1o$3");
+        word2 = PATTERN1_U.matcher(word2).replaceAll("$1u$3");
 
         // remove allowed accented characters
-        word2 = word2.replace("áá", "aa");
-        word2 = word2.replace("áé", "ae");
-        word2 = word2.replace("áí", "ai");
-        word2 = word2.replace("áú", "au");
-        word2 = word2.replace("éé", "ee");
-        word2 = word2.replace("éí", "ei");
-        word2 = word2.replace("éú", "eu");
-        word2 = word2.replace("íé", "ie");
-        word2 = word2.replace("óé", "oe");
-        word2 = word2.replace("óí", "oi");
-        word2 = word2.replace("óó", "oo");
-        word2 = word2.replace("óú", "ou");
-        word2 = word2.replace("úí", "ui");
-        word2 = word2.replace("úú", "uu");
-        word2 = word2.replace("íj", "ij");
+        word2 = CHAR_PATTERN_AA.matcher(word2).replaceAll("aa");
+        word2 = CHAR_PATTERN_AE.matcher(word2).replaceAll("ae");
+        word2 = CHAR_PATTERN_AI.matcher(word2).replaceAll("ai");
+        word2 = CHAR_PATTERN_AU.matcher(word2).replaceAll("au");
+        word2 = CHAR_PATTERN_EE.matcher(word2).replaceAll("ee");
+        word2 = CHAR_PATTERN_EI.matcher(word2).replaceAll("ei");
+        word2 = CHAR_PATTERN_EU.matcher(word2).replaceAll("eu");
+        word2 = CHAR_PATTERN_IE.matcher(word2).replaceAll("ie");
+        word2 = CHAR_PATTERN_OE.matcher(word2).replaceAll("oe");
+        word2 = CHAR_PATTERN_OI.matcher(word2).replaceAll("oi");
+        word2 = CHAR_PATTERN_OO.matcher(word2).replaceAll("oo");
+        word2 = CHAR_PATTERN_OU.matcher(word2).replaceAll("ou");
+        word2 = CHAR_PATTERN_UI.matcher(word2).replaceAll("ui");
+        word2 = CHAR_PATTERN_UU.matcher(word2).replaceAll("uu");
+        word2 = CHAR_PATTERN_IJ.matcher(word2).replaceAll("ij");
 
-        word2 = word2.replaceAll("(^|[^aeiou])á([^aeiou]|$)", "$1a$2");
-        word2 = word2.replaceAll("(^|[^aeiou])é([^aeiou]|$)", "$1e$2");
-        word2 = word2.replaceAll("(^|[^aeiou])í([^aeiou]|$)", "$1i$2");
-        word2 = word2.replaceAll("(^|[^aeiou])ó([^aeiou]|$)", "$1o$2");
-        word2 = word2.replaceAll("(^|[^aeiou])ú([^aeiou]|$)", "$1u$2");
+        word2 = PATTERN2_A.matcher(word2).replaceAll("$1a$2");
+        word2 = PATTERN2_E.matcher(word2).replaceAll("$1e$2");
+        word2 = PATTERN2_I.matcher(word2).replaceAll("$1i$2");
+        word2 = PATTERN2_O.matcher(word2).replaceAll("$1o$2");
+        word2 = PATTERN2_U.matcher(word2).replaceAll("$1u$2");
 
         // best would be to check the parts as well (uncompound)
         if (word2.contains("-")) {
           //String part1 = word2.replaceAll("(^.*)-(.*$)", "$1");
           //List<AnalyzedToken> p1 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(part1));
-          String part2 = word2.replaceAll("(^.*)-(.*$)", "$2");
+          String part2 = HYPHEN1_PATTERN.matcher(word2).replaceAll("$2");
           List<AnalyzedToken> p2 = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(part2));
           //if (!(p1.isEmpty()||p2.isEmpty())) {
           if (!p2.isEmpty()) {
             // word is split on a likely location
-            word2 = word2.replaceAll("([a-z])-([a-z])", "$1$2");
+            word2 = HYPHEN2_PATTERN.matcher(word2).replaceAll("$1$2");
           }
         }
 
