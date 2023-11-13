@@ -28,6 +28,9 @@ import java.util.StringTokenizer;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
+import static java.util.regex.Pattern.*;
+import static java.util.regex.Pattern.compile;
+
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
  *
@@ -55,39 +58,41 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   private static final char NON_BREAKING_SPACE_SUBST = '\uE002';
   private static final char NON_BREAKING_DOT_SUBST = '\uE003'; // some unused character to hide dot in date temporary for tokenizer run
   private static final char NON_BREAKING_COLON_SUBST = '\uE004';
-  private static final String HYPHEN_SUBST = "\u0001\u0001PT_HYPHEN\u0001\u0001";
-  
+  private static final Pattern CURLY_QUOTE = compile("’");
+  private static final Pattern HYPHEN_SUBST = compile("\u0001\u0001PT_HYPHEN\u0001\u0001");
+
   // decimal comma between digits
-  private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern DECIMAL_COMMA_PATTERN = compile("([\\d]),([\\d])", CASE_INSENSITIVE| UNICODE_CASE);
   private static final String DECIMAL_COMMA_REPL = "$1" + DECIMAL_COMMA_SUBST + "$2";
 
   // space between digits
-  private static final Pattern DECIMAL_SPACE_PATTERN = Pattern.compile("(?<=^|[\\s(])\\d{1,3}( [\\d]{3})+(?=[\\s(]|$)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern DECIMAL_SPACE_PATTERN = compile("(?<=^|[\\s(])\\d{1,3}( [\\d]{3})+(?=[\\s(]|$)", CASE_INSENSITIVE| UNICODE_CASE);
 
 
   // dots in numbers
-  private static final Pattern DOTTED_NUMBERS_PATTERN = Pattern.compile("([\\d])\\.([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern DOTTED_NUMBERS_PATTERN = compile("([\\d])\\.([\\d])", CASE_INSENSITIVE| UNICODE_CASE);
   private static final String DOTTED_NUMBERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
   
   // colon in numbers
-  private static final Pattern COLON_NUMBERS_PATTERN = Pattern.compile("([\\d]):([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern COLON_NUMBERS_PATTERN = compile("([\\d]):([\\d])", CASE_INSENSITIVE| UNICODE_CASE);
   private static final String COLON_NUMBERS_REPL = "$1" + NON_BREAKING_COLON_SUBST + "$2";
 
   // dates
-  private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern DATE_PATTERN = compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})", CASE_INSENSITIVE| UNICODE_CASE);
   private static final String DATE_PATTERN_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + "$3";
   // END of Section copied from UkranianWordTokenizer.java for handling exceptions
 
   // dots in ordinals
-  private static final Pattern DOTTED_ORDINALS_PATTERN = Pattern.compile("([\\d])\\.([aoªº][sˢ]?)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern DOTTED_ORDINALS_PATTERN = compile("([\\d])\\.([aoªº][sˢ]?)", CASE_INSENSITIVE| UNICODE_CASE);
   private static final String DOTTED_ORDINALS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
   
   // hyphens inside words
-  private static final Pattern HYPHEN_PATTERN = Pattern.compile("([\\p{L}])-([\\p{L}\\d])", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern HYPHEN_PATTERN = compile("([\\p{L}])-([\\p{L}\\d])", CASE_INSENSITIVE | UNICODE_CASE);
   private static final String HYPHEN_REPL = "$1" + HYPHEN_SUBST + "$2";
-  private static final Pattern NEARBY_HYPHENS_PATTERN = Pattern.compile("([\\p{L}])-([\\p{L}])-([\\p{L}])", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern NEARBY_HYPHENS_PATTERN = compile("([\\p{L}])-([\\p{L}])-([\\p{L}])", CASE_INSENSITIVE | UNICODE_CASE);
   private static final String NEARBY_HYPHENS_REPL = "$1" + HYPHEN_SUBST + "$2" + HYPHEN_SUBST + "$3";
-  public PortugueseWordTokenizer() { 
+
+  public PortugueseWordTokenizer() {
     tagger = new PortugueseTagger();
   }
   
@@ -139,7 +144,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
       token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
       // outside of if as we also replace back sentence-ending abbreviations
       token = token.replace(NON_BREAKING_DOT_SUBST, '.');
-      token = token.replaceAll(HYPHEN_SUBST, "-");
+      token = HYPHEN_SUBST.matcher(token).replaceAll("-");
       tokenList.addAll( wordsToAdd(token));
     }
 
@@ -155,7 +160,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
+          if (tagger.tag(Arrays.asList(CURLY_QUOTE.matcher(s).replaceAll("'"))).get(0).isTagged()) {
             // In the current POS tag, most apostrophes are curly: to be fixed
             l.add(s);
           }

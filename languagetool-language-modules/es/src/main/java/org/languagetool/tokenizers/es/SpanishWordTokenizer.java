@@ -42,15 +42,18 @@ public class SpanishWordTokenizer extends WordTokenizer {
   private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // ordinals
   private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PATTERN_1 = Pattern.compile("\u0001\u0001ES_DECIMAL_POINT\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_2 = Pattern.compile("\u0001\u0001ES_DECIMAL_COMMA\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_3 = Pattern.compile("\u0001\u0001ES_ORDINAL_POINT\u0001\u0001", Pattern.LITERAL);
 
   private final String ES_TOKENIZING_CHARACTERS = getTokenizingCharacters() + "−";
   
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText=text;
+    String auxText = text;
 
-    Matcher matcher=DECIMAL_POINT.matcher(auxText);
+    Matcher matcher = DECIMAL_POINT.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ES_DECIMAL_POINT\u0001\u0001$2");
     matcher = DECIMAL_COMMA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ES_DECIMAL_COMMA\u0001\u0001$2");
@@ -59,14 +62,12 @@ public class SpanishWordTokenizer extends WordTokenizer {
 
     StringTokenizer st = new StringTokenizer(auxText, ES_TOKENIZING_CHARACTERS, true);
     String s;
-
     while (st.hasMoreElements()) {
-      s = st.nextToken()
-              .replace("\u0001\u0001ES_DECIMAL_POINT\u0001\u0001", ".")
-              .replace("\u0001\u0001ES_DECIMAL_COMMA\u0001\u0001", ",")
-              .replace("\u0001\u0001ES_ORDINAL_POINT\u0001\u0001", ".");
+      s = st.nextToken();
+      s = PATTERN_1.matcher(s).replaceAll(".");
+      s = PATTERN_2.matcher(s).replaceAll(",");
+      s = PATTERN_3.matcher(s).replaceAll(".");
       l.addAll(wordsToAdd(s));   
-      
     }
     return joinEMailsAndUrls(l);
   }
