@@ -145,7 +145,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
         posNewSugg++;
       }
       // move some split words to first place
-      if (parts.length == 2 && TOKEN_AT_START.contains(parts[0])) {
+      if (parts.length == 2 && TOKEN_AT_START.contains(parts[0]) && parts[1].length() > 1) {
         newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }

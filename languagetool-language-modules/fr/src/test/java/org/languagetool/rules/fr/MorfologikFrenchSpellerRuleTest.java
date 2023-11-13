@@ -229,6 +229,14 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("[◦ heures]", matches[0].getSuggestedReplacements().toString());
 
+    matches = rule.match(lt.getAnalyzedSentence("AAAAAAAAAAAH"));
+    assertEquals(1, matches.length);
+    assertEquals(0, matches[0].getSuggestedReplacements().size());
+
+    matches = rule.match(lt.getAnalyzedSentence("Den"));
+    assertEquals(1, matches.length);
+    assertEquals("De", matches[0].getSuggestedReplacements().get(0).toString());
+
   }
   
   private void assertSuggestion(MorfologikFrenchSpellerRule rule, JLanguageTool lt, String input, String... expected) throws IOException {
