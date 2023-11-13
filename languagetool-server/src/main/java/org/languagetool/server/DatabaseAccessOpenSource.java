@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * Encapsulate database access. Will do nothing if database access is not configured.
@@ -47,6 +48,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   private static final Logger logger = LoggerFactory.getLogger(DatabaseAccessOpenSource.class);
   private static final String NON_PREMIUM_MSG = "This server does not support username/password";
+  private static final Pattern WHITESPACE_PATTERN = Pattern.compile(".*\\s.*");
 
   private final Cache<String, Long> dbLoggingCache = CacheBuilder.newBuilder()
     .expireAfterAccess(1, TimeUnit.HOURS)
@@ -315,7 +317,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
     if (word == null || word.trim().isEmpty()) {
       throw new BadRequestException("Invalid word, cannot be empty or whitespace only");
     }
-    if (word.matches(".*\\s.*")) {
+    if (WHITESPACE_PATTERN.matcher(word).matches()) {
       throw new BadRequestException("Invalid word, you can only add words that don't contain spaces: '" + word + "'");
     }
   }

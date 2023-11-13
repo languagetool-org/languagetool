@@ -43,7 +43,10 @@ public class CommonWordsDetector {
   private final static Pattern notSpanishPattern = Pattern.compile("^[lmndts]['’].*$|^.*(ns|[áéó].i[oa]s?)$|^.*(ss|[çàèòïâêôãõìù]|l·l).*$");
   private final static Pattern notCatalanPattern = Pattern.compile("^.*([áéó].i[oa]s?|d[oa]s)$|^.*[áâêôãõìùñ].*$");
   private final static Pattern portuguesePattern = Pattern.compile("^.*([áó]ri[oa]|ério)s?$"); // éria can be French
-  
+  private static final Pattern PUNCT_PATTERN = Pattern.compile("[(),.:;!?„“\"¡¿\\s\\[\\]{}-«»”]");
+  private static final Pattern CHARS_PATTERN = Pattern.compile("\\p{L}+$");
+  private static final Pattern SPACE_OR_HYPHEN_PATTERN = Pattern.compile("[ -]");
+
   public CommonWordsDetector() throws IOException {
     synchronized (word2langs) {
       if (word2langs.isEmpty()) {
@@ -103,14 +106,14 @@ public class CommonWordsDetector {
 
   public Map<Language, Integer> getKnownWordsPerLanguage(String text) {
     Map<Language,Integer> result = new HashMap<>();
-    String auxText = text.replaceAll("[(),.:;!?„“\"¡¿\\s\\[\\]{}-«»”]", " ");
+    String auxText = PUNCT_PATTERN.matcher(text).replaceAll(" ");
     if (!auxText.endsWith(" ") && StringUtils.countMatches(auxText, " ") > 0) {
       // last word might not be finished yet, so ignore
-      auxText = auxText.replaceFirst("\\p{L}+$", "");
+      auxText = CHARS_PATTERN.matcher(auxText).replaceFirst("");
     }
     // Proper per-language tokenizing might help, but then the common_words.txt
     // will also need to be tokenized the same way. Also, this is quite fast.
-    String[] words = auxText.split("[ -]");
+    String[] words = SPACE_OR_HYPHEN_PATTERN.split(auxText);
     for (String word : words) {
       if (numberPattern.matcher(word).matches()) {
         continue;

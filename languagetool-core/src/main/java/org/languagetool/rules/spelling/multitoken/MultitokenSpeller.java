@@ -32,8 +32,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.*;
 
 public class MultitokenSpeller {
+
+  private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
+  private static final Pattern DASH_SPACE = compile("- ");
+  private static final Pattern SPACE_DASH = compile(" -");
 
   private final int MAX_LENGTH_DIFF = 3;
   private HashMap<String, String> oneSpace;
@@ -55,9 +62,9 @@ public class MultitokenSpeller {
   }
 
   public List<String> getSuggestions(String originalWord) throws IOException {
-    originalWord = originalWord.replaceAll("\\p{Zs}+", " ");
-    String word = originalWord.replaceAll("- ", "-");
-    word = word.replaceAll(" -", "-");
+    originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
+    String word = DASH_SPACE.matcher(originalWord).replaceAll("-");
+    word = SPACE_DASH.matcher(word).replaceAll("-");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
     }
