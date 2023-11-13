@@ -54,9 +54,11 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("schaf", "Tier", "schaft", "'-schaft' (Element zur Wortbildung, z. B. 'Freundschaft')"),
+          new Pair("schafen", "Dativ Plural von 'Schaf'", "schaften", "'-schaften' (Element zur Wortbildung, z. B. 'Freundschaften')"),
           new Pair("leser", "eine Person, die liest", "leder", "aus Tierhaut gewonnenes Material"),
           new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
-          new Pair("pillen", "Tabletten", "pullen", "Plural für 'Pulle' (Flasche)"),
+          new Pair("pillen", "Tabletten", "pullen", "Plural von 'Pulle' (Flasche)"),
           new Pair("tauben", "Vogelart", "trauben", "Obstsorte"),
           new Pair("panel", "ausgewählte Personengruppe", "paneel", "Platte für Wand- und Deckenverkleidungen"),
           new Pair("nabe", "Mittelteil eines Rades", "narbe", "verheilende Wunde"),
