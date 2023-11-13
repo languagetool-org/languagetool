@@ -40,8 +40,14 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
+
 public class Catalan extends Language {
-  
+
+  private static final Pattern PATTERN_1 = compile("(\\b[lmnstdLMNSTD])'");
+  private static final Pattern PATTERN_2 = compile("(\\b[lmnstdLMNSTD])’\"");
+  private static final Pattern PATTERN_3 = compile("(\\b[lmnstdLMNSTD])’'");
+
   @Override
   public String getName() {
     return "Catalan";
@@ -167,9 +173,9 @@ public class Catalan extends Language {
     String output = super.toAdvancedTypography(input);
     
     // special cases: apostrophe + quotation marks
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])'", "$1’");
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])’\"", "$1’" + getOpeningDoubleQuote());
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])’'", "$1’" + getOpeningSingleQuote());
+    output = PATTERN_1.matcher(output).replaceAll("$1’");
+    output = PATTERN_2.matcher(output).replaceAll("$1’" + getOpeningDoubleQuote());
+    output = PATTERN_3.matcher(output).replaceAll("$1’" + getOpeningSingleQuote());
     
     return output;
   }
@@ -321,7 +327,7 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
@@ -367,7 +373,8 @@ public class Catalan extends Language {
   }
   
   private String removeOldDiacritics(String s) {
-    return s.replace("dóna", "dona")
+    return s
+        .replace("dóna", "dona")
         .replace("dónes", "dones")
         .replace("sóc", "soc")
         .replace("vénen", "venen")
@@ -381,22 +388,22 @@ public class Catalan extends Language {
         .replace("Fóra", "Fora");
   }
   
-  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES1 = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ");
   // exceptions: l'FBI, l'statu quo
-  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
   // exceptions: el iogurt, la essa
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
+  private static final Pattern CA_APOSTROPHES3 = compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
+  private static final Pattern CA_APOSTROPHES4 = compile("\\b(l)a ([aeoàúèéí][^ ])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES5 = Pattern.compile("\\b([mts]e) (['’])",
+  private static final Pattern CA_APOSTROPHES5 = compile("\\b([mts]e) (['’])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES6 = Pattern.compile("\\bs'e(ns|ls)\\b",
+  private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern POSSESSIUS_v = Pattern.compile("\\b([mtsMTS]e)v(a|es)\\b",
+  private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
       Pattern.UNICODE_CASE);
-  private static final Pattern POSSESSIUS_V = Pattern.compile("\\b([MTS]E)V(A|ES)\\b",
+  private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
       Pattern.UNICODE_CASE);
 
   @Override
@@ -424,12 +431,12 @@ public class Catalan extends Language {
     return s;
   }
 
-  private List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
-  "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz");
+  private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
+    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz");
 
   @Override
   public String prepareLineForSpeller(String line) {
-    String parts[] = line.split("#");
+    String[] parts = line.split("#");
     if (parts.length == 0) {
       return line;
     }

@@ -39,8 +39,33 @@ import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
 
 public class French extends Language implements AutoCloseable {
+
+  private static final String BEFORE_APOS = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
+  private static final Pattern BEFORE_APOS_PATTERN_1 = compile("(\\b" + BEFORE_APOS + ")'");
+  private static final Pattern BEFORE_APOS_PATTERN_2 = compile("(\\b" + BEFORE_APOS + ")’\"");
+  private static final Pattern BEFORE_APOS_PATTERN_3 = compile("(\\b" + BEFORE_APOS + ")’'");
+
+  private static final Pattern TYPOGRAPHY_PATTERN_1 = compile("\u00a0;");
+  private static final Pattern TYPOGRAPHY_PATTERN_2 = compile("\u00a0!");
+  private static final Pattern TYPOGRAPHY_PATTERN_3 = compile("\u00a0\\?");
+  private static final Pattern TYPOGRAPHY_PATTERN_4 = compile(";");
+  private static final Pattern TYPOGRAPHY_PATTERN_5 = compile("!");
+  private static final Pattern TYPOGRAPHY_PATTERN_6 = compile("\\?");
+  private static final Pattern TYPOGRAPHY_PATTERN_7 = compile(":");
+  private static final Pattern TYPOGRAPHY_PATTERN_8 = compile("»");
+  private static final Pattern TYPOGRAPHY_PATTERN_9 = compile("«");
+  private static final Pattern TYPOGRAPHY_PATTERN_10 = compile("\u00a0\u00a0");
+  private static final Pattern TYPOGRAPHY_PATTERN_11 = compile("\u202f\u202f");
+  private static final Pattern TYPOGRAPHY_PATTERN_12 = compile("  ");
+  private static final Pattern TYPOGRAPHY_PATTERN_13 = compile("\u00a0 ");
+  private static final Pattern TYPOGRAPHY_PATTERN_14 = compile(" \u00a0");
+  private static final Pattern TYPOGRAPHY_PATTERN_15 = compile(" \u202f");
+  private static final Pattern TYPOGRAPHY_PATTERN_16 = compile("\u202f ");
 
   private LanguageModel languageModel;
 
@@ -188,32 +213,31 @@ public class French extends Language implements AutoCloseable {
     String output = super.toAdvancedTypography(input);
   
     // special cases: apostrophe + quotation marks
-    String beforeApostrophe = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
-    output = output.replaceAll("(\\b"+beforeApostrophe+")'", "$1’");
-    output = output.replaceAll("(\\b"+beforeApostrophe+")’\"", "$1’" + getOpeningDoubleQuote());
-    output = output.replaceAll("(\\b"+beforeApostrophe+")’'", "$1’" + getOpeningSingleQuote());
-    
+    output = BEFORE_APOS_PATTERN_1.matcher(output).replaceAll("$1’");
+    output = BEFORE_APOS_PATTERN_2.matcher(output).replaceAll("$1’" + getOpeningDoubleQuote());
+    output = BEFORE_APOS_PATTERN_3.matcher(output).replaceAll("$1’" + getOpeningSingleQuote());
+
     // non-breaking (thin) space 
     // according to https://fr.wikipedia.org/wiki/Espace_ins%C3%A9cable#En_France
-    output = output.replaceAll("\u00a0;", "\u202f;");
-    output = output.replaceAll("\u00a0!", "\u202f!");
-    output = output.replaceAll("\u00a0\\?", "\u202f?");
-    output = output.replaceAll(";", "\u202f;");
-    output = output.replaceAll("!", "\u202f!");
-    output = output.replaceAll("\\?", "\u202f?");
-    
-    output = output.replaceAll(":", "\u00a0:");
-    output = output.replaceAll("»", "\u00a0»");
-    output = output.replaceAll("«", "«\u00a0");
+    output = TYPOGRAPHY_PATTERN_1.matcher(output).replaceAll("\u202f;");
+    output = TYPOGRAPHY_PATTERN_2.matcher(output).replaceAll("\u202f!");
+    output = TYPOGRAPHY_PATTERN_3.matcher(output).replaceAll("\u202f?");
+    output = TYPOGRAPHY_PATTERN_4.matcher(output).replaceAll("\u202f;");
+    output = TYPOGRAPHY_PATTERN_5.matcher(output).replaceAll("\u202f!");
+    output = TYPOGRAPHY_PATTERN_6.matcher(output).replaceAll("\u202f?");
+
+    output = TYPOGRAPHY_PATTERN_7.matcher(output).replaceAll("\u00a0:");
+    output = TYPOGRAPHY_PATTERN_8.matcher(output).replaceAll("\u00a0»");
+    output = TYPOGRAPHY_PATTERN_9.matcher(output).replaceAll("«\u00a0");
     
     //remove duplicate spaces
-    output = output.replaceAll("\u00a0\u00a0", "\u00a0");
-    output = output.replaceAll("\u202f\u202f", "\u202f");
-    output = output.replaceAll("  ", " ");
-    output = output.replaceAll("\u00a0 ", "\u00a0");
-    output = output.replaceAll(" \u00a0", "\u00a0");
-    output = output.replaceAll(" \u202f", "\u202f");
-    output = output.replaceAll("\u202f ", "\u202f");
+    output = TYPOGRAPHY_PATTERN_10.matcher(output).replaceAll("\u00a0");
+    output = TYPOGRAPHY_PATTERN_11.matcher(output).replaceAll("\u202f");
+    output = TYPOGRAPHY_PATTERN_12.matcher(output).replaceAll(" ");
+    output = TYPOGRAPHY_PATTERN_13.matcher(output).replaceAll("\u00a0");
+    output = TYPOGRAPHY_PATTERN_14.matcher(output).replaceAll("\u00a0");
+    output = TYPOGRAPHY_PATTERN_15.matcher(output).replaceAll("\u202f");
+    output = TYPOGRAPHY_PATTERN_16.matcher(output).replaceAll("\u202f");
     
     return output;
   }
@@ -390,7 +414,7 @@ public class French extends Language implements AutoCloseable {
         for (SuggestedReplacement s : replacements) {
           String newReplStr = s.getReplacement();
           if (s.getReplacement().length() > 1) {
-            newReplStr = s.getReplacement().replace("'", "’");
+            newReplStr = s.getReplacement().replace('\'', '’');
           }
           SuggestedReplacement newRepl = new SuggestedReplacement(s);
           newRepl.setReplacement(newReplStr);
