@@ -41,14 +41,15 @@ public class MultitokenSpeller {
   private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
   private static final Pattern DASH_SPACE = compile("- ");
   private static final Pattern SPACE_DASH = compile(" -");
+  private static final int MAX_LENGTH_DIFF = 3;
 
-  private final int MAX_LENGTH_DIFF = 3;
+  private final SpellingCheckRule spellingRule;
+  private final Language language;
+
   private HashMap<String, String> oneSpace;
   private HashMap<String, String> twoSpaces;
   private HashMap<String, String> threeSpaces;
   private HashMap<String, String> hyphenated;
-  private SpellingCheckRule spellingRule;
-  private Language language;
 
   /*
    * Ultra-naive speller that provides spelling suggestions for multitoken words from a list of words.
@@ -122,7 +123,7 @@ public class MultitokenSpeller {
   private int maxEditDistance(String candidateLowercase, String wordLowercase) {
     int totalLength = wordLowercase.length();
     int correctLength = totalLength - numberOfCorrectChars(candidateLowercase, wordLowercase);
-    Float firstCharWrong = firstCharacterDistances(candidateLowercase, wordLowercase).stream().reduce(Float.valueOf(0), Float::sum);
+    float firstCharWrong = firstCharacterDistances(candidateLowercase, wordLowercase).stream().reduce((float) 0, Float::sum);
     if (correctLength <= 7) {
       return (int) (2 - firstCharWrong);
     }
@@ -131,8 +132,8 @@ public class MultitokenSpeller {
 
   private List<Integer> distancesPerWord(String s1, String s2) {
     List<Integer> distances = new ArrayList<>();
-    String parts1[] = s1.split("[ -]");
-    String parts2[] = s2.split("[ -]");
+    String[] parts1 = s1.split("[ -]");
+    String[] parts2 = s2.split("[ -]");
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
         distances.add(levenshteinDistance(parts1[i], parts2[i]));
@@ -145,8 +146,8 @@ public class MultitokenSpeller {
 
   private List<Float> firstCharacterDistances(String s1, String s2) {
     List<Float> distances = new ArrayList<>();
-    String parts1[] = s1.split("[ -]");
-    String parts2[] = s2.split("[ -]");
+    String[] parts1 = s1.split("[ -]");
+    String[] parts2 = s2.split("[ -]");
     // for now, only phrase with two tokens
     if (parts1.length == parts2.length && parts1.length == 2) {
       for (int i=0; i<parts1.length; i++) {
@@ -177,8 +178,8 @@ public class MultitokenSpeller {
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {
-    String parts1[] = s1.split(" ");
-    String parts2[] = s2.split(" ");
+    String[] parts1 = s1.split(" ");
+    String[] parts2 = s2.split(" ");
     int correctTokens = 0;
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
@@ -191,8 +192,8 @@ public class MultitokenSpeller {
   }
 
   private int numberOfCorrectChars(String s1, String s2) {
-    String parts1[] = s1.split(" ");
-    String parts2[] = s2.split(" ");
+    String[] parts1 = s1.split(" ");
+    String[] parts2 = s2.split(" ");
     int correctTokens = 0;
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
@@ -256,7 +257,7 @@ public class MultitokenSpeller {
   }
 
   private boolean discardRunOnWords(String underlinedError) throws IOException {
-    String parts[] = underlinedError.split(" ");
+    String[] parts = underlinedError.split(" ");
     if (parts.length == 2) {
       if (StringTools.isCapitalizedWord(parts[1])) {
         return false;
@@ -266,8 +267,8 @@ public class MultitokenSpeller {
       if (!spellingRule.isMisspelled(sugg1a) && !spellingRule.isMisspelled(sugg1b)) {
         return true;
       }
-      String sugg2a = parts[0] + parts[1].substring(0,1);
-      String sugg2b = parts[1].substring(1, parts[1].length());
+      String sugg2a = parts[0] + parts[1].charAt(0);
+      String sugg2b = parts[1].substring(1);
       if (!spellingRule.isMisspelled(sugg2a) && !spellingRule.isMisspelled(sugg2b)) {
         return true;
       }
