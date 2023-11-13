@@ -34,8 +34,10 @@ public class BelarusianWordTokenizer extends WordTokenizer {
   private final String tokenizingCharacters;
 
   public BelarusianWordTokenizer() {
-    tokenizingCharacters = super.getTokenizingCharacters().replace("\u0027", "").replace("\u2019", "").replace("\u02BC",
-        "");
+    tokenizingCharacters = super.getTokenizingCharacters().
+      replace("'", "").
+      replace("’", "").
+      replace("ʼ", "");
   }
 
   @Override
