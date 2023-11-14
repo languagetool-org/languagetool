@@ -841,6 +841,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="AO0CN0"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+                </marker>
+                <token>)</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="AO0CN0"/>
+            </disambig>
+        </rule>
         <!-- excepcions als numerals romans -->
         <rule>
             <pattern case_sensitive="yes">
@@ -19965,6 +19976,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+xx?|x\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
         <rule name="dates">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">(\d|[12]\d|3[01])[GFMAJSOND]</token>

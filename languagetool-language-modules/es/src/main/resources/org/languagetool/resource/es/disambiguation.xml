@@ -1215,6 +1215,17 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
         <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+                </marker>
+                <token>)</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="AO0CN0"/>
+            </disambig>
+        </rule>
+        <rule>
             <pattern>
                 <token>omega</token>
                 <token>3</token>
@@ -7744,6 +7755,12 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
         <rule>
+            <pattern>
+                <token regexp="yes">\d+xx?|x\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
             <!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*[a-z].*</token>
@@ -7791,6 +7808,14 @@ Copyright (C) 2011 Juan Martorell
                     <token regexp="yes">&meses_ano_abrv;</token>
                 </marker>
                 <token regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?&meses_ano_abrv;\d\d(\d\d)?</token>
+                </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
