@@ -5231,16 +5231,13 @@ USA
         <!-- IDEA foreign_terms -->
 
 
-        <!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
-        <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT][Erro tradução] estimação máxima 'semelhança' → 'verosimilhança'(PT)">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-03 (Checked/Enhanced) (25-JUL-2022+) -->
+        <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT] Erro tradução: estimação máxima 'semelhança' → 'verosimilhança'(PT)">
             <!--
-            IN pt_PT: verosimilhança
-            IN pt_BR: verossimilhança
+            In pt_PT: verosimilhança
+            In pt_BR: verossimilhança
             -->
             <pattern>
-                <token regexp="yes">estimativas?|estimaç(ão|ões)|estimador(es)?</token>
-                <token regexp="yes">d[ae]|pela|por</token>
+                <token skip="4" regexp="yes" inflected='yes' >estimativa|estimação|estimador</token>
                 <token>máxima</token>
                 <marker>
                     <token regexp="yes">semelhança|equivalência</token>
