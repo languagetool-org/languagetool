@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -99,11 +100,26 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertErrorLength(sentence, 1, lt, rule, suggestions);
   }
 
+  private void assertSingleExactError(String sentence, JLanguageTool lt, MorfologikPortugueseSpellerRule rule,
+                                      String suggestion, String message) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
+    // TODO: just debugging, must delete later!
+    if (matches.length > 0) {
+      System.out.println(matches[0].getSuggestedReplacements());
+    }
+    assertEquals(1, matches.length);
+    RuleMatch match = matches[0];
+    assert Objects.equals(match.getSuggestedReplacements().get(0), suggestion);
+    assert Objects.equals(match.getMessage(), message);
+  }
+
   private void assertTwoWayDialectError(String sentenceBR, String sentencePT) throws IOException {
+    String brMessage = "Possível erro de ortografia: esta é a grafia utilizada no português europeu.";
+    String ptMessage = "Possível erro de ortografia: esta é a grafia utilizada no português brasileiro.";
     assertNoErrors(sentenceBR, ltBR, ruleBR);
-    assertSingleError(sentencePT, ltBR, ruleBR, new String[]{sentenceBR});
+    assertSingleExactError(sentencePT, ltBR, ruleBR, sentenceBR, brMessage);
     assertNoErrors(sentencePT, ltPT, rulePT);
-    assertSingleError(sentenceBR, ltPT, rulePT, new String[]{sentencePT});
+    assertSingleExactError(sentenceBR, ltPT, rulePT, sentencePT, ptMessage);
   }
 
   private void assertTwoWayOrthographicAgreementError(String sentence90, String sentence45) throws IOException {
@@ -179,23 +195,31 @@ public class MorfologikPortugueseSpellerRuleTest {
   // FUCK YEAH WAHOO
   @Test
   public void testPortugueseSymmetricalDialectDifferences() throws Exception {
+    // test that a simple lookup works
     assertTwoWayDialectError("anônimo", "anónimo");
+    // test that we are able to leverage the synthesiser to expand the lookup (plurals are not on the list)
+    assertTwoWayDialectError("caratês", "caratés");
+    // more simple lookups of various phenomena split along dialect lines
     assertTwoWayDialectError("tênis", "ténis");
     assertTwoWayDialectError("ônus", "ónus");
     // I swear I'm not being immature, there was some weirdness with "pêni"/"pênis" in pt-BR ;)
     assertTwoWayDialectError("pênis", "pénis");
     assertTwoWayDialectError("detecção", "deteção");
     assertTwoWayDialectError("dezesseis", "dezasseis");
+    assertTwoWayDialectError("bidê", "bidé");
+    assertTwoWayDialectError("detectar", "detetar");
     // new words from portal da língua portuguesa
     assertTwoWayDialectError("napoleônia", "napoleónia");
     assertTwoWayDialectError("hiperêmese", "hiperémese");
+    // will not work due to tokenisation quirk, bebê-lo, must be fixed
+    // assertTwoWayDialectError("bebê", "bebé");
+  }
+
+  @Test
+  public void testPortugueseSpellingAgreementVariation() throws Exception {
     // orthographic reforms
     assertTwoWayOrthographicAgreementError("detetar", "detectar");
     assertTwoWayOrthographicAgreementError("abjeção", "abjecção");
-    // not working yet
-    assertTwoWayDialectError("detectar", "detetar");
-    // will not work due to tokenisation quirk, bebê-lo, must be fixed
-    // assertTwoWayDialectError("bebê", "bebé");
   }
 
   @Test
@@ -298,7 +322,7 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
-  public void testCustomReplacements() throws Exception {
+  public void testBrazilPortugueseSpellingCustomReplacements() throws Exception {
     // Testing the info file.
     // Here it's less about the error (though of course that's important), and more about the suggestions.
     // We want our custom-defined patterns to prioritise specific types of suggestions.
@@ -310,5 +334,16 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("cabesse", ltBR, ruleBR, new String[]{"coubesse"});
     assertSingleError("andância", ltBR, ruleBR, new String[]{"andança"});
     assertSingleError("abto", ltBR, ruleBR, new String[]{"hábito"});
+  }
+
+  @Test
+  public void testBrazilPortugueseGema23DFalseNegatives() throws Exception {
+    assertSingleError("islam", ltBR, ruleBR, new String[]{"islã"});
+    assertSingleError("es", ltBR, ruleBR, new String[]{"é"});
+    assertSingleError("fomas", ltBR, ruleBR, new String[]{"formas"});
+    assertSingleError("non", ltBR, ruleBR, new String[]{"não"});
+    assertSingleError("Puerto Rico", ltBR, ruleBR, new String[]{"Porto"});
+    assertSingleError("Suissa", ltBR, ruleBR, new String[]{"Suíça"});
+    assertSingleError("actividade", ltBR, ruleBR, new String[]{"atividade"});
   }
 }

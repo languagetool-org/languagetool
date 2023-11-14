@@ -18,23 +18,26 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.synthesis.pt.PortugueseSynthesizer;
+import org.languagetool.tagging.pt.PortugueseTagger;
+import org.languagetool.tools.StringTools;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.languagetool.JLanguageTool.getDataBroker;
 
 public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
+  private final Language spellerLanguage;
   private final String dictFilepath;
   // Path, in pt/resources, where the list of words to be removed from the suggestion list is to be found.
   private static final String doNotSuggestWordsFilepath = "/pt/do_not_suggest.txt";
@@ -43,6 +46,11 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   // Path, in pt/resources, where a list of abbreviations is found. These are simple abbreviations of the shape \w+\.
   private static final String abbreviationFilepath = "/pt/abbreviations.txt";
   private static final Set<String> abbreviations = getAbbreviations();
+  private static final String dialectAlternationsFilepath = "/pt/dialect_alternations.txt";
+  private final Map<String, String> dialectAlternationMapping;
+  private static final PortugueseTagger tagger = new PortugueseTagger();
+  private static final PortugueseSynthesizer synth = PortugueseSynthesizer.INSTANCE;
+
 
   @Override
   public String getFileName() {
@@ -68,17 +76,78 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       + language.getShortCodeWithCountryAndVariant().replace("-", "_").toUpperCase();*/
   }
 
+  // TODO: document this, as it's about to get messy
+  @Nullable
+  protected String dialectAlternative(String word) throws IOException {
+    // Naive check: word is identical to lemma present on the TXT list
+    if (this.dialectAlternationMapping.containsKey(word.toLowerCase())) {
+      return this.dialectAlternationMapping.get(word.toLowerCase());
+    }
+    List<String> wordAsList = Collections.singletonList(word);
+    List<AnalyzedTokenReadings> readings = tagger.tag(wordAsList);
+    // Annoying check: the word's lemma exists on the TXT list
+    for (AnalyzedTokenReadings reading : readings) {
+      for (AnalyzedToken token : reading.getReadings()) {
+        String lemma = token.getLemma();
+        String tag = token.getPOSTag();
+        if (this.dialectAlternationMapping.containsKey(lemma) && tag != null) {
+          String candidate = this.dialectAlternationMapping.get(lemma);
+          Predicate<String> tagPredicate = tagStr -> tagStr.contentEquals(tag);
+          String[] forms = synth.synthesizeForPosTags(candidate, tagPredicate);
+          // the assumption is these words are almost identical, their tagging also ought to be
+          // so even if it returns many POS tags, the synthesiser should always yield the same form for the same
+          // set of tags
+          if (forms.length > 0) {
+            return forms[0];
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  private Map<String,String> getDialectAlternationMapping() {
+    Map<String,String> wordMap = new HashMap<>();
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(dialectAlternationsFilepath);
+    String fullLanguageCode = this.spellerLanguage.getShortCodeWithCountryAndVariant();
+    int column = -1;
+    if (Objects.equals(fullLanguageCode, "pt-BR")) {
+      column = 1;  // hash from pt-PT to pt-BR
+      // TODO: add here check for agreement year!
+    } else if (Objects.equals(fullLanguageCode, "pt-PT")) {
+      column = 0;  // hash from pt-BR to pt-PT
+    }
+    if (column == -1) { // not supported for pre-45 dictionaries
+      return Collections.emptyMap();
+    }
+    for (String line : lines) {
+      line = line.trim();
+      if (line.isEmpty() || line.startsWith("#")) {
+        continue;
+      }
+      String[] parts = line.split("=");
+      if (parts.length != 2) {
+        throw new RuntimeException("Unexpected format in " + dialectAlternationsFilepath + ": " + line +
+          " - expected two parts delimited by '='");
+      }
+      wordMap.put(parts[column].toLowerCase(), parts[column == 1 ? 0 : 1]);
+    }
+    return wordMap;
+  }
+
   public MorfologikPortugueseSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
                                       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     // the tagger tags pt-PT and pt-BR words all the same, as it should, but they're still incorrect if they belong
     // to the wrong dialect, commenting this out
     // this.setIgnoreTaggedWords();
-    Language spellerLanguage = language;
-    if (spellerLanguage.getShortCodeWithCountryAndVariant().equals("pt")) {
-      spellerLanguage = spellerLanguage.getDefaultLanguageVariant();
+    if (language.getShortCodeWithCountryAndVariant().equals("pt")) {
+      this.spellerLanguage = language.getDefaultLanguageVariant();
+    } else {
+      this.spellerLanguage = language;
     }
-    this.dictFilepath = "/pt/spelling/" + getDictFilename(spellerLanguage) + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    this.dictFilepath = "/pt/spelling/" + getDictFilename() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    this.dialectAlternationMapping = getDialectAlternationMapping();
   }
 
   @Override
@@ -110,9 +179,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     return abbreviations.contains(word + ".") || abbreviations.contains(word.toLowerCase() + ".");
   }
 
-  private static String getDictFilename(Language spellerLanguage) {
+  private String getDictFilename() {
     String dictFilename = "pt-BR";  // default dict is pt-BR with 1990 spelling
-    String fullLanguageCode = spellerLanguage.getShortCodeWithCountryAndVariant();
+    String fullLanguageCode = this.spellerLanguage.getShortCodeWithCountryAndVariant();
     switch (fullLanguageCode) {
       case "pt-BR":               dictFilename = "pt-BR";    break;
       case "pt-PT":               dictFilename = "pt-PT-90"; break;
@@ -124,5 +193,38 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   @Override
   public List<String> getAdditionalSpellingFileNames() {
     return Arrays.asList(SpellingCheckRule.GLOBAL_SPELLING_FILE, "/pt/multiwords.txt");
+  }
+
+  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches,
+                                        String suggestion) {
+    // recreating match, might overwrite information by SuggestionsRanker;
+    // this has precedence
+    RuleMatch oldMatch = ruleMatches.get(0);
+    RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
+    newMatch.setType(oldMatch.getType());
+    SuggestedReplacement sugg = new SuggestedReplacement(suggestion);
+    sugg.setShortDescription(language.getName());
+    newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));
+    ruleMatches.set(0, newMatch);
+  }
+
+  @Override
+  public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+                                        List<RuleMatch> ruleMatchesSoFar, int idx,
+                                        AnalyzedTokenReadings[] tokens) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
+    if (!ruleMatches.isEmpty()) {
+      String dialectAlternative = this.dialectAlternative(word);
+      if (dialectAlternative != null) {
+        String otherVariant = "europeu";
+        if (Objects.equals(spellerLanguage.getShortCodeWithCountryAndVariant(), "pt-PT")) {
+          otherVariant = "brasileiro";
+        }
+        String message = "Possível erro de ortografia: esta é a grafia utilizada no português " + otherVariant + ".";
+        String suggestion = StringTools.startsWithUppercase(word) ? StringTools.uppercaseFirstChar(dialectAlternative) : dialectAlternative;
+        replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);
+      }
+    }
+    return ruleMatches;
   }
 }
