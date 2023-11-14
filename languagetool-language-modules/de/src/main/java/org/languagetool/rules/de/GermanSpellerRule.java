@@ -134,6 +134,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
+    put("sähte", "säte");
+    put("säht", "sät");
+    put("sähtest", "sätest");
+    put("sähten", "säten");
+    put("sähtet", "sätet");
+    put("gesäht", "gesät");
+    put("sähend", "säend");
     put("Impflicht", "Impfpflicht");
     put("Wandererin", "Wanderin");
     put("daß", "dass");
