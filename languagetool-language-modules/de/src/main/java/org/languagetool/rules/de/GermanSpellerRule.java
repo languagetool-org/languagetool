@@ -66,7 +66,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern compoundPatternWithHeit = Pattern.compile(".*(heit|keit|ion|ität|schaft|ung|tät)s");
   private static final Pattern compoundPatternWithAction = Pattern.compile("Action|Session|Champion|Jung|Wahrung");
   private static final Pattern compoundPatternWithFirst = Pattern.compile("First|Firsten");  // First/First are too easy to mix up
-  private static final Pattern compoundPatternSpecialEnding = Pattern.compile(".*(mus|ss|z)");
+  private static final Pattern compoundPatternSpecialEnding = Pattern.compile(".*(mus|ss|z|ß|innen)");
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // some of these are taken from hunspell's dictionary where non-suggested words use tag "/n":
