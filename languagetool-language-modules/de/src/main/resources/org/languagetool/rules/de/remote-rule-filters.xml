@@ -2086,7 +2086,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">mords</token>
@@ -2095,7 +2095,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist aber <marker>mords</marker> klein.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">mords</token>
@@ -2104,6 +2104,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>los</token>
                 </pattern>
                 <example correction="">Hier ist heute aber <marker>mords</marker> was los.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token>ach</token>
+                    <token>,</token>
+                    <marker>
+                        <token case_sensitive="yes">herrjemine</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ach, <marker>herrjemine</marker>!</example>
             </rule>
         </rulegroup>
 
