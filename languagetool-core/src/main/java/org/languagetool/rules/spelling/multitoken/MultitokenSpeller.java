@@ -38,10 +38,11 @@ import static java.util.regex.Pattern.*;
 
 public class MultitokenSpeller {
 
+  private static final int MAX_LENGTH_DIFF = 3;
   private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
   private static final Pattern DASH_SPACE = compile("- ");
   private static final Pattern SPACE_DASH = compile(" -");
-  private static final int MAX_LENGTH_DIFF = 3;
+  private static final Pattern SPACE_OR_DASH = compile("[ -]");
 
   private final SpellingCheckRule spellingRule;
   private final Language language;
@@ -132,8 +133,8 @@ public class MultitokenSpeller {
 
   private List<Integer> distancesPerWord(String s1, String s2) {
     List<Integer> distances = new ArrayList<>();
-    String[] parts1 = s1.split("[ -]");
-    String[] parts2 = s2.split("[ -]");
+    String[] parts1 = SPACE_OR_DASH.split(s1);
+    String[] parts2 = SPACE_OR_DASH.split(s2);
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
         distances.add(levenshteinDistance(parts1[i], parts2[i]));
@@ -146,8 +147,8 @@ public class MultitokenSpeller {
 
   private List<Float> firstCharacterDistances(String s1, String s2) {
     List<Float> distances = new ArrayList<>();
-    String[] parts1 = s1.split("[ -]");
-    String[] parts2 = s2.split("[ -]");
+    String[] parts1 = SPACE_OR_DASH.split(s1);
+    String[] parts2 = SPACE_OR_DASH.split(s2);
     // for now, only phrase with two tokens
     if (parts1.length == parts2.length && parts1.length == 2) {
       for (int i=0; i<parts1.length; i++) {
