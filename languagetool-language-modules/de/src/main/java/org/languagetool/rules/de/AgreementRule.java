@@ -39,6 +39,7 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,6 +64,13 @@ import static org.languagetool.tools.StringTools.startsWithUppercase;
  * @author Daniel Naber
  */
 public class AgreementRule extends Rule {
+
+  private static final Pattern MIT_MIR_ETC = Pattern.compile("mit (mir|dir|ihm|ihr|ihnen|uns|euch)");
+  private static final Pattern OHNE_MICH_ETC = Pattern.compile("ohne (mich|dich|ihn|sie|uns|euch)");
+  private static final Pattern ZUGESCHRIEBENEN_GENANNTEN = Pattern.compile("zugeschriebenen?|genannten?");
+  private static final Pattern VIEL_WEIT = Pattern.compile("viel|weit");
+  private static final Pattern WENIGER_EHER = Pattern.compile("weniger|eher");
+  private static final Pattern HERR_FRAU = Pattern.compile("Herr|Frau");
 
   private final German language;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
@@ -321,7 +329,7 @@ public class AgreementRule extends Rule {
       boolean detAbbrev = i < tokens.length-2 && tokens[i+1].getToken().equals("Art") && tokens[i+2].getToken().equals(".");
       boolean detAdjAbbrev = i < tokens.length-3 && tokens[i+2].getToken().equals("Art") && tokens[i+3].getToken().equals(".");
       // "einen Hochwasser führenden Fluss", "die Gott zugeschriebenen Eigenschaften":
-      boolean followingParticiple = i < tokens.length-3 && (tokens[i+2].hasPartialPosTag("PA1") || tokens[i+2].getToken().matches("zugeschriebenen?|genannten?"));
+      boolean followingParticiple = i < tokens.length-3 && (tokens[i+2].hasPartialPosTag("PA1") || ZUGESCHRIEBENEN_GENANNTEN.matcher(tokens[i+2].getToken()).matches());
       if (detAbbrev || detAdjAbbrev || followingParticiple) {
         continue;
       }
@@ -360,7 +368,7 @@ public class AgreementRule extends Rule {
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
-          } else if (tokenPos+1 < tokens.length && hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) && GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {
+          } else if (tokenPos+1 < tokens.length && hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) && hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {
             RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
               nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap, skippedStr);
             if (ruleMatch != null) {
@@ -386,19 +394,19 @@ public class AgreementRule extends Rule {
    * @return index of first non-modifier token
    */
   private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
-    if (startAt < tokens.length && tokens[startAt].getToken().matches("relativ") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().matches("gesehen")) {
+    if (startAt < tokens.length && tokens[startAt].getToken().equals("relativ") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().equals("gesehen")) {
       startAt += 2;
     }
-    if (startAt < tokens.length && tokens[startAt].getToken().matches("viel|weit") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().matches("weniger|eher")) {
+    if (startAt < tokens.length && VIEL_WEIT.matcher(tokens[startAt].getToken()).matches() && startAt + 1 < tokens.length && WENIGER_EHER.matcher(tokens[startAt + 1].getToken()).matches()) {
       startAt += 2;
     } else if (startAt + 1 < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
       startAt++;
     }
     if (startAt+1 < tokens.length) {
       String phrase = tokens[startAt].getToken() + " " + tokens[startAt+1].getToken();
-      if (phrase.toLowerCase().matches("mit (mir|dir|ihm|ihr|ihnen|uns|euch)")) {
+      if (MIT_MIR_ETC.matcher(phrase.toLowerCase()).matches()) {
         startAt += 2;
-      } else if (phrase.toLowerCase().matches("ohne (mich|dich|ihn|sie|uns|euch)")) {
+      } else if (OHNE_MICH_ETC.matcher(phrase.toLowerCase()).matches()) {
         startAt += 2;
       }
     }
@@ -651,7 +659,7 @@ public class AgreementRule extends Rule {
     Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
-      if (token3.getToken().matches("Herr|Frau") && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
+      if (HERR_FRAU.matcher(token3.getToken()).matches() && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
         AnalyzedTokenReadings token4 = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
         if (!token4.isTagged() || token4.hasPosTagStartingWith("EIG:")) {
           // 'Aber das ignorierte Herr Grey bewusst.'

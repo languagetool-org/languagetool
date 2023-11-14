@@ -57,6 +57,7 @@ public class CaseRule extends Rule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|[0-9]+|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
+  private static final Pattern TWO_UPPERCASE_CHARS = Pattern.compile("[A-ZÖÄÜ][A-ZÖÄÜ][a-zöäüß-]+");
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
@@ -840,7 +841,7 @@ public class CaseRule extends Rule {
       String token = analyzedToken.getToken();
 
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
-      if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
+      if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, POSType.VERB))
           && isBaseform) {
         boolean nextTokenIsPersonalOrReflexivePronoun = false;
         if (i < tokens.length - 1) {
@@ -1050,7 +1051,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isCaseTypo(String token) {
-    return token.matches("[A-ZÖÄÜ][A-ZÖÄÜ][a-zöäüß-]+");   // e.g. "WUrzeln"
+    return TWO_UPPERCASE_CHARS.matcher(token).matches();   // e.g. "WUrzeln"
   }
 
   private boolean isSingularImperative(AnalyzedTokenReadings lowercaseReadings, AnalyzedTokenReadings token) {
