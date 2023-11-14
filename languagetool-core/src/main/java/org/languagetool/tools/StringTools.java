@@ -30,6 +30,8 @@ import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.*;
+
 /**
  * Tools for working with strings.
  * 
@@ -61,14 +63,16 @@ public final class StringTools {
     CONTINUE_API
   }
 
-  private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
-  private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
   public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
-  private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
-  private static final Pattern NOT_WORD_CHARACTER = Pattern.compile("[^\\p{L}]", Pattern.DOTALL);
 
-  private static final Pattern NOT_WORD_STR = Pattern.compile("[^\\p{L}]+", Pattern.DOTALL);
+  private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
+  private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
+  private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
+  private static final Pattern NOT_WORD_CHARACTER = compile("[^\\p{L}]", DOTALL);
+  private static final Pattern NOT_WORD_STR = compile("[^\\p{L}]+", DOTALL);
+  private static final Pattern PATTERN = compile("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]");
+  private static final Pattern DIACRIT_MARKS = compile("[\\p{InCombiningDiacriticalMarks}]");
 
   private StringTools() {
     // only static stuff
@@ -396,7 +400,7 @@ public final class StringTools {
   public static String trimSpecialCharacters(String s) {
     // need unicode character classes -> (?U)
     // lists all allowed character classes, replace everything else
-    return s.replaceAll("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]", "");
+    return PATTERN.matcher(s).replaceAll("");
   }
 
   /**
@@ -507,7 +511,7 @@ public final class StringTools {
   
   public static String removeDiacritics(String str) {
     String s = Normalizer.normalize(str, Normalizer.Form.NFD);
-    return s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+    return DIACRIT_MARKS.matcher(s).replaceAll("");
   }
   
   public static String normalizeNFKC(String str) {
