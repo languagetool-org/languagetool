@@ -135,6 +135,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("frägst", "fragst");
     put("sähte", "säte");
+    put("säht", "sät");
     put("sähtest", "sätest");
     put("sähten", "säten");
     put("sähtet", "sätet");
