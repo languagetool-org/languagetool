@@ -114,6 +114,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
         token("werden"),
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
       ),
+      Arrays.asList( // Aus diesem Grund sind die Wörter nicht direkt übersetzt, stattdessen wird der Zustand oder die Situation beschrieben in der die Wörter benutzt werden.
+        posRegex("PA2.*|VER:PA2.*"),
+        new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("haben|werden").build()
+      ),
       Arrays.asList(
         // Komma an der falschen Stelle
         regex("ja|mal"),
