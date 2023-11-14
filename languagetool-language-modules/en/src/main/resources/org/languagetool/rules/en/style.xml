@@ -7887,10 +7887,15 @@ For more detailed information, including tag definitions, please check out our d
             <example correction="email">He was going to <marker>send an email to</marker> her.</example>
         </rule>
         <rule id="SENT_AN_EMAIL" name="sent an email to (email)">
+            <antipattern>
+                <token skip="4">to</token>
+                <token regexp="yes">which|that</token>
+                <example> I just sent an email to xyz@gmail.com which your team should have a look at rather sooner than later.</example>
+            </antipattern>
             <pattern>
                 <token>sent</token>
                 <token regexp="yes">an?</token>
-                <token>email</token>
+                <token regexp="yes">e-?mail</token>
                 <token>to</token>
             </pattern>
             <message>Consider using <suggestion>emailed</suggestion>.</message>

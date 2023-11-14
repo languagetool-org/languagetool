@@ -3872,6 +3872,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">After serving six months, he escaped with the help of Abdullah <marker>Çatlı</marker>, second-in-command of the Grey Wolves, and fled to Bulgaria, which was a base of operations for the Turkish mafia.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NNP_FOR_CD" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>~</token>
+                        <token regexp="yes">\d+</token>
+                        <token regexp="yes">[:.]</token>
+                        <token regexp="yes">\d+</token>
+                    </marker>
+                </pattern>
+                <example correction="">On Thursday at <marker>~6:30</marker> CST</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>~</token>
+                        <token regexp="yes">\d+[a-z]*</token>
+                    </marker>
+                </pattern>
+                <example correction="">on Thursday at <marker>~6</marker> CST</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NNP_FOR_NNP_ERROR_IDS_000051" name="">
             <rule> <!-- non-English characters -->
                 <pattern>
