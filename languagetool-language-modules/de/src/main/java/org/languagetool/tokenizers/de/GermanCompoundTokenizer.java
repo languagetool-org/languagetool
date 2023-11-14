@@ -143,6 +143,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Anhäufung", asList("Anhäufung"));
     wordSplitter.addException("Aufkohlung", asList("Aufkohlung"));
     wordSplitter.addException("Festigung", asList("Festigung"));
+    wordSplitter.addException("Allerheiligen", asList("Allerheiligen"));
   }
 
   @Override
