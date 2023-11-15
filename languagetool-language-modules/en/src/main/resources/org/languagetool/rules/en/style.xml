@@ -7889,7 +7889,10 @@ For more detailed information, including tag definitions, please check out our d
         <rule id="SENT_AN_EMAIL" name="sent an email to (email)">
             <antipattern>
                 <token skip="4">to</token>
-                <token regexp="yes">which|that</token>
+                <token regexp="yes">
+                    which|that
+                    <exception scope="previous">so</exception>
+                </token>
                 <example> I just sent an email to xyz@gmail.com which your team should have a look at rather sooner than later.</example>
             </antipattern>
             <pattern>

@@ -540,6 +540,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !rep.endsWith(" ted") && // "bursted"
           !rep.endsWith(" sphere") &&
           !rep.endsWith(" ell") &&
+          !rep.endsWith(" co") &&
           !rep.endsWith(" con") &&
           !rep.endsWith(" com") &&
           !rep.endsWith(" sis") &&
