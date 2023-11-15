@@ -43,13 +43,14 @@ public class RussianTagger extends BaseTagger {
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    String word_ie;
+    String wordIe;
     for (String word : sentenceTokens) {
-      boolean maymissingyo = false;
+      boolean mayMissingYo = false;
       if (word.length() > 1) {
         if (!(word.contains("ё")) && !(word.contains("Ё")) && (word.contains("е") || word.contains("Е")) && !(word.contains("е́")) && !(word.contains("о́")) &&
-          !(word.contains("а́")) && !(word.contains("у́")) && !(word.contains("и́")) && !(word.contains("ю́")) && !(word.contains("ы́")) && !(word.contains("э́")) && !(word.contains("я́"))) {
-          maymissingyo = true;
+          !(word.contains("а́")) && !(word.contains("у́")) && !(word.contains("и́")) && !(word.contains("ю́")) && !(word.contains("ы́")) && !(word.contains("э́")) &&
+          !(word.contains("я́"))) {
+          mayMissingYo = true;
         }
         word = word.replace("о́", "о");
         word = word.replace("а́", "а");
@@ -71,16 +72,16 @@ public class RussianTagger extends BaseTagger {
         word = word.replace("я̀", "я");
         word = word.replace("ʼ", "ъ");
       }
-      word_ie = word.toLowerCase();
-      word_ie = word_ie.replace("е", "ё");
+      wordIe = word.toLowerCase();
+      wordIe = wordIe.replace("е", "ё");
       List<AnalyzedToken> l = getAnalyzedTokens(word);
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
-      if (maymissingyo) {
-        if (getWordTagger().tag(word_ie).isEmpty()) {
-          maymissingyo = false;
+      if (mayMissingYo) {
+        if (getWordTagger().tag(wordIe).isEmpty()) {
+          mayMissingYo = false;
         }
       }
-      if (maymissingyo) {
+      if (mayMissingYo) {
         List<ChunkTag> listChunkTags = new ArrayList<>();
         listChunkTags.add(new ChunkTag("MayMissingYO"));
         atr.setChunkTags(listChunkTags);
