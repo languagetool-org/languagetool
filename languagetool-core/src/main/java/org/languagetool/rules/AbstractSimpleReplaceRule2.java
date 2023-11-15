@@ -103,6 +103,10 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     super(messages);
     this.language = Objects.requireNonNull(language);
     super.setCategory(Categories.MISC.getCategory(messages));
+    if (language.equals("en") &&
+        (this.getId().equals("EN_DIACRITICS_REPLACE_FIANCE") || this.getId().equals("EN_DIACRITICS_REPLACE_FIANCEE"))) {
+      this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/fiance-vs-fiancee/"));
+    }
   }
 
   /**
