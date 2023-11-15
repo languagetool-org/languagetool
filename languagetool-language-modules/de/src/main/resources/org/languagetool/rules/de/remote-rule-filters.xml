@@ -1806,11 +1806,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADJECTIVE">
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <token postag="ADJ.*" postag_regexp="yes" regexp="yes">adrett.*</token>
                 </pattern>
                 <example correction="">Sie trug die gleiche <marker>adrette</marker> Jacke.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token regexp="yes">asbachuralt</token>
+                </pattern>
+                <example correction="">Das ist doch echt <marker>asbachuralt</marker>!</example>
             </rule>
         </rulegroup>
 
