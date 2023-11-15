@@ -3891,14 +3891,14 @@
     <rule id="CURRENCY_SPELLING_PRE_IGNORE">
         <pattern>
             <token regexp="yes">&currency_symbols;</token>
-            <token regexp="yes">(\d+(\.\d+)?(,\d{2})?)?</token>
+            <token regexp="yes">[\d.,]+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule id="CURRENCY_SPELLING_POST_IGNORE">
         <pattern>
-            <token regexp="yes">(\d+(\.\d+)?(,\d{2})?)?</token>
+            <token regexp="yes">[\d.,]+</token>
             <token regexp="yes">&currency_symbols;</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3927,6 +3927,40 @@
             <token regexp="yes">\d+[xX]</token>
         </pattern>
       <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="ORDINAL_SUPERSCRIPT_IGNORE">
+         <pattern>
+            <token regexp="yes">\d+[°ºª]\d*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="UPPERCASE_AND_DIGIT_IGNORE">
+         <pattern>
+            <token regexp="yes">[A-Z]+\d+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="SIMPLE_AMPERSAND_UPPERCASE_IGNORE">
+         <pattern>
+            <token regexp="yes">[A-Z]&amp;[A-Z]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="PARENTHETICAL_INFLECTION_ES_IGNORE">
+        <!-- professor(es) -->
+         <pattern>
+             <token postag_regexp="yes" postag="N..S000"/>
+             <token spacebefore="no">(</token>
+             <marker>
+                 <token spacebefore="no" regexp="yes">[ie]s</token>
+             </marker>
+             <token spacebefore="no">)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
   </rulegroup>
 
