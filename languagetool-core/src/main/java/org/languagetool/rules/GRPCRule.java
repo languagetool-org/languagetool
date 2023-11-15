@@ -59,6 +59,7 @@ import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerGrpc.MLServerFutureStub;
 import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerProto.MatchResponse;
+import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,8 +97,8 @@ public abstract class GRPCRule extends RemoteRule {
   private static final String DEFAULT_DESCRIPTION = "INTERNAL - dynamically loaded rule supported by remote server";
   /*TODO Delete this temporal fix as this is for speeding up execution for too long sentences*/
 
-  public static String cleanID(String id) {
-    return id.replaceAll("[^a-zA-Z0-9_]", "_").toUpperCase();
+  public static String cleanID(String id, Language lang) {
+    return StringTools.toId(id, lang);
   }
   /**
    * Internal rule to create rule matches with IDs based on Match Sub-IDs
@@ -106,11 +107,11 @@ public abstract class GRPCRule extends RemoteRule {
     private final String matchId;
     private final String description;
 
-    GRPCSubRule(String ruleId, String subId, String description) {
+    GRPCSubRule(String ruleId, String subId, String description, Language lang) {
       if (subId != null && !subId.trim().isEmpty()) {
-        this.matchId = cleanID(ruleId) + "_" + cleanID(subId);
+        this.matchId = cleanID(ruleId, lang) + "_" + cleanID(subId, lang);
       } else {
-        this.matchId = cleanID(ruleId);
+        this.matchId = cleanID(ruleId, lang);
       }
       this.description = description;
     }
@@ -377,7 +378,7 @@ public abstract class GRPCRule extends RemoteRule {
             throw new RuntimeException("Missing description for rule with ID " + match.getId() + "_" + match.getSubId());
           }
         }
-        GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description);
+        GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description, ruleLanguage);
         String message = match.getMatchDescription();
         String shortMessage = match.getMatchShortDescription();
         if (message == null || message.isEmpty()) {
