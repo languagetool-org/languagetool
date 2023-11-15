@@ -132,7 +132,35 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     // extension:
     "niggard", "niggardly"
   ));
-  
+  private static final Pattern PROFILERATION = Pattern.compile("[Pp]rofileration");
+  private static final Pattern CEMETARY = Pattern.compile("[Cc]emetary");
+  private static final Pattern CEMETARIES = Pattern.compile("[Cc]emetaries");
+  private static final Pattern BASICLY = Pattern.compile("[Bb]asicly");
+  private static final Pattern BELEIVES = Pattern.compile("[Bb]eleives?");
+  private static final Pattern BELIVES = Pattern.compile("[Bb]elives?");
+  private static final Pattern BIZZARE = Pattern.compile("[Bb]izzare");
+  private static final Pattern COMPLETLY = Pattern.compile("[Cc]ompletly");
+  private static final Pattern DISSAPEARS = Pattern.compile("[Dd]issapears?");
+  private static final Pattern FARENHEIT = Pattern.compile("[Ff]arenheit");
+  private static final Pattern FREINDS = Pattern.compile("[Ff]reinds?");
+  private static final Pattern INCIDENTLY = Pattern.compile("[Ii]ncidently");
+  private static final Pattern INTERUPTS = Pattern.compile("[Ii]nterupts?");
+  private static final Pattern LOLLYPOPS = Pattern.compile("[Ll]ollypops?");
+  private static final Pattern OCASSIONS = Pattern.compile("[Oo]cassions?");
+  private static final Pattern OCCURANCES = Pattern.compile("[Oo]ccurances?");
+  private static final Pattern PERSISTANT = Pattern.compile("[Pp]ersistant");
+  private static final Pattern PEICES = Pattern.compile("[Pp]eices?");
+  private static final Pattern SEIGES = Pattern.compile("[Ss]eiges?");
+  private static final Pattern SUPERCEDES = Pattern.compile("[Ss]upercedes?");
+  private static final Pattern THRESHHOLDS = Pattern.compile("[Tt]hreshholds?");
+  private static final Pattern TOMMORROWS = Pattern.compile("[Tt]ommorrows?");
+  private static final Pattern TOUTES = Pattern.compile("[Tt]ounges?");
+  private static final Pattern WIERD = Pattern.compile("[Ww]ierd");
+  private static final Pattern SARGENT = Pattern.compile("[Ss]argent");
+  private static final Pattern SWIMMED = Pattern.compile("swimmed");
+  private static final Pattern MISSPELT = Pattern.compile("misspelt");
+  private static final Pattern JIST = Pattern.compile("[Jj]ist");
+
   private final BeoLingusTranslator translator;
 
   private static NERService nerPipe = null;
@@ -1366,34 +1394,34 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<SuggestedReplacement> getOnlySuggestions(String word) {
     // NOTE: only add words here that would otherwise have more than one suggestion
     // and have apply to all variants of English (en-US, en-GB, ...):
-    if (word.matches("[Pp]rofileration")) return topMatch(word.replaceFirst("rofileration", "roliferation"), "rapid expansion");
-    if (word.matches("[Cc]emetary")) return topMatch(word.replaceFirst("emetary", "emetery"));
-    if (word.matches("[Cc]emetaries")) return topMatch(word.replaceFirst("emetaries", "emeteries"));
-    if (word.matches("[Bb]asicly")) return topMatch(word.replaceFirst("asicly", "asically"));
-    if (word.matches("[Bb]eleives?")) return topMatch(word.replaceFirst("eleive", "elieve"));
-    if (word.matches("[Bb]elives?")) return topMatch(word.replaceFirst("elive", "elieve"));
-    if (word.matches("[Bb]izzare")) return topMatch(word.replaceFirst("izzare", "izarre"));
-    if (word.matches("[Cc]ompletly")) return topMatch(word.replaceFirst("ompletly", "ompletely"));
-    if (word.matches("[Dd]issapears?")) return topMatch(word.replaceFirst("issapear", "isappear"));
-    if (word.matches("[Ff]arenheit")) return topMatch(word.replaceFirst("arenheit", "ahrenheit"));
-    if (word.matches("[Ff]reinds?")) return topMatch(word.replaceFirst("reind", "riend"));
-    if (word.matches("[Ii]ncidently")) return topMatch(word.replaceFirst("ncidently", "ncidentally"));
-    if (word.matches("[Ii]nterupts?")) return topMatch(word.replaceFirst("nterupt", "nterrupt"));
-    if (word.matches("[Ll]ollypops?")) return topMatch(word.replaceFirst("ollypop", "ollipop"));
-    if (word.matches("[Oo]cassions?")) return topMatch(word.replaceFirst("cassion", "ccasion"));
-    if (word.matches("[Oo]ccurances?")) return topMatch(word.replaceFirst("ccurance", "ccurrence"));
-    if (word.matches("[Pp]ersistant")) return topMatch(word.replaceFirst("ersistant", "ersistent"));
-    if (word.matches("[Pp]eices?")) return topMatch(word.replaceFirst("eice", "iece"));
-    if (word.matches("[Ss]eiges?")) return topMatch(word.replaceFirst("eige", "iege"));
-    if (word.matches("[Ss]upercedes?")) return topMatch(word.replaceFirst("upercede", "upersede"));
-    if (word.matches("[Tt]hreshholds?")) return topMatch(word.replaceFirst("hreshhold", "hreshold"));
-    if (word.matches("[Tt]ommorrows?")) return topMatch(word.replaceFirst("ommorrow", "omorrow"));
-    if (word.matches("[Tt]ounges?")) return topMatch(word.replaceFirst("ounge", "ongue"));
-    if (word.matches("[Ww]ierd")) return topMatch(word.replaceFirst("ierd", "eird"));
-    if (word.matches("[Ss]argent")) return topMatch(word.replaceFirst("argent", "ergeant"));
-    if (word.matches("swimmed")) return topMatch("swam");
-    if (word.matches("misspelt")) return topMatch("misspelled");
-    if (word.matches("[Jj]ist")) {
+    if (PROFILERATION.matcher(word).matches()) return topMatch(word.replaceFirst("rofileration", "roliferation"), "rapid expansion");
+    if (CEMETARY.matcher(word).matches()) return topMatch(word.replaceFirst("emetary", "emetery"));
+    if (CEMETARIES.matcher(word).matches()) return topMatch(word.replaceFirst("emetaries", "emeteries"));
+    if (BASICLY.matcher(word).matches()) return topMatch(word.replaceFirst("asicly", "asically"));
+    if (BELEIVES.matcher(word).matches()) return topMatch(word.replaceFirst("eleive", "elieve"));
+    if (BELIVES.matcher(word).matches()) return topMatch(word.replaceFirst("elive", "elieve"));
+    if (BIZZARE.matcher(word).matches()) return topMatch(word.replaceFirst("izzare", "izarre"));
+    if (COMPLETLY.matcher(word).matches()) return topMatch(word.replaceFirst("ompletly", "ompletely"));
+    if (DISSAPEARS.matcher(word).matches()) return topMatch(word.replaceFirst("issapear", "isappear"));
+    if (FARENHEIT.matcher(word).matches()) return topMatch(word.replaceFirst("arenheit", "ahrenheit"));
+    if (FREINDS.matcher(word).matches()) return topMatch(word.replaceFirst("reind", "riend"));
+    if (INCIDENTLY.matcher(word).matches()) return topMatch(word.replaceFirst("ncidently", "ncidentally"));
+    if (INTERUPTS.matcher(word).matches()) return topMatch(word.replaceFirst("nterupt", "nterrupt"));
+    if (LOLLYPOPS.matcher(word).matches()) return topMatch(word.replaceFirst("ollypop", "ollipop"));
+    if (OCASSIONS.matcher(word).matches()) return topMatch(word.replaceFirst("cassion", "ccasion"));
+    if (OCCURANCES.matcher(word).matches()) return topMatch(word.replaceFirst("ccurance", "ccurrence"));
+    if (PERSISTANT.matcher(word).matches()) return topMatch(word.replaceFirst("ersistant", "ersistent"));
+    if (PEICES.matcher(word).matches()) return topMatch(word.replaceFirst("eice", "iece"));
+    if (SEIGES.matcher(word).matches()) return topMatch(word.replaceFirst("eige", "iege"));
+    if (SUPERCEDES.matcher(word).matches()) return topMatch(word.replaceFirst("upercede", "upersede"));
+    if (THRESHHOLDS.matcher(word).matches()) return topMatch(word.replaceFirst("hreshhold", "hreshold"));
+    if (TOMMORROWS.matcher(word).matches()) return topMatch(word.replaceFirst("ommorrow", "omorrow"));
+    if (TOUTES.matcher(word).matches()) return topMatch(word.replaceFirst("ounge", "ongue"));
+    if (WIERD.matcher(word).matches()) return topMatch(word.replaceFirst("ierd", "eird"));
+    if (SARGENT.matcher(word).matches()) return topMatch(word.replaceFirst("argent", "ergeant"));
+    if (SWIMMED.matcher(word).matches()) return topMatch("swam");
+    if (MISSPELT.matcher(word).matches()) return topMatch("misspelled");
+    if (JIST.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("just"));
       l.add(new SuggestedReplacement("gist"));
