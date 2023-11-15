@@ -2455,7 +2455,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("d.\u202fh.");
     } else if (word.equals("ua") || word.equals("ua.")) {
       return singletonList("u.\u202fa.");
-    } else if ( ZB.matcher(word).matches() || ZB.matcher(word).matches() )  {
+    } else if ( ZB.matcher(word).matches() || STARTS_WITH_ZB.matcher(word).matches() )  {
       return singletonList("z.\u202fB.");
     } else if (word.equals("uvm") || word.equals("uvm.")) {
       return singletonList("u.\u202fv.\u202fm.");
