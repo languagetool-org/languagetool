@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
@@ -45,7 +46,8 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
  */
 public class MissingCommaRelativeClauseRule extends Rule {
 
-  private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
+  private static final Pattern MARKS_REGEX = compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
+  private static final Pattern PRONOUN = compile("(d(e[mnr]|ie|as|e([nr]|ss)en)|welche[mrs]?|wessen|was)");
 
   private final boolean behind;
 
@@ -330,7 +332,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
    * is potential relative pronoun
    */
   private static boolean isPronoun(AnalyzedTokenReadings[] tokens, int n) {
-    return (tokens[n].getToken().matches("(d(e[mnr]|ie|as|e([nr]|ss)en)|welche[mrs]?|wessen|was)")
+    return (PRONOUN.matcher(tokens[n].getToken()).matches()
             && !tokens[n - 1].getToken().equals("sowie"));
   }
 

@@ -96,7 +96,7 @@ public class TextToNumberFilter extends AbstractTextToNumberFilter {
   
   @Override
   protected String formatResult(String s) {
-    return s.replace(".", ",");
+    return s.replace('.', ',');
   }
 
 }

@@ -40,7 +40,6 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final int flags = CASE_INSENSITIVE | UNICODE_CASE;
   private static final List<String> TOKEN_AT_START = Arrays.asList("non", "en", "a", "le", "la", "les", "pour", "de",
     "du", "des", "un", "une", "mon", "ma", "mes", "ton", "ta", "tes", "son", "sa", "ses", "leur", "leurs", "ce", "cet");
-  private static final Pattern CAMEL_CASE = compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", UNICODE_CASE);
   private static final List<String> PREFIX_WITH_WHITESPACE = Arrays.asList("agro", "anti", "archi", "auto", "aéro",
     "cardio", "co", "cyber", "demi", "ex", "extra", "géo", "hospitalo", "hydro", "hyper", "hypo", "infra", "inter",
     "macro", "mega", "meta", "mi", "micro", "mini", "mono", "multi", "musculo", "méga", "méta", "néo", "omni", "pan",
@@ -83,19 +82,18 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_1P = compile("V .*(ind).* 1 p");
   private static final Pattern VERB_2P = compile("V .*(ind).* 2 p");
   private static final Pattern VERB_3P = compile("V .*(ind).* 3 p");
-
-  private final String dictFilename;
+  private static final String DICT_FILE = "/fr/french.dict";
+  private static final Pattern HYPHEN_OR_QUOTE = compile("['-]");
 
   public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
-    this.setIgnoreTaggedWords();
-    dictFilename = "/fr/french.dict";
+    setIgnoreTaggedWords();
   }
 
   @Override
   public String getFileName() {
-    return dictFilename;
+    return DICT_FILE;
   }
 
   @Override
@@ -122,7 +120,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
 
-      String parts[] = suggestions.get(i).getReplacement().toLowerCase().split(" ");
+      String[] parts = suggestions.get(i).getReplacement().toLowerCase().split(" ");
 
       // remove wrong split prefixes
       if (parts.length == 2 && PREFIX_WITH_WHITESPACE.contains(parts[0])) {
@@ -157,7 +155,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       }
 
       // move words with apostrophe or hyphen to second position
-      String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
+      String cleanSuggestion = HYPHEN_OR_QUOTE.matcher(suggestions.get(i).getReplacement()).replaceAll("");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
         if (posNewSugg == 0) {
           posNewSugg = 1;

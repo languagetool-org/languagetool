@@ -69,7 +69,7 @@ public class PortugueseTagger extends BaseTagger {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
         }
-        word = word.replace("’", "'");
+        word = word.replace('’', '\'');
       }
       List<AnalyzedToken> l = new ArrayList<>();
       String lowerWord = word.toLowerCase(locale);
@@ -153,9 +153,7 @@ public class PortugueseTagger extends BaseTagger {
 
   private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
-      for (AnalyzedToken at : taggedTokens) {
-        l.add(at);
-      }
+      l.addAll(taggedTokens);
     }
   }
 

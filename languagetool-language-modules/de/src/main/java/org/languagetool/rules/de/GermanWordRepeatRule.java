@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
@@ -41,6 +42,8 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
  * @author Daniel Naber
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
+
+  private static final Pattern SINGLE_CHAR = Pattern.compile("(?i)^[a-z]$");
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
@@ -353,12 +356,14 @@ public class GermanWordRepeatRule extends WordRepeatRule {
           return true;
       }
     }
-
-    if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
+    if (SINGLE_CHAR.matcher(tokens[position].getToken()).matches() &&
+          position > 1 &&
+          SINGLE_CHAR.matcher(tokens[position - 2].getToken()).matches() &&
+          (position + 1 < tokens.length) &&
+          SINGLE_CHAR.matcher(tokens[position + 1].getToken()).matches()) {
       // spelling with spaces in between: "A B B A"
       return true;
     }
-
     return super.ignore(tokens, position);
   }
 

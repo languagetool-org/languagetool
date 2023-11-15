@@ -34,8 +34,9 @@ import java.util.stream.Collectors;
 
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
-  private String dictFilename;
+  private final String dictFilename;
   private static final String SPELLING_FILE = "/ca/spelling.txt";
+  private static final Pattern QUOTE_OR_HYPHEN = Pattern.compile("['-]");
 
   @Override
   public List<String> getAdditionalSpellingFileNames() {
@@ -189,7 +190,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       }
 
       // move words with apostrophe or hyphen to second position
-      String cleanSuggestion = replacement.replaceAll("'", "").replaceAll("-", "");
+      String cleanSuggestion = QUOTE_OR_HYPHEN.matcher(replacement).replaceAll("");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
         if (posNewSugg == 0) {
           posNewSugg = 1;

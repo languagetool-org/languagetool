@@ -39,6 +39,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   private static final Pattern DO_NOT_SUGGEST_SPACED_PATTERN = Pattern.compile(
         "(авіа|авто|анти|аудіо|відео|водо|гідро|екстра|квазі|кіно|лже|мета|моно|мото|псевдо|пост|радіо|стерео|супер|ультра|фото) .*");
   private static final Pattern INFIX_PATTERN = Pattern.compile("-[а-яіїєґ]{1,5}-");
+  private static final Pattern PATTERN = Pattern.compile("[А-ЯІЇЄҐ]");
   private static final Map<String, String> dashPrefixes2019;
 
   static {
@@ -115,7 +116,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       if( super.ignoreWord(word + ABBREVIATION_CHAR) ) {
         return true;
       }
-      if( word.matches("[А-ЯІЇЄҐ]") ) {  //TODO: only do this for initials when last name is followed
+      if(PATTERN.matcher(word).matches()) {  //TODO: only do this for initials when last name is followed
         return true;
       }
     }

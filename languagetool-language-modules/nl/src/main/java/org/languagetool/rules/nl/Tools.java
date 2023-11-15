@@ -22,11 +22,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 
 class Tools {
+
+  private static final Pattern ENDS_IN_DIGIT = Pattern.compile(".*[0-9]$");
+  private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^[0-9].*");
+  private static final Pattern ENDS_IN_HYPHEN_AND_CHAR = Pattern.compile(".+-[a-z]$");
+  private static final Pattern STARTS_WITH_CHAR_AND_HYPHEN = Pattern.compile("^[a-z]-.+");
 
   private Tools() {
   }
@@ -55,13 +61,13 @@ class Tools {
           compound = compound + '-' + word2;
         } else if (isUpperCase(lastChar) && isUpperCase(firstChar)) {
           compound = compound + '-' + word2;
-        } else if (compound.matches(".*[0-9]$")) {
+        } else if (ENDS_IN_DIGIT.matcher(compound).matches()) {
           compound = compound + '-' + word2;
-        } else if (word2.matches("^[0-9].*")) {
+        } else if (STARTS_WITH_DIGIT.matcher(word2).matches()) {
           compound = compound + '-' + word2;
         } else if (compound.matches("(^|.+-)?" + spelledWords) || word2.matches(spelledWords + "(-.+|$)?")) {
           compound = compound + '-' + word2;
-        } else if (compound.matches(".+-[a-z]$") || word2.matches("^[a-z]-.+")) {
+        } else if (ENDS_IN_HYPHEN_AND_CHAR.matcher(compound).matches() || STARTS_WITH_CHAR_AND_HYPHEN.matcher(word2).matches()) {
           compound = compound + '-' + word2;
         } else {
           compound = compound + word2;
