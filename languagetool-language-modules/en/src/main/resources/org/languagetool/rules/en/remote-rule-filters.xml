@@ -1899,6 +1899,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|CC|PCT|TO" postag_regexp="yes" />
+                    <token regexp="yes">an?|another|more|one</token>
+                    <token min="0" max="2" chunk="I-NP-singular" />
+                    <marker>
+                        <token chunk="E-NP-singular" />
+                    </marker>
+                    <token postag="JJR" />
+                </pattern>
+                <example correction="">Another <marker>year</marker> wiser and greater!</example>
+            </rule>
             <rule>  <!-- no comma in middle of noun phrase I -->
                 <antipattern>
                     <token chunk="B-NP-plural" />
@@ -1906,13 +1918,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token chunk="B-NP-plural" />
+                        <token postag="CD" chunk="B-NP-plural" />
                     </marker>
-                    <token chunk_re="[IE]-NP-plural" />
+                    <token min="0" max="2" chunk="I-NP-plural" />
+                    <token chunk="E-NP-plural" />
                 </pattern>
                 <example correction="">She was found guilty and sentenced to <marker>ninety</marker> days in the Sacramento County</example>
+                <example>Like all the great things on earth traveling teaches us by example.</example>
             </rule>
-            <rule>  <!-- no comma in middle of noun phrase II -->
+        <!--<rule>
                 <antipattern>
                     <token chunk="B-NP-singular" />
                     <token chunk="B-NP-singular" />
@@ -1924,7 +1938,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token chunk_re="[IE]-NP-singular" />
                 </pattern>
                 <example correction="">She was found guilty and sentenced to <marker>a</marker> day</example>
-            </rule>
+            </rule>-->
             <rule>  <!-- pattern taken from IF_NO_COMMA -->
                 <pattern>
                     <marker>
