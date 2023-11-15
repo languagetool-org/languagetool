@@ -21,6 +21,8 @@ package org.languagetool.tokenizers.pt;
 
 import org.junit.Test;
 
+import java.sql.Struct;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -126,8 +128,21 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
+  public void testDoNotTokeniseOrdinalSuperscript() {
+    testTokenise("6º", new String[]{"6º"});  // superscript 'o'
+    testTokenise("100°", new String[]{"100°"});  // degree symbol
+    testTokenise("21ª", new String[]{"21ª"});
+  }
+
+  @Test
   public void testTokeniseExponent() {
     testTokenise("km²", new String[]{"km", "²"});
+  }
+
+  @Test public void testTokeniseCopyrightAndSimilarSymbols() {
+    testTokenise("Copyright©", new String[]{"Copyright", "©"});
+    testTokenise("Bacana®", new String[]{"Bacana", "®"});
+    testTokenise("Legal™", new String[]{"Legal", "™"});
   }
 
   @Test

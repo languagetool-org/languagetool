@@ -80,8 +80,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   @Nullable
   protected String dialectAlternative(String word) throws IOException {
     // Naive check: word is identical to lemma present on the TXT list
-    if (this.dialectAlternationMapping.containsKey(word.toLowerCase())) {
-      return this.dialectAlternationMapping.get(word.toLowerCase());
+    String lemmaCheckResult = dialectAlternationMapping.get(word.toLowerCase());
+    if (lemmaCheckResult != null) {
+      return lemmaCheckResult;
     }
     List<String> wordAsList = Collections.singletonList(word);
     List<AnalyzedTokenReadings> readings = tagger.tag(wordAsList);
@@ -90,13 +91,12 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       for (AnalyzedToken token : reading.getReadings()) {
         String lemma = token.getLemma();
         String tag = token.getPOSTag();
-        if (this.dialectAlternationMapping.containsKey(lemma) && tag != null) {
-          String candidate = this.dialectAlternationMapping.get(lemma);
+        if (tag != null && dialectAlternationMapping.containsKey(lemma)) {
+          String candidate = dialectAlternationMapping.get(lemma);
           Predicate<String> tagPredicate = tagStr -> tagStr.contentEquals(tag);
           String[] forms = synth.synthesizeForPosTags(candidate, tagPredicate);
-          // the assumption is these words are almost identical, their tagging also ought to be
-          // so even if it returns many POS tags, the synthesiser should always yield the same form for the same
-          // set of tags
+          // the assumption is these words are almost identical, their tagging also ought to be; so even if it returns
+          // many POS tags, the synthesiser should always yield the same form for the same set of tags
           if (forms.length > 0) {
             return forms[0];
           }
@@ -106,16 +106,30 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     return null;
   }
 
+  @Nullable
+  private String checkDiaeresis(String word) {
+    if (word.indexOf('ü') >= 0) {
+      return word.replace('ü', 'u');
+    }
+    return null;
+  }
+
+  @Nullable
+  private String checkEuropeanStyle1PLPastTense(String word) {
+    if (Objects.equals(spellerLanguage.getShortCodeWithCountryAndVariant(), "pt-BR") && word.endsWith("ámos")) {
+      return word.replace('á', 'a');
+    }
+    return null;
+  }
+
   private Map<String,String> getDialectAlternationMapping() {
     Map<String,String> wordMap = new HashMap<>();
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(dialectAlternationsFilepath);
-    String fullLanguageCode = this.spellerLanguage.getShortCodeWithCountryAndVariant();
+    String fullLanguageCode = spellerLanguage.getShortCodeWithCountryAndVariant();
     int column = -1;
-    if (Objects.equals(fullLanguageCode, "pt-BR")) {
-      column = 1;  // hash from pt-PT to pt-BR
-      // TODO: add here check for agreement year!
-    } else if (Objects.equals(fullLanguageCode, "pt-PT")) {
-      column = 0;  // hash from pt-BR to pt-PT
+    switch(fullLanguageCode) {
+      case "pt-BR": column = 1; break;  // hash from pt-PT to pt-BR
+      case "pt-PT": column = 0; break;  // hash from pt-BR to pt-PT
     }
     if (column == -1) { // not supported for pre-45 dictionaries
       return Collections.emptyMap();
@@ -125,12 +139,12 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       if (line.isEmpty() || line.startsWith("#")) {
         continue;
       }
-      String[] parts = line.split("=");
-      if (parts.length != 2) {
+      String[] parsedLine = line.split("=");
+      if (parsedLine.length != 2) {
         throw new RuntimeException("Unexpected format in " + dialectAlternationsFilepath + ": " + line +
           " - expected two parts delimited by '='");
       }
-      wordMap.put(parts[column].toLowerCase(), parts[column == 1 ? 0 : 1]);
+      wordMap.put(parsedLine[column].toLowerCase(), parsedLine[column == 1 ? 0 : 1]);
     }
     return wordMap;
   }
@@ -142,12 +156,12 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     // to the wrong dialect, commenting this out
     // this.setIgnoreTaggedWords();
     if (language.getShortCodeWithCountryAndVariant().equals("pt")) {
-      this.spellerLanguage = language.getDefaultLanguageVariant();
+      spellerLanguage = language.getDefaultLanguageVariant();
     } else {
-      this.spellerLanguage = language;
+      spellerLanguage = language;
     }
-    this.dictFilepath = "/pt/spelling/" + getDictFilename() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
-    this.dialectAlternationMapping = getDialectAlternationMapping();
+    dictFilepath = "/pt/spelling/" + getDictFilename() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    dialectAlternationMapping = getDialectAlternationMapping();
   }
 
   @Override
@@ -214,6 +228,16 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (!ruleMatches.isEmpty()) {
+      String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);
+      if (wordWithBrazilianStylePastTense != null) {
+        String message = "No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.";
+        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithBrazilianStylePastTense);
+      }
+      String wordWithoutDiaeresis = checkDiaeresis(word);
+      if (wordWithoutDiaeresis != null) {
+        String message = "O trema deixou de ser utilizado em português com o Acordo Ortográfico de 1945.";
+        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithoutDiaeresis);
+      }
       String dialectAlternative = this.dialectAlternative(word);
       if (dialectAlternative != null) {
         String otherVariant = "europeu";

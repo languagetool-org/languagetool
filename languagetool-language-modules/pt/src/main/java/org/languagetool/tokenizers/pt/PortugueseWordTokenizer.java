@@ -93,7 +93,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   private static final Pattern NEARBY_HYPHENS_PATTERN = compile("([\\p{L}])-([\\p{L}])-([\\p{L}])", CASE_INSENSITIVE | UNICODE_CASE);
   private static final String NEARBY_HYPHENS_REPL = "$1" + HYPHEN_SUBST + "$2" + HYPHEN_SUBST + "$3";
 
-  private final String PT_TOKENISING_CHARS = getTokenizingCharacters() + "⌈⌋″";
+  private final String PT_TOKENISING_CHARS = getTokenizingCharacters() + "⌈⌋″©";
 
   public PortugueseWordTokenizer() {
     tagger = new PortugueseTagger();

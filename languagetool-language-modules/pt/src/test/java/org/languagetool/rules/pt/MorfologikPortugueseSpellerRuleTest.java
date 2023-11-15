@@ -27,7 +27,9 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -53,17 +55,20 @@ public class MorfologikPortugueseSpellerRuleTest {
     return new JLanguageTool(Languages.getLanguageForShortCode("pt-" + countryCode));
   }
 
+  private List<String> getFirstSuggestions(RuleMatch match, int max) {
+    return match.getSuggestedReplacements().stream().limit(5).collect(Collectors.toList());
+  }
+
   private void assertErrorLength(String sentence, int length, JLanguageTool lt,
                                         MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    // TODO: just debugging, must delete later!
     if (matches.length > 0) {
-      System.out.println(matches[0].getSuggestedReplacements());
+      List<String> returnedSuggestions = getFirstSuggestions(matches[0], 5);
+      // TODO: just debugging, must delete later!
+      System.out.println(returnedSuggestions);
+      assert returnedSuggestions.containsAll(Arrays.asList(suggestions));
     }
     assertEquals(length, matches.length);
-    if (matches.length > 0) {
-      assert matches[0].getSuggestedReplacements().containsAll(Arrays.asList(suggestions));
-    }
   }
 
   private void assertSingleErrorWithNegativeSuggestion(String sentence, JLanguageTool lt,
@@ -71,12 +76,11 @@ public class MorfologikPortugueseSpellerRuleTest {
                                                        String badSuggestion) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     // TODO: just debugging, must delete later!
-    if (matches.length > 0) {
-      System.out.println(matches[0].getSuggestedReplacements());
-    }
     assertEquals(1, matches.length);
     if (matches.length > 0) {
-      assertFalse(matches[0].getSuggestedReplacements().contains(badSuggestion));
+      List<String> returnedSuggestions = matches[0].getSuggestedReplacements();
+      System.out.println(returnedSuggestions);
+      assertFalse(returnedSuggestions.contains(badSuggestion));
     }
   }
 
@@ -103,14 +107,15 @@ public class MorfologikPortugueseSpellerRuleTest {
   private void assertSingleExactError(String sentence, JLanguageTool lt, MorfologikPortugueseSpellerRule rule,
                                       String suggestion, String message) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
+    assertEquals(1, matches.length);
     // TODO: just debugging, must delete later!
     if (matches.length > 0) {
-      System.out.println(matches[0].getSuggestedReplacements());
+      RuleMatch match = matches[0];
+      List<String> returnedSuggestions = match.getSuggestedReplacements();
+      System.out.println(returnedSuggestions);
+      assert Objects.equals(returnedSuggestions.get(0), suggestion);
+      assert Objects.equals(match.getMessage(), message);
     }
-    assertEquals(1, matches.length);
-    RuleMatch match = matches[0];
-    assert Objects.equals(match.getSuggestedReplacements().get(0), suggestion);
-    assert Objects.equals(match.getMessage(), message);
   }
 
   private void assertTwoWayDialectError(String sentenceBR, String sentencePT) throws IOException {
@@ -185,10 +190,9 @@ public class MorfologikPortugueseSpellerRuleTest {
   public void testPortugueseHyphenationRules() throws Exception {
     assertNoErrors("Bolsa-Família", ltBR, ruleBR);
     assertNoErrors("ab-rogava", ltBR, ruleBR);
-    // not symmetrical because 'anti' and 'republicanismo' are both valid words, we need the compound rule active
-    // to catch this!
+    // not symmetrical because 'anti' and 'republicanismo' are both valid words...
+    // we need the compound rule active to catch this!
     assertNoErrors("antirrepublicanismo", ltPT, rulePT);
-    // good suggestions will need to come from the compounds rule
     assertSingleError("antirrepublicanismo", ltMZ, ruleMZ, new String[]{"anti-republicanismo"});
   }
 
@@ -199,6 +203,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertTwoWayDialectError("anônimo", "anónimo");
     // test that we are able to leverage the synthesiser to expand the lookup (plurals are not on the list)
     assertTwoWayDialectError("caratês", "caratés");
+    assertTwoWayDialectError("detectariam", "detetariam");
     // more simple lookups of various phenomena split along dialect lines
     assertTwoWayDialectError("tênis", "ténis");
     assertTwoWayDialectError("ônus", "ónus");
@@ -286,6 +291,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("6£", ltBR, ruleBR);
     assertNoErrors("30 R$", ltBR, ruleBR);
     assertNoErrors("US$", ltBR, ruleBR);
+    assertNoErrors("US$ 58,0 bilhões", ltBR, ruleBR);
   }
 
   @Test
@@ -295,6 +301,18 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("Nº 420", ltBR, ruleBR);
     assertNoErrors("N.º69", ltBR, ruleBR);
     assertNoErrors("N.º 80085", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerDoesNotCorrectOrdinalSuperscripts() throws Exception {
+    assertNoErrors("6º", ltBR, ruleBR);  // superscript 'o'
+    assertNoErrors("100°", ltBR, ruleBR);  // degree symbol
+    assertNoErrors("21ª", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerDoesNotCorrectCopyrightSymbol() throws Exception {
+    assertNoErrors("Copyright©", ltBR, ruleBR);
   }
 
   @Test
@@ -345,5 +363,40 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("Puerto Rico", ltBR, ruleBR, new String[]{"Porto"});
     assertSingleError("Suissa", ltBR, ruleBR, new String[]{"Suíça"});
     assertSingleError("actividade", ltBR, ruleBR, new String[]{"atividade"});
+  }
+
+  @Test
+  public void testPortugueseDiaeresis() throws Exception {
+    assertSingleExactError("pingüim", ltBR, ruleBR, "pinguim",
+      "O trema deixou de ser utilizado em português com o Acordo Ortográfico de 1945.");
+  }
+
+  @Test
+  public void testEuropeanPortugueseStyle1PLPastTenseCorrectedInBrazilian() throws Exception {
+    assertSingleExactError("amámos", ltBR, ruleBR, "amamos",
+      "No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.");
+  }
+
+  @Test
+  public void testPortugueseSpellerIgnoresUppercaseAndDigitString() throws Exception {
+    // Disambiguator rule!
+    assertNoErrors("ABC2000", ltBR, ruleBR);
+    assertNoErrors("AI5", ltBR, ruleBR);
+    assertNoErrors("IP65", ltBR, ruleBR);
+    assertNoErrors("HR2048", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerIgnoresAmpersandBetweenTwoCapitals() throws Exception {
+    // Disambiguator rule!
+    assertNoErrors("J&F", ltBR, ruleBR);
+    assertNoErrors("A&E", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerIgnoresParentheticalInflection() throws Exception {
+    // Disambiguator rule!
+    assertNoErrors("professor(es)", ltBR, ruleBR);
+    assertNoErrors("profissional(is)", ltBR, ruleBR);
   }
 }
