@@ -3891,14 +3891,14 @@
     <rule id="CURRENCY_SPELLING_PRE_IGNORE">
         <pattern>
             <token regexp="yes">&currency_symbols;</token>
-            <token regexp="yes">[\d.,]+</token>
+            <token regexp="yes">\d[\d.,]*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <rule id="CURRENCY_SPELLING_POST_IGNORE">
         <pattern>
-            <token regexp="yes">[\d.,]+</token>
+            <token regexp="yes">\d[\d.,]*</token>
             <token regexp="yes">&currency_symbols;</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3959,6 +3959,27 @@
                  <token spacebefore="no" regexp="yes">[ie]s</token>
              </marker>
              <token spacebefore="no">)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="VALUE_AND_MEASUREMENT_UNIT_IGNORE">
+         <pattern>
+            <token regexp="yes">\d[\d,.]*[a-zA-Z]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NONSTANDARD_DURATION_IGNORE">
+         <pattern>
+            <token regexp="yes">\d+h(\d+min)?(\d+s(ec)?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NONSTANDARD_TIME_IGNORE">
+         <pattern>
+            <token regexp="yes">\d+:\d+hr?s?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

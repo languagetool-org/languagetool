@@ -399,4 +399,18 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("professor(es)", ltBR, ruleBR);
     assertNoErrors("profissional(is)", ltBR, ruleBR);
   }
+
+  @Test
+  public void testPortugueseSpellerIgnoresProbableUnitsOfMeasurement() throws Exception {
+    // Disambiguator rule; this is a style/typography issue to be taken care of in XML rules
+    assertNoErrors("180g", ltBR, ruleBR);
+    assertNoErrors("16.2kW", ltBR, ruleBR);
+  }
+
+  @Test public void testPortugueseSpellerIgnoresNonstandardTimeFormat() throws Exception {
+    // Disambiguator rule; this is a style/typography issue to be taken care of in XML rules
+    assertNoErrors("31h40min", ltBR, ruleBR);
+    assertNoErrors("1h20min3s", ltBR, ruleBR);
+    assertNoErrors("13:30h", ltBR, ruleBR);
+  }
 }
