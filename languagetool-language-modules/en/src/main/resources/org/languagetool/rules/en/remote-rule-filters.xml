@@ -578,6 +578,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
             <rule>
                 <pattern>
+                    <token skip="10" postag="VBN" chunk_re=".-VP" />
+                    <token chunk_re="B-(PP|SBAR)">that</token>
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" postag="VB[DN]" postag_regexp="yes">cost|hit|hurt|let|put|quit|set|shut|split|spread</token>
+                    </marker>
+                </pattern>
+                <example correction="">Or have you been so cold that your face <marker>hurt</marker> from being outside?</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>intention</token>
                     <token>to</token>
                     <marker>
@@ -4013,6 +4026,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">I <marker>dreamt</marker> about becoming very rich.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_VBD_FOR_VBZ " name="">
+            <rule>
+                <pattern>
+                    <token skip="10" postag="VBN" chunk_re=".-VP" />
+                    <token chunk_re="B-(PP|SBAR)">that</token>
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" postag="VB[DN]" postag_regexp="yes">cost|hit|hurt|let|put|quit|set|shut|split|spread</token>
+                    </marker>
+                </pattern>
+                <example correction="">Or have you been so cold that your face <marker>hurt</marker> from being outside?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_VBN_FOR_VBZ " name="">
+            <rule>
+                <pattern>
+                    <token skip="10" postag="VBN" chunk_re=".-VP" />
+                    <token chunk_re="B-(PP|SBAR)">that</token>
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" postag="VB[DN]" postag_regexp="yes">cost|hit|hurt|let|put|quit|set|shut|split|spread</token>
+                    </marker>
+                </pattern>
+                <example correction="">Or have you been so cold that your face <marker>hurt</marker> from being outside?</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_''_FOR_COMMASPACE''" name="">
