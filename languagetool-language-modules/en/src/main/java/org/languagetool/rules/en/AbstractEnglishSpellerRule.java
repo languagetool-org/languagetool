@@ -1366,6 +1366,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<SuggestedReplacement> getOnlySuggestions(String word) {
     // NOTE: only add words here that would otherwise have more than one suggestion
     // and have apply to all variants of English (en-US, en-GB, ...):
+    if (word.matches("[Pp]rofileration")) return topMatch(word.replaceFirst("rofileration", "roliferation"), "rapid expansion");
     if (word.matches("[Cc]emetary")) return topMatch(word.replaceFirst("emetary", "emetery"));
     if (word.matches("[Cc]emetaries")) return topMatch(word.replaceFirst("emetaries", "emeteries"));
     if (word.matches("[Bb]asicly")) return topMatch(word.replaceFirst("asicly", "asically"));
