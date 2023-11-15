@@ -32,12 +32,17 @@ public class ToolsTest {
     assertThat(Tools.glueParts(Arrays.asList("tv", "programma")), is("tv-programma"));
     assertThat(Tools.glueParts(Arrays.asList("auto2", "deurs")), is("auto2-deurs"));
     assertThat(Tools.glueParts(Arrays.asList("zee", "eend")), is("zee-eend"));
+    assertThat(Tools.glueParts(Arrays.asList("mms", "eend")), is("mms-eend"));
     assertThat(Tools.glueParts(Arrays.asList("EersteKlas", "service")), is("EersteKlasservice"));
     assertThat(Tools.glueParts(Arrays.asList("3D", "printer")), is("3Dprinter"));
     assertThat(Tools.glueParts(Arrays.asList("groot", "moeder", "huis")), is("grootmoederhuis"));
     assertThat(Tools.glueParts(Arrays.asList("sport", "tv", "uitzending")), is("sport-tv-uitzending"));
     assertThat(Tools.glueParts(Arrays.asList("auto-", "pilot")), is("auto-pilot"));
     assertThat(Tools.glueParts(Arrays.asList("foto", "5d", "camera")), is("foto-5dcamera"));
+    assertThat(Tools.glueParts(Arrays.asList("xyZ", "xyz")), is("xyZ-xyz"));
+    assertThat(Tools.glueParts(Arrays.asList("xyZ", "Xyz")), is("xyZ-Xyz"));
+    assertThat(Tools.glueParts(Arrays.asList("xyz", "Xyz")), is("xyz-Xyz"));
+    assertThat(Tools.glueParts(Arrays.asList("xxx-z", "yyy")), is("xxx-z-yyy"));
   }
 
 }
