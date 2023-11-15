@@ -5,7 +5,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.50.2)",
+    value = "by gRPC proto compiler (version 1.56.1)",
     comments = "Source: ml_server.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class MLServerGrpc {
@@ -123,45 +123,39 @@ public final class MLServerGrpc {
 
   /**
    */
-  public static abstract class MLServerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void match(org.languagetool.rules.ml.MLServerProto.MatchRequest request,
+    default void match(org.languagetool.rules.ml.MLServerProto.MatchRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMatchMethod(), responseObserver);
     }
 
     /**
      */
-    public void matchAnalyzed(org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest request,
+    default void matchAnalyzed(org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMatchAnalyzedMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getMatchMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.languagetool.rules.ml.MLServerProto.MatchRequest,
-                org.languagetool.rules.ml.MLServerProto.MatchResponse>(
-                  this, METHODID_MATCH)))
-          .addMethod(
-            getMatchAnalyzedMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest,
-                org.languagetool.rules.ml.MLServerProto.MatchResponse>(
-                  this, METHODID_MATCH_ANALYZED)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service MLServer.
    */
-  public static final class MLServerStub extends io.grpc.stub.AbstractAsyncStub<MLServerStub> {
+  public static abstract class MLServerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return MLServerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service MLServer.
+   */
+  public static final class MLServerStub
+      extends io.grpc.stub.AbstractAsyncStub<MLServerStub> {
     private MLServerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -191,8 +185,10 @@ public final class MLServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service MLServer.
    */
-  public static final class MLServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<MLServerBlockingStub> {
+  public static final class MLServerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<MLServerBlockingStub> {
     private MLServerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -220,8 +216,10 @@ public final class MLServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service MLServer.
    */
-  public static final class MLServerFutureStub extends io.grpc.stub.AbstractFutureStub<MLServerFutureStub> {
+  public static final class MLServerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<MLServerFutureStub> {
     private MLServerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -258,10 +256,10 @@ public final class MLServerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final MLServerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(MLServerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -292,6 +290,25 @@ public final class MLServerGrpc {
           throw new AssertionError();
       }
     }
+  }
+
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getMatchMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              org.languagetool.rules.ml.MLServerProto.MatchRequest,
+              org.languagetool.rules.ml.MLServerProto.MatchResponse>(
+                service, METHODID_MATCH)))
+        .addMethod(
+          getMatchAnalyzedMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              org.languagetool.rules.ml.MLServerProto.AnalyzedMatchRequest,
+              org.languagetool.rules.ml.MLServerProto.MatchResponse>(
+                service, METHODID_MATCH_ANALYZED)))
+        .build();
   }
 
   private static abstract class MLServerBaseDescriptorSupplier

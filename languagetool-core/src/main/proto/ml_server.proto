@@ -59,6 +59,7 @@ message AnalyzedMatchRequest {
     repeated AnalyzedSentence sentences = 1;
     bool inputLogging = 2; // allow logging of input on error
     repeated int64 textSessionID = 3; // session ID, for partial rollout & A/B tests
+    string language = 4; // language code (with region/country) of text being handled
 }
 
 message AnalyzedSentence {
@@ -94,6 +95,7 @@ message MatchRequest {
     repeated string sentences = 1; // input text to be analyzed
     bool inputLogging = 2; // allow logging of input on error
     repeated int64 textSessionID = 3; // session ID, for partial rollout & A/B tests
+    string language = 4; // language code (with region/country) of text being handled
 }
 
 message MatchResponse {

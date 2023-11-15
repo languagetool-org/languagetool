@@ -5318,6 +5318,26 @@ public final class MLServerProto {
      * @return The textSessionID at the given index.
      */
     long getTextSessionID(int index);
+
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The language.
+     */
+    java.lang.String getLanguage();
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The bytes for language.
+     */
+    com.google.protobuf.ByteString
+        getLanguageBytes();
   }
   /**
    * Protobuf type {@code lt_ml_server.AnalyzedMatchRequest}
@@ -5334,6 +5354,7 @@ public final class MLServerProto {
     private AnalyzedMatchRequest() {
       sentences_ = java.util.Collections.emptyList();
       textSessionID_ = emptyLongList();
+      language_ = "";
     }
 
     @java.lang.Override
@@ -5400,6 +5421,12 @@ public final class MLServerProto {
                 textSessionID_.addLong(input.readInt64());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              language_ = s;
               break;
             }
             default: {
@@ -5535,6 +5562,52 @@ public final class MLServerProto {
     }
     private int textSessionIDMemoizedSerializedSize = -1;
 
+    public static final int LANGUAGE_FIELD_NUMBER = 4;
+    private volatile java.lang.Object language_;
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The language.
+     */
+    @java.lang.Override
+    public java.lang.String getLanguage() {
+      java.lang.Object ref = language_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        language_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The bytes for language.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLanguageBytes() {
+      java.lang.Object ref = language_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        language_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -5562,6 +5635,9 @@ public final class MLServerProto {
       }
       for (int i = 0; i < textSessionID_.size(); i++) {
         output.writeInt64NoTag(textSessionID_.getLong(i));
+      }
+      if (!getLanguageBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, language_);
       }
       unknownFields.writeTo(output);
     }
@@ -5594,6 +5670,9 @@ public final class MLServerProto {
         }
         textSessionIDMemoizedSerializedSize = dataSize;
       }
+      if (!getLanguageBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, language_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -5615,6 +5694,8 @@ public final class MLServerProto {
           != other.getInputLogging()) return false;
       if (!getTextSessionIDList()
           .equals(other.getTextSessionIDList())) return false;
+      if (!getLanguage()
+          .equals(other.getLanguage())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -5637,6 +5718,8 @@ public final class MLServerProto {
         hash = (37 * hash) + TEXTSESSIONID_FIELD_NUMBER;
         hash = (53 * hash) + getTextSessionIDList().hashCode();
       }
+      hash = (37 * hash) + LANGUAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getLanguage().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5781,6 +5864,8 @@ public final class MLServerProto {
 
         textSessionID_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
+        language_ = "";
+
         return this;
       }
 
@@ -5823,6 +5908,7 @@ public final class MLServerProto {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.textSessionID_ = textSessionID_;
+        result.language_ = language_;
         onBuilt();
         return result;
       }
@@ -5908,6 +5994,10 @@ public final class MLServerProto {
             ensureTextSessionIDIsMutable();
             textSessionID_.addAll(other.textSessionID_);
           }
+          onChanged();
+        }
+        if (!other.getLanguage().isEmpty()) {
+          language_ = other.language_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -6326,6 +6416,102 @@ public final class MLServerProto {
       public Builder clearTextSessionID() {
         textSessionID_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object language_ = "";
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @return The language.
+       */
+      public java.lang.String getLanguage() {
+        java.lang.Object ref = language_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          language_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @return The bytes for language.
+       */
+      public com.google.protobuf.ByteString
+          getLanguageBytes() {
+        java.lang.Object ref = language_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          language_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @param value The language to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLanguage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        language_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLanguage() {
+        
+        language_ = getDefaultInstance().getLanguage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @param value The bytes for language to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLanguageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        language_ = value;
         onChanged();
         return this;
       }
@@ -10883,6 +11069,26 @@ public final class MLServerProto {
      * @return The textSessionID at the given index.
      */
     long getTextSessionID(int index);
+
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The language.
+     */
+    java.lang.String getLanguage();
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The bytes for language.
+     */
+    com.google.protobuf.ByteString
+        getLanguageBytes();
   }
   /**
    * Protobuf type {@code lt_ml_server.MatchRequest}
@@ -10899,6 +11105,7 @@ public final class MLServerProto {
     private MatchRequest() {
       sentences_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       textSessionID_ = emptyLongList();
+      language_ = "";
     }
 
     @java.lang.Override
@@ -10965,6 +11172,12 @@ public final class MLServerProto {
                 textSessionID_.addLong(input.readInt64());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              language_ = s;
               break;
             }
             default: {
@@ -11111,6 +11324,52 @@ public final class MLServerProto {
     }
     private int textSessionIDMemoizedSerializedSize = -1;
 
+    public static final int LANGUAGE_FIELD_NUMBER = 4;
+    private volatile java.lang.Object language_;
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The language.
+     */
+    @java.lang.Override
+    public java.lang.String getLanguage() {
+      java.lang.Object ref = language_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        language_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * language code (with region/country) of text being handled
+     * </pre>
+     *
+     * <code>string language = 4;</code>
+     * @return The bytes for language.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLanguageBytes() {
+      java.lang.Object ref = language_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        language_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -11138,6 +11397,9 @@ public final class MLServerProto {
       }
       for (int i = 0; i < textSessionID_.size(); i++) {
         output.writeInt64NoTag(textSessionID_.getLong(i));
+      }
+      if (!getLanguageBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, language_);
       }
       unknownFields.writeTo(output);
     }
@@ -11174,6 +11436,9 @@ public final class MLServerProto {
         }
         textSessionIDMemoizedSerializedSize = dataSize;
       }
+      if (!getLanguageBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, language_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -11195,6 +11460,8 @@ public final class MLServerProto {
           != other.getInputLogging()) return false;
       if (!getTextSessionIDList()
           .equals(other.getTextSessionIDList())) return false;
+      if (!getLanguage()
+          .equals(other.getLanguage())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -11217,6 +11484,8 @@ public final class MLServerProto {
         hash = (37 * hash) + TEXTSESSIONID_FIELD_NUMBER;
         hash = (53 * hash) + getTextSessionIDList().hashCode();
       }
+      hash = (37 * hash) + LANGUAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getLanguage().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -11356,6 +11625,8 @@ public final class MLServerProto {
 
         textSessionID_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
+        language_ = "";
+
         return this;
       }
 
@@ -11394,6 +11665,7 @@ public final class MLServerProto {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.textSessionID_ = textSessionID_;
+        result.language_ = language_;
         onBuilt();
         return result;
       }
@@ -11463,6 +11735,10 @@ public final class MLServerProto {
             ensureTextSessionIDIsMutable();
             textSessionID_.addAll(other.textSessionID_);
           }
+          onChanged();
+        }
+        if (!other.getLanguage().isEmpty()) {
+          language_ = other.language_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -11787,6 +12063,102 @@ public final class MLServerProto {
       public Builder clearTextSessionID() {
         textSessionID_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object language_ = "";
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @return The language.
+       */
+      public java.lang.String getLanguage() {
+        java.lang.Object ref = language_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          language_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @return The bytes for language.
+       */
+      public com.google.protobuf.ByteString
+          getLanguageBytes() {
+        java.lang.Object ref = language_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          language_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @param value The language to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLanguage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        language_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLanguage() {
+        
+        language_ = getDefaultInstance().getLanguage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * language code (with region/country) of text being handled
+       * </pre>
+       *
+       * <code>string language = 4;</code>
+       * @param value The bytes for language to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLanguageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        language_ = value;
         onChanged();
         return this;
       }
@@ -20406,62 +20778,63 @@ public final class MLServerProto {
       "\n\007options\030\002 \001(\0132\037.lt_ml_server.Processin" +
       "gOptions\"`\n\017ProcessResponse\022\'\n\nrawMatche" +
       "s\030\001 \003(\0132\023.lt_ml_server.Match\022$\n\007matches\030" +
-      "\002 \003(\0132\023.lt_ml_server.Match\"v\n\024AnalyzedMa" +
-      "tchRequest\0221\n\tsentences\030\001 \003(\0132\036.lt_ml_se" +
-      "rver.AnalyzedSentence\022\024\n\014inputLogging\030\002 " +
-      "\001(\010\022\025\n\rtextSessionID\030\003 \003(\003\"U\n\020AnalyzedSe" +
-      "ntence\022\014\n\004text\030\001 \001(\t\0223\n\006tokens\030\002 \003(\0132#.l" +
-      "t_ml_server.AnalyzedTokenReadings\"k\n\025Ana" +
-      "lyzedTokenReadings\022-\n\010readings\030\001 \003(\0132\033.l" +
-      "t_ml_server.AnalyzedToken\022\021\n\tchunkTags\030\002" +
-      " \003(\t\022\020\n\010startPos\030\003 \001(\005\"=\n\rAnalyzedToken\022" +
-      "\r\n\005token\030\001 \001(\t\022\016\n\006posTag\030\002 \001(\t\022\r\n\005lemma\030" +
-      "\003 \001(\t\"\201\001\n\025PostProcessingRequest\022\021\n\tsente" +
-      "nces\030\001 \003(\t\022(\n\007matches\030\002 \003(\0132\027.lt_ml_serv" +
-      "er.MatchList\022\024\n\014inputLogging\030\003 \001(\010\022\025\n\rte" +
-      "xtSessionID\030\004 \003(\003\"N\n\014MatchRequest\022\021\n\tsen" +
-      "tences\030\001 \003(\t\022\024\n\014inputLogging\030\002 \001(\010\022\025\n\rte" +
-      "xtSessionID\030\003 \003(\003\"A\n\rMatchResponse\0220\n\017se" +
-      "ntenceMatches\030\001 \003(\0132\027.lt_ml_server.Match" +
-      "List\"1\n\tMatchList\022$\n\007matches\030\001 \003(\0132\023.lt_" +
-      "ml_server.Match\"\256\003\n\005Match\022\016\n\006offset\030\001 \001(" +
-      "\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016\n\006sub_id\030" +
-      "\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t\022\027\n\017ruleDescri" +
-      "ption\030\006 \001(\t\022\030\n\020matchDescription\030\007 \001(\t\022\035\n" +
-      "\025matchShortDescription\030\010 \001(\t\022\013\n\003url\030\t \001(" +
-      "\t\022A\n\025suggestedReplacements\030\n \003(\0132\".lt_ml" +
-      "_server.SuggestedReplacement\022\023\n\013autoCorr" +
-      "ect\030\013 \001(\010\022+\n\004type\030\014 \001(\0162\035.lt_ml_server.M" +
-      "atch.MatchType\022\033\n\023contextForSureMatch\030\r " +
-      "\001(\021\022 \n\004rule\030\016 \001(\0132\022.lt_ml_server.Rule\"1\n" +
-      "\tMatchType\022\017\n\013UnknownWord\020\000\022\010\n\004Hint\020\001\022\t\n" +
-      "\005Other\020\002\"\251\002\n\004Rule\022\022\n\nsourceFile\030\001 \001(\t\022\021\n" +
-      "\tissueType\030\002 \001(\t\022\017\n\007tempOff\030\003 \001(\010\022,\n\010cat" +
-      "egory\030\004 \001(\0132\032.lt_ml_server.RuleCategory\022" +
-      "\021\n\tisPremium\030\005 \001(\010\022$\n\004tags\030\006 \003(\0162\026.lt_ml" +
-      "_server.Rule.Tag\"\201\001\n\003Tag\022\t\n\005picky\020\000\022\014\n\010a" +
-      "cademic\020\001\022\013\n\007clarity\020\002\022\020\n\014professional\020\003" +
-      "\022\014\n\010creative\020\004\022\014\n\010customer\020\005\022\n\n\006jobapp\020\006" +
-      "\022\r\n\tobjective\020\007\022\013\n\007elegant\020\010\"(\n\014RuleCate" +
-      "gory\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\"\342\001\n\024Sugge" +
-      "stedReplacement\022\023\n\013replacement\030\001 \001(\t\022\023\n\013" +
-      "description\030\002 \001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\ncon" +
-      "fidence\030\004 \001(\002\022?\n\004type\030\005 \001(\01621.lt_ml_serv" +
-      "er.SuggestedReplacement.SuggestionType\";" +
-      "\n\016SuggestionType\022\013\n\007Default\020\000\022\017\n\013Transla" +
-      "tion\020\001\022\013\n\007Curated\020\0022\246\001\n\020ProcessingServer" +
-      "\022H\n\007Analyze\022\034.lt_ml_server.AnalyzeReques" +
-      "t\032\035.lt_ml_server.AnalyzeResponse\"\000\022H\n\007Pr" +
-      "ocess\022\034.lt_ml_server.ProcessRequest\032\035.lt" +
-      "_ml_server.ProcessResponse\"\0002\242\001\n\010MLServe" +
-      "r\022B\n\005Match\022\032.lt_ml_server.MatchRequest\032\033" +
-      ".lt_ml_server.MatchResponse\"\000\022R\n\rMatchAn" +
-      "alyzed\022\".lt_ml_server.AnalyzedMatchReque" +
-      "st\032\033.lt_ml_server.MatchResponse\"\0002e\n\024Pos" +
-      "tProcessingServer\022M\n\007Process\022#.lt_ml_ser" +
-      "ver.PostProcessingRequest\032\033.lt_ml_server" +
-      ".MatchResponse\"\000B*\n\031org.languagetool.rul" +
-      "es.mlB\rMLServerProtob\006proto3"
+      "\002 \003(\0132\023.lt_ml_server.Match\"\210\001\n\024AnalyzedM" +
+      "atchRequest\0221\n\tsentences\030\001 \003(\0132\036.lt_ml_s" +
+      "erver.AnalyzedSentence\022\024\n\014inputLogging\030\002" +
+      " \001(\010\022\025\n\rtextSessionID\030\003 \003(\003\022\020\n\010language\030" +
+      "\004 \001(\t\"U\n\020AnalyzedSentence\022\014\n\004text\030\001 \001(\t\022" +
+      "3\n\006tokens\030\002 \003(\0132#.lt_ml_server.AnalyzedT" +
+      "okenReadings\"k\n\025AnalyzedTokenReadings\022-\n" +
+      "\010readings\030\001 \003(\0132\033.lt_ml_server.AnalyzedT" +
+      "oken\022\021\n\tchunkTags\030\002 \003(\t\022\020\n\010startPos\030\003 \001(" +
+      "\005\"=\n\rAnalyzedToken\022\r\n\005token\030\001 \001(\t\022\016\n\006pos" +
+      "Tag\030\002 \001(\t\022\r\n\005lemma\030\003 \001(\t\"\201\001\n\025PostProcess" +
+      "ingRequest\022\021\n\tsentences\030\001 \003(\t\022(\n\007matches" +
+      "\030\002 \003(\0132\027.lt_ml_server.MatchList\022\024\n\014input" +
+      "Logging\030\003 \001(\010\022\025\n\rtextSessionID\030\004 \003(\003\"`\n\014" +
+      "MatchRequest\022\021\n\tsentences\030\001 \003(\t\022\024\n\014input" +
+      "Logging\030\002 \001(\010\022\025\n\rtextSessionID\030\003 \003(\003\022\020\n\010" +
+      "language\030\004 \001(\t\"A\n\rMatchResponse\0220\n\017sente" +
+      "nceMatches\030\001 \003(\0132\027.lt_ml_server.MatchLis" +
+      "t\"1\n\tMatchList\022$\n\007matches\030\001 \003(\0132\023.lt_ml_" +
+      "server.Match\"\256\003\n\005Match\022\016\n\006offset\030\001 \001(\r\022\016" +
+      "\n\006length\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016\n\006sub_id\030\004 \001" +
+      "(\t\022\023\n\013suggestions\030\005 \003(\t\022\027\n\017ruleDescripti" +
+      "on\030\006 \001(\t\022\030\n\020matchDescription\030\007 \001(\t\022\035\n\025ma" +
+      "tchShortDescription\030\010 \001(\t\022\013\n\003url\030\t \001(\t\022A" +
+      "\n\025suggestedReplacements\030\n \003(\0132\".lt_ml_se" +
+      "rver.SuggestedReplacement\022\023\n\013autoCorrect" +
+      "\030\013 \001(\010\022+\n\004type\030\014 \001(\0162\035.lt_ml_server.Matc" +
+      "h.MatchType\022\033\n\023contextForSureMatch\030\r \001(\021" +
+      "\022 \n\004rule\030\016 \001(\0132\022.lt_ml_server.Rule\"1\n\tMa" +
+      "tchType\022\017\n\013UnknownWord\020\000\022\010\n\004Hint\020\001\022\t\n\005Ot" +
+      "her\020\002\"\251\002\n\004Rule\022\022\n\nsourceFile\030\001 \001(\t\022\021\n\tis" +
+      "sueType\030\002 \001(\t\022\017\n\007tempOff\030\003 \001(\010\022,\n\010catego" +
+      "ry\030\004 \001(\0132\032.lt_ml_server.RuleCategory\022\021\n\t" +
+      "isPremium\030\005 \001(\010\022$\n\004tags\030\006 \003(\0162\026.lt_ml_se" +
+      "rver.Rule.Tag\"\201\001\n\003Tag\022\t\n\005picky\020\000\022\014\n\010acad" +
+      "emic\020\001\022\013\n\007clarity\020\002\022\020\n\014professional\020\003\022\014\n" +
+      "\010creative\020\004\022\014\n\010customer\020\005\022\n\n\006jobapp\020\006\022\r\n" +
+      "\tobjective\020\007\022\013\n\007elegant\020\010\"(\n\014RuleCategor" +
+      "y\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\"\342\001\n\024Suggeste" +
+      "dReplacement\022\023\n\013replacement\030\001 \001(\t\022\023\n\013des" +
+      "cription\030\002 \001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\nconfid" +
+      "ence\030\004 \001(\002\022?\n\004type\030\005 \001(\01621.lt_ml_server." +
+      "SuggestedReplacement.SuggestionType\";\n\016S" +
+      "uggestionType\022\013\n\007Default\020\000\022\017\n\013Translatio" +
+      "n\020\001\022\013\n\007Curated\020\0022\246\001\n\020ProcessingServer\022H\n" +
+      "\007Analyze\022\034.lt_ml_server.AnalyzeRequest\032\035" +
+      ".lt_ml_server.AnalyzeResponse\"\000\022H\n\007Proce" +
+      "ss\022\034.lt_ml_server.ProcessRequest\032\035.lt_ml" +
+      "_server.ProcessResponse\"\0002\242\001\n\010MLServer\022B" +
+      "\n\005Match\022\032.lt_ml_server.MatchRequest\032\033.lt" +
+      "_ml_server.MatchResponse\"\000\022R\n\rMatchAnaly" +
+      "zed\022\".lt_ml_server.AnalyzedMatchRequest\032" +
+      "\033.lt_ml_server.MatchResponse\"\0002e\n\024PostPr" +
+      "ocessingServer\022M\n\007Process\022#.lt_ml_server" +
+      ".PostProcessingRequest\032\033.lt_ml_server.Ma" +
+      "tchResponse\"\000B*\n\031org.languagetool.rules." +
+      "mlB\rMLServerProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -20502,7 +20875,7 @@ public final class MLServerProto {
     internal_static_lt_ml_server_AnalyzedMatchRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_AnalyzedMatchRequest_descriptor,
-        new java.lang.String[] { "Sentences", "InputLogging", "TextSessionID", });
+        new java.lang.String[] { "Sentences", "InputLogging", "TextSessionID", "Language", });
     internal_static_lt_ml_server_AnalyzedSentence_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_lt_ml_server_AnalyzedSentence_fieldAccessorTable = new
@@ -20532,7 +20905,7 @@ public final class MLServerProto {
     internal_static_lt_ml_server_MatchRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_MatchRequest_descriptor,
-        new java.lang.String[] { "Sentences", "InputLogging", "TextSessionID", });
+        new java.lang.String[] { "Sentences", "InputLogging", "TextSessionID", "Language", });
     internal_static_lt_ml_server_MatchResponse_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_lt_ml_server_MatchResponse_fieldAccessorTable = new

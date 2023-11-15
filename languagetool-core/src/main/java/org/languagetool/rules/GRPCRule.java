@@ -262,6 +262,7 @@ public abstract class GRPCRule extends RemoteRule {
             .subList(offset, Math.min(filteredSentences.size(), offset + batchSize))
             .stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
           .setInputLogging(inputLogging)
+          .setLanguage(ruleLanguage.getShortCodeWithCountryAndVariant())
           .addAllTextSessionID(textSessionId != null ?
             ids.subList(offset, Math.min(filteredSentences.size(), offset + batchSize))
             : Collections.emptyList())
@@ -284,6 +285,7 @@ public abstract class GRPCRule extends RemoteRule {
         MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder()
           .addAllSentences(text.subList(offset, Math.min(text.size(), offset + batchSize)))
           .setInputLogging(inputLogging)
+          .setLanguage(ruleLanguage.getShortCodeWithCountryAndVariant())
           .addAllTextSessionID(textSessionId != null ?
                               ids.subList(offset, Math.min(text.size(), offset + batchSize))
                               : Collections.emptyList())
