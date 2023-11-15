@@ -203,6 +203,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Es hat eine <marker>Weile</marker> gedauert, jetzt weiß ich mehr.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP.*" postag_regexp="yes" regexp="yes">.*m</token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*
+                            <exception scope="next" postag="SUB.*" postag_regexp="yes"/>
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">Im <marker>Laufe</marker> des Jahres ändert sich die Farbe der Blätter.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule>
