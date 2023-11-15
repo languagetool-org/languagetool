@@ -19978,6 +19978,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
         <rule>
             <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?(&mesos_any_abrev;)\d\d(\d\d)?</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?</token>
+                    <token>-</token>
+                    <token regexp="yes">&mesos_any_abrev;</token>
+                    <token>-</token>
+                    <token regexp="yes">\d\d(\d\d)?</token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?</token>
+                    <token>/</token>
+                    <token regexp="yes">&mesos_any_abrev;</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d(\d\d)?</token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">\d+xx?|x\d+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
