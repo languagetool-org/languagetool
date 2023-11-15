@@ -43,7 +43,6 @@ public class RussianTagger extends BaseTagger {
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    String wordIe;
     for (String word : sentenceTokens) {
       boolean mayMissingYo = false;
       if (word.length() > 1) {
@@ -72,12 +71,11 @@ public class RussianTagger extends BaseTagger {
         word = word.replace("я̀", "я");
         word = word.replace("ʼ", "ъ");
       }
-      wordIe = word.toLowerCase();
-      wordIe = wordIe.replace("е", "ё");
       List<AnalyzedToken> l = getAnalyzedTokens(word);
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
       if (mayMissingYo) {
-        if (getWordTagger().tag(wordIe).isEmpty()) {
+        String wordLc = word.toLowerCase().replace("е", "ё");
+        if (getWordTagger().tag(wordLc).isEmpty()) {
           mayMissingYo = false;
         }
       }
