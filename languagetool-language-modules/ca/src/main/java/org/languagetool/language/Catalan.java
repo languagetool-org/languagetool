@@ -430,9 +430,9 @@ public class Catalan extends Language {
     s = s.replace(" ,", ",");
     return s;
   }
-
+  
   private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
-    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz");
+    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía");
 
   @Override
   public String prepareLineForSpeller(String line) {
