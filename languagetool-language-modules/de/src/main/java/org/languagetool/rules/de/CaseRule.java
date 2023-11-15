@@ -31,7 +31,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.tagging.de.GermanTagger;
-import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
@@ -66,6 +65,9 @@ public class CaseRule extends Rule {
   private static final String UPPERCASE_MESSAGE = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben.";
   private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
   private static final String COLON_MESSAGE = "Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.";
+  private static final Pattern VERHALTEN = Pattern.compile(".+verhalten");
+  private static final Pattern SOFT_HYPHEN = Pattern.compile("\\u00AD");
+  private static final Pattern IRGEND_ETC = Pattern.compile("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs");
 
   static {
     nounIndicators.add("das");
@@ -902,7 +904,7 @@ public class CaseRule extends Rule {
     return Arrays.stream(tokens).filter(token -> token.hasPosTagStartingWith(partialPosTag)).mapToInt(e -> 1).sum();
   }
 
-  private boolean isPotentialUpperCaseError (int pos, AnalyzedTokenReadings[] tokens,
+  private boolean isPotentialUpperCaseError(int pos, AnalyzedTokenReadings[] tokens,
       AnalyzedTokenReadings lowercaseReadings, boolean isPrecededByModalOrAuxiliary) {
     if (pos <= 1) {
       return false;
@@ -915,7 +917,7 @@ public class CaseRule extends Rule {
       lowercaseReadings.hasPosTagStartingWith("VER:INF")) {
       return true;
     }
-    if (tokens[pos].getToken().matches(".+verhalten")) {
+    if (VERHALTEN.matcher(tokens[pos].getToken()).matches()) {
       return false;
     }
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
@@ -975,7 +977,7 @@ public class CaseRule extends Rule {
         return true;
       }
       // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-      AnalyzedTokenReadings allReadings = lookup(readings.getToken().replaceAll("\\u00AD", ""));  // unification in disambiguation.xml removes reading, so look up again, removing soft hyphens
+      AnalyzedTokenReadings allReadings = lookup(SOFT_HYPHEN.matcher(readings.getToken()).replaceAll(""));  // unification in disambiguation.xml removes reading, so look up again, removing soft hyphens
       if (allReadings != null) {
         for (AnalyzedToken reading : allReadings) {
           String posTag = reading.getPOSTag();
@@ -1125,7 +1127,7 @@ public class CaseRule extends Rule {
         // "aus sechs Überwiegend muslimischen Ländern"
         return false;
       }
-      return ((prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs") && tokens[i].hasPartialPosTag("SUB"))
+      return ((prevToken != null && IRGEND_ETC.matcher(prevTokenStr).matches() && tokens[i].hasPartialPosTag("SUB"))
               || isNumber(prevTokenStr)) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(((i < 4 && tokens.length > 4) || prevToken.getReadings().size() == 1 || prevPrevToken.hasLemma("sein")) && prevToken.hasPosTagStartingWith("PRO:PER:NOM:"))  && !prevToken.hasPartialPosTag(":STD")) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"

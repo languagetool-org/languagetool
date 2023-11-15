@@ -43,7 +43,6 @@ public class GalicianTagger extends BaseTagger {
 
   private static final Pattern ADJ_PART_FS = Pattern.compile("V.P..SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
-
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(...+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   public GalicianTagger() {
@@ -71,7 +70,7 @@ public class GalicianTagger extends BaseTagger {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
         }
-        word = word.replace("’", "'");
+        word = word.replace('’', '\'');
       }
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(locale);
@@ -155,9 +154,7 @@ public class GalicianTagger extends BaseTagger {
 
   private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
-      for (AnalyzedToken at : taggedTokens) {
-        l.add(at);
-      }
+      l.addAll(taggedTokens);
     }
   }
 

@@ -54,6 +54,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 
@@ -79,6 +80,7 @@ public class English extends Language implements AutoCloseable {
         }
       });
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
+  private static final Pattern FALSE_FRIENDS_PATTERN = Pattern.compile("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*");
 
   private LanguageModel languageModel;
 
@@ -679,7 +681,7 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("AI_EN_LECTOR")) { // prefer more specific rules (also speller)
       return -11;
     }
-    if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
+    if (FALSE_FRIENDS_PATTERN.matcher(id).matches()) {
       return -21;
     }
     return super.getPriorityForId(id);
