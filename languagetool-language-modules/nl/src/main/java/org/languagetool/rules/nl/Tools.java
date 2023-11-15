@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
+import static java.util.regex.Pattern.*;
 
 class Tools {
 
@@ -35,12 +36,12 @@ class Tools {
     "hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|" +
     "pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp";
   private final static Set<String> spelledWordsSet = new HashSet<>(Arrays.asList(spelledWords.split("\\|")));
-  private static final Pattern ENDS_IN_DIGIT = Pattern.compile(".*[0-9]$");
-  private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^[0-9].*");
-  private static final Pattern ENDS_IN_HYPHEN_AND_CHAR = Pattern.compile(".+-[a-z]$");
-  private static final Pattern STARTS_WITH_CHAR_AND_HYPHEN = Pattern.compile("^[a-z]-.+");
-  private static final Pattern HYPHEN_CHARS = Pattern.compile("(^|.+-)?(" + spelledWords + ")");
-  private static final Pattern CHARS_HYPHEN = Pattern.compile("(" + spelledWords + ")(-.+|$)?");
+  private static final Pattern ENDS_IN_DIGIT = compile(".*[0-9]$");
+  private static final Pattern STARTS_WITH_DIGIT = compile("^[0-9].*");
+  private static final Pattern ENDS_IN_HYPHEN_AND_CHAR = compile(".+-[a-z]$");
+  private static final Pattern STARTS_WITH_CHAR_AND_HYPHEN = compile("^[a-z]-.+");
+  private static final Pattern HYPHEN_CHARS = compile("(^|.+-)?(" + spelledWords + ")");
+  private static final Pattern CHARS_HYPHEN = compile("(" + spelledWords + ")(-.+|$)?");
 
   private Tools() {
   }
