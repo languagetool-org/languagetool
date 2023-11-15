@@ -21,7 +21,9 @@ package org.languagetool.rules.nl;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import static java.lang.Character.isLowerCase;
@@ -29,10 +31,16 @@ import static java.lang.Character.isUpperCase;
 
 class Tools {
 
+  private final static String spelledWords = "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|" +
+    "hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|" +
+    "pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp";
+  private final static Set<String> spelledWordsSet = new HashSet<>(Arrays.asList(spelledWords.split("\\|")));
   private static final Pattern ENDS_IN_DIGIT = Pattern.compile(".*[0-9]$");
   private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^[0-9].*");
   private static final Pattern ENDS_IN_HYPHEN_AND_CHAR = Pattern.compile(".+-[a-z]$");
   private static final Pattern STARTS_WITH_CHAR_AND_HYPHEN = Pattern.compile("^[a-z]-.+");
+  private static final Pattern HYPHEN_CHARS = Pattern.compile("(^|.+-)?(" + spelledWords + ")");
+  private static final Pattern CHARS_HYPHEN = Pattern.compile("(" + spelledWords + ")(-.+|$)?");
 
   private Tools() {
   }
@@ -43,13 +51,10 @@ class Tools {
 
   @SuppressWarnings("StringConcatenationInLoop")
   static String glueParts(List<String> s) {
-    String spelledWords = "(abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|" +
-      "hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|" +
-      "pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp)";
     String compound = s.get(0);
     for (int i = 1; i < s.size(); i++) {
       String word2 = s.get(i);
-      if (compound.length() > 2 || Arrays.stream(spelledWords.split("\\|")).anyMatch(compound::contains)) {
+      if (compound.length() > 2 || spelledWordsSet.contains(compound)) {
         char lastChar = compound.charAt(compound.length() - 1);
         char firstChar = word2.charAt(0);
         String connection = lastChar + String.valueOf(firstChar);
@@ -65,7 +70,7 @@ class Tools {
           compound = compound + '-' + word2;
         } else if (STARTS_WITH_DIGIT.matcher(word2).matches()) {
           compound = compound + '-' + word2;
-        } else if (compound.matches("(^|.+-)?" + spelledWords) || word2.matches(spelledWords + "(-.+|$)?")) {
+        } else if (HYPHEN_CHARS.matcher(compound).matches() || CHARS_HYPHEN.matcher(word2).matches()) {
           compound = compound + '-' + word2;
         } else if (ENDS_IN_HYPHEN_AND_CHAR.matcher(compound).matches() || STARTS_WITH_CHAR_AND_HYPHEN.matcher(word2).matches()) {
           compound = compound + '-' + word2;
