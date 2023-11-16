@@ -108,7 +108,7 @@ public class SwissGerman extends German {
         }
         String finalMatchingString = matchingString;
         if (finalMatchingString != null && finalMatchingString.contains("ss") && rm.getSuggestedReplacements().stream().anyMatch(suggestion -> suggestion.equals(finalMatchingString.replace("ss", "ß")))) {
-          logger.info("Remove match with ruleID: {} ({} -> {})",ruleId, matchingString, rm.getSuggestedReplacements());
+          logger.info("Remove match with ruleID: {} ({} -> {})", ruleId, matchingString, rm.getSuggestedReplacements());
           continue;
         }
       }
@@ -126,8 +126,6 @@ public class SwissGerman extends German {
     }
     return newRuleMatches;
   }
-
-
 
   @Override
   public String getOpeningDoubleQuote() {

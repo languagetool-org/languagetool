@@ -79,7 +79,7 @@ public class FrenchTagger extends BaseTagger {
         }
         if (word.contains("’")) {
           containsTypographicApostrophe = true;
-          word = word.replace("’", "'");
+          word = word.replace('’', '\'');
         }
       }
       List<AnalyzedToken> l = tagWord(word, word);

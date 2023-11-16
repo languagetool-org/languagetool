@@ -35,8 +35,6 @@ import java.util.ResourceBundle;
  */
 public class ConsistentApostrophesRule extends TextLevelRule {
 
-  private final static String contractionRegex = "s|t|ll|d|m|ve|re";
-
   public ConsistentApostrophesRule(ResourceBundle messages) {
     super(messages);
     setDefaultTempOff(); // TODO
@@ -70,7 +68,7 @@ public class ConsistentApostrophesRule extends TextLevelRule {
         String repl = null;
         if (token != null && token.getToken().contains("'") && !token.hasTypographicApostrophe()) {
           message = "You used a typewriter-style apostrophe here, but a typographic apostrophe elsewhere in this text.";
-          repl = token.getToken().replace("'", "’");
+          repl = token.getToken().replace('\'', '’');
         } else if (token != null && token.getToken().contains("'") && token.hasTypographicApostrophe()) {
           message = "You used a typographic apostrophe here, but a typewriter-style apostrophe elsewhere in this text.";
           repl = token.getToken();
@@ -81,7 +79,6 @@ public class ConsistentApostrophesRule extends TextLevelRule {
           match.setSuggestedReplacement(repl);
           matches.add(match);
         }
-        
       }
       pos += sentence.getCorrectedTextLength();
     }
