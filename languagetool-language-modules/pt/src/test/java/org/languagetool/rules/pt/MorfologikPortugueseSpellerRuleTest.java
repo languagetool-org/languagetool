@@ -59,8 +59,8 @@ public class MorfologikPortugueseSpellerRuleTest {
     return match.getSuggestedReplacements().stream().limit(5).collect(Collectors.toList());
   }
 
-  private void assertErrorLength(String sentence, int length, JLanguageTool lt,
-                                        MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
+  private void assertErrorLength(String sentence, int length, JLanguageTool lt, MorfologikPortugueseSpellerRule rule,
+                                 String[] suggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(length, matches.length);
     if (matches.length > 0) {
@@ -112,7 +112,6 @@ public class MorfologikPortugueseSpellerRuleTest {
 //      System.out.println(returnedSuggestions);
       assert Objects.equals(returnedSuggestions.get(0), suggestion);
       assert Objects.equals(match.getMessage(), message);
-      System.out.println("id: " + match.getSpecificRuleId());
       assert Objects.equals(match.getSpecificRuleId(), id);
     }
   }
@@ -134,12 +133,22 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
-  public void testSanity() throws Exception {
+  public void testPortugueseSpellerSanity() throws Exception {
     assertNoErrors("oogaboogatestword", ltBR, ruleBR);
     assertNoErrors("oogaboogatestwordBR", ltBR, ruleBR);
     assertNoErrors("oogaboogatestword", ltPT, rulePT);
     assertNoErrors("oogaboogatestwordPT", ltPT, rulePT);
     assertNoErrors("oogaboogatestwordPT90", ltPT, rulePT);
+  }
+
+  @Test
+  public void testPortugueseSpellerSpecificIds() throws Exception {
+    // Just make sure that the rule ID suffix applies correctly.
+    RuleMatch[] matches = ruleBR.match(ltBR.getAnalyzedSentence("Vâmos detetar problèmas."));
+    assert matches.length == 3;
+    assert Objects.equals(matches[0].getSpecificRuleId(), "MORFOLOGIK_SPELLER_PT_BR");  // Vâmos
+    assert Objects.equals(matches[1].getSpecificRuleId(), "MORFOLOGIK_SPELLER_PT_BR_DIALECT");  // detetar (pt-PT!)
+    assert Objects.equals(matches[2].getSpecificRuleId(), "MORFOLOGIK_SPELLER_PT_BR");  // problèmas
   }
 
   public void testPortugueseSpelling(JLanguageTool lt, MorfologikPortugueseSpellerRule rule) throws Exception {

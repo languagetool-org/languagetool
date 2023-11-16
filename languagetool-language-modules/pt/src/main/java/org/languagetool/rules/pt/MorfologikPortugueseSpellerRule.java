@@ -50,7 +50,6 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   private final Map<String, String> dialectAlternationMapping;
   private static final PortugueseTagger tagger = new PortugueseTagger();
   private static final PortugueseSynthesizer synth = PortugueseSynthesizer.INSTANCE;
-  private boolean dialectIssue = false;
 
 
   @Override
@@ -72,12 +71,12 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public String getId() {
-    String id = "MORFOLOGIK_SPELLER_"
+    return "MORFOLOGIK_SPELLER_"
       + language.getShortCodeWithCountryAndVariant().replace("-", "_").toUpperCase();
-    if (dialectIssue) {
-      id = id + "_DIALECT";
-    }
-    return id;
+  }
+
+  protected String getIdForDialectIssue() {
+    return getId() + "_DIALECT";
   }
 
   // TODO: document this, as it's about to get messy
@@ -214,12 +213,15 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   }
 
   private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches,
-                                        String suggestion) {
+                                        String suggestion, boolean dialectIssue) {
     // recreating match, might overwrite information by SuggestionsRanker;
     // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
     newMatch.setType(oldMatch.getType());
+    if (dialectIssue) {
+      newMatch.setSpecificRuleId(getIdForDialectIssue());
+    }
     SuggestedReplacement sugg = new SuggestedReplacement(suggestion);
     sugg.setShortDescription(language.getName());
     newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));
@@ -234,25 +236,23 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     if (!ruleMatches.isEmpty()) {
       String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);
       if (wordWithBrazilianStylePastTense != null) {
-        this.dialectIssue = true;
         String message = "No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.";
-        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithBrazilianStylePastTense);
+        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithBrazilianStylePastTense, true);
       }
       String wordWithoutDiaeresis = checkDiaeresis(word);
       if (wordWithoutDiaeresis != null) {
         String message = "No mais recente acordo ortográfico, não se usa mais o trema no português.";
-        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithoutDiaeresis);
+        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithoutDiaeresis, false);
       }
       String dialectAlternative = this.dialectAlternative(word);
       if (dialectAlternative != null) {
-        this.dialectIssue = true;
         String otherVariant = "europeu";
         if (Objects.equals(spellerLanguage.getShortCodeWithCountryAndVariant(), "pt-PT")) {
           otherVariant = "brasileiro";
         }
         String message = "Possível erro de ortografia: esta é a grafia utilizada no português " + otherVariant + ".";
         String suggestion = StringTools.startsWithUppercase(word) ? StringTools.uppercaseFirstChar(dialectAlternative) : dialectAlternative;
-        replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);
+        replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion, true);
       }
     }
     return ruleMatches;
