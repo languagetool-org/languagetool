@@ -44,13 +44,12 @@ public class DecadeSpellingFilter extends RuleFilter {
    * @return the String using the number.
    */
   private String getRomanNumber(int num) {
-    StringBuilder roman = new StringBuilder();  // The roman numeral.
-    int N = num;        // N represents the part of num that still has
-    //   to be converted to Roman numeral representation.
+    StringBuilder roman = new StringBuilder();
+    int n = num;    // n represents the part of num that still has to be converted to Roman numeral representation
     for (int i = 0; i < numbers.length; i++) {
-      while (N >= numbers[i]) {
+      while (n >= numbers[i]) {
         roman.append(letters[i]);
-        N -= numbers[i];
+        n -= numbers[i];
       }
     }
     return roman.toString();
