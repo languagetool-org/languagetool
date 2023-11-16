@@ -368,7 +368,7 @@ public class MorfologikPortugueseSpellerRuleTest {
   @Test
   public void testPortugueseDiaeresis() throws Exception {
     assertSingleExactError("pingüim", ltBR, ruleBR, "pinguim",
-      "O trema deixou de ser utilizado em português com o Acordo Ortográfico de 1945.");
+      "No mais recente acordo ortográfico, não se usa mais o trema no português.");
   }
 
   @Test
