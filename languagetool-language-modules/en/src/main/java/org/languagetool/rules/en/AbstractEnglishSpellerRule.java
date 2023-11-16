@@ -1348,7 +1348,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           if (partSuggestions.size() > 0) {
               String suggestion = getHyphenatedWordSuggestion(parts, i, partSuggestions.get(0));
               topSuggestions.add(new SuggestedReplacement(suggestion));
-            }
+          }
         }
       i++;
     }
@@ -1362,7 +1362,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           } else {
             newParts.add(parts[j]);
           }
-      }
+    }
     return String.join("-", newParts);
   }
 
