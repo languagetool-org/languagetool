@@ -532,6 +532,9 @@ public class German extends Language implements AutoCloseable {
     if (id.startsWith("DE_PROHIBITED_COMPOUNDS_")) {   // don't hide spelling mistakes
       return -4;
     }
+    if (id.startsWith("DE_MULTITOKEN_SPELLING")) {
+      return -2;
+    }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
     }
