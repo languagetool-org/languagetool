@@ -79,11 +79,29 @@
             </rule>
             <rule><!--2 5 Ziffern-->
                 <pattern>
-                    <token regexp="yes">(\d)(\d)(\d{3})</token>
+                    <token regexp="yes">(\d)(\d)(\d{3})
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next">\</exception>
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous">\</exception>
+                    </token>
                 </pattern>
                 <message>Zahlen mit mehr als vier Ziffern, werden beginnend mit der Endziffer in Dreiergruppen zerlegt.</message>
                 <suggestion><match no="1" regexp_match="(\d)(\d)(\d{3})" regexp_replace="$1$2 $3"></match></suggestion>
                 <example correction="39 452"><marker>39452</marker> ist eine Nummer.</example>
+            </rule>
+            <rule><!--3 6 Ziffern-->
+                <pattern>
+                    <token regexp="yes">(\d{3})(\d{3})
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next">\</exception>
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous">\</exception>
+                    </token>
+                </pattern>
+                <message>Zahlen mit mehr als vier Ziffern, werden beginnend mit der Endziffer in Dreiergruppen zerlegt.</message>
+                <suggestion><match no="1" regexp_match="(\d{3})(\d{3})" regexp_replace="$1 $2"></match></suggestion>
+                <example correction="399 452"><marker>399452</marker> ist eine Nummer.</example>
             </rule>
         </rulegroup>
 
