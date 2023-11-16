@@ -360,6 +360,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("cabesse", ltBR, ruleBR, new String[]{"coubesse"});
     assertSingleError("andância", ltBR, ruleBR, new String[]{"andança"});
     assertSingleError("abto", ltBR, ruleBR, new String[]{"hábito"});
+    assertSingleError("logo nao", ltBR, ruleBR, new String[]{"não"});
   }
 
   @Test

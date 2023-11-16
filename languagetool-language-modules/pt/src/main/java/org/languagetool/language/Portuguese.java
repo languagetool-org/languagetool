@@ -241,7 +241,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "PROFANITY":                                return -6;
       case "PT_BARBARISMS_REPLACE":                    return -10;
       case "BARBARISMS_PT_PT_V2":                      return -10;
-      case "PT_PT_SIMPLE_REPLACE":                     return -11;
+      case "PT_PT_SIMPLE_REPLACE":                     return -11;  // for pt-PT, not lower than speller, not sure why
       case "PT_REDUNDANCY_REPLACE":                    return -12;
       case "PT_WORDINESS_REPLACE":                     return -13;
       case "PT_CLICHE_REPLACE":                        return -17;
@@ -259,6 +259,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "PT_COMPOUNDS_POST_REFORM":                 return -45;
       case "AUX_VERBO":                                return -45;
       case "PRETERITO_PERFEITO":                       return -51;  // lower than speller
+      case "PT_BR_SIMPLE_REPLACE":                     return -51;  // lower than speller
       case "CRASE_CONFUSION":                          return -54;
       case "NAO_MILITARES":                            return -54;
       case "NA_QUELE":                                 return -54;
