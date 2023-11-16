@@ -3720,6 +3720,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Situp": return topMatch("Sit-up");
       case "Situps": return topMatch("Sit-ups");
       case "Nov": return topMatch("Nov.");
+      case "aussen": return topMatch("außen");
     }
     return Collections.emptyList();
   }
