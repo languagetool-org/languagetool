@@ -14720,8 +14720,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
         <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula" default='on'>
-            <!-- Based on English forum rule https://forum.languagetool.org/t/case-sensitive-postag-check/3567/2,
-      by Tiago F. Santos, 2018-11-23    -->
             <antipattern>
                 <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*|\)|keyword|keywords</token>
                 <token>:</token>
@@ -14805,11 +14803,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>[dn]?[aeo]s?</token>
                 <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
             </antipattern>
-            <!--antipattern>< Isolated unrecognized names. E.g. Outro romano, Tácito, ... XXX Either a rule for this or for the other situation>
-      <token regexp='yes'>[\,\;\:]</token>
-      <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
-      <token regexp='yes'>[\,\;\:]</token>
-      </antipattern-->
             <antipattern><!-- Document Titles -->
                 <token postag='SENT_START' skip='-1'/>
                 <token postag='SENT_END'>
@@ -14829,10 +14822,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token min='0'>.</token>
                 <token>:</token>
             </antipattern>
-            <!-- MARCOAGPINTO 2020-06-08 + 2020-06-09 *START* -->
-            <!-- "Falemos da: Universidade de Lisboa." -->
-            <!-- "Falemos da: Universidade Federal do Rio de Janeiro." -->
-            <!-- "Falemos da: República Dominicana." -->
             <antipattern>
                 <token regexp='yes'>universidade|faculdade</token>
                 <token min="0" max="1" regexp="yes">federal|estadual|estatal</token>
@@ -14844,19 +14833,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token min="0" max="1" regexp='yes'>das?|de|dos?</token>
                 <token postag="NP[CFM][SP]000|NP[CFM][SP]G00|AQ0FS0" postag_regexp='yes'/>
             </antipattern>
-            <!-- MARCOAGPINTO 2020-06-08 + 2020-06-09 *END* -->
+            <antipattern>
+                <token regexp='yes'>[\,\;\:]</token>
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+                <token min="0" case_sensitive="yes" regexp="yes">\p{Ll}+</token>
+                <token min="0" postag="_PUNCT"/>
+                <token min="0" regexp="yes" max="3">&tracos_de_separacao;|></token>
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+                <example>As matérias são: Matemática, Química, Física e Biologia.</example>
+                <example>segue o caminho: Plataforma Studeo</example>
+                <example>Para isso, acesse: Minhas compras - Notificações - Andamento.</example>
+                <example>Para isso, acesse: Minhas compras -- Notificações -- Andamento.</example>
+                <example>Para isso, acesse: Minhas compras > Notificações > Andamento.</example>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>[\,\;\:]
                     <exception scope='previous' case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</exception><!-- References --></token>
                 <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<!-- TODO letters are usually uppercased, but misses 'A' and 'O'  add second sub-rule -->
                     <exception postag_regexp="yes" postag="NP.+|UNKNOWN"/>
-                    <exception regexp='yes'>L[aeo]s?|A(?:lameda|venida)|Largo|Pr(?:aça|aceta)|Rua|Terreiro|Travessa|Lei|Igreja|Porto|Ele|Deusa|Associação|Comissão|Comitê|Instituição|Diretório|Organização|Grupo|Pi|Pf|diz|disse|afirma|afirmou|&titulos_militares;|&pronomes_de_tratamento;</exception></token>
+                    <exception regexp='yes'>Liam|L[aeo]s?|A(?:lameda|venida)|Largo|Pr(?:aça|aceta)|Rua|Terreiro|Travessa|Lei|Igreja|Porto|Ele|Deusa|Associação|Comissão|Comitê|Instituição|Diretório|Organização|Grupo|Pi|Pf|diz|disse|afirma|afirmou|&titulos_militares;|&pronomes_de_tratamento;</exception></token>
             </pattern>
-            <message>Utilize a palavra capitalizada somente se estiver a iniciar uma frase ou a escrever nomes próprios.</message>
+            <message>\1 não encerra frases; portanto, se não for um nome próprio, a palavra seguinte deve ser iniciada com letra minúscula.</message>
             <suggestion>\1 <match no='2' case_conversion="alllower"/></suggestion>
             <suggestion>. \2</suggestion>
             <example correction=", chá|. Chá">Quero café<marker>, Chá</marker> e gin.</example>
-            <!--example correction=", tácito|. Tácito|, Tácito,">Outro romano<marker>, Tácito</marker> analisou a vida das tribos germânicas, baseando-s...</example-->
             <example>…ua e Barbuda, Bahamas, Barbados, Dominica, Granada, Santa Lúcia, São Cristóvão e Névis, São Vicente e Grana…</example>
             <example>…mportação de produtos de países americanos — a TEC, Tarifa Externa Comum.</example>
             <example>Ladislau batalha; Baudelaire; Guilherme Braga; D. João da Câmara; Camilo Castelo Branco; Júlio Din…</example>
