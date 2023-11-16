@@ -64,7 +64,15 @@ public class CorrectionLoopFinderApi {
             }
             String corr = new StringBuilder(line).replace(match.getErrorOffset(), match.getErrorOffset()+match.getErrorLength(), repl).toString();
             //System.out.println(line + " => " + corr);
-            List<RemoteRuleMatch> corrMatches = cfg.lt.check(corr, cfg.ltConfig, cfg.customParams).getMatches();
+            List<RemoteRuleMatch> corrMatches = null;
+            try {
+              corrMatches = cfg.lt.check(corr, cfg.ltConfig, cfg.customParams).getMatches();
+            } catch (RuntimeException e) {
+              System.err.println("An exception occurred: " + e.getMessage());
+            }
+            if (corrMatches == null) {
+              continue;
+            }
             for (RemoteRuleMatch corrMatch : corrMatches) {
               for (String repl2 : corrMatch.getReplacements().get()) {
                 String corr2 = new StringBuilder(corr).replace(corrMatch.getErrorOffset(), corrMatch.getErrorOffset()+corrMatch.getErrorLength(), repl2).toString();
