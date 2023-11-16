@@ -50,6 +50,7 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   private final Map<String, String> dialectAlternationMapping;
   private static final PortugueseTagger tagger = new PortugueseTagger();
   private static final PortugueseSynthesizer synth = PortugueseSynthesizer.INSTANCE;
+  private boolean dialectIssue = false;
 
 
   @Override
@@ -71,8 +72,12 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public String getId() {
-    return "MORFOLOGIK_SPELLER_"
+    String id = "MORFOLOGIK_SPELLER_"
       + language.getShortCodeWithCountryAndVariant().replace("-", "_").toUpperCase();
+    if (dialectIssue) {
+      id = id + "_DIALECT";
+    }
+    return id;
   }
 
   // TODO: document this, as it's about to get messy
@@ -229,6 +234,7 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     if (!ruleMatches.isEmpty()) {
       String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);
       if (wordWithBrazilianStylePastTense != null) {
+        this.dialectIssue = true;
         String message = "No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.";
         replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithBrazilianStylePastTense);
       }
@@ -239,6 +245,7 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       }
       String dialectAlternative = this.dialectAlternative(word);
       if (dialectAlternative != null) {
+        this.dialectIssue = true;
         String otherVariant = "europeu";
         if (Objects.equals(spellerLanguage.getShortCodeWithCountryAndVariant(), "pt-PT")) {
           otherVariant = "brasileiro";
