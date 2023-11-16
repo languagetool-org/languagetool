@@ -53,10 +53,10 @@ public class WordTokenizer implements Tokenizer {
   // - currency symbols made up only of regular alphabetic glyphs, e.g. "Bs", "zł";
   // - official, ASCII-only, three-letter currency symbols, e.g. "USD", "EUR";
   // - glyphs from right-to-left writing scripts.
-  private static final String CURRENCY_SYMBOLS = "[A-Z]*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]";
+  private static final Pattern CURRENCY_SYMBOLS = Pattern.compile("[A-Z]*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]");
   // Really loose, but will only be used in conjunction with CURRENCY_SYMBOLS above, and we actually want to catch
   // potentially incorrect number formats, so that we tokenise them properly and are able to correct them more easily.
-  private static final String CURRENCY_VALUE =  "\\d+(?:[.,]\\d+)*";
+  private static final Pattern CURRENCY_VALUE =  Pattern.compile("\\d+(?:[.,]\\d+)*");
   private static final Pattern CURRENCY_EXPRESSION = Pattern.compile(String.format("(?:(%s)(%s)|(%s)(%s))",
     CURRENCY_SYMBOLS, CURRENCY_VALUE, CURRENCY_VALUE, CURRENCY_SYMBOLS));
 
