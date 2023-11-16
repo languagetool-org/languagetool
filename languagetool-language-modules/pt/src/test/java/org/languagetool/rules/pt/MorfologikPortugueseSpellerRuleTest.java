@@ -62,24 +62,22 @@ public class MorfologikPortugueseSpellerRuleTest {
   private void assertErrorLength(String sentence, int length, JLanguageTool lt,
                                         MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
+    assertEquals(length, matches.length);
     if (matches.length > 0) {
       List<String> returnedSuggestions = getFirstSuggestions(matches[0], 5);
-      // TODO: just debugging, must delete later!
-      System.out.println(returnedSuggestions);
+//      System.out.println(returnedSuggestions);
       assert returnedSuggestions.containsAll(Arrays.asList(suggestions));
     }
-    assertEquals(length, matches.length);
   }
 
   private void assertSingleErrorWithNegativeSuggestion(String sentence, JLanguageTool lt,
                                                        MorfologikPortugueseSpellerRule rule,
                                                        String badSuggestion) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    // TODO: just debugging, must delete later!
     assertEquals(1, matches.length);
     if (matches.length > 0) {
       List<String> returnedSuggestions = matches[0].getSuggestedReplacements();
-      System.out.println(returnedSuggestions);
+//      System.out.println(returnedSuggestions);
       assertFalse(returnedSuggestions.contains(badSuggestion));
     }
   }
@@ -108,11 +106,10 @@ public class MorfologikPortugueseSpellerRuleTest {
                                       String suggestion, String message) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(1, matches.length);
-    // TODO: just debugging, must delete later!
     if (matches.length > 0) {
       RuleMatch match = matches[0];
       List<String> returnedSuggestions = match.getSuggestedReplacements();
-      System.out.println(returnedSuggestions);
+//      System.out.println(returnedSuggestions);
       assert Objects.equals(returnedSuggestions.get(0), suggestion);
       assert Objects.equals(match.getMessage(), message);
     }
