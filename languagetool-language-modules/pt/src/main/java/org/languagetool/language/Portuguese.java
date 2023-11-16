@@ -215,6 +215,10 @@ public class Portuguese extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
+    if (id.startsWith("MORFOLOGIK_SPELLER")) {
+      return -50;
+    }
+
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":                    return 50;
       case "DEGREE_MINUTES_SECONDS":                   return 30;
@@ -250,10 +254,11 @@ public class Portuguese extends Language implements AutoCloseable {
       case "WEAK_WORDS":                               return -32;
       case "PT_AGREEMENT_REPLACE":                     return -35;
       case "CONTA_TO":                                 return -44;
-      case "PT_DIACRITICS_REPLACE":                    return -45;   // prefer over spell checker
+      case "PT_DIACRITICS_REPLACE":                    return -45;  // prefer over spell checker
       case "DIACRITICS":                               return -45;
       case "PT_COMPOUNDS_POST_REFORM":                 return -45;
       case "AUX_VERBO":                                return -45;
+      case "PRETERITO_PERFEITO":                       return -51;  // lower than speller
       case "CRASE_CONFUSION":                          return -54;
       case "NAO_MILITARES":                            return -54;
       case "NA_QUELE":                                 return -54;
@@ -279,6 +284,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "UNKNOWN_WORD":                             return -2000;
       case "NO_VERB":                                  return -2100;
     }
+
     if (id.startsWith("AI_PT_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_PT_HYDRA_LEO_MISSING_COMMA")) {
         return -51; // prefer comma style rules.
