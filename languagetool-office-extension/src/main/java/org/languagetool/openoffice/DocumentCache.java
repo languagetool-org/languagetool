@@ -2265,7 +2265,7 @@ public class DocumentCache implements Serializable {
   /**
    * Class of serializable locale needed to save cache
    */
-  private class SerialLocale implements Serializable {
+  public static class SerialLocale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     String Country;
@@ -2283,6 +2283,13 @@ public class DocumentCache implements Serializable {
      */
     public String toString() {
       return Language + (Country.isEmpty() ? "" : "-" + Country) + (Variant.isEmpty() ? "" : "-" + Variant);
+    }
+
+    /**
+     * return the Locale as String
+     */
+    Locale toLocale() {
+      return new Locale(Language, Country, Variant);
     }
 
     /**

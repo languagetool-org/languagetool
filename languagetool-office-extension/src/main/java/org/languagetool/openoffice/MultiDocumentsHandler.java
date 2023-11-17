@@ -2214,6 +2214,10 @@ public class MultiDocumentsHandler {
         MessageHandler.printToLogFile("WaitDialogThread: run: Dialog is running");
       }
       dialog.setVisible(true);
+      if (isCanceled) {
+        dialog.setVisible(false);
+        dialog.dispose();
+      }
     }
     
     public boolean canceled() {
