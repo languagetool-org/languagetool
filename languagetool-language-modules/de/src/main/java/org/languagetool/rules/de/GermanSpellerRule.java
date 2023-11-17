@@ -3721,6 +3721,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Situps": return topMatch("Sit-ups");
       case "Nov": return topMatch("Nov.");
       case "aussen": return topMatch("außen");
+      case "bestmöglichst": return topMatch("bestmöglich");
+      case "nächstmöglichst": return topMatch("nächstmöglich");
+      case "markaber": return topMatch("makaber");
+      case "nachgeharkt": return topMatch("nachgehakt");
+      case "nachgeharckt": return topMatch("nachgehackt");
+      case "nachharken": return topMatch("nachhaken");
+      case "nachhacken": return topMatch("nachhaken");
+      case "Babies": return topMatch("Babys");
+      case "Gummies": return topMatch("Gummis");
     }
     return Collections.emptyList();
   }
