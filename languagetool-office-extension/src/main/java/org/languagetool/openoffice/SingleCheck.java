@@ -147,11 +147,13 @@ class SingleCheck {
       remarkChangedParagraphs(changedParas, changedParas, lt, true);
     }
     this.lastSinglePara = lastSinglePara;
+/*
     if (numParasToCheck != 0 && paraNum >= 0) {
       //  test real flat paragraph rather then the one given by Proofreader - it could be changed meanwhile
       //  Don't use Cache for check in single paragraph mode
       paraText = docCache.getFlatParagraph(paraNum);
     }
+*/
     List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, locale, footnotePositions, paraNum, 
                                                                       startOfSentence, lt, textIsChanged, isIntern, errType);
     startOfSentence = paragraphsCache.get(0).getStartSentencePosition(paraNum, startOfSentence);

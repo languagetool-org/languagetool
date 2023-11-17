@@ -52,6 +52,7 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.text.XFlatParagraph;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -304,6 +305,7 @@ public class SingleDocument {
         startTime = System.currentTimeMillis();
       }
       int paraNum;
+//      MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraText);
       if (hasSortedTextId) {
         if (isIntern) {
           paraNum = nPara;
@@ -384,6 +386,10 @@ public class SingleDocument {
             MessageHandler.printToLogFile("Single document: Time to addSynonyms: " + runTime);
           }
         }
+      }
+      if (textIsChanged && numParasToCheck != 0 && config.useTextLevelQueue() && !isDialogRequest
+          && mDocHandler.getTextLevelCheckQueue() != null && !mDocHandler.isTestMode()) {
+        mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
@@ -809,20 +815,29 @@ public class SingleDocument {
    */
   public QueueEntry getQueueEntryForChangedParagraph() {
     if (!disposed && docCache != null && flatPara != null && !changedParas.isEmpty()) {
+      try {  // Wait a little to get all changes on paragraph
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
       Set<Integer> nParas = new HashSet<Integer>(changedParas.keySet());
       for (int nPara : nParas) {
         OfficeTools.waitForLO();
-        String sPara = flatPara.getFlatParagraphAt(nPara).getText();
-        if (sPara != null) {
-          String sChangedPara = changedParas.get(nPara);
-          changedParas.remove(nPara);
-          if (sChangedPara != null && !sChangedPara.equals(sPara)) {
-            docCache.setFlatParagraph(nPara, sPara);
-//            if (!disposed) {
-//              mDocHandler.handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nPara));
-//            }
-            removeResultCache(nPara, false);
-            return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
+        XFlatParagraph xFlatParagraph = flatPara.getFlatParagraphAt(nPara);
+        if (xFlatParagraph != null) {
+          String sPara = xFlatParagraph.getText();
+          if (sPara != null) {
+            String sChangedPara = changedParas.get(nPara);
+            changedParas.remove(nPara);
+            if (sChangedPara != null && !sChangedPara.equals(sPara)) {
+              docCache.setFlatParagraph(nPara, sPara);
+              removeResultCache(nPara, false);
+              if (!changedParas.isEmpty()) {
+                addQueueEntry(nPara, 0, 0, docID, false);
+              } else {
+                return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
+              }
+            }
           }
         }
       }
@@ -1362,6 +1377,74 @@ public class SingleDocument {
     }
   }
   
+  /**
+   * get all synonyms as array
+   */
+  public String[] getSynonymArray(SingleProofreadingError error, String para, Locale locale, SwJLanguageTool lt) {
+    Map<String, List<String>> synonymMap = getSynonymMap(error, para, locale, lt);
+    if (synonymMap.isEmpty()) {
+      return new String[0];
+    }
+    List<String> suggestions = new ArrayList<>();
+    for (String lemma : synonymMap.keySet()) {
+      suggestions.addAll(synonymMap.get(lemma));
+    }
+    return suggestions.toArray(new String[suggestions.size()]);
+  }
+  
+  /**
+   * get all synonyms as map
+   */
+  public Map<String, List<String>> getSynonymMap(SingleProofreadingError error, String para, Locale locale, SwJLanguageTool lt) {
+    Map<String, List<String>> suggestionMap = new HashMap<>();
+    try {
+      String word = para.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+      boolean startUpperCase = Character.isUpperCase(word.charAt(0));
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Find Synonyms for word:" + word);
+      }
+//      List<String> lemmas = lt.getLemmasOfWord(word);
+      List<String> lemmas = lt.getLemmasOfParagraph(para, error.nErrorStart);
+      for (String lemma : lemmas) {
+        if (debugMode > 1) {
+          MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Find Synonyms for lemma:" + lemma);
+        }
+        List<String> suggestions = new ArrayList<>();
+        List<String> synonyms = mDocHandler.getLinguisticServices().getSynonyms(lemma, locale);
+        for (String synonym : synonyms) {
+          synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+          if (debugMode > 1) {
+            MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Synonym:" + synonym);
+          }
+          if (!synonym.isEmpty() && !suggestions.contains(synonym)
+              && ( (startUpperCase && Character.isUpperCase(synonym.charAt(0))) 
+                  || (!startUpperCase && Character.isLowerCase(synonym.charAt(0))))) {
+            suggestions.add(synonym);
+          }
+        }
+        if (!suggestions.isEmpty()) {
+          suggestionMap.put(lemma, suggestions);
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+    }
+    return suggestionMap;
+  }
+
+  private void addSynonyms(ProofreadingResult paRes, String para, Locale locale, SwJLanguageTool lt) throws IOException {
+    LinguisticServices linguServices = mDocHandler.getLinguisticServices();
+    if (linguServices != null) {
+      for (SingleProofreadingError error : paRes.aErrors) {
+        if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+            && linguServices.isThesaurusRelevantRule(error.aRuleIdentifier)) {
+          error.aSuggestions = getSynonymArray(error, para, locale, lt);
+        }
+      }
+    }
+  }
+
+/*    !!!  remove after tests   !!!
   private void addSynonyms(ProofreadingResult paRes, String para, Locale locale, SwJLanguageTool lt) throws IOException {
     LinguisticServices linguServices = mDocHandler.getLinguisticServices();
     if (linguServices != null) {
@@ -1398,18 +1481,7 @@ public class SingleDocument {
       }
     }
   }
-/*  
-  public void resetCheck(XProofreadingIterator xProofreadingIterator) {
-    if (docType == DocumentType.WRITER) {
-      try {
-        flatPara.setFlatParasAsChecked(false);;
-        xProofreadingIterator.startProofreading(xComponent, UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xComponent));
-      } catch (Throwable t) {
-        MessageHandler.showError(t);
-      }
-    }
-  }
-*/  
+*/
   private void setDokumentListener(XComponent xComponent) {
     try {
       if (!disposed && xComponent != null && eventListener == null) {

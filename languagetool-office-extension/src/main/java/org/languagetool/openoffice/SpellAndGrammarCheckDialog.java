@@ -571,6 +571,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
              || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK
              && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale))) {
           if (error.nErrorStart >= x) {
+            if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+                && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
+              error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+            }
             return error;
           }
         }
@@ -614,14 +618,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
           for (SingleProofreadingError error : paRes.aErrors) {
             if (debugMode) {
               MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Start: " + error.nErrorStart + ", ID: " + error.aRuleIdentifier);
-            }
-            if (error.nErrorType != TextMarkupType.SPELLCHECK) {
-              MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
-                      + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
+              if (error.nErrorType != TextMarkupType.SPELLCHECK) {
+                MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
+                        + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
+              }
             }
             if (error.nErrorType != TextMarkupType.SPELLCHECK 
                  || !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)) {
               if (error.nErrorStart >= x) {
+                if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+                    && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
+                  error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+                }
                 return error;
               }
             }

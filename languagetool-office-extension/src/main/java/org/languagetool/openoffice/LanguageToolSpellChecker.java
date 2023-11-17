@@ -19,7 +19,10 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.JLanguageTool.ParagraphHandling;
@@ -52,7 +55,7 @@ import com.sun.star.uno.XComponentContext;
 public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
-  private static final int MAX_WRONG = 50;
+  private static final int MAX_WRONG = 100;
   
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
@@ -64,8 +67,8 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   private static SpellingCheckRule spellingCheckRule = null;
   private static MorfologikSpellerRule mSpellRule = null;
   private static HunspellRule hSpellRule = null;
-  private static final List<String> lastWrongWords = new ArrayList<>();
-  private static final List<List<String>> lastSuggestions = new ArrayList<>();
+  private static final Map<String, List<String>> lastWrongWords = new HashMap<>();
+  private static final Map<String, List<String[]>> lastSuggestions = new HashMap<>();
   private static XComponentContext xContext = null;
   private static boolean noLtSpeller = false;
   
@@ -154,7 +157,9 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
       if (noLtSpeller) {
         return false;
       }
-      if (lastWrongWords.contains(word)) {
+      String localeStr = OfficeTools.localeToString(locale);
+      List<String> wrongWords = lastWrongWords.get(localeStr);
+      if (wrongWords != null && wrongWords.contains(word)) {
         return false;
       }
 //      MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: check word: " + word);
@@ -172,12 +177,16 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
 //          return true;
 //        }
 //        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: misspelled word: " + word);
-        if (!lastWrongWords.contains(word)) {
-          lastWrongWords.add(new String(word));
-          lastSuggestions.add(matches.get(0).getSuggestedReplacements());
-          if (lastWrongWords.size() >= MAX_WRONG) {
-            lastWrongWords.remove(0);
-            lastSuggestions.remove(0);
+        if (wrongWords == null) {
+          lastWrongWords.put(localeStr, new ArrayList<String>());
+          lastSuggestions.put(localeStr, new ArrayList<String[]>());
+        }
+        if (!lastWrongWords.get(localeStr).contains(word)) {
+          lastWrongWords.get(localeStr).add(new String(word));
+          lastSuggestions.get(localeStr).add(suggestionsToArray(matches.get(0).getSuggestedReplacements()));
+          if (lastWrongWords.get(localeStr).size() >= MAX_WRONG) {
+            lastWrongWords.get(localeStr).remove(0);
+            lastSuggestions.get(localeStr).remove(0);
           }
         }
         return false;
@@ -234,6 +243,18 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   }
   
   /**
+   * Convert list of suggestions to array and reduce it size
+   */
+  private String[] suggestionsToArray(List<String> suggestions) {
+    int numSuggestions = suggestions.size();
+    String[] allSuggestions = suggestions.toArray(new String[numSuggestions]);
+    if (allSuggestions.length > OfficeTools.MAX_SUGGESTIONS) {
+      allSuggestions = Arrays.copyOfRange(allSuggestions, 0, OfficeTools.MAX_SUGGESTIONS);
+    }
+    return allSuggestions;
+  }
+  
+  /**
    * class for getting spelling alternatives
    */
   class LTSpellAlternatives implements XSpellAlternatives {
@@ -249,9 +270,10 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
         alternatives = new String[0];
         return;
       }
-      if (lastWrongWords.contains(word)) {
-        int num = lastWrongWords.indexOf(word);
-        alternatives = lastSuggestions.get(num).toArray(new String[0]);
+      String localeStr = OfficeTools.localeToString(locale);
+      if (lastWrongWords.get(localeStr).contains(word)) {
+        int num = lastWrongWords.get(localeStr).indexOf(word);
+        alternatives = lastSuggestions.get(localeStr).get(num);
         return;
       }
       try {
