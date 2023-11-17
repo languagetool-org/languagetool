@@ -1347,6 +1347,9 @@ public class GermanSpellerRuleTest {
       if (prohibit.contains(deCHWord)) {
         fail("'" + deCHWord + "' is both in prohibit.txt (used for all de-.. variants) and in spelling-de-CH.txt");
       }
+      if (deCHWord.contains("ß")) {
+        fail("'" + deCHWord + "' from spelling-de-CH.txt contains 'ß' - should be 'ss' instead");
+      }
     }
   }
 
