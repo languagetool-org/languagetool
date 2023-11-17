@@ -68,14 +68,16 @@
                         <exception scope="previous" regexp="yes">\d{1,9}</exception>
                         <exception scope="previous">\</exception>
                     </token>
+                    <token min="0" regexp="yes">\.|,|'</token>
                     <token regexp="yes">\d{3}
                         <exception scope="next" regexp="yes">\d{1,9}</exception>
                         <exception scope="next">\</exception>
                     </token>
                 </pattern>
-                <message>Besteht eine Zahl aus vier Ziffern, wird die erste nicht abgesetzt, sondern eine Vierergruppe gebildet.</message>
-                <suggestion>\1\2</suggestion>
+                <message>Besteht eine Zahl aus vier Ziffern, empfehlen wir, die erste nicht abzusetzen oder durch Interpunktion zu trennen, sondern eine Vierergruppe zu bilden.</message>
+                <suggestion>\1\3</suggestion>
                 <example correction="3452"><marker>3 452</marker> ist eine Nummer.</example>
+                <example correction="7589"><marker>7.589</marker> ist auch eine Nummer.</example>
             </rule>
             <rule><!--2 5 Ziffern-->
                 <pattern>
@@ -90,7 +92,23 @@
                 <suggestion><match no="1" regexp_match="(\d)(\d)(\d{3})" regexp_replace="$1$2 $3"></match></suggestion>
                 <example correction="39 452"><marker>39452</marker> ist eine Nummer.</example>
             </rule>
-            <rule><!--3 6 Ziffern-->
+            <rule><!--3 5 Ziffern mit Punkt|Komma-->
+                <pattern>
+                    <token regexp="yes">(\d)(\d)
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|\.</exception>
+                    </token>
+                    <token>.</token>
+                    <token regexp="yes">(\d){3}
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|\.</exception>
+                    </token>
+                </pattern>
+                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="82 903"><marker>82.903</marker> ist auch eine Nummer.</example>
+            </rule>
+            <rule><!--4 6 Ziffern-->
                 <pattern>
                     <token regexp="yes">(\d{3})(\d{3})
                         <exception scope="next" regexp="yes">\d{1,9}</exception>
@@ -102,6 +120,53 @@
                 <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen.</message>
                 <suggestion><match no="1" regexp_match="(\d{3})(\d{3})" regexp_replace="$1 $2"></match></suggestion>
                 <example correction="399 452"><marker>399452</marker> ist eine Nummer.</example>
+            </rule>
+            <rule><!--5 6 Ziffern mit Punkt|Komma-->
+                <pattern>
+                    <token regexp="yes">(\d{3})
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|,|\.</exception>
+                    </token>
+                    <token regexp="yes">\.|,|'</token>
+                    <token regexp="yes">(\d{3})
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|,</exception>
+                    </token>
+                </pattern>
+                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="399 452"><marker>399.452</marker> ist eine Nummer.</example>
+            </rule>
+            <rule><!--6 7+ Ziffern-->
+                <pattern>
+                    <token regexp="yes">(\d{1,3})(\d{3})(\d{3})
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|,|\.</exception>
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|,</exception>
+                    </token>
+                </pattern>
+                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
+                <suggestion><match no="1" regexp_match="(\d{1,3})(\d{3})(\d{3})" regexp_replace="$1 $2 $3"/></suggestion>
+                <example correction="399 452 456"><marker>399452456</marker> ist eine Nummer.</example>
+            </rule>
+            <rule><!--7 7+ Ziffern mit Punkt|Komma-->
+                <pattern>
+                    <token regexp="yes">\d{1,3}
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|,|\.</exception>
+                    </token>
+                    <token regexp="yes" min="0">\.|,|'</token>
+                    <token regexp="yes" spacebefore="no">\d{3}</token>
+                    <token regexp="yes" min="0">\.|,|'</token>
+                    <token regexp="yes" spacebefore="no">\d{3}
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|,</exception>
+                    </token>
+                </pattern>
+                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
+                <suggestion>\1 \3 \5</suggestion>
+                <example correction="399 452 456"><marker>399.452.456</marker> ist eine Nummer.</example>
             </rule>
         </rulegroup>
 
