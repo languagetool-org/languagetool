@@ -912,6 +912,8 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Einbusse")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Einbussen")).length);
   }
 
   // note: copied from HunspellRuleTest
@@ -934,6 +936,8 @@ public class GermanSpellerRuleTest {
     commonGermanAsserts(rule, lt);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Einbusse")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Einbussen")).length);
   }
   
   // note: copied from HunspellRuleTest
