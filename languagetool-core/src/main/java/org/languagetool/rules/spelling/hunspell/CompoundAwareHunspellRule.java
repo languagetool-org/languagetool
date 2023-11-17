@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
+import com.google.common.base.Suppliers;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
@@ -28,14 +29,17 @@ import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 /**
- * A spell checker that combines Hunspell und Morfologik spell checking
+ * A spell checker that combines Hunspell and Morfologik spell checking
  * to support compound words and offer fast suggestions for some misspelled
  * compound words.
  */
@@ -44,7 +48,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   private static final int MAX_SUGGESTIONS = 20;
   
   private final CompoundWordTokenizer compoundSplitter;
-  private final MorfologikMultiSpeller morfoSpeller;
+  private final Supplier<MorfologikMultiSpeller> morfoSpeller;
 
   protected abstract void filterForLanguage(List<String> suggestions);
 
@@ -87,9 +91,18 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter,
                                    MorfologikMultiSpeller morfoSpeller, UserConfig userConfig, List<Language> altLanguages,
                                    LanguageModel languageModel) {
+    this(messages, language, compoundSplitter, () -> morfoSpeller, userConfig, altLanguages, languageModel);
+  }
+
+  /**
+   * @since 6.4
+   */
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter,
+                                   Supplier<MorfologikMultiSpeller> morfoSpeller, UserConfig userConfig, List<Language> altLanguages,
+                                   LanguageModel languageModel) {
     super(messages, language, userConfig, altLanguages, languageModel);
     this.compoundSplitter = compoundSplitter;
-    this.morfoSpeller = morfoSpeller;
+    this.morfoSpeller = Suppliers.memoize(() -> morfoSpeller.get());
   }
 
   /**
@@ -107,9 +120,10 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     simpleSuggestions = getFilteredSuggestions(simpleSuggestions);
     //System.out.println("simpleSuggestions: " + simpleSuggestions);
 
+    MorfologikMultiSpeller morfoSpeller = this.morfoSpeller.get();
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
-    handleWordEndPunctuation(".", word, noSplitSuggestions);
-    handleWordEndPunctuation("...", word, noSplitSuggestions);
+    handleWordEndPunctuation(".", word, noSplitSuggestions, morfoSpeller);
+    handleWordEndPunctuation("...", word, noSplitSuggestions, morfoSpeller);
     List<String> noSplitLowercaseSuggestions = new ArrayList<>();
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
@@ -147,7 +161,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
 
-  private void handleWordEndPunctuation(String punct, String word, List<String> noSplitSuggestions) {
+  private static void handleWordEndPunctuation(String punct, String word, List<String> noSplitSuggestions, MorfologikMultiSpeller morfoSpeller) {
     if (word.endsWith(punct)) {
       // e.g. "informationnen." - the dot is a word char in hunspell, so it needs special treatment here
       List<String> tmp = morfoSpeller.getSuggestions(word.substring(0, word.length()-punct.length()));
@@ -171,6 +185,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     for (String part : parts) {
       if (!hunspell.spell(part)) {
         // assume noun, so use uppercase:
+        MorfologikMultiSpeller morfoSpeller = this.morfoSpeller.get();
         boolean doUpperCase = partCount > 0 && !StringTools.startsWithUppercase(part);
         List<String> suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.uppercaseFirstChar(part) : part);
         if (suggestions.isEmpty()) {
