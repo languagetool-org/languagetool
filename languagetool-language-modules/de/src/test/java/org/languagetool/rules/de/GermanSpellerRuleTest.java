@@ -33,6 +33,7 @@ import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.ByteArrayInputStream;
@@ -1336,4 +1337,26 @@ public class GermanSpellerRuleTest {
     RuleMatch[] matches20 = rule1.match(lt.getAnalyzedSentence("laut Beispielen bie"));
     assertThat(matches20.length, is(1));
   }
+
+  @Test
+  public void testProhibitVsSpellingDeCH() {
+    CachingWordListLoader loader = new CachingWordListLoader();
+    List<String> prohibit = expandLines(loader.loadWords("/de/hunspell/prohibit.txt"));
+    List<String> deCH = expandLines(JLanguageTool.getDataBroker().getFromResourceDirAsLines("/de/hunspell/spelling-de-CH.txt"));
+    for (String deCHWord : deCH) {
+      if (prohibit.contains(deCHWord)) {
+        fail("'" + deCHWord + "' is both in prohibit.txt (used for all de-.. variants) and in spelling-de-CH.txt");
+      }
+    }
+  }
+
+  private static List<String> expandLines(List<String> prohibit) {
+    LineExpander lineExpander = new LineExpander();
+    List<String> expanded = new ArrayList<>();
+    for (String line : prohibit) {
+      expanded.addAll(lineExpander.expandLine(line));
+    }
+    return expanded;
+  }
+
 }
