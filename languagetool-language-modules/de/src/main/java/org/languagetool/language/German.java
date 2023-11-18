@@ -572,7 +572,7 @@ public class German extends Language implements AutoCloseable {
       };
 
       for (String gId: ggecIds) {
-        if (id == gId) {
+        if (id.equals(gId)) {
           return -1;
         }
       }
@@ -583,7 +583,7 @@ public class German extends Language implements AutoCloseable {
         return -1;
       }
 
-      if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL") {
+      if (id.equals("AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL")) {
         // less prio than EMAIL
         return 0;
       }
