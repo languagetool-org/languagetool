@@ -1420,6 +1420,9 @@ public class DocumentCache implements Serializable {
     if (in.sortedTextIds != null) {
       sortedTextIds = new ArrayList<>(in.sortedTextIds);
     }
+    if (in.headingMap != null) {
+      headingMap = new HashMap<>(in.headingMap);
+    }
     documentElementsCount = in.documentElementsCount;
     nText = in.nText;
     nTable = in.nTable;
