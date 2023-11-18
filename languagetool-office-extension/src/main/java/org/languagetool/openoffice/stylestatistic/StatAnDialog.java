@@ -56,6 +56,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.openoffice.DocumentCache;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.MessageHandler;
+import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
 import org.languagetool.openoffice.ViewCursorTools;
 import org.languagetool.openoffice.stylestatistic.StatAnCache.Heading;
 import org.languagetool.openoffice.stylestatistic.StatAnCache.Paragraph;
@@ -156,7 +157,7 @@ public class StatAnDialog extends Thread  {
     return false;
   }
   
-  private void runDialog() {
+  private void runDialog(WaitDialogThread waitdialog) {
     dialog = new JDialog();
     dialog.setName(dialogName);
     dialog.setTitle(dialogName);
@@ -167,7 +168,7 @@ public class StatAnDialog extends Thread  {
     try {
       if (cache == null || lastComponent == null || !lastComponent.equals(xComponent)) {
         lastComponent = xComponent;
-          refreshCache(document);
+          refreshCache(document, waitdialog);
       }
       config = new StatAnConfiguration(rules);
       selectedRule = rules.get(method);
@@ -642,7 +643,11 @@ public class StatAnDialog extends Thread  {
   @Override
   public void run() {
     try {
-      runDialog();
+      WaitDialogThread waitdialog = 
+          document.getMultiDocumentsHandler().new WaitDialogThread("Please wait", MESSAGES.getString("loWaitMessage"));
+      waitdialog.start();
+      runDialog(waitdialog);
+      waitdialog.close();
       dialog.setVisible(true);
       if (debugMode) {
         MessageHandler.printToLogFile("Dialog visible set");
@@ -679,12 +684,12 @@ public class StatAnDialog extends Thread  {
 */
   }
   
-  public void refreshCache(SingleDocument document) throws Throwable {
+  public void refreshCache(SingleDocument document, WaitDialogThread waitdialog) throws Throwable {
     setJavaLookAndFeel();
     if (debugMode) {
       MessageHandler.printToLogFile("refreshCache called (method = " + method + ")!");
     }
-    cache = new StatAnCache(document.getDocumentCache(), document.getMultiDocumentsHandler().getLanguageTool());
+    cache = new StatAnCache(document.getDocumentCache(), document.getMultiDocumentsHandler().getLanguageTool(), waitdialog);
   }
   
   private void runLevelSubDialog(Chapter chapter) throws Throwable {

@@ -247,6 +247,7 @@ public class DocumentCache implements Serializable {
         deletedChars.add(documentText.deletedCharacters);
       }
       headingMap = documentTexts.get(CURSOR_TYPE_TEXT).headingNumbers;
+//      MessageHandler.printToLogFile("DocumentCache: refresh: headingMap.size: " + (headingMap == null ? "null" : headingMap.size()));
       if (flatPara == null) {
         flatPara = document.getFlatParagraphTools();
       }
@@ -1419,6 +1420,9 @@ public class DocumentCache implements Serializable {
     deletedCharacters.addAll(in.deletedCharacters);
     if (in.sortedTextIds != null) {
       sortedTextIds = new ArrayList<>(in.sortedTextIds);
+    }
+    if (in.headingMap != null) {
+      headingMap = new HashMap<>(in.headingMap);
     }
     documentElementsCount = in.documentElementsCount;
     nText = in.nText;

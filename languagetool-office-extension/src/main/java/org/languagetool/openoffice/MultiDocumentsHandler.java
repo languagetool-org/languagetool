@@ -2127,13 +2127,14 @@ public class MultiDocumentsHandler {
    * class to run a dialog in a separate thread
    * closing if lost focus
    */
-  class WaitDialogThread extends Thread {
+  public class WaitDialogThread extends Thread {
     private final String dialogName;
     private final String text;
     private JDialog dialog = null;
     private boolean isCanceled = false;
+    JProgressBar progressBar;
 
-    WaitDialogThread(String dialogName, String text) {
+    public WaitDialogThread(String dialogName, String text) {
       this.dialogName = dialogName;
       this.text = text;
     }
@@ -2145,7 +2146,7 @@ public class MultiDocumentsHandler {
       cancelBottom.addActionListener(e -> {
         close_intern();
       });
-      JProgressBar progressBar = new JProgressBar();
+      progressBar = new JProgressBar();
       progressBar.setIndeterminate(true);
       dialog = new JDialog();
       Container contentPane = dialog.getContentPane();
@@ -2228,7 +2229,7 @@ public class MultiDocumentsHandler {
       close_intern();
     }
     
-    public void close_intern() {
+    private void close_intern() {
       if (debugMode) {
         MessageHandler.printToLogFile("WaitDialogThread: close: Dialog closed");
       }
@@ -2238,6 +2239,18 @@ public class MultiDocumentsHandler {
         dialog.dispose();
       }
     }
+    
+    public void initializeProgressBar(int min, int max) {
+      progressBar.setMinimum(min);
+      progressBar.setMaximum(max);
+      progressBar.setStringPainted(true);
+      progressBar.setIndeterminate(false);
+    }
+    
+    public void setValueForProgressBar(int val) {
+      progressBar.setValue(val);
+    }
+    
   }
 }
 
