@@ -45,13 +45,17 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
+
 /**
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
  * if you need spell checking.
  */
 public class German extends Language implements AutoCloseable {
 
-  private static final Pattern TYPOGRAPHY_PATTERN = Pattern.compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
+  private static final Pattern TYPOGRAPHY_PATTERN = compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
+  private static final Pattern AI_DE_GGEC_MISSING_PUNCT =
+    compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
 
   private LanguageModel languageModel;
 
@@ -572,9 +576,7 @@ public class German extends Language implements AutoCloseable {
           return -1;
         }
       }
-      Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|" +
-        "AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
-      if (pattern.matcher(id).find()) {
+      if (AI_DE_GGEC_MISSING_PUNCT.matcher(id).find()) {
         return -1;
       }
       if (id.equals("AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL")) {  // less prio than EMAIL
