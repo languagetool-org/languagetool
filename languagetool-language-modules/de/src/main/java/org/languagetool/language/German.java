@@ -546,15 +546,12 @@ public class German extends Language implements AutoCloseable {
       return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA
     }
     if (id.startsWith("AI_DE_GGEC")) {
-      if (id.startsWith("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD")) {
-        // less prio than spell checker
+      if (id.startsWith("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD")) {  // less prio than spell checker
         return -4;
       }
-      if (id.startsWith("AI_DE_GGEC_UNNECESSARY_PUNCTUATION")) {
-        // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
+      if (id.startsWith("AI_DE_GGEC_UNNECESSARY_PUNCTUATION")) {  // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
         return -2;
       }
-
       // gGEC IDs that should have less prio than rules with default prio
       // e. g. ABKUERZUNG_FEHLENDE_PUNKTE
       String[] ggecIds = {
@@ -570,21 +567,17 @@ public class German extends Language implements AutoCloseable {
         "AI_DE_GGEC_UNNECESSARY_OTHER",
         "AI_DE_GGEC_UNNECESSARY_SPACE"
       };
-
       for (String gId: ggecIds) {
         if (id.equals(gId)) {
           return -1;
         }
       }
-
       Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|" +
         "AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
       if (pattern.matcher(id).find()) {
         return -1;
       }
-
-      if (id.equals("AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL")) {
-        // less prio than EMAIL
+      if (id.equals("AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL")) {  // less prio than EMAIL
         return 0;
       }
       return 1;
