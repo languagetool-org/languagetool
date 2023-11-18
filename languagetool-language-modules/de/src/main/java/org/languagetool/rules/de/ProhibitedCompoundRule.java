@@ -66,7 +66,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("panel", "ausgewählte Personengruppe", "paneel", "Platte für Wand- und Deckenverkleidungen"),
           new Pair("nabe", "Mittelteil eines Rades", "narbe", "verheilende Wunde"),
           new Pair("first", "höchste Kante an einem geneigten Dach", "frist", "spätester Zeitpunkt"),
-          new Pair("kisten", "Behälter", "kosten", "Ausgaben"),
+          //new Pair("kisten", "Behälter", "kosten", "Ausgaben"),
           new Pair("koma", "Zustand tiefer Bewusstlosigkeit", "komma", "Satzzeichen"),
           new Pair("korn", "Getreide sowie dessen Frucht", "kron", "Vorsilbe z.B. in 'Kronkorken'"),
           new Pair("bauten", "Form von 'Bau' (Bauwerk, Haus, ...)", "beuten", "Form von 'Beute'"),
