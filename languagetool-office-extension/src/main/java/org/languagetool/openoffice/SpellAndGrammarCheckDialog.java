@@ -886,6 +886,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       activateRule = new JComboBox<String> ();
       checkProgressLabel = new JLabel(labelCheckProgress);
       cacheStatusLabel = new JLabel(" █ ");
+      cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel"));
       checkProgress = new JProgressBar(0, 100);
 
       try {
@@ -1612,10 +1613,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
           numCache++;
         }
       }
-      int size = (fullSize == 0 || numCache == 0) ? 0 : (pSize * 100) / (fullSize * numCache);
-      if (debugMode) {
-        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
+      int size;
+      if (docType == DocumentType.WRITER) {
+        size = (fullSize == 0 || numCache == 0) ? 0 : (pSize * 100) / (fullSize * numCache);
+      } else {
+        size = 100;
       }
+      cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel") + ": " + size + "%");
+//      if (debugMode) {
+//        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
+//      }
       if (size < 25) {
         cacheStatusLabel.setForeground(new Color(145 + 4 * size, 0, 0));
       } else if (size < 50) {
