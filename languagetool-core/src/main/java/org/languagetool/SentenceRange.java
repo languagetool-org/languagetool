@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 public class SentenceRange implements Comparable<SentenceRange>{
 
   private static final Pattern BEGINS_WITH_SPACE = Pattern.compile("^\\s*");
-  private static final Pattern ENDS_WITH_SPACE = Pattern.compile("\\s++$");
+  private static final Pattern ENDS_WITH_SPACE = Pattern.compile("\\s+$");
 
   private final int fromPos;
   private final int toPos;
