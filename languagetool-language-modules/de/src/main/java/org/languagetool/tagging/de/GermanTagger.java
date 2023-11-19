@@ -60,6 +60,7 @@ public class GermanTagger extends BaseTagger {
   private static final Pattern innenPattern1 = compile("in(nen)-[A-ZÖÄÜ][a-zöäüß-]+");
   private static final Pattern anythingDash = compile(".*-");
   private static final Pattern innenPattern2 = compile("innen[a-zöäüß-]+");
+  private static final Pattern DDD_ER_PATTERN = compile("\\d{4}+er");
 
   static {
     for (String nomAkkGenDat : asList("NOM", "AKK", "GEN", "DAT")) {
@@ -746,7 +747,7 @@ public class GermanTagger extends BaseTagger {
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens) {
     if (word.endsWith("er")) {
-      if (word.matches("\\d{4}+er")) {
+      if (DDD_ER_PATTERN.matcher(word).matches()) {
         // e.g. "Den 2019er Wert hatten sie geschätzt"
         List<AnalyzedToken> list = new ArrayList<>();
         for (String tag : allAdjGruTags) {

@@ -50,8 +50,11 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
 public class UpperCaseNgramRule extends Rule {
 
   public static final int THRESHOLD = 50;
+
   private static MorfologikAmericanSpellerRule spellerRule = null;
   private static LinguServices linguServices = null;
+
+  private static final Pattern PUNCT_PATTERN = Pattern.compile("[.!?:]");
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
@@ -697,7 +700,7 @@ public class UpperCaseNgramRule extends Rule {
   private boolean isSentence(AnalyzedTokenReadings[] tokens) {
     boolean isSentence = false;
     for (int i = tokens.length - 1; i > 0; i--) {
-      if (tokens[i].getToken().matches("[.!?:]")) {
+      if (PUNCT_PATTERN.matcher(tokens[i].getToken()).matches()) {
         isSentence = true;
         break;
       }

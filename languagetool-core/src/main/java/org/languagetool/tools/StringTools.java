@@ -39,6 +39,8 @@ import static java.util.regex.Pattern.*;
  */
 public final class StringTools {
 
+  private static final Pattern NONCHAR = compile("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]");
+
   /**
    * Constants for printing XML rule matches.
    */
@@ -621,7 +623,7 @@ public final class StringTools {
         .replace("Ü", "UE")
         .replace("Ö", "OE");
     }
-    normalisedId = normalisedId.replaceAll("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]", "_");
+    normalisedId = NONCHAR.matcher(normalisedId).replaceAll("_");
     return normalisedId;
   }
 
