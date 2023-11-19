@@ -55,8 +55,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
   public static final float MIN_COVERAGE = 0.5f;
   // the minimum value the more probable variant needs to have to be considered:
   private static final double MIN_PROB = 0.0;  // try values > 0 to avoid false alarms
-
   private static final boolean DEBUG = false;  // also see DEBUG in BaseLanguageModel.java
+  private static final Pattern REAL_WORD = Pattern.compile("[\\p{L}]+");
 
   // Speed up the server use case, where rules get initialized for every call:
   private static final LoadingCache<PathAndLanguage, Map<String, List<ConfusionPair>>> confSetCache = CacheBuilder.newBuilder()
@@ -214,7 +214,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   private boolean isRealWord(String token) {
-    return token.matches("[\\p{L}]+");
+    return REAL_WORD.matcher(token).matches();
   }
 
   private boolean isLocalException(AnalyzedSentence sentence, GoogleToken googleToken) {
