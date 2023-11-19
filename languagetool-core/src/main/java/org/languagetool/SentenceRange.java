@@ -55,10 +55,10 @@ public class SentenceRange implements Comparable<SentenceRange>{
         continue;
       }
       //trim whitespaces
-      String sentenceNoBeginnWhitespace = BEGINS_WITH_SPACE.matcher(sentence).replaceFirst("");
+      String sentenceNoBeginWhitespace = BEGINS_WITH_SPACE.matcher(sentence).replaceFirst("");
       String sentenceNoEndWhitespace = ENDS_WITH_SPACE.matcher(sentence).replaceFirst("");
       //Get position without tailing and leading whitespace
-      int fromPos = pos + (sentence.length() - sentenceNoBeginnWhitespace.length());
+      int fromPos = pos + (sentence.length() - sentenceNoBeginWhitespace.length());
       int toPos = pos + sentenceNoEndWhitespace.length();
 
       int fromPosOrig = fromPos + diff;
