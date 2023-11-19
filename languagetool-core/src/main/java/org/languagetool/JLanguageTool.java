@@ -74,7 +74,9 @@ import java.util.stream.IntStream;
  * @see MultiThreadedJLanguageTool
  */
 public class JLanguageTool {
+
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
+  private static final Pattern ZERO_WIDTH_NBSP = Pattern.compile("(?<=\uFEFF)|(?=\uFEFF)");
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
   public static final String VERSION = "6.4-SNAPSHOT";
@@ -750,7 +752,7 @@ public class JLanguageTool {
    *
    * @param id the id of the category to check - no error will be thrown if the id does not exist
    * @return true if this category is explicitly disabled.
-   * @see #disableCategory(org.languagetool.rules.CategoryId)
+   * @see #disableCategory(CategoryId)
    * @since 3.5
    */
   public boolean isCategoryDisabled(CategoryId id) {
@@ -788,7 +790,7 @@ public class JLanguageTool {
    * Enable all rules of the given category so the check methods like {@link #check(String)} will use it.
    * This will <em>not</em> throw an exception if the given rule id doesn't exist.
    *
-   * @see #disableCategory(org.languagetool.rules.CategoryId)
+   * @see #disableCategory(CategoryId)
    * @since 3.3
    */
   public void enableRuleCategory(CategoryId id) {
@@ -953,7 +955,7 @@ public class JLanguageTool {
       if (part.getType() == TextPart.Type.TEXT) {
         String byteOrderMark = "\uFEFF";  // BOM or zero-width non-breaking space
         // split by byteOrderMark and let the delimiter also be part of the array
-        String[] split = part.getPart().split("(?<=\uFEFF)|(?=\uFEFF)");
+        String[] split = ZERO_WIDTH_NBSP.split(part.getPart());
         for (String text : split) {
           if ("\uFEFF".equals(text)) {
             atb.addMarkup(byteOrderMark);

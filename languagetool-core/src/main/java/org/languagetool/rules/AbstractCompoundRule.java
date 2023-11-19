@@ -30,6 +30,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -40,6 +41,9 @@ import java.util.stream.Stream;
 public abstract class AbstractCompoundRule extends Rule {
 
   static final int MAX_TERMS = 5;
+
+  private static final Pattern WHITESPACE_DASH = Pattern.compile(" - ", Pattern.LITERAL);
+  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
   private final String withHyphenMessage;
   private final String withoutHyphenMessage;
@@ -192,7 +196,7 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   protected List<String> filterReplacements(List<String> replacements, String original) throws IOException {
-    List<String> newReplacements = new ArrayList<String>();
+    List<String> newReplacements = new ArrayList<>();
     for (String replacement : replacements) {
       String newReplacement = replacement.replaceAll("\\-\\-+", "-");
       if (!newReplacement.equals(original) && isCorrectSpell(newReplacement)) {
@@ -234,9 +238,9 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private String normalize(String inStr) {
     String str = inStr.trim();
-    str = str.replace(" - ", " ");
+    str = WHITESPACE_DASH.matcher(str).replaceAll(" ");
     str = str.replace('-', ' ');
-    str = str.replaceAll("\\s+", " ");
+    str = WHITESPACE.matcher(str).replaceAll(" ");
     return str;
   }
 
