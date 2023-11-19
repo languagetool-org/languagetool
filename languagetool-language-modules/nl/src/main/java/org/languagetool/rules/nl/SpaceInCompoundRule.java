@@ -28,12 +28,15 @@ import org.languagetool.rules.SpecificIdRule;
 import org.languagetool.tools.StringTools;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class SpaceInCompoundRule extends Rule {
 
 	private static final Map<String, String> normalizedCompound2message = new HashMap<>();
 	private static final AhoCorasickDoubleArrayTrie<String> trie = getTrie();
-	private final Language language;
+  private static final Pattern chars = Pattern.compile("[a-zA-Z]");
+
+  private final Language language;
 
 	public SpaceInCompoundRule(ResourceBundle messages, Language language) {
 		this.language = language;
@@ -128,6 +131,6 @@ public class SpaceInCompoundRule extends Rule {
 	}
 
 	private boolean isBoundary(String s) {
-		return !s.matches("[a-zA-Z]");
+		return !chars.matcher(s).matches();
 	}
 }

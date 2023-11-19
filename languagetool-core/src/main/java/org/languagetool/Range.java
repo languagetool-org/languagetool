@@ -18,8 +18,6 @@
  */
 package org.languagetool;
 
-import lombok.Getter;
-
 import java.util.Objects;
 
 /**

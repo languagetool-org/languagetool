@@ -30,6 +30,7 @@ public class UppercaseSentenceStartRuleTest {
   @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    assertEquals(0, lt.check("v8.2.0 has been released").size());
     assertEquals(0, lt.check("In Nov. next year.").size());
     assertEquals(0, lt.check("www.languagetool.org is a website.").size());
     assertEquals(0, lt.check("Languagetool.org is a website.").size());

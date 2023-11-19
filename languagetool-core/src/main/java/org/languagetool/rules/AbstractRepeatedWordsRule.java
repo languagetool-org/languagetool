@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -37,6 +38,10 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
+
+  private static final Pattern PUNCT_PATTERN = Pattern.compile("\\p{P}");
+  private static final Pattern HASH_PATTERN = Pattern.compile("#.*");
+  private static final String FILE_ENCODING = "utf-8";
 
   protected abstract Map<String, SynonymsData> getWordsToCheck();
 
@@ -60,9 +65,8 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     return ruleId;
   }
 
-  private String ruleId;
-
-  private Language language;
+  private final String ruleId;
+  private final Language language;
   
   @Override
   public abstract String getDescription();
@@ -115,7 +119,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
         boolean isAllUppercase = StringTools.isAllUppercase(token);
         i++;
         boolean isException = token.isEmpty() || isException(tokens, i, sentStart, isCapitalized, isAllUppercase);
-        if (sentStart && !token.isEmpty() && !token.matches("\\p{P}")) {
+        if (sentStart && !token.isEmpty() && !PUNCT_PATTERN.matcher(token).matches()) {
           sentStart = false;
         }
         if (isException) {
@@ -176,18 +180,16 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     return toRuleMatchArray(matches);
   }
 
-  private static final String FILE_ENCODING = "utf-8";
-
   protected static Map<String, SynonymsData> loadWords(String path) {
-    final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    final Map<String, SynonymsData> map = new HashMap<>();
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    Map<String, SynonymsData> map = new HashMap<>();
     try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().replaceFirst("#.*", "").trim();
+        String line = HASH_PATTERN.matcher(scanner.nextLine()).replaceFirst("").trim();
         if (line.isEmpty()) {
           continue;
         }
-        final String[] mainParts = line.split("=");
+        String[] mainParts = line.split("=");
         String[] parts = null;
         String postag = null;
         String chunk = null;
@@ -239,6 +241,5 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
     }
     return map;
   }
- 
 
 }

@@ -214,6 +214,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     )
   );
 
+  private static final Pattern COMMON_WORD = Pattern.compile("[\\wöäüßÖÄÜ]+");
+
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
@@ -236,7 +238,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
 
   protected boolean isCommonWord(String token) {
-    return token.matches("[\\wöäüßÖÄÜ]+");
+    return COMMON_WORD.matcher(token).matches();
   }
 
 }

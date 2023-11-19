@@ -18,10 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import java.util.List;
 import java.util.ResourceBundle;
 
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
@@ -37,8 +35,6 @@ public class StyleTooOftenUsedNounRule extends AbstractStyleTooOftenUsedWordRule
   
   private static final int DEFAULT_MIN_PERCENT = 5;
 
-  String sentenceMessage = null;
-  
   public StyleTooOftenUsedNounRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);
     if (userConfig != null) {
@@ -80,17 +76,6 @@ public class StyleTooOftenUsedNounRule extends AbstractStyleTooOftenUsedWordRule
     return token.hasPosTagStartingWith("PRO:") || token.getToken().equals("Ja");
   }
   
-  private String getLemmaForPosTagStartsWith(String startPos, AnalyzedTokenReadings token) {
-    List<AnalyzedToken> readings = token.getReadings();
-    for (AnalyzedToken reading : readings) {
-      String posTag = reading.getPOSTag();
-      if (posTag != null && posTag.startsWith(startPos)) {
-        return reading.getLemma();
-      }
-    }
-    return null;
-  }
-
   @Override
   protected String toAddedLemma(AnalyzedTokenReadings token) {
     return getLemmaForPosTagStartsWith("SUB:", token);

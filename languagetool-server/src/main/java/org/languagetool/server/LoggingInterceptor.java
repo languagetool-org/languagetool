@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Statement;
+import java.util.regex.Pattern;
 
 @Intercepts({
   @Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
@@ -20,6 +21,7 @@ import java.sql.Statement;
 public class LoggingInterceptor implements Interceptor {
 
   private static final Logger logger = LoggerFactory.getLogger(LoggingInterceptor.class);
+  private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
 
   @Override
   public Object intercept(Invocation invocation) throws Throwable {
@@ -33,7 +35,7 @@ public class LoggingInterceptor implements Interceptor {
       long time = endTime - startTime;
 
       BoundSql boundSql = statementHandler.getBoundSql();
-      String sql = boundSql.getSql().replaceAll("\\s+", " ");
+      String sql = WHITESPACE_PATTERN.matcher(boundSql.getSql()).replaceAll(" ");
       Object parameterObject = boundSql.getParameterObject();
       logger.info("Executing SQL: [{}, {}] takes {}ms", sql, parameterObject, time);
     }

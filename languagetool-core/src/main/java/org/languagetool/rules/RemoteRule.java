@@ -69,7 +69,7 @@ public abstract class RemoteRule extends Rule {
     super(messages);
     serviceConfiguration = config;
     this.ruleLanguage = language;
-    this.lt = new JLanguageTool(ruleLanguage);
+    this.lt = this.ruleLanguage.createDefaultJLanguageTool();
     this.inputLogging = inputLogging;
     if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId
       ruleId = getId();

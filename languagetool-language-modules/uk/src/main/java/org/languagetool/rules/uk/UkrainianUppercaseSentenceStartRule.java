@@ -1,6 +1,7 @@
 package org.languagetool.rules.uk;
 
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -10,6 +11,8 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 
 public class UkrainianUppercaseSentenceStartRule extends UppercaseSentenceStartRule {
 
+  private static final Pattern PATTERN = Pattern.compile("[а-яіїєґ]");
+
   public UkrainianUppercaseSentenceStartRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, CorrectExample correctExample) {
     super(messages, language, incorrectExample, correctExample);
   }
@@ -18,7 +21,7 @@ public class UkrainianUppercaseSentenceStartRule extends UppercaseSentenceStartR
   protected boolean isException(AnalyzedTokenReadings[] tokens, int tokenIdx) {
     // list, e.g. а) б) в)
     if( tokenIdx == 1 && tokenIdx < tokens.length-1
-        && tokens[tokenIdx].getCleanToken().matches("[а-яіїєґ]") 
+        && PATTERN.matcher(tokens[tokenIdx].getCleanToken()).matches()
         && tokens[tokenIdx+1].getToken().equals(")") )
       return true;
     

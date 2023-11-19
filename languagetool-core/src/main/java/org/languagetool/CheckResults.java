@@ -18,45 +18,47 @@
  */
 package org.languagetool;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.RuleMatch;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @since 5.3
  */
 public class CheckResults {
 
+  @Getter
   private List<RuleMatch> ruleMatches;
-  private List<Range> ignoredRanges;
+  @Getter
+  private final List<Range> ignoredRanges;
+  @Getter
+  private final List<ExtendedSentenceRange> extendedSentenceRanges;
   private final List<SentenceRange> sentenceRanges = new ArrayList<>();
 
+
   public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges) {
+    this(ruleMatches, ignoredRanges, Collections.emptyList());
+  }
+
+  public CheckResults(List<RuleMatch> ruleMatches, List<Range> ignoredRanges, List<ExtendedSentenceRange> extendedSentenceRanges) {
     this.ruleMatches = Objects.requireNonNull(ruleMatches);
     this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
-  }
-
-  public List<Range> getIgnoredRanges() {
-    return ignoredRanges;
-  }
-
-  public List<RuleMatch> getRuleMatches() {
-    return ruleMatches;
+    this.extendedSentenceRanges = Objects.requireNonNull(extendedSentenceRanges.stream().sorted().collect(Collectors.toList()));
+    //TODO: use this later, when we are sure the sentenceRanges (from extendedSentenceRange) are are correct.
+    // Right now the sentenceRanges are calculated different from those in extendedSentenceRange.
+    // extendedSentenceRanges.forEach(extendedSentenceRange -> this.sentenceRanges.add(new SentenceRange(extendedSentenceRange.getFromPos(), extendedSentenceRange.getToPos())));
   }
 
   @NotNull
   public List<SentenceRange> getSentenceRanges() {
-    return sentenceRanges;
+    return Collections.unmodifiableList(this.sentenceRanges);
   }
+
   public void addSentenceRanges(List<SentenceRange> sentenceRanges) {
     this.sentenceRanges.addAll(sentenceRanges);
-  }
-  
-  public void setIgnoredRanges(List<Range> ignoredRanges) {
-    this.ignoredRanges = Objects.requireNonNull(ignoredRanges);
   }
 
   public void setRuleMatches(List<RuleMatch> ruleMatches) {

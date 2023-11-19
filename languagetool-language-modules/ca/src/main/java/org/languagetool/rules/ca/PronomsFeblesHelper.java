@@ -22,6 +22,8 @@ package org.languagetool.rules.ca;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class PronomsFeblesHelper {
@@ -117,13 +119,24 @@ public class PronomsFeblesHelper {
     //"et", "t'", "-t", "'t"
   };
 
+  final static Map<String, String> dativePronoun = new HashMap<>();
+  static {
+    dativePronoun.put("1S", "em");
+    dativePronoun.put("2S", "et");
+    dativePronoun.put("3S", "li");
+    dativePronoun.put("3C", "li"); // also "els"
+    dativePronoun.put("1P", "ens");
+    dativePronoun.put("2P", "us");
+    dativePronoun.put("3P", "els");
+  }
+
   static Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
   static Pattern pApostropheNeededEnd = Pattern.compile(".*[aei]", Pattern.CASE_INSENSITIVE);
 
   PronomsFeblesHelper() {
   }
 
-  public static String transform (String inputPronom, PronounPosition pronounPos) {
+  public static String transform(String inputPronom, PronounPosition pronounPos) {
     int i = 0;
     while (i < pronomsFebles.length && !inputPronom.equalsIgnoreCase(pronomsFebles[i])) {
       i++;
@@ -141,7 +154,7 @@ public class PronomsFeblesHelper {
     return pronom;
   }
 
-  public static String transformDavant (String inputPronom, String nextWord) {
+  public static String transformDavant(String inputPronom, String nextWord) {
     if (pApostropheNeeded.matcher(nextWord).matches()) {
       return transform(inputPronom, PronounPosition.DAVANT_APOS);
     } else {
@@ -149,7 +162,7 @@ public class PronomsFeblesHelper {
     }
   }
 
-  public static String transformDarrere (String inputPronom, String previousWord) {
+  public static String transformDarrere(String inputPronom, String previousWord) {
     if (pApostropheNeededEnd.matcher(previousWord).matches()) {
       return transform(inputPronom, PronounPosition.DARRERE_APOS);
     } else {

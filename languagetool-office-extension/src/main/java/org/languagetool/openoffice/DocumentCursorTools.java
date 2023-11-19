@@ -382,8 +382,7 @@ class DocumentCursorTools {
 //        MessageHandler.printException(e);
       }
       return ret;
-    }
-    else if (paraStyleName != null && paraStyleName.startsWith("Contents")) {
+    } else if (paraStyleName.startsWith("Contents")) {
       return TEXT_TYPE_AUTOMATIC;
     } else {
       return TEXT_TYPE_NORMAL;

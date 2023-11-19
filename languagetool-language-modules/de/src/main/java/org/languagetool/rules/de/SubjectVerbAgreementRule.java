@@ -448,7 +448,7 @@ public class SubjectVerbAgreementRule extends Rule {
   );
 
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
-  private German language;
+  private final German language;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
     this.language = language;

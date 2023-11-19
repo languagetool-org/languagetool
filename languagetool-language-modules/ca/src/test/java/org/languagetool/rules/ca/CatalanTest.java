@@ -41,7 +41,7 @@ public class CatalanTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("MORFOLOGIK_RULE_CA_ES", "UPPERCASE_SENTENCE_START", "CONCORDANCES_DET_NOM", "CATALAN_WORD_REPEAT_RULE", "CONCORDANCES_DET_NOM", "VERB_SEGUIT_DINFINITIU")
     );
-    runTests(lang, null, "·");
+    runTests(lang, "ca-ES", "·");
   }
   
   @Test

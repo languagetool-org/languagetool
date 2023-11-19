@@ -25,8 +25,11 @@ import org.languagetool.rules.IncorrectExample;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class GermanCommaWhitespaceRule extends CommaWhitespaceRule {
+
+  private static final Pattern DOMAINS = Pattern.compile("[a-z]{2,10}-Domains?");
 
   public GermanCommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample, URL url) {
     super(messages, incorrectExample, correctExample, url);
@@ -36,7 +39,7 @@ public class GermanCommaWhitespaceRule extends CommaWhitespaceRule {
   protected boolean isException(AnalyzedTokenReadings[] tokens, int tokenIdx) {
     if (tokenIdx+2 < tokens.length &&
         tokens[tokenIdx].getToken().equals(".") &&
-        tokens[tokenIdx+1].getToken().matches("[a-z]{2,10}-Domains?")) {
+        DOMAINS.matcher(tokens[tokenIdx + 1].getToken()).matches()) {
       return true;
     }
     return false;

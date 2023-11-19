@@ -23,12 +23,15 @@ import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * Check for compounds written with dashes instead of hyphens.
  * @since 4.2
  */
 public class RussianDashRule extends AbstractDashRule {
+
+  private static final Pattern PATTERN = Pattern.compile("[\u0400-\u04FF]");
 
   private static volatile AhoCorasickDoubleArrayTrie<String> trie;
 
@@ -55,7 +58,7 @@ public class RussianDashRule extends AbstractDashRule {
 
   @Override
   protected boolean isBoundary(String s) {
-    return !s.matches("[\u0400-\u04FF]");
+    return !PATTERN.matcher(s).matches();
   }
 
   @Override
@@ -69,7 +72,6 @@ public class RussianDashRule extends AbstractDashRule {
         }
       }
     }
-
     return data;
   }
 

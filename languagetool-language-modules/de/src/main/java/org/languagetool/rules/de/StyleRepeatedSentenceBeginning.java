@@ -48,7 +48,7 @@ public class StyleRepeatedSentenceBeginning extends TextLevelRule {
     setDefaultOff();
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Das Auto</marker> kam näher. <marker>Der Hund</marker> lief langsam über die Straße. <marker>Die Reifen</marker> quietschten."),
-        Example.fixed("Das Auto kam näher. Langsam lief der Hund über die Straße. Die Reifen quietschten."));
+                   Example.fixed("Das Auto kam näher. Langsam lief der Hund über die Straße. Die Reifen quietschten."));
   }
 
   private final static int MIN_REPEATED = 3;

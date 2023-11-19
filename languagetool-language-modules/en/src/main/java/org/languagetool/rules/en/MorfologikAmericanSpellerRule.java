@@ -97,4 +97,5 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
     }
   }
 
+
 }

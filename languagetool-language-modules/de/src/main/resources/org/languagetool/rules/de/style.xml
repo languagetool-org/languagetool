@@ -936,6 +936,55 @@ USA
     <!-- Umgangssprache -->
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="style">
+
+        <rule id="I_BIMS_JUGENDSPRACHE" name="Hallo, I bims (ich bin's)">
+            <antipattern>
+                <token>I</token>
+                <token skip="-1">bims</token>
+                <token>ich</token>
+                <token>bins</token>
+                <example>"I bims" heißt soviel wie "ich bins".</example>
+            </antipattern>
+            <antipattern>
+                <token>I</token>
+                <token skip="-1">bims</token>
+                <token>ich</token>
+                <token>bin</token>
+                <token>'</token>
+                <token>s</token>
+                <example>"I bims" heißt soviel wie "ich bin's".</example>
+            </antipattern>
+            <antipattern>
+                <token>ich</token>
+                <token skip="-1">bins</token>
+                <token>I</token>
+                <token>bims</token>
+                <example>"Ich bins" heißt neuerdings "I bims".</example>
+            </antipattern>
+            <antipattern>
+                <token>ich</token>
+                <token>bin</token>
+                <token>'</token>
+                <token skip="-1">s</token>
+                <token>I</token>
+                <token>bims</token>
+                <example>"Ich bin's" heißt neuerdings "I bims".</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">„|"|'</token>
+                <token>I</token>
+                <token>bims</token>
+                <token regexp="yes">“|"|'</token>
+                <example>"I bims" heißt soviel wie "ich bins".</example>
+            </antipattern>
+            <pattern>
+                <token>I</token>
+                <token>bims</token>
+            </pattern>
+            <message>„I bims“ war das Jugendwort des Jahres 2017. Es handelt sich dabei um eine absichtlich falsch geschriebene Form von <suggestion><match no="1" case_conversion="alllower">ich</match> bin's</suggestion>.</message>
+            <example correction="ich bin's">Hallo, <marker>I bims</marker>.</example>
+        </rule>
+
         <rulegroup id="N_NETTER_TYP" name="n (ein) netter Typ" tone_tags="formal professional objective academic">
             <antipattern>
                 <token regexp="yes" skip="1">.*Buchstaben?</token>
@@ -1467,10 +1516,14 @@ USA
                 <token>für</token>
                 <token>umsonst</token>
             </pattern>
-            <message>Die Wendung 'für umsonst' ist umgangssprachlich. Möchten Sie die Präposition löschen?</message>
+            <message>Die Wendung 'für umsonst' ist umgangssprachlich. Möchten Sie die Präposition löschen oder eine Alternative verwenden?</message>
             <suggestion>umsonst</suggestion>
+            <suggestion>kostenlos</suggestion>
+            <suggestion>kostenfrei</suggestion>
+            <suggestion>vergeblich</suggestion>
             <example>LanguageTool gibt es <marker>umsonst</marker>, aber nicht vergebens.</example>
-            <example correction="umsonst">LanguageTool gibt es <marker>für umsonst</marker>, aber nicht vergebens.</example>
+            <example correction="umsonst|kostenlos|kostenfrei|vergeblich">LanguageTool gibt es <marker>für umsonst</marker>, aber nicht vergebens.</example>
+            <example correction="umsonst|kostenlos|kostenfrei|vergeblich">Meine jahrelange Anstrengung war <marker>für umsonst</marker>.</example>
         </rule>
         <rule id="SATZ_VON" name="'Satz von (des) Pythagoras etc.'" tone_tags="formal">
             <!-- vgl. http://www.duden.de/rechtschreibung/von_aus_ab_durch_per_seitens#Bedeutung5c -->
@@ -2782,6 +2835,14 @@ USA
                 <example>Er ließ die Beine <marker>herunterbaumeln</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token min="0" postag="ADV:MOD"/>
+                    <token>rum</token>
+                    <token>wie</token>
+                    <token>num</token>
+                    <example>Das ist total rum wie num.</example>
+                </antipattern>
                 <antipattern>
                     <token>[</token>
                     <token>rum</token>
@@ -6411,12 +6472,12 @@ USA
                 </antipattern>
                 <pattern>
                     <token>zu</token>
-                    <token case_sensitive="yes" regexp="yes">Grunde|Gunsten|Rate|Rande|Stande|Schulden|Seiten|Lasten|Leide|Schanden|Nutze|Mute|Ungunsten|Wege|Tage</token>
+                    <token case_sensitive="yes" regexp="yes">Grunde|Rate|Rande|Stande|Schulden|Seiten|Lasten|Leide|Schanden|Nutze|Mute|Wege|Tage</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion="alllower"/></suggestion> verwenden?</message>
                 <short>&getrennt;.</short>
-                <example correction="zugunsten">Sie änderte das Testament <marker>zu Gunsten</marker> ihrer Tochter.</example>
-                <example correction="zugrunde">Für die Berechnung wurde eine grobe Abschäzung <marker>zu Grunde</marker> gelegt.</example>
+                <!--<example correction="zugunsten">Sie änderte das Testament <marker>zu Gunsten</marker> ihrer Tochter.</example>--><!--replaced by new rule-->
+                <example correction="zugrunde">Für die Berechnung wurde eine grobe Abschätzung <marker>zu Grunde</marker> gelegt.</example>
                 <example correction="zugrunde">Wenn er so weiter macht, wird er <marker>zu Grunde</marker> gehen.</example>
                 <example>Damit richtet er sich <marker>zugrunde</marker>.</example>
                 <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>

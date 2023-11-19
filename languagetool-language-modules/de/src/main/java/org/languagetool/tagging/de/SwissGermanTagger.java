@@ -20,6 +20,7 @@ package org.languagetool.tagging.de;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -28,6 +29,8 @@ import org.languagetool.AnalyzedTokenReadings;
  * @since 4.4
  */
 public class SwissGermanTagger extends GermanTagger {
+
+  private static final Pattern SS_PATTERN = Pattern.compile("ss", Pattern.LITERAL);
 
   /* (non-Javadoc)
    * @see org.languagetool.tagging.de.GermanTagger#tag(java.util.List, boolean)
@@ -40,7 +43,7 @@ public class SwissGermanTagger extends GermanTagger {
         reading.getToken() != null &&
         reading.getToken().contains("ss") &&
         !reading.isTagged()) {
-        AnalyzedTokenReadings replacementReading = lookup(reading.getToken().replace("ss", "ß"));
+        AnalyzedTokenReadings replacementReading = lookup(SS_PATTERN.matcher(reading.getToken()).replaceAll("ß"));
         if (replacementReading != null) {
           for (AnalyzedToken at : replacementReading.getReadings()) {
             reading.addReading(new AnalyzedToken(reading.getToken(), at.getPOSTag(), at.getLemma()), "SwissGermanTagger");

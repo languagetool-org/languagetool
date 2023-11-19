@@ -42,9 +42,8 @@ public final class Languages {
   private static final String PROPERTIES_KEY = "languageClasses";
   private static final Language NOOP_LANGUAGE = new NoopLanguage();
 
-  private static final List<Language> dynLanguages = new ArrayList<>();
-
-  private static List<Language> languages;
+  private static List<Language> staticAndDynamicLanguages;
+  private static List<Language> staticAndDynamicLanguagesImmutable;
 
   private Languages() {
   }
@@ -61,7 +60,10 @@ public final class Languages {
     } else {
       throw new RuntimeException("Please specify a dictPath that ends in '.dict' (Morfologik binary dictionary) or '.dic' (Hunspell dictionary): " + dictPath);
     }
-    dynLanguages.add(lang);
+    if (staticAndDynamicLanguages == null) {
+      staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
+    }
+    staticAndDynamicLanguages.add(lang);
     return lang;
   }
   
@@ -89,14 +91,15 @@ public final class Languages {
    * @return an unmodifiable list
    */
   public static List<Language> getWithDemoLanguage() {
-    return Collections.unmodifiableList(getStaticAndDynamicLanguages());
+    return getStaticAndDynamicLanguages();
   }
 
   private static List<Language> getStaticAndDynamicLanguages() {
-    if (languages == null) {
-      languages = getAllLanguages();
+    if (staticAndDynamicLanguages == null) {
+      staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
+      staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
     }
-    return Stream.concat(languages.stream(), dynLanguages.stream()).collect(Collectors.toList());
+    return staticAndDynamicLanguagesImmutable;
   }
 
   private static List<Language> getAllLanguages() {
@@ -177,7 +180,7 @@ public final class Languages {
       Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
       Constructor<?> constructor = aClass.getConstructor();
       Language language = (Language) constructor.newInstance();
-      dynLanguages.add(language);
+      staticAndDynamicLanguages.add(language);
       return language;
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Class '" + className + " could not be found in classpath", e);
@@ -282,7 +285,7 @@ public final class Languages {
         return firstFallbackLanguage;
       }
     }
-    for (Language aLanguage : languages) {
+    for (Language aLanguage : getStaticAndDynamicLanguages()) {
       if (aLanguage.getShortCodeWithCountryAndVariant().equals("en-US")) {
         return aLanguage;
       }

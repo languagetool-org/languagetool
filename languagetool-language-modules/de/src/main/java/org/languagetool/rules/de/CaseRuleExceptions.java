@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.de;
 
-import gnu.trove.THashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.patterns.StringMatcher;
@@ -46,7 +46,7 @@ final class CaseRuleExceptions {
   }
 
   public static Set<StringMatcher[]> getExceptionPatterns() {
-    THashSet<StringMatcher[]> exceptionPatterns = new THashSet<>(250);
+    ObjectOpenHashSet<StringMatcher[]> exceptionPatterns = new ObjectOpenHashSet<>(250);
     for (String phrase : exceptions) {
       String[] parts = StringUtils.split(phrase, ' ');
       StringMatcher[] patterns = new StringMatcher[parts.length];
@@ -55,7 +55,7 @@ final class CaseRuleExceptions {
       }
       exceptionPatterns.add(patterns);
     }
-    exceptionPatterns.trimToSize();
+    exceptionPatterns.trim();
     return Collections.unmodifiableSet(exceptionPatterns);
   }
 

@@ -155,7 +155,7 @@ public class AgreementRule2 extends Rule {
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public AgreementRule2(ResourceBundle messages, Language language) {
-    super.setCategory(Categories.GRAMMAR.getCategory(messages));
+    setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Kleiner Haus</marker> am Waldrand"),
                    Example.fixed("<marker>Kleines Haus</marker> am Waldrand"));
     antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);

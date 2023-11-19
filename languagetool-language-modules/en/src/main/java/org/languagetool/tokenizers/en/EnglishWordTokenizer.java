@@ -28,21 +28,28 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.*;
+
 /**
  * @author Marcin Milkowski
  * @since 2.5
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  private final List<Pattern> patternList = Arrays.asList(
-      Pattern.compile("^(fo['’]c['’]sle|rec['’][ds]|OK['’]d|cc['’][ds]|DJ['’][d]|[pd]m['’]d|rsvp['’]d)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
-      Pattern.compile(
+  private static final Pattern SINGLE_QUOTE = compile("'");
+  private static final Pattern CURLY_QUOTE = compile("’");
+  private static final Pattern APOSTYPEW = compile("\u0001\u0001APOSTYPEW\u0001\u0001");
+  private static final Pattern APOSTYPOG = compile("\u0001\u0001APOSTYPOG\u0001\u0001");
+  private static final Pattern SOFT_HYPHEN = compile("\u00AD");
+  private static final List<Pattern> patternList = Arrays.asList(
+      compile("^(fo['’]c['’]sle|rec['’][ds]|OK['’]d|cc['’][ds]|DJ['’][d]|[pd]m['’]d|rsvp['’]d)$", CASE_INSENSITIVE | UNICODE_CASE),
+      compile(
           "^(['’]?)(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai|ought|might|need|may|am|dare|das|dass|hai|used|use)(n['’]t)$",
-          Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
-      Pattern.compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
-          Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE),
-      Pattern.compile("^(['’]t)(was|were|is)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
-  
+          CASE_INSENSITIVE | UNICODE_CASE),
+      compile("^(.+)(['’]m|['’]re|['’]ll|['’]ve|['’]d|['’]s)(['’-]?)$",
+          CASE_INSENSITIVE | UNICODE_CASE),
+      compile("^(['’]t)(was|were|is)$", CASE_INSENSITIVE | UNICODE_CASE));
+
   //the string used to tokenize characters
   private final String enTokenizingChars = super.getTokenizingCharacters() + "_"; // underscore;
 
@@ -66,9 +73,8 @@ public class EnglishWordTokenizer extends WordTokenizer {
   public List<String> tokenize(String text) {
     List<String> l = new ArrayList<>();
     String auxText = text;
-
-    auxText = auxText.replaceAll("'", "\u0001\u0001APOSTYPEW\u0001\u0001");
-    auxText = auxText.replaceAll("’", "\u0001\u0001APOSTYPOG\u0001\u0001");
+    auxText = SINGLE_QUOTE.matcher(auxText).replaceAll("\u0001\u0001APOSTYPEW\u0001\u0001");
+    auxText = CURLY_QUOTE.matcher(auxText).replaceAll("\u0001\u0001APOSTYPOG\u0001\u0001");
     //auxText = auxText.replaceAll("-", "\u0001\u0001HYPHEN\u0001\u0001");
     String s;
     String groupStr;
@@ -76,9 +82,8 @@ public class EnglishWordTokenizer extends WordTokenizer {
     final StringTokenizer st = new StringTokenizer(auxText, enTokenizingChars, true);
 
     while (st.hasMoreElements()) {
-      s = st.nextToken()
-          .replaceAll("\u0001\u0001APOSTYPEW\u0001\u0001", "'")
-          .replaceAll("\u0001\u0001APOSTYPOG\u0001\u0001", "’");
+      s = APOSTYPEW.matcher(st.nextToken()).replaceAll("'");
+      s = APOSTYPOG.matcher(s).replaceAll("’");
           //.replaceAll("\u0001\u0001HYPHEN\u0001\u0001", "-");
       boolean matchFound = false;
       Matcher matcher = null;
@@ -121,7 +126,9 @@ public class EnglishWordTokenizer extends WordTokenizer {
           if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
             l.add(s);
           } else {
-            if (EnglishTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD", "").replace("’", "'"))).get(0)
+            String normalized = SOFT_HYPHEN.matcher(s).replaceAll("");
+            normalized = CURLY_QUOTE.matcher(normalized).replaceAll("'");
+            if (EnglishTagger.INSTANCE.tag(Arrays.asList(normalized)).get(0)
                 .isTagged()) {
               l.add(s);
             }

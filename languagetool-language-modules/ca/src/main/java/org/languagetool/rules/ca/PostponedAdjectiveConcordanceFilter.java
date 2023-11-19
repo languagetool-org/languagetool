@@ -115,7 +115,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-    
+    boolean addComma = getOptional("addComma", arguments, "false").equalsIgnoreCase("true")? true : false;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;
     int j;
@@ -426,10 +426,19 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {
       suggestions.remove(tokens[patternTokenPos].getToken().toLowerCase());
     }
-    match.setSuggestedReplacements(suggestions);
-
+    List<String> definitiveSugestions = new ArrayList<>();
+    if (addComma) {
+      definitiveSugestions.add(", " + tokens[patternTokenPos].getToken());
+      for (String s : suggestions) {
+        definitiveSugestions.add(" " + s);
+      }
+      match.setOffsetPosition(match.getFromPos() - 1,  match.getToPos());
+      match.setSentencePosition(match.getFromPosSentence() - 1, match.getToPosSentence());
+    } else {
+      definitiveSugestions.addAll(suggestions);
+    }
+    match.setSuggestedReplacements(definitiveSugestions);
     return match;
-
   }
 
   private int updateJValue(AnalyzedTokenReadings[] tokens, int i, int j, int level) {

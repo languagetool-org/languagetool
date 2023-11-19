@@ -29,8 +29,8 @@ import org.languagetool.rules.patterns.RuleFilter;
 
 public abstract class AbstractTextToNumberFilter extends RuleFilter {
 
-  protected static Map<String, Float> numbers = new HashMap<String, Float>();
-  protected static Map<String, Float> multipliers = new HashMap<String, Float>();
+  protected static Map<String, Float> numbers = new HashMap<>();
+  protected static Map<String, Float> multipliers = new HashMap<>();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,

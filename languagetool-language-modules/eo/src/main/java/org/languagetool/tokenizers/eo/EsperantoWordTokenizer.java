@@ -22,6 +22,7 @@ package org.languagetool.tokenizers.eo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -29,6 +30,11 @@ import org.languagetool.tokenizers.WordTokenizer;
  * @author Dominique Pelle
  */
 public class EsperantoWordTokenizer extends WordTokenizer {
+
+  private static final Pattern PATTERN_1 = Pattern.compile("(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?![a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])");
+  private static final Pattern PATTERN_2 = Pattern.compile("(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?=[a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])");
+  private static final Pattern PATTERN_3 = Pattern.compile("\u0001\u0001EO@APOS1\u0001\u0001");
+  private static final Pattern PATTERN_4 = Pattern.compile("\u0001\u0001EO@APOS2\u0001\u0001");
 
   /**
    * Tokenizes just like WordTokenizer with the exception that words
@@ -45,11 +51,8 @@ public class EsperantoWordTokenizer extends WordTokenizer {
   public List<String> tokenize(String text) {
     // TODO: find a cleaner implementation, this is a hack
 
-    String replaced = text.replaceAll(
-        "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?![a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
-        "$1\u0001\u0001EO@APOS1\u0001\u0001").replaceAll(
-            "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?=[a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
-            "$1\u0001\u0001EO@APOS2\u0001\u0001 ");
+    String replaced = PATTERN_1.matcher(text).replaceAll("$1\u0001\u0001EO@APOS1\u0001\u0001");
+    replaced = PATTERN_2.matcher(replaced).replaceAll("$1\u0001\u0001EO@APOS2\u0001\u0001 ");
     List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<>();
 
@@ -60,8 +63,8 @@ public class EsperantoWordTokenizer extends WordTokenizer {
       if (word.endsWith("\u0001\u0001EO@APOS2\u0001\u0001")) {
         itr.next(); // Skip the next spurious white space.
       }
-      word = word.replace("\u0001\u0001EO@APOS1\u0001\u0001", "'")
-                 .replace("\u0001\u0001EO@APOS2\u0001\u0001", "'");
+      word = PATTERN_3.matcher(word).replaceAll("'");
+      word = PATTERN_4.matcher(word).replaceAll("'");
       tokens.add(word);
     }
     return tokens;

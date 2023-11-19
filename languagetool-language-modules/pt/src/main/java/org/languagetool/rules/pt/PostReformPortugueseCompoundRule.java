@@ -27,12 +27,19 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * @since 2.6
  */
 public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
+
+  private static final Pattern HYPHEN = compile("-");
+  private static final Pattern VOWEL = compile("(?i).+[aeiou]$");
+  private static final Pattern RS = compile("(?i)^[rs].+");
 
   private static volatile CompoundRuleData compoundData;
 
@@ -81,7 +88,7 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
   // ultra + som  => ultrassom (with <s> turned into <ss> to keep the sound).
   @Override
   public String mergeCompound(String str, boolean uncapitalizeMidWords) {
-    String[] stringParts = str.replaceAll("-", " ").split(" ");
+    String[] stringParts = HYPHEN.matcher(str).replaceAll(" ").split(" ");
     StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
       if (k == 0) {
@@ -89,7 +96,7 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
       } else {
         // if previous element ends in vowel and current one starts with <r> or <s>, we need to double the letter into
         // a digraph that creates the sound we want
-        if (stringParts[k-1].matches("(?i).+[aeiou]$") && stringParts[k].matches("(?i)^[rs].+")) {
+        if (VOWEL.matcher(stringParts[k - 1]).matches() && RS.matcher(stringParts[k]).matches()) {
           stringParts[k] = stringParts[k].charAt(0) + stringParts[k];
         }
         sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);

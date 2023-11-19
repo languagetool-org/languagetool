@@ -33,8 +33,8 @@ import org.languagetool.tools.StringTools;
 
 public class RegularIrregularParticipleFilter extends RuleFilter {
 
-  private Language language = new Portuguese();
-  private PortugueseSynthesizer synth = (PortugueseSynthesizer) language.getSynthesizer();
+  private final Language language = new Portuguese();
+  private final PortugueseSynthesizer synth = (PortugueseSynthesizer) language.getSynthesizer();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,

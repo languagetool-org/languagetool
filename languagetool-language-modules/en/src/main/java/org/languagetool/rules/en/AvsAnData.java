@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.en;
 
-import gnu.trove.THashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.languagetool.JLanguageTool;
 
 import java.io.InputStream;
@@ -27,7 +27,7 @@ import java.util.*;
 /**
  * Data for {@link AvsAnRule}.
  * Loads exceptions (e.g. "hour" as in "an hour") from external files.
- * 
+ *
  * @author Daniel Naber
  * @since 3.0
  */
@@ -51,7 +51,7 @@ final class AvsAnData {
    * Load words, normalized to lowercase unless starting with '*'.
    */
   private static Set<String> loadWords(String path) {
-    Set<String> set = new THashSet<>();
+    ObjectOpenHashSet<String> set = new ObjectOpenHashSet<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
@@ -66,6 +66,7 @@ final class AvsAnData {
         }
       }
     }
+    set.trim();
     return Collections.unmodifiableSet(set);
   }
 

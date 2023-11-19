@@ -91,6 +91,10 @@ public class OblidarseSugestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     int posWord = 0;
+    if (match.getSentence().getText().contains("A massa gent")) {
+      int ii = 0;
+      ii++;
+    }
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
         && (tokens[posWord].getStartPos() < match.getFromPos() || tokens[posWord].isSentenceStart())) {
@@ -127,13 +131,14 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       if (wordAfterReading != null) {
         wordAfter = wordAfterReading.getToken();
       }
-      List<String> exceptionsList = Arrays.asList("com", "de", "d'");
+      List<String> exceptionsList = Arrays.asList("com", "de", "d'", "que");
       if (exceptionsList.contains(tokens[indexMainVerb + 1].getToken().toLowerCase())) {
         wordAfter = tokens[indexMainVerb + 1].getToken();
       }
     }
     Map<String, String> transform;
-    if (wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")) {
+    if (wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")
+      && !wordAfter.equalsIgnoreCase("que")) {
       transform = (verbVowel ? addReflexiveEnVowel : addReflexiveEnConsonant);
     } else {
       transform = (verbVowel ? addReflexiveVowel : addReflexiveConsonant);
@@ -149,7 +154,8 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       suggBld.append(wordAfter.toLowerCase());
       charactersAfterCorrection = wordAfter.length() + 1;
       // apostrofació: de | d'
-    } else if (!wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")) {
+    } else if (!wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")
+      && !wordAfter.equalsIgnoreCase("que")) {
       wordAfterApostrophe = pApostropheNeeded.matcher(wordAfter).matches();
       suggBld.append(wordAfterApostrophe ? " d'" : " de");
       charactersAfterCorrection = (wordAfterApostrophe ? 1 : 0);

@@ -27,7 +27,6 @@ import java.util.regex.Pattern;
 
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
-import org.languagetool.tools.StringTools;
 
 
 /**
@@ -40,6 +39,18 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
+
+  private static final Pattern PATTERN_1 = Pattern.compile("\u0001\u0001CA_APOS_RECTE\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_2 = Pattern.compile("\u0001\u0001CA_APOS_RODO\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_3 = Pattern.compile("\u0001\u0001CA_HYPHEN\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_4 = Pattern.compile("\u0001\u0001CA_DECIMALPOINT\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_5 = Pattern.compile("\u0001\u0001CA_DECIMALCOMMA\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_6 = Pattern.compile("\u0001\u0001CA_SPACE\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_7 = Pattern.compile("\u0001\u0001ELA_GEMINADA\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_8 = Pattern.compile("\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern SOFT_HYPHEN = Pattern.compile("\u00AD");
+  private static final Pattern CURLY_SINGLE_QUOTE = Pattern.compile("’", Pattern.LITERAL);
+  private static final Pattern LL = Pattern.compile("l-l", Pattern.LITERAL);
 
   private static final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
@@ -63,6 +74,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE_DIGITS0= Pattern.compile("([\\d]{4}) ",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS= Pattern.compile("([\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2= Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern SPACE0 = Pattern.compile("\\u0001\\u0001CA_SPACE0\\u0001\\u0001");
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
@@ -115,7 +127,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
     // replace hyphen -> hyphen-minus
-    String auxText = text.replaceAll("\u2010", "\u002d");
+    String auxText = text.replace('\u2010', '\u002d');
 
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
@@ -139,25 +151,24 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2\u0001\u0001CA_SPACE\u0001\u0001$3");
     matcher=SPACE_DIGITS.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2");
-    auxText = auxText.replaceAll("\\u0001\\u0001CA_SPACE0\\u0001\\u0001", " ");
+    matcher=SPACE0.matcher(auxText);
+    auxText = SPACE0.matcher(auxText).replaceAll(" ");
 
     // Important: middle dot (·) not included!!
     final StringTokenizer st = new StringTokenizer(auxText, CA_TOKENIZING_CHARACTERS, true); 
 
-          
     String s;
     String groupStr;
 
     while (st.hasMoreElements()) {
-      s = st.nextToken()
-              .replace("\u0001\u0001CA_APOS_RECTE\u0001\u0001", "'")
-              .replace("\u0001\u0001CA_APOS_RODO\u0001\u0001", "’")
-              .replace("\u0001\u0001CA_HYPHEN\u0001\u0001", "-")
-              .replace("\u0001\u0001CA_DECIMALPOINT\u0001\u0001", ".")
-              .replace("\u0001\u0001CA_DECIMALCOMMA\u0001\u0001", ",")
-              .replace("\u0001\u0001CA_SPACE\u0001\u0001", " ")
-              .replace("\u0001\u0001ELA_GEMINADA\u0001\u0001", "l.l")
-              .replace("\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001", "L.L");
+      s = PATTERN_1.matcher(st.nextToken()).replaceAll("'");
+      s = PATTERN_2.matcher(s).replaceAll("’");
+      s = PATTERN_3.matcher(s).replaceAll("-");
+      s = PATTERN_4.matcher(s).replaceAll(".");
+      s = PATTERN_5.matcher(s).replaceAll(",");
+      s = PATTERN_6.matcher(s).replaceAll(" ");
+      s = PATTERN_7.matcher(s).replaceAll("l.l");
+      s = PATTERN_8.matcher(s).replaceAll("L.L");
       boolean matchFound = false;
       while (s.length() > 1 && s.startsWith("-")) {
         l.add("-");
@@ -202,7 +213,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
+          if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(CURLY_SINGLE_QUOTE.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("'"))).get(0).isTagged()) {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
@@ -212,7 +223,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
             l.add(s);
           }
           // words with "ela geminada" with typo: col-legi (col·legi)
-          else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("l-l", "l·l"))).get(0).isTagged()) {
+          else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(LL.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("l·l"))).get(0).isTagged()) {
             l.add(s);
           // apostrophe in the last char
           } else if ((s.endsWith("'") || s.endsWith("’")) && s.length() > 1) {

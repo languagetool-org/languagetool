@@ -56,19 +56,31 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
         throw new IllegalArgumentException(
             "The list of rule matches is not ordered. Make sure it is sorted by start position.");
       }
-      // juxtaposed errors adding a comma in the same place
-      boolean isJuxtaposedComma = false;
-      if (ruleMatch.getFromPos() == prevRuleMatch.getToPos()
-          && ruleMatch.getSuggestedReplacements().size() > 0
-          && prevRuleMatch.getSuggestedReplacements().size() > 0) {
+
+      boolean isDuplicateSuggestion = false;
+      if (ruleMatch.getSuggestedReplacements().size() > 0
+        && prevRuleMatch.getSuggestedReplacements().size() > 0) {
         String suggestion = ruleMatch.getSuggestedReplacements().get(0);
         String prevSuggestion = prevRuleMatch.getSuggestedReplacements().get(0);
-        if (prevSuggestion.endsWith(",") && suggestion.startsWith(", ")) {
-          isJuxtaposedComma = true;
+        // juxtaposed errors adding a comma in the same place
+        if (ruleMatch.getFromPos() == prevRuleMatch.getToPos()) {
+          if (prevSuggestion.endsWith(",") && suggestion.startsWith(", ")) {
+            isDuplicateSuggestion = true;
+          }
+        }
+        // duplicate suggestion for the same position
+        if (suggestion.indexOf(" ") > 0 && prevSuggestion.indexOf(" ") > 0
+          && ruleMatch.getFromPos() == prevRuleMatch.getToPos() + 1) {
+          String parts[] = suggestion.split(" ");
+          String partsPrev[] = prevSuggestion.split(" ");
+          if (partsPrev.length > 1 && parts.length > 1 && partsPrev[1].equals(parts[0])) {
+            isDuplicateSuggestion = true;
+          }
         }
       }
+
       // no overlapping (juxtaposed errors are not removed)
-      if (ruleMatch.getFromPos() >= prevRuleMatch.getToPos() && !isJuxtaposedComma) {
+      if (ruleMatch.getFromPos() >= prevRuleMatch.getToPos() && !isDuplicateSuggestion) {
         cleanList.add(prevRuleMatch);
         prevRuleMatch = ruleMatch;
         continue;

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,7 +19,7 @@
 package org.languagetool.tagging.de;
 
 import com.google.common.base.Suppliers;
-import gnu.trove.THashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -37,8 +37,11 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.*;
+import static java.util.regex.Pattern.*;
 import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 /**
@@ -51,11 +54,19 @@ import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 public class GermanTagger extends BaseTagger {
 
   private static final List<String> allAdjGruTags = new ArrayList<>();
+  private static final Pattern mitarbeitendenPattern = compile("[A-ZÖÄÜ][a-zöäüß]{2,25}mitarbeitenden?");
+  private static final Pattern genderGapChars = compile("[*:_/]");
+  private static final Pattern afterAsterisk = compile("in(nen)?|r|e");
+  private static final Pattern innenPattern1 = compile("in(nen)-[A-ZÖÄÜ][a-zöäüß-]+");
+  private static final Pattern anythingDash = compile(".*-");
+  private static final Pattern innenPattern2 = compile("innen[a-zöäüß-]+");
+  private static final Pattern DDD_ER_PATTERN = compile("\\d{4}+er");
+
   static {
-    for (String nomAkkGenDat : Arrays.asList("NOM", "AKK", "GEN", "DAT")) {
-      for (String pluSin : Arrays.asList("PLU", "SIN")) {
-        for (String masFemNeu : Arrays.asList("MAS", "FEM", "NEU")) {
-          for (String defIndSol : Arrays.asList("DEF", "IND", "SOL")) {
+    for (String nomAkkGenDat : asList("NOM", "AKK", "GEN", "DAT")) {
+      for (String pluSin : asList("PLU", "SIN")) {
+        for (String masFemNeu : asList("MAS", "FEM", "NEU")) {
+          for (String defIndSol : asList("DEF", "IND", "SOL")) {
             allAdjGruTags.add("ADJ:" + nomAkkGenDat + ":" + pluSin + ":" + masFemNeu + ":GRU:" + defIndSol);
           }
         }
@@ -64,7 +75,7 @@ public class GermanTagger extends BaseTagger {
   }
 
   // do not add noun tags to these words, e.g. don't add noun tags to "Wegstrecken" for weg_strecken from spelling.txt:
-  private static final List<String> nounTagExpansionExceptions = Arrays.asList("Wegstrecken");
+  private static final List<String> nounTagExpansionExceptions = asList("Wegstrecken");
 
   // ordered by length: 'zurück' > 'zu' + 'rück'
   private static final String[] prefixesSeparableVerbs = new String[] {"gegeneinander", "durcheinander", "nebeneinander", "übereinander", "aufeinander", "auseinander", "beieinander", "aneinander", "ineinander", "zueinander", "gegenüber", "beisammen", "gegenüber", "hernieder", "rückwärts", "wiederauf", "wiederein", "wiederher", "zufrieden", "zwangsvor", "entgegen", "hinunter", "abhanden", "aufrecht", "aufwärts", "auswärts", "beiseite", "danieder", "drauflos", "einwärts", "herunter", "hindurch", "verrückt", "vorwärts", "zunichte", "zusammen", "zwangsum", "zwischen", "abseits", "abwärts", "entlang", "hinfort", "ähnlich", "daneben", "general", "herüber", "hierher", "hierhin", "hinüber", "schwarz", "trocken", "überein", "vorlieb", "vorüber", "wichtig", "zurecht", "zuwider", "hinweg", "allein", "besser", "daheim", "doppel", "feinst", "fertig", "herauf", "heraus", "herbei", "hinauf", "hinaus", "hinein", "kaputt", "kennen", "kürzer", "mittag", "nieder", "runter", "sicher", "sitzen", "voraus", "vorbei", "vorweg", "weiter", "wieder", "zugute", "zurück", "zwangs", "abend", "blank", "brust", "dahin", "davon", "drauf", "drein", "durch", "einig", "empor", "grund", "herum", "höher", "klein", "knapp", "krank", "krumm", "kugel", "näher", "neben", "offen", "preis", "rüber", "ruhig", "statt", "still", "übrig", "umher", "unter", "voran", "zweck", "acht", "drei", "fehl", "feil", "fort", "frei", "groß", "hand", "hart", "heim", "hier", "hoch", "klar", "lahm", "miss", "nach", "nahe", "quer", "rauf", "raus", "rein", "rück", "satt", "stoß", "teil", "über", "voll", "wach", "wahr", "warm", "wert", "wohl", "auf", "aus", "bei", "ehe", "ein", "eis", "end", "her", "hin", "los", "maß", "mit", "out", "ran", "rum", "tot", "vor", "weg", "weh", "ab", "an", "da", "um", "zu"};
@@ -114,10 +125,10 @@ public class GermanTagger extends BaseTagger {
   }
 
   private static ExpansionInfos initExpansionInfos() {
-    Map<String, PrefixInfixVerb> verbInfos = new THashMap<>();
-    Map<String, NominalizedVerb> nominalizedVerbInfos = new THashMap<>();
-    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos = new THashMap<>();
-    Map<String, List<AdjInfo>> adjInfos = new THashMap<>();
+    Map<String, PrefixInfixVerb> verbInfos = new Object2ObjectOpenHashMap<>();
+    Map<String, NominalizedVerb> nominalizedVerbInfos = new Object2ObjectOpenHashMap<>();
+    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos = new Object2ObjectOpenHashMap<>();
+    Map<String, List<AdjInfo>> adjInfos = new Object2ObjectOpenHashMap<>();
     String filename = "de/hunspell/spelling.txt";
     List<String> spellingWords = new CachingWordListLoader().loadWords(filename);
     for (String line : spellingWords) {
@@ -193,7 +204,7 @@ public class GermanTagger extends BaseTagger {
     }
     return result;
   }
-  
+
   //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -> Zertifikat)
   private String sanitizeWord(String word) {
     String result = word;
@@ -259,20 +270,19 @@ public class GermanTagger extends BaseTagger {
       List<AnalyzedToken> readings = new ArrayList<>();
       List<TaggedWord> taggerTokens = null;
       // Gender star etc:
-      String genderGap = "[*:_/]";
-      if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap)) {
-        if (sentenceTokens.get(idxPos+2).matches("in(nen)?|r|e")) {  // "jede*r", "sein*e"
+      if (idxPos+2 < sentenceTokens.size() && genderGapChars.matcher(sentenceTokens.get(idxPos + 1)).matches()) {
+        if (afterAsterisk.matcher(sentenceTokens.get(idxPos + 2)).matches()) {  // "jede*r", "sein*e"
           taggerTokens = new ArrayList<>();
           taggerTokens.addAll(getWordTagger().tag(word));
           taggerTokens.addAll(getWordTagger().tag(word + sentenceTokens.get(idxPos+2)));
-        } else if (sentenceTokens.get(idxPos+2).matches("in(nen)-[A-ZÖÄÜ][a-zöäüß-]+")) {
+        } else if (innenPattern1.matcher(sentenceTokens.get(idxPos + 2)).matches()) {
           // e.g. Werkstudent:innen-Zielgruppe -> take tags of 'Zielgruppe':
-          String lastPart = sentenceTokens.get(idxPos+2).replaceFirst(".*-", "");
+          String lastPart = anythingDash.matcher(sentenceTokens.get(idxPos + 2)).replaceFirst("");
           taggerTokens = new ArrayList<>(getWordTagger().tag(lastPart));
-        } else if (sentenceTokens.get(idxPos+2).matches("innen[a-zöäüß-]+")) {
+        } else if (innenPattern2.matcher(sentenceTokens.get(idxPos + 2)).matches()) {
           // e.g. Werkstudent:innenzielgruppe -> take tags of 'Zielgruppe':
           int idx = sentenceTokens.get(idxPos+2).lastIndexOf("innen");
-          String lastPart = StringTools.uppercaseFirstChar(sentenceTokens.get(idxPos+2).substring(idx + "innen".length()));
+          String lastPart = uppercaseFirstChar(sentenceTokens.get(idxPos+2).substring(idx + "innen".length()));
           taggerTokens = new ArrayList<>(getWordTagger().tag(lastPart));
         }
       }
@@ -401,11 +411,11 @@ public class GermanTagger extends BaseTagger {
           for (String tag : tagsForWeise) {
             readings.add(new AnalyzedToken(word, tag, word));
           }
-        } else if (!StringUtils.isAllBlank(word) && word.matches("[A-ZÖÄÜ][a-zöäüß]{2,25}mitarbeitenden?")) {
+        } else if (!StringUtils.isAllBlank(word) && mitarbeitendenPattern.matcher(word).matches()) {
           int idx = word.indexOf("mitarbeitende");
           String firstPart = word.substring(0, idx);  // we might tag invalid words, but that should be okay
           String lastPart = word.substring(idx);
-          List<TaggedWord> mitarbeitendeTags = getWordTagger().tag(StringTools.uppercaseFirstChar(lastPart));
+          List<TaggedWord> mitarbeitendeTags = getWordTagger().tag(uppercaseFirstChar(lastPart));
           for (TaggedWord mitarbeitendeTag : mitarbeitendeTags) {
             readings.add(new AnalyzedToken(word, mitarbeitendeTag.getPosTag(), firstPart+"mitarbeitende"));
           }
@@ -447,7 +457,7 @@ public class GermanTagger extends BaseTagger {
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
-                
+
                 List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
@@ -457,11 +467,11 @@ public class GermanTagger extends BaseTagger {
                 }
 
                 word = wordOrig;
-                
+
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 if (linkedTaggerTokens.isEmpty()) {
                   /*
-                   *Verbs with certain prefixes (e. g. "ab", "ein", "zwischen") are always separable. 
+                   *Verbs with certain prefixes (e. g. "ab", "ein", "zwischen") are always separable.
                    *For better performance of rules, forms like 'einlädst' and 'lädst ein' should be tagged differently.
                    *einlädst [VER:2:SIN:PRÄ:NON:NEB] ('NEB' indicates that this form can only appear in a subordinate clause)
                    *lädst ein [VER:2:SIN:PRÄ:NON] + [ZUS]
@@ -641,7 +651,7 @@ public class GermanTagger extends BaseTagger {
             } else {
               List<AnalyzedToken> temp = getAnalyzedTokens(partTaggerTokens, word, compoundParts);
               String firstPart = compoundParts.get(0);
-              List<String> prfxs = new ArrayList<>(Arrays.asList("ab", "abend", "abhanden", "acht", "ähnlich", "allein", "an", "auf", "aufeinander", "aufrecht", "aufwärts", "aus", "auseinander", "auswärts", "bei", "beieinander", "beisammen", "beiseite", "besser", "blank", "brust", "da", "daheim", "dahin", "daneben", "danieder", "davon", "doppel", "drauflos", "drei", "drein", "durch", "durcheinander", "ehe", "ein", "einig", "einwärts", "eis", "empor", "end", "fehl", "feil", "feinst", "fort", "frei", "gegenüber", "general", "groß", "grund", "hand", "hart", "heim", "her", "herauf", "heraus", "herbei", "hernieder", "herüber", "herum", "herunter", "hier", "hierher", "hierhin", "hin", "hinauf", "hinaus", "hindurch", "hinein", "hinüber", "hoch", "höher", "ineinander", "kaputt", "kennen", "klar", "klein", "knapp", "krank", "krumm", "kugel", "kürzer", "lahm", "los", "maß", "miss", "mit", "mittag", "nach", "nahe", "näher", "neben", "nebeneinander", "nieder", "offen", "out", "preis", "quer", "ran", "rauf", "raus", "rein", "rüber", "rück", "rückwärts", "ruhig", "rum", "runter", "satt", "schwarz", "sicher", "sitzen", "statt", "still", "stoß", "teil", "tot", "trocken", "über", "überein", "übereinander", "übrig", "um", "umher", "unter", "verrückt", "voll", "vor", "voran", "voraus", "vorbei", "vorlieb", "vorüber", "vorwärts", "vorweg", "wach", "wahr", "warm", "weg", "weh", "weiter", "wert", "wichtig", "wieder", "wiederauf", "wiederein", "wiederher", "wohl", "zu", "zueinander", "zufrieden", "zugute", "zunichte", "zurecht", "zurück", "zusammen", "zuwider", "zwangs", "zwangsum", "zwangsvor", "zweck", "zwischen"));
+              List<String> prfxs = new ArrayList<>(asList("ab", "abend", "abhanden", "acht", "ähnlich", "allein", "an", "auf", "aufeinander", "aufrecht", "aufwärts", "aus", "auseinander", "auswärts", "bei", "beieinander", "beisammen", "beiseite", "besser", "blank", "brust", "da", "daheim", "dahin", "daneben", "danieder", "davon", "doppel", "drauflos", "drei", "drein", "durch", "durcheinander", "ehe", "ein", "einig", "einwärts", "eis", "empor", "end", "fehl", "feil", "feinst", "fort", "frei", "gegenüber", "general", "groß", "grund", "hand", "hart", "heim", "her", "herauf", "heraus", "herbei", "hernieder", "herüber", "herum", "herunter", "hier", "hierher", "hierhin", "hin", "hinauf", "hinaus", "hindurch", "hinein", "hinüber", "hoch", "höher", "ineinander", "kaputt", "kennen", "klar", "klein", "knapp", "krank", "krumm", "kugel", "kürzer", "lahm", "los", "maß", "miss", "mit", "mittag", "nach", "nahe", "näher", "neben", "nebeneinander", "nieder", "offen", "out", "preis", "quer", "ran", "rauf", "raus", "rein", "rüber", "rück", "rückwärts", "ruhig", "rum", "runter", "satt", "schwarz", "sicher", "sitzen", "statt", "still", "stoß", "teil", "tot", "trocken", "über", "überein", "übereinander", "übrig", "um", "umher", "unter", "verrückt", "voll", "vor", "voran", "voraus", "vorbei", "vorlieb", "vorüber", "vorwärts", "vorweg", "wach", "wahr", "warm", "weg", "weh", "weiter", "wert", "wichtig", "wieder", "wiederauf", "wiederein", "wiederher", "wohl", "zu", "zueinander", "zufrieden", "zugute", "zunichte", "zurecht", "zurück", "zusammen", "zuwider", "zwangs", "zwangsum", "zwangsvor", "zweck", "zwischen"));
               if (prfxs.contains(firstPart)) {
                 for (TaggedWord tag : partTaggerTokens) {
                   if (StringUtils.startsWithAny(tag.getPosTag(),"VER:1", "VER:2", "VER:3") && (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))) {
@@ -722,7 +732,7 @@ public class GermanTagger extends BaseTagger {
       if (tagged.getPosTag().startsWith("VER:IMP:SIN")) {
         // do not overwrite manually removed tags
         if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
-          return getAnalyzedTokens(Arrays.asList(tagged), word);
+          return getAnalyzedTokens(asList(tagged), word);
         }
         break;
       }
@@ -737,7 +747,7 @@ public class GermanTagger extends BaseTagger {
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens) {
     if (word.endsWith("er")) {
-      if (word.matches("\\d{4}+er")) {
+      if (DDD_ER_PATTERN.matcher(word).matches()) {
         // e.g. "Den 2019er Wert hatten sie geschätzt"
         List<AnalyzedToken> list = new ArrayList<>();
         for (String tag : allAdjGruTags) {

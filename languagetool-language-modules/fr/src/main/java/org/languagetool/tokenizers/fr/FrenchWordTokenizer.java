@@ -36,8 +36,14 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class FrenchWordTokenizer extends WordTokenizer {
 
-  private static final int maxPatterns = 7;
-  private final Pattern[] patterns = new Pattern[maxPatterns];
+  private static final Pattern SOFT_HYPHEN = Pattern.compile("\u00AD");
+  private static final Pattern CURLY_QUOTE = Pattern.compile("’");
+  private static final Pattern PATTERN_1 = Pattern.compile("\u0001\u0001FR_APOS_TYPEW\u0001\u0001");
+  private static final Pattern PATTERN_2 = Pattern.compile("\u0001\u0001FR_APOS_TYPOG\u0001\u0001");
+  private static final Pattern PATTERN_3 = Pattern.compile("\u0001\u0001FR_HYPHEN\u0001\u0001");
+  private static final Pattern PATTERN_4 = Pattern.compile("\u0001\u0001FR_DECIMALPOINT\u0001\u0001");
+  private static final Pattern PATTERN_5 = Pattern.compile("\u0001\u0001FR_DECIMALCOMMA\u0001\u0001");
+  private static final Pattern PATTERN_6 = Pattern.compile("\u0001\u0001FR_SPACE\u0001\u0001");
 
   // Patterns to avoid splitting words in certain special cases
 
@@ -67,7 +73,8 @@ public class FrenchWordTokenizer extends WordTokenizer {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  
+  private static final Pattern SPACE0 = Pattern.compile("\\u0001\\u0001FR_SPACE0\\u0001\\u0001");
+
   private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
       "ph-metre", "ph-metres", "anti-ivg", "anti-uv", "anti-vih", "al-qaïda", "c'est-à-dire", "add-on", "add-ons",
       "rendez-vous", "garde-à-vous", "chez-eux", "chez-moi", "chez-nous", "chez-soi", "chez-toi", "chez-vous", "m'as-tu-vu");
@@ -75,38 +82,40 @@ public class FrenchWordTokenizer extends WordTokenizer {
   //the string used to tokenize characters
   private final String frTokenizingChars = super.getTokenizingCharacters() + "-"; // hyphen
 
-
-  public FrenchWordTokenizer() {
-
+  final static int maxPatterns = 7;
+  final static Pattern[] patterns = new Pattern[maxPatterns];
+  static {
     // words not to be split
     patterns[0] = Pattern.compile("^(c['’]te?|m['’]as-tu-vu|c['’]est-à-dire|add-on|add-ons|rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[1] = Pattern.compile(
-        "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     // Apostrophe at the beginning of a word. ce, je, ne, me, te, se, le, la, de, que, si // NO: presqu['’] |quelqu['’]
     // It creates 2 tokens: <token>l'</token><token>homme</token>
-    patterns[2] = Pattern.compile( 
-        "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[2] = Pattern.compile(
+      "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile(
-        "^([^\\-]*)(-ce|-t-elle|-t-elles|-elle|-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^([^\\-]*)(-ce|-t-elle|-t-elles|-elle|-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[4] = Pattern.compile(
-        "^([^\\-]*)(-t|-m)(['’]en|['’]y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^([^\\-]*)(-t|-m)(['’]en|['’]y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[5] = Pattern.compile(
-        "^(.*)(-t-elle|-t-elles|-t-il|-t-ils|-t-on)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^(.*)(-t-elle|-t-elles|-t-il|-t-ils|-t-on)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[6] = Pattern.compile(
-        "^(.*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^(.*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     // contractions: au, du ??
     /*patterns[1] = Pattern.compile("^(a|d)(u)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[2] = Pattern.compile("^(d)(es)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile("^(a)(ux)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);*/
+  }
 
-  }  
+  public FrenchWordTokenizer() {
+  }
 
   /**
    * @param text Text to tokenize
@@ -137,17 +146,20 @@ public class FrenchWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE0\u0001\u0001");
     matcher = SPACE_DIGITS.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE\u0001\u0001$2");
-    auxText = auxText.replaceAll("\\u0001\\u0001FR_SPACE0\\u0001\\u0001", " ");
+    matcher = SPACE0.matcher(auxText);
+    auxText = matcher.replaceAll(" ");
 
     final StringTokenizer st = new StringTokenizer(auxText, frTokenizingChars, true);
     String s;
     String groupStr;
 
     while (st.hasMoreElements()) {
-      s = st.nextToken().replace("\u0001\u0001FR_APOS_TYPEW\u0001\u0001", "'")
-          .replace("\u0001\u0001FR_APOS_TYPOG\u0001\u0001", "’").replace("\u0001\u0001FR_HYPHEN\u0001\u0001", "-")
-          .replace("\u0001\u0001FR_DECIMALPOINT\u0001\u0001", ".")
-          .replace("\u0001\u0001FR_DECIMALCOMMA\u0001\u0001", ",").replace("\u0001\u0001FR_SPACE\u0001\u0001", " ");
+      s = PATTERN_1.matcher(st.nextToken()).replaceAll("'");
+      s = PATTERN_2.matcher(s).replaceAll("’");
+      s = PATTERN_3.matcher(s).replaceAll("-");
+      s = PATTERN_4.matcher(s).replaceAll(".");
+      s = PATTERN_5.matcher(s).replaceAll(",");
+      s = PATTERN_6.matcher(s).replaceAll(" ");
       boolean matchFound = false;
       while (s.length() > 1 && s.startsWith("-")) {
         l.add("-");
@@ -189,7 +201,9 @@ public class FrenchWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (FrenchTagger.INSTANCE.tag(Arrays.asList(s.replaceAll("\u00AD","").replace("’", "'"))).get(0).isTagged()) {
+          String normalized = SOFT_HYPHEN.matcher(s).replaceAll("");
+          normalized = CURLY_QUOTE.matcher(normalized).replaceAll("'");
+          if (FrenchTagger.INSTANCE.tag(Arrays.asList(normalized)).get(0).isTagged()) {
             // In the current POS tag, most apostrophes are curly: to be fixed
             l.add(s);
           }

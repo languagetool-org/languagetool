@@ -25,6 +25,7 @@ import org.languagetool.rules.*;
 
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 /**
  * Finds spellings that were only correct in the pre-reform orthography.
@@ -33,8 +34,9 @@ import java.util.function.Supplier;
 public class OldSpellingRule extends Rule {
 
   private static final String FILE_PATH = "/de/alt_neu.csv";
-  private static final List<String> exceptions = Arrays.asList("Schloß Holte");
+  private static final List<String> EXCEPTIONS = Arrays.asList("Schloß Holte");
   private static final Supplier<SpellingData> DATA = Suppliers.memoize(() -> new SpellingData(FILE_PATH));
+  private static final Pattern CHARS = Pattern.compile("[a-zA-Zöäüß]");
 
   public OldSpellingRule(ResourceBundle messages) {
     super.setCategory(Categories.TYPOS.getCategory(messages));
@@ -65,7 +67,7 @@ public class OldSpellingRule extends Rule {
         continue;   // avoid overlapping matches
       }
       boolean ignore = false;
-      for (String exception : exceptions) {
+      for (String exception : EXCEPTIONS) {
         if (hit.begin + exception.length() <= text.length()) {
           String excCovered = text.substring(hit.begin, hit.begin + exception.length());
           if (excCovered.equals(exception)) {
@@ -101,7 +103,7 @@ public class OldSpellingRule extends Rule {
   }
 
   private boolean isBoundary(String s) {
-    return !s.matches("[a-zA-Zöäüß]");
+    return !CHARS.matcher(s).matches();
   }
   
 }

@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules;
 
-import gnu.trove.THashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;
@@ -36,7 +37,7 @@ public class WordCoherencyDataLoader {
 
   public Map<String, Set<String>> loadWords(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    Map<String, Set<String>> map = new THashMap<>();
+    Map<String, Set<String>> map = new Object2ObjectOpenHashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(reader)
@@ -53,12 +54,12 @@ public class WordCoherencyDataLoader {
         if(map.containsKey(parts[0])) {
           map.get(parts[0]).add(parts[1]);
         } else {
-          map.put(parts[0], Stream.of(parts[1]).collect(Collectors.toSet()));
+          map.put(parts[0], Stream.of(parts[1]).collect(Collectors.toCollection(ObjectOpenHashSet::new)));
         }
         if(map.containsKey(parts[1])) {
           map.get(parts[1]).add(parts[0]);
         } else {
-          map.put(parts[1], Stream.of(parts[0]).collect(Collectors.toSet()));
+          map.put(parts[1], Stream.of(parts[0]).collect(Collectors.toCollection(ObjectOpenHashSet::new)));
         }
       }
     } catch (IOException e) {

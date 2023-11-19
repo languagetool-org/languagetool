@@ -85,7 +85,7 @@ public class Swedish extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("ljo@fps_gbg")};
+    return new Contributor[] {new Contributor("Leif-Jöran Olsson")};
   }
 
   @Override

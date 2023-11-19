@@ -44,7 +44,6 @@ public class RussianTaggerTest {
         "Абдуллаевы/[абдуллаев]NN:Fam:PL:Nom", tokenizer, tagger);
     TestTools.myAssert("блукать",
         "блукать/[блукать]VB:INF:", tokenizer, tagger);
-
   }
 
 }

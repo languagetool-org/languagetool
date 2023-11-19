@@ -16,14 +16,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules;
+package org.languagetool.rules.spelling.multitoken;
+
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,33 +38,21 @@ import java.util.stream.Collectors;
 
 public class MultitokenSpellerFilter extends RuleFilter {
 
-  /* Put a multi-token expression inside a single token to find spelling suggestions */
+   /* Provide suggestions for misspelled multitoken expressions, usually proper nouns*/
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
     boolean keepSpaces = getOptional("keepSpaces", arguments, "true").equalsIgnoreCase("true")? true: false;
-    PatternRule pr = (PatternRule) match.getRule();
-    SpellingCheckRule spellingRule = pr.getLanguage().getDefaultSpellingRule();
-    AnalyzedSentence sentence = new AnalyzedSentence(new AnalyzedTokenReadings[] {
-      new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", "")),
-      new AnalyzedTokenReadings(new AnalyzedToken(match.getOriginalErrorStr(), null, null))
-    });
-    RuleMatch[] matches = spellingRule.match(sentence);
-    if (matches.length < 1 || matches[0].getSuggestedReplacements().isEmpty()) {
-      return null;
-    }
-    List<String> replacements = new ArrayList<>();
-    if (keepSpaces) {
-      // Only suggestions that contain a white space
-      replacements.addAll(matches[0].getSuggestedReplacements().stream()
-        .filter(str -> str.contains(" ")).collect(Collectors.toList()));
-    } else {
-      replacements.addAll(matches[0].getSuggestedReplacements());
-    }
+    String requireRegexp = getOptional("requireRegexp", arguments);
+    String underlinedError = match.getOriginalErrorStr();
+    Language lang = ((PatternRule) match.getRule()).getLanguage();
+    List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError);
     if (replacements.isEmpty()) {
       return null;
     }
     match.setSuggestedReplacements(replacements);
     return match;
   }
+
 }

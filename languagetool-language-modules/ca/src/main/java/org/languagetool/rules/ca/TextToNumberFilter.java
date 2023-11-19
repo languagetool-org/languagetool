@@ -21,11 +21,8 @@ package org.languagetool.rules.ca;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractTextToNumberFilter;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class TextToNumberFilter extends AbstractTextToNumberFilter {
 
@@ -94,14 +91,12 @@ public class TextToNumberFilter extends AbstractTextToNumberFilter {
 
   @Override
   protected List<String> tokenize(String s) {
-    s.split("[i\\-]");
     return Arrays.asList(s.split("-"));
   };
   
   @Override
   protected String formatResult(String s) {
-    return s.replace(".", ",");
+    return s.replace('.', ',');
   }
- 
 
 }

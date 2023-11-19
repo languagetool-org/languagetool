@@ -74,10 +74,12 @@ import java.util.stream.IntStream;
  * @see MultiThreadedJLanguageTool
  */
 public class JLanguageTool {
+
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
+  private static final Pattern ZERO_WIDTH_NBSP = Pattern.compile("(?<=\uFEFF)|(?=\uFEFF)");
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "6.3-SNAPSHOT";
+  public static final String VERSION = "6.4-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
@@ -518,6 +520,7 @@ public class JLanguageTool {
    */
   public void setOutput(PrintStream printStream) {
     this.printStream = printStream;
+    GlobalConfig.setVerbose(printStream != null);
   }
 
   /**
@@ -749,7 +752,7 @@ public class JLanguageTool {
    *
    * @param id the id of the category to check - no error will be thrown if the id does not exist
    * @return true if this category is explicitly disabled.
-   * @see #disableCategory(org.languagetool.rules.CategoryId)
+   * @see #disableCategory(CategoryId)
    * @since 3.5
    */
   public boolean isCategoryDisabled(CategoryId id) {
@@ -787,7 +790,7 @@ public class JLanguageTool {
    * Enable all rules of the given category so the check methods like {@link #check(String)} will use it.
    * This will <em>not</em> throw an exception if the given rule id doesn't exist.
    *
-   * @see #disableCategory(org.languagetool.rules.CategoryId)
+   * @see #disableCategory(CategoryId)
    * @since 3.3
    */
   public void enableRuleCategory(CategoryId id) {
@@ -927,7 +930,8 @@ public class JLanguageTool {
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, toneTags, textSessionID, sentences, analyzedSentences);
-    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(annotatedText, sentences));
+    List<SentenceRange> sentenceRanges = SentenceRange.getRangesFromSentences(annotatedText, sentences);
+    checkResults.addSentenceRanges(sentenceRanges);
     return checkResults;
   }
 
@@ -951,7 +955,7 @@ public class JLanguageTool {
       if (part.getType() == TextPart.Type.TEXT) {
         String byteOrderMark = "\uFEFF";  // BOM or zero-width non-breaking space
         // split by byteOrderMark and let the delimiter also be part of the array
-        String[] split = part.getPart().split("(?<=\uFEFF)|(?=\uFEFF)");
+        String[] split = ZERO_WIDTH_NBSP.split(part.getPart());
         for (String text : split) {
           if ("\uFEFF".equals(text)) {
             atb.addMarkup(byteOrderMark);
@@ -1055,8 +1059,7 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-
-    return new CheckResults(ruleMatches, res.getIgnoredRanges());
+    return new CheckResults(ruleMatches, res.getIgnoredRanges(), res.getExtendedSentenceRanges());
   }
 
   private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches) {
@@ -1445,12 +1448,12 @@ public class JLanguageTool {
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
           errorRateLog.forEach(e -> logger.info(LoggingTools.BAD_REQUEST, e));
-          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the whole text contains " + wordCounter + " words " +
-            " this sentence has " + sentenceMatches.size() + " matches");
-          throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the whole text contains " + wordCounter + " words" +
-            " this sentence has " + sentenceMatches.size() + " matches");
+          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() + ". " +
+            "The whole text contains " + wordCounter + " words " +
+            " and this sentence has " + sentenceMatches.size() + " matches.");
+          throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() + ". " +
+            "The whole text contains " + wordCounter + " words" +
+            "and this sentence has " + sentenceMatches.size() + " matches.");
         }
       }
     }
@@ -1936,15 +1939,18 @@ public class JLanguageTool {
     public CheckResults call() throws Exception {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       List<Range> ignoreRanges = new ArrayList<>();
+      List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
       if (mode == Mode.ALL) {
         ruleMatches.addAll(getTextLevelRuleMatches());
         CheckResults otherRuleMatches = getOtherRuleMatches(toneTags);
         ruleMatches.addAll(otherRuleMatches.getRuleMatches());
         ignoreRanges.addAll(otherRuleMatches.getIgnoredRanges());
+        extendedSentenceRanges.addAll(otherRuleMatches.getExtendedSentenceRanges());
       } else if (mode == Mode.ALL_BUT_TEXTLEVEL_ONLY) {
         CheckResults otherRuleMatches = getOtherRuleMatches(toneTags);
         ruleMatches.addAll(otherRuleMatches.getRuleMatches());
         ignoreRanges.addAll(otherRuleMatches.getIgnoredRanges());
+        extendedSentenceRanges.addAll(otherRuleMatches.getExtendedSentenceRanges());
       } else if (mode == Mode.TEXTLEVEL_ONLY) {
         ruleMatches.addAll(getTextLevelRuleMatches());
       } else {
@@ -1952,7 +1958,7 @@ public class JLanguageTool {
       }
       // can't call applyCustomRuleFilters here, done in performCheck ->
       // should run just once w/ complete list of matches
-      return new CheckResults(ruleMatches, ignoreRanges);
+      return new CheckResults(ruleMatches, ignoreRanges, extendedSentenceRanges);
     }
 
     private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
@@ -1969,15 +1975,21 @@ public class JLanguageTool {
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
-            LineColumnPosition from = findLineColumn(match.getFromPos());
-            LineColumnPosition to = findLineColumn(match.getToPos());
+            LineColumnPosition from;
+            LineColumnPosition to;
+            try {
+              from = findLineColumn(match.getFromPos());
+              to = findLineColumn(match.getToPos());
+            } catch (RuntimeException e) {
+              throw new RuntimeException("Getting line/column positions failed for match " + match + " Sentence: " + match.getSentence().getText(), e);
+            }
             int newFromPos;
             int newToPos;
             try {
               newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
               newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
             } catch (RuntimeException e) {
-              throw new RuntimeException("Getting positions failed for match " + match, e);
+              throw new RuntimeException("Getting positions failed for match " + match + " Sentence: " + match.getSentence().getText(), e);
             }
             RuleMatch newMatch = new RuleMatch(match);
             newMatch.setOffsetPosition(newFromPos, newToPos);
@@ -2001,7 +2013,9 @@ public class JLanguageTool {
 
     private CheckResults getOtherRuleMatches(Set<ToneTag> toneTags) {
       List<RuleMatch> ruleMatches = new ArrayList<>();
-      List<Range> ignoreRanges = new ArrayList<>();
+      List<Range> ignoreRanges = new ArrayList<>(); //TODO: remove later
+      List<ExtendedSentenceRange> extendedSentenceRanges = new ArrayList<>();
+
       int textWordCounter = sentences.stream().map(sentenceData -> sentenceData.wordCount).reduce(0, Integer::sum);
       int wordCounter = 0;
       float tmpErrorsPerWord = 0.0f;
@@ -2009,6 +2023,8 @@ public class JLanguageTool {
       for (int i = 0, sentencesSize = sentences.size(); i < sentencesSize; i++) {
         SentenceData sentence = sentences.get(i);
         wordCounter += sentence.wordCount;
+        ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.trim().length(), language.getShortCode());
+        extendedSentenceRanges.add(extendedSentenceRange);
         try {
           //comment in to trigger an exception via input text:
           //if (analyzedSentence.getText().contains("fakecrash")) {
@@ -2023,7 +2039,6 @@ public class JLanguageTool {
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
-
             List<Rule> rules = new ArrayList<>(this.rules.rulesForSentence(sentence.analyzed));
             rules.addAll(userConfig.getRules());
             sentenceMatches = checkAnalyzedSentence(paraMode, rules, sentence.analyzed, checkRemoteRules, textWordCounter);
@@ -2037,11 +2052,13 @@ public class JLanguageTool {
             }
             for (RuleMatch elem : sentenceMatches) {
               RuleMatch thisMatch = adjustRuleMatchPos(elem, sentence.startOffset, sentence.startColumn, sentence.startLine, sentence.text, annotatedText);
-              if (elem.getErrorLimitLang() != null) {
-                Range ignoreRange = new Range(sentence.startOffset, sentence.startOffset + sentence.text.length(), elem.getErrorLimitLang());
+              if (!elem.getNewLanguageMatches().isEmpty()) {
+                //TODO: remove after the addon is updated
+                Range ignoreRange = new Range(sentence.startOffset, sentence.startOffset + sentence.text.length(), elem.getNewLanguageMatches().entrySet().iterator().next().getKey());
                 if (!ignoreRanges.contains(ignoreRange)) {
                   ignoreRanges.add(ignoreRange);
                 }
+                extendedSentenceRange.updateLanguageConfidenceRates(elem.getNewLanguageMatches());
               }
               ruleMatches.add(thisMatch);
               if (listener != null) {
@@ -2072,7 +2089,7 @@ public class JLanguageTool {
                   + StringUtils.abbreviate(sentence.analyzed.toTextString(), 500) + "</sentcontent>", e);
         }
       }
-      return new CheckResults(ruleMatches, ignoreRanges);
+      return new CheckResults(ruleMatches, ignoreRanges, extendedSentenceRanges);
     }
 
     private LineColumnPosition findLineColumn(int offset) {

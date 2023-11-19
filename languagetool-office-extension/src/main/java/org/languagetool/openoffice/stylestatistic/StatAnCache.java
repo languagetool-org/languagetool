@@ -27,6 +27,7 @@ import java.util.Map;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.openoffice.DocumentCache;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
 import org.languagetool.openoffice.MessageHandler;
 import org.languagetool.openoffice.SwJLanguageTool;
 
@@ -44,9 +45,21 @@ public class StatAnCache {
   private List<Paragraph> paragraphs = new ArrayList<>();
   private DocumentCache cache;
   
-  public StatAnCache(DocumentCache cache, SwJLanguageTool lt) {
+  public StatAnCache(DocumentCache cache, SwJLanguageTool lt, WaitDialogThread waitdialog) {
     this.cache = cache;
-    for (int i = 0; i < cache.textSize(DocumentCache.CURSOR_TYPE_TEXT); i++) {
+    
+    while (cache.getHeadingMap() == null) {
+      try {
+        Thread.sleep(50);
+      } catch (InterruptedException e) {
+        MessageHandler.showError(e);
+      }
+    }
+    if (waitdialog != null) {
+      waitdialog.initializeProgressBar(0, 100);
+    }
+    int textSize = cache.textSize(DocumentCache.CURSOR_TYPE_TEXT);
+    for (int i = 0; i < textSize; i++) {
       String tPara = cache.getTextParagraph(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, i));
       List<AnalyzedSentence> sentences = null;
       try {
@@ -58,6 +71,9 @@ public class StatAnCache {
         sentences = new ArrayList<>();
       }
       analyzedParagraphs.add(sentences);
+      if (waitdialog != null) {
+        waitdialog.setValueForProgressBar(90 * i / textSize);;
+      }
     }
     setHeadings();
     setParagraphs();
@@ -140,29 +156,15 @@ public class StatAnCache {
    * class paragraph (stores all information needed)
    */
   public class Paragraph {
-//    public List<List<Word>> sentences;
     public String name;
     public int hierarchy;
     public int paraNum;
     
     Paragraph (String name, int hierarchy, int paraNum) {
- //   Paragraph (List<List<Word>> sentences, String name, int hierarchy, int paraNum) {
-//      this.sentences = sentences;
       this.name = new String(name);
       this.hierarchy = hierarchy;
       this.paraNum = paraNum;
     }
- /*   
-    void printParagraphToLogFile() {
-      String txt = "";
-      for (List<Word> sentence : sentences) {
-        for (Word word : sentence) {
-          txt += word.name + " "; 
-        }
-      }
-      MessageHandler.printToLogFile(txt);
-    }
-*/
   }
 
   public class Heading {

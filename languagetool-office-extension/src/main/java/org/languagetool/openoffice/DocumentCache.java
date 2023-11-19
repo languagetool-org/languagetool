@@ -71,8 +71,8 @@ public class DocumentCache implements Serializable {
   private final List<SerialLocale> locales = new ArrayList<SerialLocale>(); // stores the language of the paragraphs;
   private final List<int[]> footnotes = new ArrayList<int[]>();             // stores the footnotes of the paragraphs;
   private final List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>(); // stores the deleted characters (report changes) of the paragraphs;
-  protected final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
-  private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
+  private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
+  protected final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;                 // stores the document type (Writer, Impress, Calc)
   private List<Integer> sortedTextIds = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)
   private Map<Integer, Integer> headingMap;
@@ -164,17 +164,19 @@ public class DocumentCache implements Serializable {
       return;
     }
     isReset = true;
-    if (debugMode) {
-      MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
+    try {
+      if (debugMode) {
+        MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
+      }
+      if (docType != DocumentType.WRITER) {
+        refreshImpressCalcCache(xComponent);
+      } else {
+        refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
+      }
+      setSingleParagraphsCacheToNull(document.getParagraphsCache());
+    } finally {
+      isReset = false;
     }
-    if (docType != DocumentType.WRITER) {
-      refreshImpressCalcCache(xComponent);
-    } else {
-      refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
-    }
-    setSingleParagraphsCacheToNull(document.getParagraphsCache());
-    this.docLocale = getMostUsedLanguage(locales);
-    isReset = false;
   }
 
   /**
@@ -245,6 +247,7 @@ public class DocumentCache implements Serializable {
         deletedChars.add(documentText.deletedCharacters);
       }
       headingMap = documentTexts.get(CURSOR_TYPE_TEXT).headingNumbers;
+//      MessageHandler.printToLogFile("DocumentCache: refresh: headingMap.size: " + (headingMap == null ? "null" : headingMap.size()));
       if (flatPara == null) {
         flatPara = document.getFlatParagraphTools();
       }
@@ -364,6 +367,7 @@ public class DocumentCache implements Serializable {
         }
         this.sortedTextIds.addAll(sortedTextIds);
       }
+      this.docLocale = getMostUsedLanguage(locales);
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1016,6 +1020,12 @@ public class DocumentCache implements Serializable {
         }
       }
       MessageHandler.printToLogFile("\nDocument cache: mapParagraphsWNI: unknown paragraphs: " + nUnknown);
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of Flat Paragraphs: " + paragraphs.size());
+      MessageHandler.printToLogFile(
+          "DocumentCache: mapParagraphs: Number of Text Paragraphs: " + toParaMapping.get(CURSOR_TYPE_TEXT).size());
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of footnotes: " + footnotes.size());
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of locales: " + locales.size());
+      MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of Deleted Chars: " + deletedCharacters.size());
     }
     int notMapped = 0;
     for (int n = 0; n < sortedTextIds.size(); n++) {
@@ -1103,6 +1113,7 @@ public class DocumentCache implements Serializable {
       nFootnote = toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size();
       nEndnote = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size();
       nHeaderFooter = toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size();
+      docLocale = getMostUsedLanguage(locales);
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: reset: isImpress: Number of paragraphse: " + paragraphs.size());
         for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
@@ -1190,7 +1201,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraph(int n, String sPara) {
     rwLock.writeLock().lock();
     try {
-      paragraphs.set(n, sPara);
+      if (n >= 0 && n < paragraphs.size()) {
+        paragraphs.set(n, sPara);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1200,10 +1213,14 @@ public class DocumentCache implements Serializable {
    * set Flat Paragraph and Locale at Index
    */
   public void setFlatParagraph(int n, String sPara, Locale locale) {
-    locales.set(n, new SerialLocale(locale));
+    if (n >= 0 && n < locales.size()) {
+      locales.set(n, new SerialLocale(locale));
+    }
     rwLock.writeLock().lock();
     try {
-      paragraphs.set(n, sPara);
+      if (n >= 0 && n < paragraphs.size()) {
+        paragraphs.set(n, sPara);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1234,10 +1251,12 @@ public class DocumentCache implements Serializable {
   public void setMultilingualFlatParagraph(int n) {
     rwLock.writeLock().lock();
     try {
-      SerialLocale locale = locales.get(n);
-      if (!locale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
-        locale.Variant = OfficeTools.MULTILINGUAL_LABEL + locale.Variant;
-        locales.set(n, locale);
+      if (n >= 0 && n < locales.size()) {
+        SerialLocale locale = locales.get(n);
+        if (!locale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
+          locale.Variant = OfficeTools.MULTILINGUAL_LABEL + locale.Variant;
+          locales.set(n, locale);
+        }
       }
     } finally {
       rwLock.writeLock().unlock();
@@ -1262,7 +1281,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphLocale(int n, Locale locale) {
     rwLock.writeLock().lock();
     try {
-      locales.set(n, new SerialLocale(locale));
+      if (n >= 0 && n < locales.size()) {
+        locales.set(n, new SerialLocale(locale));
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1286,7 +1307,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphFootnotes(int n, int[] footnotePos) {
     rwLock.writeLock().lock();
     try {
-      footnotes.set(n, footnotePos);
+      if (n >= 0 && n < footnotes.size()) {
+        footnotes.set(n, footnotePos);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1314,7 +1337,7 @@ public class DocumentCache implements Serializable {
         if (locales.get(n).Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
           return true;
         }
-        TextParagraph tPara = getNumberOfTextParagraph_(n);
+        TextParagraph tPara = toTextMapping.get(n);
         if (tPara.type == CURSOR_TYPE_TEXT && automaticParagraphs.contains(tPara.number)) {
           return true;
         }
@@ -1331,7 +1354,9 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphDeletedCharacters(int n, List<Integer> deletedChars) {
     rwLock.writeLock().lock();
     try {
-      deletedCharacters.set(n, deletedChars);
+      if (n >= 0 && n < deletedCharacters.size()) {
+        deletedCharacters.set(n, deletedChars);
+      }
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -1395,6 +1420,9 @@ public class DocumentCache implements Serializable {
     deletedCharacters.addAll(in.deletedCharacters);
     if (in.sortedTextIds != null) {
       sortedTextIds = new ArrayList<>(in.sortedTextIds);
+    }
+    if (in.headingMap != null) {
+      headingMap = new HashMap<>(in.headingMap);
     }
     documentElementsCount = in.documentElementsCount;
     nText = in.nText;
@@ -2046,35 +2074,15 @@ public class DocumentCache implements Serializable {
     refresh(document, fixedLocale, docLocale, xComponent, fromWhere);
     rwLock.readLock().lock();
     try {
-      if (paragraphs == null || paragraphs.isEmpty()) {
+      if (paragraphs == null || paragraphs.isEmpty() || oldCache.paragraphs == null || oldCache.paragraphs.isEmpty()) {
         return null;
       }
       int from = 0;
       int to = 1;
       // to prevent spontaneous recheck of nearly the whole text
-      // the change of text contents has to be checked first
+      // the change of text contents has to be checked, if the size of CURSOR_TYPE_HEADER_FOOTER has not changed
       // ignore headers and footers and the change of function inside of them
-      while (from < paragraphs.size() && from < oldCache.paragraphs.size()
-          && (toTextMapping.get(from).type == CURSOR_TYPE_HEADER_FOOTER
-          || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
-        from++;
-      }
-      boolean isTextChange = from < paragraphs.size() && from < oldCache.paragraphs.size();
-      if (isTextChange) {
-        // if change in text is found check the number of text paragraphs which have changed
-        while (to <= paragraphs.size() && to <= oldCache.paragraphs.size()
-            && (toTextMapping.get(paragraphs.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-            || paragraphs.get(paragraphs.size() - to).equals(
-                    oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
-          to++;
-        }
-        to = paragraphs.size() - to + 1;
-        if (to < 0) {
-          to = 0;
-        }
-      } else {
-        // if no change in text is found check the number of header and footer paragraphs which have changed
-        from = 0;
+      if (oldCache.toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() != toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
         while (from < paragraphs.size() && from < oldCache.paragraphs.size()
             && (toTextMapping.get(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
             || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
@@ -2086,10 +2094,22 @@ public class DocumentCache implements Serializable {
                 oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
           to++;
         }
-        to = paragraphs.size() - to + 1;
-        if (to < 0) {
-          to = 0;
+      } else {
+        while (from < paragraphs.size() && from < oldCache.paragraphs.size()
+            && (toTextMapping.get(from).type == CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
+          from++;
         }
+        while (to <= paragraphs.size() && to <= oldCache.paragraphs.size()
+            && (toTextMapping.get(paragraphs.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(paragraphs.size() - to).equals(
+                    oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
+          to++;
+        }
+      }
+      to = paragraphs.size() - to + 1;
+      if (to < from) {
+        to = from;
       }
       return new ChangedRange(from, to, oldCache.paragraphs.size(), paragraphs.size());
     } finally {
@@ -2210,7 +2230,15 @@ public class DocumentCache implements Serializable {
   }
   
   public Locale getDocumentLocale() {
-    return docLocale.toLocaleWithoutLabel();
+    rwLock.readLock().lock();
+    try {
+      if (docLocale == null) {
+        return null;
+      }
+      return docLocale.toLocaleWithoutLabel();
+    } finally {
+      rwLock.readLock().unlock();
+    }
   }
   
   class ChangedRange {
@@ -2241,7 +2269,7 @@ public class DocumentCache implements Serializable {
   /**
    * Class of serializable locale needed to save cache
    */
-  private class SerialLocale implements Serializable {
+  public static class SerialLocale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     String Country;
@@ -2259,6 +2287,13 @@ public class DocumentCache implements Serializable {
      */
     public String toString() {
       return Language + (Country.isEmpty() ? "" : "-" + Country) + (Variant.isEmpty() ? "" : "-" + Variant);
+    }
+
+    /**
+     * return the Locale as String
+     */
+    Locale toLocale() {
+      return new Locale(Language, Country, Variant);
     }
 
     /**

@@ -51,8 +51,11 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
 
   private static final String POTENTIAL_NEGATION_TAG = ":aff";
   private static final String NEGATION_TAG = ":neg";
+  private static final Pattern NEGATION_TAG_PATTERN = Pattern.compile(NEGATION_TAG);
   private static final String COMP_TAG = "com";
   private static final String SUP_TAG = "sup";
+  private static final Pattern PATTERN = Pattern.compile(".*[a-z]\\.[a-z].*");
+  private static final Pattern DOT = Pattern.compile(".", Pattern.LITERAL);
 
   private List<String> possibleTags;
 
@@ -146,8 +149,8 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
       String[] tags = posTag.split(":");
       int pos = -1;
       for (int i = 0; i < tags.length; i++) {
-        if (tags[i].matches(".*[a-z]\\.[a-z].*")) {
-          tags[i] = "(.*" + tags[i].replace(".", ".*|.*") + ".*)";
+        if (PATTERN.matcher(tags[i]).matches()) {
+          tags[i] = "(.*" + DOT.matcher(tags[i]).replaceAll(".*|.*") + ".*)";
           pos = i;
         }
       }
@@ -171,7 +174,7 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
     List<WordData> wordForms;
     if (isNegated) {
       wordForms = synthesizer.lookup(token.getLemma() + "|"
-          + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
+          + NEGATION_TAG_PATTERN.matcher(posTag).replaceFirst(POTENTIAL_NEGATION_TAG));
       if (wordForms != null) {                      
         for (WordData wd : wordForms) {
           forms.add("nie" + wd.getStem());

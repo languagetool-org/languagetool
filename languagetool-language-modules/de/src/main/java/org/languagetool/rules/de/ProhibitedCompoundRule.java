@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static org.languagetool.tools.StringTools.*;
 
@@ -52,11 +53,20 @@ public class ProhibitedCompoundRule extends Rule {
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
   // have objects static for better performance (rule gets initialized for every check)
   private static final List<Pair> lowercasePairs = Arrays.asList(
-          // NOTE: words here must be all-lowercase
-          // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          // NOTES:
+          // * words here must be all-lowercase
+          // * no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          // * please test using ProhibitedCompoundRuleTest.testListOfWords() before pushing a change with a new pair
+          new Pair("schaf", "Tier", "schaft", "'-schaft' (Element zur Wortbildung, z. B. 'Freundschaft')"),
+          new Pair("schafen", "Dativ Plural von 'Schaf'", "schaften", "'-schaften' (Element zur Wortbildung, z. B. 'Freundschaften')"),
+          new Pair("leser", "eine Person, die liest", "leder", "aus Tierhaut gewonnenes Material"),
+          new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
+          new Pair("pillen", "Tabletten", "pullen", "Plural von 'Pulle' (Flasche)"),
+          new Pair("tauben", "Vogelart", "trauben", "Obstsorte"),
+          new Pair("panel", "ausgewählte Personengruppe", "paneel", "Platte für Wand- und Deckenverkleidungen"),
           new Pair("nabe", "Mittelteil eines Rades", "narbe", "verheilende Wunde"),
           new Pair("first", "höchste Kante an einem geneigten Dach", "frist", "spätester Zeitpunkt"),
-          new Pair("kisten", "Behälter", "kosten", "Ausgaben"),
+          //new Pair("kisten", "Behälter", "kosten", "Ausgaben"),
           new Pair("koma", "Zustand tiefer Bewusstlosigkeit", "komma", "Satzzeichen"),
           new Pair("korn", "Getreide sowie dessen Frucht", "kron", "Vorsilbe z.B. in 'Kronkorken'"),
           new Pair("bauten", "Form von 'Bau' (Bauwerk, Haus, ...)", "beuten", "Form von 'Beute'"),
@@ -145,7 +155,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
           new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
   );
-  private static LinguServices linguServices;
+  private static final Pattern HERRN_FRAU = Pattern.compile("Herrn?|Frau");
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
     "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
@@ -166,6 +176,7 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)its?",   // Grafit/Graphit
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
+  private static LinguServices linguServices;
 
   private static final LoadingCache<String, Set<String>> cache = CacheBuilder.newBuilder()
     .expireAfterAccess(30, TimeUnit.MINUTES)
@@ -303,12 +314,12 @@ public class ProhibitedCompoundRule extends Rule {
     AnalyzedTokenReadings prevReadings = null;
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
       String tmpWord = readings.getToken();
-      if (prevReadings != null && prevReadings.hasAnyPartialPosTag("EIG:") && StringTools.startsWithUppercase(tmpWord) &&
+      if (prevReadings != null && prevReadings.hasAnyPartialPosTag("EIG:") && startsWithUppercase(tmpWord) &&
         (readings.hasAnyPartialPosTag("EIG:") || readings.isPosTagUnknown())) {
         // assume name, e.g. "Bianca Baalhorn" (avoid: Baalhorn => Ballhorn)
         continue;
       }
-      if (prevReadings != null && prevReadings.getToken().matches("Herrn?|Frau")) {
+      if (prevReadings != null && HERRN_FRAU.matcher(prevReadings.getToken()).matches()) {
         // assume name, e.g. "Herr Eiswert" (avoid: Eiswert -> Eiswelt)
         continue;
       }
@@ -387,7 +398,7 @@ public class ProhibitedCompoundRule extends Rule {
         }
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
-        String id = StringTools.toId(getId() + "_" + pair.part1 + "_" + pair.part2, language);
+        String id = toId(getId() + "_" + pair.part1 + "_" + pair.part2, language);
         String desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" +
           uppercaseFirstChar(pair.part1) + "' statt '" + uppercaseFirstChar(pair.part2) + "' und umgekehrt";
         SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());

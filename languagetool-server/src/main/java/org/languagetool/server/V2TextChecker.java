@@ -27,6 +27,7 @@ import org.languagetool.tools.StringTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.languagetool.server.ServerTools.setCommonHeaders;
 
@@ -37,6 +38,7 @@ import static org.languagetool.server.ServerTools.setCommonHeaders;
 class V2TextChecker extends TextChecker {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
+  private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
 
   V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     super(config, internalServer, workQueue, reqCounter);
@@ -119,7 +121,7 @@ class V2TextChecker extends TextChecker {
   protected List<String> getPreferredVariants(Map<String, String> parameters) {
     List<String> preferredVariants;
     if (parameters.get("preferredVariants") != null) {
-      preferredVariants = Arrays.asList(parameters.get("preferredVariants").split(",\\s*"));
+      preferredVariants = Arrays.asList(COMMA_WHITESPACE_PATTERN.split(parameters.get("preferredVariants")));
       if (!"auto".equals(parameters.get("language")) && (parameters.get("multilingual") == null || parameters.get("multilingual").equals("false"))) {
         throw new BadRequestException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
       }

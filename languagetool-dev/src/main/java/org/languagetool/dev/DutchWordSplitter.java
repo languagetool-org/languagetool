@@ -32,7 +32,7 @@ public class DutchWordSplitter {
     // exported as documented at https://dev.languagetool.org/developing-a-tagger-dictionary,
     // then taking only the full form: awk '{print $1}' dictionary-nl.dump
     String filename = "/home/dnaber/lt/dictionary-nl.dump";
-    MorfologikMultiSpeller speller = new MorfologikMultiSpeller("/nl/spelling/nl_NL.dict", Collections.singletonList("/nl/spelling/spelling.txt"), null, null, 1);
+    MorfologikMultiSpeller speller = new MorfologikMultiSpeller("/nl/spelling/nl_NL.dict", Collections.singletonList("/nl/spelling/spelling.txt"), null, null, 1, null);
     List<String> lines = Files.readAllLines(Paths.get(filename));
     int lineCount = 0;
     long lineTime = System.currentTimeMillis();

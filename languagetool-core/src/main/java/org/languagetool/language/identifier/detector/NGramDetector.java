@@ -25,15 +25,27 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 
 import static java.lang.StrictMath.log;
 import static java.lang.StrictMath.min;
+import static java.util.regex.Pattern.compile;
 
 public class NGramDetector {
 
-  private final static double EPSILON = 1e-4;
+  private static final double EPSILON = 1e-4;
+  private static final Pattern DIGITS = compile("\\d+");
+  private static final Pattern KOREAN = compile("[\\uac00-\\ud7a3]");
+  private static final Pattern JAPANESE = compile("[\\u3040-\\u30ff]");
+  private static final Pattern CHINESE = compile("[\\u4e00-\\u9FFF]");
+  private static final Pattern KHMER = compile("[\\u1780-\\u17FF]");
+  private static final Pattern TAGALOG = compile("[\\u1700-\\u171F]");
+  private static final Pattern ARMENIAN = compile("[\\u0530-\\u058F]");
+  private static final Pattern GREEK = compile("[\\u0370-\\u03FF]");
+  private static final Pattern TAMIL = compile("[\\u0B80-\\u0BFF]");
+  private static final Pattern WHITESPACE = compile("\\s+");
 
   private final Map<String, Integer> vocab;
   private final List<String[]> codes; // Elem format = {Name, 2-code (or "NULL"), 3-code}
@@ -143,7 +155,7 @@ public class NGramDetector {
       while ((line = br.readLine()) != null) {
         result.add(line);
       }
-    } catch(java.io.IOException e) {
+    } catch(IOException e) {
       throw new RuntimeException(e);
     }
     return result;
@@ -175,21 +187,20 @@ public class NGramDetector {
       text = text.substring(0, maxLength);
     }
     text = Normalizer.normalize(text, Normalizer.Form.NFKC).toLowerCase();
-    text = text.replaceAll("\\d+", "<NUM>");
-    text = text.replaceAll("[\\uac00-\\ud7a3]", "<KO>"); // Korean
-    text = text.replaceAll("[\\u3040-\\u30ff]", "<JA>"); // Japanese
-    text = text.replaceAll("[\\u4e00-\\u9FFF]", "<ZH>"); // Chinese
-    text = text.replaceAll("[\\u1780-\\u17FF]", "<KM>"); // Khmer
-    text = text.replaceAll("[\\u1700-\\u171F]", "<TL>"); // Tagalog
-    text = text.replaceAll("[\\u0530-\\u058F]", "<HY>"); // Armenian
-    text = text.replaceAll("[\\u0370-\\u03FF]", "<EL>"); // Greek
-    text = text.replaceAll("[\\u0B80-\\u0BFF]", "<TA>"); // Tamil
-    text = text.replaceAll("\\s+", "▁");
+    text = DIGITS.matcher(text).replaceAll("<NUM>");
+    text = KOREAN.matcher(text).replaceAll("<KO>");
+    text = JAPANESE.matcher(text).replaceAll("<JA>");
+    text = CHINESE.matcher(text).replaceAll("<ZH>");
+    text = KHMER.matcher(text).replaceAll("<KM>");
+    text = TAGALOG.matcher(text).replaceAll("<TL>");
+    text = ARMENIAN.matcher(text).replaceAll("<HY>");
+    text = GREEK.matcher(text).replaceAll("<EL>");
+    text = TAMIL.matcher(text).replaceAll("<TA>");
+    text = WHITESPACE.matcher(text).replaceAll("▁");
     if (text.length() == 0) {
       return result;
     }
     text = "▁" + text;
-
     int cur = 0;
     while (cur < text.length()) {
       int tok = 0;

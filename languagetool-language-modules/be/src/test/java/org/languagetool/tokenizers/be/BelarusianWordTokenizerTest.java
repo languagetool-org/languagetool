@@ -26,11 +26,18 @@ import java.util.List;
 import org.junit.Test;
 
 public class BelarusianWordTokenizerTest {
-    private final BelarusianWordTokenizer tok = new BelarusianWordTokenizer();
+    private final BelarusianWordTokenizer wordTokenizer = new BelarusianWordTokenizer();
 
     @Test
-    public void testTokenizeUrl() {
-        List<String> tokens = tok.tokenize("камп'ютар");
+    public void testTokenize() {
+        final List<String> tokens = wordTokenizer.tokenize("камп'ютар");
+        assertEquals(tokens.size(), 1);
         assertEquals(Arrays.asList("камп'ютар"), tokens);
+        final List <String> tokens2 = wordTokenizer.tokenize("Яно\rразбіваецца");
+        assertEquals(tokens2.size(), 3);
+        assertEquals("[Яно, \r, разбіваецца]", tokens2.toString());
+        final List<String> tokens3 = wordTokenizer.tokenize("Мой адрас — address@email.com");
+        assertEquals(tokens3.size(), 7);
+        assertEquals("[Мой,  , адрас,  , —,  , address@email.com]", tokens3.toString());
     }
 }

@@ -129,7 +129,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         p = Pattern.compile(posTag);
       } catch (PatternSyntaxException e) {
         System.err.println("WARNING: Error trying to synthesize POS tag "
-            + posTag + " from token " + token.getToken() + ": " + e.getMessage());
+            + posTag + " from token " + token + ": " + e.getMessage() + " StackTrace: " + e.getStackTrace());
         return null;
       }
       List<String> results = new ArrayList<>();

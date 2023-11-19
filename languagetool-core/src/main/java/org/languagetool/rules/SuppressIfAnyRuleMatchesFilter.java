@@ -23,38 +23,40 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 
-public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter {
+public class SuppressIfAnyRuleMatchesFilter extends RuleFilter {
 
+  /*
+   * Suppress the match if the new suggestion creates any new match with the rule IDs provided
+   */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-//    if (match.getSentence().getText().contains("t'ho has cregut")) {
-//      int ii=0;
-//      ii++;
-//    }
     List<String> ruleIDs = Arrays.asList(getRequired("ruleIDs", arguments).split(","));
-    JLanguageTool lt = getJLanguageTool();
+    JLanguageTool lt = ((PatternRule) match.getRule()).getLanguage().createDefaultJLanguageTool();
     String sentence = match.getSentence().getText();
     for (String replacement : match.getSuggestedReplacements()) {
       String newSentence = sentence.substring(0, match.getFromPos()) + replacement
           + sentence.substring(match.getToPos());
-      List<RuleMatch> matches = lt.check(newSentence);
-      for (RuleMatch m : matches) {
-        if (ruleIDs.contains(m.getRule().getId())) {
-          if ((m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos())
+      AnalyzedSentence analyzedSentence = lt.analyzeText(newSentence).get(0);
+      for (Rule r: lt.getAllActiveRules()) {
+        if (ruleIDs.contains(r.getId())) {
+          RuleMatch matches[] = r.match(analyzedSentence);
+          for (RuleMatch m : matches) {
+            if ((m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos())
               || (match.getToPos() >= m.getFromPos() && match.getToPos() <= m.getToPos())) {
-            return null;
+              return null;
+            }
           }
         }
       }
     }
     return match;
   }
-  
-  protected abstract JLanguageTool getJLanguageTool();
 
 }

@@ -19,6 +19,7 @@
 package org.languagetool.rules.en;
 
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -29,6 +30,8 @@ import org.languagetool.rules.WordRepeatRule;
  * Word repeat rule for English, to avoid false alarms in the generic word repetition rule.
  */
 public class EnglishWordRepeatRule extends WordRepeatRule {
+
+  private static final Pattern SINGLE_CHAR = Pattern.compile("(?i)^[a-z]$");
 
   public EnglishWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
@@ -91,7 +94,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     } else if (tokens[position - 1].getToken().equalsIgnoreCase(word) && (((position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase(word)) || (position > 1 && tokens[position - 2].getToken().equalsIgnoreCase(word)))) {
       // three time word repetition
       return true;
-    } else if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
+    } else if (SINGLE_CHAR.matcher(tokens[position].getToken()).matches() && position > 1 &&
+        SINGLE_CHAR.matcher(tokens[position - 2].getToken()).matches() &&
+        (position + 1 < tokens.length) && SINGLE_CHAR.matcher(tokens[position + 1].getToken()).matches()) {
       // spelling with spaces in between: "b a s i c a l l y"
       return true;
     } else if (repetitionOf("blah", tokens, position)) {

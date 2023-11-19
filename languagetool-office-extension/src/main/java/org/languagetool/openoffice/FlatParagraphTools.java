@@ -519,6 +519,13 @@ public class FlatParagraphTools {
   /** 
    * Returns positions of properties by name 
    */
+  public int[] getFootnotePosition(XFlatParagraph xFlatPara) {
+    return getIntArrayPropertyValue("FootnotePositions", xFlatPara);
+  }
+
+  /** 
+   * Returns positions of properties by name 
+   */
   private Object getPropertyValueAsObject(String propName, XFlatParagraph xFlatPara) {
     try {
       if (xFlatPara == null) {

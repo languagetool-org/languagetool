@@ -22,13 +22,20 @@ package org.languagetool.tokenizers.br;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.languagetool.tokenizers.WordTokenizer;
+
+import static java.util.regex.Pattern.*;
 
 /**
  * @author Dominique Pelle
  */
 public class BretonWordTokenizer extends WordTokenizer {
+
+  private static final Pattern REPL_PATTERN_1 = compile("([Cc])['’‘ʼ]([Hh])");
+  private static final Pattern REPL_PATTERN_2 = compile("(\\p{L})['’‘ʼ]");
+  private static final Pattern REPL_PATTERN_3 = compile("\u0001\u0001BR@APOS\u0001\u0001", LITERAL);
 
   /**
    * Tokenizes just like WordTokenizer with the exception that "c’h"
@@ -46,8 +53,8 @@ public class BretonWordTokenizer extends WordTokenizer {
 
     // FIXME: this is a bit of a hacky way to tokenize.  It should work
     // but I should work on a more elegant way.
-    String replaced = text.replaceAll("([Cc])['’‘ʼ]([Hh])", "$1\u0001\u0001BR@APOS\u0001\u0001$2")
-        .replaceAll("(\\p{L})['’‘ʼ]", "$1\u0001\u0001BR@APOS\u0001\u0001 ");
+    String replaced = REPL_PATTERN_1.matcher(text).replaceAll("$1\u0001\u0001BR@APOS\u0001\u0001$2");
+    replaced = REPL_PATTERN_2.matcher(replaced).replaceAll("$1\u0001\u0001BR@APOS\u0001\u0001 ");
 
     List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<>();
@@ -55,7 +62,7 @@ public class BretonWordTokenizer extends WordTokenizer {
     // Put back apostrophes and remove spurious spaces.
     Iterator<String> itr = tokenList.iterator();
     while (itr.hasNext()) {
-      String word = itr.next().replace("\u0001\u0001BR@APOS\u0001\u0001", "’");
+      String word = REPL_PATTERN_3.matcher(itr.next()).replaceAll("’");
       tokens.add(word);
       if (!word.equals("’") && word.endsWith("’")) {
         itr.next(); // Skip the next spurious white space.

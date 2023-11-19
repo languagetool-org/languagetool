@@ -470,12 +470,21 @@ public class LtDictionary {
    * Add a word to a user dictionary
    */
   public static void addWordToDictionary(String dictionaryName, String word, XComponentContext xContext) {
+    if (word == null) {
+      throw new RuntimeException("No word selected to add to dictionary (word == null) ");
+    }
+    if (dictionaryName == null) {
+      throw new RuntimeException("No dictionary selected (dictionaryName == null) ");
+    }
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if (searchableDictionaryList == null) {
       MessageHandler.printToLogFile("LtDictionary: addWordToDictionary: searchableDictionaryList == null");
       return;
     }
     XDictionary dictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
+    if (dictionary == null) {
+      throw new RuntimeException("Dictionary not found (dictionaryName: " + dictionaryName + "; word: " + word);
+    }
     dictionary.add(word, false, "");
   }
   

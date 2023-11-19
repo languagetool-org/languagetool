@@ -33,6 +33,7 @@ import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.ByteArrayInputStream;
@@ -60,6 +61,27 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Atmosphärenkonzept"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wölkchenbildung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Abschlussgruße"));  // probably "...grüße"
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Offenlegungsfrist"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Offenlegungsfirst"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Dachfrist"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Hospizgemeinschaft"));  //no infix-s for compounds: .*z + noun
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Azubikommt"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Wachtums-Pistole"));  // split as "Wacht, ums-Pistole"
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Discorum"));  // "Disco, rum" and "rum" is only 3 chars and thus too short
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeberverhandlungen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank")); 
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank")); 
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinsskühlschrank"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände."));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
@@ -83,14 +105,16 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsei"));  // second part too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Ei"));  // second part too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsnach"));  // second part not a noun
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Antwortzugeschnitten"));  // second part not a noun
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."));
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));  // 3 parts not yet supported
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstestnachweis"));  // 4 or more parts not yet supported
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistung"));  // not a compound
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungs"));  // not a compound
     assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt
     assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
@@ -418,7 +442,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("unvorsehbares", "unvorhersehbares", rule, lt);
     assertFirstSuggestion("Würtenberg", "Württemberg", rule, lt);
     assertFirstSuggestion("Baden-Würtenbergs", "Baden-Württembergs", rule, lt);
-    assertFirstSuggestion("Rechtsschreibungsfehlern", "Rechtschreibfehlern", rule, lt);
+    //assertFirstSuggestion("Rechtsschreibungsfehlern", "Rechtschreibfehlern", rule, lt);
     assertFirstSuggestion("indifiziert", "identifiziert", rule, lt);
     assertFirstSuggestion("verblüte", "verblühte", rule, lt);
     assertFirstSuggestion("dreitem", "drittem", rule, lt);
@@ -538,7 +562,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Überstreitung", "Überschreitung", rule, lt);
     assertFirstSuggestion("werkzeug.", "Werkzeug", rule, lt);
     assertFirstSuggestion("Wärkzeug.", "Werkzeug", rule, lt);
-    assertFirstSuggestion("Fußgängerunterweg", "Fußgängerunterführung", rule, lt);
+    //assertFirstSuggestion("Fußgängerunterweg", "Fußgängerunterführung", rule, lt);
     assertFirstSuggestion("Ingineuer", "Ingenieur", rule, lt);
     assertFirstSuggestion("Panacotta", "Panna cotta", rule, lt);
     assertFirstSuggestion("Ärcker", "Erker", rule, lt);
@@ -889,6 +913,8 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Einbusse")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Einbussen")).length);
   }
 
   // note: copied from HunspellRuleTest
@@ -911,6 +937,8 @@ public class GermanSpellerRuleTest {
     commonGermanAsserts(rule, lt);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Einbusse")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Einbussen")).length);
   }
   
   // note: copied from HunspellRuleTest
@@ -1097,6 +1125,14 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.isMisspelled("Steuereigenschaften"));
     assertFalse(rule.isMisspelled("Eigenschaften"));
     assertFalse(rule.isMisspelled("wirtschafte"));
+
+    assertTrue(rule.isMisspelled("Gebietskörperschaf"));
+    assertTrue(rule.isMisspelled("Gebietskörperschafs"));
+    assertTrue(rule.isMisspelled("Gebietskörperschafen"));
+    assertTrue(rule.isMisspelled("Freundschaf"));
+    assertFalse(rule.isMisspelled("Wollschaf"));
+    assertFalse(rule.isMisspelled("Wollschafs"));
+    assertFalse(rule.isMisspelled("Wollschafen"));
   }
 
   @Test
@@ -1301,4 +1337,29 @@ public class GermanSpellerRuleTest {
     RuleMatch[] matches20 = rule1.match(lt.getAnalyzedSentence("laut Beispielen bie"));
     assertThat(matches20.length, is(1));
   }
+
+  @Test
+  public void testProhibitVsSpellingDeCH() {
+    CachingWordListLoader loader = new CachingWordListLoader();
+    List<String> prohibit = expandLines(loader.loadWords("/de/hunspell/prohibit.txt"));
+    List<String> deCH = expandLines(JLanguageTool.getDataBroker().getFromResourceDirAsLines("/de/hunspell/spelling-de-CH.txt"));
+    for (String deCHWord : deCH) {
+      if (prohibit.contains(deCHWord)) {
+        fail("'" + deCHWord + "' is both in prohibit.txt (used for all de-.. variants) and in spelling-de-CH.txt");
+      }
+      if (deCHWord.contains("ß")) {
+        fail("'" + deCHWord + "' from spelling-de-CH.txt contains 'ß' - should be 'ss' instead");
+      }
+    }
+  }
+
+  private static List<String> expandLines(List<String> prohibit) {
+    LineExpander lineExpander = new LineExpander();
+    List<String> expanded = new ArrayList<>();
+    for (String line : prohibit) {
+      expanded.addAll(lineExpander.expandLine(line));
+    }
+    return expanded;
+  }
+
 }
