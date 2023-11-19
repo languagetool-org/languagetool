@@ -132,8 +132,9 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         matchTokenPos = 3;
       }
 
-      if( isException(tokens, matchTokenPos) )
+      if (isException(tokens, matchTokenPos)) {
         return toRuleMatchArray(ruleMatches);
+      }
 
       String checkToken = firstToken;
       if (thirdToken != null) {
@@ -172,7 +173,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       }
 
       if (isPrevSentenceNumberedList || isUrl(checkToken) || isEMail(checkToken) || firstTokenObj.isImmunized()
-      || tokens[matchTokenPos].hasPosTag("_IS_URL")) {
+          || tokens[matchTokenPos].hasPosTag("_IS_URL")) {
         preventError = true;
       }
 
