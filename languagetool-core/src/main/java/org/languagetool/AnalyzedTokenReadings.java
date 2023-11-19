@@ -269,24 +269,29 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   /**
    * Checks if at least one of the readings matches a given POS tag regex.
-   *
    * @param posTagRegex POS tag regular expression to look for
    * @since 2.9
    */
   public boolean matchesPosTagRegex(String posTagRegex) {
     Pattern pattern = Pattern.compile(posTagRegex);
-    boolean found = false;
+    return matchesPosTagRegex(pattern);
+  }
+
+  /**
+   * Checks if at least one of the readings matches a given POS tag pattern.
+   * @since 6.4
+   */
+  public boolean matchesPosTagRegex(Pattern pattern) {
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        found = pattern.matcher(reading.getPOSTag()).matches();
-        if (found) {
-          break;
+        if (pattern.matcher(reading.getPOSTag()).matches()) {
+          return true;
         }
       }
     }
-    return found;
+    return false;
   }
-  
+
   public boolean matchesChunkRegex(String chunkRegex) {
     Pattern pattern = Pattern.compile(chunkRegex);
     boolean found = false;
