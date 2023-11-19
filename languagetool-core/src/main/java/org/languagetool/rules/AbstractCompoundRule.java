@@ -45,6 +45,7 @@ public abstract class AbstractCompoundRule extends Rule {
   private static final Pattern WHITESPACE_DASH = Pattern.compile(" - ", Pattern.LITERAL);
   private static final Pattern WHITESPACE = Pattern.compile("\\s+");
   private static final Pattern DIGIT = Pattern.compile("\\d+");
+  private static final Pattern DASHES = Pattern.compile("--+");
 
   private final String withHyphenMessage;
   private final String withoutHyphenMessage;
@@ -199,7 +200,7 @@ public abstract class AbstractCompoundRule extends Rule {
   protected List<String> filterReplacements(List<String> replacements, String original) throws IOException {
     List<String> newReplacements = new ArrayList<>();
     for (String replacement : replacements) {
-      String newReplacement = replacement.replaceAll("--+", "-");
+      String newReplacement = DASHES.matcher(replacement).replaceAll("-");
       if (!newReplacement.equals(original) && isCorrectSpell(newReplacement)) {
         newReplacements.add(newReplacement);
       }
