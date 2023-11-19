@@ -37,6 +37,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.languagetool.tools.StringTools.uppercaseFirstChar;
@@ -51,6 +52,8 @@ import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 public class GermanTagger extends BaseTagger {
 
   private static final List<String> allAdjGruTags = new ArrayList<>();
+  private static final Pattern mitarbeitendenPattern = Pattern.compile("[A-ZÖÄÜ][a-zöäüß]{2,25}mitarbeitenden?");
+
   static {
     for (String nomAkkGenDat : Arrays.asList("NOM", "AKK", "GEN", "DAT")) {
       for (String pluSin : Arrays.asList("PLU", "SIN")) {
@@ -272,7 +275,7 @@ public class GermanTagger extends BaseTagger {
         } else if (sentenceTokens.get(idxPos+2).matches("innen[a-zöäüß-]+")) {
           // e.g. Werkstudent:innenzielgruppe -> take tags of 'Zielgruppe':
           int idx = sentenceTokens.get(idxPos+2).lastIndexOf("innen");
-          String lastPart = StringTools.uppercaseFirstChar(sentenceTokens.get(idxPos+2).substring(idx + "innen".length()));
+          String lastPart = uppercaseFirstChar(sentenceTokens.get(idxPos+2).substring(idx + "innen".length()));
           taggerTokens = new ArrayList<>(getWordTagger().tag(lastPart));
         }
       }
@@ -401,11 +404,11 @@ public class GermanTagger extends BaseTagger {
           for (String tag : tagsForWeise) {
             readings.add(new AnalyzedToken(word, tag, word));
           }
-        } else if (!StringUtils.isAllBlank(word) && word.matches("[A-ZÖÄÜ][a-zöäüß]{2,25}mitarbeitenden?")) {
+        } else if (!StringUtils.isAllBlank(word) && mitarbeitendenPattern.matcher(word).matches()) {
           int idx = word.indexOf("mitarbeitende");
           String firstPart = word.substring(0, idx);  // we might tag invalid words, but that should be okay
           String lastPart = word.substring(idx);
-          List<TaggedWord> mitarbeitendeTags = getWordTagger().tag(StringTools.uppercaseFirstChar(lastPart));
+          List<TaggedWord> mitarbeitendeTags = getWordTagger().tag(uppercaseFirstChar(lastPart));
           for (TaggedWord mitarbeitendeTag : mitarbeitendeTags) {
             readings.add(new AnalyzedToken(word, mitarbeitendeTag.getPosTag(), firstPart+"mitarbeitende"));
           }
