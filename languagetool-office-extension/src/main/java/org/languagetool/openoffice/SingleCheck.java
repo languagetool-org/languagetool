@@ -380,7 +380,8 @@ class SingleCheck {
           for (int j = 0; j < paragraphsCache.size(); j++) {
             MessageHandler.printToLogFile("SingleCheck: remarkChangedParagraphs: Paragraph " + changedParas.get(i) + ": Cache " + j 
                     + ": Number of Errors = " 
-                    + (paragraphsCache.get(j).getMatches(changedParas.get(i)) == null ? "null" : paragraphsCache.get(j).getMatches(changedParas.get(i)).length));
+                    + (paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR) == null ? "null" 
+                        : paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR).length));
           }
         }
       }
@@ -924,8 +925,7 @@ class SingleCheck {
       if (nextSentencePositions.size() == 1) {
         List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
         for (ResultCache cache : paragraphsCache) {
-          CacheEntry cacheEntry = cache.getCacheEntry(numberOfParagraph);
-          errorList.add(cacheEntry == null ? null : cacheEntry.getErrorArray());
+          errorList.add(cache.getMatches(numberOfParagraph, errType));
         }
         sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), singleDocument.mergeErrors(errorList, numberOfParagraph)));
       } else {

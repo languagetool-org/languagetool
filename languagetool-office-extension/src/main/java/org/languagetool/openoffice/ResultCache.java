@@ -318,14 +318,25 @@ class ResultCache implements Serializable {
   /**
    * get Proofreading errors of on paragraph from cache
    */
-  SingleProofreadingError[] getMatches(int numberOfParagraph) {
+  SingleProofreadingError[] getMatches(int numberOfParagraph, LoErrorType errType) {
     rwLock.readLock().lock();
     try {
       SerialCacheEntry entry = entries.get(numberOfParagraph);
       if (entry == null) {
         return null;
       }
-      return entry.getErrorArray();
+      SingleProofreadingError[] errorArray = entry.getErrorArray();
+      if (errType == LoErrorType.BOTH || errorArray == null || errorArray.length == 0) {
+        return errorArray;
+      }
+      List<SingleProofreadingError> errorList = new ArrayList<>();
+      for (SingleProofreadingError eArray : errorArray) {
+        if ((errType == LoErrorType.GRAMMAR && eArray.nErrorType == TextMarkupType.PROOFREADING)
+            || (errType == LoErrorType.SPELL && eArray.nErrorType == TextMarkupType.SPELLCHECK)) {
+          errorList.add(eArray);
+        }
+      }
+      return errorList.toArray(new SingleProofreadingError[errorList.size()]);
     } finally {
       rwLock.readLock().unlock();
     }
@@ -629,6 +640,17 @@ class ResultCache implements Serializable {
      * Get an SingleProofreadingError array for one entry
      */
     SingleProofreadingError[] getErrorArray() {
+      SingleProofreadingError[] eArray = new SingleProofreadingError[errorArray.length];
+      for (int i = 0; i < errorArray.length; i++) {
+        eArray[i] = errorArray[i].toSingleProofreadingError();
+      }
+      return eArray;
+    }
+    
+    /**
+     * Get an SingleProofreadingError array for one entry of choosen error type
+     */
+    SingleProofreadingError[] getErrorArray(LoErrorType errType) {
       SingleProofreadingError[] eArray = new SingleProofreadingError[errorArray.length];
       for (int i = 0; i < errorArray.length; i++) {
         eArray[i] = errorArray[i].toSingleProofreadingError();
