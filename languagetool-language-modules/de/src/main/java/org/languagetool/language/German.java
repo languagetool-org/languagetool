@@ -29,6 +29,7 @@ import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -584,5 +585,9 @@ public class German extends Language implements AutoCloseable {
 
   public boolean hasMinMatchesRules() {
     return true;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return GermanMultitokenSpeller.INSTANCE;
   }
 }
