@@ -29,6 +29,7 @@ import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -531,6 +532,9 @@ public class German extends Language implements AutoCloseable {
     if (id.startsWith("DE_PROHIBITED_COMPOUNDS_")) {   // don't hide spelling mistakes
       return -4;
     }
+    if (id.startsWith("DE_MULTITOKEN_SPELLING")) {
+      return -2;
+    }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
     }
@@ -584,5 +588,9 @@ public class German extends Language implements AutoCloseable {
 
   public boolean hasMinMatchesRules() {
     return true;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return GermanMultitokenSpeller.INSTANCE;
   }
 }
