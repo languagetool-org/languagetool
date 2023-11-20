@@ -12810,6 +12810,25 @@ USA
         </rule>
 
 
+        <rule id='MADRUGADA_MATINAL' name="Simplificar: da madrugada/manhã → matinal" type="style" default='temp_off'>
+            <!--IDEA shorten_it-->
+            <pattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token regexp='yes'>[ao]s?</token>
+                <token regexp='yes' inflected='yes'>banho|chá|exercício|leite|névoa|orvalho|passeio|sexo|sol</token> <!-- Add more words as found -->
+                <marker>
+                    <token regexp='yes'>das?</token>
+                    <token regexp='yes'>madrugadas?|manhãs?</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion><match no='5' postag='NCF(.)000' postag_replace='AQ0C$10'>matinal</match></suggestion>
+            <example correction="matinal">Vamos fazer o exercício <marker>da madrugada</marker>.</example>
+            <example correction="matinal">Eu sempre tomo o banho <marker>da manhã</marker>.</example>
+            <example correction="matinal">Eu tinha o costume de dar o passeio <marker>da manhã</marker>.</example>
+        </rule>
+
+
         <!-- ISSO ACONTECE DESDE A ALTURA isso acontece desde então -->
         <rule id='DESDE_A_ALTURA_DESDE_ENTÃO' name="[Simplificar] Desde a altura → desde então" type='style'>
             <!--IDEA shorten_it-->
