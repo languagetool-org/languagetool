@@ -68,7 +68,7 @@ public class DutchTagger extends BaseTagger {
   public DutchTagger() {
     super("/nl/dutch.dict", new Locale("nl"));
   }
-  private final Set<String> alwaysNeedsHet = ImmutableSet.of(
+  private static final Set<String> alwaysNeedsHet = ImmutableSet.of(
           "patroon",
           "punt",
           "gemaal",
@@ -76,14 +76,14 @@ public class DutchTagger extends BaseTagger {
           "kussen",
           "deel"
   );
-  private final Set<String> alwaysNeedsDe = ImmutableSet.of(
+  private static final Set<String> alwaysNeedsDe = ImmutableSet.of(
           "keten",
           "boor",
           "dans",
           "stof",
           "veer"
   );
-  private final Set<String> alwaysNeedsMrv = ImmutableSet.of(
+  private static final Set<String> alwaysNeedsMrv = ImmutableSet.of(
           "pies",
           "koeken",
           "heden"
@@ -195,19 +195,20 @@ public class DutchTagger extends BaseTagger {
               String part1lc = part1.toLowerCase();
               for (AnalyzedToken part2Reading : part2Readings) {
                 if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().startsWith("ZNW")) {
-                  // if word2 is contained in these lists, just give it the tag and exit the loop
-                  if (alwaysNeedsHet.contains(part2)){
-                    l.add(new AnalyzedToken(word, "ZNW:EKV:HET", part1lc + part2Reading.getLemma()));
+                  String tag = null;
+                  if (alwaysNeedsHet.contains(part2)) {
+                    tag = "ZNW:EKV:HET";
+                  } else if (alwaysNeedsDe.contains(part2)) {
+                    tag = "ZNW:EKV:DE_";
+                  } else if (alwaysNeedsMrv.contains(part2)) {
+                    tag = "ZNW:MRV:DE_";
+                  } else {
+                    tag = part2Reading.getPOSTag();
+                  }
+                  l.add(new AnalyzedToken(word, tag, part1lc + part2Reading.getLemma()));
+                  // if any of these lists contain part2 of the compound, exit the loop after adding a single tag
+                  if (alwaysNeedsHet.contains(part2) || alwaysNeedsDe.contains(part2) || alwaysNeedsMrv.contains(part2)) {
                     break;
-                  } else if (alwaysNeedsDe.contains(part2)){
-                    l.add(new AnalyzedToken(word, "ZNW:EKV:DE_", part1lc + part2Reading.getLemma()));
-                    break;
-                  } else if (alwaysNeedsMrv.contains(part2)){
-                    l.add(new AnalyzedToken(word, "ZNW:MRV:DE_", part1lc + part2Reading.getLemma()));
-                    break;
-                  } else{
-                    //System.out.println("Adding " + word + " with postag " + part2Reading.getPOSTag() + ", part2 has lemma " + part2Reading.getLemma());
-                    l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part1lc + part2Reading.getLemma()));
                   }
                 }
               }
