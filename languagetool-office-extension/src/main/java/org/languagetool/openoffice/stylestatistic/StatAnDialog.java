@@ -30,6 +30,8 @@ import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -148,6 +150,12 @@ public class StatAnDialog extends Thread  {
     }
   }
   
+  private void closeDialog(WaitDialogThread waitdialog) {
+    cache.setNewResultcache(null, null);
+    dialog.setVisible(false);
+    waitdialog.close();
+  }
+  
   private boolean hasReadabilityRule() {
     for (Rule rule : rules) {
       if (rule instanceof ReadabilityRule) {
@@ -163,6 +171,30 @@ public class StatAnDialog extends Thread  {
     dialog.setTitle(dialogName);
     dialog.setMinimumSize(new Dimension(MIN_DIALOG_WIDTH, MIN_DIALOG_HEIGHT));
     dialog.setSize(new Dimension(dialogWidth, dialogHeight));
+    dialog.addWindowListener(new WindowListener() {
+      @Override
+      public void windowOpened(WindowEvent e) {
+      }
+      @Override
+      public void windowClosing(WindowEvent e) {
+        closeDialog(waitdialog);
+      }
+      @Override
+      public void windowClosed(WindowEvent e) {
+      }
+      @Override
+      public void windowIconified(WindowEvent e) {
+      }
+      @Override
+      public void windowDeiconified(WindowEvent e) {
+      }
+      @Override
+      public void windowActivated(WindowEvent e) {
+      }
+      @Override
+      public void windowDeactivated(WindowEvent e) {
+      }
+    });
 
     //  initiate
     try {
@@ -189,6 +221,7 @@ public class StatAnDialog extends Thread  {
       }
     } catch (Throwable e1) {
       MessageHandler.showError(e1);
+      closeDialog(waitdialog);
     }
 
     
@@ -287,7 +320,7 @@ public class StatAnDialog extends Thread  {
     cons.gridy++;
     JButton closeButton = new JButton(MESSAGES.getString("loStatisticalAnalysisCloseButton"));
     closeButton.addActionListener(e -> {
-      dialog.setVisible(false);
+      closeDialog(waitdialog);
     });
     contentPane.add(closeButton, cons);
     if (debugMode) {
@@ -689,13 +722,16 @@ public class StatAnDialog extends Thread  {
     if (debugMode) {
       MessageHandler.printToLogFile("refreshCache called (method = " + method + ")!");
     }
-    cache = new StatAnCache(document.getDocumentCache(), document.getMultiDocumentsHandler().getLanguageTool(), waitdialog);
+    cache = new StatAnCache(document, waitdialog);
   }
   
   private void runLevelSubDialog(Chapter chapter) throws Throwable {
     if (chapter != null && chapter.hierarchy < 0) {
       ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
-      viewCursor.setTextViewCursor(0, new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, chapter.from));
+      TextParagraph tPara = new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, chapter.from);
+      viewCursor.setTextViewCursor(0, tPara);
+      int nFPara = document.getDocumentCache().getFlatParagraphNumber(tPara);
+      cache.markParagraph(nFPara);
       return;
     }
     UIManager.put("ToolTip.foreground", Color.black);

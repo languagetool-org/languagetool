@@ -52,7 +52,7 @@ import com.sun.star.text.TextMarkupType;
  * @since 5.3
  * @author Fred Kruse, (including some methods developed by Marcin Miłkowski)
  */
-class SingleCheck {
+public class SingleCheck {
   
   /**
    * Full text Check:
@@ -156,16 +156,12 @@ class SingleCheck {
 */
     List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, locale, footnotePositions, paraNum, 
                                                                       startOfSentence, lt, textIsChanged, isIntern, errType);
-    startOfSentence = paragraphsCache.get(0).getStartSentencePosition(paraNum, startOfSentence);
     SingleProofreadingError[] errors = singleDocument.mergeErrors(pErrors, paraNum);
     if (debugMode > 1) {
       MessageHandler.printToLogFile("SingleCheck: getCheckResults: paRes.aErrors.length: " + errors.length 
           + "; docID: " + singleDocument.getDocID());
     }
     if (!isDisposed() && docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
-//      if (docCursor == null && !isDisposed()) {
-//        docCursor = new DocumentCursorTools(xComponent);
-//      }
       if (!isIntern && isDialogRequest && !textIsChanged) {
         List<Integer> changedParas = new ArrayList<Integer>();
         changedParas.add(paraNum);
@@ -380,7 +376,8 @@ class SingleCheck {
           for (int j = 0; j < paragraphsCache.size(); j++) {
             MessageHandler.printToLogFile("SingleCheck: remarkChangedParagraphs: Paragraph " + changedParas.get(i) + ": Cache " + j 
                     + ": Number of Errors = " 
-                    + (paragraphsCache.get(j).getMatches(changedParas.get(i)) == null ? "null" : paragraphsCache.get(j).getMatches(changedParas.get(i)).length));
+                    + (paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR) == null ? "null" 
+                        : paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR).length));
           }
         }
       }
@@ -767,7 +764,7 @@ class SingleCheck {
   /**
    * get beginning of next sentence using LanguageTool tokenization
    */
-  private List<Integer> getNextSentencePositions (String paraText, SwJLanguageTool lt) {
+  public static List<Integer> getNextSentencePositions (String paraText, SwJLanguageTool lt) {
     List<Integer> nextSentencePositions = new ArrayList<Integer>();
     if (paraText == null || paraText.isEmpty()) {
       nextSentencePositions.add(0);
@@ -924,17 +921,18 @@ class SingleCheck {
       if (nextSentencePositions.size() == 1) {
         List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
         for (ResultCache cache : paragraphsCache) {
-          CacheEntry cacheEntry = cache.getCacheEntry(numberOfParagraph);
-          errorList.add(cacheEntry == null ? null : cacheEntry.getErrorArray());
+          errorList.add(cache.getMatches(numberOfParagraph, errType));
         }
-        sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), singleDocument.mergeErrors(errorList, numberOfParagraph)));
+        sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), 
+            singleDocument.mergeErrors(errorList, numberOfParagraph)));
       } else {
         for (int nextPosition : nextSentencePositions) {
           List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
           for (ResultCache cache : paragraphsCache) {
             errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition, errType));
           }
-          sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, singleDocument.mergeErrors(errorList, numberOfParagraph)));
+          sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, 
+              singleDocument.mergeErrors(errorList, numberOfParagraph)));
           startPosition = nextPosition;
         }
       }
@@ -950,7 +948,7 @@ class SingleCheck {
     final int sentenceEnd;
     final SingleProofreadingError[] sentenceErrors;
     
-    SentenceErrors(int start, int end, SingleProofreadingError[] errors) {
+    public SentenceErrors(int start, int end, SingleProofreadingError[] errors) {
       sentenceStart = start;
       sentenceEnd = end;
       sentenceErrors = errors;

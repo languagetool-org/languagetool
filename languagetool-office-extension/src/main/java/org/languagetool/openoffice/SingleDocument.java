@@ -547,7 +547,7 @@ public class SingleDocument {
   /**
    *  Get flat paragraph tools of the document
    */
-  FlatParagraphTools getFlatParagraphTools() {
+  public FlatParagraphTools getFlatParagraphTools() {
     if (flatPara == null) {
       setFlatParagraphTools();
     }
@@ -557,7 +557,7 @@ public class SingleDocument {
   /**
    *  Get document cursor tools
    */
-  DocumentCursorTools getDocumentCursorTools() {
+  public DocumentCursorTools getDocumentCursorTools() {
     OfficeTools.waitForLO();
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
@@ -568,7 +568,7 @@ public class SingleDocument {
   /**
    *  Get document cache of the document
    */
-  List<ResultCache> getParagraphsCache() {
+  public List<ResultCache> getParagraphsCache() {
     return paragraphsCache;
   }
   
@@ -607,7 +607,7 @@ public class SingleDocument {
     mDocHandler.resetDocument();
   }
   
-  /**
+   /**
    * read caches from file
    */
   void readCaches() {
@@ -875,7 +875,11 @@ public class SingleDocument {
     }
   }
   
-  private void remarkChangedParagraphs(List<Integer> changedParas, List<Integer> toRemarkParas, boolean isIntern) {
+  /**
+   * set marks for a given list of changed paragraphs
+   * before: remove all marks of all paragraphs of a list of paragraphs to remark
+   */
+  public void remarkChangedParagraphs(List<Integer> changedParas, List<Integer> toRemarkParas, boolean isIntern) {
     if (!disposed) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage, docLanguage, 
           numParasToCheck, false, false, isIntern);
@@ -1138,11 +1142,13 @@ public class SingleDocument {
       return new SingleProofreadingError[0];
     }
     SingleProofreadingError[] errorArray = new SingleProofreadingError[errorCount];
-    errorCount = 0;
-    for (SingleProofreadingError[] pError : pErrors) {
-      if (pError != null) {
-        arraycopy(pError, 0, errorArray, errorCount, pError.length);
-        errorCount += pError.length;
+    if (pErrors != null) {
+      errorCount = 0;
+      for (SingleProofreadingError[] pError : pErrors) {
+        if (pError != null) {
+          arraycopy(pError, 0, errorArray, errorCount, pError.length);
+          errorCount += pError.length;
+        }
       }
     }
     Arrays.sort(errorArray, new ErrorPositionComparator());

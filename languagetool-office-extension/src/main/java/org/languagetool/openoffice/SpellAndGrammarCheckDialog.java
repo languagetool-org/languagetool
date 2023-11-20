@@ -500,7 +500,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * Get the proofreading result from cache
    */
-  @SuppressWarnings("null")
   SingleProofreadingError[] getErrorsFromCache(int nFPara) {
     int nWait = 0;
     boolean noNull = true;
