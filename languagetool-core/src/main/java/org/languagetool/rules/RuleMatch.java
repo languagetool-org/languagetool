@@ -172,7 +172,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.shortMessage = shortMessage;
     this.sentence = sentence;
     if (setOriginalErrorStr) {
-      this.setOriginalErroStr();
+      this.setOriginalErrorStr();
     }
     // extract suggestion from <suggestion>...</suggestion> in message:
     LinkedHashSet<SuggestedReplacement> replacements = new LinkedHashSet<>();
@@ -693,7 +693,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     }
   }
 
-  private void setOriginalErroStr() {
+  private void setOriginalErrorStr() {
     if (!this.originalErrorStr.isEmpty()) {
       return;
     }
