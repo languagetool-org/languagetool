@@ -552,7 +552,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (text == null || text.isEmpty() || x >= text.length() || !MultiDocumentsHandler.hasLocale(locale)) {
       return null;
     }
-    if (document.getDocumentType() == DocumentType.WRITER) {
+    if (document.getDocumentType() == DocumentType.WRITER && documents.getTextLevelCheckQueue() != null) {
       SingleProofreadingError[] errors = getErrorsFromCache(nFPara);
       if (errors == null) {
         return null;
@@ -572,6 +572,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
             if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                 && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
               error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+            } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+              List<String> suggestionList = new ArrayList<>();
+              for (String suggestion : error.aSuggestions) {
+                suggestionList.add(suggestion);
+              }
+              String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
+              for (String suggestion : suggestions) {
+                if (!suggestionList.contains(suggestion)) {
+                  suggestionList.add(suggestion);
+                }
+              }
+              error.aSuggestions = suggestionList.toArray(new String[0]);
             }
             return error;
           }
@@ -627,6 +639,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                     && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
                   error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+                } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+                  List<String> suggestionList = new ArrayList<>();
+                  for (String suggestion : error.aSuggestions) {
+                    suggestionList.add(suggestion);
+                  }
+                  String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
+                  for (String suggestion : suggestions) {
+                    if (!suggestionList.contains(suggestion)) {
+                      suggestionList.add(suggestion);
+                    }
+                  }
+                  error.aSuggestions = suggestionList.toArray(new String[0]);
                 }
                 return error;
               }
