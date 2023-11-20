@@ -104,6 +104,7 @@ public class GrammalecteRule extends Rule {
     "g2__bs_silence_assourdissant__b1_a1_1",
     "g1__eleu_élisions_manquantes__b1_a1_1", // picky
     "typo_tiret_incise1", // picky
+    "majuscule_après_point",
     "p_sigle2", // picky
     "g0__imp_verbes_composés_impératifs__b12_a2_1",
     "g0__imp_verbes_composés_impératifs__b12_a3_1",
@@ -392,6 +393,7 @@ public class GrammalecteRule extends Rule {
     "gv1__ppas_le_verbe_pensée__b1_a1_1",
     "gv1__ppas_nous_verbe_état__b2_a1_1",
     "gv1__ppas_être_accord_plur__b2_a1_1",
+    "gv1__ppas_être_accord_plur__b1_a1_1",
     "gv1__ppas_être_accord_sing__b1_a1_1",
     "gv2__conf_ait_confiance_été_faim_tort__b1_a2_1",
     "gv2__conj_les_nom__b1_a2_1",
@@ -417,6 +419,7 @@ public class GrammalecteRule extends Rule {
     "g3__infi_à_verbe__b3_a1_1",
     "g3__infi_de_verbe__b4_a1_1",
     "g3__infi_de_verbe__b5_a1_1",
+    "g3__infi_de_verbe__b6_a1_1",
     "g3__infi_savoir__b2_a1_1",
     "gv1__ppas_avoir__b2_a1_1",
     "gv1__ppas_avoir__b3_a1_1",
@@ -525,6 +528,7 @@ public class GrammalecteRule extends Rule {
     "g2__conf_faux_faut__b1_a1_1",
     "g2__conf_poing_point__b1_a1_1",
     "g3__conf_foi_fois_foie__b3_a1_1",
+    "g3__conf_faim_fin__b1_a1_1t",
     "gv2__conf_et_est2__b9_a1_1",
     "g3__conf_est_et__b4_a1_1",
     "g2__conf_près_prêt_pré__b3_a1_1",
@@ -533,6 +537,7 @@ public class GrammalecteRule extends Rule {
     "g2__conf_à_vconj__b3_a1_1",
     "gv1__ppas_être_confusion__b4_a4_1",
     "gv2__conj_moi_qui__b1_a1_1",
+    "gv2__conj_3sg_misc__b1_a1_1",
     "g3__gn_leur_2m__b1_a3_1",
     "g2__tu_pronoms_dits__b2_a1_1"
   ));
