@@ -264,6 +264,19 @@ public abstract class RemoteRule extends Rule {
           if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
             continue;
           }
+          // It is an orthography match, but the original word is in the dictionary
+          m.setOriginalErrorStr();
+          AnalyzedSentence sentence = null;
+          RuleMatch[] matches = null;
+          try {
+            sentence = lt.getAnalyzedSentence(m.getOriginalErrorStr());
+            matches = speller.match(sentence);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+          if (matches == null || matches.length == 0) {
+            continue;
+          }
         }
         if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
           List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
