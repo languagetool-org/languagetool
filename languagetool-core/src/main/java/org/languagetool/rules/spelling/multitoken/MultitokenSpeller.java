@@ -93,18 +93,29 @@ public class MultitokenSpeller {
         && StringTools.convertToTitleCaseIteratingChars(candidate).equals(word)) {
         return Collections.emptyList();
       }
-      List<Integer> distances = distancesPerWord(candidateLowercase, wordLowercase);
-      int distance = distances.stream().reduce(0, Integer::sum);
-      if (distance < 1) {
+      String[] candidateParts = SPACE_OR_DASH.split(candidateLowercase);
+      String[] wordParts = SPACE_OR_DASH.split(wordLowercase);
+      List<Integer> distances = distancesPerWord(candidateParts, wordParts, candidateLowercase, wordLowercase);
+      int totalDistance = distances.stream().reduce(0, Integer::sum);
+      if (totalDistance < 1) {
         weightedCandidates.clear();
         weightedCandidates.add(new WeightedSuggestion(candidate, 0));
         break;
       }
-      if (distances.stream().anyMatch(j -> j > 2)) {
+      boolean exceedsMaxDistancePerToken = false;
+      for (int i=0; i<distances.size(); i++) {
+        // usually 2, but 1 for short words
+        int maxDistance = (wordParts[i].length() > 4 ? 2: 1);
+        if (distances.get(i) > maxDistance) {
+          exceedsMaxDistancePerToken = true;
+          break;
+        }
+      }
+      if (exceedsMaxDistancePerToken) {
         continue;
       }
-      if (distance <= maxEditDistance(candidateLowercase, wordLowercase)) {
-        weightedCandidates.add(new WeightedSuggestion(candidate, distance));
+      if (totalDistance <= maxEditDistance(candidateLowercase, wordLowercase)) {
+        weightedCandidates.add(new WeightedSuggestion(candidate, totalDistance));
       }
     }
     if (weightedCandidates.isEmpty()) {
@@ -131,10 +142,8 @@ public class MultitokenSpeller {
     return (int) (2 + 0.25 * (correctLength - 7) - 0.6 * firstCharWrong);
   }
 
-  private List<Integer> distancesPerWord(String s1, String s2) {
+  private List<Integer> distancesPerWord(String[] parts1, String[] parts2, String s1, String s2) {
     List<Integer> distances = new ArrayList<>();
-    String[] parts1 = SPACE_OR_DASH.split(s1);
-    String[] parts2 = SPACE_OR_DASH.split(s2);
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
         distances.add(levenshteinDistance(parts1[i], parts2[i]));
@@ -175,7 +184,12 @@ public class MultitokenSpeller {
   }
 
   private int levenshteinDistance(String s1, String s2) {
-    return LevenshteinDistance.getDefaultInstance().apply(s1, s2);
+    int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);
+    // consider transpositions without having a Damerau-Levenshtein method
+    if (distance == 2 && StringTools.isAnagram(s1,s2)) {
+      distance--;
+    }
+    return distance;
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {
