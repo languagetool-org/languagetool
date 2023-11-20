@@ -25,6 +25,7 @@
 <!DOCTYPE rules [
         <!ENTITY anfauf "„|&quot;|»|›|‚|'">
         <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
+        <!ENTITY nbsp    "&#x00A0;"> <!-- no-break space -->
         ]>
 
 <!--suppress ProblematicWhitespace -->
@@ -62,6 +63,11 @@
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
 
         <rulegroup id="SWISS_GERMAN_NUMBER_FORMAT" name="Swiss German number format" default="temp_off">
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">\d+|[A-ZÄÖÜ]+</token>
+                <token regexp="yes">\d{5,9}</token>
+                <example>ISO 15924</example>
+            </antipattern>
             <rule><!--1 Vierergruppe-->
                 <pattern>
                     <token regexp="yes">[0-9]
@@ -80,6 +86,11 @@
                 <example correction="7589"><marker>7.589</marker> ist auch eine Nummer.</example>
             </rule>
             <rule><!--2 5 Ziffern-->
+                <antipattern>
+                    <token regexp="yes">\d{5}</token>
+                    <token case_sensitive="yes" postag="(EIG.*STD|UNKNOWN).*" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <example>20459 Hamburg</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">(\d)(\d)(\d{3})
                         <exception scope="next" regexp="yes">\d{1,9}</exception>
@@ -89,8 +100,8 @@
                     </token>
                 </pattern>
                 <message>Zahlen mit mehr als vier Ziffern werden beginnend mit der Endziffer in Dreiergruppen zerlegt.</message>
-                <suggestion><match no="1" regexp_match="(\d)(\d)(\d{3})" regexp_replace="$1$2 $3"></match></suggestion>
-                <example correction="39 452"><marker>39452</marker> ist eine Nummer.</example>
+                <suggestion><match no="1" regexp_match="(\d)(\d)(\d{3})" regexp_replace="$1$2&nbsp;$3"></match></suggestion>
+                <example correction="39&nbsp;452"><marker>39452</marker> ist eine Nummer.</example>
             </rule>
             <rule><!--3 5 Ziffern mit Punkt|Komma-->
                 <pattern>
@@ -105,8 +116,8 @@
                     </token>
                 </pattern>
                 <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
-                <suggestion>\1 \3</suggestion>
-                <example correction="82 903"><marker>82.903</marker> ist auch eine Nummer.</example>
+                <suggestion>\1&nbsp;\3</suggestion>
+                <example correction="82&nbsp;903"><marker>82.903</marker> ist auch eine Nummer.</example>
             </rule>
             <rule><!--4 6 Ziffern-->
                 <pattern>
@@ -118,8 +129,8 @@
                     </token>
                 </pattern>
                 <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen.</message>
-                <suggestion><match no="1" regexp_match="(\d{3})(\d{3})" regexp_replace="$1 $2"></match></suggestion>
-                <example correction="399 452"><marker>399452</marker> ist eine Nummer.</example>
+                <suggestion><match no="1" regexp_match="(\d{3})(\d{3})" regexp_replace="$1&nbsp;$2"></match></suggestion>
+                <example correction="399&nbsp;452"><marker>399452</marker> ist eine Nummer.</example>
             </rule>
             <rule><!--5 6 Ziffern mit Punkt|Komma-->
                 <pattern>
@@ -134,8 +145,8 @@
                     </token>
                 </pattern>
                 <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
-                <suggestion>\1 \3</suggestion>
-                <example correction="399 452"><marker>399.452</marker> ist eine Nummer.</example>
+                <suggestion>\1&nbsp;\3</suggestion>
+                <example correction="399&nbsp;452"><marker>399.452</marker> ist eine Nummer.</example>
             </rule>
             <rule><!--6 7+ Ziffern-->
                 <pattern>
@@ -147,8 +158,8 @@
                     </token>
                 </pattern>
                 <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
-                <suggestion><match no="1" regexp_match="(\d{1,3})(\d{3})(\d{3})" regexp_replace="$1 $2 $3"/></suggestion>
-                <example correction="399 452 456"><marker>399452456</marker> ist eine Nummer.</example>
+                <suggestion><match no="1" regexp_match="(\d{1,3})(\d{3})(\d{3})" regexp_replace="$1&nbsp;$2&nbsp;$3"/></suggestion>
+                <example correction="399&nbsp;452&nbsp;456"><marker>399452456</marker> ist eine Nummer.</example>
             </rule>
             <rule><!--7 7+ Ziffern mit Punkt|Komma-->
                 <pattern>
@@ -165,8 +176,8 @@
                     </token>
                 </pattern>
                 <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
-                <suggestion>\1 \3 \5</suggestion>
-                <example correction="399 452 456"><marker>399.452.456</marker> ist eine Nummer.</example>
+                <suggestion>\1&nbsp;\3&nbsp;\5</suggestion>
+                <example correction="399&nbsp;452&nbsp;456"><marker>399.452.456</marker> ist eine Nummer.</example>
             </rule>
         </rulegroup>
 
