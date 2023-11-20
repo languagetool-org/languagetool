@@ -81,7 +81,9 @@ public class DutchTagger extends BaseTagger {
           "boor",
           "dans",
           "stof",
-          "veer",
+          "veer"
+  );
+  private final Set<String> alwaysNeedsMrv = ImmutableSet.of(
           "pies",
           "koeken",
           "heden"
@@ -199,6 +201,9 @@ public class DutchTagger extends BaseTagger {
                     break;
                   } else if (alwaysNeedsDe.contains(part2)){
                     l.add(new AnalyzedToken(word, "ZNW:EKV:DE_", part1lc + part2Reading.getLemma()));
+                    break;
+                  } else if (alwaysNeedsMrv.contains(part2)){
+                    l.add(new AnalyzedToken(word, "ZNW:MRV:DE_", part1lc + part2Reading.getLemma()));
                     break;
                   } else{
                     //System.out.println("Adding " + word + " with postag " + part2Reading.getPOSTag() + ", part2 has lemma " + part2Reading.getLemma());
