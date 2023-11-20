@@ -1706,7 +1706,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    * @since 4.3
    */
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel languageModel) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
+    super(messages, language, language.getNonStrictCompoundSplitter(), () -> getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
