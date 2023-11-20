@@ -18422,9 +18422,9 @@ regexp case-insensitive maken: (?i)
 			<antipattern><token>schuil</token><token>gaat</token></antipattern>
 			<antipattern><token>de</token><token>war</token></antipattern>
 			<antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
-			<antipattern><token>no</token><token>time</token></antipattern>
 			<antipattern><token>wil</token><token regexp="yes">hij|zij|men|u</token></antipattern>
 			<antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
+			<antipattern><token>schuil</token><token>gaan</token></antipattern>
 			<antipattern>
 				<token><exception regexp="yes">[;,:]</exception></token>
 				<token postag="WKW:TGW:1EP"><exception regexp="yes">ben|word|heb|kan|zal</exception></token>
@@ -18482,7 +18482,10 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<pattern>
 					<marker>
-					    <token/>
+					    <token>
+					        <exception postag_regexp="yes" postag="DVW|UNKNOWN"/>
+					        <exception>no</exception>
+					    </token>
 						<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception><exception>ben</exception></token>
 					</marker>
 					<token negate="yes" regexp="yes">je|jij|jezelf|en|ze</token>
@@ -18494,6 +18497,8 @@ regexp case-insensitive maken: (?i)
 				<example correction="Het gaat|Het, ga|Het en ga"><marker>Het ga</marker> vaak fout.</example>
 				<example correction="Vriend doet|Vriend, doe|Vriend en doe"><marker>Vriend doe</marker> eens rustig.</example>
 			    <example>In de winter wil ze ook nog op skivakantie.</example>
+			    <example>Engelsen zeggen to help.</example>
+			    <example>Woorden die schuil gaan achter het lemma.</example>
 			</rule>
 			<rule>
 				<antipattern>
