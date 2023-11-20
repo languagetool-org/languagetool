@@ -68,7 +68,8 @@ public class CompoundAcceptor {
     "eindejaars",
     "etens",
     "allemans",
-    "afgods"
+    "afgods",
+    "varkens"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
