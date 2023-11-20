@@ -264,6 +264,8 @@ public abstract class RemoteRule extends Rule {
           if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
             continue;
           }
+        }
+        if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
           // It is an orthography match, but the original word is in the dictionary
           m.setOriginalErrorStr();
           AnalyzedSentence sentence = null;
@@ -277,8 +279,7 @@ public abstract class RemoteRule extends Rule {
           if (matches == null || matches.length == 0) {
             continue;
           }
-        }
-        if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
+          // filter out misspelled suggestions
           List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
             .filter(checkSpelling).collect(Collectors.toList());
           if (suggestedReplacements.isEmpty()) {
