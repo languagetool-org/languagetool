@@ -51,6 +51,9 @@ public class DutchTaggerTest {
 
     //Tag random accepted compound words
     TestTools.myAssert("oorlogsbeker", "oorlogsbeker/[oorlogsbeker]ZNW:EKV:DE_", tokenizer, tagger);
+    TestTools.myAssert("dorpswezen", "dorpswezen/[dorpswees]ZNW:MRV:DE_|dorpswezen/[dorpswezen]ZNW:EKV:HET", tokenizer, tagger);
+    TestTools.myAssert("varkensweer", "varkensweer/[varkensweer]ZNW:EKV:HET", tokenizer, tagger);
+    TestTools.myAssert("jongenstablet", "jongenstablet/[jongenstablet]ZNW:EKV:DE_|jongenstablet/[jongenstablet]ZNW:EKV:HET", tokenizer, tagger);
     TestTools.myAssert("passagierssituaties", "passagierssituaties/[passagierssituatie]ZNW:MRV:DE_", tokenizer, tagger);
 
     //As this does not end in "ings", should not be accepted by CompoundAcceptor
