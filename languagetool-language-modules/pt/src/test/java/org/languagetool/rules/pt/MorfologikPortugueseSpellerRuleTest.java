@@ -311,6 +311,10 @@ public class MorfologikPortugueseSpellerRuleTest {
     // each given incorrectly spelt word
     assertSingleErrorWithNegativeSuggestion("pwta", ltBR, ruleBR, "puta");
     assertSingleErrorWithNegativeSuggestion("bâbaca", ltBR, ruleBR, "babaca");
+    assertSingleErrorWithNegativeSuggestion("redardado", ltBR, ruleBR, "retardado");
+    assertSingleErrorWithNegativeSuggestion("cagguei", ltBR, ruleBR, "caguei");
+    assertSingleErrorWithNegativeSuggestion("bucetas", ltBR, ruleBR, "bocetas");
+    assertSingleErrorWithNegativeSuggestion("mongolóide", ltBR, ruleBR, "mongoloide");
   }
 
   @Test
