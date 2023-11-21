@@ -257,9 +257,10 @@ public class Portuguese extends Language implements AutoCloseable {
       case "PT_DIACRITICS_REPLACE":                    return -45;  // prefer over spell checker
       case "DIACRITICS":                               return -45;
       case "PT_COMPOUNDS_POST_REFORM":                 return -45;
-      case "AUX_VERBO":                                return -45;
-      case "PRETERITO_PERFEITO":                       return -51;  // lower than speller
-      case "PT_BR_SIMPLE_REPLACE":                     return -51;  // lower than speller
+      case "AUX_VERBO":                                return -45;  // HIGHER THAN SPELLER
+      // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
+      case "PRETERITO_PERFEITO":                       return -51;  // LOWER THAN SPELLER
+      case "PT_BR_SIMPLE_REPLACE":                     return -51;
       case "CRASE_CONFUSION":                          return -54;
       case "NAO_MILITARES":                            return -54;
       case "NA_QUELE":                                 return -54;

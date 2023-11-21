@@ -64,8 +64,8 @@ public class MorfologikPortugueseSpellerRuleTest {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals(length, matches.length);
     if (matches.length > 0) {
+//      System.out.println(matches[0].getSuggestedReplacements());
       List<String> returnedSuggestions = getFirstSuggestions(matches[0], 5);
-//      System.out.println(returnedSuggestions);
       assert returnedSuggestions.containsAll(Arrays.asList(suggestions));
     }
   }
@@ -185,13 +185,46 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("Shintaro Wada", ltBR, ruleBR, new String[]{"Shuntar"});
   }
 
+  public void testPortugueseHyphenatedClitics(JLanguageTool lt, MorfologikPortugueseSpellerRule rule) throws Exception {
+    assertNoErrors("diz-se", lt, rule);
+    assertNoErrors("fá-lo-á", lt, rule);
+    assertNoErrors("dir-lhe-ia", lt, rule);
+    assertNoErrors("amar-nos-emos", lt, rule);
+    assertNoErrors("dê-mo", lt, rule);
+    assertNoErrors("fizemo-lo", lt, rule);
+    assertNoErrors("compramo-lo", lt, rule);
+    assertNoErrors("apercebemo-nos", lt, rule);
+    assertNoErrors("referirmo-nos", lt, rule);
+    assertNoErrors("amamo-las", lt, rule);
+    assertNoErrors("mantínhamo-nos", lt, rule);
+    assertNoErrors("qui-lo", lt, rule);
+    assertNoErrors("fi-lo", lt, rule);
+    assertNoErrors("fê-lo", lt, rule);
+    assertNoErrors("trá-las", lt, rule);
+    assertNoErrors("pu-las", lt, rule);
+  }
+
   @Test
-  public void testPortugueseHyphenatedClitics() throws Exception {
-    assertNoErrors("diz-se", ltBR, ruleBR);
-    assertNoErrors("fá-lo-á", ltBR, ruleBR);
-    assertNoErrors("dir-lhe-ia", ltBR, ruleBR);
-    assertNoErrors("amar-nos-emos", ltBR, ruleBR);
-    assertNoErrors("dê-mo", ltBR, ruleBR);
+  public void testEuropeanPortugueseHyphenatedClitics() throws Exception {
+    testPortugueseHyphenatedClitics(ltPT, rulePT);
+  }
+
+  @Test
+  public void testBrazilianPortugueseHyphenatedClitics() throws Exception {
+    testPortugueseHyphenatedClitics(ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerDoesNotAcceptVerbFormsWithElidedConsonants() throws Exception {
+    // These will need to be accepted until the tokenisation is made to work with pt-BR better.
+    // We will, for now, have an XML rule to correct these (id: ELISAO_VERBAL_DESNECESSARIA).
+    // Once we rework the tokenisation logic, these will need to be single error assertions!
+    assertNoErrors("amávamo", ltBR, ruleBR);
+    assertNoErrors("fizemo", ltBR, ruleBR);
+    assertNoErrors("compramo", ltBR, ruleBR);
+    assertNoErrors("pusemo", ltBR, ruleBR);
+    assertNoErrors("fazê", ltBR, ruleBR);
+    assertNoErrors("fi", ltBR, ruleBR);  // 'fi-lo'
   }
 
   @Test
@@ -418,10 +451,43 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("16.2kW", ltBR, ruleBR);
   }
 
-  @Test public void testPortugueseSpellerIgnoresNonstandardTimeFormat() throws Exception {
+  @Test
+  public void testPortugueseSpellerIgnoresNonstandardTimeFormat() throws Exception {
     // Disambiguator rule; this is a style/typography issue to be taken care of in XML rules
     assertNoErrors("31h40min", ltBR, ruleBR);
     assertNoErrors("1h20min3s", ltBR, ruleBR);
     assertNoErrors("13:30h", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerIgnoresLaughterOnomatopoeia() throws Exception {
+    // Disambiguator rule
+    assertNoErrors("hahahahaha", ltBR, ruleBR);
+    assertNoErrors("heheh", ltBR, ruleBR);
+    assertNoErrors("huehuehuehue", ltBR, ruleBR);
+    assertNoErrors("Kkkkkkk", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerRecognisesMonthAbbreviations() throws Exception {
+    // Month abbreviations are subject to special rules; as such, they're not handled the same way as other
+    // abbreviations. It's prob. better to have XML rules to deal with capitalisation, the absence of full stops, etc.
+    assertNoErrors("23/jan", ltBR, ruleBR);
+    assertNoErrors("9/Dez/2069", ltBR, ruleBR);  // we need to target the capitalisation here with an XML rule
+    assertSingleError("10/feb/2010", ltBR, ruleBR, new String[]{"fev"});
+  }
+
+  @Test
+  public void testPortugueseSpellerRecognisesRomanNumerals() throws Exception {
+    // Disambiguator rule group "ROMAN_NUMBER"
+    assertNoErrors("XVIII", ltBR, ruleBR);
+    assertNoErrors("xviii", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerIgnoresIsolatedGreekLetters() throws Exception {
+    // Disambiguator rule
+    assertNoErrors("ξ", ltBR, ruleBR);
+    assertNoErrors("Ω", ltBR, ruleBR);
   }
 }
