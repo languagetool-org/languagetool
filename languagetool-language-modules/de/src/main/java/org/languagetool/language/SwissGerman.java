@@ -85,9 +85,7 @@ public class SwissGerman extends German {
 
   @Override
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
-    List<Rule> rules = super.getRelevantRemoteRules(messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
-    rules.removeIf(rule -> rule.getId().startsWith("AI_DE_GGEC"));
-    return rules;
+    return super.getRelevantRemoteRules(messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
   }
 
   @Override

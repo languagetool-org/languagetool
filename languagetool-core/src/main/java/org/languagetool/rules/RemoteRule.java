@@ -273,6 +273,21 @@ public abstract class RemoteRule extends Rule {
           }
           m.setSuggestedReplacementObjects(suggestedReplacements);
         }
+        // TODO: make configurable
+        if (ruleLanguage.getShortCodeWithCountryAndVariant().matches("de-(AT|CH)") && id.matches("AI_DE_GGEC_.*ORTHOGRAPHY.*")) {
+          try {
+            m.setOriginalErrorStr();
+            AnalyzedSentence sentence = lt.getAnalyzedSentence(m.getOriginalErrorStr());
+            RuleMatch[] matches = speller.match(sentence);
+            if (matches.length == 0) {
+              //System.out.println("3) skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
+              continue;
+            }
+            //System.out.println("3) not skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }
         result.add(m);
     }
     return result;
