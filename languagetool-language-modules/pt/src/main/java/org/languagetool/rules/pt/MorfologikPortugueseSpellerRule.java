@@ -50,6 +50,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   private final Map<String, String> dialectAlternationMapping;
   private static final PortugueseTagger tagger = new PortugueseTagger();
   private static final PortugueseSynthesizer synth = PortugueseSynthesizer.INSTANCE;
+  // Moved out of hunspell/spelling.txt for Morfologik.
+  private static final String SPELLING_FILE = "pt/spelling.txt";
+  private static final String MULTIWORDS_FILE = "pt/multiwords.txt";
 
 
   @Override
@@ -209,7 +212,7 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public List<String> getAdditionalSpellingFileNames() {
-    return Arrays.asList(SpellingCheckRule.GLOBAL_SPELLING_FILE, "/pt/multiwords.txt");
+    return Arrays.asList(SpellingCheckRule.GLOBAL_SPELLING_FILE, SPELLING_FILE, MULTIWORDS_FILE);
   }
 
   private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches,

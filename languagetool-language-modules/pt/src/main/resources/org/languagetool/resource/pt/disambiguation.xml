@@ -2687,7 +2687,6 @@
         <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
       </pattern>
       <disambig postag="ZRCN0"/>
-      <disambig action="ignore_spelling"/>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -2696,7 +2695,6 @@
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
-      <disambig action="ignore_spelling"/>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -2706,7 +2704,6 @@
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
-      <disambig action="ignore_spelling"/>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -2717,7 +2714,6 @@
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
-      <disambig action="ignore_spelling"/>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -2728,7 +2724,6 @@
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
-      <disambig action="ignore_spelling"/>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -2738,12 +2733,70 @@
         </marker>
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
-      <disambig action="ignore_spelling"/>
     </rule>
-    <rule>
+  </rulegroup>
+
+  <rulegroup id="ROMAN_NUMBER_IGNORE_SPELLING" name="Ignore spelling for Roman numbers">
+      <!-- Due to limitations, duplicates the regexes above, adding only the ignore_spelling action -->
+      <!-- Don't modify this itself, it's best to modify ROMAN_NUMBER, copy it here, and change only the disambig -->
+
+    <rule> <!-- NOT COPIED from the rule above... -->
       <pattern case_sensitive="no">
         <token regexp="yes">(?:xc|x?l|l?x{0,3})(?:ix|i{0,3}|iv|v|vi{0,3})</token>
         <token spacebefore='no'>)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token postag="SENT_START"/>
+        <marker>
+          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>-</token>
+        <marker>
+          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>-</token>
+        <marker>
+          <token regexp="yes">[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+</token>
+        </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

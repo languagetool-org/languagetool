@@ -306,6 +306,12 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testPortugueseSpellingSpellingTXT() throws Exception {
+    assertNoErrors("xávega", ltBR, ruleBR);
+    assertNoErrors("thirties", ltPT, rulePT);
+  }
+
+  @Test
   public void testPortugueseSpellingDoesNotSuggestOffensiveWords() throws Exception {
     // some words should not be suggested; this test makes sure they are *not* in the returned suggestions for
     // each given incorrectly spelt word
