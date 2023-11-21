@@ -259,36 +259,36 @@ public abstract class RemoteRule extends Rule {
     };
 
     for (RuleMatch m : sentenceMatches) {
-        String id = m.getRule().getId();
-        if (suppressMisspelledMatch != null && suppressMisspelledMatch.matcher(id).matches()) {
-          if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
+      String id = m.getRule().getId();
+      if (suppressMisspelledMatch != null && suppressMisspelledMatch.matcher(id).matches()) {
+        if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
+          continue;
+        }
+      }
+      if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
+        List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
+          .filter(checkSpelling).collect(Collectors.toList());
+        if (suggestedReplacements.isEmpty()) {
+          continue;
+        }
+        m.setSuggestedReplacementObjects(suggestedReplacements);
+      }
+      // TODO: make configurable
+      if (ruleLanguage.getShortCodeWithCountryAndVariant().matches("de-(AT|CH)") && id.matches("AI_DE_GGEC_.*ORTHOGRAPHY.*")) {
+        try {
+          m.setOriginalErrorStr();
+          AnalyzedSentence sentence = lt.getAnalyzedSentence(m.getOriginalErrorStr());
+          RuleMatch[] matches = speller.match(sentence);
+          if (matches.length == 0) {
+            //System.out.println("3) skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
             continue;
           }
+          //System.out.println("3) not skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
+        } catch (IOException e) {
+          throw new RuntimeException(e);
         }
-        if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
-          List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
-            .filter(checkSpelling).collect(Collectors.toList());
-          if (suggestedReplacements.isEmpty()) {
-            continue;
-          }
-          m.setSuggestedReplacementObjects(suggestedReplacements);
-        }
-        // TODO: make configurable
-        if (ruleLanguage.getShortCodeWithCountryAndVariant().matches("de-(AT|CH)") && id.matches("AI_DE_GGEC_.*ORTHOGRAPHY.*")) {
-          try {
-            m.setOriginalErrorStr();
-            AnalyzedSentence sentence = lt.getAnalyzedSentence(m.getOriginalErrorStr());
-            RuleMatch[] matches = speller.match(sentence);
-            if (matches.length == 0) {
-              //System.out.println("3) skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
-              continue;
-            }
-            //System.out.println("3) not skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-        }
-        result.add(m);
+      }
+      result.add(m);
     }
     return result;
   }
