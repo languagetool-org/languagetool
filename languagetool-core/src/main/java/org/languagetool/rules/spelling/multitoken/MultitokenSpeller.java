@@ -79,7 +79,7 @@ public class MultitokenSpeller {
     for (Map.Entry<String, String> entry : set.entrySet()) {
       String candidateLowercase = entry.getValue();
       String candidate = entry.getKey();
-      if (isException(word, candidate)) {
+      if (isException(originalWord, candidate)) {
         break;
       }
       if (candidate.equals(originalWord)) {
