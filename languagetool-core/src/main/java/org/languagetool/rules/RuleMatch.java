@@ -693,7 +693,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     }
   }
 
-  private void setOriginalErrorStr() {
+  public void setOriginalErrorStr() {
     if (!this.originalErrorStr.isEmpty()) {
       return;
     }
