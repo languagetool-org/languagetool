@@ -415,7 +415,7 @@ abstract class TextChecker {
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, config.getUntrustedReferrers().stream().anyMatch(s -> s.contains(referrer)));
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
