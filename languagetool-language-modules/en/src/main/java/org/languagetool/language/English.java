@@ -641,6 +641,7 @@ public class English extends Language implements AutoCloseable {
       case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
+      case "SEEMS_TO_BE":               return -51;  // prefer SEEM_APPEAR
       case "MD_NN":                     return -60;  // prefer PRP_MD_NN
       case "I_THINK_FEEL":              return -60;
       case "KNOW_AWARE_REDO":           return -60;
