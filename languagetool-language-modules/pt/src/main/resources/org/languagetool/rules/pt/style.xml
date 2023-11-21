@@ -125,6 +125,7 @@ USA
         </rulegroup>
 
 
+
         <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags="clarity">
         <!-- TO-DO: DI.+ ; It will require messing with the antipattern since DI.+ is more than a mere "[ao]s?" from DA.+ -->
             <antipattern>
@@ -146,6 +147,18 @@ USA
                 <example>Tom normalmente vai para a escola com a Mary.</example>
                 <example>O homem que normalmente ama sob o sol adora arrebatadamente sob a lua.</example>
                 <example>Uma tempestade estava supostamente presente durante a aterrissagem.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='RM'/>
+                <token postag='VMIP1.+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
+                <example>Ao estudarmos, mais fácil e rapidamente alcançamos os resultados pretendidos.</example>
+                <example>Eu normalmente lavo a louça.</example>
+                <example>Em francês, raramente omitimos o sujeito.</example>
+                <example>Eu realmente detesto a escrita formal!</example>
+                <example>Nós realmente vimos o acidente.</example>
             </antipattern>
 
             <pattern>
@@ -225,6 +238,17 @@ USA
                 <example>Em 1931, o diretor de animação Bob Clampett, que na época trabalhava para Warner Bros.</example>
                 <example>Apresentado como um correspondente estrangeiro, antes destemido, mas que no momento trabalhava em relações públicas em Darwin.</example>
                 <example>Ela patrocinava um conhecido lutador de artes marciais mistas, Conor McGregor, que em retorno promovia a empresa através das mídias sociais.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>que</token>
+                <token regexp='yes'>ainda|às?|aos?|até|cada|em|embora|mais|menos|muit[ao]s?|n[ao]s?</token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='VMIP3.+' postag_regexp='yes'/>
+                <example>Desde 1950 que muitos matemáticos estudam as equações de Pedro.</example>
+                <example>Tenho certeza que muitas pessoas conhecem.</example>
+                <example>...mais fortes características desse "duelo" de personagens que se contrapõem durante o texto, mas que ao final precisam um do outro para existir.</example>
+                <example>Experiência é o nome que muitas pessoas dão para seus erros.</example>
             </antipattern>
 
             <pattern>
