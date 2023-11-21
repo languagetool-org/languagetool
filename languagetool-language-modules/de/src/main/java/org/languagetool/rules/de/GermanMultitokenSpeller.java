@@ -32,4 +32,12 @@ public class GermanMultitokenSpeller extends MultitokenSpeller {
       Arrays.asList("/de/multitoken-suggest.txt", "/spelling_global.txt"));
   }
 
+  @Override
+  protected boolean isException(String original, String candidate) {
+    if (original.endsWith("s") && original.substring(0, original.length()-1).equals(candidate)) {
+      return true;
+    }
+    return false;
+  }
+
 }

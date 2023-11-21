@@ -79,6 +79,9 @@ public class MultitokenSpeller {
     for (Map.Entry<String, String> entry : set.entrySet()) {
       String candidateLowercase = entry.getValue();
       String candidate = entry.getKey();
+      if (isException(word, candidate)) {
+        break;
+      }
       if (candidate.equals(originalWord)) {
         break;
       }
@@ -288,6 +291,10 @@ public class MultitokenSpeller {
         return true;
       }
     }
+    return false;
+  }
+
+  protected boolean isException(String original, String candidate) {
     return false;
   }
 
