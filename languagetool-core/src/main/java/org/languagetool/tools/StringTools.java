@@ -654,7 +654,7 @@ public final class StringTools {
   
   /**
    * Difference between two strings (only one difference)
-   * @return: List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
+   * @return List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
    * @since 6.2
    */
   
