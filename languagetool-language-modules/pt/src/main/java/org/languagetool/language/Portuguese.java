@@ -215,7 +215,7 @@ public class Portuguese extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
-    if (id.startsWith("MORFOLOGIK_SPELLER")) {
+    if (id.startsWith("MORFOLOGIK_RULE")) {
       return -50;
     }
 

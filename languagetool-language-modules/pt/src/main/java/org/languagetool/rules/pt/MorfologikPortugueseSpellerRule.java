@@ -74,7 +74,7 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public String getId() {
-    return "MORFOLOGIK_SPELLER_"
+    return "MORFOLOGIK_RULE_"
       + language.getShortCodeWithCountryAndVariant().replace("-", "_").toUpperCase();
   }
 

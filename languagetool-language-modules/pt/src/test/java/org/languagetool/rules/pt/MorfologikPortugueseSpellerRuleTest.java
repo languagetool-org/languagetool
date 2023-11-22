@@ -120,9 +120,9 @@ public class MorfologikPortugueseSpellerRuleTest {
     String brMessage = "Possível erro de ortografia: esta é a grafia utilizada no português europeu.";
     String ptMessage = "Possível erro de ortografia: esta é a grafia utilizada no português brasileiro.";
     assertNoErrors(sentenceBR, ltBR, ruleBR);
-    assertSingleExactError(sentencePT, ltBR, ruleBR, sentenceBR, brMessage, "MORFOLOGIK_SPELLER_PT_BR_DIALECT");
+    assertSingleExactError(sentencePT, ltBR, ruleBR, sentenceBR, brMessage, "MORFOLOGIK_RULE_PT_BR_DIALECT");
     assertNoErrors(sentencePT, ltPT, rulePT);
-    assertSingleExactError(sentenceBR, ltPT, rulePT, sentencePT, ptMessage, "MORFOLOGIK_SPELLER_PT_PT_DIALECT");
+    assertSingleExactError(sentenceBR, ltPT, rulePT, sentencePT, ptMessage, "MORFOLOGIK_RULE_PT_PT_DIALECT");
   }
 
   private void assertTwoWayOrthographicAgreementError(String sentence90, String sentence45) throws IOException {
@@ -146,9 +146,9 @@ public class MorfologikPortugueseSpellerRuleTest {
     // Just make sure that the rule ID suffix applies correctly.
     RuleMatch[] matches = ruleBR.match(ltBR.getAnalyzedSentence("Vâmos detetar problèmas."));
     assert matches.length == 3;
-    assert Objects.equals(matches[0].getSpecificRuleId(), "MORFOLOGIK_SPELLER_PT_BR");  // Vâmos
-    assert Objects.equals(matches[1].getSpecificRuleId(), "MORFOLOGIK_SPELLER_PT_BR_DIALECT");  // detetar (pt-PT!)
-    assert Objects.equals(matches[2].getSpecificRuleId(), "MORFOLOGIK_SPELLER_PT_BR");  // problèmas
+    assert Objects.equals(matches[0].getSpecificRuleId(), "MORFOLOGIK_RULE_PT_BR");  // Vâmos
+    assert Objects.equals(matches[1].getSpecificRuleId(), "MORFOLOGIK_RULE_PT_BR_DIALECT");  // detetar (pt-PT!)
+    assert Objects.equals(matches[2].getSpecificRuleId(), "MORFOLOGIK_RULE_PT_BR");  // problèmas
   }
 
   public void testPortugueseSpelling(JLanguageTool lt, MorfologikPortugueseSpellerRule rule) throws Exception {
@@ -421,14 +421,14 @@ public class MorfologikPortugueseSpellerRuleTest {
   public void testPortugueseDiaeresis() throws Exception {
     assertSingleExactError("pingüim", ltBR, ruleBR, "pinguim",
       "No mais recente acordo ortográfico, não se usa mais o trema no português.",
-      "MORFOLOGIK_SPELLER_PT_BR");
+      "MORFOLOGIK_RULE_PT_BR");
   }
 
   @Test
   public void testEuropeanPortugueseStyle1PLPastTenseCorrectedInBrazilian() throws Exception {
     assertSingleExactError("amámos", ltBR, ruleBR, "amamos",
       "No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.",
-      "MORFOLOGIK_SPELLER_PT_BR_DIALECT");
+      "MORFOLOGIK_RULE_PT_BR_DIALECT");
   }
 
   @Test
