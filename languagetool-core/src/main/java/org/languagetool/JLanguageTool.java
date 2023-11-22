@@ -635,10 +635,14 @@ public class JLanguageTool {
   }
 
   public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
-    List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs,
+    List<RemoteRuleConfig> remoteRuleConfigs = new ArrayList<>(configs);
+    if (userConfig.isUntrustedSource()) {
+      remoteRuleConfigs = configs.stream().filter(remoteRuleConfig -> !remoteRuleConfig.getOptions().getOrDefault("onlyTrustedSources", "false").equals("true")).collect(Collectors.toList());
+    }
+    List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), remoteRuleConfigs,
       globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
     userRules.addAll(rules);
-    Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), configs, userConfig, motherTongue, altLanguages, inputLogging);
+    Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), remoteRuleConfigs, userConfig, motherTongue, altLanguages, inputLogging);
     transformRules(enhanced, builtinRules);
     transformRules(enhanced, userRules);
     ruleSetCache.clear();
