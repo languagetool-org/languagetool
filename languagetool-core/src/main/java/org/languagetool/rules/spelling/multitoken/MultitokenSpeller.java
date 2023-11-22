@@ -80,9 +80,11 @@ public class MultitokenSpeller {
       String candidateLowercase = entry.getValue();
       String candidate = entry.getKey();
       if (isException(originalWord, candidate)) {
+        weightedCandidates.clear();
         break;
       }
       if (candidate.equals(originalWord)) {
+        weightedCandidates.clear();
         break;
       }
       // require that the first letter is correct to speed up the generation of suggestions even more

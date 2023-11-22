@@ -34,8 +34,10 @@ public class GermanMultitokenSpeller extends MultitokenSpeller {
 
   @Override
   protected boolean isException(String original, String candidate) {
-    if (original.endsWith("s") && original.substring(0, original.length()-1).equals(candidate)) {
-      return true;
+    if (original.substring(0, original.length()-1).equals(candidate)) {
+      if (original.endsWith("s") || original.endsWith("-")) {
+        return true;
+      }
     }
     return false;
   }
