@@ -26470,7 +26470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">me|que|se</token>
-                <token regexp="yes">dí|dá|dáis|dara</token>
+                <token regexp="yes">dí|dá|dáis|dara|daran</token>
             </antipattern>
             <antipattern>
                 <token>en</token>
@@ -26482,7 +26482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>y</token>
-                <token regexp="yes">aqui|aca</token>
+                <token regexp="yes">aqui|aca|acidos</token>
             </antipattern>
             <antipattern>
                 <token>la</token>
@@ -26500,15 +26500,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>a</token>
                 <token>fín</token>
             </antipattern>
+            <antipattern>
+                <token>mi</token>
+                <token>nina</token>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">muestras?</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">\p{L}+</token>
-                    <token postag="UNKNOWN" regexp="yes">\p{L}+</token>
+                    <token postag="UNKNOWN" regexp="yes">\p{L}+<exception regexp="yes">pidio|daran|r|rien|rie</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
                 <message>¿Quería decir <suggestion>\1\2</suggestion>?</message>
                 <example correction="consejos">Los <marker>con sejos</marker> que le da.</example>
                 <example>Bueno, es fruta en lata.</example>
+                <example>Le pidio ayuda</example>
             </rule>
             <rule>
                 <pattern>
