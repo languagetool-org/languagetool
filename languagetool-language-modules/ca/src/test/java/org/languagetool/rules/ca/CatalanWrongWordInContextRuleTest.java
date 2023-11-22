@@ -33,8 +33,9 @@ public class CatalanWrongWordInContextRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    CatalanWrongWordInContextRule rule = new CatalanWrongWordInContextRule(null);
-    JLanguageTool lt = new JLanguageTool(new Catalan());
+    Catalan catalan = new Catalan();
+    CatalanWrongWordInContextRule rule = new CatalanWrongWordInContextRule(null, catalan);
+    JLanguageTool lt = new JLanguageTool(catalan);
     
     //assertEquals(1, rule.match(lt.getAnalyzedSentence("La policia feia d'escolta.")).length);
     //assertEquals(0, rule.match(lt.getAnalyzedSentence("La policia feia escoltes telefòniques.")).length);
