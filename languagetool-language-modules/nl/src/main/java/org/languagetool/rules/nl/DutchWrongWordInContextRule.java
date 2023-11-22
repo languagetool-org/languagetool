@@ -20,12 +20,13 @@ package org.languagetool.rules.nl;
 
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
-  public DutchWrongWordInContextRule(ResourceBundle messages) {
-    super(messages);
+  public DutchWrongWordInContextRule(ResourceBundle messages, Language lang) {
+    super(messages, lang);
   }
   
   @Override
@@ -40,7 +41,7 @@ public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "Woordverwarring";
+    return "Woordverwarring: $match";
   }
   
   @Override

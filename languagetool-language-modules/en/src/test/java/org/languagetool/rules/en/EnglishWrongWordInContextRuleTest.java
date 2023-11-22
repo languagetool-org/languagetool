@@ -25,6 +25,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.Languages;
 
 public class EnglishWrongWordInContextRuleTest {
@@ -34,8 +35,9 @@ public class EnglishWrongWordInContextRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
-    rule = new EnglishWrongWordInContextRule(null);
+    Language english = Languages.getLanguageForShortCode("en-US");
+    lt = new JLanguageTool(english);
+    rule = new EnglishWrongWordInContextRule(null, english);
   }
 
   @Test

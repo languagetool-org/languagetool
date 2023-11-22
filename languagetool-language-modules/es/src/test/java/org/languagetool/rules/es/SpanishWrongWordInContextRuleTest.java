@@ -34,8 +34,9 @@ public class SpanishWrongWordInContextRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SpanishWrongWordInContextRule rule = new SpanishWrongWordInContextRule(null);
-    JLanguageTool lt = new JLanguageTool(new Spanish());
+    Spanish spanish = new Spanish();
+    SpanishWrongWordInContextRule rule = new SpanishWrongWordInContextRule(null, spanish);
+    JLanguageTool lt = new JLanguageTool(spanish);
     
     // infligir / infringir
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Le infringió un duro castigo"));

@@ -20,13 +20,14 @@ package org.languagetool.rules.en;
 
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class EnglishWrongWordInContextRule extends WrongWordInContextRule {
 
-  public EnglishWrongWordInContextRule(ResourceBundle messages) {
-    super(messages);
+  public EnglishWrongWordInContextRule(ResourceBundle messages, Language lang) {
+    super(messages, lang);
     addExamplePair(Example.wrong("I have <marker>proscribed</marker> you a course of antibiotics."),
                    Example.fixed("I have <marker>prescribed</marker> you a course of antibiotics."));
   }
@@ -43,7 +44,7 @@ public class EnglishWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "commonly confused words (proscribe/prescribe, heroine/heroin etc.)";
+    return "commonly confused words: $match";
   }
   
   @Override
