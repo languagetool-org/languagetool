@@ -71,6 +71,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "cunt",
     "germane", // confused with German
     "double check",
+    "flat screen", // flatscreen
     "java script",
     "off topic",
     "hard coding",

@@ -607,6 +607,7 @@ public class English extends Language implements AutoCloseable {
       case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
       case "VERB_APOSTROPHE_S":   return -12;    // prefer AI
       case "SENT_START_PRPS_JJ_NN_VBP": return -12;  // prefer AI
+      case "TO_AFTER_MODAL_VERBS": return -12;  // prefer AI
       case "SINGULAR_NOUN_ADV_AGREEMENT": return -12;  // prefer AI
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
