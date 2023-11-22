@@ -27,6 +27,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -42,6 +44,7 @@ import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -52,9 +55,11 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.MessageHandler;
@@ -87,7 +92,7 @@ public class StatAnDialog extends Thread  {
   private final static int dialogWidth = 640;
   private final static int dialogHeight = 600;
   private final static int MIN_OPTION_WIDTH = 260;
-  private final static int MIN_OPTION_HEIGHT = 170;
+  private final static int MIN_OPTION_HEIGHT = 330;
   
   private JDialog dialog;
   private Container contentPane;
@@ -198,11 +203,11 @@ public class StatAnDialog extends Thread  {
 
     //  initiate
     try {
+      config = new StatAnConfiguration(rules);
       if (cache == null || lastComponent == null || !lastComponent.equals(xComponent)) {
         lastComponent = xComponent;
           refreshCache(document, waitdialog);
       }
-      config = new StatAnConfiguration(rules);
       selectedRule = rules.get(method);
       isLevelRule = isLevelRule(selectedRule);
       if (isLevelRule) {
@@ -438,17 +443,28 @@ public class StatAnDialog extends Thread  {
     //  Define right panel
     rightPanel.removeAll();
     rightPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons21 = new GridBagConstraints();
+    GridBagConstraints cons20 = new GridBagConstraints();
+    cons20.insets = new Insets(2, 4, 2, 4);
+    cons20.gridx = 0;
+    cons20.gridy = 0;
+    cons20.fill = GridBagConstraints.NONE;
+    cons20.anchor = GridBagConstraints.NORTHWEST;
+    cons20.weightx = 1.0;
+    cons20.weighty = 1.0;
+    
     //  Option panel
-    cons21.insets = new Insets(2, 4, 2, 4);
+    JPanel optionPanel = new JPanel();
+    optionPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons21 = new GridBagConstraints();
+    cons21.insets = new Insets(4, 4, 4, 4);
     cons21.gridx = 0;
     cons21.gridy = 0;
     cons21.fill = GridBagConstraints.NONE;
     cons21.anchor = GridBagConstraints.NORTHWEST;
-    cons21.weightx = 0.0;
-    cons21.weighty = 0.0;
+    cons21.weightx = 1.0;
+    cons21.weighty = 1.0;
     optionLabel = new JLabel (MESSAGES.getString("loStatisticalAnalysisOptionsLabel") + ":");
-    rightPanel.add(optionLabel, cons21);
+    optionPanel.add(optionLabel, cons21);
     withoutDirectSpeech = new JCheckBox(MESSAGES.getString("loStatisticalAnalysisWithoutDirectSpreech"));
     if (config == null) {
       MessageHandler.showMessage("config == null");
@@ -476,16 +492,21 @@ public class StatAnDialog extends Thread  {
     stepPanel.add(stepLabel2, cons22);
     // ***
     cons21.gridy++;
-    rightPanel.add(withoutDirectSpeech, cons21);
+    optionPanel.add(stepPanel, cons21);
     cons21.gridx++;
-    defaultButton = new JButton(MESSAGES.getString("loStatisticalAnalysisDefaultButton"));
-    rightPanel.add(defaultButton, cons21);
+    optionPanel.add(setButton, cons21);
+
     cons21.gridx = 0;
     cons21.gridy++;
-    rightPanel.add(stepPanel, cons21);
+    optionPanel.add(withoutDirectSpeech, cons21);
     cons21.gridx++;
-    rightPanel.add(setButton, cons21);
+    defaultButton = new JButton(MESSAGES.getString("loStatisticalAnalysisDefaultButton"));
+    optionPanel.add(defaultButton, cons21);
     setLevelRuleOptions();
+    rightPanel.add(optionPanel, cons20);
+    cons20.gridy++;
+    cons20.insets = new Insets(6, 4, 2, 4);
+    rightPanel.add(getColorOptionsPanel(), cons20);
     if (debugMode) {
       MessageHandler.printToLogFile("Right panel defined");
     }
@@ -722,7 +743,7 @@ public class StatAnDialog extends Thread  {
     if (debugMode) {
       MessageHandler.printToLogFile("refreshCache called (method = " + method + ")!");
     }
-    cache = new StatAnCache(document, waitdialog);
+    cache = new StatAnCache(document, config, waitdialog);
   }
   
   private void runLevelSubDialog(Chapter chapter) throws Throwable {
@@ -731,7 +752,7 @@ public class StatAnDialog extends Thread  {
       TextParagraph tPara = new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, chapter.from);
       viewCursor.setTextViewCursor(0, tPara);
       int nFPara = document.getDocumentCache().getFlatParagraphNumber(tPara);
-      cache.markParagraph(nFPara);
+      cache.markParagraph(nFPara, config.getUnderlineType(), config.getUnderlineColor());
       return;
     }
     UIManager.put("ToolTip.foreground", Color.black);
@@ -1059,6 +1080,159 @@ public class StatAnDialog extends Thread  {
       this.parent = parent;
     }
   }
+  
+  private String[] getUnderlineTypes() {
+    String[] types = {
+        MESSAGES.getString("guiUTypeWave"),
+        MESSAGES.getString("guiUTypeBoldWave"),
+        MESSAGES.getString("guiUTypeBold"),
+        MESSAGES.getString("guiUTypeDash")};
+    return types;
+  }
+
+  private int getUnderlineType() {
+    short nType = config.getUnderlineType();
+    if (nType == Configuration.UNDERLINE_BOLDWAVE) {
+      return 1;
+    } else if (nType == Configuration.UNDERLINE_BOLD) {
+      return 2;
+    } else if (nType == Configuration.UNDERLINE_DASH) {
+      return 3;
+    } else {
+      return 0;
+    }
+  }
+
+  private void setUnderlineType(int index) {
+    if (index == 1) {
+      config.setUnderlineType(Configuration.UNDERLINE_BOLDWAVE);
+    } else if (index == 2) {
+      config.setUnderlineType(Configuration.UNDERLINE_BOLD);
+    } else if (index == 3) {
+      config.setUnderlineType(Configuration.UNDERLINE_DASH);
+    } else {
+      config.setUnderlineType((short) 0);
+    }
+  }
+
+  /**  Panel to choose underline Colors
+   *   and rule options (if exists)
+   *   @since 5.3
+   */
+  @NotNull
+  private JPanel getColorOptionsPanel() {
+    //  Color Panel
+    JPanel colorPanel = new JPanel();
+    colorPanel.setLayout(null);
+    colorPanel.setBounds(0, 0, 120, 10);
+    colorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+    colorPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons1 = new GridBagConstraints();
+    cons1.insets = new Insets(5, 5, 5, 5);
+    cons1.gridx = 0;
+    cons1.gridy = 0;
+    cons1.weightx = 0.0f;
+    cons1.fill = GridBagConstraints.NONE;
+    cons1.anchor = GridBagConstraints.NORTHWEST;
+
+    JLabel underlineStyle = new JLabel(MESSAGES.getString("guiUColorStyleLabel") + " ");
+    colorPanel.add(underlineStyle);
+
+    JLabel underlineLabel = new JLabel(" \u2588\u2588\u2588 ");  // \u2587 is smaller
+    underlineLabel.setForeground(config.getUnderlineColor());
+    underlineLabel.setBackground(config.getUnderlineColor());
+
+    JComboBox<String> underlineType = new JComboBox<>(getUnderlineTypes());
+    underlineType.setSelectedIndex(getUnderlineType());
+    underlineType.addItemListener(e -> {
+      if (e.getStateChange() == ItemEvent.SELECTED) {
+        setUnderlineType(underlineType.getSelectedIndex());
+        try {
+          config.saveConfiguration();
+        } catch (Throwable e1) {
+          MessageHandler.showError(e1);
+        }
+      }
+    });
+    JPanel showPanel = new JPanel();
+    showPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons11 = new GridBagConstraints();
+    cons11.insets = new Insets(0, 0, 0, 0);
+    cons11.gridx = 0;
+    cons11.gridy = 0;
+    cons11.weightx = 0.0f;
+    cons11.fill = GridBagConstraints.NONE;
+    cons11.anchor = GridBagConstraints.NORTHWEST;
+    showPanel.add(underlineType, cons11);
+    cons11.gridx++;
+    showPanel.add(underlineLabel, cons11);
+
+    cons1.gridy++;
+    colorPanel.add(showPanel, cons1);
+    
+    JPanel buttonPanel = new JPanel();
+    showPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons12 = new GridBagConstraints();
+    cons12.insets = new Insets(0, 0, 0, 0);
+    cons12.gridx = 0;
+    cons12.gridy = 0;
+    cons12.weightx = 0.0f;
+    cons12.fill = GridBagConstraints.NONE;
+    cons12.anchor = GridBagConstraints.NORTHWEST;
+    JButton changeButton = new JButton(MESSAGES.getString("guiUColorChange"));
+    changeButton.addActionListener(e -> {
+      Color oldColor = underlineLabel.getForeground();
+      dialog.setAlwaysOnTop(false);
+      JColorChooser colorChooser = new JColorChooser(oldColor);
+      ActionListener okActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          Color newColor = colorChooser.getColor();
+          if(newColor != null && !newColor.equals(oldColor)) {
+            underlineLabel.setForeground(newColor);
+            underlineLabel.setBackground(newColor);
+            config.setUnderlineColor(newColor);
+            try {
+              config.saveConfiguration();
+            } catch (Throwable e1) {
+              MessageHandler.showError(e1);
+            }
+          }
+          dialog.setAlwaysOnTop(true);
+        }
+      };
+      // For cancel selection, change button background to red
+      ActionListener cancelActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          dialog.setAlwaysOnTop(true);
+        }
+      };
+      JDialog colorDialog = JColorChooser.createDialog(dialog, MESSAGES.getString("guiUColorDialogHeader"), true,
+          colorChooser, okActionListener, cancelActionListener);
+      colorDialog.setAlwaysOnTop(true);
+      colorDialog.toFront();
+      colorDialog.setVisible(true);
+    });
+    buttonPanel.add(changeButton, cons12);
+  
+    JButton defaultButton = new JButton(MESSAGES.getString("guiUColorDefault"));
+    defaultButton.addActionListener(e -> {
+      config.setDefaultUnderlineColor();
+      underlineLabel.setForeground(config.getUnderlineColor());
+      config.setUnderlineType((short) 0);
+      underlineType.setSelectedIndex(getUnderlineType());
+    });
+    cons12.gridx++;
+    buttonPanel.add(defaultButton, cons12);
+    
+    cons1.gridy++;
+    colorPanel.add(buttonPanel, cons1);
+    colorPanel.setVisible(true);
+    // End of Color Panel
+
+    return colorPanel;
+  }
+  
 
 
 }

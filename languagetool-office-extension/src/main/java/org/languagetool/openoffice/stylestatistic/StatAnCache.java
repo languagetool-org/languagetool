@@ -72,9 +72,11 @@ public class StatAnCache {
   private String actRuleId = null;
   private int lastPara = -1;
   private SwJLanguageTool lt;
+  private StatAnConfiguration config;
   
-  public StatAnCache(SingleDocument document, WaitDialogThread waitdialog) {
+  public StatAnCache(SingleDocument document, StatAnConfiguration conf, WaitDialogThread waitdialog) {
     this.document = document;
+    config = conf;
     lt = document.getMultiDocumentsHandler().getLanguageTool();
     docCache = document.getDocumentCache();
     
@@ -247,7 +249,8 @@ public class StatAnCache {
   /**
    * get all errors of a Paragraph as list
    */
-  private List<SentenceErrors> getSentencesErrosAsList(int numberOfParagraph, String sRuleId, ResultCache sCache) {
+  private List<SentenceErrors> getSentencesErrosAsList(int numberOfParagraph, String sRuleId, 
+      short lineType, Color lineColor, ResultCache sCache) {
     List<SentenceErrors> sentenceErrors = new ArrayList<SentenceErrors>();
     List<ResultCache> paragraphsCache = document.getParagraphsCache();
     CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
@@ -271,6 +274,7 @@ public class StatAnCache {
       }
       if (sRuleId != null && sCache != null) {
         sErrors = sCache.getMatches(numberOfParagraph, LoErrorType.GRAMMAR);
+        sErrors = addPropertiesToErrors(sErrors, lineType, lineColor);
       }
       sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), 
           mergeErrors(errorList, sErrors, sRuleId, numberOfParagraph)));
@@ -282,6 +286,7 @@ public class StatAnCache {
         }
         if (sRuleId != null && sCache != null) {
           sErrors = sCache.getFromPara(numberOfParagraph, startPosition, nextPosition, LoErrorType.GRAMMAR);
+          sErrors = addPropertiesToErrors(sErrors, lineType, lineColor);
         }
         sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, 
             mergeErrors(errorList, sErrors, sRuleId, numberOfParagraph)));
@@ -297,7 +302,7 @@ public class StatAnCache {
    */
   public void setNewResultcache(String ruleId, ResultCache sCache) {
     if (actRuleId != null && lastPara >= 0) {
-      remarkChangedParagraph(lastPara, null, null);
+      remarkChangedParagraph(lastPara, null, (short) 0, null, null);
       lastPara = -1;
     }
     actRuleId = ruleId;
@@ -308,13 +313,13 @@ public class StatAnCache {
    * remark a paragraph
    * reset a paragraph if necessary
    */
-  public void markParagraph (int nPara) {
+  public void markParagraph (int nPara, short lineType, Color lineColor) {
     if (actRuleId != null) {
       if (lastPara >= 0) {
-        remarkChangedParagraph(lastPara, null, null);
+        remarkChangedParagraph(lastPara, null, (short) 0, null, null);
       }
       lastPara = nPara;
-      remarkChangedParagraph(lastPara, actRuleId, statAnCache);
+      remarkChangedParagraph(lastPara, actRuleId, lineType, lineColor, statAnCache);
     }
   }
 
@@ -322,10 +327,10 @@ public class StatAnCache {
    * remark changed paragraph
    * override existing marks
    */
-  private void remarkChangedParagraph(int nFPara, String sRuleId, ResultCache sCache) {
+  private void remarkChangedParagraph(int nFPara, String sRuleId, short lineType, Color lineColor, ResultCache sCache) {
     Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
     List <TextParagraph> toRemarkTextParas = new ArrayList<>();
-    List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(nFPara, sRuleId, sCache);
+    List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(nFPara, sRuleId, lineType, lineColor, sCache);
     changedParasMap.put(nFPara, sentencesErrors);
     toRemarkTextParas.add(docCache.getNumberOfTextParagraph(nFPara));
     DocumentCursorTools docCursor = document.getDocumentCursorTools();
@@ -350,6 +355,26 @@ public class StatAnCache {
       errors[i] = createLoError(ruleMatches[i]);
     }
     return errors;
+  }
+  
+  private SingleProofreadingError[] addPropertiesToErrors(SingleProofreadingError[] errors, short lineType, Color lineColor) {
+    if (errors == null) {
+      return null;
+    }
+    for (int i = 0; i < errors.length; i++) {
+      errors[i] = addPropertiesToError(errors[i], lineType, lineColor);
+    }
+    return errors;
+  }
+
+  
+  private SingleProofreadingError addPropertiesToError(SingleProofreadingError error, short lineType, Color lineColor) {
+    int ucolor = lineColor.getRGB() & 0xFFFFFF;
+    PropertyValue[] propertyValues = new PropertyValue[2];
+    propertyValues[0] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
+    propertyValues[1] = new PropertyValue("LineType", -1, lineType, PropertyState.DIRECT_VALUE);
+    error.aProperties = propertyValues;
+    return error;
   }
   
   /**
@@ -388,13 +413,7 @@ public class StatAnCache {
     aError.nErrorStart = ruleMatch.getFromPos();
     aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
     aError.aRuleIdentifier = ruleMatch.getRule().getId();
-    Color underlineColor = new Color(0, 180, 180);
-    int ucolor = underlineColor.getRGB() & 0xFFFFFF;
-    PropertyValue[] propertyValues = new PropertyValue[2];
-    propertyValues[0] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
-    propertyValues[1] = new PropertyValue("LineType", -1, Configuration.UNDERLINE_BOLDWAVE, PropertyState.DIRECT_VALUE);
-    aError.aProperties = propertyValues;
-    return aError;
+    return addPropertiesToError(aError, config.getUnderlineType(), config.getUnderlineColor());
   }
 
   
