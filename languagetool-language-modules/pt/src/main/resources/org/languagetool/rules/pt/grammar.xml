@@ -12419,35 +12419,523 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rule id='PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS' name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
-            <!-- Created by Tiago F. Santos, 2017-03-10 -->
             <pattern>
                 <token postag_regexp='yes' postag='V.+' regexp='yes'>.+(?:m|ão|õe)$</token>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                <token regexp='yes' spacebefore='no'>[oa]s?</token>
+                <marker>
+                    <token regexp='yes' spacebefore='no'>[oa]s?</token>
+                </marker>
             </pattern>
-            <message>As ênclises terminadas em m, ão ou õe exigem alteração do pronome.</message>
-            <suggestion>\1-n\3</suggestion>
+            <message>O pronome &quot;\3&quot; se transforma em <suggestion>n\3</suggestion> quando em ênclise após uma vogal nasal.</message>
             <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
-            <example correction='tinham-no'>Muitos <marker>tinham-o</marker>  como um bom amigo.</example>
+            <example correction='no'>Muitos tinham-<marker>o</marker> como um bom amigo.</example>
+            <example correction="nas">Põe-<marker>as</marker> na primeira gaveta.</example>
             <example>Eu tinha-o como um bom amigo.</example>
         </rule>
 
         <rule id='PRONOMIAL_COLOCATIONS_ADJUSTMENT_LOS' name='Colocações pronomiais: ênclise com o infinitivo (lo, la, los, las)'>
-            <!-- Created by Tiago F. Santos, 2017-03-10 -->
             <pattern>
                 <token postag_regexp='yes' postag='V.+' regexp='yes'>.+(?:r|s|z)$</token>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
                 <token regexp='yes' spacebefore='no'>[oa]s?</token>
             </pattern>
-            <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
-            <suggestion><match no='1' regexp_match='(.+)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
+            <message>Em ênclises após formas verbais terminadas por &quot;r&quot;, &quot;s&quot; ou &quot;z&quot;, o pronome &quot;\3&quot; e a forma verbal se modificam.</message>
+            <suggestion><match no='1' postag_regexp="yes" postag="(V.+)" postag_replace="$1X"/>-l\3</suggestion>
             <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
-            <example correction='Come-las'>Estas entradas são deliciosas. Vá! <marker>Comer-as</marker>.</example>
+            <example correction='Comê-las'>Estas entradas são deliciosas. Vá! <marker>Comer-as</marker>.</example>
+            <example correction="parti-lo">Você precisa <marker>partir-o</marker> em dois pedaços.</example>
+            <example correction="fê-lo">E <marker>fez-o</marker> de maneira estranha.</example>
+            <example correction="bebê-lo">Mas <marker>beber-o</marker>-ia se não contivesse cafeína.</example>
             <example>Ele teve-a como perdida.</example>
         </rule>
 
-        <rulegroup id='PRONOMIAL_COLOCATIONS_NEGATIONS' name='Colocações pronomiais: próclises por negações'>
-            <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-11 -->
+        <rulegroup id="MESOCLISE_DE_VERBOS_IRREGULARES" name="Mesóclise com infinitivo de verbos irregulares" default="temp_off">
+            <!-- Must be placed AFTER the rules that correct improper enclitic/mesoclitic pronoun forms. -->
+            <rule id="MESOCLISE_DE_VERBOS_IRREGULARES_DIZER_DIZÊ">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*diz(ê|er)</token>
+                    </marker>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no" regexp="yes">&pronomes_obliquos;</token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                </pattern>
+                <message>Os tempos futuros do verbo &quot;dizer&quot; e seus derivados têm formação irregular, mesmo em mesóclises.</message>
+                <suggestion><match no="1" regexp_match="(.*di)z(?:ê|e(r))" regexp_replace="$1$2"/></suggestion>
+                <example correction="dir">Nunca <marker>dizer</marker>-lhe-ia a verdade.</example>
+                <example correction="Condir"><marker>Condizer</marker>-lhe-á.</example>
+            </rule>
+
+            <rule id="MESOCLISE_DE_VERBOS_IRREGULARES_AZER">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*(f|tr)azer</token>
+                    </marker>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no" regexp="yes">&pronomes_obliquos;</token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                </pattern>
+                <message>Os tempos futuros do verbo &quot;<match no="1" regexp_match=".*((?:f|tr)azer)" regexp_replace="$1"/>&quot; e seus derivados têm formação irregular, mesmo em mesóclises.</message>
+                <suggestion><match no="1" regexp_match="(.*(?:f|tr)a)ze(r)" regexp_replace="$1$2"/></suggestion>
+                <example correction="trar">Nunca <marker>trazer</marker>-lhe-ia um presente.</example>
+                <example correction="Satisfar"><marker>Satisfazer</marker>-me-á.</example>
+            </rule>
+
+            <rule id="MESOCLISE_DE_VERBOS_IRREGULARES_AZÊ">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*(f|tr)azê</token>
+                    </marker>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no" regexp="yes">&pronomes_obliquos;</token>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                </pattern>
+                <message>Os tempos futuros do verbo &quot;<match no="1" regexp_match=".*((?:f|tr)az)ê" regexp_replace="$1er"/>&quot; e seus derivados têm formação irregular, mesmo em mesóclises.</message>
+                <suggestion><match no="1" regexp_match="(.*(?:f|tr))azê" regexp_replace="$1á"/></suggestion>
+                <example correction="trá">Nunca <marker>trazê</marker>-lo-ia sem embrulhar.</example>
+                <example correction="Satisfá"><marker>Satisfazê</marker>-lo-á.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="COLOCACAO_PRONOMINAL_COM_ATRATOR" name="Preferir próclise em vez de ênclise e mesóclise com atratores" default="temp_off">
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
+            <antipattern>
+                <token postag_regexp="yes" postag="D.+"/>
+                <token>caso</token>
+                <example>O caso tornou-se um escândalo de saúde após a morte de várias crianças imunizadas…</example>
+            </antipattern>
+            <!-- Must be placed AFTER the rules that correct improper enclitic/mesoclitic pronoun forms. -->
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_SIMPLES">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.+[^X]$"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[mst]e|lhes?|(lh|[mt])?[oa]s?|vos</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>\5 \3</suggestion>
+                <example correction="o beba">Não <marker>beba-o</marker>.</example>
+                <example correction="lhe diga">Nunca <marker>diga-lhe</marker> a verdade.</example>
+                <example correction="te conhecia">Já eu <marker>conhecia-te</marker> naquela época.</example>
+                <example correction="lhe dar">Ainda <marker>dar-lhe</marker> um presente é boa idea.</example>
+                <example correction="vos deram">Todos eles <marker>deram-vos</marker> um bom exemplo.</example>
+                <example correction="te recebemos">Sabes que <marker>recebemos-te</marker> de braços abertos.</example>
+                <example correction="me couber">Se <marker>couber-me</marker> fazê-lo, tentarei.</example>
+                <!-- From old rule -->
+                <example correction="me diga">Não <marker>diga-me</marker> isso.</example>
+                <example correction="te farei">Nunca <marker>farei-te</marker> essa promessa.</example>
+                <example correction="se propôs">Ninguém <marker>propôs-se</marker> a fazer o relatório de contas.</example>
+                <example>Ao juntar-se mostrou-se pronto.</example>
+                <example correction='se admiram'>Todos eles <marker>admiram-se</marker> da sua perseverança.</example>
+                <example correction='se admiram'>Todos <marker>admiram-se</marker> da sua perseverança.</example>
+                <example correction='me persuadiu'>Foi então que algo <marker>persuadiu-me</marker> a continuar.</example>
+                <example correction='lhe contou'>Quem <marker>contou-lhe</marker> essa notícia?</example>
+                <example correction='lhe tenha'>É natural que ela <marker>tenha-lhe</marker> dado notícia.</example>
+                <example>…l durante seu governo) e um dos pontos utilizados para atraí-los era, evidentemente, o apoio à construção de rodov…</example>
+                <example>…ao juntar-se mostrou-se…</example>
+                <example correction='te tirei'>Só <marker>tirei-te</marker> o brinquedo, porque te portaste mal</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_MOS">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <token regexp="yes">.+[eair]mo$</token>
+                        <!-- <token postag_regexp="yes" postag="V.+X" regexp="yes">.+mo$</token> <] [> requires changes to POS tagger -->
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">nos|l[oa]s?</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <!-- <suggestion><match no="4" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="2" postag_regexp="yes" postag="(V.+)X" postag_replace="$1"/></suggestion> -->
+                <suggestion><match no="5" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="3" regexp_match="(.+)" regexp_replace="$1s"/></suggestion>
+                <example correction="o bebemos">Não <marker>bebemo-lo</marker>.</example>
+                <example correction="nos atrasamos">Ora <marker>atrasamo-nos</marker>, ora chegamos cedo.</example>
+                <example correction="as conhecíamos">Já <marker>conhecíamo-las</marker> naquela época.</example> <!-- this is a null tag -->
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_NASAL_NAO_AMBIGUO">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.+" regexp="yes">.+(ão|õe|m)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">nas?|no</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="5" regexp_match="n([oa]s?)" regexp_replace="$1"/> \3</suggestion>
+                <example correction="o dão">Não <marker>dão-no</marker> a ninguém.</example>
+                <example correction="as têm">Todos <marker>têm-nas</marker> na mão.</example> <!-- this is a null tag -->
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_NASAL_AMBIGUO_NOS">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.+" regexp="yes">.+(ão|õe|m)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no">nos</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>nos \3</suggestion> <!-- 'nos' after a nasal can be 1PL or 3PL.MASC -->
+                <suggestion>os \3</suggestion>
+                <example correction="nos puseram|os puseram">Nunca <marker>puseram-nos</marker> em primeiro lugar.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_ELISAO">
+                <!-- Apparently, for so-called 'loose infinitives' (their phrasing), pronoun placement is free, so we exclude infinitives. -->
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.[^N].+X"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[l][oa]s?</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="5" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="3" postag_regexp="yes" postag="(V.+)X" postag_replace="$1"/></suggestion>
+                <example>Nunca fazê-lo não é boa ideia.</example>
+                <example>Para conhecê-las melhor, faça perguntas.</example>
+                <example correction="o quis">Fi-lo porque <marker>qui-lo</marker>.</example>
+                <example>Nunca fá-lo-ia desta maneira!</example>  <!-- mesoclitic sub-rule below ;) -->
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_ELISAO_FUT_SUBJ_REG">
+                <pattern>
+                    <token regexp="yes">se|que|quando|onde</token>
+                    <token min="0" postag_regexp="yes" postag="R."/>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.+X$"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[l][oa]s?</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="5" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="3" postag_regexp="yes" postag="(V.+)X" postag_replace="$1"/></suggestion>
+                <example correction="o entender">Quando <marker>entendê-lo</marker>, dir-te-ei.</example>
+                <example correction="as comprar">Se <marker>comprá-las</marker>, gastará muito dinheiro.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_ELISAO_FUT_SUBJ_IRREG">
+                <pattern>
+                    <token regexp="yes">se|que|quando|onde</token>
+                    <token min="0" postag_regexp="yes" postag="R."/>
+                    <marker>
+                        <token regexp="yes">.+(é)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[l][oa]s?</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="5" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="3" regexp_match="(.+)é" regexp_replace="$1er"/></suggestion>
+                <example correction="as fizer">Quando <marker>fizé-las</marker>, dir-te-ei.</example>
+                <example correction="o souber">Se <marker>soubé-lo</marker>, mando uma mensagem.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_MESOCLISE_SIMPLES_REG">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <!-- doesn't take into account irregular future stems like 'trar-lhe-ia', 'far-nos-á', etc., because those aren't tagged as INF -->
+                        <token postag_regexp="yes" postag="V.N.+[^X]$"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[nv]os|lh[oae]s?|[mts]e|[mt][oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>\5 \3\7</suggestion>
+                <example correction="lhe contarei">Só <marker>contar-lhe-ei</marker> o que der.</example>
+                <example correction="te chamaria">Não <marker>chamar-te-ia</marker> a essa hora!</example>
+                <example>Não dir-lhe-ei nada.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_MESOCLISE_SIMPLES_IRREG">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <token regexp="yes" postag_regexp="yes" postag="V.+" negate_pos="yes">.*(dir|far|trar)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[nv]os|lh[oae]s?|[mts]e|[mt][oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>\5 \3\7</suggestion>
+                <example correction="lhe direi">Não <marker>dir-lhe-ei</marker> nada.</example>
+                <example correction="nos fariam">Já <marker>far-nos-iam</marker> um enorme favor...</example>
+                <example correction="me trarão">Sonhei que <marker>trar-me-ão</marker> muita alegria.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_MESOCLISE_ELISAO_REG">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <!-- doesn't take into account irregular future stems like 'trar-lhe-ia', 'far-nos-á', etc., because those aren't tagged as INF -->
+                        <token postag_regexp="yes" postag="V.N.+X$"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">l[oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="5" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="3" postag_regexp="yes" postag="(V.+)X$" postag_replace="$1"/>\7</suggestion>
+                <example correction="a amarei">Não <marker>amá-la-ei</marker> enquanto usar aquele chapéu.</example>
+                <example correction="os entenderia">Acho que <marker>entendê-los-ia</marker> melhor se os tentasse conhecer.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_MESOCLISE_ELISAO_IRREG_A">
+                <pattern>
+                    <token regexp="yes">&introduz_proclise;|&negacoes;
+                        <exception scope="previous" spacebefore="no">-</exception>
+                    </token>
+                    <token min="0" regexp="yes">&pronomes_retos;</token>
+                    <marker>
+                        <token regexp="yes" postag_regexp="yes" postag="V.+">.*(fá|trá)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">l[oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="5" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="3" regexp_match="(.+)á" regexp_replace="$1ar"/>\7</suggestion>
+                <example correction="o faríamos">Já <marker>fá-lo-íamos</marker> se pudéssemos...</example>
+                <example correction="as traremos">Disse que <marker>trá-las-emos</marker> no sábado.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO" name="Preferir próclise em vez de ênclise e mesóclise com atratores complexos" default="temp_off">
+            <!-- Must be placed AFTER the rules that correct improper enclitic/mesoclitic pronoun forms. -->
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_ENCLISE_SIMPLES">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.+[^X]$"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[mst]e|lhes?|(lh|[mt])?[oa]s?|vos</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>\6 \4</suggestion>
+                <example correction="o bebi">De maneira nenhuma <marker>bebi-o</marker>.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_ENCLISE_MOS">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <token regexp="yes">.+[eair]mo$</token>
+                        <!-- <token postag_regexp="yes" postag="V.+X" regexp="yes">.+mo$</token> <] [> requires changes to POS tagger -->
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">nos|l[oa]s?</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <!-- <suggestion><match no="4" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="2" postag_regexp="yes" postag="(V.+)X" postag_replace="$1"/></suggestion> -->
+                <suggestion><match no="6" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="4" regexp_match="(.+)" regexp_replace="$1s"/></suggestion>
+                <example correction="o bebemos">De jeito algum <marker>bebemo-lo</marker>.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_ENCLISE_NASAL_NAO_AMBIGUO">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.+" regexp="yes">.+(ão|õe|m)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">nas?|no</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="6" regexp_match="n([oa]s?)" regexp_replace="$1"/> \4</suggestion>
+                <example correction="o dão">De modo algum <marker>dão-no</marker> a mim.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_ENCLISE_NASAL_AMBIGUO_NOS">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.+" regexp="yes">.+(ão|õe|m)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no">nos</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>nos \4</suggestion> <!-- 'nos' after a nasal can be 1PL or 3PL.MASC -->
+                <suggestion>os \4</suggestion>
+                <example correction="nos puseram|os puseram">De forma alguma <marker>puseram-nos</marker> em primeiro lugar.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_ENCLISE_ELISAO">
+                <!-- Apparently, for so-called 'loose infinitives' (their phrasing), pronoun placement is free, so we exclude infinitives. -->
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="V.[^N].+X"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[l][oa]s?</token>
+                    </marker>
+                    <token negate="yes">-</token> <!-- not followed by hyphen, i.e. not a mesoclitic -->
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="6" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="4" postag_regexp="yes" postag="(V.+)X" postag_replace="$1"/></suggestion>
+                <example correction="o quis">De jeito nenhum <marker>qui-lo</marker>.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_MESOCLISE_SIMPLES_REG">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <!-- doesn't take into account irregular future stems like 'trar-lhe-ia', 'far-nos-á', etc., because those aren't tagged as INF -->
+                        <token postag_regexp="yes" postag="V.N.+[^X]$"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[nv]os|lh[oae]s?|[mts]e|[mt][oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>\6 \4\8</suggestion>
+                <example correction="lhe contarei">De maneira alguma <marker>contar-lhe-ei</marker> nada.</example>
+                <example correction="te chamaria">De jeito nenhum <marker>chamar-te-ia</marker> a essa hora!</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_MESOCLISE_SIMPLES_IRREG">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <token regexp="yes" postag_regexp="yes" postag="V.+" negate_pos="yes">.*(dir|far|trar)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[nv]os|lh[oae]s?|[mts]e|[mt][oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion>\6 \4\8</suggestion>
+                <example correction="lhe direi">De jeito algum <marker>dir-lhe-ei</marker> nada.</example>
+                <example correction="nos fariam">De maneira nenhuma <marker>far-nos-iam</marker> um enorme favor...</example>
+                <example correction="me trarão">De modo algum <marker>trar-me-ão</marker> muita alegria.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_MESOCLISE_ELISAO_REG">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <!-- doesn't take into account irregular future stems like 'trar-lhe-ia', 'far-nos-á', etc., because those aren't tagged as INF -->
+                        <token postag_regexp="yes" postag="V.N.+X$"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">l[oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="6" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="4" postag_regexp="yes" postag="(V.+)X$" postag_replace="$1"/>\8</suggestion>
+                <example correction="a amarei">De forma alguma <marker>amá-la-ei</marker> enquanto usar aquele chapéu.</example>
+                <example correction="os entenderia">De maneira nenhuma <marker>entendê-los-ia</marker> melhor se os tentasse conhecer.</example>
+            </rule>
+
+            <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO_MESOCLISE_ELISAO_IRREG_A">
+                <pattern>
+                    <token>de</token>
+                    <token regexp='yes'>forma|maneira|jeito|modo</token>
+                    <token regexp='yes'>(?:algum|nenhum)a?</token>
+                    <marker>
+                        <token regexp="yes" postag_regexp="yes" postag="V.+">.*(fá|trá)$</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">l[oa]s?</token>
+                        <token spacebefore="no">-</token>
+                        <token regexp="yes">eis?|ás?|emos|ão|ia[ms]?|íeis|íamos</token>
+                    </marker>
+                </pattern>
+                <message>OOGA BOOGA</message>
+                <suggestion><match no="6" regexp_match="l([oa]s?)" regexp_replace="$1"/> <match no="4" regexp_match="(.+)á" regexp_replace="$1ar"/>\8</suggestion>
+                <example correction="o faríamos">De modo algum <marker>fá-lo-íamos</marker> se pudéssemos...</example>
+                <example correction="as traremos">De maneira nenhuma <marker>trá-las-emos</marker> no sábado.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="COLOCAO_PRONOMINAL_EM_O_SENDO" name="Preferir a próclise em construções do tipo 'em o sendo'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>em</token>
+                    <token min="0" postag_regexp="yes" postag="R."/>
+                    <token postag_regexp="yes" postag="V.G.+"/>
+                    <token spacebefore="no">-</token>
+                    <token regexp="yes" spacebefore="no">&pronomes_obliquos;</token>
+                </pattern>
+                <message>Com gerúndios regidos por &quot;em&quot;, recomenda-se o uso da próclise.</message>
+                <suggestion>em \5 \2 \3</suggestion>
+                <example correction="Em o trazendo"><marker>Em trazendo-o</marker>, fez mais mal que bem.</example>
+                <example correction="Em a não enxergando"><marker>Em não enxergando-a</marker>, atropelou-a.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id='PRONOMIAL_COLOCATIONS_NEGATIONS' name='Colocações pronomiais: próclises por negações' default="off">
+            <!-- Superseded by COLOCACAO_PRONOMINAL_COM_ATRATOR and COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO -->
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
             <rule>
                 <pattern>
@@ -12932,8 +13420,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias'>
-            <!--       Created by Tiago F. Santos, 2017-01-27 -->
+        <rulegroup id='GENERAL_PRONOMIAL_COLOCATIONS' name='Colocações pronomiais: próclises obrigatórias' default="off">
+            <!-- Superseded by COLOCACAO_PRONOMINAL_COM_ATRATOR -->
             <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
             <short>Erro de colocação pronominal</short>
             <rule>
@@ -13008,7 +13496,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='Nenhum lugar te recorda'><marker>Nenhum lugar recorda-te</marker> daquelas férias?</example>
             </rule>
         </rulegroup>
-
 
         <rulegroup id='DEQUEISMO_QUEISMO' name="Queísmos e dequeismos" type="grammar">
             <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
