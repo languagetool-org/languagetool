@@ -79,9 +79,7 @@ public class DutchTagger extends BaseTagger {
   private static final Set<String> alwaysNeedsDe = ImmutableSet.of(
           "keten",
           "boor",
-          "dans",
-          "stof",
-          "veer"
+          "dans"
   );
   private static final Set<String> alwaysNeedsMrv = ImmutableSet.of(
           "pies",
@@ -195,7 +193,7 @@ public class DutchTagger extends BaseTagger {
               String part1lc = part1.toLowerCase();
               for (AnalyzedToken part2Reading : part2Readings) {
                 if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().startsWith("ZNW")) {
-                  String tag = null;
+                  String tag;
                   if (alwaysNeedsHet.contains(part2)) {
                     tag = "ZNW:EKV:HET";
                   } else if (alwaysNeedsDe.contains(part2)) {
