@@ -19,15 +19,39 @@
 
 package org.languagetool.openoffice.stylestatistic;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Language;
+import org.languagetool.openoffice.ResultCache;
+import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache;
+import org.languagetool.openoffice.DocumentCursorTools;
+import org.languagetool.openoffice.ErrorPositionComparator;
+import org.languagetool.openoffice.FlatParagraphTools;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
+import org.languagetool.openoffice.OfficeTools.LoErrorType;
+import org.languagetool.openoffice.ResultCache.CacheEntry;
+import org.languagetool.openoffice.SingleCheck;
+import org.languagetool.openoffice.SingleCheck.SentenceErrors;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
+
+import com.sun.star.beans.PropertyState;
+import com.sun.star.beans.PropertyValue;
+import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.text.TextMarkupType;
+
 import org.languagetool.openoffice.MessageHandler;
+import org.languagetool.openoffice.OfficeTools;
+import org.languagetool.openoffice.SingleDocument;
 import org.languagetool.openoffice.SwJLanguageTool;
 
 /**
@@ -42,12 +66,33 @@ public class StatAnCache {
   private List<List<AnalyzedSentence>> analyzedParagraphs = new ArrayList<>();
   private List<Heading> headings = new ArrayList<>();
   private List<Paragraph> paragraphs = new ArrayList<>();
-  private DocumentCache cache;
+  private SingleDocument document;
+  private DocumentCache docCache;
+  private ResultCache statAnCache = null;
+  private String actRuleId = null;
+  private int lastPara = -1;
+  private SwJLanguageTool lt;
+  private StatAnConfiguration config;
   
-  public StatAnCache(DocumentCache cache, SwJLanguageTool lt) {
-    this.cache = cache;
-    for (int i = 0; i < cache.textSize(DocumentCache.CURSOR_TYPE_TEXT); i++) {
-      String tPara = cache.getTextParagraph(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, i));
+  public StatAnCache(SingleDocument document, StatAnConfiguration conf, WaitDialogThread waitdialog) {
+    this.document = document;
+    config = conf;
+    lt = document.getMultiDocumentsHandler().getLanguageTool();
+    docCache = document.getDocumentCache();
+    
+    while (docCache.getHeadingMap() == null) {
+      try {
+        Thread.sleep(50);
+      } catch (InterruptedException e) {
+        MessageHandler.showError(e);
+      }
+    }
+    if (waitdialog != null) {
+      waitdialog.initializeProgressBar(0, 100);
+    }
+    int textSize = docCache.textSize(DocumentCache.CURSOR_TYPE_TEXT);
+    for (int i = 0; i < textSize; i++) {
+      String tPara = docCache.getTextParagraph(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, i));
       List<AnalyzedSentence> sentences = null;
       try {
         sentences = lt.analyzeText(tPara);
@@ -58,13 +103,16 @@ public class StatAnCache {
         sentences = new ArrayList<>();
       }
       analyzedParagraphs.add(sentences);
+      if (waitdialog != null) {
+        waitdialog.setValueForProgressBar(90 * i / textSize);;
+      }
     }
     setHeadings();
     setParagraphs();
   }
   
   private void setHeadings() {
-    Map<Integer, Integer> headingMap = cache.getHeadingMap();
+    Map<Integer, Integer> headingMap = docCache.getHeadingMap();
     List<Integer> headParas = new ArrayList<>();
     for (int nPara : headingMap.keySet()) {
       headParas.add(nPara);
@@ -76,7 +124,7 @@ public class StatAnCache {
   }
   
   private void setParagraphs() {
-    for (int i = 0; i < cache.textSize(DocumentCache.CURSOR_TYPE_TEXT); i++) {
+    for (int i = 0; i < docCache.textSize(DocumentCache.CURSOR_TYPE_TEXT); i++) {
       paragraphs.add(new Paragraph(getNameOfParagraph(i), getHeadingHierarchy(i), i));
     }
   }
@@ -106,10 +154,17 @@ public class StatAnCache {
   }
 
   /**
+   * get number of flatparagraph from Number of text paragraph
+   */
+  public int getNumFlatParagraph(int textPara) {
+    return docCache.getFlatParagraphNumber(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, textPara));
+  }
+  
+  /**
    * get name of paragraph (maximal MAX_NAME_LENGTH characters)
    */
   public String getNameOfParagraph(int nPara) {
-    String tPara = cache.getTextParagraph(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, nPara));
+    String tPara = docCache.getTextParagraph(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, nPara));
     return getNameOfParagraph(tPara);
   }
   
@@ -137,32 +192,244 @@ public class StatAnCache {
   }
   
   /**
+   * Set the marks for rule matches in in document text
+   *//*
+  public void setMarkUps(String ruleId, ResultCache rCache, List<Integer> chngedParas) {
+    if (ruleId == null || rCache == null || chngedParas == null || chngedParas.isEmpty()) {
+      document.setStatAnRuleId(null);
+      document.setStatAnCache(null);
+      if (changedParas != null && !changedParas.isEmpty()) {
+        document.remarkChangedParagraphs(changedParas, changedParas, true);
+        changedParas = null;
+      }
+      return;
+    }
+    document.setStatAnRuleId(ruleId);
+    document.setStatAnCache(rCache);
+    changedParas = chngedParas;
+    document.remarkChangedParagraphs(changedParas, changedParas, true);
+  }
+*/  
+  /**
+   * Add statistical analysis errors
+   */
+  private SingleProofreadingError[] addStatAnalysisErrors (SingleProofreadingError[] errors, 
+          SingleProofreadingError[] statAnErrors, String statAnRuleId) {
+    
+    List<SingleProofreadingError> errorList = new  ArrayList<>();
+    for (SingleProofreadingError error : errors) {
+      if (!error.aRuleIdentifier.equals(statAnRuleId)) {
+        errorList.add(error);
+      }
+    }
+    for (SingleProofreadingError error : statAnErrors) {
+      errorList.add(error);
+    }
+    return errorList.toArray(new SingleProofreadingError[errorList.size()]);
+  }
+  
+  /**
+   * Merge errors from different checks (paragraphs and sentences)
+   */
+  private SingleProofreadingError[] mergeErrors(List<SingleProofreadingError[]> pErrors, 
+      SingleProofreadingError[] statAnErrors, String statAnRuleId, int nPara) {
+    SingleProofreadingError[] errorArray = document.mergeErrors(pErrors, nPara);
+    MessageHandler.printToLogFile("SingleDocument: mergeErrors: nPara: " + nPara + ", statAnRuleId: " 
+        + (statAnRuleId == null ? "null" : statAnRuleId));
+    MessageHandler.printToLogFile("SingleDocument: mergeErrors: statAnErrors: " 
+        + (statAnErrors == null ? "null" : statAnErrors.length));
+    if (statAnRuleId != null && statAnErrors != null && statAnErrors.length > 0) {
+      errorArray = addStatAnalysisErrors (errorArray, statAnErrors, statAnRuleId);
+    }
+    MessageHandler.printToLogFile("SingleDocument: mergeErrors: number Errors: " + errorArray.length);
+    Arrays.sort(errorArray, new ErrorPositionComparator());
+    return errorArray;
+  }
+
+  /**
+   * get all errors of a Paragraph as list
+   */
+  private List<SentenceErrors> getSentencesErrosAsList(int numberOfParagraph, String sRuleId, 
+      short lineType, Color lineColor, ResultCache sCache) {
+    List<SentenceErrors> sentenceErrors = new ArrayList<SentenceErrors>();
+    List<ResultCache> paragraphsCache = document.getParagraphsCache();
+    CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
+    List<Integer> nextSentencePositions = null;
+    if (entry != null) {
+      nextSentencePositions = entry.nextSentencePositions;
+    }
+    if (nextSentencePositions == null) {
+      nextSentencePositions = new ArrayList<Integer>();
+    }
+    if (nextSentencePositions.size() == 0 && docCache != null 
+        && numberOfParagraph >= 0 && numberOfParagraph < docCache.size()) {
+      nextSentencePositions = SingleCheck.getNextSentencePositions(docCache.getFlatParagraph(numberOfParagraph), lt);
+    }
+    SingleProofreadingError[] sErrors = null;
+    int startPosition = 0;
+    if (nextSentencePositions.size() == 1) {
+      List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
+      for (ResultCache cache : paragraphsCache) {
+        errorList.add(cache.getMatches(numberOfParagraph, LoErrorType.GRAMMAR));
+      }
+      if (sRuleId != null && sCache != null) {
+        sErrors = sCache.getMatches(numberOfParagraph, LoErrorType.GRAMMAR);
+        sErrors = addPropertiesToErrors(sErrors, lineType, lineColor);
+      }
+      sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), 
+          mergeErrors(errorList, sErrors, sRuleId, numberOfParagraph)));
+    } else {
+      for (int nextPosition : nextSentencePositions) {
+        List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
+        for (ResultCache cache : paragraphsCache) {
+          errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition, LoErrorType.GRAMMAR));
+        }
+        if (sRuleId != null && sCache != null) {
+          sErrors = sCache.getFromPara(numberOfParagraph, startPosition, nextPosition, LoErrorType.GRAMMAR);
+          sErrors = addPropertiesToErrors(sErrors, lineType, lineColor);
+        }
+        sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, 
+            mergeErrors(errorList, sErrors, sRuleId, numberOfParagraph)));
+        startPosition = nextPosition;
+      }
+    }
+    return sentenceErrors;
+  }
+
+  /**
+   * Set a new result cache
+   * reset a paragraph if necessary
+   */
+  public void setNewResultcache(String ruleId, ResultCache sCache) {
+    if (actRuleId != null && lastPara >= 0) {
+      remarkChangedParagraph(lastPara, null, (short) 0, null, null);
+      lastPara = -1;
+    }
+    actRuleId = ruleId;
+    statAnCache = sCache;
+  }
+
+  /**
+   * remark a paragraph
+   * reset a paragraph if necessary
+   */
+  public void markParagraph (int nPara, short lineType, Color lineColor) {
+    if (actRuleId != null) {
+      if (lastPara >= 0) {
+        remarkChangedParagraph(lastPara, null, (short) 0, null, null);
+      }
+      lastPara = nPara;
+      remarkChangedParagraph(lastPara, actRuleId, lineType, lineColor, statAnCache);
+    }
+  }
+
+  /**
+   * remark changed paragraph
+   * override existing marks
+   */
+  private void remarkChangedParagraph(int nFPara, String sRuleId, short lineType, Color lineColor, ResultCache sCache) {
+    Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
+    List <TextParagraph> toRemarkTextParas = new ArrayList<>();
+    List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(nFPara, sRuleId, lineType, lineColor, sCache);
+    changedParasMap.put(nFPara, sentencesErrors);
+    toRemarkTextParas.add(docCache.getNumberOfTextParagraph(nFPara));
+    DocumentCursorTools docCursor = document.getDocumentCursorTools();
+    if (docCursor != null) {
+      docCursor.removeMarks(toRemarkTextParas);
+    }
+    FlatParagraphTools flatPara = document.getFlatParagraphTools();
+    if (flatPara != null) {
+      flatPara.markParagraphs(changedParasMap);
+    }
+  }
+  
+  /**
+   * create an array of SingleProofreadingErrors from an array of rule matches
+   */
+  public SingleProofreadingError[] createLoErrors(RuleMatch[] ruleMatches) {
+    if (ruleMatches == null || ruleMatches.length == 0) {
+      return new SingleProofreadingError[0];
+    }
+    SingleProofreadingError[] errors = new SingleProofreadingError[ruleMatches.length];
+    for (int i = 0; i < ruleMatches.length; i++) {
+      errors[i] = createLoError(ruleMatches[i]);
+    }
+    return errors;
+  }
+  
+  private SingleProofreadingError[] addPropertiesToErrors(SingleProofreadingError[] errors, short lineType, Color lineColor) {
+    if (errors == null) {
+      return null;
+    }
+    for (int i = 0; i < errors.length; i++) {
+      errors[i] = addPropertiesToError(errors[i], lineType, lineColor);
+    }
+    return errors;
+  }
+
+  
+  private SingleProofreadingError addPropertiesToError(SingleProofreadingError error, short lineType, Color lineColor) {
+    int ucolor = lineColor.getRGB() & 0xFFFFFF;
+    PropertyValue[] propertyValues = new PropertyValue[2];
+    propertyValues[0] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
+    propertyValues[1] = new PropertyValue("LineType", -1, lineType, PropertyState.DIRECT_VALUE);
+    error.aProperties = propertyValues;
+    return error;
+  }
+  
+  /**
+   * create a SingleProofreadingError from a rule match
+   */
+  private SingleProofreadingError createLoError(RuleMatch ruleMatch) {
+    SingleProofreadingError aError = new SingleProofreadingError();
+    aError.nErrorType = TextMarkupType.PROOFREADING;
+    // the API currently has no support for formatting text in comments
+    String msg = ruleMatch.getMessage();
+    Language docLanguage = lt.getLanguage();
+    if (docLanguage != null) {
+      msg = docLanguage.toAdvancedTypography(msg);
+    }
+    msg = msg.replaceAll("<suggestion>", docLanguage == null ? "\"" : docLanguage.getOpeningDoubleQuote())
+        .replaceAll("</suggestion>", docLanguage == null ? "\"" : docLanguage.getClosingDoubleQuote())
+        .replaceAll("([\r]*\n)", " "); 
+    aError.aFullComment = msg;
+    // not all rules have short comments
+    if (!StringTools.isEmpty(ruleMatch.getShortMessage())) {
+      aError.aShortComment = ruleMatch.getShortMessage();
+    } else {
+      aError.aShortComment = aError.aFullComment;
+    }
+    aError.aShortComment = org.languagetool.gui.Tools.shortenComment(aError.aShortComment);
+    //  Filter: provide user to delete footnotes by suggestion
+    int numSuggestions;
+    String[] allSuggestions;
+    numSuggestions = ruleMatch.getSuggestedReplacements().size();
+    allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
+    if (numSuggestions > OfficeTools.MAX_SUGGESTIONS) {
+      aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, OfficeTools.MAX_SUGGESTIONS);
+    } else {
+      aError.aSuggestions = allSuggestions;
+    }
+    aError.nErrorStart = ruleMatch.getFromPos();
+    aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
+    aError.aRuleIdentifier = ruleMatch.getRule().getId();
+    return addPropertiesToError(aError, config.getUnderlineType(), config.getUnderlineColor());
+  }
+
+  
+  /**
    * class paragraph (stores all information needed)
    */
   public class Paragraph {
-//    public List<List<Word>> sentences;
     public String name;
     public int hierarchy;
     public int paraNum;
     
     Paragraph (String name, int hierarchy, int paraNum) {
- //   Paragraph (List<List<Word>> sentences, String name, int hierarchy, int paraNum) {
-//      this.sentences = sentences;
       this.name = new String(name);
       this.hierarchy = hierarchy;
       this.paraNum = paraNum;
     }
- /*   
-    void printParagraphToLogFile() {
-      String txt = "";
-      for (List<Word> sentence : sentences) {
-        for (Word word : sentence) {
-          txt += word.name + " "; 
-        }
-      }
-      MessageHandler.printToLogFile(txt);
-    }
-*/
   }
 
   public class Heading {

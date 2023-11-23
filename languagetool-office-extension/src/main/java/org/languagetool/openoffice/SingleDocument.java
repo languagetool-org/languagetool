@@ -52,14 +52,13 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
 /**
  * Class for checking text of one LO document 
- * @since 4.3
- * @author Fred Kruse, Marcin Miłkowski
  */
 public class SingleDocument {
   
@@ -548,7 +547,7 @@ public class SingleDocument {
   /**
    *  Get flat paragraph tools of the document
    */
-  FlatParagraphTools getFlatParagraphTools() {
+  public FlatParagraphTools getFlatParagraphTools() {
     if (flatPara == null) {
       setFlatParagraphTools();
     }
@@ -558,7 +557,7 @@ public class SingleDocument {
   /**
    *  Get document cursor tools
    */
-  DocumentCursorTools getDocumentCursorTools() {
+  public DocumentCursorTools getDocumentCursorTools() {
     OfficeTools.waitForLO();
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
@@ -569,7 +568,7 @@ public class SingleDocument {
   /**
    *  Get document cache of the document
    */
-  List<ResultCache> getParagraphsCache() {
+  public List<ResultCache> getParagraphsCache() {
     return paragraphsCache;
   }
   
@@ -608,7 +607,7 @@ public class SingleDocument {
     mDocHandler.resetDocument();
   }
   
-  /**
+   /**
    * read caches from file
    */
   void readCaches() {
@@ -876,7 +875,11 @@ public class SingleDocument {
     }
   }
   
-  private void remarkChangedParagraphs(List<Integer> changedParas, List<Integer> toRemarkParas, boolean isIntern) {
+  /**
+   * set marks for a given list of changed paragraphs
+   * before: remove all marks of all paragraphs of a list of paragraphs to remark
+   */
+  public void remarkChangedParagraphs(List<Integer> changedParas, List<Integer> toRemarkParas, boolean isIntern) {
     if (!disposed) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage, docLanguage, 
           numParasToCheck, false, false, isIntern);
@@ -926,8 +929,8 @@ public class SingleDocument {
     ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     int x = viewCursor.getViewCursorCharacter();
-    String ruleId = getRuleIdFromCache(y, x).ruleID;
-    setIgnoredMatch (x, y, ruleId, false);
+    SingleProofreadingError error = getErrorFromCache(y, x);
+    setIgnoredMatch (x, y, error.aRuleIdentifier, false);
     return docID;
   }
   
@@ -935,7 +938,7 @@ public class SingleDocument {
    * add a ignore once entry for point x, y to queue and remove the mark
    */
   public void setIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
-    ignoredMatches.setIgnoredMatch(x, y, ruleId);
+    ignoredMatches.setIgnoredMatch(x, y, 0, ruleId, null, null);
     if (debugMode > 1) {
       MessageHandler.printToLogFile("SingleDocument: setIgnoredMatch: DocumentType = " + docType + "; numParasToCheck = " + numParasToCheck);
     }
@@ -953,6 +956,7 @@ public class SingleDocument {
    * reset the permanent ignore cache
    */
   public void resetIgnorePermanent() {
+    permanentIgnoredMatches.resetAllLocale(getFlatParagraphTools());
     List<Integer> changedParas = permanentIgnoredMatches.getAllParagraphs();
     permanentIgnoredMatches = new IgnoredMatches();
     remarkChangedParagraphs(changedParas, changedParas, false);
@@ -968,16 +972,18 @@ public class SingleDocument {
     ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     int x = viewCursor.getViewCursorCharacter();
-    String ruleId = getRuleIdFromCache(y, x).ruleID;
-    setPermanentIgnoredMatch (x, y, ruleId, false);
+    SingleProofreadingError error = getErrorFromCache(y, x);
+    Locale locale = error.nErrorType == TextMarkupType.SPELLCHECK ? docCache.getFlatParagraphLocale(y) : null;
+    int len = error.nErrorType == TextMarkupType.SPELLCHECK ? error.nErrorLength : 0;
+    setPermanentIgnoredMatch(error.nErrorStart, y, len, error.aRuleIdentifier, locale, false);
     return docID;
   }
   
   /**
    * add a ignore once entry for point x, y to queue and remove the mark
    */
-  public void setPermanentIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
-    permanentIgnoredMatches.setIgnoredMatch(x, y, ruleId);
+  public void setPermanentIgnoredMatch(int x, int y, int len, String ruleId, Locale locale, boolean isIntern) {
+    permanentIgnoredMatches.setIgnoredMatch(x, y, len, ruleId, locale, getFlatParagraphTools());
     if (debugMode > 1) {
       MessageHandler.printToLogFile("SingleDocument: setPermanentIgnoredMatch: DocumentType = " + docType + "; numParasToCheck = " + numParasToCheck);
     }
@@ -1043,7 +1049,7 @@ public class SingleDocument {
    * remove all ignore once entries for paragraph y from queue and set the mark
    */
   public void removeIgnoredMatch(int y, boolean isIntern) {
-    ignoredMatches.removeIgnoredMatches(y);
+    ignoredMatches.removeIgnoredMatches(y, null);
     if (numParasToCheck != 0 && flatPara != null) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
@@ -1059,7 +1065,7 @@ public class SingleDocument {
    * if x &lt; 0 remove all ignore once entries for paragraph y
    */
   public void removeIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
-    ignoredMatches.removeIgnoredMatch(x, y, ruleId);
+    ignoredMatches.removeIgnoredMatch(x, y, ruleId, null);
     if (numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
@@ -1075,7 +1081,7 @@ public class SingleDocument {
    * if x &lt; 0 remove all ignore once entries for paragraph y
    */
   public void removePermanentIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
-    permanentIgnoredMatches.removeIgnoredMatch(x, y, ruleId);
+    permanentIgnoredMatches.removeIgnoredMatch(x, y, ruleId, getFlatParagraphTools());
     if (numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
@@ -1087,10 +1093,10 @@ public class SingleDocument {
   }
   
   /**
-   * get a rule ID of an error out of the cache 
+   * get an error out of the cache 
    * by the position of the error (flat paragraph number and number of character)
    */
-  private RuleDesc getRuleIdFromCache(int nPara, int nChar) {
+  private SingleProofreadingError getErrorFromCache(int nPara, int nChar) {
     List<SingleProofreadingError> tmpErrors = new ArrayList<SingleProofreadingError>();
     if (nPara < 0 || nPara >= docCache.size()) {
       MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache(nPara = " + nPara + ", docCache.size() = " + docCache.size() + "): nPara out of range!");
@@ -1113,7 +1119,7 @@ public class SingleDocument {
           MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache: Error[" + i + "]: ruleID: " + errors[i].aRuleIdentifier + ", Start = " + errors[i].nErrorStart + ", Length = " + errors[i].nErrorLength);
         }
       }
-      return new RuleDesc(docCache.getFlatParagraphLocale(nPara), errors[0].aRuleIdentifier);
+      return errors[0];
     } else {
       MessageHandler.printToLogFile("SingleDocument: getRuleIdFromCache(nPara = " + nPara + ", nChar = " + nChar + "): No ruleId found!");
       return null;
@@ -1136,11 +1142,13 @@ public class SingleDocument {
       return new SingleProofreadingError[0];
     }
     SingleProofreadingError[] errorArray = new SingleProofreadingError[errorCount];
-    errorCount = 0;
-    for (SingleProofreadingError[] pError : pErrors) {
-      if (pError != null) {
-        arraycopy(pError, 0, errorArray, errorCount, pError.length);
-        errorCount += pError.length;
+    if (pErrors != null) {
+      errorCount = 0;
+      for (SingleProofreadingError[] pError : pErrors) {
+        if (pError != null) {
+          arraycopy(pError, 0, errorArray, errorCount, pError.length);
+          errorCount += pError.length;
+        }
       }
     }
     Arrays.sort(errorArray, new ErrorPositionComparator());
@@ -1222,161 +1230,9 @@ public class SingleDocument {
       return getRuleIdFromCheck(x, viewCursor);
     }
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
-    return getRuleIdFromCache(y, x);
+    return new RuleDesc(docCache.getFlatParagraphLocale(y), getErrorFromCache(y, x).aRuleIdentifier);
   }
-  
-  /**
-   * class for store and handle ignored matches
-   */
-  public static class IgnoredMatches {
-    
-    private Map<Integer, Map<String, Set<Integer>>> ignoredMatches;
-    
-    IgnoredMatches () {
-      ignoredMatches = new HashMap<>();
-    }
-    
-    IgnoredMatches (Map<Integer, Map<String, Set<Integer>>> ignoredMatches) {
-      this.ignoredMatches = ignoredMatches;
-    }
-    
-    /**
-     * Set an ignored match
-     */
-    public void setIgnoredMatch(int x, int y, String ruleId) {
-      Map<String, Set<Integer>> ruleAtX;
-      Set<Integer> charNums;
-      if (ignoredMatches.containsKey(y)) {
-        ruleAtX = ignoredMatches.get(y);
-        if (ruleAtX.containsKey(ruleId)) {
-          charNums = ruleAtX.get(ruleId);
-        } else {
-          charNums = new HashSet<>();
-        }
-      } else {
-        ruleAtX = new HashMap<String, Set<Integer>>();
-        charNums = new HashSet<>();
-      }
-      charNums.add(x);
-      ruleAtX.put(ruleId, charNums);
-      ignoredMatches.put(y, ruleAtX);
-    }
-   
-    /**
-     * Remove an ignored matches in a paragraph
-     */
-    public void removeIgnoredMatches(int y) {
-      if (ignoredMatches.containsKey(y)) {
-        ignoredMatches.remove(y);
-      }
-    }
-      
-    /**
-     * Remove an ignored matches of a special ruleID in a paragraph
-     */
-    public void removeIgnoredMatches(int y, String ruleId) {
-      if (ignoredMatches.containsKey(y)) {
-        Map<String, Set<Integer>> ruleAtX = ignoredMatches.get(y);
-        if (ruleAtX.containsKey(ruleId)) {
-          ruleAtX.remove(ruleId);
-        }
-        if (ruleAtX.isEmpty()) {
-          ignoredMatches.remove(y);
-        } else {
-          ignoredMatches.put(y, ruleAtX);
-        }
-      }
-    }
-      
-    /**
-     * Remove one ignored match
-     */
-    public void removeIgnoredMatch(int x, int y, String ruleId) {
-      if (ignoredMatches.containsKey(y)) {
-        Map<String, Set<Integer>> ruleAtX = ignoredMatches.get(y);
-        if (ruleAtX.containsKey(ruleId)) {
-          Set<Integer> charNums = ruleAtX.get(ruleId);
-          if (charNums.contains(x)) {
-            charNums.remove(x);
-            if (charNums.isEmpty()) {
-              ruleAtX.remove(ruleId);
-            } else {
-              ruleAtX.put(ruleId, charNums);
-            }
-            if (ruleAtX.isEmpty()) {
-              ignoredMatches.remove(y);
-            } else {
-              ignoredMatches.put(y, ruleAtX);
-            }
-          }
-        }
-      }
-    }
 
-    /**
-     * Is the match of a ruleID at a position ignored
-     */
-    public boolean isIgnored(int xFrom, int xTo, int y, String ruleId) {
-      if (ignoredMatches.containsKey(y) && ignoredMatches.get(y).containsKey(ruleId)) {
-        for (int x : ignoredMatches.get(y).get(ruleId)) {
-          if (x >= xFrom && x < xTo) {
-            return true;
-          }
-        }
-      }
-      return false;
-    }
-    
-    /**
-     * Contains a paragraph ignored matches
-     */
-    public boolean containsParagraph(int y) {
-      return ignoredMatches.containsKey(y);
-    }
-
-    /**
-     * Is the list of ignored matches empty - no ignored matches
-     */
-    public boolean isEmpty() {
-      return ignoredMatches.isEmpty();
-    }
-
-    /**
-     * size: number of paragraphs containing ignored matches
-     */
-    public int size() {
-      return ignoredMatches.size();
-    }
-
-    /**
-     * Get all ignored matches of a paragraph
-     */
-    public Map<String, Set<Integer>>  get(int y) {
-      return ignoredMatches.get(y);
-    }
-
-    /**
-     * Get a copy of map
-     */
-    public Map<Integer, Map<String, Set<Integer>>>  getFullMap() {
-      return ignoredMatches;
-    }
-
-    /**
-     * add or replace a map of ignored matches to a paragraph
-     */
-    public void put(int y, Map<String, Set<Integer>> ruleAtX) {
-      ignoredMatches.put(y, ruleAtX);
-    }
-
-    /**
-     * get all paragraphs containing ignored matches
-     */
-    public List<Integer> getAllParagraphs() {
-      return new ArrayList<Integer>(ignoredMatches.keySet());
-    }
-  }
-  
   /**
    * get all synonyms as array
    */
@@ -1549,8 +1405,8 @@ public class SingleDocument {
       } else if(event.EventName.equals("OnUnfocus") && !isOnUnload) {
         mDocHandler.getCurrentDocument();
       } else if(event.EventName.equals("OnSaveDone") && config.saveLoCache()) {
-        //  save cache after document is saved (if something goes wrong the last state of document is saved)
-        writeCaches();
+          //  save cache after document is saved (if something goes wrong the last state of document is saved)
+          writeCaches();
       } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
         cacheIO.setDocumentPath(xComponent);
         writeCaches();

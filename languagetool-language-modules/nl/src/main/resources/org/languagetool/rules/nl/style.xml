@@ -4441,14 +4441,29 @@ USA
 		</rulegroup>
 		<rulegroup id="OP_DE_KAART" name="Op de kaart zetten">
 			<rule>
+				<antipattern>
+					<token skip="-1" regexp="yes">.*wijk.*|.*dorp.*|internationa.*|.*plaats.*|.*meer.*|.*zee.*|gebied|.*park.*|.*berg.*|saldo|betaling</token>
+					<token>op</token>
+					<token>de</token>
+					<token>kaart</token>
+					<example>De dorpen werden eindelijk op de kaart gezet.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="-1" postag_regexp="yes" postag="ENM:LOC.*"></token>
+					<token>op</token>
+					<token>de</token>
+					<token>kaart</token>
+					<example>Overlangbroek op de kaart gezet.</example>
+				</antipattern>
 				<pattern>
 					<token>op</token>
 					<token>de</token>
 					<token>kaart</token>
-					<token inflected="yes">zetten</token>
+					<token regexp="yes">zet|zette|gezet|gezette|gezetten</token>
 				</pattern>
 				<message>Pas op voor clichés. Als dit figuurlijk is kunt u het misschien op een andere manier uitdrukken.</message>
-				<example correction="">Met dit fietsplan zullen we Heist <marker>op de kaart zetten</marker>.</example>
+				<suggestion>onder de aandacht <match no="4" postag_regexp="yes" postag="WKW.*(ONV|INF|1EP|3EP)?">brengen</match></suggestion>
+				<example correction="onder de aandacht gebracht">Met dit fietsplan hebben we Jacob <marker>op de kaart gezet</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -4474,6 +4489,23 @@ USA
 		</rulegroup>
 		<rulegroup id="MAAT_VOL" name="De maat is vol">
 			<rule>
+				<pattern>
+					<token regexp="yes">is|was</token>
+					<token>de</token>
+					<token>maat</token>
+					<token>vol</token>
+				</pattern>
+				<message>&cliche_mess;</message>
+				<suggestion>\1 het genoeg geweest</suggestion>
+				<example correction="is het genoeg geweest">Nu <marker>is de maat vol</marker>.</example>
+			</rule>
+			<rule>
+		    <antipattern>
+	        <token regexp="yes">is|was</token>
+	        <token>de</token>
+	        <token>maat</token>
+	        <token>vol</token>
+		    </antipattern>
 				<pattern>
 					<token skip="3">maat</token>
 					<token>vol</token>
@@ -4547,7 +4579,9 @@ USA
 					<token>stoot</token>
 				</pattern>
 				<message>&cliche_mess;</message>
-				<example correction="">Dat ging niet <marker>zonder slag of stoot</marker>.</example>
+				<suggestion>\1 moeite</suggestion>
+				<suggestion>\1 discussie</suggestion>
+				<example correction="zonder moeite|zonder discussie">Dat ging niet <marker>zonder slag of stoot</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="IN_DE_RIJ" name="In de rij staan voor">
@@ -4584,7 +4618,8 @@ USA
 					<token>kinderschoenen</token>
 				</pattern>
 				<message>&cliche_mess;</message>
-				<example correction="">De inwendige ziekteleer stond toen nog <marker>in de kinderschoenen</marker>.</example>
+				<suggestion>\1 \2 beginfase</suggestion>
+				<example correction="in de beginfase">De inwendige ziekteleer stond toen nog <marker>in de kinderschoenen</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="OM_ZICH_HEEN" name="Om zich heen slaan">
@@ -4611,14 +4646,22 @@ USA
 		</rulegroup>
 		<rulegroup id="IN_DE_BAN_VAN" name="In de ban van">
 			<rule>
+		    <antipattern>
+		      <token>ban</token>
+		      <token skip="-1">van</token>
+		      <token>ring</token>
+		    </antipattern>
 				<pattern>
 					<token>in</token>
 					<token>de</token>
-					<token>ban</token>
+					<token case_sensitive="yes">ban</token>
 					<token>van</token>
 				</pattern>
 				<message>&cliche_mess;</message>
-				<example correction="">Chinezen zijn helemaal <marker>in de ban van</marker> een Zweedse stad waar alleen maar vrouwen wonen die het met elkaar doen.</example>
+				<suggestion>geïnteresseerd in</suggestion>
+				<suggestion>onder de indruk \4</suggestion>
+				<suggestion>gek op</suggestion>
+				<example correction="geïnteresseerd in|onder de indruk van|gek op">Chinezen zijn helemaal <marker>in de ban van</marker> een Zweedse stad waar alleen maar vrouwen wonen die het met elkaar doen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ONDERSTE_STEEN" name="De onderste steen boven">
@@ -4640,7 +4683,9 @@ USA
 					<token inflected="yes">geven</token>
 				</pattern>
 				<message>&cliche_mess;</message>
-				<example correction="">Ook de bank moet <marker>groen licht geven</marker>.</example>
+				<suggestion>akkoord \3</suggestion>
+				<suggestion>toestemming \3</suggestion>
+				<example correction="akkoord geven|toestemming geven">Ook de bank moet <marker>groen licht geven</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -4649,7 +4694,9 @@ USA
 					<token>licht</token>
 				</pattern>
 				<message>&cliche_mess;</message>
-				<example correction="">De ministerraad <marker>geeft groen licht</marker> voor de aankoop van 477 pantservoertuigen van het type Scorpion.</example>
+				<suggestion>\1 akkoord</suggestion>
+				<suggestion>\1 toestemming</suggestion>
+				<example correction="geeft akkoord|geeft toestemming">De ministerraad <marker>geeft groen licht</marker> voor de aankoop van 477 pantservoertuigen van het type Scorpion.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="HANDDOEK_RING" name="De handdoek in de ring gooien">
@@ -4814,24 +4861,30 @@ USA
 		</rulegroup>
 		<rulegroup id="SLEPEN_RECHTER" name="Voor de rechter slepen">
 			<rule>
-				<pattern>
-					<token>voor</token>
-					<token>de</token>
-					<token skip="4">rechter</token>
-					<token inflected="yes">slepen</token>
+			    <pattern>
+    				<token>voor</token>
+    				<token>de</token>
+    				<token skip="4">rechter</token>
+    				<marker>
+    					<token inflected="yes">slepen</token>
+    				</marker>
 				</pattern>
 				<message>Pas op voor clichés. U kunt ook 'dagen' gebruiken om wat zakelijker over te komen.</message>
-				<example correction="">Vandaar dat het fotomodel hem <marker>voor de rechter sleepte</marker>.</example>
+				<suggestion><match no="4" postag_regexp="yes" postag="WKW.*">dagen</match></suggestion>
+				<example correction="daagde">Vandaar dat het fotomodel hem voor de rechter <marker>sleepte</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token inflected="yes" skip="4">slepen</token>
+					<marker>
+						<token inflected="yes" skip="4">slepen</token>
+					</marker>
 					<token>voor</token>
 					<token>de</token>
 					<token>rechter</token>
 				</pattern>
 				<message>Pas op voor clichés. U kunt ook 'dagen' gebruiken om wat zakelijker over te komen.</message>
-				<example correction="">Ansaldo Breda <marker>sleept nu de twee spoorwegmaatschappijen voor de rechter</marker>.</example>
+				<suggestion><match no="1" postag_regexp="yes" postag="WKW.*(1EP|3EP|ONV|VRB|INF)">dagen</match></suggestion>
+				<example correction="daagt">Ansaldo Breda <marker>sleept</marker> nu de twee spoorwegmaatschappijen voor de rechter.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="HANDEN_EN_VOETEN" name="Handen en voeten">
@@ -4965,11 +5018,14 @@ USA
 			<rule>
 				<pattern>
 					<token>sleutel</token>
-					<token skip="2">tot</token>
+					<token>tot</token>
+					<token min="0"/>
 					<token>succes</token>
 				</pattern>
 				<message>&cliche_mess;</message>
-				<example correction="">De <marker>sleutel tot economisch succes</marker> is innovatie.</example>
+				<suggestion>reden voor \3 succes</suggestion>
+				<example correction="reden voor economisch succes">De <marker>sleutel tot economisch succes</marker> is innovatie.</example>
+			    <example correction="reden voor succes">Wat is de <marker>sleutel tot succes</marker>?</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="SNEEUW_VOOR_DE_ZON" name="Als sneeuw voor de zon">
@@ -4986,6 +5042,16 @@ USA
 		</rulegroup>
 		<rulegroup id="DONKERE_WOLKEN" name="Donkere wolken pakken zich samen">
 			<rule>
+				<antipattern>
+					<token skip="-1" regexp="yes">lucht|hemel|regen|bliksem|donder</token>
+					<token>donkere</token>
+					<token>wolken</token>
+				</antipattern>
+				<antipattern>
+					<token>donkere</token>
+					<token skip="-1">wolken</token>
+				 	<token regexp="yes">lucht|hemel|regen|bliksem|donder</token>
+				</antipattern>
 				<pattern>
 					<token>donkere</token>
 					<token>wolken</token>

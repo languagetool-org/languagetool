@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import lombok.Getter;
 import org.languagetool.rules.Rule;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -59,6 +60,8 @@ public class UserConfig {
   private final Long textSessionId;
   private final List<String> abTest;
   private final String preferredLanguages;
+  @Getter
+  private boolean untrustedSource;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -84,7 +87,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
     this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
-      false, null, null, false, null);
+      false, null, null, false, null, false);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -93,7 +96,20 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
-                    @Nullable List<String> abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, List<String> preferredLanguages) {
+                    @Nullable List<String> abTest, @Nullable Long textSessionId,
+                    boolean hidePremiumMatches, List<String> preferredLanguages) {
+    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false);
+  }
+
+  public UserConfig(List<String> userSpecificSpellerWords,
+                    List<Rule> userSpecificRules,
+                    Map<String, Integer> ruleValues,
+                    int maxSpellingSuggestions, Long premiumUid, String userDictName,
+                    Long userDictCacheSize,
+                    LinguServices linguServices, boolean filterDictionaryMatches,
+                    @Nullable List<String> abTest, @Nullable Long textSessionId,
+                    boolean hidePremiumMatches, List<String> preferredLanguages,
+                    boolean untrustedSource) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
@@ -110,6 +126,7 @@ public class UserConfig {
     this.hidePremiumMatches = hidePremiumMatches;
     this.acceptedPhrases = buildAcceptedPhrases();
     this.preferredLanguages = removeAllButMainLanguagesAndSort(preferredLanguages);
+    this.untrustedSource = untrustedSource;
   }
 
   private String removeAllButMainLanguagesAndSort(List<String> preferredLanguages) {
@@ -228,6 +245,7 @@ public class UserConfig {
       .append(abTest, other.abTest)
       .append(hidePremiumMatches, other.hidePremiumMatches)
       .append(preferredLanguages, other.preferredLanguages)
+      .append(untrustedSource, other.untrustedSource)
       .isEquals();
   }
 
@@ -246,6 +264,7 @@ public class UserConfig {
       .append(filterDictionaryMatches)
       .append(hidePremiumMatches)
       .append(preferredLanguages)
+      .append(untrustedSource)
       .toHashCode();
   }
 

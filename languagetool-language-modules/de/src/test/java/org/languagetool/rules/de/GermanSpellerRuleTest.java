@@ -33,6 +33,7 @@ import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.ByteArrayInputStream;
@@ -61,6 +62,7 @@ public class GermanSpellerRuleTest {
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(rule.ignorePotentiallyMisspelledWord("Atmosphärenkonzept"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wölkchenbildung"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Abschlussgruße"));  // probably "...grüße"
     assertTrue(rule.ignorePotentiallyMisspelledWord("Offenlegungsfrist"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Offenlegungsfirst"));
@@ -911,6 +913,8 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Einbusse")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Einbussen")).length);
   }
 
   // note: copied from HunspellRuleTest
@@ -933,6 +937,8 @@ public class GermanSpellerRuleTest {
     commonGermanAsserts(rule, lt);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Einbusse")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Einbussen")).length);
   }
   
   // note: copied from HunspellRuleTest
@@ -1331,4 +1337,29 @@ public class GermanSpellerRuleTest {
     RuleMatch[] matches20 = rule1.match(lt.getAnalyzedSentence("laut Beispielen bie"));
     assertThat(matches20.length, is(1));
   }
+
+  @Test
+  public void testProhibitVsSpellingDeCH() {
+    CachingWordListLoader loader = new CachingWordListLoader();
+    List<String> prohibit = expandLines(loader.loadWords("/de/hunspell/prohibit.txt"));
+    List<String> deCH = expandLines(JLanguageTool.getDataBroker().getFromResourceDirAsLines("/de/hunspell/spelling-de-CH.txt"));
+    for (String deCHWord : deCH) {
+      if (prohibit.contains(deCHWord)) {
+        fail("'" + deCHWord + "' is both in prohibit.txt (used for all de-.. variants) and in spelling-de-CH.txt");
+      }
+      if (deCHWord.contains("ß")) {
+        fail("'" + deCHWord + "' from spelling-de-CH.txt contains 'ß' - should be 'ss' instead");
+      }
+    }
+  }
+
+  private static List<String> expandLines(List<String> prohibit) {
+    LineExpander lineExpander = new LineExpander();
+    List<String> expanded = new ArrayList<>();
+    for (String line : prohibit) {
+      expanded.addAll(lineExpander.expandLine(line));
+    }
+    return expanded;
+  }
+
 }

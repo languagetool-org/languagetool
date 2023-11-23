@@ -68,6 +68,7 @@ public class CaseRule extends Rule {
   private static final Pattern VERHALTEN = Pattern.compile(".+verhalten");
   private static final Pattern SOFT_HYPHEN = Pattern.compile("\\u00AD");
   private static final Pattern IRGEND_ETC = Pattern.compile("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs");
+  private static final Pattern VER_MOD_AUX = Pattern.compile("VER:(MOD|AUX):[1-3]:.*");
 
   static {
     nounIndicators.add("das");
@@ -873,7 +874,7 @@ public class CaseRule extends Rule {
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun, sentence);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
-      if (analyzedToken.matchesPosTagRegex("VER:(MOD|AUX):[1-3]:.*")) {
+      if (analyzedToken.matchesPosTagRegex(VER_MOD_AUX)) {
         isPrecededByModalOrAuxiliary = true;
       }
       AnalyzedTokenReadings lowercaseReadings = ((GermanTagger) language.getTagger()).lookup(token.toLowerCase());

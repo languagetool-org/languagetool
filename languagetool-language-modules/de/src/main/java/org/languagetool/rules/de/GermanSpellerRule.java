@@ -61,13 +61,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|verträglich)";
   private static final Pattern missingAdjPattern =
     compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
   private static final Pattern compoundPatternWithHeit = compile(".*(heit|keit|ion|ität|schaft|ung|tät)s");
   private static final Pattern compoundPatternWithAction = compile("Action|Session|Champion|Jung|Wahrung");
   private static final Pattern compoundPatternWithFirst = compile("First|Firsten");  // First/First are too easy to mix up
-  private static final Pattern compoundPatternSpecialEnding = compile(".*(mus|ss|z|ß|innen)");
+  private static final Pattern compoundPatternSpecialEnding = compile(".*(mus|ss|z|ß|innen|chen)");
 
   private final static Set<String> lcDoNotSuggestWords = new HashSet<>(Arrays.asList(
     // some of these are taken from hunspell's dictionary where non-suggested words use tag "/n":
@@ -1706,7 +1706,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    * @since 4.3
    */
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel languageModel) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
+    super(messages, language, language.getNonStrictCompoundSplitter(), () -> getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
@@ -1815,7 +1815,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected RuleMatch createWrongSplitMatch(AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int pos, String coveredWord, String suggestion1, String suggestion2, int prevPos) {
-    if ( LOWER_CASE_WORD.matcher(suggestion2).matches() ) {
+    if (LOWER_CASE_WORD.matcher(suggestion2).matches()) {
       // avoid confusing matches for e.g. "haben -sehr" (was: "habe n-sehr")
       return null;
     }
@@ -2105,7 +2105,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.startsWith("Standart") && !word.equals("Standarte") && !word.equals("Standarten") && !word.startsWith("Standartenträger") && !word.startsWith("Standartenführer")) {
       return true;
     }
-    if (word.endsWith("schafte") && END_WITH_SCHAFTE.matcher(word).matches() ) {
+    if (word.endsWith("schafte") && END_WITH_SCHAFTE.matcher(word).matches()) {
       return true;
     }
     return super.isMisspelled(word);
@@ -2132,7 +2132,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
       if (word.contains("-")) {
-        if (idx > 0 && "".equals(words.get(idx-1)) && StringUtils.startsWithAny(word, "stel-", "tel-") ) {
+        if (idx > 0 && "".equals(words.get(idx-1)) && StringUtils.startsWithAny(word, "stel-", "tel-")) {
           // accept compounds such as '100stel-Millimeter' or '5tel-Gramm'
           return !isMisspelled(StringUtils.substringAfter(word, "-"));
         } else {
@@ -2166,7 +2166,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           //System.out.println("will accept: " + word);
           return true;
         } else if (!isMisspelled(firstPart) &&
-                  !SPECIAL_CASE.matcher(firstPart).matches() ) {
+                  !SPECIAL_CASE.matcher(firstPart).matches()) {
                    //System.out.println("will not accept: " + word);
         } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
                    SPECIAL_CASE_WITH_S.matcher(firstPart).matches() &&
@@ -2394,7 +2394,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (ALLMAHLLIG.matcher(word).matches() ) {
+    } else if (ALLMAHLLIG.matcher(word).matches()) {
       suggestion = word.replaceFirst("llmähll?i(g|ch)", "llmählich");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
@@ -2419,7 +2419,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (PROFESSIONELL.matcher(word).matches() ) {
+    } else if (PROFESSIONELL.matcher(word).matches()) {
       suggestion = word.replaceFirst("roff?ess?ion([äe])h?l{1,2}", "rofessionell");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
@@ -2434,7 +2434,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
-    } else if (STARTS_WITH_DIAGNOSZIER.matcher(word).matches() ) {
+    } else if (STARTS_WITH_DIAGNOSZIER.matcher(word).matches()) {
       suggestion = word.replaceAll("gno[sz]ier", "gnostizier");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
@@ -3721,6 +3721,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Situps": return topMatch("Sit-ups");
       case "Nov": return topMatch("Nov.");
       case "aussen": return topMatch("außen");
+      case "bestmöglichst": return topMatch("bestmöglich");
+      case "nächstmöglichst": return topMatch("nächstmöglich");
+      case "markaber": return topMatch("makaber");
+      case "nachgeharkt": return topMatch("nachgehakt");
+      case "nachgeharckt": return topMatch("nachgehackt");
+      case "nachharken": return topMatch("nachhaken");
+      case "nachhacken": return topMatch("nachhaken");
+      case "Babies": return topMatch("Babys");
+      case "Gummies": return topMatch("Gummis");
+      case "Grüzi": return topMatch("Grüezi");
     }
     return Collections.emptyList();
   }

@@ -71,6 +71,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "cunt",
     "germane", // confused with German
     "double check",
+    "flat screen", // flatscreen
     "java script",
     "off topic",
     "hard coding",
@@ -1379,6 +1380,36 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       }
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
+  }
+
+  // trivial approach that assumes only one part of the hyphenated word has a typo...
+  private void addHyphenSuggestions(String[] parts, List<SuggestedReplacement> topSuggestions) throws IOException {
+    int i = 0;
+      for (String part : parts) {
+        if (isMisspelled(part)) {
+          List<String> partSuggestions = speller1.getSuggestions(part);
+          if (partSuggestions.size() == 0) {
+            partSuggestions = speller2.getSuggestions(part);
+          }
+          if (partSuggestions.size() > 0) {
+              String suggestion = getHyphenatedWordSuggestion(parts, i, partSuggestions.get(0));
+              topSuggestions.add(new SuggestedReplacement(suggestion));
+          }
+        }
+      i++;
+    }
+  }
+
+  private String getHyphenatedWordSuggestion(String[] parts, int currentPos, String currentPostSuggestion) {
+    List<String> newParts = new ArrayList<>();
+    for (int j = 0; j < parts.length; j++) {
+        if (currentPos == j) {
+            newParts.add(currentPostSuggestion);
+          } else {
+            newParts.add(parts[j]);
+          }
+    }
+    return String.join("-", newParts);
   }
 
   @Override

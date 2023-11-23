@@ -247,6 +247,7 @@ public class DocumentCache implements Serializable {
         deletedChars.add(documentText.deletedCharacters);
       }
       headingMap = documentTexts.get(CURSOR_TYPE_TEXT).headingNumbers;
+//      MessageHandler.printToLogFile("DocumentCache: refresh: headingMap.size: " + (headingMap == null ? "null" : headingMap.size()));
       if (flatPara == null) {
         flatPara = document.getFlatParagraphTools();
       }
@@ -1420,6 +1421,9 @@ public class DocumentCache implements Serializable {
     if (in.sortedTextIds != null) {
       sortedTextIds = new ArrayList<>(in.sortedTextIds);
     }
+    if (in.headingMap != null) {
+      headingMap = new HashMap<>(in.headingMap);
+    }
     documentElementsCount = in.documentElementsCount;
     nText = in.nText;
     nTable = in.nTable;
@@ -2265,7 +2269,7 @@ public class DocumentCache implements Serializable {
   /**
    * Class of serializable locale needed to save cache
    */
-  private class SerialLocale implements Serializable {
+  public static class SerialLocale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     String Country;
@@ -2283,6 +2287,13 @@ public class DocumentCache implements Serializable {
      */
     public String toString() {
       return Language + (Country.isEmpty() ? "" : "-" + Country) + (Variant.isEmpty() ? "" : "-" + Variant);
+    }
+
+    /**
+     * return the Locale as String
+     */
+    Locale toLocale() {
+      return new Locale(Language, Country, Variant);
     }
 
     /**

@@ -45,9 +45,6 @@ public class FrenchWordTokenizer extends WordTokenizer {
   private static final Pattern PATTERN_5 = Pattern.compile("\u0001\u0001FR_DECIMALCOMMA\u0001\u0001");
   private static final Pattern PATTERN_6 = Pattern.compile("\u0001\u0001FR_SPACE\u0001\u0001");
 
-  private static final int maxPatterns = 7;
-  private final Pattern[] patterns = new Pattern[maxPatterns];
-
   // Patterns to avoid splitting words in certain special cases
 
   // apostrophe
@@ -85,38 +82,40 @@ public class FrenchWordTokenizer extends WordTokenizer {
   //the string used to tokenize characters
   private final String frTokenizingChars = super.getTokenizingCharacters() + "-"; // hyphen
 
-
-  public FrenchWordTokenizer() {
-
+  final static int maxPatterns = 7;
+  final static Pattern[] patterns = new Pattern[maxPatterns];
+  static {
     // words not to be split
     patterns[0] = Pattern.compile("^(c['’]te?|m['’]as-tu-vu|c['’]est-à-dire|add-on|add-ons|rendez-vous|garde-à-vous|chez-eux|chez-moi|chez-nous|chez-soi|chez-toi|chez-vous)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[1] = Pattern.compile(
-        "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     // Apostrophe at the beginning of a word. ce, je, ne, me, te, se, le, la, de, que, si // NO: presqu['’] |quelqu['’]
     // It creates 2 tokens: <token>l'</token><token>homme</token>
-    patterns[2] = Pattern.compile( 
-        "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[2] = Pattern.compile(
+      "^([cç]['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile(
-        "^([^\\-]*)(-ce|-t-elle|-t-elles|-elle|-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^([^\\-]*)(-ce|-t-elle|-t-elles|-elle|-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[4] = Pattern.compile(
-        "^([^\\-]*)(-t|-m)(['’]en|['’]y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^([^\\-]*)(-t|-m)(['’]en|['’]y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[5] = Pattern.compile(
-        "^(.*)(-t-elle|-t-elles|-t-il|-t-ils|-t-on)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^(.*)(-t-elle|-t-elles|-t-il|-t-ils|-t-on)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[6] = Pattern.compile(
-        "^(.*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      "^(.*)(-ce|-elle|-t-elle|-elles|-t-elles|-en|-il|-t-il|-ils|-t-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     // contractions: au, du ??
     /*patterns[1] = Pattern.compile("^(a|d)(u)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[2] = Pattern.compile("^(d)(es)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile("^(a)(ux)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);*/
+  }
 
-  }  
+  public FrenchWordTokenizer() {
+  }
 
   /**
    * @param text Text to tokenize

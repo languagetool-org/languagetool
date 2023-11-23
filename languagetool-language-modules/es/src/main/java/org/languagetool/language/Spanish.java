@@ -271,7 +271,8 @@ public class Spanish extends Language implements AutoCloseable {
       return -101;
     }
     if (id.startsWith("AI_ES_GGEC")) { // prefer more specific rules (also speller)
-      return -102;
+      return 0;
+      //return -102;
     }
     if (id.startsWith("ES_MULTITOKEN_SPELLING")) {
       return -95;

@@ -32,6 +32,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,8 +44,9 @@ public class MultitokenSpellerFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
-    boolean keepSpaces = getOptional("keepSpaces", arguments, "true").equalsIgnoreCase("true")? true: false;
-    String requireRegexp = getOptional("requireRegexp", arguments);
+    if (Arrays.stream(patternTokens).allMatch(x -> x.isIgnoredBySpeller())) {
+      return null;
+    }
     String underlinedError = match.getOriginalErrorStr();
     Language lang = ((PatternRule) match.getRule()).getLanguage();
     List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError);

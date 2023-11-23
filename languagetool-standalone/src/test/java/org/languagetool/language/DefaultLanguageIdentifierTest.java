@@ -304,6 +304,7 @@ public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
             .getDefaultLanguageIdentifier(0, null, null, null);
     langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an\nEnglish text in the signature, and it's much longer than the original text.", identifier);
     langAssert("en", "This is an English text.\n-- \nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.", identifier);
+    langAssert("en", "This is an English text.\n--\u00A0\nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.", identifier);
   }
 
   @Test

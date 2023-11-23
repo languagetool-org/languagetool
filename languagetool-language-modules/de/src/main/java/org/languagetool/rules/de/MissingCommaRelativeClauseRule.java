@@ -48,6 +48,8 @@ public class MissingCommaRelativeClauseRule extends Rule {
 
   private static final Pattern MARKS_REGEX = compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
   private static final Pattern PRONOUN = compile("(d(e[mnr]|ie|as|e([nr]|ss)en)|welche[mrs]?|wessen|was)");
+  private static final Pattern verbPattern = Pattern.compile("(VER:[1-3]:|VER:.*:[1-3]:).*");
+  private static final Pattern zalEtcPattern = Pattern.compile("(ZAL|AD[JV]|ART|SUB|PRO:POS|PRP).*");
 
   private final boolean behind;
 
@@ -227,8 +229,8 @@ public class MissingCommaRelativeClauseRule extends Rule {
    * is a potential verb used in sentence or subclause
    */
   private static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
-    return (tokens[n].matchesPosTagRegex("(VER:[1-3]:|VER:.*:[1-3]:).*")
-        && !tokens[n].matchesPosTagRegex("(ZAL|AD[JV]|ART|SUB|PRO:POS|PRP).*")
+    return (tokens[n].matchesPosTagRegex(verbPattern)
+        && !tokens[n].matchesPosTagRegex(zalEtcPattern)
         && (!tokens[n].hasPosTagStartingWith("VER:INF:") || !tokens[n-1].getToken().equals("zu"))
         && !tokens[n].isImmunized()
       );

@@ -35,11 +35,20 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
   private final Disambiguator disambiguator;
 
   private final MultiWordChunker multitokenSpeller = new MultiWordChunker(
-    "/de/multitoken-spelling.txt", false, false, MultiWordChunker.tagForNotAddingTags);
+    "/de/multitoken-ignore.txt", false, false, MultiWordChunker.tagForNotAddingTags);
+
+  private final MultiWordChunker multitokenSpeller2 = new MultiWordChunker(
+    "/de/multitoken-suggest.txt", false, false, MultiWordChunker.tagForNotAddingTags);
+
+  private final MultiWordChunker multitokenSpeller3 = new MultiWordChunker(
+    "/spelling_global.txt", false, false, MultiWordChunker.tagForNotAddingTags);
 
   public GermanRuleDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
+    //TODO: merge in one disambiguator:
     multitokenSpeller.setIgnoreSpelling(true);
+    multitokenSpeller2.setIgnoreSpelling(true);
+    multitokenSpeller3.setIgnoreSpelling(true);
   }
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
@@ -49,6 +58,8 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(multitokenSpeller.disambiguate(input, checkCanceled), checkCanceled);
+    return disambiguator.disambiguate(multitokenSpeller2.disambiguate(multitokenSpeller3.disambiguate(
+      multitokenSpeller.disambiguate(input, checkCanceled), checkCanceled), checkCanceled), checkCanceled
+    );
   }
 }

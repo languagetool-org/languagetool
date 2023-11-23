@@ -66,6 +66,7 @@ public class HunspellRule extends SpellingCheckRule {
   private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
+  private static final Pattern STARTS_WITH_TWO_UPPERCASE_CHARS = Pattern.compile("[A-Z][A-Z]\\p{javaLowerCase}+");
 
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
@@ -304,7 +305,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (sugg.size() > 0 &&
         !word.equals("IPs") &&
         word.equalsIgnoreCase(sugg.get(0).getReplacement()) &&
-        word.matches("[A-Z][A-Z]\\p{javaLowerCase}+") &&
+      STARTS_WITH_TWO_UPPERCASE_CHARS.matcher(word).matches() &&
         language.getShortCode().equals("de")) {
       //System.out.println("speller high conf case: " + word + "; " + sugg.get(0).getReplacement() + "; " + language.getShortCodeWithCountryAndVariant());
       if (word.endsWith("s") && StringUtils.isAllUpperCase(sugg.get(0).getReplacement())) {

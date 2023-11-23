@@ -96,6 +96,7 @@ public class HTTPServerConfig {
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
+  protected List<String> untrustedReferrers = new ArrayList<>();
   protected boolean premiumAlways;
   protected boolean premiumOnly;
   protected String requestLimitAccessToken = null;
@@ -199,7 +200,7 @@ public class HTTPServerConfig {
     "dbTimeoutSeconds", "dbMaxConnections", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
     "redisDatabase", "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
-    "premiumAlways",
+    "premiumAlways", "untrustedReferrers",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
@@ -389,6 +390,7 @@ public class HTTPServerConfig {
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
+        untrustedReferrers = Arrays.asList(getOptionalProperty(props, "untrustedReferrers","").split(",\\s*"));
         String premiumAlwaysValue = props.getProperty("premiumAlways");
         if (premiumAlwaysValue != null) {
           premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());
@@ -1008,7 +1010,16 @@ public class HTTPServerConfig {
   void setBlockedReferrers(List<String> blockedReferrers) {
     this.blockedReferrers = Objects.requireNonNull(blockedReferrers);
   }
-  
+
+  @NotNull
+  public List<String> getUntrustedReferrers() {
+    return Collections.unmodifiableList(untrustedReferrers);
+  }
+
+  public void setUntrustedReferrers(List<String> untrustedReferrers) {
+    this.untrustedReferrers = Objects.requireNonNull(untrustedReferrers);
+  }
+
   /**
    * @return the file from which server rules configuration should be loaded, or {@code null}
    * @since 3.0

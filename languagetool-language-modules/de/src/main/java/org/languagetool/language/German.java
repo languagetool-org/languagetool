@@ -29,6 +29,7 @@ import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -45,13 +46,17 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
+
 /**
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
  * if you need spell checking.
  */
 public class German extends Language implements AutoCloseable {
 
-  private static final Pattern TYPOGRAPHY_PATTERN = Pattern.compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
+  private static final Pattern TYPOGRAPHY_PATTERN = compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
+  private static final Pattern AI_DE_GGEC_MISSING_PUNCT =
+    compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
 
   private LanguageModel languageModel;
 
@@ -524,6 +529,12 @@ public class German extends Language implements AutoCloseable {
       case "REDUNDANCY": return -15;
       case "GENDER_NEUTRALITY": return -15;
     }
+    if (id.startsWith("DE_PROHIBITED_COMPOUNDS_")) {   // don't hide spelling mistakes
+      return -4;
+    }
+    if (id.startsWith("DE_MULTITOKEN_SPELLING")) {
+      return -2;
+    }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
     }
@@ -543,46 +554,32 @@ public class German extends Language implements AutoCloseable {
       return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA
     }
     if (id.startsWith("AI_DE_GGEC")) {
-      if (id.startsWith("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD")) {
-        // less prio than spell checker
-        return -4;
-      }
-      if (id.startsWith("AI_DE_GGEC_UNNECESSARY_PUNCTUATION")) {
-        // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
-        return -2;
-      }
-
       // gGEC IDs that should have less prio than rules with default prio
       // e. g. ABKUERZUNG_FEHLENDE_PUNKTE
-      String[] ggecIds = {
-        "AI_DE_GGEC_REPLACEMENT_ADJECTIVE",
-        "AI_DE_GGEC_REPLACEMENT_ADVERB",
-        "AI_DE_GGEC_REPLACEMENT_NOUN",
-        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE",
-        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL",
-        "AI_DE_GGEC_REPLACEMENT_OTHER",
-        "AI_DE_GGEC_REPLACEMENT_VERB",
-        "AI_DE_GGEC_REPLACEMENT_VERB_FORM",
-        "AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE",
-        "AI_DE_GGEC_UNNECESSARY_OTHER",
-        "AI_DE_GGEC_UNNECESSARY_SPACE"
-      };
-
-      for (String gId: ggecIds) {
-        if (id == gId) {
+      switch (id) {
+        case "AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL":  // less prio than EMAIL
+          return 0;
+        case "AI_DE_GGEC_REPLACEMENT_ADJECTIVE":
+        case "AI_DE_GGEC_REPLACEMENT_ADVERB":
+        case "AI_DE_GGEC_REPLACEMENT_NOUN":
+        case "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE":
+        case "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL":
+        case "AI_DE_GGEC_REPLACEMENT_OTHER":
+        case "AI_DE_GGEC_REPLACEMENT_VERB":
+        case "AI_DE_GGEC_REPLACEMENT_VERB_FORM":
+        case "AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE":
+        case "AI_DE_GGEC_UNNECESSARY_OTHER":
+        case "AI_DE_GGEC_UNNECESSARY_SPACE":
           return -1;
-        }
       }
-
-      Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|" +
-        "AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
-      if (pattern.matcher(id).find()) {
+      if (id.startsWith("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD")) {  // less prio than spell checker
+        return -4;
+      }
+      if (id.startsWith("AI_DE_GGEC_UNNECESSARY_PUNCTUATION")) {  // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
+        return -2;
+      }
+      if (AI_DE_GGEC_MISSING_PUNCT.matcher(id).find()) {
         return -1;
-      }
-
-      if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL") {
-        // less prio than EMAIL
-        return 0;
       }
       return 1;
     }
@@ -591,5 +588,9 @@ public class German extends Language implements AutoCloseable {
 
   public boolean hasMinMatchesRules() {
     return true;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return GermanMultitokenSpeller.INSTANCE;
   }
 }
