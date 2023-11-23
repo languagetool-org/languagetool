@@ -576,7 +576,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-    List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
+    List<SuggestedReplacement> topSuggestions = new ArrayList<>();
+    if (defaultSuggestions.size() == 0 && userSuggestions.size() == 0 && word.contains("-"))  {
+      addHyphenSuggestions(word.split("-"), topSuggestions);
+    }
+    topSuggestions.addAll(getAdditionalTopSuggestions(defaultSuggestions, word));
     topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
     defaultSuggestions.addAll(0, topSuggestions);
     //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
@@ -591,6 +595,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     defaultSuggestions = orderSuggestions(defaultSuggestions, word);
 
     return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+  }
+
+  protected void addHyphenSuggestions(String[] split, List<SuggestedReplacement> topSuggestions) throws IOException {
   }
 
   @NotNull

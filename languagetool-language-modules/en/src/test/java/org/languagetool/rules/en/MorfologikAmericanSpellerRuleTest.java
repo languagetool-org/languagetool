@@ -58,6 +58,14 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   }
 
   @Test
+  public void testSuggestionForMisspelledHyphenatedWords() throws IOException {
+    // one word in compound misspelled:
+    assertSuggestion("one-diminensional", "one-dimensional");
+    //assertSuggestion("web-bassed", "web-based");
+    assertSuggestion("parple-people-eater", "purple-people-eater");
+  }
+
+  @Test
   public void testNamedEntityIgnore() throws IOException {
     Language language = Languages.getLanguageForShortCode("en-US");
     Map<String, Integer> map = new HashMap<>();
