@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging.nl;
 
+import com.google.common.collect.ImmutableSet;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.nl.CompoundAcceptor;
@@ -67,7 +68,24 @@ public class DutchTagger extends BaseTagger {
   public DutchTagger() {
     super("/nl/dutch.dict", new Locale("nl"));
   }
-
+  private static final Set<String> alwaysNeedsHet = ImmutableSet.of(
+          "patroon",
+          "punt",
+          "gemaal",
+          "weer",
+          "kussen",
+          "deel"
+  );
+  private static final Set<String> alwaysNeedsDe = ImmutableSet.of(
+          "keten",
+          "boor",
+          "dans"
+  );
+  private static final Set<String> alwaysNeedsMrv = ImmutableSet.of(
+          "pies",
+          "koeken",
+          "heden"
+  );
   // custom code to deal with words carrying optional accents
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
@@ -168,14 +186,28 @@ public class DutchTagger extends BaseTagger {
           List<String> parts = compoundAcceptor.getParts(word);
           if (parts.size() == 2) {
             String part1 = parts.get(0);
-            List<AnalyzedTokenReadings> part2ReadingsList = tag(Collections.singletonList(parts.get(1)));
-            if (part2ReadingsList.size() > 0) {
+            String part2 = parts.get(1);
+            List<AnalyzedTokenReadings> part2ReadingsList = tag(Collections.singletonList(part2));
+            if (!part2ReadingsList.isEmpty()) {
               AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
               String part1lc = part1.toLowerCase();
               for (AnalyzedToken part2Reading : part2Readings) {
-                if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().contains("ZNW")) {
-                  //System.out.println("Adding " + word + " with postag " + part2Reading.getPOSTag() + ", part2 has lemma " + part2Reading.getLemma());
-                  l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part1lc + part2Reading.getLemma()));
+                if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().startsWith("ZNW")) {
+                  String tag;
+                  if (alwaysNeedsHet.contains(part2)) {
+                    tag = "ZNW:EKV:HET";
+                  } else if (alwaysNeedsDe.contains(part2)) {
+                    tag = "ZNW:EKV:DE_";
+                  } else if (alwaysNeedsMrv.contains(part2)) {
+                    tag = "ZNW:MRV:DE_";
+                  } else {
+                    tag = part2Reading.getPOSTag();
+                  }
+                  l.add(new AnalyzedToken(word, tag, part1lc + part2Reading.getLemma()));
+                  // if any of these lists contain part2 of the compound, exit the loop after adding a single tag
+                  if (alwaysNeedsHet.contains(part2) || alwaysNeedsDe.contains(part2) || alwaysNeedsMrv.contains(part2)) {
+                    break;
+                  }
                 }
               }
             }

@@ -3989,6 +3989,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
 
             <antipattern>
+                <token postag="SPS00">
+                    <exception regexp='yes' inflected='yes'>com|em</exception> <!-- The SPS00 that cause false positives -->
+                </token>
+                <token postag="DI0.P.+" postag_regexp="yes"/>
+                <token postag="AQ..S.+|NC.S.+" postag_regexp="yes"/>
+                <token postag="SPS00|(SPS00:)?[DP]...[SN].+" postag_regexp="yes"/>
+                <example>As equações permitem a cientistas mais à retaguarda de outros saber o que fazer.</example>
+                <example>Quero aqui, lhe dizer que estou em oração por vc, pelo seu ministério e por todos irmão de Uberaba que mesmo diate de toda situação religiosa conturbada em vivem, INSISTEM em pregar o CRI...</example>
+                <example>...do desaparecimento de Gilberto Faria Lima, o Zorro, tido por alguns como agente da repressão, e por outros herói da guerrilha.</example>
+                <example>Amemos a todos independente de seus credos.</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='RM' postag_regexp='no'/>
                 <token>a</token> <!-- Disambiguator needs to be fixed. It has DA.+ instead of SPS00 -->
                 <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
@@ -31854,7 +31867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                     <token postag='NC.+|AQ.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='AO.+'/>
-                        <exception scope='next' postag_regexp='yes' postag='VMP00.+'/>
+                        <exception scope='next' postag_regexp='yes' postag='VMP00.+|VMN0000'/>
                     </token>
                 </pattern>
                 <message>Substitua por <suggestion>está</suggestion>.</message>
@@ -31863,6 +31876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Eu vou ao supermercado esta tarde.</example>
                 <example>Antes da Relatividade esta interligação era um dado experimental.</example>
                 <example>E em 1942, por conta da industrialização do coroá esta progressista cidade recebeu o título de usina.</example>
+                <example>Com o decorrer do tempo esta situação alterar-se-á.</example>
             </rule>
 
             <rule>
@@ -33259,6 +33273,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='DA.+' postag_regexp='yes'/>
                 <token postag='DP.+' postag_regexp='yes'/>
                 <example>Tenho ECTS que os alunos de hoje não têm por a minha licenciatura e mestrado serem pré-Bolonha.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                    <exception postag='RG'/>
+                </token>
+                <token regexp='no'>por</token>
+                <token postag='D[AI].+' postag_regexp='yes'/>
+                <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <example>As equações do passado diferem das atuais por as equações do passado seguirem regras inflexíveis.</example>
             </antipattern>
 
             <!-- Subrule #1: -->

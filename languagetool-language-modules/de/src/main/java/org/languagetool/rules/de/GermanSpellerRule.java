@@ -61,7 +61,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|verträglich)";
   private static final Pattern missingAdjPattern =
     compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
   private static final Pattern compoundPatternWithHeit = compile(".*(heit|keit|ion|ität|schaft|ung|tät)s");
@@ -1706,7 +1706,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    * @since 4.3
    */
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel languageModel) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
+    super(messages, language, language.getNonStrictCompoundSplitter(), () -> getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
@@ -3730,6 +3730,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "nachhacken": return topMatch("nachhaken");
       case "Babies": return topMatch("Babys");
       case "Gummies": return topMatch("Gummis");
+      case "Grüzi": return topMatch("Grüezi");
     }
     return Collections.emptyList();
   }

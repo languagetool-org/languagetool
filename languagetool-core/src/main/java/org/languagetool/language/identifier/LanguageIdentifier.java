@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 public abstract class LanguageIdentifier {
   private static final Pattern URL_REGEX = Pattern.compile("https?://[-_.?&~;+=/#%0-9A-Za-z]+");   // '%' has been added
   private static final Pattern MAIL_REGEX = Pattern.compile("[-_.0-9A-Za-z]+@[-_0-9A-Za-z]+[-_.0-9A-Za-z]+");
-  private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
+  private static final Pattern SIGNATURE = Pattern.compile("\n--[ \u00A0]\n.*", Pattern.DOTALL);
   private static final Pattern MENTION = Pattern.compile("@[A-Za-z0-9_]+");
   private static final Pattern NBSP_INVIS_SEPARATOR = Pattern.compile("[\uFEFF\u2063]+");
   protected static final float SCORE_THRESHOLD = 0.85f;

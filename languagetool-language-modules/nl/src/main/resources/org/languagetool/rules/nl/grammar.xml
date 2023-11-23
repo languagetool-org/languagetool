@@ -176,64 +176,36 @@ regexp case-insensitive maken: (?i)
 	<category id="MOM__GRAMMAR__CONSTITUENT_AGREEMENT__NOUN_PHRASE" name="noun phrase agreement">
 		<rulegroup id="HET_FIETS" name="Ik zet het (de) fiets op slot">
 			<rule>
-				<antipattern>
-					<token case_sensitive="yes" regexp="yes">[A-Z]{2,10}</token>
-					<example>Wij zijn onderdeel van het LINGU.</example>
-				</antipattern>
-				<antipattern>
-					<token inflected="yes">zijn</token>
-					<token>het</token>
-				</antipattern>
-				<antipattern>
-					<token>het</token>
-					<token regexp="yes">mevrouw|meneer</token>
-					<token postag_regexp="yes" postag="UNKNOWN|VRZ|ENM.*"/>
-					<example>Toch kon het meneer van Vliet weinig schelen.</example>
-				</antipattern>
-				<antipattern>
-					<token>het</token>
-					<token>dag</token>
-					<token>en</token>
-					<token>nacht</token>
-				</antipattern>
-				<antipattern>
-					<token>het</token>
-					<token>één</token>
-					<token>of</token>
-					<token>het</token>
-					<token>ander</token>
-				</antipattern>
-				<antipattern>
-					<token skip="-1" regexp="yes" inflected="yes">betekenen|noemen|heten|lijken</token>
-					<token>het</token>
-					<token postag="ZNW:EKV:DE_"/>
-					<example>Hoewel het duidelijk brood was, noemde de peuter het koek.</example>
-				</antipattern>
-				<antipattern>
-					<token skip="-1">het</token>
-					<token regexp="yes" inflected="yes">betekenen|noemen|heten</token>
-					<example>Anders dan in het Duits, waar het kameraad of vriend betekent.</example>
-				</antipattern>
-				<antipattern>
-					<token>het</token>
-					<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
-					<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*|[0-9].*</token>
-					<example>Het Koningin Paola Kinderziekenhuis</example>
-					<example>Het is het begin van het Formule 1-seizoen.</example>
-				</antipattern>
-				<antipattern>
-					<token inflected="yes">geven</token>
-					<token>het</token>
-					<token>tijd</token>
-				</antipattern>
+				<antipattern><token inflected="yes">zijn</token><token>het</token></antipattern>
+				<antipattern><token inflected="yes">geven</token><token>het</token><token>tijd</token></antipattern>
 				<antipattern><token inflected="yes">lopen</token><token>het</token><token>spaak</token></antipattern>
 				<antipattern><token inflected="yes">vereisen</token><token>het</token><token>consistentie</token></antipattern>
 				<antipattern><token inflected="yes">bieden</token><token>het</token><token>zekerheid</token></antipattern>
+				<antipattern><token inflected="yes">maken</token><token skip="-1">het</token><token>lastig</token></antipattern>
+				<antipattern><token inflected="yes">kosten</token><token>het</token><token>moeite</token></antipattern>
+				<antipattern><token inflected="yes">vinden</token><token>het</token><token>top</token></antipattern>
+				<antipattern><token>werkt</token><token skip="3">het</token><token>in</token><token>de</token><token>hand</token></antipattern>
+				<antipattern><token>wekt</token><token skip="3">het</token><token>op</token></antipattern>
+				<antipattern><token>het</token><token>hepatitis</token><token regexp="yes" case_sensitive="yes">A|B</token></antipattern>
+				<antipattern><token>dat</token><token>het</token><token inflected="yes">gieten</token></antipattern>
+				<antipattern><token>verdient</token><token>het</token><token>aanbeveling</token></antipattern>
+				<antipattern><token>het</token><token>dag</token><token>en</token><token>nacht</token></antipattern>
+				<antipattern><token>het</token><token>één</token><token>of</token><token>het</token><token>ander</token></antipattern>
 				<antipattern>
 					<token>het</token>
-					<token postag="ZNW:EKV:DE_"/>
-					<token regexp="yes">[/-]</token>
-					<example>Het koffie / thee-momentje.</example>
+					<token regexp="yes">print|boert|schat|haringvliet|was|kan|vlucht|leest|verving|stelt|scheen|gooi|wil|verkoop|haal|krijg|invloed|won|regent|staat|stond|punt|leek|kost|moet|moest|plaats|neer|toegang|rust|zit|zo|weg|vaart|weet|cv|spijt|schreef|pijn|meet|overal|dienst|zonde|beet|schoot|schonk|rook|las|smelt|start|speet|spuit|tocht|zet|haast|haat|hen|zin|zeg|vraag|staart|tast|test|horen|keer|koop|koers|mede|mijn|morgen|onze|pas|schoppen|snap|stap|tijd|varen|wagen|aanleiding|meent|(&weekdays;).*</token>
+					<example>Zo hoort het schat, ik vind het mooi.</example>
+					<example>Ik heb het maandagochtend meteen geregeld.</example>
+				</antipattern>
+				<antipattern>
+				    <token>het</token>
+				    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z].*</token>
+				    <example>Wij zijn onderdeel van het LINGU.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="-1">het</token>
+					<token regexp="yes" inflected="yes">betekenen|noemen|heten|gieten</token>
+					<example>Anders dan in het Duits, waar het kameraad of vriend betekent.</example>
 				</antipattern>
 				<antipattern>
 					<token postag_regexp="yes" postag="VNW.*"></token>
@@ -241,12 +213,6 @@ regexp case-insensitive maken: (?i)
 					<token postag="ZNW:EKV:DE_"/>
 					<token postag_regexp="yes" postag="WKW.*"></token>
 					<example>Dat is de reden dat ik het kunst noem.</example>
-				</antipattern>
-				<antipattern>
-					<token>het</token>
-					<token postag="ZNW:EKV:DE_"/>
-					<token regexp="yes">de|het|een</token>
-					<example>Het kaart de problemen aan.</example>
 				</antipattern>
 				<antipattern>
 					<token postag_regexp="yes" postag="WKW.*"></token>
@@ -263,42 +229,49 @@ regexp case-insensitive maken: (?i)
 					<example>Dit is wegbereidend omdat het vrijheid nastreeft.</example>
 				</antipattern>
 				<antipattern>
+					<token skip="-1" regexp="yes" inflected="yes">betekenen|noemen|heten|lijken|blijven</token>
 					<token>het</token>
 					<token postag="ZNW:EKV:DE_"/>
-					<token regexp="yes">en|of</token>
+					<example>Hoewel het duidelijk brood was, noemde de peuter het koek.</example>
+				</antipattern>
+				<antipattern>
+					<token>het</token>
+					<token regexp="yes">mevrouw|meneer|familie</token>
+					<token min="0" regexp="yes">de|van</token>
+					<token postag_regexp="yes" postag="UNKNOWN|ENM.*"/>
+					<example>Toch kon het meneer van Vliet weinig schelen.</example>
+				</antipattern>
+				<antipattern>
+					<token>het</token>
+					<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+					<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*|[0-9].*</token>
+					<example>Het Koningin Paola Kinderziekenhuis</example>
+					<example>Het is het begin van het Formule 1-seizoen.</example>
+				</antipattern>
+				<antipattern>
+					<token>het</token>
+					<token postag="ZNW:EKV:DE_"/>
+					<token regexp="yes">en|of|de|het|een|[/-]</token>
 					<example>Wij zitten in het pizza en pastarestaurant.</example>
-					<example>Vandaag is het zaterdag en morgen zal het zondag zijn.</example>
+					<example>Het koffie / thee-momentje.</example>
 				</antipattern>
 				<antipattern>
-					<token>het</token>
-					<token regexp="yes">was|kan|vlucht|leest|verving|stelt|gooi|wil|verkoop|haal|krijg|invloed|won|regent|staat|stond|punt|leek|kost|moet|moest|plaats|neer|toegang|rust|zit|zo|weg|vaart|weet|cv|spijt|schreef|pijn|meet|overal|dienst|zonde|beet|schoot|schonk|rook|las|smelt|start|speet|spuit|tocht|zet|haast|haat|hen|zin|zeg|vraag|staart|tast|test|horen|keer|koop|koers|mede|mijn|morgen|onze|pas|schoppen|snap|stap|tijd|varen|wagen|aanleiding|meent|&weekdays;</token>
-					<example>Het regent dat het giet.</example>
-				</antipattern>
-				<antipattern>
-					<token>het</token>
+				    <token>het</token>
 					<token postag="ZNW:EKV:DE_"/>
-					<token postag_regexp="yes" postag="ZNW:EKV:HET|WKW:TGW:INF"/>
-					<example>Het controle paneel is in een versperde zone.</example>
-					<example>Het Butterfly gezondheidskussen is leverbaar in diverse hoogtes en hardheden.</example>
-					<example>Het aandacht trekken is nogal irritant.</example>
-				</antipattern>
-				<antipattern>
-				    <token>het</token>
-				    <token regexp="yes">boert|schat</token>
-				    <example>Uitstekend, het boert nog altijd heel goed.</example>
-				    <example>Zo hoort het schat, ik vind het mooi.</example>
-				</antipattern>
-				<antipattern>
-				    <token>het</token>
-					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW:EKV:HET|GET:TXT.*"></exception></token>
-				    <token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag="WKW:TGW:3EP"/></token>
+				    <token postag_regexp="yes" postag="ZNW:EKV.*|WKW:TGW:INF"><exception postag="WKW:TGW:3EP"/></token>
 				    <example>Wanneer je eenmaal het auto theorie examen gehaald hebt.</example>
 				    <example>Profiteren van het compound interest effect.</example>
+				</antipattern>
+				<antipattern>
+				    <token><exception postag="SENT_START"/></token>
+				    <token case_sensitive="yes">Het</token>
+				    <token postag="ZNW:EKV:DE_" regexp="yes">[A-Z][a-z].*</token>
+				    <example>Een biertje doen bij Brouwerij Het Achterom.</example>
 				</antipattern>
 				<pattern>
 					<marker>
 						<token>het</token>
-						<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW:EKV:HET|GET:TXT.*"></exception></token>
+						<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW:EKV:HET|GET:TXT.*|GET:ROM:MRV"></exception></token>
 					</marker>
 				</pattern>
 				<message>'\1' is hier waarschijnlijk niet het juiste lidwoord omdat \2 een de-woord is.</message>
@@ -9277,42 +9250,42 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
-			<!-- 2014-08-20 TaalTik -->
-			<antipattern>
-				<token regexp="yes">dat|of|en</token>
-				<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token>
-				<token postag=".*ZNW.*" postag_regexp="yes"/>
-				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:TGW:1EP"/>
-				<example>dat OFGV toestemming krijgt</example>
-			</antipattern>
-			<antipattern><token>KWF</token><token>kankerbestrijding</token></antipattern>
-			<antipattern><token regexp="yes">[0-9]+</token><token>km</token></antipattern>
-			<antipattern><token>.</token><token spacebefore="no">06</token></antipattern>
-			<antipattern><token>#</token><token spacebefore="no" /></antipattern>
-			<antipattern><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/><token>de</token><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag="ZNW.*HET" postag_regexp="yes"/><token postag="VRZ"/></antipattern>
-			<antipattern><token postag="VRZ"/><token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
-			<antipattern><token>06</token><token regexp="yes">&months;|&abbrevMonths;</token></antipattern>
-			<antipattern><token>nu</token><token>weg</token></antipattern>
-			<antipattern><token>niet</token><token>meer</token></antipattern>
-			<antipattern><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren|zo</token></antipattern>
-			<antipattern><token case_sensitive="yes" regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token><token>invloed</token><token>op</token><example>Dat is precies waar de EU invloed op heeft.</example></antipattern>
-			<antipattern>
-				<token spacebefore="no">06</token>
-				<token postag=".*ZNW.*" postag_regexp="yes"/>
-				<example>Dat is 85 meter bij 6,06 meter.</example>
-			</antipattern>
-			<antipattern>
-				<token>de</token>
-				<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token>
-				<token postag="ZNW:EKV:HET"/>
-				<example>Hier heeft de WUR profijt van.</example>
-			</antipattern>
-			<antipattern>
-				<token case_sensitive="yes" regexp="yes">[IVXM]{2}</token>
-				<token postag=".*ZNW.*" postag_regexp="yes"/>
-				<example>Daar heeft Ramses II verbetering gebracht.</example>
-			</antipattern>
 			<rule>
+				<!-- 2014-08-20 TaalTik -->
+				<antipattern>
+					<token regexp="yes">dat|of|en</token>
+					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token>
+					<token postag=".*ZNW.*" postag_regexp="yes"/>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:TGW:1EP"/>
+					<example>dat OFGV toestemming krijgt</example>
+				</antipattern>
+				<antipattern><token>KWF</token><token>kankerbestrijding</token></antipattern>
+				<antipattern><token regexp="yes">[0-9]+</token><token>km</token></antipattern>
+				<antipattern><token>.</token><token spacebefore="no">06</token></antipattern>
+				<antipattern><token>#</token><token spacebefore="no" /></antipattern>
+				<antipattern><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/><token>de</token><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag="ZNW.*HET" postag_regexp="yes"/><token postag="VRZ"/></antipattern>
+				<antipattern><token postag="VRZ"/><token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
+				<antipattern><token>06</token><token regexp="yes">&months;|&abbrevMonths;</token></antipattern>
+				<antipattern><token>nu</token><token>weg</token></antipattern>
+				<antipattern><token>niet</token><token>meer</token></antipattern>
+				<antipattern><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren|zo</token></antipattern>
+				<antipattern><token case_sensitive="yes" regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token><token>invloed</token><token>op</token><example>Dat is precies waar de EU invloed op heeft.</example></antipattern>
+				<antipattern>
+					<token spacebefore="no">06</token>
+					<token postag=".*ZNW.*" postag_regexp="yes"/>
+					<example>Dat is 85 meter bij 6,06 meter.</example>
+				</antipattern>
+				<antipattern>
+					<token>de</token>
+					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]</token>
+					<token postag="ZNW:EKV:HET"/>
+					<example>Hier heeft de WUR profijt van.</example>
+				</antipattern>
+				<antipattern>
+					<token case_sensitive="yes" regexp="yes">[IVXM]{2}</token>
+					<token postag=".*ZNW.*" postag_regexp="yes"/>
+					<example>Daar heeft Ramses II verbetering gebracht.</example>
+				</antipattern>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">AND|JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ|VIES|MAAR|HAAR|VOOR|HET</exception></token>
 					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|BYW.*" postag_regexp="yes"/><exception regexp="yes">sprake|tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception><exception postag_regexp="yes" postag="GET.*MRV"/></token>
@@ -9322,6 +9295,34 @@ regexp case-insensitive maken: (?i)
 				<short>06-~</short>
 				<example correction="06-nummertje">Zij heeft een <marker>06 nummertje</marker>.</example>
 				<example>We kunnen je pas na <marker>06 juni</marker> weer bezoeken.</example>
+			</rule>
+			<rule>
+				<antipattern>
+					<token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
+					<token postag_regexp="yes" postag="ZNW:EKV|ZNW.*DE_" case_sensitive="yes" regexp="yes">[A-Z][A-Z].*</token>
+					<example>Sinds het seizoen 2017/18 is de naam van het toernooi officieel de TOTO KNVB Beker</example>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
+					<token postag_regexp="yes" postag="ZNW:EKV|ZNW.*DE_" case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+					<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+					<example>Training in het gebruik van de POS Hogeschool Gent.</example>
+				</antipattern>
+				<pattern>
+					<token>de</token>
+					<marker>
+						<token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
+						<token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:(TGW|VLT).*|GET:TXT.*|VGW:*" postag_regexp="yes"/><exception regexp="yes">haar|niettemin|weer|wel|over|&months;|&abbrevMonths;</exception></token>
+					</marker>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
+				<message>Hier ontbreekt mogelijk een koppelteken.</message>
+				<suggestion>\2\3</suggestion>
+				<short>Spatiefout</short>
+				<example correction="IOC-Coördinatiecommissie">De voorzitter van de <marker>IOC Coördinatiecommissie</marker> staat op.</example>
+				<example>In 2006 is de UEFA weer teruggegaan naar het oude verlengingssysteem.</example>
+				<example>Voor 2018 bedraagt de CPI juli 2018 2,1%.</example>
+				<example>Het belangrijkste strijdpunt van de ARP was de gelijkstelling van het openbaar en bijzonder onderwijs.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="_24_UURS_DING" name="24-uurs ding" type="misspelling">
@@ -15366,6 +15367,26 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>Na een bullet hoort een spatie: <suggestion>\2 \3</suggestion>.</message>
 				<example correction="* Dat"><marker>*Dat</marker> is vreemd.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="OPSOMMING_SPATIE" name="Zet na een opsommingsteken een spatie">
+			<!-- most common type of error generated by MORFOLOGIK_RULE_NL_NL, from the nightly diff -->
+			<rule>
+			    <antipattern>
+			        <token>-</token>
+			        <token/>
+			        <example>- Dat is goed.</example>
+			    </antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token regexp="yes">-(ik|dat|wat|nee|ja|je|het|hij|zij|we|de|niet|een|ze|kom|die|waarom|wie|ga|waar|laat|in|heb|goed|daar|dit)</token>
+					</marker>
+					<token/>
+				</pattern>
+				<message>Na een opsommingsteken hoort een spatie: <suggestion><match no="2" regexp_match="^-" regexp_replace="- "/></suggestion>.</message>
+				<example correction="- Dat"><marker>-Dat</marker> is vreemd.</example>
 			</rule>
 		</rulegroup>
 
@@ -24964,6 +24985,12 @@ regexp case-insensitive maken: (?i)
 					<token regexp="yes">[A-Z][a-z].*</token>
 					<token regexp="yes">[A-Z][a-z].*</token>
 				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="GET.*"/>
+					<token>de</token>
+					<token postag="ZNW:EKV:HET"/>
+					<example>In het 6 de jaar wist hij het wel.</example>
+				</antipattern>
 				<pattern>
 					<marker>
 						<token>de</token>
@@ -24983,24 +25010,6 @@ regexp case-insensitive maken: (?i)
 				<example>Het album behaalde de 2e plaats in de album top 100.</example>
 				<example>Het was hun eerste medaille bij de EK Kunstschaatsen.</example>
 				<example>Probeer op maandag- t/m donderdagmiddag eens de menú del día.</example>
-			</rule>
-			<rule>
-				<!-- TODO:  Consider moving to other category as separate rule (with reference to this one) -->
-				<pattern>
-					<token>de</token>
-					<marker>
-						<token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
-						<token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:(TGW|VLT).*|GET:TXT.*|VGW:*" postag_regexp="yes"/><exception regexp="yes">haar|niettemin|weer|wel|&months;|&abbrevMonths;</exception></token>
-					</marker>
-				</pattern>
-				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
-				<message>Dit is mogelijk een spatiefout.</message>
-				<suggestion>\2\3</suggestion>
-				<short>Spatiefout</short>
-				<example correction="IOC-Coördinatiecommissie">De voorzitter van de <marker>IOC Coördinatiecommissie</marker> staat op.</example>
-				<example>In 2006 is de UEFA weer teruggegaan naar het oude verlengingssysteem.</example>
-				<example>Voor 2018 bedraagt de CPI juli 2018 2,1%.</example>
-				<example>Het belangrijkste strijdpunt van de ARP was de gelijkstelling van het openbaar en bijzonder onderwijs.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium">

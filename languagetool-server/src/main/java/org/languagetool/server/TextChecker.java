@@ -409,13 +409,17 @@ abstract class TextChecker {
     if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
       isMultiLangEnabled = true;
     }
+    boolean untrustedSource = false;
+    if (referrer != null) {
+      untrustedSource = config.getUntrustedReferrers().stream().anyMatch(s -> s.contains(referrer));
+    }
     
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, untrustedSource);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 

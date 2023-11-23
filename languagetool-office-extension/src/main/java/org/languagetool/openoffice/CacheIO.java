@@ -39,6 +39,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache.SerialLocale;
 import org.languagetool.openoffice.IgnoredMatches.LocaleEntry;
+import org.languagetool.openoffice.OfficeTools.LoErrorType;
 
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
@@ -361,15 +362,16 @@ public class CacheIO implements Serializable {
     } else {
       if (allCaches.paragraphsCache.get(0).getNumberOfMatches() > 0) {
         for (int n = 0; n < allCaches.paragraphsCache.get(0).getNumberOfParas(); n++) {
-          if (allCaches.paragraphsCache.get(0).getMatches(n) == null) {
+          if (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH) == null) {
             MessageHandler.printToLogFile("allCaches.sentencesCache.getMatches(" + n + ") == null");
           } else {
-            if (allCaches.paragraphsCache.get(0).getMatches(n).length > 0) {
+            if (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH).length > 0) {
               MessageHandler.printToLogFile("Paragraph " + n + " sentence match[0]: " 
-                  + "nStart = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorStart 
-                  + ", nLength = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorLength
+                  + "nStart = " + allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].nErrorStart 
+                  + ", nLength = " + allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].nErrorLength
                   + ", errorID = " 
-                  + (allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier == null ? "null" : allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier));
+                  + (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].aRuleIdentifier == null ? "null" 
+                      : allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].aRuleIdentifier));
             }
           }
         }

@@ -125,6 +125,7 @@ USA
         </rulegroup>
 
 
+
         <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags="clarity">
         <!-- TO-DO: DI.+ ; It will require messing with the antipattern since DI.+ is more than a mere "[ao]s?" from DA.+ -->
             <antipattern>
@@ -146,6 +147,18 @@ USA
                 <example>Tom normalmente vai para a escola com a Mary.</example>
                 <example>O homem que normalmente ama sob o sol adora arrebatadamente sob a lua.</example>
                 <example>Uma tempestade estava supostamente presente durante a aterrissagem.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='RM'/>
+                <token postag='VMIP1.+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
+                <example>Ao estudarmos, mais fácil e rapidamente alcançamos os resultados pretendidos.</example>
+                <example>Eu normalmente lavo a louça.</example>
+                <example>Em francês, raramente omitimos o sujeito.</example>
+                <example>Eu realmente detesto a escrita formal!</example>
+                <example>Nós realmente vimos o acidente.</example>
             </antipattern>
 
             <pattern>
@@ -225,6 +238,17 @@ USA
                 <example>Em 1931, o diretor de animação Bob Clampett, que na época trabalhava para Warner Bros.</example>
                 <example>Apresentado como um correspondente estrangeiro, antes destemido, mas que no momento trabalhava em relações públicas em Darwin.</example>
                 <example>Ela patrocinava um conhecido lutador de artes marciais mistas, Conor McGregor, que em retorno promovia a empresa através das mídias sociais.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>que</token>
+                <token regexp='yes'>ainda|às?|aos?|até|cada|em|embora|mais|menos|muit[ao]s?|n[ao]s?</token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='VMIP3.+' postag_regexp='yes'/>
+                <example>Desde 1950 que muitos matemáticos estudam as equações de Pedro.</example>
+                <example>Tenho certeza que muitas pessoas conhecem.</example>
+                <example>...mais fortes características desse "duelo" de personagens que se contrapõem durante o texto, mas que ao final precisam um do outro para existir.</example>
+                <example>Experiência é o nome que muitas pessoas dão para seus erros.</example>
             </antipattern>
 
             <pattern>
@@ -12810,43 +12834,21 @@ USA
         </rule>
 
 
-        <!-- MADRUGADA matinal -->
-        <rule id='MADRUGADA_MATINAL' name="[Simplificar] De madrugada → matinal" type="style" default='off'>
+        <rule id='MADRUGADA_MATINAL' name="Simplificar: da madrugada/manhã → matinal" type="style" default='temp_off'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-22 + 2021-07-23 + 2022-09-14 (25-JUN-2021+)      -->
-            <!--
-      Vamos fazer exercício de madrugada. → Vamos fazer exercício matinal.
-      -->
-            <antipattern>
-                <token regexp='yes' inflected='yes'>haver|escovar|ir|trazer</token>  <!-- 2022-09-14: Add exception verbs here -->
-                <token min="0" max="1" postag='DA.+' postag_regexp='yes'/>
-                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-                <token regexp='no'>de</token>
-                <token regexp='yes'>madrugada|manhã</token>
-                <example>Eles disseram para eu lá ir terça de manhã com o documento.</example>
-                <example>Treinei meu cachorro para que me trouxesse o jornal de manhã.</example>
-                <example>Havia névoa de manhã.</example>
-                <example>Ela escova o cabelo de manhã.</example>
-            </antipattern>
-
             <pattern>
-                <token postag='V.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
-                </token>
-                <token min="0" max="1" postag='DI.+|DA.+' postag_regexp='yes'/>
-                <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'>
-                    <exception>amanhã</exception>
-                    <exception postag='RG'/>
-                </token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token regexp='yes'>[ao]s?</token>
+                <token regexp='yes' inflected='yes'>banho|chá|exercício|leite|névoa|orvalho|passeio|sexo|sol</token> <!-- Add more words as found -->
                 <marker>
-                    <token regexp='yes'>d[ae]</token>
-                    <token regexp='yes'>madrugada|manhã</token>
+                    <token regexp='yes'>das?</token>
+                    <token regexp='yes'>madrugadas?|manhãs?</token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>matinal</suggestion>
-            <example correction="matinal">Vamos fazer exercício <marker>de madrugada</marker>.</example>
-            <example correction="matinal">Eu sempre tomo um banho <marker>de manhã</marker>.</example>
+            <suggestion><match no='5' postag='NCF(.)000' postag_replace='AQ0C$10'>matinal</match></suggestion>
+            <example correction="matinal">Vamos fazer o exercício <marker>da madrugada</marker>.</example>
+            <example correction="matinal">Eu sempre tomo o banho <marker>da manhã</marker>.</example>
             <example correction="matinal">Eu tinha o costume de dar o passeio <marker>da manhã</marker>.</example>
         </rule>
 

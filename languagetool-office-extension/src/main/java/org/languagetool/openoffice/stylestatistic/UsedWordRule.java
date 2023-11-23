@@ -70,6 +70,7 @@ public class UsedWordRule {
         }
         mostUsed = getMostUsed(wordMap);
       }
+      cache.setNewResultcache(null, null);
     } catch (IOException e) {
       MessageHandler.showError(e);
     }
