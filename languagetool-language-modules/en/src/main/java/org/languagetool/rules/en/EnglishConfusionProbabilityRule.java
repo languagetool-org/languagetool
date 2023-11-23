@@ -305,6 +305,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "make a hire",
       "on the news",
       "brown plane",
+      "impeccable brows",
       "news politics",
       "organic reach",
       "out bid",
