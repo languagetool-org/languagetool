@@ -100,7 +100,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
         <rule id="NOUVEL_AN" name="Nouvel An" tone_tags="general">
             <pattern case_sensitive="yes">
                 <token>nouvel</token>
-                <token regexp="yes">an</token>
+                <token>an</token>
             </pattern>
             <message>Si vous parlez de la fête, il faut deux majuscules : <suggestion>Nouvel An</suggestion>. Bonne année !</message>
             <example correction="Nouvel An">Tu fais quoi pour <marker>nouvel an</marker> cette année ?</example>
@@ -850,6 +850,61 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="excuse-moi">Je ne voulais pas te déranger, <marker>je m'excuse</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="COVID_19_GRAPHIE" name="graphie covid 19">
+            <url>https://languagetool.org/insights/fr/poste/nouveaux-mots-du-dico-2023/#les-mots-nouveaux-li%C3%A9s-%C3%A0-la-pand%C3%A9mie-mondiale</url>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Covid</token>
+                    <token>19</token>
+                </pattern>
+                <message>Privilégiez la forme en minuscules sans majuscule initiale, conformément aux graphies acceptées.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid" case_conversion="alllower"/> \2</suggestion>
+                <example correction="covid 19">La <marker>Covid 19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid-19</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Covid-19</token>
+                </pattern>
+                <message>Privilégiez l'écriture en minuscules ou en majuscules complètes. Évitez la forme avec une majuscule initiale.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid-19" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="COVID-19" case_conversion="allupper"/></suggestion>
+                <example correction="covid-19|COVID-19">La <marker>Covid-19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid19</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="no">Covid19</token>
+                </pattern>
+                <message>Un trait d'union ou une espace est nécessaire. D'autres graphies sont également acceptées.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="COVID-19" case_conversion="allupper"/></suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid-19" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid 19" case_conversion="alllower"/></suggestion>
+                <example correction="COVID-19|covid-19|covid 19">La <marker>Covid19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Covid</token>
+                </pattern>
+                <message>Utilisez la forme en minuscules sans majuscule initiale, conformément aux graphies acceptées.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid" case_conversion="alllower"/></suggestion>
+                <example correction="covid">La <marker>Covid</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+        </rulegroup>
         <rule id="LE_COVID" name="la Covid et le Covid" type="style" tone_tags="clarity">
             <pattern>
                 <token postag="(P\+)?D m s" postag_regexp="yes"/>
@@ -858,10 +913,10 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <message>Voulez-vous utiliser la forme féminine recommandée, au détriment du masculin "\1" couramment utilisé ?</message>
             <suggestion><match no="1" case_conversion="preserve" postag="(P?).?D m s" postag_regexp="yes" postag_replace="$1.?D f s"/> \2</suggestion>
             <url>https://languagetool.org/insights/fr/poste/nouveaux-mots-du-dico-2023/#les-mots-nouveaux-li%C3%A9s-%C3%A0-la-pand%C3%A9mie-mondiale</url>
-            <example correction="la Covid-19">Il faut faire attention car <marker>le Covid-19</marker> est récent.</example>
-            <example correction="La Covid-19"><marker>Le Covid-19</marker> est une maladie grave.</example>
-            <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
-            <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
+            <example correction="la covid-19">Il faut faire attention car <marker>le covid-19</marker> est récent.</example>
+            <example correction="La covid-19"><marker>Le covid-19</marker> est une maladie grave.</example>
+            <example correction="de la covid">Les répercussions économiques <marker>du covid</marker> ne se sauront pas avant 2022.</example>
+            <example correction="à la COVID-19">Les dommages humains et économiques dus <marker>au COVID-19</marker> sont considérables.</example>
         </rule>
         <rule id="CELLES_CEUX" name="celles et ceux" tone_tags="clarity">
             <pattern>
