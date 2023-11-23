@@ -6675,6 +6675,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
     </rulegroup>
 
+    <rule id="ISLA_DE_X" name="Isla de"><!-- ignore spelling of French, Italian and Spanish street names -->
+        <pattern>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">Avenue|Bois|Camino|Car[áa]|Chemin|Chez|Creux|Derrière|Entre|Impasse|Isla|Passage|Pont|Regina|Route|Rue(elle)?|Stráda|Sous|Sur|Valle|Vers|Via|Vue</token>
+                <token regexp="yes">da|de[ls]?|du|les?</token>
+                <token min="0">la</token>
+                <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule id="NEN_IGNORE_SPELLING" name="Ignore spelling of 'nen">
         <pattern>
             <token regexp="yes">[’']</token>
