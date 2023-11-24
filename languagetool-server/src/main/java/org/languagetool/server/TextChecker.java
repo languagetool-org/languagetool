@@ -53,8 +53,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.languagetool.server.ServerTools.getHttpReferrer;
-import static org.languagetool.server.ServerTools.getHttpUserAgent;
+import static org.languagetool.server.ServerTools.*;
 
 /**
  * @since 3.4
@@ -411,7 +410,7 @@ abstract class TextChecker {
     }
     boolean untrustedSource = false;
     if (referrer != null) {
-      untrustedSource = config.getUntrustedReferrers().stream().anyMatch(s -> s.contains(referrer));
+      untrustedSource = config.getUntrustedReferrers().stream().anyMatch(s -> siteMatches(referrer, s));
     }
     
     UserConfig userConfig =

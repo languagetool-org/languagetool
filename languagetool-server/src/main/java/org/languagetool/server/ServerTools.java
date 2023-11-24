@@ -237,4 +237,10 @@ final class ServerTools {
     }
     return s;
   }
+
+  static boolean siteMatches(String referrer, String blockedRef) {
+    return referrer.startsWith(blockedRef) ||
+      referrer.startsWith("http://" + blockedRef) || referrer.startsWith("https://" + blockedRef) ||
+      referrer.startsWith("http://www." + blockedRef) || referrer.startsWith("https://www." + blockedRef);
+  }
 }
