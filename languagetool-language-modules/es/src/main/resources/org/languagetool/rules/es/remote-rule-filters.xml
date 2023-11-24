@@ -79,6 +79,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes">.*\d</token>
+                    </marker>
+                    <token regexp="yes">millones|millardos|veces</token>
+                </pattern>
+                <example correction="">Cuesta <marker>15</marker> millones.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token>así</token>
                     </marker>
                     <token>pues</token>
