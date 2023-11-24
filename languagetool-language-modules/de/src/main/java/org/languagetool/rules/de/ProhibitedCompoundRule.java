@@ -59,7 +59,6 @@ public class ProhibitedCompoundRule extends Rule {
           // * please test using ProhibitedCompoundRuleTest.testListOfWords() before pushing a change with a new pair
           new Pair("schaf", "Tier", "schaft", "'-schaft' (Element zur Wortbildung, z. B. 'Freundschaft')"),
           new Pair("schafen", "Dativ Plural von 'Schaf'", "schaften", "'-schaften' (Element zur Wortbildung, z. B. 'Freundschaften')"),
-          new Pair("leser", "eine Person, die liest", "leder", "aus Tierhaut gewonnenes Material"),
           new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
           new Pair("pillen", "Tabletten", "pullen", "Plural von 'Pulle' (Flasche)"),
           new Pair("tauben", "Vogelart", "trauben", "Obstsorte"),
