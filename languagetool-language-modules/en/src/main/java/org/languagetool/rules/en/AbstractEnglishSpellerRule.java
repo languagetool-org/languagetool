@@ -120,6 +120,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "nigger lip",
     "nigger lips",
     "niggers",
+    "skillet",
     "shit",
     "shits",
     "shitfaced",
