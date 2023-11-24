@@ -851,25 +851,6 @@ regexp case-insensitive maken: (?i)
 				<example correction="100 cm³">De inhoud is <marker>100cm3</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MEEST_GEWOON" name="Meest gewoon/gewoonst" tags="picky">
-			<rule>
-				<antipattern>
-					<token>meest</token>
-					<token regexp="yes">luxe|perfec(t|te)|sexy|relax(te|ed)|identiek(e)?|ervaren|geliefd(e)?|nutteloos|nuttelo(os|ze)</token>
-					<example>Ik wil de meest luxe kamer die je hebt.</example>
-					<example>Dat zijn de meest identieke exemplaren.</example>
-				</antipattern>
-				<pattern>
-					<token>meest</token>
-					<token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*(rd|nd|st|isch|ïsch|sk)e?|.*de</exception></token>
-				</pattern>
-				<message>Sommigen vinden dit 'te Engels' en geven de voorkeur aan: <suggestion><match no="2" postag_regexp="yes" postag="(BNW:STL:)(.*)" postag_replace="BNW:OVR:$2"/></suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/meest-origineel-origineelst</url>
-				<short>Anglicisme</short>
-				<example correction="normaalst">Hij is wel het <marker>meest normaal</marker> van allemaal.</example>
-			    <example>Hij is het meest stupide van allemaal.</example>
-			</rule>
-		</rulegroup>
 	</category>
 
 	<category id="SEMANTICS" name="Aandachtspunten in de betekenis en consistentie." >
@@ -1790,21 +1771,6 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>Bedoelt u misschien <suggestion><match no="1" regexp_match="stor" regexp_replace="stoor"/></suggestion>? Een pastoor is een katholieke geestelijke; een pastor hoeft geen priester te zijn.</message>
 				<example correction="pastoor">Het woord <marker>pastor</marker> kan een vergissing zijn.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="OOR_OR" name="waarschuwing bij gebruik or i.p.v. oor">
-			<rule>
-				<antipattern><token>deal</token><token>or</token><token>no</token><token>deal</token></antipattern>
-				<antipattern><token>de</token><token>or</token></antipattern> <!-- ondernemingsraad -->
-				<antipattern><token>or</token><token>the</token></antipattern> <!-- Engels -->
-				<antipattern><token>or</token><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/></antipattern> <!-- Engels -->
-				<antipattern><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token>or</token></antipattern> <!-- Engels -->
-				<pattern>
-					<token case_sensitive="yes">or</token>
-				</pattern>
-				<message>Bedoelt u misschien <suggestion>oor</suggestion>? Of is het toch de ondernemingraad of Engels?</message>
-				<example correction="oor">Het woord <marker>or</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
 
@@ -11378,9 +11344,9 @@ regexp case-insensitive maken: (?i)
 				<pattern>
 					<token case_sensitive="yes">an</token>
 				</pattern>
-				<message>De naam <suggestion>An</suggestion> hoort met een hoofdletter, of u bedoelt <suggestion>aan</suggestion> of <suggestion>van</suggestion>.</message>
+				<message>Bedoelt u misschien <suggestion>van</suggestion>, <suggestion>aan</suggestion>, of misschien de naam <suggestion>An</suggestion> met een hoofdletter?</message>
 				<short>Geen hoofdletter</short>
-				<example correction="An|aan|van">Ik zie <marker>an</marker> dagelijks.</example>
+				<example correction="van|aan|An">Ik zie <marker>an</marker> dagelijks.</example>
 			</rule>
 		</rulegroup>
 
@@ -24797,16 +24763,6 @@ regexp case-insensitive maken: (?i)
 				<example correction="antwoordde hij">Toen <marker>antwoord de hij</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DE_MAX" name="de max / het maximum">
-			<rule>
-				<pattern>
-					<token>de</token>
-					<token case_sensitive="yes">max</token>
-				</pattern>
-				<message>In het Engels is het 'to the max', maar in het Nederlands is het <suggestion>het maximum</suggestion>.</message>
-				<example correction="het maximum">Hij ging tot <marker>de max</marker>.</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="DE_LEESTEKEN" name="de;">
 			<rule>
 				<!-- ... -->
@@ -25558,30 +25514,6 @@ regexp case-insensitive maken: (?i)
 				<suggestion><match no="2" postag_regexp="yes" postag="(^.+):ONV" postag_replace="$1:VRB"/> \3</suggestion>
 				<example correction="lichte amandelgeur">Er hangt een <marker>licht amandelgeur</marker>.</example>
 				<example>Hij liep tegen een stuk muur.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="ZIEKTE_IN_MENSEN" name="Anglicisme" >
-			<rule>
-				<pattern>
-					<token regexp="yes" inflected="yes">ziekte|besmetting|covid|griep|influenza</token>
-					<marker>
-						<token>in</token>
-					</marker>
-					<token regexp="yes">mensen|kinderen|jongens|meisjes|baby's</token>
-				</pattern>
-				<message>U bedoelt hier 'in' vast niet letterlijk. Het is een anglicisme; hier zou <suggestion>bij</suggestion> beter staan.</message>
-				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> kinderen.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes" inflected="yes">ziekte|besmetting|covid|griep|influenza</token>
-					<marker>
-						<token>in</token>
-					</marker>
-					<token postag="WKW:VTD:ZNW:MRV:DE_"/>
-				</pattern>
-				<message>U bedoelt hier 'in' vast niet letterlijk. Het is een anglicisme; hier zou <suggestion>bij</suggestion> beter staan.</message>
-				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> gevaccineerden.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ZEER_GROTERE" name="Zeer grotere/grote" >

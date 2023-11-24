@@ -797,20 +797,6 @@ USA
 				<example correction="">Wie rugpijn heeft of gevoelige gewrichten kan opteren voor een matrastopper van traagschuim zodat het comfort <marker>optimaler</marker> wordt.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="IN_X_MINUTEN" name="In/over" tags="picky">
-			<!-- toneTag foreign_terms -->
-			<rule>
-				<pattern>
-					<token inflected="yes">vertrekken</token>
-					<token>in</token>
-					<token postag_regexp="yes" postag="GET:ARA.*MRV|GET:TXT:MRV"/>
-					<token regexp="yes">minuten|uren|dagen|seconden</token>
-				</pattern>
-				<message>Dit is meer Engels dan Nederlands.</message>
-				<suggestion>\1 over \3 \4</suggestion>
-				<example correction="vertrekt over 5 minuten">De bus <marker>vertrekt in 5 minuten</marker>.</example>
-			</rule>
-		</rulegroup>
 		<rulegroup id="VAN_BETEKENIS" name="Van betekenis/belangrijk" tags="picky" tone_tags="clarity">
 			<rule>
 				<pattern>
@@ -7355,33 +7341,6 @@ USA
 				<example correction="">Enkele weken vooraf neem je contact met <marker>bovengenoemde</marker> om datum en uur van afhalen en terugbrengen af te spreken.</example>
 				<example correction="">De tests op de <marker>bovengenoemde</marker> touwen zijn op de eerste plaats bedoeld om de ´valgraad´ te controleren.</example>
 				<example correction="">De komende uren zal het warmtefront van <marker>bovengenoemde</marker> depressie verder doorschuiven en zullen we spoedig in diens warme sector terechtkomen.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="BRANDING" name="branding">
-			<!-- omdat de branding van de zee frequent voorkomt, dit weghalen aan de hand van andere woorden -->
-			<rule>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">strand|bruis.*|.*kust|golven|golf|.*zee.*|zand.*|.*rots.*|woest|rolt|.*surfen|donderen.*|.*bulder.*|meeuw.*|gebroken</token><token postag="SENT_END"/></antipattern>
-				<antipattern>
-					<token postag="VRZ"></token>
-					<token>de</token>
-					<token>branding</token>
-					<example>Zwemmen in de branding.</example>
-				</antipattern>
-				<antipattern>
-					<!-- "personal merkontwikkeling" does not fit very well -->
-					<token postag_regexp="yes" postag="UNKNOWN|DVW"></token>
-					<token>branding</token>
-					<example>Ik heb geïnvesteerd in personal branding.</example>
-				</antipattern>
-				<pattern>
-					<token case_sensitive="yes" skip="10">branding</token>
-				</pattern>
-				<message>Als u reclame bedoelt kunt u ook een Nederlands woord als <suggestion>merkontwikkeling</suggestion> of <suggestion>merkbevordering</suggestion> gebruiken.</message>
-				<example correction="merkontwikkeling|merkbevordering">Onze designers zullen samen met jou de <marker>branding</marker> opzetten en vatten die perfect samen in een duidelijke stijlgids.</example>
-				<example>En als er behoorlijk wat branding stond, moest de schuit het bonkend aankomen op het strand aankunnen.</example>
-				<example>Je was een rots in de branding.</example>
-				<example>Deze branding is ideaal om te surfen.</example>
-				<example>De zevende hole heeft een afslag over de donderende branding.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="BRANDSTOFVERKOOPPUNT" name="brandstofverkooppunt">
@@ -16325,13 +16284,143 @@ USA
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="LEENWOORDEN" name="Leenwoorden met een gangbaar alternatief" type="style">
+	<category id="LEENWOORDEN" name="Leenwoorden en anglicismen met een gangbaar alternatief" type="style" tone_tags="clarity">
 		<!-- Veel regels kunnen weer worden enabled nadat user option "foreign_terms" is toegevoegd.
-			 Toe te voegen simple replaces:
-				de prospect
-				de search
+				 Momenteel hebben de meeste regels in deze categorie een apply rate van ~3%.
+			 		Toe te voegen simple replaces:
+						de prospect
+						de search
 		-->
-		<rulegroup id="GOAL" name="goal → doel(punt)" tags="picky">
+		<rulegroup id="BRANDING" name="branding" default="off">
+			<!-- omdat de branding van de zee frequent voorkomt, dit weghalen aan de hand van andere woorden -->
+			<rule>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">strand|bruis.*|.*kust|golven|golf|.*zee.*|zand.*|.*rots.*|woest|rolt|.*surfen|donderen.*|.*bulder.*|meeuw.*|gebroken</token><token postag="SENT_END"/></antipattern>
+				<antipattern>
+					<token postag="VRZ"></token>
+					<token>de</token>
+					<token>branding</token>
+					<example>Zwemmen in de branding.</example>
+				</antipattern>
+				<antipattern>
+					<!-- "personal merkontwikkeling" does not fit very well -->
+					<token postag_regexp="yes" postag="UNKNOWN|DVW"></token>
+					<token>branding</token>
+					<example>Ik heb geïnvesteerd in personal branding.</example>
+				</antipattern>
+				<pattern>
+					<token case_sensitive="yes" skip="10">branding</token>
+				</pattern>
+				<message>Als u reclame bedoelt kunt u ook een Nederlands woord als <suggestion>merkontwikkeling</suggestion> of <suggestion>merkbevordering</suggestion> gebruiken.</message>
+				<example correction="merkontwikkeling|merkbevordering">Onze designers zullen samen met jou de <marker>branding</marker> opzetten en vatten die perfect samen in een duidelijke stijlgids.</example>
+				<example>En als er behoorlijk wat branding stond, moest de schuit het bonkend aankomen op het strand aankunnen.</example>
+				<example>Je was een rots in de branding.</example>
+				<example>Deze branding is ideaal om te surfen.</example>
+				<example>De zevende hole heeft een afslag over de donderende branding.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="IN_X_MINUTEN" name="In/over" tags="picky">
+			<!-- toneTag foreign_terms -->
+			<rule>
+				<pattern>
+					<token inflected="yes">vertrekken</token>
+					<token>in</token>
+					<token postag_regexp="yes" postag="GET:ARA.*MRV|GET:TXT:MRV"/>
+					<token regexp="yes">minuten|uren|dagen|seconden</token>
+				</pattern>
+				<message>Dit is meer Engels dan Nederlands.</message>
+				<suggestion>\1 over \3 \4</suggestion>
+				<example correction="vertrekt over 5 minuten">De bus <marker>vertrekt in 5 minuten</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MEEST_GEWOON" name="Meest gewoon/gewoonst" tags="picky">
+			<rule>
+				<antipattern>
+					<token>meest</token>
+					<token regexp="yes">luxe|perfec(t|te)|sexy|relax(te|ed)|identiek(e)?|ervaren|geliefd(e)?|nutteloos|nuttelo(os|ze)</token>
+					<example>Ik wil de meest luxe kamer die je hebt.</example>
+					<example>Dat zijn de meest identieke exemplaren.</example>
+				</antipattern>
+				<pattern>
+					<token>meest</token>
+					<token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*(rd|nd|st|isch|ïsch|sk)e?|.*de</exception></token>
+				</pattern>
+				<message>Sommigen vinden dit 'te Engels' en geven de voorkeur aan: <suggestion><match no="2" postag_regexp="yes" postag="(BNW:STL:)(.*)" postag_replace="BNW:OVR:$2"/></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/meest-origineel-origineelst</url>
+				<short>Anglicisme</short>
+				<example correction="normaalst">Hij is wel het <marker>meest normaal</marker> van allemaal.</example>
+			    <example>Hij is het meest stupide van allemaal.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ZIEKTE_IN_MENSEN" name="Anglicisme" >
+			<rule>
+				<pattern>
+					<token regexp="yes" inflected="yes">ziekte|besmetting|covid|griep|influenza</token>
+					<marker>
+						<token>in</token>
+					</marker>
+					<token regexp="yes">mensen|kinderen|jongens|meisjes|baby's</token>
+				</pattern>
+				<message>U bedoelt hier 'in' vast niet letterlijk. Het is een anglicisme; hier zou <suggestion>bij</suggestion> beter staan.</message>
+				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> kinderen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes" inflected="yes">ziekte|besmetting|covid|griep|influenza</token>
+					<marker>
+						<token>in</token>
+					</marker>
+					<token postag="WKW:VTD:ZNW:MRV:DE_"/>
+				</pattern>
+				<message>U bedoelt hier 'in' vast niet letterlijk. Het is een anglicisme; hier zou <suggestion>bij</suggestion> beter staan.</message>
+				<example correction="bij">Het gaat mis met besmettingen <marker>in</marker> gevaccineerden.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DE_MAX" name="de max / het maximum">
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token case_sensitive="yes">max</token>
+				</pattern>
+				<message>In het Engels is het 'to the max', maar in het Nederlands is het <suggestion>het maximum</suggestion>.</message>
+				<example correction="het maximum">Hij ging tot <marker>de max</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="UPDATEN" name="updaten → bijwerken" default="off">
+			<!-- MB@2023-07-13 - DISABLE: too common to suggest alternatives -->
+			<rule>
+				<pattern>
+					<marker>
+						<token>updaten</token>
+					</marker>
+				</pattern>
+				<message>&leenwoord_mess;</message>
+				<suggestion>opwaarderen</suggestion>
+				<suggestion>bijwerken</suggestion>
+				<example correction="opwaarderen|bijwerken">Je moet niet <marker>updaten</marker>.</example>
+				<example>Je moet <marker>bijwerken</marker>.</example>
+				<example correction="opwaarderen|bijwerken">Dus maar effe <marker>updaten</marker> he.</example>
+				<example correction="Opwaarderen|Bijwerken"><marker>Updaten</marker> naar 1.1 is voor een pc gebruiker schier onmogelijk.</example>
+				<example correction="opwaarderen|bijwerken">Dit <marker>updaten</marker> van dossiers is nu beveiligd.</example>
+				<example correction="opwaarderen|bijwerken">U kunt voordelig <marker>updaten</marker> naar de laatste versie van programma's.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>geüpdatet</token>
+					</marker>
+				</pattern>
+				<message>&leenwoord_mess;</message>
+				<suggestion>opgewaardeerd</suggestion>
+				<suggestion>bijgewerkt</suggestion>
+				<example correction="opgewaardeerd|bijgewerkt">Je hebt het <marker>geüpdatet</marker>.</example>
+				<example>Je hebt <marker>bijgewerkt</marker>.</example>
+				<example correction="opgewaardeerd|bijgewerkt">Deze databank wordt elke werkdag <marker>geüpdatet</marker>.</example>
+				<example correction="opgewaardeerd|bijgewerkt">Ook Sinterklaas en de 50 dagen worden <marker>geüpdatet</marker>.</example>
+				<example correction="opgewaardeerd|bijgewerkt">Een internetconnectie die regelmatig wordt <marker>geüpdatet</marker> met nieuwe drivers.</example>
+				<example correction="opgewaardeerd|bijgewerkt">Deze pagina wordt regelmatig <marker>geüpdatet</marker> met nieuwe vragen en antwoorden.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GOAL" name="goal → doel(punt)" tags="picky" default="off">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
@@ -16396,57 +16485,7 @@ USA
 				<example correction="slagzin|leus">Wat een slechte <marker>slogan</marker>.</example>
 			</rule>
 		</rulegroup>
-		<!--
-		2014-08-21 TaalTik
-		deze regel overlapt met die over 'updaten', door de stam.
-		omdat postagging nog niet zo goed werkt (geen disambiguation) heeft deze regel geen zin
-		TODO: onderscheid tussen znw en stam maken in disambiguator
-		<rule id="nr564" name="update">
-			<pattern>
-				<token>update</token>
-			</pattern>
-			<message>Dit is een anglicisme. Suggesties: <suggestion>opwaardering</suggestion>, <suggestion>nieuwe versie</suggestion>.</message>
-			<short>Leenwoord</short>
-			<example correction="">Het is geen <marker>update</marker>.</example>
-			<example>Het is een <marker>nieuwe versie</marker>.</example>
-		</rule>
-		-->
-		<rulegroup id="UPDATEN" name="updaten → bijwerken" default="off">
-			<!-- MB@2023-07-13 - DISABLE: too common to suggest alternatives -->
-			<rule>
-				<pattern>
-					<marker>
-						<token>updaten</token>
-					</marker>
-				</pattern>
-				<message>&leenwoord_mess;</message>
-				<suggestion>opwaarderen</suggestion>
-				<suggestion>bijwerken</suggestion>
-				<example correction="opwaarderen|bijwerken">Je moet niet <marker>updaten</marker>.</example>
-				<example>Je moet <marker>bijwerken</marker>.</example>
-				<example correction="opwaarderen|bijwerken">Dus maar effe <marker>updaten</marker> he.</example>
-				<example correction="Opwaarderen|Bijwerken"><marker>Updaten</marker> naar 1.1 is voor een pc gebruiker schier onmogelijk.</example>
-				<example correction="opwaarderen|bijwerken">Dit <marker>updaten</marker> van dossiers is nu beveiligd.</example>
-				<example correction="opwaarderen|bijwerken">U kunt voordelig <marker>updaten</marker> naar de laatste versie van programma's.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token>geüpdatet</token>
-					</marker>
-				</pattern>
-				<message>&leenwoord_mess;</message>
-				<suggestion>opgewaardeerd</suggestion>
-				<suggestion>bijgewerkt</suggestion>
-				<example correction="opgewaardeerd|bijgewerkt">Je hebt het <marker>geüpdatet</marker>.</example>
-				<example>Je hebt <marker>bijgewerkt</marker>.</example>
-				<example correction="opgewaardeerd|bijgewerkt">Deze databank wordt elke werkdag <marker>geüpdatet</marker>.</example>
-				<example correction="opgewaardeerd|bijgewerkt">Ook Sinterklaas en de 50 dagen worden <marker>geüpdatet</marker>.</example>
-				<example correction="opgewaardeerd|bijgewerkt">Een internetconnectie die regelmatig wordt <marker>geüpdatet</marker> met nieuwe drivers.</example>
-				<example correction="opgewaardeerd|bijgewerkt">Deze pagina wordt regelmatig <marker>geüpdatet</marker> met nieuwe vragen en antwoorden.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="BULLSHIT" name="bullshit → onzin">
+		<rulegroup id="BULLSHIT" name="bullshit → onzin" default="off">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
@@ -16462,7 +16501,7 @@ USA
 				<example correction="Onzin|Lariekoek"><marker>Bullshit</marker>, uiteraard, maar we willen het o zo graag geloven.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="FOHN" name="föhn → haardroger">
+		<rulegroup id="FOHN" name="föhn → haardroger" default="off">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
 				<pattern>
@@ -16481,7 +16520,7 @@ USA
 				<example correction="haardroger">Verhit de steekplek boven de 40 graden met een badje, <marker>föhn</marker>, kooltje of sigaret.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="IMAGE" name="image → imago">
+		<rulegroup id="IMAGE" name="image → imago" default="off">
 			<!-- 2014-08-22 TaalTik -->
 			<antipattern>
 				<token skip="5">image</token>
@@ -16531,7 +16570,7 @@ USA
 				<example correction="reclames|reclameboodschappen">In de <marker>commercials</marker> is te zien hoe ze vol ongeduld hun kerstcadeau uitpakken.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BREAK" name="break → pauze">
+		<rulegroup id="BREAK" name="break → pauze" default="off">
 			<rule>
 				<!-- 2014-08-22 TaalTik -->
 				<antipattern>
@@ -16560,7 +16599,7 @@ USA
 				<example correction="pauze">Voor hen was mijn doortocht een aangename <marker>break</marker> in een eentonige dag.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MULTIPLE_CHOICE" name="multiple choice → meerkeuze">
+		<rulegroup id="MULTIPLE_CHOICE" name="multiple choice → meerkeuze" default="off">
 			<rule>
 				<!-- 2014-08-19 TaalTik -->
 				<pattern>
@@ -16588,7 +16627,7 @@ USA
 				<example correction="oppas">Waarom geen <marker>babysitter</marker> - pardon, petsitter ingehuurd?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MAGAZINE" name="magazine → tijdschrift" tags="picky">
+		<rulegroup id="MAGAZINE" name="magazine → tijdschrift" tags="picky" default="off">
 			<rule>
 				<!-- 2014-08-21 TaalTik -->
 				<pattern case_sensitive="yes">
@@ -16618,7 +16657,7 @@ USA
 				<example correction="wachtwoord">De kandidaat kan zelf zijn taal, <marker>password</marker> en zijn adres wijzigen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="REPORTER" name="reporter → verslaggever">
+		<rulegroup id="REPORTER" name="reporter → verslaggever" default="off">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<antipattern><token>The</token><token>Hollywood</token><token>Reporter</token></antipattern>
@@ -16637,7 +16676,7 @@ USA
 				<example correction="verslaggever">Anderzijds zien ze een <marker>reporter</marker> in een ander daglicht.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="EYECATCHER" name="eyecatcher → blikvanger">
+		<rulegroup id="EYECATCHER" name="eyecatcher → blikvanger" default="off">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
 				<pattern>
@@ -16648,7 +16687,7 @@ USA
 				<example correction="blikvanger">Gebruik de <marker>eyecatcher</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CELEBRITY" name="celebrity → ster">
+		<rulegroup id="CELEBRITY" name="celebrity → ster" default="off">
 			<rule>
 				<!-- 2014-08-23 TaalTik -->
 				<pattern case_sensitive="yes">
@@ -16680,7 +16719,7 @@ USA
 				<example correction="verkoop|uitverkoop">Ikga het nu in <marker>sale</marker> aankopen en dan kan ik deze zomer dat eens verkennen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MATCH_COMPOUND" name="match → wedstrijd, overeenkomst">
+		<rulegroup id="MATCH_COMPOUND" name="match → wedstrijd, overeenkomst" default="off">
 			<rule>
 				<antipattern>
 					<token regexp="yes">match(boek|play|dart(s)?|fixing|point(s)?|stick)</token>
@@ -16709,7 +16748,7 @@ USA
 				<example correction="verklaring|uitspraak">Gebruik de <marker>statement</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BODYGUARD" name="bodyguard → lijfwacht">
+		<rulegroup id="BODYGUARD" name="bodyguard → lijfwacht" default="off">
 			<rule>
 				<!-- 2014-08-23 TaalTik -->
 				<pattern>
@@ -16720,7 +16759,7 @@ USA
 				<example correction="lijfwachten">De vier <marker>bodyguards</marker> weten uiteindelijk terug naar de pizzeria te vluchten.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="TALKSHOW" name="talkshow → praatprogramma">
+		<rulegroup id="TALKSHOW" name="talkshow → praatprogramma" default="off">
 			<rule>
 				<pattern>
 					<token inflected="yes">talkshow</token>
@@ -16747,7 +16786,7 @@ USA
 				<example correction="luchtverfrisser|luchtbehandeling|klimaatregeling">De hotelkamervoorzieningen zijn onder andere <marker>airconditioning</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CRUISECONTROL" name="cruisecontrol → snelheidsregeling" tags="picky">
+		<rulegroup id="CRUISECONTROL" name="cruisecontrol → snelheidsregeling" tags="picky" default="off">
 			<rule>
 				<!-- 2014-08-20 TaalTik -->
 				<pattern>
@@ -16797,7 +16836,7 @@ USA
 				<example correction="gesprek|oproep|aanroep|melding">Gebruik de <marker>call</marker>.</example>
 			</rule>
 			<rule>
-				<!-- nolvember 2022 R. Baars -->
+				<!-- november 2022 R. Baars -->
 				<antipattern>
 					<token spacebefore="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
 					<token case_sensitive="yes">Calls</token>
@@ -16827,7 +16866,7 @@ USA
 		</rulegroup>
 		<rulegroup id="HEY" name="overbodig Engels: hey" tags="picky">
 			<rule>
-				<!-- nolvember 2022 R. Baars -->
+				<!-- november 2022 R. Baars -->
 				<pattern>
 					<token>hey</token>
 				</pattern>
