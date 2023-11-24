@@ -8451,7 +8451,24 @@ USA
                 <token regexp='yes'>[ao]s?|por</token> <!-- "a" appears as SPS00 which removes tons of valid sentences -->
                 <example>Houve um reforço da coligação, sendo desconhecida a localização dos mentores.</example>
                 <example>Estes treinos melhoram o combate no terreno sendo adotados por um crescente número de unidades.</example>
-                <example>As questões da água constituem uma das mais complexas temáticas do mundo contemporâneo, sendo ignorado por muitos que elas estão já na raiz de alguns dos actuais conflitos.</example>
+                <example>Essa questão constitui uma das mais complexas temáticas do mundo contemporâneo, sendo ignorado por muitos.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'>
+                    <exception scope='previous' postag_regexp='yes' postag='VMP00.+|PI.+'/>
+                </token>
+                <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+                <token>sendo</token>
+                <token postag='VMP00.+' postag_regexp='yes'/>
+                <token regexp='yes'>de|em</token>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <example>A técnica tem em conta a ordem dos elementos sendo aplicada em situações concretas.</example>
+                <example>A informação encontra-se em formato binário, sendo transmitida de máquina para máquina.</example>
+                <example>Foi retomada em 2005 no Mali, sendo disputada de dois em dois anos.</example>
+                <example>A divisão foi formada no dia 14 de maio de 1943 em Nagoya, sendo destruída em Saipan no dia 6 de julho de 1944.</example>
+                <example>Nas eleições de 1966 foi eleito deputado federal pelo Paraná, sendo empossado em fevereiro de 1967.</example>
             </antipattern>
 
             <rule>
