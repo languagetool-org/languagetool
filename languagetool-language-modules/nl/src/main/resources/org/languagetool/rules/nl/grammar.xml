@@ -486,7 +486,18 @@ regexp case-insensitive maken: (?i)
 				<example correction="Door middel van nieuwe"><marker>Door middel nieuwe</marker> ontwikkelingen gaat het fout.</example>
 			</rule>
 		</rulegroup>
-
+		<rulegroup id="ZOWEL_A_EN_B" name="Zowel a en b / zowel a als b" tags="picky">
+			<rule>
+				<pattern>
+					<token skip="3">zowel</token>
+					<token>en</token>
+					<token/>
+				</pattern>
+				<message>Gebruikelijk is zowel ... als.</message>
+				<suggestion><match no="1" include_skipped="all"/> als <match no="3"/></suggestion>
+				<example correction="zowel Piet A als B">Hij kent <marker>zowel Piet A en B</marker>.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
@@ -811,48 +822,6 @@ regexp case-insensitive maken: (?i)
 	<category id="REDUNDANCY">
 	</category>
 	-->
-	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." >
-		<!-- TODO: design more sophisticated rule to suggest written out number replacement
-		Ruud: there is code in 'numbertotext' (C) that can be used for Dutch.
-		Dutch system is much like German system by the way.
-		Mark: Expanded the rule and suggestions for each number for now, so we can collect more detailed disable statistics.
-		To simplify with something like suggested above
-		-->
-		<rulegroup id="SPATIE_GETALLEN" name="Spatie tussen getal en meeteenheid" tags="picky">
-			<rule>
-				<pattern>
-					<token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|v|V|kV|W|g|l|ml|cc|km|mm|cm)</token>
-				</pattern>
-				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
-				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|v|V|kV|W|g|l|ml|cc|km|mm|cm|km)" regexp_replace="$1 $2"/></suggestion>
-				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
-				<short>Spatie</short>
-				<example correction="100 cm">De lengte is <marker>100cm</marker>.</example>
-				<example>Ze zit in klas 4A</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|km|cm)2</token>
-				</pattern>
-				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
-				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|km|cm)2" regexp_replace="$1 $2²"/></suggestion>
-				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
-				<short>Spatie</short>
-				<example correction="100 cm²">De oppervlakte is <marker>100cm2</marker>.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|km|cm)3</token>
-				</pattern>
-				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
-				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|km|cm)3" regexp_replace="$1 $2³"/></suggestion>
-				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
-				<short>Spatie</short>
-				<example correction="100 cm³">De inhoud is <marker>100cm3</marker>.</example>
-			</rule>
-		</rulegroup>
-	</category>
-
 	<category id="SEMANTICS" name="Aandachtspunten in de betekenis en consistentie." >
 		<rulegroup id="DATE_WEEKDAY" name="Dag komt niet overeen met datum">
 			<rule>
@@ -7255,6 +7224,52 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
+		<rulegroup id="ACHT_EN_TWINTIG" name="Acht en twintig/ achtentwintig">
+			<rule>
+				<pattern>
+					<token regexp="yes">een|twee|drie|vier|vijf|zes|zeven|acht|negen</token>
+					<token>en</token>
+					<token postag="GET:TXT:MRV" regexp="yes">.*tig</token>
+				</pattern>
+				<message>Mogelijk bedoelt u het getal <suggestion>\1\2\3</suggestion></message>
+				<example correction="achtentwintig">Ik ben <marker>acht en twintig</marker> jaar.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="X_HOOG" name="3 hoog / 3-hoog"  type="misspelling" >
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="GET:ARA:00[12]:.*"/>
+					<token>hoog</token>
+				</pattern>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion>\1-\2</suggestion>
+				<example correction="3-hoog">Hij woont <marker>3 hoog</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="X_SPATIE_TAL" name="3 tal / 3-tal"  type="misspelling" >
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="GET:ARA:00[12]:.*"/>
+						<token regexp="yes">tal|tallen</token>
+					</marker>
+				</pattern>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion>\1-\2</suggestion>
+				<example correction="3-tal">Dat is een <marker>3 tal</marker> vergissingen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token postag_regexp="yes" postag="GET:TXT:.*"/>
+						<token regexp="yes">tal|tallen</token>
+					</marker>
+				</pattern>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="drietal">Dat is een <marker>drie tal</marker> vergissingen.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AL_WEER" name="al weer → alweer" tags="picky">
 			<rule>
 				<pattern>
@@ -11096,6 +11111,39 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="GETALLEN" name="Getallen" type="misspelling">
+		<rulegroup id="SPATIE_GETALLEN" name="Spatie tussen getal en meeteenheid" tags="picky">
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|v|V|kV|W|g|l|ml|cc|km|mm|cm)</token>
+				</pattern>
+				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
+				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|v|V|kV|W|g|l|ml|cc|km|mm|cm|km)" regexp_replace="$1 $2"/></suggestion>
+				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
+				<short>Spatie</short>
+				<example correction="100 cm">De lengte is <marker>100cm</marker>.</example>
+				<example>Ze zit in klas 4A</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|km|cm)2</token>
+				</pattern>
+				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
+				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|km|cm)2" regexp_replace="$1 $2²"/></suggestion>
+				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
+				<short>Spatie</short>
+				<example correction="100 cm²">De oppervlakte is <marker>100cm2</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|km|cm)3</token>
+				</pattern>
+				<message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
+				<suggestion><match no="1" regexp_match="(^[0-9]+)(m|km|cm)3" regexp_replace="$1 $2³"/></suggestion>
+				<url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
+				<short>Spatie</short>
+				<example correction="100 cm³">De inhoud is <marker>100cm3</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DUIZEND" name="Na duizend een spatie">
 			<!-- 2014-08-20 TaalTik -->
 			<rule>
@@ -18143,6 +18191,19 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="BREUK_DE" name="1/3de / 1/3" tags="picky">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="GET:ARA:001.*"/>
+					<token>/</token>
+					<token regexp="yes">[0-9]+(e|de|ste)</token>
+				</pattern>
+				<message>Een breuk heeft geen -ste, -de of -e.</message>
+				<suggestion><match no="1"/>/<match no="3" regexp_match="([0-9]+)(ste|de|e)" regexp_replace="$1"/></suggestion>
+				<example correction="1/3">Hij krijgt <marker>1/3de</marker> deel.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="_3D" name="3d/3D" >
 			<rule>
 				<pattern>
@@ -23795,6 +23856,32 @@ regexp case-insensitive maken: (?i)
 				<example>Wij wonen aan de De Ruiterkade.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="EURO_EURO" name="€ honderd euro">
+			<rule>
+				<pattern>
+					<token skip="4" regexp="yes">€</token>
+					<token>euro</token>
+				</pattern>
+				<message>Dit is dubbelop euro.</message>
+				<suggestion><match no="1" include_skipped="following"/> \2</suggestion>
+				<example correction="achtentwintig euro">Ik ben <marker>€ achtentwintig euro</marker> waard.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JAAR_JAAR" name="2014/2015" tags="picky">
+			<rule>
+				<pattern>
+					<token>seizoen</token>
+					<marker>
+						<token postag="GET:ARA:004:MRV"/>
+						<token>/</token>
+						<token postag="GET:ARA:004:MRV"/>
+					</marker>
+				</pattern>
+				<message>Vermijd de /, gebruik liever een koppelteken.</message>
+				<suggestion>\2-\4</suggestion>
+				<example correction="2014-2015">In het seizoen <marker>2014/2015</marker> werd ze wereldkampioene.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
 			<rule>
 				<antipattern><token regexp="yes">alaaf|bison|jullie</token></antipattern>
@@ -25524,172 +25611,6 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="TEST" name="test">
-		<!-- Deze regels zijn aangetroffen in de meest voorkomende woordsoortpatronen of daaruit bewust fout gemaakt -->
-
-		<rule id="_4_TOKENS_001" name="verkeerde werkwoordvorm" >
-			<pattern>
-				&START;
-				<token postag="ENM:PER:LST:NIX"/>
-				<marker>
-					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
-				</marker>
-				<or>
-				<token min="1" max="3" postag_regexp="yes" postag=".*ONV|BYW.*"/>
-				<token min="0" max="1" regexp="yes">&DVW;</token>
-				</or>
-				&PUNT;
-			</pattern>
-			<message>Mogelijk is dit een verkeerde vorm van het werkwoord.</message>
-			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
-			<example correction="beheerde|beheert">Amalia <marker>beheerd</marker> slecht.</example>
-		</rule>
-		<rule id="_4_TOKENS_002" name="ontbrekend woord" >
-			<pattern>
-				&START;
-				<marker>
-					<token postag_regexp="yes" postag="ENM:.*"/>
-					<token postag="VNW:RFX"/>
-				</marker>
-				<token postag_regexp="yes" postag=".*ONV|BYW.*"/>
-				&PUNT;
-			</pattern>
-			<message>Hier ontbreekt vast een werkwoord.</message>
-			<example correction=""><marker>Amalia zich</marker> slecht.</example>
-
-		</rule>
-		<rule id="_4_TOKENS_003" name="verkeerde werkwoordvorm" >
-			<antipattern><token postag_regexp="yes" postag=".*MRV.*"/><token>zijn</token></antipattern>
-			<pattern>
-				&START;
-				<token postag_regexp="yes" postag="ENM.*"/>
-				<marker>
-					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
-				</marker>
-				<or>
-				<token regexp="yes">de|het|een|geen</token>
-				<token postag_regexp="yes" postag=".*BEZ"/>
-				</or>
-				<token postag_regexp="yes" postag="ZNW.*|.*WKW.*"/>
-				&PUNT;
-			</pattern>
-			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
-			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
-			<example correction="beheerde|beheert">Amalia <marker>beheerd</marker> de fietsen.</example>
-		</rule>
-		<rule id="_4_TOKENS_004" name="verkeerde werkwoordvorm" >
-			<pattern>
-				&START;
-				<token postag_regexp="yes" postag="ENM.*"/>
-				<marker>
-					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"><exception postag_regexp="yes" postag="ENM.*"/></token>
-				</marker>
-				<token postag="SENT_END"/>
-			</pattern>
-			<message>Mogelijk is dit een verkeerde vorm van het werkwoord.</message>
-			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
-			<example correction="deed|doet">Amalia <marker>doen</marker>.</example>
-		</rule>
-		<rule id="_4_TOKENS_005" name="vreemde zinsbouw" >
-			<pattern>
-				&START;
-				<marker>
-					<token postag_regexp="yes" postag="ENM.*"/>
-					<token postag_regexp="yes" postag="BYW.*|.*ONV"/>
-					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
-					&VRGTKN;
-				</marker>
-			</pattern>
-			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk.</message>
-			<example correction=""><marker>Amalia niet doen?</marker>.</example>
-		</rule>
-		<rule id="_4_TOKENS_006" name="vreemde zinsbouw" >
-			<pattern>
-				&START;
-				<marker>
-					<token postag_regexp="yes" postag="ENM.*"/>
-					<token postag_regexp="yes" postag="BYW.*|.*ONV"/>
-					<token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
-					&VRGTKN;
-				</marker>
-			</pattern>
-			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
-			<example correction=""><marker>Jasper dood was?</marker></example>
-		</rule>
-		<rule id="_4_TOKENS_007" name="vreemde zinsbouw" >
-			<pattern>
-				&START;
-				<marker>
-					<token postag_regexp="yes" postag="ENM.*"/>
-					<token postag_regexp="yes" postag="VNW.*PSF"/>
-					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
-				</marker>
-			</pattern>
-			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
-			<example correction=""><marker>Amalia hem vermoorden?</marker></example>
-		</rule>
-		<rule id="_4_TOKENS_008" name="vreemde zinsbouw" >
-			<pattern>
-				&START;
-				<marker>
-					<token postag_regexp="yes" postag="ENM.*"/>
-					<token postag_regexp="yes" postag="VNW:AWZ.*DE_"/>
-					<token postag_regexp="yes" postag="ZNW.*DE_"/>
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
-				</marker>
-			</pattern>
-			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
-			<example correction=""><marker>Amina deze vrouw?</marker></example>
-		</rule>
-		<rule id="_4_TOKENS_009" name="vreemde zinsbouw" >
-			<pattern>
-				&START;
-				<marker>
-					<token postag_regexp="yes" postag="ENM.*"/>
-					<token postag_regexp="yes" postag="WKW:VTD:ONV|BNW:STL:ONV"/>
-					<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
-				</marker>
-			</pattern>
-			<message>De woordvolgorde is on-Nederlands in deze zin, of in elk geval ongebruikelijk en incompleet.</message>
-			<example correction=""><marker>Amina rood hebben?</marker></example>
-		</rule>
-
-		<rule id="_5_TOKENS_001" name="verkeerde werkwoordvorm" >
-			<pattern>
-				&START;
-				<token postag_regexp="yes" postag="BYW.*"><exception>Dan</exception></token>
-				<marker>
-					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/><exception regexp="yes">wel|vast</exception></token>
-				</marker>
-				<token postag_regexp="yes" postag="GET:(TXT|ARA):MRV"/>
-				<token postag_regexp="yes" postag=".*MRV.*"/>
-				&PUNT;
-			</pattern>
-			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
-			<suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
-			<example correction="waren|zijn">Er <marker>is</marker> drie producten.</example>
-			<example>Dan nam vijf slaappillen</example>
-			<example>Maar wel vast twee foto's.</example>
-		</rule>
-		<rule id="_6_TOKENS_001" name="verkeerde werkwoordvorm" >
-			<pattern>
-				&START;
-				<token postag_regexp="yes" postag="ENM.*"/>
-				<marker>
-					<token postag_regexp="yes" postag="WKW.*"><exception postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
-				</marker>
-				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
-				<token postag="VGW"/>
-				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
-				&PUNT;
-			</pattern>
-			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
-			<suggestion><match no="3" postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></suggestion>
-			<example correction="werd|wordt">Amalia <marker>worden</marker> artieste en prinses.</example>
-		</rule>
-	</category>
 	<category id="FULL_SENTENCES" name="volledige zinnen met fout">
 		<rule id="FULL_SENTENCE_001" name="verkeerde werkwoordvorm" >
 			<pattern>
@@ -25832,109 +25753,6 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>Mogelijk bedoelt u <suggestion>\1, \3 \4 \5</suggestion></message>
 				<example correction="1, 2 en 4">Het gaat om de cijfers <marker>1,2 en 4</marker>.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="ACHT_EN_TWINTIG" name="Acht en twintig/ achtentwintig">
-			<rule>
-				<pattern>
-					<token regexp="yes">een|twee|drie|vier|vijf|zes|zeven|acht|negen</token>
-					<token>en</token>
-					<token postag="GET:TXT:MRV" regexp="yes">.*tig</token>
-				</pattern>
-				<message>Mogelijk bedoelt u het getal <suggestion>\1\2\3</suggestion></message>
-				<example correction="achtentwintig">Ik ben <marker>acht en twintig</marker> jaar.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="EURO_EURO" name="€ honderd euro">
-			<rule>
-				<pattern>
-					<token skip="4" regexp="yes">€</token>
-					<token>euro</token>
-				</pattern>
-				<message>Dit is dubbelop euro.</message>
-				<suggestion><match no="1" include_skipped="following"/> \2</suggestion>
-				<example correction="achtentwintig euro">Ik ben <marker>€ achtentwintig euro</marker> waard.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="JAAR_JAAR" name="2014/2015" tags="picky">
-			<rule>
-				<pattern>
-					<token>seizoen</token>
-					<marker>
-						<token postag="GET:ARA:004:MRV"/>
-						<token>/</token>
-						<token postag="GET:ARA:004:MRV"/>
-					</marker>
-				</pattern>
-				<message>Vermijd de /, gebruik liever een koppelteken.</message>
-				<suggestion>\2-\4</suggestion>
-				<example correction="2014-2015">In het seizoen <marker>2014/2015</marker> werd ze wereldkampioene.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="BREUK_DE" name="1/3de / 1/3" tags="picky">
-			<rule>
-				<pattern>
-					<token postag_regexp="yes" postag="GET:ARA:001.*"/>
-					<token>/</token>
-					<token regexp="yes">[0-9]+(e|de|ste)</token>
-				</pattern>
-				<message>Een breuk heeft geen -ste, -de of -e.</message>
-				<suggestion><match no="1"/>/<match no="3" regexp_match="([0-9]+)(ste|de|e)" regexp_replace="$1"/></suggestion>
-				<example correction="1/3">Hij krijgt <marker>1/3de</marker> deel.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="ZOWEL_A_EN_B" name="Zowel a en b / zowel a als b" tags="picky">
-			<rule>
-				<pattern>
-					<token skip="3">zowel</token>
-					<token>en</token>
-					<token/>
-				</pattern>
-				<message>Gebruikelijk is zowel ... als.</message>
-				<suggestion><match no="1" include_skipped="all"/> als <match no="3"/></suggestion>
-				<example correction="zowel Piet A als B">Hij kent <marker>zowel Piet A en B</marker>.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="X_HOOG" name="3 hoog / 3-hoog"  type="misspelling" >
-			<rule>
-				<pattern>
-					<token postag_regexp="yes" postag="GET:ARA:00[12]:.*"/>
-					<token>hoog</token>
-				</pattern>
-				<message>Dit hoort aan elkaar.</message>
-				<suggestion>\1-\2</suggestion>
-				<example correction="3-hoog">Hij woont <marker>3 hoog</marker>.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="X_SPATIE_TAL" name="3 tal / 3-tal"  type="misspelling" >
-			<rule>
-				<pattern>
-					<marker>
-						<token postag_regexp="yes" postag="GET:ARA:00[12]:.*"/>
-						<token regexp="yes">tal|tallen</token>
-					</marker>
-				</pattern>
-				<message>Dit hoort aan elkaar.</message>
-				<suggestion>\1-\2</suggestion>
-				<example correction="3-tal">Dat is een <marker>3 tal</marker> vergissingen.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token postag_regexp="yes" postag="GET:TXT:.*"/>
-						<token regexp="yes">tal|tallen</token>
-					</marker>
-				</pattern>
-				<message>Dit hoort aan elkaar.</message>
-				<suggestion>\1\2</suggestion>
-				<example correction="drietal">Dat is een <marker>drie tal</marker> vergissingen.</example>
 			</rule>
 		</rulegroup>
 
