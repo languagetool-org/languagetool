@@ -3731,6 +3731,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Babies": return topMatch("Babys");
       case "Gummies": return topMatch("Gummis");
       case "Grüzi": return topMatch("Grüezi");
+      case "fuer": return topMatch("für");
+      case "Fuer": return topMatch("Für");
     }
     return Collections.emptyList();
   }
