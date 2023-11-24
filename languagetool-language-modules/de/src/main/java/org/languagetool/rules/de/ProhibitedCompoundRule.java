@@ -154,7 +154,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
           new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
   );
-  private static final Pattern HERRN_FRAU = Pattern.compile("Herrn?|Frau");
+  private static final Pattern HERRN_FRAU = Pattern.compile("Herrn?|Frau|Dr|Prof|Mag");
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
     "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
