@@ -447,10 +447,10 @@ public class Catalan extends Language {
     }
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
-      if (!tag.startsWith("N")) {
-        return "";
-      } else {
+      if (tag.startsWith("N") || tag.equals("_Latin_")) {
         return form;
+      } else {
+        return "";
       }
     }
     return line;
