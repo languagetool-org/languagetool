@@ -38,6 +38,8 @@ public class FastTextDetector {
   private static final int BUFFER_SIZE = 4096;
   private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
+  private static final int READ_RETRY_DELAY = 10;
+
   private Process fasttextProcess;
   private Reader fasttextIn;
   private Writer fasttextOut;
@@ -93,7 +95,7 @@ public class FastTextDetector {
         // hack to see if this helps us debug the rare case of readLine() returning null:
         try {
           logger.warn("fasttextIn.read() returned no data, trying again after short delay");
-          Thread.sleep(10);
+          Thread.sleep(READ_RETRY_DELAY);
           read = fasttextIn.read(cbuf);
           if (read == -1) {
             logger.warn("fasttextIn.read() returned no data again");
