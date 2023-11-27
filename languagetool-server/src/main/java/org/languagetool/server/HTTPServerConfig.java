@@ -169,7 +169,7 @@ public class HTTPServerConfig {
 
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
-  protected List<String> abTest = null;
+  protected List<String> abTest = Collections.emptyList();
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
   protected File ngramLangIdentData;
