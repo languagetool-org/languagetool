@@ -59,4 +59,11 @@ public class JLanguageToolTest {
     tool.check("vrai/faux avec explication : Les droits d'accès, également appelés permissions ou autorisations, sont des règles définissant");
 
   }
+
+  @Test
+  public void testMultitokenSpeller() throws IOException {
+    Language lang = new French();
+    assertEquals("[Rimski-Korsakov]", lang.getMultitokenSpeller().getSuggestions("Rinsky-Korsakov").toString());
+    assertEquals("[Nikolaï Rimski-Korsakov]", lang.getMultitokenSpeller().getSuggestions("Nikolai Rimski-Korsakov").toString());
+  }
 }

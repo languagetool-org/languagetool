@@ -25,6 +25,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -384,6 +385,9 @@ public class French extends Language implements AutoCloseable {
     if (id.startsWith("FR_COMPOUNDS")) {
       return 500;
     }
+    if (id.startsWith("FR_MULTITOKEN_SPELLING_")) {
+      return -90;
+    }
     if (id.startsWith("FR_SIMPLE_REPLACE")) {
       return 150;
     }
@@ -427,6 +431,29 @@ public class French extends Language implements AutoCloseable {
       return newRuleMatches;
     }
     return ruleMatches;
+  }
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (tag.startsWith("Z") || tag.startsWith("N") || tag.equals("A") ) {
+        return form;
+      } else {
+        return "";
+      }
+    }
+    return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return FrenchMultitokenSpeller.INSTANCE;
   }
 
 }
