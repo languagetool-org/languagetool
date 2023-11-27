@@ -56,6 +56,9 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("BART-akkoord"));
     assertTrue(acceptor.acceptCompound("WK-finale"));
     assertFalse(acceptor.acceptCompound("iraakkoord"));
+    assertTrue(acceptor.acceptCompound("VRF-regels"));
+    assertFalse(acceptor.acceptCompound("VRFregels"));
+    assertFalse(acceptor.acceptCompound("VIP-behandeling"));
 
     // test part1 exceptions
     assertFalse(acceptor.acceptCompound("honingsbijtje"));
@@ -71,8 +74,6 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("wetenschapbelasting"));
     assertTrue(acceptor.acceptCompound("Zwangerschapsblijheid"));
 
-    assertTrue(acceptor.acceptCompound("VRF-regels"));
-    assertFalse(acceptor.acceptCompound("VRFregels"));
 
     // test for colliding vowels
     assertTrue(acceptor.acceptCompound("privé-eigenaar"));

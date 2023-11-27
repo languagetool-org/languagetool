@@ -37,7 +37,6 @@ import java.util.regex.Pattern;
  */
 public class CompoundAcceptor {
 
-  // temporarily separated patterns for testing
   private static final Pattern acronymPattern = Pattern.compile("[A-Z]{2,4}-");
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
   private static final int MAX_WORD_SIZE = 35;
@@ -99,6 +98,38 @@ public class CompoundAcceptor {
     "voor",
     "sten",
     "reen"
+  );
+  private final Set<String> acronymExceptions = ImmutableSet.of(
+    "VIP",
+    "UFO",
+    "HIV",
+    "SOA",
+    "XTC",
+    "DVD",
+    "GSM",
+    "TBS",
+    "MKB",
+    "ALV",
+    "LCD",
+    "SMS",
+    "PGB",
+    "ZZP",
+    "GPS",
+    "ECG",
+    "PDF",
+    "LTS",
+    "HBS",
+    "HTS",
+    "LBO",
+    "BBL",
+    "VWO",
+    "MBO",
+    "HRM",
+    "MDF",
+    "BSO",
+    "HSL",
+    "APK",
+    "OZB"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
@@ -406,7 +437,8 @@ public class CompoundAcceptor {
 
   private boolean abbrevOk(String nonCompound) {
     // for compound words like IRA-akkoord, MIDI-bestanden, WK-finalisten
-    return acronymPattern.matcher(nonCompound).matches();
+    String acronym = nonCompound.split("-")[0];
+    return acronymPattern.matcher(nonCompound).matches() && !acronymExceptions.contains(acronym);
   }
 
   private boolean spellingOk(String nonCompound) throws IOException {
