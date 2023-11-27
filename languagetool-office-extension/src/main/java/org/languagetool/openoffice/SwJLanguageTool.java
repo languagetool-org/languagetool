@@ -302,6 +302,30 @@ public class SwJLanguageTool {
   }
 
   /**
+   * get the lemmas of a word
+   * @throws IOException 
+   */
+  public List<String> getLemmasOfParagraph(String para, int startPos) throws IOException {
+    List<String> lemmas = new ArrayList<String>();
+    List<AnalyzedSentence> sentences = analyzeText(para);
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      for (AnalyzedTokenReadings token : sentence.getTokens()) {
+        if (pos + token.getStartPos() == startPos) {
+          for (AnalyzedToken reading : token) {
+            String lemma = reading.getLemma();
+            if (lemma != null) {
+              lemmas.add(lemma);
+            }
+          }
+        }
+      }
+      pos += sentence.getCorrectedTextLength();
+    }
+    return lemmas;
+  }
+
+  /**
    * Get the language from LT
    */
   public Language getLanguage() {

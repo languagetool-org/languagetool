@@ -5211,11 +5211,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </token>
             <marker>
                 <and>
-                    <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"/></token>
+                    <token postag="JJ|VBG" postag_regexp="yes">
+                        <exception regexp="yes">animal|woman|head|body|work|material|business|power|mainline|through|mean|frontline|center|centre|state|runtime|size|budget|regulation|turnover|utility|key|assault</exception>
+                        <exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"/>
+                    </token>
                     <token postag_regexp="yes" postag="VBP"/>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="NN.*|CD"/>
+            <token postag_regexp="yes" postag="NN.*|CD">
+                <exception>others</exception>
+            </token>
         </pattern>
         <disambig action="remove" postag="VBP?"/>
         <example type="untouched">Peter the great</example>
@@ -5457,7 +5462,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception postag="RB"/>
                 <exception regexp="yes">trading|training|meeting</exception>
                 <exception regexp="yes">being|one</exception>
-                <exception regexp="yes">animal|woman|head|business|work</exception>
+                <exception regexp="yes">animal|woman|head|business|work|power|material|body|mainline|through|mean|frontline|center|centre|state|runtime|size|budget|regulation|turnover|utility|key|assault</exception>
             </token>
             <marker>
                 <and>
@@ -5942,7 +5947,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <and>
                     <token postag="JJ.?|P?DT|PRP.?" postag_regexp="yes"><!-- #4885 To use chunk_re="[BI]-NP-.*" here, the rule must be re-written. Refer to the 'by' example. -->
                         <exception case_sensitive="yes">US</exception>
-                        <exception regexp="yes">woman|king|home|plane</exception>
+                        <exception regexp="yes">woman|king|home|plane|power</exception>
                     </token>
                     <token postag="NN.*" postag_regexp="yes"/>
                 </and>
@@ -11239,7 +11244,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <and>
                     <token postag="JJ.?" postag_regexp="yes">
                         <exception postag="JJ.?|NN.*" negate_pos="yes" postag_regexp="yes"/>
-                        <exception regexp="yes">woman|head|body|work|material|business</exception>
+                        <exception regexp="yes">animal|woman|head|body|work|material|business|power</exception>
                     </token>
                     <token postag="NN.*" postag_regexp="yes">
                         <exception regexp="yes">\p{Lu}\p{Ll}+</exception>
@@ -14600,7 +14605,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <!-- https://www.merriam-webster.com/dictionary/dos%20and%20dont -->
         <pattern>
             <token>dos</token>
-            <token regexp="yes">and|&amp;</token>
+            <token regexp="yes">and|&amp;|/</token>
             <token>don</token>
             <token regexp="yes" spacebefore="no">&apostrophe;</token>
             <token spacebefore="no">ts</token>

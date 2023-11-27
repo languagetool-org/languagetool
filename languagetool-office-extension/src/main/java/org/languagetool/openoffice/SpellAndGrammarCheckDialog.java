@@ -81,7 +81,6 @@ import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
 import org.languagetool.openoffice.OfficeDrawTools.UndoMarkupContainer;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
-import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 // import org.languagetool.rules.Rule;
 
 import com.sun.star.beans.PropertyState;
@@ -501,7 +500,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * Get the proofreading result from cache
    */
-  @SuppressWarnings("null")
   SingleProofreadingError[] getErrorsFromCache(int nFPara) {
     int nWait = 0;
     boolean noNull = true;
@@ -554,7 +552,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (text == null || text.isEmpty() || x >= text.length() || !MultiDocumentsHandler.hasLocale(locale)) {
       return null;
     }
-    if (document.getDocumentType() == DocumentType.WRITER) {
+    if (document.getDocumentType() == DocumentType.WRITER && documents.getTextLevelCheckQueue() != null) {
       SingleProofreadingError[] errors = getErrorsFromCache(nFPara);
       if (errors == null) {
         return null;
@@ -571,6 +569,22 @@ public class SpellAndGrammarCheckDialog extends Thread {
              || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK
              && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale))) {
           if (error.nErrorStart >= x) {
+            if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+                && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
+              error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+            } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+              List<String> suggestionList = new ArrayList<>();
+              for (String suggestion : error.aSuggestions) {
+                suggestionList.add(suggestion);
+              }
+              String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
+              for (String suggestion : suggestions) {
+                if (!suggestionList.contains(suggestion)) {
+                  suggestionList.add(suggestion);
+                }
+              }
+              error.aSuggestions = suggestionList.toArray(new String[0]);
+            }
             return error;
           }
         }
@@ -614,14 +628,30 @@ public class SpellAndGrammarCheckDialog extends Thread {
           for (SingleProofreadingError error : paRes.aErrors) {
             if (debugMode) {
               MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Start: " + error.nErrorStart + ", ID: " + error.aRuleIdentifier);
-            }
-            if (error.nErrorType != TextMarkupType.SPELLCHECK) {
-              MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
-                      + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
+              if (error.nErrorType != TextMarkupType.SPELLCHECK) {
+                MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
+                        + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
+              }
             }
             if (error.nErrorType != TextMarkupType.SPELLCHECK 
                  || !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)) {
               if (error.nErrorStart >= x) {
+                if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+                    && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
+                  error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+                } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+                  List<String> suggestionList = new ArrayList<>();
+                  for (String suggestion : error.aSuggestions) {
+                    suggestionList.add(suggestion);
+                  }
+                  String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
+                  for (String suggestion : suggestions) {
+                    if (!suggestionList.contains(suggestion)) {
+                      suggestionList.add(suggestion);
+                    }
+                  }
+                  error.aSuggestions = suggestionList.toArray(new String[0]);
+                }
                 return error;
               }
             }
@@ -879,6 +909,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       activateRule = new JComboBox<String> ();
       checkProgressLabel = new JLabel(labelCheckProgress);
       cacheStatusLabel = new JLabel(" █ ");
+      cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel"));
       checkProgress = new JProgressBar(0, 100);
 
       try {
@@ -1605,10 +1636,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
           numCache++;
         }
       }
-      int size = (fullSize == 0 || numCache == 0) ? 0 : (pSize * 100) / (fullSize * numCache);
-      if (debugMode) {
-        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
+      int size;
+      if (docType == DocumentType.WRITER) {
+        size = (fullSize == 0 || numCache == 0) ? 0 : (pSize * 100) / (fullSize * numCache);
+      } else {
+        size = 100;
       }
+      cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel") + ": " + size + "%");
+//      if (debugMode) {
+//        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
+//      }
       if (size < 25) {
         cacheStatusLabel.setForeground(new Color(145 + 4 * size, 0, 0));
       } else if (size < 50) {
@@ -1949,7 +1986,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             addToDictionary.setEnabled(true);
             changeAll.setEnabled(true);
             autoCorrect.setEnabled(true);
-            ignorePermanent.setEnabled(false);
+            ignorePermanent.setEnabled(true);
           } else {
             ignoreAll.setText(ignoreRuleButtonName);
             addToDictionary.setVisible(false);
@@ -2029,6 +2066,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         languages.add(lang.getTranslatedName(messages));
         languages.sort(null);
       }
+      languages.add(0, messages.getString("loDialogDoNotCheck"));
       return languages.toArray(new String[languages.size()]);
     }
 
@@ -2036,6 +2074,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * returns the locale from a translated language name 
      */
     private Locale getLocaleFromLanguageName(String translatedName) {
+      if (translatedName.equals(messages.getString("loDialogDoNotCheck"))) {
+        return new Locale(OfficeTools.IGNORE_LANGUAGE, "", "");
+      }
       for (Language lang : Languages.get()) {
         if (translatedName.equals(lang.getTranslatedName(messages))) {
           return (LinguisticServices.getLocale(lang));
@@ -2369,7 +2410,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     private void ignorePermanent() throws Throwable {
       x = error.nErrorStart;
-      currentDocument.setPermanentIgnoredMatch(x, y, error.aRuleIdentifier, true);
+      Locale locale = error.nErrorType == TextMarkupType.SPELLCHECK ? docCache.getFlatParagraphLocale(y) : null;
+      int len = error.nErrorType == TextMarkupType.SPELLCHECK ? error.nErrorLength : 0;
+      currentDocument.setPermanentIgnoredMatch(error.nErrorStart, y, len, error.aRuleIdentifier, locale, false);
       addUndo(x, y, "ignorePermanent", error.aRuleIdentifier);
       gotoNextError();
     }

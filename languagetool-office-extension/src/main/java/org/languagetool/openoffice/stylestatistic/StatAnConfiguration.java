@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice.stylestatistic;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -39,10 +40,17 @@ import org.languagetool.rules.TextLevelRule;
  * @author Fred Kruse
  */
 public class StatAnConfiguration {
+  
+  private final String UNDERLINE_TYPE_PROP = "UnderlineType";
+  private final String UNDERLINE_COLOR_PROP = "UnderlineColor";
+  private final Color DEFAULT_UNDERLINE_COLOR = new Color(200, 0, 250);
+  
   private final List<TextLevelRule> rules;
   private final Map<String, Boolean> withoutDirectSpeech = new HashMap<String, Boolean>();
   private final Map<String, Integer> levelStep = new HashMap<String, Integer>();
   private final Map<String, List<String>> excludedWords = new HashMap<String, List<String>>();
+  private short underlineType = 0;
+  private Color underlineColor = DEFAULT_UNDERLINE_COLOR;
   
   StatAnConfiguration(List<TextLevelRule> rules) throws Throwable {
     this.rules = rules;
@@ -94,6 +102,26 @@ public class StatAnConfiguration {
     List<String> words = excludedWords.get(rule.getId());
     words.add(word);
     excludedWords.put(rule.getId(), words);
+  }
+  
+  short getUnderlineType() {
+    return underlineType;
+  }
+  
+  void setUnderlineType(short underlineType) {
+    this.underlineType = underlineType;
+  }
+  
+  Color getUnderlineColor() {
+    return underlineColor;
+  }
+  
+  void setDefaultUnderlineColor() {
+    underlineColor = DEFAULT_UNDERLINE_COLOR;
+  }
+  
+  void setUnderlineColor(Color underlineColor) {
+    this.underlineColor = underlineColor;
   }
   
   private String createLevelRuleProperties(String ruleId) throws Throwable {
@@ -182,6 +210,8 @@ public class StatAnConfiguration {
 */
       }
     }
+    props.setProperty(UNDERLINE_TYPE_PROP, Short.toString(underlineType));
+    props.setProperty(UNDERLINE_COLOR_PROP, Integer.toString(underlineColor.getRGB()));
     try (FileOutputStream fos = new FileOutputStream(OfficeTools.getStatisticalConfigFilePath())) {
       props.store(fos, "LT statistical analyzes configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
     } catch (Throwable e) {
@@ -210,6 +240,14 @@ public class StatAnConfiguration {
         }
 */
       }
+    }
+    String propString = props.getProperty(UNDERLINE_TYPE_PROP);
+    if (propString != null) {
+      underlineType = Short.parseShort(propString);
+    }
+    propString = props.getProperty(UNDERLINE_COLOR_PROP);
+    if (propString != null) {
+      underlineColor = Color.decode(propString);
     }
     MessageHandler.printToLogFile("Config load done");
   }

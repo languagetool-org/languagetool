@@ -26,6 +26,7 @@ import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.es.SpanishTagger;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,14 +43,13 @@ import java.util.stream.Collectors;
  */
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
-  private static final Pattern PREFIX_WITH_WHITESPACE = Pattern.compile(
-      "^(ultra|eco|tele|anti|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|hiper|trans|re|g|l|m) (..+)|.+ s$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final List<String> PREFIX_WITH_WHITESPACE = Arrays.asList("ultra", "eco", "tele", "anti", "auto", "ex",
+    "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "hiper",
+    "trans", "re", "g", "l", "m");
   private static final Pattern CAMEL_CASE = Pattern.compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", Pattern.UNICODE_CASE);
-  private static final Pattern PARTICULA_FINAL = Pattern.compile("^(..+) (que|cual)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|en|de|del|al|a|y|o|con)(\\d+)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final List<String> PARTICULA_FINAL = Arrays.asList("que", "cual");
+  private static final List<String> SPLIT_DIGITS_AT_END = Arrays.asList("en", "de", "del", "al", "a", "y", "o", "con");
+
   private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
   private static final SpanishTagger tagger = SpanishTagger.INSTANCE;
 
@@ -85,15 +85,21 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     for (int i = 0; i < suggestions.size(); i++) {
-      // remove wrong split prefixes
-      if (PREFIX_WITH_WHITESPACE.matcher(suggestions.get(i).getReplacement()).matches()) {
-        continue;
-      }
-      // move some split words to first place
-      Matcher matcher = PARTICULA_FINAL.matcher(suggestions.get(i).getReplacement());
-      if (matcher.matches()) {
-        newSuggestions.add(0, suggestions.get(i));
-        continue;
+      String replacement = suggestions.get(i).getReplacement().toLowerCase();
+      String parts[] = replacement.split(" ");
+      if (parts.length == 2) {
+        // remove wrong split prefixes
+        if (parts[1].equals("s")) {
+          continue;
+        }
+        if (PREFIX_WITH_WHITESPACE.contains(parts[0])) {
+          continue;
+        }
+        // move some split words to first place
+        if (PARTICULA_FINAL.contains(parts[1])) {
+          newSuggestions.add(0, suggestions.get(i));
+          continue;
+        }
       }
       newSuggestions.add(suggestions.get(i));
     }
@@ -109,58 +115,24 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   }
   
   private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
-    String suggestion = "";
-    suggestion = findSuggestion(suggestion, word, CAMEL_CASE, ANY_TAG, 1, " ", false);
-    suggestion = findSuggestion(suggestion, word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true);
-    if (!suggestion.isEmpty()) {
-      return Collections.singletonList(suggestion);
+    String[] parts = StringTools.splitCamelCase(word);
+    if (parts.length > 1) {
+      boolean isNotMisspelled = true;
+      for(String part: parts) {
+        isNotMisspelled &= !speller1.isMisspelled(part);
+      }
+      if (isNotMisspelled) {
+        return Collections.singletonList(String.join(" ",parts));
+      }
+    }
+    parts = StringTools.splitDigitsAtEnd(word);
+    if (parts.length > 1) {
+      if (tagger.tag(Arrays.asList(parts[0])).get(0).isTagged()
+        && (parts[0].length() > 2 || SPLIT_DIGITS_AT_END.contains(parts[0].toLowerCase()))) {
+        return Collections.singletonList(String.join(" ",parts));
+      }
     }
     return Collections.emptyList();
-  }
-  
-  private String findSuggestion(String suggestion, String word, Pattern wordPattern, Pattern postagPattern,
-      int suggestionPosition, String separator, boolean recursive) throws IOException {
-    if (!suggestion.isEmpty()) {
-      return suggestion;
-    }
-    Matcher matcher = wordPattern.matcher(word);
-    if (matcher.matches()) {
-      String newSuggestion = matcher.group(suggestionPosition);
-      AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equals("fer")) && matchPostagRegexp(newatr, postagPattern)) {
-        return matcher.group(1) + separator + matcher.group(2);
-      }
-      if (recursive) {
-        List<String> moresugg = this.speller1.getSuggestions(newSuggestion);
-        if (moresugg.size() > 0) {
-          String newWord;
-          if (suggestionPosition == 1) {
-            newWord = moresugg.get(0) + matcher.group(2); //.toLowerCase()
-          } else {
-            newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
-          }
-          return findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
-        }
-      }
-    }
-    return "";
-  }
-  
-  /**
-   * Match POS tag with regular expression
-   */
-  private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
-    for (AnalyzedToken analyzedToken : aToken) {
-      String posTag = analyzedToken.getPOSTag();
-      if (posTag == null) {
-        posTag = "UNKNOWN";
-      }
-      final Matcher m = pattern.matcher(posTag);
-      if (m.matches()) {
-        return true;
-      }
-    }
-    return false;
   }
 
   // Do not tokenize new words from spelling.txt...

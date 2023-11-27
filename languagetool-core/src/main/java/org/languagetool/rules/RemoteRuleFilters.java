@@ -41,6 +41,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,9 +56,10 @@ public final class RemoteRuleFilters {
   
   public static final String RULE_FILE = "remote-rule-filters.xml";
 
-  private static final LoadingCache<Language, Map<String, List<AbstractPatternRule>>> rules =
+  private static final LoadingCache<Language, List<Map.Entry<Pattern, List<AbstractPatternRule>>>> rules =
     CacheBuilder.newBuilder()
-      .build(CacheLoader.from(RemoteRuleFilters::load));
+      .build(CacheLoader.from((lang) -> compilePatterns(RemoteRuleFilters.load(lang))));
+
 
   private RemoteRuleFilters() {
   }
@@ -69,8 +71,8 @@ public final class RemoteRuleFilters {
     }
     // load all relevant filters for given matches
     Set<String> matchIds = matches.stream().map(m -> m.getRule().getId()).collect(Collectors.toSet());
-    List<AbstractPatternRule> filters = rules.get(lang).entrySet().stream()
-      .filter(e -> matchIds.stream().anyMatch(id -> id.matches(e.getKey())))
+    List<AbstractPatternRule> filters = rules.get(lang).stream()
+      .filter(e -> matchIds.stream().anyMatch(id -> e.getKey().matcher(id).matches()))
       .flatMap(e -> e.getValue().stream())
       .collect(Collectors.toList());
 
@@ -198,6 +200,18 @@ public final class RemoteRuleFilters {
       throw new RuntimeException(e);
     }
   }
+
+  static List<Map.Entry<Pattern, List<AbstractPatternRule>>> compilePatterns(Map<String, List<AbstractPatternRule>> rules) {
+    List<Map.Entry<Pattern, List<AbstractPatternRule>>> result = new ArrayList<>(rules.size());
+    // we treat rule ids in this file as regexes over rule IDs of matches
+    // compile them once here and then reuse
+    rules.forEach((ruleId, ruleList) -> {
+      Pattern key = Pattern.compile(ruleId);
+      result.add(new AbstractMap.SimpleImmutableEntry<>(key, ruleList));
+    });
+    return result;
+  }
+
 
   @NotNull
   static String getFilename(Language lang) {

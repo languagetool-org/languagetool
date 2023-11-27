@@ -61,7 +61,7 @@ import com.sun.star.uno.UnoRuntime;
  * @since 4.0
  * @author Fred Kruse
  */
-class DocumentCursorTools {
+public class DocumentCursorTools {
   
   public static int TEXT_TYPE_NORMAL = -1;
   public static int TEXT_TYPE_AUTOMATIC = -2;
@@ -382,8 +382,7 @@ class DocumentCursorTools {
 //        MessageHandler.printException(e);
       }
       return ret;
-    }
-    else if (paraStyleName != null && paraStyleName.startsWith("Contents")) {
+    } else if (paraStyleName.startsWith("Contents")) {
       return TEXT_TYPE_AUTOMATIC;
     } else {
       return TEXT_TYPE_NORMAL;

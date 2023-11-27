@@ -30,12 +30,16 @@ import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.*;
+
 /**
  * Tools for working with strings.
  * 
  * @author Daniel Naber
  */
 public final class StringTools {
+
+  private static final Pattern NONCHAR = compile("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]");
 
   /**
    * Constants for printing XML rule matches.
@@ -61,14 +65,16 @@ public final class StringTools {
     CONTINUE_API
   }
 
-  private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
-  private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
   public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
-  private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
-  private static final Pattern NOT_WORD_CHARACTER = Pattern.compile("[^\\p{L}]", Pattern.DOTALL);
 
-  private static final Pattern NOT_WORD_STR = Pattern.compile("[^\\p{L}]+", Pattern.DOTALL);
+  private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
+  private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
+  private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
+  private static final Pattern NOT_WORD_CHARACTER = compile("[^\\p{L}]", DOTALL);
+  private static final Pattern NOT_WORD_STR = compile("[^\\p{L}]+", DOTALL);
+  private static final Pattern PATTERN = compile("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]");
+  private static final Pattern DIACRIT_MARKS = compile("[\\p{InCombiningDiacriticalMarks}]");
 
   private StringTools() {
     // only static stuff
@@ -396,7 +402,7 @@ public final class StringTools {
   public static String trimSpecialCharacters(String s) {
     // need unicode character classes -> (?U)
     // lists all allowed character classes, replace everything else
-    return s.replaceAll("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]", "");
+    return PATTERN.matcher(s).replaceAll("");
   }
 
   /**
@@ -507,7 +513,7 @@ public final class StringTools {
   
   public static String removeDiacritics(String str) {
     String s = Normalizer.normalize(str, Normalizer.Form.NFD);
-    return s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+    return DIACRIT_MARKS.matcher(s).replaceAll("");
   }
   
   public static String normalizeNFKC(String str) {
@@ -617,7 +623,7 @@ public final class StringTools {
         .replace("Ü", "UE")
         .replace("Ö", "OE");
     }
-    normalisedId = normalisedId.replaceAll("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]", "_");
+    normalisedId = NONCHAR.matcher(normalisedId).replaceAll("_");
     return normalisedId;
   }
 
@@ -648,7 +654,7 @@ public final class StringTools {
   
   /**
    * Difference between two strings (only one difference)
-   * @return: List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
+   * @return List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
    * @since 6.2
    */
   
@@ -798,5 +804,53 @@ public final class StringTools {
       converted.append(ch);
     }
     return converted.toString();
+  }
+
+  public static String[] splitCamelCase(String input) {
+    if (isAllUppercase(input)) {
+      return new String[]{input};
+    }
+    StringBuilder word = new StringBuilder();
+    StringBuilder result = new StringBuilder();
+    boolean previousIsUppercase = false;
+    for (int i = 0; i < input.length(); i++) {
+      char currentChar = input.charAt(i);
+      if (Character.isUpperCase(currentChar)) {
+        if (!previousIsUppercase) {
+          result.append(word).append(" ");
+          word.setLength(0);
+        }
+        previousIsUppercase = true;
+      } else {
+        previousIsUppercase = false;
+      }
+      word.append(currentChar);
+    }
+    result.append(word);
+    return result.toString().trim().split(" ");
+  }
+
+  public static String[] splitDigitsAtEnd(String input) {
+    int lastIndex = input.length() - 1;
+    while (lastIndex >= 0 && Character.isDigit(input.charAt(lastIndex))) {
+      lastIndex--;
+    }
+    String nonDigitPart = input.substring(0, lastIndex + 1);
+    String digitPart = input.substring(lastIndex + 1);
+    if (!nonDigitPart.isEmpty() && !digitPart.isEmpty()) {
+      return new String[]{nonDigitPart, digitPart};
+    }
+    return new String[]{input};
+  }
+
+  public static boolean isAnagram(String string1, String string2) {
+    if (string1.length() != string2.length()) {
+      return false;
+    }
+    char[] charArray1 = string1.toCharArray();
+    char[] charArray2 = string2.toCharArray();
+    Arrays.sort(charArray1);
+    Arrays.sort(charArray2);
+    return Arrays.equals(charArray1, charArray2);
   }
 }

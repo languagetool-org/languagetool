@@ -54,6 +54,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 
@@ -79,6 +80,7 @@ public class English extends Language implements AutoCloseable {
         }
       });
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
+  private static final Pattern FALSE_FRIENDS_PATTERN = Pattern.compile("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*");
 
   private LanguageModel languageModel;
 
@@ -436,6 +438,7 @@ public class English extends Language implements AutoCloseable {
       case "ALL_OF_SUDDEN":             return 1;   // higher prio than ALL_MOST_SOME_OF_NOUN
       case "COMMA_PERIOD":              return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
       case "COMMA_CLOSING_PARENTHESIS": return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
+      case "ELLIPSIS":                  return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
       case "HERE_HEAR":                 return 1;   // higher prio than ENGLISH_WORD_REPEAT_RULE
       case "MISSING_POSS_APOS":         return 1;   // higher prio than SINGULAR_NOUN_VERB_AGREEMENT
       case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
@@ -477,6 +480,7 @@ public class English extends Language implements AutoCloseable {
       case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
       case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
       case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
+      case "HYPHEN_TO_EN":              return 1;   // higher prio than DASH_RULE (due to one picky subrule)
       case "EVERY_NOW_AND_THEN":        return 0;
       case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker, less prio than ATTACHE_ATTACH
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
@@ -597,10 +601,13 @@ public class English extends Language implements AutoCloseable {
       case "SINGULAR_NOUN_VERB_AGREEMENT": return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
       case "SINGULAR_AGREEMENT_SENT_START": return -12;    // prefer AI
       case "SUBJECTVERBAGREEMENT_2": return -12;    // prefer AI
+      case "THE_SENT_END": return -12;    // prefer AI
       case "DT_NN_ARE_AME": return -12;    // prefer AI
       case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
       case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
+      case "VERB_APOSTROPHE_S":   return -12;    // prefer AI
       case "SENT_START_PRPS_JJ_NN_VBP": return -12;  // prefer AI
+      case "TO_AFTER_MODAL_VERBS": return -12;  // prefer AI
       case "SINGULAR_NOUN_ADV_AGREEMENT": return -12;  // prefer AI
       case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
@@ -630,10 +637,12 @@ public class English extends Language implements AutoCloseable {
       case "BE_VB_OR_NN":               return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "DO_DT_NN_BE":               return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "PRONOUN_NOUN":              return -26;  // prefer other rules (with suggestions, e.g. confusion rules)
+      case "ETC_PERIOD":                return -49;  // prefer over QB rules that are now style
       case "COULD_YOU_NOT_NEEDED":      return -49;  // prefer over TAKE_A_LOOK
       case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
       case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
       case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
+      case "SEEMS_TO_BE":               return -51;  // prefer SEEM_APPEAR
       case "MD_NN":                     return -60;  // prefer PRP_MD_NN
       case "I_THINK_FEEL":              return -60;
       case "KNOW_AWARE_REDO":           return -60;
@@ -675,7 +684,7 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("AI_EN_LECTOR")) { // prefer more specific rules (also speller)
       return -11;
     }
-    if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
+    if (FALSE_FRIENDS_PATTERN.matcher(id).matches()) {
       return -21;
     }
     return super.getPriorityForId(id);

@@ -578,6 +578,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
             <rule>
                 <pattern>
+                    <token skip="10" postag="VBN" chunk_re=".-VP" />
+                    <token chunk_re="B-(PP|SBAR)">that</token>
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" postag="VB[DN]" postag_regexp="yes">cost|hit|hurt|let|put|quit|set|shut|split|spread</token>
+                    </marker>
+                </pattern>
+                <example correction="">Or have you been so cold that your face <marker>hurt</marker> from being outside?</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>intention</token>
                     <token>to</token>
                     <marker>
@@ -877,6 +890,23 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_APOSTROPHE_S_XS" name="">
+            <rule>
+                <pattern>
+                    <token chunk_re=".-VP" />
+                    <token chunk="B-PP" />
+                    <marker>
+                        <token chunk_re="B-NP.*">its</token>
+                    </marker>
+                    <token chunk_re="[IE]-NP.*">
+                        <exception postag="VBG" />
+                        <exception>just</exception>
+                    </token>
+                </pattern>
+                <example correction="">Hello, are you waiting for <marker>its</marker> time?</example>
+                <example>Grandpa says people are calling, (I wonder if its just one or two people), but nevertheless, we still need to get something out.</example>
+                <example>So we're pinned down, trying to suppress this truck while dodgin 50 Cal laser blasts (since its just MILES a blade of grass can deflect the laser).</example>
+                <example>Thats right around $37.5 to $38.0 That is lower than where it liquedated last summer and based on the fundamentals regarding gas, it looks like its heading lower than that by April.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -1869,6 +1899,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|CC|PCT|TO" postag_regexp="yes" />
+                    <token regexp="yes">an?|another|more|one</token>
+                    <token min="0" max="2" chunk="I-NP-singular" />
+                    <marker>
+                        <token chunk="E-NP-singular" />
+                    </marker>
+                    <token postag="JJR" />
+                </pattern>
+                <example correction="">Another <marker>year</marker> wiser and greater!</example>
+            </rule>
             <rule>  <!-- no comma in middle of noun phrase I -->
                 <antipattern>
                     <token chunk="B-NP-plural" />
@@ -1876,13 +1918,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token chunk="B-NP-plural" />
+                        <token postag="CD" chunk="B-NP-plural" />
                     </marker>
-                    <token chunk_re="[IE]-NP-plural" />
+                    <token min="0" max="2" chunk="I-NP-plural" />
+                    <token chunk="E-NP-plural" />
                 </pattern>
                 <example correction="">She was found guilty and sentenced to <marker>ninety</marker> days in the Sacramento County</example>
+                <example>Like all the great things on earth traveling teaches us by example.</example>
             </rule>
-            <rule>  <!-- no comma in middle of noun phrase II -->
+        <!--<rule>
                 <antipattern>
                     <token chunk="B-NP-singular" />
                     <token chunk="B-NP-singular" />
@@ -1894,7 +1938,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token chunk_re="[IE]-NP-singular" />
                 </pattern>
                 <example correction="">She was found guilty and sentenced to <marker>a</marker> day</example>
-            </rule>
+            </rule>-->
             <rule>  <!-- pattern taken from IF_NO_COMMA -->
                 <pattern>
                     <marker>
@@ -3098,6 +3142,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">“My husband’s right.<marker> </marker></example>
             </rule>
         </rulegroup>
+        <rule id="QB_EN_INSERT_PERIOD_ERROR_IDS" name="">
+            <pattern>
+                <token postag="SENT_START" />
+                <token skip="-1" regexp="yes">[•*]</token>
+                <marker>
+                    <token postag="SENT_END" />
+                </marker>
+            </pattern>
+            <example correction="">• This is a <marker>test</marker></example>
+            <example correction="">* This is a <marker>test</marker></example>
+        </rule>
         <rulegroup id="QB_EN_CAPITALIZE_JJ_FOR_NNP_ERROR_IDS_000052" name="">
             <rule>  <!-- capitalization of covid-19 -->
                 <pattern>
@@ -3844,6 +3899,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">After serving six months, he escaped with the help of Abdullah <marker>Çatlı</marker>, second-in-command of the Grey Wolves, and fled to Bulgaria, which was a base of operations for the Turkish mafia.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NNP_FOR_CD" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>~</token>
+                        <token regexp="yes">\d+</token>
+                        <token regexp="yes">[:.]</token>
+                        <token regexp="yes">\d+</token>
+                    </marker>
+                </pattern>
+                <example correction="">On Thursday at <marker>~6:30</marker> CST</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>~</token>
+                        <token regexp="yes">\d+[a-z]*</token>
+                    </marker>
+                </pattern>
+                <example correction="">on Thursday at <marker>~6</marker> CST</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_SWAP_NNP_FOR_NNP_ERROR_IDS_000051" name="">
             <rule> <!-- non-English characters -->
                 <pattern>
@@ -3963,6 +4040,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">I <marker>dreamt</marker> about becoming very rich.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_VBD_FOR_VBZ " name="">
+            <rule>
+                <pattern>
+                    <token skip="10" postag="VBN" chunk_re=".-VP" />
+                    <token chunk_re="B-(PP|SBAR)">that</token>
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" postag="VB[DN]" postag_regexp="yes">cost|hit|hurt|let|put|quit|set|shut|split|spread</token>
+                    </marker>
+                </pattern>
+                <example correction="">Or have you been so cold that your face <marker>hurt</marker> from being outside?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_SWAP_VBN_FOR_VBZ " name="">
+            <rule>
+                <pattern>
+                    <token skip="10" postag="VBN" chunk_re=".-VP" />
+                    <token chunk_re="B-(PP|SBAR)">that</token>
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" postag="VB[DN]" postag_regexp="yes">cost|hit|hurt|let|put|quit|set|shut|split|spread</token>
+                    </marker>
+                </pattern>
+                <example correction="">Or have you been so cold that your face <marker>hurt</marker> from being outside?</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_''_FOR_COMMASPACE''" name="">

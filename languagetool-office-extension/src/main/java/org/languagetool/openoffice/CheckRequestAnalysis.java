@@ -643,7 +643,7 @@ class CheckRequestAnalysis {
    * adjust the result cache to changes
    */
   private boolean handleCacheChanges() {
-    if (useQueue) {
+    if (useQueue && mDocHandler.getTextLevelCheckQueue() != null) {
       mDocHandler.getTextLevelCheckQueue().interruptCheck(docID, true);
     }
     ChangedRange changed = docCache.refreshAndCompare(singleDocument, LinguisticServices.getLocale(fixedLanguage), 

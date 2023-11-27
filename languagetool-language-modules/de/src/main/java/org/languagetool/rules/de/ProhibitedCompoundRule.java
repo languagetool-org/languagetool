@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static org.languagetool.tools.StringTools.*;
 
@@ -52,13 +53,19 @@ public class ProhibitedCompoundRule extends Rule {
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
   // have objects static for better performance (rule gets initialized for every check)
   private static final List<Pair> lowercasePairs = Arrays.asList(
-          // NOTE: words here must be all-lowercase
-          // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
-          new Pair("leser", "eine Person, die liest", "leder", "aus Tierhaut gewonnenes Material"),
+          // NOTES:
+          // * words here must be all-lowercase
+          // * no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          // * please test using ProhibitedCompoundRuleTest.testListOfWords() before pushing a change with a new pair
+          new Pair("schaf", "Tier", "schaft", "'-schaft' (Element zur Wortbildung, z. B. 'Freundschaft')"),
+          new Pair("schafen", "Dativ Plural von 'Schaf'", "schaften", "'-schaften' (Element zur Wortbildung, z. B. 'Freundschaften')"),
+          new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
+          new Pair("pillen", "Tabletten", "pullen", "Plural von 'Pulle' (Flasche)"),
+          new Pair("tauben", "Vogelart", "trauben", "Obstsorte"),
           new Pair("panel", "ausgewählte Personengruppe", "paneel", "Platte für Wand- und Deckenverkleidungen"),
           new Pair("nabe", "Mittelteil eines Rades", "narbe", "verheilende Wunde"),
           new Pair("first", "höchste Kante an einem geneigten Dach", "frist", "spätester Zeitpunkt"),
-          new Pair("kisten", "Behälter", "kosten", "Ausgaben"),
+          //new Pair("kisten", "Behälter", "kosten", "Ausgaben"),
           new Pair("koma", "Zustand tiefer Bewusstlosigkeit", "komma", "Satzzeichen"),
           new Pair("korn", "Getreide sowie dessen Frucht", "kron", "Vorsilbe z.B. in 'Kronkorken'"),
           new Pair("bauten", "Form von 'Bau' (Bauwerk, Haus, ...)", "beuten", "Form von 'Beute'"),
@@ -80,24 +87,24 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("ritt", "Reiten", "tritt", "Aufsetzen eines Fußes"),
           new Pair("beine", "Körperteil", "biene", "Insekt"),
           new Pair("rebe", "Weinrebe", "reibe", "Küchenreibe"),
-          new Pair("lande", null, "landes", null),
+          //new Pair("lande", null, "landes", null),
           new Pair("ass", "Spielkarte", "pass", "Reisepass; Übergang durch ein Gebirge"),
           new Pair("türmer", "Turmwächter", "türme", "Plural von 'Turm' (Bauwerk)"),
           new Pair("soge", "ziehende Strömungen", "sorge", "bedrückendes Gefühl"),
           new Pair("panne", "technischer Defekt", "spanne", "Zeitraum"),
           new Pair("elfer", "Elfmeter", "helfer", "Person, die hilft"),
-          new Pair("bau", "Bauwerk, Baustelle", "baum", "Pflanze"),
+          //new Pair("bau", "Bauwerk, Baustelle", "baum", "Pflanze"),
           new Pair("gase", "Plural von 'Gas' (Aggregatzustand)", "gasse", "kleine Straße"),
           new Pair("ekel", "Abscheu", "enkel", "Kind eines eigenen Kindes"),
           new Pair("reis", "Nahrungsmittel", "reise", "Ausflug/Fahrt"),
-          new Pair("speichel", "Körperflüssigkeit", "speicher", "Lager, Depot, Ablage"),
+          //new Pair("speichel", "Körperflüssigkeit", "speicher", "Lager, Depot, Ablage"),
           new Pair("hüte", "Kopfbedeckungen", "häute", "Plural von 'Haut'"),
-          new Pair("bach", "kleiner Fluss", "bauch", "Teil des menschlichen Körpers"),
+          //new Pair("bach", "kleiner Fluss", "bauch", "Teil des menschlichen Körpers"),
           new Pair("werbereich", null, "erbereich", null),
           new Pair("lage", "Position", "alge", "im Wasser lebende Organismen"),
           new Pair("sphäre", "Kugel", "spähreh", null),
           new Pair("schenke", "Gastwirtschaft (auch: Schänke)", "schenkel", "Ober- und Unterschenkel"),
-          new Pair("rune", "Schriftzeichen der Germanen", "runde", "Rundstrecke"),
+          //new Pair("rune", "Schriftzeichen der Germanen", "runde", "Rundstrecke"),
           new Pair("mai", "Monat nach April", "mail", "E-Mail"),
           new Pair("pump", "'auf Pump': umgangssprachlich für 'auf Kredit'", "pumpe", "Gerät zur Beförderung von Flüssigkeiten"),
           new Pair("mitte", "zentral", "mittel", "Methode, um etwas zu erreichen"),
@@ -107,17 +114,17 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("bart", "Haarbewuchs im Gesicht", "dart", "Wurfpfeil"),
           new Pair("hart", "fest", "dart", "Wurfpfeil"),
           new Pair("speiche", "Verbindung zwischen Nabe und Felge beim Rad", "speicher", "Lagerraum"),
-          new Pair("speichen", "Verbindung zwischen Nabe und Felge beim Rad", "speicher", "Lagerraum"),
+          //new Pair("speichen", "Verbindung zwischen Nabe und Felge beim Rad", "speicher", "Lagerraum"),
           new Pair("kart", "Gokart (Fahrzeug)", "karte", "Fahrkarte, Postkarte, Landkarte, ..."),
           new Pair("karts", "Kart = Gokart (Fahrzeug)", "karte", "Fahrkarte, Postkarte, Landkarte, ..."),
-          new Pair("kurz", "Gegenteil von 'lang'", "kur", "medizinische Vorsorge und Rehabilitation"),
+          //new Pair("kurz", "Gegenteil von 'lang'", "kur", "medizinische Vorsorge und Rehabilitation"),
           new Pair("kiefer", "knöcherner Teil des Schädels", "kiefern", "Kieferngewächse (Baum)"),
           new Pair("gel", "dickflüssige Masse", "geld", "Zahlungsmittel"),
-          new Pair("flucht", "Entkommen, Fliehen", "frucht", "Ummantelung des Samens einer Pflanze"),
+          //new Pair("flucht", "Entkommen, Fliehen", "frucht", "Ummantelung des Samens einer Pflanze"),
           new Pair("kamp", "Flurname für ein Stück Land", "kampf", "Auseinandersetzung"),
-          new Pair("obst", "Frucht", "ost", "Himmelsrichtung"),
-          new Pair("beeren", "Früchte", "bären", "Raubtiere"),
-          new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
+          //new Pair("obst", "Frucht", "ost", "Himmelsrichtung"),
+          //new Pair("beeren", "Früchte", "bären", "Raubtiere"),
+          //new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
           new Pair("läuse", "Insekt", "läufe", "Bewegungsart"),
           new Pair("läusen", "Insekt", "läufen", "Bewegungsart"),
           new Pair("ruck", "plötzliche Bewegung", "druck", "Belastung"),
@@ -140,14 +147,14 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("häufigkeit", "Anzahl von Ereignissen", "häutigkeit", "z.B. in Dunkelhäutigkeit"),
           new Pair("hin", "in Richtung", "hirn", "Gehirn, Denkapparat"),
           new Pair("verklärung", "Beschönigung, Darstellung in einem besseren Licht", "erklärung", "Darstellung, Erläuterung"),
-          new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion"),
+          //new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion"),
           new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
           new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
           //new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
           new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
   );
-  private static LinguServices linguServices;
+  private static final Pattern HERRN_FRAU = Pattern.compile("Herrn?|Frau|Dr|Prof|Mag|Hr|Fr|Mr|Mrs|Ms|Fräulein");
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
     "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
@@ -168,6 +175,7 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)its?",   // Grafit/Graphit
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
+  private static LinguServices linguServices;
 
   private static final LoadingCache<String, Set<String>> cache = CacheBuilder.newBuilder()
     .expireAfterAccess(30, TimeUnit.MINUTES)
@@ -305,12 +313,12 @@ public class ProhibitedCompoundRule extends Rule {
     AnalyzedTokenReadings prevReadings = null;
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
       String tmpWord = readings.getToken();
-      if (prevReadings != null && prevReadings.hasAnyPartialPosTag("EIG:") && StringTools.startsWithUppercase(tmpWord) &&
+      if (prevReadings != null && prevReadings.hasAnyPartialPosTag("EIG:") && startsWithUppercase(tmpWord) &&
         (readings.hasAnyPartialPosTag("EIG:") || readings.isPosTagUnknown())) {
         // assume name, e.g. "Bianca Baalhorn" (avoid: Baalhorn => Ballhorn)
         continue;
       }
-      if (prevReadings != null && prevReadings.getToken().matches("Herrn?|Frau")) {
+      if (prevReadings != null && HERRN_FRAU.matcher(prevReadings.getToken()).matches()) {
         // assume name, e.g. "Herr Eiswert" (avoid: Eiswert -> Eiswelt)
         continue;
       }
@@ -389,7 +397,7 @@ public class ProhibitedCompoundRule extends Rule {
         }
         int fromPos = readings.getStartPos() + partsStartPos;
         int toPos = fromPos + wordPart.length() + toPosCorrection;
-        String id = StringTools.toId(getId() + "_" + pair.part1 + "_" + pair.part2, language);
+        String id = toId(getId() + "_" + pair.part1 + "_" + pair.part2, language);
         String desc = "Markiert wahrscheinlich falsche Komposita mit Teilwort '" +
           uppercaseFirstChar(pair.part1) + "' statt '" + uppercaseFirstChar(pair.part2) + "' und umgekehrt";
         SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());

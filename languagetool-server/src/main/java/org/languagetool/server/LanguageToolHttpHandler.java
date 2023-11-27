@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.Pattern;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.getHttpReferrer;
@@ -142,9 +143,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       for (String ref : config.getBlockedReferrers()) {
         String errorMessage = null;
         if (ref != null && !ref.isEmpty()) {
-          if (referrer != null && siteMatches(referrer, ref)) {
+          if (referrer != null && ServerTools.siteMatches(referrer, ref)) {
             errorMessage = "Error: Access with referrer " + referrer + " denied.";
-          } else if (origin != null && siteMatches(origin, ref)) {
+          } else if (origin != null && ServerTools.siteMatches(origin, ref)) {
             errorMessage = "Error: Access with origin " + origin + " denied.";
           }
         }
@@ -306,12 +307,6 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
     }
     return false;
-  }
-
-  private boolean siteMatches(String referrer, String blockedRef) {
-    return referrer.startsWith(blockedRef) || 
-           referrer.startsWith("http://" + blockedRef) || referrer.startsWith("https://" + blockedRef) ||
-           referrer.startsWith("http://www." + blockedRef) || referrer.startsWith("https://www." + blockedRef);
   }
 
   private boolean workQueueFull(HttpExchange httpExchange, Map<String, String> parameters, String response) throws IOException {
@@ -477,8 +472,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     return parameters;
   }
 
+  private static final Pattern QUERY_PARAM_SPLIT = Pattern.compile("&");
+
   private Map<String, String> getParameterMap(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
-    String[] pairs = query.split("[&]");
+    String[] pairs = QUERY_PARAM_SPLIT.split(query);
     Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
       int delimPos = pair.indexOf('=');

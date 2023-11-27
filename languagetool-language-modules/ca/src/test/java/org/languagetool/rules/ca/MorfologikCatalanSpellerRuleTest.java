@@ -50,6 +50,10 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autoprenia.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autocanta.")).length);
 
+    //apostrophes
+    matches = rule.match(lt.getAnalyzedSentence("lAjuntament"));
+    assertEquals("l'Ajuntament", matches[0].getSuggestedReplacements().get(0));
+
     // word not well-formed with prefix
     assertEquals(1, rule.match(lt.getAnalyzedSentence("S'autopren.")).length);
 
@@ -341,11 +345,8 @@ public class MorfologikCatalanSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Windows10"));
     assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
-    //assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
-
     matches = rule.match(lt.getAnalyzedSentence("windows10"));
     assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
-    //assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
 
     // pronoms febles
     matches = rule.match(lt.getAnalyzedSentence("ferse"));
@@ -671,6 +672,20 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals(3, matches[0].getSuggestedReplacements().size());
     assertEquals("polítiques", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(lt.getAnalyzedSentence("SegleXXI"));
+    assertEquals(1, matches.length);
+    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals("Segle XXI", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("segleXIX"));
+    assertEquals(1, matches.length);
+    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals("segle XIX", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("PolíticaInternacionalEuropea"));
+    assertEquals(1, matches.length);
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
+    assertEquals("Política Internacional Europea", matches[0].getSuggestedReplacements().get(0));
 
     // global spelling
     matches = rule.match(lt.getAnalyzedSentence("FT"));

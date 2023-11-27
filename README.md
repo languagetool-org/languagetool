@@ -20,6 +20,7 @@ The LanguageTool core (this repo) is freely available under the LGPL 2.1 or late
 
 Try one of the following projects for a community-contributed Docker file:
 
+- https://github.com/meyayl/docker-languagetool ([Docker Hub](https://hub.docker.com/r/meyay/languagetool))
 - https://github.com/Erikvl87/docker-languagetool ([Docker Hub](https://hub.docker.com/r/erikvl87/languagetool))
 - https://github.com/silvio/docker-languagetool ([Docker Hub](https://hub.docker.com/r/silviof/docker-languagetool))
 

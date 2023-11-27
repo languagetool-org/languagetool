@@ -43,12 +43,14 @@ import java.util.List;
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
   private final MultiWordChunker chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", true, true, MultiWordChunker.tagForNotAddingTags);
   private final Disambiguator disambiguator;
 
   public EnglishHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
     chunker.setIgnoreSpelling(true);
     chunker.setRemovePreviousTags(true);
+    chunkerGlobal.setIgnoreSpelling(true);
   }
 
   @Override
@@ -67,7 +69,7 @@ public class EnglishHybridDisambiguator extends AbstractDisambiguator {
    */
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled);
   }
 
 }

@@ -49,11 +49,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.languagetool.server.ServerTools.getHttpReferrer;
-import static org.languagetool.server.ServerTools.getHttpUserAgent;
+import static org.languagetool.server.ServerTools.*;
 
 /**
  * @since 3.4
@@ -64,6 +64,7 @@ abstract class TextChecker {
   private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
   private static final int PINGS_MAX_SIZE = 5000;
   private static final String SPAN_NAME_PREFIX = "/v2/check-";
+  private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -407,13 +408,17 @@ abstract class TextChecker {
     if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
       isMultiLangEnabled = true;
     }
+    boolean untrustedSource = false;
+    if (referrer != null) {
+      untrustedSource = config.getUntrustedReferrers().stream().anyMatch(s -> siteMatches(referrer, s));
+    }
     
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, untrustedSource);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
@@ -446,7 +451,7 @@ abstract class TextChecker {
     boolean useEnabledOnly = "yes".equals(params.get("enabledOnly")) || "true".equals(params.get("enabledOnly"));
     List<Language> altLanguages = new ArrayList<>();
     if (params.get("altLanguages") != null) {
-      String[] altLangParams = params.get("altLanguages").split(",\\s*");
+      String[] altLangParams = COMMA_WHITESPACE_PATTERN.split(params.get("altLanguages"));
       for (String langCode : altLangParams) {
         Language altLang = parseLanguage(langCode);
         altLanguages.add(altLang);

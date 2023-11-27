@@ -63,7 +63,8 @@ public class Spanish extends Language implements AutoCloseable {
             "BO", "SV", "HN", "NI", "PR", "US", "CU"
     };
   }
-  
+
+  @Override
   public Language getDefaultLanguageVariant() {
     return Languages.getLanguageForShortCode("es");
   }
@@ -269,6 +270,10 @@ public class Spanish extends Language implements AutoCloseable {
     if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)
       return -101;
     }
+    if (id.startsWith("AI_ES_GGEC")) { // prefer more specific rules (also speller)
+      return 0;
+      //return -102;
+    }
     if (id.startsWith("ES_MULTITOKEN_SPELLING")) {
       return -95;
     }
@@ -292,7 +297,7 @@ public class Spanish extends Language implements AutoCloseable {
 
   @Override
   public String prepareLineForSpeller(String line) {
-    String parts[] = line.split("#");
+    String[] parts = line.split("#");
     if (parts.length == 0) {
       return line;
     }

@@ -37,9 +37,12 @@ import java.util.zip.GZIPOutputStream;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
-import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
+import org.languagetool.openoffice.DocumentCache.SerialLocale;
+import org.languagetool.openoffice.IgnoredMatches.LocaleEntry;
+import org.languagetool.openoffice.OfficeTools.LoErrorType;
 
 import com.sun.star.frame.XModel;
+import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.uno.UnoRuntime;
 
@@ -308,7 +311,7 @@ public class CacheIO implements Serializable {
   /**
    * get ignored matches
    */
-  public Map<Integer, Map<String, Set<Integer>>> getIgnoredMatches() {
+  public IgnoredMatches getIgnoredMatches() {
     Map<Integer, Map<String, Set<Integer>>> ignoredMatches = new HashMap<>();
     for (int y : allCaches.ignoredMatches.keySet()) {
       Map<String, Set<Integer>> newIdMap = new HashMap<>();
@@ -319,7 +322,18 @@ public class CacheIO implements Serializable {
       }
       ignoredMatches.put(y, newIdMap);
     }
-    return ignoredMatches;
+    Map<Integer, List<LocaleEntry>> sLocales = new HashMap<>();
+    MessageHandler.printToLogFile("CacheIO: getIgnoredMatches: spellLocales: size: " + allCaches.spellLocales.size());
+    for (int y : allCaches.spellLocales.keySet()) {
+      List<LocaleEntry> newEntryList = new ArrayList<>();
+      List<LocaleSerialEntry> locEntries = new ArrayList<>(allCaches.spellLocales.get(y));
+      MessageHandler.printToLogFile("CacheIO: getIgnoredMatches: spellLocales: size: " + locEntries.size() + " at y: " + y);
+      for (LocaleSerialEntry entry : locEntries) {
+        newEntryList.add(new LocaleEntry(entry.start, entry.length, entry.locale.toLocale(), entry.ruleId));
+      }
+      sLocales.put(y, newEntryList);
+    }
+    return new IgnoredMatches(ignoredMatches, sLocales);
   }
   
   /**
@@ -348,15 +362,16 @@ public class CacheIO implements Serializable {
     } else {
       if (allCaches.paragraphsCache.get(0).getNumberOfMatches() > 0) {
         for (int n = 0; n < allCaches.paragraphsCache.get(0).getNumberOfParas(); n++) {
-          if (allCaches.paragraphsCache.get(0).getMatches(n) == null) {
+          if (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH) == null) {
             MessageHandler.printToLogFile("allCaches.sentencesCache.getMatches(" + n + ") == null");
           } else {
-            if (allCaches.paragraphsCache.get(0).getMatches(n).length > 0) {
+            if (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH).length > 0) {
               MessageHandler.printToLogFile("Paragraph " + n + " sentence match[0]: " 
-                  + "nStart = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorStart 
-                  + ", nLength = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorLength
+                  + "nStart = " + allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].nErrorStart 
+                  + ", nLength = " + allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].nErrorLength
                   + ", errorID = " 
-                  + (allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier == null ? "null" : allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier));
+                  + (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].aRuleIdentifier == null ? "null" 
+                      : allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].aRuleIdentifier));
             }
           }
         }
@@ -366,7 +381,7 @@ public class CacheIO implements Serializable {
 
   class AllCaches implements Serializable {
 
-    private static final long serialVersionUID = 5L;
+    private static final long serialVersionUID = 6L;
 
     DocumentCache docCache;                 //  cache of paragraphs
     List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
@@ -375,6 +390,7 @@ public class CacheIO implements Serializable {
     List<String> disabledCategories;
     List<String> enabledRuleIds;
     Map<Integer, Map<String, Set<Integer>>> ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
+    Map<Integer, List<LocaleSerialEntry>> spellLocales;
     String ltVersion;
     
     AllCaches(DocumentCache docCache, List<ResultCache> paragraphsCache, Map<String, Set<String>> disabledRulesUI, Set<String> disabledRuleIds, 
@@ -403,7 +419,7 @@ public class CacheIO implements Serializable {
       }
       this.ltVersion = ltVersion;
       Map<Integer, Map<String, Set<Integer>>> clone = new HashMap<>();
-      for (int y : ignoredMatches.getFullMap().keySet()) {
+      for (int y : ignoredMatches.getFullIMMap().keySet()) {
         Map<String, Set<Integer>> newIdMap = new HashMap<>();
         Map<String, Set<Integer>> idMap = new HashMap<>(ignoredMatches.get(y));
         for (String id : idMap.keySet()) {
@@ -413,8 +429,36 @@ public class CacheIO implements Serializable {
         clone.put(y, newIdMap);
       }
       this.ignoredMatches = clone;
+      Map<Integer, List<LocaleSerialEntry>> sLocales = new HashMap<>();
+      for (int y : ignoredMatches.getFullSLMap().keySet()) {
+        List<LocaleSerialEntry> newEntryList = new ArrayList<>();
+        List<LocaleEntry> locEntries = new ArrayList<>(ignoredMatches.getLocaleEntries(y));
+        MessageHandler.printToLogFile("CacheIO: AllCaches: spellLocales: size: " + locEntries.size() + " at y: " + y);
+        for (LocaleEntry entry : locEntries) {
+          newEntryList.add(new LocaleSerialEntry(entry.start, entry.length, entry.locale, entry.ruleId));
+        }
+        sLocales.put(y, newEntryList);
+      }
+      this.spellLocales = sLocales;
     }
     
+  }
+  
+  public class LocaleSerialEntry  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    int start;
+    int length;
+    SerialLocale locale;
+    String ruleId;
+    
+    LocaleSerialEntry(int start, int length, Locale locale, String ruleId) {
+      this.start = start;
+      this.length = length;
+      this.locale = new SerialLocale(locale);
+      this.ruleId = new String(ruleId);
+    }
   }
 
   /**

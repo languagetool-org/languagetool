@@ -580,6 +580,21 @@ class AgreementRuleAntiPatterns3 {
       token("vieles"),
       tokenRegex("Lust|Bock")
     ),
+    asList( // die Französisch Polizei deportiert mich.
+      tokenRegex("die(se)?|der|das|[msdk]?ein(en?)?|ihren?|euren?|euer|unser(er)?|viele|einige|sonstige"),
+      csRegex("Deutsch|Französisch|Arabisch|Katalanisch|Spanisch|Türkisch|Holländisch|Tschechisch|Griechisch|Kurdisch|Indisch|Schweizerisch|Österreichisch|Pakistanisch|Belgisch|Baye?risch|Serbisch|Kroatisch|Portugiesisch|Italienisch|Dänisch|Schwedisch|Irisch|Norwegisch|Russisch|Polnisch|Chinesisch"),
+      posRegex("SUB.*")
+    ),
+    asList( // ob die Bock haben
+      token("die"),
+      token("Bock"),
+      tokenRegex("haben|hatten")
+    ),
+    asList( // dann haben die Bock
+      tokenRegex("haben|hatten"),
+      token("die"),
+      token("Bock")
+    ),
     asList( // Ich habe für vieles Zeit
       token("für"),
       token("vieles"),

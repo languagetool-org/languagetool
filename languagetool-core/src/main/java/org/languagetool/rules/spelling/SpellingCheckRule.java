@@ -93,8 +93,8 @@ public abstract class SpellingCheckRule extends Rule {
   protected final Set<String> wordsToBeIgnored = new ObjectOpenHashSet<>();
   protected int ignoreWordsWithLength = 0;
 
-  private final Pattern pHasNoLetterLatin = Pattern.compile("^[^\\p{script=latin}]+$");
-  private final Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
+  private final static Pattern pHasNoLetterLatin = Pattern.compile("^[^\\p{script=latin}]+$");
+  private final static Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());

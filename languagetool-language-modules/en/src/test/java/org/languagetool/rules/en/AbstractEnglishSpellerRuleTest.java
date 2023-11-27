@@ -95,7 +95,14 @@ public class AbstractEnglishSpellerRuleTest {
     // http://grammar.yourdictionary.com/spelling-and-word-lists/misspelled.html
     // https://en.wikipedia.org/wiki/Commonly_misspelled_English_words#cite_note-YD-4
   }
+  public void testHyphenatedWordSuggestions(Rule rule, Language language) throws IOException {
+    this.lt = new JLanguageTool(language);
+    this.rule = rule;
 
+    assertFirstMatch("long-trem", "long-term");
+    assertFirstMatch("self-sefficient", "self-sufficient");
+    assertFirstMatch("parple-people-eater", "purple-people-eater");
+  }
   private void assertFirstMatch(String text, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(text));
     assertTrue("Expected 1 match for '" + text + "', got " + matches.length, matches.length == 1);

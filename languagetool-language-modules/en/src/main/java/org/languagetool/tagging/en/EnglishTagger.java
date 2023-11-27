@@ -53,7 +53,7 @@ public class EnglishTagger extends BaseTagger {
       if (word.length() > 1) {
         if (word.contains("’")) {
           containsTypographicApostrophe = true;
-          word = word.replace("’", "'");
+          word = word.replace('’', '\'');
         }
       }
       final List<AnalyzedToken> l = new ArrayList<>();

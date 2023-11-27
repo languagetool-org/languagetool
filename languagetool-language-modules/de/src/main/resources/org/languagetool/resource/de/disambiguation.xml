@@ -14,6 +14,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anf "&anfauf;|'|'|‹|«">
     <!ENTITY sprachadj1 "afrikanisch|alt(arabisch|chinesisch|griechisch|persisch)|amerikanisch|arabisch|chinesisch|dänisch|deutsch|plattdeutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch|weissrussisch|hebräisch">
+    <!ENTITY given_names_that_cannot_be_added "Hanis?|Irms?|Manis?|Petrus?|Raads?|Tiffens?|Trents?|Véras?|Warrens?|Yues?">
+    <!ENTITY last_names_that_cannot_be_added "Agricolas?|Ambachs?|Amsteins?|Bahrs?|Bendels?|Berkels?|Biebers?|Blasers?|Boltens?|Bracks?|Burghs?|Campagnas?|Caplans?|Cappelns?|Castels?|Castells?|Chapelles?|Contes?|Dittos?|Ernes?|Feursteins?|Fleschs?|Garzs?|Gassers?|Gasters?|Giesels?|Giesens?|Giez|Gisels?|Granz|Grasses?|Grays?|Greims?|Grists?|Grönlunds?|Gumpels?|Guntens?|Gutschs?|Habers?|Habichs?|Halders?|Harls?|Heydes?|Hills?|Hornes?|Hufnagls?|Högels?|Höhns?|Hörrs?|Issels?|Jaras?|Jobsts?|Kausens?|Kerrs?|Kestens?|Klasens?|Klimms?|Konkens?|Kretz|Laments?|Legdes?|Liebings?|Lienens?|Liesers?|Maaß|Mahers?|Markls?|Meckels?|Medems?|Mendess?|Metters?|Meyns?|Mieschs?|Milius|Molds?|Muchs?|Nannens?|Natruns?|Nittels?|Notters?|Nübels?|Nusbaums?|Ortas?|Pankes?|Pardis?|Pardis|Peraus?|Pillers?|Polans?|Polenz|Rossis?|Schattes?|Schaubs?|Scheiers?|Scheutz|Schleichs?|Schlotts?|Schnaus|Schricks?|Schulers?|Schweglers?|Schöpfs?|Schüllers?|Schütts?|Seels?|Sellens?|Sengers?|Siebers?|Sosas?|Suhrs?|Tamms?|Tanners?|Tellens?|Thons?|Trauners?|Trents?|Trummers?|Vischers?|Waldens?|Wangs?|Wanners?|Wassens?|Weldons?|Wellings?|Welz|Wengis?|Wennigsens?|Wernichs?|Wernings?|Westers?|Wiebens?|Wriezens?|Wolfens?|Wolfers|Worths?|Wurz|Wurzers?|Zind">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -2169,6 +2171,26 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="ätsch bätsch" id="IGNORE_AETSCH_BAETSCH">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">[Ää]tsch</token>
+            <token min="0">,</token>
+            <token case_sensitive="yes">bätsch</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="bla bla bla" id="IGNORE_BLA_BLA_BLA">
+        <pattern>
+            <token>bla</token>
+            <token min="0">,</token>
+            <token>bla</token>
+            <token min="0">,</token>
+            <token>bla</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule name="mords was los" id="IGNORE_MORDS_WAS_LOS">
         <pattern>
@@ -6615,11 +6637,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rulegroup id="HAEUFIGE_NACHNAMEN" name="Häufige Nachnamen, die nicht zur spelling.txt hhinzugefügt werden können">
+       <antipattern>
+            <token case_sensitive="yes">Angela</token>
+            <token case_sensitive="yes" regexp="yes">Meckels?</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?|Haacks?</token>
+                    <token regexp="yes" case_sensitive="yes">&last_names_that_cannot_be_added;|Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?|Haacks?
+                        <exception case_sensitive="yes" regexp="yes">Schattes?|Seels?</exception><!-- just to be sure for now -->
+                    </token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -6629,8 +6657,19 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token regexp="yes" case_sensitive="yes">Herrn?|Frau|Fräulein|Firma|Doktor|Direktor|Professor|Prof|[HFDM]r|Mrs|.*([Pp]räsident|[Mm]inister|[Gg]eneral)|sagten?|erläuterte?|erklärten?</token>
                 <token min="0">.</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?|Haacks?</token>
+                    <token regexp="yes" case_sensitive="yes">&last_names_that_cannot_be_added;|Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?|Haacks?
+                        <exception case_sensitive="yes" regexp="yes">Schattes?|Seels?</exception><!-- just to be sure for now -->
+                    </token>
                 </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!-- Vornamen -->
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">&given_names_that_cannot_be_added;</token>
+                </marker>
+                <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -8131,6 +8170,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">[A-Z0-9]+</token>
             <token>_</token>
             <token regexp="yes">[A-Z0-9]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_FUCK" name="ignore spelling of 'fuck'">
+        <!-- "Du fuckst mich ab" -->
+        <pattern>
+            <token regexp="yes" skip="8">fucks?t|fuckte?|fucken</token>
+            <token case_sensitive="yes">ab</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

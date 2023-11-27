@@ -32,22 +32,14 @@ public class CompoundAcceptorTest {
   public void testAcceptCompound() throws IOException {
     CompoundAcceptor acceptor = new CompoundAcceptor();
 
-    assertTrue(acceptor.acceptCompound("IRA-akkoord"));
-    assertFalse(acceptor.acceptCompound("iraakkoord"));
-
-    assertTrue(acceptor.acceptCompound("VRF-regels"));
-    assertFalse(acceptor.acceptCompound("VRFregels"));
-
     assertTrue(acceptor.acceptCompound("bedrijfsregels"));
     assertFalse(acceptor.acceptCompound("bedrijfregels"));
 
     assertTrue(acceptor.acceptCompound("Bedrijfsbrommer"));
     assertFalse(acceptor.acceptCompound("Bedrijfbrommer"));
 
-    // test for colliding vowels
-    assertFalse(acceptor.acceptCompound("politieeenheid"));
-    assertFalse(acceptor.acceptCompound("televisieeigenschappen"));
-    assertFalse(acceptor.acceptCompound("pyjamaaangelegenheid"));
+    assertTrue(acceptor.acceptCompound("straatpuzzel"));
+    assertFalse(acceptor.acceptCompound("straatspuzzel"));
 
     assertTrue(acceptor.acceptCompound("zwangerschap"));
     assertFalse(acceptor.acceptCompound("zwangersschap"));
@@ -55,22 +47,43 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("Papierversnipperaar"));
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
-    assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
+    assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
     assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
+
+    //assertTrue(acceptor.acceptCompound("belastingvrij"));
+    //assertFalse(acceptor.acceptCompound("belastingsvrij"));
+
+    // test for acronyms in compounds
+    assertTrue(acceptor.acceptCompound("IRA-akkoord"));
+    assertFalse(acceptor.acceptCompound("iraakkoord"));
+
+    assertTrue(acceptor.acceptCompound("tombeplunderaar"));
+    assertFalse(acceptor.acceptCompound("wetenschapbelasting"));
+    assertTrue(acceptor.acceptCompound("Zwangerschapsblijheid"));
+
+    assertTrue(acceptor.acceptCompound("VRF-regels"));
+    assertFalse(acceptor.acceptCompound("VRFregels"));
+
+    // test for colliding vowels
+    assertTrue(acceptor.acceptCompound("privé-eigenaar"));
+    assertFalse(acceptor.acceptCompound("privéeigenaar"));
+
+    assertTrue(acceptor.acceptCompound("politie-eenheid"));
+    assertFalse(acceptor.acceptCompound("politieeenheid"));
+
+    assertTrue(acceptor.acceptCompound("auto-uitlaat"));
+    assertFalse(acceptor.acceptCompound("autouitlaat"));
+
   }
 
   @Ignore("Use for interactive debugging")
-  @Test
-  public void testAcceptCompoundInteractive() throws IOException {
-    CompoundAcceptor acceptor = new CompoundAcceptor();
-    assertFalse(acceptor.acceptCompound("kindernee"));
-  }
-
   @Test
   public void testAcceptCompoundInternal() throws IOException {
     CompoundAcceptor acceptor = new CompoundAcceptor();
     assertTrue(acceptor.acceptCompound("passagiers", "schip"));
     assertTrue(acceptor.acceptCompound("papier", "versnipperaar"));
+    assertFalse(acceptor.acceptCompound("politie", "eenheid"));
+    assertTrue(acceptor.acceptCompound("politie", "-eenheid"));
   }
 
 }

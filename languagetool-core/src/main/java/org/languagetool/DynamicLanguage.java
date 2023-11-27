@@ -25,8 +25,11 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 abstract class DynamicLanguage extends Language {
+
+  private static final Pattern DASH = Pattern.compile("-.*");
 
   protected final String name;
   protected final String code;
@@ -40,7 +43,7 @@ abstract class DynamicLanguage extends Language {
 
   @Override
   public String getShortCode() {
-    return code.replaceFirst("-.*", "");
+    return DASH.matcher(code).replaceFirst("");
   }
 
   @Override
