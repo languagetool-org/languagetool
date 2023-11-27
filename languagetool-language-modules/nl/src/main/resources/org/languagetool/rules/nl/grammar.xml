@@ -15346,6 +15346,32 @@ regexp case-insensitive maken: (?i)
 				<example correction="-">Ik denk <marker>--</marker> dus ik ben.</example>
 			</rule>
 		</rulegroup>
+
+		<rulegroup id="SPATIE_IN_MEERVOUD" name="Spatie in meervoud met 's" default="temp_off">
+			<rule>
+				<antipattern>
+					<token case_sensitive="yes">Duitse</token>
+					<token spacebefore="yes">'</token>
+					<token spacebefore="no">s</token>
+					<example>Nog hetzelfde jaar sloot het kort daarvoor opgerichte Duitse 'S</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token regexp="yes" postag_regexp="yes" postag="ZNW:EKV.*">.*[aeiou]</token>
+						<token spacebefore="yes">'</token>
+						<token spacebefore="no">s</token>
+					</marker>
+					<token>
+						<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
+						<exception regexp="yes" case_sensitive="yes">(ochtend|morgen|avond|middag|nacht|winter|zomer|wereld|&weekdays;)s</exception>
+						<exception spacebefore="no">'</exception>
+					</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>matroesjka's</suggestion>.</message>
+				<example correction="matroesjka's">Het zijn de beroemde <marker>matroesjka 's</marker> weer.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="KOMMA_APO" name="oma,s/oma's">
 			<rule>
 				<pattern>
