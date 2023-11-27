@@ -37,7 +37,8 @@ import java.util.regex.Pattern;
  */
 public class CompoundAcceptor {
 
-  private static final Pattern acronymPattern = Pattern.compile("[A-Z][A-Z][A-Z]-");
+  // temporarily separated patterns for testing
+  private static final Pattern acronymPattern = Pattern.compile("[A-Z]{2,4}-");
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
   private static final int MAX_WORD_SIZE = 35;
 
@@ -70,6 +71,34 @@ public class CompoundAcceptor {
     "allemans",
     "afgods",
     "varkens"
+  );
+
+  // exceptions to the list "alwaysNeedsS"
+  private final Set<String> part1Exceptions = ImmutableSet.of(
+    "tweeling",
+    "kleding",
+    "honing",
+    "spring",
+    "viking",
+    "belasting",
+    "ding",
+    "ting",
+    "paling",
+    "rekening",
+    "gaming",
+    "dating",
+    "tracking",
+    "matching",
+    "outsourcing",
+    "styling",
+    "grooming",
+    "doping"
+  );
+  private final Set<String> part2Exceptions = ImmutableSet.of(
+    "lijk",
+    "voor",
+    "sten",
+    "reen"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
@@ -283,7 +312,8 @@ public class CompoundAcceptor {
     "cantate",
     "collecte",
     "mascotte",
-    "fluoride"
+    "fluoride",
+    "adres"
   );
   // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
   private final Set<String> collidingVowels = ImmutableSet.of(
@@ -341,7 +371,8 @@ public class CompoundAcceptor {
   boolean acceptCompound(String part1, String part2) {
     try {
       String part1lc = part1.toLowerCase();
-      if (part1.endsWith("s")) {
+      // reject if it's in the exceptions list
+      if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1))) {
         for (String suffix : alwaysNeedsS) {
           if (part1lc.endsWith(suffix)) {
             return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
@@ -354,7 +385,7 @@ public class CompoundAcceptor {
         part2 = part2.substring(1);
         return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
       } else {
-        return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
+        return (noS.contains(part1lc) || part1Exceptions.contains(part1lc)) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -363,7 +394,7 @@ public class CompoundAcceptor {
 
   boolean isNoun(String word) throws IOException {
     List<AnalyzedTokenReadings> part2Readings = tagger.tag(Arrays.asList(word));
-    return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW"));
+    return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW")) && !part2Exceptions.contains(word) ;
   }
 
   private boolean hasCollidingVowels(String part1, String part2) {
@@ -374,7 +405,7 @@ public class CompoundAcceptor {
   }
 
   private boolean abbrevOk(String nonCompound) {
-    // for compound words like IRA-akkoord, JPG-bestand
+    // for compound words like IRA-akkoord, MIDI-bestanden, WK-finalisten
     return acronymPattern.matcher(nonCompound).matches();
   }
 

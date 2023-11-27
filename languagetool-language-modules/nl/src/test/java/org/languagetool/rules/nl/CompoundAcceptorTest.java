@@ -50,12 +50,22 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
     assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
 
-    //assertTrue(acceptor.acceptCompound("belastingvrij"));
-    //assertFalse(acceptor.acceptCompound("belastingsvrij"));
 
     // test for acronyms in compounds
     assertTrue(acceptor.acceptCompound("IRA-akkoord"));
+    assertTrue(acceptor.acceptCompound("BART-akkoord"));
+    assertTrue(acceptor.acceptCompound("WK-finale"));
     assertFalse(acceptor.acceptCompound("iraakkoord"));
+
+    // test part1 exceptions
+    assertFalse(acceptor.acceptCompound("honingsbijtje"));
+    assertFalse(acceptor.acceptCompound("datingswebsite"));
+    assertTrue(acceptor.acceptCompound("belastingvrij"));
+    assertFalse(acceptor.acceptCompound("belastingsvrij"));
+
+    // test part2 exceptions
+    assertFalse(acceptor.acceptCompound("mannenlijk"));
+    assertFalse(acceptor.acceptCompound("dienstvoor"));
 
     assertTrue(acceptor.acceptCompound("tombeplunderaar"));
     assertFalse(acceptor.acceptCompound("wetenschapbelasting"));
