@@ -3981,135 +3981,139 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
         <rulegroup id='CONCORDANCIA_DETERMINANTES_MASCULINOS' name='Erro de concordância de número' default="temp_off">
-        <rule id='CONCORDANCIA_DETERMINANTES_MP1' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <token postag='DI.MP.+' postag_regexp="yes"/>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <marker>
-                    <token postag='N.[CM]S.+' postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='4' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='caras'>Por que ele não faz vídeo mostrando todos os outros <marker>cara</marker> que dão em cima dela?</example>
-        </rule>
-        <rule id='CONCORDANCIA_DETERMINANTES_MP2' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <token postag='DI.MP.+' postag_regexp="yes"/>
-                <marker>
-                    <token postag='D..MS.+' postag_regexp="yes"/>
-                </marker>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <token postag='N.[CM]P.+' postag_regexp="yes"/>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='os'>Por que ele não faz video mostrando todos <marker>o</marker> outros caras que dão em cima dela?</example>
-        </rule>
-        <rule id='CONCORDANCIA_DETERMINANTES_MP3' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <token postag='DI.MP.+' postag_regexp="yes"/>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <marker>
-                    <token postag='D..MS.+' postag_regexp="yes"/>
-                </marker>
-                <token postag='N.[CM]P.+' postag_regexp="yes"/>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='3' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='outros'>Por que ele não faz video mostrando todos os <marker>outro</marker> caras que dão em cima dela?</example>
-        </rule>
-        <rule id='CONCORDANCIA_DETERMINANTES_MP4' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <marker>
-                    <token postag='DI.MS.+' postag_regexp="yes"/>
-                </marker>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <token postag='N.[CM]P.+' postag_regexp="yes"/>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='1' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='todos'>Por que ele não faz video mostrando <marker>todo</marker> os outros caras que dão em cima dela?</example>
-        </rule>
+            <rule><!--1-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='N.[CM]S.+' postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='4' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='caras'>Por que ele não faz vídeo mostrando todos os outros <marker>cara</marker> que dão em cima dela?</example>
+            </rule>
 
+            <rule><!--2-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='os'>Por que ele não faz video mostrando todos <marker>o</marker> outros caras que dão em cima dela?</example>
+            </rule>
 
+            <rule><!--3-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='3' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='outros'>Por que ele não faz video mostrando todos os <marker>outro</marker> caras que dão em cima dela?</example>
+            </rule>
 
-        <rule id='CONCORDANCIA_DETERMINANTES_MP5' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <token postag='DI.MP.+' postag_regexp="yes"/>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <marker>
-                    <token postag='N.[CM]S.+' postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='3' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='caras'>Por que ele não faz vídeo mostrando todos os <marker>cara</marker> que dão em cima dela?</example>
-        </rule>
-        <rule id='CONCORDANCIA_DETERMINANTES_MP6' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <token postag='DI.MP.+' postag_regexp="yes"/>
-                <marker>
-                    <token postag='D..MS.+' postag_regexp="yes"/>
-                </marker>
-                <token postag='N.[CM]P.+' postag_regexp="yes"/>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='os'>Por que ele não faz video mostrando todos <marker>o</marker> caras que dão em cima dela?</example>
-        </rule>
-        <rule id='CONCORDANCIA_DETERMINANTES_MP7' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <marker>
-                    <token postag='DI.MS.+' postag_regexp="yes"/>
-                </marker>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <token postag='N.[CM]P.+' postag_regexp="yes"/>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='1' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='todos'>Por que ele não faz video mostrando <marker>todo</marker> os caras que dão em cima dela?</example>
-        </rule>
+            <rule><!--4-->
+                <pattern>
+                    <marker>
+                        <token postag='DI.MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='1' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='todos'>Por que ele não faz video mostrando <marker>todo</marker> os outros caras que dão em cima dela?</example>
+            </rule>
 
+            <rule><!--5-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='N.[CM]S.+' postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='3' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='caras'>Por que ele não faz vídeo mostrando todos os <marker>cara</marker> que dão em cima dela?</example>
+            </rule>
 
-        <rule id='CONCORDANCIA_DETERMINANTES_MP8' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <marker>
-                    <token postag='N.[CM]S.+' postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='3' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='caras'>Por que ele não faz vídeo mostrando os outros <marker>cara</marker> que dão em cima dela?</example>
-        </rule>
-        <rule id='CONCORDANCIA_DETERMINANTES_MP9' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <marker>
-                    <token postag='D..MS.+' postag_regexp="yes"/>
-                </marker>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <token postag='N.[CM]P.+' postag_regexp="yes"/>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='1' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='os'>Por que ele não faz video mostrando <marker>o</marker> outros caras que dão em cima dela?</example>
-        </rule>
-        <rule id='CONCORDANCIA_DETERMINANTES_MP10' name='Concordância nominal em número de determinantes'>
-            <pattern>
-                <token postag='D..MP.+' postag_regexp="yes"/>
-                <marker>
-                    <token postag='D..MS.+' postag_regexp="yes"/>
-                </marker>
-                <token postag='N.[CM]P.+' postag_regexp="yes"/>
-            </pattern>
-            <message>&MSG_ECN;</message>
-            <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
-            <example correction='outros'>Por que ele não faz video mostrando os <marker>outro</marker> caras que dão em cima dela?</example>
-        </rule>
+            <rule><!--6-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='os'>Por que ele não faz video mostrando todos <marker>o</marker> caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--7-->
+                <pattern>
+                    <marker>
+                        <token postag='DI.MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='1' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='todos'>Por que ele não faz video mostrando <marker>todo</marker> os caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--8-->
+                <pattern>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='N.[CM]S.+' postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='3' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='caras'>Por que ele não faz vídeo mostrando os outros <marker>cara</marker> que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--9-->
+                <pattern>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='1' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='os'>Por que ele não faz video mostrando <marker>o</marker> outros caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--10-->
+                <pattern>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='outros'>Por que ele não faz video mostrando os <marker>outro</marker> caras que dão em cima dela?</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordância de Número: Geral">
