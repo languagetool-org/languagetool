@@ -26507,7 +26507,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>an</token>
                 <token postag="V.P..SM" postag_regexp="yes"/>
-                <token>Le an hecho daño.</token>
+                <example>Le an hecho daño.</example>
             </antipattern>
             <antipattern>
                 <token regexp="yes">si|de|con</token>
@@ -26607,15 +26607,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="CASA_CADA" name="casa -> cada">
             <pattern>
                 <marker>
-                    <token>casa</token>
+                    <token>casa<exception postag="_possible_NP"/><exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
                 </marker>
-                <token postag="NC.S.*" postag_regexp="yes" regexp="yes">&nombre_CASA_CADA;</token>
+                <token postag="NC.S.*" postag_regexp="yes" regexp="yes">&nombre_CASA_CADA;<exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>
             <message>¿Quería decir <suggestion>cada</suggestion>? O bien revise la puntuación.</message>
             <suggestion>casa,</suggestion>
             <example correction="Cada|Casa,"><marker>Casa</marker> día pasa lo mismo.</example>
             <example correction="cada|casa,">No salgas de <marker>casa</marker> hijo.</example>
             <example>Viene a casa día y noche.</example>
+            <example>Alquiler Casa Diciembre 2023</example>
         </rule>
         <rule id="DES_DE" name="des -> de">
             <pattern>
