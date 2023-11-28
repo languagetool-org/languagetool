@@ -8513,7 +8513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id="CONCORDANCIA_SER_GENERO" name="Erro de concordância" default="temp_off">
             <rule><!--1-->
                 <pattern>
-                    <token regexp="yes" inflected="yes">ser|ficar|estar</token>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
                     <token min="0" postag="R[GM]" postag_regexp="yes"/>
                     <marker>
                         <token postag="VMP..SM" postag_regexp="yes"/>
@@ -8526,7 +8526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule><!--2-->
                 <pattern>
-                    <token regexp="yes" inflected="yes">ser|ficar|estar</token>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
                     <token min="0" postag="R[GM]" postag_regexp="yes"/>
                     <marker>
                         <token postag="VMP..SF" postag_regexp="yes"/>
@@ -8536,6 +8536,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </pattern>
                 <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)F' postag_regexp="yes" postag_replace="$1M"/></suggestion></message>
                 <example correction="proibido">É <marker>proibida</marker> o acesso de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token postag="VMI..P." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..PM" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <token postag="N.FP.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)M' postag_regexp="yes" postag_replace="$1F"/></suggestion></message>
+                <example correction="proibidas">São <marker>proibidos</marker> as entradas de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token postag="VMI..P." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..PF" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <token postag="N.MP.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)F' postag_regexp="yes" postag_replace="$1M"/></suggestion></message>
+                <example correction="proibidos">São <marker>proibidas</marker> os acessos de pessoas não autorizadas.</example>
             </rule>
         </rulegroup>
 
