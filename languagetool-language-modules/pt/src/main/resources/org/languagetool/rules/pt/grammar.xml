@@ -8359,6 +8359,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rule id="CONCORDANCIA_SER_PLURAL" name="Erro de concordância verbal" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <token postag="A...S.|VMP..S." postag_regexp="yes"/>
+                </marker>
+                <token postag="D...P." postag_regexp="yes"/>
+                <token postag="N..P.+" postag_regexp="yes"/>
+            </pattern>
+            <message>O verbo e o adjetivo devem concordar com o sujeito. Considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(A...|VMP..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/></suggestion></message>
+            <example correction="São realmente louváveis"><marker>É realmente louvável</marker> os esforços que fizeram ontem.</example>
+            <example correction="São proibidas"><marker>É proibida</marker> as cartas enviadas.</example>
+        </rule>
+
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
             <antipattern>
                 <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
