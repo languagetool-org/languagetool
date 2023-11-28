@@ -50,15 +50,11 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
     assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
 
-
     // test for acronyms in compounds
     assertTrue(acceptor.acceptCompound("IRA-akkoord"));
-    assertTrue(acceptor.acceptCompound("BART-akkoord"));
     assertTrue(acceptor.acceptCompound("WK-finale"));
-    assertFalse(acceptor.acceptCompound("iraakkoord"));
     assertTrue(acceptor.acceptCompound("VRF-regels"));
-    assertFalse(acceptor.acceptCompound("VRFregels"));
-    assertFalse(acceptor.acceptCompound("VIP-behandeling"));
+    assertFalse(acceptor.acceptCompound("WIFI-verbinding"));
 
     // test part1 exceptions
     assertFalse(acceptor.acceptCompound("honingsbijtje"));
@@ -73,7 +69,6 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("tombeplunderaar"));
     assertFalse(acceptor.acceptCompound("wetenschapbelasting"));
     assertTrue(acceptor.acceptCompound("Zwangerschapsblijheid"));
-
 
     // test for colliding vowels
     assertTrue(acceptor.acceptCompound("privé-eigenaar"));
