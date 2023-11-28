@@ -590,6 +590,19 @@ public class German extends Language implements AutoCloseable {
     return true;
   }
 
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;/]");
+    if (formTag.length == 0) {
+      return "";
+    }
+    return formTag[0].trim();
+  }
+
   public MultitokenSpeller getMultitokenSpeller() {
     return GermanMultitokenSpeller.INSTANCE;
   }
