@@ -8510,6 +8510,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="São proibidas"><marker>É proibida</marker> as cartas enviadas.</example>
         </rule>
 
+        <rulegroup id="CONCORDANCIA_QUALQUER" name="Erro de concordância verbal" default="temp_off">
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token>qualquer</token>
+                    </marker>
+                    <token>que</token>
+                    <token postag="VM[MS].3P." postag_regexp="yes" inflected="yes">ser</token>
+                    <token postag="D...P." postag_regexp="yes"/>
+                    <token postag="N..P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion>quaisquer</suggestion></message>
+                <example correction="quaisquer">portanto, <marker>qualquer</marker> que sejam os resultados, agradecemos muito.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token>qualquer</token>
+                        <token>que</token>
+                        <token postag="VM[MS].3S." postag_regexp="yes" inflected="yes">ser</token>
+                    </marker>
+                    <token postag="D...P." postag_regexp="yes"/>
+                    <token postag="N..P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion>quaisquer que <match no="3" postag="(VM..).S(.)" postag_regexp="yes" postag_replace="$1\3P$2"/></suggestion></message>
+                <example correction="quaisquer que sejam">portanto, <marker>qualquer que seja</marker> os resultados, agradecemos muito.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token>quaisquer</token>
+                    <token>que</token>
+                    <marker>
+                        <token postag="VM[MS].3S." postag_regexp="yes" inflected="yes">ser</token>
+                    </marker>
+                    <token postag="D...P." postag_regexp="yes"/>
+                    <token postag="N..P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion><match no="3" postag="(VM..)3S(.)" postag_regexp="yes" postag_replace="$1\3P$2"/></suggestion></message>
+                <example correction="sejam">portanto, quaisquer que <marker>seja</marker> os resultados, agradecemos muito.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <marker>
+                        <token>quaisquer</token>
+                    </marker>
+                    <token>que</token>
+                    <token postag="VM[MS].3S." postag_regexp="yes" inflected="yes">ser</token>
+                    <token postag="D...S." postag_regexp="yes"/>
+                    <token postag="N..S.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion>qualquer</suggestion></message>
+                <example correction="qualquer">portanto, <marker>quaisquer</marker> que seja o resultado, agradecemos muito.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
             <antipattern>
                 <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
@@ -13734,8 +13789,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rule id='IR_CONTRACTION_NOUN' name="Ir + 'na/no' + nome → à/ao" default="temp_off">
-        <!-- To do: remove verb "mercar" ("mercado") POS? It removes all valid entries using "mercado" -->
-        <!-- This is a very hard to code rule. It will require further enhancements in the future (2023-10-31). -->
+            <!-- To do: remove verb "mercar" ("mercado") POS? It removes all valid entries using "mercado" -->
+            <!-- This is a very hard to code rule. It will require further enhancements in the future (2023-10-31). -->
 
             <antipattern>
                 <token postag='VMN0000' postag_regexp='no'/>
@@ -39515,7 +39570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
         <rule id="QUIS_QUIZ" name="Confusão de palavras: quis (verbo) vs. quiz (substantivo)">
             <pattern>
-                    <token negate_pos="yes" postag="D.+" postag_regexp="yes"/>
+                <token negate_pos="yes" postag="D.+" postag_regexp="yes"/>
                 <marker>
                     <token>quiz</token>
                 </marker>
