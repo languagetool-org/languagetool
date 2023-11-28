@@ -437,8 +437,10 @@ public class CompoundAcceptor {
 
   private boolean abbrevOk(String nonCompound) {
     // for compound words like IRA-akkoord, MIDI-bestanden, WK-finalisten
-    String acronym = nonCompound.split("-")[0];
-    return acronymPattern.matcher(nonCompound).matches() && !acronymExceptions.contains(acronym);
+    if( acronymPattern.matcher(nonCompound).matches() ){
+      return !acronymExceptions.contains(nonCompound.split("-")[0]);
+    }
+    return false;
   }
 
   private boolean spellingOk(String nonCompound) throws IOException {
