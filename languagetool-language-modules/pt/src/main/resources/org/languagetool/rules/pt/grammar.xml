@@ -8510,6 +8510,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="São proibidas"><marker>É proibida</marker> as cartas enviadas.</example>
         </rule>
 
+        <rule id="CONCORDANCIA_SER_GENERO" name="Erro de concordância" default="temp_off">
+            <pattern>
+                <token inflected="yes">ser</token>
+                <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                <marker>
+                    <token postag="VMP..SM" postag_regexp="yes"/>
+                </marker>
+                <token postag="D..FS." postag_regexp="yes"/>
+                <token postag="N.FS.+" postag_regexp="yes"/>
+            </pattern>
+            <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)M' postag_regexp="yes" postag_replace="$1F"/></suggestion></message>
+            <example correction="proibida">É <marker>proibido</marker> a entrada de pessoas não autorizadas.</example>
+        </rule>
+
         <rulegroup id="CONCORDANCIA_QUALQUER" name="Erro de concordância verbal" default="temp_off">
             <rule><!--1-->
                 <pattern>
