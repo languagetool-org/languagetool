@@ -30,6 +30,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY quote '["“”„]'>
     <!ENTITY hyphen "(?:[–\-—])">
     <!ENTITY non_english '[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя]'>
+    <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
+    <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
+    <!ENTITY weekdays "Monday|Wednesday|T(ue|hur)sday|Friday|S(atur|un)day">
+    <!ENTITY abbrevWeekdays "Mon?|Tu(e|es)?|We(d|ds)?|Th(u|ur|urs)?|Fri?|Sat?|Sun?">
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
@@ -4040,6 +4044,57 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">I <marker>dreamt</marker> about becoming very rich.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_OXFORD" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes">[0-9]{1,2}</token>
+                    <token postag="," />
+                    <marker>
+                        <token regexp="yes">[0-9]{4}</token>
+                    </marker>
+                    <token><exception postag="," /></token>
+                </pattern>
+                <example correction="">Noah Haynes Swayne, nominated January 21, <marker>1862</marker> and appointed January 24, 1862, was chosen as an anti-slavery lawyer who was committed to the Union.</example>
+                <example correction="">Steinmetz died on October 26, <marker>1923</marker> and was buried in Vale Cemetery, Schenectady.</example>
+                <example correction="">He has also assured me that I will be credited with my initial start date which is March 9, <marker>1967</marker> and be fully vested in the various benefit, retirement and vacation plans.</example>
+                <example correction="">The OEX Skybox was first introduced by Pinnacle on November 1, <marker>1998</marker> and its team of experienced OEX traders generated an impressive 292% over two short months.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
+                    <token postag="," />
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <marker>
+                        <token regexp="yes">[0-9]{1,2}(st|nd|rd|th)?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Order any elements or design sets before Monday, April <marker>1st</marker> and we will reserve your 20% off discount, which can be used at any time during the 2002 calendar year.</example>
+                <example correction="">Please let me know your availability on Monday, May <marker>1st</marker> or Thursday; May 4th.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">thanks?</token>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                </pattern>
+                <example correction="">If you have already RSVP'd, thank <marker>you</marker> and we will see you Thursday.</example>
+                <example correction="">Again, thank <marker>you</marker> and I look forward to working with you.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]{4}</token>
+                    </marker>
+                    <token>and</token>
+                    <token>
+                        <exception regexp="yes">[0-9]+</exception>
+                    </token>
+                </pattern>
+                <example correction="">He directed his first film, The Squaw Man, released in <marker>1914</marker> and would go on to direct dozens of silent films before crossing to sound films in 1929.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_VBD_FOR_VBZ" name="">
