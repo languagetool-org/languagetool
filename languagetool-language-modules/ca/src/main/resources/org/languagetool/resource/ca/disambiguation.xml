@@ -4034,7 +4034,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception regexp="yes">em|et|li|ens|us|vos|els|el|a|de|per</exception></token>
+                <token><exception regexp="yes">em|et|li|ens|us|vos|els|el|a|de|per|que</exception></token>
                 <marker>
                     <token postag="SPS00">sobre</token>
                 </marker>
@@ -8297,6 +8297,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="RG.*"/>
         </rule>
     </rulegroup>
+    <rule id="SOBRE_VERB" name="sobre (verb)">
+        <pattern>
+            <token>que</token>
+            <marker>
+                <token>sobre</token>
+            </marker>
+            <token postag="PI.*" postag_regexp="yes"/>
+            <token postag="_PUNCT.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rulegroup id="POT" name="pot/pots/vol/vols + infinitiu">
         <rule>
             <pattern>
@@ -14807,7 +14818,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">que</exception></token>
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GV_"/></token>
                 </and>
             </marker>
