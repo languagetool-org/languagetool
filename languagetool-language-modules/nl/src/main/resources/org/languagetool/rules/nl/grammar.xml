@@ -24861,6 +24861,23 @@ regexp case-insensitive maken: (?i)
 
 	<category id="UNEXPECTED" name="onverwachte woordreeksen">
 
+		<rulegroup id="WAT_ER_GEBEURD" name="wat er op het slagveld gebeurd(gebeurt)" default="temp_off">
+			<rule>
+				<pattern>
+					<token>wat</token>
+					<token postag="BYW"/>
+					<token postag="VRZ"/>
+					<token skip="3" postag_regexp="yes" postag="VNW.*"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token>gebeurd</token>
+					</marker>
+					<token spacebefore="no" regexp="yes">[,!?.]</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>gebeurt</suggestion>.</message>
+				<example correction="gebeurt">Dit is een wat er op het slagveld <marker>gebeurd</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DE_HIJ" name="de hij">
 			<rule>
 				<pattern>
