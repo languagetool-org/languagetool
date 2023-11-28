@@ -99,13 +99,29 @@
               <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
               <example>Das kostet 7.226,49 €.</example>
             </antipattern>
+            <antipattern>
+              <token regexp="yes">\d</token>
+              <token>'</token>
+              <token regexp="yes">\d{3}</token>
+              <example>3'452 ist eine Zahl.</example>
+            </antipattern>
+            <antipattern>
+              <token skip="-1" inflected="yes" regexp="yes">bestellung|.*nummer</token>
+              <token regexp="yes">\d{5,9}</token>
+              <example>Die Bestellung 12345678 wurde erfolgreich storniert.</example>
+            </antipattern>
+            <antipattern>
+              <token skip="-1" regexp="yes">\d{5,9}</token>
+              <token inflected="yes" regexp="yes">bestellung|.*nummer</token>
+              <example>12345678 lautet die Bestellnummer.</example>
+            </antipattern>
             <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[1] --><!-- 4 Ziffern-->
                 <pattern>
                     <token regexp="yes">[0-9]
                         <exception scope="previous" regexp="yes">\d{1,9}</exception>
                         <exception scope="previous">\</exception>
                     </token>
-                    <token min="0" regexp="yes">\.|'</token>
+                    <token min="0" regexp="yes">\.</token>
                     <token regexp="yes">\d{3}
                         <exception scope="next" regexp="yes">\d{1,9}</exception>
                         <exception scope="next" regexp="yes">\\|\.</exception>
@@ -113,11 +129,11 @@
                 </pattern>
                 <message>Besteht eine Zahl aus vier Ziffern, empfehlen wir, die erste nicht abzusetzen oder durch Interpunktion zu trennen, sondern eine Vierergruppe zu bilden.</message>
                 <suggestion>\1\3</suggestion>
+                <example>7'589 ist eine Zahl.</example>
                 <example correction="3452"><marker>3 452</marker> ist eine Zahl.</example>
                 <example correction="7589"><marker>7.589</marker> ist auch eine Zahl.</example>
-                <example correction="7589"><marker>7'589</marker> ist auch eine Zahl.</example>
             </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[2] --><!-- 5 und 6 Ziffern-->
+            <rule tags="picky"><!-- SWISS_GERMAN_NUMBER_FORMAT[2] --><!-- 5 und 6 Ziffern-->
                 <antipattern>
                     <token regexp="yes">(\d{2})(\d{3})</token>
                     <token case_sensitive="yes" postag="(EIG.*STD|UNKNOWN).*" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
@@ -166,7 +182,7 @@
                 <example correction="82&nbsp;903"><marker>82.903</marker> ist auch eine Zahl.</example>
                 <example correction="399&nbsp;452"><marker>399.452</marker> ist eine Zahl.</example>
             </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[4] --><!-- 7, 8 und 9 Ziffern-->
+            <rule tags="picky"><!-- SWISS_GERMAN_NUMBER_FORMAT[4] --><!-- 7, 8 und 9 Ziffern-->
                 <pattern>
                     <token regexp="yes">(\d{1,3})(\d{3})(\d{3})
                         <exception scope="previous" regexp="yes">\d{1,9}</exception>
@@ -222,6 +238,14 @@
                 <example correction="34.–">€ <marker>34,–</marker>.</example>
             </rule>
             <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[7] --><!-- Geldbetrag falsches Dezimalzeichen 2 -->
+                <antipattern>
+                    <token>Fr</token>
+                    <token>.</token>
+                    <token regexp="yes">\d+</token>
+                    <token>,</token>
+                    <token regexp="yes">\d{1,2}|–</token>
+                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;|Fr|Franken</token>
+                </antipattern>
                 <pattern>
                     <token>Fr</token>
                     <token>.</token>
