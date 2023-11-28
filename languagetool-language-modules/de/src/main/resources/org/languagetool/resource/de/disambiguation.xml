@@ -1764,6 +1764,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*:(1|IMP).+"/>
             <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:3:SIN:PRÄ]">Er <marker>darf</marker> das nicht.</example>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP).+"/>
+            <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:1:SIN:PRÄ]">Das <marker>darf</marker> ich nicht.</example>
+            <example type="ambiguous" inputform="will[wollen/VER:MOD:1:SIN:PRÄ,wollen/VER:MOD:3:SIN:PRÄ]" outputform="will[wollen/VER:MOD:1:SIN:PRÄ]">Davon <marker>will</marker> ich etwas abhaben.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token>er</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(1|IMP).+"/>
+            <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:3:SIN:PRÄ]">Das <marker>darf</marker> er nicht.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="KONJUNKTIV" name="Konjunktiv">
         <rule>
