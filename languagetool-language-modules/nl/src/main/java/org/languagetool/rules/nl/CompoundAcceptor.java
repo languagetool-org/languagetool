@@ -78,10 +78,9 @@ public class CompoundAcceptor {
     "kleding",
     "honing",
     "spring",
+    "kring",
     "viking",
     "belasting",
-    "ding",
-    "ting",
     "paling",
     "rekening",
     "gaming",
@@ -97,7 +96,16 @@ public class CompoundAcceptor {
     "lijk",
     "voor",
     "sten",
-    "reen"
+    "reen",
+    "stag",
+    "ping",
+    "ting",
+    "ding",
+    "reek",
+    "raat",
+    "lopen",
+    "tand",
+    "mara"
   );
   private final Set<String> acronymExceptions = ImmutableSet.of(
     "VIP",
@@ -129,7 +137,8 @@ public class CompoundAcceptor {
     "BSO",
     "HSL",
     "APK",
-    "OZB"
+    "OZB",
+    "IPAD"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
