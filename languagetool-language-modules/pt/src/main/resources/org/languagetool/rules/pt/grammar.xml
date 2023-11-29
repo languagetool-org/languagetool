@@ -11887,6 +11887,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Aconteceu dois dias depois de ele ter voltado de Tóquio.</example>
                 <example>Ficou quase dois anos presa.</example>
                 <example>Ficou dez semanas consecutivas na primeira posição.</example>
+                <example>Todos os dias chegava uns 20min antes.</example>
+                <example>Todos os dias chegava uns 30 min antes.</example>
+                <example>Todos os dias chegava uns 40 mins antes.</example>
+            </antipattern>
+            <antipattern> <!-- 20min antes -->
+                <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token postag_regexp="yes" postag="([ADP].|Z)..P.+" min="0">
+                    <exception postag_regexp="yes" postag="DA.+"/> <!-- definite articles are stuff like 'os dias de...', prob. not adverbial -->
+                </token>
+                <token regexp="yes">\d+(min|hr?|s(eg)?)s?</token>
+                <example>Todos os dias chegava uns 20min antes.</example>
+                <example>A banda deve chegar 2h depois.</example>
+            </antipattern>
+            <antipattern> <!-- 20 min antes -->
+                <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token postag_regexp="yes" postag="([ADP].|Z)..P.+" min="0">
+                    <exception postag_regexp="yes" postag="DA.+"/> <!-- definite articles are stuff like 'os dias de...', prob. not adverbial -->
+                </token>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">(min|hr?|s(eg)?)s?</token>
+                <example>Todos os dias chegava uns 30 min antes.</example>
+                <example>Todos os dias chegava uns 40 mins antes.</example>
             </antipattern>
             <antipattern> <!-- vai ficar alguns dias -->
                 <token postag_regexp="yes" inflected="yes" regexp="yes">&verbos_nao_impessoais;</token>
@@ -11918,6 +11942,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Já aconteceu várias vezes.</example>
                 <example>Vai acontecer algumas vezes.</example>
                 <example>Ocorreu diversas vezes.</example>
+            </antipattern>
+            <antipattern> <!-- coisas que aconteceram -->
+                <token postag_regexp="yes" postag="N..P..."/>
+                <token>que</token>
+                <token postag_regexp="yes" postag="V...3P." regexp="yes" inflected="yes">&verbos_nao_impessoais;</token>
+                <example>Coisas que aconteceram esse ano.</example>
+                <example>Vagantes que saem mundo afora.</example>
+            </antipattern>
+            <antipattern> <!-- coisas que tinham acontecido -->
+                <token postag_regexp="yes" postag="N..P..."/>
+                <token>que</token>
+                <token postag_regexp="yes" postag="V...3P.+" inflected="yes" regexp="yes">&verbos_auxiliares_aspectuais;|&verbos_auxiliares_modais;|&verbos_auxiliares_part_passado;</token>
+                <token regexp="yes" inflected="yes" postag_regexp="yes" postag="VM[NGP].+">&verbos_nao_impessoais;</token>
+                <example>Coisas que tinham acontecido esse ano.</example>
             </antipattern>
 
             <rule> <!-- #1: main verb -->
