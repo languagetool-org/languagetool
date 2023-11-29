@@ -396,6 +396,7 @@ public class GrammalecteRule extends Rule {
     "gv1__ppas_être_accord_plur__b1_a1_1",
     "gv1__ppas_être_accord_sing__b1_a1_1",
     "gv2__conf_ait_confiance_été_faim_tort__b1_a2_1",
+    "gv1__conf_suj_verbe_det_verbe_nom__b5_a1_1",
     "gv2__conj_les_nom__b1_a2_1",
     "gv2__conj_quiconque__b1_a1_1",
     "g2__conf_a_à_substantifs__b1_a1_1",
@@ -437,6 +438,7 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b4_a1_1",
     "g2__conf_a_à_verbe__b7_a1_1",
     "g2__conf_a_à_verbe__b8_a1_1",
+    "g2__conf_quand_quant_qu_en__b1_a1_1",
     "g3__gn_la_3m__b1_a1_1",
     "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
     "typo_guillemets_perdus",
@@ -533,6 +535,7 @@ public class GrammalecteRule extends Rule {
     "g3__conf_est_et__b4_a1_1",
     "g2__conf_près_prêt_pré__b3_a1_1",
     "g3__conf_panser_penser__b1_a1_1",
+    "g3__conf_tache_tâche__b1_a1_1",
     "g2__conf_de_vconj__b6_a1_1",
     "g2__conf_à_vconj__b3_a1_1",
     "gv1__ppas_être_confusion__b4_a4_1",
