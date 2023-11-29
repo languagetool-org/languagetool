@@ -315,6 +315,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rulegroup id="CONFUSAO_EU_SAI_SAÍ" name="Falta de acentuação com verbos como 'eu saí'" default="temp_off">
+            <!-- Frequent enough to merit its own rule, and annoyingly captured by some agreement rules. -->
+            <short>Possível erro de acentuação.</short>
+            <rule>
+                <pattern>
+                    <token>eu</token>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token regexp="yes" postag="VMIP3S0">[sc]ai</token>
+                    </marker>
+                </pattern>
+                <message>O verbo &quot;\3r&quot; é acentuado no pretérito perfeito da primeira pessoa do singular.</message>
+                <suggestion><match no="3" case_conversion="preserve" regexp_match="(?iu)([cs])ai" regexp_replace="$1aí"/></suggestion>
+                <example correction="caí">Eu <marker>cai</marker> dentro!</example>
+                <example correction="saí">Eu não <marker>sai</marker> de lá sem uma resposta.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado">
             <rule>
                 <pattern>
