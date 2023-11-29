@@ -495,13 +495,13 @@ public class LanguageToolMenus {
         
         int count = xContextMenu.getCount();
         
-//        if (debugMode) {
+        if (debugMode) {
           for (int i = 0; i < count; i++) {
             Any a = (Any) xContextMenu.getByIndex(i);
             XPropertySet props = (XPropertySet) a.getObject();
             printProperties(props);
           }
-//        }
+        }
 
         //  Add LT Options Item if a Grammar or Spell error was detected
         document.setMenuDocId();
