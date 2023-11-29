@@ -817,6 +817,31 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="HOE_JULLIE_WERK" name="Hoe (is) jullie werk gegaan?" default="temp_off">
+			<rule>
+				<antipattern>
+					<token skip="-1">hoe</token>
+					<token inflected="yes">zijn</token>
+				</antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>hoe</token>
+						<token postag_regexp="yes" postag="VNW:PER.*"><exception>zijn</exception></token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*"></token>
+					<token postag_regexp="yes" postag="WKW:VTD.*"/>
+					<token postag="SENT_END">?</token>
+				</pattern>
+				<message>Het lijkt erop dat er een werkwoord ontbreekt.</message>
+				<suggestion>\2 is \3</suggestion>
+				<suggestion>\2 was \3</suggestion>
+				<suggestion>\2 zijn \3</suggestion>
+				<example correction="Hoe is jullie|Hoe was jullie|Hoe zijn jullie"><marker>Hoe jullie</marker> werk gegaan?</example>
+				<example correction="Hoe is je|Hoe was je|Hoe zijn je"><marker>Hoe je</marker> benen gebroken?</example>
+			</rule>
+		</rulegroup>
+
 	</category>
 	<!--
 	<category id="REDUNDANCY">
@@ -18981,6 +19006,21 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>U bedoelt vast: <suggestion>hoed u</suggestion> (pas op).</message>
 				<example correction="Hoed u"><marker>Hoedt u</marker> voor het gevaar.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="ENKELE_VAN_HEN" name="Enkele(n) van hen." default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">enkele|verscheidene|sommige</token>
+						<token>van</token>
+						<token regexp="yes">ons|jullie|hen</token>
+					</marker>
+				</pattern>
+				<message>Hier ontbreekt een 'n': <suggestion>\1n \2 \3</suggestion>.</message>
+				<url>https://taaladvies.net/enkele-of-enkelen-van-hen/</url>
+				<example correction="enkelen van ons">Toch gingen <marker>enkele van ons</marker> met haar mee.</example>
 			</rule>
 		</rulegroup>
 
