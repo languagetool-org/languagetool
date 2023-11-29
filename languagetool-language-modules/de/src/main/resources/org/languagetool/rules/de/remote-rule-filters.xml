@@ -1989,7 +1989,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
-        <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN" name="">
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN.*" name="">
             <rule><!--1-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">(c|k|m)?m</token>
@@ -2005,7 +2005,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token>Fehdehandschuh</token>
+                    <token regexp="yes">Fehdehandschuh|Lehe?nsgericht(e?s|en?)?</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>
@@ -2257,7 +2257,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>Auf Grund dessen</marker> lerne ich seit drei Jahren Deutsch.</example>
             </rule>
+        </rulegroup>
 
+        <rulegroup id="AI_DE_GGEC_MISSING_OTHER" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token>Zweifeldass</token><!--gGEC gives wrong suggestion: Zweifeldass, dass-->
+                </pattern>
+                <example correction="">Es besteht kein <marker>Zweifeldass</marker> das geht.</example>
+            </rule>
         </rulegroup>
 
     </category>
