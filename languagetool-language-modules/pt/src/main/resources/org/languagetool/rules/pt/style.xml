@@ -17837,96 +17837,139 @@ USA
         </rule>
 
 
-        <!-- QUE/E TEM/TÊM com -->
-        <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com">
+        <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com" default="temp_off">
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-21 + 2022-02-24/25/26 + 2022-03-03 + 2022-06-11 + 2023-01-08 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-            É uma empresa séria, que tem marcas que acompanham a história da família. → É uma empresa séria, com marcas que acompanham a história da família.
-            As unhas são uma das partes do corpo que têm mais contacto com tudo. → As unhas são uma das partes do corpo com mais contacto com tudo.
-            -->
 
-            <!--
-            FIXES IN MY THESIS: "Contudo, os simuladores não são perfeitos e têm limitações."
-            -->
             <antipattern>
-                <token>são</token>
-                <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'/>
-                <token>e</token>
-                <token regexp="yes">t[eê]m</token>
-                <token min="1" max="2" postag='NC.+|AQ.+|D[ADIP].+|Z0.+|SPS00' postag_regexp='yes'>
-                    <exception regexp='yes'>com|de|disponível|disponíveis|em|lá|nel[ae]s?|para|por|são|sobre</exception>
+                <token postag='NC.+|AQ.+|NP.+|SENT_START' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='V.+'/>
+                    <exception scope="previous" postag_regexp='yes' postag='PI.+|SPS00|V.+|_PUNCT'/>
                 </token>
-                <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
-                <example>Contudo, os simuladores não são perfeitos e têm limitações.</example>
+                <token postag='CC'/>
+                <token min='1' max='3' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='VMP00.+'/>
+                </token>
+                <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+                <token regexp="yes">que|e</token>
+                <token regexp="yes">t[eê]m</token>
+                <token postag='NC.+|AQ.+|NP.+|Z0.+|DA.+' postag_regexp='yes'>
+                    <exception scope="next" postag_regexp='yes' postag='SPS00|V.+'/>
+                </token>
+                <example>Qual o preço e cores que têm disponíveis?</example>
             </antipattern>
 
-            <!-- 2022-06-11: Fix for: "Ainda hoje é uma acomodada e pensa que tem sangue azul, imagine-se!" -->
             <antipattern>
                 <token postag='SENT_START|CC' postag_regexp='yes'/>
                 <token postag='VMIP3.+|VMM02.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
-                <token regexp="yes">que|e</token>
-                <token regexp="yes">t[eê]m</token>
+                <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+                <token regexp='yes'>que|e</token>
+                <token regexp='yes'>t[eê]m</token>
                 <example>Ainda hoje é uma acomodada e pensa que tem sangue azul, imagine-se!</example>
                 <example>E olha que tem muitos afilhados para estas vagas de coordenadores!</example>
-                <example>Acha que tem mão da rede globo nisso aí?</example>
             </antipattern>
+
             <antipattern>
-                <token>que</token>
+                <token regexp="yes">que|e</token>
                 <token regexp="yes">t[eê]m</token>
                 <token>a</token>
                 <token postag='VMN0000'/>
                 <example>uma realidade construída pelo homem que tem a ver com a interação das pessoas.</example>
+                <example>Ao se concentrar em palavras chave que têm a ver de perto com a sua marca, você aumenta a sua notoriedade, expande sua intercomunicação e aten...</example>
+                <example>...o benevolentes, que estão aqui para nos ajudar, para acabar com a guerra, curar o câncer, por razões que têm a ver conosco e muito pouco a ver com eles.</example>
             </antipattern>
 
-            <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
-                <token>que</token>
-                <token regexp="yes">t[eê]m</token>
-                <token/>
-                <token>com</token>
-                <example>A preocupação e dedicação que têm um com o outro.</example>
-                <example>No caso do Pasep, os servidores públicos que tem registro com número final dentre 0 e 4 também recebem este ano.</example>
-                <example>Amo viajar, então você vai ver algumas postagens de lugares por onde andei, usualmente lugares que tem relação com filmes ou livros ou os dois.</example>
-            </antipattern>
-            <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <antipattern>
-                <token>que</token>
-                <token regexp="yes">t[eê]m</token>
-                <token postag='SPS00|SPS00:.+' postag_regexp='yes'>
-                    <exception regexp="no">a</exception>
+                <token postag='SPS00:DA.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='DP.+|V.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='SPS00:DA.+'/> <!-- pel[ao]s? -->
                 </token>
-                <example>Os militares avaliam os objetivos da missão que têm pela frente.</example>
-                <example>Quanto maior é o valor que dão ao dinheiro, tanto menor é o apreço que têm pela virtude.</example>
-                <example>Eu só queria dizer que realmente admiro o respeito que tem pelo que faço aqui, e... e não vou te decepcionar.</example>
-                <example>A versão atual que têm até tem um bug no uso da estatística.</example>
-                <example>Esta linha não teria o renome que tem sem a abertura a 23 de janeiro de 1906 do túnel do Simplon, que com os seus 19,8 km era o maior do ...</example>
+                <token min='1' max='3' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+                <token regexp='yes'>que|e</token>
+                <token regexp="yes">t[eê]m</token>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <example>Olhe, me dói muito as costas, então acho que vamos para casa do meu tio que tem camas decentes, se não se ofende.</example>
+                <example>E aí, é apaixonado por números, ama resolver problemas e tem raciocínio lógico para tudo na vida?</example>
+                <example>Tom desenha quadrinhos e tem enorme prazer com isso.</example>
+            </antipattern>
+
+            <antipattern>
+                <token regexp='yes' inflected='yes'>ser|estar|ter|haver|fazer
+                    <exception scope='previous' postag_regexp='yes' postag='SENT_START|D[AI].+'/> <!-- "UM SER humano" -->
+                </token>
+                <token postag='VMP00.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+                <token regexp='yes'>que|e</token>
+                <token regexp='yes'>t[eê]m</token>
+                <token min='1' max='3' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+|_PUNCT' postag_regexp='yes'/>
+                <example>Contudo, os simuladores não são perfeitos e têm limitações.</example>
+                <example>Quando o negócio é fechado, o plano é detalhado, e tem início a fase de avaliação dos profissionais.</example>
+                <example>Você é casada e tem filhos.</example>
+                <example>O peso ainda está subvalorizado e tem espaço para apreciar.</example>
+                <example>Isso e o gesto com o braço, parece que nosso suspeito é casado e tem filhos.</example>
+            </antipattern>
+
+            <antipattern>
+                <token regexp='yes' inflected='yes'>ser|estar|ter|haver|fazer
+                    <exception scope='previous' postag_regexp='yes' postag='SENT_START|D[AI].+'/> <!-- "UM SER humano" -->
+                </token>
+                <token min='1' max='3' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+                <token regexp='yes'>que|e</token>
+                <token regexp='yes'>t[eê]m</token>
+                <token min='0' max='1' postag='DA.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+|DA.+' postag_regexp='yes'/>
+                <example>Todo o material do site, salvo quando citada a fonte, é original e tem os direitos reservados.</example>
+                <example>O que observamos é que os seres humanos são obsessivos e têm a estranha tendência de serem os donos das suas paixões, são vingativos e matam ?por amor?.</example>
+                <example>ADOREI porque é saudável e tem ingredientes saborosos!!!</example>
+                <example>Esses são ricos que têm amigos.</example>
+                <example>O mal é fácil, e tem formas infinitas.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='SENT_START|_PUNCT|SPS00' postag_regexp='yes'>
+                    <exception>para</exception>
+                </token>
+                <token regexp='yes'>[ao]s?</token>
+                <token min='1' max='3' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+                <token regexp='yes'>que|e</token>
+                <token regexp='yes'>t[eê]m</token>
+                <token min='0' max='1' regexp='yes'>[ao]s?</token>
+                <token min='1' max='3' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token><exception regexp='yes' inflected='yes'>de:o|de|o|ser</exception></token>
+                <example>O direito que tem o leão não é o mesmo que tem o asno.</example>
+                <example>Simpatiza com a música e tem talento para tocar violino.</example>
+                <example>As sequências que têm lugar em Nova York foram na verdade filmadas em Croydon, subúrbio londrino do condado de Surrey nas...</example>
             </antipattern>
 
             <pattern>
-                <token negate="yes" inflected='yes'>ser</token>
-                <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'>
-                    <exception postag='RG'/>
-                </token>
+                <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT|_QUOT' postag_regexp='yes'/>
                 <marker>
-                    <token regexp="yes">que|e</token>
-                    <token regexp="yes">t[eê]m</token>
+                    <token regexp='yes'>que|e</token>
+                    <token regexp='yes'>t[eê]m</token>
                 </marker>
-                <token postag='NC.+|AQ.+|D[ADIP].+|Z0.+|SPS00' postag_regexp='yes'>
-                    <exception regexp='yes'>como|com|de|disponível|disponíveis|em|lá|lugar|nel[ae]s?|para|por|são|sobre</exception>
+                <or>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='SPS00:DA.+|CS|RG'/>
+                    </token>
+                    <token regexp='yes'>[ao]s?</token>
+                </or>
+                <token>
+                    <exception postag_regexp='yes' postag='SPS00:DA.+'/>
+                    <exception regexp='no'>com</exception>
                 </token>
-                <token negate_pos="yes" postag='_PUNCT|SENT_END' postag_regexp='yes'/>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion> com</suggestion>
             <suggestion>, com</suggestion>
             <example correction=" com|, com">São dicionários<marker> que têm</marker> milhões de palavras.</example>
-            <example>São dicionários<marker> com</marker> milhões de palavras.</example>
-            <example>Contudo, os simuladores não são perfeitos e têm limitações.</example>
             <example>É um evento cognitivo que tem lugar na mente dos indivíduos.</example>
+            <example>A preocupação e dedicação que têm um com o outro.</example>
+            <example>No caso do Pasep, os servidores públicos que tem registro com número final dentre 0 e 4 também recebem este ano.</example>
+            <example>Amo viajar, então você vai ver algumas postagens de lugares por onde andei, usualmente lugares que tem relação com filmes ou livros ou os dois.</example>
         </rule>
 
 
