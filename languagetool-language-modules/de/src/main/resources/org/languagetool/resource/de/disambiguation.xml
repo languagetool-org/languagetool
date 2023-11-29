@@ -2172,6 +2172,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="auf-... und zumachen etc." id="VERBPRÄFIX_HYPHEN">
+        <!--Wir müssen los- und fortrennen.-->
+        <!--Das Los- und Fortrennen ist keine gute Idee.-->
+        <!--Das ist für die Be- und Entladung.-->
+        <pattern>
+            <marker>
+                <token regexp="yes">(ge|fort|bei?|a[bn]|au[fs]|e(in|nt|r)|hin(ein|aus)?|her(ein|aus)?|los|mi(t|ss)|vor(wärts)?|weg|zu(rück)?|r(aus|ein)|ver|zer|um|über|unter|durch)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token postag_regexp="yes" postag="VER.*|SUB.*(NEU|FEM).*|UNKNOWN" regexp="yes">(ge|fort|bei?|a[bn]|au[fs]|e(in|nt|r)|hin(ein|aus)?|her(ein|aus)?|los|mi(t|ss)|vor|weg|zu(rück)?|r(aus|ein)|ver|zer|um|über|unter|durch).+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="ätsch bätsch" id="IGNORE_AETSCH_BAETSCH">
         <pattern>
             <token case_sensitive="yes" regexp="yes">[Ää]tsch</token>
