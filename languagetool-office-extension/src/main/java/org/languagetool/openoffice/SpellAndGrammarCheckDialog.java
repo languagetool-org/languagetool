@@ -107,7 +107,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   
   private static boolean debugMode = OfficeTools.DEBUG_MODE_CD;         //  should be false except for testing
 //  private static boolean debugModeTm = OfficeTools.DEBUG_MODE_TM;       //  should be false except for testing
-  private static boolean debugModeTm = true;       //  should be false except for testing
+  private static boolean debugModeTm = OfficeTools.DEBUG_MODE_TM;       //  should be false except for testing
 
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
 //  private static final String spellRuleId = "LO_SPELLING_ERROR";

@@ -11244,7 +11244,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <and>
                     <token postag="JJ.?" postag_regexp="yes">
                         <exception postag="JJ.?|NN.*" negate_pos="yes" postag_regexp="yes"/>
-                        <exception regexp="yes">animal|woman|head|body|work|material|business|power</exception>
+                        <exception regexp="yes">mainline|team|through|body|mean|work|animal|head|material|frontline|center|centre|business|state|runtime|size|power|budget|regulation|woman|turnover|utility|key|assault</exception>
                     </token>
                     <token postag="NN.*" postag_regexp="yes">
                         <exception regexp="yes">\p{Lu}\p{Ll}+</exception>
@@ -11253,6 +11253,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="NN.*" postag_regexp="yes">
                 <exception postag="RB"/>
+                <exception postag="PRP.*|CC|IN|DT" postag_regexp="yes"/>
             </token>
             <token><exception postag="NN.*" postag_regexp="yes"/><exception>for</exception></token>
         </pattern>
@@ -16953,11 +16954,28 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="BY_NO_NOUN" name="'by' no noun">
+        <antipattern>
+            <token>by</token>
+            <token>the</token>
+            <token>by</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">good|the|an?|leg</token>
+            <token>by</token>
+        </antipattern>
+        <antipattern>
+            <token>by</token>
+            <token regexp="yes">letter|workm[ea]n|weeks?</token>
+        </antipattern>
+        <antipattern>
+            <token>by</token>
+            <token min="0">,</token>
+            <token>by</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token>by</token>
             </marker>
-            <token regexp="yes">the|my|y?our|his|her|their|all|th[oe]se</token>
         </pattern>
         <disambig action="remove" postag="NN" />
     </rule>

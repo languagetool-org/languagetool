@@ -172,6 +172,149 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </phrases>
 
     <category id='GRAMMAR' name="Gramática Geral" type="grammar">
+
+        <rulegroup id="A_TRAVES_ATRAVÉS_CONFUSAO" name="Confusão entre 'a traves' e 'através'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>traves</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="SP.+"/>
+                </pattern>
+                <message>Possível erro de digitação. Talvez queria utilizar a preposição <suggestion>através</suggestion>?</message>
+                <example correction="Através"><marker>A traves</marker> de várias entrevistas...</example>
+                <example correction="através">Correram <marker>a traves</marker> do túnel.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="EM_CASE_EM_CASO_CONFUSAO" name="Confusão entre 'case' e 'caso'" default="temp_off">
+            <!-- If annoying marketing execs get annoyed as they're trying to use 'case', GOOD 😈. What an obnoxious word. -->
+            <rule id="EM_CASE_DE">
+                <pattern>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">em|n.+</token>
+                    <marker>
+                        <token>case</token>
+                    </marker>
+                </pattern>
+                <message>Possível erro de digitação.</message>
+                <suggestion>caso</suggestion>
+                <example correction="caso">Em <marker>case</marker> de incêndio...</example>
+                <example correction="caso">No <marker>case</marker> do outro menino...</example>
+                <example correction="caso">Bem, nesse <marker>case</marker>...</example>
+            </rule>
+
+            <rule id="CASE_ALGO_ACONTECA">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>case</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="[NADPZ].+" skip="-1" min="0">
+                        <exception scope="next" postag="_PUNCT"/>
+                        <exception scope="next" postag_regexp="yes" postag="C.+"/>
+                    </token>
+                    <token postag_regexp="yes" postag="V.S...."/>
+                </pattern>
+                <message>Possível erro de digitação.</message>
+                <suggestion>caso</suggestion>
+                <example correction="Caso"><marker>Case</marker> eles não venham...</example>
+                <example correction="Caso"><marker>Case</marker> os outros caras precisem de algo...</example>
+                <example correction="Caso"><marker>Case</marker> boas oportunidades apareçam...</example>
+                <example correction="Caso"><marker>Case</marker> ganhem, vão querer um prêmio.</example>
+                <example correction="Caso"><marker>Case</marker> quarenta ladrões roubem o tesouro...</example>
+                <example>Case esse casal, divorcie aquele!</example>
+                <example>Case esses dois homens e não discuta com a lei!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="OUVE_HOUVE_CONFUSAO" name="Confusão entre 'ouve' e 'houve'" default="temp_off">
+            <rule id="O_QUE_OUVE">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0">o</token>
+                    <token regexp="yes">qu[eê]</token>
+                    <marker>
+                        <token>ouve</token>
+                    </marker>
+                </pattern>
+                <message>No sentido de &quot;acontecer&quot;, o verbo usado é &quot;haver&quot;.</message>
+                <suggestion>houve</suggestion>
+                <example correction="houve">O que <marker>ouve</marker>?</example>
+                <example correction="houve">O que <marker>ouve</marker> com ela?</example>
+            </rule>
+
+            <rule id="OUVE_ALGO">
+                <antipattern>
+                    <token postag_regexp="yes" postag="V.IP.+"/>
+                    <token postag="CC"/>
+                    <token>ouve</token>
+                    <example>Ela para e ouve algo.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>ouve
+                            <exception scope="previous" postag_regexp="yes" postag="P[PDI].+"/>
+                            <exception scope="previous" postag_regexp="yes" postag="[NA].+"/>
+                        </token>
+                    </marker>
+                    <token>algo</token>
+                    <token min="0" postag_regexp="yes" postag="AQ.MS."/>
+                    <token min="0" regexp="yes">com(igo)?|con([st]igo|vosco|n?osco)</token>
+                </pattern>
+                <message>No sentido de &quot;acontecer&quot;, o verbo usado é &quot;haver&quot;.</message>
+                <suggestion>houve</suggestion>
+                <example correction="Houve"><marker>Ouve</marker> algo com ele?</example>
+                <example correction="houve">Será que <marker>ouve</marker> algo errado com alguém?</example>
+                <example correction="houve">Você acha que <marker>ouve</marker> algo estranho conosco?</example>
+                <example>Você ouve algo?</example>
+                <example>Alguém ouve algo?</example>
+                <example>O cachorro ouve algo ao longe.</example>
+                <example>Ela disse que ouve algo ao apertar o botão.</example>
+                <example>Ela almoça em silêncio e ouve algo ao longe.</example>
+                <example>Ouve algo?</example>
+            </rule>
+
+            <rule id="OUVE_PROBLEMAS">
+                <antipattern>
+                    <token postag_regexp="yes" postag="[NA].+|P[PDI].+"/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token>ouve</token>
+                    <example>Ele sempre ouve os problemas dos outros.</example>
+                    <example>Meu pai ouve os problemas de todos.</example>
+                    <example>Alguém ouve a tentativa de entrar no apartamento e se prepara.</example>
+                </antipattern>
+                <!-- We can't just do a blanket sentence-initial 'ouve' check. 'Ouve bem?', 'ouve música?', etc. -->
+                <!-- But we can look for words for things people aren't as likely to 'hear' and that collocate frequently with 'houve'... -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token>ouve</token>
+                    </marker>
+                    <or>
+                        <token inflected="yes" regexp="yes" min="0">nenhum|pouco|muito|vários|diverso|inúmero|bastante|algum|um|o</token>
+                        <token postag_regexp="yes" postag="Z.+"/>
+                    </or>
+                    <token inflected="yes" regexp="yes" min="0">grande|novo|pequeno|sério|maior|menor|melhor|pior|outro</token>
+                    <!-- per córpus do português -->
+                    <token regexp="yes" inflected="yes">problema|complicação|tempo|aumento|momento|mudança|redução|erro|necessidade|crescimento|queda|período|tentativa|alteração</token>
+                </pattern>
+                <message>No sentido de &quot;existir&quot;, o verbo é &quot;haver&quot;.</message>
+                <suggestion>houve</suggestion>
+                <example correction="Houve"><marker>Ouve</marker> alguns problemas...</example>
+                <example correction="houve">Não <marker>ouve</marker> nenhuma complicação...</example>
+                <example correction="houve">Ontem <marker>ouve</marker> aumento dos preços de novo.</example>
+                <example correction="Houve"><marker>Ouve</marker> vários erros sérios.</example>
+                <example correction="houve">Já <marker>ouve</marker> novas mudanças desde aquela época.</example>
+                <example correction="Houve"><marker>Ouve</marker> tempo de fazer tudo?</example>
+                <example correction="houve">Infelizmente <marker>ouve</marker> trinta outros problemas.</example>
+                <example correction="houve">Não <marker>ouve</marker> necessidade.</example>
+                <example>Não ouve bem?</example>
+                <example>Ainda não ouve música sem ajuda do aparelho.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado">
             <rule>
                 <pattern>
@@ -3979,6 +4122,142 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>\1 pai</suggestion>
             <example correction='do país|dos pais|do pai'>É o orgulho <marker>do pais</marker>.</example>
         </rule>
+
+        <rulegroup id='CONCORDANCIA_DETERMINANTES_MASCULINOS' name='Erro de concordância de número' default="temp_off">
+            <rule><!--1-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='N.[CM]S.+' postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='4' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='caras'>Por que ele não faz vídeo mostrando todos os outros <marker>cara</marker> que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--2-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='os'>Por que ele não faz video mostrando todos <marker>o</marker> outros caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--3-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='3' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='outros'>Por que ele não faz video mostrando todos os <marker>outro</marker> caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--4-->
+                <pattern>
+                    <marker>
+                        <token postag='DI.MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='1' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='todos'>Por que ele não faz video mostrando <marker>todo</marker> os outros caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--5-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='N.[CM]S.+' postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='3' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='caras'>Por que ele não faz vídeo mostrando todos os <marker>cara</marker> que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--6-->
+                <pattern>
+                    <token postag='DI.MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='os'>Por que ele não faz video mostrando todos <marker>o</marker> caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--7-->
+                <pattern>
+                    <marker>
+                        <token postag='DI.MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='1' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='todos'>Por que ele não faz video mostrando <marker>todo</marker> os caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--8-->
+                <pattern>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='N.[CM]S.+' postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='3' postag="(N..)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='caras'>Por que ele não faz vídeo mostrando os outros <marker>cara</marker> que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--9-->
+                <pattern>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='1' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='os'>Por que ele não faz video mostrando <marker>o</marker> outros caras que dão em cima dela?</example>
+            </rule>
+
+            <rule><!--10-->
+                <pattern>
+                    <token postag='D..MP.+' postag_regexp="yes"/>
+                    <marker>
+                        <token postag='D..MS.+' postag_regexp="yes"/>
+                    </marker>
+                    <token postag='N.[CM]P.+' postag_regexp="yes"/>
+                </pattern>
+                <message>&MSG_ECN;</message>
+                <suggestion><match no='2' postag="(D..M)S(.+)" postag_replace="$1P$2" postag_regexp="yes"/></suggestion>
+                <example correction='outros'>Por que ele não faz video mostrando os <marker>outro</marker> caras que dão em cima dela?</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordância de Número: Geral">
             <!--            General number concordance errors            -->
@@ -8373,6 +8652,116 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="São realmente louváveis"><marker>É realmente louvável</marker> os esforços que fizeram ontem.</example>
             <example correction="São proibidas"><marker>É proibida</marker> as cartas enviadas.</example>
         </rule>
+
+        <rulegroup id="CONCORDANCIA_SER_GENERO" name="Erro de concordância" default="temp_off">
+            <rule><!--1-->
+                <pattern>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..SM" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <token postag="N.FS.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)M' postag_regexp="yes" postag_replace="$1F"/></suggestion></message>
+                <example correction="proibida">É <marker>proibido</marker> a entrada de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..SF" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..MS." postag_regexp="yes"/>
+                    <token postag="N.MS.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)F' postag_regexp="yes" postag_replace="$1M"/></suggestion></message>
+                <example correction="proibido">É <marker>proibida</marker> o acesso de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token postag="VMI..P." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..PM" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <token postag="N.FP.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)M' postag_regexp="yes" postag_replace="$1F"/></suggestion></message>
+                <example correction="proibidas">São <marker>proibidos</marker> as entradas de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token postag="VMI..P." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..PF" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <token postag="N.MP.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)F' postag_regexp="yes" postag_replace="$1M"/></suggestion></message>
+                <example correction="proibidos">São <marker>proibidas</marker> os acessos de pessoas não autorizadas.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="CONCORDANCIA_QUALQUER" name="Erro de concordância verbal" default="temp_off">
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token>qualquer</token>
+                    </marker>
+                    <token>que</token>
+                    <token postag="VM[MS].3P." postag_regexp="yes" inflected="yes">ser</token>
+                    <token postag="D...P." postag_regexp="yes"/>
+                    <token postag="N..P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion>quaisquer</suggestion></message>
+                <example correction="quaisquer">portanto, <marker>qualquer</marker> que sejam os resultados, agradecemos muito.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token>qualquer</token>
+                        <token>que</token>
+                        <token postag="VM[MS].3S." postag_regexp="yes" inflected="yes">ser</token>
+                    </marker>
+                    <token postag="D...P." postag_regexp="yes"/>
+                    <token postag="N..P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion>quaisquer que <match no="3" postag="(VM..).S(.)" postag_regexp="yes" postag_replace="$1\3P$2"/></suggestion></message>
+                <example correction="quaisquer que sejam">portanto, <marker>qualquer que seja</marker> os resultados, agradecemos muito.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token>quaisquer</token>
+                    <token>que</token>
+                    <marker>
+                        <token postag="VM[MS].3S." postag_regexp="yes" inflected="yes">ser</token>
+                    </marker>
+                    <token postag="D...P." postag_regexp="yes"/>
+                    <token postag="N..P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion><match no="3" postag="(VM..)3S(.)" postag_regexp="yes" postag_replace="$1\3P$2"/></suggestion></message>
+                <example correction="sejam">portanto, quaisquer que <marker>seja</marker> os resultados, agradecemos muito.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <marker>
+                        <token>quaisquer</token>
+                    </marker>
+                    <token>que</token>
+                    <token postag="VM[MS].3S." postag_regexp="yes" inflected="yes">ser</token>
+                    <token postag="D...S." postag_regexp="yes"/>
+                    <token postag="N..S.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Possível erro de concordância. Considere alterar para <suggestion>qualquer</suggestion></message>
+                <example correction="qualquer">portanto, <marker>quaisquer</marker> que seja o resultado, agradecemos muito.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
             <antipattern>
@@ -13598,8 +13987,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rule id='IR_CONTRACTION_NOUN' name="Ir + 'na/no' + nome → à/ao" default="temp_off">
-        <!-- To do: remove verb "mercar" ("mercado") POS? It removes all valid entries using "mercado" -->
-        <!-- This is a very hard to code rule. It will require further enhancements in the future (2023-10-31). -->
+            <!-- To do: remove verb "mercar" ("mercado") POS? It removes all valid entries using "mercado" -->
+            <!-- This is a very hard to code rule. It will require further enhancements in the future (2023-10-31). -->
 
             <antipattern>
                 <token postag='VMN0000' postag_regexp='no'/>
@@ -39379,7 +39768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
         <rule id="QUIS_QUIZ" name="Confusão de palavras: quis (verbo) vs. quiz (substantivo)">
             <pattern>
-                    <token negate_pos="yes" postag="D.+" postag_regexp="yes"/>
+                <token negate_pos="yes" postag="D.+" postag_regexp="yes"/>
                 <marker>
                     <token>quiz</token>
                 </marker>

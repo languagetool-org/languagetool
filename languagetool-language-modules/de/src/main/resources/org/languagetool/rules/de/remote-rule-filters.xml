@@ -1029,6 +1029,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Einer beziehung zerstörst, was sie bequem für lust statt bars zu versuchen sie mag, <marker>das</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_DE_HYDRA_LEO_CP_DEM_DEN" name="">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token>dem</token>
+                    </marker>
+                    <token postag="SUB:DAT:SIN:NEU">
+                        <exception postag="SUB.*PLU.*" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <example correction="">Es wird geprüft, indem sie in <marker>dem</marker> Auge von Ratten injiziert wird.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CASING_LOWER_TO_UPPER" name="">
             <rule>
                 <pattern>
@@ -1744,6 +1758,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_DE_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup name="" id="AI_DE_GGEC.*">
+            <rule>
+                <pattern>
+                    <token>’</token>
+                </pattern>
+                <example correction="">Ich mach<marker>’</marker>s heute nicht mehr fertig.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_VERB">
             <rule><!--1-->
                 <pattern>
@@ -1842,11 +1865,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_NOUN" name="">
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <token>™</token>
                 </pattern>
                 <example correction="">Das Zeichen <marker>™</marker> bedeutet "trademark".</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:3:SIN.*"/>
+                    <token spacebefore="no">’</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <example correction="">Mir <marker>geht’s</marker> gut.</example>
+                <example correction="">Was <marker>gibt’s</marker> noch?</example>
+                <example correction="">Das <marker>bringt’s</marker> nicht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ADJECTIVE" name="">
@@ -1944,9 +1977,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Dateiendung <marker>.WAV</marker>.</example>
             </rule>
+            <rule><!--7-->
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:3:SIN.*"/>
+                    <token spacebefore="no">’</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <example correction="">Mir <marker>geht’s</marker> gut.</example>
+                <example correction="">Was <marker>gibt’s</marker> noch?</example>
+                <example correction="">Das <marker>bringt’s</marker> nicht.</example>
+            </rule>
         </rulegroup>
 
-        <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN" name="">
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN.*" name="">
             <rule><!--1-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">(c|k|m)?m</token>
@@ -1962,13 +2005,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token>Fehdehandschuh</token>
+                    <token regexp="yes">Fehdehandschuh|Lehe?nsgericht(e?s|en?)?</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>
             <rule><!--4-->
                 <pattern>
-                    <token case_sensitive="yes">Petze</token>
+                    <token case_sensitive="yes" regexp="yes">Petze|Agnostiker</token>
                 </pattern>
                 <example correction="">Du bist echt eine alte <marker>Petze</marker>.</example>
             </rule>
@@ -1979,6 +2022,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Ein <marker>ASVGler</marker> ist eine Person, die nach dem Allgemeinen Sozialversicherungsgesetz versichert ist.</example>
             </rule>
             <rule><!--6-->
+                <pattern>
+                    <token/>
+                    <token>’</token>
+                    <token/>
+                </pattern>
+                <example correction="">Fratelli <marker>d’Italia</marker>.</example>
+            </rule>
+            <rule><!--7-->
                 <pattern>
                     <marker>
                         <token>.</token>
@@ -2206,7 +2257,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>Auf Grund dessen</marker> lerne ich seit drei Jahren Deutsch.</example>
             </rule>
+        </rulegroup>
 
+        <rulegroup id="AI_DE_GGEC_MISSING_OTHER" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token>Zweifeldass</token><!--gGEC gives wrong suggestion: Zweifeldass, dass-->
+                </pattern>
+                <example correction="">Es besteht kein <marker>Zweifeldass</marker> das geht.</example>
+            </rule>
         </rulegroup>
 
     </category>

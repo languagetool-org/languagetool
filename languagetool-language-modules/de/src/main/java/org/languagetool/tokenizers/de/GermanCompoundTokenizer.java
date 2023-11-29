@@ -86,6 +86,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("kasko");
       words.add("blitzableiter");
       words.add("abschattungen");
+      words.add("kuscheltier");
       words.trim();
       return words;
     }
