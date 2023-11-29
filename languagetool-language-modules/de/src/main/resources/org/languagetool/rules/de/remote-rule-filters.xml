@@ -1744,6 +1744,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_DE_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup name="" id="AI_DE_GGEC.*">
+            <rule>
+                <pattern>
+                    <token>’</token>
+                </pattern>
+                <example correction="">Ich mach<marker>’</marker>s heute nicht mehr fertig.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_VERB">
             <rule><!--1-->
                 <pattern>
@@ -1842,11 +1851,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_NOUN" name="">
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <token>™</token>
                 </pattern>
                 <example correction="">Das Zeichen <marker>™</marker> bedeutet "trademark".</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:3:SIN.*"/>
+                    <token spacebefore="no">’</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <example correction="">Mir <marker>geht’s</marker> gut.</example>
+                <example correction="">Was <marker>gibt’s</marker> noch?</example>
+                <example correction="">Das <marker>bringt’s</marker> nicht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ADJECTIVE" name="">
@@ -1946,11 +1965,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--7-->
                 <pattern>
-                    <token>geht</token>
-                    <token>’</token>
-                    <token>s</token>
+                    <token postag_regexp="yes" postag="VER:3:SIN.*"/>
+                    <token spacebefore="no">’</token>
+                    <token spacebefore="no">s</token>
                 </pattern>
                 <example correction="">Mir <marker>geht’s</marker> gut.</example>
+                <example correction="">Was <marker>gibt’s</marker> noch?</example>
+                <example correction="">Das <marker>bringt’s</marker> nicht.</example>
             </rule>
         </rulegroup>
 
