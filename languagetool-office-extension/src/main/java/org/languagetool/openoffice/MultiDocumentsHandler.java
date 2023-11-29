@@ -52,6 +52,7 @@ import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
+import org.languagetool.openoffice.stylestatistic.StatAnDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.Tools;
@@ -1662,6 +1663,9 @@ public class MultiDocumentsHandler {
         resetDocumentCaches();
         resetResultCaches(true);
         resetDocument();
+      } else if ("statisticalAnalyses".equals(sEvent)) {
+        StatAnDialog statAnDialog = new StatAnDialog(getCurrentDocument());
+        statAnDialog.start();
       } else if ("writeAnalyzedParagraphs".equals(sEvent)) {
         new AnalyzedParagraphsCache(this); 
       } else if ("remoteHint".equals(sEvent)) {

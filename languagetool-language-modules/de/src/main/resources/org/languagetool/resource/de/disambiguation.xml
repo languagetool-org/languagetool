@@ -16,8 +16,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!ENTITY sprachadj1 "afrikanisch|alt(arabisch|chinesisch|griechisch|persisch)|amerikanisch|arabisch|chinesisch|dänisch|deutsch|plattdeutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch|weissrussisch|hebräisch">
     <!ENTITY given_names_that_cannot_be_added "Hanis?|Irms?|Manis?|Petrus?|Raads?|Tiffens?|Trents?|Véras?|Warrens?|Yues?">
     <!ENTITY last_names_that_cannot_be_added "Agricolas?|Ambachs?|Amsteins?|Bahrs?|Bendels?|Berkels?|Biebers?|Blasers?|Boltens?|Bracks?|Burghs?|Campagnas?|Caplans?|Cappelns?|Castels?|Castells?|Chapelles?|Contes?|Dittos?|Ernes?|Feursteins?|Fleschs?|Garzs?|Gassers?|Gasters?|Giesels?|Giesens?|Giez|Gisels?|Granz|Grasses?|Grays?|Greims?|Grists?|Grönlunds?|Gumpels?|Guntens?|Gutschs?|Habers?|Habichs?|Halders?|Harls?|Heydes?|Hills?|Hornes?|Hufnagls?|Högels?|Höhns?|Hörrs?|Issels?|Jaras?|Jobsts?|Kausens?|Kerrs?|Kestens?|Klasens?|Klimms?|Konkens?|Kretz|Laments?|Legdes?|Liebings?|Lienens?|Liesers?|Maaß|Mahers?|Markls?|Meckels?|Medems?|Mendess?|Metters?|Meyns?|Mieschs?|Milius|Molds?|Muchs?|Nannens?|Natruns?|Nittels?|Notters?|Nübels?|Nusbaums?|Ortas?|Pankes?|Pardis?|Pardis|Peraus?|Pillers?|Polans?|Polenz|Rossis?|Schattes?|Schaubs?|Scheiers?|Scheutz|Schleichs?|Schlotts?|Schnaus|Schricks?|Schulers?|Schweglers?|Schöpfs?|Schüllers?|Schütts?|Seels?|Sellens?|Sengers?|Siebers?|Sosas?|Suhrs?|Tamms?|Tanners?|Tellens?|Thons?|Trauners?|Trents?|Trummers?|Vischers?|Waldens?|Wangs?|Wanners?|Wassens?|Weldons?|Wellings?|Welz|Wengis?|Wennigsens?|Wernichs?|Wernings?|Westers?|Wiebens?|Wriezens?|Wolfens?|Wolfers|Worths?|Wurz|Wurzers?|Zind">
+    <!ENTITY verb_prefixes "(ge|fort|bei?|a[bn]|au[fs]|e(in|nt|r)|hin(ein|aus)?|her(ein|aus)?|los|mi(t|ss)|vor(wärts)?|weg|zu(rück)?|r(aus|ein)|ver|zer|um|über|unter|durch)">
 ]>
-
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <unification feature="number">
@@ -1764,6 +1764,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*:(1|IMP).+"/>
             <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:3:SIN:PRÄ]">Er <marker>darf</marker> das nicht.</example>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP).+"/>
+            <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:1:SIN:PRÄ]">Das <marker>darf</marker> ich nicht.</example>
+            <example type="ambiguous" inputform="will[wollen/VER:MOD:1:SIN:PRÄ,wollen/VER:MOD:3:SIN:PRÄ]" outputform="will[wollen/VER:MOD:1:SIN:PRÄ]">Davon <marker>will</marker> ich etwas abhaben.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token>er</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(1|IMP).+"/>
+            <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:3:SIN:PRÄ]">Das <marker>darf</marker> er nicht.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="KONJUNKTIV" name="Konjunktiv">
         <rule>
@@ -2171,6 +2198,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="auf-... und zumachen etc." id="VERBPRÄFIX_HYPHEN">
+        <!--Wir müssen los- und fortrennen.-->
+        <!--Das Los- und Fortrennen ist keine gute Idee.-->
+        <!--Das ist für die Be- und Entladung.-->
+        <pattern>
+            <marker>
+                <token regexp="yes">(&verb_prefixes;)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token postag_regexp="yes" postag="VER.*|SUB.*(NEU|FEM).*|UNKNOWN" regexp="yes">(&verb_prefixes;).+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule name="ätsch bätsch" id="IGNORE_AETSCH_BAETSCH">
         <pattern>
@@ -6674,6 +6716,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="ISLA_DE_X" name="Isla de"><!-- ignore spelling of French, Italian and Spanish island and street names -->
+        <pattern>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">Avenue|Bois|Camino|Car[áa]|Chemin|Chez|Creux|Derrière|Entre|Impasse|Isla|Passage|Pont|Regina|Route|Rue(elle)?|Stráda|Sous|Sur|Valle|Vers|Via|Vue</token>
+                <token regexp="yes">da|de[ls]?|du|les?</token>
+                <token min="0">la</token>
+                <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule id="NEN_IGNORE_SPELLING" name="Ignore spelling of 'nen">
         <pattern>

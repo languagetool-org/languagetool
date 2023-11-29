@@ -172,6 +172,149 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </phrases>
 
     <category id='GRAMMAR' name="Gramática Geral" type="grammar">
+
+        <rulegroup id="A_TRAVES_ATRAVÉS_CONFUSAO" name="Confusão entre 'a traves' e 'através'" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>traves</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="SP.+"/>
+                </pattern>
+                <message>Possível erro de digitação. Talvez queria utilizar a preposição <suggestion>através</suggestion>?</message>
+                <example correction="Através"><marker>A traves</marker> de várias entrevistas...</example>
+                <example correction="através">Correram <marker>a traves</marker> do túnel.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="EM_CASE_EM_CASO_CONFUSAO" name="Confusão entre 'case' e 'caso'" default="temp_off">
+            <!-- If annoying marketing execs get annoyed as they're trying to use 'case', GOOD 😈. What an obnoxious word. -->
+            <rule id="EM_CASE_DE">
+                <pattern>
+                    <token postag_regexp="yes" postag="SP.+" regexp="yes">em|n.+</token>
+                    <marker>
+                        <token>case</token>
+                    </marker>
+                </pattern>
+                <message>Possível erro de digitação.</message>
+                <suggestion>caso</suggestion>
+                <example correction="caso">Em <marker>case</marker> de incêndio...</example>
+                <example correction="caso">No <marker>case</marker> do outro menino...</example>
+                <example correction="caso">Bem, nesse <marker>case</marker>...</example>
+            </rule>
+
+            <rule id="CASE_ALGO_ACONTECA">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>case</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="[NADPZ].+" skip="-1" min="0">
+                        <exception scope="next" postag="_PUNCT"/>
+                        <exception scope="next" postag_regexp="yes" postag="C.+"/>
+                    </token>
+                    <token postag_regexp="yes" postag="V.S...."/>
+                </pattern>
+                <message>Possível erro de digitação.</message>
+                <suggestion>caso</suggestion>
+                <example correction="Caso"><marker>Case</marker> eles não venham...</example>
+                <example correction="Caso"><marker>Case</marker> os outros caras precisem de algo...</example>
+                <example correction="Caso"><marker>Case</marker> boas oportunidades apareçam...</example>
+                <example correction="Caso"><marker>Case</marker> ganhem, vão querer um prêmio.</example>
+                <example correction="Caso"><marker>Case</marker> quarenta ladrões roubem o tesouro...</example>
+                <example>Case esse casal, divorcie aquele!</example>
+                <example>Case esses dois homens e não discuta com a lei!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="OUVE_HOUVE_CONFUSAO" name="Confusão entre 'ouve' e 'houve'" default="temp_off">
+            <rule id="O_QUE_OUVE">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0">o</token>
+                    <token regexp="yes">qu[eê]</token>
+                    <marker>
+                        <token>ouve</token>
+                    </marker>
+                </pattern>
+                <message>No sentido de &quot;acontecer&quot;, o verbo usado é &quot;haver&quot;.</message>
+                <suggestion>houve</suggestion>
+                <example correction="houve">O que <marker>ouve</marker>?</example>
+                <example correction="houve">O que <marker>ouve</marker> com ela?</example>
+            </rule>
+
+            <rule id="OUVE_ALGO">
+                <antipattern>
+                    <token postag_regexp="yes" postag="V.IP.+"/>
+                    <token postag="CC"/>
+                    <token>ouve</token>
+                    <example>Ela para e ouve algo.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>ouve
+                            <exception scope="previous" postag_regexp="yes" postag="P[PDI].+"/>
+                            <exception scope="previous" postag_regexp="yes" postag="[NA].+"/>
+                        </token>
+                    </marker>
+                    <token>algo</token>
+                    <token min="0" postag_regexp="yes" postag="AQ.MS."/>
+                    <token min="0" regexp="yes">com(igo)?|con([st]igo|vosco|n?osco)</token>
+                </pattern>
+                <message>No sentido de &quot;acontecer&quot;, o verbo usado é &quot;haver&quot;.</message>
+                <suggestion>houve</suggestion>
+                <example correction="Houve"><marker>Ouve</marker> algo com ele?</example>
+                <example correction="houve">Será que <marker>ouve</marker> algo errado com alguém?</example>
+                <example correction="houve">Você acha que <marker>ouve</marker> algo estranho conosco?</example>
+                <example>Você ouve algo?</example>
+                <example>Alguém ouve algo?</example>
+                <example>O cachorro ouve algo ao longe.</example>
+                <example>Ela disse que ouve algo ao apertar o botão.</example>
+                <example>Ela almoça em silêncio e ouve algo ao longe.</example>
+                <example>Ouve algo?</example>
+            </rule>
+
+            <rule id="OUVE_PROBLEMAS">
+                <antipattern>
+                    <token postag_regexp="yes" postag="[NA].+|P[PDI].+"/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token>ouve</token>
+                    <example>Ele sempre ouve os problemas dos outros.</example>
+                    <example>Meu pai ouve os problemas de todos.</example>
+                    <example>Alguém ouve a tentativa de entrar no apartamento e se prepara.</example>
+                </antipattern>
+                <!-- We can't just do a blanket sentence-initial 'ouve' check. 'Ouve bem?', 'ouve música?', etc. -->
+                <!-- But we can look for words for things people aren't as likely to 'hear' and that collocate frequently with 'houve'... -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <marker>
+                        <token>ouve</token>
+                    </marker>
+                    <or>
+                        <token inflected="yes" regexp="yes" min="0">nenhum|pouco|muito|vários|diverso|inúmero|bastante|algum|um|o</token>
+                        <token postag_regexp="yes" postag="Z.+"/>
+                    </or>
+                    <token inflected="yes" regexp="yes" min="0">grande|novo|pequeno|sério|maior|menor|melhor|pior|outro</token>
+                    <!-- per córpus do português -->
+                    <token regexp="yes" inflected="yes">problema|complicação|tempo|aumento|momento|mudança|redução|erro|necessidade|crescimento|queda|período|tentativa|alteração</token>
+                </pattern>
+                <message>No sentido de &quot;existir&quot;, o verbo é &quot;haver&quot;.</message>
+                <suggestion>houve</suggestion>
+                <example correction="Houve"><marker>Ouve</marker> alguns problemas...</example>
+                <example correction="houve">Não <marker>ouve</marker> nenhuma complicação...</example>
+                <example correction="houve">Ontem <marker>ouve</marker> aumento dos preços de novo.</example>
+                <example correction="Houve"><marker>Ouve</marker> vários erros sérios.</example>
+                <example correction="houve">Já <marker>ouve</marker> novas mudanças desde aquela época.</example>
+                <example correction="Houve"><marker>Ouve</marker> tempo de fazer tudo?</example>
+                <example correction="houve">Infelizmente <marker>ouve</marker> trinta outros problemas.</example>
+                <example correction="houve">Não <marker>ouve</marker> necessidade.</example>
+                <example>Não ouve bem?</example>
+                <example>Ainda não ouve música sem ajuda do aparelho.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado">
             <rule>
                 <pattern>
@@ -8509,6 +8652,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="São realmente louváveis"><marker>É realmente louvável</marker> os esforços que fizeram ontem.</example>
             <example correction="São proibidas"><marker>É proibida</marker> as cartas enviadas.</example>
         </rule>
+
+        <rulegroup id="CONCORDANCIA_SER_GENERO" name="Erro de concordância" default="temp_off">
+            <rule><!--1-->
+                <pattern>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..SM" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <token postag="N.FS.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)M' postag_regexp="yes" postag_replace="$1F"/></suggestion></message>
+                <example correction="proibida">É <marker>proibido</marker> a entrada de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..SF" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..MS." postag_regexp="yes"/>
+                    <token postag="N.MS.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)F' postag_regexp="yes" postag_replace="$1M"/></suggestion></message>
+                <example correction="proibido">É <marker>proibida</marker> o acesso de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token postag="VMI..P." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..PM" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <token postag="N.FP.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)M' postag_regexp="yes" postag_replace="$1F"/></suggestion></message>
+                <example correction="proibidas">São <marker>proibidos</marker> as entradas de pessoas não autorizadas.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token postag="VMI..P." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="VMP..PF" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <token postag="N.MP.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Esta palavra deve concordar com o sujeito. Considere alterar para <suggestion><match no="3" postag='(VMP...)F' postag_regexp="yes" postag_replace="$1M"/></suggestion></message>
+                <example correction="proibidos">São <marker>proibidas</marker> os acessos de pessoas não autorizadas.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="CONCORDANCIA_QUALQUER" name="Erro de concordância verbal" default="temp_off">
             <rule><!--1-->
