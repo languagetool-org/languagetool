@@ -37,7 +37,7 @@ public class GrammalecteRuleTest {
 
   @Test
   public void testIgnoredRuleIds() throws IOException {
-    String idRegex = "[a-z0-9A-Z_éèáàê]+";
+    String idRegex = "[a-z0-9A-Z_éèáàêâ]+";
     for (String id : GrammalecteRule.ignoreRules) {
       if (id.toLowerCase().startsWith("grammalecte_")) {
         fail("Do not use the 'grammalecte_' prefix when adding rules to the ignoreRules list: " + id);
