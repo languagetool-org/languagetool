@@ -74,6 +74,52 @@ USA
                 <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo|instante|momento|rato</token>
                 <token>después</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>antes</token>
+                <token min="0" postag="_QM_CLOSE"/>
+                <token>y</token>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>después</token>
+                <example>Hubo un "antes" y un "después".</example>
+                <example>Hubo un antes y un después.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">d?el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>después</token>
+                <example>El después no existe.</example>
+                <example>La espera del "después".</example>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Después</token>
+                <token>:</token>
+                <example>Después: 50.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token>después</token>
+                <example>Es una opción ideal si se pretende dormir antes/después de tomar un ferry.</example>
+                <example>Él, antes y después de trabajar, se toma un café.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token skip="1">durante</token>
+                <token>después</token>
+                <example>Qué hacer antes, durante y después de tu viaje.</example>
+            </antipattern>
+            <antipattern>
+                <token>después</token>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <example>Hay que enfriarlo después rápidamente.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <token>después</token>
+                <example>Hay que enfriarlo inmediatamente después.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>después</token>
