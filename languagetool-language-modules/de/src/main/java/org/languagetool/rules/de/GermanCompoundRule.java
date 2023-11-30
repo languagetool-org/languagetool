@@ -82,14 +82,9 @@ public class GermanCompoundRule extends AbstractCompoundRule {
       tokenRegex("my|your|the|an?|their")
     ),
     Arrays.asList(  // sich selbst gerecht werden
-      tokenRegex("sich|uns"),
-      token("selbst")
-    ),
-    Arrays.asList(  // hinter sich selbst her
-      token("hinter"),
-      tokenRegex("sich|uns"),
+      tokenRegex("sich|uns|ihm|ihr|mir|euch"),
       token("selbst"),
-      token("her")
+      tokenRegex("gerecht.*")
     )
   ), GERMAN);
 
