@@ -11266,7 +11266,7 @@ USA
         </rule>
 
 
-        <rule id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: 'Causar dificuldade' → Dificultar" tone_tags="objective" default="temp_off">
+        <rule id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: 'Causar dificuldade' → Dificultar" tone_tags="objective">
             <!--IDEA shorten_it-->
             <pattern>
                 <marker>
@@ -11274,13 +11274,14 @@ USA
                     <token regexp="yes">dificuldades?</token>
                 </marker>
                 <token postag='SPS00|(SPS00:)?[DP].+' postag_regexp='yes'>
-                    <exception regexp='no'>para</exception> <!-- Specific SPS00, add more if found -->
+                    <exception regexp='yes'>com|para</exception> <!-- Specific SPS00, add more if found -->
                 </token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
             <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> a criar o algoritmo.</example>
             <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> na criação do algoritmo.</example>
+            <example>Retomou a teoria aristotélica sobre a eternidade do mundo, o que lhe causou dificuldades com os círculos islâmicos ortodoxos.</example>
         </rule>
 
 
