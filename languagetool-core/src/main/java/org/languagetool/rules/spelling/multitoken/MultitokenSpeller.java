@@ -104,7 +104,11 @@ public class MultitokenSpeller {
       int totalDistance = distances.stream().reduce(0, Integer::sum);
       if (totalDistance < 1) {
         weightedCandidates.add(new WeightedSuggestion(candidate, 0));
-        break;
+        // "continue" allows several candidates with different casing
+        if (weightedCandidates.size() == 2) {
+          break;
+        }
+        continue;
       }
       // for very short candidates, allow only distance=0 (casing and diacritics differences)
       if (candidate.length() < 7) {
@@ -133,7 +137,7 @@ public class MultitokenSpeller {
     List<String> results = new ArrayList<>();
     int weightFirstCandidate = weightedCandidates.get(0).getWeight();
     for (WeightedSuggestion weightedCandidate : weightedCandidates) {
-      // keep only cadidantes with the distance of the first candidate
+      // keep only cadidates with the distance of the first candidate
       if (weightedCandidate.getWeight() - weightFirstCandidate < 1) {
         results.add(weightedCandidate.getWord());
       }
