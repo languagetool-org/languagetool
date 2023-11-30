@@ -8656,20 +8656,130 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id="CONCORDANCIA_SER_PLURAL" name="Erro de concordância verbal" default="temp_off">
-            <pattern>
-                <marker>
-                    <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
-                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
-                    <token postag="A...S.|VMP..S." postag_regexp="yes"/>
-                </marker>
+
+        <rulegroup id="CONCORDANCIA_SER_PLURAL" name="Erro de concordância verbal" default="temp_off">
+            <antipattern>
+                <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                <token postag="A...S.|VMP..S." postag_regexp="yes"/>
+                <token postag="D...P." postag_regexp="yes"/>
+                <token regexp="yes" skip="-1">&expressoes_de_tempo;</token>
+                <token postag="RG"/>
+                <example>A maioria dos sites foi restaurada poucas horas após o ataque.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="VMG.+" postag_regexp="yes" skip="-1"/>
+                <token postag="P[RT].+" postag_regexp="yes"/>
+                <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                <token postag="A...S.|VMP..S." postag_regexp="yes"/>
                 <token postag="D...P." postag_regexp="yes"/>
                 <token postag="N..P.+" postag_regexp="yes"/>
-            </pattern>
-            <message>O verbo e o adjetivo devem concordar com o sujeito. Considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(A...|VMP..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/></suggestion></message>
-            <example correction="São realmente louváveis"><marker>É realmente louvável</marker> os esforços que fizeram ontem.</example>
-            <example correction="São proibidas"><marker>É proibida</marker> as cartas enviadas.</example>
-        </rule>
+                <example>readquirindo até onde foi possível suas feições originais de transição </example>
+            </antipattern>
+            <antipattern>
+                <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                <token postag="A...S.|VMP..S." postag_regexp="yes"/>
+                <token postag="D...P." postag_regexp="yes"/>
+                <token skip="-1" postag="N..P.+" postag_regexp="yes"/>
+                <token postag="VMN.+" postag_regexp="yes"/>
+                <example>Para tornar a arma mais leve, era comum as lâminas dos estiletes contarem com sulcos</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">como|quem</token>
+                <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                <token postag="A...S.|VMP..S." postag_regexp="yes"/>
+                <example>como era muito conhecido as testemunhas conseguiram impedir a morte</example>
+            </antipattern>
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                        <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                        <token postag="A..CS." postag_regexp="yes">
+                            <exception postag="V.+" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="D...P." postag_regexp="yes"/>
+                    <token postag="N..P.+" postag_regexp="yes"/>
+                </pattern>
+                <message>O verbo e o adjetivo devem concordar com o sujeito. Considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(A...)S(.)' postag_regexp="yes" postag_replace="$1P$2"/></suggestion></message>
+                <example correction="São realmente louváveis"><marker>É realmente louvável</marker> os esforços que fizeram ontem.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                        <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                        <token postag="A...S." postag_regexp="yes">
+                            <exception postag="A..CS." postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <token postag="N.FP.+" postag_regexp="yes">
+                        <exception>vezes</exception></token>
+                </pattern>
+                <message>O verbo e o adjetivo devem concordar com o sujeito. Considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(A..).S(.)' postag_regexp="yes" postag_replace="$1FP$2"/></suggestion></message>
+                <example correction="São bonitas"><marker>É bonito</marker> as flores do campo.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <marker>
+                        <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                        <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                        <token postag="A...S." postag_regexp="yes">
+                            <exception postag="A..CS." postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <token postag="N.MP.+" postag_regexp="yes">
+                        <exception>vezes</exception></token>
+                </pattern>
+                <message>O verbo e o adjetivo devem concordar com o sujeito. Considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(A..).S(.)' postag_regexp="yes" postag_replace="$1MP$2"/></suggestion></message>
+                <example correction="São bonitos"><marker>É bonita</marker> os lugares paradisíacos.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <marker>
+                        <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                        <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                        <token postag="VMP..S." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..FP." postag_regexp="yes">
+                        <exception>as</exception></token>
+                    <token postag="N.FP.+" postag_regexp="yes">
+                        <exception>vezes</exception></token>
+                </pattern>
+                <message>O verbo e o adjetivo devem concordar com o sujeito. Considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(VMP..)S.' postag_regexp="yes" postag_replace="$1PF"/></suggestion></message>
+                <example correction="São proibidas"><marker>É proibido</marker> essas cartas enviadas.</example>
+            </rule>
+            <rule><!--5-->
+                <pattern>
+                    <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                    <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                    <token postag="VMP..S." postag_regexp="yes"/>
+                    <token>as</token>
+                    <token postag="N.FP.+" postag_regexp="yes">
+                        <exception>vezes</exception></token>
+                </pattern>
+                <message>Se &quot;\4&quot; for o sujeito da oração, há um possível erro de concordância. Neste caso, considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(VMP..)S.' postag_regexp="yes" postag_replace="$1PF"/> \4 \5</suggestion>. Se &quot;\4&quot; for um objeto, há um possível erro de crase.</message>
+                <suggestion>\1 \2 \3 às \5</suggestion>
+                <example correction="São proibidas as cartas|É proibido às cartas"><marker>É proibido as cartas</marker> enviadas.</example>
+            </rule>
+            <rule><!--6-->
+                <pattern>
+                    <marker>
+                        <token postag="VMI..S." inflected="yes" postag_regexp="yes">ser</token>
+                        <token min="0" postag="R[GM]" postag_regexp="yes"/>
+                        <token postag="VMP..S." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <token postag="N.MP.+" postag_regexp="yes">
+                        <exception>vezes</exception></token>
+                </pattern>
+                <message>O verbo e o adjetivo devem concordar com o sujeito. Considere alterar para <suggestion><match no="1" postag='(VMI..)S(.)' postag_regexp="yes" postag_replace="$1P$2"/> \2 <match no="3" postag='(VMP..)S.' postag_regexp="yes" postag_replace="$1PM"/></suggestion></message>
+                <example correction="São proibidos"><marker>É proibida</marker> os jogos de baralho.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="CONCORDANCIA_SER_GENERO" name="Erro de concordância" default="temp_off">
             <rule><!--1-->
