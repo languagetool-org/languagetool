@@ -63,7 +63,7 @@
 
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
 
-        <rulegroup id="SWISS_GERMAN_NUMBER_FORMAT" name="Swiss German number format">
+        <rulegroup id="SWISS_GERMAN_NUMBER_FORMAT" name="Swiss German number format" tags="picky">
             <antipattern>
                 <token case_sensitive="yes" regexp="yes">\d+|[A-ZÄÖÜ]+</token>
                 <token regexp="yes">\d{5,9}</token>
@@ -133,7 +133,7 @@
                 <example correction="3452"><marker>3 452</marker> ist eine Zahl.</example>
                 <example correction="7589"><marker>7.589</marker> ist auch eine Zahl.</example>
             </rule>
-            <rule tags="picky"><!-- SWISS_GERMAN_NUMBER_FORMAT[2] --><!-- 5 und 6 Ziffern-->
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[2] --><!-- 5 und 6 Ziffern-->
                 <antipattern>
                     <token regexp="yes">(\d{2})(\d{3})</token>
                     <token case_sensitive="yes" postag="(EIG.*STD|UNKNOWN).*" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
@@ -182,7 +182,7 @@
                 <example correction="82&nbsp;903"><marker>82.903</marker> ist auch eine Zahl.</example>
                 <example correction="399&nbsp;452"><marker>399.452</marker> ist eine Zahl.</example>
             </rule>
-            <rule tags="picky"><!-- SWISS_GERMAN_NUMBER_FORMAT[4] --><!-- 7, 8 und 9 Ziffern-->
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[4] --><!-- 7, 8 und 9 Ziffern-->
                 <pattern>
                     <token regexp="yes">([1-9]\d{0,2})(\d{3})(\d{3})
                         <exception scope="previous" regexp="yes">\d{1,9}</exception>
