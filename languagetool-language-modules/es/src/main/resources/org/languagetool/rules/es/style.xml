@@ -88,8 +88,9 @@ USA
         </rule>
         <rule id="REP_ANTES" name="repetición: antes" min_prev_matches="2">
             <antipattern>
-                <token>cuanto</token>
+                <token regexp="yes">cuanto|nunca</token>
                 <token>antes</token>
+                <example>Admitió que nunca antes le había pasado algo así.</example>
             </antipattern>
             <antipattern>
                 <token>lo</token>
@@ -103,6 +104,56 @@ USA
                 <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo|instante|momento|rato</token>
                 <token>antes</token>
             </antipattern>
+            <antipattern>
+                <token>antes</token>
+                <token min="0" regexp="yes">[mts]e|n?os</token>
+                <token postag="NC.*|AQ.*|V.*" postag_regexp="yes"/>
+                <token>que</token>
+                <example>Antes muerta que sencilla.</example>
+                <example>Antes me cuelgo que hacerme verdugo.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">d?el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>antes</token>
+                <example>No debes pensar en el antes.</example>
+                <example>No debes pensar en el "antes".</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>antes</token>
+                <token min="0" postag="_QM_CLOSE"/>
+                <token>y</token>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>después</token>
+                <example>Hubo un "antes" y un "después".</example>
+                <example>Hubo un antes y un después.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.P.*" postag_regexp="yes"/>
+                <token>de</token>
+                <token>antes</token>
+                <example>Incorporamos todo a la patata que teníamos reservada de antes.</example>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Antes</token>
+                <token>:</token>
+                <example>Antes: 50.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token>después</token>
+                <example>Es una opción ideal si se pretende dormir antes/después de tomar un ferry.</example>
+                <example>Él, antes y después de trabajar, se toma un café.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token skip="1">durante</token>
+                <token>después</token>
+                <example>Qué hacer antes, durante y después de tu viaje.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>antes</token>
@@ -110,10 +161,11 @@ USA
             </pattern>
             <message>&msg_repeated_pattern;</message>
             <suggestion>previamente</suggestion>
+            <suggestion>anteriormente</suggestion>
             <suggestion>antiguamente</suggestion>
             <suggestion>con antelación</suggestion>
             <suggestion>con anterioridad</suggestion>
-            <example correction="Previamente|Antiguamente|Con antelación|Con anterioridad"><marker>Antes</marker> lo arreglaremos.</example>
+            <example correction="Previamente|Anteriormente|Antiguamente|Con antelación|Con anterioridad"><marker>Antes</marker> lo arreglaremos.</example>
             <example>Pocos días antes, todo estaba tranquilo.</example>
             <example>Antes de descansar, hay que trabajar.</example>
         </rule>
