@@ -1837,6 +1837,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Eine <marker>Aaltreppe</marker> ermöglicht eine Umgehung von Hindernissen in Gewässern.</example>
             </rule>
+            <rule><!--8-->
+                <pattern>
+                    <token>Zweifeldass</token><!--TP but gGEC gives wrong suggestion-->
+                </pattern>
+                <example correction="">Es besteht kein <marker>Zweifeldass</marker> das geht.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADJECTIVE">
@@ -2089,6 +2095,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Wie geht es <marker>Ihnen</marker>?</example><!--ambiguous-->
                 <example correction="">Können <marker>Sie</marker> morgen?</example><!--ambiguous-->
             </rule>
+            <rule><!--2-->
+                <pattern case_sensitive="yes">
+                    <token spacebefore="yes">...</token>
+                    <marker>
+                        <token skip="-1" spacebefore="yes">Es</token>
+                    </marker>
+                    <token skip="-1" postag="VER.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Gestern habe ich fleißig gearbeitet, aber heute... <marker>Es</marker> ist einfach nicht mein Tag!</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN_FORM" name="">
@@ -2151,13 +2167,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_PUNCTUATION_HORIZONTAL_ELLIPSIS__ES__PERIOD__PERIOD__PERIOD__ES" name="">
-            <rule><!-- gGEC wants to change "Aber" to lower case-->
+            <rule><!-- 1 - gGEC wants to change "Aber" to lower case-->
                 <pattern>
                     <marker>
                         <token>…</token>
                         <token skip="-1" spacebefore="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     </marker>
-                    <token postag="PKT"/>
+                    <token skip="-1" postag="VER.*"/>
                 </pattern>
                 <example correction="">Heute war ich schnell <marker>… Aber</marker> gestern war einfach nicht mein Tag!</example>
             </rule>
@@ -2269,6 +2285,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Zweifeldass</token><!--gGEC gives wrong suggestion: Zweifeldass, dass-->
                 </pattern>
                 <example correction="">Es besteht kein <marker>Zweifeldass</marker> das geht.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_MISSING_PRONOUN" name="">
+            <rule><!--1-->
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <token regexp="yes">Gerne?</token>
+                    <token>,</token>
+                    <token regexp="yes">würd[e'’´`]?
+                    </token>
+                    <marker>
+                        <token>mich</token>
+                    </marker>
+                    <token regexp="yes">freu[e'’´`]?n</token>
+                </pattern>
+                <example correction="">Gerne, würde <marker>mich</marker> freuen.</example>
+                <!--gGEC wants to correct it to: Gerne, würde ich mich freuen.-->
             </rule>
         </rulegroup>
 
