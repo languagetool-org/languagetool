@@ -1874,12 +1874,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule><!--2-->
                 <pattern>
                     <token postag_regexp="yes" postag="VER:3:SIN.*"/>
-                    <token spacebefore="no">’</token>
-                    <token spacebefore="no">s</token>
+                    <marker>
+                        <token spacebefore="no">’</token>
+                        <token spacebefore="no">s</token>
+                    </marker>
                 </pattern>
-                <example correction="">Mir <marker>geht’s</marker> gut.</example>
-                <example correction="">Was <marker>gibt’s</marker> noch?</example>
-                <example correction="">Das <marker>bringt’s</marker> nicht.</example>
+                <example correction="">Mir geht<marker>’s</marker> gut.</example>
+                <example correction="">Was gibt<marker>’s</marker> noch?</example>
+                <example correction="">Das bringt<marker>’s</marker> nicht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ADJECTIVE" name="">
@@ -1979,13 +1981,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--7-->
                 <pattern>
-                    <token postag_regexp="yes" postag="VER:3:SIN.*"/>
+                    <marker>
+                        <token postag_regexp="yes" postag="VER:3:SIN.*"/>
+                    </marker>
                     <token spacebefore="no">’</token>
                     <token spacebefore="no">s</token>
                 </pattern>
-                <example correction="">Mir <marker>geht’s</marker> gut.</example>
-                <example correction="">Was <marker>gibt’s</marker> noch?</example>
-                <example correction="">Das <marker>bringt’s</marker> nicht.</example>
+                <example correction="">Mir <marker>geht</marker>’s gut.</example>
+                <example correction="">Was <marker>gibt</marker>’s noch?</example>
+                <example correction="">Das <marker>bringt</marker>’s nicht.</example>
             </rule>
         </rulegroup>
 
