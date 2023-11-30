@@ -19009,6 +19009,55 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="AANKOMEN_MAANDAG" name="Dat zien we aankomen(de) maandag wel." default="temp_off">
+			<!-- AANKOMENDE / VOLGENDE -->
+			<rule>
+				<pattern>
+					<token regexp="yes">(aankomen|volgen|eerstvolgen)d?</token>
+					<token regexp="yes">maand|week|vakantie|&weekdays;</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" postag="WKW:ODW:VRB"></match> \2</suggestion>.</message>
+				<example correction="aankomende maandag"><marker>aankomen maandag</marker></example>
+				<example correction="volgende week"><marker>volgend week</marker></example>
+			</rule>
+			<!-- KOMENDE / VORIGE -->
+			<rule>
+				<pattern>
+					<token regexp="yes">komend|vorig</token>
+					<token regexp="yes">maand|week|vakantie|&weekdays;</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>\1e \2</suggestion>.</message>
+				<example correction="komende week"><marker>komend week</marker></example>
+				<example correction="vorige vakantie"><marker>vorig vakantie</marker></example>
+			</rule>
+			<!-- AFGELOPEN -->
+			<rule>
+				<pattern>
+					<token regexp="yes">aflopen(d)?</token>
+					<token regexp="yes">maand|week|vakantie|&weekdays;</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" postag="WKW:VTD:ONV"></match> \2</suggestion>.</message>
+				<example correction="afgelopen week"><marker>aflopen week</marker></example>
+				<example correction="afgelopen vakantie"><marker>aflopend vakantie</marker></example>
+			</rule>
+			<!-- OTHER -->
+			<rule>
+				<antipattern>
+					<token skip="1" postag="VNW:OND:MRV:HET"/>
+					<token regexp="yes">(aankomen|volgen|komen)(de)?</token>
+					<token regexp="yes">weekend|weekeind|weekeinde|semester|jaar</token>
+					<example>De vraag is wat er het daarop volgende weekend gebeurt.</example>
+				</antipattern>
+				<pattern>
+					<token regexp="yes">(aankomen|volgen|komen)(de)?</token>
+					<token regexp="yes">weekend|weekeind|weekeinde|semester|jaar</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" postag="WKW:ODW:ONV"/> \2</suggestion>.</message>
+				<example correction="aankomend weekend"><marker>aankomen weekend</marker></example>
+				<example correction="volgend weekend"><marker>volgende weekend</marker></example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="ENKELE_VAN_HEN" name="Enkele(n) van hen.">
 			<rule>
 				<pattern>
