@@ -40,7 +40,26 @@ USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style">
         <!--missing_toneTag-->
-        <rule id="REP_POR_LO_TANTO" name="repetición: por lo tanto" min_prev_matches="1">
+        <rule id="REP_POR_LO_TANTO" name="repetición: por lo tanto" min_prev_matches="2">
+            <antipattern>
+                <token>por</token>
+                <token>tanto</token>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <example>Quedó aislada por tanto tiempo sin una reconstrucción.</example>
+            </antipattern>
+            <antipattern>
+                <token>gracias</token>
+                <token>por</token>
+                <token>tanto</token>
+                <example>Gracias por tanto.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="_QM_OPEN"/>
+                <token>por</token>
+                <token>tanto</token>
+                <token postag="_QM_CLOSE"/>
+                <example>¿Sabes lo que significa "por tanto"?</example>
+            </antipattern>
             <pattern>
                 <token>por</token>
                 <token min="0">lo</token>
