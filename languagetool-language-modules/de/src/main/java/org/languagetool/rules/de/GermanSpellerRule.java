@@ -3733,6 +3733,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Grüzi": return topMatch("Grüezi");
       case "fuer": return topMatch("für");
       case "Fuer": return topMatch("Für");
+      case "Gruss": return topMatch("Gruß");
+      case "Gruesse": return topMatch("Grüße");
+      case "Gruessen": return topMatch("Grüßen");
+      case "Grueße": return topMatch("Grüße");
+      case "Grueßen": return topMatch("Grüßen");
     }
     return Collections.emptyList();
   }
