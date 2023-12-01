@@ -2290,12 +2290,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 
         <rulegroup id="AI_DE_GGEC_MISSING_PRONOUN" name="">
             <rule><!--1-->
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" />
-                    <token regexp="yes">Gerne?</token>
-                    <token>,</token>
-                    <token regexp="yes">würd[e'’´`]?
-                    </token>
+                <pattern>
+                    <token min="0">sehr</token>
+                    <token regexp="yes">gerne?</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">würd[e'’´`]?</token>
                     <marker>
                         <token>mich</token>
                     </marker>
@@ -2303,6 +2302,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Gerne, würde <marker>mich</marker> freuen.</example>
                 <!--gGEC wants to correct it to: Gerne, würde ich mich freuen.-->
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_COMMA" name="">
+            <rule><!--1-->
+                <pattern>
+                    <token regexp="yes">Gerne?</token>
+                    <marker>
+                        <token spacebefore="no">,</token>
+                    </marker>
+                    <token regexp="yes">würd[e'’´`]?</token>
+                    <token>mich</token>
+                    <token regexp="yes">freu[e'’´`]?n</token>
+                </pattern>
+                <example correction="">Gerne<marker>,</marker> würde mich freuen.</example>
+                <!--gGEC wants to remove the comma-->
             </rule>
         </rulegroup>
 
