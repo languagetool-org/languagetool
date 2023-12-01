@@ -817,7 +817,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="HOE_JULLIE_WERK" name="Hoe (is) jullie werk gegaan?" default="temp_off">
+		<rulegroup id="HOE_JULLIE_WERK" name="Hoe (is) jullie werk gegaan?">
 			<rule>
 				<antipattern>
 					<token skip="-1">hoe</token>
@@ -19009,9 +19009,14 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="AANKOMEN_MAANDAG" name="Dat zien we aankomen(de) maandag wel." default="temp_off">
+		<rulegroup id="AANKOMEN_MAANDAG" name="Dat zien we aankomen(de) maandag wel.">
 			<!-- AANKOMENDE / VOLGENDE -->
 			<rule>
+				<antipattern>
+					<token>volgen</token>
+					<token regexp="yes">&weekdays;</token>
+					<example>De nieuwe prints volgen vrijdag.</example>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">(aankomen|volgen|eerstvolgen)d?</token>
 					<token regexp="yes">maand|week|vakantie|&weekdays;</token>
