@@ -200,6 +200,30 @@ USA
                 <token>después</token>
                 <example>Qué hacer antes, durante y después de tu viaje.</example>
             </antipattern>
+            <antipattern>
+                <token>haber</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+                <token min="0" postag="V.N.*" postag_regexp="yes"/>
+                <token>antes</token>
+                <example>Me gustaría haber podido venir antes.</example>
+                <example>Debería haber llegado antes.</example>
+            </antipattern>
+            <antipattern>
+                <token>antes</token>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <example>Se habían ayudado antes mutuamente.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <token>antes</token>
+                <example>Se habían ayudado mutuamente antes.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+                <token>no</token>
+                <token>antes</token>
+                <example>Ven aquí a las 6, no antes.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>antes</token>
