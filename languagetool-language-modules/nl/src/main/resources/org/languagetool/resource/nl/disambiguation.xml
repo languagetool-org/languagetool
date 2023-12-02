@@ -1647,5 +1647,75 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 	   <disambig action="remove" postag="(BNW|WKW).*:ONV"/>
 	</rule>
+<!--
+	<rule id="DATUM" name="Datum">
+		<pattern>
+			<token postag_regexp="yes" postag="GET:ARA:00[12]:MRV|GET:ARA:001:EKV" regexp="yes">[1-9]|[12][0-9]|3[01]</token>
+			<token postag="TYD:MND"/>
+			<token postag="GET:ARA:004:MRV"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
+	<rule id="SENTENCE_001" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:AWZ:EKV:DE_"/>
+				<token postag="ZNW:EKV:DE_"/>
+				<token postag="WKW:TGW:3EP"/>
+				<token postag="WKW:VTD:ONV"/>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<rule id="SENTENCE_002" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+				<marker>
+					<token postag="GET:TXT:EKV"/>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</marker>
+			<token postag="SENT_END" regexp="yes">[.!]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	-->
+	<!--
+	~VNW:OND:EKV:HET WKW:TGW:3EP GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_.~
+	~VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:VLT:1EP BNW:STL:ONV.~
+	~ENM:PER:FST WKW:VLT:1EP.~
+	~VNW:PER:3EP:EKV:ACT WKW:TGW:3EP BNW:STL:ONV.~
+	~VNW:OND:MRV:HET WKW:TGW:INF BNW:STL:VRB ZNW:MRV:DE_.~
+	~VNW:OND:MRV:HET WKW:TGW:3EP VNW:OBP BNW:STL:ONV ZNW:EKV:HET.~
+	~BNW:STL:VRB ZNW:MRV:DE_.~
+	~VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ WKW:TGW:INF BNW:STL:ONV.~
+	~VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BYW BNW:STL:ONV.~
+	~ENM:PER:FST WKW:VLT:1EP BYW.~
+	~VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BNW:STL:ONV BNW:STL:ONV.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP VNW:OBP BNW:STL:ONV ZNW:EKV:HET.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP VNW:AWZ:EKV:DE_ ZNW:EKV:DE_.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP GET:TXT:EKV ZNW:EKV:DE_.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP BYW.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP BYW BYW BNW:STL:ONV.~
+	~VNW:AWZ:EKV:HET ZNW:EKV:HET WKW:TGW:3EP BNW:STL:ONV.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP BYW BNW:STL:ONV.~
+	~ZNW:EKV:DE_ VGW ZNW:EKV:DE_.~
+	~VNW:OND:EKV:HET WKW:TGW:3EP BNW:STL:ONV BNW:STL:ONV.~
+	~VNW:OND:EKV:HET WKW:VLT:1EP GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_.~
+	~VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP WKW:VTD:ONV.~
+	~BNW:STL:ONV VGW BNW:STL:ONV.~
+	~GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET.~
+	~VNW:OND:EKV:HET WKW:TGW:1EP GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_.~
+	~ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:PSF BNW:STL:ONV VRZ.~ (maar wel nog beslissen of we dst losse deel van het werkwoord zo willen houden, of dat het DVW of BYW moet worden)
+	~ENM:PER:FST WKW:VLT:1EP VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_.~
+	~ENM:PER:FST WKW:VLT:1EP WKW:VTD:ONV.~
+	~VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BYW WKW:VTD:ONV.~
+
+
+	 -->
 </rules>
