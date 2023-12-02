@@ -13459,6 +13459,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rule id="UDS_VDS" name="uds -> Uds." default="temp_off">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">uds|vds|Uds|Vds<exception scope="next">.</exception></token>
+            </pattern>
+            <message>Si es la abreviatura de 'ustedes' se escribe <suggestion><match no="1" case_conversion="firstupper"/>.</suggestion>.</message>
+            <example correction="Uds.">¿Están <marker>uds</marker> informados de lo que ocurrió?</example>
+            <example correction="Vds.">¿Están <marker>vds</marker> informados de lo que ocurrió?</example>
+            <example correction="Vds.">¿Están <marker>Vds</marker> informados de lo que ocurrió?</example>
+            <example>Sean Uds. bienvenidos</example>
+        </rule>
         <rule id="SHAMPOO_CHAMPU" name="shampoo -> champú">
             <pattern>
                 <token regexp="yes">shampoos?</token>
@@ -26518,7 +26528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>tu</token>
                 <token>estes</token>
             </antipattern>
-         <!--   <rule>
+            <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">\p{L}+</token>
                     <token postag="UNKNOWN" regexp="yes">\p{L}+<exception regexp="yes">pidio|daran|r|rien|rie</exception></token>
@@ -26528,7 +26538,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="consejos">Los <marker>con sejos</marker> que le da.</example>
                 <example>Bueno, es fruta en lata.</example>
                 <example>Le pidio ayuda</example>
-            </rule>-->
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">\p{L}+</token>
