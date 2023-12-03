@@ -1456,7 +1456,7 @@ public class JLanguageTool {
             "The whole text contains " + wordCounter + " words " +
             " and this sentence has " + sentenceMatches.size() + " matches.");
           throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() + ". " +
-            "The whole text contains " + wordCounter + " words" +
+            "The whole text contains " + wordCounter + " words " +
             "and this sentence has " + sentenceMatches.size() + " matches.");
         }
       }
