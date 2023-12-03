@@ -118,10 +118,11 @@ class CheckRequestAnalysis {
       }
     }
     int paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
+    if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+      return paraNum;
+    }
     //  if number of paragraph < 0 --> actualize doc cache and try again
-//    if (paraNum < 0 || docCache.nearestParagraphHasChanged(paraNum, singleDocument.getFlatParagraphTools())) {
     if (paraNum < 0) {
-//      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
       paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
       if (debugMode > 0) {
@@ -129,7 +130,7 @@ class CheckRequestAnalysis {
               " --> cache actualized, new paraNum: " + paraNum);
       }
     }
-    if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && paraNum >= 0) {
+    if (paraNum >= 0) {
       //  test if paragraph has changed --> actualize all caches for single paragraph
       TextParagraph tPara = docCache.getNumberOfTextParagraph(paraNum);
       DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();

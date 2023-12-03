@@ -571,7 +571,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           if (error.nErrorStart >= x) {
             if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                 && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
-              error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+              error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
             } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
               List<String> suggestionList = new ArrayList<>();
               for (String suggestion : error.aSuggestions) {
@@ -638,7 +638,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               if (error.nErrorStart >= x) {
                 if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                     && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
-                  error.aSuggestions = document.getSynonymArray(error, text, locale, lt);
+                  error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
                 } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
                   List<String> suggestionList = new ArrayList<>();
                   for (String suggestion : error.aSuggestions) {

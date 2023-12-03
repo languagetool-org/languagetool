@@ -1492,8 +1492,11 @@ public class DocumentCache implements Serializable {
   public String getTextParagraph(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN ? null : 
-        textParagraph.number < 0 ? new String("") : paragraphs.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0) {
+        return new String("");
+      }
+      int nFPara = toParaMapping.get(textParagraph.type).get(textParagraph.number);
+      return nFPara < 0 ? new String("") : paragraphs.get(nFPara);
     } finally {
       rwLock.readLock().unlock();
     }
@@ -1505,8 +1508,11 @@ public class DocumentCache implements Serializable {
   public int getFlatParagraphNumber(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN || toParaMapping.get(textParagraph.type).size() <= textParagraph.number ? 
-        -1 : toParaMapping.get(textParagraph.type).get(textParagraph.number);
+      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0 
+          || toParaMapping.get(textParagraph.type).size() <= textParagraph.number) {
+        return -1;
+      }
+      return toParaMapping.get(textParagraph.type).get(textParagraph.number);
     } finally {
       rwLock.readLock().unlock();
     }
@@ -1518,8 +1524,11 @@ public class DocumentCache implements Serializable {
   public Locale getTextParagraphLocale(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0 ? 
-        null : locales.get(toParaMapping.get(textParagraph.type).get(textParagraph.number)).toLocaleWithoutLabel();
+      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0) {
+        return null;
+      }
+      int nFPara = toParaMapping.get(textParagraph.type).get(textParagraph.number);
+      return nFPara < 0 ? null : locales.get(nFPara).toLocaleWithoutLabel();
     } finally {
       rwLock.readLock().unlock();
     }
@@ -1531,8 +1540,11 @@ public class DocumentCache implements Serializable {
   public List<Integer> getTextParagraphDeletedCharacters(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN ? null : 
-        textParagraph.number < 0 ? new ArrayList<Integer> () : deletedCharacters.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0) {
+        return new ArrayList<Integer>();
+      }
+      int nFPara = toParaMapping.get(textParagraph.type).get(textParagraph.number);
+      return nFPara < 0 ? new ArrayList<Integer>() : deletedCharacters.get(nFPara);
     } finally {
       rwLock.readLock().unlock();
     }
@@ -1544,8 +1556,11 @@ public class DocumentCache implements Serializable {
   public int[] getTextParagraphFootnotes(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0 ? 
-        new int[0] : footnotes.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0) {
+        return new int[0];
+      }
+      int nFPara = toParaMapping.get(textParagraph.type).get(textParagraph.number);
+      return nFPara < 0 ? new int[0] : footnotes.get(nFPara);
     } finally {
       rwLock.readLock().unlock();
     }
