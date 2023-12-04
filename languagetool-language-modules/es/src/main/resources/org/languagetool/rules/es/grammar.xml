@@ -31846,6 +31846,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>n</token>    
+                    </marker>
+                    <token regexp="yes">\d.*</token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion>\1.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
+                <example correction="n.|núm.|n.º|nro.">Diario de la República <marker>n</marker> 18.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ABREVIATURA_PAGINA" name="abreviatura de página">
             <rule>
