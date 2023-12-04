@@ -3422,6 +3422,22 @@ USA
 				<example correction="en zo meer|en dergelijke">We maken fouten <marker>en zo</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="JAH_JA" name="Jah dat is ook zo.">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token case_sensitive="yes">Jah</token>
+					</marker>
+					<token>
+						<exception case_sensitive="yes" regexp="yes">[A-Z][a-z].*</exception>
+						<exception postag_regexp="yes" postag="UNKNOWN|DVW"/>
+					</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>Ja</suggestion>.</message>
+				<example correction="Ja"><marker>Jah</marker> zeker weten.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="IK_WOU" name="Ik wou (wilde) je nog bellen">
 			<rule>
 				<pattern>

@@ -10292,6 +10292,31 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="WAARDES_HECHTEN" name="hecht waardes(waarde) aan">
+			<rule>
+				<pattern>
+					<marker>
+						<token>waardes</token>
+					</marker>
+					<token inflected="yes">hechten</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>waarde</suggestion>.</message>
+				<example correction="waarde">Het is wel duidelijk dat zij <marker>waardes</marker> hechten aan deze manier van werken.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">hechten</token>
+					<token min="0"/>
+					<marker>
+						<token>waardes</token>
+					</marker>
+					<token>aan</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>waarde</suggestion>.</message>
+				<example correction="waarde">Bouwbedrijf Bob hecht veel <marker>waardes</marker> aan deze manier van werken.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="TE_VERLEDEN" name="te duidden => te duiden" >
 			<rule>
 				<pattern>
