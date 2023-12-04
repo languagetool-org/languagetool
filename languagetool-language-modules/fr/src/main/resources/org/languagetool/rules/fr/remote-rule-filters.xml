@@ -595,5 +595,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Que vous <marker>souhaiter</marker> ?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE.*" name="">
+            <rule><!--1 to avoid interfering with other rules-->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token case_sensitive="yes" regexp="yes">Bonjour|Bonsoir</token>
+                    <token min="0" max="1">,</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">monsieur|madame</token>
+                    </marker>
+                </pattern>
+                <example correction="">Bonjour <marker>monsieur</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
