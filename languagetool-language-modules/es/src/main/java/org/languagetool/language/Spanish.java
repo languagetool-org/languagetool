@@ -304,10 +304,10 @@ public class Spanish extends Language implements AutoCloseable {
     String[] formTag = parts[0].split("[\t;]");
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
-      if (!tag.startsWith("N")) {
-        return "";
-      } else {
+      if (tag.startsWith("N") || tag.equals("_Latin_") || tag.equals("LOC_ADV")) {
         return formTag[0].trim();
+      } else {
+        return "";
       }
     }
     return line;
