@@ -2217,6 +2217,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (parts.size() == 1) {
       parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
       nonStrictMode = true;
+        String part2 = " ";
+        for (String w : wordsWithoutInfixS) {  // wordsWithHyphen
+          if (word.startsWith(w))  {
+            part2 = word.substring(w.length());
+            if (part2.startsWith("-")) {
+              part2 = part2.substring(1);
+            } else if (word.length() > w.length() && w.length() > 3) {
+              part2 = uppercaseFirstChar(part2.substring(0));
+            }
+            return (!isMisspelled(part2) || ignorePotentiallyMisspelledWord(part2)) && isNoun(part2);
+          }   
+      }
     }
     String part1;
     String part2;
