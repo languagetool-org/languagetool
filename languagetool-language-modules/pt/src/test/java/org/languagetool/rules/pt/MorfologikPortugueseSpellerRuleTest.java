@@ -161,7 +161,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("eu so", lt, rule, new String[]{"sou", "só"});
     assertSingleError("é so", lt, rule, new String[]{"só"});
 
-    assertSingleErrorAndPos("Sr. Kato nos ensina inglês", lt, rule, new String[]{"Fato"}, 4, 8);
+    assertSingleErrorAndPos("Sr. Qato nos ensina inglês", lt, rule, new String[]{"Fato"}, 4, 8);
     assertSingleErrorAndPos("- Encontre no autoconheciemen", lt, rule,
       new String[]{"autoconhecimento"}, 14, 29);
     assertSingleError("eu ja fiz isso.", lt, rule, new String[]{"já"});
@@ -182,7 +182,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     testPortugueseSpelling(ltBR, ruleBR);
     assertSingleError("ShintaroW.", ltBR, ruleBR, new String[]{});
     assertSingleError("SHINTAROW.", ltBR, ruleBR, new String[]{});
-    assertSingleError("Shintaro Wada", ltBR, ruleBR, new String[]{"Shuntar"});
+    assertNoErrors("Shintaro Wada", ltBR, ruleBR);
   }
 
   public void testPortugueseHyphenatedClitics(JLanguageTool lt, MorfologikPortugueseSpellerRule rule) throws Exception {
@@ -412,7 +412,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("es", ltBR, ruleBR, new String[]{"é"});
     assertSingleError("fomas", ltBR, ruleBR, new String[]{"formas"});
     assertSingleError("non", ltBR, ruleBR, new String[]{"não"});
-    assertSingleError("Puerto Rico", ltBR, ruleBR, new String[]{"Porto"});
+//    assertSingleError("Puerto Rico", ltBR, ruleBR, new String[]{"Porto"}); 'Puerto' is a surname; we'll need XML here
     assertSingleError("Suissa", ltBR, ruleBR, new String[]{"Suíça"});
     assertSingleError("actividade", ltBR, ruleBR, new String[]{"atividade"});
   }
