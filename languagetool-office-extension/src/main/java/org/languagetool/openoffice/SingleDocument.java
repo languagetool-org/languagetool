@@ -1248,8 +1248,13 @@ public class SingleDocument {
     List<String> suggestions = new ArrayList<>();
     int n = 0;
     for (String lemma : synonymMap.keySet()) {
-      suggestions.addAll(synonymMap.get(lemma));
-      n++;
+      for (String suggestion : synonymMap.get(lemma)) {
+        suggestions.add(suggestion);
+        n++;
+        if (setLimit && n >= OfficeTools.MAX_SUGGESTIONS) {
+          break;
+        }
+      }
       if (setLimit && n >= OfficeTools.MAX_SUGGESTIONS) {
         break;
       }
