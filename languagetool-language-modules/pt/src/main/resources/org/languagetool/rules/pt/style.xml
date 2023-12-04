@@ -193,7 +193,7 @@ USA
         </rule>
 
 
-        <rule id='COLOCACAO_ADVÉRBIO_VERBO_ANTES' name="Colocação de advérbio mover verbo" type="style" default="temp_off" tone_tags="clarity">
+        <rule id='COLOCACAO_ADVÉRBIO_VERBO_ANTES' name="Colocação de advérbio mover verbo" type="style" tone_tags="clarity">
 
             <antipattern>
                 <token>que</token>
@@ -251,6 +251,20 @@ USA
                 <example>Experiência é o nome que muitas pessoas dão para seus erros.</example>
             </antipattern>
 
+            <antipattern>
+                <token>que</token>
+                <token regexp='yes'>às?|aos?|muit[ao]s?</token> <!-- Limited, unlike other antipatterns. Add more from the others as needed -->
+                <token postag='NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
+                <token postag='VMI[CFIMPS].+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+|V.+' postag_regexp='yes'/>
+                <example>Sherman acreditava acertadamente que muitos confederados abandonariam a luta para socorrer suas famílias que passavam privações, e que isso pouparia muitas vidas, dos do...</example>
+                <example>Foi um dia tão bom que muitas crianças estavam brincando no parque.</example>
+                <example>Tenho certeza que muita gente concordaria com você.</example>
+                <example>O modelo de 'guide shop' é uma estratégia que muitas marcas encontraram para estar presentes tanto nas lojas online como físicas.</example>
+                <example>Sua vitória foi o que muitos mexicanos chamavam de "o princípio da democracia no México".</example>
+                <example>...Fuerte Borbón" e o "Fuerte de San Carlos del Apa", visando conter o avanço português na região, que à época iniciavam as obras do Forte Novo de Coimbra.</example>
+            </antipattern>
+
             <pattern>
                 <token>que
                     <exception scope='previous' postag_regexp='yes' postag='VMI[IPS].S.+|RG|CS|PD.+|SPS0.+|VMN0000'/>
@@ -259,7 +273,7 @@ USA
                     <token regexp='yes'>ainda|às?|aos?|até|cada|em|embora|mais|menos|muit[ao]s?|n[ao]s?</token>
                     <token postag='RG|NC.+|AQ.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='CC|RN|SPS0.+'/>
-                        <exception>sempre</exception> <!-- Force exceptions -->
+                        <exception regexp='yes'>então|sempre</exception> <!-- Force exceptions -->
                     </token>
                     <token postag='VMI[CFIMPS].+' postag_regexp='yes'>
                         <exception scope='next' postag_regexp='yes' postag='VMN0000|VMP00.+|Z0CN0|CS'/>
@@ -298,6 +312,9 @@ USA
             <example>De sublinhar que no sábado decorrem também a cerimónia de entrega dos prémios Mérito e Carreira, atribuídos pelas Associações Distritai...</example>
             <example>...dois mundos são retratados como um sonho, e, geralmente, leva Alice em um momento para perceber que ao redor mudaram.</example>
             <example>...com o próprio Oglethorpe a frente e, Charleston, na Carolina do Sul, desde onde se dirigiram ao que mais tarde seria Savannah, a primeira colônia britânica na Geórgia.</example>
+            <example>Alguns dos membros da comunidade explodiram e denunciaram todas as injustiças que até então presenciaram.</example>
+            <example>Os sistemas, que até então usavam sistemas de arquivos do S.O.</example>
+            <example>O Be-103 pode pousar em rios, lagos e pradarias que até então eram inacessíveis.</example>
         </rule>
 
 
