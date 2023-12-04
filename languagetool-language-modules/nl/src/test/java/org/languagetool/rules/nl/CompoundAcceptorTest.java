@@ -50,19 +50,25 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
     assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
 
-    //assertTrue(acceptor.acceptCompound("belastingvrij"));
-    //assertFalse(acceptor.acceptCompound("belastingsvrij"));
-
     // test for acronyms in compounds
     assertTrue(acceptor.acceptCompound("IRA-akkoord"));
-    assertFalse(acceptor.acceptCompound("iraakkoord"));
+    assertTrue(acceptor.acceptCompound("WK-finale"));
+    assertTrue(acceptor.acceptCompound("VRF-regels"));
+    assertFalse(acceptor.acceptCompound("WIFI-verbinding"));
+
+    // test part1 exceptions
+    assertFalse(acceptor.acceptCompound("honingsbijtje"));
+    assertFalse(acceptor.acceptCompound("datingswebsite"));
+    assertTrue(acceptor.acceptCompound("belastingvrij"));
+    assertFalse(acceptor.acceptCompound("belastingsvrij"));
+
+    // test part2 exceptions
+    assertFalse(acceptor.acceptCompound("mannenlijk"));
+    assertFalse(acceptor.acceptCompound("dienstvoor"));
 
     assertTrue(acceptor.acceptCompound("tombeplunderaar"));
     assertFalse(acceptor.acceptCompound("wetenschapbelasting"));
     assertTrue(acceptor.acceptCompound("Zwangerschapsblijheid"));
-
-    assertTrue(acceptor.acceptCompound("VRF-regels"));
-    assertFalse(acceptor.acceptCompound("VRFregels"));
 
     // test for colliding vowels
     assertTrue(acceptor.acceptCompound("privé-eigenaar"));
