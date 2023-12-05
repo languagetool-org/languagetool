@@ -40,6 +40,43 @@ USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style">
         <!--missing_toneTag-->
+        <rulegroup id="REP_IMPORTANTE" name="repetición: importante" min_prev_matches="1" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">más|muy</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                    <example>Es un paso muy importante.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">aviso</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                    <example>¡Aviso importante!</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                    </marker>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">relevante</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">fundamental</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">crucial</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">considerable</match></suggestion>
+                <example correction="relevantes|fundamentales|cruciales|considerables">Son pasos pequeños, pero <marker>importantes</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">más|muy</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion>\1 <match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">relevante</match></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">fundamental</match></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">crucial</match></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">considerable</match></suggestion>
+                <example correction="muy relevantes|fundamentales|cruciales|considerables">Son pasos pequeños, pero <marker>muy importantes</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="REP_POR_LO_TANTO" name="repetición: por lo tanto" min_prev_matches="2">
             <antipattern>
                 <token>por</token>
