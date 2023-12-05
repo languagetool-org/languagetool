@@ -76,6 +76,10 @@ public class EnglishWrongWordInContextRuleTest {
     // neutron/neuron
     assertBad("The plane taxied to the hanger.");
     assertGood("The plane taxied to the hangar.");
+    // massage / message
+    assertGood("Finally, administrative professionals will receive a certificate for $5 off the cost of a massage at the Body Shop.");
+    assertGood("You will receive lunch, manicure, pedicure, full body massage, and facial.");
+    assertGood("Then, when they present their certificate at the time of their appointment, they will receive an additional $5 off the cost of a 30, 45, or 60 minute massage for a total discount of $10.");
   }
 
   private void assertGood(String sentence) throws IOException {
