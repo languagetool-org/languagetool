@@ -26527,7 +26527,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>tu</token>
                 <token>estes</token>
             </antipattern>
-            <rule default="temp_off">
+            <antipattern>
+                <!-- most probably prepostion, not future tens -->
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token>á</token>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>pa</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+            </antipattern>
+            <rule>
                 <pattern>
                     <token regexp="yes">\p{L}+</token>
                     <token postag="UNKNOWN" regexp="yes">\p{L}+<exception regexp="yes">pidio|daran|r|rien|rie</exception></token>
@@ -26537,6 +26550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="consejos">Los <marker>con sejos</marker> que le da.</example>
                 <example>Bueno, es fruta en lata.</example>
                 <example>Le pidio ayuda</example>
+                <example>que pa’ mí también fue un gustazo,</example>
             </rule>
             <rule>
                 <pattern>
@@ -31846,12 +31860,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
-                        <token>n</token>    
+                        <token>n<exception scope="previous">/</exception></token>
                     </marker>
-                    <token regexp="yes">\d.*</token>
+                    <token regexp="yes">\d+</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
                 <suggestion>\1.</suggestion>
@@ -31859,6 +31873,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
                 <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
                 <example correction="n.|núm.|n.º|nro.">Diario de la República <marker>n</marker> 18.</example>
+                <example>N 41º 2' 44.35'' , O -74º 17' 40.54''</example>
+                <example>N 41° 2′ 44.35″</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABREVIATURA_PAGINA" name="abreviatura de página">
