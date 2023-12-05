@@ -500,4 +500,15 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("ξ", ltBR, ruleBR);
     assertNoErrors("Ω", ltBR, ruleBR);
   }
+
+  @Test
+  public void testPortugueseSpellerIgnoresWordsFromIgnoreTXT() throws Exception {
+    assertNoErrors("ignorewordoogaboogatest", ltBR, ruleBR);
+    // make sure ignored words are *not* suggested
+    assertSingleErrorWithNegativeSuggestion("ignorewordoogaboogatext", ltBR, ruleBR, "ignorewordoogaboogatest");
+  }
+
+  @Test public void testPortugueseSpellerDoesNotAcceptProhibitedWords() throws Exception {
+    assertSingleError("prohibitwordoogaboogatest", ltBR, ruleBR, new String[] {});
+  }
 }

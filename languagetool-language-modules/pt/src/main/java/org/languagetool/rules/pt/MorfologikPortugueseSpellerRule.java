@@ -53,6 +53,8 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   // Moved out of hunspell/spelling.txt for Morfologik.
   private static final String SPELLING_FILE = "pt/spelling.txt";
   private static final String MULTIWORDS_FILE = "pt/multiwords.txt";
+  private static final String SPELLING_IGNORE_FILE = "pt/ignore.txt";
+  private static final String SPELLING_PROHIBIT_FILE = "pt/prohibit.txt";
 
 
   @Override
@@ -70,6 +72,16 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   public static Set<String> getWordSetFromResources(String filepath) {
     return new HashSet<String>(getDataBroker().getFromResourceDirAsLines(filepath));
+  }
+
+  @Override
+  public String getIgnoreFileName() {
+    return SPELLING_IGNORE_FILE;
+  }
+
+  @Override
+  public String getProhibitFileName() {
+    return SPELLING_PROHIBIT_FILE;
   }
 
   @Override
