@@ -28,8 +28,8 @@ public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   
   public GermanWrongWordInContextRule(ResourceBundle messages, Language lang) {
     super(messages, lang);
-    addExamplePair(Example.wrong("Die meisten Lachse sterben nach dem <marker>Leichen</marker>."),
-                   Example.fixed("Die meisten Lachse sterben nach dem <marker>Laichen</marker>."));
+    addExamplePair(Example.wrong("Eine Gitarre hat sechs <marker>Seiten</marker>."),
+                   Example.fixed("Eine Gitarre hat sechs <marker>Saiten</marker>."));
   }
   
   @Override
