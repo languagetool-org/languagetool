@@ -175,6 +175,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
         regex("haben?|hatten?"),
         posRegex("VER:EIZ.*"),
         pos("PKT")
+      ),
+      Arrays.asList(
+        posRegex("VER.*"),
+        regex("\\u2063")
       )
   ), GermanyGerman.INSTANCE);
 

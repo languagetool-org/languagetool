@@ -3149,6 +3149,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "abschliessend": return topMatch("abschließend");
       case "Ruckmeldung": return topMatch("Rückmeldung");
       case "Gepaeck": return topMatch("Gepäck");
+      case "Gruss": return topMatch("Gruß");
       case "Grüsse": return topMatch("Grüße");
       case "Grüssen": return topMatch("Grüßen");
       case "entgültig": return topMatch("endgültig");
