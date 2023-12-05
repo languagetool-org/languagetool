@@ -1,0 +1,42 @@
+variables:
+  LT_COMMIT_SHA: "-"
+  LT_OS_VERSION: "-"
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+  MAVEN_CACHE_KEY: "maven-cache-${CI_COMMIT_REF_SLUG}-${CI_JOB_NAME}"
+
+image: maven:3-eclipse-temurin-17
+
+cache:
+  key: ${MAVEN_CACHE_KEY}
+  paths:
+    - .m2/repository
+    - "**/target/"
+
+stages:
+  - test
+  - deploy_release
+
+before_script:
+  - |
+    if [ "$LT_COMMIT_SHA" != "-" ]; then
+      git checkout $LT_COMMIT_SHA
+    fi
+
+test_job:
+  stage: test
+  script:
+    - "git rev-parse --short HEAD"
+    - "mvn clean test -s .circleci.settings.xml"
+
+deploy_release_job:
+  stage: deploy_release
+  script:
+    - "git rev-parse --short HEAD"
+    - "mvn -Drevision=$LT_OS_VERSION clean deploy -s .circleci.settings.xml -DskipTests"
+  rules:
+    - if: $LT_OS_VERSION != "-"
+      when: always
+    - when: never
+
+
+
