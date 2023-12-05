@@ -532,6 +532,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !rep.endsWith(" sh") &&
           !rep.endsWith(" st") &&
           !rep.endsWith(" est") &&
+          !rep.endsWith(" em") &&
           !rep.endsWith(" ward") &&
           !rep.endsWith(" ability") && // interruptability
           !rep.endsWith(" ware") && // drinkware
