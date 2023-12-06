@@ -3167,6 +3167,32 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_DECAPITALIZE" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token min="0" postag="," />
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    </marker>
+                    <token min="0" postag="," />
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                </pattern>
+                <example correction="">3. Exclusion of Certain Damages. Purchaser will not be liable under any circumstances for any lost profits or INDIRECT, <marker>INCIDENTAL</marker>, CONSEQUENTIAL or special damages, even if it has notice of that those kinds of damages may occur.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    </marker>
+                    <token min="0" postag="," />
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token min="0" postag="," />
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                </pattern>
+                <example correction="">3. Exclusion of Certain Damages. Purchaser will not be liable under any circumstances for any lost profits or <marker>INDIRECT</marker>, INCIDENTAL, CONSEQUENTIAL or special damages, even if it has notice of that those kinds of damages may occur.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_DT_FOR_DT_ERROR_IDS_000022" name="">
             <rule>  <!-- capitalization after semicolon -->
                 <pattern>
@@ -3175,7 +3201,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
                     </marker>
                 </pattern>
-                <example correction="">Please find attached the adjustment to the price: <marker>The</marker> former shareholders will get a payment of 5001 € in total. </example>
+                <example correction="">Please find attached the adjustment to the price: <marker>The</marker> former shareholders will get a payment of 5001 € in total.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_NN_FOR_NN_ERROR_IDS_000022" name="">
