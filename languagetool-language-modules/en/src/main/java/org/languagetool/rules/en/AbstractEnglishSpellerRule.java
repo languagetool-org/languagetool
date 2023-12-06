@@ -164,6 +164,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern MISSPELT = compile("misspelt");
   private static final Pattern JIST = compile("[Jj]ist");
   private static final Pattern ADHOC = compile("[Ad]hoc");
+  private static final Pattern DEACTIVE = compile("[De]eactive");
+  private static final Pattern HUBSPOT = compile("Hubspot");
 
   private final BeoLingusTranslator translator;
 
@@ -427,6 +429,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !repLc.startsWith("non ") &&
           !repLc.startsWith("bio ") &&
           !repLc.startsWith("bi ") &&
+          !repLc.startsWith("op ") &&
           !repLc.startsWith("con ") &&
           !repLc.startsWith("pre ") &&
           !repLc.startsWith("socio ") &&
@@ -561,6 +564,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !rep.endsWith(" ea") &&
           !rep.endsWith(" ge") &&
           !rep.endsWith(" ab") &&
+          !rep.endsWith(" rs") &&
           !rep.endsWith(" mi") &&
           !rep.endsWith(" tar") &&
           !rep.endsWith(" adv") &&
@@ -1459,6 +1463,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (SWIMMED.matcher(word).matches()) return topMatch("swam");
     if (MISSPELT.matcher(word).matches()) return topMatch("misspelled");
     if (ADHOC.matcher(word).matches()) return topMatch("ad hoc");
+    if (DEACTIVE.matcher(word).matches()) return topMatch("inactive");
+    if (HUBSPOT.matcher(word).matches()) return topMatch("HubSpot");
     if (JIST.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("just"));
