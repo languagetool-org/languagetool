@@ -56,6 +56,12 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("VRF-regels"));
     assertFalse(acceptor.acceptCompound("WIFI-verbinding"));
 
+    // test for acronym exceptions
+    assertFalse(acceptor.acceptCompound("AIDS-afdeling"));
+    assertFalse(acceptor.acceptCompound("aids-afdeling"));
+    assertTrue(acceptor.acceptCompound("aidsafdeling"));
+    assertTrue(acceptor.acceptCompound("onderwijsafdeling"));
+
     // test part1 exceptions
     assertFalse(acceptor.acceptCompound("honingsbijtje"));
     assertFalse(acceptor.acceptCompound("datingswebsite"));
