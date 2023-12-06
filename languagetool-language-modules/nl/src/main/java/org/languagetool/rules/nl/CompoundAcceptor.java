@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 public class CompoundAcceptor {
 
   private static final Pattern acronymPattern = Pattern.compile("[A-Z]{2,4}-");
+  private static final Pattern specialAcronymPattern = Pattern.compile("[A-Za-z]{2,4}-");
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
   private static final int MAX_WORD_SIZE = 35;
 
@@ -108,66 +109,70 @@ public class CompoundAcceptor {
     "voor"
   );
   private final Set<String> acronymExceptions = ImmutableSet.of(
-    "AIDS",
-    "ALV",
-    "AMVB",
-    "ANW",
-    "APK",
-    "ARBO",
-    "AWB",
-    "BBL",
-    "BEVI",
-    "BOPZ",
-    "BSO",
-    "CAO",
-    "DVD",
-    "ECG",
-    "GPS",
-    "GSM",
-    "HBS",
-    "HIFI",
-    "HIV",
-    "HRM",
-    "HSL",
-    "HTS",
-    "HVB",
-    "HVW",
-    "IPAD",
-    "IPOD",
-    "LBO",
-    "LCD",
-    "LTS",
-    "MBO",
-    "MDF",
-    "MKB",
-    "OPW",
-    "OZB",
-    "PDF",
-    "PGB",
-    "SMS",
-    "SOA",
-    "TBS",
-    "UFO",
-    "VIP",
-    "VWO",
-    "WABO",
-    "WAZ",
-    "WAZO",
-    "WIFI",
-    "WFT",
-    "WIV",
-    "WLZ",
-    "WONW",
-    "WRO",
-    "WTA",
-    "WVK",
-    "WVS",
-    "WWFT",
-    "WWIK",
-    "WZD",
-    "XTC",
-    "ZVW",
-    "ZZP"
+    "aids",
+    "alv",
+    "AMvB",
+    "Anw",
+    "apk",
+    "arbo",
+    "Awb",
+    "bbl",
+    "Bevi",
+    "Bopz",
+    "bso",
+    "btw",
+    "cao",
+    "cd",
+    "dvd",
+    "ecg",
+    "gft",
+    "ggz",
+    "gps",
+    "gsm",
+    "hbs",
+    "hifi",
+    "hiv",
+    "hrm",
+    "hsl",
+    "hts",
+    "Hvb",
+    "Hvw",
+    "iMac",
+    "iOS",
+    "iPad",
+    "iPod",
+    "ivf",
+    "lbo",
+    "lcd",
+    "lts",
+    "mbo",
+    "mdf",
+    "mkb",
+    "Opw",
+    "ozb",
+    "pc",
+    "pdf",
+    "pgb",
+    "sms",
+    "soa",
+    "tbs",
+    "tv",
+    "ufo",
+    "vip",
+    "vwo",
+    "Wabo",
+    "Waz",
+    "Wazo",
+    "Wbp",
+    "wifi",
+    "Wft",
+    "Wlz",
+    "WvS",
+    "Wwft",
+    "Wzd",
+    "xtc",
+    "Zvw",
+    "zzp"
   );
   // compound parts that must not have an 's' appended to be used as first part of the compound:
   private final Set<String> noS = ImmutableSet.of(
@@ -360,6 +365,7 @@ public class CompoundAcceptor {
     "verloofde",
     "verte",
     "vete",
+    "vip",
     "vitamine",
     "vlakte",
     "vogel",
@@ -451,7 +457,7 @@ public class CompoundAcceptor {
         }
         return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
       } else if (part1.endsWith("-")) { // abbreviations
-        return abbrevOk(part1) && spellingOk(part2);
+        return acronymOk(part1) && spellingOk(part2);
       } else if (part2.startsWith("-")) { // vowel collision
         part2 = part2.substring(1);
         return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
@@ -475,12 +481,16 @@ public class CompoundAcceptor {
     return collidingVowels.contains(vowels.toLowerCase());
   }
 
-  private boolean abbrevOk(String nonCompound) {
+  private boolean acronymOk(String nonCompound) {
     // for compound words like IRA-akkoord, MIDI-bestanden, WK-finalisten
-    if( acronymPattern.matcher(nonCompound).matches() ){
-      return !acronymExceptions.contains(nonCompound.split("-")[0]);
+    if ( acronymPattern.matcher(nonCompound).matches() ){
+      return acronymExceptions.stream().noneMatch(exception -> exception.toUpperCase().equals(nonCompound.substring(0, nonCompound.length() -1)));
+    } else if ( specialAcronymPattern.matcher(nonCompound).matches() ) {
+      // special case acronyms that are accepted only with specific casing
+      return acronymExceptions.contains(nonCompound.substring(0, nonCompound.length() -1));
+    } else {
+      return false;
     }
-    return false;
   }
 
   private boolean spellingOk(String nonCompound) throws IOException {
