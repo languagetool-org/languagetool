@@ -40,7 +40,7 @@ USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style">
         <!--missing_toneTag-->
-        <rulegroup id="REP_IMPORTANTE" name="repetición: importante" min_prev_matches="1" default="temp_off">
+        <rulegroup id="REP_IMPORTANTE" name="repetición: importante" min_prev_matches="1">
             <rule>
                 <antipattern>
                     <token regexp="yes">más|muy</token>
@@ -61,8 +61,9 @@ USA
                 <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">relevante</match></suggestion>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">fundamental</match></suggestion>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">crucial</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.)C(.*)" postag_replace="$1M$2">significativo</match></suggestion>
                 <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">considerable</match></suggestion>
-                <example correction="relevantes|fundamentales|cruciales|considerables">Son pasos pequeños, pero <marker>importantes</marker>.</example>
+                <example correction="relevantes|fundamentales|cruciales|significativos|considerables">Son pasos pequeños, pero <marker>importantes</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -73,8 +74,9 @@ USA
                 <suggestion>\1 <match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">relevante</match></suggestion>
                 <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">fundamental</match></suggestion>
                 <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">crucial</match></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(AQ.)C(.*)" postag_replace="$1M$2">significativo</match></suggestion>
                 <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">considerable</match></suggestion>
-                <example correction="muy relevantes|fundamentales|cruciales|considerables">Son pasos pequeños, pero <marker>muy importantes</marker>.</example>
+                <example correction="muy relevantes|fundamentales|cruciales|significativos|considerables">Son pasos pequeños, pero <marker>muy importantes</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="REP_POR_LO_TANTO" name="repetición: por lo tanto" min_prev_matches="2">
