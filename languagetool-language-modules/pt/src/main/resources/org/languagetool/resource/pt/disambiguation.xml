@@ -2682,7 +2682,6 @@
   </rule>
 
   <rulegroup id="ROMAN_NUMBER" name="Roman number">
-    <!-- 		l18n from french and catalan disambiguation.xml by Tiago F. Santos		-->
     <rule>
       <pattern>
         <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
@@ -2735,13 +2734,81 @@
       </pattern>
       <disambig action="add"><wd pos="AO0CN0"/></disambig>
     </rule>
-    <rule>
+  </rulegroup>
+
+  <rulegroup id="ROMAN_NUMBER_IGNORE_SPELLING" name="Ignore spelling for Roman numbers">
+      <!-- Due to limitations, duplicates the regexes above, adding only the ignore_spelling action -->
+      <!-- Don't modify this itself, it's best to modify ROMAN_NUMBER, copy it here, and change only the disambig -->
+
+    <rule> <!-- NOT COPIED from the rule above... -->
       <pattern case_sensitive="no">
         <token regexp="yes">(?:xc|x?l|l?x{0,3})(?:ix|i{0,3}|iv|v|vi{0,3})</token>
         <token spacebefore='no'>)</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule>
+      <pattern>
+          <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token postag="SENT_START"/>
+        <marker>
+          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>-</token>
+        <marker>
+          <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|i{0,3}|iv|vi{0,3})
+            <exception regexp='yes'>li|vi</exception></token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+          <token>-</token>
+        <marker>
+          <token regexp="yes">[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="GREEK_LETTERS" name="Ignore isolated Greek letters">
+      <rule>
+          <pattern>
+              <token regexp="yes">[αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ]</token>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
   </rulegroup>
 
   <rulegroup id="PERCENTAGES" name="Percentagens">
@@ -3734,7 +3801,6 @@
   </rule>
 
   <rulegroup id="SPELLING_IGNORE_RULE" name="Ignore spellings rule">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-XX  	-->
     <rule>
       <pattern>
         <marker>
@@ -3887,28 +3953,139 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="CURRENCY_SPELLING_IGNORE">
+        <pattern>
+            <token regexp="yes">&currency_symbols;</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NUMBER_ABBREV_IGNORE_NO_PERIOD">
+        <pattern>
+            <token regexp="yes">[nN][°º]\d*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NUMBER_ABBREV_IGNORE_WITH_PERIOD">
+        <pattern>
+            <token regexp="yes">[nN]</token>
+            <token spacebefore="no" regexp="yes">\.</token>
+            <marker>
+                <token regexp="yes" spacebefore="no">[°º]\d*</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="ABBREV_VEZES_AS_X_IGNORE">
+        <pattern>
+            <token regexp="yes">\d+[xX]</token>
+        </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="ORDINAL_SUPERSCRIPT_IGNORE">
+         <pattern>
+            <token regexp="yes">\d+[°ºª]\d*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="UPPERCASE_AND_DIGIT_IGNORE">
+         <pattern>
+            <token regexp="yes">[A-Z]+\d+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="SIMPLE_AMPERSAND_UPPERCASE_IGNORE">
+         <pattern>
+            <token regexp="yes">[A-Z]&amp;[A-Z]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="PARENTHETICAL_INFLECTION_ES_IGNORE">
+        <!-- professor(es) -->
+         <pattern>
+             <token postag_regexp="yes" postag="N..S000"/>
+             <token spacebefore="no">(</token>
+             <marker>
+                 <token spacebefore="no" regexp="yes">[ie]s</token>
+             </marker>
+             <token spacebefore="no">)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="VALUE_AND_MEASUREMENT_UNIT_IGNORE">
+         <pattern>
+            <token regexp="yes">\d[\d,.]*[a-zA-Z]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NONSTANDARD_DURATION_IGNORE">
+         <pattern>
+            <token regexp="yes">\d+h(\d+min)?(\d+s(ec)?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NONSTANDARD_TIME_IGNORE">
+         <pattern>
+            <token regexp="yes">\d+:\d+hr?s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
   </rulegroup>
 
-  <!--  <rulegroup name="Ignore spelling of domain names" id="IMMUNIZE_DOMAIN_NAMES">
-      <rule>
-        <pattern case_sensitive="yes">
-          <token regexp="yes">[A-Za-z0-9\-]+</token>
-          <token spacebefore="no">.</token>
-          <token regexp="yes" spacebefore="no">[A-Za-z0-9\-]+</token>
-          <token spacebefore="no">.</token>
-          <token spacebefore="no" regexp="yes">&dominios_internet;</token>
-        </pattern>
-        <disambig action="immunize"/>
+  <rulegroup name="Ignore spelling of common laughter onomatopoeia" id="IGNORE_LAUGHTER">
+      <rule id="IGNORE_SPELLING_HAHA_HEHE">
+          <pattern>
+              <token regexp="yes">(h[ea])+h?</token>
+          </pattern>
+          <disambig action="ignore_spelling"/>
       </rule>
-      <rule>
-        <pattern case_sensitive="yes">
-          <token regexp="yes">[A-Za-z0-9\-]+</token>
-          <token spacebefore="no">.</token>
-          <token spacebefore="no" regexp="yes">&dominios_internet;</token>
-        </pattern>
-        <disambig action="immunize"/>
+
+      <rule id="IGNORE_SPELLING_HUEHUE">
+          <pattern>
+              <token regexp="yes">(hue)+h?</token>
+          </pattern>
+          <disambig action="ignore_spelling"/>
       </rule>
-    </rulegroup>-->
+
+      <rule id="IGNORE_SPELLING_KKK_LAUGHTER">
+          <pattern>
+              <token regexp="yes">k{3,}</token>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
+  </rulegroup>
+  
+<!--  <rulegroup name="Ignore spelling of domain names" id="IMMUNIZE_DOMAIN_NAMES">
+    <rule>
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[A-Za-z0-9\-]+</token>
+        <token spacebefore="no">.</token>
+        <token regexp="yes" spacebefore="no">[A-Za-z0-9\-]+</token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="immunize"/>  
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[A-Za-z0-9\-]+</token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="immunize"/>  
+    </rule>
+  </rulegroup>-->
+
   <rule id="DA" name="dá">
     <antipattern>
       <token regexp="yes">dá|vi|está</token>

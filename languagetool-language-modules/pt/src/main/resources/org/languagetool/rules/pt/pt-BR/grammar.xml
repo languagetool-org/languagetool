@@ -1497,4 +1497,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
   </category>
+
+  <category id="TYPOGRAPHY" name="Tipografia">
+      <rule type="locale-violation" id='CURRENCY_PLACEMENT_BR' name="Posição dos símbolos de moeda: '100£ (£100)">
+          <pattern>
+              <token regexp="yes">\d+([,.]\d+)*</token>
+              <token regexp="yes">&currency_symbols;</token>
+          </pattern>
+          <message>Símbolos de moeda se escrevem, via de regra, antes do valor.</message>
+          <suggestion>\2&nbsp;\1</suggestion>
+          <short>Mova o símbolo da moeda para antes do valor</short>
+          <example correction="£&nbsp;100">Deve <marker>100£</marker>.</example>
+          <example correction="£&nbsp;100.00">Deve <marker>100.00£</marker>.</example>
+      </rule>
+
+      <rule type="locale-violation" id='CURRENCY_SPACE_BR' name="Espaçamento entre símbolos e valores monetários: '$100' ($ 100)">
+          <pattern>
+              <token regexp="yes">&currency_symbols;</token>
+              <token regexp="yes" spacebefore="no">\d+([,.]\d+)*</token>
+          </pattern>
+          <message>Os símbolos monetários se separam do valor por um espaço.</message>
+          <suggestion>\1&nbsp;\2</suggestion>
+          <short>Adicionar um espaço</short>
+          <example correction="R$&nbsp;100">Custa <marker>R$100</marker>.</example>
+      </rule>
+  </category>
 </rules>

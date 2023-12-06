@@ -20,8 +20,10 @@
 package org.languagetool.tokenizers.pt;
 
 import org.junit.Test;
-import java.util.List;
 
+import java.sql.Struct;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -30,38 +32,133 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class PortugueseWordTokenizerTest {
+  final PortugueseWordTokenizer wordTokenizer = new PortugueseWordTokenizer();
+
+  private void testTokenise(String sentence, String[] tokens) {
+    assertArrayEquals(tokens, wordTokenizer.tokenize(sentence).toArray());
+  }
 
   @Test
-  public void testTokenize() {
-    final PortugueseWordTokenizer wordTokenizer = new PortugueseWordTokenizer();
-    final List <String> tokens = wordTokenizer.tokenize("Isto é\u00A0um teste");
-    assertEquals(tokens.size(), 7);
-    assertEquals("[Isto,  , é, \u00A0, um,  , teste]", tokens.toString());
-    final List <String> tokens2 = wordTokenizer.tokenize("Isto\rquebra");
-    assertEquals(3, tokens2.size());
-    assertEquals("[Isto, \r, quebra]", tokens2.toString());
-    //hyphen with no whitespace
-    final List <String> tokens3 = wordTokenizer.tokenize("Agora isto sim é-mesmo!-um teste.");
-    assertEquals(tokens3.size(), 15);
-    assertEquals("[Agora,  , isto,  , sim,  , é, -, mesmo, !, -, um,  , teste, .]", tokens3.toString());
-    //hyphen at the end of the word
-    final List <String> tokens4 = wordTokenizer.tokenize("Agora isto é- realmente!- um teste.");
-    assertEquals(tokens4.size(), 15);
-    assertEquals("[Agora,  , isto,  , é, -,  , realmente, !, -,  , um,  , teste, .]", tokens4.toString());
-    //mdash
-    final List <String> tokens5 = wordTokenizer.tokenize("Agora isto é—realmente!—um teste.");
-    assertEquals(tokens5.size(), 13);
-    assertEquals("[Agora,  , isto,  , é, —, realmente, !, —, um,  , teste, .]", tokens5.toString());
-    
-    final List <String> tokens6 = wordTokenizer.tokenize("sex-appeal");
-    assertEquals(tokens6.size(), 1);
-    assertEquals("[sex-appeal]", tokens6.toString());
-    final List<String> tokens7 = wordTokenizer.tokenize("Aix-en-Provence");
-    assertEquals(tokens7.size(), 1);
-    assertEquals("[Aix-en-Provence]", tokens7.toString());
-    final List<String> tokens8 = wordTokenizer.tokenize("Montemor-o-Novo");
-    assertEquals(tokens8.size(), 1);
-    assertEquals("[Montemor-o-Novo]", tokens8.toString());
-    
+  public void testTokeniseBreakChars() {
+    testTokenise("Isto é\u00A0um teste", new String[]{"Isto", " ", "é", " ", "um", " ", "teste"});
+    testTokenise("Isto\rquebra", new String[]{"Isto", "\r", "quebra"});
+  }
+
+  @Test
+  public void testTokeniseHyphenNoWhiteSpace() {
+    testTokenise("Agora isto sim é-mesmo!-um teste.",
+      new String[]{"Agora", " ", "isto", " ", "sim", " ", "é", "-", "mesmo", "!", "-", "um", " ", "teste", "."});
+  }
+
+  @Test
+  public void testTokeniseWordFinalHyphen() {
+    testTokenise("Agora isto é- realmente!- um teste.",
+      new String[]{"Agora", " ", "isto", " ", "é", "-", " ", "realmente", "!", "-", " ", "um", " ", "teste", "."});
+  }
+
+  @Test
+  public void testTokeniseMDash() {
+    testTokenise("Agora isto é—realmente!—um teste.",
+      new String[]{"Agora", " ", "isto", " ", "é", "—", "realmente", "!", "—", "um", " ", "teste", "."});
+  }
+
+  @Test
+  public void testTokeniseHyphenatedSingleToken() {
+    testTokenise("sex-appeal", new String[]{"sex-appeal"});
+    testTokenise("Aix-en-Provence", new String[]{"Aix-en-Provence"});
+    testTokenise("Montemor-o-Novo", new String[]{"Montemor-o-Novo"});
+  }
+
+  @Test
+  public void testTokeniseHyphenatedSplit() {
+    testTokenise("Paris-São Paulo", new String[]{"Paris", "-", "São", " ", "Paulo"});
+    // this word exists in the speller but not the tagger dict; this may become a problem
+    testTokenise("Sem-Peixe", new String[]{"Sem", "-", "Peixe"});
+  }
+
+  @Test
+  public void testTokeniseHyphenatedClitics() {
+    testTokenise("diz-se", new String[]{"diz", "-", "se"});
+  }
+
+  @Test
+  public void testTokeniseMesoclisis() {
+    testTokenise("fá-lo-á", new String[]{"fá", "-", "lo", "-", "á"});
+    testTokenise("dir-lhe-ia", new String[]{"dir", "-", "lhe", "-", "ia"});
+    testTokenise("banhar-nos-emos", new String[]{"banhar", "-", "nos", "-", "emos"});
+  }
+
+  @Test
+  public void testTokeniseApostrophe() {
+    // is
+    testTokenise("d'água", new String[]{"d", "'", "água"});
+    testTokenise("d’água", new String[]{"d", "’", "água"});
+    // should be
+    // testTokenise("d’água", new String[]{"d’", "água"});
+    // testTokenise("d'água", new String[]{"d'", "água"});
+  }
+
+  @Test
+    public void testTokeniseHashtags() {
+    // Twitter and whatnot; same as English
+    testTokenise("#CantadasDoBem", new String[]{"#", "CantadasDoBem"});
+  }
+
+  @Test
+  public void testDoNotTokeniseUserMentions() {
+    // Twitter and whatnot; same as English
+    testTokenise("@user", new String[]{"@user"});
+  }
+
+  @Test
+  public void testTokeniseCurrency() {
+    testTokenise("R$45,00", new String[]{"R$", "45,00"});
+    testTokenise("5£", new String[]{"5", "£"});
+    testTokenise("US$249,99", new String[]{"US$", "249,99"});
+    testTokenise("€2.000,00", new String[]{"€", "2.000,00"});
+  }
+
+  @Test
+  public void testTokeniseNumberAbbreviation() {
+    testTokenise("Nº666", new String[]{"Nº666"});  // superscript 'o'
+    testTokenise("N°666", new String[]{"N°666"});  // degree symbol
+    testTokenise("Nº 420", new String[]{"Nº", " ", "420"});
+    testTokenise("N.º69", new String[]{"N", ".", "º69"});  // the '.' char splits it
+    testTokenise("N.º 80085", new String[]{"N", ".", "º", " ", "80085"});  // the '.' char splits it
+  }
+
+  @Test
+  public void testDoNotTokeniseOrdinalSuperscript() {
+    testTokenise("6º", new String[]{"6º"});  // superscript 'o'
+    testTokenise("100°", new String[]{"100°"});  // degree symbol
+    testTokenise("21ª", new String[]{"21ª"});
+  }
+
+  @Test
+  public void testTokeniseExponent() {
+    testTokenise("km²", new String[]{"km", "²"});
+  }
+
+  @Test public void testTokeniseCopyrightAndSimilarSymbols() {
+    testTokenise("Copyright©", new String[]{"Copyright", "©"});
+    testTokenise("Bacana®", new String[]{"Bacana", "®"});
+    testTokenise("Legal™", new String[]{"Legal", "™"});
+  }
+
+  @Test
+  public void testDoNotTokeniseEmoji() {
+    testTokenise("☺☺☺Só", new String[]{"☺☺☺Só"});
+  }
+
+  @Test
+  public void testDoNotTokeniseModifierDiacritics() {
+    // the tilde here is a unicode modifier char; normally, the unicode a-tilde (ã) is used
+    testTokenise("Não", new String[]{"Não"});
+  }
+
+  @Test
+  public void testTokeniseRarePunctuation() {
+    testTokenise("⌈Herói⌋", new String[]{"⌈", "Herói", "⌋"});
+    testTokenise("″Santo Antônio do Manga″", new String[]{"″", "Santo", " ", "Antônio", " ", "do", " ", "Manga", "″"});
   }
 }
