@@ -87,10 +87,10 @@ public class LanguageToolMenus {
   private final static String LT_CHECKDIALOG = "service:org.languagetool.openoffice.Main?checkDialog";
   private static final String LT_STATISTICAL_ANALYSES_COMMAND = "service:org.languagetool.openoffice.Main?statisticalAnalyses";   
   private static final String LT_RESET_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?resetIgnorePermanent";   
-  private static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleBackgroundCheck";
+  private static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleNoBackgroundCheck";
   private static final String LT_REFRESH_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?refreshCheck";
   private static final String LT_ABOUT_COMMAND = "service:org.languagetool.openoffice.Main?about";
-                                                                                      //  Command to Switch Off/On LT 
+  private static final String LT_LANGUAGETOOL_COMMAND = "service:org.languagetool.openoffice.Main?lt";
   private static final String LT_Options_COMMAND = "service:org.languagetool.openoffice.Main?configure";   
   private static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo:";
   
@@ -726,7 +726,11 @@ public class LanguageToolMenus {
       j++;
       xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuEnableBackgroundCheck"));
+      if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+        xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuEnableBackgroundCheck"));
+      } else {
+        xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuDisableBackgroundCheck"));
+      }
       xNewSubMenuEntry.setPropertyValue("CommandURL", LT_TOGGLE_BACKGROUND_CHECK_COMMAND);
       xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
       j++;
@@ -751,6 +755,7 @@ public class LanguageToolMenus {
       XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
       xNewMenuEntry.setPropertyValue("Text", "LanguageTool");
+      xNewMenuEntry.setPropertyValue("CommandURL", LT_LANGUAGETOOL_COMMAND);
       xNewMenuEntry.setPropertyValue("SubContainer", (Object)xSubMenuContainer);
       xContextMenu.insertByIndex(nId, xNewMenuEntry);
     }
