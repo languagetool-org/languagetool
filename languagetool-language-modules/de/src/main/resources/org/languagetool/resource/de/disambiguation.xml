@@ -2199,6 +2199,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rulegroup name="Lithurgik und Lithurgie" id="LITHURGIK_LITHURGIE"><!--Lehre von der Verwendung und Verarbeitung von Gesteinen und Mineralien-->
+        <rule><!--1-->
+            <pattern>
+                <marker>
+                    <token skip="-1" regexp="yes">Lithurgik|Lithurgie</token>
+                </marker>
+                <token regexp="yes">.*((Chemie|Stein|Mineral)|(ver|be)arbeitung).*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token skip="-1"  regexp="yes">.*((Chemie|Stein|Mineral)|(ver|be)arbeitung).*</token>
+                <marker>
+                    <token regexp="yes">Lithurgik|Lithurgie</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rule name="auf-... und zumachen etc." id="VERBPRÄFIX_HYPHEN">
         <!--Wir müssen los- und fortrennen.-->
         <!--Das Los- und Fortrennen ist keine gute Idee.-->
