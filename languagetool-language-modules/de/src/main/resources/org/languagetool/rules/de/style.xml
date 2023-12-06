@@ -225,6 +225,22 @@ USA
             </rule>
         </rulegroup>-->
 
+        <rule id="MFG" name="'MfG (Mit freundlichen Grüßen)' (abgekürzte Schlussformeln)">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">mfg|MfG</token>
+                </marker>
+            </pattern>
+            <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden.</message>
+            <suggestion>Mit freundlichen Grüßen</suggestion>
+            <suggestion>Mit freundlichem Gruß</suggestion>
+            <short>Schlussformeln sollten nicht abgekürzt werden</short>
+            <example><marker>OMFG</marker> LOL!</example>
+            <example><marker>MFG</marker> ist die Medien- und Filmgesellschaft Baden-Württemberg.</example>
+            <example correction="Mit freundlichen Grüßen|Mit freundlichem Gruß"><marker>MfG</marker></example>
+        </rule>
+
         <rulegroup id="H2O" name="H2O (H₂O) etc." tone_tags="general">
             <rule><!--O2 [1]-->
                 <antipattern>

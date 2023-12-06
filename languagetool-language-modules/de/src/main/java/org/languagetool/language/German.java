@@ -414,6 +414,7 @@ public class German extends Language implements AutoCloseable {
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
       case "GEFEATURED": return -1; // prefer over spell checker
       case "NUMBER_SUB": return -1; // prefer over spell checker
+      case "MFG": return -1; // prefer over spell checker
       case "VER123_VERAUXMOD": return -1; // prefer casing rules
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "DE_AGREEMENT2": return -1;  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions

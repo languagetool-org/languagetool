@@ -122,6 +122,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("PA2.*|VER:PA2.*"),
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("haben|werden").build()
       ),
+      Arrays.asList( // Es würde noch sehr helfen eine Kopie der Google Slide dort zu verlinken damit wir das direkt nachstellen können
+        posRegex("VER:INF.*"),
+        new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("können|werden|sollen|dürfen|müssen|wollen|mögen").build()
+      ),
       Arrays.asList(
         // Komma an der falschen Stelle
         regex("ja|mal"),

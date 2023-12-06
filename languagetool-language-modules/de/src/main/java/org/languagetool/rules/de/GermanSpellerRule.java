@@ -3433,7 +3433,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "freiverkäuflicher": return topMatch("frei verkäuflicher");
       case "freiverkäuflichen": return topMatch("frei verkäuflichen");
       case "freiverkäuflichem": return topMatch("frei verkäuflichem");
-      case "Mfg": return topMatch("MFG");
+      case "Mfg": return topMatch("MfG");
       case "Gefahrenstoffe": return topMatch("Gefahrstoffe");
       case "Gefahrenstoffen": return topMatch("Gefahrstoffen");
       case "Resource": return topMatch("Ressource");
@@ -3738,6 +3738,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Gruessen": return topMatch("Grüßen");
       case "Grueße": return topMatch("Grüße");
       case "Grueßen": return topMatch("Grüßen");
+      case "nciht": return topMatch("nicht");
     }
     return Collections.emptyList();
   }
