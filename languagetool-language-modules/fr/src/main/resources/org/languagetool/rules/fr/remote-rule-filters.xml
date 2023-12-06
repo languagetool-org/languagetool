@@ -568,6 +568,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ce sont des <marker>belgicismes</marker>.</example>
             </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token>tokyo</token>
+                </pattern>
+                <example correction="">La capitale du Japon est <marker>Tokyo</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_ADJECTIVE_FORM.*" name="">
             <rule><!--1-->
@@ -620,6 +626,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Elle avait les yeux <marker>marron</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_REPLACEMENT_VERB_FORM.*" name="">
+            <rule>
+                <pattern>
+                    <token>on</token>
+                    <token inflected="yes" min="0" max="1">se</token>
+                    <token postag="V etre.*" postag_regexp="yes"/>
+                    <token postag="A" min="0" max="3"/>
+                    <token postag="J e sp" min="0" max="1">bien</token>
+                    <marker>
+                        <token postag="V.* ppa.* p|J . p" postag_regexp="yes">
+                            <exception regexp="yes">joué(?:es|s)?|occupé(?:es|s)?|moqué(?:es|s)?|payé(?:es|s)?|plainte(?:s)?|faite(?:s)?|rendue(?:s)?</exception></token>
+                    </marker>
+                </pattern>
+                <example correction="">On s'est bel et bien <marker>rencontrés</marker> hier.</example>
             </rule>
         </rulegroup>
     </category>
