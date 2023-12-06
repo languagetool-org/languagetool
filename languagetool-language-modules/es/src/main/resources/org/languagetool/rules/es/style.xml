@@ -40,6 +40,46 @@ USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style">
         <!--missing_toneTag-->
+        <rule id="REP_CREAR" name="repetición: crear" min_prev_matches="2" default="temp_off">
+            <antipattern>
+                <token regexp="yes">cre[oe]|crea[sn]?|creamos</token>
+                <token regexp="yes">en|que|(ferviente|rotunda|ciega|firme|ingenua|honesta|absoluta|sincera|vehemente|seria)mente</token>
+                <example>Creo ciegamente en ti.</example>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Cre[ea]|CREA<exception scope="previous" postag="SENT_START"/></token>
+                <example>Corpus de Referencia del Español Actual (CREA).</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token regexp="yes">al?</token>
+                <token min="0">l[oa]s?</token>
+                <token regexp="yes">hombres?|mujer(es)?</token>
+                <example>Y Dios creó al hombre a su imagen.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token>conciencia</token>
+                <example>Ayuda a crear conciencia sobre el medio ambiente.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="3" postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token regexp="yes">vínculos?|experiencias?|espacio|ambiente|atmósfera|armonía|cursos?|blogs?|spots?|anuncios?|programas?|proyectos?|cuentas?|páginas?|hogar|platos?|platillos?</token>
+                <example>Eso ayudó a crear un buen ambiente.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">generar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">producir</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">inventar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">originar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">ocasionar</match></suggestion>
+            <example correction="generar|producir|inventar|originar|ocasionar">Estas son algunas ideas para <marker>crear</marker> tu primera campaña.</example>
+        </rule>
         <rulegroup id="REP_IMPORTANTE" name="repetición: importante" min_prev_matches="1">
             <rule>
                 <antipattern>
