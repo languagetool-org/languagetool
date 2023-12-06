@@ -4821,9 +4821,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </antipattern>
         <antipattern>
             <token>de</token>
-            <token postag="NC.*" postag_regexp="yes"/>
+            <token postag="NC.S.*" postag_regexp="yes"/>
             <token>a</token>
-            <token postag="NC.*" postag_regexp="yes"/>
+            <token postag="NC.S.*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
             <token regexp="yes">&formes_HAVER_sense_hac;</token>
@@ -20271,6 +20271,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="ignore_uppercase_letters" name="A a Z">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-Z]</token>
+            <token regexp="yes">[aoi]</token>
+            <token regexp="yes">[A-Z]</token>
+        </pattern>
+        <disambig action="immunize"/>
     </rule>
     <rulegroup id="ignore_pp" name="ignorar pp (punts penrcentuals">
         <rule>
