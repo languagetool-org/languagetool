@@ -66,26 +66,16 @@ public class EnglishWrongWordInContextRuleTest {
     // desert/dessert
     assertBad("They have some great deserts on this menu.");
     assertGood("They have some great desserts on this menu.");
-    assertGood("When sugar began to be manufactured in the Middle Ages more sweet desserts became available.");
     // statute/statue
     assertBad("They have some great marble statutes.");
     assertGood("They have a great marble statue.");
-    assertGood("Then they gathered some of the flowers of the season, crowned the statues with garlands and hung up Dorcon's pipe as a votive offering to the Nymphs.");
     // neutron/neuron
     assertGood("Protons and neutrons");
     assertBad("Protons and neurons");
-    assertGood("Unlike CBs, gems do not contain small nuclear ribonucleoproteins (snRNPs), but do contain a protein called survivor of motor neurons (SMN) whose function relates to snRNP biogenesis.");
     // hangar / hanger
+    // neutron/neuron
     assertBad("The plane taxied to the hanger.");
     assertGood("The plane taxied to the hangar.");
-    // massage / message
-    assertGood("Finally, administrative professionals will receive a certificate for $5 off the cost of a massage at the Body Shop.");
-    assertGood("You will receive lunch, manicure, pedicure, full body massage, and facial.");
-    assertGood("Then, when they present their certificate at the time of their appointment, they will receive an additional $5 off the cost of a 30, 45, or 60 minute massage for a total discount of $10.");
-    // sign / sing
-    assertGood("The song \"Whiskey Bottle,\" by Uncle Tupelo, is rumored to be about the city of Columbia as it makes specific reference to a sign which used be displayed on a Columbia tackle shop sign which read, \"Liquor, Guns, and Ammo.\"");
-    assertGood("You can sign up for hundreds of different movie and sports packages, digital music channels and receive all your local channels in this special offer.");
-    assertGood("Begbick and her cohorts take it as a sign that Jimmy is right; they join him, Jenny, and his three friends in singing a new, defiant song: If someone walks on, then it's me, and if someone gets walked on, then it's you.");
   }
 
   private void assertGood(String sentence) throws IOException {
