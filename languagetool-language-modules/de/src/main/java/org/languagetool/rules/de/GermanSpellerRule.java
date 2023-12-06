@@ -2215,8 +2215,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> parts = compoundTokenizer.tokenize(wordNoDot);
     boolean nonStrictMode = false;
     if (parts.size() == 1) {
-      parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
-      nonStrictMode = true;
         String part2 = " ";
         for (String w : wordsWithoutInfixS) {  // wordsWithHyphen
           if (word.startsWith(w))  {
@@ -2228,7 +2226,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             }
             return (!isMisspelled(part2) || ignorePotentiallyMisspelledWord(part2)) && isNoun(part2);
           }   
-      }
+        }
+      parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
+      nonStrictMode = true;
     }
     String part1;
     String part2;
