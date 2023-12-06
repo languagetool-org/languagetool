@@ -517,4 +517,20 @@ public class MorfologikPortugueseSpellerRuleTest {
     // making sure the accents are okay
     assertSingleError("Jordao", ltBR, ruleBR, new String[] {"Jordão"});
   }
+
+  @Test public void testPortugueseSpellerIgnoresTheWordPlusQuotes() throws Exception {
+    // Disambiguator rule
+    assertNoErrors("Deve-se usar a palavra \"the\".", ltBR, ruleBR);
+    assertNoErrors("Uma palavra como «your».", ltBR, ruleBR);
+    assertNoErrors("Palavras inglesas como 'there'.", ltBR, ruleBR);
+  }
+
+  @Test public void testPortugueseSpellerIgnoresObviousEnglishWords() throws Exception {
+    assertNoErrors("Gosto de The Strokes.", ltBR, ruleBR);
+    assertSingleError("Gosto de The Strkoes.", ltBR, ruleBR, new String[] {"Strokes"});
+    assertSingleError("Viu o show do The Foo Figthers?", ltBR, ruleBR, new String[] {"Fighters"});
+    assertNoErrors("A banda se chama The Whatever Journal of the Something Else", ltBR, ruleBR);
+    assertNoErrors("O jornal The Chicago Herald", ltBR, ruleBR);
+    assertNoErrors("A música After the Sunset", ltBR, ruleBR);
+  }
 }

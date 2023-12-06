@@ -4086,6 +4086,150 @@
     </rule>
   </rulegroup>-->
 
+  <rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
+      <rule> <!-- tag common English words with _FOREIGN_ENGLISH (if already tagged, e.g. the word is also valid in PT) -->
+          <pattern>
+              <token regexp="yes" postag_regexp="yes" postag="UNKNOWN|NULL" negate_pos="yes">&palavras_inglesas;</token>
+          </pattern>
+          <disambig action="add"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+
+      <rule> <!-- tag common English words with _FOREIGN_ENGLISH (if untagged, i.e. completely unknown to us) -->
+          <pattern>
+              <token regexp="yes" postag_regexp="yes" postag="UNKNOWN|NULL">&palavras_inglesas;</token>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+  </rulegroup>
+
+  <rulegroup id="GUESS_FOREIGN_WORDS_POST" name="Uh, guess foreign words, ig??">
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+  </rulegroup>
+
+  <rulegroup id="IGNORE_THE_WORD_PLUS_QUOTES" name="Ignore constructions of the type 'a palavra the'">
+      <rule>
+          <pattern>
+              <token regexp="yes">palavras?</token>
+              <token regexp="yes" min="0">inglesas?</token>
+              <token min="0">tais</token>
+              <token min="0">como</token>
+              <token postag="_QUOT"/>
+              <marker>
+                  <token postag="_FOREIGN_ENGLISH"/>
+              </marker>
+              <token postag="_QUOT"/>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
+  </rulegroup>
+
   <rule id="DA" name="dá">
     <antipattern>
       <token regexp="yes">dá|vi|está</token>

@@ -22,6 +22,7 @@ import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tagging.pt.PortugueseTagger;
@@ -39,6 +40,8 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   private final Language spellerLanguage;
   private final String dictFilepath;
+  private final String englishDictFilepath;
+  protected MorfologikMultiSpeller englishSpeller;
   // Path, in pt/resources, where the list of words to be removed from the suggestion list is to be found.
   private static final String doNotSuggestWordsFilepath = "/pt/do_not_suggest.txt";
   // Set of words that we do not want to add to the suggestions, despite being correctly spelt. Mostly profanity.
@@ -55,11 +58,30 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   private static final String MULTIWORDS_FILE = "pt/multiwords.txt";
   private static final String SPELLING_IGNORE_FILE = "pt/ignore.txt";
   private static final String SPELLING_PROHIBIT_FILE = "pt/prohibit.txt";
-
+  private final UserConfig userConfig;
 
   @Override
   public String getFileName() {
     return dictFilepath;
+  }
+
+  private void initEnglishSpeller() throws IOException {
+    List<String> plainTextDicts = new ArrayList<>();
+    String languageVariantPlainTextDict = null;
+    if (getSpellingFileName() != null && getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDicts.add(getSpellingFileName());
+    }
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (getDataBroker().resourceExists(fileName)) {
+        plainTextDicts.add(fileName);
+      }
+    }
+    if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
+    }
+    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+      userConfig, 1, language);
+    setConvertsCase(englishSpeller.convertsCase());
   }
 
   public static Set<String> getDoNotSuggestWords() {
@@ -179,7 +201,10 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       spellerLanguage = language;
     }
     dictFilepath = "/pt/spelling/" + getDictFilename() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    englishDictFilepath = "/en/hunspell/en_US" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
     dialectAlternationMapping = getDialectAlternationMapping();
+    this.userConfig = userConfig;
+    initEnglishSpeller();
   }
 
   @Override
@@ -247,6 +272,18 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
                                         List<RuleMatch> ruleMatchesSoFar, int idx,
                                         AnalyzedTokenReadings[] tokens) throws IOException {
+    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH")) {
+      if (englishSpeller.isMisspelled(word)) {
+        String message = "Pelo contexto, parece tratar-se de uma palavra inglesa. Verifique a ortografia.";
+        String shortMessage = "Possível erro de ortografia inglesa";
+        List<String> suggestions = englishSpeller.getSuggestions(word);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
+          message, shortMessage, suggestions);
+        return Collections.singletonList(ruleMatch);
+      } else {
+        return Collections.emptyList();
+      }
+    }
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (!ruleMatches.isEmpty()) {
       String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);
