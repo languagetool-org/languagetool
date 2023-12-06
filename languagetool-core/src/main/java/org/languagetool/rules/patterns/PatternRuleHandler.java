@@ -33,6 +33,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.UNICODE_CHARACTER_CLASS;
+
 public class PatternRuleHandler extends XMLRuleHandler {
 
   @Override
@@ -762,7 +764,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.setDistanceTokens(distanceTokens);
         rule.setXmlLineNumber(xmlLineNumber);
       } else if (regex.length() > 0) {
-        int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
+        int flags = regexCaseSensitive ? UNICODE_CHARACTER_CLASS : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE|UNICODE_CHARACTER_CLASS;
         String regexStr = regex.toString();
         if (regexMode == RegexpMode.SMART) {
           // Note: it's not that easy to add \b because the regex might look like '(foo)' or '\d' so we cannot just look at the last character
