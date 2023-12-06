@@ -419,7 +419,8 @@ public abstract class AbstractUnitConversionRule extends Rule {
     return numberRangePart.matcher(textBefore).find();
   }
 
-  private void tryConversion(AnalyzedSentence sentence, List<RuleMatch> matches, Pattern unitPattern, Double customValue, Unit customUnit, Matcher unitMatcher, List<Map.Entry<Integer, Integer>> ignoreRanges) {
+  private void tryConversion(AnalyzedSentence sentence, List<RuleMatch> matches, Pattern unitPattern, Double customValue,
+                             Unit customUnit, Matcher unitMatcher, List<Map.Entry<Integer, Integer>> ignoreRanges) {
     Map.Entry<Integer, Integer> range = new AbstractMap.SimpleImmutableEntry<>(
       unitMatcher.start(), unitMatcher.end());
     ignoreRanges.add(range);
@@ -481,6 +482,12 @@ public abstract class AbstractUnitConversionRule extends Rule {
         .findFirst();
       if (convertedUnitPattern.isPresent()) { // known unit used for conversion
         Unit convertedUnit = unitPatterns.get(convertedUnitPattern.get());
+        // If the unit before and after conversion is the same, e.g. "22.3 cm (20.4 cm)", assume users either:
+        // 1. know what they're doing; or
+        // 2. there's a more complex expression at play here, which we can't parse
+        if (unit.equals(convertedUnit)) {
+          return;
+        }
         Double convertedValueInText;
         try {
           convertedValueInText = getNumberFormat().parse(convertedMatcher.group(1)).doubleValue();
