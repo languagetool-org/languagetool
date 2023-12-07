@@ -141,7 +141,7 @@ public final class RemoteRuleFilters {
     Language lang = Languages.getLanguageForShortCode(langCode);
     List<AbstractPatternRule> rules = RemoteRuleFilters.load(lang)
       .values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-    Stream<String> lines = Files.lines(Paths.get(matchesFile), StandardCharsets.UTF_8);
+    String content = Files.readString(Paths.get(matchesFile), StandardCharsets.UTF_8);
     ObjectMapper mapper = new ObjectMapper();
     JLanguageTool lt = new JLanguageTool(lang);
 
@@ -149,8 +149,8 @@ public final class RemoteRuleFilters {
       .map(s -> {
         try {
           return mapper.readValue(s, ExpectedMatches.class);
-        } catch (JsonProcessingException e) {
-          throw new RuntimeException(e);
+        } catch (JsonProcessingException | IOException e) {
+          throw new RuntimeException("Error processing JSON or IO", e);
         }
       })
       .flatMap(matches -> {
