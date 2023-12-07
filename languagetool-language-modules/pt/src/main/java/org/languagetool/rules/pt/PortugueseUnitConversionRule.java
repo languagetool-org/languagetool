@@ -48,49 +48,49 @@ public class PortugueseUnitConversionRule extends AbstractUnitConversionRule {
     addUnit("grama", KILOGRAM, "gramas", 1e-3, true);
     addUnit("toneladas?", KILOGRAM, "toneladas", 1e3, true);
     addUnit("libras?", POUND, "libras", 1, false);
-    addUnit("onças?", OUNCE, "onças", 1, false);
+    addUnit("(?U)onças?", OUNCE, "onças", 1, false);
 
     addUnit("milhas?", MILE, "milhas", 1, false);
     addUnit("jardas?", YARD, "jardas", 1, false);
-    addUnit("pés?", FEET, "pés", 1, false);
+    addUnit("(?U)pés?", FEET, "pés", 1, false);
     addUnit("polegadas?", INCH, "polegadas", 1, false);
 
-    addUnit("(qu|k)ilômetros? por hora", KILOMETRE_PER_HOUR, "quilômetros por hora", 1, true);
+    addUnit("(?U)(qu|k)ilômetros? por hora", KILOMETRE_PER_HOUR, "quilômetros por hora", 1, true);
     addUnit("milhas? por hora", MILE.divide(HOUR), "milhas por hora", 1, false);
 
     addUnit("metros?", METRE, "metros", 1, true);
-    addUnit("(qu|k)ilômetros?", METRE, "quilômetros", 1e3, true);
-    addUnit("decímetros?", METRE, "decímetros", 1e-1, false); // metric, but should not be suggested
-    addUnit("centímetros?", METRE, "centímetros", 1e-2, true);
-    addUnit("milímetros?", METRE, "milímetros", 1e-3, true);
-    addUnit("micrômetros?", METRE, "micrômetros", 1e-6, true);
-    addUnit("nanômetros?", METRE, "nanômetros", 1e-9, true);
-    addUnit("picômetros?", METRE, "picômetros", 1e-12, true);
-    addUnit("fentômetros?", METRE, "fentômetros", 1e-15, true);
+    addUnit("(?U)(qu|k)ilômetros?", METRE, "quilômetros", 1e3, true);
+    addUnit("(?U)decímetros?", METRE, "decímetros", 1e-1, false); // metric, but should not be suggested
+    addUnit("(?U)centímetros?", METRE, "centímetros", 1e-2, true);
+    addUnit("(?U)milímetros?", METRE, "milímetros", 1e-3, true);
+    addUnit("(?U)micrômetros?", METRE, "micrômetros", 1e-6, true);
+    addUnit("(?U)nanômetros?", METRE, "nanômetros", 1e-9, true);
+    addUnit("(?U)picômetros?", METRE, "picômetros", 1e-12, true);
+    addUnit("(?U)fentômetros?", METRE, "fentômetros", 1e-15, true);
 
     addUnit("metros? quadrados?", SQUARE_METRE, "metros quadrados", 1, true);
     addUnit("hectar(es)?", SQUARE_METRE, "hectares", 1e4, true);
     addUnit("ares?", SQUARE_METRE, "ares", 1e2, true);
-    addUnit("(k|qui)ilômetros? quadrados?", SQUARE_METRE,  "quilômetros quadrados",  1e6, true);
-    addUnit("decímetros? quadrados?", SQUARE_METRE,  "decímetros quadrados",  1e-2,  false/*true*/); // Metric, but not commonly used
-    addUnit("centímetros? quadrados?", SQUARE_METRE, "centímetros quadrados", 1e-4, true);
-    addUnit("milímetros? quadrados?", SQUARE_METRE, "milímetros quadrados", 1e-6, true);
-    addUnit("micrômetros? quadrados?", SQUARE_METRE, "micrômetros quadrados", 1e-12, true);
-    addUnit("nanômetros? quadrados?", SQUARE_METRE,  "nanômetros quadrados",  1e-18, true);
+    addUnit("(?U)(k|qui)ilômetros? quadrados?", SQUARE_METRE,  "quilômetros quadrados",  1e6, true);
+    addUnit("(?U)decímetros? quadrados?", SQUARE_METRE,  "decímetros quadrados",  1e-2,  false/*true*/); // Metric, but not commonly used
+    addUnit("(?U)centímetros? quadrados?", SQUARE_METRE, "centímetros quadrados", 1e-4, true);
+    addUnit("(?U)milímetros? quadrados?", SQUARE_METRE, "milímetros quadrados", 1e-6, true);
+    addUnit("(?U)micrômetros? quadrados?", SQUARE_METRE, "micrômetros quadrados", 1e-12, true);
+    addUnit("(?U)nanômetros? quadrados?", SQUARE_METRE,  "nanômetros quadrados",  1e-18, true);
 
-    addUnit("metros? cúbicos?", CUBIC_METRE,"metros cúbicos",      1, true);
-    addUnit("(k|qu)ilômetros? cúbicos?", CUBIC_METRE, "quilômetros cúbicos",  1e9, true);
-    addUnit("decímetros? cúbicos?", CUBIC_METRE, "decímetros cúbicos",  1e-3,  false/*true*/); // Metric, but not commonly used
-    addUnit("centímetros? cúbicos?", CUBIC_METRE,"centímetros cúbicos", 1e-6, true);
-    addUnit("milímetros? cúbicos?", CUBIC_METRE,"milímetros cúbicos", 1e-9, true);
-    addUnit("micrômetros? cúbicos?", CUBIC_METRE,"micrômetros cúbicos", 1e-18, true);
-    addUnit("nanômetros? cúbicos?", CUBIC_METRE, "nanômetros cúbicos",  1e-27, true);
+    addUnit("(?U)metros? cúbicos?", CUBIC_METRE,"metros cúbicos",      1, true);
+    addUnit("(?U)(k|qu)ilômetros? cúbicos?", CUBIC_METRE, "quilômetros cúbicos",  1e9, true);
+    addUnit("(?U)decímetros? cúbicos?", CUBIC_METRE, "decímetros cúbicos",  1e-3,  false/*true*/); // Metric, but not commonly used
+    addUnit("(?U)centímetros? cúbicos?", CUBIC_METRE,"centímetros cúbicos", 1e-6, true);
+    addUnit("(?U)milímetros? cúbicos?", CUBIC_METRE,"milímetros cúbicos", 1e-9, true);
+    addUnit("(?U)micrômetros? cúbicos?", CUBIC_METRE,"micrômetros cúbicos", 1e-18, true);
+    addUnit("(?U)nanômetros? cúbicos?", CUBIC_METRE, "nanômetros cúbicos",  1e-27, true);
 
     addUnit("litros?", LITRE, "litros", 1, true);
     addUnit("mililitros?", LITRE, "mililitros", 1e-3, true);
 
-    addUnit( "(?:Graus)? Fahrenheit", FAHRENHEIT, "graus Fahrenheit", 1, false);
-    addUnit( "(?:Graus)? (Celsi[ou]s|[cC]entígrados?)", CELSIUS, "graus Celsius", 1, true);
+    addUnit("(?:Graus)? Fahrenheit", FAHRENHEIT, "graus Fahrenheit", 1, false);
+    addUnit("(?U)(?:Graus)? (Celsi[ou]s|[cC]entígrados?)", CELSIUS, "graus Celsius", 1, true);
   }
 
   @Override
