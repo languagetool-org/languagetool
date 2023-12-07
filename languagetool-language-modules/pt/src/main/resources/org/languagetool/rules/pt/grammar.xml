@@ -18583,6 +18583,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='PUNCTUATION' name="Pontuação">
+        <rulegroup id="LOCUCOES_ADVERBIAIS_REDUPLICADAS" name="Sugerir vírgula em locuções adverbiais formadas por reduplicação, como 'logo logo' => 'logo, logo'.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">&reduplicated_adverbs;</token>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>As palavras em locuções formadas por reduplicação, via de regra, separam-se por vírgula.</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction="Logo, logo"><marker>Logo logo</marker> vamos ao mercado.</example>
+                <example correction="já, já">Ele chega <marker>já já</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on' tags="picky">
             <!-- Created by Tiago F. Santos, Portuguese rule, -->
             <antipattern>
