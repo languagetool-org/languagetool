@@ -1997,6 +1997,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Was <marker>gibt</marker>’s noch?</example>
                 <example correction="">Das <marker>bringt</marker>’s nicht.</example>
             </rule>
+            <rule><!--8-->
+                <pattern>
+                    <token>na</token>
+                    <marker>
+                        <token>wenn</token>
+                    </marker>
+                    <token>schon</token>
+                    <token regexp="yes">,|\.|!</token>
+                </pattern>
+                <example correction="">Na <marker>wenn</marker> schon, uns geht es doch gut.</example>
+            </rule>
+            <rule><!--9-->
+                <pattern>
+                    <token>na</token>
+                    <token>wenn</token>
+                    <marker>
+                        <token>schon</token>
+                    </marker>
+                    <token regexp="yes">,|\.|!</token>
+                </pattern>
+                <example correction="">Na wenn <marker>schon</marker>, uns geht es doch gut.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN.*" name="">
