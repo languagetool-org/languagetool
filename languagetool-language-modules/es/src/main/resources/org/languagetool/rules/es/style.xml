@@ -38,9 +38,9 @@ USA
     <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style">
+    <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style" tags="picky">
         <!--missing_toneTag-->
-        <rulegroup id="REP_PENSAR" name="repetición: pensar" min_prev_matches="2" default="temp_off">
+        <rulegroup id="REP_PENSAR" name="repetición: pensar" min_prev_matches="2">
             <rule>
                 <antipattern>
                     <token postag="VAIP3[SP]0" postag_regexp="yes" inflected="yes">estar</token>
@@ -133,7 +133,7 @@ USA
                 <example correction="Creo|Opino|Supongo|Reflexiono"><marker>Pienso</marker> que tienes razón.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REP_LUGAR" name="repetición: lugar" min_prev_matches="2" default="temp_off">
+        <rulegroup id="REP_LUGAR" name="repetición: lugar" min_prev_matches="2">
             <rule>
                 <pattern>
                     <token>el</token>
@@ -207,7 +207,7 @@ USA
                 <example correction="sitio|espacio|punto|ubicación|parte">Propongo que hoy vayamos a otro <marker>lugar</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="REP_CREAR" name="repetición: crear" min_prev_matches="2" default="temp_off">
+        <rule id="REP_CREAR" name="repetición: crear" min_prev_matches="2">
             <antipattern>
                 <token regexp="yes">cre[oe]|crea[sn]?|creamos</token>
                 <token regexp="yes">en|que|(ferviente|rotunda|ciega|firme|ingenua|honesta|absoluta|sincera|vehemente|seria)mente</token>
@@ -258,6 +258,12 @@ USA
                     <token inflected="yes">aviso</token>
                     <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
                     <example>¡Aviso importante!</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">hacer</token>
+                    <token regexp="yes">el|las?|los</token>
+                    <token regexp="yes">importantes?</token>
+                    <example>No para de hacerse el importante.</example>
                 </antipattern>
                 <pattern>
                     <marker>
