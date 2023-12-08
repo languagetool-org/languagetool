@@ -40,6 +40,39 @@ USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style" tags="picky">
         <!--missing_toneTag-->
+        <rule id="REP_REVISAR" name="repetición: revisar" min_prev_matches="2" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">revisar</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">comprobar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">verificar</match></suggestion>
+            <example correction="comprobar|verificar">En primer lugar, se deben <marker>revisar</marker> los documentos manualmente.</example>
+        </rule>
+        <rule id="REP_COMPROBAR" name="repetición: comprobar" min_prev_matches="2" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">comprobar</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">revisar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">verificar</match></suggestion>
+            <example correction="revisar|verificar">En primer lugar, se deben <marker>comprobar</marker> los documentos manualmente.</example>
+        </rule>
+        <rule id="REP_VERIFICAR" name="repetición: verificar" min_prev_matches="2" default="temp_off">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">verificar</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">revisar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">comprobar</match></suggestion>
+            <example correction="revisar|comprobar">En primer lugar, se deben <marker>verificar</marker> los documentos manualmente.</example>
+        </rule>
         <rule id="REP_USO" name="repetición: uso" min_prev_matches="2" default="temp_off">
             <antipattern>
                 <token regexp="yes">en|sin</token>
@@ -80,7 +113,7 @@ USA
                     <token>uso</token>
                 </marker>
             </pattern>
-            <message>blabla</message>
+            <message>&msg_repeated_pattern;</message>
             <suggestion>utilización</suggestion>
             <suggestion>empleo</suggestion>
             <example correction="utilización|empleo">Están tratando de fomentar el <marker>uso</marker> del transporte público.</example>
