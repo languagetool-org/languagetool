@@ -1711,7 +1711,7 @@
     <!-- Verbo + Preposição: p.ex. 'a' como preposição depois do verbo	-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
     <!-- https://pt.wikipedia.org/wiki/A_(preposi%C3%A7%C3%A3o)		-->
-    <rule>
+    <rule> <!-- #1 -->
       <pattern>
         <marker>
           <token>a</token>
@@ -1720,7 +1720,7 @@
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
-    <rule>
+    <rule> <!-- #2 -->
       <pattern>
         <marker>
           <token>a</token>
@@ -1729,7 +1729,7 @@
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
-    <rule>
+    <rule> <!-- #3 -->
       <pattern>
         <marker>
           <token>a</token>
@@ -1739,7 +1739,7 @@
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
-    <rule>
+    <rule> <!-- #4 -->
       <pattern>
         <token inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|comprar</token>
         <token min='0' postag='R.' postag_regexp='yes'/>
@@ -1749,34 +1749,46 @@
       </pattern>
       <disambig action="remove" postag="S.+"/>
     </rule>
-    <rule>
+    <rule> <!-- #5 -->
       <pattern>
         <token postag="V.+" postag_regexp="yes" inflected="yes" regexp="yes">começar|levar|ir|chegar|feder</token>
         <token min="0" postag="R." postag_regexp="yes"/>
         <marker>
-          <token>a</token>
+          <!-- when followed by a simple fem. noun in the singular, always allow for it to be an article -->
+            <token>a
+                <exception scope="next" postag_regexp="yes" postag="N.F[SN]..."/>
+                <exception scope="next" regexp="yes" postag_regexp="yes" postag="N.M[SN]...">&masc_nouns_mistaken_for_fem;</exception>
+            </token>
         </marker>
       </pattern>
       <disambig action="filter" postag="S.+"/>
       <example type="untouched">...desde que foi inaugurada a República de Itália, em 1946,...</example>
+      <example type="untouched">Chegou a menina.</example>
     </rule>
-    <rule><!-- TODO too agressive. try disabling this rule in a day without many changes and see regression results -->
+    <rule><!-- #6; TODO too agressive. try disabling this rule in a day without many changes and see regression results -->
       <pattern>
         <token postag="V.+" postag_regexp="yes">
           <exception postag="VMP.+" postag_regexp="yes"/>
           <exception regexp="yes">para|como</exception>
           <exception inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|ele|comprar|abrir|ser|estar</exception></token>
+           <!-- TODO: add a list of common, relatively unambiguous *transitive* verbs here -->
         <token min='0' postag='R.' postag_regexp='yes'/>
         <marker>
-          <token>a</token>
+            <!-- when followed by a simple fem. noun in the singular, always allow for it to be an article -->
+            <token>a
+                <exception scope="next" postag_regexp="yes" postag="N.F[SN]..."/>
+                <exception scope="next" regexp="yes" postag_regexp="yes" postag="N.M[SN]...">&masc_nouns_mistaken_for_fem;</exception>
+            </token>
         </marker>
       </pattern>
       <disambig action="filter" postag="S.+"/>
       <example type='untouched'>...desde que foi inaugurada a República de Itália, em 1946,...</example>
       <example type='untouched'>É proibido a entrada de pessoas não autorizadas</example>
       <example type="untouched">Quero saber quem é a agente que atende.</example>
+      <example type="untouched">Temos que curar a gripe.</example>  <!-- tagged as fem -->
+      <example type="untouched">Temos que curar a herpes.</example>  <!-- tagged as masc, but commonly used in the fem -->
     </rule>
-    <rule>
+    <rule> <!-- #7 -->
       <pattern>
         <token postag='V.+' postag_regexp='yes' regexp='yes' inflected='yes'>&requer_crase_verbos;|a(?:plicar|ssemelhar)|comprometer|d(?:edicar|irigir)|e(?:levar|stender)|ir|limitar|observar|p(?:[ôo]r|ertencer)|r(?:eagir|ecorrer|eferir|estringir)|sobrep[ôo]r|ver</token><!-- XXX ambiguous: juntar|alagar -->
         <token regexp='yes' spacebefore='no'>&hifen;</token>
@@ -1788,7 +1800,7 @@
       </pattern>
       <disambig action='filter' postag='S.+'/>
     </rule>
-    <rule>
+    <rule> <!-- #8 -->
       <pattern>
         <token regexp='yes'>&requer_crase;</token>
         <marker>
@@ -1797,7 +1809,7 @@
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
-    <rule>
+    <rule> <!-- #9 -->
       <pattern>
         <token inflected='yes'>ser</token>
         <token postag='A.+' postag_regexp='yes'/>
@@ -1807,7 +1819,7 @@
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
-    <rule>
+    <rule> <!-- #10 -->
       <pattern>
         <token postag_regexp="yes" postag="SENT_START|_PUNCT|V.+"/>
         <token>não</token>
