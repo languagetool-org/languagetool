@@ -1729,6 +1729,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Die Statistikfunktion eignet <marker>sich</marker> für alle, die Texte schreiben.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:(AUX|MOD).*" postag_regexp="yes"></token>
+                    <token></token>
+                    <marker>
+                        <token>bestimmt</token>
+                    </marker>
+                    <token postag="PRO:RIN.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Hier kann man <marker>bestimmt</marker> was Besseres vorschlagen.<marker>ein hohes Tier</marker> in der Branche.</example>
+            </rule>
         </rulegroup>
         <rule id="AI_DE_HYDRA_LEO_CP_EINEN_EINEM" name="">
             <pattern>
