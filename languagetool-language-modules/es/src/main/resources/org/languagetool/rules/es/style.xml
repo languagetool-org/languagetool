@@ -40,6 +40,51 @@ USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style" tags="picky">
         <!--missing_toneTag-->
+        <rule id="REP_USO" name="repetición: uso" min_prev_matches="2" default="temp_off">
+            <antipattern>
+                <token regexp="yes">en|sin</token>
+                <token>uso</token>
+                <example>Se encuentra actualmente en uso.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">condiciones|reglamentos?|consejos?|facilidad|tiempos?|patrón|patrones</token>
+                <token>de</token>
+                <token>uso</token>
+                <example>Te hablan de los tiempos de uso recomendados.</example>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token regexp="yes">primer|segundo|solo</token>
+                <token>uso</token>
+                <example>Esa cámara es de un solo uso.</example>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token postag="AQ.*" postag_regexp="yes"/>
+                <token>uso</token>
+                <example>Guía de buen uso para tus dispositivos móviles.</example>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>uso</token>
+                <token>por</token>
+                <example>Limitado a un uso por persona.</example>
+            </antipattern>
+            <antipattern>
+                <token>uso</token>
+                <token regexp="yes">actual|descrito|compartido|inmobiliario|exclusivo|común|descriptivo|coloquial|médico</token>
+                <example>Se trata de un contrato de uso exclusivo.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>uso</token>
+                </marker>
+            </pattern>
+            <message>blabla</message>
+            <suggestion>utilización</suggestion>
+            <suggestion>empleo</suggestion>
+            <example correction="utilización|empleo">Están tratando de fomentar el <marker>uso</marker> del transporte público.</example>
+        </rule>
         <rule id="REP_CREER" name="repetición: creer" min_prev_matches="2" default="temp_off">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Cre[ea]|CREA<exception scope="previous" postag="SENT_START"/></token>
