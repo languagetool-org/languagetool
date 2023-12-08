@@ -723,7 +723,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_HET_IS_EEN" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VNW:OND:EKV:HET"/>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
@@ -735,7 +735,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	
 	<rule id="START_IK_DENK" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<token postag="VNW:ACT:EKV:1EP"/>
 			<marker>
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
@@ -746,7 +746,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_DIT_BETEKENT_DAT" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VNW:OND:EKV:HET"/>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
@@ -921,7 +921,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="START_IK_1EP" name="-">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="SENT_START|START"/>
+				<token postag="SENT_START"/>
 				<token postag="VNW:ACT:EKV:1EP"/>
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
 			</marker>
@@ -932,7 +932,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="START_ER_1EP" name="-">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="SENT_START|START"/>
+				<token postag="SENT_START"/>
 				<token>er</token>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/>
 			</marker>
@@ -965,7 +965,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_INDIEN" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VGW">indien</token>
 			</marker>
@@ -975,7 +975,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 <!--
 	<rule id="START_1EP_X" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag_regexp="yes" postag="SENT_START|START"|postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag_regexp="yes" postag_regexp="yes" postag="SENT_START"|postag_regexp="yes" postag="SENT_START"/>
 			<marker>
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"><exception regexp="yes">in|naast|uit</exception></token>
 				<token regexp="yes">het|dit|dat|die|de|een</token>
@@ -986,7 +986,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	-->
 	<rule id="START_DIT_IS_EEN_FRAGMENT_UIT" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VNW:OND:EKV:HET"/>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
@@ -1019,7 +1019,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_X_HIJ" name="vangen">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<token postag_regexp="yes" postag="WKW:TGW:3EP:EKV|WKW:VLT:1EP"/>
 			<token postag="VNW:PER:3EP:EKV:ACT"/>
 		</pattern>
@@ -1221,30 +1221,30 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<!-- define start and end elements to ignore -->
 	<rule id="START_IGNORE_01" name="">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token regexp="yes">[‘’“'"„”]</token>
 			</marker>
 		</pattern>
-		<disambig action="add"><wd pos="START"/></disambig>
+		<disambig action="add"><wd pos="SENT_START"/></disambig>
 	</rule>
 	<rule id="START_IGNORE_02" name="">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token regexp="yes">en|maar</token>
 			</marker>
 		</pattern>
-		<disambig action="add"><wd pos="START"/></disambig>
+		<disambig action="add"><wd pos="SENT_START"/></disambig>
 	</rule>
 	<rule id="END_IGNORE_01" name="">
 		<pattern>
 			<marker>
 				<token/>
 			</marker>
-			<token postag_regexp="yes" postag="SENT_END|END" regexp="yes">[‘’“'"„”]</token>
+			<token postag="SENT_END" regexp="yes">[‘’“'"„”]</token>
 			</pattern>
-		<disambig action="add"><wd pos="END"/></disambig>
+		<disambig action="add"><wd pos="SENT_END"/></disambig>
 	</rule>
 	<rule id="END_IGNORE_03" name="">
 		<pattern>
@@ -1253,7 +1253,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 			</marker>
 			<token regexp="yes">[.!?]</token>
 			</pattern>
-		<disambig action="add"><wd pos="END"/></disambig>
+		<disambig action="add"><wd pos="SENT_END"/></disambig>
 	</rule>
 
 	<!-- voegt gij-vorm toe; heeft nog uitzonderingen nodig -->
@@ -1271,18 +1271,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<!-- Wees een goed mens etc. -->
 
 	<rule id="WEES_01" name="">
-		<pattern><token postag_regexp="yes" postag="SENT_START|START"/><marker><token>wees</token></marker></pattern>
+		<pattern><token postag="SENT_START"/><marker><token>wees</token></marker></pattern>
 		<disambig action="add"><wd pos="WKW:TGW:1EP"/></disambig>
 	</rule>
 
 	<rule id="START_NO_PROPER" name="">
 		<antipattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<token postag="ENM.*"/>
 			<token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
 		</antipattern>
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<and>
 					<token postag_regexp="yes" postag="ENM.*"/>
@@ -1656,4 +1656,5 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+
 </rules>
