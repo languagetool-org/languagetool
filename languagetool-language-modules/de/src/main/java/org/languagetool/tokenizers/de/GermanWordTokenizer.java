@@ -24,7 +24,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 
 public class GermanWordTokenizer extends WordTokenizer {
   
-  private final String deTokenizingChars = super.getTokenizingCharacters() + "_";
+  private final String deTokenizingChars = super.getTokenizingCharacters() + "_‚";
 
   @Override
   public String getTokenizingCharacters() {
