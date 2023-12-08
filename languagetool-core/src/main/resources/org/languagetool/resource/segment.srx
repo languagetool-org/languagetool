@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Opent in 7 h 51 min. Bijgewerkt op 05-04-2023.</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Als bedoeld in art. V van het boek.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1540,6 +1540,10 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<rule break="no">
+<beforebreak>\sart\.\s</beforebreak>
+<afterbreak>[IVX]+[ .]</afterbreak>
+</rule>
 <!--Do not break after abbreviation of type a.b.c.-->
 <rule break="no">
 <beforebreak>\s([a-z]\.){2,10}\s</beforebreak>
