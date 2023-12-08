@@ -60,7 +60,7 @@ public class AmericanEnglish extends English {
 
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
-      return new MorfologikAmericanSpellerRule(messages, this, null, Collections.emptyList());
+    return new MorfologikAmericanSpellerRule(messages, this, null, Collections.emptyList());
   }
 
   @Override
