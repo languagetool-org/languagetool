@@ -83,9 +83,10 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>en</token>
-                    <token>qué</token>
+                    <token skip="1">qué</token>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
                     <example>¿En qué piensas?</example>
+                    <example>¿Qué estás pensando?</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">maneras?|formas?|modos?</token>
@@ -119,6 +120,20 @@ USA
                     <token inflected="yes">estar</token>
                     <token regexp="yes">pensad[oa]s?</token>
                     <example>Está pensado para todo el mundo.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">pensad[oa]s?<exception scope="previous" inflected="yes">haber</exception></token>
+                    <example>Pensado para la nieve.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <token postag="RG|_PUNCT.*|CC" postag_regexp="yes"/>
+                    <example>Pensáis demasiado.</example>
+                    <example>Pienso, luego existo.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*:PP.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <example>No puedo parar de pensarlo.</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -193,6 +208,12 @@ USA
                     <token>trabajo</token>
                     <example>Me llamó desde su lugar de trabajo.</example>
                 </antipattern>
+                <antipattern>
+                    <token>fuera</token>
+                    <token>de</token>
+                    <token>lugar</token>
+                    <example>Se sentía fuera de lugar.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token inflected="yes">lugar</token>
@@ -209,9 +230,9 @@ USA
         </rulegroup>
         <rule id="REP_CREAR" name="repetición: crear" min_prev_matches="2">
             <antipattern>
-                <token regexp="yes">cre[oe]|crea[sn]?|creamos</token>
+                <token regexp="yes">cre[oe]|cre[ae][sn]?|creamos|creéis</token>
                 <token regexp="yes">en|que|(ferviente|rotunda|ciega|firme|ingenua|honesta|absoluta|sincera|vehemente|seria)mente</token>
-                <example>Creo ciegamente en ti.</example>
+                <example>Creen ciegamente en ti.</example>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Cre[ea]|CREA<exception scope="previous" postag="SENT_START"/></token>
@@ -225,6 +246,11 @@ USA
                 <example>Y Dios creó al hombre a su imagen.</example>
             </antipattern>
             <antipattern>
+                <token skip="2" postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token regexp="yes">cielo|tierra</token>
+                <example>Y Dios creó el cielo y la tierra.</example>
+            </antipattern>
+            <antipattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
                 <token>conciencia</token>
                 <example>Ayuda a crear conciencia sobre el medio ambiente.</example>
@@ -233,6 +259,18 @@ USA
                 <token skip="3" postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
                 <token regexp="yes">vínculos?|experiencias?|espacio|ambiente|atmósfera|armonía|cursos?|blogs?|spots?|anuncios?|programas?|proyectos?|cuentas?|páginas?|hogar|platos?|platillos?</token>
                 <example>Eso ayudó a crear un buen ambiente.</example>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token min="0" regexp="yes">[mts]e|n?os</token>
+                <token>creas</token>
+                <example>No te creas todo lo que te cuenta.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[mts]e|n?os</token>
+                <token>lo</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <example>Me lo creo.</example>
             </antipattern>
             <pattern>
                 <marker>
