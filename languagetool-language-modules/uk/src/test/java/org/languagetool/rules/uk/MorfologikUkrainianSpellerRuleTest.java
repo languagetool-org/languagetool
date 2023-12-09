@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -33,11 +33,11 @@ import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
 public class MorfologikUkrainianSpellerRuleTest {
-  private JLanguageTool lt;
-  private MorfologikUkrainianSpellerRule rule;
+  private static JLanguageTool lt;
+  private static MorfologikUkrainianSpellerRule rule;
   
-  @Before
-  public void init() throws IOException {
+  @BeforeClass
+  public static void init() throws IOException {
     rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null, Collections.emptyList());
     lt = new JLanguageTool(new Ukrainian());
   }
