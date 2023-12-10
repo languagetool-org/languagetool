@@ -75,7 +75,7 @@ task prepareDict(type: Exec) {
     srcDict = convert(srcDict)
 
     def exclude = "lat".equals(dict) ? "[ а-я]" : " "
-    def cmd = "grep -v ${exclude} ${srcDict} | LC_ALL=POSIX sort -u > ${outFile}"
+    def cmd = "grep -v '${exclude}' ${srcDict} | LC_ALL=POSIX sort -u > ${outFile} && [ -f ${outFile} ]"
 
     commandLine "sh", "-c", "${cmd}"
 }
@@ -94,7 +94,7 @@ task posDict(type: JavaExec, dependsOn: prepareDict) {
     jvmArgs "-Xmx12g"
     
     args "-i", "${tmpDir}/all.tagged.tmp"
-    args "-info", "${projectDir}/../crimean_tatar.info"
+    args "-info", "${resourceDir}/crimean_tatar.info"
     args "-o", "${outputDict}"
 }
 
@@ -111,7 +111,7 @@ task synthDict(type: JavaExec, dependsOn: prepareDict) {
     jvmArgs "-Xmx12g"
     
     args "-i", "${tmpDir}/all.tagged.tmp"
-    args "-info", "${projectDir}/../crimean_tatar_synth.info"
+    args "-info", "${resourceDir}/crimean_tatar_synth.info"
     args "-o", "${outputDict}"
 }
 
@@ -205,7 +205,7 @@ publishing {
             pom {
                 name = 'Crimean Tatar Morfologik dictionaries for LanguageTool'
                 description = 'Part-of-speech dictionaries for Crimean Tatar in Morfologik binary format'
-                //url = 'https://github.com/brown-uk/dict_uk'
+                url = 'https://github.com/qirimca/languagetool'
 
                 licenses {
                   license {
@@ -222,9 +222,9 @@ publishing {
                   }
                 }
 
-//                scm {
-//                  url = "https://github.com/brown-uk/nlp_uk.git"
-//                }
+                scm {
+                  url = "https://github.com/qirimca/languagetool.git"
+                }
             }
         }
     }
@@ -238,7 +238,7 @@ publishing {
                 password = getProperty('ossrhPassword')
             }
 
-         url = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+         url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
          //    url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
