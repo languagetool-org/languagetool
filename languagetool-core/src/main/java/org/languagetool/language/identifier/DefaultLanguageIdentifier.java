@@ -67,7 +67,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   private static final List<String> ignoreLangCodes = Arrays.asList("ast", "gl");
 
   // languages that we offer profiles for as they are not yet supported by language-detector:
-  private static final List<String> externalLangCodes = Arrays.asList("eo");
+  private static final List<String> externalLangCodes = Arrays.asList("eo", "crh");
   // fall back to checking against list of common words if fasttext probability is lower than this:
   private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.85f;
   // Result ('Avg. minimum chars') of LanguageDetectionMinLengthEval with MIN_INPUT_LEN=5 and MAX_INPUT_LEN=100,

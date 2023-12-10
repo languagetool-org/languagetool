@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+English Grammar and Typo Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de),
+  Andriy Rysin and the LanguageTool contributors
+
+Portions of rules are converted from After The Deadline grammar checker, 
+available at http://open.afterthedeadline.com/, licensed under
+GNU GPL.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+
+<!DOCTYPE rules [
+]>
+
+<rules lang="crh" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <category id="TYPOS" name="Possible Typo" type="misspelling">
+      <rule id="sample_rule" name="sample rule">
+        <pattern>
+          <token>kerekiiim</token>
+        </pattern>
+        <message>Misspelled</message>
+        <example correction="">Bunı añlamaq <marker>kerekiiim</marker></example>
+      </rule>
+    </category>
+
+    <category id="GRAMMAR" name="Grammar mistakes" type="grammar">
+      <rule id="sample_grammar_rule" name="grammar rule">
+        <pattern>
+          <token postag_regexp="yes" postag="ADJF.*"/>
+          <token>tutuqlarnıñ</token>
+        </pattern>
+        <message>Two adjectives</message>
+        <example correction=""><marker>eskilerde tutuqlarnıñ</marker></example>
+      </rule>
+
+      <rule id="THANKFULLNESS_COLLOQUIAL" name="Minnetdarlg, formasg">
+        <pattern>
+		  <marker>
+            <token postag_regexp="yes" postag=".*datv.*"></token>
+          </marker>
+          <token>sağ</token>
+          <token regexp="yes">ol|oluñız</token>
+        </pattern>
+        <message>Minnetdarliilq formas soyle: <suggestion><match no="1" postag_regexp="yes" postag="(.*)datv(.*)" postag_replace="$1nomn$2" /></suggestion></message>
+        <example correction="Sen"><marker>Saña</marker> sağ ol.</example>
+      </rule> 
+
+    </category>
+
+</rules>
