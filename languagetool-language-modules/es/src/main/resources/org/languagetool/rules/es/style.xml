@@ -40,7 +40,7 @@ USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style" tags="picky">
         <!--missing_toneTag-->
-        <rule id="REP_REVISAR" name="repetición: revisar" min_prev_matches="2" default="temp_off">
+        <rule id="REP_REVISAR" name="repetición: revisar" min_prev_matches="2">
             <pattern>
                 <marker>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">revisar</token>
@@ -51,7 +51,7 @@ USA
             <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">verificar</match></suggestion>
             <example correction="comprobar|verificar">En primer lugar, se deben <marker>revisar</marker> los documentos manualmente.</example>
         </rule>
-        <rule id="REP_COMPROBAR" name="repetición: comprobar" min_prev_matches="2" default="temp_off">
+        <rule id="REP_COMPROBAR" name="repetición: comprobar" min_prev_matches="2">
             <pattern>
                 <marker>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">comprobar</token>
@@ -62,7 +62,7 @@ USA
             <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">verificar</match></suggestion>
             <example correction="revisar|verificar">En primer lugar, se deben <marker>comprobar</marker> los documentos manualmente.</example>
         </rule>
-        <rule id="REP_VERIFICAR" name="repetición: verificar" min_prev_matches="2" default="temp_off">
+        <rule id="REP_VERIFICAR" name="repetición: verificar" min_prev_matches="2">
             <pattern>
                 <marker>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">verificar</token>
@@ -73,7 +73,7 @@ USA
             <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">comprobar</match></suggestion>
             <example correction="revisar|comprobar">En primer lugar, se deben <marker>verificar</marker> los documentos manualmente.</example>
         </rule>
-        <rule id="REP_USO" name="repetición: uso" min_prev_matches="2" default="temp_off">
+        <rule id="REP_USO" name="repetición: uso" min_prev_matches="2">
             <antipattern>
                 <token regexp="yes">en|sin</token>
                 <token>uso</token>
@@ -118,7 +118,7 @@ USA
             <suggestion>empleo</suggestion>
             <example correction="utilización|empleo">Están tratando de fomentar el <marker>uso</marker> del transporte público.</example>
         </rule>
-        <rule id="REP_CREER" name="repetición: creer" min_prev_matches="2" default="temp_off">
+        <rule id="REP_CREER" name="repetición: creer" min_prev_matches="2">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Cre[ea]|CREA<exception scope="previous" postag="SENT_START"/></token>
                 <example>Corpus de Referencia del Español Actual (CREA).</example>
