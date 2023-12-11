@@ -189,19 +189,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id="EM_CASE_EM_CASO_CONFUSAO" name="Confusão entre 'case' e 'caso'">
-            <!-- If annoying marketing execs get annoyed as they're trying to use 'case', GOOD 😈. What an obnoxious word. -->
+            <!-- If annoying marketing execs get annoyed as they're trying to use 'case', GOOD 😈. What an obnoxious word. They did... paring it back. -->
             <rule id="EM_CASE_DE">
                 <pattern>
-                    <token postag_regexp="yes" postag="SP.+" regexp="yes">em|n.+</token>
+                    <token>em</token>
                     <marker>
                         <token>case</token>
                     </marker>
+                    <token>de</token>
                 </pattern>
                 <message>Possível erro de digitação.</message>
                 <suggestion>caso</suggestion>
                 <example correction="caso">Em <marker>case</marker> de incêndio...</example>
-                <example correction="caso">No <marker>case</marker> do outro menino...</example>
-                <example correction="caso">Bem, nesse <marker>case</marker>...</example>
+                <example>No case do outro menino...</example>
+                <example>Bem, nesse case...</example>
             </rule>
 
             <rule id="CASE_ALGO_ACONTECA">
