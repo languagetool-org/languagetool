@@ -8402,6 +8402,75 @@ USA
     </category>
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
+
+        <rulegroup id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+
+            <!-- Subrule 1: "V.+ substantivos básic[ao]s?" -->
+            <rule>
+                <antipattern>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token postag='SPS0.+' postag_regexp='yes'/>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='SPS00' postag_regexp='no'/>
+                    <token regexp='yes'>básic[ao]s?</token>
+                    <example>Esta receita é proporcionada pelas vendas de básicos.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token postag='SPS0.+|RG' postag_regexp='yes'/>
+                    <token regexp='yes'>básic[ao]s?</token>
+                    <example>10/01/2010 – Aula de básico 1/2 – segundas e quartas das 20h30 as 22h (visitas de alunas de outros níveis – a troca, o vislumbr...</example>
+                    <example>Essas soluções são chamadas de básicas.</example>
+                    <example>Os quartos neste hotel são bem básicos.</example>
+                    <example>O meu russo ainda é muito básico.</example>
+                </antipattern>
+
+                <pattern>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token min='1' max='3' postag_regexp='yes' postag='NC.+|AQ.+|NP.+|RG|DI.+|SPS00|CC'>
+                        <exception regexp='yes'>básic[ao]s?</exception>
+                        <exception regexp='yes' inflected='yes'>acusação|atendimento|característica|cesta|composição|condição|cor|crença|cuidado|curso|direito|educação|ensino|entendimento|equipamento|escola|estrutura|força|funcionalidade|história|ideia|item|infraestrutura|instituição|layout|levantamento|look|modelo|necessidade|pergunta|ponto|premissa|princípio|prioridade|procedimento|receita|rede|rendimento|repertório|requisito|saneamento|sec?ção|serviço|site|taxa|telefone|trabalhador|treinamento|variedade|website</exception> <!-- Exceptions (bad). Add more as found -->
+                    </token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
+                <suggestion><match no='5' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
+                <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
+                <example correction="elementares">Ele dispõe de conhecimentos <marker>básicos</marker>.</example>
+            </rule>
+
+            <!-- Subrule 2: "D[AI].+ substantivo [mais] básic[ao]s?" -->
+            <rule>
+                <antipattern>
+                    <token regexp='yes'>unidades?</token>
+                    <token regexp='yes'>básicas?</token>
+                    <token>de</token>
+                    <token>saúde</token>
+                    <example>O serviço está sendo feito nos arredores de prédios públicos, como a Unidade Básica de Saúde, além de farmácias, hospital e bancos.</example>
+                    <example>“A Nota determina que, em quatro anos, todas as Unidades Básicas de Saúde (UBS’s) que dispensem medicamentos tenham um profissional de farmácia para prestar os aten...</example>
+                </antipattern>
+
+                <pattern>
+                    <token postag='D[AI].+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='Z0.+' postag_regexp='yes'/>
+                    <token regexp='yes' inflected='yes'>abordagem|adição|aritmética|aspecto|cálculo|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|diferença|divisão|equação|elemento|estrutura|exigência|expressão|fac?to|ferramenta|forma|fórmula|função|fundamento|informação|instinto|instituição|interpretação|medida|método|métrica|modelo|motivo|multiplicação|obra|operação|palavra|pergunta|personalidade|premissa|prevenção|procedimento|produto|questão|razão|regra|subtração|subunidade|suporte|técnica|unidade|valor|versão</token> <!-- Triggering (good) words. Add more as found -->
+                    <token min='0' max='1' postag='RG'/>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
+                <suggestion><match no='5' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
+                <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token postag='SENT_START|AQ.+|NC.+|NP.+|CS|CC' postag_regexp='yes'/>
