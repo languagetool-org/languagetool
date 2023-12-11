@@ -41060,6 +41060,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     </category>
     <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
+        <rulegroup id="NUMERO_NEGATIVO_SINAL_DE_MENOS" name="Usar o sinal de menos com números negativos" default="temp_off">
+            <antipattern> <!-- #1: NO SPACE BEFORE: number ranges, domain-specific formats, etc. -->
+                <token regexp="yes" spacebefore="no">[-–—]</token> <!-- hyphen, n-dash, m-dash -->
+                <token spacebefore="no" regexp="yes">\d.*</token>
+                <example>Compramos 30–40 resmas.</example>
+                <example>O carro de placa ABC-4021.</example>
+                <example>Ligue para +48 666-69-420.</example>
+                <example>Entre 30-50%.</example>
+                <example>Você precisa do formulário D-59.</example>
+            </antipattern>
+
+            <rule> <!-- #1: SPACE BEFORE: assume a negative -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" spacebefore="yes">[-–—]</token> <!-- hyphen, n-dash, m-dash -->
+                    </marker>
+                <token spacebefore="no" regexp="yes">\d.*</token>
+                </pattern>
+                <message>Se for um número negativo, prefira o sinal de menos.</message>
+                <suggestion>−</suggestion>
+                <example correction="−">A temperatura chegou a <marker>—</marker>30 graus!</example>
+                <example correction="−">O total de pontos foi de <marker>-</marker>100.</example>
+                <example correction="−">Ontem fez <marker>–</marker>40°C no Rio.</example>
+                <example correction="−">O prejuízo foi de <marker>-</marker>40€.</example>
+                <example correction="−">Crescimento de <marker>-</marker>27% no segundo trimestre.</example>
+            </rule>
+        </rulegroup>
 
         <rule id="ABREVIATURA_DE_SECULO" name="Não abrevie 'século' para 'séc.'">
             <pattern>
