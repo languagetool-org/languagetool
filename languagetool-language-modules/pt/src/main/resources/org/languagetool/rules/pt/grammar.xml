@@ -12304,7 +12304,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <!-- ESPERA_QUE_INDICATIVO -->
         <rulegroup id="ESPERA_QUE_INDICATIVO" name="Concordância Verbal: Esperar que + Indicativo" default="temp_off">
             <antipattern> <!-- #1 -->
                 <marker>
@@ -12377,12 +12376,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
-                            <exception regexp='yes'>\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12394,6 +12393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="levem">Evitaremos que as direitas <marker>levam</marker> adiante o seu programa.</example>
                 <example correction="acorde">Proponho que Paulo <marker>acorda</marker> mais cedo.</example>
                 <example correction="precisem">Temo que muitas pessoas ainda <marker>precisam</marker> de algo mais.</example>
+                <example>Espero que ela já esteja totalmente recuperada.</example>
                 <example>Espera-se que a sonda Cassini chegue cedo.</example>
                 <example>Espera-se que a sonda chegue cedo.</example>
                 <example>Espero que perdoar-me-ás se não venho.</example>
@@ -12427,23 +12427,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
-                            <exception regexp='yes'>\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
                 <message>Após verbos que expressam dúvidas, desejos e hipóteses, como &quot;<match no="1" postag_regexp="yes" postag=".+" postag_replace="VMN0000"/>&quot;, prefira usar o subjuntivo.</message> <!-- VMIP3S00 -->
                 <suggestion><match no='3' postag="(V.)I[PF](.+)" postag_regexp="yes" postag_replace="$1SP$2"/></suggestion>
-                <example correction="venhais">Sugiro que <marker>vindes</marker>.</example>
+                <example correction="venhais">Proponho que <marker>vindes</marker>.</example>
                 <example correction="produzam">Espera-se que se <marker>produzem</marker> bom resultados.</example>
                 <example correction="possa">Desejam que no final <marker>posso</marker> vir.</example>
                 <example correction="vejamos">Estamos à espera que nos <marker>vemos</marker> nesta sexta-feira.</example> <!-- this is hacky, that's not a verb -->
                 <example correction="bebam">Proíbo que <marker>bebem</marker> café depois das cinco da tarde!</example>
-                <example correction="saiba">Não acredito que ele realmente <marker>sabe</marker> a verdade.</example>
+                <example correction="saiba">Não suponho que ele realmente <marker>sabe</marker> a verdade.</example>
                 <!--example correction="possa">Se espera que no final <marker>posso</marker> vir.</example--><!-- TODO disambiguate 'se' CS|PP3CN000 -->
                 <example>Espero que possais vir.</example>
                 <!--example>Esperando até que fez o mesmo.</example--> <!-- TODO disambiguate 'fez' -->
@@ -12465,12 +12465,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
-                            <exception regexp='yes'>\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12496,23 +12496,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
-                            <exception regexp='yes'>\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
                 <message>Após verbos que expressam dúvidas, desejos e hipóteses, como &quot;<match no="1" postag_regexp="yes" postag=".+" postag_replace="VMN0000"/>&quot;, prefira usar o subjuntivo.</message> <!-- VMIP3S00 -->
                 <suggestion><match no='3' postag="(V.)IP(.+)" postag_regexp="yes" postag_replace="$1SP$2"/></suggestion>
                 <suggestion><match no='3' postag="(V.)IP(.+)" postag_regexp="yes" postag_replace="$1SI$2"/></suggestion>
-                <example correction="venhais|viésseis">Sugeri que <marker>vindes</marker>.</example>
+                <example correction="venhais|viésseis">Propus que <marker>vindes</marker>.</example>
                 <example correction="produzam|produzissem">Desejei que se <marker>produzem</marker> bom resultados.</example>
                 <example correction="possa|pudesse">Temi que no final não <marker>posso</marker> vir.</example>
                 <example correction="bebam|bebessem">Proibi que <marker>bebem</marker> café depois das cinco da tarde!</example>
-                <example correction="saiba|soubesse">Não acreditei que ele realmente <marker>sabe</marker> a verdade.</example>
+                <example correction="saiba|soubesse">Desmenti que ele realmente <marker>sabe</marker> a verdade.</example>
             </rule>
 
             <rule id="ESPERAVA_QUE_INDICATIVO_AR"> <!-- #5: split to keep the simple message, '-ar' verbs -->
@@ -12526,12 +12526,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
-                            <exception regexp='yes'>\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12556,22 +12556,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
-                            <exception regexp='yes'>\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
                 <message>Após verbos que expressam dúvidas, desejos e hipóteses, como &quot;<match no="1" postag_regexp="yes" postag=".+" postag_replace="VMN0000"/>&quot;, prefira usar o subjuntivo.</message> <!-- VMIP3S00 -->
                 <suggestion><match no='3' postag="(V.)IP(.+)" postag_regexp="yes" postag_replace="$1SI$2"/></suggestion>
-                <example correction="viésseis">Sugeria que <marker>vindes</marker>.</example>
+                <example correction="viésseis">Propunha que <marker>vindes</marker>.</example>
                 <example correction="produzissem">Desejava que se <marker>produzem</marker> bom resultados.</example>
                 <example correction="pudesse">Queria que no final <marker>posso</marker> vir.</example>
                 <example correction="bebessem">Proibiria que <marker>bebem</marker> café depois das cinco da tarde!</example>
-                <example correction="soubesse">Não acreditava que ele realmente <marker>sabe</marker> a verdade.</example>
+                <example correction="soubesse">Não desmentia que ele realmente <marker>sabe</marker> a verdade.</example>
             </rule>
         </rulegroup>
 
