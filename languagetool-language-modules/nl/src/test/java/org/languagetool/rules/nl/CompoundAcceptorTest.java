@@ -45,6 +45,9 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("zwangersschap"));
 
     assertTrue(acceptor.acceptCompound("Papierversnipperaar"));
+    assertTrue(acceptor.acceptCompound("adresvervloeking"));
+    assertFalse(acceptor.acceptCompound("schapsblijheid"));
+
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
@@ -61,6 +64,8 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("aidsafdeling"));
     assertFalse(acceptor.acceptCompound("VIP-behandeling"));
     assertTrue(acceptor.acceptCompound("vipbehandeling"));
+    assertTrue(acceptor.acceptCompound("vipcriticus"));
+    assertTrue(acceptor.acceptCompound("vip-criticus"));
     assertFalse(acceptor.acceptCompound("ZZP-ondernemertje"));
     assertFalse(acceptor.acceptCompound("Zzp-ondernemertje"));
     assertTrue(acceptor.acceptCompound("zzp-ondernemertje"));

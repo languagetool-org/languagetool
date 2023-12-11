@@ -194,6 +194,7 @@ public class CompoundAcceptor {
     "antenne",
     "attitude",
     "auto",
+    "bal",
     "balustrade",
     "bediende",
     "behoefte",
@@ -262,6 +263,7 @@ public class CompoundAcceptor {
     "groente",
     "grootte",
     "halte",
+    "hand",
     "hectare",
     "holte",
     "hoofd",
@@ -270,6 +272,7 @@ public class CompoundAcceptor {
     "hybride",
     "hypothese",
     "impasse",
+    "info",
     "informatie",
     "inname",
     "inzage",
@@ -277,6 +280,7 @@ public class CompoundAcceptor {
     "karakter",
     "kazerne",
     "keuze",
+    "kind",
     "kinder",
     "krapte",
     "kudde",
@@ -298,6 +302,7 @@ public class CompoundAcceptor {
     "metamorfose",
     "methode",
     "meute",
+    "mini",
     "module",
     "mythe",
     "novelle",
@@ -328,6 +333,7 @@ public class CompoundAcceptor {
     "psychose",
     "pyjama",
     "rente",
+    "rij",
     "ritme",
     "ronde",
     "rotonde",
@@ -347,6 +353,7 @@ public class CompoundAcceptor {
     "stilte",
     "straat",
     "studenten",
+    "super",
     "synagoge",
     "synode",
     "synthese",
@@ -379,10 +386,12 @@ public class CompoundAcceptor {
     "vrouwen",
     "waarde",
     "warmte",
+    "water",
     "weduwe",
     "weergave",
     "weide",
     "wereld",
+    "werk",
     "woning",
     "woord",
     "ziekte",
@@ -448,8 +457,8 @@ public class CompoundAcceptor {
   boolean acceptCompound(String part1, String part2) {
     try {
       String part1lc = part1.toLowerCase();
-      // reject if it's in the exceptions list
-      if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1)) && !noS.contains(part1)) {
+      // reject if it's in the exceptions list or if a wildcard is the entirety of part1
+      if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1)) && !alwaysNeedsS.contains(part1) && !noS.contains(part1) && !part1.contains("-")) {
         for (String suffix : alwaysNeedsS) {
           if (part1lc.endsWith(suffix)) {
             return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
