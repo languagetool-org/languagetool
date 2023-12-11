@@ -46,7 +46,10 @@ public class CompoundAcceptorTest {
 
     assertTrue(acceptor.acceptCompound("Papierversnipperaar"));
     assertTrue(acceptor.acceptCompound("adresvervloeking"));
-    assertFalse(acceptor.acceptCompound("schapsblijheid"));
+    assertTrue(acceptor.acceptCompound("sportagente"));
+    assertTrue(acceptor.acceptCompound("transferpersjes"));
+    assertTrue(acceptor.acceptCompound("kunstomlijning"));
+    assertTrue(acceptor.acceptCompound("webomlijning"));
 
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
