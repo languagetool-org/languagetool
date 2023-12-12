@@ -41825,6 +41825,110 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Entre as 9:00 e as 16:45.</example>
         </rule>
 
+        <rulegroup id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA" name="Usar meia-risca entre municípios e estados brasileiros" default="temp_off">
+            <antipattern> <!-- correct format, note the spacing -->
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                <token spacebefore="no">–</token>
+                <token case_sensitive="yes" regexp="yes" spacebefore="no">&state_abbrev_all;</token>
+                <example>Nasceu em Niterói–RJ.</example>
+            </antipattern>
+            <rule> <!-- #1: brackets -->
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                    <marker>
+                        <token>(</token>
+                        <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
+                        <token>)</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <message>Separe municípios e estados brasileiros com uma meia-risca.</message>
+                <suggestion>–\3</suggestion>
+                <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker>(RJ)</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker> e morreu lá.</example>
+            </rule>
+            <rule> <!-- #2: simple separators -->
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                    <marker>
+                        <token/>
+                        <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <message>Separe municípios e estados brasileiros com uma meia-risca.</message>
+                <suggestion>–\3</suggestion>
+                <example correction="–RJ">Nasceu em Niterói<marker> – RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker> — RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker>-RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker>, RJ</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <!--Some Brazilian states have the same abbreviation as US ones;
+            we'll prioritise the former, but this does create a couple of issues
+        e.g. MA is both Maine and Maranhão; Portland, MA will be corrected to Portland–MA...
+            Check AP #2 here for a naïve implementation. At some point, it might be a good idea to
+            actually check the *city name*, but this is a bigger thing.
+        -->
+        <!--State abbreviations common to both Brazil and the US:
+            AL: Alagoas/Alabama
+            MA: Maranhão/Maine
+            MS: Mato Grosso do Sul/Mississippi
+            MT: Mato Grosso/Montana
+            PA: Pará/Pennsylvania
+            SC: Santa Catarina/South Carolina
+        -->        
+        <rulegroup id="SEPARADORES_DE_ESTADOS_AMERICANOS_VIRGULA" name="Usar vírgula entre municípios e estados americanos" default="temp_off">
+            <antipattern> <!-- correct format, note the spaces! -->
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                <token spacebefore="no">,</token>
+                <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_us;</token>
+                <example>Nasceu em Denver, CO.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                <token spacebefore="no">–</token>
+                <token case_sensitive="yes" regexp="yes" spacebefore="no">&state_abbrev_brazil;</token>
+                <example>Nasceu em Filadélfia–PA.</example>
+            </antipattern>
+            <rule> <!-- #1: brackets -->
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                    <marker>
+                        <token>(</token>
+                        <token case_sensitive="yes" regexp="yes">&state_abbrev_us;</token>
+                        <token>)</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <message>Separe cidades e estados americanos com uma vírgula.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", CO">Nasceu em Denver<marker> (CO)</marker>.</example>
+                <example correction=", CO">Nasceu em Denver<marker>(CO)</marker>.</example>
+                <example correction=", CO">Nasceu em Denver<marker> (CO)</marker> e morreu lá.</example>
+            </rule>
+            <rule> <!-- #2: simple separators -->
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                    <marker>
+                        <token/>
+                        <token case_sensitive="yes" regexp="yes">&state_abbrev_us;</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <message>Separe municípios e estados americanos com uma vírgula.</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", CO">Nasceu em Denver<marker> – CO</marker>.</example>
+                <example correction=", CO">Nasceu em Denver<marker>/CO</marker>.</example>
+                <example correction=", CO">Nasceu em Denver<marker> — CO</marker>.</example>
+                <example correction=", CO">Nasceu em Denver<marker>-CO</marker>.</example>
+                <example correction=", CO">Nasceu em Denver<marker>–CO</marker>.</example>
+            </rule>
+        </rulegroup>
+
 
         <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × " tags="picky">
             <!-- Created by Tiago F. Santos, 2017-03-27 -->
