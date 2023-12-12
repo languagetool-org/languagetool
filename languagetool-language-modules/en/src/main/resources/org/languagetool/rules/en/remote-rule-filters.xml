@@ -34,6 +34,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
     <!ENTITY weekdays "Monday|Wednesday|T(ue|hur)sday|Friday|S(atur|un)day">
     <!ENTITY abbrevWeekdays "Mon?|Tu(e|es)?|We(d|ds)?|Th(u|ur|urs)?|Fri?|Sat?|Sun?">
+    <!ENTITY plural_singular_nouns_2 "accused|army|audience|club|community|council|(counter)?party|couple|duo|faculty|family|following|former|innocent|latter|majority|management|minority|pair|poor|public|remainder|rest|rich|staff|team|trio|youth">
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
@@ -150,6 +151,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
+            <rule>  <!-- former/latter/etc. -->
+                <pattern>
+                    <token regexp="yes" chunk="E-NP-singular">&plural_singular_nouns_2;</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBP" chunk_re=".-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">The latter <marker>do</marker>n't need to be taken into account.</example>
+                <example correction="">The former <marker>are</marker> not as strong as the latter, though.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">you|we|they</token>
@@ -580,6 +592,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
+            <rule>  <!-- former/latter/etc. -->
+                <pattern>
+                    <token regexp="yes" chunk="E-NP-singular">&plural_singular_nouns_2;</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBP" chunk_re=".-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">The latter <marker>do</marker>n't need to be taken into account.</example>
+                <example correction="">The former <marker>are</marker> not as strong as the latter, though.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token skip="10" postag="VBN" chunk_re=".-VP" />
