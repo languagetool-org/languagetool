@@ -33,6 +33,7 @@
         <!ENTITY % verbs     SYSTEM "../../resource/pt/entities/verbs.ent"    >
         <!ENTITY % languages SYSTEM "../../resource/pt/entities/languages.ent">
         <!ENTITY % postal    SYSTEM "../../resource/pt/entities/postal.ent"   >
+        <!ENTITY % chars     SYSTEM "../../../resource/pt/entities/chars.ent"    >
         %messages;
         %datetime;
         %misc;
@@ -41,6 +42,7 @@
         %verbs;
         %languages;
         %postal;
+        %chars;
         ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -4000,7 +4002,7 @@
 
     <rule id="ORDINAL_SUPERSCRIPT_IGNORE">
          <pattern>
-            <token regexp="yes">\d+[°ºª]\d*</token>
+            <token regexp="yes">\d+[&ordf;&ordm;&sup_a;&sup_o;&deg;][&sup_s;]?\d*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
