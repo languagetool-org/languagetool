@@ -336,13 +336,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id="ELISAO_VERBAL_DESNECESSARIA" type="grammar" name="Formas verbais com elisão usadas no contexto incorreto.">
             <rule id="ELISAO_VERBAL_SEM_ENCLITICO">
+                <antipattern>
+                    <token postag="_QUOT"/>
+                    <token postag_regexp="yes" postag="V.+X"/>
+                    <token postag="_QUOT"/>
+                    <example>Outra tradição culinária é a “ligada” ou "ligá”</example>
+                </antipattern>
+                <antipattern>
+                    <token>-</token>
+                    <token spacebefore="no" postag_regexp="yes" postag="V.+X"/>
+                    <example>castenheira-do-pará.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag_regexp="yes" postag="V.+X">
                             <exception negate_pos="yes" postag_regexp="yes" postag="V.+X"/>
+                            <exception regexp="yes">\p{Lu}*|arraiá|avi|mangá|zumbi|abadá|atê|di|bumbá</exception>
+                            <!--TODO: create confusion pair rule for atê vs. até-->
                         </token>
                     </marker>
-                    <token negate="yes">-</token>
+                    <token negate="yes" regexp="yes">-|–|[ln][oa]s?</token>
+                    <!--TODO: create rule to fix wrong use of en dash for verbs-->
+                    <!--TODO: fix missing hyphen before pronouns-->
                 </pattern>
                 <message>Só se faz elisão da consoante final de verbos antes de alguns pronomes enclíticos.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.+)X" postag_replace="$1"/></suggestion>
@@ -350,6 +365,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="Vamos"><marker>Vamo</marker> embora.</example>
                 <example correction="fazer">O que você quer <marker>fazê</marker>?</example>
                 <example>O bebê acordou.</example>
+                <example>Com bolsa de bebê, guardanapo, e bolinho caso ela chore?</example>
+                <example>terá de cumprir a promessa e beijá –lo.</example>
             </rule>
 
             <rule id="ELISAO_VERBAL_COM_ENCLITICO_INCORRETO_1PL">
