@@ -99,6 +99,7 @@ public class CompoundAcceptor {
   );
   private final Set<String> part2Exceptions = ImmutableSet.of(
     "ding",
+    "enen",
     "fries",
     "lijk",
     "lopen",
