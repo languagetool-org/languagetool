@@ -24,9 +24,11 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
+import javax.swing.plaf.synth.SynthUI;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,14 +46,75 @@ public class PortugueseTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("V.P..SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(...+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final String ORDINAL_SUFFIX_MASC = "oºᵒ";
+  private static final String ORDINAL_SUFFIX_FEM = "aªᵃ";
+  private static final String ORDINAL_SUFFIX_PL = "sˢ";
+
+  private static final String ORDINAL_SUFFIXES = String.format("[%s%s][%s]?",
+    ORDINAL_SUFFIX_MASC, ORDINAL_SUFFIX_FEM, ORDINAL_SUFFIX_PL);
+  private static final Pattern ORDINAL_PATTERN = Pattern.compile("^\\d+[\\d,.]*\\.?" + ORDINAL_SUFFIXES + "$");
+  private static final Pattern ORDINAL_MASC_SG = Pattern.compile(String.format("[%s]$", ORDINAL_SUFFIX_MASC));
+  private static final Pattern ORDINAL_FEM_SG = Pattern.compile(String.format("[%s]$", ORDINAL_SUFFIX_FEM));
+  private static final Pattern ORDINAL_MASC_PL = Pattern.compile(String.format("[%s][%s]$",
+    ORDINAL_SUFFIX_MASC, ORDINAL_SUFFIX_PL));
+  private static final Pattern ORDINAL_FEM_PL = Pattern.compile(String.format("[%s][%s]$",
+    ORDINAL_SUFFIX_FEM, ORDINAL_SUFFIX_PL));
+
+  private static final Pattern PERCENT_PATTERN = Pattern.compile("\\d+[\\d,.]*%");
 
   public PortugueseTagger() {
     super("/pt/portuguese.dict", new Locale("pt"));
   }
 
-  @Override
-  public boolean overwriteWithManualTagger(){
-    return false;
+  private List<AnalyzedToken> tagNumberExpressions(String word) {
+    if (isOrdinal(word)) {
+      return buildOrdinalTokens(word);
+    }
+    if (isPercent(word)) {
+      // TODO: remove "PERCENTAGES" disambiguator rule
+      // word is already lemma, 10% => 10%
+      AnalyzedToken token = new AnalyzedToken(word, "NCMP000", word);
+      return Collections.singletonList(token);
+    }
+    return Collections.emptyList();
+  }
+
+  private List<AnalyzedToken> buildOrdinalTokens(String word) {
+    List<AnalyzedToken> resultTokens = new ArrayList<>(Collections.emptyList());
+    // The lemma has the ordinal indicator form, this is arbitrary
+    // It also keeps the ".", since we need to keep those forms distinct
+    String lemma = word.replaceAll(ORDINAL_SUFFIXES, "º");
+    String numberGenderTags = "";
+    if (ORDINAL_MASC_SG.matcher(word).find()) {
+      numberGenderTags = "MS";
+    }
+    if (ORDINAL_FEM_SG.matcher(word).find()) {
+      numberGenderTags = "FS";
+    }
+    if (ORDINAL_MASC_PL.matcher(word).find()) {
+      numberGenderTags = "MP";
+    }
+    if (ORDINAL_FEM_PL.matcher(word).find()) {
+      numberGenderTags = "FP";
+    }
+    String nounTag = String.format("NC%s000", numberGenderTags);
+    String adjTag = String.format("AO0%s0", numberGenderTags);
+    AnalyzedToken nounToken = new AnalyzedToken(word, nounTag, lemma);
+    AnalyzedToken adjToken = new AnalyzedToken(word, adjTag, lemma);
+    resultTokens.add(nounToken);
+    resultTokens.add(adjToken);
+    return resultTokens;
+  }
+
+  private boolean isOrdinal(String word) {
+    Matcher matcher = ORDINAL_PATTERN.matcher(word);
+    System.out.println(word + " matches /" + ORDINAL_PATTERN + "/?");
+    return matcher.matches();
+  }
+
+  private boolean isPercent(String word) {
+    Matcher matcher = PERCENT_PATTERN.matcher(word);
+    return matcher.matches();
   }
 
   @Override
@@ -84,6 +147,11 @@ public class PortugueseTagger extends BaseTagger {
       if (!isLowercase && !isMixedCase) {
         List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
+      }
+
+      // tag ordinals and percentages, i.e. expressions that include digits
+      if (l.isEmpty()) {
+        addTokens(buildOrdinalTokens(word), l);
       }
 
       // additional tagging with prefixes

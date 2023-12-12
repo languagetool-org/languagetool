@@ -84,7 +84,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   // END of Section copied from UkranianWordTokenizer.java for handling exceptions
 
   // dots in ordinals
-  private static final Pattern DOTTED_ORDINALS_PATTERN = compile("([\\d])\\.([aoªº][sˢ]?)", CASE_INSENSITIVE| UNICODE_CASE);
+  private static final Pattern DOTTED_ORDINALS_PATTERN = compile("([\\d])\\.([aoªºᵃᵒ][sˢ]?)", CASE_INSENSITIVE| UNICODE_CASE);
   private static final String DOTTED_ORDINALS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
 
   // hyphens inside words
