@@ -187,7 +187,19 @@ to
            — Improved flag "W".
 
 2023-05-23:
-           — Improved flag "J".
+           — Improved flag "J"
+
+2023-09-03:
+           — Improved flag “N”, increasing the wordlist in 596 valid words.
+
+2023-10-03:
+           — Improved flag “q”, increasing the wordlist in 126 valid words.
+
+2023-10-07:
+           — Improved flag “-”, increasing the wordlist in 128 valid words.
+
+2023-10-26:
+           — Improved flag “J”, increasing the wordlist in 70 valid words.
 
 -------
 

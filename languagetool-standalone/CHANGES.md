@@ -2,7 +2,8 @@
 
 ## 6.4-SNAPSHOT (release planned for 2024-03-28)
 
-...
+#### English
+* updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2023.12.01, v.3.2.7)
 
 
 ## 6.3 (2023-10-06)
