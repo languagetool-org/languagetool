@@ -511,4 +511,10 @@ public class MorfologikPortugueseSpellerRuleTest {
   @Test public void testPortugueseSpellerDoesNotAcceptProhibitedWords() throws Exception {
     assertSingleError("prohibitwordoogaboogatest", ltBR, ruleBR, new String[] {});
   }
+
+  @Test public void testPortugueseSpellerIgnoresNames() throws Exception {
+    assertNoErrors("Fulgencio Fuhao", ltBR, ruleBR);
+    // making sure the accents are okay
+    assertSingleError("Jordao", ltBR, ruleBR, new String[] {"Jordão"});
+  }
 }

@@ -496,6 +496,32 @@ For more detailed information, including tag definitions, please check out our d
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="TWITTER_X" name="Twitter (X)" default="temp_off">
+            <antipattern>
+                <token skip="-1">twitter</token>
+                <token regexp="yes">x|.*tweet.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">x|.*tweet.*</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">.*[a-z].*</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">on|via</token>
+                <marker>
+                    <token>twitter</token>
+                </marker>
+            </pattern>
+            <message>This popular online platform has been renamed to "X.com".</message>
+            <suggestion>X</suggestion>
+            <suggestion>𝕏</suggestion>
+            <suggestion>X (formerly known as Twitter)</suggestion>
+            <example correction="X|𝕏|X (formerly known as Twitter)">I have seen his message on <marker>Twitter</marker>.</example>
+        </rule>
         <rule id="BUSSES" name="busses (buses)">
             <antipattern>
                 <token regexp="yes">s?he|it</token>

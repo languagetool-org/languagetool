@@ -1729,6 +1729,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Die Statistikfunktion eignet <marker>sich</marker> für alle, die Texte schreiben.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:(AUX|MOD).*" postag_regexp="yes"></token>
+                    <token></token>
+                    <marker>
+                        <token>bestimmt</token>
+                    </marker>
+                    <token postag="PRO:RIN.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Hier kann man <marker>bestimmt</marker> was Besseres vorschlagen.<marker>ein hohes Tier</marker> in der Branche.</example>
+            </rule>
         </rulegroup>
         <rule id="AI_DE_HYDRA_LEO_CP_EINEN_EINEM" name="">
             <pattern>
@@ -1833,7 +1844,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--7-->
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten</token>
+                    <token case_sensitive="yes" regexp="yes">Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten</token>
                 </pattern>
                 <example correction="">Eine <marker>Aaltreppe</marker> ermöglicht eine Umgehung von Hindernissen in Gewässern.</example>
             </rule>
@@ -1939,7 +1950,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_OTHER" name="">
             <rule><!--1-->
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">plemplem|Abbitte|Abessiv|Abhitze|Ablativ|Abtestat</token>
+                    <token regexp="yes" case_sensitive="yes">plemplem|Abbitte|Abessiv|Abhitze|Ablativ|Abtestat|obzwar</token>
                 </pattern>
                 <example correction="">Du bist doch echt <marker>plemplem</marker>!</example>
                 <example correction=""><marker>Abbitte</marker></example>
@@ -1997,6 +2008,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Was <marker>gibt</marker>’s noch?</example>
                 <example correction="">Das <marker>bringt</marker>’s nicht.</example>
             </rule>
+            <rule><!--8-->
+                <pattern>
+                    <token>na</token>
+                    <marker>
+                        <token>wenn</token>
+                    </marker>
+                    <token>schon</token>
+                    <token regexp="yes">,|\.|!</token>
+                </pattern>
+                <example correction="">Na <marker>wenn</marker> schon, uns geht es doch gut.</example>
+            </rule>
+            <rule><!--9-->
+                <pattern>
+                    <token>na</token>
+                    <token>wenn</token>
+                    <marker>
+                        <token>schon</token>
+                    </marker>
+                    <token regexp="yes">,|\.|!</token>
+                </pattern>
+                <example correction="">Na wenn <marker>schon</marker>, uns geht es doch gut.</example>
+            </rule>
+            <rule><!--10-->
+                <pattern>
+                    <marker>
+                        <token>mfg</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Mfg</marker></example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN.*" name="">
@@ -2015,7 +2056,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token regexp="yes">Fehdehandschuh|Lehe?nsgericht(e?s|en?)?</token>
+                    <token regexp="yes">Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>

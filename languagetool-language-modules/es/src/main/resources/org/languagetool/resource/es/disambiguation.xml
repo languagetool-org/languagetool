@@ -7907,6 +7907,18 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="ignore_uppercase_letters" name="A a Z">
+        <antipattern case_sensitive="yes">
+            <token>y</token>
+            <token>Y</token>
+        </antipattern>
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-Z]</token>
+            <token regexp="yes">[aoy]</token>
+            <token regexp="yes">[A-Z]</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
     <rule id="ABREVIATURAS_CON_PUNTO" name="abreviaturas con punto">
         <pattern>
             <marker>

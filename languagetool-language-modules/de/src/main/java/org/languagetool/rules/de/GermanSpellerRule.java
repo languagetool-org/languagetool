@@ -3739,6 +3739,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Grueße": return topMatch("Grüße");
       case "Grueßen": return topMatch("Grüßen");
       case "nciht": return topMatch("nicht");
+      case "heutejournal": return topMatch("heute journal");
     }
     return Collections.emptyList();
   }
