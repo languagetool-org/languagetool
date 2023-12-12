@@ -42049,9 +42049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Paga 25 %.</example>
         </rule>
 
-
         <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão' tags="picky">
-            <!-- Created by Tiago F. Santos, 2017-01-23 -->
             <url>https://pt.wikipedia.org/wiki/Travessão</url>
             <antipattern>
                 <token regexp='yes'>&hifen;</token>
@@ -42079,15 +42077,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag="SENT_END">-</token>
                 <example>- Milestone -</example>
             </antipattern>
-            <rule>
+            <rule> <!-- #1: diálogos e enumerações -->
                 <pattern>
                     <token postag='SENT_START'/>
-                    <token min='0' regexp='yes'>["'«»“”]</token>
+                    <token min='0' postag="_QUOT"/>
                     <marker>
                         <token regexp='yes'>-|–</token>
                     </marker>
                 </pattern>
-                <message>Em diálogos e enumerações deve utilizar o travessão.</message>
+                <message>Em diálogos e enumerações prefira utilizar o travessão.</message>
                 <suggestion>—</suggestion>
                 <short>Utilize o travessão</short>
                 <example correction='—'><marker>-</marker> O que é isso, mãe?</example>
@@ -42097,7 +42095,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>2560-657 TORRES VEDRAS</example>
                 <example>---------------------------------------</example>
             </rule>
-            <rule>
+            <rule> <!-- #2: frases parentéticas -->
                 <antipattern>
                     <token regexp='yes'>-</token>
                     <token regexp='yes'>-</token>
@@ -42115,68 +42113,92 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <short>Utilize o travessão</short>
                 <example correction='—'>como disse <marker>-</marker>,…</example>
             </rule>
-            <rule>
+            <rule> <!-- #3: hyphen/n-dash surrounded by spaces -->
                 <antipattern>
                     <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                     <token regexp='yes'>-|–</token>
                     <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                 </antipattern>
                 <pattern>
+                    <token/>
                     <marker>
                         <token spacebefore="yes" regexp='yes'>-|–</token>
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>Se não pretende unir duas palavras, deve utilizar o travessão.</message>
-                <suggestion>—</suggestion>
-                <short>Utilize o travessão</short>
-                <example correction='—'>Nesses estabelecimentos de ensino existiam matrículas <marker>-</marker> a maioria de ensino fundamental — e um total de docentes.</example>
-                <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:both"/>
+                <message>Para unir duas palavras, não ponha espaços ao redor de hífens e meias-riscas. Se a intenção for pontuar uma pausa ou um diálogo, use o travessão.</message>
+                <suggestion> — </suggestion>
+                <suggestion>\2</suggestion>
+                <short>Erro de espaçamento ou pontuação</short>
+                <example correction=' — |-'>Nesses estabelecimentos de ensino existiam matrículas<marker> - </marker>a maioria de ensino fundamental — e um total de docentes.</example>
+                <example correction=' — |-'>Instituto Ricci de Macau<marker> - </marker>Associação de promoção cultural da Companhia de Jesus em Macau</example>
                 <example>Na porção centro-oeste e noroeste apresentam maiores elevações, podendo atingir 500 metros acima do nível do mar, destacando-se a Serra do Tumucumaque e a Serra Lombarda.</example>
                 <example>1139–1385 — Formação do Reino de Portugal</example>
                 <example>2560-657 TORRES VEDRAS</example>
                 <example>---------------------------------------</example>
             </rule>
-            <rule>
-                <antipattern>
+            <rule> <!-- #4: gama temporal/numérica -->
+                <antipattern> <!-- explicit phone numbers with keyword -->
+                    <token regexp="yes" skip="2" inflected="yes">tel(efone)?|discar|ligar</token>
+                    <token regexp="yes">\d{3,6}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{3,7}</token>
+                    <example>Tel.: 555-6666.</example>
+                    <example>O telefone dele é 124555-100023.</example>
+                    <example>Em caso de dúvidas, ligue para 123-123.</example>
+                    <example>Disque 0800-123123.</example> <!-- usually with more dashes, duh, but let's check -->
+                </antipattern>
+                <antipattern> <!-- implicit phone numbers with country code -->
+                    <token>+</token>
+                    <token regexp="yes" spacebefore="no">\d{1,3}</token>
+                    <token regexp="yes">\d{3,6}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{3,7}</token>
+                </antipattern>
+                <antipattern> <!-- stricter phone numbers, five-four -->
                     <token min='0'>)</token>
                     <token regexp="yes">\d{5}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{4}</token>
                     <example>O telefone é 99999-9999.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- account numbers, branch numbers? -->
                     <token regexp="yes">\d{4}|\d{5}|\d{6}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{1}</token>
                     <example>Conta corrente 666666-6.</example>
                     <example>Agência 6666-6.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- something very specific with 0001-XX...? -->
                     <token>0001</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{1,2}</token>
                     <example>A empresa 66.666.666/0001-06 está baixada</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- national motorway names -->
                     <token>Estrada</token>
                     <token>Nacional</token>
                     <token regexp="yes">\d{3}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d</token>
+                    <example>Estrada Nacional 666-1.</example>
                 </antipattern>
-                <antipattern><!-- XXX Postal codes -->
+                <antipattern> <!-- PT post codes -->
                     <token regexp="yes">\d{4}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{3}</token>
-                    <token>
-                        <exception case_sensitive='yes'>a</exception></token>
+                    <token> <!-- no idea why this is necessary -->
+                        <exception case_sensitive='yes'>a</exception>
+                    </token>
+                    <example>O código postal é 1000-222.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- BR post codes -->
                     <token regexp="yes">\d{5}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{3}</token>
                     <example>O CEP é 22222-222.</example>
+                    <example>Envie para o CEP 22051-069.</example>
                 </antipattern>
                 <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
                     <token regexp="yes">\d{2}|\d{4}</token>
@@ -42185,31 +42207,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes" spacebefore='no'>–|&hifen;</token>
                     <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
                 </antipattern>
-                <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *START* -->
-                <!--
-                V2021-01-17.
-                ISBN 978-3-8321-7760-7.
-                -->
-                <antipattern>
+                <antipattern> <!-- no specific idea what this is for; I don't like the Z tag here, we should be using regexes -->
                     <token/>
                     <token spacebefore='no'>-</token>
                     <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
                     <token spacebefore='no'>-</token>
                     <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                    <example>V2021-01-17.</example>
+                    <example>ISBN 978-3-8321-7760-7.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *START* -->
-                <antipattern>
+                <antipattern> <!-- 02-jan-2018 date format -->
                     <token regexp='yes'>\d\d?</token>
                     <token spacebefore='no'>-</token>
-                    <token spacebefore='no' regexp='yes'>&meses_ano_abrev;</token>
+                    <token spacebefore='no' regexp='yes' case_sensitive="no">&meses_ano_abrev;</token>
                     <token spacebefore='no'>-</token>
-                    <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                    <token spacebefore='no' regexp="yes">\d{2}|\d{4}</token>
                     <example>Isto foi criado em 27-JAN-2021.</example>
-                    <example>GD Bertiandos - Vila Franca 03-MAI-2020 às 16h00.</example>
+                    <example>GD Bertiandos - Vila Franca 03-mai-2020 às 16h00.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- 02-jan date format (no year) -->
                     <token regexp='yes'>\d\d?</token>
                     <token spacebefore='no'>-</token>
                     <token spacebefore='no' regexp='yes'>&meses_ano_abrev;
@@ -42218,19 +42234,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>A licença atual finda a 27-JUL.</example>
                     <example>Festa de aniversário: 24-OUT</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
                 <pattern>
                     <token regexp='yes'>\d{1}%?|\d{2}%?|\d{3}%?|1\d{3}|20\d{2}|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
-                    <token regexp="yes">—|&hifen;</token>
+                    <marker>
+                        <token regexp="yes">—|&hifen;</token>
+                    </marker>
                     <token regexp='yes'>\d{1}%?|\d{2}%?|\d{3}%?|1\d{3}|20\d{2}|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                 </pattern>
-                <message>Se pretende indicar uma gama temporal ou numérica, deve utilizar o meio-travessão.</message>
-                <suggestion>\1 – \3</suggestion>
-                <suggestion>\1–\3</suggestion>
-                <short>Em gamas numéricas/temporais, deve utilizar o meio-travessão</short>
-                <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
-                <example correction='10 – 20%|10–20%'><marker>10-20%</marker></example>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:both"/>
+                <message>Se pretende indicar uma gama temporal ou numérica, prefira utilizar a meia-risca.</message>
+                <suggestion>–</suggestion>
+                <short>Em gamas numéricas ou temporais, prefira utilizar a meia-risca.</short>
+                <example correction='–'>Vitorino Nemésio (1901<marker> - </marker>1978) — escritor e professor universitário.</example>
+                <example correction='–'>10<marker>-</marker>20%</example>
+                <example correction="–">O congresso (ago<marker>-</marker>set de 2023) foi um sucesso.</example>
+                <example correction="–">Terceiro Simpósio (ter<marker> - </marker>qua):</example>
+                <example correction="–">O período 10/jan<marker>-</marker>15/fev.</example>
+                <example correction="–">A primeira sessão (15<marker>-</marker>17 h) foi produtiva.</example>
                 <example>1139–1385 — Formação do Reino de Portugal</example>
                 <example>2560-657 TORRES VEDRAS</example>
                 <example>---------------------------------------</example>
@@ -42240,7 +42260,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-
+        <!-- Dash space rules -->
         <rulegroup id='DASH_SPACE_RULES' name="Travessão em enumerações" default="on" tags="picky">
             <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
             <url>https://pt.wikipedia.org/wiki/Travess%C3%A3o</url>
