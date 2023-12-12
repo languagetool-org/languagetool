@@ -6399,7 +6399,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example><marker>suivi</marker></example>
             </rule>
         </rulegroup>
-        <rule id="BLIND" name="blind">
+        <rule id="BLIND" name="blind" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">blind|blinds</token>
             </pattern>
@@ -7148,18 +7148,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="temps partagé"><marker>time sharing</marker></example>
             </rule>
         </rulegroup>
-        <rule id="GAME_DESIGNER" name="game designer">
-            <pattern>
-                <token regexp="yes">games?</token>
-                <token min="0">-</token>
-                <token regexp="yes">designers?</token>
-            </pattern>
-            <message>« Game designer » peut être considéré comme un anglicisme.</message>
-            <suggestion>concepteur de jeux vidéos</suggestion>
-            <suggestion>concepteur de jeux</suggestion>
-            <example correction="concepteur de jeux vidéos|concepteur de jeux"><marker>game designer</marker></example>
-            <example><marker>concepteur de jeux</marker></example>
-        </rule>
         <rule id="JOKE" name="joke">
             <pattern>
                 <token regexp="yes">jokes?</token>
@@ -7737,7 +7725,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="heures supplémentaires"><marker>over time</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="OVERSIZE" name="oversize(d)">
+        <rulegroup id="OVERSIZE" name="oversize(d)" default="off"><!-- see issue #6825 -->
             <rule>
                 <pattern>
                     <token regexp="yes">over-?sized?s?</token>
@@ -7856,7 +7844,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             </rule>
         </rulegroup>
         -->
-        <rulegroup id="VG" name="v.g.">
+        <rulegroup id="VG" name="v.g." default="off"><!-- see issue #6825 -->
             <antipattern>
                 <token>V</token>
                 <token>.</token>
@@ -7941,7 +7929,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="vente à l'arrachée|vente forcée"><marker>hard selling</marker></example>
             <example><marker>vente forcée</marker></example>
         </rule>
-        <rule id="SNAP" name="snap">
+        <rule id="SNAP" name="snap" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">snaps?</token>
             </pattern>
@@ -8055,7 +8043,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>essuie-glace</suggestion>
             <example correction="essuie-glace"><marker>wiper</marker></example>
         </rule>
-        <rule id="WISE" name="wise">
+        <rule id="WISE" name="wise" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">wises?</token>
             </pattern>
@@ -9373,7 +9361,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="chef de direction|directeur général"><marker>directeur exécutif</marker></example>
             <example><marker>chef de direction</marker></example>
         </rule>
-        <rule id="SECRETAIRE_EXECUTIF" name="secrétaire exécutif" tone_tags="professional">
+        <rule id="SECRETAIRE_EXECUTIF" name="secrétaire exécutif" tone_tags="professional" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">secrétaires?</token>
                 <token min="0">-</token>
@@ -18029,7 +18017,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion><match no="1" postag="J (.*)" postag_regexp="yes" postag_replace="J $1">similaire</match></suggestion>
             <example correction="proche|similaire">C'est un milieu <marker>identique</marker>.</example>
         </rule>
-        <rule id="REP_GENERAL" name="général" min_prev_matches="3" tags="picky">
+        <rule id="REP_GENERAL" name="général" min_prev_matches="3" tags="picky" default="off"> <!-- see issue #6825 -->
             <pattern>
                 <marker>
                     <token postag="J (.*)" postag_regexp="yes" inflected="yes" case_sensitive="yes">général
