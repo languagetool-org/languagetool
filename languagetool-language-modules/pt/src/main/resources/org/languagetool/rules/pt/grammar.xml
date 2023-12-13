@@ -12394,12 +12394,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12432,6 +12433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Esperamos que a rosa ‘Peace’ levará os pensamentos humanos.</example>
                 <example>Espero que ela não esteja doente. </example>
                 <example>Espero que nenhum deles esteja envolvido no acidente de trânsito.</example>
+                <example>E evitar os que a dificultam.</example>
             </rule>
 
             <rule id="ESPERA_QUE_INDICATIVO_ER_IR"> <!-- #2: split to introduce a more detailed message, '-er' and '-ir' verbs -->
@@ -12445,12 +12447,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12470,6 +12473,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Esperando que seria adoptado.</example> <!-- ?? -->
                 <example>Evitar o que é meramente subjetivo.</example>
                 <example>Se espera que o consumo privado se mantenha.</example>
+                <example>Você quer que a pessoa de quem deve cuidar desapareça.</example>
+                <example>Não se pode desejar aquilo que não se conhece.</example>
+                <example>Imagino que o figurino foi grátis porque deve ser seu.</example>
+                <example>Todo mundo quer aquilo que não pode ter.</example>
+                <example>Não deveis temer aqueles que podem matar o corpo.</example>
             </rule>
 
             <rule id="ESPEREI_QUE_INDICATIVO_AR"> <!-- #3: split to keep the simple message, '-ar' verbs -->
@@ -12483,12 +12491,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12514,12 +12523,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12544,12 +12554,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12574,12 +12585,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
