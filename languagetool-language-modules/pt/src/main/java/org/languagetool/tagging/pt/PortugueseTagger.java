@@ -24,11 +24,9 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
-import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
-import javax.swing.plaf.synth.SynthUI;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
