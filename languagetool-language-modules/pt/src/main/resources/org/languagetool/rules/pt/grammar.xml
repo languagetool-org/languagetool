@@ -1255,17 +1255,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="tinham">Não <marker>tinha</marker> dado três da tarde.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="CONCORDANCIA_SOBRESCRITO" name="Problema de concordância no sobrescrito de ordinais">
             <rule> <!-- fem superscript, masc. NP -->
                 <pattern>
                     <token postag_regexp="yes" postag="(SP.+:)?D..MS."/>
                     <marker>
-                        <token regexp="yes">\d+\.?ª</token>
+                        <token regexp="yes">\d+\.?[&ordf;&sup_a;]</token>
                     </marker>
                     <token postag_regexp="yes" postag="(N|A.).[MC]S.+"/>
                 </pattern>
-                <message>Possível erro de concordância no sobrescrito do número ordinal.</message>
-                <suggestion><match no="2" regexp_match="(?u)(\d+\.?)ª" regexp_replace="$1º"/></suggestion>
+                <message>Possível erro de concordância no indicador de ordinal.</message>
+                <suggestion><match no="2" regexp_match="(?u)(\d+\.?)[&ordf;&sup_a;]" regexp_replace="$1&ordm;"/></suggestion>
                 <example correction="1º">Ele está no <marker>1ª</marker> lugar.</example>
                 <example correction="12.º">Quem foi o <marker>12.ª</marker> coronel?</example>
             </rule>
@@ -1274,12 +1275,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <pattern>
                     <token postag_regexp="yes" postag="(SP.+:)?D..FS."/>
                     <marker>
-                        <token regexp="yes">\d+\.?º</token>
+                        <token regexp="yes">\d+\.?[&ordm;&sup_o;]</token>
                     </marker>
                     <token postag_regexp="yes" postag="(N|A.).[FC]S.+"/>
                 </pattern>
                 <message>Possível erro de concordância no sobrescrito do número ordinal.</message>
-                <suggestion><match no="2" regexp_match="(?u)(\d+\.?)º" regexp_replace="$1ª"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?u)(\d+\.?)[&ordm;&sup_o;]" regexp_replace="$1&ordf;"/></suggestion>
                 <example correction="2ª">Ele está na <marker>2º</marker> posição.</example>
                 <example correction="50.ª">Ela será a <marker>50.º</marker> presidente!</example>
             </rule>
@@ -7319,9 +7320,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Explorações inglesa, francesa e holandesa.</example>
                 <example>O movimento socialista mundial dividiu-se entre as alas social democrata e leninista.</example>
 
-                <example>Tendo os seus <marker>protestos caído</marker> em saco-roto, preencheu os formulários do imposto.</example>
-                <example>Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.</example>
-                <example>Tendo os seus tripulantes conseguido ser resgatados.</example>
 
                 <example>O editor de <marker>armas mostra</marker> os disparos necessários.</example>
                 <example>A Organização do Turismo das Caraíbas estima que cerca de 12 milhões de turistas visitam a região.</example>
@@ -41130,17 +41128,398 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <marker>
                         <token regexp="yes" spacebefore="yes">[-–—]</token> <!-- hyphen, n-dash, m-dash -->
                     </marker>
-                <token spacebefore="no" regexp="yes">\d.*</token>
+                    <token spacebefore="no" regexp="yes">\d.*</token>
                 </pattern>
                 <message>Se for um número negativo, prefira o sinal de menos.</message>
-                <suggestion>−</suggestion>
-                <example correction="−">A temperatura chegou a <marker>—</marker>30 graus!</example>
-                <example correction="−">O total de pontos foi de <marker>-</marker>100.</example>
-                <example correction="−">Ontem fez <marker>–</marker>40°C no Rio.</example>
-                <example correction="−">O prejuízo foi de <marker>-</marker>40€.</example>
-                <example correction="−">Crescimento de <marker>-</marker>27% no segundo trimestre.</example>
+                <suggestion>&minus_sign;</suggestion>
+                <example correction="&minus_sign;">A temperatura chegou a <marker>—</marker>30 graus!</example>
+                <example correction="&minus_sign;">O total de pontos foi de <marker>-</marker>100.</example>
+                <example correction="&minus_sign;">Ontem fez <marker>–</marker>40°C no Rio.</example>
+                <example correction="&minus_sign;">Ontem fez <marker>–</marker>40&ordm; no Rio.</example>
+                <example correction="&minus_sign;">O prejuízo foi de <marker>-</marker>40€.</example>
+                <example correction="&minus_sign;">Crescimento de <marker>-</marker>27% no segundo trimestre.</example>
             </rule>
         </rulegroup>
+
+        <rulegroup id='DEGREE_SYMBOL' name="Indicador de ordinal ou sobrescrito usado no lugar do símbolo de grau (°)" default="temp_off">
+            <rule id="DEGREE_SYMBOL_WITH_DEGREE_TYPE">
+                <!-- This rule, unlike SIMBOLO_DE_GRAU_ESPACAMENTO, preserves the user's spaces.
+                This is only here to turn the ordinal into a degree sign. That's the rule that fixes spaces.-->
+                <regexp type="exact">(?-i)[&ordm;&sup_o;](\s?[CFNSEW])\b</regexp>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion>&deg;\1</suggestion>
+                <example correction="&deg; C">Faz 22<marker>&ordm; C</marker> à sombra.</example>
+                <example correction="&deg;C">Faz 25<marker>&ordm;C</marker> à sombra.</example>
+                <example>Faz 25&deg;.</example>
+                <example>Faz 25&ordm;.</example> <!-- must be dealt with some other way -->
+                <example>…o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E…</example>
+                <example>…que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a…</example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_WITH_CONTEXT_POST">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&number_token;[&ordm;&sup_o;]</token>
+                    </marker>
+                    <token>de</token>
+                    <token regexp="yes">&degree_collocates;</token>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="1" regexp_match="^(&minus_sign;?\d+[\d.,]*).+" regexp_replace="$1&deg;"/></suggestion>
+                <example correction="40&deg;">O bebê está com <marker>40&ordm;</marker> de febre!</example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_WITH_CONTEXT_PRE">
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="2">&degree_collocates;</token>
+                    <marker>
+                        <token regexp="yes">&number_token;[&ordm;&sup_o;]</token>
+                    </marker>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="3" regexp_match="^(&minus_sign;?\d+[\d.,]*).+" regexp_replace="$1&deg;"/></suggestion>
+                <example correction="3,5&deg;">O frio de <marker>3,5&ordm;</marker> foi o pior.</example>
+                <example correction="10,000&deg;">No reator, as temperaturas chegam a <marker>10,000&ordm;</marker>.</example>
+                <example correction="137&deg;">Um ângulo obtuso de <marker>137&ordm;</marker>.</example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_SENTENCE_FINAL">
+                <pattern>
+                    <token inflected="yes">fazer</token>
+                    <marker>
+                        <token regexp="yes">&number_token;[&ordm;&sup_o;]</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token postag_regexp="yes" postag="SENT_END|_PUNCT_PERIOD"/>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="2" regexp_match="^(&minus_sign;?\d+[\d,.]*).+" regexp_replace="$1&deg;"/></suggestion>
+                <example correction="25&deg;">Ontem fez <marker>25&ordm;</marker>.</example>
+                <example correction="38,8&deg;">Fará <marker>38,8&ordm;</marker> amanhã.</example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_COORDINATES">
+                <pattern>
+                    <token regexp="yes">\d+[&ordm;&sup_o;]\d+[&ordm;&sup_o;]</token>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="1" regexp_match="^(\d+)[&ordm;&sup_o;](\d+)[&ordm;&sup_o;]" regexp_replace="$1&deg;$2&deg;"/></suggestion>
+                <example correction="90&deg;45&deg;">Coordenadas: <marker>90&ordm;45&sup_o;</marker></example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_RANGES">
+                <pattern>
+                    <token regexp="yes" spacebefore="yes">&number_token;</token>
+                    <token spacebefore="no">–</token> <!-- n-dash -->
+                    <marker>
+                        <token regexp="yes" spacebefore="no">&number_token;[&ordm;&sup_o;]</token>
+                    </marker>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="3" regexp_match="^(&minus_sign;?\d+[\d.,]*).+" regexp_replace="$1&deg;"/></suggestion>
+                <example correction="120&deg;">De 90–<marker>120&ordm;</marker>.</example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_NEGATIVE">
+                <pattern>
+                    <token regexp="yes">&minus_sign;\d+[\d,.]*[&ordm;&sup_o;]</token>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="1" regexp_match="^(&minus_sign;\d+[\d.,]*).+" regexp_replace="$1&deg;"/></suggestion>
+                <example correction="&minus_sign;30,1&deg;">Em Chicago chegou a <marker>&minus_sign;30,1&ordm;</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="SIMBOLO_DE_GRAU_ESPACAMENTO" name="Dar espaçamento antes do símbolo de grau em escalas com nomes." default="temp_off">
+            <!--Our strategy was to suggest a narrow non-breaking space even when
+            users manually input a regular whitespace. Now we will only
+            trigger when users skip the space altogether. Trust their word
+            processing software to know what to do; LT can't do that reliably.-->
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">&degree_token;[CFNSEW]</token>
+                </pattern>
+                <message>Neste caso, põe-se um espaço estreito entre o número e o símbolo de grau.</message>
+                <suggestion><match no="1" regexp_match="^(.+)(&deg;[CFNSEW])$" regexp_replace="$1&nnbsp;$2"/></suggestion>
+                <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg;C</marker> à sombra.</example>
+            </rule>
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE">
+                <pattern>
+                    <token regexp="yes">&degree_token;</token>
+                    <token regexp="yes" spacebefore="yes" case_sensitive="yes">[CFNSEW]</token>
+                </pattern>
+                <message>Não se põe espaço entre o símbolo de grau e a abreviatura da escala.</message>
+                <suggestion><match no="1" regexp_match="^(.+)&deg;$" regexp_replace="$1&nnbsp;&deg;"/>\2</suggestion>
+                <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg; C</marker> à sombra.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="SIMBOLO_DE_GRAU_ORDINAL" name="Símbolo de grau usado no lugar de um indicator ordinal." default="temp_off">
+            <rule> <!-- singular, dot-separated -->
+                <pattern>
+                    <token regexp="yes">&number_token_no_decimal;</token>
+                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token spacebefore="no">&deg;</token>
+                    </marker>
+                </pattern>
+                <message>&ordinal_degree_msg;</message>
+                <suggestion>&ordm;</suggestion>
+                <example correction="&ordm;">O 1.<marker>&deg;</marker> homem no espaço.</example>
+            </rule>
+            <rule> <!-- plural, dot-separated -->
+                <pattern>
+                    <token regexp="yes">&number_token_no_decimal;</token>
+                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token spacebefore="no">&deg;&sup_s;</token>
+                    </marker>
+                </pattern>
+                <message>&ordinal_degree_msg;</message>
+                <suggestion>&sup_o;&sup_s;</suggestion>
+                <example correction="&sup_o;&sup_s;">Os 1.<marker>&deg;&sup_s;</marker> homens no espaço.</example>
+            </rule>
+            <rule> <!-- plural, no dot -->
+                <pattern>
+                    <token regexp="yes">&number_token_no_decimal;&deg;&sup_s;</token>
+                </pattern>
+                <message>&ordinal_degree_msg;</message>
+                <suggestion><match no="1" regexp_match="^(.+)&deg;&sup_s;$" regexp_replace="$1&sup_o;&sup_s;"/></suggestion>
+                <example correction="8&sup_o;&sup_s;">Os <marker>8&deg;&sup_s;</marker> colocados.</example>
+            </rule>
+            <rule> <!-- singular, no dot; the only truly tricky case -->
+                <pattern>
+                    <token postag_regexp="yes" postag="D..MS."/>
+                    <marker>
+                        <token regexp="yes">&number_token_no_decimal;&deg;</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="(N.[MC]S...|AQ.[MC]S.)"/>
+                </pattern>
+                <message>&ordinal_degree_msg;</message>
+                <suggestion><match no="2" regexp_match="^(.+)&deg;$" regexp_replace="$1&ordm;"/></suggestion>
+                <example correction="8&ordm;">O <marker>8&deg;</marker> colocado.</example>
+                <example correction="17&ordm;">Vamos começar este <marker>17&deg;</marker> congresso anual.</example>
+            </rule>
+        </rulegroup>
+
+        <rule id="POSICAO_DO_PONTO_EM_ORDINAL_ABREVIADO" name="Pôr o ponto entre o número e o indicador de ordinal, e não depois deste." default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp='yes' case_sensitive='yes'>\d+\.?&any_ord;</token>
+                    <token>.</token>
+                </marker>
+                <token regexp='yes' case_sensitive='yes'>\p{Ll}+|[,;]</token>
+            </pattern>
+            <message>Em abreviaturas de ordinais, o ponto se põe entre o número e o indicador de ordinal.</message>
+            <suggestion>\1</suggestion>
+            <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
+            <example>2a. Sistemas</example>
+            <example>2.a. Sistemas</example>
+        </rule>
+
+        <rulegroup id='ORDINAL_ABREVIATION_DOT' name="Abreviatura de ordinais: 1o -> 1.º" default="temp_off">
+            <antipattern> <!-- enumeration as 2a. -->
+                <token postag="SENT_START"/>
+                <token regexp="yes">\d+a</token>
+                <token postag="_PUNCT" spacebefore="no"/>
+                <example> 2a. Sistemas.</example>
+            </antipattern>
+            <antipattern> <!-- enumeration as 2.a. -->
+                <token postag="SENT_START"/>
+                <token regexp="yes">(?:\d+)\.[a]</token>
+                <token postag="_PUNCT" spacebefore="no"/>
+                <token regexp="yes">\p{L}+</token>
+                <example>2.a. Sistemas.</example>
+            </antipattern>
+            <antipattern> <!-- not sure what -898a- is... -->
+                <token postag="_PUNCT" spacebefore="no"/>
+                <token regexp="yes">(?:\d+)\p{L}</token>
+                <token postag="_PUNCT" spacebefore="no"/>
+                <example>-895a-</example>
+            </antipattern>
+            <antipattern> <!-- degree ranges -->
+                <token postag="_PUNCT" spacebefore="no"/>
+                <token regexp="yes">\d+°</token>
+                <example>de 90–100°</example>
+            </antipattern>
+            <antipattern> <!-- coordinates with degree signs -->
+                <token regexp="yes">\d+°|\d+</token>
+                <token regexp="yes">\d+°</token>
+                <example>92° 09° O</example>
+            </antipattern>
+            <rule> <!-- #1: masc. sg. no dot -->
+                <pattern>
+                    <token regexp='yes'>(?:\d+)&any_masc_ord;
+                        <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
+                    </token>
+                </pattern>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_masc_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&ordm;"/></suggestion>.</message>
+                <example correction="12&NoBreak;.&NoBreak;&ordm;">O premiado é o <marker>12o</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&ordm;">O premiado é o <marker>12&ordm;</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&ordm;">O premiado é o <marker>12&sup_o;</marker> da lista.</example>
+                <example>Temperatura máxima prevista de 38º C.</example> <!-- formatting of degrees done by DEGREE_SYMBOL -->
+            </rule>
+            <rule> <!-- #2: masc. pl. no dot -->
+                <pattern>
+                    <token regexp='yes'>(?:\d+)&any_masc_ord;&any_pl_ord;
+                        <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
+                    </token>
+                </pattern>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_masc_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
+                <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12os</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12&ordm;&sup_s;</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12&sup_o;&sup_s;</marker> da lista.</example>
+            </rule>
+        <rule> <!-- #3: masc. sg. dot, but 'o' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.o</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.o" regexp_replace="$1&NoBreak;.&NoBreak;&ordm;"/></suggestion>.</message>
+            <example correction="12&NoBreak;.&NoBreak;&ordm;">A entrada é o <marker>12.o</marker> da lista.</example>
+            <example correction="12&NoBreak;.&NoBreak;&ordm;">A entrada é o <marker>12.o</marker>. Da lista.</example>
+        </rule>
+        <rule> <!-- #4: masc. pl. dot, but 's' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.&any_masc_ord;s</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_masc_ord;s" regexp_replace="$1&NoBreak;.&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
+            <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12.os</marker> da lista.</example>
+            <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12.&ordm;s</marker>. Da lista.</example>
+        </rule>
+            <rule> <!-- #5: fem. sg. no dot -->
+                <pattern>
+                    <token regexp='yes'>(?:\d+)&any_fem_ord;</token>
+                </pattern>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&ordf;"/></suggestion>.</message>
+                <example correction="12&NoBreak;.&NoBreak;&ordf;">A premiado é a <marker>12a</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&ordf;">A premiado é a <marker>12&ordf;</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&ordf;">A premiada é a <marker>12&sup_a;</marker> da lista.</example>
+            </rule>
+            <rule> <!-- #6: fem. pl. no dot -->
+                <pattern>
+                    <token regexp='yes'>(?:\d+)&any_fem_ord;&any_pl_ord;</token>
+                </pattern>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
+                <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12as</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12&ordf;&sup_s;</marker> da lista.</example>
+                <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12&sup_a;&sup_s;</marker> da lista.</example>
+            </rule>
+        <rule> <!-- #7: fem. sg. dot, but 'a' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.a</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.a" regexp_replace="$1&NoBreak;.&NoBreak;&ordf;"/></suggestion>.</message>
+            <example correction="12&NoBreak;.&NoBreak;&ordf;">A entrada é a <marker>12.a</marker> da lista.</example>
+            <example correction="12&NoBreak;.&NoBreak;&ordf;">A entrada é a <marker>12.a</marker>. Da lista.</example>
+        </rule>
+        <rule> <!-- #8: fem. pl. dot, but 's' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.&any_fem_ord;s</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;s" regexp_replace="$1&NoBreak;.&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
+            <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As entradas são as <marker>12.as</marker> da lista.</example>
+            <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As entrada são as <marker>12.&ordf;s</marker>. Da lista.</example>
+        </rule>
+    </rulegroup>
+
+        <rulegroup id='ORDINAL_ABREVIATION_NO_DOT' name="Abreviatura de ordinais: 1o -> 1º" default="temp_off">
+            <antipattern> <!-- enumeration as 2a. -->
+                <token postag="SENT_START"/>
+                <token regexp="yes">\d+a</token>
+                <token postag="_PUNCT" spacebefore="no"/>
+                <example> 2a. Sistemas.</example>
+            </antipattern>
+            <antipattern> <!-- enumeration as 2.a. -->
+                <token postag="SENT_START"/>
+                <token regexp="yes">(?:\d+)\.[a]</token>
+                <token postag="_PUNCT" spacebefore="no"/>
+                <token regexp="yes">\p{L}+</token>
+                <example>2.a. Sistemas.</example>
+            </antipattern>
+            <antipattern> <!-- not sure what -898a- is... -->
+                <token postag="_PUNCT" spacebefore="no"/>
+                <token regexp="yes">(?:\d+)\p{L}</token>
+                <token postag="_PUNCT" spacebefore="no"/>
+                <example>-895a-</example>
+            </antipattern>
+            <antipattern> <!-- degree ranges -->
+                <token postag="_PUNCT" spacebefore="no"/>
+                <token regexp="yes">\d+°</token>
+                <example>de 90–100°</example>
+            </antipattern>
+            <antipattern> <!-- coordinates with degree signs -->
+                <token regexp="yes">\d+°|\d+</token>
+                <token regexp="yes">\d+°</token>
+                <example>92° 09° O</example>
+            </antipattern>
+            <rule> <!-- #1: masc. sg. w/ dot -->
+                <pattern>
+                    <token regexp='yes'>(?:\d+)\.&any_masc_ord;
+                        <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
+                    </token>
+                </pattern>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_masc_ord;" regexp_replace="$1&NoBreak;&ordm;"/></suggestion>.</message>
+                <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12.o</marker> da lista.</example>
+                <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12.&ordm;</marker> da lista.</example>
+                <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12.&sup_o;</marker> da lista.</example>
+                <example>Temperatura máxima prevista de 38º C.</example> <!-- formatting of degrees done by DEGREE_SYMBOL -->
+            </rule>
+            <rule> <!-- #2: masc. pl. w/ dot -->
+                <pattern>
+                    <token regexp='yes'>(?:\d+)\.&any_masc_ord;&any_pl_ord;
+                        <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
+                    </token>
+                </pattern>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_masc_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
+                <example correction="12&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.os</marker> da lista.</example>
+                <example correction="12&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.&ordm;&sup_s;</marker> da lista.</example>
+                <example correction="12&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.&sup_o;&sup_s;</marker> da lista.</example>
+            </rule>
+        <rule> <!-- #3: masc. sg. no dot, but 'o' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)o</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)o" regexp_replace="$1&NoBreak;&ordm;"/></suggestion>.</message>
+            <example correction="12&NoBreak;&ordm;">A entrada é o <marker>12o</marker> da lista.</example>
+            <example correction="12&NoBreak;&ordm;">A entrada é o <marker>12o</marker>. Da lista.</example>
+        </rule>
+        <rule> <!-- #4: masc. pl. no dot, but 's' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)&any_masc_ord;s</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_masc_ord;s" regexp_replace="$1&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
+            <example correction="12&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12os</marker> da lista.</example>
+            <example correction="12&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12&ordm;s</marker>. Da lista.</example>
+        </rule>
+        <rule> <!-- #5: fem. sg. w/ dot -->
+            <pattern>
+                <token regexp='yes'>(?:\d+)\.&any_fem_ord;</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;" regexp_replace="$1&NoBreak;&ordf;"/></suggestion>.</message>
+            <example correction="12&NoBreak;&ordf;">A premiado é a <marker>12.a</marker> da lista.</example>
+            <example correction="12&NoBreak;&ordf;">A premiado é a <marker>12.&ordf;</marker> da lista.</example>
+            <example correction="12&NoBreak;&ordf;">A premiada é a <marker>12.&sup_a;</marker> da lista.</example>
+        </rule>
+        <rule> <!-- #6: fem. pl. w/ dot -->
+            <pattern>
+                <token regexp='yes'>(?:\d+)\.&any_fem_ord;&any_pl_ord;</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
+            <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.as</marker> da lista.</example>
+            <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.&ordf;&sup_s;</marker> da lista.</example>
+            <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.&sup_a;&sup_s;</marker> da lista.</example>
+        </rule>
+        <rule> <!-- #7: fem. sg. no dot, but 'a' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)a</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)a" regexp_replace="$1&NoBreak;&ordf;"/></suggestion>.</message>
+            <example correction="12&NoBreak;&ordf;">A entrada é a <marker>12a</marker> da lista.</example>
+            <example correction="12&NoBreak;&ordf;">A entrada é a <marker>12a</marker>. Da lista.</example>
+        </rule>
+        <rule> <!-- #8: fem. pl. dot, but 's' -->
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)&any_fem_ord;s</token>
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;s" regexp_replace="$1&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
+            <example correction="12&NoBreak;&sup_a;&sup_s;">As entradas são as <marker>12as</marker> da lista.</example>
+            <example correction="12&NoBreak;&sup_a;&sup_s;">As entrada são as <marker>12&ordf;s</marker>. Da lista.</example>
+        </rule>
+    </rulegroup>
 
         <rule id="ABREVIATURA_DE_SECULO" name="Não abrevie 'século' para 'séc.'">
             <pattern>
@@ -41175,8 +41554,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp="yes">profa|dra|exa|enga|sra|reva|srta</token>
                 <token regexp='yes' spacebefore='no'>\.</token>
             </pattern>
-            <message>Determinadas abreviaturas exigem um sobrescrito após o ponto. No lugar de &quot;\1.&quot;, prefira <suggestion><match no="1" regexp_match="(.+)a$" regexp_replace="$1.ª"/></suggestion>.</message>
-            <example correction="Prof.ª">Gostaria de ir com a <marker>Profa.</marker> Goldberg.</example>
+            <message>Determinadas abreviaturas exigem um sobrescrito após o ponto. No lugar de &quot;\1.&quot;, prefira <suggestion><match no="1" regexp_match="(.+)a$" regexp_replace="$1.&sup_a;"/></suggestion>.</message>
+            <example correction="Prof.&sup_a;">Gostaria de ir com a <marker>Profa.</marker> Goldberg.</example>
         </rule>
 
         <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formatação de números: 10 341 330" default='off'>
@@ -42873,19 +43252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id='DEGREE_SYMBOL' name="Matemático: Símbolo de grau (°)">
-            <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-27      -->
-            <regexp>(?-i)\s?º\s?([CFNSEW])\b</regexp>
-            <message>Se pretende utilizar graus, utilize o símbolo <suggestion>&#8239;°\1</suggestion>.</message>
-            <example correction="&#8239;°C">Faz 25<marker>º C</marker> à sombra.</example>
-            <example correction="&#8239;°C">Faz 25<marker>ºC</marker> à sombra.</example>
-            <example correction="&#8239;°C">Faz 25<marker> º C</marker> à sombra.</example>
-            <example correction="&#8239;°C">Faz 25<marker> ºC</marker> à sombra.</example>
-            <example>Faz 25°.</example>
-            <example>…o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E…</example>
-            <example>…que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a…</example>
-            <!-- <example>…tua-se no nordeste do Oceano Atlântico entre os 36º e os 43º de latitude Norte e os 25º e os 31º de longitude… XXX False negative </example>-->
-        </rule>
+        <!-- DEGREE_SYMBOL -->
 
         <rule id='PLURAL_IN_UNITS_OF_MEASURE' name="Matemático: Abreviaturas de unidades de medida">
             <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
@@ -43736,9 +44103,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='DEGREE_MINUTES_SECONDS' name="Matemático: Tipografia de graus, minutos e segundos: 50°45′ 20″" tags="picky">
             <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
             <rule>
-                <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
+                <regexp>\b([\d., ]*\d)\s*[&ordm;&deg;&sup_o;]\s*([\d., ]*\d)\s*[”"'’′`]\s*([\d., ]*\d)\s*[”"'’′`]</regexp>
                 <message>Utilize os símbolos de graus, minutos e segundos.</message>
-                <suggestion>\1°&#8239;\2′&#8239;\3″</suggestion>
+                <suggestion>\1&deg;&#8239;\2′&#8239;\3″</suggestion>
                 <example correction="25°&#8239;29,1′&#8239;49″"><marker>25º 29,1' 49"</marker>.</example>
                 <example correction="25°&#8239;29′&#8239;49″"><marker>25º 29' 49'</marker>.</example>
                 <example correction="25°&#8239;29,1′&#8239;49″"><marker>25 º 29,1' 49"</marker>.</example>
@@ -43747,9 +44114,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>25° 29′ 34″</example>
             </rule>
             <rule>
-                <regexp>\b([\d., ]*\d)\s*[º°]\s*([\d., ]*\d)\s*[”"'’`]</regexp>
+                <regexp>\b([\d., ]*\d)\s*[&ordm;&deg;&sup_o;]\s*([\d., ]*\d)\s*[”"'’`]</regexp>
                 <message>Utilize os símbolos de graus e minutos.</message>
-                <suggestion>\1°&#8239;\2′</suggestion>
+                <suggestion>\1&deg;&#8239;\2′</suggestion>
                 <example correction="25°&#8239;29,1′"><marker>25º 29,1'</marker>.</example>
                 <example correction="25°&#8239;29′"><marker>25º 29 '</marker>.</example>
                 <example correction="25°&#8239;29,1′"><marker>25 º 29,1'</marker>.</example>

@@ -41,20 +41,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
 
   private final PortugueseTagger tagger;
 
-//  private static final String SPLIT_CHARS = "\u0020\u002d"
-//    + "\u00A0\u115f\u1160\u1680"
-//    + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
-//    + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
-//    + "\u2010\u2011\u2012\u2013\u2014\u2015"
-//    + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
-//    + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
-//    + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-//    + "\u002A\u002B×∗·÷:=≠≂≃≄≅≆≇≈≉≤≥≪≫∧∨∩∪∈∉∊∋∌∍"
-//    + ",.;()[]{}<>!?:/\\\"'«»„”“‘`’…¿¡\t\n\r™®";
-
-
   // Section copied from UkranianWordTokenizer.java for handling exceptions
-
   private static final char DECIMAL_COMMA_SUBST = '\uE001'; // some unused character to hide comma in decimal number temporary for tokenizer run
   private static final char NON_BREAKING_SPACE_SUBST = '\uE002';
   private static final char NON_BREAKING_DOT_SUBST = '\uE003'; // some unused character to hide dot in date temporary for tokenizer run
