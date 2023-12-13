@@ -41,6 +41,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -69,6 +71,8 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Dachfrist"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Hospizgemeinschaft"));  //no infix-s for compounds: .*z + noun
     assertFalse(rule.ignorePotentiallyMisspelledWord("Azubikommt"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Lasstest"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Ablassbild"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Wachtums-Pistole"));  // split as "Wacht, ums-Pistole"
     assertFalse(rule.ignorePotentiallyMisspelledWord("Discorum"));  // "Disco, rum" and "rum" is only 3 chars and thus too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
@@ -120,6 +124,17 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate"));
+  }
+
+  @Test
+  @Ignore("interactive use only to make a diff after a change (call twice, store result, and run 'diff' manually)")
+  public void testIgnoreMisspelledWordForRegressions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/data/corpus/jan_schreiber/german.txt"));
+    for (String line : lines) {
+      boolean accept = rule.ignorePotentiallyMisspelledWord(line.trim());
+      System.out.println(accept + " " + line);
+    }
   }
 
   @Test

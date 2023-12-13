@@ -2285,6 +2285,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         part1.length() >= 3 && part2.length() >= 4 &&
         !part2.contains("-") &&
         startsWithLowercase(part2) &&
+        !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
         (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
         !isMisspelled(part1) &&
         !isMisspelled(part2uc) &&
