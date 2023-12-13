@@ -11377,6 +11377,18 @@ regexp case-insensitive maken: (?i)
 				<example correction="christen">De spanning tussen de moslim en de <marker>Christen</marker> loopt op.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HOOGDRUKGEBIED" name="Hoog(Hoge)drukgebied" type="misspelling">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">hoog(drukgebied.*|snelheids.*|school.*)</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="^hoog" regexp_replace="hoge"/></suggestion>.</message>
+				<short>hoog/hoge</short>
+				<example correction="hogedrukgebied">Het <marker>hoogdrukgebied</marker> kwam dichterbij.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="JARIGE_JOB" name="Job/job" type="misspelling">
 			<rule>
 				<pattern>

@@ -12394,12 +12394,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12432,6 +12433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Esperamos que a rosa ‘Peace’ levará os pensamentos humanos.</example>
                 <example>Espero que ela não esteja doente. </example>
                 <example>Espero que nenhum deles esteja envolvido no acidente de trânsito.</example>
+                <example>E evitar os que a dificultam.</example>
             </rule>
 
             <rule id="ESPERA_QUE_INDICATIVO_ER_IR"> <!-- #2: split to introduce a more detailed message, '-er' and '-ir' verbs -->
@@ -12445,12 +12447,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12470,6 +12473,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Esperando que seria adoptado.</example> <!-- ?? -->
                 <example>Evitar o que é meramente subjetivo.</example>
                 <example>Se espera que o consumo privado se mantenha.</example>
+                <example>Você quer que a pessoa de quem deve cuidar desapareça.</example>
+                <example>Não se pode desejar aquilo que não se conhece.</example>
+                <example>Imagino que o figurino foi grátis porque deve ser seu.</example>
+                <example>Todo mundo quer aquilo que não pode ter.</example>
+                <example>Não deveis temer aqueles que podem matar o corpo.</example>
             </rule>
 
             <rule id="ESPEREI_QUE_INDICATIVO_AR"> <!-- #3: split to keep the simple message, '-ar' verbs -->
@@ -12483,12 +12491,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12514,12 +12523,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12544,12 +12554,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+ar$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -12574,12 +12585,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception scope="next">que</exception>
                         <exception scope="next" postag="CC|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
                         <exception scope="next" postag_regexp="yes" postag="V.S.+" inflected="yes" regexp="yes" negate="yes">&verbos_muito_incomuns;</exception>
-                        <exception scope="previous" regexp="yes">até|[nd]?o</exception>
+                        <exception scope="previous" regexp="yes">até|[nd]?os?|aquilo|aquel[ea]s?</exception>
                     </token>
                     <marker>
                         <token postag='V.IP.+' postag_regexp='yes' inflected="yes" regexp="yes">.+[ei]r$
                             <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
                             <exception regexp='yes' inflected="yes">\p{Lu}.*|&verbos_muito_incomuns;|estar</exception>
+                            <exception scope="previous" regexp="yes">&relativisers_without_que;</exception>
                         </token> <!-- "estar" must be dealt with in a diacritics rule -->
                     </marker>
                 </pattern>
@@ -16872,7 +16884,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- This rule used to be needed because of a disambiguator rule that meant "a" was frequently tagged only as a preposition. -->
         <!-- This has since been fixed, but I do think it's important to have a separate message for words that are commonly used -->
         <!-- in the 'wrong' gender by native speakers. -->
-        <rulegroup id='DET_FEM_MAS_A_O' name="Palavras masculinas frequentemente usadas no feminino." default="temp_off">
+        <rulegroup id='DET_FEM_MAS_A_O' name="Palavras masculinas frequentemente usadas no feminino.">
             <short>Possível erro de concordância: substantivo masculino.</short>
             <rule>
                 <pattern>
@@ -16890,7 +16902,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <!-- Usage here is strongly on the side of accepting "a cônjuge", which makes sense, so this is picky. -->
-        <rulegroup id="SUBST_SOBRECOMUM_MASCULINO" name="Palavras sobrecomuns frequentmente usadas no feminino" tags="picky" default="temp_off">
+        <rulegroup id="SUBST_SOBRECOMUM_MASCULINO" name="Palavras sobrecomuns frequentmente usadas no feminino" tags="picky">
             <url>https://www.normaculta.com.br/substantivo-sobrecomum/</url>
             <short>Possível erro de concordância: substantivo sobrecomum.</short>
             <rule>
@@ -41077,6 +41089,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     </category>
     <category id='TYPOGRAPHY' name="Tipografia" type="typographical">
+        <rulegroup id="NUMERO_NEGATIVO_SINAL_DE_MENOS" name="Usar o sinal de menos com números negativos" default="temp_off">
+            <antipattern> <!-- #1: NO SPACE BEFORE: number ranges, domain-specific formats, etc. -->
+                <token regexp="yes" spacebefore="no">[-–—]</token> <!-- hyphen, n-dash, m-dash -->
+                <token spacebefore="no" regexp="yes">\d.*</token>
+                <example>Compramos 30–40 resmas.</example>
+                <example>O carro de placa ABC-4021.</example>
+                <example>Ligue para +48 666-69-420.</example>
+                <example>Entre 30-50%.</example>
+                <example>Você precisa do formulário D-59.</example>
+            </antipattern>
+
+            <rule> <!-- #1: SPACE BEFORE: assume a negative -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" spacebefore="yes">[-–—]</token> <!-- hyphen, n-dash, m-dash -->
+                    </marker>
+                <token spacebefore="no" regexp="yes">\d.*</token>
+                </pattern>
+                <message>Se for um número negativo, prefira o sinal de menos.</message>
+                <suggestion>−</suggestion>
+                <example correction="−">A temperatura chegou a <marker>—</marker>30 graus!</example>
+                <example correction="−">O total de pontos foi de <marker>-</marker>100.</example>
+                <example correction="−">Ontem fez <marker>–</marker>40°C no Rio.</example>
+                <example correction="−">O prejuízo foi de <marker>-</marker>40€.</example>
+                <example correction="−">Crescimento de <marker>-</marker>27% no segundo trimestre.</example>
+            </rule>
+        </rulegroup>
 
         <rule id="ABREVIATURA_DE_SECULO" name="Não abrevie 'século' para 'séc.'">
             <pattern>
@@ -42066,9 +42105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Paga 25 %.</example>
         </rule>
 
-
         <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão' tags="picky">
-            <!-- Created by Tiago F. Santos, 2017-01-23 -->
             <url>https://pt.wikipedia.org/wiki/Travessão</url>
             <antipattern>
                 <token regexp='yes'>&hifen;</token>
@@ -42096,15 +42133,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag="SENT_END">-</token>
                 <example>- Milestone -</example>
             </antipattern>
-            <rule>
+            <rule> <!-- #1: diálogos e enumerações -->
                 <pattern>
                     <token postag='SENT_START'/>
-                    <token min='0' regexp='yes'>["'«»“”]</token>
+                    <token min='0' postag="_QUOT"/>
                     <marker>
                         <token regexp='yes'>-|–</token>
                     </marker>
                 </pattern>
-                <message>Em diálogos e enumerações deve utilizar o travessão.</message>
+                <message>Em diálogos e enumerações prefira utilizar o travessão.</message>
                 <suggestion>—</suggestion>
                 <short>Utilize o travessão</short>
                 <example correction='—'><marker>-</marker> O que é isso, mãe?</example>
@@ -42114,7 +42151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>2560-657 TORRES VEDRAS</example>
                 <example>---------------------------------------</example>
             </rule>
-            <rule>
+            <rule> <!-- #2: frases parentéticas -->
                 <antipattern>
                     <token regexp='yes'>-</token>
                     <token regexp='yes'>-</token>
@@ -42132,68 +42169,92 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <short>Utilize o travessão</short>
                 <example correction='—'>como disse <marker>-</marker>,…</example>
             </rule>
-            <rule>
+            <rule> <!-- #3: hyphen/n-dash surrounded by spaces -->
                 <antipattern>
                     <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                     <token regexp='yes'>-|–</token>
                     <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                 </antipattern>
                 <pattern>
+                    <token/>
                     <marker>
                         <token spacebefore="yes" regexp='yes'>-|–</token>
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>Se não pretende unir duas palavras, deve utilizar o travessão.</message>
-                <suggestion>—</suggestion>
-                <short>Utilize o travessão</short>
-                <example correction='—'>Nesses estabelecimentos de ensino existiam matrículas <marker>-</marker> a maioria de ensino fundamental — e um total de docentes.</example>
-                <example correction='—'>Instituto Ricci de Macau <marker>-</marker> Associação de promoção cultural da Companhia de Jesus em Macau</example>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:both"/>
+                <message>Para unir duas palavras, não ponha espaços ao redor de hífens e meias-riscas. Se a intenção for pontuar uma pausa ou um diálogo, use o travessão.</message>
+                <suggestion> — </suggestion>
+                <suggestion>\2</suggestion>
+                <short>Erro de espaçamento ou pontuação</short>
+                <example correction=' — |-'>Nesses estabelecimentos de ensino existiam matrículas<marker> - </marker>a maioria de ensino fundamental — e um total de docentes.</example>
+                <example correction=' — |-'>Instituto Ricci de Macau<marker> - </marker>Associação de promoção cultural da Companhia de Jesus em Macau</example>
                 <example>Na porção centro-oeste e noroeste apresentam maiores elevações, podendo atingir 500 metros acima do nível do mar, destacando-se a Serra do Tumucumaque e a Serra Lombarda.</example>
                 <example>1139–1385 — Formação do Reino de Portugal</example>
                 <example>2560-657 TORRES VEDRAS</example>
                 <example>---------------------------------------</example>
             </rule>
-            <rule>
-                <antipattern>
+            <rule> <!-- #4: gama temporal/numérica -->
+                <antipattern> <!-- explicit phone numbers with keyword -->
+                    <token regexp="yes" skip="2" inflected="yes">tel(efone)?|discar|ligar</token>
+                    <token regexp="yes">\d{3,6}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{3,7}</token>
+                    <example>Tel.: 555-6666.</example>
+                    <example>O telefone dele é 124555-100023.</example>
+                    <example>Em caso de dúvidas, ligue para 123-123.</example>
+                    <example>Disque 0800-123123.</example> <!-- usually with more dashes, duh, but let's check -->
+                </antipattern>
+                <antipattern> <!-- implicit phone numbers with country code -->
+                    <token>+</token>
+                    <token regexp="yes" spacebefore="no">\d{1,3}</token>
+                    <token regexp="yes">\d{3,6}</token>
+                    <token regexp="yes">–|&hifen;</token>
+                    <token regexp="yes">\d{3,7}</token>
+                </antipattern>
+                <antipattern> <!-- stricter phone numbers, five-four -->
                     <token min='0'>)</token>
                     <token regexp="yes">\d{5}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{4}</token>
                     <example>O telefone é 99999-9999.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- account numbers, branch numbers? -->
                     <token regexp="yes">\d{4}|\d{5}|\d{6}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{1}</token>
                     <example>Conta corrente 666666-6.</example>
                     <example>Agência 6666-6.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- something very specific with 0001-XX...? -->
                     <token>0001</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{1,2}</token>
                     <example>A empresa 66.666.666/0001-06 está baixada</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- national motorway names -->
                     <token>Estrada</token>
                     <token>Nacional</token>
                     <token regexp="yes">\d{3}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d</token>
+                    <example>Estrada Nacional 666-1.</example>
                 </antipattern>
-                <antipattern><!-- XXX Postal codes -->
+                <antipattern> <!-- PT post codes -->
                     <token regexp="yes">\d{4}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{3}</token>
-                    <token>
-                        <exception case_sensitive='yes'>a</exception></token>
+                    <token> <!-- no idea why this is necessary -->
+                        <exception case_sensitive='yes'>a</exception>
+                    </token>
+                    <example>O código postal é 1000-222.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- BR post codes -->
                     <token regexp="yes">\d{5}</token>
                     <token regexp="yes">–|&hifen;</token>
                     <token regexp="yes">\d{3}</token>
                     <example>O CEP é 22222-222.</example>
+                    <example>Envie para o CEP 22051-069.</example>
                 </antipattern>
                 <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
                     <token regexp="yes">\d{2}|\d{4}</token>
@@ -42202,31 +42263,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes" spacebefore='no'>–|&hifen;</token>
                     <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
                 </antipattern>
-                <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *START* -->
-                <!--
-                V2021-01-17.
-                ISBN 978-3-8321-7760-7.
-                -->
-                <antipattern>
+                <antipattern> <!-- no specific idea what this is for; I don't like the Z tag here, we should be using regexes -->
                     <token/>
                     <token spacebefore='no'>-</token>
                     <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
                     <token spacebefore='no'>-</token>
                     <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                    <example>V2021-01-17.</example>
+                    <example>ISBN 978-3-8321-7760-7.</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *START* -->
-                <antipattern>
+                <antipattern> <!-- 02-jan-2018 date format -->
                     <token regexp='yes'>\d\d?</token>
                     <token spacebefore='no'>-</token>
-                    <token spacebefore='no' regexp='yes'>&meses_ano_abrev;</token>
+                    <token spacebefore='no' regexp='yes' case_sensitive="no">&meses_ano_abrev;</token>
                     <token spacebefore='no'>-</token>
-                    <token spacebefore='no' postag='Z0.+' postag_regexp='yes'/>
+                    <token spacebefore='no' regexp="yes">\d{2}|\d{4}</token>
                     <example>Isto foi criado em 27-JAN-2021.</example>
-                    <example>GD Bertiandos - Vila Franca 03-MAI-2020 às 16h00.</example>
+                    <example>GD Bertiandos - Vila Franca 03-mai-2020 às 16h00.</example>
                 </antipattern>
-                <antipattern>
+                <antipattern> <!-- 02-jan date format (no year) -->
                     <token regexp='yes'>\d\d?</token>
                     <token spacebefore='no'>-</token>
                     <token spacebefore='no' regexp='yes'>&meses_ano_abrev;
@@ -42235,19 +42290,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>A licença atual finda a 27-JUL.</example>
                     <example>Festa de aniversário: 24-OUT</example>
                 </antipattern>
-                <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
                 <pattern>
                     <token regexp='yes'>\d{1}%?|\d{2}%?|\d{3}%?|1\d{3}|20\d{2}|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
-                    <token regexp="yes">—|&hifen;</token>
+                    <marker>
+                        <token regexp="yes">—|&hifen;</token>
+                    </marker>
                     <token regexp='yes'>\d{1}%?|\d{2}%?|\d{3}%?|1\d{3}|20\d{2}|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
                 </pattern>
-                <message>Se pretende indicar uma gama temporal ou numérica, deve utilizar o meio-travessão.</message>
-                <suggestion>\1 – \3</suggestion>
-                <suggestion>\1–\3</suggestion>
-                <short>Em gamas numéricas/temporais, deve utilizar o meio-travessão</short>
-                <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e professor universitário.</example>
-                <example correction='10 – 20%|10–20%'><marker>10-20%</marker></example>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:both"/>
+                <message>Se pretende indicar uma gama temporal ou numérica, prefira utilizar a meia-risca.</message>
+                <suggestion>–</suggestion>
+                <short>Em gamas numéricas ou temporais, prefira utilizar a meia-risca.</short>
+                <example correction='–'>Vitorino Nemésio (1901<marker> - </marker>1978) — escritor e professor universitário.</example>
+                <example correction='–'>10<marker>-</marker>20%</example>
+                <example correction="–">O congresso (ago<marker>-</marker>set de 2023) foi um sucesso.</example>
+                <example correction="–">Terceiro Simpósio (ter<marker> - </marker>qua):</example>
+                <example correction="–">O período 10/jan<marker>-</marker>15/fev.</example>
+                <example correction="–">A primeira sessão (15<marker>-</marker>17 h) foi produtiva.</example>
                 <example>1139–1385 — Formação do Reino de Portugal</example>
                 <example>2560-657 TORRES VEDRAS</example>
                 <example>---------------------------------------</example>
@@ -42257,7 +42316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-
+        <!-- Dash space rules -->
         <rulegroup id='DASH_SPACE_RULES' name="Travessão em enumerações" default="on" tags="picky">
             <!-- Localized and improved from Catalan by Tiago F. Santos, 2017-05-16 -->
             <url>https://pt.wikipedia.org/wiki/Travess%C3%A3o</url>

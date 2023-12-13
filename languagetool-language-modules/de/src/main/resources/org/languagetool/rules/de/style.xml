@@ -6074,7 +6074,7 @@ USA
             <antipattern><!-- do not correct "Phantasialand" or "chromatography" -->
                 <token regexp="yes">.*y|Phantasia.*|Graphem[se]?</token>
             </antipattern>
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Phantas.*</token>
                 </pattern>
@@ -6083,7 +6083,7 @@ USA
                 <example correction="Fantasie">Er hat eine blühende <marker>Phantasie</marker>.</example>
                 <example correction="Fantasien">Er entwickelte wilde <marker>Phantasien</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">phantas.*</token>
                 </pattern>
@@ -6092,7 +6092,7 @@ USA
                 <example correction="fantastische">Es ist eine <marker>phantastische</marker> Landschaft.</example>
                 <example correction="fantasievolle">Er lieferte eine <marker>phantasievolle</marker> Beschreibung.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <antipattern>
                     <token regexp="yes">GraphQL|.*pho[nt]ograph.*|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
@@ -6112,7 +6112,7 @@ USA
                 <example>Sein Buch heißt 'everyday  chromatography'.</example>
                 <example>Wir fahren ins Phantasialand.</example>
             </rule>
-            <rule>
+            <rule><!--4-->
                 <antipattern>
                     <token regexp="yes">GraphQL|.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
@@ -6130,7 +6130,7 @@ USA
                 <example>http://www.GRAPHICAL-ILLUSTRATION.com</example>
                 <example>Als kaiserlicher Archivar hatte der Biograph Zugriff auf Dokumente der Regierung.</example>
             </rule>
-            <rule>
+            <rule><!--5-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Photograph[\wäöüÄÖÜß-]*</token>
                 </pattern>
@@ -6138,7 +6138,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
                 <example correction="Fotografien">Sie sammelte <marker>Photographien</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--6-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*photograph[\wäöüÄÖÜß-]*</token>
                 </pattern>
@@ -6147,9 +6147,9 @@ USA
                 <example correction="Familienfotografien">Ihr gelangen immer wieder wundervolle <marker>Familienphotographien</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F" tone_tags="formal">
+        <rulegroup id="F_ANSTATT_PH_2" name="Worte mit Ph anstatt F" tone_tags="formal">
             <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
-            <rule>
+            <rule><!--1-->
                 <antipattern>
                     <token regexp="yes">Phone|Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
                 </antipattern>
@@ -6159,9 +6159,10 @@ USA
                 <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Photo(.*)" regexp_replace="Foto$1"/></suggestion> verwenden?</message>
                 <example correction="Fotoalbum">Sie blätterte gerne durch das <marker>Photoalbum</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <antipattern>
-                    <token regexp="yes">Persephones?|Symphony|Babyphones?|Softphones?|.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
+                    <token regexp="yes">Alphonses?|Persephones?|Symphony|Babyphones?|Softphones?|.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
+                    <example>Ich erinnere mich daran, als du noch Alphonse Trebagoogoo warst.</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">https?.*|www.*</token>
