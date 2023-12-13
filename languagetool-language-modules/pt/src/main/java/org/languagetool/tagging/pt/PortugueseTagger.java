@@ -60,7 +60,8 @@ public class PortugueseTagger extends BaseTagger {
   private static final Pattern ORDINAL_FEM_PL = Pattern.compile(String.format("[%s][%s]$",
     ORDINAL_SUFFIX_FEM, ORDINAL_SUFFIX_PL));
 
-  private static final Pattern PERCENT_PATTERN = Pattern.compile("\\d+[\\d,.]*%");
+  private static final Pattern PERCENT_PATTERN = Pattern.compile("−?\\d+[\\d,.]*%");
+  private static final Pattern DEGREE_PATTERN = Pattern.compile("−?\\d+[\\d,.]*°");
 
   public PortugueseTagger() {
     super("/pt/portuguese.dict", new Locale("pt"));
@@ -70,13 +71,18 @@ public class PortugueseTagger extends BaseTagger {
     if (isOrdinal(word)) {
       return buildOrdinalTokens(word);
     }
+    if (isDegree(word)) {
+      return Collections.singletonList(buildMascPlNoun(word));
+    }
     if (isPercent(word)) {
       // TODO: remove "PERCENTAGES" disambiguator rule
-      // word is already lemma, 10% => 10%
-      AnalyzedToken token = new AnalyzedToken(word, "NCMP000", word);
-      return Collections.singletonList(token);
+      return Collections.singletonList(buildMascPlNoun(word));
     }
     return Collections.emptyList();
+  }
+
+  private AnalyzedToken buildMascPlNoun(String word) {
+    return new AnalyzedToken(word, "NCMP000", word);
   }
 
   private List<AnalyzedToken> buildOrdinalTokens(String word) {
@@ -108,12 +114,16 @@ public class PortugueseTagger extends BaseTagger {
 
   private boolean isOrdinal(String word) {
     Matcher matcher = ORDINAL_PATTERN.matcher(word);
-    System.out.println(word + " matches /" + ORDINAL_PATTERN + "/?");
     return matcher.matches();
   }
 
   private boolean isPercent(String word) {
     Matcher matcher = PERCENT_PATTERN.matcher(word);
+    return matcher.matches();
+  }
+
+  private boolean isDegree(String word) {
+    Matcher matcher = DEGREE_PATTERN.matcher(word);
     return matcher.matches();
   }
 
@@ -151,7 +161,7 @@ public class PortugueseTagger extends BaseTagger {
 
       // tag ordinals and percentages, i.e. expressions that include digits
       if (l.isEmpty()) {
-        addTokens(buildOrdinalTokens(word), l);
+        addTokens(tagNumberExpressions(word), l);
       }
 
       // additional tagging with prefixes

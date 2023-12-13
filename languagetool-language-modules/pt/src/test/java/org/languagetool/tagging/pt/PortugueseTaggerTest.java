@@ -55,6 +55,9 @@ public class PortugueseTaggerTest {
     TestTools.myAssert("tentou resolver",
         "tentou/[tentar]VMIS3S0 -- resolver/[resolver]VMN0000|resolver/[resolver]VMN01S0|resolver/[resolver]VMN03S0|resolver/[resolver]VMSF1S0|resolver/[resolver]VMSF3S0"
         , tokenizer, tagger);
+    TestTools.myAssert("Deixe-me",
+      "Deixe/[deixar]VMM03S0|Deixe/[deixar]VMSP1S0|Deixe/[deixar]VMSP3S0 -- me/[me]PP1CS000",
+      tokenizer, tagger);
   }
 
   @Test
@@ -71,5 +74,10 @@ public class PortugueseTaggerTest {
     TestTools.myAssert("7.ᵃˢ", "7.ᵃˢ/[7.º]AO0FP0|7.ᵃˢ/[7.º]NCFP000", tokenizer, tagger);
     TestTools.myAssert("8ᵃˢ", "8ᵃˢ/[8º]AO0FP0|8ᵃˢ/[8º]NCFP000", tokenizer, tagger);
     TestTools.myAssert("900ᵃˢ", "900ᵃˢ/[900º]AO0FP0|900ᵃˢ/[900º]NCFP000", tokenizer, tagger);
+    // percent sign
+    TestTools.myAssert("10%", "10%/[10%]NCMP000", tokenizer, tagger);
+    TestTools.myAssert("−11.000%", "−11.000%/[−11.000%]NCMP000", tokenizer, tagger);
+    // degree sign
+    TestTools.myAssert("12°", "12°/[12°]NCMP000", tokenizer, tagger);
   }
 }

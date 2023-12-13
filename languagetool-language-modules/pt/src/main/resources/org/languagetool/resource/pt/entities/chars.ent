@@ -2,10 +2,12 @@
 <!ENTITY hifen "(?:[-‑])">
 <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
 <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
+<!ENTITY NoBreak "&#x2060;"> <!-- Word joiner, which has superseded the zero-width non-breaking space -->
 <!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
 <!ENTITY separadores_de_fecho "(?:\)|\}|\])">
 <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[\]\{\})">
 <!ENTITY tracos_de_separacao "(?:[-‑]|–|—|ㅡ)">
+<!ENTITY minus_sign "−">
 
 <!-- ORDINALS, SUPERSCRIPTS, DEGREE SIGNS, AND OTHER NONSENSE 😩 -->
 <!ENTITY ordf "ª">
@@ -16,8 +18,20 @@
 <!ENTITY sup_s "ˢ">
 
 <!ENTITY deg "°">
+
+<!ENTITY any_masc_ord "[o&ordm;&sup_o;]">
+<!ENTITY any_fem_ord "[a&ordf;&sup_a;]">
+<!ENTITY any_pl_ord "[s&sup_s;]">
+<!ENTITY any_ord "[o&ordm;&sup_o;a&ordf;&sup_a;]&any_pl_ord;?">
 <!-- END -->
 
 <!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿→⇋]|\=|\+">
 
 <!ENTITY currency_symbols "\p{Lu}*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]">
+
+<!-- Convenience entity, should encompass all valid numbers that the PT tokeniser doesn't split. -->
+<!ENTITY number_token "&minus_sign;?\d+[\d,.]*">
+<!ENTITY number_token_no_decimal "\d+(\.\d{3})*">
+<!ENTITY degree_token "&number_token;&nnbsp;?&deg;">
+<!-- No decimals or negatives, as that makes no sense, only thousands allowed -->
+<!ENTITY ordinal_token "&number_token_no_decimal;&any_ord;">
