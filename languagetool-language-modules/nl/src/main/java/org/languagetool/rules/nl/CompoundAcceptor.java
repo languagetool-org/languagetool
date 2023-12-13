@@ -100,6 +100,8 @@ public class CompoundAcceptor {
     "viking"
   );
   private final Set<String> part2Exceptions = ImmutableSet.of(
+    "actor",
+    "actoren",
     "ding",
     "enen",
     "fries",
@@ -241,6 +243,8 @@ public class CompoundAcceptor {
     "controverse",
     "curve",
     "dag",
+    "deel",
+    "deeltijd",
     "detective",
     "diagnose",
     "dienst",
@@ -325,6 +329,7 @@ public class CompoundAcceptor {
     "licht",
     "liefde",
     "literatuur",
+    "loon",
     "lucht",
     "luchtvaart",
     "machine",
