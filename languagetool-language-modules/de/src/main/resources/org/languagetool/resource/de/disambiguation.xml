@@ -58,6 +58,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </equivalence>
     </unification>
 
+    <rulegroup name="n-te spelling" id="N_TE_SPELLING">
+        <rule><!--1-->
+            <pattern>
+                <token>n-te</token>
+                <token postag="SUB.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token>(</token>
+                <token>n-te</token>
+                <token>)</token>
+                <token postag="SUB.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rule name="D'Hondt-Verfahren spelling" id="DHONDT_SPELLING">
         <pattern>
             <token>D</token>
