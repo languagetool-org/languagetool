@@ -124,7 +124,7 @@ public class MessageHandler {
   /** 
    * Prints Exception to log-file  
    */
-  static void printException(Throwable t) {
+  public static void printException(Throwable t) {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
