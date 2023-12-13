@@ -531,7 +531,7 @@ public class CompoundAcceptor {
       if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1)) && !alwaysNeedsS.contains(part1) && !noS.contains(part1) && !part1.contains("-")) {
         for (String suffix : alwaysNeedsS) {
           if (part1lc.endsWith(suffix)) {
-            return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+            return isNoun(part2) && isExistingWord(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
           }
         }
         return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
@@ -549,8 +549,13 @@ public class CompoundAcceptor {
   }
 
   boolean isNoun(String word) throws IOException {
-    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Arrays.asList(word));
+    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Collections.singletonList(word));
     return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW")) && !part2Exceptions.contains(word) ;
+  }
+
+  private boolean isExistingWord(String word) throws IOException {
+    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Collections.singletonList(word));
+    return part2Readings.stream().noneMatch(AnalyzedTokenReadings::isPosTagUnknown);
   }
 
   private boolean hasCollidingVowels(String part1, String part2) {

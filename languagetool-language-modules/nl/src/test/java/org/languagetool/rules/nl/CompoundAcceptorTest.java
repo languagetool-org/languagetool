@@ -50,6 +50,8 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("transferpersjes"));
     assertTrue(acceptor.acceptCompound("kunstomlijning"));
     assertTrue(acceptor.acceptCompound("webomlijning"));
+    assertFalse(acceptor.acceptCompound("lingsboek"));
+    assertTrue(acceptor.acceptCompound("gezondheidsinfluencers"));
 
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
