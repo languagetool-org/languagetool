@@ -41861,7 +41861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token case_sensitive="yes" regexp="yes" spacebefore="no">&state_abbrev_all;</token>
                 <example>Nasceu em Niterói–RJ.</example>
             </antipattern>
-            <rule> <!-- #1: brackets -->
+            <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PARENTESES"> <!-- #1: brackets -->
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
                     <marker>
@@ -41871,28 +41871,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
-                <message>Separe municípios e estados brasileiros com uma meia-risca.</message>
+                <message>&brazilian_states_msg;</message>
                 <suggestion>–\3</suggestion>
                 <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>(RJ)</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker> e morreu lá.</example>
             </rule>
-            <rule> <!-- #2: simple separators -->
+            <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PONTUACAO_SIMPLES"> <!-- #2: simple separators -->
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
                     <marker>
-                        <token/>
+                        <token regexp="yes">[-–—/,]</token> <!-- hifen, n-dash, m-dash, forward slash, comma -->
                         <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
-                <message>Separe municípios e estados brasileiros com uma meia-risca.</message>
+                <message>&brazilian_states_msg;</message>
                 <suggestion>–\3</suggestion>
                 <example correction="–RJ">Nasceu em Niterói<marker> – RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>/RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> — RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>-RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>, RJ</marker>.</example>
+                <example>Foram 157 km2 de mata derrubados em nove Estados (AC, AM, AP, MA, MT, PA, TO, RO e RR).</example>
+                <example>Com o fechamento definitivo da Estrada do Colono (PR-495).</example>
+                <example>Cidade Alerta GO.</example>
+                <example>Adaptador 135W AC com cabo de 3 pinos.</example>
+                <example>Secretaria Estadual da Cultura de SP.</example>
+                <example>Moro em SP capital.</example>
+                <example>Pode ser diferente Especificação: CE ISO9001.</example>
+                <example>Resolução da Presidência do IBGE de n° 5 (R.PR-5/02).</example>
+            </rule>
+            <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_ESPACO"> <!-- #3: espaço simples -->
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_brazil;</token>
+                    <token regexp="yes">&hifen;|-</token>
+                    <token regexp="yes">\d+</token>
+                    <example>Rodovia Estadual BA-447.</example>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_brazil;</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <message>&brazilian_states_msg;</message>
+                <suggestion>–\3</suggestion>
+                <example correction="–RJ">Nasceu em Niterói<marker> RJ</marker>.</example>
+                <example correction="–MG">São Lourenço<marker> MG</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -41919,11 +41946,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </antipattern>
             <antipattern>
                 <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                <token spacebefore="no">–</token>
-                <token case_sensitive="yes" regexp="yes" spacebefore="no">&state_abbrev_brazil;</token>
+                <token regexp="yes">[-–—,/]</token>
+                <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
                 <example>Nasceu em Filadélfia–PA.</example>
+                <example>Lagoa da Conceição, Florianópolis - SC.</example>
+                <example>Se você de Abdon Batista - SC e região está à busca de tratamento especializado</example>
+                <example>São Sebastião – AL</example>
+                <example>Águia de Marabá-PA</example>
+                <example>Rua Desembargador Pedro Silva, 2107 - Coqueiros - Florianópolis/SC</example>
             </antipattern>
-            <rule> <!-- #1: brackets -->
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_brazil;</token>
+                <example>Lagoa da Conceição, Florianópolis SC.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                <token>(</token>
+                <token case_sensitive="yes" regexp="yes" spacebefore="no">&state_abbrev_brazil;</token>
+                <token spacebefore="no">)</token>
+                <example>Faz fronteira com Bozzole (AL)</example>
+                <example>Sampaio Corrêa (MA)</example>
+            </antipattern>
+            <antipattern>
+                <token>inteligência</token>
+                <token>artificial</token>
+                <token>(</token>
+                <token case_sensitive="yes" spacebefore="no">IA</token>
+                <token spacebefore="no">)</token>
+                <example>A Inteligência Artificial (IA)</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Região</token>
+                <token case_sensitive="yes">NE</token>
+                <example>Região NE:</example>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                <token case_sensitive="yes">OK</token>
+                <example>Tudo OK!</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">Solidariedade</token>
+                <token>(</token>
+                <token case_sensitive="yes" spacebefore="no">SD</token>
+                <token spacebefore="no">)</token>
+                <example>Filiado ao Solidariedade (SD).</example>
+            </antipattern>
+            <rule id="SEPARADORES_DE_ESTADOS_AMERICANOS_VIRGULA_PARENTESES"> <!-- #1: brackets -->
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
                     <marker>
@@ -41939,12 +42010,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction=", CO">Nasceu em Denver<marker>(CO)</marker>.</example>
                 <example correction=", CO">Nasceu em Denver<marker> (CO)</marker> e morreu lá.</example>
             </rule>
-            <rule> <!-- #2: simple separators -->
+            <rule id="SEPARADORES_DE_ESTADOS_AMERICANOS_VIRGULA_PONTUACAO_SIMPLES"> <!-- #2: simple separators -->
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
                     <marker>
-                        <token/>
-                        <token case_sensitive="yes" regexp="yes">&state_abbrev_us;</token>
+                        <token regexp="yes">[-–—/,]</token> <!-- hifen, n-dash, m-dash, forward slash, comma -->
+                        <token case_sensitive="yes" regexp="yes">&state_abbrev_us;
+                            <exception regexp="yes" case_sensitive="yes">DE|OK|ME|NE|IA</exception> <!-- relatively common pt-BR words, might be caught in all-caps text -->
+                        </token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
@@ -41955,8 +42028,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction=", CO">Nasceu em Denver<marker> — CO</marker>.</example>
                 <example correction=", CO">Nasceu em Denver<marker>-CO</marker>.</example>
                 <example correction=", CO">Nasceu em Denver<marker>–CO</marker>.</example>
+                <example>Fernando II de Habsburgo "AK Concerto No.</example>
+                <example>Berlingen, Ermatingen, Gaienhofen (DE-BW)</example>
+                <example>ETAPA II DIAS 26 E 27 DE MAIO.!</example>
+            </rule>
+            <rule id="SEPARADORES_DE_ESTADOS_AMERICANOS_VIRGULA_ESPACO"> <!-- #3: espaço simples -->
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_us;
+                            <exception regexp="yes" case_sensitive="yes">DE|OK|ME|NE|IA</exception> <!-- relatively common pt-BR words, might be caught in all-caps text -->
+                        </token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <message>&brazilian_states_msg;</message>
+                <suggestion>, \3</suggestion>
+                <example correction=", CO">Nasceu em Denver<marker> CO</marker>.</example>
             </rule>
         </rulegroup>
+
 
 
         <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × " tags="picky">
