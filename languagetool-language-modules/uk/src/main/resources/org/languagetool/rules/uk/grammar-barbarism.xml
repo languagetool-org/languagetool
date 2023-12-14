@@ -773,6 +773,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="korystuvatysia_doviroyu" name="Користуватися довірою">
+      <pattern>
+        <token inflected="yes">користуватися</token>
+        <token regexp="yes" min="0">би?</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_oru.*" min="0"/>
+          <token regexp="yes">довірою|довір'ям</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion><match
+         no="1" postag_regexp="yes" postag="verb(:rev)(.*)" postag_replace="verb$2">мати</match> \2 <match
+         no="3" postag_regexp="yes" postag="(adj:.):v_oru(.*)" postag_replace="$1:v_zna$2"/> <match
+         no="4" postag_regexp="yes" postag="(noun:inanim:.):v_oru" postag_replace="$1:v_zna"/></suggestion></message>
+      <example correction="мав довіру">він <marker>користувався довірою</marker> свого колективу</example>
+      <example correction="мав її довіру">він <marker>користувався її довірою</marker></example>
+      <example correction="мав б найбільшу довіру">він <marker>користувався б найбільшою довірою</marker></example>
+      <example correction="мав довір'я">він <marker>користувався довір'ям</marker> свого колективу</example>
+    </rule>
+
+    <rule id="mizh_tym_vs_tym_chasom" name="Між тим і тим часом">
+      <antipattern>
+        <token>між</token>
+        <token>тим</token>
+        <token>,</token>
+        <token>що</token>
+      </antipattern>
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>між</token>
+          <token>тим</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>тим часом</suggestion></message>
+      <suggestion>проте</suggestion>
+      <example correction="Тим часом|Проте"><marker>Між тим</marker> робітники погодилися взяти...</example>
+      <example>Між тим, що вони говорять, і тим, що роблять, зяє величезна прірва.</example>
+    </rule>
+
     <rule id="VESTY_SEBE" name="Вести себе">
       <pattern>
         <token inflected="yes" regexp="yes">(по)?вести|ведучи|(по)?вівши</token>
