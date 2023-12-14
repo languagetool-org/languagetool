@@ -4,6 +4,11 @@
 
 ...
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
 
 ## 6.3 (2023-10-06)
 
