@@ -58,6 +58,7 @@ public class StatAnConfiguration {
   private short underlineType = UNDERLINE_TYPE_DEFAULT;
   private Color underlineColor = UNDERLINE_COLOR_DEFAULT;
   private boolean showAllParagraphs = SHOW_ALLPARAGRAPHS_DEFAULT;
+  private boolean showAdditionalOptions = false;
   
   StatAnConfiguration(List<TextLevelRule> rules) throws Throwable {
     this.rules = rules;
@@ -127,8 +128,16 @@ public class StatAnConfiguration {
     return showAllParagraphs;
   }
   
-  void setshowAllParagraphs(boolean showAllParagraphs) {
+  void setShowAllParagraphs(boolean showAllParagraphs) {
     this.showAllParagraphs = showAllParagraphs;
+  }
+  
+  boolean showAdditionalOptions() {
+    return this.showAdditionalOptions;
+  }
+  
+  void setShowAdditionalOptions(boolean showAdditionalOptions) {
+    this.showAdditionalOptions = showAdditionalOptions;
   }
   
   Color getUnderlineColor() {
