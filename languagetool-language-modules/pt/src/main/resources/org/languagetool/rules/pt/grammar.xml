@@ -14379,8 +14379,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id='CRASE_CONFUSION_2' name="Erros de crase possíveis">
-            <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
-            <!--                     Loosely based on CoGrOO rules                 -->
             <antipattern>
                 <token>a</token>
                 <token regexp='yes'>&toponimos_sem_artigo;</token>
@@ -14390,7 +14388,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>visita</token>
                 <token>a</token>
             </antipattern>
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <marker>
                         <token regexp='yes'>&requer_crase;
@@ -14405,7 +14403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>\1 à</suggestion>
                 <example correction='superiores à'>Nestas regiões é possível obter ordenados <marker>superiores a</marker> média.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <pattern>
                     <marker>
                         <token regexp='yes'>&requer_crase;
@@ -14421,7 +14419,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='acesso às'>Novas leis restringem o <marker>acesso as</marker> armas.</example>
                 <example correction='equivalente às'>É <marker>equivalente as</marker> alternativas existentes.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <antipattern>
                     <token>para</token>
                     <token>a</token>
@@ -14438,7 +14436,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Efeito Coriolis é a força aparente que desvia as partículas de ar para a direita no hemisfério norte e para a esquerda no hemisfério sul.</example>
                 <!--example>A esquerda dos safe spaces e das manifestações nas universidades</example-->
             </rule>
-            <rule>
+            <rule><!--4-->
                 <pattern>
                     <token inflected='yes' regexp="yes">estar|ficar|colocar|seguir</token>
                     <marker>
@@ -14451,7 +14449,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>à</suggestion>
                 <example correction='à'>Estou <marker>a</marker> sua disposição. </example>
             </rule>
-            <rule>
+            <rule><!--5-->
                 <antipattern>
                     <token>em</token>
                     <token>direção</token>
@@ -14472,6 +14470,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Esta expressão requer o uso da crase.</message>
                 <suggestion><match no="3" regexp_match="a" regexp_replace="à"/></suggestion>
                 <example correction='à'>Correu em direção <marker>a</marker> saída. </example>
+            </rule>
+
+            <rule><!--6-->
+                <pattern>
+                    <or>
+                        <token postag="N.+" postag_regexp="yes"/>
+                        <token inflected="yes" regexp="yes">estar|colocar|pôr</token>
+                    </or>
+                    <marker>
+                        <token regexp="yes">a</token>
+                    </marker>
+                    <token>venda</token>
+                </pattern>
+                <message>Esta expressão requer o uso da crase.</message>
+                <suggestion>à</suggestion>
+                <example correction='à'>Casa <marker>a</marker> venda em Aranguera. </example>
+                <example correction='à'>A casa está <marker>a</marker> venda em Aranguera. </example>
             </rule>
         </rulegroup>
 
