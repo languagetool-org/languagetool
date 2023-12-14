@@ -1220,6 +1220,7 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
     </rule>
 
 	<!-- define start and end elements to ignore -->
+	<!--
 	<rule id="START_IGNORE_01" name="">
 		<pattern>
 			<token postag="SENT_START"/>
@@ -1256,7 +1257,7 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 			</pattern>
 		<disambig action="add"><wd pos="SENT_END"/></disambig>
 	</rule>
-
+	-->
 	<!-- voegt gij-vorm toe; heeft nog uitzonderingen nodig -->
 	<!--
 	<rule id="GIJ_VORM_01" name="">
@@ -1671,6 +1672,21 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 		<pattern>
 			<token postag="ITP:KMA"/>
 			<token postag="VGW">maar</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF
+	=================================================================
+	62176:	~ U
+	-->
+	<rule id="TEST_002" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:3EP:EKV:ACT">U</token>
+			</marker>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
