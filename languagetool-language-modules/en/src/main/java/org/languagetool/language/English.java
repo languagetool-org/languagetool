@@ -32,6 +32,7 @@ import org.languagetool.rules.en.*;
 import org.languagetool.rules.en.LongSentenceRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -671,6 +672,9 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("AI_SPELLING_RULE")) {
       return -9; // higher than MORFOLOGIK_*, for testing
     }
+    if (id.startsWith("EN_MULTITOKEN_SPELLING_")) {
+      return -9; // higher than MORFOLOGIK_*
+    }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_HYDRA_LEO_CP_YOU_YOUARE")) {
         return -1;
@@ -745,6 +749,29 @@ public class English extends Language implements AutoCloseable {
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
+  }
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (tag.startsWith("NNP") ) {
+        return form;
+      } else {
+        return "";
+      }
+    }
+    return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return EnglishMultitokenSpeller.INSTANCE;
   }
 
 }

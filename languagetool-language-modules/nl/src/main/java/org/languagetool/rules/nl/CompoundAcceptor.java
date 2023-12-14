@@ -53,6 +53,7 @@ public class CompoundAcceptor {
   private final Set<String> needsS = ImmutableSet.of(
     "afgods",
     "allemans",
+    "arbeids",
     "arbeiders",
     "bedrijfs",
     "dorps",
@@ -66,11 +67,15 @@ public class CompoundAcceptor {
     "meisjes",
     "onderhouds",
     "oorlogs",
+    "oudejaars",
+    "ouderdoms",
     "overlijdens",
     "passagiers",
     "personeels",
+    "staats",
     "stads",
     "varkens",
+    "volks",
     "vrijwilligers"
   );
 
@@ -95,7 +100,11 @@ public class CompoundAcceptor {
     "viking"
   );
   private final Set<String> part2Exceptions = ImmutableSet.of(
+    "actor",
+    "actoren",
     "ding",
+    "enen",
+    "fries",
     "lijk",
     "lopen",
     "mara",
@@ -203,11 +212,13 @@ public class CompoundAcceptor {
     "auto",
     "bal",
     "balustrade",
+    "basis",
     "bediende",
     "behoefte",
     "belangen",
     "belofte",
     "bende",
+    "berg",
     "beroerte",
     "bezoek",
     "bijdrage",
@@ -217,6 +228,7 @@ public class CompoundAcceptor {
     "boeren",
     "boete",
     "bolide",
+    "bouw",
     "brand",
     "breedte",
     "brigade",
@@ -231,6 +243,8 @@ public class CompoundAcceptor {
     "controverse",
     "curve",
     "dag",
+    "deel",
+    "deeltijd",
     "detective",
     "diagnose",
     "dienst",
@@ -238,6 +252,7 @@ public class CompoundAcceptor {
     "dikte",
     "douane",
     "droogte",
+    "eind",
     "einde",
     "ellende",
     "energie",
@@ -252,6 +267,7 @@ public class CompoundAcceptor {
     "feest",
     "finale",
     "fluoride",
+    "foto",
     "fractie",
     "gebergte",
     "geboorte",
@@ -269,8 +285,10 @@ public class CompoundAcceptor {
     "gewoonte",
     "gezegde",
     "gilde",
+    "goederen",
     "gravure",
     "groente",
+    "grond",
     "grootte",
     "halte",
     "hand",
@@ -280,6 +298,7 @@ public class CompoundAcceptor {
     "hoog",
     "hoogte",
     "horde",
+    "hout",
     "huis",
     "hybride",
     "hypothese",
@@ -288,31 +307,42 @@ public class CompoundAcceptor {
     "informatie",
     "inname",
     "inzage",
+    "jeugd",
+    "jongeren",
     "kade",
+    "kantoor",
     "karakter",
     "kazerne",
+    "kerst",
     "keuze",
     "kind",
     "kinder",
+    "klei",
     "krapte",
     "kudde",
     "kunst",
     "lade",
     "leegte",
+    "leer",
     "legende",
     "lengte",
     "licht",
     "liefde",
     "literatuur",
+    "loon",
     "lucht",
     "luchtvaart",
+    "machine",
     "made",
     "mannen",
     "mascotte",
     "mechanisme",
     "mede",
     "menigte",
+    "mensen",
     "mensenrechten",
+    "meta",
+    "metaal",
     "metamorfose",
     "methode",
     "meute",
@@ -321,10 +351,12 @@ public class CompoundAcceptor {
     "mode",
     "model",
     "module",
+    "motor",
     "multi",
     "multimedia",
     "mythe",
     "novelle",
+    "natuur",
     "nuance",
     "oase",
     "offerte",
@@ -336,6 +368,7 @@ public class CompoundAcceptor {
     "organisatie",
     "organisme",
     "orgasme",
+    "ouderen",
     "overname",
     "papier",
     "partij",
@@ -351,6 +384,7 @@ public class CompoundAcceptor {
     "post",
     "privé",
     "probleem",
+    "product",
     "productie",
     "prothese",
     "prototype",
@@ -399,6 +433,7 @@ public class CompoundAcceptor {
     "transport",
     "trede",
     "tube",
+    "tuin",
     "type",
     "uiteinde",
     "uitgifte",
@@ -423,8 +458,11 @@ public class CompoundAcceptor {
     "waarde",
     "warmte",
     "water",
+    "wind",
+    "winter",
     "web",
     "weduwe",
+    "weer",
     "weergave",
     "weide",
     "wereld",
@@ -434,6 +472,7 @@ public class CompoundAcceptor {
     "ziekte",
     "zijde",
     "zonde",
+    "zorg",
     "zwaarte",
     "zwakte",
     "zwanger"
@@ -498,7 +537,7 @@ public class CompoundAcceptor {
       if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1)) && !alwaysNeedsS.contains(part1) && !noS.contains(part1) && !part1.contains("-")) {
         for (String suffix : alwaysNeedsS) {
           if (part1lc.endsWith(suffix)) {
-            return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+            return isNoun(part2) && isExistingWord(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
           }
         }
         return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
@@ -516,8 +555,13 @@ public class CompoundAcceptor {
   }
 
   boolean isNoun(String word) throws IOException {
-    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Arrays.asList(word));
+    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Collections.singletonList(word));
     return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW")) && !part2Exceptions.contains(word) ;
+  }
+
+  private boolean isExistingWord(String word) throws IOException {
+    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Collections.singletonList(word));
+    return part2Readings.stream().noneMatch(AnalyzedTokenReadings::isPosTagUnknown);
   }
 
   private boolean hasCollidingVowels(String part1, String part2) {

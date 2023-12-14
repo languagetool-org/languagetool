@@ -48,22 +48,22 @@ import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.MessageHandler;
 import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
+import org.languagetool.openoffice.OfficeTools;
 import org.languagetool.openoffice.ViewCursorTools;
 import org.languagetool.openoffice.stylestatistic.StatAnCache.Heading;
 import org.languagetool.openoffice.stylestatistic.StatAnCache.Paragraph;
@@ -108,8 +108,10 @@ public class StatAnDialog extends Thread  {
   private JLabel stepLabel2;
   private JButton defaultButton;
   private JButton setButton;
+  private JButton ignore;
+  private JButton removeAllIgnored;
   private JComboBox<String> function;
-  private JList<String> usedWords;
+  private JComboBox<String> usedWords;
   private int from = 0;
   private int to = 1;
   private int hierarchy = 1;
@@ -150,6 +152,7 @@ public class StatAnDialog extends Thread  {
           rules.add((TextLevelRule)rule);
         }
       }
+//      MessageHandler.printToLogFile(getStatisticalRulesSupportedLanguages());
     } catch (IOException e) {
       MessageHandler.showError(e);
     }
@@ -175,7 +178,7 @@ public class StatAnDialog extends Thread  {
     dialog.setName(dialogName);
     dialog.setTitle(dialogName);
     dialog.setMinimumSize(new Dimension(MIN_DIALOG_WIDTH, MIN_DIALOG_HEIGHT));
-    dialog.setSize(new Dimension(dialogWidth, dialogHeight));
+//    dialog.setSize(new Dimension(dialogWidth, dialogHeight));
     dialog.addWindowListener(new WindowListener() {
       @Override
       public void windowOpened(WindowEvent e) {
@@ -248,14 +251,13 @@ public class StatAnDialog extends Thread  {
       configRule();
       levelRule.generateBasicNumbers(cache);
       setLeftLevelRulePanel();
-      setRightLevelRulePanel();
     } else {
       usedWordRule = new UsedWordRule(selectedRule, cache);
       configRule();
       usedWordRule.generateBasicNumbers(cache);
       setLeftUsedWordRulePanel();
-      setRightUsedWordRulePanel();
     }
+    setRightRulePanel();
     mainPanel.add(leftPanel, cons2);
     cons2.gridx++;
     cons2.fill = GridBagConstraints.NONE;
@@ -294,15 +296,14 @@ public class StatAnDialog extends Thread  {
               configRule();
               levelRule.generateBasicNumbers(cache);
               setLeftLevelRulePanel();
-              setRightLevelRulePanel();
             } else {
               usedWordRule = new UsedWordRule(selectedRule, cache);
               configRule();
               usedWordRule.generateBasicNumbers(cache);
               setLeftUsedWordRulePanel();
-              setRightUsedWordRulePanel();
             }
-            dialog.pack();
+            setRightRulePanel();
+            dialog.repaint();
           } catch (Throwable e1) {
             MessageHandler.showError(e1);
           }
@@ -401,45 +402,86 @@ public class StatAnDialog extends Thread  {
   }
   
   private void setLeftUsedWordRulePanel() {
-    usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
-    usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
-    //  Define left panel
-    leftPanel.removeAll();
-    leftPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons11 = new GridBagConstraints();
-    cons11.insets = new Insets(14, 6, 2, 6);
-    cons11.gridx = 0;
-    cons11.gridy = 0;
-    cons11.anchor = GridBagConstraints.NORTHWEST;
-    cons11.fill = GridBagConstraints.HORIZONTAL;
-    cons11.weightx = 0.0;
-    cons11.weighty = 0.0;
-    leftPanel.add(new JLabel(MESSAGES.getString("loStatisticalAnalysisMostUsedWords") + ":"), cons11);
-    usedWords = new JList<String>();
-    usedWords.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    String[] mostUsedWords = null;
     try {
+      usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
+      usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
+      //  Define left panel
+      leftPanel.removeAll();
+      leftPanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons11 = new GridBagConstraints();
+      cons11.insets = new Insets(14, 6, 2, 6);
+      cons11.gridx = 0;
+      cons11.gridy = 0;
+      cons11.anchor = GridBagConstraints.NORTHWEST;
+      cons11.fill = GridBagConstraints.HORIZONTAL;
+      cons11.weightx = 0.0;
+      cons11.weighty = 0.0;
+      leftPanel.add(new JLabel(MESSAGES.getString("loStatisticalAnalysisMostUsedWords") + ":"), cons11);
+      String[] mostUsedWords = null;
       mostUsedWords = usedWordRule.getMostUsedWords();
+      usedWords = new JComboBox<String>(mostUsedWords);
+      usedWords.addItemListener(e -> {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          int selectedIndex = usedWords.getSelectedIndex();
+          try {
+            usedWordRule.setWord(usedWordRule.getMostUsedWord(selectedIndex));
+            setChapterPanel(chapter);
+            subChapterPane.setViewportView(getSubChapterPanel(0, cache.size(), 1, null));
+            dialog.repaint();
+          } catch (Throwable e1) {
+            MessageHandler.showError(e1);
+          }
+        }
+      });
+      if (mostUsedWords != null && mostUsedWords.length > 0) {
+        usedWords.setSelectedIndex(0);
+        usedWordRule.setWord(usedWordRule.getMostUsedWord(0));
+      }
+      cons11.gridy++;
+      cons11.weightx = 0.0f;
+      cons11.weighty = 0.0f;
+      cons11.anchor = GridBagConstraints.NORTHWEST;
+      cons11.fill = GridBagConstraints.BOTH;
+      cons11.insets = new Insets(2, 6, 2, 6);
+      leftPanel.add(usedWords, cons11);
+      cons11.gridy++;
+      cons11.anchor = GridBagConstraints.NORTHWEST;
+      cons11.fill = GridBagConstraints.HORIZONTAL;
+      cons11.weightx = 0.0;
+      cons11.weighty = 0.0;
+      leftPanel.add(new JLabel(MESSAGES.getString("loStatisticalAnalysisChapterLabel") + ":"), cons11);
+      cons11.gridy++;
+      cons11.weightx = 0.0;
+      cons11.weighty = 0.0;
+      cons11.insets = new Insets(2, 6, 2, 6);
+      cons11.anchor = GridBagConstraints.NORTHWEST;
+      cons11.fill = GridBagConstraints.HORIZONTAL;
+      chapterPanel = new JPanel();
+      setChapterPanel(chapter);
+      leftPanel.add(chapterPanel, cons11);
+      cons11.gridy++;
+      cons11.weightx = 0.0f;
+      cons11.weighty = 0.0;
+      cons11.insets = new Insets(14, 6, 2, 6);
+      JLabel subChapterLabel = new JLabel(MESSAGES.getString("loStatisticalAnalysisSubchapterLabel") + ":");
+      leftPanel.add(subChapterLabel, cons11);
+      cons11.gridy++;
+      cons11.weightx = 1.0f;
+      cons11.weighty = 1.0f;
+      cons11.anchor = GridBagConstraints.NORTHWEST;
+      cons11.fill = GridBagConstraints.BOTH;
+      cons11.insets = new Insets(2, 6, 2, 6);
+      subChapterPane = new JScrollPane();
+      subChapterPane.setMinimumSize(new Dimension(0, 30)); 
+      subChapterPane.setViewportView(getSubChapterPanel(0, cache.size(), 1, null));
+      leftPanel.add(subChapterPane, cons11);
+      leftPanel.validate();
     } catch (Throwable e1) {
       MessageHandler.showError(e1);
     }
-    usedWords.setListData(mostUsedWords);
-    if (mostUsedWords != null && mostUsedWords.length > 0) {
-      usedWords.setSelectedIndex(0);
-    }
-    cons11.gridy++;
-    cons11.weightx = 1.0f;
-    cons11.weighty = 1.0f;
-    cons11.anchor = GridBagConstraints.NORTHWEST;
-    cons11.fill = GridBagConstraints.BOTH;
-    cons11.insets = new Insets(2, 6, 2, 6);
-    JScrollPane usedWordsPane = new JScrollPane(usedWords);
-    usedWordsPane.setMinimumSize(new Dimension(0, 30)); 
-    leftPanel.add(usedWordsPane, cons11);
-    leftPanel.validate();
   }
   
-  private void setRightLevelRulePanel() {
+  private void setRightRulePanel() {
     //  Define right panel
     rightPanel.removeAll();
     rightPanel.setLayout(new GridBagLayout());
@@ -502,8 +544,22 @@ public class StatAnDialog extends Thread  {
     cons21.gridx++;
     defaultButton = new JButton(MESSAGES.getString("loStatisticalAnalysisDefaultButton"));
     optionPanel.add(defaultButton, cons21);
-    setLevelRuleOptions();
     rightPanel.add(optionPanel, cons20);
+
+    if (isLevelRule) {
+      setLevelRuleOptions();
+    } else {
+      cons20.gridx = 0;
+      cons20.gridy++;
+      ignore = new JButton(MESSAGES.getString("loStatisticalAnalysisIgnoreWordButton"));
+      removeAllIgnored = new JButton(MESSAGES.getString("loStatisticalAnalysisResetIgnoredWordsButton"));
+      removeAllIgnored.setEnabled(config.getExcludedWords(selectedRule).size() > 0);
+      rightPanel.add(removeAllIgnored, cons20);
+      cons20.gridy++;
+      rightPanel.add(ignore, cons20);
+      setUsedWordRuleOptions();
+    }
+    
     cons20.gridy++;
     cons20.insets = new Insets(6, 4, 2, 4);
     rightPanel.add(getColorOptionsPanel(), cons20);
@@ -585,59 +641,62 @@ public class StatAnDialog extends Thread  {
      
   }
   
-  private void setRightUsedWordRulePanel() {
-    //  Define right panel
-    rightPanel.removeAll();
-    rightPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons21 = new GridBagConstraints();
-    //  Option panel
-    cons21.insets = new Insets(2, 4, 2, 4);
-    cons21.gridx = 0;
-    cons21.gridy = 0;
-    cons21.fill = GridBagConstraints.NONE;
-    cons21.anchor = GridBagConstraints.NORTHWEST;
-    cons21.weightx = 0.0;
-    cons21.weighty = 0.0;
-    optionLabel = new JLabel(MESSAGES.getString("loStatisticalAnalysisOptionsLabel") + ":");
-    rightPanel.add(optionLabel, cons21);
-    //  direct speech panel
-    JPanel directSpeechPanel = new JPanel();
-    rightPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons23 = new GridBagConstraints();
-    cons23.insets = new Insets(0, 0, 0, 4);
-    cons23.gridx = 0;
-    cons23.gridy = 0;
-    cons23.fill = GridBagConstraints.NONE;
-    cons23.anchor = GridBagConstraints.NORTHWEST;
-    cons23.weightx = 0.0;
-    cons23.weighty = 0.0;
-    withoutDirectSpeech = new JCheckBox(MESSAGES.getString("loStatisticalAnalysisWithoutDirectSpreech"));
-    if (config == null) {
-      MessageHandler.showMessage("config == null");
-    }
-    directSpeechPanel.add(withoutDirectSpeech, cons23);
-    cons23.gridx++;
-    defaultButton = new JButton(MESSAGES.getString("loStatisticalAnalysisDefaultButton"));
-    directSpeechPanel.add(defaultButton, cons23);
-    cons21.gridy++;
-    rightPanel.add(directSpeechPanel, cons21);
-    cons21.gridx = 0;
-    cons21.gridy++;
-    JButton ignore = new JButton(MESSAGES.getString("loStatisticalAnalysisIgnoreWordButton"));
-    JButton removeAllIgnored = new JButton(MESSAGES.getString("loStatisticalAnalysisResetIgnoredWordsButton"));
-    removeAllIgnored.setEnabled(config.getExcludedWords(selectedRule).size() > 0);
-    rightPanel.add(removeAllIgnored, cons21);
-    cons21.gridy++;
-    rightPanel.add(ignore, cons21);
-
+  private void setUsedWordRuleOptions() {
+    defaultButton.addActionListener(e -> {
+      if (usedWordRule.getDefaultDirectSpeach() == withoutDirectSpeech.isSelected() 
+          || usedWordRule.getDefaultStep() != config.getLevelStep(selectedRule)) {
+        withoutDirectSpeech.setSelected(!usedWordRule.getDefaultDirectSpeach());
+        config.setWithoutDirectSpeech(selectedRule, !usedWordRule.getDefaultDirectSpeach());
+        config.setLevelStep(selectedRule, usedWordRule.getDefaultStep());
+        stepField.setText(Integer.toString(usedWordRule.getDefaultStep()));
+        try {
+          config.saveConfiguration();
+          usedWordRule.setWithDirectSpeach(!usedWordRule.getDefaultDirectSpeach(), cache);
+          usedWordRule.setCurrentStep(usedWordRule.getDefaultStep());
+          runLevelSubDialog(null);
+        } catch (Throwable t) {
+          MessageHandler.showError(t);
+        }
+      }
+    });
+    setButton.addActionListener(e -> {
+      int levelStep = Integer.parseInt(stepField.getText().trim());
+      if (levelStep > 0 && levelStep < 100) {
+        config.setLevelStep(selectedRule, levelStep);
+        try {
+          config.saveConfiguration();
+          usedWordRule.setCurrentStep(levelStep);
+          runLevelSubDialog(null);
+        } catch (Throwable t) {
+          MessageHandler.showError(t);
+        }
+      } else {
+        stepField.setText(Integer.toString(config.getLevelStep(selectedRule)));
+      }
+    });
+    withoutDirectSpeech.setSelected(config.isWithoutDirectSpeech(selectedRule));
+    withoutDirectSpeech.addActionListener(e -> {
+      config.setWithoutDirectSpeech(selectedRule, withoutDirectSpeech.isSelected());
+      try {
+        config.saveConfiguration();
+        usedWordRule.setWithDirectSpeach(!withoutDirectSpeech.isSelected(), cache);
+        runLevelSubDialog(null);
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
+      }
+    });
     ignore.addActionListener(e -> {
-      if (!usedWords.isSelectionEmpty()) {
+      if (usedWords.getItemCount() > 0) {
         try {
           String word = usedWordRule.getMostUsedWord(usedWords.getSelectedIndex());
           config.addExcludedWord(selectedRule, word);
           config.saveConfiguration();
           usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
-          usedWords.setListData(usedWordRule.getMostUsedWords());
+          usedWordRule.refreshMostUsed(0, cache.size());
+          usedWords.removeAllItems();
+          for (String usedWord : usedWordRule.getMostUsedWords()) {
+            usedWords.addItem(usedWord);
+          }
           usedWords.setSelectedIndex(0);
           removeAllIgnored.setEnabled(true);
         } catch (Throwable t) {
@@ -650,47 +709,42 @@ public class StatAnDialog extends Thread  {
         config.removeAllExcludedWords(selectedRule);
         config.saveConfiguration();
         usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
-        usedWords.setListData(usedWordRule.getMostUsedWords());
+        usedWordRule.refreshMostUsed(0, cache.size());
+        usedWords.removeAllItems();
+        for (String usedWord : usedWordRule.getMostUsedWords()) {
+          usedWords.addItem(usedWord);
+        }
         usedWords.setSelectedIndex(0);
         removeAllIgnored.setEnabled(false);
       } catch (Throwable t) {
         MessageHandler.showError(t);
       }
     });
-    withoutDirectSpeech.setSelected(config.isWithoutDirectSpeech(selectedRule));
-    withoutDirectSpeech.addActionListener(e -> {
-      config.setWithoutDirectSpeech(selectedRule, withoutDirectSpeech.isSelected());
-      try {
-        config.saveConfiguration();
-        usedWordRule.setWithDirectSpeach(!withoutDirectSpeech.isSelected(), cache);
-        usedWords.setListData(usedWordRule.getMostUsedWords());
-        usedWords.setSelectedIndex(0);
-//        usedWords.revalidate();
-      } catch (Throwable t) {
-        MessageHandler.showError(t);
-      }
-    });
-    defaultButton.addActionListener(e -> {
-      if (usedWordRule.getDefaultDirectSpeach() == withoutDirectSpeech.isSelected()) {
-        withoutDirectSpeech.setSelected(!usedWordRule.getDefaultDirectSpeach());
-        config.setWithoutDirectSpeech(selectedRule, !usedWordRule.getDefaultDirectSpeach());
-        try {
-          config.saveConfiguration();
-          usedWordRule.setWithDirectSpeach(usedWordRule.getDefaultDirectSpeach(), cache);
-          usedWords.setListData(usedWordRule.getMostUsedWords());
-          usedWords.setSelectedIndex(0);
-        } catch (Throwable t) {
-          MessageHandler.showError(t);
-        }
-      }
-    });
-  
-    if (debugMode) {
-      MessageHandler.printToLogFile("Right panel defined");
+    int nStep = 0;
+    String sStep = "%";
+    nStep = config.getLevelStep(selectedRule);
+    stepField.setText(Integer.toString(nStep));
+    stepLabel2.setText(sStep);
+    defaultButton.setEnabled(true);
+    stepLabel1.setEnabled(true);
+    stepField.setEnabled(true);
+    stepLabel2.setEnabled(true);
+    setButton.setEnabled(true);
+    withoutDirectSpeech.setEnabled(true);
+    optionLabel.setEnabled(true);
+    if (usedWords.getItemCount() > 0) {
+      ignore.setEnabled(true);
+    } else {
+      ignore.setEnabled(false);
     }
-    rightPanel.validate();
+    List<String> exWords = config.getExcludedWords(selectedRule);
+    if (exWords != null && !exWords.isEmpty()) {
+      removeAllIgnored.setEnabled(true);
+    } else {
+      removeAllIgnored.setEnabled(false);
+    }
   }
-    
+
   /**
    * opens the LT check dialog for spell and grammar check
    */
@@ -718,24 +772,17 @@ public class StatAnDialog extends Thread  {
     if (UsedWordRule.isUsedWordRule(selectedRule)) {
       usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
       usedWordRule.setListExcludedWords(config.getExcludedWords(selectedRule));
-    } else if (LevelRule.isLevelRule(selectedRule) && LevelRule.hasStatisticalOptions(selectedRule)) {
       int step = config.getLevelStep(selectedRule);
       if (step > 0) {
-        levelRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
+        usedWordRule.setCurrentStep(step);
+      }
+    } else if (LevelRule.isLevelRule(selectedRule) && LevelRule.hasStatisticalOptions(selectedRule)) {
+      levelRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
+      int step = config.getLevelStep(selectedRule);
+      if (step > 0) {
         levelRule.setCurrentStep(step);
       }
     }
-/*
-    for (TextLevelRule rule : rules) {
-      if (UsedWordRule.isUsedWordRule(rule)) {
-        usedWordRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(rule));
-        usedWordRule.setListExcludedWords(config.getExcludedWords(rule));
-      } else if (LevelRule.isLevelRule(rule) && LevelRule.hasStatisticalOptions(rule)) {
-        levelRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(rule));
-        levelRule.setCurrentStep(config.getLevelStep(rule));
-      }
-    }
-*/
   }
   
   public void refreshCache(SingleDocument document, WaitDialogThread waitdialog) throws Throwable {
@@ -752,17 +799,15 @@ public class StatAnDialog extends Thread  {
       TextParagraph tPara = new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, chapter.from);
       viewCursor.setTextViewCursor(0, tPara);
       int nFPara = document.getDocumentCache().getFlatParagraphNumber(tPara);
+      if (!isLevelRule) {
+        usedWordRule.setCacheForParagraph(nFPara, chapter.from, cache);
+      }
       cache.markParagraph(nFPara, config.getUnderlineType(), config.getUnderlineColor());
       return;
     }
     UIManager.put("ToolTip.foreground", Color.black);
     UIManager.put("ToolTip.background", Color.yellow);
     hierarchy = chapter == null ? 0 : chapter.hierarchy;
-    selectedRule = rules.get(method);
-    if (chapter == null && LevelRule.hasStatisticalOptions(selectedRule)) {
-      levelRule.setWithDirectSpeach(!config.isWithoutDirectSpeech(selectedRule), cache);
-      levelRule.setCurrentStep(config.getLevelStep(selectedRule));
-    }
     setChapterPanel(chapter);
     if (chapter == null) {
       from = 0;
@@ -883,50 +928,58 @@ public class StatAnDialog extends Thread  {
     List<JLabel> chapterButton = new ArrayList<>();
     int nButton = 0;
     for (Chapter chapter: chapters) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("Chapter: " + chapter.name);
-      }
-      chapterButton.add(new JLabel(chapter.name));
-      JLabel label = chapterButton.get(nButton);
-      chapterButton.get(nButton).setOpaque(true);
-//      chapterButton.get(nButton).setContentAreaFilled(true);
-      chapterButton.get(nButton).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-      chapterButton.get(nButton).setHorizontalAlignment(JLabel.CENTER);
-      chapterButton.get(nButton).setBackground(getBackgroundColor(chapter.weight));
-      chapterButton.get(nButton).setForeground(getForegroundColor(chapter.weight));
-      chapterButton.get(nButton).setBorder(BorderFactory.createLineBorder(getBackgroundColor(chapter.weight)));
-      chapterButton.get(nButton).setToolTipText(getToolTippText(chapter.weight));
-      chapterButton.get(nButton).addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-          try {
-            runLevelSubDialog(chapter);
-          } catch (Throwable e1) {
-            MessageHandler.showError(e1);
+      if (chapter.hierarchy >= 0 || config.showAllParagraphs() 
+          || cache.isRelevantParagraph(chapter.from, selectedRule, usedWordRule)) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("Chapter: " + chapter.name);
+        }
+        chapterButton.add(new JLabel(chapter.name));
+        JLabel label = chapterButton.get(nButton);
+        chapterButton.get(nButton).setOpaque(true);
+  //      chapterButton.get(nButton).setContentAreaFilled(true);
+        chapterButton.get(nButton).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        chapterButton.get(nButton).setHorizontalAlignment(JLabel.CENTER);
+        chapterButton.get(nButton).setBackground(getBackgroundColor(chapter.weight));
+        chapterButton.get(nButton).setForeground(getForegroundColor(chapter.weight));
+        chapterButton.get(nButton).setBorder(BorderFactory.createLineBorder(getBackgroundColor(chapter.weight)));
+        chapterButton.get(nButton).setToolTipText(getToolTippText(chapter.weight));
+        chapterButton.get(nButton).addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            try {
+              runLevelSubDialog(chapter);
+            } catch (Throwable e1) {
+              MessageHandler.showError(e1);
+            }
           }
-        }
-        @Override
-        public void mouseEntered(MouseEvent e) {
-          label.setForeground(Color.GRAY);
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-          label.setForeground(getForegroundColor(chapter.weight));
-        }
-      });
-      panel.add(chapterButton.get(nButton), cons);
-      cons.gridy++;
-      nButton++;
+          @Override
+          public void mouseEntered(MouseEvent e) {
+            label.setForeground(Color.GRAY);
+          }
+          @Override
+          public void mouseExited(MouseEvent e) {
+            label.setForeground(getForegroundColor(chapter.weight));
+          }
+        });
+        panel.add(chapterButton.get(nButton), cons);
+        cons.gridy++;
+        nButton++;
+      }
     }
     return panel;
   }
   
   private int getWeight(int from, int to) throws Throwable {
-    return levelRule.getLevel(from, to);
+    if (UsedWordRule.isUsedWordRule(selectedRule)) {
+      return usedWordRule.getLevel(from, to);
+    } else {
+      return levelRule.getLevel(from, to);
+    }
   }
   
   private String getToolTippText(int weight) {
-    String txt = levelRule.getMessageOfLevel(weight);
+    String txt = UsedWordRule.isUsedWordRule(selectedRule) ? 
+        usedWordRule.getMessageOfLevel(weight) : levelRule.getMessageOfLevel(weight);
     if (txt == null) {
       txt = MESSAGES.getString("loStatisticalAnalysisNotAnalyzed");
     }
@@ -1232,7 +1285,16 @@ public class StatAnDialog extends Thread  {
 
     return colorPanel;
   }
-  
+
+  public static String getStatisticalRulesSupportedLanguages() {
+    String out = "Statistical Style Rules are supported by the following Languages:\n";
+    for (Language lang : Languages.get()) {
+      if (OfficeTools.hasStatisticalStyleRules(lang)) {
+        out += (lang.getShortCodeWithCountryAndVariant() + "\n");
+      }
+    }
+    return out;
+  }
 
 
 }

@@ -30,7 +30,6 @@ import java.util.Map;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.openoffice.ResultCache;
-import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache;
 import org.languagetool.openoffice.DocumentCursorTools;
 import org.languagetool.openoffice.ErrorPositionComparator;
@@ -41,7 +40,10 @@ import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.ResultCache.CacheEntry;
 import org.languagetool.openoffice.SingleCheck;
 import org.languagetool.openoffice.SingleCheck.SentenceErrors;
+import org.languagetool.rules.AbstractStyleTooOftenUsedWordRule;
+import org.languagetool.rules.ReadabilityRule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
@@ -62,6 +64,7 @@ import org.languagetool.openoffice.SwJLanguageTool;
 public class StatAnCache {
   
   private final static int MAX_NAME_LENGTH = 80;
+  private final static boolean debugMode = false;
   
   private List<List<AnalyzedSentence>> analyzedParagraphs = new ArrayList<>();
   private List<Heading> headings = new ArrayList<>();
@@ -234,14 +237,18 @@ public class StatAnCache {
   private SingleProofreadingError[] mergeErrors(List<SingleProofreadingError[]> pErrors, 
       SingleProofreadingError[] statAnErrors, String statAnRuleId, int nPara) {
     SingleProofreadingError[] errorArray = document.mergeErrors(pErrors, nPara);
-    MessageHandler.printToLogFile("SingleDocument: mergeErrors: nPara: " + nPara + ", statAnRuleId: " 
-        + (statAnRuleId == null ? "null" : statAnRuleId));
-    MessageHandler.printToLogFile("SingleDocument: mergeErrors: statAnErrors: " 
-        + (statAnErrors == null ? "null" : statAnErrors.length));
+    if (debugMode) {
+      MessageHandler.printToLogFile("StatAnCache: mergeErrors: nPara: " + nPara + ", statAnRuleId: " 
+          + (statAnRuleId == null ? "null" : statAnRuleId));
+      MessageHandler.printToLogFile("StatAnCache: mergeErrors: statAnErrors: " 
+          + (statAnErrors == null ? "null" : statAnErrors.length));
+    }
     if (statAnRuleId != null && statAnErrors != null && statAnErrors.length > 0) {
       errorArray = addStatAnalysisErrors (errorArray, statAnErrors, statAnRuleId);
     }
-    MessageHandler.printToLogFile("SingleDocument: mergeErrors: number Errors: " + errorArray.length);
+    if (debugMode) {
+      MessageHandler.printToLogFile("StatAnCache: mergeErrors: number Errors: " + errorArray.length);
+    }
     Arrays.sort(errorArray, new ErrorPositionComparator());
     return errorArray;
   }
@@ -322,6 +329,25 @@ public class StatAnCache {
       remarkChangedParagraph(lastPara, actRuleId, lineType, lineColor, statAnCache);
     }
   }
+  
+  /**
+   * The single paragraph has an relevant result
+   */
+  public boolean isRelevantParagraph(int nTPara, TextLevelRule rule, UsedWordRule uRule) {
+    if (rule instanceof ReadabilityRule) {
+      return true;
+    } else if (rule instanceof AbstractStyleTooOftenUsedWordRule) {
+      return uRule.isRelevantParagraph(nTPara);
+    } else {
+      int nFPara = this.getNumFlatParagraph(nTPara);
+      SingleProofreadingError[] sErrors = statAnCache.getSafeMatches(nFPara);
+      if (sErrors == null || sErrors.length == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   /**
    * remark changed paragraph
@@ -353,6 +379,17 @@ public class StatAnCache {
     SingleProofreadingError[] errors = new SingleProofreadingError[ruleMatches.length];
     for (int i = 0; i < ruleMatches.length; i++) {
       errors[i] = createLoError(ruleMatches[i]);
+    }
+    return errors;
+  }
+  
+  public SingleProofreadingError[] createLoErrors(List<RuleMatch> ruleMatches) {
+    if (ruleMatches == null || ruleMatches.size() == 0) {
+      return new SingleProofreadingError[0];
+    }
+    SingleProofreadingError[] errors = new SingleProofreadingError[ruleMatches.size()];
+    for (int i = 0; i < ruleMatches.size(); i++) {
+      errors[i] = createLoError(ruleMatches.get(i));
     }
     return errors;
   }
@@ -413,6 +450,34 @@ public class StatAnCache {
     aError.nErrorStart = ruleMatch.getFromPos();
     aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
     aError.aRuleIdentifier = ruleMatch.getRule().getId();
+    return addPropertiesToError(aError, config.getUnderlineType(), config.getUnderlineColor());
+  }
+
+  /**
+   * create a SingleProofreadingError from necessary data
+   */
+  public SingleProofreadingError createLoError(int errorStart, int errorLength, String ruleId, String msg, String[] allSuggestions) {
+    SingleProofreadingError aError = new SingleProofreadingError();
+    aError.nErrorType = TextMarkupType.PROOFREADING;
+    // the API currently has no support for formatting text in comments
+    Language docLanguage = lt.getLanguage();
+    if (docLanguage != null) {
+      msg = docLanguage.toAdvancedTypography(msg);
+    }
+    aError.aFullComment = msg;
+    aError.aShortComment = org.languagetool.gui.Tools.shortenComment(msg);
+    if (allSuggestions == null) {
+      allSuggestions = new String[0];
+    }
+    int numSuggestions = allSuggestions.length;
+    if (numSuggestions > OfficeTools.MAX_SUGGESTIONS) {
+      aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, OfficeTools.MAX_SUGGESTIONS);
+    } else {
+      aError.aSuggestions = allSuggestions;
+    }
+    aError.nErrorStart = errorStart;
+    aError.nErrorLength = errorLength;
+    aError.aRuleIdentifier = ruleId;
     return addPropertiesToError(aError, config.getUnderlineType(), config.getUnderlineColor());
   }
 
