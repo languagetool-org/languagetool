@@ -193,6 +193,39 @@
     <example type="untouched">сталевий ніж</example>
   </rule>
 
+  <rule name="рана - c.р." id="rana_n">
+    <pattern>
+      <token regexp="yes">від|до|і?з</token>
+      <!--
+      <token postag_regexp="yes" postag="adj:n:v_rod.*">
+        <exception negate_pos="yes" postag_regexp="yes" postag="adj:[mn]:v_rod.*">
+      </token>
+      -->
+      <token regexp="yes" min="0">раннього|самого|самісінького|білого</token>
+      <marker>
+        <token>рана</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:n:v_rod.*" />
+    <example type="ambiguous"
+        inputform="рана[рана/noun:inanim:f:v_naz,рано/noun:inanim:n:v_rod]"
+        outputform="рана[рано/noun:inanim:n:v_rod]">з самого <marker>рана</marker>.</example>
+    <example type="untouched">відкрита рана</example>
+  </rule>
+
+  <rule name="рана - ж.р." id="rana_f">
+    <pattern>
+      <marker>
+        <token>рана</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:f.*" />
+    <example type="ambiguous"
+        inputform="рана[рана/noun:inanim:f:v_naz,рано/noun:inanim:n:v_rod]"
+        outputform="рана[рана/noun:inanim:f:v_naz]">з ранку <marker>рана</marker>.</example>
+    <example type="untouched">відкрита рано</example>
+  </rule>
+
   <rule name="Дуже і дужий" id="duzhe_adv">
     <antipattern>
       <token>дуже</token>
@@ -4939,6 +4972,52 @@
       outputform="складу[склад/noun:inanim:m:v_dav,склад/noun:inanim:m:v_rod]">до ізотопного <marker>складу</marker>,
     </example>
     <example type="untouched">складу йому обід</example>
+  </rule>
+
+  <rule name="ціле - прикм" id="cile_adj">
+    <antipattern>
+      <!--
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        -->
+        <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*:n.*">один|єдиний</token>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:n.*">ціле</token>
+        <!--
+      </unify>
+      -->
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes">ціле</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*"/>
+    <example type="ambiguous"
+      inputform="цілого[ціле/noun:inanim:n:v_rod,цілий/adj:m:v_rod:compb,цілий/adj:m:v_zna:ranim:compb,цілий/adj:n:v_rod:compb]"
+      outputform="цілого[цілий/adj:m:v_rod:compb,цілий/adj:m:v_zna:ranim:compb,цілий/adj:n:v_rod:compb]">до <marker>цілого</marker> складу.
+    </example>
+    <example type="untouched">як одного цілого.</example>
+    <example type="untouched">єдиного цілого</example>
+  </rule>
+
+  <rule name="минуле - прикм" id="mynule_adj">
+    <antipattern>
+      <token inflected="yes">минуле</token>
+      <token regexp="yes">[йі]|та</token>
+      <token inflected="yes">сучасне</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes">сучасне</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*"/>
+    <example type="ambiguous"
+      inputform="сучасного[сучасне/noun:inanim:n:v_rod,сучасний/adj:m:v_rod:compb,сучасний/adj:m:v_zna:ranim:compb,сучасний/adj:n:v_rod:compb]"
+      outputform="сучасного[сучасний/adj:m:v_rod:compb,сучасний/adj:m:v_zna:ranim:compb,сучасний/adj:n:v_rod:compb]">до <marker>сучасного</marker> складу.
+    </example>
+    <example type="untouched">минулого і сучасного</example>
   </rule>
 
   <rule name="молоді - прикметник" id="molodi_adj1">
