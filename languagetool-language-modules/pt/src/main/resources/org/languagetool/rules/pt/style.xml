@@ -14895,6 +14895,8 @@ USA
             <!-- For female all results were false positives, so I have removed the code. -->
 
         </rulegroup>
+
+
         <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
         <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="[Simplificar] Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
             <!--IDEA shorten_it-->
@@ -14930,6 +14932,17 @@ USA
             </antipattern>
             <!-- MARCOAGPINTO 2022-11-16 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+            <antipattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes'>foram|foi|são|é</token>
+                <token postag='VMN0000' postag_regexp='no'/>
+                <token regexp='yes'>com|como|em|n[ao]s?|para|pel[ao]s?|por</token>
+                <example>Tenho uma ideia que é armazenar em variáveis os valores.</example>
+                <example>Ou seja, quando viu que poderia ficar de fora da mamata que é estar no poder como Deputado Estadual, o parlamentar resolveu voltar atrás do seu voto, dizendo que na verda...</example>
+                <example>Na linha 02 desativamos o padrão do protocolo que é trabalhar com IPv4, afinal estaremos trabalhando com IPv6.</example>
+            </antipattern>
+
             <pattern>
                 <token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC|V.+' postag_regexp='yes'/>
                 <marker>
@@ -14949,6 +14962,8 @@ USA
             <example>O habitat é o ambiente sobre a qual uma espécies sabemos que ocorre e o tipo de comunidade formada como resultado.</example>
             <example>Estamos a viver uma fase de elevado desemprego, provocado por um baixo consumo.</example>
         </rule>
+
+
         <!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
         <rule id='QUE_EM_NC_SER_VERBO_NUM' name="[Simplificar] Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
             <!--IDEA shorten_it-->
