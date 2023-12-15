@@ -400,7 +400,7 @@ public class French extends Language implements AutoCloseable {
     }
 
     if (id.startsWith("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY")) { // prefer more specific rules (also speller)
-      return -11;
+      return -101;
     }
     return super.getPriorityForId(id);
   }
