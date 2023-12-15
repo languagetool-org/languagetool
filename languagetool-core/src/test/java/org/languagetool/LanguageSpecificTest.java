@@ -29,7 +29,10 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static junit.framework.Assert.fail;
@@ -47,6 +50,7 @@ public class LanguageSpecificTest {
   }
 
   protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
+    testRulePriorities(lang);
     new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
     testNoLineBreaksEtcInMessage(lang);
     testNoQuotesAroundSuggestion(lang);
@@ -60,6 +64,39 @@ public class LanguageSpecificTest {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  private void testRulePriorities(Language lang) throws IOException {
+    if (lang.isVariant()) {
+      return;
+    }
+    String filename;
+    if (lang.getShortCode().equals("xx")) {
+      filename = "Demo.java";
+    } else {
+      filename = lang.getName() + ".java";
+    }
+    final AtomicInteger foundFiles = new AtomicInteger();
+    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
+      @Override
+      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        //System.out.println("-> " + file.getFileName().toString());
+        if (file.getFileName().toString().equals(filename)) {
+          System.out.println("FOUND " + file);
+          foundFiles.incrementAndGet();
+        }
+        return FileVisitResult.CONTINUE;
+      }
+    };
+    Path p = Paths.get("");
+    System.out.println("-->" + p.toAbsolutePath());
+    Files.walkFileTree(p, fv);
+    if (foundFiles.get() == 0) {
+      fail("Could not find " + filename);
+    }
+    if (foundFiles.get() > 1) {
+      fail("Found " + filename + " more than once, stopping");
     }
   }
 
