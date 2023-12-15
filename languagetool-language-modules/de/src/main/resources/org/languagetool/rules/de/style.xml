@@ -6097,7 +6097,9 @@ USA
                     <token regexp="yes">GraphQL|.*pho[nt]ograph.*|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
+                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*
+                        <exception regexp="yes">.*[Pp]h.*ph.*</exception>
+                    </token>
                 </pattern>
                 <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
@@ -6111,6 +6113,7 @@ USA
                 <example>Der "Telegraph" zitierte eine nicht näher genannte Regierungsquelle mit den Worten: "Alles steht auf Messers Schneide."</example>
                 <example>Sein Buch heißt 'everyday  chromatography'.</example>
                 <example>Wir fahren ins Phantasialand.</example>
+                <example>Er entwickelte den Phonautograph.</example><!-- exception because only 1 'ph' gets corrected-->
             </rule>
             <rule><!--4-->
                 <antipattern>
@@ -6151,13 +6154,14 @@ USA
             <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
             <rule><!--1-->
                 <antipattern>
-                    <token regexp="yes">Phone|Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
+                    <token regexp="yes">Photograph.*|Photons?|Photonen.*|Photoshop.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">Pho(to|n)[\wäöüÄÖÜß-]*</token>
+                    <token regexp="yes" case_sensitive="yes">Photo[\wäöüÄÖÜß-]*</token>
                 </pattern>
-                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Photo(.*)" regexp_replace="Foto$1"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Photo" regexp_replace="Foto"/></suggestion> verwenden?</message>
                 <example correction="Fotoalbum">Sie blätterte gerne durch das <marker>Photoalbum</marker>.</example>
+                <example correction="Fotos">Sie machte viele <marker>Photos</marker>.</example>
             </rule>
             <rule><!--2-->
                 <antipattern>
