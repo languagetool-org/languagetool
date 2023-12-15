@@ -55,6 +55,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Tag;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerGrpc.MLServerFutureStub;
 import org.languagetool.rules.ml.MLServerProto;
@@ -107,13 +108,16 @@ public abstract class GRPCRule extends RemoteRule {
     private final String matchId;
     private final String description;
 
-    GRPCSubRule(String ruleId, String subId, String description, Language lang) {
+    GRPCSubRule(MLServerProto.Match match, String description, Language lang) {
+      String ruleId = match.getId();
+      String subId = match.getSubId();
       if (subId != null && !subId.trim().isEmpty()) {
         this.matchId = cleanID(ruleId, lang) + "_" + cleanID(subId, lang);
       } else {
         this.matchId = cleanID(ruleId, lang);
       }
       this.description = description;
+      setTags(match.getRule().getTagsList().stream().map(t -> Tag.valueOf(t.name())).collect(Collectors.toList()));
     }
 
     @Override
@@ -378,7 +382,7 @@ public abstract class GRPCRule extends RemoteRule {
             throw new RuntimeException("Missing description for rule with ID " + match.getId() + "_" + match.getSubId());
           }
         }
-        GRPCSubRule subRule = new GRPCSubRule(match.getId(), match.getSubId(), description, ruleLanguage);
+        GRPCSubRule subRule = new GRPCSubRule(match, description, ruleLanguage);
         String message = match.getMatchDescription();
         String shortMessage = match.getMatchShortDescription();
         if (message == null || message.isEmpty()) {
