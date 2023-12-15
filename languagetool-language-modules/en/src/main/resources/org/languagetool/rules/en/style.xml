@@ -496,13 +496,14 @@ For more detailed information, including tag definitions, please check out our d
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
-        <rulegroup id="TWITTER_X" name="Twitter (X)">
+        <rulegroup id="TWITTER_X" name="Twitter (X)" tags="picky">
+            <short>Outdated Name</short>
             <antipattern>
                 <token skip="-1">twitter</token>
-                <token regexp="yes">x|𝕏|.*tweet.*|x-.*</token>
+                <token regexp="yes">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">x|𝕏|.*tweet.*|x-.*</token>
+                <token regexp="yes" skip="-1">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
                 <token>twitter</token>
             </antipattern>
             <antipattern>
@@ -531,6 +532,7 @@ For more detailed information, including tag definitions, please check out our d
             <rule>
                 <pattern>
                     <token regexp="yes">on|via</token>
+                    <token regexp="yes" min="0">my|y?our|their|his|her|the</token>
                     <marker>
                         <token>twitter</token>
                     </marker>
@@ -542,12 +544,12 @@ For more detailed information, including tag definitions, please check out our d
                 <example correction="X|𝕏|X (formerly known as Twitter)">I have seen his message on <marker>Twitter</marker>.</example>
                 <example>I have seen his message on Twitter (also known as 𝕏).</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>twitter</token>
                     </marker>
-                    <token>'s</token>
+                    <token spacebefore="no">'s</token>
                 </pattern>
                 <message>This popular online platform has been renamed to "X".</message>
                 <suggestion>X</suggestion>

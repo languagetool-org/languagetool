@@ -60,6 +60,7 @@ class LORemoteLanguageTool {
   private static final String BLANK = " ";
   private static final String SERVER_URL = "https://api.languagetool.org";
   private static final String PREMIUM_SERVER_URL = "https://api.languagetoolplus.com";
+  private static final int MAX_LIMIT = 2147483647;
   private static final int SERVER_LIMIT = 20000;
 
   private final Set<String> enabledRules = new HashSet<>();
@@ -79,7 +80,7 @@ class LORemoteLanguageTool {
   private final String apiKey;
   private JLanguageTool lt = null;
 
-  private int maxTextLength;
+  private int maxTextLength = MAX_LIMIT;
   private boolean remoteRun;
   
   LORemoteLanguageTool(Language language, Language motherTongue, Configuration config,
@@ -99,7 +100,10 @@ class LORemoteLanguageTool {
       String urlParameters = "language=" + language.getShortCodeWithCountryAndVariant();
       RemoteConfigurationInfo configInfo = remoteLanguageTool.getConfigurationInfo(urlParameters);
       storeAllRules(configInfo.getRemoteRules());
-      maxTextLength = configInfo.getMaxTextLength();
+      if (!isPremium) {
+        maxTextLength = remoteLanguageTool.getMaxTextLength();
+      }
+      MessageHandler.printToLogFile("Server Url: " + serverBaseUrl);
       MessageHandler.printToLogFile("Server Limit text length: " + maxTextLength);
       remoteRun = true;
     } catch (Throwable t) {

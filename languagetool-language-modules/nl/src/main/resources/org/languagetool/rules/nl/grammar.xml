@@ -503,6 +503,17 @@ regexp case-insensitive maken: (?i)
 				<example correction="zowel Piet A als B">Hij kent <marker>zowel Piet A en B</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="BURGERMEESTER" name="burgermeester(burgemeester)">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">burgermeest.*</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="urgermeest" regexp_replace="urgemeest"/></suggestion></message>
+				<example correction="burgemeesterszoon">Dat is de <marker>burgermeesterszoon</marker>.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
@@ -8230,7 +8241,25 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>zo</token><token>dichtbij</token><token>dat</token></antipattern>
 				<antipattern><token>van</token><token min="0" max="1" regexp="yes">wat|iets</token><token>dichterbij</token></antipattern>
 				<antipattern><token>van</token><token>dichtbij</token></antipattern>
-				<antipattern><token regexp="yes">[.;:,]|en|of</token></antipattern>
+				<antipattern>
+				    <token regexp="yes">[.;:,]|en|of</token>
+				</antipattern>
+				<antipattern>
+				    <token regexp="yes">(vlak|dicht|dichter|dichtst)bij</token>
+				    <token postag_regexp="yes" postag="WKW.*|VRZ"><exception postag_regexp="yes" postag="WKW.*1EP"/></token>
+				    <example>Vlakbij staat het huis van de meester.</example>
+				</antipattern>
+				<antipattern>
+					<token>met</token>
+					<token regexp="yes">(vlak|dicht|dichter|dichtst)bij</token>
+					<token postag_regexp="yes" postag="VNW:OBP.*|GET:TXT.*"/>
+					<example>De holte onder de stempel is rood met middenin een lichtere vlek.</example>
+				</antipattern>
+				<antipattern>
+				    <token regexp="yes">(vlak|dicht|dichter|dichtst)bij</token>
+				    <token>dan</token>
+				    <example>Het is dichterbij dan onze vorige woning.</example>
+				</antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes" skip="5">(vlak|dicht|dichter|dichtst)bij</token>
@@ -8243,6 +8272,17 @@ regexp case-insensitive maken: (?i)
 			</rule>
 			<rule>
 				<antipattern><token regexp="yes">[.;:,]|en|of</token></antipattern>
+				<antipattern>
+					<token regexp="yes">midden(op|in)</token>
+					<token postag_regexp="yes" postag="WKW.*|VRZ"/>
+					<example>Dat verklaart het: middenin is het blad smaller dan verderop.</example>
+				</antipattern>
+				<antipattern>
+					<token>met</token>
+					<token regexp="yes">midden(op|in)</token>
+					<token postag_regexp="yes" postag="VNW:OBP.*|GET:TXT.*"/>
+					<example>De holte onder de stempel is rood met middenin een lichtere vlek.</example>
+				</antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes" skip="5">midden(op|in)</token>

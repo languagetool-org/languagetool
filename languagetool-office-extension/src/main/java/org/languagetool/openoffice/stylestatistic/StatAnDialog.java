@@ -87,12 +87,12 @@ public class StatAnDialog extends Thread  {
   private final static ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private final static boolean debugMode = false;
   private final static String dialogName = MESSAGES.getString("loStatisticalAnalysis");
-  private final static int MIN_DIALOG_WIDTH = 600;
-  private final static int MIN_DIALOG_HEIGHT = 380;
-  private final static int dialogWidth = 640;
-  private final static int dialogHeight = 600;
+  private final static int MIN_DIALOG_WIDTH = 640;
+  private final static int MIN_DIALOG_HEIGHT = 420;
+//  private final static int dialogWidth = 640;
+//  private final static int dialogHeight = 600;
   private final static int MIN_OPTION_WIDTH = 260;
-  private final static int MIN_OPTION_HEIGHT = 330;
+  private final static int MIN_OPTION_HEIGHT = 400;
   
   private JDialog dialog;
   private Container contentPane;
@@ -100,9 +100,12 @@ public class StatAnDialog extends Thread  {
   private JPanel leftPanel;
   private JPanel rightPanel;
   private JPanel mainPanel;
+  private JPanel colorPanel;
   private JScrollPane subChapterPane;
   private JLabel optionLabel;
   private JCheckBox withoutDirectSpeech;
+  private JCheckBox showAdditionalOptions;
+  private JCheckBox showParagraphsWithoutMatch;
   private JLabel stepLabel1;
   private JTextField stepField;
   private JLabel stepLabel2;
@@ -491,8 +494,8 @@ public class StatAnDialog extends Thread  {
     cons20.gridy = 0;
     cons20.fill = GridBagConstraints.NONE;
     cons20.anchor = GridBagConstraints.NORTHWEST;
-    cons20.weightx = 1.0;
-    cons20.weighty = 1.0;
+    cons20.weightx = 0.0;
+    cons20.weighty = 0.0;
     
     //  Option panel
     JPanel optionPanel = new JPanel();
@@ -503,8 +506,8 @@ public class StatAnDialog extends Thread  {
     cons21.gridy = 0;
     cons21.fill = GridBagConstraints.NONE;
     cons21.anchor = GridBagConstraints.NORTHWEST;
-    cons21.weightx = 1.0;
-    cons21.weighty = 1.0;
+    cons21.weightx = 0.0;
+    cons21.weighty = 0.0;
     optionLabel = new JLabel (MESSAGES.getString("loStatisticalAnalysisOptionsLabel") + ":");
     optionPanel.add(optionLabel, cons21);
     withoutDirectSpeech = new JCheckBox(MESSAGES.getString("loStatisticalAnalysisWithoutDirectSpreech"));
@@ -559,6 +562,37 @@ public class StatAnDialog extends Thread  {
       rightPanel.add(ignore, cons20);
       setUsedWordRuleOptions();
     }
+
+    cons20.gridy++;
+    showAdditionalOptions = new JCheckBox("Show additional Options");
+//    showAdditionalOptions = new JCheckBox(MESSAGES.getString("loStatisticalAnalysisWithoutDirectSpreech"));
+
+    showParagraphsWithoutMatch = new JCheckBox("Show paragraphs without matches");
+//  showParagraphsWithoutMatch = new JCheckBox(MESSAGES.getString("loStatisticalAnalysisWithoutDirectSpreech"));
+    showParagraphsWithoutMatch.setVisible(false);
+
+    showAdditionalOptions.setSelected(config.showAdditionalOptions());
+    showAdditionalOptions.addActionListener(e -> {
+      colorPanel.setVisible(showAdditionalOptions.isSelected());
+      showParagraphsWithoutMatch.setVisible(showAdditionalOptions.isSelected());
+      config.setShowAdditionalOptions(showAdditionalOptions.isSelected());
+    });
+
+    showParagraphsWithoutMatch.setSelected(config.showAllParagraphs());
+    showParagraphsWithoutMatch.addActionListener(e -> {
+      config.setShowAllParagraphs(showParagraphsWithoutMatch.isSelected());
+      try {
+        runLevelSubDialog(null);
+      } catch (Throwable e1) {
+        MessageHandler.printException(e1);
+      }
+    });
+
+    cons20.gridy++;
+    rightPanel.add(showAdditionalOptions, cons20);
+    
+    cons20.gridy++;
+    rightPanel.add(showParagraphsWithoutMatch, cons20);
     
     cons20.gridy++;
     cons20.insets = new Insets(6, 4, 2, 4);
@@ -1175,7 +1209,7 @@ public class StatAnDialog extends Thread  {
   @NotNull
   private JPanel getColorOptionsPanel() {
     //  Color Panel
-    JPanel colorPanel = new JPanel();
+    colorPanel = new JPanel();
     colorPanel.setLayout(null);
     colorPanel.setBounds(0, 0, 120, 10);
     colorPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -1280,7 +1314,7 @@ public class StatAnDialog extends Thread  {
     
     cons1.gridy++;
     colorPanel.add(buttonPanel, cons1);
-    colorPanel.setVisible(true);
+    colorPanel.setVisible(showAdditionalOptions.isSelected());
     // End of Color Panel
 
     return colorPanel;
