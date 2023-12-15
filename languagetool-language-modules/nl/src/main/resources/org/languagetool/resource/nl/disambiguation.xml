@@ -1691,4 +1691,24 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	BNW:STL:ONV/VGW/VRZ VNW:AWZ:EKV:DE_
+	=================================================================
+	73732:	naar de
+	3613:	na de
+	2263:	Naar de
+	1879:	Na de
+	130:	naar De
+	....
+	-->
+	<rule id="TEST_003" name="-">
+		<pattern>
+			<marker>
+				<token postag="VRZ" regexp="yes">naar|na|ná</token>
+			</marker>
+			<token>de</token>
+		</pattern>
+		<disambig postag="VRZ" />
+	</rule>
+
 </rules>
