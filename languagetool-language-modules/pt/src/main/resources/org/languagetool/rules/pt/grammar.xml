@@ -32183,15 +32183,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='ARREAR_A_AS_VELA_S_BANDEIRA_S' name="[Confusão] arrear/arriar">
-            <!-- Created by Marco A.G.Pinto -->
+        <rule id='ARREAR_ARRIAR' name="Confusão de termos: arrear/arriar" default="temp_off">
             <pattern>
-                <token>arrear</token>
-                <token regexp="yes">as?</token>
-                <token regexp="yes">(?:vela|bandeira)s?</token>
+                <marker>
+                    <token skip="4" inflected='yes'>arrear</token>
+                </marker>
+                <token regexp='yes' inflected='yes'>bandeira|cabo|linha|rede|vela</token>
             </pattern>
-            <message>Substitua por <suggestion>arriar \2 \3</suggestion>.</message>
-            <example correction="arriar a vela">Vamos <marker>arrear a vela</marker>.</example>
+            <message>Possível confusão de termos.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriar</match></suggestion>
+            <example correction="arriar">Vamos <marker>arrear</marker> a vela.</example>
         </rule>
 
 
