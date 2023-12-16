@@ -17362,6 +17362,11 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm">
 			<rule>
 				<antipattern>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP.*"/>
+					<token>je</token>
+					<token regexp="yes">dat|dit</token>
+				</antipattern>
+				<antipattern>
 					<token>je</token>
 					<token postag_regexp="yes" postag="ZNW.*"/>
 				</antipattern>
@@ -19476,6 +19481,11 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="JIJ_LOOP" name="jij loop">
 			<rule>
 				<antipattern>
+					<token>u</token>
+					<token>kun</token>
+					<token>je</token>
+				</antipattern>
+				<antipattern>
 					<token postag="SENT_START"/>
 					<token>Jij</token>
 					<token postag="ZNW:EKV.*" postag_regexp="yes"/>
@@ -19483,7 +19493,7 @@ regexp case-insensitive maken: (?i)
 					<example>Jij monster!</example>
 				</antipattern>
 				<antipattern><token regexp="yes">zij|hij|jij</token><token>weer</token></antipattern>
-				<antipattern><token>Jij</token><token>wel</token><token regexp="yes">[.!?;,:]</token></antipattern>
+				<antipattern><token regexp="yes">Jij|u</token><token>wel</token><token regexp="yes">[.!?;,:]</token></antipattern>
 				<pattern>
 					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<marker>
