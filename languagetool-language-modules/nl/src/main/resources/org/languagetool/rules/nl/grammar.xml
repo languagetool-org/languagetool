@@ -161,9 +161,7 @@ regexp case-insensitive maken: (?i)
 <antipattern><token>LanguageTool</token><token>is</token><token>een</token><token>absolute</token><token>musthave</token><token>voor</token><token>het</token><token>schrijven</token><token>van</token><token>perfecte</token><token>tekst</token><token>.</token></antipattern>
 <antipattern><token>Bij</token><token>voorbeeld</token><token>om</token><token>een</token><token>collega</token><token>te</token><token>vertellen</token><token>wat</token><token>er</token><token>vrijdag</token><token>3</token><token>Maart</token><token>2007</token><token>gebeurd</token><token>is</token><token>.</token></antipattern>">
 
-<!ENTITY START  '<token postag_regexp="yes" postag="SENT_START|START"/>'>
-<!ENTITY VRGTKN '<token postag_regexp="yes" postag="SENT_END|END">?</token>'>
-<!ENTITY PUNT   '<token postag_regexp="yes" postag="SENT_END|END" regexp="yes">[.!]</token>'>
+
 ]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -17948,7 +17946,7 @@ regexp case-insensitive maken: (?i)
 					<example>IK DACHT HET NIET!</example>
 				</antipattern>
 				<pattern>
-					<token postag="SENT_START"></token>
+					<token postag="SENT_START"/>
 					<marker>
 						<token case_sensitive="yes">IK</token>
 					</marker>
@@ -25713,7 +25711,7 @@ regexp case-insensitive maken: (?i)
 	<category id="FULL_SENTENCES" name="volledige zinnen met fout">
 		<rule id="FULL_SENTENCE_001" name="verkeerde werkwoordvorm" >
 			<pattern>
-				&START;
+				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag="BNW:STL:ONV|BYW.*"/>
 				<marker>
 					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
@@ -25722,7 +25720,7 @@ regexp case-insensitive maken: (?i)
 				<token min="0" max="2" postag_regexp="yes" postag="BNW.*"/>
 				<token postag_regexp="yes" postag=".*MRV.*"><exception regexp="yes">[0-9]</exception></token>
 				<token postag_regexp="yes" postag="BNW:STL:ONV|BYW.*"/>
-				&PUNT;
+				<token postag="SENT_END" regexp="yes">[.!]</token>
 			</pattern>
 			<message>Dit is vast de verkeerde vorm van het werkwoord.</message>
 			<suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
@@ -25733,7 +25731,7 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="PART_SENTENCE_001" name="verkeerde werkwoordvorm" >
 			<rule>
 				<pattern>
-					&START;
+					<token postag="SENT_START"/>
 					<token regexp="yes">Als|indien|wanneer|omdat|toen</token>
 					<token regexp="yes">je|hij|ie|zij|ze|u|men|ge|gij</token>
 					<token regexp="yes">de|die|deze</token>

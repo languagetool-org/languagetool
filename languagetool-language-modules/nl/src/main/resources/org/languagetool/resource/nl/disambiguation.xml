@@ -1230,6 +1230,7 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="add"><wd pos="SENT_START"/></disambig>
 	</rule>
+<!--
 	<rule id="START_IGNORE_02" name="">
 		<pattern>
 			<token postag="SENT_START"/>
@@ -1239,6 +1240,7 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="add"><wd pos="SENT_START"/></disambig>
 	</rule>
+	-->
 	<rule id="END_IGNORE_01" name="">
 		<pattern>
 			<marker>
@@ -1704,11 +1706,52 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 	<rule id="TEST_003" name="-">
 		<pattern>
 			<marker>
-				<token postag="VRZ" regexp="yes">naar|na|ná</token>
+				<token postag="VRZ"/>
 			</marker>
 			<token>de</token>
 		</pattern>
 		<disambig postag="VRZ" />
+	</rule>
+
+	<!--
+	ITP:VRT null BNW:STL:ONV/WKW:VLT:1EP
+	=================================================================
+	21685:	? ' vroeg
+	1961:	? " vroeg
+	-->
+	<rule id="TEST_004" name="-">
+		<pattern>
+			<token>?</token>
+			<token regexp="yes">['&quot;]</token>
+			<marker>
+				<token postag="WKW:VTD:1EP"/>
+			</marker>
+		</pattern>
+		<disambig postag="WKW:VTD:1EP" />
+	</rule>
+<!--
+	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	=================================================================
+	33995:	Dat was
+	10081:	dat was
+	17:	Dat las
+	17:	dat las
+	9:	dát was
+	5:	Dat wás
+	4:	Dat Was
+	2:	Dat zon
+	2:	dat Was
+	1:	dat zon
+	1:	dat wás
+
+	uitzonderingen te verwachten in de vorm 'dat was ik', waar het ambigu is.
+	-->
+	<rule id="TEST_005" name="-">
+		<pattern>
+			<token postag="VNW:OND:EKV:HET" regexp="yes">het|dit|dat</token>
+			<token postag="WKW:TGW:1EP">was</token>
+		</pattern>
+		<disambig action="filterall"/>
 	</rule>
 
 </rules>
