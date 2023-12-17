@@ -32195,14 +32195,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- ASSERTO acerto -->
-        <rule id='CONFUSÃO_ASSERTO_ACERTO_DE_CONTAS' name="[Confusão] asserto/acerto">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
+        <rule id='CONFUSÃO_ASSERTO_ACERTO_DE_CONTAS' name="Confusão de termos: asserto/acerto" default="temp_off">
             <pattern>
                 <marker>
-                    <token>asserto</token>
+                    <token skip="4">asserto</token>
                 </marker>
-                <token>de</token>
+                <token regexp='yes'>das|de</token>
                 <token>contas</token>
             </pattern>
             <message>Possível confusão de termos.</message>
