@@ -1770,5 +1770,57 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 		<disambig postag="BYW" />
 	</rule>
 
+<!--
+	SENT_START BYW/VGW/WKW:TGW:1EP/SENT_START
+	=================================================================
+	212680:	~ Maar
+	7:	~ maar
+	-->
+	<rule id="TEST_007" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VGW">maar</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="BYW|WKW:TGW:1EP" />
+	</rule>
+
+	<!--
+	SENT_START WKW:TGW:1EP/VNW:PER:2EP:EKV:ACT
+	=================================================================
+	24547:	~ Jij
+	257:	' Jij
+	34:	" Jij
+	1:	~ jij
+	-->
+	<rule id="TEST_008" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:2EP:EKV:ACT">jij</token>
+			</marker>
+		</pattern>
+		<disambig postag="VNW:PER:2EP:EKV:ACT"/>
+	</rule>
+
+	<!--
+	SENT_START VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+	=================================================================
+	156916:	~ Je
+	188:	' Je
+	37:	" Je
+	2:	~ je
+	-->
+	<rule id="TEST_009" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>je</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="VNW:PER:2EP:EKV:PSF"/>
+	</rule>
+
 
 </rules>

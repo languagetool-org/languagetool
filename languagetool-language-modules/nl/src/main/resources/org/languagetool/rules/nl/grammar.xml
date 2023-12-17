@@ -14181,6 +14181,12 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling" tags="picky">
 			<rule>
+				<antipattern>
+					<token regexp="yes">[,;]</token>
+					<token case_sensitive="yes">Van</token>
+					<token min="0" max="1" regexp="yes">de|der|den</token>
+					<token postag_regexp="yes" postag="ENM.*|UNKNOWN"/>
+				</antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph|Peg</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
@@ -14220,7 +14226,7 @@ regexp case-insensitive maken: (?i)
 				<pattern case_sensitive="yes">
 					<marker>
 						<token regexp="yes">[,;]</token>
-						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*</exception><exception>Jan</exception></token>
+						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*<exception case_sensitive="yes" regexp="yes">Kamer.*|Jan|Al</exception></token>
 					</marker>
 				</pattern>
 				<message>Na een (punt)komma hoeft geen hoofdletter (behalve bij een eigennaam, taal of gebied of een verwijzing naar God).</message>
@@ -17359,6 +17365,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="werd jammer genoeg verwaarloosd">Het restaurant <marker>werd jammer genoeg verwaarloost</marker>.</example>
 			</rule>
 		</rulegroup>
+
 		<rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm">
 			<rule>
 				<antipattern>
