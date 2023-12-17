@@ -1822,5 +1822,30 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 		<disambig action="remove" postag="VNW:PER:2EP:EKV:PSF"/>
 	</rule>
 
+	<!--
+	WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP BYW/VNW:OBP/ZNW:EKV:HET/WKW:TGW:1EP
+	=================================================================
+	38987:	niet meer
+	1544:	Niet meer
+	8:	niet méér
+	-->
+	<rule id="TEST_010a" name="-">
+		<pattern>
+			<marker>
+				<token postag="BYW">niet</token>
+			</marker>
+			<token regexp="yes">meer|méér</token>
+		</pattern>
+		<disambig postag="BYW"/>
+	</rule>
+	<rule id="TEST_010b" name="-">
+		<pattern>
+			<token postag="BYW">niet</token>
+			<marker>
+				<token regexp="yes">meer|méér</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV:HET|WKW:TGW:1EP"/>
+	</rule>
 
 </rules>
