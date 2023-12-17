@@ -219,7 +219,9 @@ public class Portuguese extends Language implements AutoCloseable {
     if (id.startsWith("MORFOLOGIK_RULE")) {
       return -50;
     }
-
+    if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
+      return -49;
+    }
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":                    return 50;
       case "DEGREE_MINUTES_SECONDS":                   return 30;
