@@ -465,6 +465,16 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("ненависть-шоу", "ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_naz|ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_zna", tokenizer, tagger);
 
+    TestTools.myAssert("Київ-Прага", "Київ-Прага/[Київ-Прага]noninfl:prop:geo", tokenizer, tagger);
+    TestTools.myAssert("Україна-ЄС", "Україна-ЄС/[Україна-ЄС]noninfl:prop", tokenizer, tagger);
+    TestTools.myAssert("Хуана-Карлоса", "Хуана-Карлоса/[Хуан-Карлос]noun:anim:m:v_rod:prop:fname|Хуана-Карлоса/[Хуан-Карлос]noun:anim:m:v_zna:prop:fname", tokenizer, tagger);
+    // подружжя, сім'я, пара
+    TestTools.myAssert("Карпа-Хансен", "Карпа-Хансен/[Карпа-Хансен]noninfl:prop:lname", tokenizer, tagger);
+    TestTools.myAssert("Джолі-Пітт", "Джолі-Пітт/[Джолі-Пітт]noninfl:prop:lname", tokenizer, tagger);
+    TestTools.myAssert("Джеймса-Веніка", "Джеймса-Веніка/[Джеймса-Веніка]noninfl:prop:lname", tokenizer, tagger);
+    TestTools.myAssert("БАЛОГИ-КОЛЕСНІКОВА", "БАЛОГИ-КОЛЕСНІКОВА/[Балоги-Колеснікова]noninfl:prop:lname", tokenizer, tagger);
+    TestTools.myAssert("Івана-Павла", "Івана-Павла/[Іван-Павло]noun:anim:m:v_rod:prop:fname|Івана-Павла/[Іван-Павло]noun:anim:m:v_zna:prop:fname", tokenizer, tagger);
+    
     // handled by different logic
 //    assertNotTagged("напів-люкс");
     assertNotTagged("Малишко-це");
@@ -480,6 +490,8 @@ public class UkrainianTaggerTest {
     assertNotTagged("вовіки-вічні");
     assertNotTagged("юре-юре");
     assertNotTagged("Гірник-спорт");
+    
+    assertNotTagged("Квітку-Основ'яненко"); // правильно: Квітку-Основ'яненка
   }
 
   @Test

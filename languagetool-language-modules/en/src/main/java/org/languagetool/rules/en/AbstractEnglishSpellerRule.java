@@ -165,7 +165,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern JIST = compile("[Jj]ist");
   private static final Pattern ADHOC = compile("[Ad]hoc");
   private static final Pattern DEACTIVE = compile("[De]eactive");
-  private static final Pattern HUBSPOT = compile("Hubspot");
+  private static final Pattern HUBSPOT = compile("[Hh]ubspot");
+  private static final Pattern URL = compile("[Uu]rl");
+  private static final Pattern TV = compile("tv");
+  private static final Pattern HTTP = compile("[Hh]ttp");
+  private static final Pattern HTTPS = compile("[Hh]ttps");
+  private static final Pattern FYI = compile("[Ff]yi");
 
   private final BeoLingusTranslator translator;
 
@@ -1465,6 +1470,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (ADHOC.matcher(word).matches()) return topMatch("ad hoc");
     if (DEACTIVE.matcher(word).matches()) return topMatch("inactive");
     if (HUBSPOT.matcher(word).matches()) return topMatch("HubSpot");
+    if (URL.matcher(word).matches()) return topMatch("URL");
+    if (HTTP.matcher(word).matches()) return topMatch("HTTP");
+    if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
+    if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (TV.matcher(word).matches()) {
+      List<SuggestedReplacement> l = new ArrayList<>();
+      l.add(new SuggestedReplacement("TV"));
+      l.add(new SuggestedReplacement("to"));
+      return l;
+    }
     if (JIST.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("just"));

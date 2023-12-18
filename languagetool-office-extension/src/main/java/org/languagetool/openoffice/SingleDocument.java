@@ -254,7 +254,9 @@ public class SingleDocument {
       }
       
       if (hasSortedTextId && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
-//        MessageHandler.printToLogFile("proofInfo: " + proofInfo);
+        if (debugMode > 0) {
+          MessageHandler.printToLogFile("SingleDocument: getCheckResults: get errors direct from cache");
+        }
         return getErrorsFromCache(sortedTextId, paRes, paraText, locale, lt);
       }
       if (!hasSortedTextId && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
@@ -1322,11 +1324,22 @@ public class SingleDocument {
                       String para, Locale locale, SwJLanguageTool lt) throws IOException {
     int nFPara = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
     List<SingleProofreadingError[]> errors = new ArrayList<>();
+    paRes.nStartOfSentencePosition = paragraphsCache.get(0).getStartSentencePosition(paraNum, paRes.nStartOfSentencePosition);
+    paRes.nStartOfNextSentencePosition = paragraphsCache.get(0).getNextSentencePosition(paraNum, paRes.nStartOfSentencePosition);
+    if (paRes.nStartOfNextSentencePosition == 0) {
+      paRes.nStartOfNextSentencePosition = para.length();
+    }
+    paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
     for (int cacheNum = 0; cacheNum < mDocHandler.getNumMinToCheckParas().size(); cacheNum++) {
       errors.add(paragraphsCache.get(cacheNum).getFromPara(nFPara, 
               paRes.nStartOfSentencePosition, paRes.nBehindEndOfSentencePosition, LoErrorType.GRAMMAR));
     }
     paRes.aErrors = mergeErrors(errors, nFPara);
+    if (debugMode > 1) {
+      MessageHandler.printToLogFile("SingleDocument: getErrorsFromCache: Sentence: start: " + paRes.nStartOfSentencePosition
+          + ", end: " + paRes.nBehindEndOfSentencePosition + ", next: " + paRes.nStartOfNextSentencePosition 
+          + ", num errors: " + paRes.aErrors.length);
+    }
     addSynonyms(paRes, para, locale, lt);
     return paRes;
   }

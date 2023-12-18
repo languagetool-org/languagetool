@@ -25,6 +25,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -218,7 +219,9 @@ public class Portuguese extends Language implements AutoCloseable {
     if (id.startsWith("MORFOLOGIK_RULE")) {
       return -50;
     }
-
+    if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
+      return -49;
+    }
     switch (id) {
       case "FRAGMENT_TWO_ARTICLES":                    return 50;
       case "DEGREE_MINUTES_SECONDS":                   return 30;
@@ -294,5 +297,28 @@ public class Portuguese extends Language implements AutoCloseable {
       return -51;
     }
     return super.getPriorityForId(id);
+  }
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (tag.startsWith("N") || tag.equals("_Latin_")) {
+        return form;
+      } else {
+        return "";
+      }
+    }
+    return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return PortugueseMultitokenSpeller.INSTANCE;
   }
 }

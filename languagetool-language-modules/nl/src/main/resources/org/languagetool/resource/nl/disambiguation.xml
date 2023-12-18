@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Rules for LanguageTool
-Copyright (C) 2008-2018 Ruud Baars, TaalTik
+Copyright (C) 2008-2023 Ruud Baars, TaalTik
 -->
 <!DOCTYPE rules [
 <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
@@ -724,7 +724,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_HET_IS_EEN" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VNW:OND:EKV:HET"/>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
@@ -736,7 +736,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	
 	<rule id="START_IK_DENK" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<token postag="VNW:ACT:EKV:1EP"/>
 			<marker>
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
@@ -747,7 +747,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_DIT_BETEKENT_DAT" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VNW:OND:EKV:HET"/>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
@@ -922,7 +922,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="START_IK_1EP" name="-">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="SENT_START|START"/>
+				<token postag="SENT_START"/>
 				<token postag="VNW:ACT:EKV:1EP"/>
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
 			</marker>
@@ -933,7 +933,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="START_ER_1EP" name="-">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="SENT_START|START"/>
+				<token postag="SENT_START"/>
 				<token>er</token>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|WKW:(TGW|VLT):INF"/>
 			</marker>
@@ -966,7 +966,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_INDIEN" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VGW">indien</token>
 			</marker>
@@ -976,7 +976,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 <!--
 	<rule id="START_1EP_X" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag_regexp="yes" postag="SENT_START|START"|postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag_regexp="yes" postag="SENT_START"|postag="SENT_START"/>
 			<marker>
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"><exception regexp="yes">in|naast|uit</exception></token>
 				<token regexp="yes">het|dit|dat|die|de|een</token>
@@ -987,7 +987,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	-->
 	<rule id="START_DIT_IS_EEN_FRAGMENT_UIT" name="-">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VNW:OND:EKV:HET"/>
 				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
@@ -1020,7 +1020,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<rule id="START_X_HIJ" name="vangen">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<token postag_regexp="yes" postag="WKW:TGW:3EP:EKV|WKW:VLT:1EP"/>
 			<token postag="VNW:PER:3EP:EKV:ACT"/>
 		</pattern>
@@ -1220,41 +1220,35 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     </rule>
 
 	<!-- define start and end elements to ignore -->
+
 	<rule id="START_IGNORE_01" name="">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token regexp="yes">[‘’“'"„”]</token>
 			</marker>
 		</pattern>
-		<disambig action="add"><wd pos="START"/></disambig>
+		<disambig action="add"><wd pos="SENT_START"/></disambig>
 	</rule>
+
 	<rule id="START_IGNORE_02" name="">
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<token regexp="yes">en|maar</token>
 			</marker>
 		</pattern>
-		<disambig action="add"><wd pos="START"/></disambig>
+		<disambig action="add"><wd pos="SENT_START"/></disambig>
 	</rule>
+
 	<rule id="END_IGNORE_01" name="">
 		<pattern>
 			<marker>
 				<token/>
 			</marker>
-			<token postag_regexp="yes" postag="SENT_END|END" regexp="yes">[‘’“'"„”]</token>
+			<token postag="SENT_END" regexp="yes">[‘’“'"„”]</token>
 			</pattern>
-		<disambig action="add"><wd pos="END"/></disambig>
-	</rule>
-	<rule id="END_IGNORE_03" name="">
-		<pattern>
-			<marker>
-				<token regexp="yes">[.!?]</token>
-			</marker>
-			<token regexp="yes">[.!?]</token>
-			</pattern>
-		<disambig action="add"><wd pos="END"/></disambig>
+		<disambig action="add"><wd pos="SENT_END"/></disambig>
 	</rule>
 
 	<!-- voegt gij-vorm toe; heeft nog uitzonderingen nodig -->
@@ -1272,18 +1266,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<!-- Wees een goed mens etc. -->
 
 	<rule id="WEES_01" name="">
-		<pattern><token postag_regexp="yes" postag="SENT_START|START"/><marker><token>wees</token></marker></pattern>
+		<pattern><token postag="SENT_START"/><marker><token>wees</token></marker></pattern>
 		<disambig action="add"><wd pos="WKW:TGW:1EP"/></disambig>
 	</rule>
 
 	<rule id="START_NO_PROPER" name="">
 		<antipattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<token postag="ENM.*"/>
 			<token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/>
 		</antipattern>
 		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="SENT_START"/>
 			<marker>
 				<and>
 					<token postag_regexp="yes" postag="ENM.*"/>
@@ -1659,7 +1653,222 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 	<!-- =========================================================================================== -->
 
-	<!-- NEW FULL SENTENCE DISAMBIGUATION PATTERNS -->
 
+	<!-- NEW DISAMBIGUATION PATTERNS -->
+
+	<!--
+	ITP:KMA BYW/VGW/WKW:TGW:1EP
+	=================================================================
+	27442:	, maar
+	-->
+	<rule id="TEST_001" name="-">
+		<pattern>
+			<token postag="ITP:KMA"/>
+			<token postag="VGW">maar</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF
+	=================================================================
+	62176:	~ U
+	-->
+	<rule id="TEST_002" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:3EP:EKV:ACT">U</token>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	BNW:STL:ONV/VGW/VRZ VNW:AWZ:EKV:DE_
+	=================================================================
+	73732:	naar de
+	3613:	na de
+	2263:	Naar de
+	1879:	Na de
+	130:	naar De
+	....
+	-->
+	<rule id="TEST_003" name="-">
+		<pattern>
+			<marker>
+				<token postag="VRZ"/>
+			</marker>
+			<token>de</token>
+		</pattern>
+		<disambig postag="VRZ" />
+	</rule>
+
+	<!--
+	ITP:VRT null BNW:STL:ONV/WKW:VLT:1EP
+	=================================================================
+	21685:	? ' vroeg
+	1961:	? " vroeg
+	-->
+	<rule id="TEST_004" name="-">
+		<pattern>
+			<token>?</token>
+			<token regexp="yes">'|&quot;</token>
+			<marker>
+				<token postag="WKW:VLT:1EP"/>
+			</marker>
+		</pattern>
+		<disambig postag="WKW:VLT:1EP" />
+	</rule>
+<!--
+	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	=================================================================
+	33995:	Dat was
+	10081:	dat was
+	17:	Dat las
+	17:	dat las
+	9:	dát was
+	5:	Dat wás
+	4:	Dat Was
+	2:	Dat zon
+	2:	dat Was
+	1:	dat zon
+	1:	dat wás
+
+	uitzonderingen te verwachten in de vorm 'dat was ik', waar het ambigu is.
+	-->
+	<rule id="TEST_005" name="-">
+		<pattern>
+			<token postag="VNW:OND:EKV:HET" regexp="yes">het|d[ií]t|d[aá]t</token>
+			<token postag="WKW:VLT:1EP" regexp="yes">w[aá]s</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	BYW/VGW/VRZ ITP:PNT/SENT_END
+	=================================================================
+	35589:	voor .
+	10:	Voor .
+	-->
+	<rule id="TEST_006" name="-">
+		<pattern>
+			<marker>
+				<token postag="BYW"/>
+			</marker>
+			<token postag="SENT_END"/>
+		</pattern>
+		<disambig postag="BYW" />
+	</rule>
+
+<!--
+	SENT_START BYW/VGW/WKW:TGW:1EP/SENT_START
+	=================================================================
+	212680:	~ Maar
+	7:	~ maar
+	-->
+	<rule id="TEST_007" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VGW">maar</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="BYW|WKW:TGW:1EP" />
+	</rule>
+
+	<!--
+	SENT_START WKW:TGW:1EP/VNW:PER:2EP:EKV:ACT
+	=================================================================
+	24547:	~ Jij
+	257:	' Jij
+	34:	" Jij
+	1:	~ jij
+	-->
+	<rule id="TEST_008" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:2EP:EKV:ACT">jij</token>
+			</marker>
+		</pattern>
+		<disambig postag="VNW:PER:2EP:EKV:ACT"/>
+	</rule>
+
+	<!--
+	SENT_START VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+	=================================================================
+	156916:	~ Je
+	188:	' Je
+	37:	" Je
+	2:	~ je
+	-->
+	<rule id="TEST_009" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>je</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="VNW:PER:2EP:EKV:PSF"/>
+	</rule>
+
+	<!--
+	WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP BYW/VNW:OBP/ZNW:EKV:HET/WKW:TGW:1EP
+	=================================================================
+	38987:	niet meer
+	1544:	Niet meer
+	8:	niet méér
+	-->
+	<rule id="TEST_010a" name="-">
+		<pattern>
+			<marker>
+				<token postag="BYW">niet</token>
+			</marker>
+			<token regexp="yes">meer|méér</token>
+		</pattern>
+		<disambig postag="BYW"/>
+	</rule>
+	<rule id="TEST_010b" name="-">
+		<pattern>
+			<token postag="BYW">niet</token>
+			<marker>
+				<token regexp="yes">meer|méér</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV:HET|WKW:TGW:1EP"/>
+	</rule>
+
+	<!--
+	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	=================================================================
+	37890:	het niet
+	6512:	dit niet
+	136:	Het niet
+	61:	Dit niet
+	1:	dít niet
+	-->
+	<rule id="TEST_011" name="-">
+		<pattern>
+			<token postag="VNW:OND:EKV:HET">het</token>
+			<token postag="BYW">niet</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	<!--
+	? 034147	(2)	SENT_START VNW:VRG/VNW:BTR
+	032764:	~ Wie
+	001311:	' Wie
+	000080:	" Wie
+	-->
+	<rule id="TEST_012" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:VRG">wie</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="VNW:BTR"/>
+	</rule>
 
 </rules>
