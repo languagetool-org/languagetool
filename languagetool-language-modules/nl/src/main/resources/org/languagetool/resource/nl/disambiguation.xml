@@ -1941,7 +1941,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	<rule id="TEST_016" name="-">
 		<pattern>
 			<token postag="VNW:AWZ:EKV:HET" regexp="yes">het|dit</token>
-			<token postag="ZNW:EKV:HET"></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
@@ -1962,6 +1962,37 @@ Copyright (C) 2008-2023 Ruud Baars
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 		</pattern>
 		<disambig action="remove" postag="ZNW:EKV"/>
+	</rule>
+
+	<!--
+	? 358804	(2)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF
+	358804:	~ Ze
+	-->
+	<rule id="TEST_018" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>ze</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="VNW:PER:3EP:MRV:PSF"/>
+	</rule>
+	<!--
+	? 124857	(2)	VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:VLT:1EP
+	013299:	Ze had
+	010773:	Ze keek
+	003735:	Ze kon
+	003075:	Ze zou
+	002977:	Ze ging
+	-->
+	<rule id="TEST_019" name="-">
+		<pattern>
+			<marker>
+				<token>ze</token>
+			</marker>
+			<token postag="WKW:VLT:1EP"/>
+		</pattern>
+		<disambig postag="VNW:PER:3EP:EKV:ACT"/>
 	</rule>
 
 </rules>
