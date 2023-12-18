@@ -28,8 +28,8 @@ public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   
   public GermanWrongWordInContextRule(ResourceBundle messages, Language lang) {
     super(messages, lang);
-    addExamplePair(Example.wrong("Eine Gitarre hat sechs <marker>Seiten</marker>."),
-                   Example.fixed("Eine Gitarre hat sechs <marker>Saiten</marker>."));
+    addExamplePair(Example.wrong("Die <marker>Miene</marker> vom Kugelschreiber ist leer."),
+                   Example.fixed("Die <marker>Mine</marker> vom Kugelschreiber ist leer."));
   }
   
   @Override

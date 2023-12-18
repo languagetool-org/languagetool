@@ -129,9 +129,35 @@ public class PortugueseWordTokenizerTest {
 
   @Test
   public void testDoNotTokeniseOrdinalSuperscript() {
-    testTokenise("6º", new String[]{"6º"});  // superscript 'o'
-    testTokenise("100°", new String[]{"100°"});  // degree symbol
-    testTokenise("21ª", new String[]{"21ª"});
+    // ordinal indicators
+    testTokenise("1º", new String[]{"1º"});
+    testTokenise("2.º", new String[]{"2.º"});
+    testTokenise("3ºˢ", new String[]{"3ºˢ"});
+    testTokenise("4.ºˢ", new String[]{"4.ºˢ"});
+    testTokenise("5ª", new String[]{"5ª"});
+    testTokenise("6ª", new String[]{"6ª"});
+    testTokenise("7ªˢ", new String[]{"7ªˢ"});
+    testTokenise("8ªˢ", new String[]{"8ªˢ"});
+    // superscripts
+    testTokenise("9ᵒ", new String[]{"9ᵒ"});
+    testTokenise("10.ᵒ", new String[]{"10.ᵒ"});
+    testTokenise("11ᵒˢ", new String[]{"11ᵒˢ"});
+    testTokenise("12.ᵒˢ", new String[]{"12.ᵒˢ"});
+    testTokenise("13ᵃ", new String[]{"13ᵃ"});
+    testTokenise("14.ᵃ", new String[]{"14.ᵃ"});
+    testTokenise("15ᵃˢ", new String[]{"15ᵃˢ"});
+    testTokenise("16.ᵃˢ", new String[]{"16.ᵃˢ"});
+    // regular lowercase
+    testTokenise("17o", new String[]{"17o"});
+    testTokenise("18.o", new String[]{"18.o"});
+    testTokenise("19os", new String[]{"19os"});
+    testTokenise("20.os", new String[]{"20.os"});
+    testTokenise("21a", new String[]{"21a"});
+    testTokenise("22.a", new String[]{"22.a"});
+    testTokenise("23as", new String[]{"23as"});
+    testTokenise("24.as", new String[]{"24.as"});
+    // Degree sign, just to be absolutely sure
+    testTokenise("25°", new String[]{"25°"});
   }
 
   @Test
