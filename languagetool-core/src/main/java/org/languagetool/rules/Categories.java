@@ -32,7 +32,7 @@ public final class Categories {
   
   public static final Categories REDUNDANCY = make("REDUNDANCY", "category_redundancy");
   
-  public static final Categories REPETITIONS_STYLE = make("STYLE", "cateogry_repetitions_style");
+  public static final Categories REPETITIONS_STYLE = make("REPETITIONS_STYLE", "cateogry_repetitions_style");
 
   /** General style issues not covered by other categories, like overly verbose wording. */
   public static final Categories STYLE = make("STYLE", "category_style");
