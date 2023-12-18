@@ -1672,20 +1672,22 @@ Copyright (C) 2008-2023 Ruud Baars
 	=================================================================
 	27442:	, maar
 	-->
-	<rule id="TEST_001" name="-">
+	<!--
+	<rule id="NEW_001" name="-">
 		<pattern>
 			<token postag="ITP:KMA"/>
 			<token postag="VGW">maar</token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-
+	-->
 	<!--
 	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF
 	=================================================================
 	62176:	~ U
 	-->
-	<rule id="TEST_002" name="-">
+	<!--
+	<rule id="NEW_002" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
 			<marker>
@@ -1694,7 +1696,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-
+	-->
 	<!--
 	BNW:STL:ONV/VGW/VRZ VNW:AWZ:EKV:DE_
 	=================================================================
@@ -1705,7 +1707,8 @@ Copyright (C) 2008-2023 Ruud Baars
 	130:	naar De
 	....
 	-->
-	<rule id="TEST_003" name="-">
+	<!--
+	<rule id="NEW_003" name="-">
 		<pattern>
 			<marker>
 				<token postag="VRZ"/>
@@ -1714,14 +1717,15 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig postag="VRZ" />
 	</rule>
-
+	-->
 	<!--
 	ITP:VRT null BNW:STL:ONV/WKW:VLT:1EP
 	=================================================================
 	21685:	? ' vroeg
 	1961:	? " vroeg
 	-->
-	<rule id="TEST_004" name="-">
+	<!--
+	<rule id="NEW_004" name="-">
 		<pattern>
 			<token>?</token>
 			<token regexp="yes">'|&quot;</token>
@@ -1731,6 +1735,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig postag="WKW:VLT:1EP" />
 	</rule>
+	-->
 <!--
 	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
 	=================================================================
@@ -1748,21 +1753,23 @@ Copyright (C) 2008-2023 Ruud Baars
 
 	uitzonderingen te verwachten in de vorm 'dat was ik', waar het ambigu is.
 	-->
-	<rule id="TEST_005" name="-">
+	<!--
+	<rule id="NEW_005" name="-">
 		<pattern>
 			<token postag="VNW:OND:EKV:HET" regexp="yes">het|d[ií]t|d[aá]t</token>
 			<token postag="WKW:VLT:1EP" regexp="yes">w[aá]s</token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-
+	-->
 	<!--
 	BYW/VGW/VRZ ITP:PNT/SENT_END
 	=================================================================
 	35589:	voor .
 	10:	Voor .
 	-->
-	<rule id="TEST_006" name="-">
+	<!--
+	<rule id="NEW_006" name="-">
 		<pattern>
 			<marker>
 				<token postag="BYW"/>
@@ -1771,14 +1778,15 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig postag="BYW" />
 	</rule>
-
+	-->
 <!--
 	SENT_START BYW/VGW/WKW:TGW:1EP/SENT_START
 	=================================================================
 	212680:	~ Maar
 	7:	~ maar
 	-->
-	<rule id="TEST_007" name="-">
+	<!--
+	<rule id="NEW_007" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
 			<marker>
@@ -1787,7 +1795,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="remove" postag="BYW|WKW:TGW:1EP" />
 	</rule>
-
+	-->
 	<!--
 	SENT_START WKW:TGW:1EP/VNW:PER:2EP:EKV:ACT
 	=================================================================
@@ -1796,7 +1804,8 @@ Copyright (C) 2008-2023 Ruud Baars
 	34:	" Jij
 	1:	~ jij
 	-->
-	<rule id="TEST_008" name="-">
+	<!--
+	<rule id="NEW_008" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
 			<marker>
@@ -1805,7 +1814,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig postag="VNW:PER:2EP:EKV:ACT"/>
 	</rule>
-
+	-->
 	<!--
 	SENT_START VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
 	=================================================================
@@ -1814,7 +1823,8 @@ Copyright (C) 2008-2023 Ruud Baars
 	37:	" Je
 	2:	~ je
 	-->
-	<rule id="TEST_009" name="-">
+	<!--
+	<rule id="NEW_009" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
 			<marker>
@@ -1823,7 +1833,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="remove" postag="VNW:PER:2EP:EKV:PSF"/>
 	</rule>
-
+	-->
 	<!--
 	WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP BYW/VNW:OBP/ZNW:EKV:HET/WKW:TGW:1EP
 	=================================================================
@@ -1831,7 +1841,8 @@ Copyright (C) 2008-2023 Ruud Baars
 	1544:	Niet meer
 	8:	niet méér
 	-->
-	<rule id="TEST_010a" name="-">
+	<!--
+	<rule id="NEW_010a" name="-">
 		<pattern>
 			<marker>
 				<token postag="BYW">niet</token>
@@ -1840,7 +1851,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig postag="BYW"/>
 	</rule>
-	<rule id="TEST_010b" name="-">
+	<rule id="NEW_010b" name="-">
 		<pattern>
 			<token postag="BYW">niet</token>
 			<marker>
@@ -1849,7 +1860,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="remove" postag="ZNW:EKV:HET|WKW:TGW:1EP"/>
 	</rule>
-
+	-->
 	<!--
 	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
 	=================================================================
@@ -1859,20 +1870,23 @@ Copyright (C) 2008-2023 Ruud Baars
 	61:	Dit niet
 	1:	dít niet
 	-->
-	<rule id="TEST_011" name="-">
+	<!--
+	<rule id="NEW_011" name="-">
 		<pattern>
 			<token postag="VNW:OND:EKV:HET">het</token>
 			<token postag="BYW">niet</token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+	-->
 	<!--
 	? 034147	(2)	SENT_START VNW:VRG/VNW:BTR
 	032764:	~ Wie
 	001311:	' Wie
 	000080:	" Wie
 	-->
-	<rule id="TEST_012" name="-">
+	<!--
+	<rule id="NEW_012" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
 			<marker>
@@ -1881,6 +1895,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="remove" postag="VNW:BTR"/>
 	</rule>
+	-->
 <!--
 	? 378208	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
   124679:	Het is
@@ -1891,13 +1906,15 @@ Copyright (C) 2008-2023 Ruud Baars
   008177:	dit is
   008057:	Het lijkt
 	-->
-	<rule id="TEST_013" name="-">
+	<!--
+	<rule id="NEW_013" name="-">
 		<pattern>
 			<token postag="VNW:OND:EKV:HET"/>
 			<token postag="WKW:TGW:3EP"/>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+	-->
 	<!--
 	? 416647    (2)    BYW/VRZ WKW:TGW:INF
 	019914:    te doen
@@ -1907,13 +1924,15 @@ Copyright (C) 2008-2023 Ruud Baars
 	014219:    te gaan
 	007573:    te zeggen
 	-->
-	<rule id="TEST_014" name="-">
+	<!--
+	<rule id="NEW_014" name="-">
 		<pattern>
 			<token postag="VRZ">te</token>
 			<token postag="WKW:TGW:INF"/>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+	-->
 	<!--
 	? 342690	(2)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
 	004502:	de kinderen
@@ -1922,7 +1941,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	003553:	de gaten
 	-->
 	<!--
-	<rule id="TEST_015" name="-">
+	<rule id="NEW_015" name="-">
 		<pattern>
 			<token postag="VNW:AWZ:MRV:DE_"/>
 			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
@@ -1942,7 +1961,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	-->
 
 <!--
-	<rule id="TEST_016" name="-">
+	<rule id="NEW_016" name="-">
 		<pattern>
 			<token postag="VNW:AWZ:EKV:HET" regexp="yes">het|dit</token>
 			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
@@ -1957,7 +1976,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	000786:	volle gang
 	-->
 	<!--
-	<rule id="TEST_017" name="-">
+	<rule id="NEW_017" name="-">
 		<pattern>
 			<marker>
 				<and>
@@ -1975,7 +1994,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	358804:	~ Ze
 	-->
 	<!--
-	<rule id="TEST_018" name="-">
+	<rule id="NEW_018" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
 			<marker>
@@ -1994,7 +2013,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	002977:	Ze ging
 	-->
 	<!--
-	<rule id="TEST_019" name="-">
+	<rule id="NEW_019" name="-">
 		<pattern>
 			<marker>
 				<token>ze</token>
@@ -2013,7 +2032,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	000704:	deze website
 	-->
 	<!--
-	<rule id="TEST_020" name="-">
+	<rule id="NEW_020" name="-">
 		<pattern>
 			<token postag="VNW:OND:EKV:DE_"/>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
