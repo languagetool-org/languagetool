@@ -525,6 +525,17 @@ regexp case-insensitive maken: (?i)
 				<example correction="mijnenveld">Het is een <marker>mijnveld</marker>!</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="GLASWASSER" name="Ik ben vroeger glas(glazen)wasser geweest" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">glaswass.*</token>
+					</marker>
+				</pattern>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^glas" regexp_replace="glazen"/></suggestion>?</message>
+				<example correction="glazenwasser">Ik ben vroeger <marker>glaswasser</marker> geweest.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
