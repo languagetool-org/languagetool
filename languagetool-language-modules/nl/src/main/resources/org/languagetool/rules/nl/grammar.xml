@@ -17613,6 +17613,20 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="IS_AANTAL_ZNW_MRV" name="is (het) aantal abonnees..." default="temp_off">
+			<rule>
+				<pattern>
+					<token>is</token>
+					<marker>
+						<token>aantal</token>
+						<token postag="ZNW:MRV:DE_"></token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u misschien: <suggestion>het \2 \3</suggestion>?</message>
+				<example correction="het aantal abonnees">Toch is <marker>aantal abonnees</marker> gestegen.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" > <!-- TODO:  Later tag as learner rule -->
 			<rule>
 				<antipattern>
