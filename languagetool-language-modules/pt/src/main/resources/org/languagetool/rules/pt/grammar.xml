@@ -14475,18 +14475,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule default="temp_off"><!--6-->
                 <pattern>
                     <or>
-                        <token postag="N.+" postag_regexp="yes"/>
+                        <token postag="N.+" postag_regexp="yes">
+                            <exception postag="SPS.+" postag_regexp="yes"/></token>
                         <token inflected="yes" regexp="yes">estar|colocar|pôr</token>
                     </or>
                     <marker>
                         <token regexp="yes">a</token>
                     </marker>
                     <token>venda</token>
+                    <token negate="yes" postag="SPS.+" postag_regexp="yes" regexp="yes">d*</token>
                 </pattern>
                 <message>Se a inteção é dizer que algo está sendo vendido, então esta expressão requer o uso da crase.</message>
                 <suggestion>à</suggestion>
-                <example correction='à'>Casa <marker>a</marker> venda em Aranguera. </example>
-                <example correction='à'>A casa está <marker>a</marker> venda em Aranguera. </example>
+                <example correction='à'>Casa <marker>a</marker> venda em Aranguera.</example>
+                <example correction='à'>A casa está <marker>a</marker> venda em Aranguera.</example>
+                <example>não posso decidir sozinho sobre a venda da casa.</example>
+                <example> pergunta sobre a venda que efetuou há 2 anos?</example>
             </rule>
         </rulegroup>
 
