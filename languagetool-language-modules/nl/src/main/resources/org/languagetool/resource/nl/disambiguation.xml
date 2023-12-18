@@ -1870,26 +1870,14 @@ Copyright (C) 2008-2023 Ruud Baars
 	-->
 	<rule id="NEW_011" name="-">
 		<pattern>
-			<token postag="VNW:OND:EKV:HET">het</token>
+			<token postag="VNW:OND:EKV:HET" regexp="yes">het|dit</token>
 			<token postag="BYW">niet</token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	<!--
-	? 034147	(2)	SENT_START VNW:VRG/VNW:BTR
-	032764:	~ Wie
-	001311:	' Wie
-	000080:	" Wie
-	-->
-	<rule id="NEW_012" name="-">
-		<pattern>
-			<token postag="SENT_START"/>
-			<marker>
-				<token postag="VNW:VRG">wie</token>
-			</marker>
-		</pattern>
-		<disambig action="remove" postag="VNW:BTR"/>
-	</rule>
+
+	<!-- rule 012 discarded -->
+
 	<!--
 	? 378208	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
 	124679:	Het is
