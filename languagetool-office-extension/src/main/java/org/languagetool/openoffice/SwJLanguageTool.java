@@ -204,7 +204,7 @@ public class SwJLanguageTool {
    * remote: spell checking is used for LT check dialog (is needed because method getAnalyzedSentence is not supported by remote check)
    */
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
-    return check(text, tokenizeText, paraMode, RemoteCheck.ONLY_GRAMMAR);
+    return check(text, tokenizeText, paraMode, RemoteCheck.ALL);
   }
 
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode, RemoteCheck checkMode) throws IOException {
