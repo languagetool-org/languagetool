@@ -1868,7 +1868,6 @@ Copyright (C) 2008-2023 Ruud Baars
 	61:	Dit niet
 	1:	dít niet
 	-->
-	<!--
 	<rule id="NEW_011" name="-">
 		<pattern>
 			<token postag="VNW:OND:EKV:HET">het</token>
@@ -1876,14 +1875,12 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	-->
 	<!--
 	? 034147	(2)	SENT_START VNW:VRG/VNW:BTR
 	032764:	~ Wie
 	001311:	' Wie
 	000080:	" Wie
 	-->
-	<!--
 	<rule id="NEW_012" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
@@ -1893,26 +1890,23 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="remove" postag="VNW:BTR"/>
 	</rule>
-	-->
-<!--
-	? 378208	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
-  124679:	Het is
-  048097:	Dit is
-  025355:	het is
-  022985:	Het gaat
-  009936:	Het wordt
-  008177:	dit is
-  008057:	Het lijkt
-	-->
 	<!--
+	? 378208	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	124679:	Het is
+	048097:	Dit is
+	025355:	het is
+	022985:	Het gaat
+	009936:	Het wordt
+	008177:	dit is
+	008057:	Het lijkt
+	-->
 	<rule id="NEW_013" name="-">
 		<pattern>
 			<token postag="VNW:OND:EKV:HET"/>
-			<token postag="WKW:TGW:3EP"/>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	-->
 	<!--
 	? 416647    (2)    BYW/VRZ WKW:TGW:INF
 	019914:    te doen
