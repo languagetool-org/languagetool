@@ -42230,44 +42230,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
         <rulegroup id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA" name="Usar meia-risca entre municípios e estados brasileiros" default="temp_off">
-            <antipattern> <!-- correct format, note the spacing -->
-                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                <token spacebefore="no">–</token>
-                <token case_sensitive="yes" regexp="yes" spacebefore="no">&state_abbrev_all;</token>
-                <example>Nasceu em Niterói–RJ.</example>
-            </antipattern>
             <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PARENTESES"> <!-- #1: brackets -->
-                <pattern>
-                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                    <marker>
-                        <token>(</token>
-                        <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
-                        <token>)</token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <!-- touch this and die :) -->
+                <regexp case_sensitive="yes" mark="2">(\p{Lu}\p{Ll}*(?:[- ](?:&lowercase_in_brazilian_toponyms;)?[- ]?(?:\p{Lu}\p{Ll}*))*)+(\s?\((&state_abbrev_brazil;)\))</regexp>
+                <filter class="org.languagetool.rules.pt.BrazilianToponymFilter" args="foo:bar"/>
                 <message>&brazilian_states_msg;</message>
-                <suggestion>–\3</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example>Nasceu em Niterói–RJ.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>(RJ)</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker> e morreu lá.</example>
+                <example>O candidato a prefeito Fernando Gabeira (RJ).</example>
             </rule>
             <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PONTUACAO_SIMPLES"> <!-- #2: simple separators -->
-                <pattern>
-                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                    <marker>
-                        <token regexp="yes">[-–—/,]</token> <!-- hifen, n-dash, m-dash, forward slash, comma -->
-                        <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <regexp case_sensitive="yes" mark="2">(\p{Lu}\p{Ll}*(?:[- ](?:&lowercase_in_brazilian_toponyms;)?[- ]?(?:\p{Lu}\p{Ll}*))*)+(\s?[-–—/,]?\s?(&state_abbrev_brazil;))</regexp>
+                <filter class="org.languagetool.rules.pt.BrazilianToponymFilter" args="foo:bar"/>
                 <message>&brazilian_states_msg;</message>
-                <suggestion>–\3</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <!-- simple tests for separator and spacing -->
+                <example>Nasceu em Niterói–RJ.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> – RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>/RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> — RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>-RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>, RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker> RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker>RJ</marker>.</example>
+                <!-- tests for toponym structure -->
+                <example correction="–RJ">Nativo de Angra dos Reis<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Duas Barras<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Santo Antônio de Pádua<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Varre-Sai<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de São José do Vale do Rio Preto<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Varre Sai<marker>/RJ</marker>.</example> <!-- correct form has hyphen, but we're flexible -->
+                <example correction="–RJ">Nativo de Paty Do Alferes<marker>/RJ</marker>.</example> <!-- bad lettercase in prep., but we're flexible -->
+                <!-- tests for non-toponyms -->
+                <example>Nativo de Oogabooga<marker>/RJ</marker>.</example>
+                <example>Nativo de Ooga Booga do Foo Bar<marker>/RJ</marker>.</example>
+                <!-- ad hoc tests from nightlies -->
                 <example>Foram 157 km2 de mata derrubados em nove Estados (AC, AM, AP, MA, MT, PA, TO, RO e RR).</example>
                 <example>Com o fechamento definitivo da Estrada do Colono (PR-495).</example>
                 <example>Cidade Alerta GO.</example>
@@ -42276,25 +42276,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Moro em SP capital.</example>
                 <example>Pode ser diferente Especificação: CE ISO9001.</example>
                 <example>Resolução da Presidência do IBGE de n° 5 (R.PR-5/02).</example>
-            </rule>
-            <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_ESPACO"> <!-- #3: espaço simples -->
-                <antipattern>
-                    <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_brazil;</token>
-                    <token regexp="yes">&hifen;|-</token>
-                    <token regexp="yes">\d+</token>
-                    <example>Rodovia Estadual BA-447.</example>
-                </antipattern>
-                <pattern>
-                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                    <marker>
-                        <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_brazil;</token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
-                <message>&brazilian_states_msg;</message>
-                <suggestion>–\3</suggestion>
-                <example correction="–RJ">Nasceu em Niterói<marker> RJ</marker>.</example>
-                <example correction="–MG">São Lourenço<marker> MG</marker>.</example>
             </rule>
         </rulegroup>
 
