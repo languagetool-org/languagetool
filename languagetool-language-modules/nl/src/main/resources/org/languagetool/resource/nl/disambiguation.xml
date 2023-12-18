@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Rules for LanguageTool
-Copyright (C) 2008-2023 Ruud Baars, TaalTik
+Copyright (C) 2008-2023 Ruud Baars
 -->
 <!DOCTYPE rules [
 <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
@@ -133,6 +133,17 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
     <rule name="ignore noun-abbrevs" id="SPELLER_ER">
         <pattern>
             <token regexp="yes" case_sensitive="yes">[A-Z]{2,5}'(er|ers|ertje|ertjes)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+	<!-- Dubbele namen -->
+    <rule name="ignore female names" id="SPELLER_NAME_VAN">
+        <pattern>
+			<marker>
+				<token regexp="yes" case_sensitive="yes">[A-Z].*-[Vv]an</token>
+			</marker>
+			<token postag_regexp="yes" postag="ENM:PER:LST.*"/>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1869,6 +1880,88 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 			</marker>
 		</pattern>
 		<disambig action="remove" postag="VNW:BTR"/>
+	</rule>
+<!--
+	? 378208	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+  124679:	Het is
+  048097:	Dit is
+  025355:	het is
+  022985:	Het gaat
+  009936:	Het wordt
+  008177:	dit is
+  008057:	Het lijkt
+	-->
+	<rule id="TEST_013" name="-">
+		<pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="WKW:TGW:3EP"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	<!--
+	? 416647    (2)    BYW/VRZ WKW:TGW:INF
+	019914:    te doen
+	017636:    te zijn
+	017628:    te zien
+	014961:    te maken
+	014219:    te gaan
+	007573:    te zeggen
+	-->
+	<rule id="TEST_014" name="-">
+		<pattern>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	<!--
+	? 342690	(2)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
+	004502:	de kinderen
+	004002:	De kinderen
+	003780:	de mensen
+	003553:	de gaten
+	-->
+	<rule id="TEST_015" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:MRV:DE_"/>
+			<token postag="ZNW:MRV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV.*"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	<!--
+	? 283602	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET ZNW:EKV:HET
+	005414:	het hoofd
+	004633:	het aantal
+	003666:	het ziekenhuis
+	003555:	het woord
+	003321:	het probleem
+	003065:	dit moment
+	002673:	het jaar
+	-->
+	<rule id="TEST_016" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:HET" regexp="yes">het|dit</token>
+			<token postag="ZNW:EKV:HET"></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	<!--
+	? 215898	(2)	ZNW:EKV/BNW:STL:VRB ZNW:EKV:DE_
+	001050:	lange tijd
+	001010:	jonge vrouw
+	000786:	volle gang
+	-->
+	<rule id="TEST_017" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV"/>
 	</rule>
 
 </rules>
