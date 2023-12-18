@@ -502,6 +502,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="BURGERMEESTER" name="burgermeester(burgemeester)">
+			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
 				<pattern>
 					<marker>
@@ -513,6 +514,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="MIJNVELD" name="Het is een mijn(en)veld." default="temp_off">
+			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
 				<pattern>
 					<marker>
@@ -521,19 +523,45 @@ regexp case-insensitive maken: (?i)
 						</token>
 					</marker>
 				</pattern>
-				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^mijn" regexp_replace="mijnen"/></suggestion>?</message>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^mijn" regexp_replace="mijnen"/></suggestion>.</message>
 				<example correction="mijnenveld">Het is een <marker>mijnveld</marker>!</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="GLASWASSER" name="Ik ben vroeger glas(glazen)wasser geweest" default="temp_off">
+			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
 				<pattern>
 					<marker>
 						<token regexp="yes">glaswass.*</token>
 					</marker>
 				</pattern>
-				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^glas" regexp_replace="glazen"/></suggestion>?</message>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^glas" regexp_replace="glazen"/></suggestion>.</message>
 				<example correction="glazenwasser">Ik ben vroeger <marker>glaswasser</marker> geweest.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TAALUNIE" name="Taalunie" default="temp_off">
+			<!-- Antipattern for CompoundAcceptor -->
+			<rule>
+				<pattern>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">taalunie.*</token>
+					</marker>
+					<token><exception spacebefore="no">.</exception></token>
+				</pattern>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^taal" regexp_replace="Taal"/></suggestion>.</message>
+				<example correction="Taalunie">De <marker>taalunie</marker> Toneelschrijfprijs is sinds 1993 een jaarlijkse prijs...</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="BURGERKING" name="Burger King" default="temp_off">
+			<!-- Antipattern for CompoundAcceptor -->
+			<rule>
+				<pattern>
+					<marker>
+						<token>burgerking</token>
+					</marker>
+				</pattern>
+				<message>Waarschijnlijk bedoelt u <suggestion>Burger King</suggestion>.</message>
+				<example correction="Burger King">De <marker>burgerking</marker> heeft die nieuwe broodjes.</example>
 			</rule>
 		</rulegroup>
 	</category>
