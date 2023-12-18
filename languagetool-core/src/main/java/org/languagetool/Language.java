@@ -1017,4 +1017,9 @@ public abstract class Language {
   public MultitokenSpeller getMultitokenSpeller() {
     return null;
   }
+
+  public Map<String, Integer> getPriorityMap() {
+    return new HashMap<>();
+  }
+
 }

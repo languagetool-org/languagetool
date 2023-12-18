@@ -29,12 +29,7 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static junit.framework.Assert.fail;
@@ -52,8 +47,7 @@ public class LanguageSpecificTest {
   }
 
   protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
-    testRulePriorities(lang);
-    /*new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
+    new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
     testNoLineBreaksEtcInMessage(lang);
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
@@ -66,69 +60,6 @@ public class LanguageSpecificTest {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
       throw new RuntimeException(e);
-    }*/
-  }
-
-  private void testRulePriorities(Language lang) throws IOException {
-    final Language langTemp;
-    if (lang.isVariant()) {
-      langTemp = Languages.getLanguageForShortCode(lang.getShortCode());
-    } else {
-      langTemp = lang;
-    }
-    String filename = langTemp.getShortCode().equals("xx") ? "Demo.java" : langTemp.getName() + ".java";
-    System.out.println("Testing there's a rule for rule priorities defined in '" + filename  + "'");
-    AtomicInteger foundFiles = new AtomicInteger();
-    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
-      @Override
-      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (file.getFileName().toString().equals(filename)) {
-          Set<String> ruleIds = getAllRuleIds(langTemp);
-          List<String> lines = Files.readAllLines(file);
-          runTestsOnSwitchStatements(lines, ruleIds);
-          foundFiles.incrementAndGet();
-        }
-        return FileVisitResult.CONTINUE;
-      }
-    };
-    Files.walkFileTree(Paths.get(""), fv);
-    if (foundFiles.get() == 0) {
-      fail("Could not find " + filename);
-    } else if (foundFiles.get() > 1) {
-      fail("Found " + filename + " more than once, stopping");
-    }
-  }
-
-  private static Set<String> getAllRuleIds(Language lang) {
-    Set<String> ids = new HashSet<>();
-    JLanguageTool lt = new JLanguageTool(lang);
-    for (Rule rule : lt.getAllRules()) {
-      ids.add(rule.getId());
-    }
-    return ids;
-  }
-
-  private static void runTestsOnSwitchStatements(List<String> lines, Set<String> ruleIds) {
-    Pattern casePattern = Pattern.compile(".*case \"(.*?)\":.*");
-    boolean inSwitch = false;
-    for (String line : lines) {
-      if (line.trim().startsWith("switch")) {
-        inSwitch = true;
-      } else if (line.trim().equals("}")) {
-        inSwitch = false;
-      }
-      if (inSwitch) {
-        System.out.println("#"+line);
-        Matcher matcher = casePattern.matcher(line);
-        if (matcher.matches()) {
-          System.out.println("#!!");
-          String id = matcher.group(1);
-          System.out.println(">>"+ id);
-          if (!ruleIds.contains(id)) {
-            fail("Priority set, but no rule found for this id: '" + id + "'");
-          }
-        }
-      }
     }
   }
 
