@@ -1250,15 +1250,6 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 			</pattern>
 		<disambig action="add"><wd pos="SENT_END"/></disambig>
 	</rule>
-	<rule id="END_IGNORE_03" name="">
-		<pattern>
-			<marker>
-				<token regexp="yes">[.!?]</token>
-			</marker>
-			<token regexp="yes">[.!?]</token>
-			</pattern>
-		<disambig action="add"><wd pos="SENT_END"/></disambig>
-	</rule>
 
 	<!-- voegt gij-vorm toe; heeft nog uitzonderingen nodig -->
 	<!--
@@ -1863,6 +1854,21 @@ Copyright (C) 2008-2023 Ruud Baars, TaalTik
 			<token postag="BYW">niet</token>
 		</pattern>
 		<disambig action="filterall"/>
+	</rule>
+	<!--
+	? 034147	(2)	SENT_START VNW:VRG/VNW:BTR
+	032764:	~ Wie
+	001311:	' Wie
+	000080:	" Wie
+	-->
+	<rule id="TEST_012" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:VRG">wie</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="VNW:BTR"/>
 	</rule>
 
 </rules>
