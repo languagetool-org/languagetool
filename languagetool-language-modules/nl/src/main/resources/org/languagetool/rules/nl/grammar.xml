@@ -512,6 +512,19 @@ regexp case-insensitive maken: (?i)
 				<example correction="burgemeesterszoon">Dat is de <marker>burgermeesterszoon</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="MIJNVELD" name="Het is een mijn(en)veld." default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">mijn(jager|veger|hond|dienst|veld|gevaar|oorlog|legger|ruim|werp).*
+							<exception>mijngevaarlijk</exception>
+						</token>
+					</marker>
+				</pattern>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^mijn" regexp_replace="mijnen"/></suggestion>?</message>
+				<example correction="mijnenveld">Het is een <marker>mijnveld</marker>!</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">

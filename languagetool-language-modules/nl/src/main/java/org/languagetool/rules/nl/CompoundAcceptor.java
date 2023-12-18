@@ -74,6 +74,7 @@ public class CompoundAcceptor {
     "overlijdens",
     "passagiers",
     "personeels",
+    "rijks",
     "scheeps",
     "staats",
     "stads",
@@ -213,10 +214,14 @@ public class CompoundAcceptor {
     "antenne",
     "attitude",
     "auto",
+    "baby",
     "bal",
     "balustrade",
+    "bank",
     "basis",
     "bediende",
+    "beeld",
+    "beeldhouw",
     "behoefte",
     "belangen",
     "belofte",
@@ -228,6 +233,7 @@ public class CompoundAcceptor {
     "bijlage",
     "binnenste",
     "blessure",
+    "bloed",
     "boeren",
     "boete",
     "bolide",
@@ -252,6 +258,7 @@ public class CompoundAcceptor {
     "cultuur",
     "curve",
     "dag",
+    "data",
     "deel",
     "deeltijd",
     "detective",
@@ -259,6 +266,7 @@ public class CompoundAcceptor {
     "dienst",
     "diepte",
     "dikte",
+    "disco",
     "douane",
     "droogte",
     "eind",
@@ -271,7 +279,9 @@ public class CompoundAcceptor {
     "expertise",
     "façade",
     "familie",
+    "fan",
     "fanfare",
+    "fantasie",
     "fase",
     "feest",
     "film",
@@ -323,6 +333,8 @@ public class CompoundAcceptor {
     "jeugd",
     "jongeren",
     "kade",
+    "kamp",
+    "kampeer",
     "kantoor",
     "karakter",
     "kazerne",
@@ -364,6 +376,8 @@ public class CompoundAcceptor {
     "methode",
     "meute",
     "micro",
+    "midden",
+    "mijn",
     "mini",
     "mode",
     "model",
@@ -371,6 +385,7 @@ public class CompoundAcceptor {
     "motor",
     "multi",
     "multimedia",
+    "muziek",
     "mythe",
     "novelle",
     "natuur",
@@ -413,6 +428,7 @@ public class CompoundAcceptor {
     "prototype",
     "psychose",
     "pyjama",
+    "radio",
     "rente",
     "rij",
     "ritme",
@@ -430,6 +446,8 @@ public class CompoundAcceptor {
     "seconde",
     "secretaresse",
     "sekte",
+    "spiegel",
+    "spier",
     "sport",
     "stand",
     "standaard",
@@ -481,6 +499,8 @@ public class CompoundAcceptor {
     "vreugde",
     "vrouwen",
     "waarde",
+    "wand",
+    "wandel",
     "warmte",
     "water",
     "wind",
@@ -527,7 +547,7 @@ public class CompoundAcceptor {
     this.tagger = tagger;
   }
 
-  boolean acceptCompound(String word) throws IOException {
+  boolean acceptCompound(String word) {
     if (word.length() > MAX_WORD_SIZE) {  // prevent long runtime
       return false;
     }
@@ -535,7 +555,7 @@ public class CompoundAcceptor {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
       if (acceptCompound(part1, part2)) {
-        System.out.println(part1+part2 + " -> accepted");
+        //System.out.println(part1+part2 + " -> accepted");
         return true;
       }
     }
