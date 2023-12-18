@@ -332,7 +332,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("NULL_KOMMA_NICHTS", 1);   // prefer over agreement rules
     id2prio.put("ZWEI_AN_HALB", 1);   // prefer over agreement rules
     id2prio.put("BLUETOOTH_LAUTSPRECHER", 1);   // prefer over agreement rules
-    id2prio.put("KOENNT_ICH", 1);   // prefer over DE_VERBAGREEMENT
+    //id2prio.put("KOENNT_ICH", 1);   // prefer over DE_VERBAGREEMENT
     id2prio.put("WIR_HABE", 1);   // prefer over DE_VERBAGREEMENT
     id2prio.put("DAS_IST_GLAUBE_ICH_EGAL", 1);   // prefer over agreement rules
     id2prio.put("ICH_KOENNT", 1);   // prefer over DE_VERBAGREEMENT
@@ -359,13 +359,13 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("ZULANGE", 1);  // better suggestion than SAGT_RUFT
     id2prio.put("ROCK_N_ROLL", 1);  // better error than DE_CASE
     id2prio.put("JOE_BIDEN", 1);  // better error than DE_CASE
-    id2prio.put("RESOURCE_RESSOURCE", 1);  // better error than DE_CASE
+    //id2prio.put("RESOURCE_RESSOURCE", 1);  // better error than DE_CASE
     id2prio.put("ANS_OHNE_APOSTROPH", 1);
     id2prio.put("DIESEN_JAHRES", 1);
     id2prio.put("TAG_EIN_TAG_AUS", 1); // prefer over agreement rules
     id2prio.put("WERT_SEIN", 1); // prefer over DE_AGREEMENT
     id2prio.put("EBEN_FALLS", 1);
-    id2prio.put("DA_DRAUS", 1);
+    //id2prio.put("DA_DRAUS", 1);
     id2prio.put("AUSSER_ORDENTLICH", 1);
     id2prio.put("IN_UND_AUSWENDIG", 1); // prefer over DE_CASE
     id2prio.put("HIER_MIT", 1); // prefer over agreement rules
@@ -384,7 +384,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("DASS_DAS_PA2_DAS_PROIND", 1); // prefer over HILFSVERB_HABEN_SEIN, DE_AGREEMENT
     id2prio.put("AUF_BITTEN", 1); // prefer over ZUSAMMENGESETZTE_VERBEN
     id2prio.put("MEINET_WEGEN", 1); // prefer over AUF_DEM_WEG
-    id2prio.put("FUER_INBESONDERE", 1); // prefer over KOMMA_VOR_ERLAEUTERUNG
+    id2prio.put("FUER_INSBESONDERE", 1); // prefer over KOMMA_VOR_ERLAEUTERUNG
     id2prio.put("COVID_19", 1); // prefer over PRAEP_GEN and DE_AGREEMENT
     id2prio.put("DA_VOR", 1); // prefer over ZUSAMMENGESETZTE_VERBEN
     id2prio.put("KLEINSCHREIBUNG_MAL", 1); // prefer over DE_AGREEMENT
@@ -396,12 +396,12 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("AB_TEST", 1); // prefer over spell checker and agreement
     id2prio.put("BZGL_ABK", 1); // prefer over spell checker
     id2prio.put("DURCH_WACHSEN", 1); // prefer over SUBSTANTIVIERUNG_NACH_DURCH
-    id2prio.put("ICH_WARTE", 1); // prefer over verb agreement rules (e.g. SUBJECT_VERB_AGREEMENT)
+    //id2prio.put("ICH_WARTE", 1); // prefer over verb agreement rules (e.g. SUBJECT_VERB_AGREEMENT)
     id2prio.put("RUNDUM_SORGLOS_PAKET", 1); // higher prio than DE_CASE
     id2prio.put("MIT_FREUNDLICHEN_GRUESSE", 1); // higher prio than MEIN_KLEIN_HAUS
     id2prio.put("OK", 1); // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
     id2prio.put("EINE_ORIGINAL_RECHNUNG", 1); // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
-    id2prio.put("VALENZ_TEST", 1); // see if this generates more corpus matches
+    //id2prio.put("VALENZ_TEST", 1); // see if this generates more corpus matches
     id2prio.put("WAEHRUNGSANGABEN_CHF", 1); // higher prio than WAEHRUNGSANGABEN_KOMMA
     // default is 0
     id2prio.put("FALSCHES_ANFUEHRUNGSZEICHEN", -1); // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS
@@ -439,13 +439,13 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("DOPPELTER_NOMINATIV", -2);  // give precedence to wie-wir-wird confusion rules
     id2prio.put("KUDAMM", -2);   // overwrite spell checker
     id2prio.put("ALTERNATIVEN_FUER_ANGLIZISMEN", -2);   // overwrite spell checker
-    id2prio.put("ANGLIZISMUS_INTERNAL", -2);   // overwrite spell checker
+    //id2prio.put("ANGLIZISMUS_INTERNAL", -2);   // overwrite spell checker
     id2prio.put("DOPPELUNG_VER_MOD_AUX", -2);
     //id2prio.put("AERZTEN_INNEN", -2);  // overwrite speller ("Ärzte/-innen")
     id2prio.put("ANGLIZISMEN", -2);   // overwrite spell checker
     id2prio.put("ANGLIZISMUS_PA_MIT_ED", -2);   // overwrite spell checker
     id2prio.put("MEINSTE", -2);   // overwrite spell checker
-    id2prio.put("ZAHL_IM_WORT", -2); //should not override rules like H2O
+    //id2prio.put("ZAHL_IM_WORT", -2); //should not override rules like H2O
     id2prio.put("ICH_LIEBS", -2);  // higher prio than spell checker
     id2prio.put("WENNS_UND_ABERS", -2);  // higher prio than spell checker
     id2prio.put("ABERS_SATZANFANG_SPELLING_RULE", -2);  // higher prio than spell checker
@@ -475,7 +475,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("SUBJECT_VERB_AGREEMENT", -5); // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
     id2prio.put("SAGT_SAGT", -9); // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
     //id2prio.put("PUNKT_ENDE_ABSATZ", -10);  // should never hide other errors, as chance for a false alarm is quite high
-    id2prio.put("KOMMA_VOR_RELATIVSATZ", -10);
+    //id2prio.put("KOMMA_VOR_RELATIVSATZ", -10);
     id2prio.put("VON_LEBENSLAEUFE", -12); // less prio than AI
     id2prio.put("VER_WER_VER_3", -12); // less prio than AI
     id2prio.put("PA_WAS", -12); // less prio than AI

@@ -35,6 +35,8 @@ import java.util.stream.Collectors;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.languagetool.rules.Categories.*;
+import static org.languagetool.rules.Categories.TYPOS;
 
 public class LanguageSpecificTest {
 
@@ -317,6 +319,23 @@ public class LanguageSpecificTest {
       }
       i++;
     }
+  }
+
+  protected static Set<String> getAllRuleIds(Language... langs) {
+    Set<String> ids = new HashSet<>();
+    for (Language lang : langs) {
+      JLanguageTool lt = new JLanguageTool(lang);
+      for (Rule rule : lt.getAllRules()) {
+        ids.add(rule.getId());
+      }
+    }
+    List<Categories> cats = Arrays.asList(STYLE, REPETITIONS_STYLE, REPETITIONS, CASING, COMPOUNDING,
+      COLLOQUIALISMS, CONFUSED_WORDS, FALSE_FRIENDS, GENDER_NEUTRALITY, GRAMMAR, MISC, PLAIN_ENGLISH,
+      REDUNDANCY, REGIONALISMS, PUNCTUATION, TYPOGRAPHY, WIKIPEDIA, TYPOS);
+    for (Categories cat : cats) {
+      ids.add(cat.getId().toString());
+    }
+    return ids;
   }
 
   private void failTest(Language lang, String text, List<String> expectedMatchIds, List<String> actualRuleIds) {
