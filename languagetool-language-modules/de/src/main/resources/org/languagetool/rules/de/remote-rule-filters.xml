@@ -2242,16 +2242,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
-            <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
+            <rule><!--1--> <!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">mydays|essie</token><!-- can be extended by other words-->
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>
-            <rule><!--2-->
+            <rule><!--2--> <!-- gGEC wants to capitalize the word, but lower case is intended -->
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes">mords</token>
+                        <token case_sensitive="yes" regexp="yes">mords|capella</token>
                     </marker>
                     <token postag="ADJ.*" postag_regexp="yes"/>
                 </pattern>
