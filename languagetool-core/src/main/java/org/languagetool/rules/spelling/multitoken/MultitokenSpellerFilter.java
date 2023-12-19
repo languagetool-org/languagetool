@@ -53,6 +53,14 @@ public class MultitokenSpellerFilter extends RuleFilter {
     if (replacements.isEmpty()) {
       return null;
     }
+    if (patternTokenPos==1) {
+      List<String> capitalizedReplacements = new ArrayList<>();
+      for (String replacement : replacements) {
+        String capitalized = StringTools.uppercaseFirstChar(replacement);
+        capitalizedReplacements.add(capitalized);
+      }
+      replacements = capitalizedReplacements;
+    }
     match.setSuggestedReplacements(replacements);
     return match;
   }
