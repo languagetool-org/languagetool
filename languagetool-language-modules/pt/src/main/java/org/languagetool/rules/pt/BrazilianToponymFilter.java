@@ -27,6 +27,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 public class BrazilianToponymFilter extends RegexRuleFilter {
+  private static final BrazilianToponymMap map = new BrazilianToponymMap();
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedSentence sentence, Matcher matcher) {
     String toponym = matcher.group(1);
@@ -38,7 +40,6 @@ public class BrazilianToponymFilter extends RegexRuleFilter {
     if (suggestion.equals(underlined)) {
       return null;
     }
-    BrazilianToponymMap map = new BrazilianToponymMap();
     // If it isn't a city in *any* state, it's prob. not intended as a city, so we don't perform the check.
     if (!map.isValidToponym(toponym)) {
       return null;
