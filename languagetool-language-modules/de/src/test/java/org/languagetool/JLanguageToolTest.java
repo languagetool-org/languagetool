@@ -38,12 +38,12 @@ public class JLanguageToolTest {
     lt.setListUnknownWords(true);
     // no spelling mistakes as we have not created a variant:
     if (Premium.isPremiumVersion()) {
-      assertEquals(1, lt.check("I can give you more a detailed description").size());
+      assertEquals(1, lt.check("I can give him more a detailed description").size());
     } else {
-      assertEquals(0, lt.check("I can give you more a detailed description").size());
+      assertEquals(0, lt.check("I can give him more a detailed description").size());
     }
     //test unknown words listing
-    assertEquals("[I, can, description, detailed, give, more, you]", lt.getUnknownWords().toString());    
+    assertEquals("[I, can, description, detailed, give, him, more]", lt.getUnknownWords().toString());
   }
 
   @Test
@@ -54,12 +54,12 @@ public class JLanguageToolTest {
     lt.setListUnknownWords(true);
     // German rule has no effect with English error, but they are spelling mistakes:
     if (Premium.isPremiumVersion()) {
-      assertEquals(7, lt.check("I can give you more a detailed description").size());
+      assertEquals(7, lt.check("I can give him more a detailed description").size());
     } else {
-      assertEquals(6, lt.check("I can give you more a detailed description").size());
+      assertEquals(6, lt.check("I can give him more a detailed description").size());
     }
     //test unknown words listing
-    assertEquals("[I, can, description, detailed, give, more, you]", lt.getUnknownWords().toString());
+    assertEquals("[I, can, description, detailed, give, him, more]", lt.getUnknownWords().toString());
   }
 
   @Test
