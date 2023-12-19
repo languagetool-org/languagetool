@@ -214,6 +214,8 @@ public class SingleCheck {
       }
       int cursorType = tPara.type;
       
+      int startPara = docCache.getStartOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
+      int endPara = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
       String textToCheck = docCache.getDocAsString(tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       List<RuleMatch> paragraphMatches = null;
       List<Integer> nextSentencePositions = null;
@@ -221,16 +223,15 @@ public class SingleCheck {
       //        but empty proof reading errors have added to cache to satisfy text level queue
       if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
         if (!docCache.isAutomaticGenerated(nFPara)) {
-          paragraphMatches = lt.check(textToCheck, true, 
-              cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA);
+          paragraphMatches = lt.check(textToCheck,  
+              cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA,
+                  new TextParagraph(tPara.type, startPara), new TextParagraph(tPara.type, endPara), singleDocument);
         }
         if (cacheNum == 0) {
           nextSentencePositions = getNextSentencePositions(textToCheck, lt);
         }
       }
       
-      int startPara = docCache.getStartOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
-      int endPara = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
       int startPos = docCache.getStartOfParagraph(startPara, tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       int endPos;
       if (debugMode > 1) {
@@ -252,7 +253,7 @@ public class SingleCheck {
         } else {
           endPos = textToCheck.length();
         }
-        if (paragraphMatches == null || paragraphMatches.isEmpty()) {
+        if (paragraphMatches == null || paragraphMatches.isEmpty() || lt == null) {
           paragraphsCache.get(cacheNum).put(docCache.getFlatParagraphNumber(textPara), nextSentencePositions, new SingleProofreadingError[0]);
           if (debugMode > 1) {
             MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: Enter to para cache(" + cacheNum + "): Paragraph(" 
@@ -563,7 +564,7 @@ public class SingleCheck {
           paragraphMatches = null;
         } else {
           paraText = removeFootnotes(paraText, footnotePos, deletedChars);
-          paragraphMatches = mLt.check(paraText, true, JLanguageTool.ParagraphHandling.NORMAL);
+          paragraphMatches = mLt.check(paraText, JLanguageTool.ParagraphHandling.NORMAL, nFPara, singleDocument);
         }
         if (isDisposed()) {
           return null;

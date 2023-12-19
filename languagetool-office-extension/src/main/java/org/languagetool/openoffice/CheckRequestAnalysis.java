@@ -662,6 +662,9 @@ class CheckRequestAnalysis {
       for (ResultCache cache : paragraphsCache) {
         cache.removeAndShift(changed.from, changed.to, changed.oldSize, changed.newSize);
       }
+      if (mDocHandler.useAnalyzedSentencesCache()) {
+        docCache.removeAndShiftAnalyzedParagraph(changed.from, changed.to, changed.oldSize, changed.newSize);
+      }
       if (useQueue) {
         if (debugMode > 0) {
           MessageHandler.printToLogFile("CheckRequestAnalysis: handleCacheChanges: Number of Paragraphs has changed: new: " + changed.newSize 
