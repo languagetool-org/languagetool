@@ -10,6 +10,9 @@
 <!ENTITY minus_sign "−">
 
 <!-- ORDINALS, SUPERSCRIPTS, DEGREE SIGNS, AND OTHER NONSENSE 😩 -->
+<!-- For some reason, entities with special characters do NOT work in the disambiguation.xml file 
+I've tried making explicit reference to the hex or decimal entities, and that also fails, incl. when used
+in the disambiguation file directly. There might be something off with the encoding, but idk where.-->
 <!ENTITY ordf "ª">
 <!ENTITY ordm "º">
 
@@ -28,6 +31,7 @@
 <!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿→⇋]|\=|\+">
 
 <!ENTITY currency_symbols "\p{Lu}*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]">
+<!ENTITY degree_abbrevs "[CFKNSEWO]">
 
 <!-- Convenience entity, should encompass all valid numbers that the PT tokeniser doesn't split. -->
 <!ENTITY number_token "&minus_sign;?\d+[\d,.]*">
@@ -35,3 +39,4 @@
 <!ENTITY degree_token "&number_token;&nnbsp;?&deg;">
 <!-- No decimals or negatives, as that makes no sense, only thousands allowed -->
 <!ENTITY ordinal_token "&number_token_no_decimal;&any_ord;">
+

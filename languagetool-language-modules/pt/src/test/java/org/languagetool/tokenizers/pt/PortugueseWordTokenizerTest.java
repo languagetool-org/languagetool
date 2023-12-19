@@ -156,8 +156,17 @@ public class PortugueseWordTokenizerTest {
     testTokenise("22.a", new String[]{"22.a"});
     testTokenise("23as", new String[]{"23as"});
     testTokenise("24.as", new String[]{"24.as"});
-    // Degree sign, just to be absolutely sure
+  }
+
+  @Test
+  public void testDoNotTokeniseDegreeExpressions() {
     testTokenise("25°", new String[]{"25°"});
+    testTokenise("26,0°", new String[]{"26,0°"});
+    testTokenise("27.0°", new String[]{"27.0°"});
+    testTokenise("28,0°C", new String[]{"28,0°C"});
+    testTokenise("29.0°C", new String[]{"29.0°C"});
+    testTokenise("30,0°c", new String[]{"30,0°c"});
+    testTokenise("31.0°c", new String[]{"31.0°c"});
   }
 
   @Test
