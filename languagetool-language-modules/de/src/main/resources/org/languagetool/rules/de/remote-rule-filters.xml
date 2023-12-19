@@ -218,6 +218,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule>
                 <pattern>
+                    <token regexp="yes">ge?rade</token>
+                    <marker>
+                        <token>einmal</token>
+                    </marker>
+                    <token regexp="yes">[1-9]{4}</token>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Demnach verkaufte Mercedes in Fernost gerade <marker>einmal</marker> 1628 Einheiten des EQS.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="VER.*" postag_regexp="yes"/>
                     <marker>
                         <token>wie</token>
@@ -1844,7 +1855,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--7-->
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten</token>
+                    <token case_sensitive="yes" regexp="yes">Neoromanik|Tonfunkensender(s|n)?|Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten</token>
                 </pattern>
                 <example correction="">Eine <marker>Aaltreppe</marker> ermöglicht eine Umgehung von Hindernissen in Gewässern.</example>
             </rule>
@@ -2056,7 +2067,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token regexp="yes">Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?</token>
+                    <token regexp="yes">Mährerreich|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>
@@ -2242,16 +2253,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
-            <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
+            <rule><!--1--> <!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">mydays|essie</token><!-- can be extended by other words-->
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>
-            <rule><!--2-->
+            <rule><!--2--> <!-- gGEC wants to capitalize the word, but lower case is intended -->
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes">mords</token>
+                        <token case_sensitive="yes" regexp="yes">mords|cappella</token>
                     </marker>
                     <token postag="ADJ.*" postag_regexp="yes"/>
                 </pattern>

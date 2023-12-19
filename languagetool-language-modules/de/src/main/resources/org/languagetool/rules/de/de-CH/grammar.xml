@@ -106,13 +106,13 @@
               <example>3'452 ist eine Zahl.</example>
             </antipattern>
             <antipattern>
-              <token skip="-1" inflected="yes" regexp="yes">.*auftrag|bestellung|.*nummer|.*passwort</token>
+              <token skip="-1" inflected="yes" regexp="yes">.*auftrag|.*bestellung|.*nummer|.*passwort|.*rechnung</token>
               <token regexp="yes">\d{5,9}</token>
               <example>Die Bestellung 12345678 wurde erfolgreich storniert.</example>
             </antipattern>
             <antipattern>
               <token skip="-1" regexp="yes">\d{5,9}</token>
-              <token inflected="yes" regexp="yes">.*auftrag|bestellung|.*nummer|.*passwort</token>
+              <token inflected="yes" regexp="yes">.*auftrag|.*bestellung|.*nummer|.*passwort|.*rechnung</token>
               <example>12345678 lautet die Bestellnummer.</example>
             </antipattern>
             <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[1] --><!-- 4 Ziffern-->
@@ -135,8 +135,9 @@
             </rule>
             <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[2] --><!-- 5 und 6 Ziffern-->
                 <antipattern>
-                    <token regexp="yes">(\d{2})(\d{3})</token>
+                    <token regexp="yes">\d{4,5}</token>
                     <token case_sensitive="yes" postag="(EIG.*STD|UNKNOWN).*" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <example>3001 Bern</example>
                     <example>20459 Hamburg</example>
                 </antipattern>
                 <pattern>

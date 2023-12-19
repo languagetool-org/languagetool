@@ -522,6 +522,7 @@ public class German extends Language implements AutoCloseable {
       case "DOPPELUNG_GLEICHES_VERB": return -55; // prefer comma rules
       case "FEHLENDES_NOMEN": return -60; // lower prio than most rules
       case "REPETITIONS_STYLE": return -60;
+      case "GERMAN_WORD_REPEAT_BEGINNING_RULE": return -61;
       case "MAN_SIEHT_SEHR_SCHOEN": return -14; // prefer over SEHR_SCHOEN
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "TYPOGRAPHY": return -14;

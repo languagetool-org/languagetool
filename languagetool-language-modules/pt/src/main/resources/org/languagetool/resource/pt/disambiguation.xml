@@ -33,6 +33,7 @@
         <!ENTITY % verbs     SYSTEM "../../resource/pt/entities/verbs.ent"    >
         <!ENTITY % languages SYSTEM "../../resource/pt/entities/languages.ent">
         <!ENTITY % postal    SYSTEM "../../resource/pt/entities/postal.ent"   >
+        <!ENTITY % chars     SYSTEM "../../../resource/pt/entities/chars.ent"    >
         %messages;
         %datetime;
         %misc;
@@ -41,6 +42,7 @@
         %verbs;
         %languages;
         %postal;
+        %chars;
         ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -2887,22 +2889,22 @@
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
     <rule>
       <pattern>
-        <token regexp="yes">1[º°′″‴] ?[CFKNSEWO]?
+        <token regexp="yes">1[&deg;′″‴] ?[CFKNSEWO]?
           <exception>1º</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/></disambig>
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEWO]?
-          <exception regexp='yes'>1[º°′″‴].?</exception>
-          <exception regexp='yes'>\d+º</exception></token>
+        <token regexp="yes">[\d,. ]+[&deg;′″‴][CFKNSEWO]?
+          <exception regexp='yes'>1[&deg;′″‴].?</exception>
+          <exception regexp='yes'>\d+&ordm;</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/></disambig>
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">1[º°′″‴]</token>
+        <token regexp="yes">1[&deg;′″‴]</token>
         <token regexp="yes" spacebefore='yes'>[CFKNSEWO]
           <exception case_sensitive='yes' regexp='yes'>[eo]</exception></token>
       </pattern>
@@ -2910,7 +2912,7 @@
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">[\d,. ]+[º°′″‴]</token>
+        <token regexp="yes">[\d,. ]+[&deg;′″‴]</token>
         <token regexp="yes" spacebefore='yes'>[CFKNSEWO]
           <exception case_sensitive='yes' regexp='yes'>[eo]</exception></token>
       </pattern>
@@ -2918,20 +2920,13 @@
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">[º°][CFKNSEWO]</token>
+        <token regexp="yes">[&deg;][CFKNSEWO]</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMN000"/></disambig>
     </rule>
     <rule>
       <pattern>
-        <token regexp='yes'>\d+[\.&#57347;]?º</token>
-        <token regexp='yes'>\d+(?:[\.,]\d+)?[′']</token>
-      </pattern>
-      <disambig action="replace"><wd pos="NCMN000"/><wd pos="NCMN000"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">[\d,. ]*[º°′″‴][CFKNSEWO]</token>
+        <token regexp="yes">[\d,. ]*[&deg;′″‴][CFKNSEWO]</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -4000,7 +3995,7 @@
 
     <rule id="ORDINAL_SUPERSCRIPT_IGNORE">
          <pattern>
-            <token regexp="yes">\d+[°ºª]\d*</token>
+            <token regexp="yes">\d+[&ordf;&ordm;&sup_a;&sup_o;&deg;][&sup_s;]?\d*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
