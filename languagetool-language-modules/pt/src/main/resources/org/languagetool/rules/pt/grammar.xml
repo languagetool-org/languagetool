@@ -41142,6 +41142,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rulegroup id="SIMBOLO_DE_GRAUS_COM_UNIDADE_EM_MINUSCULA" name="Pôr em maiúscula o símbolo da escala em graus nomeados (e.g. &deg;c => &deg;C)." default="temp_off">
+            <!-- p-goulart@2023-12-19 - DESC: the rules to fix the spacing are elsewhere. The capitalisation should be prioritised. -->
+            <rule>
+                <regexp case_sensitive="yes" mark="1">°([cfknsewo])\b</regexp>
+                <message>Ponha o símbolo da escala em maiúscula.</message>
+                <suggestion><match no="1" case_conversion='allupper' regexp_match="(\p{Ll})" regexp_replace="$1"/></suggestion>
+                <example correction="W">Fez 69,5&deg;<marker>w</marker> ontem.</example>
+                <example correction="C">Fez 22,5&deg;<marker>c</marker> ontem.</example>
+                <example>Fez 40&deg;C ontem.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id='DEGREE_SYMBOL' name="Indicador de ordinal ou sobrescrito usado no lugar do símbolo de grau (°)" default="temp_off">
             <rule id="DEGREE_SYMBOL_WITH_DEGREE_TYPE">
                 <!-- This rule, unlike SIMBOLO_DE_GRAU_ESPACAMENTO, preserves the user's spaces.
