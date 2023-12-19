@@ -12675,7 +12675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Ele teve-a como perdida.</example>
         </rule>
 
-        <rulegroup id="MESOCLISE_DE_VERBOS_IRREGULARES" name="Mesóclise com infinitivo de verbos irregulares" default="temp_off">
+        <rulegroup id="MESOCLISE_DE_VERBOS_IRREGULARES" name="Mesóclise com infinitivo de verbos irregulares">
             <!-- Must be placed AFTER the rules that correct improper enclitic/mesoclitic pronoun forms. -->
             <rule id="MESOCLISE_DE_VERBOS_IRREGULARES_DIZER_DIZÊ">
                 <pattern>
@@ -13144,7 +13144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="COLOCAO_PRONOMINAL_EM_O_SENDO" name="Preferir a próclise em construções do tipo 'em o sendo'" default="temp_off">
+        <rulegroup id="COLOCACAO_PRONOMINAL_EM_O_SENDO" name="Preferir a próclise em construções do tipo 'em o sendo'" default="temp_off">
             <rule>
                 <pattern>
                     <token>em</token>
@@ -41226,12 +41226,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="SIMBOLO_DE_GRAU_ESPACAMENTO" name="Dar espaçamento antes do símbolo de grau em escalas com nomes." default="temp_off">
+        <rulegroup id="SIMBOLO_DE_GRAU_ESPACAMENTO" name="Dar espaçamento antes do símbolo de grau em escalas com nomes.">
             <!--Our strategy was to suggest a narrow non-breaking space even when
             users manually input a regular whitespace. Now we will only
             trigger when users skip the space altogether. Trust their word
             processing software to know what to do; LT can't do that reliably.-->
-            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM">
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM" default="on">
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">&degree_token;[CFNSEW]</token>
                 </pattern>
@@ -41239,7 +41239,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no="1" regexp_match="^(.+)(&deg;[CFNSEW])$" regexp_replace="$1&nnbsp;$2"/></suggestion>
                 <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg;C</marker> à sombra.</example>
             </rule>
-            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE">
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE" default="temp_off">
                 <pattern>
                     <token regexp="yes">&degree_token;</token>
                     <token regexp="yes" spacebefore="yes" case_sensitive="yes">[CFNSEW]</token>
@@ -41250,7 +41250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="SIMBOLO_DE_GRAU_ORDINAL" name="Símbolo de grau usado no lugar de um indicator ordinal." default="temp_off">
+        <rulegroup id="SIMBOLO_DE_GRAU_ORDINAL" name="Símbolo de grau usado no lugar de um indicator ordinal." default="on" tags="picky">
             <rule> <!-- singular, dot-separated -->
                 <pattern>
                     <token regexp="yes">&number_token_no_decimal;</token>
@@ -41298,7 +41298,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id="POSICAO_DO_PONTO_EM_ORDINAL_ABREVIADO" name="Pôr o ponto entre o número e o indicador de ordinal, e não depois deste." default="temp_off">
+        <rule id="POSICAO_DO_PONTO_EM_ORDINAL_ABREVIADO" name="Pôr o ponto entre o número e o indicador de ordinal, e não depois deste." default="on">
             <pattern>
                 <marker>
                     <token regexp='yes' case_sensitive='yes'>\d+\.?&any_ord;</token>
