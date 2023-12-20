@@ -36,6 +36,13 @@ class CaseRuleAntiPatterns {
   // also see case_rule_exceptions.txt:
   static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      csRegex("Republik"),
+      csRegex("der"),
+      csRegex("Sieben"),
+      csRegex("Vereinigten"),
+      csRegex("Provinzen|Niederlande")
+    ),
+    Arrays.asList(
       csRegex("Rat"),
       csRegex("für"),
       csRegex("das"),
