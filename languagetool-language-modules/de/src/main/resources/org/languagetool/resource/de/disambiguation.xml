@@ -2227,6 +2227,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
     </rulegroup>
 
+    <rule name=".+shalber → ADV" id="VORSICHTSHALBER">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.+shalber</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="ADV:MOD"/>
+        </disambig>
+        <example type="ambiguous" inputform="vorsichtshalber[vorsichtshalber]" outputform="vorsichtshalber[vorsichtshalber/ADV:MOD]">Wir blieben <marker>vorsichtshalber</marker> in der Wohnung.</example>
+    </rule>
+
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
