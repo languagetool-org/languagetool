@@ -1007,10 +1007,6 @@ public abstract class Language {
 
   /**
    * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
-   *
-   * @param ruleMatches
-   * @param text
-   * @param enabledRules
    * @return filtered ruleMatches
    */
   public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
@@ -1021,6 +1017,9 @@ public abstract class Language {
     return null;
   }
 
+  /**
+   * @since 6.4
+   */
   public Map<String, Integer> getPriorityMap() {
     return new HashMap<>();
   }
