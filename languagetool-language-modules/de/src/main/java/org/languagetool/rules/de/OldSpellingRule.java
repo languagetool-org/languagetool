@@ -78,7 +78,6 @@ public class OldSpellingRule extends Rule {
       }
       boolean ignore = false;
       for (String exception : EXCEPTIONS) {
-        String pattern = "(?i)\\b" + Pattern.quote(exception) + "\\b";
         if (text.regionMatches(true, hit.begin, exception, 0, exception.length()) ||
           text.regionMatches(true, hit.end - exception.length(), exception, 0, exception.length())) {
           ignore = true;
