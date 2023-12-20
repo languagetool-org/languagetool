@@ -488,6 +488,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("SAGT_RUFT", -13); // prefer id2prio.put(rules, DE_VERBAGREEMENT, AI and speller
     id2prio.put("KANNST_WERDEN", -13); // prefer more specific rules that offer a suggestion (A.I., spelling)
     id2prio.put("KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2", -14); // lower prio than SAGT_SAGT, but higher than GERMAN_WORD_REPEAT_RULE
+    id2prio.put("MAN_SIEHT_SEHR_SCHOEN", -14); // prefer over SEHR_SCHOEN
     id2prio.put("BEI_VERB", -14); // prefer case, spelling and AI rules
     id2prio.put("MODALVERB_FLEKT_VERB", -14); // prefer case, spelling and AI rules
     id2prio.put("DATIV_NACH_PRP", -14); // spelling and AI rules
@@ -519,7 +520,6 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("FEHLENDES_NOMEN", -60); // lower prio than most rules
     id2prio.put("REPETITIONS_STYLE", -60);
     id2prio.put("GERMAN_WORD_REPEAT_BEGINNING_RULE", -61); 
-    id2prio.put("MAN_SIEHT_SEHR_SCHOEN", -14); // prefer over SEHR_SCHOEN
     // Category ids - make sure style issues don't hide overlapping "real" errors:
     id2prio.put("TYPOGRAPHY", -14);
     id2prio.put("COLLOQUIALISMS", -15);
