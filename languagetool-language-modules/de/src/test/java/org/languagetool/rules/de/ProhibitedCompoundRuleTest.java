@@ -29,12 +29,9 @@ import java.util.*;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 
@@ -148,27 +145,6 @@ public class ProhibitedCompoundRuleTest {
     String markedText = input.substring(matches[0].getFromPos(), matches[0].getToPos());
     assertThat(markedText, is(expectedMarkedText));
     assertThat(matches[0].getSuggestedReplacements().toString(), is("[" + expectedSuggestions + "]"));
-  }
-
-  ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
-    return getRule(languageModelPath, ProhibitedCompoundRule.RULE_ID);
-  }
-
-  ProhibitedCompoundRule getRule(String languageModelPath, String ruleId) throws IOException {
-    Language lang = Languages.getLanguageForShortCode("de");
-    LanguageModel languageModel = new LuceneLanguageModel(new File(languageModelPath, lang.getShortCode()));
-    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);
-    if (rules == null) {
-      throw new RuntimeException("Language " + lang + " doesn't seem to support a language model");
-    }
-    ProhibitedCompoundRule foundRule = null;
-    for (Rule rule : rules) {
-      if (rule.getId().equals(ruleId)) {
-        foundRule = (ProhibitedCompoundRule) rule;
-        break;
-      }
-    }
-    return foundRule;
   }
 
 }
