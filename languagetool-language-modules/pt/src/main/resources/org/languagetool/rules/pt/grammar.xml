@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!ENTITY % languages  SYSTEM "../../resource/pt/entities/languages.ent">
         <!ENTITY % postal     SYSTEM "../../resource/pt/entities/postal.ent"   >
         <!ENTITY % hyphenised SYSTEM "../../resource/pt/entities/hyphenised.ent"   >
-        <!ENTITY % chars     SYSTEM "../../../resource/pt/entities/chars.ent"    >
+        <!ENTITY % chars      SYSTEM "../../resource/pt/entities/chars.ent"    >
         %messages;
         %datetime;
         %misc;
@@ -12675,7 +12675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Ele teve-a como perdida.</example>
         </rule>
 
-        <rulegroup id="MESOCLISE_DE_VERBOS_IRREGULARES" name="Mesóclise com infinitivo de verbos irregulares" default="temp_off">
+        <rulegroup id="MESOCLISE_DE_VERBOS_IRREGULARES" name="Mesóclise com infinitivo de verbos irregulares">
             <!-- Must be placed AFTER the rules that correct improper enclitic/mesoclitic pronoun forms. -->
             <rule id="MESOCLISE_DE_VERBOS_IRREGULARES_DIZER_DIZÊ">
                 <pattern>
@@ -13144,7 +13144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="COLOCAO_PRONOMINAL_EM_O_SENDO" name="Preferir a próclise em construções do tipo 'em o sendo'" default="temp_off">
+        <rulegroup id="COLOCACAO_PRONOMINAL_EM_O_SENDO" name="Preferir a próclise em construções do tipo 'em o sendo'" default="temp_off">
             <rule>
                 <pattern>
                     <token>em</token>
@@ -14472,7 +14472,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='à'>Correu em direção <marker>a</marker> saída. </example>
             </rule>
 
-            <rule default="temp_off"><!--6-->
+            <rule><!--6-->
                 <pattern>
                     <or>
                         <token postag="N.+" postag_regexp="yes">
@@ -14483,7 +14483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp="yes">a</token>
                     </marker>
                     <token>venda</token>
-                    <token negate="yes" postag="SPS.+" postag_regexp="yes" regexp="yes">d*</token>
+                    <token negate="yes" postag="SPS.+" postag_regexp="yes" regexp="yes">d.*</token>
                 </pattern>
                 <message>Se a inteção é dizer que algo está sendo vendido, então esta expressão requer o uso da crase.</message>
                 <suggestion>à</suggestion>
@@ -14491,6 +14491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='à'>A casa está <marker>a</marker> venda em Aranguera.</example>
                 <example>não posso decidir sozinho sobre a venda da casa.</example>
                 <example> pergunta sobre a venda que efetuou há 2 anos?</example>
+                <example>a verba tem como origem a venda dos CEPACs</example>
             </rule>
         </rulegroup>
 
@@ -32170,33 +32171,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='CONFUSÃO_APROXIMA_A_PRÓXIMA' name="Confusão de termos: aproxima/'a próxima'" default="temp_off">
+        <rule id='CONFUSÃO_APROXIMA_A_PRÓXIMA' name="Confusão de termos: aproxima/'a próxima'/'aproximar'">
             <pattern>
                 <token>para</token>
                 <marker>
                     <token>aproxima</token>
                 </marker>
             </pattern>
-            <message>Possível confusão de termos.</message>
+            <message>Possível confusão de termos. Empregue &quot;a próxima&quot; ou &quot;aproximar&quot;</message>
             <suggestion>a próxima</suggestion>
-            <example correction="a próxima">Gostava de poder ir... fica para <marker>aproxima</marker>.</example>
+            <suggestion>aproximar</suggestion>
+            <example correction="a próxima|aproximar">O jogo fica para <marker>aproxima</marker> corações.</example>
         </rule>
 
 
-        <rule id='ARREAR_ARRIAR' name="Confusão de termos: arrear/arriar" default="temp_off">
+        <rule id='ARREAR_ARRIAR' name="Confusão de termos: arrear/arriar">
             <pattern>
                 <marker>
                     <token skip="4" inflected='yes'>arrear</token>
                 </marker>
                 <token regexp='yes' inflected='yes'>bandeira|cabo|linha|rede|vela</token>
             </pattern>
-            <message>Possível confusão de termos.</message>
+            <message>Possível confusão de termos. O verbo &quot;arrear&quot; significa pôr os arreios em algo e o verbo &quot;arriar&quot; significa abaixar algo.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriar</match></suggestion>
             <example correction="arriar">Vamos <marker>arrear</marker> a vela.</example>
         </rule>
 
 
-        <rule id='CONFUSÃO_ASSERTO_ACERTO_DE_CONTAS' name="Confusão de termos: asserto/acerto" default="temp_off">
+        <rule id='CONFUSÃO_ASSERTO_ACERTO_DE_CONTAS' name="Confusão de termos: asserto/acerto">
             <pattern>
                 <marker>
                     <token skip="4">asserto</token>
@@ -32204,7 +32206,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>das|de</token>
                 <token>contas</token>
             </pattern>
-            <message>Possível confusão de termos.</message>
+            <message>Possível confusão de termos. A expressão &quot;assertar&quot; significa &quot;afirmar com convicção&quot;, enquanto &quot;acertar&quot; é o termo correto para &quot;resolver&quot; ou &quot;ajustar&quot;.</message>
             <suggestion>acerto</suggestion>
             <example correction="acerto">Vamos fazer um <marker>asserto</marker> de contas.</example>
         </rule>
@@ -41141,6 +41143,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+        <rulegroup id="SIMBOLO_DE_GRAUS_COM_UNIDADE_EM_MINUSCULA" name="Pôr em maiúscula o símbolo da escala em graus nomeados (e.g. &deg;c => &deg;C)." default="temp_off">
+            <!-- p-goulart@2023-12-19 - DESC: the rules to fix the spacing are elsewhere. The capitalisation should be prioritised. -->
+            <rule>
+                <regexp case_sensitive="yes" mark="1">°([cfknsewo])\b</regexp>
+                <message>Ponha o símbolo da escala em maiúscula.</message>
+                <suggestion><match no="1" case_conversion='allupper' regexp_match="(\p{Ll})" regexp_replace="$1"/></suggestion>
+                <example correction="W">Fez 69,5&deg;<marker>w</marker> ontem.</example>
+                <example correction="C">Fez 22,5&deg;<marker>c</marker> ontem.</example>
+                <example>Fez 40&deg;C ontem.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id='DEGREE_SYMBOL' name="Indicador de ordinal ou sobrescrito usado no lugar do símbolo de grau (°)" default="temp_off">
             <rule id="DEGREE_SYMBOL_WITH_DEGREE_TYPE">
                 <!-- This rule, unlike SIMBOLO_DE_GRAU_ESPACAMENTO, preserves the user's spaces.
@@ -41224,12 +41238,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="SIMBOLO_DE_GRAU_ESPACAMENTO" name="Dar espaçamento antes do símbolo de grau em escalas com nomes." default="temp_off">
+        <rulegroup id="SIMBOLO_DE_GRAU_ESPACAMENTO" name="Dar espaçamento antes do símbolo de grau em escalas com nomes.">
             <!--Our strategy was to suggest a narrow non-breaking space even when
             users manually input a regular whitespace. Now we will only
             trigger when users skip the space altogether. Trust their word
             processing software to know what to do; LT can't do that reliably.-->
-            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM">
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM" default="on">
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">&degree_token;[CFNSEW]</token>
                 </pattern>
@@ -41237,7 +41251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no="1" regexp_match="^(.+)(&deg;[CFNSEW])$" regexp_replace="$1&nnbsp;$2"/></suggestion>
                 <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg;C</marker> à sombra.</example>
             </rule>
-            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE">
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE" default="temp_off">
                 <pattern>
                     <token regexp="yes">&degree_token;</token>
                     <token regexp="yes" spacebefore="yes" case_sensitive="yes">[CFNSEW]</token>
@@ -41248,7 +41262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="SIMBOLO_DE_GRAU_ORDINAL" name="Símbolo de grau usado no lugar de um indicator ordinal." default="temp_off">
+        <rulegroup id="SIMBOLO_DE_GRAU_ORDINAL" name="Símbolo de grau usado no lugar de um indicator ordinal." default="on" tags="picky">
             <rule> <!-- singular, dot-separated -->
                 <pattern>
                     <token regexp="yes">&number_token_no_decimal;</token>
@@ -41296,7 +41310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id="POSICAO_DO_PONTO_EM_ORDINAL_ABREVIADO" name="Pôr o ponto entre o número e o indicador de ordinal, e não depois deste." default="temp_off">
+        <rule id="POSICAO_DO_PONTO_EM_ORDINAL_ABREVIADO" name="Pôr o ponto entre o número e o indicador de ordinal, e não depois deste." default="on">
             <pattern>
                 <marker>
                     <token regexp='yes' case_sensitive='yes'>\d+\.?&any_ord;</token>
@@ -42230,44 +42244,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
         <rulegroup id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA" name="Usar meia-risca entre municípios e estados brasileiros" default="temp_off">
-            <antipattern> <!-- correct format, note the spacing -->
-                <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                <token spacebefore="no">–</token>
-                <token case_sensitive="yes" regexp="yes" spacebefore="no">&state_abbrev_all;</token>
-                <example>Nasceu em Niterói–RJ.</example>
-            </antipattern>
             <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PARENTESES"> <!-- #1: brackets -->
-                <pattern>
-                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                    <marker>
-                        <token>(</token>
-                        <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
-                        <token>)</token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <!-- touch this and die :) -->
+                <regexp case_sensitive="yes" mark="2">(\p{Lu}\p{Ll}*(?:[- ](?:&lowercase_in_brazilian_toponyms;)?[- ]?(?:\p{Lu}\p{Ll}*))*)+(\s?\((&state_abbrev_brazil;)\))</regexp>
+                <filter class="org.languagetool.rules.pt.BrazilianToponymFilter" args="foo:bar"/>
                 <message>&brazilian_states_msg;</message>
-                <suggestion>–\3</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <example>Nasceu em Niterói–RJ.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>(RJ)</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> (RJ)</marker> e morreu lá.</example>
+                <example>O candidato a prefeito Fernando Gabeira (RJ).</example>
             </rule>
             <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PONTUACAO_SIMPLES"> <!-- #2: simple separators -->
-                <pattern>
-                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                    <marker>
-                        <token regexp="yes">[-–—/,]</token> <!-- hifen, n-dash, m-dash, forward slash, comma -->
-                        <token case_sensitive="yes" regexp="yes">&state_abbrev_brazil;</token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
+                <regexp case_sensitive="yes" mark="2">(\p{Lu}\p{Ll}*(?:[- ](?:&lowercase_in_brazilian_toponyms;)?[- ]?(?:\p{Lu}\p{Ll}*))*)+(\s?[-–—/,]?\s?(&state_abbrev_brazil;))</regexp>
+                <filter class="org.languagetool.rules.pt.BrazilianToponymFilter" args="foo:bar"/>
                 <message>&brazilian_states_msg;</message>
-                <suggestion>–\3</suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <!-- simple tests for separator and spacing -->
+                <example>Nasceu em Niterói–RJ.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> – RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>/RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker> — RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>-RJ</marker>.</example>
                 <example correction="–RJ">Nasceu em Niterói<marker>, RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker> RJ</marker>.</example>
+                <example correction="–RJ">Nasceu em Niterói<marker>RJ</marker>.</example>
+                <!-- tests for toponym structure -->
+                <example correction="–RJ">Nativo de Angra dos Reis<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Duas Barras<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Santo Antônio de Pádua<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Varre-Sai<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de São José do Vale do Rio Preto<marker>/RJ</marker>.</example>
+                <example correction="–RJ">Nativo de Varre Sai<marker>/RJ</marker>.</example> <!-- correct form has hyphen, but we're flexible -->
+                <example correction="–RJ">Nativo de Paty Do Alferes<marker>/RJ</marker>.</example> <!-- bad lettercase in prep., but we're flexible -->
+                <!-- tests for non-toponyms -->
+                <example>Nativo de Oogabooga<marker>/RJ</marker>.</example>
+                <example>Nativo de Ooga Booga do Foo Bar<marker>/RJ</marker>.</example>
+                <!-- ad hoc tests from nightlies -->
                 <example>Foram 157 km2 de mata derrubados em nove Estados (AC, AM, AP, MA, MT, PA, TO, RO e RR).</example>
                 <example>Com o fechamento definitivo da Estrada do Colono (PR-495).</example>
                 <example>Cidade Alerta GO.</example>
@@ -42276,25 +42290,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Moro em SP capital.</example>
                 <example>Pode ser diferente Especificação: CE ISO9001.</example>
                 <example>Resolução da Presidência do IBGE de n° 5 (R.PR-5/02).</example>
-            </rule>
-            <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_ESPACO"> <!-- #3: espaço simples -->
-                <antipattern>
-                    <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_brazil;</token>
-                    <token regexp="yes">&hifen;|-</token>
-                    <token regexp="yes">\d+</token>
-                    <example>Rodovia Estadual BA-447.</example>
-                </antipattern>
-                <pattern>
-                    <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
-                    <marker>
-                        <token case_sensitive="yes" regexp="yes" spacebefore="yes">&state_abbrev_brazil;</token>
-                    </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.UnderlineSpacesFilter" args="underlineSpaces:before"/>
-                <message>&brazilian_states_msg;</message>
-                <suggestion>–\3</suggestion>
-                <example correction="–RJ">Nasceu em Niterói<marker> RJ</marker>.</example>
-                <example correction="–MG">São Lourenço<marker> MG</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -44238,7 +44233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Possível erro ortográfico.</message>
                 <example correction="Yuval Noah Harari"><marker>yuval Noha Harari</marker>.</example>
-                <example correction="Ossama bin Laden|Osama bin Laden"><marker>Ousama Bin Laden</marker></example>
+                <example correction="Osama bin Laden"><marker>Ousama Bin Laden</marker></example>
                 <example correction="Johann Sebastian Bach"><marker>Johan Sebastián Bach</marker>.</example>
             </rule>
             <rule>
@@ -44252,6 +44247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="Yuval Noah Harari"><marker>Yuval Noha Hariri</marker>.</example>
                 <example correction="Yuval Noah Harari"><marker>Yuval Noha Harari</marker>.</example>
                 <example correction="Johann Sebastian Bach"><marker>Johann Sebastián Bach</marker>.</example>
+                <example correction="Osama bin Laden"><marker>Ossama bin Laden</marker></example>
             </rule>
             <rule>
                 <antipattern>
@@ -44342,6 +44338,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN"/>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
                 <pattern>
                     <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
@@ -44364,10 +44365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>7c+</example>
                 <example>= $target</example>
                 <example>Alexander von Bach.</example>
-                <example>finç abui</example>
-                <example>gentq ue</example>
-                <example>cad avegada</example>
-                <example>vem arivar ahir</example>
+                <example>Notáveis são o signor Gabriele Leone, Giovanni Battista Gervasio, Pietro Denis, que viajou muito entre 1750 e 1810.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -44413,6 +44411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Yolanda Perez</example>
                 <example>Yolanda Pérez</example>
                 <example>Frederic Udina</example>
+                <example>Notáveis são o signor Gabriele Leone, Giovanni Battista Gervasio, Pietro Denis, que viajou muito entre 1750 e 1810.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -44423,6 +44422,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <antipattern>
                     <token regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">&particles_of;</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN"/>
+                    <token regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <pattern>
@@ -44441,6 +44445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Yolanda Pérez</example>
                 <example>Alexander von Bach.</example>
                 <example>RMN-GP Foto</example>
+                <example>Notáveis são o signor Gabriele Leone, Giovanni Battista Gervasio, Pietro Denis, que viajou muito entre 1750 e 1810.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PT_MULTITOKEN_SPELLING_HYPHEN" name="erros ortográficos em nomes próprios hifenizados" default="temp_off">

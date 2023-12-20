@@ -362,6 +362,15 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testPortugueseSpellerDoesNotCorrectDegreeExpressions() throws Exception {
+    assertNoErrors("1,0°", ltBR, ruleBR);
+    assertNoErrors("2°c", ltBR, ruleBR);
+    assertNoErrors("3°C", ltBR, ruleBR);
+    assertNoErrors("4,0ºc", ltBR, ruleBR);
+    assertNoErrors("5.0ºc", ltBR, ruleBR);
+  }
+
+  @Test
   public void testPortugueseSpellerDoesNotCorrectCopyrightSymbol() throws Exception {
     assertNoErrors("Copyright©", ltBR, ruleBR);
   }

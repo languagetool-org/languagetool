@@ -518,6 +518,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("DOPPELUNG_GLEICHES_VERB", -55); // prefer comma rules
     id2prio.put("FEHLENDES_NOMEN", -60); // lower prio than most rules
     id2prio.put("REPETITIONS_STYLE", -60);
+    id2prio.put("GERMAN_WORD_REPEAT_BEGINNING_RULE", -61); 
     id2prio.put("MAN_SIEHT_SEHR_SCHOEN", -14); // prefer over SEHR_SCHOEN
     // Category ids - make sure style issues don't hide overlapping "real" errors:
     id2prio.put("TYPOGRAPHY", -14);

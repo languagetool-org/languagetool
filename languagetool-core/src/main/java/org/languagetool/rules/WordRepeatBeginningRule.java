@@ -38,7 +38,7 @@ public class WordRepeatBeginningRule extends TextLevelRule {
   
   public WordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.REPETITIONS_STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
   }
 

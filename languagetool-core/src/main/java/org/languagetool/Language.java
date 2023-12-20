@@ -821,6 +821,9 @@ public abstract class Language {
     if (id.equalsIgnoreCase("TOO_LONG_SENTENCE")) {
       return -101;  // don't hide spelling errors
     }
+    if (id.equals("REPETITIONS_STYLE")) {  // category
+      return -55;  // don't let style issues hide more important errors
+    }
     if (id.contains("STYLE")) {  // category
       return -50;  // don't let style issues hide more important errors
     }

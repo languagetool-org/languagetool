@@ -513,7 +513,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="burgemeesterszoon">Dat is de <marker>burgermeesterszoon</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MIJNVELD" name="Het is een mijn(en)veld." default="temp_off">
+		<rulegroup id="MIJNVELD" name="Het is een mijn(en)veld.">
 			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
 				<pattern>
@@ -527,7 +527,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="mijnenveld">Het is een <marker>mijnveld</marker>!</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="GLASWASSER" name="Ik ben vroeger glas(glazen)wasser geweest" default="temp_off">
+		<rulegroup id="GLASWASSER" name="Ik ben vroeger glas(glazen)wasser geweest">
 			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
 				<pattern>
@@ -539,20 +539,21 @@ regexp case-insensitive maken: (?i)
 				<example correction="glazenwasser">Ik ben vroeger <marker>glaswasser</marker> geweest.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="TAALUNIE" name="Taalunie" default="temp_off">
+		<rulegroup id="TAALUNIE" name="Taalunie">
 			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
 				<pattern>
+				    <token regexp="yes">de|Nederland.*</token>
 					<marker>
 						<token case_sensitive="yes" regexp="yes">taalunie.*</token>
 					</marker>
 					<token><exception spacebefore="no">.</exception></token>
 				</pattern>
-				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^taal" regexp_replace="Taal"/></suggestion>.</message>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="2" regexp_match="^taal" regexp_replace="Taal"/></suggestion>.</message>
 				<example correction="Taalunie">De <marker>taalunie</marker> Toneelschrijfprijs is sinds 1993 een jaarlijkse prijs...</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BURGERKING" name="Burger King" default="temp_off">
+		<rulegroup id="BURGERKING" name="Burger King">
 			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
 				<pattern>
@@ -17665,7 +17666,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="IS_AANTAL_ZNW_MRV" name="is (het) aantal abonnees..." default="temp_off">
+		<rulegroup id="IS_AANTAL_ZNW_MRV" name="is (het) aantal abonnees...">
 			<rule>
 				<pattern>
 					<token>is</token>

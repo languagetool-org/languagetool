@@ -34,7 +34,17 @@ import java.util.regex.Pattern;
 public class OldSpellingRule extends Rule {
 
   private static final String FILE_PATH = "/de/alt_neu.csv";
-  private static final List<String> EXCEPTIONS = Arrays.asList("Schloß Holte");
+  private static final List<String> EXCEPTIONS = Arrays.asList(
+    "Schloß Holte",
+    "Bell Telephone",
+    "Telephone Company",
+    "American Telephone",
+    "England Telephone",
+    "Mobile Telephone",
+    "Cordless Telephone",
+    "Telephone Line",
+    "World Telephone"
+  );
   private static final Supplier<SpellingData> DATA = Suppliers.memoize(() -> new SpellingData(FILE_PATH));
   private static final Pattern CHARS = Pattern.compile("[a-zA-Zöäüß]");
 
@@ -68,12 +78,11 @@ public class OldSpellingRule extends Rule {
       }
       boolean ignore = false;
       for (String exception : EXCEPTIONS) {
-        if (hit.begin + exception.length() <= text.length()) {
-          String excCovered = text.substring(hit.begin, hit.begin + exception.length());
-          if (excCovered.equals(exception)) {
-            ignore = true;
-            break;
-          }
+        String pattern = "(?i)\\b" + Pattern.quote(exception) + "\\b";
+        if (text.regionMatches(true, hit.begin, exception, 0, exception.length()) ||
+          text.regionMatches(true, hit.end - exception.length(), exception, 0, exception.length())) {
+          ignore = true;
+          break;
         }
       }
       if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {

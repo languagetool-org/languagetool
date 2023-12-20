@@ -117,6 +117,8 @@ public class SingleDocument {
   private Language docLanguage;                   //  docLanguage (usually the Language of the first paragraph)
   private final Language fixedLanguage;           //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private LanguageToolMenus ltMenus = null;       //  LT menus (tools menu and context menu)
+  private ResultCache statAnCache = null;         //  Cache for results of statistical analysis
+  private String statAnRuleId = null;             //  RuleId of current statistical rule tested
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComp, MultiDocumentsHandler mDH) {
@@ -381,6 +383,7 @@ public class SingleDocument {
         }
       }
       if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT || isIntern) {
+        addStatAnalysisErrors (paRes, paraNum);
         if (debugModeTm) {
           startTime = System.currentTimeMillis();
         }
@@ -544,10 +547,24 @@ public class SingleDocument {
   }
   
   /**
-   *  Get ID of the document
+   *  Set ID of the document
    */
   void setDocID(String docId) {
     docID = docId;
+  }
+  
+  /**
+   *  Set cache for results of statistical analysis
+   */
+  public void setStatAnCache(ResultCache cache) {
+    statAnCache = cache;
+  }
+  
+  /**
+   *  Set current ruleId for statistical analysis
+   */
+  public void setStatAnRuleId(String ruleId) {
+    this.statAnRuleId = ruleId;
   }
   
   /**
@@ -1340,6 +1357,7 @@ public class SingleDocument {
           + ", end: " + paRes.nBehindEndOfSentencePosition + ", next: " + paRes.nStartOfNextSentencePosition 
           + ", num errors: " + paRes.aErrors.length);
     }
+    addStatAnalysisErrors (paRes, nFPara);
     addSynonyms(paRes, para, locale, lt);
     return paRes;
   }
@@ -1435,6 +1453,34 @@ public class SingleDocument {
       this.ruleID = ruleID;
     }
   }
+
+  /**
+   * Add statistical analysis errors
+   */
+  public static SingleProofreadingError[] addStatAnalysisErrors (SingleProofreadingError[] errors, 
+          SingleProofreadingError[] statAnErrors, String statAnRuleId) {
+    
+    List<SingleProofreadingError> errorList = new  ArrayList<>();
+    for (SingleProofreadingError error : statAnErrors) {
+      errorList.add(error);
+    }
+    for (SingleProofreadingError error : errors) {
+      if (!error.aRuleIdentifier.equals(statAnRuleId)) {
+        errorList.add(error);
+      }
+    }
+    return errorList.toArray(new SingleProofreadingError[errorList.size()]);
+  }
+  
+  private void addStatAnalysisErrors(ProofreadingResult paRes, int nFPara) {
+    if (statAnCache != null && statAnRuleId != null) {
+      SingleProofreadingError[] statAnErrors = statAnCache.getSafeMatches(nFPara);
+      if (statAnErrors != null && statAnErrors.length > 0) {
+        paRes.aErrors = addStatAnalysisErrors (paRes.aErrors, statAnErrors, statAnRuleId);
+      }
+    }
+  }
+  
   
 //  private class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler, XKeyHandler {
   private class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler {

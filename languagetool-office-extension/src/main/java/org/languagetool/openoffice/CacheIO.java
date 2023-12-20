@@ -37,7 +37,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
-import org.languagetool.openoffice.DocumentCache.SerialLocale;
+import org.languagetool.openoffice.DocumentTextCache.SerialLocale;
 import org.languagetool.openoffice.IgnoredMatches.LocaleEntry;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 

@@ -6503,6 +6503,24 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.M.*"/>
         </rule>
     </rulegroup>
+    <rulegroup id="imperative_not_indicative" name="imperativo, no indicativo">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" regexp="yes">\p{P}</token>
+                <marker>
+                <and>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="7"/>
+                    <token postag="V.M.*" postag_regexp="yes"/>
+                </and>
+                </marker>
+                <!--<token>o</token>-->
+                <token>si</token>
+                <token>no</token>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="allowed_repetitions" name="allowed repetitions">
         <rule>
             <pattern>

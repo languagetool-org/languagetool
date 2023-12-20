@@ -146,6 +146,7 @@ public class MultiDocumentsHandler {
   private boolean testMode = false;
   private boolean javaLookAndFeelIsSet = false;
   private boolean isHelperDisposed = false;
+  private boolean statAnDialogRunning = false;
 
   
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
@@ -408,6 +409,20 @@ public class MultiDocumentsHandler {
    */
   public void setConfigFileName(String name) {
     configFile = name;
+  }
+  
+  /**
+   *  Set dialog for statisical analysis running
+   */
+  public void setStatAnDialogRunning(boolean running) {
+    statAnDialogRunning = running;
+  }
+  
+  /**
+   *  use analyzed sentences cache
+   */
+  public boolean useAnalyzedSentencesCache() {
+    return !config.doRemoteCheck() || statAnDialogRunning;
   }
   
   /**
@@ -922,15 +937,15 @@ public class MultiDocumentsHandler {
   /**
    * Initialize LanguageTool
    */
-  SwJLanguageTool initLanguageTool() {
+  public SwJLanguageTool initLanguageTool() {
     return initLanguageTool(null, false);
   }
 
-  SwJLanguageTool initLanguageTool(boolean setService) {
+  public SwJLanguageTool initLanguageTool(boolean setService) {
     return initLanguageTool(null, setService);
   }
 
-  SwJLanguageTool initLanguageTool(Language currentLanguage, boolean setService) {
+  public SwJLanguageTool initLanguageTool(Language currentLanguage, boolean setService) {
     SwJLanguageTool lt = null;
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);

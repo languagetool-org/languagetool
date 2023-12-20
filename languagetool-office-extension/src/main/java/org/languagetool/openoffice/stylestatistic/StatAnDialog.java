@@ -33,6 +33,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -119,6 +120,9 @@ public class StatAnDialog extends Thread  {
   private int to = 1;
   private int hierarchy = 1;
   
+  private int lastSinglePara = -1;
+  private String lastParaText = null;
+  
   private Chapter chapter = null;
 
   private static final List<TextLevelRule> rules = new ArrayList<>();
@@ -138,6 +142,7 @@ public class StatAnDialog extends Thread  {
   public StatAnDialog(SingleDocument document) {
     xComponent = document.getXComponent();
     this.document = document;
+    document.getMultiDocumentsHandler().setStatAnDialogRunning(true);
     rules.clear();
     Language lang = document.getLanguage();
     try {
@@ -164,6 +169,7 @@ public class StatAnDialog extends Thread  {
   private void closeDialog(WaitDialogThread waitdialog) {
     cache.setNewResultcache(null, null);
     dialog.setVisible(false);
+    document.getMultiDocumentsHandler().setStatAnDialogRunning(false);
     waitdialog.close();
   }
   
@@ -205,6 +211,37 @@ public class StatAnDialog extends Thread  {
       @Override
       public void windowDeactivated(WindowEvent e) {
       }
+    });
+    
+    dialog.addWindowFocusListener(new WindowFocusListener() {
+
+      @Override
+      public void windowGainedFocus(WindowEvent e) {
+        if (lastSinglePara < 0 || lastParaText.equals(document.getDocumentCache().getFlatParagraph(lastSinglePara))) {
+          return;
+        }
+        try {
+          if(isLevelRule) {
+            levelRule.generateBasicNumbers(cache);
+            setLeftLevelRulePanel();
+          } else {
+            usedWordRule.generateBasicNumbers(cache);
+            setLeftUsedWordRulePanel();
+          }
+          setRightRulePanel();
+          dialog.repaint();
+        } catch (Throwable e1) {
+          MessageHandler.showError(e1);
+        }
+      }
+
+      @Override
+      public void windowLostFocus(WindowEvent e) {
+        if (lastSinglePara >= 0) {
+          lastParaText = new String(document.getDocumentCache().getFlatParagraph(lastSinglePara));
+        }
+      }
+      
     });
 
     //  initiate
@@ -832,13 +869,14 @@ public class StatAnDialog extends Thread  {
       ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
       TextParagraph tPara = new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, chapter.from);
       viewCursor.setTextViewCursor(0, tPara);
-      int nFPara = document.getDocumentCache().getFlatParagraphNumber(tPara);
+      lastSinglePara = document.getDocumentCache().getFlatParagraphNumber(tPara);
       if (!isLevelRule) {
-        usedWordRule.setCacheForParagraph(nFPara, chapter.from, cache);
+        usedWordRule.setCacheForParagraph(lastSinglePara, chapter.from, cache);
       }
-      cache.markParagraph(nFPara, config.getUnderlineType(), config.getUnderlineColor());
+      cache.markParagraph(lastSinglePara, config.getUnderlineType(), config.getUnderlineColor());
       return;
     }
+    lastSinglePara = -1;
     UIManager.put("ToolTip.foreground", Color.black);
     UIManager.put("ToolTip.background", Color.yellow);
     hierarchy = chapter == null ? 0 : chapter.hierarchy;
