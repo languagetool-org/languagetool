@@ -41195,12 +41195,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id="SIMBOLO_DE_GRAUS_COM_UNIDADE_EM_MINUSCULA" name="Pôr em maiúscula o símbolo da escala em graus nomeados (e.g. &deg;c => &deg;C)." default="temp_off">
             <!-- p-goulart@2023-12-19 - DESC: the rules to fix the spacing are elsewhere. The capitalisation should be prioritised. -->
             <rule>
-                <regexp case_sensitive="yes" mark="1">°([cfknsewo])\b</regexp>
+                <regexp case_sensitive="yes" mark="1">&deg;(&degree_abbrevs_lower;)\b</regexp>
                 <message>Ponha o símbolo da escala em maiúscula.</message>
-                <suggestion><match no="1" case_conversion='allupper' regexp_match="(\p{Ll})" regexp_replace="$1"/></suggestion>
-                <example correction="W">Fez 69,5&deg;<marker>w</marker> ontem.</example>
+                <suggestion><match no="1" case_conversion='startupper' regexp_match="(\p{Ll}+)" regexp_replace="$1"/></suggestion>
+                <example correction="Rø">Fez 69,5&deg;<marker>rø</marker> ontem.</example>
                 <example correction="C">Fez 22,5&deg;<marker>c</marker> ontem.</example>
                 <example>Fez 40&deg;C ontem.</example>
+                <example>Via de regra, a temperatura oscila entre 15°e 22°C.</example> <!-- not right, but should be a different rule -->
             </rule>
         </rulegroup>
 
@@ -41208,33 +41209,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id="DEGREE_SYMBOL_WITH_DEGREE_TYPE">
                 <!-- This rule, unlike SIMBOLO_DE_GRAU_ESPACAMENTO, preserves the user's spaces.
                 This is only here to turn the ordinal into a degree sign. That's the rule that fixes spaces.-->
-                <regexp type="exact">(?-i)[&ordm;&sup_o;](\s?[CFNSEW])\b</regexp>
+                <regexp case_sensitive="yes">&any_masc_ord;(\s?(?:&degree_abbrevs;|&cardinal_points;))\b</regexp>
+                <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:&any_masc_ord;\s?e|\.&any_masc_ord;"/>
                 <message>&degree_ordinal_msg;</message>
                 <suggestion>&deg;\1</suggestion>
                 <example correction="&deg; C">Faz 22<marker>&ordm; C</marker> à sombra.</example>
                 <example correction="&deg;C">Faz 25<marker>&ordm;C</marker> à sombra.</example>
                 <example>Faz 25&deg;.</example>
                 <example>Faz 25&ordm;.</example> <!-- must be dealt with some other way -->
-                <example>…o da União, conforme estabelecido nos artigos 349.º e 355.º do Tratado sobre o Funcionamento da União E…</example>
-                <example>…que pôs fim à República Velha, depondo seu 13º e último presidente Washington Luís e impedindo a…</example>
+                <example>Faz 25o.</example>
+                <example>O 25.&ordm; F de sua carreira escolar.</example>
+                <example correction="&deg;C">A temperatura da superfície chega a 21 000 <marker>&ordm;C</marker>.</example>
+                <example>Conforme estabelecido nos artigos 349.&ordm; e 355.&ordm; do Tratado sobre o Funcionamento da União.</example>
+                <example>Depondo seu 13&ordm; e último presidente.</example>
+                <example correction="&deg; N">Está a 55<marker>o N</marker> daqui.</example>
             </rule>
             <rule id="DEGREE_SYMBOL_WITH_CONTEXT_POST">
                 <pattern>
                     <marker>
-                        <token regexp="yes">&number_token;[&ordm;&sup_o;]</token>
+                        <token regexp="yes">&number_token;&any_masc_ord;</token>
                     </marker>
                     <token>de</token>
                     <token regexp="yes">&degree_collocates;</token>
                 </pattern>
                 <message>&degree_ordinal_msg;</message>
-                <suggestion><match no="1" regexp_match="^(&minus_sign;?\d+[\d.,]*).+" regexp_replace="$1&deg;"/></suggestion>
+                <suggestion><match no="1" regexp_match="^(&number_token;)&any_masc_ord;" regexp_replace="$1&deg;"/></suggestion>
                 <example correction="40&deg;">O bebê está com <marker>40&ordm;</marker> de febre!</example>
+                <example correction="39&deg;">Sofria com <marker>39o</marker> de calor!</example>
             </rule>
             <rule id="DEGREE_SYMBOL_WITH_CONTEXT_PRE">
                 <pattern>
                     <token regexp="yes" inflected="yes" skip="2">&degree_collocates;</token>
                     <marker>
-                        <token regexp="yes">&number_token;[&ordm;&sup_o;]</token>
+                        <token regexp="yes">&number_token;&any_masc_ord;</token>
                     </marker>
                 </pattern>
                 <message>&degree_ordinal_msg;</message>
@@ -41247,7 +41254,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <pattern>
                     <token inflected="yes">fazer</token>
                     <marker>
-                        <token regexp="yes">&number_token;[&ordm;&sup_o;]</token>
+                        <token regexp="yes">&number_token;&any_masc_ord;</token>
                     </marker>
                     <token postag_regexp="yes" postag="R." min="0" max="2"/>
                     <token postag_regexp="yes" postag="SENT_END|_PUNCT_PERIOD"/>
@@ -41257,20 +41264,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="25&deg;">Ontem fez <marker>25&ordm;</marker>.</example>
                 <example correction="38,8&deg;">Fará <marker>38,8&ordm;</marker> amanhã.</example>
             </rule>
-            <rule id="DEGREE_SYMBOL_COORDINATES">
+            <rule id="DEGREE_SYMBOL_COORDINATES_SINGLE_TOKEN">
                 <pattern>
-                    <token regexp="yes">\d+[&ordm;&sup_o;]\d+[&ordm;&sup_o;]</token>
+                    <token regexp="yes">\d+&any_masc_ord;\d+&any_masc_ord;</token>
                 </pattern>
                 <message>&degree_ordinal_msg;</message>
                 <suggestion><match no="1" regexp_match="^(\d+)[&ordm;&sup_o;](\d+)[&ordm;&sup_o;]" regexp_replace="$1&deg;$2&deg;"/></suggestion>
                 <example correction="90&deg;45&deg;">Coordenadas: <marker>90&ordm;45&sup_o;</marker></example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_COORDINATES_MULTIPLE_TOKENS">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+&any_masc_ord;</token>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                    <token spacebefore="no">&prime;</token>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="1" regexp_match="^(\d+)&any_masc_ord;" regexp_replace="$1&deg;"/></suggestion>
+                <example correction="90&deg;">Coordenadas: <marker>90o</marker> 45&prime;.</example>
+            </rule>
+            <rule id="DEGREE_SYMBOL_COORDINATES_EXPLICIT">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d+&any_masc_ord;</token>
+                    </marker>
+                    <token min="0">ao</token>
+                    <token regexp="yes">norte|sul|leste|oeste</token>
+                </pattern>
+                <message>&degree_ordinal_msg;</message>
+                <suggestion><match no="1" regexp_match="^(\d+)&any_masc_ord;" regexp_replace="$1&deg;"/></suggestion>
+                <example correction="17&deg;">Fica <marker>17o</marker> ao leste daqui.</example>
+                <example correction="18&deg;">Fica <marker>18&ordm;</marker> norte de lá.</example>
             </rule>
             <rule id="DEGREE_SYMBOL_RANGES">
                 <pattern>
                     <token regexp="yes" spacebefore="yes">&number_token;</token>
                     <token spacebefore="no">–</token> <!-- n-dash -->
                     <marker>
-                        <token regexp="yes" spacebefore="no">&number_token;[&ordm;&sup_o;]</token>
+                        <token regexp="yes" spacebefore="no">&number_token;&any_masc_ord;</token>
                     </marker>
                 </pattern>
                 <message>&degree_ordinal_msg;</message>
@@ -41279,7 +41311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule id="DEGREE_SYMBOL_NEGATIVE">
                 <pattern>
-                    <token regexp="yes">&minus_sign;\d+[\d,.]*[&ordm;&sup_o;]</token>
+                    <token regexp="yes">&minus_sign;\d+[\d,.]*&any_masc_ord;</token>
                 </pattern>
                 <message>&degree_ordinal_msg;</message>
                 <suggestion><match no="1" regexp_match="^(&minus_sign;\d+[\d.,]*).+" regexp_replace="$1&deg;"/></suggestion>
@@ -41287,7 +41319,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <!-- SIMBOLO_DE_GRAU_ESPACAMENTO -->
+        <rulegroup id="SIMBOLO_DE_GRAU_ESPACAMENTO" name="Dar espaçamento antes do símbolo de grau em escalas com nomes.">
+            <!--Our strategy was to suggest a narrow non-breaking space even when
+            users manually input a regular whitespace. Now we will only
+            trigger when users skip the space altogether. Trust their word
+            processing software to know what to do; LT can't do that reliably.-->
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM" default="on">
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">&degree_token;&degree_abbrevs;</token>
+                </pattern>
+                <message>Neste caso, põe-se um espaço estreito entre o número e o símbolo de grau.</message>
+                <suggestion><match no="1" regexp_match="^(.+)(&deg;&degree_abbrevs;)$" regexp_replace="$1&nnbsp;$2"/></suggestion>
+                <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg;C</marker> à sombra.</example>
+                <!-- here the space will need to be between the degree sign and the letter, different sub-rule -->
+                <example>As coordenadas são 50&deg;N e 66&deg;W.</example>
+            </rule>
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE" default="temp_off">
+                <pattern>
+                    <token regexp="yes">&degree_token;</token>
+                    <token regexp="yes" spacebefore="yes" case_sensitive="yes">&degree_abbrevs;</token>
+                </pattern>
+                <message>Não se põe espaço entre o símbolo de grau e a abreviatura da escala.</message>
+                <suggestion><match no="1" regexp_match="^(.+)&deg;$" regexp_replace="$1&nnbsp;&deg;"/>\2</suggestion>
+                <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg; C</marker> à sombra.</example>
+                <example correction="77&nnbsp;&deg;Rø">O valor parece ser de <marker>77&deg; Rø</marker>.</example>
+                <example>Fica a uns 99&deg; N.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="GRAU_EM_COORDENADAS_ESPACAMENTO" name="Dar espaçamento entre o símbolo de grau e pontos cardeais em coordenadas geográficas" tags="picky">
+            <rule>
+                <regexp case_sensitive="yes" type="exact">\b(&number_token;)\s?&deg;\s?(&cardinal_points;)\b</regexp>
+                <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:\d&deg;\s&cardinal_points;"/>
+                <message>Em coordenadas geográficas, prefira a formato <suggestion>\1&deg;&nnbsp;\2</suggestion>.</message>
+                <example correction="60&deg;&nnbsp;N">Fica a <marker>60 &deg;N</marker>.</example>
+                <example correction="70&deg;&nnbsp;N">Fica a <marker>70 &deg; N</marker>.</example>
+                <example correction="80&deg;&nnbsp;N">Fica a <marker>80&deg;N</marker>.</example>
+                <example>Fica a 90&deg; S.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="SIMBOLO_DE_GRAU_ORDINAL" name="Símbolo de grau usado no lugar de um indicator ordinal." default="on" tags="picky">
             <rule> <!-- singular, dot-separated -->
