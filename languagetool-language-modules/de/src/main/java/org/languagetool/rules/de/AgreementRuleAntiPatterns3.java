@@ -32,6 +32,13 @@ class AgreementRuleAntiPatterns3 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
+      // "Mit dem Tod von Rabin und der kurze Zeit später erfolgenden Wahl..."
+      token("der"),
+      token("kurze"),
+      token("Zeit"),
+      tokenRegex("später|früher|darauf|danach|vorher")
+    ),
+    asList(
       // "Was in aller Welt soll das denn für ein Satz sein?"
       token("was"),
       token("in"),
