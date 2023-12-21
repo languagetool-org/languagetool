@@ -5819,7 +5819,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="stratégie de marque|valorisation de la marque|image de marque|pouvoir de la marque|notoriété"><marker>branding</marker></example>
             <example><marker>stratégie de marque</marker></example>
         </rule>
-        <rule id="CART" name="cart">
+        <rule id="CART" name="cart" default="off">
             <pattern>
                 <token regexp="yes">carts?</token>
             </pattern>
@@ -6291,7 +6291,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="garnie"><marker>alldressed</marker></example>
             </rule>
         </rulegroup>
-        <rule id="SPLIT" name="split">
+        <rule id="SPLIT" name="split" default="off">
             <pattern>
                 <token regexp="yes">splits?
                     <exception scope="previous">-</exception></token>
@@ -8875,7 +8875,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>lien</suggestion>
             <example correction="lien">Pense à mettre <marker>link</marker> entre les deux éléments.</example>
         </rule>
-        <rule id="SEARCH" name="search">
+        <rule id="SEARCH" name="search" default="off">
             <pattern>
                 <token>search</token>
             </pattern>
@@ -13612,11 +13612,15 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
         <rule id="PRIX_DEMANDE" name="prix demandé" tone_tags="clarity">
             <pattern>
                 <token>prix</token>
-                <token regexp="yes">demandés?</token>
+                <token regexp="yes">demandés?
+                    <exception regexp="yes" scope="next">par|pour</exception></token>
             </pattern>
             <message>« Prix demandé » peut être considéré comme un anglicisme (asked price). Employez <suggestion>offre</suggestion> (finance), <suggestion>cours vendeur</suggestion> (finance), <suggestion>cours de vente</suggestion> (finance).</message>
             <example correction="offre|cours vendeur|cours de vente"><marker>prix demandé</marker></example>
             <example><marker>offre</marker></example>
+            <example>Le prix demandé par les vendeurs n'avait aucun sens.</example>
+            <example>C'est vraiment le prix demandé pour ces chaussures ?</example>
+            <example>Une offre à la hauteur du prix demandé pour financer les travaux.</example>
         </rule>
         <rule id="PRIX_DE_LISTE" name="prix de liste" tone_tags="clarity">
             <pattern>
