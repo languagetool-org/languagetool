@@ -29,7 +29,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY quote '["“”„]'>
     <!ENTITY hyphen "(?:[–\-—])">
-    <!ENTITY non_english '[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя]'>
+    <!ENTITY non_english '[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěëĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя]'>
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
     <!ENTITY weekdays "Monday|Wednesday|T(ue|hur)sday|Friday|S(atur|un)day">
@@ -4256,6 +4256,123 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">&apostrophe;</token>
                 </pattern>
                 <example correction="">I was having lunch with a friend (also a former equity analyst), and mentioned ten things that had happened that he’d been too busy to see, and he <marker>said ‘you</marker> should do a newsletter!’</example>
+            </rule>
+        </rulegroup>
+
+        <!-- ====================================================================== -->
+        <!-- NEW QuillBot Antipatterns -->
+        <!-- ====================================================================== -->
+        <rulegroup id="AI_EN_QB_GGEC_MISSING_ORTHOGRAPHY_SPACE" name="">
+            <rule>  <!-- 'LanguageTool' is one word -->
+                <pattern>
+                    <token case_sensitive="yes">LanguageTool</token>
+                </pattern>
+                <example correction="">Meet the All-New <marker>LanguageTool</marker> Equipped With AI</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_NOUN" name="">
+            <rule>  <!-- don't replace state abbreviations I -->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">AL|AK|AZ|AR|CA|CO|CT|DE|FL|Fla|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY</token>
+                </pattern>
+                <example correction="">He moved from Miami, <marker>OH</marker> to Miami, Florida.</example>
+                <example correction="">He moved from Miami, Ohio to Miami, <marker>FL</marker>.</example>
+            </rule>
+            <rule>  <!-- don't replace state abbreviations II -->
+                <pattern>
+                    <token case_sensitive="yes">Fla</token>
+                    <token>.</token>
+                </pattern>
+                <example correction="">He moved from Miami, Ohio to Miami, <marker>Fla.</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
+            <rule>  <!-- don't capitalize macOS, visionOS, etc. -->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">(i(pad)?|mac|tv|vision|watch)OS</token>
+                </pattern>
+                <example correction=""><marker>iOS</marker> is designed with accessibility in mind.</example>
+                <example correction=""><marker>ipadOS</marker> is designed with accessibility in mind.</example>
+                <example correction=""><marker>visionOS</marker> is designed with accessibility in mind.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
+            <rule>  <!-- don't decapitalize legal jargon, job titles, etc. -->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Administrations?|Affiliates?|Agreements?|Assistant|Bachelor|East|Executive|False|Governments?|Junior|Lead|Master|Middle|North|Orders?|Principal|Purchasers?|Senior|South|Subcontractors?|Suppliers?|True|West|White</token>
+                </pattern>
+                <example correction="">Notwithstanding anything to the contrary in Section 11.1, <marker>Supplier</marker> will not subcontract or delegate any of its obligations under this agreement.</example>
+                <example correction="">Notwithstanding anything to the contrary in Section 11.1, supplier will not subcontract or delegate any of its obligations under this <marker>Agreement</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL" name="">
+            <rule>  <!-- don't delete non-English characters -->
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
+                </pattern>
+                <example correction=""><marker>Czesław</marker> Milosz is a poet.</example>
+                <example correction="">Czeslaw <marker>Miłosz</marker> is a poet.</example>
+                <example correction="">Ferdinand Karl <marker>Piëch</marker> was an Austrian business magnate, engineer, and executive.</example>
+                <example correction="">There are also some commonly used words that end in a vowel and yet are masculine: <marker>баща</marker> 'father', and others.</example>
+                <example correction="">In February 1979, in Istanbul, under orders from the Grey Wolves, he murdered Abdi <marker>İpekçi</marker>, editor of the major Turkish newspaper Milliyet.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_OTHER" name="">
+            <rule>  <!-- don't delete multiplication sign I -->
+                <pattern>
+                    <token postag="CD" />
+                    <token>.</token>
+                    <token postag="CD" />
+                    <token>×</token>
+                    <token postag="CD" />
+                </pattern>
+                <example correction="">Total production for that region up to the beginning of 1993 was over 14.9 billion barrels (<marker>2.37×109</marker> m3).</example>
+            </rule>
+            <rule>  <!-- don't delete multiplication sign II -->
+                <pattern>
+                    <token postag="CD" />
+                    <token>×</token>
+                    <token postag="CD" />
+                    <token>.</token>
+                    <token postag="CD" />
+                </pattern>
+                <example correction="">Total production for that region up to the beginning of 1993 was over 14.9 billion barrels (<marker>2×109.37</marker> m3).</example>
+            </rule>
+            <rule>  <!-- don't delete multiplication sign III -->
+                <pattern>
+                    <token postag="CD" />
+                    <token>.</token>
+                    <token postag="CD" />
+                    <token>×</token>
+                    <token postag="CD" />
+                    <token>.</token>
+                    <token postag="CD" />
+                </pattern>
+                <example correction="">Total production for that region up to the beginning of 1993 was over 14.9 billion barrels (<marker>2.37×109.37</marker> m3).</example>
+            </rule>
+            <rule>  <!-- don't delete multiplication sign IV -->
+                <pattern>
+                    <token postag="CD" />
+                    <token>×</token>
+                    <token postag="CD" />
+                </pattern>
+                <example correction="">Total production for that region up to the beginning of 1993 was over 14.9 billion barrels (<marker>2×109</marker> m3).</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_PUNCTUATION" name="">
+            <rule>  <!-- don't replace typographical ellipsis -->
+                <pattern>
+                    <token>…</token>
+                </pattern>
+                <example correction="">I was thinking<marker>…</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_PUNCTUATION_ASTERISK" name="">
+            <rule>  <!-- don't delete asterisks -->
+                <pattern>
+                    <token>*</token>
+                </pattern>
+                <example correction="">Stock Advisor is the online investing service that has beaten the stock market by 3x since 2002<marker>*</marker>.</example>
             </rule>
         </rulegroup>
     </category>
