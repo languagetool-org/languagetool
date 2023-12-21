@@ -42257,7 +42257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O candidato a prefeito Fernando Gabeira (RJ).</example>
             </rule>
             <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PONTUACAO_SIMPLES"> <!-- #2: simple separators -->
-                <regexp case_sensitive="yes" mark="2">(\p{Lu}\p{Ll}*(?:[- ](?:&lowercase_in_brazilian_toponyms;)?[- ]?(?:\p{Lu}\p{Ll}*))*)+(\s?[-–—/,]?\s?(&state_abbrev_brazil;))</regexp>
+                <regexp case_sensitive="yes" mark="2">(\p{Lu}\p{Ll}*(?:[- ](?:&lowercase_in_brazilian_toponyms;)?[- ]?(?:\p{Lu}\p{Ll}*))*)+(\s?[-–—/,]?\s?(&state_abbrev_brazil;))\b</regexp>
                 <filter class="org.languagetool.rules.pt.BrazilianToponymFilter" args="foo:bar"/>
                 <message>&brazilian_states_msg;</message>
                 <suggestion>{suggestion}</suggestion>
@@ -42290,6 +42290,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Moro em SP capital.</example>
                 <example>Pode ser diferente Especificação: CE ISO9001.</example>
                 <example>Resolução da Presidência do IBGE de n° 5 (R.PR-5/02).</example>
+                <example>São Paulo - CEP 04552-000</example>
+                <example>Associação Médica Brasileira - AMB.</example>
+                <example>Autônomo de Saneamento de Pelotas -PROCAP</example>
             </rule>
         </rulegroup>
 
