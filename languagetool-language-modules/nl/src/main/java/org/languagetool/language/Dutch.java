@@ -65,7 +65,7 @@ public class Dutch extends Language {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new DutchTagger();
+    return DutchTagger.INSTANCE;
   }
 
   @Nullable

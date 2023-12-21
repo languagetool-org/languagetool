@@ -37,6 +37,7 @@ import static java.util.regex.Pattern.compile;
  */
 public class DutchTagger extends BaseTagger {
 
+  public static final DutchTagger INSTANCE = new DutchTagger();
   private static final Pattern PATTERN1_A = compile("([^aeiouáéíóú])(á)([^aeiouáéíóú])");
   private static final Pattern PATTERN1_E = compile("([^aeiouáéíóú])(é)([^aeiouáéíóú])");
   private static final Pattern PATTERN1_I = compile("([^aeiouáéíóú])(í)([^aeiouáéíóú])");
