@@ -21,7 +21,7 @@ package org.languagetool.rules.nl;
 import com.google.common.collect.ImmutableSet;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.nl.DutchTagger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -558,14 +558,14 @@ public class CompoundAcceptor {
     }
   }
 
-  private final Tagger tagger;
+  private final DutchTagger DutchTagger;
 
   CompoundAcceptor() {
-    tagger = Languages.getLanguageForShortCode("nl").getTagger();
+    this.DutchTagger = new DutchTagger();
   }
 
-  public CompoundAcceptor(Tagger tagger) {
-    this.tagger = tagger;
+  public CompoundAcceptor(DutchTagger DutchTagger) {
+    this.DutchTagger = DutchTagger;
   }
 
   boolean acceptCompound(String word) {
@@ -576,7 +576,7 @@ public class CompoundAcceptor {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
       if (acceptCompound(part1, part2)) {
-        //System.out.println(part1+part2 + " -> accepted");
+        System.out.println(part1+part2 + " -> accepted");
         return true;
       }
     }
@@ -604,7 +604,7 @@ public class CompoundAcceptor {
       if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1)) && !alwaysNeedsS.contains(part1) && !noS.contains(part1) && !part1.contains("-")) {
         for (String suffix : alwaysNeedsS) {
           if (part1lc.endsWith(suffix)) {
-            return isNoun(part2) && isExistingWord(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+            return isNoun(part2) && isExistingWord(part1lc.substring(0, part1lc.length() - 1)) && spellingOk(part2);
           }
         }
         return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
@@ -614,21 +614,22 @@ public class CompoundAcceptor {
         part2 = part2.substring(1);
         return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
       } else {
-        return (noS.contains(part1lc) || part1Exceptions.contains(part1lc)) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
+        return (noS.contains(part1lc) || part1Exceptions.contains(part1lc)) && isNoun(part2) && spellingOk(part1) && !hasCollidingVowels(part1, part2);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  boolean isNoun(String word) throws IOException {
-    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Collections.singletonList(word));
-    return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW")) && !part2Exceptions.contains(word) ;
+  private boolean isNoun(String word) throws IOException {
+    return DutchTagger.getPostags(word).stream().anyMatch(k -> {
+      assert k.getPOSTag() != null;
+      return k.getPOSTag().startsWith("ZNW") && !part2Exceptions.contains(word);
+    });
   }
 
   private boolean isExistingWord(String word) throws IOException {
-    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Collections.singletonList(word));
-    return part2Readings.stream().noneMatch(AnalyzedTokenReadings::isPosTagUnknown);
+    return DutchTagger.getPostags(word).stream().anyMatch(k -> k.getPOSTag() != null);
   }
 
   private boolean hasCollidingVowels(String part1, String part2) {
