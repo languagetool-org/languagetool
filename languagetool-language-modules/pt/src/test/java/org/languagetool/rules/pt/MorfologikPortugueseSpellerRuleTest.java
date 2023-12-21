@@ -368,6 +368,9 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("3°C", ltBR, ruleBR);
     assertNoErrors("4,0ºc", ltBR, ruleBR);
     assertNoErrors("5.0ºc", ltBR, ruleBR);
+    assertNoErrors("6,0ºRø", ltBR, ruleBR); // degrees Rømer
+    assertNoErrors("7,5ºN", ltBR, ruleBR); // North
+    assertNoErrors("−8,0°", ltBR, ruleBR); // negative
   }
 
   @Test

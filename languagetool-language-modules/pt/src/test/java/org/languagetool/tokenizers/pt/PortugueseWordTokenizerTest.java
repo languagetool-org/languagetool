@@ -167,6 +167,9 @@ public class PortugueseWordTokenizerTest {
     testTokenise("29.0°C", new String[]{"29.0°C"});
     testTokenise("30,0°c", new String[]{"30,0°c"});
     testTokenise("31.0°c", new String[]{"31.0°c"});
+    testTokenise("32°Ra", new String[]{"32°Ra"});
+    testTokenise("33,1°Rø", new String[]{"33,1°Rø"});
+    testTokenise("34°N", new String[]{"34°N"});
   }
 
   @Test

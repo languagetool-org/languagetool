@@ -2884,17 +2884,16 @@
   </rulegroup>
 
   <rulegroup id="DEGREES" name="Graus">
-    <!-- Created by Tiago F. Santos, Portuguese rule  	-->
     <rule>
       <pattern>
-        <token regexp="yes">1[°′″‴] ?[CFKNSEWO]?
+        <token regexp="yes">1[°′″‴] ?(?:&follow_degree_sign;)?
           <exception>1º</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/></disambig>
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEWO]?
+        <token regexp="yes">(?:&number_token;)[°′″‴](?:&follow_degree_sign;)?
           <exception regexp='yes'>1[°′″‴].?</exception>
           <exception regexp='yes'>\d+º</exception></token> <!-- ordm! -->
       </pattern>
@@ -2903,35 +2902,35 @@
     <rule>
       <pattern>
         <token regexp="yes">1[°′″‴]</token>
-        <token regexp="yes" spacebefore='yes'>[CFKNSEWO]
+        <token regexp="yes" spacebefore='yes'>&follow_degree_sign;
           <exception case_sensitive='yes' regexp='yes'>[eo]</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/><wd pos="NCMN000"/></disambig>
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">[\d,. ]+[°′″‴]</token>
-        <token regexp="yes" spacebefore='yes'>[CFKNSEWO]
+        <token regexp="yes">(?:&number_token;)[°′″‴]</token>
+        <token regexp="yes" spacebefore='yes'>&follow_degree_sign;
           <exception case_sensitive='yes' regexp='yes'>[eo]</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000"/><wd pos="NCMN000"/></disambig>
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">[°][CFKNSEWO]</token>
+        <token regexp="yes">[°](?:&follow_degree_sign;)</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMN000"/></disambig>
     </rule>
     <rule>
         <pattern>
             <!-- p-goulart@2023-12-19 - DESC: explicitly case-sensitive (fix lettercase in XML) -->
-            <token regexp="yes" case_sensitive="no">(?:\d+[\d,.]*)?[°′″‴][CFKNSEWO]?</token>
+            <token regexp="yes" case_sensitive="no">(?:&number_token;)?[°′″‴](?:&follow_degree_sign;)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
     <rule>
         <pattern>
-            <token regexp="yes" case_sensitive="no">(?:&number_token;)?º&degree_abbrevs;?</token>
+            <token regexp="yes" case_sensitive="no">(?:&number_token;)?º(?:&follow_degree_sign;)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

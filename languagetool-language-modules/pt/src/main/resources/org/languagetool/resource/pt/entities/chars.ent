@@ -21,6 +21,7 @@ in the disambiguation file directly. There might be something off with the encod
 <!ENTITY sup_s "ˢ">
 
 <!ENTITY deg "°">
+<!ENTITY deg_r "\u00BA">
 
 <!ENTITY any_masc_ord "[o&ordm;&sup_o;]">
 <!ENTITY any_fem_ord "[a&ordf;&sup_a;]">
@@ -31,7 +32,15 @@ in the disambiguation file directly. There might be something off with the encod
 <!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿→⇋]|\=|\+">
 
 <!ENTITY currency_symbols "\p{Lu}*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]">
-<!ENTITY degree_abbrevs "[CFKNSEWO]">
+
+<!-- A previous version of this entity included NSEW, which are north/norte/south/sul/east/leste/west/oeste. -->
+<!-- We're also adding °D (Delisle), °Ré (Réamur), °Ra (Rankine), °Rø (Rømer). Specifically skipping °N (degrees Newton). -->
+<!-- Accepting Kelvin, even though not a degree; this will be fixed by a style rule. -->
+<!ENTITY degree_abbrevs "[CFKD]|R[éaø]">
+
+<!ENTITY cardinal_points "[NSEWO]">
+
+<!ENTITY follow_degree_sign "&degree_abbrevs;|&cardinal_points;">
 
 <!-- Convenience entity, should encompass all valid numbers that the PT tokeniser doesn't split. -->
 <!ENTITY number_token "&minus_sign;?\d+[\d,.]*">
