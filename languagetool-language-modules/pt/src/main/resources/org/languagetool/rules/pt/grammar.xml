@@ -41238,29 +41238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="SIMBOLO_DE_GRAU_ESPACAMENTO" name="Dar espaçamento antes do símbolo de grau em escalas com nomes.">
-            <!--Our strategy was to suggest a narrow non-breaking space even when
-            users manually input a regular whitespace. Now we will only
-            trigger when users skip the space altogether. Trust their word
-            processing software to know what to do; LT can't do that reliably.-->
-            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM" default="on">
-                <pattern>
-                    <token regexp="yes" case_sensitive="yes">&degree_token;[CFNSEW]</token>
-                </pattern>
-                <message>Neste caso, põe-se um espaço estreito entre o número e o símbolo de grau.</message>
-                <suggestion><match no="1" regexp_match="^(.+)(&deg;[CFNSEW])$" regexp_replace="$1&nnbsp;$2"/></suggestion>
-                <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg;C</marker> à sombra.</example>
-            </rule>
-            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE" default="temp_off">
-                <pattern>
-                    <token regexp="yes">&degree_token;</token>
-                    <token regexp="yes" spacebefore="yes" case_sensitive="yes">[CFNSEW]</token>
-                </pattern>
-                <message>Não se põe espaço entre o símbolo de grau e a abreviatura da escala.</message>
-                <suggestion><match no="1" regexp_match="^(.+)&deg;$" regexp_replace="$1&nnbsp;&deg;"/>\2</suggestion>
-                <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg; C</marker> à sombra.</example>
-            </rule>
-        </rulegroup>
+        <!-- SIMBOLO_DE_GRAU_ESPACAMENTO -->
 
         <rulegroup id="SIMBOLO_DE_GRAU_ORDINAL" name="Símbolo de grau usado no lugar de um indicator ordinal." default="on" tags="picky">
             <rule> <!-- singular, dot-separated -->
