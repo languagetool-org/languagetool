@@ -92,7 +92,7 @@ public class DutchTagger extends BaseTagger {
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    CompoundAcceptor compoundAcceptor = new CompoundAcceptor(this);
+    CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;

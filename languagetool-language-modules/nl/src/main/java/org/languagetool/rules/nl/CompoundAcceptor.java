@@ -560,11 +560,7 @@ public class CompoundAcceptor {
 
   private DutchTagger dutchTagger = DutchTagger.INSTANCE;
 
-  CompoundAcceptor() {
-  }
-
-  public CompoundAcceptor(DutchTagger dutchTagger) {
-    this.dutchTagger = dutchTagger;
+  public CompoundAcceptor() {
   }
 
   boolean acceptCompound(String word) {
