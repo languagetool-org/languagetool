@@ -12769,6 +12769,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>…l durante seu governo) e um dos pontos utilizados para atraí-los era, evidentemente, o apoio à construção de rodov…</example>
                 <example>…ao juntar-se mostrou-se…</example>
                 <example correction='te tirei'>Só <marker>tirei-te</marker> o brinquedo, porque te portaste mal</example>
+                <!-- removed 'para' from attractor list, I can't find it in any recent grammar -->
+                <example>Para entendê-los melhor, faça mais perguntas!</example>
             </rule>
 
             <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_MOS">
@@ -12854,6 +12856,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
 
             <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_ENCLISE_ELISAO_FUT_SUBJ_REG">
+                <antipattern>
+                    <token regexp="yes">por|do</token>
+                    <token>que</token>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token postag_regexp="yes" postag="V.+X$"/>
+                    <example>Por que não ensiná-los?</example>
+                    <example>É melhor confiá-la a ti do que entregá-la a um estranho.</example>
+                </antipattern>
+                <antipattern>
+                    <token>-</token>
+                    <token>se</token>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token postag_regexp="yes" postag="V.+X$"/>
+                    <example>Se não se pode ter filhos, pode-se adotá-los.</example>
+                    <example>Pode-se encontrá-la em quase todos os processos químicos.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">saber</token>
+                    <token regexp="yes">quando|onde</token>
+                    <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                    <token postag_regexp="yes" postag="V.+X$"/>
+                    <example>Não sei onde achá-lo.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">ter</token>
+                    <token>que</token>
+                    <token postag_regexp="yes" postag="V.+X$"/>
+                    <example>Temos que achá-lo.</example>
+                    <example>Você terá que adicioná-los um a um.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">se|que|quando|onde</token>
                     <token min="0" postag_regexp="yes" postag="R."/>
