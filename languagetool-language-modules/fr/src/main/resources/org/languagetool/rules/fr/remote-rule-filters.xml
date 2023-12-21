@@ -644,5 +644,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">On s'est bel et bien <marker>rencontrés</marker> hier.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_FR_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="K"/>
+                    <token spacebefore="no">-</token>
+                    <token postag="K"/>
+                    <marker>
+                        <token spacebefore="no">-</token>
+                        <token postag="K"/>
+                        <token spacebefore="no">-</token>
+                        <token postag="K" spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <example correction="">Deux-cent<marker>-vingt-trois</marker> personnes se sont rassemblées devant la mairie.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
