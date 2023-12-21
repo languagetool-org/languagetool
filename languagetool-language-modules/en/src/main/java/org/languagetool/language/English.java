@@ -562,7 +562,6 @@ public class English extends Language implements AutoCloseable {
       case "NNP_COMMA_QUESTION":        return -2;  // prefer other more specific rules
       case "VB_TO_NN_DT":               return -2;  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
       case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
-      case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
       case "CANT_JJ":                   return -2;  // prefer other more specific rules
@@ -592,6 +591,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
+      case "PRP_RB_NO_VB":              return -12;  // prefer other more specific rules (with suggestions)
       case "EN_UPPER_CASE_NGRAM":       return -12;  // prefer other more specific rules (e.g. AI models)
       case "MD_JJ":                     return -12;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
       case "HE_VERB_AGR":               return -12;  // prefer other more specific rules (e.g. AI models, PRP_VBG)
