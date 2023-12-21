@@ -43,7 +43,8 @@ public class OldSpellingRule extends Rule {
     "Mobile Telephone",
     "Cordless Telephone",
     "Telephone Line",
-    "World Telephone"
+    "World Telephone",
+    "Tip Top"
   );
   private static final Supplier<SpellingData> DATA = Suppliers.memoize(() -> new SpellingData(FILE_PATH));
   private static final Pattern CHARS = Pattern.compile("[a-zA-Zöäüß]");
