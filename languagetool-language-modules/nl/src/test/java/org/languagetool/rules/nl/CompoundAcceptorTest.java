@@ -21,15 +21,13 @@ package org.languagetool.rules.nl;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CompoundAcceptorTest {
 
   @Test
-  public void testAcceptCompound() throws IOException {
+  public void testAcceptCompound() {
     CompoundAcceptor acceptor = new CompoundAcceptor();
 
     assertTrue(acceptor.acceptCompound("bedrijfsregels"));
@@ -51,7 +49,9 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("kunstomlijning"));
     assertTrue(acceptor.acceptCompound("webomlijning"));
     assertFalse(acceptor.acceptCompound("lingsboek"));
-    assertTrue(acceptor.acceptCompound("gezondheidsinfluencers"));
+
+    assertTrue(acceptor.acceptCompound("webschoolboek"));
+    assertFalse(acceptor.acceptCompound("gezondheidsomlijningssvervangingsinfluencers"));
 
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
@@ -104,12 +104,11 @@ public class CompoundAcceptorTest {
 
     assertTrue(acceptor.acceptCompound("auto-uitlaat"));
     assertFalse(acceptor.acceptCompound("autouitlaat"));
-
   }
 
   @Ignore("Use for interactive debugging")
   @Test
-  public void testAcceptCompoundInternal() throws IOException {
+  public void testAcceptCompoundInternal() {
     CompoundAcceptor acceptor = new CompoundAcceptor();
     assertTrue(acceptor.acceptCompound("passagiers", "schip"));
     assertTrue(acceptor.acceptCompound("papier", "versnipperaar"));

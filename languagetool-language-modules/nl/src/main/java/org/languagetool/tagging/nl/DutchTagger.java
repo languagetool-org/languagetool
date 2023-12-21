@@ -70,29 +70,29 @@ public class DutchTagger extends BaseTagger {
     super("/nl/dutch.dict", new Locale("nl"));
   }
   private static final Set<String> alwaysNeedsHet = ImmutableSet.of(
-          "patroon",
-          "punt",
-          "gemaal",
-          "weer",
-          "kussen",
-          "deel"
+    "patroon",
+    "punt",
+    "gemaal",
+    "weer",
+    "kussen",
+    "deel"
   );
   private static final Set<String> alwaysNeedsDe = ImmutableSet.of(
-          "keten",
-          "boor",
-          "dans"
+    "keten",
+    "boor",
+    "dans"
   );
   private static final Set<String> alwaysNeedsMrv = ImmutableSet.of(
-          "pies",
-          "koeken",
-          "heden"
+    "pies",
+    "koeken",
+    "heden"
   );
   // custom code to deal with words carrying optional accents
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    CompoundAcceptor compoundAcceptor = new CompoundAcceptor(this);
+    CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
@@ -249,6 +249,11 @@ public class DutchTagger extends BaseTagger {
     }
     
     return tokenReadings;
+  }
+
+  // get tags and prevent tagger from passing value back to CompoundAcceptor, going into tagging loop
+  public List<AnalyzedToken> getPostags(String word) {
+    return asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
   }
 
   private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {

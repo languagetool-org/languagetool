@@ -63,6 +63,13 @@ public class DutchTaggerTest {
     TestTools.myAssert("beoordelingsgeschiedenisje", "beoordelingsgeschiedenisje/[beoordelingsgeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
     TestTools.myAssert("Beoordelingsgeschiedenisjes", "Beoordelingsgeschiedenisjes/[beoordelingsgeschiedenis]ZNW:MRV:VRK:DE_", tokenizer, tagger);
 
+    // Test compound words with 2 parts
+    TestTools.myAssert("beroertegeschiedenisje", "beroertegeschiedenisje/[beroertegeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    // Test compound words with 3 parts
+    TestTools.myAssert("gastkritiekgeschiedenis", "gastkritiekgeschiedenis/[null]null", tokenizer, tagger);
+    // Test compound words with 3+ parts
+    TestTools.myAssert("haarhalfbergnacht", "haarhalfbergnacht/[null]null", tokenizer, tagger);
+
     // This is not modified, as it's already found in dictionary. If it was, getCompoundPOS would give it postag ZNW:EKV, from "mout".
     TestTools.myAssert("havermout", "havermout/[havermout]ZNW:EKV:DE_", tokenizer, tagger);
 
