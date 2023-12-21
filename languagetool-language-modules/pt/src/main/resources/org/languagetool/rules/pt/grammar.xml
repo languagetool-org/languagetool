@@ -16348,23 +16348,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id="ABREVIATURA_DE_PAGINA_PG_PLURAL">
                 <pattern>
                     <marker>
-                        <token regexp="yes">pa?gs</token>
+                        <token regexp="yes" case_sensitive="yes">[pP]a?gs</token>
                         <token postag="_PUNCT_PERIOD" min="0" spacebefore="no"/>
                     </marker>
                 </pattern>
-                <message>Se for a abreviatura de &quot;páginas&quot;, prefira <suggestion>pp.</suggestion> ou <suggestion>págs.</suggestion>.</message>
+                <message>Se for a abreviatura de &quot;páginas&quot;, prefira <suggestion ><match no="1" case_conversion="alllower">pp</match>.</suggestion> ou <suggestion><match no="1" case_conversion="alllower">págs</match>.</suggestion>.</message>
                 <example correction="pp.|págs.">O texto está entre as <marker>pgs.</marker> 4 e 50.</example>
             </rule>
 
-            <rule id="ABREVIATURA_DE_PAGINA_PG_SINGULAR">
+            <rule id="ABREVIATURA_DE_PAGINA_PG_SINGULAR_PLURAL">
                 <pattern>
+                    <token regexp="yes">\d+
+                        <exception>1</exception>
+                    </token>
                     <marker>
-                        <token regexp="yes">pa?g</token>
+                        <token regexp="yes" case_sensitive="yes">[pP]a?g</token>
                         <token postag="_PUNCT_PERIOD" min="0" spacebefore="no"/>
                     </marker>
                 </pattern>
-                <message>Se for a abreviatura de &quot;página&quot;, prefira <suggestion>p.</suggestion> ou <suggestion>pág.</suggestion>.</message>
+                <message>Se for a abreviatura de &quot;páginas&quot;, prefira <suggestion ><match no="2" case_conversion="alllower">pp</match>.</suggestion> ou <suggestion><match no="2" case_conversion="alllower">págs</match>.</suggestion>.</message>
+                <example correction="pp.|págs.">50 <marker>Pag.</marker></example>
+                <example correction="pp.|págs.">Colunas: 48 Espaços Linhas: 40 Linhas Pular: 4 <marker>Pag.</marker></example>
+            </rule>
+
+            <rule id="ABREVIATURA_DE_PAGINA_PG_SINGULAR_AMBIGUO">
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[pP]a?g</token>
+                        <token postag="_PUNCT_PERIOD" min="0" spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <message>Se for a abreviatura de &quot;página&quot;, prefira <suggestion ><match no="1" case_conversion="alllower">p</match>.</suggestion> ou <suggestion><match no="1" case_conversion="alllower">pág</match>.</suggestion>.</message>
                 <example correction="p.|pág.">Leiam a <marker>pg.</marker> 203.</example>
+                <example correction="p.|pág.">(Senelick, <marker>pg.</marker>6).</example>
+                <example>usando um trocadilho para se referir ao PAG.</example>
             </rule>
         </rulegroup>
 
