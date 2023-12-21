@@ -558,14 +558,13 @@ public class CompoundAcceptor {
     }
   }
 
-  private final DutchTagger DutchTagger;
+  private DutchTagger dutchTagger = DutchTagger.INSTANCE;
 
   CompoundAcceptor() {
-    this.DutchTagger = new DutchTagger();
   }
 
   public CompoundAcceptor(DutchTagger DutchTagger) {
-    this.DutchTagger = DutchTagger;
+    this.dutchTagger = DutchTagger;
   }
 
   boolean acceptCompound(String word) {
@@ -622,14 +621,14 @@ public class CompoundAcceptor {
   }
 
   private boolean isNoun(String word) throws IOException {
-    return DutchTagger.getPostags(word).stream().anyMatch(k -> {
+    return dutchTagger.getPostags(word).stream().anyMatch(k -> {
       assert k.getPOSTag() != null;
       return k.getPOSTag().startsWith("ZNW") && !part2Exceptions.contains(word);
     });
   }
 
   private boolean isExistingWord(String word) throws IOException {
-    return DutchTagger.getPostags(word).stream().anyMatch(k -> k.getPOSTag() != null);
+    return dutchTagger.getPostags(word).stream().anyMatch(k -> k.getPOSTag() != null);
   }
 
   private boolean hasCollidingVowels(String part1, String part2) {
