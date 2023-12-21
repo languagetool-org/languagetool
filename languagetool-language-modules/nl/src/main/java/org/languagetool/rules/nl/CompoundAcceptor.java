@@ -563,8 +563,8 @@ public class CompoundAcceptor {
   CompoundAcceptor() {
   }
 
-  public CompoundAcceptor(DutchTagger DutchTagger) {
-    this.dutchTagger = DutchTagger;
+  public CompoundAcceptor(DutchTagger dutchTagger) {
+    this.dutchTagger = dutchTagger;
   }
 
   boolean acceptCompound(String word) {
