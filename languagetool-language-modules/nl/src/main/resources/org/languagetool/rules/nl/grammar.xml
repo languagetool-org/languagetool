@@ -7613,19 +7613,20 @@ regexp case-insensitive maken: (?i)
 				<example correction="vergeetachtig">Hij is wel wat <marker>vergeet achtig</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WIL_DE_GAAN" name="wil de /wilde">
-			<rule>
-				<pattern>
-					<marker>
-						<token>wil</token>
-						<token>de</token>
-					</marker>
-					<token postag_regexp="yes" postag="WKW:TGW:INF.*"/>
-				</pattern>
-				<message>De kans is groot dat u <suggestion>\1\2</suggestion> bedoelt.</message>
-				<example correction="wilde">Hij <marker>wil de</marker> weglopen.</example>
-			</rule>
-		</rulegroup>
+        <rulegroup id="WIL_DE_GAAN" name="wil de /wilde">
+            <rule>
+                <antipattern><token>ik</token><token>wil</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token>wil</token>
+                        <token>de</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:INF.*"/></token>
+                </pattern>
+                <message>De kans is groot dat u <suggestion>\1\2</suggestion> bedoelt.</message>
+                <example correction="wilde">Hij <marker>wil de</marker> weglopen.</example>
+            </rule>
+        </rulegroup>
 		<rulegroup id="DE_DIT_ARTIKEL" name="de_dit / dit">
 			<rule>
 				<pattern>
