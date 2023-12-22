@@ -22,29 +22,48 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RegexRuleFilter;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
-public class BrazilianToponymFilter extends RegexRuleFilter {
+public class BrazilianToponymStateCheckFilter extends RegexRuleFilter {
   private static final BrazilianToponymMap map = new BrazilianToponymMap();
+  private static final BrazilianStateInfoMap stateMap = new BrazilianStateInfoMap();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedSentence sentence, Matcher matcher) {
+    // Group #2 isn't used *for now*, but at some point we may want to utilise this rule to also fix the separator
+    // in one fell swoop, so let's leave it as a matching group.
     String toponym = matcher.group(1);
-    String underlined = matcher.group(2);
     String state = matcher.group(3);
 
-    // TODO: read this from user options or something...
-    String suggestion = "–" + state;
-    if (suggestion.equals(underlined)) {
-      return null;
-    }
     // If it isn't a city in *any* state, it's prob. not intended as a city, so we don't perform the check.
     if (!map.isValidToponym(toponym)) {
       return null;
     }
-    match.setSuggestedReplacement(suggestion);
+    if (map.isToponymInState(toponym, state)) {
+      return null;
+    }
+    BrazilianToponymStateCheckResult checkResult = map.getStatesWithMunicipality(toponym);
+    setStateAbbrevSuggestions(match, checkResult);
+    setMessage(match, checkResult, stateMap.get(state));
     return match;
+  }
+
+  private void setStateAbbrevSuggestions(RuleMatch match, BrazilianToponymStateCheckResult checkResult) {
+    match.setSuggestedReplacements(
+      checkResult.states.stream()
+      .map(stateInfo -> stateInfo.abbreviation)
+      .collect(Collectors.toList())
+    );
+  }
+
+  private void setMessage(RuleMatch match, BrazilianToponymStateCheckResult checkResult, BrazilianStateInfo wrongState) {
+    String inTheStateOf = String.format("no estado %s %s",
+      new PortuguesePreposition("de").contractWith(wrongState.articles[0]),
+      wrongState.name);
+    String message = String.format("O município %s não fica %s.", checkResult.matchedToponym, inTheStateOf);
+    match.setMessage(message);
   }
 }

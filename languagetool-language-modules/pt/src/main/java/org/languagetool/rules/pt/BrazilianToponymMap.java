@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2012 Jaume Ortolà i Font
+ * Copyright (C) 2023 Pedro Goulart
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,13 +22,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 public class BrazilianToponymMap {
-  private final Map<String, List<String>> map;
+  private final Map<String, List<String>> toponymMap;
+  private static final BrazilianStateInfoMap stateMap = new BrazilianStateInfoMap();
 
   BrazilianToponymMap() {
-    map = new BrazilianToponymMapLoader().buildMap();
+    toponymMap = new BrazilianToponymMapLoader().buildMap();
   }
 
   // Since the actually toponym string is only a heuristic, it could be that we match more than we need, e.g.:
@@ -50,22 +53,38 @@ public class BrazilianToponymMap {
 
   public boolean isValidToponym(String toponym) {
     return toponymIter(toponym, toponymToCheck ->
-        map.values().stream().anyMatch(list -> list.contains(toponymToCheck)) ? true : null,
+        toponymMap.values().stream().anyMatch(list -> list.contains(toponymToCheck)) ? true : null,
       false);
   }
 
-  public List<String> getStatesWithMunicipality(String toponym) {
-    List<String> states = new ArrayList<>();
-    map.forEach((state, municipalities) -> {
-      if (municipalities.contains(toponym)) {
-        states.add(state);
-      }
-    });
-    return states;
+  public boolean isToponymInState(String toponym, String state) {
+    List<String> municipalities = toponymMap.get(state);
+    if (municipalities == null) {
+      return false;
+    }
+    Function<String, Boolean> processor = municipalities::contains;
+    return toponymIter(toponym, processor, false);
   }
 
-  public boolean isToponymInState(String toponym, String state) {
-    List<String> municipalities = map.get(state);
-    return municipalities != null && municipalities.contains(toponym);
+  public BrazilianToponymStateCheckResult getStatesWithMunicipality(String toponym) {
+    List<BrazilianStateInfo> allMatchedStates = new ArrayList<>();
+    AtomicReference<String> matchedToponym = new AtomicReference<>(null);
+    String[] originalToponymParts = toponym.split(" ");
+    String[] normalizedToponymParts = toponym.replace('-', ' ').toLowerCase().split(" ");
+    for (int i = 0; i < normalizedToponymParts.length; i++) {
+      String normalizedToponymToCheck = String.join(" ",
+        Arrays.copyOfRange(normalizedToponymParts, i, normalizedToponymParts.length));
+      for (Map.Entry<String, List<String>> entry : toponymMap.entrySet()) {
+        if (entry.getValue().contains(normalizedToponymToCheck)) {
+          allMatchedStates.add(stateMap.get(entry.getKey()));
+          if (matchedToponym.get() == null) {
+            String prettyToponym = String.join(" ",
+              Arrays.copyOfRange(originalToponymParts, i, originalToponymParts.length));
+            matchedToponym.set(prettyToponym);
+          }
+        }
+      }
+    }
+    return new BrazilianToponymStateCheckResult(allMatchedStates, matchedToponym.get());
   }
 }
