@@ -553,6 +553,17 @@ regexp case-insensitive maken: (?i)
 				<example correction="Taalunie">De <marker>taalunie</marker> Toneelschrijfprijs is sinds 1993 een jaarlijkse prijs...</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="STARTWONING" name="Hij is op zoek naar een startwoning(starterswoning)?" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">start(woning|beurs|kit|markt|aftrek).*</token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u misschien: <suggestion><match no="1" regexp_match="^start" regexp_replace="starters"/></suggestion>?</message>
+				<example correction="starterswoning">Hij is op zoek naar een <marker>startwoning</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="BURGERKING" name="Burger King">
 			<!-- Antipattern for CompoundAcceptor -->
 			<rule>
