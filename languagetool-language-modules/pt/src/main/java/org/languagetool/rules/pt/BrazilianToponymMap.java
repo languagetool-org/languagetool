@@ -44,7 +44,11 @@ public class BrazilianToponymMap {
     for (int i = 0; i < toponymLength; i++) {
       String toponymToCheck = String.join(" ", Arrays.copyOfRange(toponymParts, i, toponymLength));
       T result = processor.apply(toponymToCheck);
-      if (result != null) {
+      if (result instanceof Boolean) {
+        if ((Boolean) result) {
+          return result;
+        }
+      } else if (result != null) {
         return result;
       }
     }
