@@ -40,6 +40,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
 
   private final MultiWordChunker chunker = new MultiWordChunker("/pt/multiwords.txt", true, true);
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, "NPCN000");
   private final Disambiguator disambiguator;
 
   public PortugueseHybridDisambiguator(Language lang) {
@@ -63,7 +64,7 @@ public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled)
       throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled);
   }
 
 }
