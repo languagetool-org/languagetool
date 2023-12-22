@@ -16377,6 +16377,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>A galáxia deve pesar 50 Pg.</example>
             </antipattern>
 
+            <antipattern>
+                <token/>
+                <token>-</token>
+                <token regexp="yes">pa?g</token>
+                <example>Extinção K-Pg.</example>
+            </antipattern>
+
             <rule id="ABREVIATURA_DE_PAGINA_PG_PLURAL">
                 <pattern>
                     <marker>
@@ -16390,9 +16397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <rule id="ABREVIATURA_DE_PAGINA_PG_SINGULAR_PLURAL">
                 <pattern>
-                    <token regexp="yes">\d+
-                        <exception>1</exception>
-                    </token>
+                    <token regexp="yes">[2-9]|\d{2,5}</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[pP]a?g</token>
                         <token postag="_PUNCT_PERIOD" min="0" spacebefore="no"/>
@@ -16405,6 +16410,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <rule id="ABREVIATURA_DE_PAGINA_PG_SINGULAR_AMBIGUO">
                 <pattern>
+                    <token negate="yes" regexp="yes">[2-9]|\d{2,5}</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[pP]a?g</token>
                         <token postag="_PUNCT_PERIOD" min="0" spacebefore="no"/>
@@ -16413,6 +16419,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>Se for a abreviatura de &quot;página&quot;, prefira <suggestion ><match no="1" case_conversion="alllower">p</match>.</suggestion> ou <suggestion><match no="1" case_conversion="alllower">pág</match>.</suggestion>.</message>
                 <example correction="p.|pág.">Leiam a <marker>pg.</marker> 203.</example>
                 <example correction="p.|pág.">(Senelick, <marker>pg.</marker>6).</example>
+                <example correction="p.|pág.">Apenas 1 <marker>pag.</marker> para leitura.</example>
+                <example>44 pag.</example>
+                <example>Leram 100 pg. durante o final de semana.</example>
                 <example>usando um trocadilho para se referir ao PAG.</example>
             </rule>
         </rulegroup>
@@ -41209,10 +41218,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id="DEGREE_SYMBOL_WITH_DEGREE_TYPE">
                 <!-- This rule, unlike SIMBOLO_DE_GRAU_ESPACAMENTO, preserves the user's spaces.
                 This is only here to turn the ordinal into a degree sign. That's the rule that fixes spaces.-->
-                <regexp case_sensitive="yes">&any_masc_ord;(\s?(?:&degree_abbrevs;|&cardinal_points;))\b</regexp>
+                <regexp case_sensitive="yes" mark="1">\d+\s?(&any_masc_ord;(\s?(?:&degree_abbrevs;|&cardinal_points;)))\b</regexp>
                 <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:&any_masc_ord;\s?e|\.&any_masc_ord;"/>
                 <message>&degree_ordinal_msg;</message>
-                <suggestion>&deg;\1</suggestion>
+                <suggestion>&deg;\2</suggestion>
                 <example correction="&deg; C">Faz 22<marker>&ordm; C</marker> à sombra.</example>
                 <example correction="&deg;C">Faz 25<marker>&ordm;C</marker> à sombra.</example>
                 <example>Faz 25&deg;.</example>
@@ -41223,6 +41232,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Conforme estabelecido nos artigos 349.&ordm; e 355.&ordm; do Tratado sobre o Funcionamento da União.</example>
                 <example>Depondo seu 13&ordm; e último presidente.</example>
                 <example correction="&deg; N">Está a 55<marker>o N</marker> daqui.</example>
+                <example>Caso C.</example>
+                <example>Seja o conjunto C = {1, 2, 3, 4, 5}</example>
             </rule>
             <rule id="DEGREE_SYMBOL_WITH_CONTEXT_POST">
                 <pattern>
@@ -41283,19 +41294,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&degree_ordinal_msg;</message>
                 <suggestion><match no="1" regexp_match="^(\d+)&any_masc_ord;" regexp_replace="$1&deg;"/></suggestion>
                 <example correction="90&deg;">Coordenadas: <marker>90o</marker> 45&prime;.</example>
+                <example correction="03&deg;">Suas coordenadas geográficas são as seguintes: <marker>03o</marker> 17′ 06′′ de latitude sul</example>
             </rule>
             <rule id="DEGREE_SYMBOL_COORDINATES_EXPLICIT">
                 <pattern>
                     <marker>
-                        <token regexp="yes">\d+&any_masc_ord;</token>
+                        <token regexp="yes" skip="2">\d+&any_masc_ord;</token>
                     </marker>
-                    <token min="0">ao</token>
                     <token regexp="yes">norte|sul|leste|oeste</token>
                 </pattern>
                 <message>&degree_ordinal_msg;</message>
                 <suggestion><match no="1" regexp_match="^(\d+)&any_masc_ord;" regexp_replace="$1&deg;"/></suggestion>
                 <example correction="17&deg;">Fica <marker>17o</marker> ao leste daqui.</example>
                 <example correction="18&deg;">Fica <marker>18&ordm;</marker> norte de lá.</example>
+                <example correction="059&deg;">o "Star of the Seine" rumara <marker>059o</marker> para o leste</example>
+                <example correction="103&deg;">o meridiano <marker>103o</marker> Oeste tem os seguintes cruzamentos:</example>
             </rule>
             <rule id="DEGREE_SYMBOL_RANGES">
                 <pattern>
@@ -41326,13 +41339,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             processing software to know what to do; LT can't do that reliably.-->
             <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_NENHUM" default="on">
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">&degree_token;&degree_abbrevs;</token>
+                    <token regexp="yes" case_sensitive="yes">&degree_token;(?:&degree_abbrevs;)</token>
                 </pattern>
                 <message>Neste caso, põe-se um espaço estreito entre o número e o símbolo de grau.</message>
-                <suggestion><match no="1" regexp_match="^(.+)(&deg;&degree_abbrevs;)$" regexp_replace="$1&nnbsp;$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="^(.+)(&deg;(?:&degree_abbrevs;))$" regexp_replace="$1&nnbsp;$2"/></suggestion>
                 <example correction="22&nnbsp;&deg;C">Faz <marker>22&deg;C</marker> à sombra.</example>
+                <example correction="22&nnbsp;&deg;Rø">Faz <marker>22&deg;Rø</marker> à sombra.</example>
                 <!-- here the space will need to be between the degree sign and the letter, different sub-rule -->
                 <example>As coordenadas são 50&deg;N e 66&deg;W.</example>
+                <example>A ideia parecia seguir os trejeitos de séries como She-Ra.</example>
             </rule>
             <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE" default="temp_off">
                 <pattern>
@@ -41351,10 +41366,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule>
                 <regexp case_sensitive="yes" type="exact">\b(&number_token;)\s?&deg;\s?(&cardinal_points;)\b</regexp>
                 <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:\d&deg;\s&cardinal_points;"/>
-                <message>Em coordenadas geográficas, prefira a formato <suggestion>\1&deg;&nnbsp;\2</suggestion>.</message>
-                <example correction="60&deg;&nnbsp;N">Fica a <marker>60 &deg;N</marker>.</example>
-                <example correction="70&deg;&nnbsp;N">Fica a <marker>70 &deg; N</marker>.</example>
-                <example correction="80&deg;&nnbsp;N">Fica a <marker>80&deg;N</marker>.</example>
+                <message>Em coordenadas geográficas, prefira a formato <suggestion>\1&deg;&nbsp;\2</suggestion>.</message>
+                <example correction="60&deg;&nbsp;N">Fica a <marker>60 &deg;N</marker>.</example>
+                <example correction="70&deg;&nbsp;N">Fica a <marker>70 &deg; N</marker>.</example>
+                <example correction="80&deg;&nbsp;N">Fica a <marker>80&deg;N</marker>.</example>
                 <example>Fica a 90&deg; S.</example>
             </rule>
         </rulegroup>
@@ -41422,7 +41437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>2.a. Sistemas</example>
         </rule>
 
-        <rulegroup id='ORDINAL_ABBREVIATION_DOT' name="Abreviatura de ordinais: 1o -> 1.º" default="temp_off">
+        <rulegroup id='ORDINAL_ABBREVIATION_DOT' name="Abreviatura de ordinais: 1o -> 1.º" default="off">
             <antipattern> <!-- enumeration as 2a. -->
                 <token postag="SENT_START"/>
                 <token regexp="yes">\d+a</token>
@@ -41454,7 +41469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </antipattern>
             <rule> <!-- #1: masc. sg. no dot -->
                 <pattern>
-                    <token regexp='yes'>(?:\d+)&any_masc_ord;
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_masc_ord;
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
@@ -41466,7 +41481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule> <!-- #2: masc. pl. no dot -->
                 <pattern>
-                    <token regexp='yes'>(?:\d+)&any_masc_ord;&any_pl_ord;
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_masc_ord;&any_pl_ord;
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
@@ -41493,7 +41508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
             <rule> <!-- #5: fem. sg. no dot -->
                 <pattern>
-                    <token regexp='yes'>(?:\d+)&any_fem_ord;</token>
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_fem_ord;</token>
                 </pattern>
                 <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&ordf;"/></suggestion>.</message>
                 <example correction="12&NoBreak;.&NoBreak;&ordf;">A premiado é a <marker>12a</marker> da lista.</example>
@@ -41502,7 +41517,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule> <!-- #6: fem. pl. no dot -->
                 <pattern>
-                    <token regexp='yes'>(?:\d+)&any_fem_ord;&any_pl_ord;</token>
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_fem_ord;&any_pl_ord;</token>
                 </pattern>
                 <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
                 <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12as</marker> da lista.</example>
@@ -41559,7 +41574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </antipattern>
             <rule> <!-- #1: masc. sg. w/ dot -->
                 <pattern>
-                    <token regexp='yes'>(?:\d+)\.&any_masc_ord;
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_masc_ord;
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
@@ -41571,7 +41586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule> <!-- #2: masc. pl. w/ dot -->
                 <pattern>
-                    <token regexp='yes'>(?:\d+)\.&any_masc_ord;&any_pl_ord;
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_masc_ord;&any_pl_ord;
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
@@ -41598,7 +41613,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
         <rule> <!-- #5: fem. sg. w/ dot -->
             <pattern>
-                <token regexp='yes'>(?:\d+)\.&any_fem_ord;</token>
+                <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_fem_ord;</token>
             </pattern>
             <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;" regexp_replace="$1&NoBreak;&ordf;"/></suggestion>.</message>
             <example correction="12&NoBreak;&ordf;">A premiado é a <marker>12.a</marker> da lista.</example>
@@ -41607,7 +41622,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
         <rule> <!-- #6: fem. pl. w/ dot -->
             <pattern>
-                <token regexp='yes'>(?:\d+)\.&any_fem_ord;&any_pl_ord;</token>
+                <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_fem_ord;&any_pl_ord;</token>
             </pattern>
             <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
             <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.as</marker> da lista.</example>
@@ -42340,7 +42355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Entre as 9:00 e as 16:45.</example>
         </rule>
 
-        <rulegroup id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA" name="Usar meia-risca entre municípios e estados brasileiros" default="temp_off">
+        <rulegroup id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA" name="Usar meia-risca entre municípios e estados brasileiros" default="on">
             <rule id="SEPARADORES_DE_ESTADOS_BRASILEIROS_MEIA_RISCA_PARENTESES"> <!-- #1: brackets -->
                 <!-- touch this and die :) -->
                 <regexp case_sensitive="yes" mark="2">(\p{Lu}\p{Ll}*(?:[- ](?:&lowercase_in_brazilian_toponyms;)?[- ]?(?:\p{Lu}\p{Ll}*))*)+(\s?\((&state_abbrev_brazil;)\))</regexp>
