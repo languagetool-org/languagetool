@@ -165,6 +165,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern JIST = compile("[Jj]ist");
   private static final Pattern ADHOC = compile("[Ad]hoc");
   private static final Pattern DEACTIVE = compile("[De]eactive");
+  private static final Pattern HONGKONG = compile("Hong Kong");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
   private static final Pattern TV = compile("tv");
@@ -1122,7 +1123,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("grandmom", Arrays.asList("grandma", "grandmother"));
     s.put("Grandmum", Arrays.asList("Grandma", "Grandmother"));
     s.put("Grandmom", Arrays.asList("Grandma", "Grandmother"));
-    s.put("Hongkong", Arrays.asList("Hong Kong"));
     s.put("enlighting", Arrays.asList("enlightening"));
     s.put("Enlighting", Arrays.asList("Enlightening"));
     // For non-US English
@@ -1474,6 +1474,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (HTTP.matcher(word).matches()) return topMatch("HTTP");
     if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
     if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("TV"));
