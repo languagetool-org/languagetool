@@ -63,7 +63,8 @@ public class BrazilianToponymStateCheckFilter extends RegexRuleFilter {
     String inTheStateOf = String.format("no estado %s %s",
       new PortuguesePreposition("de").contractWith(wrongState.articles[0]),
       wrongState.name);
-    String message = String.format("O município %s não fica %s.", checkResult.matchedToponym, inTheStateOf);
+    String message = String.format("Se estiver se referindo a um município, não parece haver cidades com o nome de %s %s.",
+      checkResult.matchedToponym, inTheStateOf);
     match.setMessage(message);
   }
 }
