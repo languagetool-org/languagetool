@@ -44,6 +44,7 @@ public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
   private final Disambiguator disambiguator;
 
   public PortugueseHybridDisambiguator(Language lang) {
+    chunkerGlobal.setIgnoreSpelling(true);
     disambiguator = new XmlRuleDisambiguator(lang, true);
     chunker.setRemovePreviousTags(true);
   }

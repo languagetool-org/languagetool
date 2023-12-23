@@ -529,4 +529,12 @@ public class MorfologikPortugueseSpellerRuleTest {
     // making sure the accents are okay
     assertSingleError("Jordao", ltBR, ruleBR, new String[] {"Jordão"});
   }
+
+  @Test public void testPortugueseSpellerMultitokens() throws Exception {
+    assertNoErrors("BRIGITTE BARDOT", ltBR, ruleBR);
+    assertNoErrors("Brigitte Bardot", ltBR, ruleBR);
+    assertNoErrors("MERCEDES-BENZ", ltBR, ruleBR);
+    assertNoErrors("Mercedes-Benz", ltBR, ruleBR);
+  }
+
 }
