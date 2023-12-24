@@ -1901,4 +1901,24 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	? 283294	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	114307:	 Dat is
+	037998:	 dat is
+	007375:	 Dat heeft
+	006641:	 Dat wordt
+	006576:	 Dat lijkt
+	006461:	 Dat geldt
+	-->
+	<rule id="NEW_012" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:OND:EKV:HET">dat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 </rules>
