@@ -2021,4 +2021,90 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?  74554	(3)	BNW:STL:ONV/VGW/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+    4271:	 naar de deur
+    1914:	 naar de keuken
+    1240:	 naar de grond
+     802:	 naar de auto
+     752:	 naar de stad
+     705:	 naar de tafel
+	(there might be a few exceptions. )
+	-->
+	<rule id="NEW_017a" name="-">
+		<pattern>
+			<marker>
+				<token postag="BNW:STL:ONV"/>
+				<token postag="VGW"/>
+				<token postag="VRZ"/>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="VGW"/>
+	</rule>
+	<rule id="NEW_017b" name="-">
+		<pattern>
+			<marker>
+				<token postag="BNW:STL:ONV"/>
+				<token postag="VRZ"/>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="VRZ"/>
+	</rule>
+
+	<!--
+	?  66213	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF/ZNW:MRV:DE_
+   15992:	~ We moeten
+    9826:	~ We kunnen
+    4772:	~ We willen
+    3668:	~ Wij moeten
+    3029:	~ Wij willen
+    2873:	~ Wij kunnen
+    1363:	~ We lopen
+    1343:	~ We werken
+	-->
+	<rule id="NEW_018" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:MRV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:MRV:ACT"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:MRV:DE_"/>
+	</rule>
+
+	<!--
+	?  64337	(3)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ BNW:STL:VRB ZNW:EKV:DE_
+     920:	 de hele tijd
+     722:	 de hele wereld
+     699:	 de hele nacht
+     514:	 de goede richting
+     487:	 de Europese Commissie
+     481:	 De wetenschappelijke naam
+     372:	 De hele wereld
+     256:	 de huidige situatie
+     237:	 de hele avond
+     202:	 de hele familie
+	-->
+	<rule id="NEW_019" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
+	</rule>
+
 </rules>
