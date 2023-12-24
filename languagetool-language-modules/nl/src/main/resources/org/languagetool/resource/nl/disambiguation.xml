@@ -1686,5 +1686,23 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	? 342690	(2)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
+	004502:	de kinderen
+	004002:	De kinderen
+	003780:	de mensen
+	003553:	de gaten
+	-->
+	<rule id="NEW_002" name="-">
+		<pattern>
+			<marker>
+				<token postag="VNW:AWZ:MRV:DE_">de</token>
+			</marker>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+
 
 </rules>
