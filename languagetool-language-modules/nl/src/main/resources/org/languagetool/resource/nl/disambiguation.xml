@@ -1703,6 +1703,36 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	? 318491	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	124240:	~ Het is
+	047964:	~ Dit is
+	022962:	~ Het gaat
+	009924:	~ Het wordt
+	008039:	~ Het lijkt
+	005645:	~ Dit wordt
+	004774:	~ Het heeft
+	003954:	~ Dit geldt
+	003905:	~ Het blijft
+	003817:	~ Het komt
+	003077:	~ Dit gaat
+	002894:	~ Dit gebeurt
+	002891:	~ Het klinkt
+	002694:	~ Het ziet
+	002212:	~ Het ligt
+	002181:	~ Dit heeft
+	-->
+	<rule id="NEW_003" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:OND:EKV:HET"/>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 
 
 </rules>
