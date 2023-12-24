@@ -1972,4 +1972,53 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="ZNW:EKV"/>
 	</rule>
 
+	<!--
+	? 072216	(3)	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:3EP
+	035325:	~ Wat is
+	008362:	~ Wat betekent
+	003809:	~ Wat doet
+	002000:	~ Wat heeft
+	001633:	~ Wat gebeurt
+	001381:	~ Wat zegt
+	001218:	 'Wat is
+	001182:	~ Wat wordt
+	-->
+	<rule id="NEW_015a" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="remove" postag="BYW:GRD"/>
+	</rule>
+	<rule id="NEW_015b" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="remove" postag="TSW"/>
+	</rule>
+
+	<!--
+	? 068701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	038927:	~ Ik wil
+	019790:	~ Ik moet
+	005065:	~ Ik zit
+	-->
+	<rule id="NEW_016" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<marker>
+				<token postag="WKW:TGW:1EP"/>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 </rules>
