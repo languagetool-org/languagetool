@@ -1902,19 +1902,43 @@ Copyright (C) 2008-2023 Ruud Baars
 	</rule>
 
 	<!--
-	? 283294	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
-	114307:	 Dat is
-	037998:	 dat is
-	007375:	 Dat heeft
-	006641:	 Dat wordt
-	006576:	 Dat lijkt
-	006461:	 Dat geldt
+	? 218691	(3)	SENT_START VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	114105:	~ Dat is
+	007369:	~ Dat heeft
+	006640:	~ Dat wordt
+	006575:	~ Dat lijkt
+	006461:	~ Dat geldt
+	005947:	~ Dat gaat
 	-->
+	<!--
 	<rule id="NEW_012" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
 			<marker>
 				<token postag="VNW:OND:EKV:HET">dat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	-->
+
+	<!--
+	? 080181	(3)	SENT_START VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF WKW:TGW:3EP
+	018508:	~ Je hebt
+	012733:	~ Je kunt
+	003707:	~ Je ziet
+	003184:	~ Je hoeft
+	002898:	~ Je wordt
+	002615:	~ Je krijgt
+	002445:	~ Je gaat
+	002110:	~ Je wilt
+	-->
+	<rule id="NEW_013" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:2EP:EKV:ACT">je</token>
 			</marker>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
