@@ -1945,4 +1945,31 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	? 079542	(3)	GET:TXT:EKV ZNW:EKV/BNW:STL:VRB ZNW:EKV:DE_
+	000259:	 een jonge vrouw
+	000212:	 een lange tijd
+	000195:	 een gezellige avond
+	000193:	 een lange geschiedenis
+	000180:	 een belangrijke factor
+	000161:	 een korte stilte
+	000160:	 een mooie vrouw
+	000150:	 een lange stilte
+	000145:	 een bewuste keuze
+	000139:	 een slechte zaak
+	-->
+	<rule id="NEW_014" name="-">
+		<pattern>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<marker>
+				<and>
+					<token postag="ZNW:EKV"/>
+					<token postag="BNW:STL:VRB"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV"/>
+	</rule>
+
 </rules>
