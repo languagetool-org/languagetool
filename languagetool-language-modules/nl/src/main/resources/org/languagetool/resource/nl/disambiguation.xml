@@ -1858,5 +1858,47 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	? 054616	(2)	BYW/VRZ BNW:STL:ONV
+	009134:	te veel
+	004029:	te laat
+	001919:	te ver
+	001911:	te lang
+	001414:	Te veel
+	001403:	te groot
+	001324:	te snel
+	001316:	te vroeg
+	-->
+	<rule id="NEW_010" name="-">
+		<pattern>
+			<marker>
+				<token postag="BYW">te</token>
+			</marker>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+		</pattern>
+		<disambig postag="BYW:GRD"/>
+	</rule>
+
+	<!--
+	? 083596	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:TGW:3EP
+	022813:	~ Ze is
+	012452:	~ Ze heeft
+	003293:	~ Ze kijkt
+	001928:	~ Ze gaat
+	001590:	~ Ze komt
+	001588:	~ Ze wordt
+	001473:	~ Ze ziet
+	001226:	~ Ze doet
+	-->
+	<rule id="NEW_011" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:3EP:EKV:ACT">ze</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
 </rules>
