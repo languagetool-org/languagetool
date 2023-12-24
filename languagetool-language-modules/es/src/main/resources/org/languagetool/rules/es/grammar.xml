@@ -13460,6 +13460,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rule id="ACE_HACE" name="ace -> hace" default="temp_off">
+            <pattern>
+                <token regexp="yes">aces?</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>h<match no="1" case_conversion="alllower"/></suggestion> (del verbo 'hacer')? "Ace" es un término inglés usado en tenis.</message>
+            <example correction="hace">De esto <marker>ace</marker> mucho tiempo.</example>
+        </rule>
         <rule id="UDS_VDS" name="uds -> Uds.">
             <pattern case_sensitive="yes">
                 <token regexp="yes">uds|vds<exception scope="next" regexp="yes">\.|…</exception></token>
