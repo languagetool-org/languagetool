@@ -1801,6 +1801,62 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="VNW:AWZ:EKV:HET"/>
 	</rule>
 
+	<!--
+	? 066081	(2)	WKW:TGW:3EP WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	036659:	is niet
+	003878:	wordt niet
+	003063:	gaat niet
+	002198:	hoeft niet
+	001284:	komt niet
+	001193:	heeft niet
+	-->
+	<rule id="NEW_007" name="-">
+		<pattern>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BYW">niet</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	? 104843	(2)	VNW:OND:EKV:DE_/VNW:AWZ:EKV:DE_/VNW:OND:MRV:DE_ ZNW:EKV:DE_
+	002040:	 deze pagina
+	001726:	 deze site
+	001518:	 deze tijd
+	001323:	 Deze pagina
+	001164:	 deze website
+	001128:	 deze manier
+	001018:	 deze zaak
+	-->
+	<rule id="NEW_008" name="-">
+		<pattern>
+			<marker>
+				<token postag="VNW:OND:EKV:DE_">deze</token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	? 089364	(2)	WKW:TGW:1EP/ZNW:EKV:DE_/VNW:PER:1EP:EKV:BEZ ZNW:EKV:DE_
+	003481:	 Mijn naam
+	001492:	 mijn vrouw
+	001321:	 mijn zoon
+	001316:	 Mijn vrouw
+	001287:	 mijn kamer
+	001241:	 mijn dochter
+	001211:	 mijn rug
+	-->
+	<rule id="NEW_009" name="-">
+		<pattern>
+			<marker>
+				<token postag="VNW:PER:1EP:EKV:BEZ">mijn</token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
 
 </rules>
