@@ -535,6 +535,8 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("Brigitte Bardot", ltBR, ruleBR);
     assertNoErrors("MERCEDES-BENZ", ltBR, ruleBR);
     assertNoErrors("Mercedes-Benz", ltBR, ruleBR);
+    assertNoErrors("big band", ltBR, ruleBR);
+    assertNoErrors("BIG BANDS", ltBR, ruleBR);
   }
 
 }
