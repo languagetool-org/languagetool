@@ -13462,10 +13462,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
         <rule id="ACE_HACE" name="ace -> hace" default="temp_off">
             <pattern>
-                <token regexp="yes">aces?</token>
+                <token>ace<exception postag="_possible_NP"/><exception case_sensitive="yes">ACE</exception></token>
             </pattern>
-            <message>¿Quería decir <suggestion>h<match no="1" case_conversion="alllower"/></suggestion> (del verbo 'hacer')? "Ace" es un término inglés usado en tenis.</message>
+            <message>¿Quería decir <suggestion>hace</suggestion> (del verbo 'hacer')? "Ace" es un término inglés usado en tenis.</message>
             <example correction="hace">De esto <marker>ace</marker> mucho tiempo.</example>
+            <example>También predijeron un índice ACE de 165, mencionando que unas condiciones de El Niño eran improbabes para antes del inicio de la temporada.</example>
+        </rule>
+        <rule id="ACES_HACES" name="aces -> haces" default="temp_off">
+            <pattern>
+                <token>aces<exception postag="_possible_NP"/></token>
+            </pattern>
+            <message>¿Quería decir <suggestion>haces</suggestion> (del verbo 'hacer')? "Ace" es un término inglés usado en tenis.</message>
+            <example correction="haces">¿Qué <marker>aces</marker> ahora?</example>
         </rule>
         <rule id="UDS_VDS" name="uds -> Uds.">
             <pattern case_sensitive="yes">
