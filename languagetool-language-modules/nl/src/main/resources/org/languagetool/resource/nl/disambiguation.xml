@@ -2005,7 +2005,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	</rule>
 
 	<!--
-	? 068701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	? 068701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:1EP/ZNW:EKV:DE_
 	038927:	~ Ik wil
 	019790:	~ Ik moet
 	005065:	~ Ik zit
@@ -2015,10 +2015,14 @@ Copyright (C) 2008-2023 Ruud Baars
 			<token postag="SENT_START"/>
 			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
 			<marker>
-				<token postag="WKW:TGW:1EP"/>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="WKW:VLT:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
 			</marker>
 		</pattern>
-		<disambig action="filterall"/>
+		<disambig action="remove" postag="ZNW:EKV:DE_"/>
 	</rule>
 
 	<!--
