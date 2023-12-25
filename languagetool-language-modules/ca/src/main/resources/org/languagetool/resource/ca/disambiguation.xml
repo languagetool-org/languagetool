@@ -1057,13 +1057,34 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="segon_ordinal" name="segon (ordinal) amb error de gènere">
         <pattern>
             <marker>
-                <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">segon|bo<exception>segons</exception></token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">segon|bo|primer<exception>segons</exception></token>
             </marker>
-            <!-- anàlisi, síndrome...  -->
+            <!-- anàlisi, síndrome, casa...  -->
             <token postag="NCF.*" postag_regexp="yes" regexp="yes">..+<exception postag="SPS00|C.*|P.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="A.*"/>
     </rule>
+    <rulegroup id="casa_nom" name="casa (nom)">
+        <rule>
+            <pattern>
+                <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">segon|bo<exception>segons</exception></token>
+                <marker>
+                    <token postag="NCF.*" postag_regexp="yes" inflected="yes">casa</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCF.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCF.*" postag_regexp="yes" inflected="yes">casa<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token><exception regexp="yes">manera|forma</exception></token>
+            </pattern>
+            <disambig action="filter" postag="NCF.*"/>
+        </rule>
+    </rulegroup>
     <rule id="dos_o_mes" name="dos o més">
         <pattern>
             <marker>
@@ -15884,6 +15905,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="PI.*"/>
         </rule>
     </rulegroup>
+    <rule id="primer_adj" name="primer (adjectiu, no adverbi)">
+        <pattern>
+            <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+            <token min="0" max="3" regexp="yes">\p{P}</token>
+            <marker>
+                <token postag="AO0MS0">primer</token>
+            </marker>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="RG"/>
+    </rule>
     <rulegroup id="FORCA2" name="força: tractament especial (det, adj, nom, adv, verb...)">
         <!-- TODO: ampliar -->
         <rule>
