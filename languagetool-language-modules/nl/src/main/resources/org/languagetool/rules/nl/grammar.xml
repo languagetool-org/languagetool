@@ -576,6 +576,18 @@ regexp case-insensitive maken: (?i)
 				<example correction="Burger King">De <marker>burgerking</marker> heeft die nieuwe broodjes.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="MOEDERKANT" name="moeder(s)kant">
+			<!-- Antipattern for CompoundAcceptor -->
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">moeder(kant|naam|zijde).*</token>
+					</marker>
+				</pattern>
+				<message>Waarschijnlijk ontbreekt hier de tussen-s: <suggestion><match no="1" regexp_match="^moeder" regexp_replace="moeders"/></suggestion>.</message>
+				<example correction="moederskant">Hij was <marker>moederkant</marker> aan hem verwant.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
