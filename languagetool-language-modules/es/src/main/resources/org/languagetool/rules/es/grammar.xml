@@ -13460,15 +13460,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
-        <rule id="ACE_HACE" name="ace -> hace" default="temp_off">
-            <pattern>
-                <token>ace<exception postag="_possible_NP"/><exception case_sensitive="yes">ACE</exception></token>
-            </pattern>
-            <message>¿Quería decir <suggestion>hace</suggestion> (del verbo 'hacer')? "Ace" es un término inglés usado en tenis.</message>
-            <example correction="hace">De esto <marker>ace</marker> mucho tiempo.</example>
-            <example>También predijeron un índice ACE de 165, mencionando que unas condiciones de El Niño eran improbabes para antes del inicio de la temporada.</example>
-        </rule>
-        <rule id="ACES_HACES" name="aces -> haces" default="temp_off">
+        <rulegroup id="ACE_HACE" name="ace -> hace">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>Ace</token>
+                    </marker>
+                    <token postag="[PD].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>hace</suggestion> (del verbo 'hacer')? "Ace" es un término inglés usado en tenis.</message>
+                <example correction="Hace"><marker>Ace</marker> mucho tiempo.</example>
+                <example correction="Hace">¿<marker>Ace</marker> él algo para solucionarlo?</example>
+                <example correction="Hace"><marker>Ace</marker> mucho de todo esto.</example>
+                <example>También predijeron un índice ACE de 165, mencionando que unas condiciones de El Niño eran improbabes para antes del inicio de la temporada.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>ace</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>hace</suggestion> (del verbo 'hacer')? "Ace" es un término inglés usado en tenis.</message>
+                <example correction="hace">De esto <marker>ace</marker> mucho tiempo.</example>
+                <example>También predijeron un índice ACE de 165, mencionando que unas condiciones de El Niño eran improbabes para antes del inicio de la temporada.</example>
+            </rule>
+        </rulegroup>
+        <rule id="ACES_HACES" name="aces -> haces">
             <pattern>
                 <token>aces<exception postag="_possible_NP"/></token>
             </pattern>
