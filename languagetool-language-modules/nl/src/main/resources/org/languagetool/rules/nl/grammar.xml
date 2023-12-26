@@ -9392,7 +9392,7 @@ regexp case-insensitive maken: (?i)
 					<example>Hier heeft de WUR profijt van.</example>
 				</antipattern>
 				<antipattern>
-					<token case_sensitive="yes" regexp="yes">[IVXM]{2}</token>
+					<token case_sensitive="yes" regexp="yes">[IVX]{2}</token>
 					<token postag=".*ZNW.*" postag_regexp="yes"/>
 					<example>Daar heeft Ramses II verbetering gebracht.</example>
 				</antipattern>
@@ -17689,6 +17689,36 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>Bedoelt u misschien: <suggestion>het \2 \3</suggestion>?</message>
 				<example correction="het aantal abonnees">Toch is <marker>aantal abonnees</marker> gestegen.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="EEN_DIGITALISERING" name="Dit terwijl een() digitalisering plaatsvindt.">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="VGW"/>
+						<token>een</token>
+						<token regexp="yes">.*sering</token>
+					</marker>
+				</pattern>
+				<message>Het lidwoord '\2' kan hier worden weggelaten.</message>
+				<suggestion>\1 \3</suggestion>
+				<example correction="terwijl digitalisering">Dit <marker>terwijl een digitalisering</marker> plaatsvindt.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="GEBRUIK_GEBRUIKT" name="Toch gebruik(t) 20% geen mobiele telefoon.">
+			<rule>
+				<pattern>
+					<marker>
+						<token><exception postag_regexp="yes" postag="BNW.*"/></token>
+						<token regexp="yes">gebruik|word</token>
+						<token regexp="yes">([1-9]|[1-9][0-9]|100)%</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>\1 <match no="2" postag="WKW:TGW:3EP"/> \3</suggestion></message>
+				<example correction="Toch gebruikt 20%"><marker>Toch gebruik 20%</marker> geen mobiele telefoon.</example>
+				<example correction=") gebruikt 91%">Volgens de nationale benchmark (Nationale Benchmark, 2020<marker>) gebruik 91%</marker> van de bedrijven</example>
 			</rule>
 		</rulegroup>
 
