@@ -2025,4 +2025,27 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="ZNW:EKV:DE_"/>
 	</rule>
 
+	<!--
+	?  80861	(4)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP BYW
+    6406:	~ Het is niet
+    4341:	~ Het is ook
+    2802:	~ Het is nog
+    2739:	~ Dit is niet
+    2552:	~ Het is hier
+    2532:	~ Het ziet er
+    2258:	~ Het is er
+    2035:	~ Het is toch
+	-->
+	<rule id="NEW_017" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:OND:EKV:HET"/>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 </rules>
