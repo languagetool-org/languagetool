@@ -1057,7 +1057,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="segon_ordinal" name="segon (ordinal) amb error de gènere">
         <pattern>
             <marker>
-                <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">segon|bo|primer<exception>segons</exception></token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">segon|bo<exception>segons</exception></token>
             </marker>
             <!-- anàlisi, síndrome, casa...  -->
             <token postag="NCF.*" postag_regexp="yes" regexp="yes">..+<exception postag="SPS00|C.*|P.*" postag_regexp="yes"/></token>
@@ -15906,6 +15906,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="primer_adj" name="primer (adjectiu, no adverbi)">
+        <antipattern>
+            <token skip="5">primer</token>
+            <token regexp="yes" min="1" max="2">,|i</token>
+            <token regexp="yes">després|posteriorment</token>
+        </antipattern>
         <pattern>
             <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
             <token min="0" max="3" regexp="yes">\p{P}</token>
