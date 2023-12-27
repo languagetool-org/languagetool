@@ -2121,4 +2121,77 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="ZNW:MRV:DE_"/>
 	</rule>
 
+	<!--
+	?  65965	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:VLT:1EP
+    6109:	 Het werd
+    5066:	 Het zou
+    4463:	 Het ging
+    3028:	 Het klonk
+    2128:	 Het had
+    2075:	 Het kwam
+    2049:	 Het begon
+    1720:	 Het kon
+    1710:	 het zou
+    1543:	 Het voelde
+    1354:	 Het bleef
+	-->
+	<rule id="NEW_022" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="VNW:OND:MRV:HET"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+				</and>
+			</marker>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+		</pattern>
+		<disambig action="remove" postag="^(VNW:OND:MRV:HET|VNW:AWZ:EKV:HET)$"/>
+	</rule>
+
+	<!--
+	?  70353	(2)	VNW:URT/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:3EP
+   35325:	 Wat is
+    8362:	 Wat betekent
+    3809:	 Wat doet
+    2000:	 Wat heeft
+    1633:	 Wat gebeurt
+    1381:	 Wat zegt
+    1182:	 Wat wordt
+    1147:	 Wat houdt
+    1097:	 Wat gaat
+	-->
+	<rule id="NEW_023" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:VRG">wat</token>
+			</marker>
+			<token postag="WKW:VLT:3EP"><exception negate_pos="yes" postag="WKW:VLT:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?  65227	(2)	VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:TGW:INF
+   13256:	 Ze hebben
+    3749:	 Ze worden
+    2736:	 Ze zullen
+    2694:	 Ze gaan
+    2425:	 Ze komen
+    1666:	 Ze staan
+	-->
+	<rule id="NEW_024" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:3EP:MRV:ACT"/>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+
 </rules>
