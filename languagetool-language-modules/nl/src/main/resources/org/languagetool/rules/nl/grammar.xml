@@ -588,6 +588,30 @@ regexp case-insensitive maken: (?i)
 				<example correction="moederskant">Hij was <marker>moederkant</marker> aan hem verwant.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="PAARDENRIJDEN" name="paarden(paard)rijden">
+			<!-- Antipattern for CompoundAcceptor -->
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">paarden(rij).*</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="^paarden" regexp_replace="paard"/></suggestion>.</message>
+				<example correction="paardrijden">Ik doe aan <marker>paardenrijden</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TOETSBORD" name="toets(en)bord">
+			<!-- Antipattern for CompoundAcceptor -->
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">toets(bord).*</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="^toets" regexp_replace="toetsen"/></suggestion>.</message>
+				<example correction="toetsenbord">Wat vind je van mijn nieuwe <marker>toetsbord</marker>?</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
