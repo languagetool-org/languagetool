@@ -2162,6 +2162,7 @@ Copyright (C) 2008-2023 Ruud Baars
     1147:	 Wat houdt
     1097:	 Wat gaat
 	-->
+	<!--
 	<rule id="NEW_023" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
@@ -2172,7 +2173,7 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-
+	-->
 	<!--
 	?  65227	(2)	VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:TGW:INF
    13256:	 Ze hebben
@@ -2182,6 +2183,7 @@ Copyright (C) 2008-2023 Ruud Baars
     2425:	 Ze komen
     1666:	 Ze staan
 	-->
+	<!--
 	<rule id="NEW_024" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
@@ -2192,6 +2194,112 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+	-->
+	<!--
+	?  64337	(3)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ BNW:STL:VRB ZNW:EKV:DE_
+     920:	 de hele tijd
+     722:	 de hele wereld
+     699:	 de hele nacht
+     514:	 de goede richting
+     487:	 de Europese Commissie
+	-->
+	<rule id="NEW_025" name="-">
+		<pattern>
+			<marker>
+				<token postag="VNW:AWZ:EKV:DE_"/>
+			</marker>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
+	<!--
+	?  63921	(2)	BYW:GRD/WKW:TGW:1EP BNW:STL:ONV
+    4224:	 heel erg
+    2868:	 heel mooi
+    2277:	 heel belangrijk
+    1349:	 Heel erg
+    1329:	 heel blij
+    1198:	 heel duidelijk
+    1154:	 heel bijzonder
+	-->
+	<rule id="NEW_026" name="-">
+		<pattern>
+			<marker>
+				<token postag="BYW:GRD">heel</token>
+			</marker>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?  62198	(2)	VNW:AWZ:EKV:DE_ WKW:TGW:3EP/ZNW:EKV:DE_
+    6786:	 De rest
+    6401:	 de lucht
+    4108:	 de rest
+    3027:	 de markt
+    2643:	 de wet
+    2388:	 de boot
+    2267:	 de kaart
+    2187:	 De lucht
+    1665:	 de lift
+    1571:	 de lijst
+	-->
+	<rule id="NEW_027" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:3EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:3EP"/>
+	</rule>
+
+	<!--
+	?  71462	(3)	SENT_START BYW/VGW WKW:TGW:3EP
+	13342:	~ Daar is
+	(de andere startwoorden niet)
+	-->
+	<rule id="NEW_028" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="BYW">daar</token>
+			</marker>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?  59836	(2)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/ZNW:EKV:DE_
+    8934:	 Ik kom
+    7202:	 Ik kijk
+    4024:	 Ik krijg
+    2989:	 Ik zeg
+    2573:	 Ik snap
+    1884:	 Ik bel
+    1686:	 Ik wens
+    1538:	 Ik dank
+    1080:	 ik zeg
+	-->
+	<rule id="NEW_029" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV:DE_"/>
+	</rule>
 
 </rules>
