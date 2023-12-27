@@ -2063,4 +2063,62 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?  71462	(3)	SENT_START BYW/VGW WKW:TGW:3EP
+	13342:	~ Daar is
+	(de andere startwoorden niet)
+	-->
+	<rule id="NEW_019" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="BYW">daar</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?  68701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+   38927:	~ Ik wil
+   19790:	~ Ik moet
+    5065:	~ Ik zit
+	-->
+	<rule id="NEW_020" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="WKW:TGW:3EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="^(WKW:TGW:3EP|ZNW:EKV:DE_)$"/>
+	</rule>
+
+	<!--
+	?  66213	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF/ZNW:MRV:DE_
+   15992:	~ We moeten
+    9826:	~ We kunnen
+    4772:	~ We willen
+    3668:	~ Wij moeten
+	-->
+	<rule id="NEW_021" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:MRV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:MRV:ACT"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:MRV:DE_"/>
+	</rule>
+
 </rules>
