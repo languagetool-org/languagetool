@@ -2340,4 +2340,30 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="ZNW:EKV"/>
 	</rule>
 
+	<!--
+	?  65332	(4)	VGW/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT/SENT_END
+    1373:	 voor de deur.
+     889:	 voor de toekomst.
+     800:	 om de hoek.
+     531:	 voor de hand.
+     445:	 met de auto.
+     409:	 voor de boeg.
+     262:	 met de hand.
+     249:	 voor de lunch.
+	-->
+	<rule id="NEW_032" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="remove" postag="VGW"/>
+	</rule>
+
 </rules>
