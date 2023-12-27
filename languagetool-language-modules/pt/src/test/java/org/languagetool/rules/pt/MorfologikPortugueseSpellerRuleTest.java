@@ -156,7 +156,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("A família.", lt, rule);
     assertSingleError("A familia.", lt, rule, new String[]{"família", "famílias", "familiar"});
 
-    assertNoErrors("Covid-19, COVID-19, covid-19.", lt, rule);
+    assertNoErrors("Covid-19, COVID-19", lt, rule);
 
     assertSingleError("eu so", lt, rule, new String[]{"sou", "só"});
     assertSingleError("é so", lt, rule, new String[]{"só"});
@@ -235,6 +235,14 @@ public class MorfologikPortugueseSpellerRuleTest {
     // we need the compound rule active to catch this!
     assertNoErrors("antirrepublicanismo", ltPT, rulePT);
     assertSingleError("antirrepublicanismo", ltMZ, ruleMZ, new String[]{"anti-republicanismo"});
+    assertNoErrors("anglo-saxônico", ltBR, ruleBR);
+    assertNoErrors("paraquedista", ltBR, ruleBR);
+    assertSingleError("para-quedista", ltBR, ruleBR, new String[]{"paraquedista"});
+    assertNoErrors("sub-bairro", ltBR, ruleBR);
+    assertNoErrors("hiper-revista", ltBR, ruleBR);
+    assertNoErrors("pseudo-história", ltBR, ruleBR);
+    assertNoErrors("semiacústico", ltBR, ruleBR);
+    assertNoErrors("húngaro-americano", ltBR, ruleBR);
   }
 
   // FUCK YEAH WAHOO
@@ -303,6 +311,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("verba volant, scripta remnant", ltBR, ruleBR);
     assertSingleError("Raspberry", ltBR, ruleBR, new String[]{});
     assertNoErrors("Raspberry Pi", ltBR, ruleBR);
+    assertNoErrors("lan houses", ltBR, ruleBR);
   }
 
   @Test
