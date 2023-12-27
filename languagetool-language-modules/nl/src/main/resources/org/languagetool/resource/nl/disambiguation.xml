@@ -2300,4 +2300,44 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="ZNW:EKV:DE_"/>
 	</rule>
 
+	<!--
+	?  57018	(3)	BYW/VGW/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+    1896:	 voor de deur
+    1291:	 voor de toekomst
+     837:	 voor de hand
+     678:	 Voor de rest
+	-->
+	<rule id="NEW_030" name="-">
+		<pattern>
+			<marker>
+				<token>voor</token>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="BYW"/>
+	</rule>
+
+	<!--
+	?  54749	(3)	ZNW:EKV/BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT/SENT_END
+     283:	 mooie foto's.
+     209:	 blote voeten.
+     208:	 sociale media.
+     195:	 jonge kinderen.
+     194:	 vele mogelijkheden.
+	-->
+	<rule id="NEW_031" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="ZNW:EKV"/>
+					<token postag="BNW:STL:VRB"/>
+				</and>
+			</marker>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV"/>
+	</rule>
+
 </rules>
