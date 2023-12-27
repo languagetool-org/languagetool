@@ -2774,7 +2774,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
       partialWord = partialWord.endsWith(".") ? partialWord.substring(0, partialWord.length()-1) : partialWord;
-      boolean isCandidateForNonHyphenatedCompound = !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
+      boolean isNoun = isNoun(partialWord);
+      boolean isUppercaseNoun = false;
+      if (!isNoun && !startsWithUppercase(partialWord)) {
+        isUppercaseNoun = isNoun(uppercaseFirstChar(partialWord));
+      }
+      boolean isCandidateForNonHyphenatedCompound = (isNoun || isUppercaseNoun) && !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
       boolean needFugenS = isNeedingFugenS(ignoredWord);
       if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 2) {
         return hunspell.spell(partialWord) || hunspell.spell(StringUtils.capitalize(partialWord));
