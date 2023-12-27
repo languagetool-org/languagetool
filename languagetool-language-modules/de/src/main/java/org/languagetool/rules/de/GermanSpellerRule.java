@@ -2322,6 +2322,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("Wi-Fi");
     } else if ("W-Lan".equalsIgnoreCase(word)) {
       return singletonList("WLAN");
+    } else if ("Endstadion".equals(word)) {
+      return singletonList("Endstadium");
+    } else if ("Endstadions".equals(word)) {
+      return singletonList("Endstadiums");
     } else if ("genomen".equals(word)) {
       return singletonList("genommen");
     } else if ("Preis-Leistungsverhältnis".equals(word)) {
