@@ -3619,6 +3619,24 @@ USA
         </rule>
     </category>
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
+
+
+        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp='yes'>aos|os</token>
+                    <token>países</token>
+                    <token>do</token>
+                    <token>terceiro</token>
+                    <token>mundo</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal pode omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
+            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
+            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
+        </rule>
+
+
         <!-- VESTIR calçar -->
         <rule id='CONFUSÃO_VESTIR_CALÇAR' name="[Confusão] vestir/calçar" tags='picky' tone_tags="formal">
             <antipattern>
