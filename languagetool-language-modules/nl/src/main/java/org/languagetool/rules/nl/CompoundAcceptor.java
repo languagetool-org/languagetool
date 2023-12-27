@@ -288,7 +288,6 @@ public class CompoundAcceptor {
     "chocolade",
     "club",
     "collecte",
-    "collega",
     "competitie",
     "computer",
     "contract",
