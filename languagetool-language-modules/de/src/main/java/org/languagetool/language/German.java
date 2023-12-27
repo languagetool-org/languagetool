@@ -387,6 +387,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("FUER_INSBESONDERE", 1); // prefer over KOMMA_VOR_ERLAEUTERUNG
     id2prio.put("COVID_19", 1); // prefer over PRAEP_GEN and DE_AGREEMENT
     id2prio.put("DA_VOR", 1); // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("DAS_WUENSCHE_ICH", 1); // prefer over DE_AGREEMENT
     id2prio.put("KLEINSCHREIBUNG_MAL", 1); // prefer over DE_AGREEMENT
     id2prio.put("VERINF_DAS_DASS_SUB", 1); // prefer over DE_AGREEMENT
     id2prio.put("IM_ALTER", 1); // prefer over ART_ADJ_SOL
