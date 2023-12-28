@@ -2366,4 +2366,40 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="VGW"/>
 	</rule>
 
+	<!--
+	?  64767	(2)	BYW TSW/WKW:TGW:1EP/BYW/ZNW:EKV
+   13015:	 nog wel
+   12688:	 er wel
+   11800:	 ook wel
+    6211:	 toch wel
+    2544:	 Misschien wel
+    2499:	 misschien wel
+	-->
+	<rule id="NEW_033" name="-">
+		<pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<token postag="BYW">wel</token>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?  60422	(3)	BNW:STL:ONV/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+    3306:	 naar de deur
+    1552:	 naar de keuken
+    1103:	 naar de grond
+	-->
+	<rule id="NEW_034" name="-">
+		<pattern>
+			<marker>
+				<token postag="VRZ">naar</token>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 </rules>
