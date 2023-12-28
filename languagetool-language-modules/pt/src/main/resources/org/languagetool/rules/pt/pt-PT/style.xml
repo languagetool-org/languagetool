@@ -141,19 +141,18 @@ USA
     </rule>
 
 
-    <rule id='PRAZER_EM_CONVIDAR' name="[pt-PT] Gosto em convidar" tone_tags="formal">
-        <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule id='PRAZER_EM_CONVIDAR' name="[pt-PT] 'prazer' em convidar → 'gosto'" tone_tags="formal" default="temp_off">
         <pattern>
             <marker>
                 <token>prazer</token>
-                <token>em</token>
-                <token regexp='yes' inflected="yes">convidar|convidá</token>
             </marker>
-            <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp="yes" min='0'>los?|vos|te</token>
+            <token skip='4' regexp='yes'>em|que</token>
+            <token inflected='yes'>convidar</token>
         </pattern>
-        <message>Substitua por <suggestion>gosto \2 \3</suggestion>.</message>
-        <example correction="gosto em convidá">Terei o maior <marker>prazer em convidá</marker>-los para a festa.</example>
+        <message>&informal_msg;</message>
+        <suggestion>gosto</suggestion>
+        <example correction="gosto">Terei o maior <marker>prazer</marker> em convidá-los para a festa.</example>
+        <example correction="gosto">É com enorme <marker>prazer</marker> que os convido para a festa.</example>
     </rule>
 
 
