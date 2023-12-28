@@ -10743,26 +10743,30 @@ regexp case-insensitive maken: (?i)
 					<token skip="6" inflected="yes">refereren</token>
 					<token>naar</token>
 				</pattern>
-				<message>Beter is: <suggestion><match no="1" postag="WKW.*">verwijzen</match></suggestion> naar of \1 <suggestion><match no="2" regexp_match="naar" regexp_replace="aan"/></suggestion>.</message>
+				<message>Correct is: verwijzen naar of refereren aan.</message>
+				<suggestion><match no="1" postag="WKW.*" include_skipped="all">verwijzen</match> \2</suggestion>
+				<suggestion><match no="1" include_skipped="all"/> aan</suggestion>
 				<url>https://www.vlaanderen.be/taaladvies/taaladviezen/refereren-aan-refereren-naar</url>
-				<example correction="verwijs|aan">Zoals altijd <marker>refereer ik naar</marker> de beesten.</example>
-				<example correction="verwees|aan">Wat betreft de blijdschap <marker>refereerde ik naar</marker> de jongen.</example>
-				<example correction="verwijzen|aan">De brillenglazen <marker>refereren naar</marker> informatieontvangers.</example>
-				<example correction="verwijzend|aan">Vermogenseenheid <marker>refererend naar</marker> het vermogen van 1mW.</example>
-				<example correction="verwijst|aan">Een woord dat <marker>refereert naar</marker> gevoelens van leegte en gemis.</example>
+				<example correction="verwijs ik naar|refereer ik aan">Zoals altijd <marker>refereer ik naar</marker> de beesten.</example>
+				<example correction="verwees ik naar|refereerde ik aan">Wat betreft de blijdschap <marker>refereerde ik naar</marker> de jongen.</example>
+				<example correction="verwijzen naar|refereren aan">De brillenglazen <marker>refereren naar</marker> informatieontvangers.</example>
+				<example correction="verwijzend naar|refererend aan">Vermogenseenheid <marker>refererend naar</marker> het vermogen van 1mW.</example>
+				<example correction="verwijst naar|refereert aan">Een woord dat <marker>refereert naar</marker> gevoelens van leegte en gemis.</example>
 			</rule>
 			<rule>
 				<pattern>
 					<token skip="6">naar</token>
 					<token inflected="yes">refereren</token>
 				</pattern>
-				<message>Beter is: <suggestion><match no="1" regexp_match="naar" regexp_replace="aan"/></suggestion> \2 of naar <suggestion><match no="2" postag="WKW.*">verwijzen</match></suggestion>.</message>
+				<message>Correct is: refereren aan of verwijzen naar.</message>
+				<suggestion><match no="1" regexp_match="naar" regexp_replace="aan" include_skipped="all"/> \2</suggestion>
+				<suggestion><match no="1" include_skipped="all"/> <match no="2" postag="WKW.*">verwijzen</match></suggestion>
 				<url>https://www.vlaanderen.be/taaladvies/taaladviezen/refereren-aan-refereren-naar</url>
 				<example>Als hij <marker>naar de oude zaak verwijst</marker>, komt het goed.</example>
-				<example correction="aan|verwijzen">Stukjes ongerept groen die vaagweg <marker>naar de omgeving van Waterloo refereren</marker> ook.</example>
-				<example correction="aan|verwezen">Er zal daarom niet <marker>naar dit werk gerefereerd</marker> worden.</example>
-				<example correction="aan|verwijst">Het oude project waar hij <marker>naar refereert</marker> is de aanleg van de fortengordel.</example>
-				<example correction="aan|verwijst">Die landen waar jij <marker>naar refereert</marker> zijn tenonder gegaan aan personencultus.</example>
+				<example correction="aan de omgeving van Waterloo refereren|naar de omgeving van Waterloo verwijzen">Stukjes ongerept groen die vaagweg <marker>naar de omgeving van Waterloo refereren</marker> ook.</example>
+				<example correction="aan dit werk gerefereerd|naar dit werk verwezen">Er zal daarom niet <marker>naar dit werk gerefereerd</marker> worden.</example>
+				<example correction="aan refereert|naar verwijst">Het oude project waar hij <marker>naar refereert</marker> is de aanleg van de fortengordel.</example>
+				<example correction="aan refereert|naar verwijst">Die landen waar jij <marker>naar refereert</marker> zijn tenonder gegaan aan personencultus.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="MANKEREN" name="Mankeren">
