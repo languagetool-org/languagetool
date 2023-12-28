@@ -826,6 +826,18 @@ public class JLanguageTool {
    * sentences against all currently active rules.
    *
    * @param text the text to be checked
+   * @param level the level to use for text checking, e.g. whether picky rules should be activated
+   * @return a List of {@link RuleMatch} objects
+   */
+  public List<RuleMatch> check(String text, Level level) throws IOException {
+    return check(new AnnotatedTextBuilder().addText(text).build(), true, ParagraphHandling.NORMAL, null, level);
+  }
+
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
+   *
+   * @param text the text to be checked
    * @return a List of {@link RuleMatch} objects
    * @since 3.7
    */
@@ -883,10 +895,18 @@ public class JLanguageTool {
   /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
+   */
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
+    return check(annotatedText, tokenizeText, paraMode, listener, Level.DEFAULT);
+  }
+
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
    *
    * @since 3.7
    */
-  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Level level) throws IOException {
     Mode mode;
     if (paraMode == ParagraphHandling.ONLYNONPARA) {
       mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
@@ -895,7 +915,7 @@ public class JLanguageTool {
     } else {
       mode = Mode.ALL;
     }
-    return check(annotatedText, tokenizeText, paraMode, listener, mode, Level.DEFAULT);
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, level);
   }
 
   /**
