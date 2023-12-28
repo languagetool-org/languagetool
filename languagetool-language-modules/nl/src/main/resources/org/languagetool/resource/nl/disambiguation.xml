@@ -2401,4 +2401,47 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?  58402	(3)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+    1238:	 De man was
+     769:	 de hand was
+     648:	 De lucht was
+	-->
+	<rule id="NEW_035" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<token postag="WKW:VLT:1EP">was</token>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?  51280	(2)	ZNW:EKV:DE_/BNW:STL:VRB ZNW:EKV:DE_
+     332:	 fijne vakantie
+     325:	 fijne avond
+     230:	 vriendelijke bediening
+     215:	 Fijne avond
+     192:	 geweldige ervaring
+     162:	 Koude Oorlog
+     153:	 koude rilling
+     144:	 kostbare tijd
+     132:	 centrale verwarming
+     127:	 Fijne vakantie
+	-->
+	<rule id="NEW_036" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV:DE_"/>
+	</rule>
+
 </rules>
