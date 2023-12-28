@@ -9467,13 +9467,13 @@ regexp case-insensitive maken: (?i)
 					<example>Hier heeft de WUR profijt van.</example>
 				</antipattern>
 				<antipattern>
-					<token case_sensitive="yes" regexp="yes">[IVX]{2}</token>
+					<token case_sensitive="yes" regexp="yes">[IVX]{2,4}</token>
 					<token postag=".*ZNW.*" postag_regexp="yes"/>
 					<example>Daar heeft Ramses II verbetering gebracht.</example>
 				</antipattern>
 				<pattern case_sensitive="yes">
-					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">AND|JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ|VIES|MAAR|HAAR|VOOR|HET</exception></token>
-					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|BYW.*" postag_regexp="yes"/><exception regexp="yes">sprake|tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception><exception postag_regexp="yes" postag="GET.*MRV"/></token>
+					<token regexp="yes">06|[A-Z]{2,4}|[0-9][A-Z]<exception regexp="yes">EUR|OVER|ELK|DOOR|NU|GOED|AND|JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN|[23]D|3M|TMZ|VIES|MAAR|HAAR|VOOR|HET</exception></token>
+					<token postag=".*ZNW.*" postag_regexp="yes"><exception postag=".*WKW.*|.*BNW.*|BYW.*" postag_regexp="yes"/><exception regexp="yes">.*heid|sprake|tegen|zit|moet|wel|wil|kan|is|uur|nee|alweer|nu|eenmaal|over|van|twee|achteruit|alles|u|haar|iets|GB|MB|[A-Z0-9].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|\.|hoe|voor|na|wat|weinig|ons|meer|hun|middels|duizenden|.*dag(avond|middag|ochtend)?</exception><exception postag_regexp="yes" postag="GET.*MRV"/></token>
 				</pattern>
 				<message><match no="1" case_conversion="startupper"/> en <match no="2"/> kunnen samen één (Nederlandstalig) begrip zijn. In dit geval past hier beter <suggestion><match no="1"/>-<match no="2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/afkorting-in-samenstelling/</url>
@@ -9497,7 +9497,10 @@ regexp case-insensitive maken: (?i)
 					<token>de</token>
 					<marker>
 						<token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
-						<token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:(TGW|VLT).*|GET:TXT.*|VGW:*" postag_regexp="yes"/><exception regexp="yes">haar|niettemin|weer|wel|over|&months;|&abbrevMonths;</exception></token>
+						<token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes">
+							<exception postag="WKW:(TGW|VLT).*|GET:TXT.*|VGW:*" postag_regexp="yes"/>
+							<exception regexp="yes">.*baar|.*heid|haar|niettemin|weer|wel|over|&months;|&abbrevMonths;</exception>
+						</token>
 					</marker>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
@@ -24260,7 +24263,7 @@ regexp case-insensitive maken: (?i)
 					<token><exception>’</exception></token>
 					<marker>
 						<token regexp="yes" case_sensitive="yes">.*[a-z].*<exception postag_regexp="yes" postag="SENT_START|START"/></token> <!-- TODO: Look at full list of matches and re-assess regex -->
-						<token case_sensitive="yes"><match no="1"/><exception regexp="yes">aan|agar|ai|attentie|balletje|bla|bling|bora|bye|dat|de|die|enz|etc|ha|haar|het|hey|hi|hiep|hoi|is|ja|je|lepeltje|leven|la|leren|nee|nou|sam|sapiens|toi|tom|van|via|ze|zijn</exception></token>
+						<token case_sensitive="yes"><match no="1"/><exception regexp="yes">aan|agar|ai|attentie|balletje|bla|bling|bora|bye|dat|de|die|enz|etc|ha|haar|het|hey|hi|hiep|ho|hoi|is|ja|je|lepeltje|leven|la|leren|nee|nou|phi|sam|sapiens|toi|tom|van|via|was|ze|zijn</exception></token>
 					</marker>
 				</pattern>
 				<message>Hier staat een dubbel woord, bedoelde u soms: <suggestion>\2</suggestion>, of hoort er een komma tussen? <suggestion>\2, \3</suggestion></message>
@@ -24268,6 +24271,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="heeft|heeft, heeft">Terwijl de rest nog nul punten <marker>heeft heeft</marker> Karel er al vijf.</example>
 				<example>Zeg nooit nooit.</example>
 				<example>Attentie attentie, beste reizigers.</example>
+				<example>De was was weg.</example>
 				<example>Je moet je eigen leven leven!</example>
 			</rule>
 			<rule>
