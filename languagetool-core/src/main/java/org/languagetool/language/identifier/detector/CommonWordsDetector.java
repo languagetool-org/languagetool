@@ -68,7 +68,9 @@ public class CommonWordsDetector {
                 throw new IOException("Common words file not found for " + lang + ": " + path);
               }
             } else {
-              System.out.println("WARN: no common words file defined for " + lang + " - this language might not be correctly auto-detected");
+              if (!lang.getShortCode().matches("ja|km")) {
+                System.out.println("WARN: no common words file defined for " + lang + " - this language might not be correctly auto-detected");
+              }
               continue;
             }
             try (Scanner scanner = new Scanner(stream, "utf-8")) {
