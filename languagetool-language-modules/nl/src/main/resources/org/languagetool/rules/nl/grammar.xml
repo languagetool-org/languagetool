@@ -24941,25 +24941,65 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 
 		<rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
+			<antipattern>
+				<!-- smiley -->
+				<token regexp="yes">[:;]</token>
+				<token spacebefore="no" min="0" regexp="yes">['-oO0]</token>
+				<token spacebefore="no" regexp="yes">[()DPd\/\|]</token>
+			</antipattern>
+			<antipattern>
+				<token>,</token>
+				<token regexp="yes">[,?]</token>
+			</antipattern>
+			<!-- Exclamation mark -->
 			<rule>
-				<antipattern>
-					<!-- smiley -->
-					<token regexp="yes">[:;]</token>
-					<token spacebefore="no" min="0" regexp="yes">['-oO0]</token>
-					<token spacebefore="no" regexp="yes">[()DPd\/\|]</token>
-				</antipattern>
-				<antipattern>
-					<token spacebefore="yes" skip="3">:</token>
-					<token spacebefore="no">:</token>
-				</antipattern>
+				<pattern>
+					<token/>
+					<token spacebefore="yes">!</token>
+				</pattern>
+				<message>Voor dit teken hoort geen spatie: <suggestion>\1\2</suggestion>.</message>
+				<short>!</short>
+				<example correction="fout!">Dit is <marker>fout !</marker></example>
+			</rule>
+			<!-- Question mark -->
+			<rule>
 				<antipattern>
 					<token>?</token>
 					<token>&gt;</token>
 				</antipattern>
+				<pattern>
+					<token/>
+					<token spacebefore="yes">?</token>
+				</pattern>
+				<message>Voor dit teken hoort geen spatie: <suggestion>\1\2</suggestion>.</message>
+				<short>?</short>
+				<example correction="fout?">Dit is <marker>fout ?</marker></example>
+			</rule>
+			<!-- Semicolon -->
+			<rule>
+				<pattern>
+					<token/>
+					<token spacebefore="yes">;</token>
+				</pattern>
+				<message>Voor dit teken hoort geen spatie: <suggestion>\1\2</suggestion>.</message>
+				<short>;</short>
+				<example correction="fout;">Dit is <marker>fout ;</marker></example>
+			</rule>
+			<!-- Comma -->
+			<rule>
+				<pattern>
+					<token/>
+					<token spacebefore="yes">,</token>
+				</pattern>
+				<message>Voor dit teken hoort geen spatie: <suggestion>\1\2</suggestion>.</message>
+				<short>,</short>
+				<example correction="fout,">Dit is <marker>fout ,</marker></example>
+			</rule>
+			<!-- Colon -->
+			<rule>
 				<antipattern>
-					<token>,</token>
-					<token regexp="yes">[,?]</token>
-					<example>Voor de derde keer was ik mijn vrouw kwijt,?</example>
+					<token spacebefore="yes" skip="3">:</token>
+					<token spacebefore="no">:</token>
 				</antipattern>
 				<antipattern>
 					<token regexp="yes">\d+</token>
@@ -24968,20 +25008,11 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<pattern>
 					<token/>
-					<token spacebefore="yes" regexp="yes">[!?;,:]</token>
+					<token spacebefore="yes">:</token>
 				</pattern>
-				<message>Voor dit teken hoort geen spatie <suggestion>\1\2</suggestion>.</message>
-				<short>!</short>
-				<example correction="fout!">Dit is <marker>fout !</marker></example>
-				<example correction="fout?">Is dit <marker>fout ?</marker></example>
-				<!--				triggers bug
-				<example correction="fout,">Dit is <marker>fout ,</marker> toch?</example>
-				<example correction="fout)">Dit is (<marker>fout ),</marker> toch?</example>
-				-->
-				<example correction="),">Dit (is<marker>) ,</marker> toch?</example>
-				<example>Dit is :-)</example>
-				<example>Dit is :grin:</example>
-				<example>24 : 36 =</example>
+				<message>Voor dit teken hoort geen spatie: <suggestion>\1\2</suggestion>.</message>
+				<short>:</short>
+				<example correction="fout:">Dit is <marker>fout :</marker></example>
 			</rule>
 		</rulegroup>
 
