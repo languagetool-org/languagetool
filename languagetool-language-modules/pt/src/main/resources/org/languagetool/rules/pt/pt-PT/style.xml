@@ -155,20 +155,26 @@ USA
         <message>Substitua por <suggestion>gosto \2 \3</suggestion>.</message>
         <example correction="gosto em convidá">Terei o maior <marker>prazer em convidá</marker>-los para a festa.</example>
     </rule>
-    <rule id='PÔR_FIM_À_VIDA' name="[pt-PT] pôr termo à vida" tone_tags="formal">
-        <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+
+
+    <rule id='PÔR_FIM_À_VIDA' name="[pt-PT] pôr 'fim' à vida → 'termo'" tone_tags="formal" default="temp_off">
         <pattern>
             <token inflected='yes'>pôr</token>
             <marker>
+                <token min='0' max='1' regexp='yes'>o|um</token>
                 <token>fim</token>
             </marker>
-            <token>à</token>
+            <token skip='4' regexp='yes'>à</token>
             <token>vida</token>
         </pattern>
-        <message>Melhore a redação.</message>
+        <message>&informal_msg;</message>
         <suggestion>termo</suggestion>
         <example correction="termo">O Rui pôs <marker>fim</marker> à vida.</example>
+        <example correction="termo">O Rui pôs <marker>um fim</marker> à vida.</example>
+        <example correction="termo">O Rui pôs <marker>fim</marker> à sua trágica vida.</example>
     </rule>
+
+
     <rule id='CICLO_VICIOSO' name="[pt-PT] Calinada: Círculo vicioso" tags="picky" tone_tags="objective">
         <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
         <pattern>
