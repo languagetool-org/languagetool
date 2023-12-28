@@ -123,10 +123,13 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
     if (fasttextBinary != null && fasttextModel != null) {
       try {
         fastTextDetector = new FastTextDetector(fasttextModel, fasttextBinary);
-        logger.info("Started fasttext process for language identification: Binary {} with model @ {}", fasttextBinary, fasttextModel);
+        logger.info("Started fastText process for language identification: Binary {} with model @ {}", fasttextBinary, fasttextModel);
       } catch (IOException e) {
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
+    } else {
+      logger.warn("fastText not configured - language detection performance will be degraded. " +
+        "See https://dev.languagetool.org/http-server#starting-from-command-line for instructions.");
     }
   }
 
