@@ -2582,15 +2582,54 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="LIJDT_LEIDT" name="waarschuwing bij gebruik lijdt i.p.v. leidt">
 			<rule>
-				<pattern><marker><token regexp="yes">leidt?</token></marker><token>aan</token></pattern>
-				<message>Bedoelt u misschien <suggestion><match no="1" regexp_match="leid" regexp_replace="lijd"/></suggestion> (pijn)? Of toch sturen?</message>
-				<example correction="lijdt">Het woord <marker>leidt</marker> aan een vergissing.</example>
+				<antipattern>
+					<token case_sensitive="yes">Leiden</token>
+				</antipattern>
+				<pattern>
+					<token skip="1" postag="BYW"><exception>af</exception></token>
+					<token>aan</token>
+					<marker>
+						<token inflected="yes">leiden</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="3" postag_regexp="yes" postag="WKW.*">lijden</match></suggestion>.</message>
+				<example correction="lijden">Zij kunnen er ook aan <marker>leiden</marker>.</example>
 			</rule>
 			<rule>
-				<antipattern><token regexp="yes">leidt?</token><token>tot</token></antipattern>
-				<pattern><token skip="5">aan</token><marker><token regexp="yes">leidt?</token></marker></pattern>
-				<message>Bedoelt u misschien <suggestion><match no="2" regexp_match="leid" regexp_replace="lijd"/></suggestion> (pijn)? Of toch sturen?</message>
-				<example correction="lijdt">Het aan woord <marker>leidt</marker> een vergissing.</example>
+				<antipattern>
+					<token>op</token>
+					<token>geleid</token>
+				</antipattern>
+				<antipattern>
+					<token skip="1" inflected="yes">leiden</token>
+					<token skip="2">aan</token>
+					<token regexp="yes">eind.*|begin.*|boord|dek|hand.*</token>
+				</antipattern>
+				<antipattern>
+					<token case_sensitive="yes">Leiden</token>
+				</antipattern>
+				<antipattern>
+					<token skip="-1" inflected="yes">leiden</token>
+					<token>tot</token>
+					<example>Dat leidt hoe dan ook tot incidenten.</example>
+				</antipattern>
+				<antipattern>
+					<token>te</token>
+					<token inflected="yes">leiden</token>
+					<example>Dat valt af te leiden aan de reactie.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token inflected="yes">leiden</token>
+					</marker>
+					<token min="0">
+						<exception postag_regexp="yes" postag="ZNW.*|VNW:PER:3EP.*|ITP.*|WKW.*"/>
+						<exception regexp="yes">is|en|naar|die|dat</exception>
+					</token>
+					<token>aan</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">lijden</match></suggestion>.</message>
+				<example correction="lijden">Zij <marker>leiden</marker> aan chronische griep.</example>
 			</rule>
 		</rulegroup>
 
