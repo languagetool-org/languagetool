@@ -123,6 +123,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SPECIAL_CASE_THIRD = compile("[A-ZÖÄÜ][a-zöäüß]{2,}(ei|öl)$");
   private static final Pattern ZB = compile("z[bB]");
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
+  private static final Pattern DIRECTION = compile("nord|ost|süd|west");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -2779,7 +2780,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!isNoun && !startsWithUppercase(partialWord)) {
         isUppercaseNoun = isNoun(uppercaseFirstChar(partialWord));
       }
-      boolean isCandidateForNonHyphenatedCompound = (isNoun || isUppercaseNoun) && !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
+      boolean isDirection = DIRECTION.matcher(ignoredWord).matches();
+      boolean isCandidateForNonHyphenatedCompound = (isDirection || isNoun || isUppercaseNoun) && !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
       boolean needFugenS = isNeedingFugenS(ignoredWord);
       if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 2) {
         return hunspell.spell(partialWord) || hunspell.spell(StringUtils.capitalize(partialWord));

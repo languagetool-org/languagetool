@@ -998,6 +998,8 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Willkommenbei")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Fantasieschafft")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Babyquietschte")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("nordwestfranzösisch")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("nordestnisch")).length);
   }
   
   @Test
