@@ -2386,7 +2386,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	</rule>
 
 	<!--
-	?  60422	(3)	BNW:STL:ONV/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	?  60422	(3)	BNW:STL:ONV/VRZ VNW:AWZ:EKV:DE_
     3306:	 naar de deur
     1552:	 naar de keuken
     1103:	 naar de grond
@@ -2394,10 +2394,9 @@ Copyright (C) 2008-2023 Ruud Baars
 	<rule id="NEW_034" name="-">
 		<pattern>
 			<marker>
-				<token postag="VRZ">naar</token>
+				<token postag="VRZ" regexp="yes">naar|na</token>
 			</marker>
 			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
