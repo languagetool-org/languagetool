@@ -2444,4 +2444,41 @@ Copyright (C) 2008-2023 Ruud Baars
 		<disambig action="remove" postag="ZNW:EKV:DE_"/>
 	</rule>
 
+	<!--
+	?  51074	(2)	GET:TXT:MRV/ZNW:EKV:DE_ ZNW:MRV:DE_
+    1251:	 tien minuten
+    1232:	 vijf minuten
+     749:	 twee kinderen
+     638:	 twee soorten
+     515:	 twee minuten
+     486:	 drie kinderen
+     435:	 Vijf minuten
+	-->
+	<rule id="NEW_037" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="GET:TXT:MRV"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="ZNW:MRV:DE_"/>
+	</rule>
+
+	<!--
+	?  49919	(2)	SENT_START BYW:VRG/ZNW:EKV:HET
+   47261:	~ Waarom
+	-->
+	<rule id="NEW_038" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="BYW:VRG">waarom</token>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 </rules>
