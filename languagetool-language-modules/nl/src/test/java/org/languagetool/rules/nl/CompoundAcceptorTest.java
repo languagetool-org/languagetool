@@ -55,6 +55,9 @@ public class CompoundAcceptorTest {
 
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
+    // prevent duplicate part1 & part2 from being accepted
+    assertFalse(acceptor.acceptCompound("vriendenvrienden"));
+
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
     assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
 
