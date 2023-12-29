@@ -61,7 +61,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|verträglich)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|verträglich|resistent)";
   private static final Pattern missingAdjPattern =
     compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
   private static final Pattern compoundPatternWithHeit = compile(".*(heit|keit|ion|ität|schaft|ung|tät)s");
@@ -3758,6 +3758,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "nciht": return topMatch("nicht");
       case "heutejournal": return topMatch("heute journal");
       case "wikipedia": return topMatch("Wikipedia");
+      case "Einfallspinsel": return topMatch("Einfaltspinsel");
+      case "Einfallspinseln": return topMatch("Einfaltspinseln");
+      case "Parcour": return topMatch("Parcours");
     }
     return Collections.emptyList();
   }
