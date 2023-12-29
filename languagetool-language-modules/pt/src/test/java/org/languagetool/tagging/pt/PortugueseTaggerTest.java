@@ -80,4 +80,10 @@ public class PortugueseTaggerTest {
     // degree sign
     TestTools.myAssert("12°", "12°/[12°]NCMP000", tokenizer, tagger);
   }
+
+  @Test
+  public void testContractionTagging() throws IOException {
+    TestTools.myAssert("das", "das/[de:o]SPS00:DA0FP0", tokenizer, tagger);
+    TestTools.myAssert("to", "to/[tu:ele]PP2CSO00:PP3MSA00", tokenizer, tagger);
+  }
 }
