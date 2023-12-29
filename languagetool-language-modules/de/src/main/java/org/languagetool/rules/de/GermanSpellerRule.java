@@ -1758,9 +1758,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         char prevPrevChar = origWord.charAt(firstSz-2);
         char prevChar = origWord.charAt(firstSz-1);
         if (GermanTools.isVowel(prevPrevChar) && GermanTools.isVowel(prevChar)) {
-          return "Nach einem Doppellaut aus zwei Vokalen (hier: " + prevPrevChar + prevChar + ") schreibt man 'ß' statt 'ss'.";
+          return "Nach einer Silbe aus zwei Vokalen (hier: " + prevPrevChar + prevChar + ") schreibt man 'ß' statt 'ss'.";
         } else {
-          return "Nach einem lang gesprochenen Vokal (hier: " + prevChar + ") schreibt man 'ß' statt 'ss'.";
+          return "Nach einer lang gesprochenen Silbe (hier: " + prevChar + ") schreibt man 'ß' statt 'ss'.";
         }
       }
     }

@@ -65,9 +65,9 @@ public class GermanSpellerRuleTest {
   public void testGetMessage() {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(rule.getMessage("aussen", new SuggestedReplacement("außen")),
-      is("Nach einem Doppellaut aus zwei Vokalen (hier: au) schreibt man 'ß' statt 'ss'."));
+      is("Nach einer Silbe aus zwei Vokalen (hier: au) schreibt man 'ß' statt 'ss'."));
     assertThat(rule.getMessage("Strasse", new SuggestedReplacement("Straße")),
-      is("Nach einem lang gesprochenen Vokal (hier: a) schreibt man 'ß' statt 'ss'."));
+      is("Nach einer lang gesprochenen Silbe (hier: a) schreibt man 'ß' statt 'ss'."));
     assertThat(rule.getMessage("STRASSE", new SuggestedReplacement("STRAßE")),
       is("Möglicher Tippfehler gefunden."));
     assertThat(rule.getMessage("nomral", new SuggestedReplacement("normal")),
