@@ -1287,7 +1287,7 @@
     <rule>
       <pattern>
         <token postag="RN|RG" postag_regexp="yes"><exception postag="CS"></exception></token>
-        <token postag="P[^I].*" postag_regexp="yes"><exception inflected="yes">comigo</exception></token>
+        <token postag="P[^I].*" postag_regexp="yes"><exception regexp="yes">comigo|con[ts]igo|con[nv]?osco|n[oa]s?</exception></token>
         <token postag="V.[SI].*" postag_regexp="yes"/>
       </pattern>
       <disambig action="filterall"/>
@@ -2226,12 +2226,12 @@
   <rule id="NOS_DEU" name="nos deu, nos servia...">
     <pattern>
       <marker>
-        <token postag="PP.*" postag_regexp="yes">nos</token>
+        <token postag="PP1.*" postag_regexp="yes">nos</token>
       </marker>
       <!--<token regexp="yes">deu|servia</token>-->
       <token postag="V.[IS].*" postag_regexp="yes"><exception postag="NCMP000"/></token>
     </pattern>
-    <disambig action="remove" postag="SP.*"/>
+    <disambig action="remove" postag="SP.*|PP3.+"/>
   </rule>
 
   <rule id="PREPOSICIONAL_PHRASES" name="Expressões prepositivas">
@@ -4076,6 +4076,30 @@
       </rule>
   </rulegroup>
   
+  <rulegroup name="Add interjection tag to common laughter onomatopoeia" id="INTERJ_LAUGHTER">
+      <!-- p-goulart@2023-12-28 - DESC: remove from both dictionaries, this is best done with a regexp -->
+      <rule id="INTERJ_HAHA_HEHE">
+          <pattern>
+              <token regexp="yes">(h[ea])+h?</token>
+          </pattern>
+          <disambig action="add"><wd pos="I"/></disambig>
+      </rule>
+
+      <rule id="INTERJ_HUEHUE">
+          <pattern>
+              <token regexp="yes">(hue)+h?</token>
+          </pattern>
+          <disambig action="add"><wd pos="I"/></disambig>
+      </rule>
+
+      <rule id="INTERJ_KKK_LAUGHTER">
+          <pattern>
+              <token regexp="yes">k{3,15}</token>
+          </pattern>
+          <disambig action="add"><wd pos="I"/></disambig>
+      </rule>
+  </rulegroup>
+
 <!--  <rulegroup name="Ignore spelling of domain names" id="IMMUNIZE_DOMAIN_NAMES">
     <rule>
       <pattern case_sensitive="yes">
@@ -4096,6 +4120,16 @@
       <disambig action="immunize"/>  
     </rule>
   </rulegroup>-->
+
+  <rulegroup name="Add tag to English-style decades (e.g. 1850s)" id="ENGLISH_STYLE_DECADES">
+      <!-- p-goulart@2023-12-28 - DESC: according to Marco this is apparently occasionally used in Portugal -->
+      <rule>
+          <pattern>
+              <token regexp="yes">1\d\d0s</token>
+          </pattern>
+          <disambig action="add"><wd pos="NCMP000"/></disambig>
+      </rule>
+  </rulegroup>
 
   <rule id="DA" name="dá">
     <antipattern>
@@ -4182,5 +4216,29 @@
       </pattern>
       <disambig action="remove"><wd lemma="iriar"/></disambig>
     </rule>
+  </rulegroup>
+
+  <rulegroup id="ELISION_CLITICS_OUT_OF_CONTEXT" name="Remove PP tags from certain clitics unless in the right context">
+      <rule>
+          <antipattern>
+              <token>-</token>
+              <token postag_regexp="yes" postag="PP3.+" regexp="yes" spacebefore="no">n[oa]s?</token>
+          </antipattern>
+          <pattern>
+              <token regexp="yes" postag_regexp="yes" postag="PP3.+">n[oa]s?</token>
+          </pattern>
+          <disambig action="remove" postag="PP3.+"/>
+      </rule>
+      <rule>
+          <antipattern>
+              <token postag_regexp="yes" postag="PP[12].+" regexp="yes">[nv]o</token>
+              <token spacebefore="no">-</token>
+              <token postag_regexp="yes" postag="PP.+" regexp="yes" spacebefore="no">l[oa]s?</token>
+          </antipattern>
+          <pattern>
+              <token regexp="yes" postag_regexp="yes" postag="PP[12].+">[nv]o</token>
+          </pattern>
+          <disambig action="remove" postag="PP[12].+"/>
+      </rule>
   </rulegroup>
 </rules>
