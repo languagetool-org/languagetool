@@ -24,9 +24,7 @@ public class GermanTools {
   }
 
   public static boolean isVowel(char c) {
-    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y' ||
-      c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' || c == 'Y' ||
-      c == 'ä' || c == 'ö' || c == 'ü' || c == 'Ä' || c == 'Ö' || c == 'Ü');
+    return "aeiouyAEIOUYäöüÄÖÜ".indexOf(c) >= 0;
   }
 
 }
