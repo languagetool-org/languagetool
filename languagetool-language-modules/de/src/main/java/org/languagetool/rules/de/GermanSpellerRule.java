@@ -2289,13 +2289,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
         (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
         !isMisspelled(part1) &&
-        !isMisspelled(part2uc) &&
-        isMisspelled(part2) // don't accept e.g. "Azubikommt"
+        isNoun(part2uc) // don't accept e.g. "Azubikommt"
       ) {
       System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
       return true;
     }
     return false;
+  }
+
+  private boolean isAdjective(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("ADJ:"));
   }
 
   private boolean isNoun(String word) throws IOException {
@@ -2781,7 +2784,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         isUppercaseNoun = isNoun(uppercaseFirstChar(partialWord));
       }
       boolean isDirection = DIRECTION.matcher(ignoredWord).matches();
-      boolean isCandidateForNonHyphenatedCompound = (isDirection || isNoun || isUppercaseNoun) && !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
+      boolean isAdjective = isAdjective(ignoredWord);
+      boolean isDirectionalAdjective = (isDirection && (isAdjective || partialWord.matches(".+ische?[mnrs]?")));
+      boolean isCandidateForNonHyphenatedCompound = (isDirectionalAdjective || isNoun || isUppercaseNoun) && !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
       boolean needFugenS = isNeedingFugenS(ignoredWord);
       if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 2) {
         return hunspell.spell(partialWord) || hunspell.spell(StringUtils.capitalize(partialWord));

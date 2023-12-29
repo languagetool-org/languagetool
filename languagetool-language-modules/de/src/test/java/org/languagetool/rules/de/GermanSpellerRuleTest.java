@@ -1000,6 +1000,11 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Babyquietschte")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("nordwestfranzösisch")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("nordestnisch")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("westmünsterländische")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("süddeutschland")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktopbetrieb")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktophintergrund")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Unibetrieb")).length);
   }
   
   @Test
