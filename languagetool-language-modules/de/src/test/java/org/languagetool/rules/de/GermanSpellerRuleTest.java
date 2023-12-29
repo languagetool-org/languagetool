@@ -33,6 +33,7 @@ import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
@@ -60,6 +61,19 @@ public class GermanSpellerRuleTest {
   // NOTE: also manually run SuggestionRegressionTest when the suggestions are changing!
   //
   
+  @Test
+  public void testGetMessage() {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.getMessage("aussen", new SuggestedReplacement("außen")),
+      is("Nach einem Doppellaut aus zwei Vokalen (hier: au) schreibt man 'ß' statt 'ss'."));
+    assertThat(rule.getMessage("Strasse", new SuggestedReplacement("Straße")),
+      is("Nach einem lang gesprochenen Vokal (hier: a) schreibt man 'ß' statt 'ss'."));
+    assertThat(rule.getMessage("STRASSE", new SuggestedReplacement("STRAßE")),
+      is("Möglicher Tippfehler gefunden."));
+    assertThat(rule.getMessage("nomral", new SuggestedReplacement("normal")),
+      is("Möglicher Tippfehler gefunden."));
+  }
+
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);

@@ -244,17 +244,14 @@ public class HunspellRule extends SpellingCheckRule {
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           String cleanWord2 = cleanWord.substring(dashCorr);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
-            ruleMatch.setLazySuggestedReplacements(() -> {
-              try {
-                List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
-                if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
-                  sugg.get(0).setConfidence(HIGH_CONFIDENCE);
-                }
-                return sugg;
-              } catch (IOException e) {
-                throw new RuntimeException(e);
-              }
-            });
+            List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
+            if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
+              sugg.get(0).setConfidence(HIGH_CONFIDENCE);
+            }
+            if (sugg.size() > 0) {
+              ruleMatch.setMessage(getMessage(cleanWord2, sugg.get(0)));
+            }
+            ruleMatch.setSuggestedReplacementObjects(sugg);
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
@@ -294,6 +291,16 @@ public class HunspellRule extends SpellingCheckRule {
       }
     }*/
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @NotNull
+  protected String getMessage(String origWord, SuggestedReplacement firstSuggestion) {
+    return messages.getString("spelling");
+  }
+
+  @NotNull
+  protected String getShortMessage(String origWord, SuggestedReplacement firstSuggestion) {
+    return messages.getString("desc_spelling_short");
   }
 
   protected boolean acceptSuggestion(String suggestion) {

@@ -124,6 +124,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern ZB = compile("z[bB]");
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
   private static final Pattern DIRECTION = compile("nord|ost|süd|west");
+  private static final Pattern SS = compile("ss");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -1746,6 +1747,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // words from spelling.txt also accepted in uppercase (e.g. sentence start, bullet list items):
         (FIRST_UPPER_CASE.matcher(word).matches() && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
       (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
+  }
+
+  @NotNull
+  @Override
+  protected String getMessage(String origWord, SuggestedReplacement firstSuggestion) {
+    if (SS.matcher(origWord).replaceFirst("ß").equals(firstSuggestion.getReplacement())) {
+      int firstSz = origWord.indexOf("ss");
+      if (firstSz >= 2) {
+        char prevPrevChar = origWord.charAt(firstSz-2);
+        char prevChar = origWord.charAt(firstSz-1);
+        if (GermanTools.isVowel(prevPrevChar) && GermanTools.isVowel(prevChar)) {
+          return "Nach einem Doppellaut aus zwei Vokalen (hier: " + prevPrevChar + prevChar + ") schreibt man 'ß' statt 'ss'.";
+        } else {
+          return "Nach einem lang gesprochenen Vokal (hier: " + prevChar + ") schreibt man 'ß' statt 'ss'.";
+        }
+      }
+    }
+    return messages.getString("spelling");
   }
 
   @Override
