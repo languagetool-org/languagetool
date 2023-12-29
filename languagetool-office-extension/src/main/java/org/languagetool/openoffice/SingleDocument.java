@@ -116,7 +116,8 @@ public class SingleDocument {
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
   private Language docLanguage;                   //  docLanguage (usually the Language of the first paragraph)
   private final Language fixedLanguage;           //  fixed language (by configuration); if null: use language of document (given by LO/OO)
-  private LanguageToolMenus ltMenus = null;       //  LT menus (tools menu and context menu)
+  private LtMenus ltMenus = null;                 //  LT menus (tools menu and context menu)
+  private LtToolbar ltToolbar = null;             //  LT dynamic toolbar
   private ResultCache statAnCache = null;         //  Cache for results of statistical analysis
   private String statAnRuleId = null;             //  RuleId of current statistical rule tested
 
@@ -165,7 +166,7 @@ public class SingleDocument {
       setFlatParagraphTools();
     }
     if (!mDocHandler.isOpenOffice && docType == DocumentType.IMPRESS && ltMenus == null) {
-      ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
+      ltMenus = new LtMenus(xContext, this, config);
     }
   }
   
@@ -400,7 +401,10 @@ public class SingleDocument {
         mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);
       }
       if (ltMenus == null && !mDocHandler.isOpenOffice && docType == DocumentType.WRITER && paraText.length() > 0) {
-        ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
+        ltMenus = new LtMenus(xContext, this, config);
+      }
+      if (ltToolbar == null && !mDocHandler.isOpenOffice && docType == DocumentType.WRITER) {
+        ltToolbar = new LtToolbar(xContext, this);
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
@@ -436,7 +440,7 @@ public class SingleDocument {
   
   /** Get LanguageTool menu
    */
-  LanguageToolMenus getLtMenu() {
+  LtMenus getLtMenu() {
     return ltMenus;
   }
   
