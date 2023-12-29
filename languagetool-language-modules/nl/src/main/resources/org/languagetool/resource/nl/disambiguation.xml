@@ -2431,41 +2431,41 @@ Copyright (C) 2008-2023 Ruud Baars
      132:	 centrale verwarming
      127:	 Fijne vakantie
 	-->
-	<rule id="NEW_036" name="-">
-		<pattern>
-			<marker>
-				<and>
-					<token postag="BNW:STL:VRB"/>
-					<token postag="ZNW:EKV:DE_"/>
-				</and>
-			</marker>
-			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-		</pattern>
-		<disambig action="remove" postag="ZNW:EKV:DE_"/>
-	</rule>
+    <rule id="NEW_036" name="-">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="BNW:STL:VRB"/>
+                    <token postag="ZNW:EKV:DE_"/>
+                </and>
+            </marker>
+            <token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+        </pattern>
+        <disambig action="remove" postag="ZNW:EKV:DE_"/>
+    </rule>
 
-	<!--
-	?  51074	(2)	GET:TXT:MRV/ZNW:EKV:DE_ ZNW:MRV:DE_
-    1251:	 tien minuten
-    1232:	 vijf minuten
-     749:	 twee kinderen
-     638:	 twee soorten
-     515:	 twee minuten
-     486:	 drie kinderen
-     435:	 Vijf minuten
-	-->
-	<rule id="NEW_037" name="-">
-		<pattern>
-			<marker>
-				<and>
-					<token postag="GET:TXT:MRV"/>
-					<token postag="ZNW:MRV:DE_"/>
-				</and>
-			</marker>
-			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
-		</pattern>
-		<disambig action="remove" postag="ZNW:MRV:DE_"/>
-	</rule>
+    <!--
+    ?  51074    (2)    GET:TXT:MRV/ZNW:EKV:DE_ ZNW:MRV:DE_
+    1251:     tien minuten
+    1232:     vijf minuten
+     749:     twee kinderen
+     638:     twee soorten
+     515:     twee minuten
+     486:     drie kinderen
+     435:     Vijf minuten
+    -->
+    <rule id="NEW_037" name="-">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="GET:TXT:MRV"/>
+                    <token postag="ZNW:EKV:DE_"/>
+                </and>
+            </marker>
+            <token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+        </pattern>
+        <disambig action="remove" postag="ZNW:EKV:DE_"/>
+    </rule>
 
 	<!--
 	?  49919	(2)	SENT_START BYW:VRG/ZNW:EKV:HET
@@ -2515,6 +2515,29 @@ Copyright (C) 2008-2023 Ruud Baars
             <token postag="VRZ">te<exception negate_pos="yes" postag="VRZ"/></token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+
+    <!--
+    ?  70353    (3)    SENT_START VNW:URT/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:3EP
+   35325:    ~ Wat is
+    8362:    ~ Wat betekent
+    3809:    ~ Wat doet
+    2000:    ~ Wat heeft
+    1633:    ~ Wat gebeurt
+    1381:    ~ Wat zegt
+    1182:    ~ Wat wordt
+    1147:    ~ Wat houdt
+    1097:    ~ Wat gaat
+    -->
+    <rule id="NEW_041" name="-">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker>
+                <token>wat</token>
+            </marker>
+            <token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig action="remove" postag="VNW:OBP:EKV"/>
     </rule>
 
 </rules>
