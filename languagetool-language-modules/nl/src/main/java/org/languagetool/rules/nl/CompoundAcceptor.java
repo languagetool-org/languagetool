@@ -803,7 +803,7 @@ public class CompoundAcceptor {
     for (int i = 3; i < word.length() - 3; i++) {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
-      if (acceptCompound(part1, part2)) {
+      if (!part1.equals(part2) && acceptCompound(part1, part2)) {
         System.out.println(part1+part2 + " -> accepted");
         return true;
       }
@@ -818,7 +818,7 @@ public class CompoundAcceptor {
     for (int i = 3; i < word.length() - 3; i++) {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
-      if (acceptCompound(part1, part2)) {
+      if (!part1.equals(part2) && acceptCompound(part1, part2)) {
         return Arrays.asList(part1, part2);
       }
     }

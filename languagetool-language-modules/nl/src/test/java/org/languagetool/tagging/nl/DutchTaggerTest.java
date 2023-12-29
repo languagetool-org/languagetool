@@ -70,6 +70,9 @@ public class DutchTaggerTest {
     // Test compound words with 3+ parts
     TestTools.myAssert("haarhalfbergnacht", "haarhalfbergnacht/[null]null", tokenizer, tagger);
 
+    // Make sure part1 and part2 as duplicates are not accepted
+    TestTools.myAssert("vriendenvrienden", "vriendenvrienden/[null]null", tokenizer, tagger);
+
     // This is not modified, as it's already found in dictionary. If it was, getCompoundPOS would give it postag ZNW:EKV, from "mout".
     TestTools.myAssert("havermout", "havermout/[havermout]ZNW:EKV:DE_", tokenizer, tagger);
 
