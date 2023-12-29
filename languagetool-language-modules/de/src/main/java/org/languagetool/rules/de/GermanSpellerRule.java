@@ -1752,6 +1752,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @NotNull
   @Override
   protected String getMessage(String origWord, SuggestedReplacement firstSuggestion) {
+    // Note: will not work for words like "Abgasausstoss" where there's more than one string of "ss"
+    // and the first one is not the one we're looking for
     if (SS.matcher(origWord).replaceFirst("ß").equals(firstSuggestion.getReplacement())) {
       int firstSz = origWord.indexOf("ss");
       if (firstSz >= 2) {
