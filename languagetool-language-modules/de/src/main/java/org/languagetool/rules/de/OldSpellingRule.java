@@ -36,6 +36,13 @@ public class OldSpellingRule extends Rule {
   private static final String FILE_PATH = "/de/alt_neu.csv";
   private static final List<String> EXCEPTIONS = Arrays.asList(
     "Schloß Holte",
+    "Schloß Neuhaus",
+    "Schloß Ricklingen",
+    "Schloß-Nauses",
+    "Schloß Rötteln",
+    "Klinikum Schloß Winnenden",
+    "Grazer Schloßberg",
+    "Höchster Schloß",
     "Bell Telephone",
     "Telephone Company",
     "American Telephone",
