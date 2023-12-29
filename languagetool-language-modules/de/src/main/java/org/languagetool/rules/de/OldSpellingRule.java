@@ -118,10 +118,14 @@ public class OldSpellingRule extends Rule {
         }
       }
       if (!ignore) {
-        RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end,
-          "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "Alte Rechtschreibung");
+        String message = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
+        RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, message, "Alte Rechtschreibung");
         String[] suggestions = hit.value.split("\\|");
         match.setSuggestedReplacements(Arrays.asList(suggestions));
+        String covered = sentence.getText().substring(hit.begin, hit.end);
+        if (suggestions.length > 0 && suggestions[0].replaceFirst("ss", "ß").equals(covered)) {
+          match.setMessage(message + " Das Wort wird mit 'ss' geschrieben, wenn davor eine kurz gesprochene Silbe steht.");
+        }
         matches.add(match);
         startPositions.add(hit.begin);
       }
