@@ -2949,18 +2949,16 @@ USA
     </rule>
 
 
-    <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' casa → 'arrendar'" type='style'>
-        <!-- IDEA shorten_it -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' imóvel → 'arrendar'" type='style' tone_tags="objective" default="temp_off">
         <pattern>
-            <token inflected='yes'>alugar</token>
-            <token  min="0" regexp="yes">as?|umas?|os?|um|uns</token>
-            <token regexp="yes">casas?|apartamentos?|habitaç(?:ão|ões)|imóv(?:el|eis)</token>
+            <marker>
+                <token skip='4' inflected='yes'>alugar</token>
+            </marker>
+            <token regexp='yes' inflected='yes'>apartamento|casa|habitação|imóvel|moradia|vivenda</token>
         </pattern>
         <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match></suggestion>.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match> \2 \3</suggestion>
-        <example correction="arrendar|arrendar uma casa">Vou <marker>alugar uma casa</marker> em Lisboa.</example>
-        <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
+        <example correction="arrendar">Vou <marker>alugar</marker> uma casa em Lisboa.</example>
+        <example correction="Arrendei"><marker>Aluguei</marker> um apartamento em Lisboa.</example>
     </rule>
 
 
