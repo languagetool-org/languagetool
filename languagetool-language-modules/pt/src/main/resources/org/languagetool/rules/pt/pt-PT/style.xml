@@ -2832,6 +2832,99 @@ USA
     </rulegroup>
 
 
+        <rule id='QUE_SE_VERBO_PART_PASSADO' name="[pt-PT] Simplificar: 'Que se Verbo' → Verbo Part. Passado">
+            <!-- IDEA shorten_it -->
+
+           <antipattern>
+                <token regexp='no' inflected='yes'>ser</token>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token postag='NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token>se</token>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception scope='next' postag_regexp='yes' postag='SPS00:DI.+|RM|RG'/>
+                    <exception scope='next' regexp='yes'>a|em|entre</exception> <!-- SPS00 -->
+                    <exception scope='next' regexp='yes'>ao|n[ao]s?</exception> <!-- SPS00:DA.+ -->
+                </token>
+                <example>É uma fase que se inicia, requer tempo, trabalho e esperança.</example>
+                <example>Vingança é um prato que se serve frio.</example>
+                <example>Este é um produto que se dilui bem na água.</example>
+                <example>Narcisista é uma pessoa que se superestima e subestima os outros.</example>
+                <example>Eu sou o único que se importa.</example>
+                <example>É uma atriz que se destaca por dirigir e estrelar filmes violentos, as vezes até com sangue.</example>
+           </antipattern>
+
+           <antipattern>
+                <token regexp='no' inflected='yes'>ser</token>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token postag='NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token>se</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token regexp='yes'>a|ao|n[ao]s?</token>
+                <token postag='NC.+|AQ.+|DI.+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <example>...e área para sair ao mar há espécies de aves que suportam os ventos constantes, como são as gaivotas que se alimentam na maré baixa e descansam na cheia; a pílhara papuda que aninha na praia...</example>
+                <example>Inovação social é um termo que se refere a novas estratégias, conceitos e organizações que atendem a necessidades sociais de todos tipos -- ...</example>
+                <example>Área marinha protegida é um termo que se refere a um largo conjunto de regimes de protecção territorial a nível de zonas costeiras e insulares, com...</example>
+           </antipattern>
+
+           <antipattern>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token postag='NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token>se</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='SPS00' postag_regexp='no'/>
+                <token postag='VMN0000' postag_regexp='no'/>
+                <example>O cladograma que se segue permite visualizar e comparar as relações evolucionárias entre os diversos táxons relacionados, dev...</example>
+                <example>os riachos que se subdividem continuam a fluir no escuro" e "A fala comum e refinada juntam-se no escuro, frases claras e obscur...</example>
+           </antipattern>
+
+           <pattern>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'>
+                    <exception regexp='yes'>d[ao]s?|dum|n[ao]s?|pel[ao]s?</exception>
+                    <exception postag_regexp='yes' postag='SPS00:PI.+'/> <!-- "nessa" -->
+                    <exception scope='previous' postag_regexp='yes' postag='VMN0000|CS|SPS00'/>
+                    <exception scope='previous' regexp='yes'>e|toda</exception>
+                </token>
+                <token postag='NC[MF].+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='RG|SPS0.+'/>
+                </token>
+                <marker>
+                    <token>que</token>
+                    <token>se</token>
+                    <token postag='VMIP3.+' postag_regexp='yes'/>
+                </marker>
+                <token postag='V.+|SPS0.+|DA.+|NC.+|AQ.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='VMI[FS].+|VMG0000|VMP00.+|VMN0000|DI.+|CS|SPS00:PP.+'/>
+                    <exception regexp='yes'>com|d[ao]s?|de|pel[ao]s?|sobre</exception>
+                </token>
+                <token>
+                    <exception postag_regexp='yes' postag='DA.+|Z0.+'/>
+                    <exception scope='next' postag_regexp='yes' postag='DA.+|CS'/>
+                </token>
+            </pattern>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:V.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:VMP00[\b2][\b1].*" />
+            <message>&simplify_msg;</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction="levado">O Rui calcula o tempo <marker>que se leva</marker> a percorrer cada cidade.</example>
+            <example>Ninguém diz que, pelo que se ouve na comunicação social, o percurso académico em causa é normal!</example>
+            <example>É tão claro que se trata de uma mentira.</example>
+            <example>É a primeira vez que se vê um inseto desse tamanho.</example>
+            <example>Há muitas donas de casa que se queixam dos preços altos.</example>
+            <example>Dos possíveis regressos que se têm falado, nem um só me entusiasma.</example>
+            <example>Está em perpétuo conflito com uma sociedade apática – como um peixe que se debate contra o gelo.</example>
+            <example>A interpretação que se está dando é que, na medida em que o parágrafo único do art.</example>
+            <example>Houve um primeiro ser para começar a “estorinha do sapo que se transforma em príncipe”.</example>
+            <example>Tomara que dê tudo certo nessa audiência que se arrasta há meses.</example>
+            <example>Traz à tona todas as questões do signo que o representa, mas também do signo que se opõe a ele.</example>
+            <example>XVI é dum texto que se refere a Quíloa.</example>
+            <example>O cladograma que se segue apresenta a estrutura do agrupamento na sua presente circunscrição:</example>
+        </rule>
+
+
     <!-- É NECESSÁRIO TER requer -->
     <rule id='SIMPLIFICAR_É_NECESSÁRIO_TER_REQUER' name="[pt-PT][Simplificar] é necessário ter → requer" type='style'>
         <!-- IDEA shorten_it -->
@@ -2856,18 +2949,16 @@ USA
     </rule>
 
 
-    <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' casa → 'arrendar'" type='style'>
-        <!-- IDEA shorten_it -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' imóvel → 'arrendar'" type='style' tone_tags="objective" default="temp_off">
         <pattern>
-            <token inflected='yes'>alugar</token>
-            <token  min="0" regexp="yes">as?|umas?|os?|um|uns</token>
-            <token regexp="yes">casas?|apartamentos?|habitaç(?:ão|ões)|imóv(?:el|eis)</token>
+            <marker>
+                <token skip='4' inflected='yes'>alugar</token>
+            </marker>
+            <token regexp='yes' inflected='yes'>apartamento|casa|habitação|imóvel|moradia|vivenda</token>
         </pattern>
         <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match></suggestion>.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match> \2 \3</suggestion>
-        <example correction="arrendar|arrendar uma casa">Vou <marker>alugar uma casa</marker> em Lisboa.</example>
-        <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
+        <example correction="arrendar">Vou <marker>alugar</marker> uma casa em Lisboa.</example>
+        <example correction="Arrendei"><marker>Aluguei</marker> um apartamento em Lisboa.</example>
     </rule>
 
 

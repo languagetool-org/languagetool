@@ -82,7 +82,12 @@ public class OldSpellingRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Des Photons")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Photons ")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Hallo Herr Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Hallo Hr. Naß")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Hallo Frau Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Hallo Fr. Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Fr. Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Dr. Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Prof. Naß")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Bell Telephone")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Telephone Company")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Naß ist das Wasser")).length, is(1));
