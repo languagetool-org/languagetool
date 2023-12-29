@@ -579,10 +579,13 @@ public class SpellAndGrammarCheckDialog extends Thread {
               for (String suggestion : error.aSuggestions) {
                 suggestionList.add(suggestion);
               }
-              String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
-              for (String suggestion : suggestions) {
-                if (!suggestionList.contains(suggestion)) {
-                  suggestionList.add(suggestion);
+              String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(
+                  text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale);
+              if (suggestions != null) {
+                for (String suggestion : suggestions) {
+                  if (!suggestionList.contains(suggestion)) {
+                    suggestionList.add(suggestion);
+                  }
                 }
               }
               error.aSuggestions = suggestionList.toArray(new String[0]);
