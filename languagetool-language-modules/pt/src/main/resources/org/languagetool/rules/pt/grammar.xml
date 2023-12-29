@@ -1311,196 +1311,148 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>e fez dela alvo de ameaças.</example>
             </antipattern>
 
-
-            <rule>
+            <rule> <!-- #1 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.MS.+|SPS00:PP.MS.+|DD0MS.+|SPS00:DD0MS.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCFS.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCM.+'/>
-                                <exception regexp='no'>média</exception>
-                            </token>
-                            <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
-                        </and>
+                        <token>própria</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCF(.)000' postag_regexp="yes" postag_replace='NCM$1000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)MS(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> \3</suggestion>
+                <suggestion>\2 próprio</suggestion>
+                <suggestion><match no='2' postag='(.+)MS(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> \3</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Ele próprio|Ela própria|Ele, própria"><marker>Ele própria</marker> escolheu.</example>
                 <example>Ele próprio fê-lo.</example>
                 <example>A fé está neles próprios.</example>
             </rule>
-            <rule>
+            <rule> <!-- #2 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.MP.+|SPS00:PP.MP.+|DD0MP.+|SPS00:DD0MP.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCFP.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCM.+'/>
-                                <exception regexp='no'>média</exception>
-                            </token>
-                            <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
-                        </and>
+                        <token>próprias</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCF(.)000' postag_regexp="yes" postag_replace='NCM$1000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)MP(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> \3</suggestion>
+                <suggestion>\2 próprios</suggestion>
+                <suggestion><match no='2' postag='(.+)MP(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> \3</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Eles próprios|Elas próprias|Eles, próprias"><marker>Eles próprias</marker> escolheram.</example>
                 <example>A fé está neles próprios.</example>
             </rule>
-            <rule>
+            <rule> <!-- #3 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.FS.+|SPS00:PP.FS.+|DD0FS.+|SPS00:DD0FS.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCMS.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
-                                <exception regexp='no'>média</exception>
-                            </token>
-                            <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
-                        </and>
+                        <token>próprio</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)FS(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> \3</suggestion>
+                <suggestion>\2 própria</suggestion>
+                <suggestion><match no='2' postag='(.+)FS(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> \3</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Ela própria|Ele próprio|Ela, próprio"><marker>Ela próprio</marker> escolheu.</example>
                 <example>A fé está nela própria.</example>
             </rule>
-            <rule>
+            <rule> <!-- #4 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.FP.+|SPS00:PP.FP.+|DD0FP.+|SPS00:DD0FP.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCMP.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
-                                <exception regexp='no'>média</exception>
-                            </token>
-                            <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
-                        </and>
+                        <token>próprios</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCM(.)000' postag_regexp="yes" postag_replace='NCF$1000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)FP(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> \3</suggestion>
+                <suggestion>\2 próprias</suggestion>
+                <suggestion><match no='2' postag='(.+)FP(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> \3</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Elas próprias|Eles próprios|Elas, próprios"><marker>Elas próprios</marker> escolheram.</example>
                 <example>Elas próprias fizeram a comida.</example>
             </rule>
-            <rule>
+            <rule> <!-- #5 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.FP.+|SPS00:PP.FP.+|DD0FP.+|SPS00:DD0FP.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCMS.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
-                                <exception regexp='no'>média</exception>
-                            </token>
-                            <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
-                        </and>
+                        <token>próprio</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCFP000'/></suggestion>
+                <suggestion>\2 próprias</suggestion>
                 <suggestion><match no='2' postag='(.+)FP(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> \3</suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)FP(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MS(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCMP000'/></suggestion>
+                <suggestion><match no='2' postag='(.+)FP(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> própria</suggestion>
+                <suggestion><match no='2' postag='(.+)FP(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> próprios</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Elas próprias|Ele próprio|Ela própria|Eles próprios|Elas, próprio"><marker>Elas próprio</marker> escolheram.</example>
             </rule>
-            <rule>
+            <rule> <!-- #6 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.FS.+|SPS00:PP.FS.+|DD0FS.+|SPS00:DD0FS.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCMP.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
-                                <exception regexp='no'>média</exception>
-                            </token>
-                            <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
-                        </and>
+                        <token>próprios</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCMP000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
+                <suggestion>\2 própria</suggestion>
                 <suggestion><match no='2' postag='(.+)FS(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> \3</suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)FS(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> <match no='3' postag='NCMP000' postag_regexp="yes" postag_replace='NCFP000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MP(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> <match no='3' postag='NCMP000' postag_regexp="yes" postag_replace='NCMS000'/></suggestion>
+                <suggestion><match no='2' postag='(.+)FS(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> próprias</suggestion>
+                <suggestion><match no='2' postag='(.+)FS(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> próprio</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Ela própria|Eles próprios|Elas próprias|Ele próprio|Ela, próprios"><marker>Ela próprios</marker> escolheram.</example>
             </rule>
-            <rule>
+            <rule> <!-- #7 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.MS.+|SPS00:PP.MS.+|DD0MS.+|SPS00:DD0MS.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCFP.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG'/>
-                            </token>
-                            <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
-                        </and>
+                        <token>próprias</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCFP000' postag_regexp="yes" postag_replace='NCMS000'/></suggestion>
+                <suggestion>\2 próprio</suggestion>
                 <suggestion><match no='2' postag='(.+)MS(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> \3</suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MS(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> <match no='3' postag='NCFP000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MS(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> <match no='3' postag='NCFP000' postag_regexp="yes" postag_replace='NCMP000'/></suggestion>
+                <suggestion><match no='2' postag='(.+)MS(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> própria</suggestion>
+                <suggestion><match no='2' postag='(.+)MS(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> próprios</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Ele próprio|Elas próprias|Ela própria|Eles próprios|Ele, próprias"><marker>Ele próprias</marker> escolheram.</example>
             </rule>
-            <rule>
+            <rule> <!-- #8 -->
                 <pattern>
                     <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
                     <marker>
                         <token postag='PP.MP.+|SPS00:PP.MP.+|DD0MP.+|SPS00:DD0MP.+' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
                         </token>
-                        <and>
-                            <token postag='NCFS.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG'/>
-                            </token>
-                            <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
-                        </and>
+                        <token>própria</token>
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion>\2 <match no='3' postag='NCFS000' postag_regexp="yes" postag_replace='NCMP000'/></suggestion>
+                <suggestion>\2 próprios</suggestion>
                 <suggestion><match no='2' postag='(.+)MP(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> \3</suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MP(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> <match no='3' postag='NCFS000' postag_regexp="yes" postag_replace='NCFP000'/></suggestion>
-                <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MP(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> <match no='3' postag='NCFS000' postag_regexp="yes" postag_replace='NCMS000'/></suggestion>
+                <suggestion><match no='2' postag='(.+)MP(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> próprias</suggestion>
+                <suggestion><match no='2' postag='(.+)MP(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> próprio</suggestion>
                 <suggestion>\2, \3</suggestion>
                 <example correction="Eles próprios|Ela própria|Elas próprias|Ele próprio|Eles, própria"><marker>Eles própria</marker> escolheram.</example>
             </rule>
         </rulegroup>
-
 
         <rulegroup id='GENDER_ESTE_ESTA' name="Concordância: Este(s)/esta(s)">
             <antipattern>
@@ -1951,7 +1903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='(?:NC|A..)[MC].+' postag_regexp='yes'/>
                     <token postag='VMP...M' postag_regexp='yes'/>
                     <token postag='NCF.+' postag_regexp='yes'/>
-                    <example>um receptáculo denominado urna cinerária</example>
+                    <example>um receptáculo denominado urna cinerária</example>
                 </antipattern>
                 <antipattern>
                     <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
@@ -2202,7 +2154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                 </pattern>
                 <message>&MSG_ECG;</message>
-                <suggestion suppress_misspelled="yes"><match no='2' postag="(D..|SPS00:...)M(.+)" postag_replace='$1F$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+                <suggestion><match no='2' postag="(D..|SPS00:...)M(.+)" postag_replace='$1F$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
                 <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F(.+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion>
                 <example correction='nas horas'>Foi resolvido <marker>nos horas</marker> certas.</example>
                 <example correction='das garotas|dos garotos'>Fui amigo <marker>dos garotas</marker> certas.</example>
@@ -2771,7 +2723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>A capela também recebeu vários concertos de música antiga organizados pela Academia de Música de Lagos</example>
                     <example>O mês de agosto em Janesville pode ser considerado com confiança totalmente inserido</example>
                     <example>dos contadores em contabilidade legalmente habilitados</example>
-                    <example>é um pianista de música erudita brasileiro.</example>
+                    <example>é um pianista de música erudita brasileiro.</example>
                     <example>o gol da vitória Rubro-negra feito por Elias.</example>
                     <example>Os escritores suíços de língua francesa famosos foram Jean-Jacques Rousseau</example>
                 </antipattern>
@@ -7143,8 +7095,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
                     <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
                     <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
-                    <token postag='A..[FC]S.+' postag_regexp='yes'/>
-                    <example>A Academia foi responsável pela primeira exposição de Artes realizada no país.</example>
+                    <token postag='(N|A.).[FC]S.+' postag_regexp='yes'/>
+                    <example>A Academia foi responsável pela primeira exposição de Artes realizada no país.</example>
                     <example>previstas na Lei de Direitos Autorais brasileira</example>
                     <example>São uma categoria de sistema de armas considerada estratégica</example>
                     <example>criando assim um amplo pátio de armas semelhante à do Palacio Real de Madrid.</example>
@@ -8049,8 +8001,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <marker>
                         <token regexp='yes'>enquanto|quando|se</token>
                         <token min='0' postag_regexp='yes' postag='D.+'/>
-                        <token postag_regexp='yes' postag='(?:N|A).+|PP1CSN00|PP3[MF]S000' min='0'>
-                            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+|PP1CSN00|PP3[MF]S000'/></token>
+                        <token postag_regexp='yes' postag='(?:N|A).+|PP1CSN00|PP3[MF]SN00' min='0'>
+                            <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+|PP1CSN00|PP3[MF]SN00'/></token>
                         <token postag='VMN0000'>
                             <exception postag_regexp='yes' postag='VMSF[13]S0'/>
                             <exception>termos</exception></token>
@@ -8074,11 +8026,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
                     <token regexp='yes'>enquanto|quando|se</token>
                     <token min='0' postag_regexp='yes' postag='D.+'/>
-                    <token postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]P000' min='0'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]P000'/></token>
+                    <token postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]PN00' min='0'>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]PN00'/>
+                    </token>
                     <marker>
                         <token postag='VMN0[13]P0' postag_regexp='yes'>
-                            <exception postag_regexp='yes' postag='VMSF[13]P0'/></token>
+                            <exception postag_regexp='yes' postag='VMSF[13]P0'/>
+                        </token>
                     </marker>
                 </pattern>
                 <message>O futuro do conjuntivo deste verbo é irregular.</message>
@@ -8098,11 +8052,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
                     <token regexp='yes'>enquanto|quando|se</token>
                     <token min='0' postag_regexp='yes' postag='D.+'/>
-                    <token postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]P000'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]P000'/></token>
+                    <token postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]PN00'>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]PN00'/></token>
                     <token>e</token>
                     <token min='0' postag_regexp='yes' postag='D.+'/>
-                    <token postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]P000'/>
+                    <token postag_regexp='yes' postag='(?:N|A).+|PP[13][CMF]PN00'/>
                     <marker>
                         <token postag='VMN0[13]P0' postag_regexp='yes'>
                             <exception postag_regexp='yes' postag='VMSF[13]P0'/></token>
@@ -9564,14 +9518,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <antipattern>
                     <token postag='NC.S.+' postag_regexp='yes'/>
                     <token postag='SPS.+' postag_regexp='yes'/>
-                    <token postag='PP3.P.+' postag_regexp='yes'/>
+                    <token postag='PP2.P.+' postag_regexp='yes'/>
                     <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
                     <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
                     <example>A história de vocês ainda não terminou.</example>
                 </antipattern>
                 <pattern> <!-- pattern for rule #10 -->
                     <marker>
-                        <token postag='PP3.P0.+' postag_regexp='yes'>
+                        <token postag='PP3.PN00|PP2CP00P' postag_regexp='yes'>
                             <exception>vos</exception>
                         </token>
                         <token min="0" max="3" postag='R.+' postag_regexp='yes'>
@@ -9588,7 +9542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </pattern>
                 <message>&MSG_ECV;</message>
                 <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
-                <suggestion><match no='1' include_skipped='all' postag='(PP3.)P(.+)' postag_replace='$1S$2' postag_regexp='yes'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+                <suggestion><match no='1' include_skipped='all' postag='(PP[23].)P(.+)' postag_replace='$1S$2' postag_regexp='yes'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
                 <example correction='elas passearam|elas passeiam|ela passeia|ela passeou'>Eles e <marker>elas passeamos</marker> na praia.</example>
                 <example correction='Vocês não leram|Você não leu'><marker>Vocês não leu</marker> as notícias?</example>
                 <example>Eles e elas passeiam na praia.</example>
@@ -10206,7 +10160,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception regexp="yes">\p{Lu}\p{Ll}.+</exception> <!-- Titlecase verbs, probably not verbs -->
                     </token>
                 </pattern>
-
                 <message>&MSG_ECV;</message>
                 <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
                 <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
@@ -11017,14 +10970,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <marker>
                         <and>
                             <token inflected="yes">ser</token>
-                            <token postag="VMI.3S." postag_regexp="yes"/>
+                            <token postag="VMI.[23]S." postag_regexp="yes"/>
                         </and>
                     </marker>
-                    <token postag='PP3.P0.+' postag_regexp='yes'>
-                        <exception>nos</exception></token>
+                    <token regexp="yes">el[ea]s|vocês</token>
                 </pattern>
                 <message>&MSG_ECV;</message>
                 <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
+                <example correction='foram'>Quem deu a cara <marker>foi</marker> eles.</example>
                 <example correction='foram'>Quem deu a cara <marker>foi</marker> vocês.</example>
             </rule>
 
@@ -11576,7 +11529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token postag='VMI[PS].S.+' postag_regexp='yes'/>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+                <token spacebefore='no' postag='PP3CNO00' postag_regexp='no'/> <!-- "se" -->
                 <token postag='RG' postag_regexp='no'/>
                 <token postag='AQ..P.+|NC.P.+|NP.P.+' postag_regexp='yes'/>
                 <example>O jovem vendedor, Rui Santos, imolou-se quando polícias tentaram prendê-lo.</example>
@@ -11591,7 +11544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token postag='VMI[MPS].P.+' postag_regexp='yes'/>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+                <token spacebefore='no' postag='PP3CNO00' postag_regexp='no'/> <!-- "se" -->
                 <token postag='AQ..S.+|NC.S.+|NP.S.+' postag_regexp='yes'/>
                 <example>Suas predições tornaram-se realidade.</example>
                 <example>Seus sonhos tornaram-se realidade.</example>
@@ -11608,7 +11561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token postag='VMI[MPS].P.+' postag_regexp='yes'/>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+                <token spacebefore='no' postag='PP3CNO00' postag_regexp='no'/> <!-- "se" -->
                 <token min="1" max="2" postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
                 <token postag='AQ..S.+|NC.S.+|NP.S.+|_PUNCT' postag_regexp='yes'/>
                 <example>Pão, café e tabaco tornaram-se sua dieta padrão.</example>
@@ -11619,9 +11572,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token postag='_PUNCT' postag_regexp='no'/>
-                <token postag='VMM0.S.+' postag_regexp='yes'/>
+                <token regexp="yes">entenda|leia</token>
                 <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+                <token>se</token>
                 <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
                 <token postag='CC' postag_regexp='no'/>
                 <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
@@ -13790,7 +13743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25      -->
             <rule id='PP_V_QUE' name="PP + verbo do tipo alegrar + que">
                 <pattern>
-                    <token postag="PP[12]C.000" postag_regexp="yes"/>
+                    <token postag="PP[12]C.O00" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar
                         <exception postag="VM..3.." postag_regexp="yes"/></token>
                     <token>que</token>
@@ -13851,7 +13804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <pattern>
                     <token regexp="yes">alegra|entristece|importa|resvala|farta|emociona|altera|aburrece|falta|preocupa</token>
                     <token regexp='yes'>&tracos_de_separacao;</token>
-                    <token postag="PP[123]C.[0D]00" postag_regexp="yes"/>
+                    <token postag="PP[123]C.[0OD]00" postag_regexp="yes"/>
                     <token regexp="yes">d[aeo]s?</token>
                     <token>que</token>
                 </pattern>
@@ -33075,7 +33028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </token>
                     <token regexp="yes">estas?</token>
                     <token min="0" max="1" regexp="yes">[,]</token>
-                    <token postag='DA.+|PD.+|PP.+|NC.+|AQ.+|RM|RN|CC' postag_regexp='yes'>
+                    <token postag='DA.+|PD.+|C.+|AQ.+|RM|RN|CC' postag_regexp='yes'>
                         <exception postag='I'/>
                     </token>
                 </antipattern>
@@ -33150,7 +33103,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token min="0" max="1" postag='PD.+|DI.+|CS|RG|CC' postag_regexp='yes'>
                         <exception regexp='yes'>&adverbios_de_intensidade;|&adverbios_de_lugar;|melhor|pior|fácil|difícil</exception>
                     </token>
-                    <token postag='V.+|_PUNCT|PP.+|CS|CC|NC.+|AQ.+|RG' postag_regexp='yes'>
+                    <token postag='V.+|_PUNCT|CS|CC|NC.+|AQ.+|RG' postag_regexp='yes'>
                         <exception postag='VMG0000'/>
                         <exception regexp='yes'>&adverbios_de_intensidade;|&adverbios_de_lugar;|melhor|pior|fácil|difícil</exception>
                     </token>
@@ -42316,8 +42269,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp="yes">(?:[0-9]+[a-z]*)</token>
                 <token spacebefore="no" regexp="no">×</token>
                 <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+</token>
-                <token postag='NC.+|AQ.+|V.+|_PUNCT|SPS00' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+|V.+|_PUNCT|SPS00|CS' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|V.+|_PUNCT|SPS00.*' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|V.+|_PUNCT|SPS00.*|CS' postag_regexp='yes'/>
                 <example>Ter em conta que cada agente ocupa 8×8 píxeis, logo tudo é relativo.</example>
                 <example>E o 8×8 deve ter mais píxeis para garantir isso.</example>
                 <example>Se numa zona de 8×8 píxeis existir mais píxeis, tudo fica complicado.</example>
