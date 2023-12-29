@@ -100,9 +100,20 @@ public class OldSpellingRule extends Rule {
         // prevent substring matches, e.g. "Foto" for "Photons"
         ignore = true;
       }
+      if (hit.begin-6 >= 0) {
+        if (text.startsWith("Prof.", hit.begin-6)) {
+          ignore = true;
+        }
+      }
       if (hit.begin-5 >= 0) {
-        String before = text.substring(hit.begin-5, hit.begin-1);
-        if (before.equals("Herr") || before.equals("Frau")) {
+        String before5 = text.substring(hit.begin-5, hit.begin-1);
+        if (before5.equals("Herr") || before5.equals("Frau")) {
+          ignore = true;
+        }
+      }
+      if (hit.begin-4 >= 0) {
+        String before4 = text.substring(hit.begin-4, hit.begin-1);
+        if (before4.equals("Hr.") || before4.equals("Fr.") || before4.equals("Dr.")) {
           ignore = true;
         }
       }
