@@ -7886,9 +7886,16 @@ regexp case-insensitive maken: (?i)
 					<example>Dat wordt met de edit bijgewerkt.</example>
 					<example>De redirect geeft een foutmelding.</example>
 				</antipattern>
+				<antipattern>
+				    <token>de</token>
+				    <token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+				</antipattern>
 				<pattern case_sensitive="yes">
 					<token>de</token>
-					<token postag_regexp="yes" postag="WKW:TGW:3EP.*" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*|VRZ"/></token>
+					<token postag_regexp="yes" postag="WKW:TGW:3EP.*">
+					    <exception postag_regexp="yes" postag="ZNW.*|BNW.*|VRZ"/>
+					    <exception regexp="yes">acht|art</exception>
+				    </token>
 				</pattern>
 				<message>Hier is vast iets mis.</message>
 				<suggestion>ze \2</suggestion>
@@ -7899,6 +7906,7 @@ regexp case-insensitive maken: (?i)
 				<suggestion>\2</suggestion>
 				<suggestion>de ___ \2</suggestion>
 				<example correction="ze loopt|die loopt|je loopt|het loopt|de loop|loopt|de ___ loopt">Kijk hoe <marker>de loopt</marker>.</example>
+			    <example>Eindelijk, de acht gaan op reis.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DE_VERBROKENE_DING" name="de verbrokene/verbroken belofte" >
@@ -25266,23 +25274,6 @@ regexp case-insensitive maken: (?i)
 				<suggestion>te \2</suggestion>
 				<suggestion>de <match no="2" regexp_match="en$" regexp_replace="ende"/></suggestion>
 				<example correction="het doorboren|de te doorboren|die doorboren|de doorboring|te doorboren|de doorborende">En <marker>de doorboren</marker> doet u zo.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="DE_3EP" name="de loopt" >
-			<rule>
-				<antipattern>
-					<token>de</token>
-					<token case_sensitive="yes" regexp="yes">[A-Z].*</token>
-					<example>Dat is Eddy de Blust.</example>
-				</antipattern>
-				<pattern>
-					<token>de</token>
-					<marker>
-						<token postag="WKW:TGW:3EP" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|WKW:VLT.*|WKW:TGW:1EP|ENM.*"/></token>
-					</marker>
-				</pattern>
-				<message>Hier zou iets mis kunnen zijn. De hij-vorm komt niet vaak voor na 'de'. Mogelijk kan de eind-t weg. Of 'de'.</message>
-				<example correction="">Kijk eens naar de <marker>vangt</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DE_LELIJKS_TE" name="De lelijks te/de lelijkste" >
