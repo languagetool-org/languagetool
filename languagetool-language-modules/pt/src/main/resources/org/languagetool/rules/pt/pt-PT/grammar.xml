@@ -4115,6 +4115,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
 
+    <rule id="AO45_PELO_PÊLO" name="[pt-PT][AO45] pelo/pêlo" default="off">
+    <!-- Created by Marco A.G. Pinto   -->
+        <pattern>
+            <token>muito</token>
+            <token>pelo</token>
+            <token inflected='yes'>ser</token>
+        </pattern>
+        <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
+        <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
+    </rule>
+
+
 </category>
 
 
@@ -4192,18 +4204,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
 </category>
-<category id="AO45" name="[pt-PT] Regras de Estilo AO45" type="style" default="off">
-    <rule id="AO45_MUITO_PELO_É" name="[pt-PT][AO45][Confusão] pelo/pêlo">
-    <!-- Created by Marco A.G. Pinto   -->
-        <pattern>
-            <token>muito</token>
-            <token>pelo</token>
-            <token inflected='yes'>ser</token>
-        </pattern>
-        <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
-        <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
-    </rule>
-</category>
+
+
+
+    <category id='TRANSLATION_ERRORS_PT_PT' name="[pt-PT] Erros de Tradução" type="mistranslation" tone_tags="academic">
+        <!-- IDEA foreign_terms -->
+
+
+        <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT] Erro tradução: estimação máxima 'semelhança' → 'verosimilhança'(PT)">
+            <!--
+                In pt_PT: verosimilhança
+                In pt_BR: verossimilhança
+            -->
+            <pattern>
+                <token skip="4" regexp="yes" inflected='yes' >estimativa|estimação|estimador</token>
+                <token>máxima</token>
+                <marker>
+                    <token regexp="yes">semelhança|equivalência</token>
+                </marker>
+            </pattern>
+            <message>Expressão não pode ser traduzida literalmente.</message>
+            <suggestion>verosimilhança</suggestion>
+            <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
+        </rule>
+
+
+        <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="[pt-PT] Erro tradução: 'furto' de identidade → 'usurpação'">
+            <pattern>
+                <marker>
+                    <token skip="4" inflected='yes' regexp='yes'>furtar|roubar</token>
+                </marker>
+                <token regexp='yes'>identidades?</token>
+            </pattern>
+            <message>Expressão não pode ser traduzida literalmente.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>
+            <example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>
+            <example>Alguém <marker>usurpou</marker> a minha identidade.</example>
+            <example>Achamos que este cara <marker>usurpou</marker> a identidade dele.</example>
+            <example>Este senhor <marker>usurpou</marker> ao Rui a identidade dele.</example>
+        </rule>
+
+
+    </category>
+
+
 
 <category id="TYPOGRAPHY" name="Tipografia">
     <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="Posição dos símbolos de moeda: '100£ (£100)">
