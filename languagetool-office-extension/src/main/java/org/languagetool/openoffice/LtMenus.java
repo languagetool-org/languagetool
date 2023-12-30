@@ -79,8 +79,8 @@ public class LtMenus {
   public static final String LT_STATISTICAL_ANALYSES_COMMAND = "service:org.languagetool.openoffice.Main?statisticalAnalyses";   
   public static final String LT_RESET_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?resetIgnorePermanent";   
   public static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleNoBackgroundCheck";
-  public static final String LT_BACKGROUND_CHECK_ON_COMMAND = "service:org.languagetool.openoffice.Main?BackgroundCheckOn";
-  public static final String LT_BACKGROUND_CHECK_OFF_COMMAND = "service:org.languagetool.openoffice.Main?BackgroundCheckOff";
+  public static final String LT_BACKGROUND_CHECK_ON_COMMAND = "service:org.languagetool.openoffice.Main?backgroundCheckOn";
+  public static final String LT_BACKGROUND_CHECK_OFF_COMMAND = "service:org.languagetool.openoffice.Main?backgroundCheckOff";
   public static final String LT_REFRESH_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?refreshCheck";
   public static final String LT_ABOUT_COMMAND = "service:org.languagetool.openoffice.Main?about";
   public static final String LT_LANGUAGETOOL_COMMAND = "service:org.languagetool.openoffice.Main?lt";
@@ -104,10 +104,6 @@ public class LtMenus {
   private final static String ADD_TO_DICTIONARY_3 = "slot:3";
   private final static String SPEll_DIALOG_URL = "slot:4";
   
-  private final boolean hasStatisticalStyleRules;
-  
-  
-
   private static boolean debugMode;   //  should be false except for testing
   private static boolean debugModeTm;  //  should be false except for testing
   private static boolean isRunning = false;
@@ -127,7 +123,6 @@ public class LtMenus {
     this.document = document;
     this.xContext = xContext;
     this.xComponent = document.getXComponent();
-    hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
     setConfigValues(config);
     if (document.getDocumentType() == DocumentType.WRITER) {
       ltHeadMenu = new LTHeadMenu(xComponent);
@@ -213,6 +208,13 @@ public class LtMenus {
       if (switchOffId == 0) {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
+      }
+      boolean hasStatisticalStyleRules;
+      if (document.getDocumentType() == DocumentType.WRITER &&
+          !document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+        hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
+      } else {
+        hasStatisticalStyleRules = false;
       }
       if (hasStatisticalStyleRules) {
         ltMenu.insertItem((short)(switchOffId + 1), MESSAGES.getString("loStatisticalAnalysis") + " ...", 
@@ -706,6 +708,13 @@ public class LtMenus {
                 boolean showAll) throws Exception {
       XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
+      boolean hasStatisticalStyleRules;
+      if (document.getDocumentType() == DocumentType.WRITER &&
+          !document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+        hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
+      } else {
+        hasStatisticalStyleRules = false;
+      }
       XPropertySet xNewSubMenuEntry;
       int j = 0;
       if (showAll) {

@@ -165,8 +165,12 @@ public class SingleDocument {
     if (xComponent != null) {
       setFlatParagraphTools();
     }
-    if (!mDocHandler.isOpenOffice && docType == DocumentType.IMPRESS && ltMenus == null) {
+    if (!mDocHandler.isOpenOffice && (docType == DocumentType.IMPRESS 
+        || (mDH.isBackgroundCheckOff() && docType == DocumentType.WRITER)) && ltMenus == null) {
       ltMenus = new LtMenus(xContext, this, config);
+      if (docType == DocumentType.WRITER) {
+        ltToolbar = new LtToolbar(xContext, this);
+      }
     }
   }
   
@@ -442,6 +446,12 @@ public class SingleDocument {
    */
   LtMenus getLtMenu() {
     return ltMenus;
+  }
+  
+  /** Get LanguageTool toolbar
+   */
+  LtToolbar getLtToolbar() {
+    return ltToolbar;
   }
   
   /**

@@ -58,18 +58,16 @@ public class LtToolbar {
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private static final String WRITER_SERVICE = "com.sun.star.text.TextDocument";
   private static final String LT_TOOLBAR_URL = "private:resource/toolbar/org.languagetool.openoffice.Main.toolbar";
-  private final boolean hasStatisticalStyleRules;
   private XComponentContext xContext;
   private SingleDocument document;
 
   LtToolbar(XComponentContext xContext, SingleDocument document) {
     this.xContext = xContext;
     this.document = document;
-    hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
     makeToolbar();
   }
   
-  private void makeToolbar() {
+  public void makeToolbar() {
     try {
       Configuration config = document.getMultiDocumentsHandler().getConfiguration();
       XUIConfigurationManager confMan = getUIConfigManagerDoc(xContext);
@@ -81,6 +79,13 @@ public class LtToolbar {
       String toolbarName = LT_TOOLBAR_URL;
       
       XIndexContainer elementsContainer = confMan.createSettings();
+
+      boolean hasStatisticalStyleRules;
+      if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+        hasStatisticalStyleRules = false;
+      } else {
+        hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
+      }
       
       int j = 0;
       PropertyValue[] itemProps = makeBarItem(LtMenus.LT_NEXT_ERROR_COMMAND, MESSAGES.getString("loMenuNextError"));

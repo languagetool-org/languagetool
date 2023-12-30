@@ -1633,9 +1633,10 @@ public class MultiDocumentsHandler {
         }
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
-      } else if ("toggleNoBackgroundCheck".equals(sEvent) || "BackgroundCheckOn".equals(sEvent) || "BackgroundCheckOff".equals(sEvent)) {
+      } else if ("toggleNoBackgroundCheck".equals(sEvent) || "backgroundCheckOn".equals(sEvent) || "backgroundCheckOff".equals(sEvent)) {
         if (toggleNoBackgroundCheck()) {
-          resetCheck(); 
+          resetCheck();
+          getCurrentDocument().getLtToolbar().makeToolbar();
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         ignoreOnce();
