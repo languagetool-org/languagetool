@@ -261,7 +261,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Actualize impress/calc document cache
    */
   private void actualizeNonWriterDocumentCache(SingleDocument document) {
-    if (docType != DocumentType.WRITER) {
+    if (docType != DocumentType.WRITER || documents.isBackgroundCheckOff()) {
       DocumentCache oldCache = new DocumentCache(docCache);
       docCache.refresh(document, null, null, document.getXComponent(), 7);
       if (!oldCache.isEmpty()) {
@@ -309,7 +309,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (currentDocument != null) {
       docType = currentDocument.getDocumentType();
       docCache = currentDocument.getDocumentCache();
-      if (docType != DocumentType.WRITER) {
+      if (docType != DocumentType.WRITER || documents.isBackgroundCheckOff()) {
         actualizeNonWriterDocumentCache(currentDocument);
       }
     }
@@ -650,9 +650,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
                     suggestionList.add(suggestion);
                   }
                   String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
-                  for (String suggestion : suggestions) {
-                    if (!suggestionList.contains(suggestion)) {
-                      suggestionList.add(suggestion);
+                  if (suggestions != null) {
+                    for (String suggestion : suggestions) {
+                      if (!suggestionList.contains(suggestion)) {
+                        suggestionList.add(suggestion);
+                      }
                     }
                   }
                   error.aSuggestions = suggestionList.toArray(new String[0]);
