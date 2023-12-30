@@ -601,30 +601,12 @@ public class LtMenus {
               xContextMenu.insertByIndex(i + 3, xNewMenuEntry1);
               
               int nId = i + 4;
-/*              
               Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
-
               if (!deactivatedRulesMap.isEmpty()) {
-                XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
-                    xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
-                int j = 0;
-                for (String ruleId : deactivatedRulesMap.keySet()) {
-                  XPropertySet xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-                      xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-                  xNewSubMenuEntry.setPropertyValue("Text", deactivatedRulesMap.get(ruleId));
-                  xNewSubMenuEntry.setPropertyValue("CommandURL", LT_ACTIVATE_RULE + ruleId);
-                  xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
-                  j++;
-                }
-                
-                XPropertySet xNewMenuEntry3 = UnoRuntime.queryInterface(XPropertySet.class,
-                    xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-                xNewMenuEntry3.setPropertyValue("Text", MESSAGES.getString("loContextMenuActivateRule"));
-                xNewMenuEntry3.setPropertyValue( "SubContainer", (Object)xSubMenuContainer );
-                xContextMenu.insertByIndex(i + 3, xNewMenuEntry3);
+                xContextMenu.insertByIndex(nId, createActivateRuleProfileItems(deactivatedRulesMap, xMenuElementFactory));
                 nId++;
               }
-*//*              
+              
               if (isRemote) {
                 XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
                     xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
@@ -641,7 +623,12 @@ public class LtMenus {
               xContextMenu.insertByIndex(nId, xNewMenuEntry4);
               nId++;
 
-              addLTMenuEntry(nId, xContextMenu, xMenuElementFactory);
+              List<String> definedProfiles = config.getDefinedProfiles();
+              if (definedProfiles.size() > 1) {
+                xContextMenu.insertByIndex(nId, createProfileItems(definedProfiles, xMenuElementFactory));
+                nId++;
+              }
+              addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, false);
 /*
               XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
@@ -659,7 +646,7 @@ public class LtMenus {
               if (debugMode) {
                 MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: execute modified for Writer");
               }
-//              return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
+              return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
             }
           }
         }
@@ -687,7 +674,7 @@ public class LtMenus {
         xContextMenu.insertByIndex(nId, xNewMenuEntry4);
         nId++;
 
-        addLTMenuEntry(nId, xContextMenu, xMenuElementFactory);
+        addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, true);
 /*        
         XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
@@ -715,19 +702,20 @@ public class LtMenus {
       return ContextMenuInterceptorAction.IGNORED;
     }
     
-    private void addLTMenuEntry(int nId, XIndexContainer xContextMenu, XMultiServiceFactory xMenuElementFactory) 
-                throws Exception {
-/*      
-*/      
+    private void addLTMenuEntry(int nId, XIndexContainer xContextMenu, XMultiServiceFactory xMenuElementFactory,
+                boolean showAll) throws Exception {
       XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
+      XPropertySet xNewSubMenuEntry;
       int j = 0;
-      XPropertySet xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("checkTextShortDesc"));
-      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_CHECKDIALOG_COMMAND);
-      xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
-      j++;
+      if (showAll) {
+        xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("checkTextShortDesc"));
+        xNewSubMenuEntry.setPropertyValue("CommandURL", LT_CHECKDIALOG_COMMAND);
+        xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+        j++;
+      }
       if (hasStatisticalStyleRules) {
         xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
@@ -760,51 +748,15 @@ public class LtMenus {
       xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
       
       Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
-      if (!deactivatedRulesMap.isEmpty()) {
+      if (showAll && !deactivatedRulesMap.isEmpty()) {
         j++;
-        XIndexContainer xRuleMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
-            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
-        int nPos = 0;
-        for (String ruleId : deactivatedRulesMap.keySet()) {
-          xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-              xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-          xNewSubMenuEntry.setPropertyValue("Text", deactivatedRulesMap.get(ruleId));
-          xNewSubMenuEntry.setPropertyValue("CommandURL", LT_ACTIVATE_RULE_COMMAND + ruleId);
-          xRuleMenuContainer.insertByIndex(nPos, xNewSubMenuEntry);
-          nPos++;
-        }
-        xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-        xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuActivateRule"));
-        xNewSubMenuEntry.setPropertyValue("CommandURL", LT_ACTIVATE_RULES_COMMAND);
-        xNewSubMenuEntry.setPropertyValue("SubContainer", (Object)xRuleMenuContainer);
-        xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+        xSubMenuContainer.insertByIndex(j, createActivateRuleProfileItems(deactivatedRulesMap, xMenuElementFactory));
       }
       
       List<String> definedProfiles = config.getDefinedProfiles();
-      if (definedProfiles.size() > 1) {
+      if (showAll && definedProfiles.size() > 1) {
         j++;
-        definedProfiles.sort(null);
-        XIndexContainer xRuleMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
-            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
-        xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-        xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiUserProfile"));
-        xNewSubMenuEntry.setPropertyValue("CommandURL", LT_PROFILE_COMMAND);
-        xRuleMenuContainer.insertByIndex(0, xNewSubMenuEntry);
-        for (int i = 0; i < definedProfiles.size(); i++) {
-          xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-              xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-          xNewSubMenuEntry.setPropertyValue("Text", definedProfiles.get(i));
-          xNewSubMenuEntry.setPropertyValue("CommandURL", LT_PROFILE_COMMAND + replaceColon(definedProfiles.get(i)));
-          xRuleMenuContainer.insertByIndex(i + 1, xNewSubMenuEntry);
-        }
-        xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-        xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuChangeProfiles"));
-        xNewSubMenuEntry.setPropertyValue("CommandURL", LT_PROFILES_COMMAND);
-        xNewSubMenuEntry.setPropertyValue("SubContainer", (Object)xRuleMenuContainer);
-        xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+        xSubMenuContainer.insertByIndex(j, createProfileItems(definedProfiles, xMenuElementFactory));
       }
 
       j++;
@@ -829,6 +781,54 @@ public class LtMenus {
       xContextMenu.insertByIndex(nId, xNewMenuEntry);
     }
     
+    private XPropertySet createActivateRuleProfileItems(Map<String, String> deactivatedRulesMap, 
+        XMultiServiceFactory xMenuElementFactory) throws Exception {
+      XPropertySet xNewSubMenuEntry;
+      XIndexContainer xRuleMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
+      int nPos = 0;
+      for (String ruleId : deactivatedRulesMap.keySet()) {
+        xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewSubMenuEntry.setPropertyValue("Text", deactivatedRulesMap.get(ruleId));
+        xNewSubMenuEntry.setPropertyValue("CommandURL", LT_ACTIVATE_RULE_COMMAND + ruleId);
+        xRuleMenuContainer.insertByIndex(nPos, xNewSubMenuEntry);
+        nPos++;
+      }
+      xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuActivateRule"));
+      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_ACTIVATE_RULES_COMMAND);
+      xNewSubMenuEntry.setPropertyValue("SubContainer", (Object)xRuleMenuContainer);
+      return xNewSubMenuEntry;
+    }
+
+    private XPropertySet createProfileItems(List<String> definedProfiles, 
+        XMultiServiceFactory xMenuElementFactory) throws Exception {
+      XPropertySet xNewSubMenuEntry;
+      definedProfiles.sort(null);
+      XIndexContainer xRuleMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
+      xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiUserProfile"));
+      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_PROFILE_COMMAND);
+      xRuleMenuContainer.insertByIndex(0, xNewSubMenuEntry);
+      for (int i = 0; i < definedProfiles.size(); i++) {
+        xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewSubMenuEntry.setPropertyValue("Text", definedProfiles.get(i));
+        xNewSubMenuEntry.setPropertyValue("CommandURL", LT_PROFILE_COMMAND + replaceColon(definedProfiles.get(i)));
+        xRuleMenuContainer.insertByIndex(i + 1, xNewSubMenuEntry);
+      }
+      xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuChangeProfiles"));
+      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_PROFILES_COMMAND);
+      xNewSubMenuEntry.setPropertyValue("SubContainer", (Object)xRuleMenuContainer);
+      return xNewSubMenuEntry;
+    }
+
     /**
      * get selected word
      */
