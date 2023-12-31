@@ -470,6 +470,7 @@ public class English extends Language implements AutoCloseable {
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "TO_NIGHT_TO_DAY":           return 1;   // prefer over TOO_JJ_TO
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
+      case "MD_APOSTROPHE_VB":          return 1;   // prefer over typography rules
       case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
       case "THINK_BELIEVE_THAT":        return 1;
       case "HAS_TO_APPROVED_BY":        return 1;   // prefer over TO_NON_BASE
