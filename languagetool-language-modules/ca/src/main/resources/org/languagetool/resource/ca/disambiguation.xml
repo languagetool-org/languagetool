@@ -8995,6 +8995,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="VMIP1S0B"/>
         </disambig>
     </rule>
+    <rulegroup id="entrevista_no_participi" name="entrevista (no participi)">
+        <rule>
+            <pattern>
+                <token><exception postag="NCFS000"/></token>
+                <marker>
+                    <token postag="NCFS000">entrevista</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCFS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="NCFP000"/></token>
+                <marker>
+                    <token postag="NCFP000">entrevistes</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCFP000"/>
+        </rule>
+    </rulegroup>
     <rule id="NoParticipi" name="no participi, és nom">
         <pattern>
             <token regexp="yes" inflected="yes">accedir|accés|equivaler|equivalent|duel|quant|lluita|lluitar</token>
