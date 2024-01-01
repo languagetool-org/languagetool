@@ -1260,6 +1260,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Call method resetIgnorePermanent for concerned document 
+   */
+  public void resetIgnorePermanent() {
+    getCurrentDocument().resetIgnorePermanent();
+  }
+  
+  /**
    * Call method renewMarkups for concerned document 
    */
   public void renewMarkups() {
@@ -1607,7 +1614,7 @@ public class MultiDocumentsHandler {
   @SuppressWarnings("null")
   public void trigger(String sEvent) {
     try {
-      MessageHandler.printToLogFile("Trigger event: " + sEvent);
+//      MessageHandler.printToLogFile("Trigger event: " + sEvent);
       long startTime = 0;
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
@@ -1642,6 +1649,8 @@ public class MultiDocumentsHandler {
         ignoreOnce();
       } else if ("ignorePermanent".equals(sEvent)) {
         ignorePermanent();
+      } else if ("resetIgnorePermanent".equals(sEvent)) {
+        resetIgnorePermanent();
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
       } else if (sEvent.startsWith("activateRule_")) {
