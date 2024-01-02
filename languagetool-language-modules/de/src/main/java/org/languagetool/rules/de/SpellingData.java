@@ -48,6 +48,9 @@ class SpellingData {
       }
       String oldSpelling = parts[0];
       String newSpelling = parts[1];
+      if (oldSpelling.equals(newSpelling)) {
+        throw new RuntimeException("Old and new spelling are the same in " + filePath + ": " + line);
+      }
       String lookup = coherencyMap.get(newSpelling);
       if (lookup != null && lookup.equals(oldSpelling)) {
         throw new RuntimeException("Contradictory entry in " + filePath + ": '" + oldSpelling + "' suggests '" + lookup + "' and vice versa");
