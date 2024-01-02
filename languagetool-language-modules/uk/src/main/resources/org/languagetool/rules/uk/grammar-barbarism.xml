@@ -3618,15 +3618,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>за</token>
-          <token postag_regexp="yes" postag="adj.*:m:v_zna.*"/>
+          <token postag_regexp="yes" postag="adj:m:v_zna:rinanim.*"/>
           <token>рахунок</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj.*:m):v_zna(?::rinanim)?(.*)" postag_replace="$1:v_oru$2"/> коштом</suggestion></message>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj:m):v_zna(?::rinanim)?(.*)" postag_replace="$1:v_oru$2"/> коштом</suggestion></message>
         <example correction="своїм коштом"><marker>за свій рахунок</marker></example>
         <example correction="їхнім коштом"><marker>за їхній рахунок</marker></example>
         <example correction="її коштом"><marker>за її рахунок</marker></example>
         <example correction="власним коштом"><marker>за власний рахунок</marker></example>
-        <example>коштом держави</example>
       </rule>
 
       <rule>
@@ -3637,7 +3636,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Краще: <suggestion>коштом</suggestion>, <suggestion>шляхом</suggestion>, <suggestion>користуючись з</suggestion>, <suggestion>ким/чим</suggestion>, <suggestion>внаслідок</suggestion></message>
         <suggestion>завдяки</suggestion>
         <example correction="коштом|шляхом|користуючись з|ким/чим|внаслідок|завдяки"><marker>за рахунок</marker> держави</example>
-        <example>коштом держави</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>за</token>
+          <token>рахунок</token>
+          <token postag_regexp="yes" postag="adj:p:v_rod.*" min="0"/>
+          <token>коштів</token>
+        </pattern>
+        <message>Краще: <suggestion>з \3 \4</suggestion></message>
+        <example correction="з коштів"><marker>за рахунок коштів</marker></example>
+        <example correction="з бюджетних коштів"><marker>за рахунок бюджетних коштів</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>за</token>
+          <token>рахунок</token>
+          <token regexp="yes">субвенції|бюджету</token>
+        </pattern>
+        <message>Краще: <suggestion>з коштів \3</suggestion></message>
+        <example correction="з коштів субвенції"><marker>за рахунок субвенції</marker></example>
       </rule>
     </rulegroup>
 
@@ -4677,7 +4697,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token>більше
+            <token regexp="yes">більше?
               <exception scope="previous">не</exception>
             </token>
             <token>того</token>
@@ -4690,7 +4710,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>до того</suggestion>
         <suggestion>ще й надто</suggestion>
         <example correction="щобільше|мало того|на додаток|до того|ще й надто">Шухевич знав про це, <marker>більше того</marker>, він допоміг виробити</example>
-        <example correction="щобільше|мало того|на додаток|до того|ще й надто">ене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
+        <example correction="щобільше|мало того|на додаток|до того|ще й надто">мене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
+        <example correction="Щобільше|Мало того|На додаток|До того|Ще й надто"><marker>Більш того</marker>, він все знав…</example>
         <example>...процесу в Україні, і не більше того.</example>
         <example>щораз більше того самого.</example>
         <example>не в стані більше того витримувати фізично</example>
@@ -4700,7 +4721,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token>не</token>
-            <token>більше</token>
+            <token regexp="yes">більше?</token>
             <token>того</token>
           </marker>
           <token regexp="yes">&punct_std;</token>
@@ -7508,6 +7529,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Активні дієприкметники не властиві українській мові.</message>
       <suggestion>що спить</suggestion>
       <example correction="що спить"><marker>сплячого</marker> на океані</example>
+    </rule>
+
+    <rule id="kontrolyuyuchyi_organ" name="Контролюючий орган">
+      <pattern>
+        <token inflected="yes">контролюючий</token>
+        <token inflected="yes">орган</token>
+      </pattern>
+      <message>Правильно: <suggestion>\2 контролю</suggestion></message>
+      <example correction="органом контролю"><marker>контролюючим органом</marker>.</example>
     </rule>
 
     <rule id="na_vskydku" name="На вскидку">
