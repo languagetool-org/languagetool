@@ -30449,6 +30449,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ANOS_SIN_PUNTO" name="años y números de página sin punto: *1.950">
             <url>https://www.fundeu.es/recomendacion/los-anos-sin-punto-ni-espacio/</url>
+            <rule default="temp_off">
+                <pattern>
+                    <token>para</token>
+                    <marker>
+                        <token regexp="yes">\d{1,2}\.\d{3}</token>
+                    </marker>
+                    <token postag="_PUNCT.*|V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Los años se escriben sin punto.</message>
+                <suggestion><match no="2" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <example correction="2024">Explica las modificaciones incluidas en las ordenanzas fiscales para <marker>2.024</marker>.</example>
+                <example correction="2024">Las predicciones de Baba Vanga para <marker>2.024</marker> despiertan el pánico en todo el planeta.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">años?|feliz|próspero|buen</token>
