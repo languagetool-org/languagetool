@@ -316,7 +316,7 @@ Copyright (C) 2021 Jaume Ortolà
         <!-- e.g. {user_id} -->
         <rule>
             <pattern>
-                <token regexp="yes">[\{\[&lt;]</token>
+                <token regexp="yes">[\{\[&lt;%\$]</token>
                 <token regexp="yes" min="0">["'`]</token>
                 <marker>
                     <token regexp="yes">.+</token>
@@ -324,7 +324,7 @@ Copyright (C) 2021 Jaume Ortolà
                     <token regexp="yes">.+</token>
                 </marker>
                 <token regexp="yes" min="0">["'`]</token>
-                <token regexp="yes">[\}\]&gt;]</token>
+                <token regexp="yes">[\}\]&gt;%\$]</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
