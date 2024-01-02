@@ -4157,51 +4157,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction='prémio'>E tem <marker>premio</marker> para todos.</example>
         <example correction='prémios'>E tem <marker>premios</marker> para todos.</example>
     </rule>
-    <!-- CRIAR querer -->
-    <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
-    <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-04-09 (Checked/Enhanced) (2-MAR-2023+) -->
-    <!--
-        É o que eu cria dizer. → É o que eu queria dizer.
-        Tu crias comprar o livro. → Tu querias comprar o livro.
-        Ele cria comprar o livro. → Ele queria comprar o livro.
-        Eles criam comprar o livro. → Eles queriam comprar o livro.
-    -->
 
-    <!-- EU CRIA -->
-        <rule>
-            <pattern>
-                <token>eu</token>
-                <marker>
-                    <token>cria</token>
-                </marker>
-            </pattern>
-            <message>Possível confusão de termos.</message>
-            <suggestion>queria</suggestion>
-            <example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
-        </rule>
 
-        <!-- CRIAR + Infinitivo -->
-        <rule>
-            <pattern>
-                <marker>
-                    <and>
-                        <token inflected='yes'>criar</token>
-                        <token postag='VMII.+' postag_regexp='yes'/>
-                    </and>
-                </marker>
-                <token postag="VMN0000">
-                    <exception postag_regexp='yes' postag='NC.+|AQ.+'/> <!-- "Ele cria saber." -->
-                </token>
-            </pattern>
-            <message>Possível confusão de termos.</message>
-            <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>
-            <example correction="querias">Tu <marker>crias</marker> comprar o livro.</example>
-            <example correction="queria">Ele <marker>cria</marker> comprar o livro.</example>
-            <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
-            <example>Ele cria saber.</example>
-        </rule>
+    <rule id='CRIAR_QUERER' name="[pt-PT] Confusão: Criar/Querer" default="temp_off">
+        <pattern>
+            <marker>
+                <token regexp='yes'>cria[ms]?|criamos</token>
+            </marker>
+            <token postag="VMN0000">
+                <exception>saber</exception> <!-- "Ele cria saber." -->
+            </token>
+        </pattern>
+        <message>Possível confusão de termos.</message>
+        <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>
+        <example correction="querias">Tu <marker>crias</marker> comprar o livro.</example>
+        <example correction="queria">Ele <marker>cria</marker> comprar o livro.</example>
+        <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
+        <example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
+        <example>Ele cria saber.</example>
+    </rule>
 
-    </rulegroup>
 
 </category>
 
