@@ -626,7 +626,12 @@ public class SingleCheck {
     if (!ruleMatch.getRule().isDictionaryBasedSpellingRule()) {
       return true;
     }
-    String word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
+    String word;
+    if (ruleMatch.getToPos() < text.length()) {
+      word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
+    } else {
+      word = text.substring(ruleMatch.getFromPos());
+    }
     if (!mDocHandler.getLinguisticServices().isCorrectSpell(word, lang)) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("SingleCheck: checkParaRules: not correct spelled word: " + word + "; lang: " + lang.toString());

@@ -1511,7 +1511,8 @@ public class DocumentTextCache implements Serializable {
   public int getFlatParagraphNumber(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0 
+      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0
+          || toParaMapping.size() < NUMBER_CURSOR_TYPES
           || toParaMapping.get(textParagraph.type).size() <= textParagraph.number) {
         return -1;
       }

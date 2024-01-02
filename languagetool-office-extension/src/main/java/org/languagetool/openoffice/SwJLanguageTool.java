@@ -405,7 +405,7 @@ public class SwJLanguageTool {
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
-      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
+      return checkInternal(new AnnotatedTextBuilder().addText(text + OfficeTools.END_OF_PARAGRAPH).build(), paraMode, null, mode, 
           Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     }
 
@@ -426,7 +426,7 @@ public class SwJLanguageTool {
         MessageHandler.printToLogFile("Text S:" + texts);
       }
 */
-      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
+      return checkInternal(new AnnotatedTextBuilder().addText(text + OfficeTools.END_OF_PARAGRAPH).build(), paraMode, null, mode, 
           Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     }
 
