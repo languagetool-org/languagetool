@@ -523,8 +523,9 @@ regexp case-insensitive maken: (?i)
 						</token>
 					</marker>
 				</pattern>
-				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^mijn" regexp_replace="mijnen"/></suggestion>.</message>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="ijn" regexp_replace="ijnen"/></suggestion>.</message>
 				<example correction="mijnenveld">Het is een <marker>mijnveld</marker>!</example>
+				<example correction="Mijnengevaar"><marker>Mijngevaar</marker> blijft echter.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="GLASWASSER" name="Ik ben vroeger glas(glazen)wasser geweest">
@@ -535,8 +536,9 @@ regexp case-insensitive maken: (?i)
 						<token regexp="yes">glaswass.*</token>
 					</marker>
 				</pattern>
-				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="^glas" regexp_replace="glazen"/></suggestion>.</message>
+				<message>Waarschijnlijk bedoelt u <suggestion><match no="1" regexp_match="laswa" regexp_replace="lazenwa"/></suggestion>.</message>
 				<example correction="glazenwasser">Ik ben vroeger <marker>glaswasser</marker> geweest.</example>
+				<example correction="Glazenwasser"><marker>Glaswasser</marker> ben je niet voor even, maar voor je hele leven!</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="TAALUNIE" name="Taalunie">
@@ -560,7 +562,7 @@ regexp case-insensitive maken: (?i)
 						<token regexp="yes">start(woning|beurs|kit|markt|aftrek).*</token>
 					</marker>
 				</pattern>
-				<message>Bedoelt u misschien: <suggestion><match no="1" regexp_match="^start" regexp_replace="starters"/></suggestion>?</message>
+				<message>Bedoelt u misschien: <suggestion><match no="1" regexp_match="tart" regexp_replace="tarters"/></suggestion>?</message>
 				<example correction="starterswoning">Hij is op zoek naar een <marker>startwoning</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -584,8 +586,9 @@ regexp case-insensitive maken: (?i)
 						<token regexp="yes">moeder(kant|naam|zijde).*</token>
 					</marker>
 				</pattern>
-				<message>Waarschijnlijk ontbreekt hier de tussen-s: <suggestion><match no="1" regexp_match="^moeder" regexp_replace="moeders"/></suggestion>.</message>
+				<message>Waarschijnlijk ontbreekt hier de tussen-s: <suggestion><match no="1" regexp_match="oeder" regexp_replace="oeders"/></suggestion>.</message>
 				<example correction="moederskant">Hij was <marker>moederkant</marker> aan hem verwant.</example>
+				<example correction="Moederskant"><marker>Moederkant</marker> is hij aan hem verwant.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="PAARDENRIJDEN" name="paarden(paard)rijden">
@@ -593,11 +596,12 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<pattern>
 					<marker>
-						<token regexp="yes">paarden(rij).*</token>
+						<token regexp="yes">paardenrij.*</token>
 					</marker>
 				</pattern>
-				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="^paarden" regexp_replace="paard"/></suggestion>.</message>
+				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="aardenr" regexp_replace="aardr"/></suggestion>.</message>
 				<example correction="paardrijden">Ik doe aan <marker>paardenrijden</marker>.</example>
+				<example correction="Paardrijden"><marker>Paardenrijden</marker> is mijn hobby.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="TOETSBORD" name="toets(en)bord">
@@ -605,11 +609,33 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<pattern>
 					<marker>
-						<token regexp="yes">toets(bord).*</token>
+						<token regexp="yes">toetsbord.*</token>
 					</marker>
 				</pattern>
-				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="^toets" regexp_replace="toetsen"/></suggestion>.</message>
+				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="oetsb" regexp_replace="oetsenb"/></suggestion>.</message>
 				<example correction="toetsenbord">Wat vind je van mijn nieuwe <marker>toetsbord</marker>?</example>
+                <example correction="Toetsenbord"><marker>Toetsbord</marker> op nummer 1!</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EREADER" name="e(-)reader">
+			<!-- Antipattern for CompoundAcceptor -->
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">ereader.*</token>
+					</marker>
+				</pattern>
+				<message>Na de 'e' komt een streepje, net als bij 'e-mail': <suggestion><match no="1" regexp_match="reader" regexp_replace="-reader"/></suggestion>.</message>
+				<example correction="e-readertje">Wat vind je van mijn nieuwe <marker>ereadertje</marker>?</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">e-Reader.*</token>
+					</marker>
+				</pattern>
+				<message>De hoofdletter is (net als bij e-mail) niet nodig: <suggestion><match no="1" regexp_match="Reader" regexp_replace="reader"/></suggestion>.</message>
+				<example correction="e-readertje">Wat vind je van mijn nieuwe <marker>e-Readertje</marker>?</example>
 			</rule>
 		</rulegroup>
 	</category>
