@@ -2793,27 +2793,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Assim, com a divisão de valores mais próximos do zero, o resultado será o zero absoluto.</example>
         <example>Teoricamente, ao cessar a agitação térmica das moléculas a pressão é nula, e atinge-se o zero absoluto.</example>
     </rule>
-    <rulegroup id='AUTO-FALANTE' name="[pt-PT] Altifalante">
-        <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-        <rule>
-            <pattern>
-                <token>auto</token>
-                <token regexp='yes' min='0'>&tracos_de_separacao;</token>
-                <token>falante</token>
-            </pattern>
-            <message>Substitua por <suggestion>altifalante</suggestion>.</message>
-            <example correction="altifalante">O <marker>auto-falante</marker> está avariado.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token>auto</token>
-                <token regexp='yes' min='0'>&tracos_de_separacao;</token>
-                <token>falantes</token>
-            </pattern>
-            <message>Substitua por <suggestion>altifalantes</suggestion>.</message>
-            <example correction="altifalantes">Os <marker>auto-falantes</marker> estão avariados.</example>
-        </rule>
-    </rulegroup>
     <rule id='DAÍ' name="[pt-PT] Contração: de aí">
         <!-- Created by Marco A.G. Pinto, Portuguese rule -->
         <pattern>
@@ -3530,7 +3509,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
           <antipattern>
               <token regexp='yes'>auto|quilo</token>
-              <token regexp='yes'>d[aeo]s?|policial</token>
+              <token regexp='yes'>d[aeo]s?|policial|falantes?</token>
           </antipattern>
           <pattern>
               <token regexp='yes'>&prefixos_o;|&prefixos_o_2;|arqui
@@ -4156,6 +4135,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <url>https://pt.wiktionary.org/wiki/prémio</url>
         <example correction='prémio'>E tem <marker>premio</marker> para todos.</example>
         <example correction='prémios'>E tem <marker>premios</marker> para todos.</example>
+    </rule>
+
+
+    <rule id='AUTO-FALANTE' name="[pt-PT] Confusão: Auto-falante/Altifalante" default="temp_off">
+        <pattern>
+            <token>auto</token>
+            <token regexp='yes' min='0'>&tracos_de_separacao;</token>
+            <token regexp='yes'>falantes?</token>
+        </pattern>
+        <message>Possível confusão de termos.</message>
+        <suggestion><match no='3' postag='AQ0C(.)0' postag_replace='AQ0C$10'>altifalante</match></suggestion>
+        <suggestion>alto-\3</suggestion>
+        <example correction="altifalante|alto-falante">O <marker>auto-falante</marker> está avariado.</example>
+        <example correction="altifalantes|alto-falantes">Os <marker>auto-falantes</marker> estão avariados.</example>
     </rule>
 
 
