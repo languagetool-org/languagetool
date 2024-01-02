@@ -355,27 +355,6 @@ USA
 </rule>
 
 
-    <rule id='DO_QUE_AQUELE_QUE_ÀQUELE_QUE_PT_PT' name="[pt-PT]Simplificar: 'do que aquel[ae](s)' que → àquel[ae](s)" type='style' default="temp_off">
-    <!-- IDEA shorten_it -->
-
-        <pattern>
-            <marker>
-                <token>do</token>
-                <token>que</token>
-                <token regexp='yes'>aquel[ae]s?</token>
-            </marker>
-            <token>que</token>
-            <token postag_regexp='yes' postag='V.+'/>
-        </pattern>
-        <message>&simplify_msg;</message>
-        <suggestion><match no='3' postag='DD0(..)0' postag_replace='SPS00:DD0$10'>a:aquele</match></suggestion>
-        <example correction="àquela">Esta equação é mais rápida <marker>do que aquela</marker> que tínhamos.</example>
-        <example correction="àquelas">Estas equações são mais rápidas <marker>do que aquelas</marker> que tínhamos.</example>
-        <example correction="àquele">Este modelo é mais rápido <marker>do que aquele</marker> que tínhamos.</example>
-        <example correction="àqueles">Estes modelos são mais rápidos <marker>do que aqueles</marker> que tínhamos.</example>
-    </rule>
-
-
 <!-- TRANSMITE E QUE PERMITE transmite que permite -->
 <rule id='E_QUE_VERBO_REMOVER_E_PT_PT' name="[pt-PT][Simplificar] E que → que" type="style">
     <!-- IDEA shorten_it -->
