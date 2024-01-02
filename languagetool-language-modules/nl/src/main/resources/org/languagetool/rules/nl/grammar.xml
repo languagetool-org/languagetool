@@ -11025,7 +11025,16 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>het</token><token>dorpsplein</token></antipattern>
 				<antipattern><token>de</token><token>luchtweg</token></antipattern>
 				<antipattern><token>de</token><token>lichtweg</token></antipattern>
-				<antipattern><token>gulden</token><token>middenweg</token></antipattern>
+				<antipattern><token regexp="yes">gulden|een|geen</token><token>middenweg</token></antipattern>
+				<antipattern><token regexp="yes">.*snelweg|expresweg</token></antipattern>
+				<antipattern><token>doorgangsweg</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="BNW.*VRB"/><token regexp="yes">.*weg</token></antipattern>
+				<antipattern>
+					<token regexp="yes">een|en</token>
+					<token>rijksweg
+						<exception postag_regexp="yes" postag="GET.*"/>
+					</token>
+				</antipattern>
 				<antipattern> <!-- met huisnummer mag het strenger.. -->
 					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
 					<token postag="GET:(EKV|MRV)" postag_regexp="yes"/>
