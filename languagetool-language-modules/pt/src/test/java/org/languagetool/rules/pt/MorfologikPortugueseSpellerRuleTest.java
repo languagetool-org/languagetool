@@ -312,6 +312,8 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("Raspberry", ltBR, ruleBR, new String[]{});
     assertNoErrors("Raspberry Pi", ltBR, ruleBR);
     assertNoErrors("lan houses", ltBR, ruleBR);
+    assertSingleError("Crohn", ltBR, ruleBR, new String[]{});
+    assertNoErrors("doença de Crohn", ltBR, ruleBR);
     // some of these should come from the global spelling file
     assertNoErrors("Hillary Clinton", ltBR, ruleBR);
     // these used to be in the disambiguator and have been moved to multiwords
