@@ -312,6 +312,16 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("Raspberry", ltBR, ruleBR, new String[]{});
     assertNoErrors("Raspberry Pi", ltBR, ruleBR);
     assertNoErrors("lan houses", ltBR, ruleBR);
+    // some of these should come from the global spelling file
+    assertNoErrors("Hillary Clinton", ltBR, ruleBR);
+    // these used to be in the disambiguator and have been moved to multiwords
+    assertNoErrors("está en vogue", ltBR, ruleBR);
+    assertNoErrors("startups de Silicon Valley", ltBR, ruleBR);
+    assertNoErrors("comme de rigueur", ltBR, ruleBR);
+    assertNoErrors("uma t-shirt", ltBR, ruleBR);
+    // these are still done by a disambiguator rule
+    assertNoErrors("mora na 82nd Street", ltBR, ruleBR);
+    assertNoErrors("mora na Fifth Avenue", ltBR, ruleBR);
   }
 
   @Test
