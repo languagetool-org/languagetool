@@ -1005,6 +1005,8 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktopbetrieb")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktophintergrund")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Unibetrieb")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Integrallogarithmus")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Fledermaussonar")).length);
   }
   
   @Test
