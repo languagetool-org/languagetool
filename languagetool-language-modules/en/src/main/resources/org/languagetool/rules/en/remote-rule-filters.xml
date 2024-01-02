@@ -4270,6 +4270,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Meet the All-New <marker>LanguageTool</marker> Equipped With AI</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_MISSING_PUNCTUATION_PERIOD" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token skip="-1" regexp="yes">[•*]</token>
+                    <marker>
+                        <token postag="SENT_END" />
+                    </marker>
+                </pattern>
+                <example correction="">• This is a <marker>test</marker></example>
+                <example correction="">* This is a <marker>test</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_NOUN" name="">
             <rule>  <!-- don't replace state abbreviations I -->
                 <pattern>
@@ -4303,6 +4316,74 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Notwithstanding anything to the contrary in Section 11.1, <marker>Supplier</marker> will not subcontract or delegate any of its obligations under this agreement.</example>
                 <example correction="">Notwithstanding anything to the contrary in Section 11.1, supplier will not subcontract or delegate any of its obligations under this <marker>Agreement</marker>.</example>
+            </rule>
+            <rule>  <!-- capitalization after semicolon -->
+                <pattern>
+                    <token>:</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Please find attached the adjustment to the price: <marker>The</marker> former shareholders will get a payment of 5001 € in total.</example>
+            </rule>
+            <rule>  <!-- capital after colon is acceptable according to several style guides. Accounts for LOTS of disables... -->
+                <pattern>
+                    <token>:</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Interference by nontuberculous mycobacteria: <marker>Exposure</marker> to environmental mycobacteria (especially M. avium, M. marinum and M. intracellulare) results in a nonspecific immune response against mycobacteria.</example>
+            </rule>
+            <rule>  <!-- capital inside quote if it's a full sentence is also acceptable according to some style guides -->
+                <pattern>
+                    <token regexp="yes">&quote;</token>
+                    <marker>
+                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                    </marker>
+                    <token skip="-1" chunk="B-VP" />
+                    <token regexp="yes">[\.\?\!]</token>
+                    <token regexp="yes">&quote;</token>
+                </pattern>
+                <example correction="">He claims that "<marker>Interest</marker> is the cause; follow-through is the result."</example>
+            </rule>
+            <rule>  <!-- titles etc. -->
+                <pattern>
+                    <token regexp="yes">&quote;</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                    </marker>
+                    <token min="0" max="2" regexp="yes" case_sensitive="yes">[a-z]+</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                </pattern>
+                <example correction="">..., Adaptation, "<marker>Evidence</marker> for Darwinian...</example>
+            </rule>
+            <rule>
+                <pattern>   <!-- bachelors masters degree -->
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Bachelor|Master</token>
+                    </marker>
+                    <token>'s</token>
+                </pattern>
+                <example correction=""> ...day, I have a <marker>Bachelor</marker>’s in Marketing...</example>
+            </rule>
+            <rule>  <!-- frequently disabled, legal jargon. Can add other frequently disabled words here. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Company|Contract|Euroscepticism|Government</token>
+                    </marker>
+                </pattern>
+                <example correction="">The complaint charges that the defendants misrepresented and concealed material facts concerning the <marker>Company</marker>'s financial transactions with two partnerships established by Enron's Chief Financial Officer, which resulted in substantial losses to Enron and a reduction in shareholders' equity of over $1 billion.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_OTHERCASE" name="">
+            <rule>  <!-- capitalization of covid-19 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Cc]ovid(-19)?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Lots of people got <marker>covid</marker> at our last meetup.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL" name="">
