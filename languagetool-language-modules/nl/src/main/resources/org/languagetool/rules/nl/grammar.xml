@@ -638,6 +638,18 @@ regexp case-insensitive maken: (?i)
 				<example correction="e-readertje">Wat vind je van mijn nieuwe <marker>e-Readertje</marker>?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="APPELKANEEL" name="appel(-)kaneel">
+			<!-- Antipattern for CompoundAcceptor -->
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">appelkaneel.*</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="ppelkan" regexp_replace="ppel-kan"/></suggestion>.</message>
+				<example correction="appel-kaneeltaart">Hoe vind je de <marker>appelkaneeltaart</marker>?</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
