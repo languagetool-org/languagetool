@@ -4241,4 +4241,16 @@
           <disambig action="remove" postag="PP[12].+"/>
       </rule>
   </rulegroup>
+
+  <rulegroup id="CÃO_ADJ" name="Remove adj tags from archaic 'cão' in most circumstances">
+      <rule>
+          <pattern> <!-- cãos, cã, and cãs are unambiguous and should remain unaffected -->
+              <token postag_regexp="yes" postag="[DZPA].+|SENT_START"/>
+              <marker>
+                  <token inflected="no" postag_regexp="yes" postag="A.+">cão</token>
+              </marker>
+          </pattern>
+          <disambig action="remove" postag="A.+"/>
+      </rule>
+  </rulegroup>
 </rules>
