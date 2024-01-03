@@ -320,7 +320,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("está en vogue", ltBR, ruleBR);
     assertNoErrors("startups de Silicon Valley", ltBR, ruleBR);
     assertNoErrors("comme de rigueur", ltBR, ruleBR);
-    assertNoErrors("uma t-shirt", ltBR, ruleBR);
+    assertNoErrors("uma T shirt", ltBR, ruleBR); // we may need to have an XML rule for this
     // these are still done by a disambiguator rule
     assertNoErrors("mora na 82nd Street", ltBR, ruleBR);
     assertNoErrors("mora na Fifth Avenue", ltBR, ruleBR);
