@@ -312,7 +312,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("Raspberry", ltBR, ruleBR, new String[]{});
     assertNoErrors("Raspberry Pi", ltBR, ruleBR);
     assertNoErrors("lan houses", ltBR, ruleBR);
-    assertSingleError("Crohn", ltBR, ruleBR, new String[]{});
+    assertSingleError("Crohn", ltBR, ruleBR, new String[]{}); // this should prob. be okay tbh
     assertNoErrors("doença de Crohn", ltBR, ruleBR);
     // some of these should come from the global spelling file
     assertNoErrors("Hillary Clinton", ltBR, ruleBR);
@@ -328,8 +328,8 @@ public class MorfologikPortugueseSpellerRuleTest {
 
   @Test
   public void testPortugueseSpellingSpellingTXT() throws Exception {
-    assertNoErrors("xávega", ltBR, ruleBR);
-    assertNoErrors("thirties", ltPT, rulePT);
+    assertNoErrors("physalis", ltBR, ruleBR);
+    assertNoErrors("jackpot", ltPT, rulePT);
   }
 
   @Test
