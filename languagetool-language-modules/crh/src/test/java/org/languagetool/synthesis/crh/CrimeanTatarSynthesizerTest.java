@@ -26,13 +26,12 @@ import java.util.Arrays;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.CrimeanTatar;
 
 public class CrimeanTatarSynthesizerTest {
 
   @Test
   public final void testSynthesizeString() throws IOException {
-    CrimeanTatarSynthesizer synth = new CrimeanTatarSynthesizer(new CrimeanTatar());
+    CrimeanTatarSynthesizer synth = CrimeanTatarSynthesizer.INSTANCE;
 
     assertEquals(synth.synthesize(dummyToken("oluñızoluñız"), "oluñızoluñız").length, 0);
 
