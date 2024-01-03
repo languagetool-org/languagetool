@@ -4270,6 +4270,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Meet the All-New <marker>LanguageTool</marker> Equipped With AI</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_MISSING_PUNCTUATION_COMMA" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token max="3" chunk_re="[BI]-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                    <token min="0" postag="RB" />
+                    <token skip="5" inflected="yes">be</token>
+                    <token chunk_re="E-NP.*" />
+                    <token skip="3">of</token>
+                    <marker>
+                        <token chunk_re="E-NP.*" />
+                    </marker>
+                    <token>with</token>
+                    <token max="5" chunk_re=".-NP.*" />
+                    <token postag="SENT_END" />
+                </pattern>
+                <example correction="">Culture and people are a portrayal of our <marker>country</marker> with unique values and perceptions.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_MISSING_PUNCTUATION_PERIOD" name="">
             <rule>
                 <pattern>
@@ -4375,6 +4395,74 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">The complaint charges that the defendants misrepresented and concealed material facts concerning the <marker>Company</marker>'s financial transactions with two partnerships established by Enron's Chief Financial Officer, which resulted in substantial losses to Enron and a reduction in shareholders' equity of over $1 billion.</example>
             </rule>
+            <rule>  <!-- frequently disabled -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">False|True|(North|South|East|West)(ern)?|Central|Middle</token>
+                    </marker>
+                </pattern>
+                <example correction="">The value is initialized to <marker>False</marker>.</example>
+                <example correction="">A second phase of the project, to cost $1.1 billion, would extend the line into <marker>Northern</marker> California.</example>
+            </rule>
+            <rule>  <!-- frequently disabled followed by another capital -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Assistant|Executive|Happy|Lead|Junior|Senior|Principal</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+[a-z]*</token>
+                </pattern>
+                <example correction="">We look forward to continuing the momentum in 2001 and wish you and your family a pleasant holiday season and a <marker>Happy</marker> New Year.</example>
+            </rule>
+            <rule>  <!-- capitalized according to style guides -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Black|White</token>
+                    </marker>
+                </pattern>
+                <example correction="">The racial makeup of the city was 84.5% <marker>White</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
+                <example correction="">The racial makeup of the city was 3.4% <marker>Black</marker>, 0.2% Native American, 8.8% Asian, 1.1% from other races, and 2.0% from two or more races.</example>
+            </rule>
+            <rule>  <!-- quotes -->
+                <pattern>
+                    <token regexp="yes">&quote;</token>
+                    <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <marker>
+                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                    <token regexp="yes">&quote;</token>
+                </pattern>
+                <example correction="">"What does it say about the <marker>Stone</marker>?" asked Richard.</example>
+            </rule>
+            <rule>  <!-- Summer 2023 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Winter|Spring|Summer|Fall|Autumn</token>
+                    </marker>
+                    <token regexp="yes">(19|20)[0-9]{2}</token>
+                </pattern>
+                <example correction="">Each of you has been chosen to represent Enron for our <marker>Fall</marker> 2000 recruiting efforts at Carnegie Mellon University.</example>
+            </rule>
+            <rule>  <!-- head of; frequently disabled -->
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Head</token>
+                    </marker>
+                    <token>of</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </pattern>
+                <example correction="">Omar is our <marker>Head</marker> of Production around here.</example>
+            </rule>
+            <rule>  <!-- commonly disabled: political/legal contexts, etc. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">Administration|Agreement|State</token>
+                    </marker>
+                </pattern>
+                <example correction="">One could say that this order is consistent with the <marker>Administration</marker>'s present third world country mentality.</example>
+                <example correction="">Such <marker>Agreement</marker> shall provide that any omnibus account or foreign broker identified by a Clearing Member (or another omnibus account or foreign broker) as the buyer or seller of an EFS pursuant to this rule, shall supply the name of its customer.</example>
+                <example correction="">...the committee's affordability analysis, and a number of other factors relevant to the ability of the <marker>State</marker> to meet its projected debt service requirements for the next 5 years.</example>
+                <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_OTHERCASE" name="">
             <rule>  <!-- capitalization of covid-19 -->
@@ -4448,6 +4536,184 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">I was thinking<marker>…</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_ADPOSITION" name="">
+            <rule>  <!-- about -->
+                <pattern>
+                    <token regexp="yes" inflected="yes">ask|know|tell</token>
+                    <token min="0" postag="NNP|PRP_O.*" postag_regexp="yes" />
+                    <marker>
+                        <token>about</token>
+                    </marker>
+                </pattern>
+                <example correction="">Sami knows <marker>about</marker> everything.</example>
+                <example correction="">Tom didn't have to tell me <marker>about</marker> what happened.</example>
+            </rule>
+            <rule>  <!-- by -->
+                <pattern>
+                    <marker>
+                        <token>by</token>
+                    </marker>
+                    <token postag="PRP_R.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">You have to do that <marker>by</marker> yourselves.</example>
+                <example correction="">I was told not to repair it <marker>by</marker> myself.</example>
+            </rule>
+            <rule>  <!-- for -->
+                <pattern>
+                    <marker>
+                        <token>for</token>
+                    </marker>
+                    <token min="0" regexp="yes">early|later?</token>
+                    <token min="0" postag="DT" />
+                    <token min="0" regexp="yes">last|next</token>
+                    <token regexp="yes">morning|afternoon|evening|night|day|week|month|year|quarter|semester|today|yesterday</token>
+                </pattern>
+                <example correction="">I will see if I can get room 3907 <marker>for</marker> this afternoon.</example>
+                <example correction="">They wanted the t-shirts <marker>for</marker> early next week.</example>
+                <example correction="">The Enron Building in Houston is closed <marker>for</marker> today, Tuesday, September 11, 2001.</example>
+            </rule>
+            <rule>  <!-- in -->
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token>a</token>
+                    <token regexp="yes">day|week|month|year</token>
+                </pattern>
+                <example correction="">They completed the rounds several times <marker>in</marker> a day.</example>
+                <example correction="">It only updates Graph API once <marker>in</marker> a day.</example>
+            </rule>
+            <rule>  <!-- like -->
+                <pattern>
+                    <token chunk_re="E-NP.*" />
+                    <token min="0" max="2" postag="RB" />
+                    <token inflected="yes">be</token>
+                    <token min="0" max="2" postag="RB" />
+                    <marker>
+                        <token>like</token>
+                    </marker>
+                    <token chunk_re="B-NP.*" />
+                </pattern>
+                <example correction="">Sami was pretty much <marker>like</marker> Layla's boss.</example>
+            </rule>
+            <rule>  <!-- of -->
+                <pattern>
+                    <token>inside</token>
+                    <marker>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <example correction="">He hurried, pulling Mira inside <marker>of</marker> the car.</example>
+            </rule>
+            <rule>  <!-- with I -->
+                <pattern>
+                    <token chunk_re="E-NP.*" />
+                    <marker>
+                        <token>with</token>
+                    </marker>
+                    <token postag="VBG" />
+                </pattern>
+                <example correction="">I would like your help <marker>with</marker> finding some information specific for the West Coast.</example>
+                <example correction="">He has problems <marker>with</marker> sleeping.</example>
+            </rule>
+            <rule>  <!-- with II -->
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token min="0" postag="RB" />
+                    <token postag="VBN" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token>with</token>
+                    </marker>
+                    <token chunk_re="B-NP.*" />
+                </pattern>
+                <example correction="">I like the ones that are painted <marker>with</marker> different colors.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_DETERMINER" name="">
+            <rule>  <!-- combined with other rule, unnecessarily removes the noun phrase -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" chunk_re="B-NP.*">an?</token>
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token min="0" postag="J.*" postag_regexp="yes" />
+                    <token min="0" regexp="yes">and|but</token>
+                    <token min="0" postag="RB" />
+                    <token postag="J.*" postag_regexp="yes" chunk_re="I-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                </pattern>
+                <example correction="">Its message is purely <marker>a</marker> spiritual one, an allegory symbolic of the spiritual path, which is equally relevant in all ages and for all people.</example>
+                <example correction="">I know that Tom isn't <marker>a</marker> reckless person.</example>
+                <example correction="">Soon, scientists say, solar cells will be <marker>an</marker> integral and virtually unnoticed view.</example>
+                <example correction="">It's not <marker>an</marker> easy thing to meet your maker.</example>
+            </rule>
+            <rule>  <!-- unnecessary specific to generic DP -->
+                <antipattern>
+                    <token chunk_re="B-NP.*">the</token>
+                    <token min="0" max="2" chunk_re="I-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                    <token>of</token>
+                    <token skip="1" chunk="B-NP-plural">the</token>
+                    <token postag="NNS" chunk="E-NP-plural" />
+                    <example>I have the list of the participants for the blood drive.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token chunk="B-NP-plural">the</token>
+                    </marker>
+                    <token min="0" chunk="I-NP-plural" />
+                    <token postag="NNS" chunk="E-NP-plural">
+                        <exception>sports</exception>
+                    </token>
+                </pattern>
+                <example correction="">He's not great at communication on <marker>the</marker> other topics.</example>
+                <example correction="">Rep. Petri and Rep. Barton chair subcommittees that will hold <marker>the</marker> hearings on the bill in these two committees.</example>
+                <example correction="">This is a community center that belongs to <marker>the</marker> immigrants.</example>
+                <example correction="">Can computable numbers be used instead of <marker>the</marker> reals?</example>
+                <example>I don't like the sports.</example>
+            </rule>
+            <rule>  <!-- quotes -->
+                <pattern>
+                    <token skip="-1" regexp="yes">&quote;</token>
+                    <marker>
+                        <token skip="-1" postag="DT" />
+                    </marker>
+                    <token regexp="yes">&quote;</token>
+                </pattern>
+                <example correction="">Our “<marker>The</marker> Club” members come from various backgrounds.</example>
+            </rule>
+            <rule>  <!-- a Mr. West; idiomatic -->
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[Mm]([Rr][Ss]?|[Ss])</token>
+                </pattern>
+                <example correction=""><marker>A</marker> Mr. Ono called to see you.</example>
+                <example correction=""><marker>A</marker> Mrs. Ono called to see you.</example>
+                <example correction=""><marker>A</marker> Ms. Ono called to see you.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_NOUN" name="">
+            <rule>  <!-- combined with other rule, unnecessarily removes the noun phrase -->
+                <pattern>
+                    <token regexp="yes" chunk_re="B-NP.*">an?</token>
+                    <token min="0" postag="RB" />
+                    <token min="0" postag="J.*" postag_regexp="yes" />
+                    <token min="0" regexp="yes">and|but</token>
+                    <token min="0" postag="RB" />
+                    <token postag="J.*" postag_regexp="yes" chunk_re="I-NP.*" />
+                    <marker>
+                        <token chunk_re="E-NP.*" />
+                    </marker>
+                </pattern>
+                <example correction="">Its message is purely a spiritual <marker>one</marker>, an allegory symbolic of the spiritual path, which is equally relevant in all ages and for all people.</example>
+                <example correction="">I know that Tom isn't a reckless <marker>person</marker>.</example>
+                <example correction="">Soon, scientists say, solar cells will be an integral and virtually unnoticed <marker>view</marker>.</example>
+                <example correction="">It's not an easy <marker>thing</marker> to meet your maker.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_PUNCTUATION_ASTERISK" name="">
             <rule>  <!-- don't delete asterisks -->
                 <pattern>
@@ -4455,6 +4721,79 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Stock Advisor is the online investing service that has beaten the stock market by 3x since 2002<marker>*</marker>.</example>
             </rule>
+            <rule>  <!-- don't delete list items -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>*</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>*</marker> I'm a list item</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_PUNCTUATION_COMMA" name="">
+            <rule>  <!-- don't delete comma after sentence-initial adverb/conjunction -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token postag="CC|RB" postag_regexp="yes" />
+                    <marker>
+                        <token postag="," />
+                    </marker>
+                </pattern>
+                <example correction="">Although<marker>,</marker> biodiversity relates to the time invested.</example>
+                <example correction="">Maybe<marker>,</marker> it depends.</example>
+                <example correction="">But<marker>,</marker> you will always remember and treasure the time with your mother.</example>
+                <example correction="">And<marker>,</marker> you two had been friends for so long that you forgot.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_PUNCTUATION_EXCLAMATION" name="">
+            <rule>  <!-- question mark and exclamation point can be used together pt. I -->
+                <pattern>
+                    <token>?</token>
+                    <marker>
+                        <token>!</token>
+                    </marker>
+                </pattern>
+                <example correction="">"How did you fit a briefcase into your pocket?<marker>!</marker>" the woman asked, stunned.</example>
+                <example correction="">"Damn, Fari, what was that?<marker>!</marker>"</example>
+                <example correction="">Am I supposed to put a stop to Lord Pinku Reiga, mightiest of the Four Weepy Lords, slayer of some 320 men, destroyer of the imperial wheelchairs?<marker>!</marker>"</example>
+            </rule>
+            <rule>  <!-- question mark and exclamation point can be used together pt. II -->
+                <pattern>
+                    <marker>
+                        <token>?</token>
+                    </marker>
+                    <token>!</token>
+                </pattern>
+                <example correction="">Your book was stolen<marker>?</marker>!</example>
+                <example correction="">You mistook the salt for sugar and put it in your coffee<marker>?</marker>!</example>
+                <example correction="">Or maybe God, as before, saved us, to become the creator of the peace<marker>?</marker>! </example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_PUNCTUATION_PERIOD" name="">
+            <rule>  <!-- don't delete ellipsis at end of sentence -->
+                <pattern>
+                    <marker>
+                        <token>.</token>
+                        <token>.</token>
+                        <token postag="SENT_END">.</token>
+                    </marker>
+                </pattern>
+                <example correction="">When can I expect an update on<marker>...</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_PUNCTUATION_PERIOD3" name="">
+        <!-- unsure of actual ID for this example... -->
+             <rule>  <!-- don't delete ellipsis at end of sentence -->
+                <pattern>
+                    <marker>
+                        <token>.</token>
+                        <token>.</token>
+                        <token postag="SENT_END">.</token>
+                    </marker>
+                </pattern>
+                <example correction="">When can I expect an update on<marker>...</marker></example>
+             </rule>
         </rulegroup>
     </category>
 </rules>
