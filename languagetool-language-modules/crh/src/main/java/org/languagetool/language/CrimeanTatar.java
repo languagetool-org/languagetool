@@ -93,7 +93,7 @@ public class CrimeanTatar extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new CrimeanTatarSynthesizer(this);
+    return CrimeanTatarSynthesizer.INSTANCE;
   }
 
   @Override

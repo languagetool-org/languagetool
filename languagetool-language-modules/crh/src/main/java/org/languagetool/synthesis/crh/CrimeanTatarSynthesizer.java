@@ -18,7 +18,6 @@
  */
 package org.languagetool.synthesis.crh;
 
-import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
@@ -31,11 +30,10 @@ public class CrimeanTatarSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/crh/crimean_tatar_synth.dict";
   private static final String TAGS_FILE_NAME = "/crh/crimean_tatar_synth.dict_tags.txt";
 
-//  public static final CrimeanTatarSynthesizer INSTANCE = new CrimeanTatarSynthesizer();
+  public static final CrimeanTatarSynthesizer INSTANCE = new CrimeanTatarSynthesizer();
 
-  /** @deprecated use {@link #INSTANCE} */
-  public CrimeanTatarSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+  private CrimeanTatarSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "crh");
   }
   
 }
