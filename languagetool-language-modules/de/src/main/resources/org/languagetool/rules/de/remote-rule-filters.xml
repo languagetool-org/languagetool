@@ -1920,6 +1920,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das <marker>österr.</marker> Parlament tagt heute.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes" skip="-1">[*\u2022]</token>
+                    <marker>
+                        <token postag="SENT_END" />
+                    </marker>
+                </pattern>
+                <example correction="">• Als „Trinkgeld“ bezeichnete Zahlungen von 50.000 Euro bzw. 1,3 Mio. Euro an Prokuristen einer GmbH nicht <marker>steuerfrei</marker></example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_NOUN" name="">
