@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.languagetool.tools.StringTools.*;
+
 /**
  * Old to new spelling data and similar formats loaded from CSV.
  * @since 4.3
@@ -50,6 +52,10 @@ class SpellingData {
       String newSpelling = parts[1];
       sanityChecks(filePath, line, oldSpelling, newSpelling, coherencyMap);
       coherencyMap.put(oldSpelling, newSpelling);
+      if (startsWithLowercase(oldSpelling) && startsWithLowercase(newSpelling)) {
+        // lowercase words can be uppercase at sentence start:
+        coherencyMap.put(uppercaseFirstChar(oldSpelling), uppercaseFirstChar(newSpelling));
+      }
       if (oldSpelling.contains("ß") && oldSpelling.replaceAll("ß", "ss").equals(newSpelling)) {
         try {
           String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(oldSpelling, s -> true);
