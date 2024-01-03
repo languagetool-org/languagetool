@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.en.AmericanEnglish;
 import org.languagetool.rules.RemoteRule;
 import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.RemoteRuleResult;

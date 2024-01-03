@@ -24,7 +24,7 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.en.AmericanEnglish;
 import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
 import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;

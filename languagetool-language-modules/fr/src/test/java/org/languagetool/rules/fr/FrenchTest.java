@@ -20,7 +20,7 @@ package org.languagetool.rules.fr;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 import org.languagetool.rules.RuleMatch;
 
 import static org.hamcrest.core.Is.is;

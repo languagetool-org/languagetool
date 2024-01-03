@@ -21,7 +21,7 @@ package org.languagetool.rules.ar;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class ArabicSRXSentenceTokenizerTest {

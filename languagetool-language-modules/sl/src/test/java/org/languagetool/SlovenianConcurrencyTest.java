@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Slovenian;
+import org.languagetool.language.sl.Slovenian;
 
 public class SlovenianConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

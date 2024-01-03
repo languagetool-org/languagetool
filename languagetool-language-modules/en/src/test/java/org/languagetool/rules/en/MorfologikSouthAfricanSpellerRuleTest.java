@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.SouthAfricanEnglish;
+import org.languagetool.language.en.SouthAfricanEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 

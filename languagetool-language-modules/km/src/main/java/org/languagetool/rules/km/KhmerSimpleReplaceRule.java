@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.km;
 
-import org.languagetool.language.Khmer;
+import org.languagetool.language.km.Khmer;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 

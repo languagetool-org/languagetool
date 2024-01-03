@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 
 import java.io.IOException;
 

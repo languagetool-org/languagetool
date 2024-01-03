@@ -20,7 +20,7 @@ package org.languagetool.rules.fr;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
 

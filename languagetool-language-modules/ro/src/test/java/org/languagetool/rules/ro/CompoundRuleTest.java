@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Romanian;
+import org.languagetool.language.ro.Romanian;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
 /**

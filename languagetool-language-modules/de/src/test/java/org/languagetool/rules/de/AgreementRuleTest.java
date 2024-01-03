@@ -21,7 +21,7 @@ package org.languagetool.rules.de;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.*;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

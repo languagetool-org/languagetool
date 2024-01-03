@@ -21,7 +21,7 @@ package org.languagetool.tokenizers.pl;
 
 import org.junit.Test;
 import org.languagetool.Language;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 
 import java.util.List;
 

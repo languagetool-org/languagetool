@@ -21,7 +21,7 @@ package org.languagetool.tokenizers;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 
 public class EnglishSRXSentenceTokenizerTest {
 

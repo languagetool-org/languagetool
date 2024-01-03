@@ -20,7 +20,7 @@ package org.languagetool.rules.es;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Spanish;
+import org.languagetool.language.es.Spanish;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.languagetool.language.Russian;
+import org.languagetool.language.ru.Russian;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;

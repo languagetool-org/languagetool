@@ -53,12 +53,12 @@ public class LanguageSpecificTest {
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
-    testConfusionSetLoading();
+    testConfusionSetLoading(onlyRunCode);
     countTempOffRules(lang);
     testCoherencyBaseformIsOtherForm(lang);
     testReplaceRuleReplacements(lang);
     try {
-      new DisambiguationRuleTest().testDisambiguationRulesFromXML();
+      new DisambiguationRuleTest().testDisambiguationRulesFromXMLAndSpecificLanguage(onlyRunCode);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -218,7 +218,8 @@ public class LanguageSpecificTest {
     float printLimitSeconds = 0.2f;
     for (Language language : Languages.getWithDemoLanguage()) {
       if (onlyRunCode != null && !language.getShortCodeWithCountryAndVariant().equals(onlyRunCode)) {
-        System.out.println("Skipping " + language);   // speed up for languages that are sub classes (e.g. simple German)
+        // System.out.println("Skipping " + language);
+        // speed up for languages that are sub classes (e.g. simple German)
         continue;
       }
       System.out.println("Running for " + language + ", printing only tests that take > " + printLimitSeconds + " seconds:");
@@ -244,8 +245,12 @@ public class LanguageSpecificTest {
     }
   }
 
-  private void testConfusionSetLoading() {
+  private void testConfusionSetLoading(String onlyRunCode) {
     for (Language language : Languages.get()) {
+      if (onlyRunCode != null && !language.getShortCodeWithCountryAndVariant().equals(onlyRunCode)) {
+        continue;
+      }
+      System.out.println("Running " + language);
       try {
         List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel(), null);
         if (rules.size() > 0) {

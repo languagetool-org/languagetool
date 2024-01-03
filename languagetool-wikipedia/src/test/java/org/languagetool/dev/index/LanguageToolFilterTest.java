@@ -30,7 +30,7 @@ import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.junit.Ignore;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 
 @Ignore
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {

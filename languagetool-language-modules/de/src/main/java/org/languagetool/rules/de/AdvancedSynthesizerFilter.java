@@ -21,7 +21,7 @@ package org.languagetool.rules.de;
 
 
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
-import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.de.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 
 /*

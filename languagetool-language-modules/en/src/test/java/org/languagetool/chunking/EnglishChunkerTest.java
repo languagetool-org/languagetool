@@ -25,7 +25,8 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.English;
+import org.languagetool.chunking.en.EnglishChunker;
+import org.languagetool.language.en.English;
 
 import java.io.IOException;
 import java.util.ArrayList;

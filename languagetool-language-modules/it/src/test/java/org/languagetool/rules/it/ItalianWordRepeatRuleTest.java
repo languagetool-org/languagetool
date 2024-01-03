@@ -21,7 +21,7 @@ package org.languagetool.rules.it;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Italian;
+import org.languagetool.language.it.Italian;
 
 import java.io.IOException;
 

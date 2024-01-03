@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Lithuanian;
+import org.languagetool.language.lt.Lithuanian;
 
 public class LithuanianConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

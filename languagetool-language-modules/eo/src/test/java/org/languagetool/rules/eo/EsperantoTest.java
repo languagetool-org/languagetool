@@ -20,7 +20,7 @@ package org.languagetool.rules.eo;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Esperanto;
+import org.languagetool.language.eo.Esperanto;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.gl;
 
-import org.languagetool.language.Galician;
+import org.languagetool.language.gl.Galician;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;

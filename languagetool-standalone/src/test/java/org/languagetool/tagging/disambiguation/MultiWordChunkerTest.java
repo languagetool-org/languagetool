@@ -22,8 +22,8 @@ import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.English;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.en.English;
+import org.languagetool.language.uk.Ukrainian;
 
 import static org.junit.Assert.assertTrue;
 

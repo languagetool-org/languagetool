@@ -22,10 +22,10 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.synthesis.fr.FrenchSynthesizer;
 import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tools.StringTools;
 

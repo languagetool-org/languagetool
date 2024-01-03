@@ -21,7 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.en.AmericanEnglish;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.Rule;

@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.ValencianCatalan;
+import org.languagetool.language.ca.ValencianCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

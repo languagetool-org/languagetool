@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.uk.Ukrainian;
 
 public class UkrainianConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

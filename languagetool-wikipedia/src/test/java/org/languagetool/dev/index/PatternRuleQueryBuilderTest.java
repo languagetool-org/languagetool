@@ -33,7 +33,7 @@ import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.Ignore;
 import org.languagetool.Language;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 

@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;

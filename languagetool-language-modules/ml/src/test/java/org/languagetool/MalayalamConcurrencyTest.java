@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Malayalam;
+import org.languagetool.language.ml.Malayalam;
 
 public class MalayalamConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

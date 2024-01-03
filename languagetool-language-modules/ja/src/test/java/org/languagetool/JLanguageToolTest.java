@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.Japanese;
+import org.languagetool.language.ja.Japanese;
 
 import java.io.IOException;
 

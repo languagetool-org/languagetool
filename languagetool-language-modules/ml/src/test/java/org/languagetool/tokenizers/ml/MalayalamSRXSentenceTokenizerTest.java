@@ -20,7 +20,7 @@ package org.languagetool.tokenizers.ml;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Malayalam;
+import org.languagetool.language.ml.Malayalam;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class MalayalamSRXSentenceTokenizerTest {

@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.junit.Test;
-import org.languagetool.language.Esperanto;
+import org.languagetool.language.eo.Esperanto;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

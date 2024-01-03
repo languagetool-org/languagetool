@@ -20,7 +20,7 @@ package org.languagetool.rules.uk;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.uk.Ukrainian;
 
 import java.io.IOException;
 import java.util.Arrays;

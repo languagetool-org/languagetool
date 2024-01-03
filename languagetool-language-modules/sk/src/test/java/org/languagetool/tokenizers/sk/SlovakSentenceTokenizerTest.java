@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.Slovak;
+import org.languagetool.language.sk.Slovak;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 

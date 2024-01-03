@@ -20,7 +20,7 @@ package org.languagetool.tokenizers.lt;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Lithuanian;
+import org.languagetool.language.lt.Lithuanian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class LithuanianSRXSentenceTokenizerTest {

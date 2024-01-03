@@ -20,7 +20,7 @@ package org.languagetool.rules.gl;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Galician;
+import org.languagetool.language.gl.Galician;
 
 import java.io.IOException;
 import java.util.Arrays;

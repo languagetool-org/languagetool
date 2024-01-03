@@ -27,7 +27,7 @@ import java.util.Collections;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Belarusian;
+import org.languagetool.language.be.Belarusian;
 import org.languagetool.rules.RuleMatch;
 
 public class BelarusianMorfologikRuleTest {

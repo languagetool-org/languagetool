@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Breton;
+import org.languagetool.language.br.Breton;
 
 public class BretonConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

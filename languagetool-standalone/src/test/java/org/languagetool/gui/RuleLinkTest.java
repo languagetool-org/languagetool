@@ -21,7 +21,7 @@ package org.languagetool.gui;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 import org.languagetool.rules.WordRepeatRule;
 
 import static org.junit.Assert.assertEquals;

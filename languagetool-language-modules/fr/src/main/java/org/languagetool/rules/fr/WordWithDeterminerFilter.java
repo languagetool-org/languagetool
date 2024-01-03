@@ -22,7 +22,7 @@ import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.synthesis.fr.FrenchSynthesizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;

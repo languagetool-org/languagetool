@@ -20,7 +20,7 @@
 package org.languagetool.rules.km;
 
 import org.languagetool.UserConfig;
-import org.languagetool.language.Khmer;
+import org.languagetool.language.km.Khmer;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.util.ResourceBundle;

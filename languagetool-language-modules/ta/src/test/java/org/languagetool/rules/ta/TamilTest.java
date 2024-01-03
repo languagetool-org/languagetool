@@ -20,7 +20,7 @@ package org.languagetool.rules.ta;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Tamil;
+import org.languagetool.language.ta.Tamil;
 
 import java.io.IOException;
 import java.util.Arrays;

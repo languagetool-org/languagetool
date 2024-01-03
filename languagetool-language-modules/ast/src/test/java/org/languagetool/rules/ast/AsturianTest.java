@@ -20,7 +20,7 @@ package org.languagetool.rules.ast;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Asturian;
+import org.languagetool.language.ast.Asturian;
 
 import java.io.IOException;
 import java.util.Arrays;

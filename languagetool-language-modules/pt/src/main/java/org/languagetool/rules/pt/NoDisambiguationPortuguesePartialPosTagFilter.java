@@ -19,7 +19,7 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Portuguese;
+import org.languagetool.language.pt.Portuguese;
 import org.languagetool.rules.PartialPosTagFilter;
 import org.languagetool.tagging.Tagger;
 

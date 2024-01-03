@@ -20,7 +20,7 @@ package org.languagetool.dev;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
 

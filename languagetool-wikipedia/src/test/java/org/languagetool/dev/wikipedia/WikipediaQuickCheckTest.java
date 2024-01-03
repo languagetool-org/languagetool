@@ -29,7 +29,7 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 
 @Ignore
 public class WikipediaQuickCheckTest {

@@ -22,7 +22,7 @@ package org.languagetool.rules.ca;
 
 import org.junit.Test;
 import org.languagetool.*;
-import org.languagetool.language.Catalan;
+import org.languagetool.language.ca.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.JLanguageTool;
-import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.de.GermanSynthesizer;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -54,6 +55,18 @@ public class DisambiguationRuleTest {
   @Test
   public void testDisambiguationRulesFromXML() throws Exception {
     testDisambiguationRulesFromXML(null);
+  }
+
+  public void testDisambiguationRulesFromXMLAndSpecificLanguage(String onlyRunCode) throws Exception {
+    Set<Language> ignoredLanguages = new HashSet<>();
+    if (onlyRunCode != null) {
+      for (Language lang : Languages.getWithDemoLanguage()) {
+        if (!lang.getShortCodeWithCountryAndVariant().contains(onlyRunCode)) {
+          ignoredLanguages.add(lang);
+        }
+      }
+    }
+    testDisambiguationRulesFromXML(ignoredLanguages);
   }
 
   private void testDisambiguationRulesFromXML(Set<Language> ignoredLanguages)

@@ -19,7 +19,7 @@
 package org.languagetool.rules.ar;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatRule;
 

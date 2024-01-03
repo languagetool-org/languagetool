@@ -21,7 +21,7 @@ package org.languagetool.language.rules.ast;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Asturian;
+import org.languagetool.language.ast.Asturian;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

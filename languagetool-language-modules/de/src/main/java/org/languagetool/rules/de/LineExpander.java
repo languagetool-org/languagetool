@@ -22,7 +22,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.de.GermanSynthesizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;

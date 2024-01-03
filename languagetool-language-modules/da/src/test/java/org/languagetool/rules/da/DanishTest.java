@@ -20,7 +20,7 @@ package org.languagetool.rules.da;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Danish;
+import org.languagetool.language.da.Danish;
 
 import java.io.IOException;
 import java.util.Arrays;

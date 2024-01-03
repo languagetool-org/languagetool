@@ -20,7 +20,7 @@ package org.languagetool.rules.ro;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Romanian;
+import org.languagetool.language.ro.Romanian;
 
 import java.io.IOException;
 

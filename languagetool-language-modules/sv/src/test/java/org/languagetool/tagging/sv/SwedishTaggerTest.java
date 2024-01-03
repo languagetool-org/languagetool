@@ -21,7 +21,7 @@ package org.languagetool.tagging.sv;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Swedish;
+import org.languagetool.language.sv.Swedish;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;

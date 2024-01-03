@@ -21,7 +21,7 @@ package org.languagetool.tagging.disambiguation.rules.it;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.language.Italian;
+import org.languagetool.language.it.Italian;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;

@@ -40,11 +40,11 @@ public final class Contributor {
    public Contributor(String name) {
     this(name, null);
   }
-  
+
   public String getName() {
     return name;
   }
-  
+
   public String getUrl() {
     return url;
   }
@@ -53,5 +53,4 @@ public final class Contributor {
   public String toString() {
     return name;
   }
-
 }

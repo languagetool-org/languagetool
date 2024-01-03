@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.SouthAfricanEnglish;
+import org.languagetool.language.en.SouthAfricanEnglish;
 
 public class SouthAfricanEnglishConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

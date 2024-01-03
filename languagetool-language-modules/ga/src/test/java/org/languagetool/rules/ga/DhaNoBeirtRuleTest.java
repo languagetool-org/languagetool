@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Irish;
+import org.languagetool.language.ga.Irish;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;

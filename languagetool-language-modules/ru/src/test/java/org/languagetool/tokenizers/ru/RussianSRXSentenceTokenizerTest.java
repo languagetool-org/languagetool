@@ -21,7 +21,7 @@ package org.languagetool.tokenizers.ru;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Russian;
+import org.languagetool.language.ru.Russian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 

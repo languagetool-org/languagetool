@@ -20,7 +20,7 @@ package org.languagetool.rules.pl;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 
 import java.io.IOException;
 

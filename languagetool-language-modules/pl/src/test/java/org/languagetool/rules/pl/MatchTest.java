@@ -21,7 +21,7 @@ package org.languagetool.rules.pl;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 import org.languagetool.rules.patterns.Match;
 import org.languagetool.rules.patterns.Match.CaseConversion;
 import org.languagetool.rules.patterns.Match.IncludeRange;

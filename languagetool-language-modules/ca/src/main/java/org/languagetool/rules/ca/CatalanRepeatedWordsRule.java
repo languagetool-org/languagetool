@@ -20,7 +20,7 @@ package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
-import org.languagetool.language.Catalan;
+import org.languagetool.language.ca.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
 import org.languagetool.rules.patterns.PatternToken;

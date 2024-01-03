@@ -21,7 +21,7 @@ package org.languagetool.tagging.sk;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Slovak;
+import org.languagetool.language.sk.Slovak;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;

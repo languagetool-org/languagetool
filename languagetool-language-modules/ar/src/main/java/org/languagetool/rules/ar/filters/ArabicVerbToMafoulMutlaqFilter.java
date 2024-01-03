@@ -20,7 +20,7 @@ package org.languagetool.rules.ar.filters;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SimpleReplaceDataLoader;
 import org.languagetool.rules.patterns.RuleFilter;

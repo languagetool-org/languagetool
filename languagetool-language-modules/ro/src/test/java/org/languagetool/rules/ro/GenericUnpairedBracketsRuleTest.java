@@ -20,7 +20,7 @@ package org.languagetool.rules.ro;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Romanian;
+import org.languagetool.language.ro.Romanian;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
 

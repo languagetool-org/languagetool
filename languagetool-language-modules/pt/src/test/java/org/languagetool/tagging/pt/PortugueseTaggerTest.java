@@ -21,7 +21,7 @@ package org.languagetool.tagging.pt;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Portuguese;
+import org.languagetool.language.pt.Portuguese;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
 

@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.AustrianGerman;
+import org.languagetool.language.de.AustrianGerman;
 
 public class AustrianGermanSpellerRuleTest {
 

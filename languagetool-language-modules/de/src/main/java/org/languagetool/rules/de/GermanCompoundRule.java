@@ -21,7 +21,7 @@ package org.languagetool.rules.de;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.UserConfig;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.CompoundRuleData;

@@ -21,7 +21,7 @@ package org.languagetool.tagging.disambiguation.rules.ro;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Romanian;
+import org.languagetool.language.ro.Romanian;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.ro.RomanianTagger;

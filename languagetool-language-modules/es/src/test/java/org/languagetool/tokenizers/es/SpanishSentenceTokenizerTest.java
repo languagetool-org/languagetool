@@ -22,7 +22,7 @@ package org.languagetool.tokenizers.es;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Spanish;
+import org.languagetool.language.es.Spanish;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 

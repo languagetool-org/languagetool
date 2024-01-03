@@ -20,7 +20,7 @@ package org.languagetool.tagging.ga;
 
 import junit.framework.TestCase;
 import org.languagetool.TestTools;
-import org.languagetool.language.Irish;
+import org.languagetool.language.ga.Irish;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;

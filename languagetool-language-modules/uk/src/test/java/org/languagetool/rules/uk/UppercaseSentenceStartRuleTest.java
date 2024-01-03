@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.uk.Ukrainian;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 

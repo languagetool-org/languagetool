@@ -19,10 +19,10 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
-import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.de.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 
 import java.util.Map;

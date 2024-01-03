@@ -19,7 +19,7 @@
 package org.languagetool.dev;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.synthesis.Synthesizer;
 
 import java.io.IOException;

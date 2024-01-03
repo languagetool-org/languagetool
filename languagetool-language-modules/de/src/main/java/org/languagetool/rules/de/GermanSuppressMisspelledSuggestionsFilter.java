@@ -19,7 +19,7 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.de.GermanyGerman;
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 import java.io.IOException;

@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Slovak;
+import org.languagetool.language.sk.Slovak;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
 public class CompoundRuleTest extends AbstractCompoundRuleTest {

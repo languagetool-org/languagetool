@@ -26,7 +26,12 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.ToneTag;
-import org.languagetool.language.*;
+import org.languagetool.language.de.German;
+import org.languagetool.language.de.GermanyGerman;
+import org.languagetool.language.en.AmericanEnglish;
+import org.languagetool.language.en.English;
+import org.languagetool.language.pl.Polish;
+import org.languagetool.language.ro.Romanian;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 

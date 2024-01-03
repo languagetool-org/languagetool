@@ -21,7 +21,7 @@ package org.languagetool.rules.ca;
 
 import java.io.IOException;
 
-import org.languagetool.language.ValencianCatalan;
+import org.languagetool.language.ca.ValencianCatalan;
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 public class CatalanSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {

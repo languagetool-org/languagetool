@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Khmer;
+import org.languagetool.language.km.Khmer;
 
 public class KhmerConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override

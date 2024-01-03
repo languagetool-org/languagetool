@@ -21,12 +21,11 @@ package org.languagetool.rules.ar.filters;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Arabic;
+import org.languagetool.language.ar.Arabic;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
-import org.languagetool.tagging.ar.ArabicTagger;
 import org.languagetool.tools.ArabicNumbersWords;
 
 import java.util.ArrayList;

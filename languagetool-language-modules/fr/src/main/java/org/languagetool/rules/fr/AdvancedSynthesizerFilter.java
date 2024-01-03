@@ -21,7 +21,7 @@ package org.languagetool.rules.fr;
 
 
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
-import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.synthesis.fr.FrenchSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 
 /*

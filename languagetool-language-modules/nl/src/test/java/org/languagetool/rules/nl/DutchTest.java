@@ -20,7 +20,7 @@ package org.languagetool.rules.nl;
 
 import org.junit.Test;
 import org.languagetool.LanguageSpecificTest;
-import org.languagetool.language.Dutch;
+import org.languagetool.language.nl.Dutch;
 
 import java.io.IOException;
 import java.util.Arrays;

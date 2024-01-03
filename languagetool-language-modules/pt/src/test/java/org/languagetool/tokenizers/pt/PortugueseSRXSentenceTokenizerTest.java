@@ -20,7 +20,7 @@ package org.languagetool.tokenizers.pt;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Portuguese;
+import org.languagetool.language.pt.Portuguese;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class PortugueseSRXSentenceTokenizerTest {

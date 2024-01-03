@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.en.EnglishHybridDisambiguator;

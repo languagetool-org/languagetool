@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Polish;
+import org.languagetool.language.pl.Polish;
 
 public class PolishConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

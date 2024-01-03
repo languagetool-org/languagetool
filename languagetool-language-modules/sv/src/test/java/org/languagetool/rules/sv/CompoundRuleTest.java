@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Swedish;
+import org.languagetool.language.sv.Swedish;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
 import java.io.IOException;

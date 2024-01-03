@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.French;
+import org.languagetool.language.fr.French;
 
 public class FrenchConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

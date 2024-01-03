@@ -24,7 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.dev.errorcorpus.ErrorCorpus;
 import org.languagetool.dev.errorcorpus.ErrorSentence;
 import org.languagetool.dev.errorcorpus.SimpleCorpus;
-import org.languagetool.language.English;
+import org.languagetool.language.en.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
