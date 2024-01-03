@@ -562,6 +562,56 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <token postag="PP1C.000" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me <marker>sorprendió</marker> verte feliz.</example>
+                <example correction="">Nos <marker>importa</marker> verte feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP1C[SP]000" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">dejar|volver|poner</token>
+                    <marker>
+                        <token postag="AQ0.S." postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me dejó <marker>estupefacto</marker> verte feliz.</example>
+                <example correction="">Me vuelve <marker>loco</marker> verte feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP1C[SP]000" postag_regexp="yes"/>
+                    <token inflected="yes">dar</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me da <marker>alegría</marker> verte feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP1C[SP]000" postag_regexp="yes"/>
+                    <token inflected="yes">llenar</token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me llena de <marker>alegría</marker> verte feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token regexp="yes">.*\d</token>
                     </marker>
