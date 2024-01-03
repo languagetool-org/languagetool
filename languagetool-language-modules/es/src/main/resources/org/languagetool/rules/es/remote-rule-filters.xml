@@ -76,6 +76,540 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_ES_HYDRA_LEO_MISSING_COMMA" name="">
+            <antipattern>
+                <token>es</token>
+                <token>decir</token>
+            </antipattern>
+            <antipattern>
+                <token>está</token>
+                <token>claro</token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>es</token>
+                <token regexp="yes">lógico|claro|obvio|evidente</token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token>hay</token>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>,</token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar|especificar</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>,</token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar|especificar</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="_GN_.P" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token postag="V....S." postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="_GN_.S" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token postag="V....P." postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token regexp="yes">importa|importaba</token>
+            </antipattern>
+            <rule>
+                <!--[1.1]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Mi <marker>amigo</marker> va hacia su casa.</example>
+                <example>El 1918, partió hacia el sur.</example>
+                <example>El año 1918, partió hacia el sur.</example>
+                <example>En año 1918, partió hacia el sur.</example>
+                <example>Juan, ven aquí.</example>
+                <example>La primavera anterior, había estado en Venecia.</example>
+                <example>Come comida rápida, muere en seguida.</example>
+                <example>Este paisaje, rico en oro, es espectacular.</example>
+                <example>George, te tengo que decir algo.</example>
+                <example>Los otros, venid conmigo.</example>
+                <example>¿Este método, es bastante seguro?</example>
+                <example>El objetivo, dice, es salvar vidas.</example>
+                <example>El objetivo, nos dice, es salvar vidas.</example>
+                <example>El objetivo, nos ha dicho, es salvar vidas.</example>
+                <example>La aplicación, activa desde octubre</example>
+                <example>Los peces marions, susurró.</example>
+                <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
+                <example>Los usuarios, además, pueden publicar comentarios en las historias.</example>
+                <example>Un momento, espera un minuto.</example>
+            </rule>
+            <rule>
+                <!--[1.2]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Esta discusión <marker>bizantina</marker> está siempre presente.</example>
+                <example correction="">Nuestro objetivo <marker>principal</marker> es lograr una permanente mejora.</example>
+                <example correction="">Mi buen <marker>amigo</marker> va hacia su casa.</example>
+            </rule>
+            <rule>
+                <!--[1.3]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Esta nueva discusión <marker>bizantina</marker> está siempre presente.</example>
+                <example correction="">Mi primer buen <marker>amigo</marker> va hacia su casa.</example>
+            </rule>
+            <rule>
+                <!--[1.4] -->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez|momento</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Esta primera nueva discusión <marker>bizantina</marker> está siempre presente.</example>
+                <example correction="">Mi lindo primer buen <marker>amigo</marker> va hacia su casa.</example>
+            </rule>
+            <rule>
+                <!--[2.1]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Mi <marker>amigo</marker> no va hacia su casa.</example>
+                <example correction="">Mi <marker>amigo</marker> se va hacia su casa.</example>
+                <example correction="">Mi <marker>amigo</marker> no se va hacia su casa.</example>
+                <example correction="">Mi <marker>amigo</marker> no se lo da.</example>
+                <example>El 1918, partió hacia el sur.</example>
+                <example>El año 1918, partió hacia el sur.</example>
+                <example>En año 1918, partió hacia el sur.</example>
+                <example>Juan, ven aquí.</example>
+                <example>La primavera anterior, había estado en Venecia.</example>
+                <example>Come comida rápida, muere en seguida.</example>
+                <example>Este paisaje, rico en oro, es espectacular.</example>
+                <example>George, te tengo que decir algo.</example>
+                <example>Los otros, venid conmigo.</example>
+                <example>¿Este método, es bastante seguro?</example>
+                <example>El objetivo, dice, es salvar vidas.</example>
+                <example>El objetivo, nos dice, es salvar vidas.</example>
+                <example>El objetivo, nos ha dicho, es salvar vidas.</example>
+                <example>La aplicación, activa desde octubre</example>
+                <example>Los peces marions, susurró.</example>
+                <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
+                <example>Los usuarios, además, pueden publicar comentarios en las historias.</example>
+            </rule>
+            <rule>
+                <!--[2.2]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Mi buen <marker>amigo</marker> no va hacia su casa.</example>
+                <example correction="">Mi buen <marker>amigo</marker> se va hacia su casa.</example>
+                <example correction="">Mi buen <marker>amigo</marker> no se va hacia su casa.</example>
+                <example correction="">Mi buen <marker>amigo</marker> no se lo da.</example>
+                <example correction="">Esta discusión <marker>bizantina</marker> no se puede repetir.</example>
+            </rule>
+            <rule>
+                <!--[2.3]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Mi primer buen <marker>amigo</marker> no va hacia su casa.</example>
+                <example correction="">Mi primer buen <marker>amigo</marker> se va hacia su casa.</example>
+                <example correction="">Mi primer buen <marker>amigo</marker> no se va hacia su casa.</example>
+                <example correction="">Mi primer buen <marker>amigo</marker> no se lo da.</example>
+                <example correction="">Esta larga discusión <marker>bizantina</marker> no se puede repetir.</example>
+            </rule>
+            <rule>
+                <!--[2.4]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="D[DAIP].*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ahora|hoy|ayer|antaño|hogaño|temporada|curso|segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio|lunes|martes|miércoles|jueves|viernes|sábado|domingo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre|primavera|verano|otoño|invierno|madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche|vez</exception><exception regexp="yes">\d+</exception></token>
+                    </marker>
+                    <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                </pattern>
+                <example correction="">Mi lindo primer buen <marker>amigo</marker> no va hacia su casa.</example>
+                <example correction="">Mi lindo primer buen <marker>amigo</marker> se va hacia su casa.</example>
+                <example correction="">Mi lindo primer buen <marker>amigo</marker> no se va hacia su casa.</example>
+                <example correction="">Mi lindo primer buen <marker>amigo</marker> no se lo da.</example>
+                <example correction="">Esta primera larga discusión <marker>bizantina</marker> no se puede repetir.</example>
+            </rule>
+            <rule>
+                <!--[3.1]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
+                </pattern>
+                <example correction=""><marker>Juan</marker> va hacia su casa.</example>
+                <example>Mañana, alunizará.</example>
+                <example>Gracias, es todo.</example>
+                <example>No, es de segunda mano.</example>
+                <example>Cansado, se fue a la cama antes de lo normal.</example>
+                <example>Tranquilo, es sólo un espantapájaros.</example>
+                <example>Bill, abre la puerta.</example>
+                <example>Jim, cierra la ventana.</example>
+                <example>Segundo, recibe una violenta oposición.</example>
+                <example>Mira, está lloviendo.</example>
+                <example>Louis, vienen tus amigos.</example>
+                <example>Tom, hay algo que quiero darte.</example>
+                <example>Mira, se le rompió la fuente a esa señora.</example>
+                <example>Tom, te llama tu mamá.</example>
+                <example>Mary, venga, deja de protestar.</example>
+                <example>Ricardo, ora por mi.</example>
+                <example>María, me gustan mucho las enumeraciones.</example>
+                <example>Tom, te llama mamá.</example>
+                <example>Claro, le duele.</example>
+            </rule>
+            <rule>
+                <!--[3.2]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
+                </pattern>
+                <example correction="">Juan <marker>García</marker> va hacia su casa.</example>
+                <example correction="">Julio <marker>Andrade</marker> fundó con Isaac J. Barrera el periódico.</example>
+            </rule>
+            <rule>
+                <!--[3.3]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
+                </pattern>
+                <example correction="">Juan Sánchez <marker>Martínez</marker> va hacia su casa.</example>
+            </rule>
+            <rule>
+                <!--[4.1]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token regexp="yes">es|era</token>
+                    <token>necesario</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"><exception>te</exception></token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"><exception>te</exception></token>
+                    <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
+                </pattern>
+                <example correction=""><marker>Juan</marker> se va hacia su casa.</example>
+                <example correction=""><marker>Juan</marker> no va hacia su casa.</example>
+                <example correction=""><marker>Juan</marker> no se va hacia su casa.</example>
+                <example correction=""><marker>Juan</marker> no se lo da.</example>
+                <example>Mañana, alunizará.</example>
+                <example>Gracias, es todo.</example>
+                <example>No, es de segunda mano.</example>
+                <example>Cansado, se fue a la cama antes de lo normal.</example>
+                <example>Tranquilo, es sólo un espantapájaros.</example>
+                <example>Bill, abre la puerta.</example>
+                <example>Jim, cierra la ventana.</example>
+                <example>Segundo, recibe una violenta oposición.</example>
+                <example>Mira, está lloviendo.</example>
+                <example>Louis, vienen tus amigos.</example>
+                <example>Tom, hay algo que quiero darte.</example>
+                <example>Mira, se le rompió la fuente a esa señora.</example>
+                <example>Tom, te llama tu mamá.</example>
+                <example>Mary, venga, deja de protestar.</example>
+                <example>Ricardo, ora por mi.</example>
+                <example>María, me gustan mucho las enumeraciones.</example>
+                <example>Tom, te llama mamá.</example>
+                <example>Claro, le duele.</example>
+                <example>Tom, no es necesario que te disculpes.</example>
+            </rule>
+            <rule>
+                <!--[4.2]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token regexp="yes">es|era</token>
+                    <token>necesario</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"><exception>te</exception></token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"><exception>te</exception></token>
+                    <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
+                </pattern>
+                <example correction="">Juan <marker>García</marker> se va hacia su casa.</example>
+                <example correction="">Juan <marker>García</marker> no va hacia su casa.</example>
+                <example correction="">Juan <marker>García</marker> no se va hacia su casa.</example>
+                <example correction="">Juan <marker>García</marker> no se lo da.</example>
+            </rule>
+            <rule>
+                <!--[4.3]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token regexp="yes">es|era</token>
+                    <token>necesario</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="NP.*" postag_regexp="yes"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"><exception>te</exception></token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*|RN" postag_regexp="yes"><exception>te</exception></token>
+                    <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
+                </pattern>
+                <example correction="">Juan Sánchez <marker>Martínez</marker> se va hacia su casa.</example>
+                <example correction="">Juan Sánchez <marker>Martínez</marker> no va hacia su casa.</example>
+                <example correction="">Juan Sánchez <marker>Martínez</marker> no se va hacia su casa.</example>
+                <example correction="">Juan Sánchez <marker>Martínez</marker> no se lo da.</example>
+            </rule>
+            <rule>
+                <!--[5]-->
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">claro|perfecto|bueno</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="PD.*|DD.*" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"><exception>te</exception></token>
+                    <token postag="V.I...." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception></token>
+                </pattern>
+                <example correction=""><marker>Éstas</marker> se dividen en tres.</example>
+                <example correction=""><marker>Esas</marker> se dividen en tres.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP1C.000" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me <marker>sorprendió</marker> verte feliz.</example>
+                <example correction="">Nos <marker>importa</marker> verte feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP1C[SP]000" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">dejar|volver|poner</token>
+                    <marker>
+                        <token postag="AQ0.S." postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me dejó <marker>estupefacto</marker> verte feliz.</example>
+                <example correction="">Me vuelve <marker>loco</marker> verte feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP1C[SP]000" postag_regexp="yes"/>
+                    <token inflected="yes">dar</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me da <marker>alegría</marker> verte feliz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP1C[SP]000" postag_regexp="yes"/>
+                    <token inflected="yes">llenar</token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>verte</token>
+                    <token>feliz</token>
+                </pattern>
+                <example correction="">Me llena de <marker>alegría</marker> verte feliz.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>

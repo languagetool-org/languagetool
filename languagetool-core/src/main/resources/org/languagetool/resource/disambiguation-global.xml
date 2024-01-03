@@ -311,4 +311,38 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rulegroup id="IGNORE_SPELLING_OF_TEXT_IN_BRACKETS" name="ignore spelling of text in brackets">
+        <!-- e.g. {user_id} -->
+        <rule>
+            <pattern>
+                <token regexp="yes">[\{\[&lt;%\$]</token>
+                <token regexp="yes" min="0">["'`]</token>
+                <marker>
+                    <token regexp="yes">.+</token>
+                    <token>_</token>
+                    <token regexp="yes">.+</token>
+                </marker>
+                <token regexp="yes" min="0">["'`]</token>
+                <token regexp="yes">[\}\]&gt;%\$]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\{\[&lt;]</token>
+                <token regexp="yes" min="0">["'`]</token>
+                <marker>
+                    <token regexp="yes">.+</token>
+                    <token>_</token>
+                    <token regexp="yes">.+</token>
+                    <token>_</token>
+                    <token regexp="yes">.+</token>
+                </marker>
+                <token regexp="yes" min="0">["'`]</token>
+                <token regexp="yes">[\}\]&gt;]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

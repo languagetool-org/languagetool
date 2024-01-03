@@ -48,27 +48,27 @@ public class CatalanTest extends LanguageSpecificTest {
   public void testRepeatedPatternRules() throws IOException {
     Language lang = new Catalan();
     JLanguageTool lt = new JLanguageTool(lang);
-    List<RuleMatch> matches = lt.check("Iniciem les converses. Llavors s'inicià una altra cosa.");
+    List<RuleMatch> matches = lt.check("Iniciem les converses. Llavors s'inicià una altra cosa.", JLanguageTool.Level.PICKY);
     assertEquals("Matches across rules in a rule group", 1, matches.size());
     assertEquals("Match ID", "REP_INICIAR[1]", matches.get(0).getRule().getFullId());
     
-    matches = lt.check("Iniciem les converses. Llavors inicià una altra cosa.");
+    matches = lt.check("Iniciem les converses. Llavors inicià una altra cosa.", JLanguageTool.Level.PICKY);
     assertEquals("Matches across rules in a rule group", 1, matches.size());
     assertEquals("Match ID", "REP_INICIAR[2]", matches.get(0).getRule().getFullId());
     
-    matches = lt.check("Aleshores iniciem les converses. Llavors inicià una altra cosa.");
+    matches = lt.check("Aleshores iniciem les converses. Llavors inicià una altra cosa.", JLanguageTool.Level.PICKY);
     assertEquals("Matches across rules in a rule group", 1, matches.size());
     assertEquals("Match ID", "REP_INICIAR[2]", matches.get(0).getRule().getFullId());
     
-    matches = lt.check("S'inicia el debat. Llavors inicià una altra cosa.");
+    matches = lt.check("S'inicia el debat. Llavors inicià una altra cosa.", JLanguageTool.Level.PICKY);
     assertEquals("Matches across rules in a rule group", 1, matches.size());
     assertEquals("Match ID", "REP_INICIAR[2]", matches.get(0).getRule().getFullId());
     
-    matches = lt.check("S'inicia el debat. Llavors s'inicià una altra cosa.");
+    matches = lt.check("S'inicia el debat. Llavors s'inicià una altra cosa.", JLanguageTool.Level.PICKY);
     assertEquals("Matches across rules in a rule group", 1, matches.size());
     assertEquals("Match ID", "REP_INICIAR[1]", matches.get(0).getRule().getFullId());   
     
-    matches = lt.check("Això no obstant, és clar. No obstant això, la cosa és clara.");
+    matches = lt.check("Això no obstant, és clar. No obstant això, la cosa és clara.", JLanguageTool.Level.PICKY);
     assertEquals("Matches across rules in a rule group", 1, matches.size());
     assertEquals("Match ID", "REP_NO_OBSTANT_AIXO[1]", matches.get(0).getRule().getFullId());
   }

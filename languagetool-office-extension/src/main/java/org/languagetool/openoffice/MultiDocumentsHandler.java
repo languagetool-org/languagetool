@@ -1260,6 +1260,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Call method resetIgnorePermanent for concerned document 
+   */
+  public void resetIgnorePermanent() {
+    getCurrentDocument().resetIgnorePermanent();
+  }
+  
+  /**
    * Call method renewMarkups for concerned document 
    */
   public void renewMarkups() {
@@ -1279,6 +1286,41 @@ public class MultiDocumentsHandler {
     }
   }
 
+  /**
+   * change configuration profile 
+   */
+  private void changeProfile(String profile) {
+    if (profile == null) {
+      profile = "";
+    }
+    MessageHandler.printToLogFile("change to profile: " + profile);
+    String currentProfile = config.getCurrentProfile();
+    if (currentProfile == null) {
+      currentProfile = "";
+    }
+    if (profile.equals(currentProfile)) {
+      MessageHandler.printToLogFile("profile == null or profile equals current profile: Not changed");
+      return;
+    }
+    List<String> definedProfiles = config.getDefinedProfiles();
+    if (!profile.isEmpty() && (definedProfiles == null || !definedProfiles.contains(profile))) {
+      MessageHandler.showMessage("profile '" + profile + "' not found");
+    } else {
+      try {
+        List<String> saveProfiles = new ArrayList<>();
+        saveProfiles.addAll(config.getDefinedProfiles());
+        config.initOptions();
+        config.loadConfiguration(profile == null ? "" : profile);
+        config.setCurrentProfile(profile);
+        config.addProfiles(saveProfiles);
+        config.saveConfiguration(getCurrentDocument().getLanguage());
+        resetConfiguration();
+      } catch (IOException e) {
+        MessageHandler.showError(e);
+      }
+    }
+  }
+  
   /**
    * Activate a rule by rule iD
    */
@@ -1572,6 +1614,7 @@ public class MultiDocumentsHandler {
   @SuppressWarnings("null")
   public void trigger(String sEvent) {
     try {
+//      MessageHandler.printToLogFile("Trigger event: " + sEvent);
       long startTime = 0;
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
@@ -1597,19 +1640,25 @@ public class MultiDocumentsHandler {
         }
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
-      } else if ("toggleNoBackgroundCheck".equals(sEvent)) {
+      } else if ("toggleNoBackgroundCheck".equals(sEvent) || "backgroundCheckOn".equals(sEvent) || "backgroundCheckOff".equals(sEvent)) {
         if (toggleNoBackgroundCheck()) {
-          resetCheck(); 
+          resetCheck();
+          getCurrentDocument().getLtToolbar().makeToolbar();
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         ignoreOnce();
       } else if ("ignorePermanent".equals(sEvent)) {
         ignorePermanent();
+      } else if ("resetIgnorePermanent".equals(sEvent)) {
+        resetIgnorePermanent();
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
       } else if (sEvent.startsWith("activateRule_")) {
         String ruleId = sEvent.substring(13);
         activateRule(ruleId);
+      } else if (sEvent.startsWith("profileChangeTo_")) {
+        String profile = sEvent.substring(16);
+        changeProfile(profile);
       } else if (sEvent.startsWith("addToDictionary_")) {
         String[] sArray = sEvent.substring(16).split(":");
         LtDictionary.addWordToDictionary(sArray[0], sArray[1], xContext);;

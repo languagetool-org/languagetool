@@ -36,6 +36,13 @@ public class OldSpellingRule extends Rule {
   private static final String FILE_PATH = "/de/alt_neu.csv";
   private static final List<String> EXCEPTIONS = Arrays.asList(
     "Schloß Holte",
+    "Schloß Neuhaus",
+    "Schloß Ricklingen",
+    "Schloß-Nauses",
+    "Schloß Rötteln",
+    "Klinikum Schloß Winnenden",
+    "Grazer Schloßberg",
+    "Höchster Schloß",
     "Bell Telephone",
     "Telephone Company",
     "American Telephone",
@@ -77,38 +84,53 @@ public class OldSpellingRule extends Rule {
       if (startPositions.contains(hit.begin)) {
         continue;   // avoid overlapping matches
       }
-      boolean ignore = false;
-      for (String exception : EXCEPTIONS) {
-        if (text.regionMatches(true, hit.begin, exception, 0, exception.length()) ||
-          text.regionMatches(true, hit.end - exception.length(), exception, 0, exception.length())) {
-          ignore = true;
-          break;
-        }
-      }
-      if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {
-        // prevent substring matches
-        ignore = true;
-      }
-      if (hit.end < text.length() && !isBoundary(text.substring(hit.end, hit.end+1))) {
-        // prevent substring matches, e.g. "Foto" for "Photons"
-        ignore = true;
-      }
-      if (hit.begin-5 >= 0) {
-        String before = text.substring(hit.begin-5, hit.begin-1);
-        if (before.equals("Herr") || before.equals("Frau")) {
-          ignore = true;
-        }
-      }
-      if (!ignore) {
-        RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end,
-          "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "Alte Rechtschreibung");
+      if (!ignoreMatch(hit, text)) {
+        String message = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
+        RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, message, "Alte Rechtschreibung");
         String[] suggestions = hit.value.split("\\|");
         match.setSuggestedReplacements(Arrays.asList(suggestions));
+        String covered = sentence.getText().substring(hit.begin, hit.end);
+        if (suggestions.length > 0 && suggestions[0].replaceFirst("ss", "ß").equals(covered)) {
+          match.setMessage(message + " Das Wort wird mit 'ss' geschrieben, wenn davor eine kurz gesprochene Silbe steht.");
+        }
         matches.add(match);
         startPositions.add(hit.begin);
       }
     }
     return toRuleMatchArray(matches);
+  }
+
+  private boolean ignoreMatch(AhoCorasickDoubleArrayTrie.Hit<String> hit, String text) {
+    for (String exception : EXCEPTIONS) {
+      if (text.regionMatches(true, hit.begin, exception, 0, exception.length()) ||
+        text.regionMatches(true, hit.end - exception.length(), exception, 0, exception.length())) {
+        return true;
+      }
+    }
+    if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {  // prevent substring matches
+      return true;
+    }
+    if (hit.end < text.length() && !isBoundary(text.substring(hit.end, hit.end+1))) {  // prevent substring matches, e.g. "Foto" for "Photons"
+      return true;
+    }
+    if (hit.begin-6 >= 0) {
+      if (text.startsWith("Prof.", hit.begin-6)) {
+        return true;
+      }
+    }
+    if (hit.begin-5 >= 0) {
+      String before5 = text.substring(hit.begin-5, hit.begin-1);
+      if (before5.equals("Herr") || before5.equals("Frau")) {
+        return true;
+      }
+    }
+    if (hit.begin-4 >= 0) {
+      String before4 = text.substring(hit.begin-4, hit.begin-1);
+      if (before4.equals("Hr.") || before4.equals("Fr.") || before4.equals("Dr.")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isBoundary(String s) {

@@ -61,7 +61,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|verträglich)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|resistent)";
   private static final Pattern missingAdjPattern =
     compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
   private static final Pattern compoundPatternWithHeit = compile(".*(heit|keit|ion|ität|schaft|ung|tät)s");
@@ -123,6 +123,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SPECIAL_CASE_THIRD = compile("[A-ZÖÄÜ][a-zöäüß]{2,}(ei|öl)$");
   private static final Pattern ZB = compile("z[bB]");
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
+  private static final Pattern DIRECTION = compile("nord|ost|süd|west");
+  private static final Pattern SS = compile("ss");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -1747,6 +1749,26 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
+  @NotNull
+  @Override
+  protected String getMessage(String origWord, SuggestedReplacement firstSuggestion) {
+    // Note: will not work for words like "Abgasausstoss" where there's more than one string of "ss"
+    // and the first one is not the one we're looking for
+    if (SS.matcher(origWord).replaceFirst("ß").equals(firstSuggestion.getReplacement())) {
+      int firstSz = origWord.indexOf("ss");
+      if (firstSz >= 2) {
+        char prevPrevChar = origWord.charAt(firstSz-2);
+        char prevChar = origWord.charAt(firstSz-1);
+        if (GermanTools.isVowel(prevPrevChar) && GermanTools.isVowel(prevChar)) {
+          return "Nach einer Silbe aus zwei Vokalen (hier: " + prevPrevChar + prevChar + ") schreibt man 'ß' statt 'ss'.";
+        } else {
+          return "Nach einer lang gesprochenen Silbe (hier: " + prevChar + ") schreibt man 'ß' statt 'ss'.";
+        }
+      }
+    }
+    return messages.getString("spelling");
+  }
+
   @Override
   public List<String> getCandidates(String word) {
     List<List<String>> partList;
@@ -2288,13 +2310,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
         (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
         !isMisspelled(part1) &&
-        !isMisspelled(part2uc) &&
-        isMisspelled(part2) // don't accept e.g. "Azubikommt"
+        isNoun(part2uc) // don't accept e.g. "Azubikommt"
       ) {
       System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
       return true;
     }
     return false;
+  }
+
+  private boolean isAdjective(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("ADJ:"));
   }
 
   private boolean isNoun(String word) throws IOException {
@@ -2779,7 +2804,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!isNoun && !startsWithUppercase(partialWord)) {
         isUppercaseNoun = isNoun(uppercaseFirstChar(partialWord));
       }
-      boolean isCandidateForNonHyphenatedCompound = (isNoun || isUppercaseNoun) && !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
+      boolean isDirection = DIRECTION.matcher(ignoredWord).matches();
+      boolean isAdjective = isAdjective(ignoredWord);
+      boolean isDirectionalAdjective = (isDirection && (isAdjective || partialWord.matches(".+ische?[mnrs]?")));
+      boolean isCandidateForNonHyphenatedCompound = (isDirectionalAdjective || isNoun || isUppercaseNoun) && !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
       boolean needFugenS = isNeedingFugenS(ignoredWord);
       if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 2) {
         return hunspell.spell(partialWord) || hunspell.spell(StringUtils.capitalize(partialWord));
@@ -3751,6 +3779,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "nciht": return topMatch("nicht");
       case "heutejournal": return topMatch("heute journal");
       case "wikipedia": return topMatch("Wikipedia");
+      case "Einfallspinsel": return topMatch("Einfaltspinsel");
+      case "Einfallspinseln": return topMatch("Einfaltspinseln");
+      case "Parcour": return topMatch("Parcours");
     }
     return Collections.emptyList();
   }

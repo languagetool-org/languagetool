@@ -8995,6 +8995,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="VMIP1S0B"/>
         </disambig>
     </rule>
+    <rulegroup id="entrevista_no_participi" name="entrevista (no participi)">
+        <rule>
+            <pattern>
+                <token><exception postag="NCFS000"/></token>
+                <marker>
+                    <token postag="NCFS000">entrevista</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCFS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="NCFP000"/></token>
+                <marker>
+                    <token postag="NCFP000">entrevistes</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCFP000"/>
+        </rule>
+    </rulegroup>
     <rule id="NoParticipi" name="no participi, és nom">
         <pattern>
             <token regexp="yes" inflected="yes">accedir|accés|equivaler|equivalent|duel|quant|lluita|lluitar</token>
@@ -13920,6 +13940,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="N.*" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule id="ser_fan" name="ser fan">
+        <pattern>
+            <token inflected="yes">ser</token>
+            <marker>
+                <token postag="NCCS000">fan</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="NCCS000"/>
     </rule>
     <rule id="nNom1" name="no Nom">
         <!-- repetit després de DetNom per "pel vers de tradició" -->

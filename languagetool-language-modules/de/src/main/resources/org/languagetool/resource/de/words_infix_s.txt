@@ -1,5 +1,13 @@
 # Non-compound nouns that require an infix 's' when another noun is appended
 # to form a compound noun.
+# For now, several conditions need to be met to make this work:
+#  * The compound must be splittable by our compound splitter. Use https://community.languagetool.org/germanCompoundSplit/
+#    to check if that's the case. If not, add the word part(s) to `ExtendedGermanWordSplitter.extendedList`
+#    in `GermanCompoundTokenizer.java`.
+#  * The compound must have two parts, not more.
+#  * The compound parts must be 3 characters or longer.
+#  * If a compound still isn't accepted, make sure its parts are accepted by the speller and
+#    that they have a POS tag.
 # Used in GermanSpellerRule.ignorePotentiallyMisspelledWord().
 #Recht -- commented out because we don't want to accept Rechtlage, Rechtextremismus, etc.
 #Arbeit -- commented out because we don't want to accept Arbeitsnehmer, Arbeitsgeber
@@ -315,3 +323,4 @@ Studiengang
 Digitalisierung
 Medium
 Bewährung
+Gutschrift

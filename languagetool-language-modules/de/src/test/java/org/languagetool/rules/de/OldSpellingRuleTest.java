@@ -66,6 +66,7 @@ public class OldSpellingRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("naß machen"))[0].getSuggestedReplacements().toString(), is("[nassmachen]"));
     assertThat(rule.match(lt.getAnalyzedSentence("Midlife-crisis"))[0].getSuggestedReplacements().toString(), is("[Midlife-Crisis, Midlifecrisis]"));
     assertThat(rule.match(lt.getAnalyzedSentence("Schluß"))[0].getSuggestedReplacements().toString(), is("[Schluss]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("schluß")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Schloß"))[0].getSuggestedReplacements().toString(), is("[Schloss]"));
     assertThat(rule.match(lt.getAnalyzedSentence("radfahren"))[0].getSuggestedReplacements().toString(), is("[Rad fahren]"));
     assertThat(rule.match(lt.getAnalyzedSentence("Photo"))[0].getSuggestedReplacements().toString(), is("[Foto]"));
@@ -82,10 +83,16 @@ public class OldSpellingRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Des Photons")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Photons ")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Hallo Herr Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Hallo Hr. Naß")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Hallo Frau Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Hallo Fr. Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Fr. Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Dr. Naß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Prof. Naß")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Bell Telephone")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Telephone Company")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Naß ist das Wasser")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Läßt du das bitte")).length, is(1));
   }
 
 }

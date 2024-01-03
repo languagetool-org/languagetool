@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.languagetool.tools.StringTools.*;
+
 /**
  * Old to new spelling data and similar formats loaded from CSV.
  * @since 4.3
@@ -48,15 +50,12 @@ class SpellingData {
       }
       String oldSpelling = parts[0];
       String newSpelling = parts[1];
-      String lookup = coherencyMap.get(newSpelling);
-      if (lookup != null && lookup.equals(oldSpelling)) {
-        throw new RuntimeException("Contradictory entry in " + filePath + ": '" + oldSpelling + "' suggests '" + lookup + "' and vice versa");
-      }
-      if (coherencyMap.containsKey(oldSpelling) && !coherencyMap.get(oldSpelling).equals(newSpelling)) {
-        throw new RuntimeException("Duplicate key in " + filePath + ": " + oldSpelling + ", val: " + coherencyMap.get(oldSpelling) + " vs. " + newSpelling);
-      }
+      sanityChecks(filePath, line, oldSpelling, newSpelling, coherencyMap);
       coherencyMap.put(oldSpelling, newSpelling);
-
+      if (startsWithLowercase(oldSpelling) && startsWithLowercase(newSpelling)) {
+        // lowercase words can be uppercase at sentence start:
+        coherencyMap.put(uppercaseFirstChar(oldSpelling), uppercaseFirstChar(newSpelling));
+      }
       if (oldSpelling.contains("ß") && oldSpelling.replaceAll("ß", "ss").equals(newSpelling)) {
         try {
           String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(oldSpelling, s -> true);
@@ -71,6 +70,19 @@ class SpellingData {
       }
     }
     trie.build(coherencyMap);
+  }
+
+  private static void sanityChecks(String filePath, String line, String oldSpelling, String newSpelling, Map<String, String> coherencyMap) {
+    if (oldSpelling.equals(newSpelling)) {
+      throw new RuntimeException("Old and new spelling are the same in " + filePath + ": " + line);
+    }
+    String lookup = coherencyMap.get(newSpelling);
+    if (lookup != null && lookup.equals(oldSpelling)) {
+      throw new RuntimeException("Contradictory entry in " + filePath + ": '" + oldSpelling + "' suggests '" + lookup + "' and vice versa");
+    }
+    if (coherencyMap.containsKey(oldSpelling) && !coherencyMap.get(oldSpelling).equals(newSpelling)) {
+      throw new RuntimeException("Duplicate key in " + filePath + ": " + oldSpelling + ", val: " + coherencyMap.get(oldSpelling) + " vs. " + newSpelling);
+    }
   }
 
   public AhoCorasickDoubleArrayTrie<String> getTrie() {

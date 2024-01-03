@@ -798,4 +798,44 @@
         </rule>
 
     </category>
+
+    <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="MIT_FREUNDLICHEN_CH" name="'mit Freundlichen (freundlichen) grüßen (Grüßen)'" default="temp_off">
+            <rule><!--1-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <marker>
+                        <token>Freundlichen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2" /></suggestion>?</message>
+                <example correction="freundlichen">Mit <marker>Freundlichen</marker> Grüssen</example>
+            </rule>
+            <rule><!--2-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <token regexp="yes">(herz|freund)lichen|besten|lieben|liebsten</token>
+                    <marker>
+                        <token regexp="yes">grüßen?|grüssen?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper" regexp_match="(ss|ß)en?" regexp_replace="ssen"/></suggestion>?</message>
+                <example correction="Grüssen">Mit freundlichen <marker>grüßen</marker></example>
+                <example correction="Grüssen">Mit freundlichen <marker>grüsse</marker></example>
+            </rule>
+            <rule><!--3-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(Herz|Freund)liche|Liebe|Viele|Beste|Liebste</token>
+                    <marker>
+                        <token regexp="yes">grüße|grüsse</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper" regexp_match="(ss|ß)e" regexp_replace="sse"/></suggestion>?</message>
+                <example correction="Grüsse">Herzliche <marker>grüße</marker></example>
+                <example correction="Grüsse">Viele <marker>grüße</marker></example>
+                <example correction="Grüsse">Liebste <marker>grüsse</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+
 </rules>

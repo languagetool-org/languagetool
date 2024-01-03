@@ -309,6 +309,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("VERWECHSLUNG_MIR_DIR_MIR_DIE", 1); // prefer over MIR_DIR
     id2prio.put("ERNEUERBARE_ENERGIEN", 1); // prefer over VEREINBAREN
     id2prio.put("DRIVE_IN", 1); // prefer over agreement rules
+    id2prio.put("DIES_MAL", 1); // prefer over GROSSSCHREIBUNG_MAL
     id2prio.put("AN_STATT", 1); // prefer over agreement rules
     id2prio.put("VOR_BEI", 1); // prefer over BEI_BEHALTEN
     id2prio.put("SUB_VER_KLEIN", 1); // prefer over casing rules

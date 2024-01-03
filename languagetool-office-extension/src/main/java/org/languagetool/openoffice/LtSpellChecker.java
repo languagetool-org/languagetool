@@ -52,7 +52,7 @@ import com.sun.star.uno.XComponentContext;
  * @since 6.1
  * @author Fred Kruse
  */
-public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo, 
+public class LtSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
   private static final int MAX_WRONG = 100;
@@ -72,7 +72,7 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   private static XComponentContext xContext = null;
   private static boolean noLtSpeller = false;
   
-  public LanguageToolSpellChecker(XComponentContext xContxt) {
+  public LtSpellChecker(XComponentContext xContxt) {
     if (xContext == null) {
       xContext = xContxt;
       OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
@@ -88,7 +88,7 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
    */
   public static XSingleComponentFactory __getComponentFactory(String sImplName) {
     SingletonFactory xFactory = null;
-    if (sImplName.equals(LanguageToolSpellChecker.class.getName())) {
+    if (sImplName.equals(LtSpellChecker.class.getName())) {
       xFactory = new SingletonFactory(true);
     }
     return xFactory;
@@ -100,7 +100,7 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
    */
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
 //    MessageHandler.printToLogFile("XRegistryKey (LanguageToolSpellChecker): KeyName: " + regKey.getKeyName());
-    return Factory.writeRegistryServiceInfo(LanguageToolSpellChecker.class.getName(), LanguageToolSpellChecker.getServiceNames(), regKey);
+    return Factory.writeRegistryServiceInfo(LtSpellChecker.class.getName(), LtSpellChecker.getServiceNames(), regKey);
   }
 
   @Override
@@ -115,7 +115,7 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
 
   @Override
   public String getImplementationName() {
-    return LanguageToolSpellChecker.class.getName();
+    return LtSpellChecker.class.getName();
   }
 
   /**

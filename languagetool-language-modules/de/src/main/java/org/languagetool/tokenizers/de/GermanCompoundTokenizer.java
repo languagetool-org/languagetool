@@ -87,6 +87,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("blitzableiter");
       words.add("abschattungen");
       words.add("kuscheltier");
+      words.add("gastro");
       words.trim();
       return words;
     }
@@ -145,6 +146,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Aufkohlung", asList("Aufkohlung"));
     wordSplitter.addException("Festigung", asList("Festigung"));
     wordSplitter.addException("Allerheiligen", asList("Allerheiligen"));
+    wordSplitter.addException("Druckerpressen", asList("Drucker", "pressen"));
   }
 
   @Override
