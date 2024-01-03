@@ -408,6 +408,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Yes, we do have a new trading game, link <marker>below</marker>, essentially you can play with up to 10 people and they play against each other.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes" skip="-1">[*\u2022]</token>
+                    <marker>
+                        <token postag="SENT_END" />
+                    </marker>
+                </pattern>
+                <example correction="">• I'm a bullet <marker>point</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_WORD_ORDER" name="">
             <rule>

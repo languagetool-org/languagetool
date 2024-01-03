@@ -95,6 +95,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "client side",
     "server side",
     "worry some", // suggestion for worrysome
+    "skillet", // wrong suggestion for skillset
+    "skillets", // wrong suggestion for skillsets
     "code named",
     "code naming",
     "in house",
