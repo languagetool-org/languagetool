@@ -3862,7 +3862,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="sauvé par le gong"><marker>sauver par la cloche</marker></example>
             <example><marker>sauver par le gong</marker></example>
         </rule>
-        <rule id="ARENA" name="aréna">
+        <rule id="ARENA" name="aréna" tags="picky">
             <pattern>
                 <token regexp="yes">arénas?</token>
             </pattern>
@@ -5811,7 +5811,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>velours côtelé</suggestion>
             <example correction="velours côtelé"><marker>corduroy</marker></example>
         </rule>
-        <rule id="BRANDING" name="branding">
+        <rule id="BRANDING" name="branding" tags="picky">
             <pattern>
                 <token regexp="yes">branding|bradings</token>
             </pattern>
@@ -6206,7 +6206,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="chauffe-moteur"><marker>blockheater</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="BACKUP" name="backup">
+        <rulegroup id="BACKUP" name="backup" tags="picky">
             <rule>
                 <pattern>
                     <token case_sensitive="yes">back
@@ -6363,6 +6363,10 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="pansement"><marker>plaster</marker></example>
         </rule>
         <rule id="PLUG" name="plug">
+            <antipattern>
+                <token regexp="yes">plugs?</token>
+                <token regexp="yes">anal|anaux</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">plugs?</token>
             </pattern>
@@ -6911,8 +6915,8 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <pattern>
                 <token regexp="yes" case_sensitive="yes">cover|covers</token>
             </pattern>
-            <message>« Cover » peut être considéré comme un anglicisme. Employez <suggestion>couverture</suggestion>, <suggestion>pochette</suggestion> (de disque), <suggestion>emballage</suggestion>, <suggestion>enveloppe</suggestion>.</message>
-            <example correction="couverture|pochette|emballage|enveloppe"><marker>cover</marker></example>
+            <message>« Cover » peut être considéré comme un anglicisme. Employez <suggestion>couverture</suggestion>, <suggestion>pochette</suggestion> (de disque) ou <suggestion>reprise</suggestion> (musicale).</message>
+            <example correction="couverture|pochette|reprise"><marker>cover</marker></example>
             <example><marker>pochette</marker></example>
         </rule>
         <rule id="STUCCO" name="stucco">
@@ -7615,7 +7619,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="point de contrôle"><marker>check point</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="CHECK_OUT" name="check out">
+        <rulegroup id="CHECK_OUT" name="check out" default="off">
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">checkouts?
@@ -8782,15 +8786,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>fixage</suggestion>
             <example correction="fixage"><marker>fixing</marker>.</example>
         </rule>
-        <rule id="CLIPPER" name="clipper">
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">clippers?
-                    <exception scope="previous">-</exception></token>
-            </pattern>
-            <message>« Clipper » peut être considéré comme un anglicisme. Employez <suggestion>tondeuse</suggestion> (à cheveux), <suggestion>rasoir</suggestion>, <suggestion>coupe-ongles</suggestion>.</message>
-            <example correction="tondeuse|rasoir|coupe-ongles"><marker>clipper</marker>.</example>
-            <example><marker>tondeuse</marker> à cheveux.</example>
-        </rule>
         <rulegroup id="COCONUT" name="coconut">
             <rule>
                 <pattern>
@@ -8855,7 +8850,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example><marker>emballage de six</marker></example>
             </rule>
         </rulegroup>
-        <rule id="LOCKER" name="locker">
+        <rule id="LOCKER" name="locker" default="off">
             <pattern>
                 <token regexp="yes">lockers?</token>
             </pattern>
