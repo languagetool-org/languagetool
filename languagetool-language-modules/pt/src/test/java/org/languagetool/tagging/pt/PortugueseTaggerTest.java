@@ -48,7 +48,7 @@ public class PortugueseTaggerTest {
     TestTools.myAssert("Estes são os meus amigos.",
         "Estes/[este]AQ0CP0|Estes/[este]DD0MP0|Estes/[este]NCMP000|Estes/[este]PD0MP000 -- "
             + "são/[ser]VMIP3P0|são/[são]AQ0MS0|são/[são]NCMS000 -- "
-            + "os/[o]DA0MP0|os/[o]PD0MP000|os/[o]PP3MPA00 -- "
+            + "os/[ele]PP3MPA00|os/[o]DA0MP0|os/[o]PD0MP000 -- "
             + "meus/[meu]AP0MP1S|meus/[meu]DP1MPS -- "
             + "amigos/[amigo]AQ0MP0|amigos/[amigo]NCMP000", tokenizer, tagger);
     
@@ -56,7 +56,7 @@ public class PortugueseTaggerTest {
         "tentou/[tentar]VMIS3S0 -- resolver/[resolver]VMN0000|resolver/[resolver]VMN01S0|resolver/[resolver]VMN03S0|resolver/[resolver]VMSF1S0|resolver/[resolver]VMSF3S0"
         , tokenizer, tagger);
     TestTools.myAssert("Deixe-me",
-      "Deixe/[deixar]VMM03S0|Deixe/[deixar]VMSP1S0|Deixe/[deixar]VMSP3S0 -- me/[me]PP1CS000",
+      "Deixe/[deixar]VMM03S0|Deixe/[deixar]VMSP1S0|Deixe/[deixar]VMSP3S0 -- me/[eu]PP1CSO00",
       tokenizer, tagger);
   }
 
@@ -85,5 +85,6 @@ public class PortugueseTaggerTest {
   public void testContractionTagging() throws IOException {
     TestTools.myAssert("das", "das/[de:o]SPS00:DA0FP0", tokenizer, tagger);
     TestTools.myAssert("to", "to/[tu:ele]PP2CSO00:PP3MSA00", tokenizer, tagger);
+    TestTools.myAssert("ao", "ao/[a:o]SPS00:DA0MS0", tokenizer, tagger);
   }
 }
