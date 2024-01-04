@@ -78,6 +78,7 @@ public class OldSpellingRule extends Rule {
     List<RuleMatch> matches = new ArrayList<>();
     String text = sentence.getText();
     List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = DATA.get().getTrie().parseText(text);
+    List<AhoCorasickDoubleArrayTrie.Hit<String>> sentStartHits = DATA.get().getSentenceStartTrie().parseText(text);
     Set<Integer> startPositions = new HashSet<>();
     Collections.reverse(hits);  // work on longest matches first
     for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
@@ -85,19 +86,32 @@ public class OldSpellingRule extends Rule {
         continue;   // avoid overlapping matches
       }
       if (!ignoreMatch(hit, text)) {
-        String message = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
-        RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, message, "Alte Rechtschreibung");
-        String[] suggestions = hit.value.split("\\|");
-        match.setSuggestedReplacements(Arrays.asList(suggestions));
-        String covered = sentence.getText().substring(hit.begin, hit.end);
-        if (suggestions.length > 0 && suggestions[0].replaceFirst("ss", "ß").equals(covered)) {
-          match.setMessage(message + " Das Wort wird mit 'ss' geschrieben, wenn davor eine kurz gesprochene Silbe steht.");
-        }
-        matches.add(match);
+        addMatch(sentence, hit, matches);
         startPositions.add(hit.begin);
       }
     }
+    for (AhoCorasickDoubleArrayTrie.Hit<String> hit : sentStartHits) {
+      if (startPositions.contains(hit.begin)) {
+        continue;   // avoid overlapping matches
+      }
+      if (hit.begin == 0 && !ignoreMatch(hit, text)) {   // e.g. "Läßt du das bitte", i.e. uppercase at start of sentence
+        addMatch(sentence, hit, matches);
+        break;  // there can only be one match at the start of a sentence
+      }
+    }
     return toRuleMatchArray(matches);
+  }
+
+  private void addMatch(AnalyzedSentence sentence, AhoCorasickDoubleArrayTrie.Hit<String> hit, List<RuleMatch> matches) {
+    String message = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
+    RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, message, "Alte Rechtschreibung");
+    String[] suggestions = hit.value.split("\\|");
+    match.setSuggestedReplacements(Arrays.asList(suggestions));
+    String covered = sentence.getText().substring(hit.begin, hit.end);
+    if (suggestions.length > 0 && suggestions[0].replaceFirst("ss", "ß").equals(covered)) {
+      match.setMessage(message + " Das Wort wird mit 'ss' geschrieben, wenn davor eine kurz gesprochene Silbe steht.");
+    }
+    matches.add(match);
   }
 
   private boolean ignoreMatch(AhoCorasickDoubleArrayTrie.Hit<String> hit, String text) {

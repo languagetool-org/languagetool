@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.GermanSynthesizer;
 
@@ -36,8 +37,15 @@ import static org.languagetool.tools.StringTools.*;
 class SpellingData {
 
   private final AhoCorasickDoubleArrayTrie<String> trie = new AhoCorasickDoubleArrayTrie<>();
+  private final AhoCorasickDoubleArrayTrie<String> sentenceStartTrie = new AhoCorasickDoubleArrayTrie<>();
 
   SpellingData(String filePath) {
+    trie.build(getCoherencyMap(filePath, false));
+    sentenceStartTrie.build(getCoherencyMap(filePath, true));
+  }
+
+  @NotNull
+  private static Map<String, String> getCoherencyMap(String filePath, boolean sentStartMode) {
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
     Map<String,String> coherencyMap = new HashMap<>();
     for (String line : lines) {
@@ -51,10 +59,11 @@ class SpellingData {
       String oldSpelling = parts[0];
       String newSpelling = parts[1];
       sanityChecks(filePath, line, oldSpelling, newSpelling, coherencyMap);
-      coherencyMap.put(oldSpelling, newSpelling);
-      if (startsWithLowercase(oldSpelling) && startsWithLowercase(newSpelling)) {
+      if (sentStartMode && startsWithLowercase(oldSpelling) && startsWithLowercase(newSpelling)) {
         // lowercase words can be uppercase at sentence start:
         coherencyMap.put(uppercaseFirstChar(oldSpelling), uppercaseFirstChar(newSpelling));
+      } else {
+        coherencyMap.put(oldSpelling, newSpelling);
       }
       if (oldSpelling.contains("ß") && oldSpelling.replaceAll("ß", "ss").equals(newSpelling)) {
         try {
@@ -69,7 +78,7 @@ class SpellingData {
         }
       }
     }
-    trie.build(coherencyMap);
+    return coherencyMap;
   }
 
   private static void sanityChecks(String filePath, String line, String oldSpelling, String newSpelling, Map<String, String> coherencyMap) {
@@ -87,5 +96,9 @@ class SpellingData {
 
   public AhoCorasickDoubleArrayTrie<String> getTrie() {
     return trie;
+  }
+
+  public AhoCorasickDoubleArrayTrie<String> getSentenceStartTrie() {
+    return sentenceStartTrie;
   }
 }
