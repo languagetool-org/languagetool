@@ -1781,6 +1781,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_DE_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD" name="">
+            <rule><!--1--><!-- ABK more to be added-->
+                <pattern>
+                    <token regexp="yes">öffentl</token>
+                    <marker>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <example correction="">Das ist eine öffentl<marker>.</marker> Schule.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup name="" id="AI_DE_GGEC_MISSING_DETERMINER">
             <rule><!--1-->
                 <pattern>
@@ -1894,6 +1906,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Zweifeldass</token><!--TP but gGEC gives wrong suggestion-->
                 </pattern>
                 <example correction="">Es besteht kein <marker>Zweifeldass</marker> das geht.</example>
+            </rule>
+            <rule><!--9 ABK more to be added-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">öffentl</token>
+                    </marker>
+                    <token>.</token>
+                </pattern>
+                <example correction="">Das ist eine <marker>öffentl</marker>. Schule.</example>
             </rule>
         </rulegroup>
 
