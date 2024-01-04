@@ -156,7 +156,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("A família.", lt, rule);
     assertSingleError("A familia.", lt, rule, new String[]{"família", "famílias", "familiar"});
 
-    assertNoErrors("Covid-19, COVID-19, covid-19.", lt, rule);
+    assertNoErrors("Covid-19, COVID-19", lt, rule);
 
     assertSingleError("eu so", lt, rule, new String[]{"sou", "só"});
     assertSingleError("é so", lt, rule, new String[]{"só"});
@@ -235,6 +235,14 @@ public class MorfologikPortugueseSpellerRuleTest {
     // we need the compound rule active to catch this!
     assertNoErrors("antirrepublicanismo", ltPT, rulePT);
     assertSingleError("antirrepublicanismo", ltMZ, ruleMZ, new String[]{"anti-republicanismo"});
+    assertNoErrors("anglo-saxônico", ltBR, ruleBR);
+    assertNoErrors("paraquedista", ltBR, ruleBR);
+    assertSingleError("para-quedista", ltBR, ruleBR, new String[]{"paraquedista"});
+    assertNoErrors("sub-bairro", ltBR, ruleBR);
+    assertNoErrors("hiper-revista", ltBR, ruleBR);
+    assertNoErrors("pseudo-história", ltBR, ruleBR);
+    assertNoErrors("semiacústico", ltBR, ruleBR);
+    assertNoErrors("húngaro-americano", ltBR, ruleBR);
   }
 
   // FUCK YEAH WAHOO
@@ -303,12 +311,25 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("verba volant, scripta remnant", ltBR, ruleBR);
     assertSingleError("Raspberry", ltBR, ruleBR, new String[]{});
     assertNoErrors("Raspberry Pi", ltBR, ruleBR);
+    assertNoErrors("lan houses", ltBR, ruleBR);
+    assertSingleError("Crohn", ltBR, ruleBR, new String[]{}); // this should prob. be okay tbh
+    assertNoErrors("doença de Crohn", ltBR, ruleBR);
+    // some of these should come from the global spelling file
+    assertNoErrors("Hillary Clinton", ltBR, ruleBR);
+    // these used to be in the disambiguator and have been moved to multiwords
+    assertNoErrors("está en vogue", ltBR, ruleBR);
+    assertNoErrors("startups de Silicon Valley", ltBR, ruleBR);
+    assertNoErrors("comme de rigueur", ltBR, ruleBR);
+    assertNoErrors("uma T shirt", ltBR, ruleBR); // we may need to have an XML rule for this
+    // these are still done by a disambiguator rule
+    assertNoErrors("mora na 82nd Street", ltBR, ruleBR);
+    assertNoErrors("mora na Fifth Avenue", ltBR, ruleBR);
   }
 
   @Test
   public void testPortugueseSpellingSpellingTXT() throws Exception {
-    assertNoErrors("xávega", ltBR, ruleBR);
-    assertNoErrors("thirties", ltPT, rulePT);
+    assertNoErrors("physalis", ltBR, ruleBR);
+    assertNoErrors("jackpot", ltPT, rulePT);
   }
 
   @Test

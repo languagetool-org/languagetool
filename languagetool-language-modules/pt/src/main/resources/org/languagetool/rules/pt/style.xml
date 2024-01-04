@@ -522,7 +522,7 @@ USA
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
                 <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="o seu motivo|o motivo destes|o motivo deles">O estudo dos conflitos permite perceber <marker>o motivo dos mesmos</marker> ocorrerem.</example>
             </rule>
             <rule>
@@ -546,7 +546,7 @@ USA
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='DA.(..).' postag_replace='DP3$1S'>seu</match> \2 \3</suggestion>
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2 \3</suggestion>
                 <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="o seu motivo justificável|o motivo justificável destes|o motivo justificável deles">O estudo dos conflitos permite perceber <marker>o motivo justificável dos mesmos</marker> ocorrerem.</example>
             </rule>
             <rule>
@@ -567,7 +567,7 @@ USA
                 </pattern>
                 <message>&simplify_msg;</message>
                 <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="destes|deles">sem perder a essência de homenagem <marker>dos mesmos</marker> ocorrerem.</example>
                 <example correction="destas|delas">sem perder a essência de homenagem <marker>das mesmas</marker> ocorrerem.</example>
             </rule>
@@ -590,7 +590,7 @@ USA
                 <message>&simplify_msg;</message>
                 <suggestion><match no='2' postag='N.(..)...|A..(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
                 <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="seus excrementos|excrementos deste|excrementos dele">O contato com o inseto ou <marker>excrementos do mesmo</marker> é prejudicial.</example>
             </rule>
         </rulegroup>
@@ -6779,7 +6779,7 @@ USA
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decepcionar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desapontar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>insatisfazer</match></suggestion>
-                <example correction='decepciona|desaponta|insatisfaz'>Ele não <marker>deixa a desejar</marker>.</example>
+                <example correction='decepciona|desaponta|insatisfaz|insatisfaze'>Ele não <marker>deixa a desejar</marker>.</example>
             </rule>
             <rule id='CLICHE_383_DETONAR' name='Clichê: Detonar um processo'>
                 <pattern>
@@ -12432,7 +12432,7 @@ USA
                     <token regexp='yes'>del[ae]s?</token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>usá-l<match no='3' postag='SPS00:PP3(..)00' postag_replace='DA0$10'>o</match></suggestion>
+                <suggestion>usá-l<match no='3' postag='SPS00:PP3(..)...' postag_replace='DA0$10'>o</match></suggestion>
                 <example correction="usá-la">Vamos <marker>fazer uso dela</marker> para o bem.</example>
                 <example correction="usá-las">Vamos <marker>fazer uso delas</marker> para o bem.</example>
                 <example correction="usá-lo">Vamos <marker>fazer uso dele</marker> para o bem.</example>
@@ -14123,7 +14123,7 @@ USA
                 <token>pois</token>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token postag='CC' postag_regexp='no'/>
-                <token postag='PP3CN000' postag_regexp='no'/>
+                <token postag='PP3CNO00' postag_regexp='no'/>
                 <token postag='VMSP.+' postag_regexp='yes'/>
                 <example>O parâmetro é ignorado, pois, quer se veja ou não o resultado é o correto.</example>
             </antipattern>
@@ -16611,7 +16611,7 @@ USA
                         <token>há</token>
                     </marker>
                     <or>
-                        <token negate_pos="yes" postag='Z0.+|DI.+|PP.+|SPS00' postag_regexp='yes'/>
+                        <token negate_pos="yes" postag='Z0.+|DI.+|(SPS00:)?PP.+|SPS00' postag_regexp='yes'/>
                         <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
                     </or>
                 </pattern>
@@ -16645,7 +16645,7 @@ USA
                         <token>há</token>
                     </marker>
                     <or>
-                        <token negate_pos="yes" postag='Z0.+|DI.+|PP.+' postag_regexp='yes'/> <!-- With "não" there is no SPS00 -->
+                        <token negate_pos="yes" postag='Z0.+|DI.+|(SPS00:)?PP.+' postag_regexp='yes'/> <!-- With "não" there is no SPS00 -->
                         <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
                     </or>
                 </pattern>

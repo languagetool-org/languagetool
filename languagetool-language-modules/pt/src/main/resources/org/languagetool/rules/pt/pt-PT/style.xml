@@ -2598,7 +2598,7 @@ USA
         </antipattern>
 
         <!-- Without RN ("não") -->
-        <rule>
+        <rule> <!-- #1 -->
             <pattern>
                 <token postag='V.+' postag_regexp='yes'>
                     <exception postag_regexp='yes' postag='AQ.+|NC.+|VMP00.+'/>
@@ -2613,7 +2613,7 @@ USA
             </token>
         </pattern>
         <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-        <suggestion>\1-<match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match></suggestion>
+        <suggestion>\1-<match no='3' postag_regexp="yes" postag='PP3.(.).00' postag_replace='PP3C$1D00'/></suggestion>
         <example correction="pediu-lhe">O Rui <marker>pediu a ele</marker> para comprar o livro.</example>
         <example correction="pediu-lhes">O Rui <marker>pediu a eles</marker> para comprarem o livro.</example>
         <example>Eu dei muito trabalho a ele.</example>
@@ -2622,7 +2622,7 @@ USA
         <example>Ela assistia a ele nadando.</example>
         <example>Nós assistimos a ele e rimos muito.</example>
     </rule>
-    <rule>
+    <rule> <!-- #2 -->
         <pattern>
             <token postag='VMP00.+' postag_regexp='yes'>
                 <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
@@ -2637,13 +2637,13 @@ USA
         </token>
     </pattern>
     <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-    <suggestion><match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \1</suggestion>
+    <suggestion><match no='3' postag_regexp="yes" postag='PP3.(.).00' postag_replace='PP3C$1D00'/> \1</suggestion>
     <example correction="lhe pedido">O Rui tinha <marker>pedido a ele</marker> para comprar o livro.</example>
     <example correction="lhes pedido">O Rui tinha <marker>pedido a eles</marker> para comprarem o livro.</example>
 </rule>
 
 <!-- With RN ("não") -->
-<rule>
+<rule> <!-- #3 -->
     <pattern>
         <token postag='RN' postag_regexp='no'/>
         <token postag='V.+' postag_regexp='yes'>
@@ -2658,11 +2658,11 @@ USA
     </token>
 </pattern>
 <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-<suggestion>\1 <match no='4' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \2</suggestion>
+<suggestion>\1 <match no='4' postag_regexp="yes" postag='PP3.(.).00' postag_replace='PP3C$1D00'/> \2</suggestion>
 <example correction="não lhe pediu">O Rui <marker>não pediu a ele</marker> para comprar o livro.</example>
 <example correction="não lhes pediu">O Rui <marker>não pediu a eles</marker> para comprarem o livro.</example>
             </rule>
-            <rule>
+            <rule> <!-- #4 -->
                 <pattern>
                     <token postag='RN' postag_regexp='no'/>
                     <token postag='V.+' postag_regexp='yes'/>
@@ -2678,7 +2678,7 @@ USA
                 </token>
             </pattern>
             <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-            <suggestion>\1 <match no='5' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \2 \3</suggestion>
+            <suggestion>\1 <match no='5' postag_regexp="yes" postag='PP3.(.).00' postag_replace='PP3C$1D00'/> \2 \3</suggestion>
             <example correction="não lhe tinha pedido">O Rui <marker>não tinha pedido a ele</marker> para comprar o livro.</example>
             <example correction="não lhes tinha pedido">O Rui <marker>não tinha pedido a eles</marker> para comprarem o livro.</example>
         </rule>
@@ -4238,8 +4238,8 @@ USA
         </pattern>
         <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion><match no='2' include_skipped='all'/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
         <short>Tratamento inapropriado</short>
         <example correction="diz|o senhor diz|a senhora diz">“O teu carro é maneiro.” — <marker>você diz</marker>.</example>
         <example correction="dizem|os senhores dizem|as senhoras dizem">“O teu carro é maneiro.” — <marker>vocês dizem</marker>.</example>
@@ -4254,8 +4254,8 @@ USA
         </pattern>
         <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion><match no='2' regexp_match="^(.*)$" regexp_replace="$1" include_skipped='all' case_conversion="startupper"/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
         <short>Tratamento inapropriado</short>
         <example correction="Tenha|O senhor tenha|A senhora tenha"><marker>Você tenha</marker> mais atenção ao promenor.</example>
         <example correction="Tenham|Os senhores tenham|As senhoras tenham"><marker>Vocês tenham</marker> mais atenção ao promenor.</example>
@@ -4274,8 +4274,8 @@ USA
         </pattern>
         <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion><match no='2' include_skipped='all'/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0M$10">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0F$10">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2'/></suggestion>
         <short>Tratamento inapropriado</short>
         <example correction="sempre|o senhor sempre|a senhora sempre">“O teu carro é maneiro.” — <marker>você sempre</marker> diz.</example>
         <example correction="sempre|os senhores sempre|as senhoras sempre">“O teu carro é maneiro.” — <marker>vocês sempre</marker> dizem.</example>
@@ -4293,8 +4293,8 @@ USA
         </pattern>
         <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere remover o pronome ou substituí-lo pelo pronome de tratamento adequado.</message>
         <suggestion><match no='2' regexp_match="^(.*)$" regexp_replace="$1" include_skipped='all' case_conversion="startupper"/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
-        <suggestion><match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP3C([PS])000" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0M$10" case_conversion="startupper">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCM$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
+        <suggestion><match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="DA0F$10" case_conversion="startupper">o</match> <match no='1' postag="PP2C([PS])00P" postag_regexp="yes" postag_replace="NCF$1000">senhor</match> <match no='2' include_skipped='all'/></suggestion>
         <short>Tratamento inapropriado</short>
         <example correction="Não|O senhor não|A senhora não"><marker>Você não</marker> tenha atenção, não…</example>
         <example correction="Não|Os senhores não|As senhoras não"><marker>Vocês não</marker> tenham atenção, não…</example>
@@ -4505,7 +4505,7 @@ USA
         <example>Ele pergunta-me onde ela mora.</example>
         <example>Ele trata-me com rigor.</example>
         <example>Ele evita-me.</example>
-        <example>Informação pessoal que é dada á Car Detail permite-nos contacta-lo e enviar facturação sempre que seja necessário.</example>
+        <!-- <example>Informação pessoal que é dada á Car Detail permite-nos contacta-lo e enviar facturação sempre que seja necessário.</example> -->
     </rule>
 
     <!--    <rule>
@@ -4617,7 +4617,7 @@ USA
         <example>Não fale com ele enquanto ele dirige.</example>
         <example>Ele fala realmente bem.</example>
         <example>Ela nada em dinheiro.</example>
-        <example>Esta relação nos fornece um teste do valor estratégico de competências específicas para as empresas.</example>
+        <!-- <example>Esta relação nos fornece um teste do valor estratégico de competências específicas para as empresas.</example> -->
         <example>Seu cão o segue para onde quer que ele vá.</example>
         <example>Não sei quem escreveu esta carta.</example>
         <example>Eu não aguento mais ouvir essa droga de música!</example>
