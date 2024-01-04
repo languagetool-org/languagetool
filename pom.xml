@@ -225,6 +225,7 @@
         <spanish-pos-dict.version>2.1</spanish-pos-dict.version>
         <portuguese-pos-dict.version>0.12</portuguese-pos-dict.version>
         <dutch-pos-dict.version>0.1</dutch-pos-dict.version>
+        <english-pos-dict.version>0.1</english-pos-dict.version>
         <belarusian-pos-dict.version>1.0.2</belarusian-pos-dict.version>
         <tech.units.indriya.version>1.3</tech.units.indriya.version>
         <ecs-logging-java.version>1.3.2</ecs-logging-java.version>
@@ -717,6 +718,21 @@
                 <groupId>org.languagetool</groupId>
                 <artifactId>french-pos-dict</artifactId>
                 <version>${french-pos-dict.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.carrot2</groupId>
+                        <artifactId>morfologik-fsa</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.carrot2</groupId>
+                        <artifactId>morfologik-stemming</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>english-pos-dict</artifactId>
+                <version>${english-pos-dict.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.carrot2</groupId>
