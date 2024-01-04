@@ -10784,6 +10784,13 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger|meer|minder</token><token>als</token></antipattern>
 				<antipattern><token>als</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
 				<antipattern><token>als</token><token regexp="yes">ik|jij|hij|zij|u|men</token></antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="VNW.*"/>
+					<token postag="BNW:VGR:ONV|BNW:VGR:VRB" postag_regexp="yes"/>
+					<token>als</token>
+					<token><match no="0"/></token>
+					<example>Worden we dommer als we niet bewegen?</example>
+				</antipattern>
 				<pattern>
 					<token postag="BNW:VGR:ONV|BNW:VGR:VRB" postag_regexp="yes"><exception>echter</exception></token>
 					<token>als</token>
@@ -15904,6 +15911,8 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>en</token><token postag_regexp="yes" postag="WKW.*"/><token>maar</token></antipattern>
 				<antipattern><token>het</token><token>maar</token><token regexp="yes">(al)?vast</token></antipattern>
 				<antipattern><token>met</token><token>maar</token></antipattern>
+				<antipattern><token inflected="yes">kunnen</token><token>het</token><token>maar</token><token>niet</token></antipattern>
+				<antipattern><token skip="4">als</token><token>maar</token><token>niet</token></antipattern>
 				<antipattern><token postag="WKW:TGW:3EP"/><token regexp="yes">haar|zijn|ons|hun|onze|jouw|uw</token><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>maar</token><token>beter</token></antipattern>
 				<antipattern><token regexp="yes">en|of</token><token>maar</token></antipattern>
 				<antipattern><token>die</token><token>maar</token></antipattern>
@@ -17290,7 +17299,7 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 				    <token>dat</token>
-				    <token postag="BYW"/>
+				    <token postag_regexp="yes" postag="BYW|VRZ"/>
 				    <example>Vervelende kwestie, dat sowieso.</example>
 				</antipattern>
 				<antipattern><token>hey</token><token>,</token><token>dat</token></antipattern>
