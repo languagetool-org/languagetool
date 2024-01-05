@@ -262,4 +262,12 @@ public class StringToolsTest {
     assertTrue(StringTools.isCamelCase("iSomeTHING"));
   }
 
+  @Test
+  public void testTitlecaseGlobal() {
+    assertEquals("The Lord of the Rings", StringTools.titlecaseGlobal("the lord of the rings"));
+    assertEquals("Rhythm and Blues", StringTools.titlecaseGlobal("rhythm And blues"));
+    assertEquals("Memória de Leitura", StringTools.titlecaseGlobal("memória de leitura"));
+    assertEquals("Fond du Lac", StringTools.titlecaseGlobal("fond du lac"));
+    assertEquals("El Niño de las Islas", StringTools.titlecaseGlobal("el niño de Las islas"));
+  }
 }
