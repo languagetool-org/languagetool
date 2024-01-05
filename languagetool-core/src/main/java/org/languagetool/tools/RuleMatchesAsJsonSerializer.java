@@ -297,11 +297,6 @@ public class RuleMatchesAsJsonSerializer {
       }
       if (replacement.getConfidence() != null) {
         g.writeNumberField("confidence", replacement.getConfidence());
-      } else if (ruleIdToConfidence != null) {
-        Float confidence = ruleIdToConfidence.get(match.getRule().getId());
-        if (confidence != null) {
-          g.writeNumberField("confidence", confidence);
-        }
       }
       g.writeEndObject();
     }
@@ -360,6 +355,12 @@ public class RuleMatchesAsJsonSerializer {
         g.writeString(tag.name());
       }
       g.writeEndArray();
+    }
+    if (ruleIdToConfidence != null) {
+      Float confidence = ruleIdToConfidence.get(rule.getId());
+      if (confidence != null) {
+        g.writeNumberField("confidence", confidence);
+      }
     }
     g.writeEndObject();
   }
