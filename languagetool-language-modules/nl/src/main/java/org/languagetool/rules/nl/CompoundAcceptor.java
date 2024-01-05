@@ -1099,7 +1099,7 @@ public class CompoundAcceptor {
     }
   }
 
-  private DutchTagger dutchTagger = DutchTagger.INSTANCE;
+  private final DutchTagger dutchTagger = DutchTagger.INSTANCE;
 
   public CompoundAcceptor() {
   }
