@@ -66,16 +66,16 @@ class V2TextChecker extends TextChecker {
         if (line.startsWith("#")) {
           continue;
         }
-        String[] parts = line.split(";");
-        if (parts.length == 2) {
+        String[] parts = line.split(",");
+        if (parts.length >= 2) {
           try {
             float confidence = Float.parseFloat(parts[1]);
             ruleIdToConfidence.put(parts[0], confidence);
           } catch (NumberFormatException e) {
-            throw new RuntimeException("Invalid confidence float value in " + config.getRuleIdToConfidenceFile() + ", expected 'RULE_ID;float_value': " + line);
+            throw new RuntimeException("Invalid confidence float value in " + config.getRuleIdToConfidenceFile() + ", expected 'RULE_ID,float_value[,...]': " + line);
           }
         } else {
-          throw new RuntimeException("Invalid line in " + config.getRuleIdToConfidenceFile() + ", expected 'RULE_ID;float_value': " + line);
+          throw new RuntimeException("Invalid line in " + config.getRuleIdToConfidenceFile() + ", expected 'RULE_ID,float_value[,...]': " + line);
         }
       }
     }
