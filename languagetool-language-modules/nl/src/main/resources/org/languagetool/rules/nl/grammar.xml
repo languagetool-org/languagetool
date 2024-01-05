@@ -7594,6 +7594,14 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="EN_OF_KOPPELTEKEN" name="eet - en drinkgelegenheden/ eet- en drinkgelegenheden" >
 			<rule>
+				<antipattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token>-</token>
+					<token regexp="yes">en|of</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+					<token>-</token>
+					<example>Het is een omwerking van een nooit gepubliceerd manuscript uit - en over - de oorlog.</example>
+				</antipattern>
 				<pattern>
 					<token postag="WKW:TGW:1EP"/>
 					<token>-</token>
@@ -17048,7 +17056,6 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>zou</token><token>zo</token><token>maar</token><token>kunnen</token></antipattern>
 				<antipattern><token>zoveel</token><token>je</token><token>maar</token><token postag="WKW:TGW:3EP/"/></antipattern>
 				<antipattern><token>zullen</token><token>we</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
-
 				<antipattern><token postag="VNW:PER.*" postag_regexp="yes"/><token>maar</token><token min="0" max="2" postag_regexp="yes" postag="BYW.*"/><token postag="WKW:.*" postag_regexp="yes"/></antipattern>
 				<antipattern>
 					<token postag_regexp="yes" postag="ZNW.*"></token>
@@ -17061,6 +17068,19 @@ regexp case-insensitive maken: (?i)
 					<token skip="1">maar</token>
 					<token regexp="yes">[.,?!]</token>
 					<example>Moeten we dan alle personenbiografieën maar toelaten?</example>
+				</antipattern>
+				<antipattern>
+					<token postag="SENT_START" skip="1"/>
+					<token skip="1" postag="WKW:TGW:1EP"/>
+					<token>maar</token>
+					<example>Vraag het maar aan Eduard.</example>
+				</antipattern>
+				<antipattern>
+					<token postag="SENT_START" skip="1"/>
+					<token postag_regexp="yes" postag="VNW:PER.*"/>
+					<token inflected="yes">zijn</token>
+					<token>maar</token>
+					<example>We zijn maar een keer jong.</example>
 				</antipattern>
 				<pattern>
 					<marker>
@@ -17484,6 +17504,12 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>is</token><token>welk</token></antipattern>
 				<antipattern><token skip="2">de</token><token>staat</token></antipattern>
 				<antipattern><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"/>
+					<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"/>
+					<token postag="SENT_END"/>
+					<example>Het lijkt erop dat je hond dorst heeft.</example>
+				</antipattern>
 				<pattern>
 					<token><exception postag="SENT_START"/></token>
 					<marker>
@@ -25554,11 +25580,11 @@ regexp case-insensitive maken: (?i)
 					<token/>
 				</pattern>
 				<message>Het woord na 'de' is onverwacht. Misschien zou het niet 'de', maar 'het', 'dat' of 'dit' moeten zijn.</message>
+				<suggestion>\2</suggestion>
 				<suggestion>het \2</suggestion>
 				<suggestion>dat \2</suggestion>
 				<suggestion>dit \2</suggestion>
-				<suggestion>\2</suggestion>
-				<example correction="het loopt|dat loopt|dit loopt|loopt"><marker>de loopt</marker></example>
+				<example correction="loopt|het loopt|dat loopt|dit loopt"><marker>de loopt</marker></example>
 				<example>Bij de overheadpass zijn beide handen aan de bal.</example> <!-- false alarm 15-12-2019 -->
 				<example>Bij de opgestane Jezus.</example> <!-- false alarm-->
 				<example>Bij de kartuizers.</example> <!-- false alarm-->
