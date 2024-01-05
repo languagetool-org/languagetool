@@ -51,6 +51,7 @@ public class RuleMatchesAsJsonSerializer {
 
   private final int compactMode;
   private final Language lang;
+  private Map<String, Float> ruleIdToConfidence;
 
   public RuleMatchesAsJsonSerializer() {
     this(0, null);
@@ -296,6 +297,11 @@ public class RuleMatchesAsJsonSerializer {
       }
       if (replacement.getConfidence() != null) {
         g.writeNumberField("confidence", replacement.getConfidence());
+      } else if (ruleIdToConfidence != null) {
+        Float confidence = ruleIdToConfidence.get(match.getRule().getId());
+        if (confidence != null) {
+          g.writeNumberField("confidence", confidence);
+        }
       }
       g.writeEndObject();
     }
@@ -366,4 +372,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
+  public void setRuleIdToConfidenceMap(Map<String, Float> ruleIdToConfidence) {
+    this.ruleIdToConfidence = ruleIdToConfidence;
+  }
 }

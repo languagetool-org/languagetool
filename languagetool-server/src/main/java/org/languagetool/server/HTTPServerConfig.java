@@ -73,6 +73,7 @@ public class HTTPServerConfig {
   protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
+  protected File ruleIdToConfidenceFile = null;
   protected boolean pipelineCaching = false;
   protected boolean pipelinePrewarming = false;
 
@@ -205,7 +206,8 @@ public class HTTPServerConfig {
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
-    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken");
+    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken",
+    "ruleIdToConfidenceFile");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -338,6 +340,13 @@ public class HTTPServerConfig {
         maxPort = Integer.parseInt(getOptionalProperty(props, "maxPort", "0"));
         String url = getOptionalProperty(props, "serverURL", null);
         setServerURL(url);
+        String ruleIdToConfidence = getOptionalProperty(props, "ruleIdToConfidenceFile", null);
+        if (ruleIdToConfidence != null) {
+          ruleIdToConfidenceFile = new File(ruleIdToConfidence);
+          if (!ruleIdToConfidenceFile.exists() || !ruleIdToConfidenceFile.isFile()) {
+            throw new RuntimeException("ruleIdToConfidenceFile cannot be found: " + ruleIdToConfidenceFile);
+          }
+        }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
@@ -1503,4 +1512,10 @@ public class HTTPServerConfig {
     this.dbMaxConnections = dbMaxConnections;
   }
 
+  /**
+   * @since 6.4
+   */
+  public File getRuleIdToConfidenceFile() {
+    return ruleIdToConfidenceFile;
+  }
 }
