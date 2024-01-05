@@ -580,12 +580,17 @@ public class MorfologikPortugueseSpellerRuleTest {
     // entry is "stock car"
     assertNoErrors("stock car", ltBR, ruleBR);
     assertNoErrors("Stock Car", ltBR, ruleBR);
+    // entry is "Hall of Fame", so titlecase variants are not added
+    assertNoErrors("Hall of Fame", ltBR, ruleBR);
+    assertSingleError("Hall Of Fame", ltBR, ruleBR, new String[]{});
+    assertErrorLength("hall of fame", 2, ltBR, ruleBR, new String[]{});
 
     assertNoErrors("Rock and Roll", ltBR, ruleBR);
     assertNoErrors("Hall of Fame", ltBR, ruleBR);
     assertNoErrors("Rock and Roll Hall of Fame", ltBR, ruleBR);
-    assertNoErrors("Rock And Roll Hall Of Fame", ltBR, ruleBR);  // bad titlecasing, but we should accept
-    assertNoErrors("Chesapeake Bay Retriever", ltBR, ruleBR);
+    assertSingleError("Rock And Roll Hall Of Fame", ltBR, ruleBR, new String[]{});  // bad titlecasing
+    assertNoErrors("Chesapeake Bay retriever", ltBR, ruleBR);
+    assertSingleError("Chesapeake Bay Retriever", ltBR, ruleBR, new String[]{});  // an annoying limitation
     assertNoErrors("Pit Bull", ltBR, ruleBR);
     assertNoErrors("Mao Tsé-Tung", ltBR, ruleBR);
     assertNoErrors("Honoris Causa", ltBR, ruleBR);

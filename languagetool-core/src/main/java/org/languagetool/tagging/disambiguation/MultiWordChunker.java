@@ -138,27 +138,27 @@ public class MultiWordChunker extends AbstractDisambiguator {
         String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());
         String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:tokenAndTag[1]), Function.identity());
         tokens.add(originalToken);
-        // We now understand this to also allow for titlecase.
-        if (allowFirstCapitalized) {
-          String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
-          if (!mFull.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
-            tokens.add(tokenFirstCapitalized);
-          }
-          String tokenNaivelyTitlecased = WordUtils.capitalize(originalToken);
-          if (!tokenNaivelyTitlecased.equals(tokenFirstCapitalized) && !mFull.containsKey(tokenNaivelyTitlecased) && !originalToken.equals(tokenNaivelyTitlecased)) {
-            tokens.add(tokenNaivelyTitlecased);
-          }
-          String tokenSmartlyTitlecased = StringTools.titlecaseGlobal(originalToken);
-          if (!tokenSmartlyTitlecased.equals(tokenNaivelyTitlecased) && !mFull.containsKey(tokenSmartlyTitlecased) && !originalToken.equals(tokenSmartlyTitlecased)) {
-            tokens.add(tokenSmartlyTitlecased);
-          }
-        }
-        if (allowAllUppercase) {
-          String tokenAllUppercase = originalToken.toUpperCase();
-          if (!mFull.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
-            tokens.add(tokenAllUppercase);
-          }
-        }
+        tokens.addAll(getTokenLettercaseVariants(originalToken, mFull));
+//        if (allowFirstCapitalized) {
+//          String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
+//          if (!mFull.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
+//            tokens.add(tokenFirstCapitalized);
+//          }
+//          String tokenNaivelyTitlecased = WordUtils.capitalize(originalToken);
+//          if (!tokenNaivelyTitlecased.equals(tokenFirstCapitalized) && !mFull.containsKey(tokenNaivelyTitlecased) && !originalToken.equals(tokenNaivelyTitlecased)) {
+//            tokens.add(tokenNaivelyTitlecased);
+//          }
+//          String tokenSmartlyTitlecased = StringTools.titlecaseGlobal(originalToken);
+//          if (!tokenSmartlyTitlecased.equals(tokenNaivelyTitlecased) && !mFull.containsKey(tokenSmartlyTitlecased) && !originalToken.equals(tokenSmartlyTitlecased)) {
+//            tokens.add(tokenSmartlyTitlecased);
+//          }
+//        }
+//        if (allowAllUppercase) {
+//          String tokenAllUppercase = originalToken.toUpperCase();
+//          if (!mFull.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
+//            tokens.add(tokenAllUppercase);
+//          }
+//        }
         for (String token : tokens) {
           boolean containsSpace = token.indexOf(' ') > 0;
           String firstToken;
@@ -193,6 +193,35 @@ public class MultiWordChunker extends AbstractDisambiguator {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public List<String> getTokenLettercaseVariants(String originalToken, Map<String, AnalyzedToken> tokenMap) {
+    List<String> newTokens = new ArrayList<>();
+    if (allowAllUppercase) {
+      String tokenAllUppercase = originalToken.toUpperCase();
+      if (!tokenMap.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
+        newTokens.add(tokenAllUppercase);
+      }
+    }
+    // We now understand this to also allow for titlecase.
+    if (allowFirstCapitalized) {
+      String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
+      if (!tokenMap.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
+        newTokens.add(tokenFirstCapitalized);
+      }
+      if (originalToken.split(" ").length > 1 && StringTools.startsWithLowercase(originalToken)) { // titlecasing is only relevant for multi-token entries
+        String tokenNaivelyTitlecased = WordUtils.capitalize(originalToken);
+        if (!tokenNaivelyTitlecased.equals(tokenFirstCapitalized) && !originalToken.equals(tokenNaivelyTitlecased)) {
+          newTokens.add(tokenNaivelyTitlecased);
+        }
+        String tokenSmartlyTitlecased = StringTools.titlecaseGlobal(originalToken);
+        if (!tokenSmartlyTitlecased.equals(tokenFirstCapitalized) && !tokenSmartlyTitlecased.equals(tokenNaivelyTitlecased) &&
+          !originalToken.equals(tokenSmartlyTitlecased)) {
+          newTokens.add(tokenSmartlyTitlecased);
+        }
+      }
+    }
+    return newTokens;
   }
 
   @Override
