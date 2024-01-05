@@ -74,6 +74,8 @@ public class Configuration {
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
   static final boolean DEFAULT_USE_LT_DICTIONARY = true;
   static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = false;
+  static final boolean DEFAULT_INCLUDE_TRACKED_CHANGES = false;
+  static final boolean DEFAULT_ENABLE_TMP_OFF_RULES = false;
   static final boolean DEFAULT_SAVE_LO_CACHE = true;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
@@ -126,6 +128,8 @@ public class Configuration {
   private static final String LOG_LEVEL_KEY = "logLevel";
   private static final String USE_LT_DICTIONARY_KEY = "UseLtDictionary";
   private static final String NO_SYNONYMS_AS_SUGGESTIONS_KEY = "noSynonymsAsSuggestions";
+  private static final String INCLUDE_TRACKED_CHANGES_KEY = "includeTrackedChanges";
+  private static final String ENABLE_TMP_OFF_RULES_KEY = "enableTmpOffRules";
   private static final String SAVE_LO_CACHE_KEY = "saveLoCache";
   private static final String LT_VERSION_KEY = "ltVersion";
 
@@ -193,6 +197,8 @@ public class Configuration {
   private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
   private boolean useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
   private boolean noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
+  private boolean includeTrackedChanges = DEFAULT_INCLUDE_TRACKED_CHANGES;
+  private boolean enableTmpOffRules = DEFAULT_ENABLE_TMP_OFF_RULES;
   private boolean saveLoCache = DEFAULT_SAVE_LO_CACHE;
   private String externalRuleDirectory;
   private String lookAndFeelName;
@@ -283,6 +289,8 @@ public class Configuration {
     markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
     useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
     noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
+    includeTrackedChanges = DEFAULT_INCLUDE_TRACKED_CHANGES;
+    enableTmpOffRules = DEFAULT_ENABLE_TMP_OFF_RULES;
     saveLoCache = DEFAULT_SAVE_LO_CACHE;
     externalRuleDirectory = null;
     lookAndFeelName = null;
@@ -339,6 +347,8 @@ public class Configuration {
     this.markSingleCharBold = configuration.markSingleCharBold;
     this.useLtDictionary = configuration.useLtDictionary;
     this.noSynonymsAsSuggestions = configuration.noSynonymsAsSuggestions;
+    this.includeTrackedChanges = configuration.includeTrackedChanges;
+    this.enableTmpOffRules = configuration.enableTmpOffRules;
     this.saveLoCache = configuration.saveLoCache;
     this.otherServerUrl = configuration.otherServerUrl;
     this.remoteUsername = configuration.remoteUsername;
@@ -578,6 +588,22 @@ public class Configuration {
 
   public boolean noSynonymsAsSuggestions() {
     return noSynonymsAsSuggestions;
+  }
+  
+  public void setIncludeTrackedChanges(boolean includeTrackedChanges) {
+    this.includeTrackedChanges = includeTrackedChanges;
+  }
+
+  public boolean includeTrackedChanges() {
+    return includeTrackedChanges;
+  }
+  
+  public void setEnableTmpOffRules(boolean enableTmpOffRules) {
+    this.enableTmpOffRules = enableTmpOffRules;
+  }
+
+  public boolean enableTmpOffRules() {
+    return enableTmpOffRules;
   }
   
   public void setSaveLoCache(boolean saveLoCache) {
@@ -1339,6 +1365,16 @@ public class Configuration {
       noSynonymsAsSuggestions = Boolean.parseBoolean(noSynonymsAsSuggestionsString);
     }
     
+    String includeTrackedChangesString = (String) props.get(prefix + INCLUDE_TRACKED_CHANGES_KEY);
+    if (includeTrackedChangesString != null) {
+      includeTrackedChanges = Boolean.parseBoolean(includeTrackedChangesString);
+    }
+    
+    String enableTmpOffRulesString = (String) props.get(prefix + ENABLE_TMP_OFF_RULES_KEY);
+    if (enableTmpOffRulesString != null) {
+      enableTmpOffRules = Boolean.parseBoolean(enableTmpOffRulesString);
+    }
+    
     String saveLoCacheString = (String) props.get(prefix + SAVE_LO_CACHE_KEY);
     if (saveLoCacheString != null) {
       saveLoCache = Boolean.parseBoolean(saveLoCacheString);
@@ -1568,6 +1604,8 @@ public class Configuration {
     allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
     allProfileKeys.add(USE_LT_DICTIONARY_KEY);
     allProfileKeys.add(NO_SYNONYMS_AS_SUGGESTIONS_KEY);
+    allProfileKeys.add(INCLUDE_TRACKED_CHANGES_KEY);
+    allProfileKeys.add(ENABLE_TMP_OFF_RULES_KEY);
     allProfileKeys.add(SAVE_LO_CACHE_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
@@ -1672,6 +1710,12 @@ public class Configuration {
     }
     if (noSynonymsAsSuggestions != DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS) {
       props.setProperty(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY, Boolean.toString(noSynonymsAsSuggestions));
+    }
+    if (includeTrackedChanges != DEFAULT_INCLUDE_TRACKED_CHANGES) {
+      props.setProperty(prefix + INCLUDE_TRACKED_CHANGES_KEY, Boolean.toString(includeTrackedChanges));
+    }
+    if (enableTmpOffRules != DEFAULT_ENABLE_TMP_OFF_RULES) {
+      props.setProperty(prefix + ENABLE_TMP_OFF_RULES_KEY, Boolean.toString(enableTmpOffRules));
     }
     if (saveLoCache != DEFAULT_SAVE_LO_CACHE) {
       props.setProperty(prefix + SAVE_LO_CACHE_KEY, Boolean.toString(saveLoCache));
