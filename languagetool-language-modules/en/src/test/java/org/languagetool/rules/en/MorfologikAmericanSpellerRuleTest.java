@@ -156,6 +156,12 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("The statements¹ of⁷ the⁵⁰ government⁹‽")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o'clock.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o’clock.")).length);
+
+    // multiwords.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("C'est la vie.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("c’est la guerre!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Andorra la Vella is the capital and largest city of Andorra.")).length);
+
     
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
