@@ -14227,6 +14227,48 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="add"><wd pos="RB"/><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
+        <rule id="POR_FAVOR" name="Ignore spelling of 'por favor'">
+            <pattern>
+                <token>por</token>
+                <token>favor</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule id="DE_LOS" name="Ignore spelling of 'los'/'las' in proper nouns">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                <token min="0" regexp="yes">de|y</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">l[ao]s</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule id="POR_LA" name="Ignore spelling of 'por' in NEs">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                <marker>
+                    <token>por</token>
+                    <token regexp="yes">el|los|las?</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="FOREIGN_TERM_ARABIC" name="Ignore spelling of 'al' in proper nouns">
+        <rule id="AL" name="Abdullah al (ignore spelling) Sharbi">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                <marker>
+                    <token regexp="yes">[ae]l</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
     </rulegroup>
 
     <rulegroup id="SENTENCE_ADVERBIALS" name="Adverbial phrases at the start of a sentence"><!-- #2213 -->
