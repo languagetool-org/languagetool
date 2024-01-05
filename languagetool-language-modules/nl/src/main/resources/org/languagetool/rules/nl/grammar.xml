@@ -660,6 +660,19 @@ regexp case-insensitive maken: (?i)
 				<example correction="bevestigings-e-mail">Ik heb de <marker>bevestigingse-mail</marker> niet ontvangen.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="PERSONEELS_BESTAND" name="personeelsbestand">
+			<rule>
+				<pattern>
+					<marker>
+						<token>personeels</token>
+						<token postag="ZNW:EKV:HET"/>
+					</marker>
+				</pattern>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion>\1\2</suggestion>
+				<example correction="personeelsbestand">Ik zoek het <marker>personeels bestand</marker>.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
@@ -14332,15 +14345,22 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="HOOFDLETTERS_OVERBODIG_A" name="Woorden middenin de zin die ook klein geschreven mogen worden." type="misspelling" tags="picky">
 			<rule>
+				<antipattern>
+				    <token spacebefore="no">JPG</token>
+				    <example>Kijk eens naar voorbeeld1.JPG</example>
+				</antipattern>
 				<pattern>
 					<token><exception postag="SENT_START"/></token>
 					<marker>
-						<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC|BSO|AIDS|HR|HTTP|JPG|JPEG|IVF|OV</token>
+						<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC|BSO|AIDS|HR|HTTP|JPG|JPEG|IVF|OV
+							<exception scope="next" regexp="yes">[/+]</exception> 
+						</token>
 					</marker>
 				</pattern>
 				<message>Dit woord hoeft niet met hoofdletters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
 				<example correction="btw">Ik boek de <marker>BTW</marker>.</example>
 				<example correction="cd">Boek met <marker>CD</marker>.</example>
+				<example>We gebruiken HR+ glas.</example>
 			</rule>
 			<rule>
 				<antipattern>
@@ -24835,6 +24855,28 @@ regexp case-insensitive maken: (?i)
                 <example correction="”">Hij drukte op de "Vind ik leuk<marker>"</marker>-knop.</example>
             </rule>
         </rulegroup>
+
+		<rulegroup id="VERSCHILLENDE_AANHALINGSTEKENS" name="Voor aanhalingstekens die niet overeenkomen">
+			<rule>
+			    <antipattern>
+			        <token skip="-1">"</token>
+			        <token>"</token>
+			    </antipattern>
+			    <antipattern>
+			        <token regexp="yes" skip="-1">"|“</token>
+			        <token>”</token>
+			    </antipattern>
+				<pattern>
+				    <token skip="-1">“</token>
+					<marker>
+						<token spacebefore="no">"</token>
+					</marker>
+				</pattern>
+				<message>Omdat u eerder een typografisch openingsteken gebruikte, hoort hier vast ook een vergelijkbaar sluitingsteken.</message>
+				<suggestion>”</suggestion>
+				<example correction="”">“Doe hem de groetjes<marker>"</marker>, zei Jacob.</example>
+			</rule>
+		</rulegroup>
 
 		<rulegroup id="BULLET_SPATIE" name="Zet na een bullet een spatie" tags="picky">
 			<rule>
