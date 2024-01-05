@@ -199,6 +199,7 @@ public class DocumentTextCache implements Serializable {
       List<List<Integer>> toParaMapping = new ArrayList<>();
       List<Integer> sortedTextIds;
       clear();
+      boolean withDeleted = document.getMultiDocumentsHandler().getConfiguration().includeTrackedChanges();
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         toParaMapping.add(new ArrayList<Integer>());
       }
@@ -211,12 +212,12 @@ public class DocumentTextCache implements Serializable {
         MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: docCursor == null: return");
         return;
       }
-      documentTexts.set(CURSOR_TYPE_TEXT, docCursor.getAllTextParagraphs());
-      documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables());
-      documentTexts.set(CURSOR_TYPE_SHAPE, docCursor.getTextOfAllShapes());
-      documentTexts.set(CURSOR_TYPE_FOOTNOTE, docCursor.getTextOfAllFootnotes());
-      documentTexts.set(CURSOR_TYPE_ENDNOTE, docCursor.getTextOfAllEndnotes());
-      documentTexts.set(CURSOR_TYPE_HEADER_FOOTER, docCursor.getTextOfAllHeadersAndFooters());
+      documentTexts.set(CURSOR_TYPE_TEXT, docCursor.getAllTextParagraphs(withDeleted));
+      documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables(withDeleted));
+      documentTexts.set(CURSOR_TYPE_SHAPE, docCursor.getTextOfAllShapes(withDeleted));
+      documentTexts.set(CURSOR_TYPE_FOOTNOTE, docCursor.getTextOfAllFootnotes(withDeleted));
+      documentTexts.set(CURSOR_TYPE_ENDNOTE, docCursor.getTextOfAllEndnotes(withDeleted));
+      documentTexts.set(CURSOR_TYPE_HEADER_FOOTER, docCursor.getTextOfAllHeadersAndFooters(withDeleted));
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         if(documentTexts.get(i) == null) {
           documentTexts.set(i, new DocumentText());

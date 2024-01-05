@@ -55,7 +55,7 @@ import com.sun.star.uno.XComponentContext;
 public class LtSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
-  private static final int MAX_WRONG = 100;
+  private static final int MAX_WRONG = 10000;
   
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
