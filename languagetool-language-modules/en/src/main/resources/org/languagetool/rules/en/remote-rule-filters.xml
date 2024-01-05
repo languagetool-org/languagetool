@@ -4374,6 +4374,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Social media this week is flooded with images that might or might not come from Israel and Gaza, and there are lots of calls of ‘Generative AI fakes!’ (In principle, if you don’t want to believe it, it must be a <marker>fake</marker>)</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_MISSING_PUNCTUATION_QUOTE" name="">
+            <rule>  <!-- don't insert inconsistent quote and delete space -->
+                <pattern>
+                    <token skip="-1">“
+                        <exception regexp="yes" scope="next">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token postag="PARA_END" />
+                    </marker>
+                </pattern>
+                <example correction="">“Nope.<marker> </marker></example>
+                <example correction="">“My husband’s right.<marker> </marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_CONFUSION" name="">
             <rule>
                 <pattern>
@@ -4383,6 +4397,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">The team <marker>lead</marker> thought that the numbers were correct.</example>
+            </rule>
+            <rule>  <!-- sentence-final 'nevertheless' -->
+                <pattern>
+                    <marker>
+                        <token>nevertheless</token>
+                    </marker>
+                    <token postag="SENT_END" />
+                </pattern>
+                <example correction="">She had a headache but completed all her tasks <marker>nevertheless</marker>.</example>
+                <example correction="">She has a busy schedule but makes time for her kids <marker>nevertheless</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_CONJUNCTION" name="">
@@ -4458,6 +4482,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">We need this by 9:00 <marker>am</marker> tomorrow.</example>
                 <example correction="">Send me the corrections by 5 <marker>PM</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_NOUN_FORM" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">anglicisms?|litigations?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Experience includes trademark, trade dress, trade secret, and patent <marker>litigations</marker> in numerous disciplines.</example>
+                <example correction="">I want to find alternatives to <marker>anglicisms</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
@@ -4605,6 +4640,104 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">...the committee's affordability analysis, and a number of other factors relevant to the ability of the <marker>State</marker> to meet its projected debt service requirements for the next 5 years.</example>
                 <example correction="">This blog is the beginning of a series on the <marker>State</marker>'s capital budget process.</example>
             </rule>
+            <rule>  <!-- job titles (super common disable) -->
+                <pattern>
+                    <marker>
+                        <token skip="2" regexp="yes" case_sensitive="yes">Assistant|Executive|Lead|Junior|Program|Project|Security|Senior</token>
+                        <token regexp="yes" case_sensitive="yes">Analysts?|Commissioners?|Developers?|Directors?|Engineers?|Managers?</token>
+                    </marker>
+                </pattern>
+                <example correction="">He'll be joining De Anza Lab as an <marker>Assistant Director</marker>.</example>
+                <example correction="">However, our <marker>Program Managers</marker> have dealt with this before and will be happy to help.</example>
+            </rule>
+            <rule>  <!-- acronyms -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                    </marker>
+                    <token>(</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]{2,4}</token>
+                    <token>)</token>
+                </pattern>
+                <example correction="">Deep <marker>Reinforcement Learning</marker> (DRL) is a very active research area.</example>
+                <example correction="">He submitted a new <marker>Change Request</marker> (CR).</example>
+            </rule>
+            <rule>  <!-- don't de-capitalize first word of sentence -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token skip="-1" regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                    </marker>
+                    <token regexp="yes" postag="SENT_END">[\.\?\!]</token>
+                </pattern>
+                <example correction=""><marker>Characterizes</marker> invertebrates and compares them with vertebrates.</example>
+                <example correction=""><marker>Identifies</marker> the location and functions of the senses of hearing, sight, and touch and thinks of ways to protect them.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_ALLUPPER" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token min="0" postag="," />
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    </marker>
+                    <token min="0" postag="," />
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                </pattern>
+                <example correction="">3. Exclusion of Certain Damages. Purchaser will not be liable under any circumstances for any lost profits or INDIRECT, <marker>INCIDENTAL</marker>, CONSEQUENTIAL or special damages, even if it has notice of that those kinds of damages may occur.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    </marker>
+                    <token min="0" postag="," />
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token min="0" postag="," />
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                </pattern>
+                <example correction="">3. Exclusion of Certain Damages. Purchaser will not be liable under any circumstances for any lost profits or <marker>INDIRECT</marker>, INCIDENTAL, CONSEQUENTIAL or special damages, even if it has notice of that those kinds of damages may occur.</example>
+            </rule>
+            <rule>
+                <pattern>   <!-- all caps -->
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]{2,30}</token>
+                    </marker>
+                </pattern>
+                <example correction="">..., you have the <marker>RIGHT</marker> to:</example>
+            </rule>
+            <rule>  <!-- all caps -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    </marker>
+                </pattern>
+                <example correction="">Hit the <marker>DELETE</marker> key on your keyboard.</example>
+            </rule>
+            <rule>  <!-- all caps; I can't add an example sentence for it, but the rule triggers even when the entire sentence is all caps -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]+
+                            <exception case_sensitive="yes">I</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">I really need to get this done, but I can't because of this <marker>DONKEY</marker>!</example>
+            </rule>
+            <rule>  <!-- A.M./P.M. -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[AP]</token>
+                        <token>.</token>
+                        <token case_sensitive="yes">M</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <example correction="">In this hotel breakfast is served from 7:00 <marker>A.M.</marker> to 10:00 p.m.</example>
+                <example correction="">In this hotel breakfast is served from 7:00 a.m. to 10:00 <marker>P.M.</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_ORTHOGRAPHY_OTHERCASE" name="">
             <rule>  <!-- capitalization of covid-19 -->
@@ -4626,10 +4759,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Ferdinand Karl <marker>Piëch</marker> was an Austrian business magnate, engineer, and executive.</example>
                 <example correction="">There are also some commonly used words that end in a vowel and yet are masculine: <marker>баща</marker> 'father', and others.</example>
                 <example correction="">In February 1979, in Istanbul, under orders from the Grey Wolves, he murdered Abdi <marker>İpekçi</marker>, editor of the major Turkish newspaper Milliyet.</example>
+                <example correction="">On 1 February 1979, in Istanbul, under orders from the Grey Wolves, he murdered Abdi <marker>İpekçi</marker>, editor of the major Turkish newspaper Milliyet.</example>
                 <example correction="">The importance lies in sacrifice for the sake of the greater good; Islam considers those practicing <marker>īthār</marker> as abiding by the highest degree of nobility.</example>
                 <example correction="">She makes dresses for wedding and <marker>quinceañera</marker> celebrations.</example>
                 <example correction="">Have you ever been to <marker>Wrocław</marker> in Poland?</example>
                 <example correction="">After serving six months, he escaped with the help of Abdullah <marker>Çatlı</marker>, second-in-command of the Grey Wolves, and fled to Bulgaria, which was a base of operations for the Turkish mafia.</example>
+            </rule>
+            <rule> <!-- non-English characters -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
+                        <token />
+                        <token />
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction="">Komisar added that at the scene of the Mercedes-Benz crash where he died, he was found with a passport under the name of "Mehmet <marker>Özbay" — an</marker> alias also used by Ağca.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4764,6 +4909,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">on Thursday at <marker>~6</marker> CST</example>
             </rule>
+            <rule>  <!-- deleting hyphens -->
+                <pattern>
+                    <marker>
+                        <token skip="-1">`</token>
+                        <token>`</token>
+                    </marker>
+                </pattern>
+                <example correction="">AI'd say updating without <marker>`--no update`</marker> is something the maintainers can do once in a while (i.e. you and I).</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_PUNCTUATION" name="">
             <rule>  <!-- don't replace typographical ellipsis -->
@@ -4771,6 +4925,173 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>…</token>
                 </pattern>
                 <example correction="">I was thinking<marker>…</marker></example>
+                <example correction="">When can I expect an update on<marker>…</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">'
+                        <exception scope="next" regexp="yes">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token>'</token>
+                    </marker>
+                </pattern>
+                <example correction="">3M pays $10.3 billion to settle a water pollution suit over 'forever chemicals<marker>'</marker></example>
+            </rule>
+            <rule>  <!-- only insert comma if next word is lowercase -->
+                <pattern>
+                    <marker>
+                        <token max="2" regexp="yes">[-–—]</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">([A-Z]|[0-9])+.*</token>
+                </pattern>
+                <example correction="">Cuban Historical and Literary Manuscript Collection <marker>–</marker> University of Miami Libraries Digital Collections</example>
+                <example>Neural technology - which includes all drugs, biologics, and devices related with diagnostics and therapeutics of the brain and nervous systems</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">'
+                        <exception scope="next" regexp="yes">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token>'</token>
+                    </marker>
+                </pattern>
+                <example correction="">The EU filed a 'Statement of Objection<marker>'</marker> arguing that Google's ad network and ad tech tools (about 12% of revenue) should be split apart from the rest of the company.</example>
+                <example correction="">Tim O'Reilly said a while ago that 'data isn't oil; data is sand<marker>'</marker> and that applies here.</example>
+            </rule>
+            <rule>  <!-- single quotes pt. I -->
+                <pattern>
+                    <marker>
+                        <token max="2" />
+                        <token skip="-1" regexp="yes">&apostrophe;</token>
+                    </marker>
+                    <token regexp="yes">&apostrophe;</token>
+                </pattern>
+                <example correction="">An intriguing job posting from the New York <marker>Times - ‘</marker>newsroom generative AI lead’.</example>
+            </rule>
+            <rule>  <!-- single quotes pt. II -->
+                <pattern>
+                    <marker>
+                        <token />
+                        <token min="0" postag="PCT|UNKNOWN" postag_regexp="yes" />
+                        <token regexp="yes">&apostrophe;</token>
+                        <token skip="-1" />
+                    </marker>
+                    <token regexp="yes">&apostrophe;</token>
+                </pattern>
+                <example correction="">I was having lunch with a friend (also a former equity analyst), and mentioned ten things that had happened that he’d been too busy to see, and he <marker>said ‘you</marker> should do a newsletter!’</example>
+            </rule>
+            <rule>  <!-- curly to straight quotes - opening  pt. I -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">“|‘</token>
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction="">This is <marker>“a</marker> new test" to check quotes.</example>
+                <example correction="">They had to have a <marker>‘birds</marker> and bees" conversation.</example>
+            </rule>
+            <rule>  <!-- curly to straight quotes - opening  pt. II -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">“|‘</token>
+                        <token />
+                        <token regexp="yes">['’].+</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>“You’d</marker> know."</example>
+                <example correction=""><marker>“I'm</marker> not mad at you...</example>
+            </rule>
+            <rule>  <!-- curly to straight quotes - closing pt. I -->
+                <pattern>
+                    <marker>
+                        <token><exception postag="PCT" /></token>
+                        <token min="0" postag="PCT" />
+                        <token regexp="yes">”|’</token>
+                    </marker>
+                </pattern>
+                <example correction="">This is "a new <marker>test”</marker> to check quotes.</example>
+                <example correction="">They had to have a "birds and <marker>bees’</marker> conversation.</example>
+                <example correction="">“Everything <marker>alright?”</marker></example>
+            </rule>
+            <rule>  <!-- curly to straight quotes - closing pt. II -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">”|’</token>
+                    </marker>
+                </pattern>
+                <example correction="">“Yes.<marker>”</marker></example>
+            </rule>
+            <rule>  <!-- curly apostrophes to straight quotes -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[‘'“]</token>
+                        <token />
+                        <token regexp="yes">[’'”]</token>
+                    </marker>
+                </pattern>
+                <example correction="">He took up employment at <marker>‘Securonix’</marker>.</example>
+                <example correction="">There is no <marker>'average'</marker>.</example>
+                <example correction="">The checker is saying that the word <marker>“strongness”</marker> is wrong, but the word is right.</example>
+            </rule>
+            <rule>  <!-- don't replace apostrophes used as quotes - opening -->
+                <pattern>
+                    <marker>
+                        <token>'</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">&quote;</exception></token>
+                    </marker>
+                    <token>'</token>
+                </pattern>
+                <example correction="">Please explain the grammar of <marker>'as</marker> may be'.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <token skip="10" postag="VBN" chunk_re=".-VP" />
+                    <token chunk_re="B-(PP|SBAR)">that</token>
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token regexp="yes" postag="VB[DN]" postag_regexp="yes">cost|hit|hurt|let|put|quit|set|shut|split|spread</token>
+                    </marker>
+                </pattern>
+                <example correction="">Or have you been so cold that your face <marker>hurt</marker> from being outside?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_VERB_TENSE" name=""> <!-- this rule should be a style rule -->
+            <rule>  <!-- spellings that are acceptable in other dialects -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">burnt|benefitted|dreamt|learnt|pled|smelt</token>
+                    </marker>
+                </pattern>
+                <example correction="">I <marker>dreamt</marker> about becoming very rich.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_QB_GGEC_REPLACEMENT_WORD_ORDER" name="">
+            <rule>  <!-- don't move period -->
+                <pattern>
+                    <marker>
+                        <token />
+                        <token>)</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <example correction="">(trojan virus of mine uses a remote-control feature, which functions similarly to <marker>TeamViewer).</marker></example>
+            </rule>
+            <rule>  <!-- don't move period inside of quote -->
+                <pattern>
+                    <marker>
+                        <token />
+                        <token regexp="yes">'|"|”</token>
+                    </marker>
+                    <token>.</token>
+                </pattern>
+                <example correction="">Country musicians began recording boogie in 1939, shortly after it had been played at Carnegie Hall, when Johnny Barfield recorded "Boogie <marker>Woogie"</marker>.</example>
+                <example correction="">Please explain the grammar of 'as may <marker>be'</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_QB_GGEC_UNNECESSARY_ADPOSITION" name="">
