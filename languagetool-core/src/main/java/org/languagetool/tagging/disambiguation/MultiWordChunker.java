@@ -22,6 +22,7 @@ package org.languagetool.tagging.disambiguation;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -137,10 +138,19 @@ public class MultiWordChunker extends AbstractDisambiguator {
         String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());
         String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:tokenAndTag[1]), Function.identity());
         tokens.add(originalToken);
+        // We now understand this to also allow for titlecase.
         if (allowFirstCapitalized) {
           String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
           if (!mFull.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
             tokens.add(tokenFirstCapitalized);
+          }
+          String tokenNaivelyTitlecased = WordUtils.capitalize(originalToken);
+          if (!tokenNaivelyTitlecased.equals(tokenFirstCapitalized) && !mFull.containsKey(tokenNaivelyTitlecased) && !originalToken.equals(tokenNaivelyTitlecased)) {
+            tokens.add(tokenNaivelyTitlecased);
+          }
+          String tokenSmartlyTitlecased = StringTools.titlecaseGlobal(originalToken);
+          if (!tokenSmartlyTitlecased.equals(tokenNaivelyTitlecased) && !mFull.containsKey(tokenSmartlyTitlecased) && !originalToken.equals(tokenSmartlyTitlecased)) {
+            tokens.add(tokenSmartlyTitlecased);
           }
         }
         if (allowAllUppercase) {
