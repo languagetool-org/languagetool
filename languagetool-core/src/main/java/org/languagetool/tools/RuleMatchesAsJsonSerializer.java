@@ -96,11 +96,11 @@ public class RuleMatchesAsJsonSerializer {
             hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint, null);
   }
 
-    /**
-     * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
-     *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
-     * @since 5.3
-     */
+  /**
+   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+   *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
+   * @since 5.3
+   */
   public String ruleMatchesToJson2(List<CheckResults> res, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                    DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint, JLanguageTool.Mode mode) {
     ContextTools contextTools = new ContextTools();
