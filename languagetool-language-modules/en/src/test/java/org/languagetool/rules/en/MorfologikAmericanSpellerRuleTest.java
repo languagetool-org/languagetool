@@ -161,6 +161,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("C'est la vie.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("c’est la guerre!")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Andorra la Vella is the capital and largest city of Andorra.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("bona fides.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("doctor honoris causa")).length);
 
     
     // test words in language-specific spelling_en-US.txt
