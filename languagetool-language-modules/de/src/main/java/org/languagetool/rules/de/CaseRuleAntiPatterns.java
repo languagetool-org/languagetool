@@ -1721,6 +1721,14 @@ class CaseRuleAntiPatterns {
       posRegex("SUB.*")
     ),
     Arrays.asList(
+      //  Ich würde ihn dann im Februar mal nach Potsdam schicken, damit die beiden das planen/entwickeln können.
+      csToken("das"),
+      posRegex("VER:INF.*"),
+      csRegex("und|oder|&|beziehungsweise|/|\\+"),
+      posRegex("VER:INF.*|UNKNOWN"),
+      posRegex("VER:(MOD|AUX).*")
+    ),
+    Arrays.asList(
       // Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...
       csToken(":"),
       csRegex("[\"”„»«]"),
