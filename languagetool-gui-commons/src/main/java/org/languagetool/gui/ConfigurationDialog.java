@@ -1030,6 +1030,22 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(noSynonymsAsSuggestionsBox, cons);
 
+    JCheckBox includeTrackedChangesBox = new JCheckBox(Tools.getLabel(messages.getString("guiIncludeTrackedChanges")));
+    includeTrackedChangesBox.setSelected(config.includeTrackedChanges());
+    includeTrackedChangesBox.addItemListener(e -> {
+      config.setIncludeTrackedChanges(includeTrackedChangesBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(includeTrackedChangesBox, cons);
+
+    JCheckBox enableTmpOffRulesBox = new JCheckBox(Tools.getLabel(messages.getString("guiActivateTempOffRules")));
+    enableTmpOffRulesBox.setSelected(config.enableTmpOffRules());
+    enableTmpOffRulesBox.addItemListener(e -> {
+      config.setEnableTmpOffRules(enableTmpOffRulesBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(enableTmpOffRulesBox, cons);
+
     JCheckBox noBackgroundCheckBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoBackgroundCheck")));
     noBackgroundCheckBox.setSelected(config.noBackgroundCheck());
     noBackgroundCheckBox.addItemListener(e -> config.setNoBackgroundCheck(noBackgroundCheckBox.isSelected()));

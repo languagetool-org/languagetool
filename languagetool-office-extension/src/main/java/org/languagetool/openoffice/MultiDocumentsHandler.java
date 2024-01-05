@@ -1023,6 +1023,17 @@ public class MultiDocumentsHandler {
     if (debugModeTm) {
       startTime = System.currentTimeMillis();
     }
+    if (config.enableTmpOffRules()) {
+      //  enable TempOff rules if configured
+      List<Rule> allRules = lt.getAllRules();
+      MessageHandler.printToLogFile("initCheck: enableTmpOffRules: true");
+      for (Rule rule : allRules) {
+        if (rule.isDefaultTempOff()) {
+          MessageHandler.printToLogFile("initCheck: enableTmpOffRule: " + rule.getId());
+          lt.enableRule(rule.getId());
+        }
+      }
+    }
     Set<String> disabledRuleIds = config.getDisabledRuleIds();
     if (disabledRuleIds != null) {
       // copy as the config thread may access this as well
