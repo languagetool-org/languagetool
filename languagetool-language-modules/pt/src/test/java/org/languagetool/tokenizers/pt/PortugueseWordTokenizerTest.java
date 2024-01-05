@@ -67,6 +67,8 @@ public class PortugueseWordTokenizerTest {
     testTokenise("sex-appeal", new String[]{"sex-appeal"});
     testTokenise("Aix-en-Provence", new String[]{"Aix-en-Provence"});
     testTokenise("Montemor-o-Novo", new String[]{"Montemor-o-Novo"});
+    testTokenise("Andorra-a-Velha", new String[]{"Andorra-a-Velha"});
+    testTokenise("Tsé-Tung", new String[]{"Tsé-Tung"});
   }
 
   @Test
@@ -117,6 +119,11 @@ public class PortugueseWordTokenizerTest {
     testTokenise("5£", new String[]{"5", "£"});
     testTokenise("US$249,99", new String[]{"US$", "249,99"});
     testTokenise("€2.000,00", new String[]{"€", "2.000,00"});
+  }
+
+  @Test
+  public void testTokeniseSplitsPercent() {
+    testTokenise("50%OFF", new String[]{"50%", "OFF"});
   }
 
   @Test

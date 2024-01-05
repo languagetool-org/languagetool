@@ -18,13 +18,11 @@
  */
 package org.languagetool.tokenizers.pt;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.StringTokenizer;
 
+import com.google.common.base.Splitter;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -56,7 +54,6 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   // space between digits
   private static final Pattern DECIMAL_SPACE_PATTERN = compile("(?<=^|[\\s(])\\d{1,3}( [\\d]{3})+(?=[\\s(]|$)", CASE_INSENSITIVE| UNICODE_CASE);
 
-
   // dots in numbers
   private static final Pattern DOTTED_NUMBERS_PATTERN = compile("([\\d])\\.([\\d])", CASE_INSENSITIVE| UNICODE_CASE);
   private static final String DOTTED_NUMBERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
@@ -79,31 +76,31 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   private static final String HYPHEN_REPL = "$1" + HYPHEN_SUBST + "$2";
   private static final Pattern NEARBY_HYPHENS_PATTERN = compile("([\\p{L}])-([\\p{L}])-([\\p{L}])", CASE_INSENSITIVE | UNICODE_CASE);
   private static final String NEARBY_HYPHENS_REPL = "$1" + HYPHEN_SUBST + "$2" + HYPHEN_SUBST + "$3";
-
-  private final String PT_TOKENISING_CHARS = getTokenizingCharacters() + "⌈⌋″©";
+  private final String PT_TOKENISING_CHARS = getTokenizingCharacters() + "⌈⌋″©%";
 
   public PortugueseWordTokenizer() {
     tagger = new PortugueseTagger();
   }
 
   @Override
-  public List<String> tokenize(String text) {
+  public List<String> tokenize(final String text) {
+    String tokenisedText = text;  // it's really bad practice to reassign method params imo...
 
-    if (text.contains(",")) {
-      text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll(DECIMAL_COMMA_REPL);
+    if (tokenisedText.contains(",")) {
+      tokenisedText = DECIMAL_COMMA_PATTERN.matcher(tokenisedText).replaceAll(DECIMAL_COMMA_REPL);
     }
 
     // if period is not the last character in the sentence
-    int dotIndex = text.indexOf('.');
-    boolean dotInsideSentence = dotIndex >= 0 && dotIndex < text.length() - 1;
+    int dotIndex = tokenisedText.indexOf('.');
+    boolean dotInsideSentence = dotIndex >= 0 && dotIndex < tokenisedText.length() - 1;
     if (dotInsideSentence) {
-      text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
-      text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(DOTTED_NUMBERS_REPL);
-      text = DOTTED_ORDINALS_PATTERN.matcher(text).replaceAll(DOTTED_ORDINALS_REPL);
+      tokenisedText = DATE_PATTERN.matcher(tokenisedText).replaceAll(DATE_PATTERN_REPL);
+      tokenisedText = DOTTED_NUMBERS_PATTERN.matcher(tokenisedText).replaceAll(DOTTED_NUMBERS_REPL);
+      tokenisedText = DOTTED_ORDINALS_PATTERN.matcher(tokenisedText).replaceAll(DOTTED_ORDINALS_REPL);
     }
 
     // 2 000 000
-    Matcher spacedDecimalMatcher = DECIMAL_SPACE_PATTERN.matcher(text);
+    Matcher spacedDecimalMatcher = DECIMAL_SPACE_PATTERN.matcher(tokenisedText);
     if (spacedDecimalMatcher.find()) {
       StringBuffer sb = new StringBuffer();
       do {
@@ -113,29 +110,38 @@ public class PortugueseWordTokenizer extends WordTokenizer {
         spacedDecimalMatcher.appendReplacement(sb, splitNumberAdjusted);
       } while (spacedDecimalMatcher.find());
       spacedDecimalMatcher.appendTail(sb);
-      text = sb.toString();
+      tokenisedText = sb.toString();
     }
 
     // 12:25
-    if (text.contains(":")) {
-      text = COLON_NUMBERS_PATTERN.matcher(text).replaceAll(COLON_NUMBERS_REPL);
+    if (tokenisedText.contains(":")) {
+      tokenisedText = COLON_NUMBERS_PATTERN.matcher(tokenisedText).replaceAll(COLON_NUMBERS_REPL);
     }
-    if (text.contains("-")) {
-      text = NEARBY_HYPHENS_PATTERN.matcher(text).replaceAll(NEARBY_HYPHENS_REPL);
-      text = HYPHEN_PATTERN.matcher(text).replaceAll(HYPHEN_REPL);
+    if (tokenisedText.contains("-")) {
+      tokenisedText = NEARBY_HYPHENS_PATTERN.matcher(tokenisedText).replaceAll(NEARBY_HYPHENS_REPL);
+      tokenisedText = HYPHEN_PATTERN.matcher(tokenisedText).replaceAll(HYPHEN_REPL);
     }
 
     List<String> tokenList = new ArrayList<>();
-    StringTokenizer st = new StringTokenizer(text, PT_TOKENISING_CHARS, true);
+    StringTokenizer st = new StringTokenizer(tokenisedText, PT_TOKENISING_CHARS, true);
     while (st.hasMoreElements()) {
       String token = st.nextToken();
+      // make sure we join the % sign with the previous token, if it ends in a digit
+      if (Objects.equals(token, "%")) {
+        int lastIndex = tokenList.size() - 1;
+        String lastToken = tokenList.get(lastIndex);
+        if (lastToken.matches(".*\\d$")) {
+          tokenList.set(lastIndex, lastToken + "%");
+          continue;
+        }
+      }
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
       token = token.replace(NON_BREAKING_COLON_SUBST, ':');
       token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
       // outside of if as we also replace back sentence-ending abbreviations
       token = token.replace(NON_BREAKING_DOT_SUBST, '.');
       token = HYPHEN_SUBST.matcher(token).replaceAll("-");
-      tokenList.addAll( wordsToAdd(token));
+      tokenList.addAll(wordsToAdd(token));
     }
 
     return joinEMailsAndUrls(tokenList);
