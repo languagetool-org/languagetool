@@ -24017,6 +24017,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+        <rule id="SKAM_YCZENIA_SKADAM_YCZENIA" name="„Skłam życzenia” (Składam życzenia)">
+            <pattern>
+                <marker>
+                <token skip='-1'>Skłam</token>
+                </marker>
+                <token>życzenia</token>
+            </pattern>
+            <message>Czy chodziło o <suggestion>składam</suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example correction='Składam'><marker>Skłam</marker> najserdeczniejsze życzenia drogiej cioci!</example>
+            <example>Składam najserdeczniejsze życzenia drogiej cioci!</example>
+        </rule>
+        <rulegroup id="DO_I_Z_POTWOREM_POWROTEM" name="„Do… i z potworem” (powrotem)">
+            <rule>
+            <pattern>
+                <token skip='-1'>do</token>
+                <token>i</token>
+                <token>z</token>
+                <marker>
+                    <token>potworem</token>
+                </marker>
+            </pattern>
+            <message>Czy chodziło o <suggestion>powrotem</suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example correction='powrotem'>Jadę do Białegostoku i z <marker>potworem</marker>.</example>
+            <example>Jadę do Białegostoku i z powrotem.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>potworem</token>
+                    <token>z</token>
+                    <token>Loch</token>
+                </antipattern>
+                <pattern>
+                    <token>tam</token>
+                    <token>i</token>
+                    <token>z</token>
+                    <marker>
+                        <token>potworem</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>powrotem</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='powrotem'>Jadę tam i z <marker>potworem</marker>.</example>
+                <example>Zobaczyłem się tam i z potworem z Loch Ness.</example>
+            </rule>
+        </rulegroup>
         <rule id="KOCHANKA_GAZOWA" name="„kochanka gazowa” (kuchenka gazowa)">
             <pattern>
                 <unify><feature id="gender"><type id="f"/></feature><feature id="number"/><feature id="case"/>
