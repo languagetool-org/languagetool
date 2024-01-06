@@ -758,11 +758,15 @@ public class English extends Language implements AutoCloseable {
     if (parts.length == 0) {
       return line;
     }
-    String[] formTag = parts[0].split("[\t;]");
+    if (line.contains("+")) {
+      // while the morfologik separator is "+", multiwords with '+' can cause undesired results.
+      return "";
+    }
+    String[] formTag = parts[0].split("\t");
     String form = formTag[0].trim();
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
-      if (tag.startsWith("NNP") ) {
+      if (tag.startsWith("NN") || tag.startsWith("JJ")) {
         return form;
       } else {
         return "";
