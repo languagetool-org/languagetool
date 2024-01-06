@@ -1737,6 +1737,7 @@ public class MultiDocumentsHandler {
         resetIgnoredMatches();
         resetDocumentCaches();
         resetResultCaches(true);
+        LtSpellChecker.resetSpellCache();
         resetDocument();
       } else if ("statisticalAnalyses".equals(sEvent)) {
         StatAnDialog statAnDialog = new StatAnDialog(getCurrentDocument());

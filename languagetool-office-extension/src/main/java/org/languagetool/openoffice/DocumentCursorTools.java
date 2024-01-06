@@ -1423,10 +1423,10 @@ public class DocumentCursorTools {
    */
   public List<Integer> getDeletedCharactersOfTextParagraph(TextParagraph textPara, boolean withDeleted) {
     isBusy++;
-    if (!withDeleted) {
-      return new ArrayList<Integer>();
-    }
     try {
+      if (!withDeleted) {
+        return new ArrayList<Integer>();
+      }
       XParagraphCursor xPCursor = getParagraphCursor(textPara);
       if (xPCursor == null) {
         return null;

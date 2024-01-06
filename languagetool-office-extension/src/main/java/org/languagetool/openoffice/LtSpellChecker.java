@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.JLanguageTool.ParagraphHandling;
+import org.languagetool.openoffice.CacheIO.SpellCache;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -78,6 +79,13 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
       OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
       if (officeInfo == null || officeInfo.osArch.equals("x86")) {
         noLtSpeller = true;
+      } else {
+        CacheIO c = new CacheIO(); 
+        SpellCache sc = c.new SpellCache();
+        if (sc.read()) {
+          lastWrongWords.putAll(sc.getWrongWords());
+          lastSuggestions.putAll(sc.getSuggestions());
+        }
       }
     }
   }
@@ -322,4 +330,17 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     return MultiDocumentsHandler.getServiceDisplayName(locale);
   }
   
+  public static Map<String, List<String>> getWrongWords() {
+    return lastWrongWords;
+  }
+   
+  public static Map<String, List<String[]>> getSuggestions() {
+    return lastSuggestions;
+  }
+  
+  public static void resetSpellCache() {
+    lastWrongWords.clear();
+    lastSuggestions.clear();
+  }
+   
 }

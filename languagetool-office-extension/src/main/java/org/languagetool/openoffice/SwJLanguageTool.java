@@ -401,6 +401,7 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+      text = document.getDocumentCache().getFlatParagraph(nFPara);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
@@ -442,6 +443,7 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+      text = document.getDocumentCache().getFlatParagraph(nFPara);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());

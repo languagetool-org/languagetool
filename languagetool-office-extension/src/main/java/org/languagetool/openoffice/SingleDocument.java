@@ -32,6 +32,7 @@ import java.util.Set;
 
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.CacheIO.SpellCache;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
@@ -679,6 +680,8 @@ public class SingleDocument {
       }
       MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
       cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
+      SpellCache sc = cacheIO.new SpellCache();
+      sc.write(LtSpellChecker.getWrongWords(), LtSpellChecker.getSuggestions());
     }
   }
   
