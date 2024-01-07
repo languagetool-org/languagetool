@@ -420,10 +420,6 @@ public class SwJLanguageTool {
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
-      MessageHandler.printToLogFile("\nTest cache generated:");
-      DocumentCache.printTokenizedSentences(analyzedSentences);
-      MessageHandler.printToLogFile("\nTest direct generated:");
-      DocumentCache.printTokenizedSentences(lt.analyzeText(text));
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     }

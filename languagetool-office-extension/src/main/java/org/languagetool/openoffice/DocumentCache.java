@@ -287,7 +287,7 @@ public class DocumentCache extends DocumentTextCache{
       this.number = number;
     }
   }
-  
+/*  
   public static void printTokenizedSentences(List<AnalyzedSentence> sentences) {
     for (AnalyzedSentence sentence : sentences) {
       String str = "";
@@ -307,7 +307,7 @@ public class DocumentCache extends DocumentTextCache{
       MessageHandler.printToLogFile("Sentence: " + str);
     }
   }
-
+*/
   public static class ChangedRange {
     final public int from;
     final public int to;
