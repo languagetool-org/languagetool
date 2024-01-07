@@ -27,6 +27,10 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 
 import com.sun.star.lang.Locale;
@@ -204,9 +208,10 @@ public class DocumentCache extends DocumentTextCache{
       return null;
     }
     paraText = SingleCheck.removeFootnotes(paraText, 
-        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara)) 
-          + OfficeTools.END_OF_PARAGRAPH;
-    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText);
+        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara));
+//          + OfficeTools.END_OF_PARAGRAPH;
+    AnnotatedText text = new AnnotatedTextBuilder().addText(paraText).build();
+    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(text.getPlainText());
     putAnalyzedParagraph(nFPara, analyzedParagraph);
     return analyzedParagraph;
   }
@@ -235,7 +240,39 @@ public class DocumentCache extends DocumentTextCache{
       if (analyzedParagraph == null) {
         return null;
       }
-      analyzedParagraphs.addAll(analyzedParagraph);
+      if (analyzedParagraph.size() == 0) {
+        int last = analyzedParagraphs.size() - 1;
+        AnalyzedSentence sentence = analyzedParagraphs.get(last);
+        AnalyzedTokenReadings[] tokens = sentence.getTokens();
+        int len = tokens.length;
+        AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[len + 2];
+        for (int k = 0; k < len; k++) {
+          newTokens[k] = tokens[k];
+        }
+        int startPos = tokens[len - 1].getEndPos();
+        newTokens[len] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos);
+        newTokens[len + 1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos + 1);
+        sentence = new AnalyzedSentence(newTokens);
+        analyzedParagraphs.set(last, sentence);
+      } else {
+        for (int j = 0; j < analyzedParagraph.size(); j++) {
+          AnalyzedSentence sentence = analyzedParagraph.get(j);
+          if (j == analyzedParagraph.size() - 1 && i < to.number - 1) {
+            AnalyzedTokenReadings[] tokens = sentence.getTokens();
+            int len = tokens.length;
+            AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[len + 2];
+            for (int k = 0; k < len; k++) {
+              newTokens[k] = tokens[k];
+            }
+            int startPos = tokens[len - 1].getEndPos();
+            newTokens[len] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos);
+            newTokens[len + 1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos + 1);
+            sentence = new AnalyzedSentence(newTokens);
+          }
+          analyzedParagraphs.add(sentence);
+        }
+      }
+//      analyzedParagraphs.addAll(analyzedParagraph);
     }
     return analyzedParagraphs;
   }
@@ -248,6 +285,26 @@ public class DocumentCache extends DocumentTextCache{
     public TextParagraph(int type, int number) {
       this.type = type;
       this.number = number;
+    }
+  }
+  
+  public static void printTokenizedSentences(List<AnalyzedSentence> sentences) {
+    for (AnalyzedSentence sentence : sentences) {
+      String str = "";
+      for (AnalyzedTokenReadings token : sentence.getTokens()) {
+        str += "'" + token.getToken(); 
+        if (token.isSentenceStart()) {
+          str += "{sent start}";
+        }
+        if (token.isSentenceEnd()) {
+          str += "{sent end}";
+        }
+        if (token.isParagraphEnd()) {
+          str += "{para end}";
+        }
+        str += "' ";
+      }
+      MessageHandler.printToLogFile("Sentence: " + str);
     }
   }
 

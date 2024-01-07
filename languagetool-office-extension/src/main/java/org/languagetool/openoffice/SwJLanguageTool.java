@@ -401,33 +401,30 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
-      text = document.getDocumentCache().getFlatParagraph(nFPara);
+//      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
+//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
-      return checkInternal(new AnnotatedTextBuilder().addText(text + OfficeTools.END_OF_PARAGRAPH).build(), paraMode, null, mode, 
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     }
 
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
         TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt) throws IOException {
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+//      text += OfficeTools.END_OF_PARAGRAPH;
+//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
-/*      
-      if ((to - from) > 1) {
-        String texts = "";
-        for (String s : sentences) {
-          texts += s;
-        }
-        MessageHandler.printToLogFile("Text O:" + text);
-        MessageHandler.printToLogFile("Text S:" + texts);
-      }
-*/
-      return checkInternal(new AnnotatedTextBuilder().addText(text + OfficeTools.END_OF_PARAGRAPH).build(), paraMode, null, mode, 
+      MessageHandler.printToLogFile("\nTest cache generated:");
+      DocumentCache.printTokenizedSentences(analyzedSentences);
+      MessageHandler.printToLogFile("\nTest direct generated:");
+      DocumentCache.printTokenizedSentences(lt.analyzeText(text));
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     }
 
@@ -443,23 +440,26 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
-      text = document.getDocumentCache().getFlatParagraph(nFPara);
+//      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
+//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
-      return checkInternal(new AnnotatedTextBuilder().addText(text + OfficeTools.END_OF_PARAGRAPH).build(), paraMode, null, mode, 
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     }
 
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
         TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt) throws IOException {
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+//      text += OfficeTools.END_OF_PARAGRAPH;
+//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
-      return checkInternal(new AnnotatedTextBuilder().addText(text + OfficeTools.END_OF_PARAGRAPH).build(), paraMode, null, mode, 
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     }
 
