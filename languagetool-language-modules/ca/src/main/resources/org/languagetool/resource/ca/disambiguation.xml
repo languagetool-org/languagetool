@@ -4976,6 +4976,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">dimensió|mesura|mida</token>
+                <marker>
+                    <token regexp="yes">micro|macro</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes" inflected="yes">compte|llibre|pel·lícula|programa|espectacle|entrevista|notícia|reportatge</token>
                 <marker>
                     <token>paròdia</token>
@@ -5850,6 +5859,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>estudis</token>
         </pattern>
         <disambig action="filter" postag="NCCS000"/>
+    </rule>
+    <rule id="els_CAP" name="els CAP">
+        <pattern>
+            <token postag="D..M.*" postag_regexp="yes"/>
+            <marker>
+                <token case_sensitive="yes">CAP</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="NCMN000"/>
     </rule>
     <!-- verb imperatiu, infinitiu o gerundi seguit de pronom-->
     <rule id="VERB_PP" name="verb seguit de pronom">
