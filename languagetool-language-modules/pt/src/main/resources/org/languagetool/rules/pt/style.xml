@@ -12855,6 +12855,7 @@ USA
                             <exception case_sensitive='yes'>Aliados</exception>
                             <exception scope='next' regexp='yes'>de|em</exception> <!-- Limited SPS00 -->
                             <exception scope='next' postag_regexp='yes' postag='AQ.+'/> <!-- Exceptions for adjective agreements -->
+                            <exception scope='next' postag_regexp='yes' postag='SPS00:DD0.+|SPS00:PP3.+'/> <!-- Exceptions "dele(s)", "deste(s)"-->
                         </token>
                     </marker>
                 </pattern>
@@ -12869,6 +12870,8 @@ USA
                 <example>No final do ano, o pêndulo da superioridade aérea pendeu mais uma vez a favor dos Aliados.</example>
                 <example>O bispo tomou o cavalo, pondo o rei do adversário em xeque.</example>
                 <example>Enquanto isso, os representantes dos Aliados em Viena, sem o apoio de seus respectivos governos, tentaram derrubar o governo de Kun e substituí-...</example>
+                <example>Para ceifarem as vidas dos inimigos deles e do seu mestre.</example>
+                <example>Para ceifarem as vidas dos inimigos destes e do seu mestre.</example>
             </rule>
 
             <!-- #2: Number/gender agreement depends on using "de|d[ao]s?" -->
@@ -12905,6 +12908,7 @@ USA
                         <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente
                             <exception case_sensitive='yes'>Aliados</exception>
                             <exception scope='next' postag_regexp='yes' postag='AQ.+'/> <!-- Exceptions for adjective agreements -->
+                            <exception scope='next' postag_regexp='yes' postag='SPS00:DD0.+|SPS00:PP3.+'/> <!-- Exceptions "dele(s)", "deste(s)"-->
                         </token>
                     </marker>
                 </pattern>
