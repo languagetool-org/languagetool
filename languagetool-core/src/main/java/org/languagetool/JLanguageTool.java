@@ -46,12 +46,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.JarURLConnection;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
-import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -78,17 +75,30 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
   private static final Pattern ZERO_WIDTH_NBSP = Pattern.compile("(?<=\uFEFF)|(?=\uFEFF)");
 
-  /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "6.4-SNAPSHOT";
-  /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
-  @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
-   * Abbreviated git id or {@code null} if not available.
-   *
-   * @since 4.5
+   * LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}.
+   * @deprecated Please use LtBuildInfo.OS.getVersion() instead.
    */
   @Nullable
-  public static final String GIT_SHORT_ID = getShortGitId();
+  @Deprecated
+  public static final String VERSION = LtBuildInfo.OS.getVersion();
+
+  /**
+   * LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR.
+   * @deprecated Please use LtBuildInfo.OS.getBuildDate() instead.
+   */
+  @Nullable
+  @Deprecated
+  public static final String BUILD_DATE = LtBuildInfo.OS.getBuildDate();
+
+  /**
+   * Abbreviated git id or {@code null} if not available.
+   * @since 4.5
+   * @deprecated Please use LtBuildInfo.OS.getShortGitId() instead.
+   */
+  @Nullable
+  @Deprecated
+  public static final String GIT_SHORT_ID = LtBuildInfo.OS.getShortGitId();
 
   /**
    * The name of the file with error patterns.
@@ -133,48 +143,6 @@ public class JLanguageTool {
   private final ShortDescriptionProvider descProvider;
 
   private float maxErrorsPerWordRate;
-
-  /**
-   * Returns the build date or {@code null} if not run from JAR.
-   */
-  @Nullable
-  private static String getBuildDate() {
-    try {
-      URL res = getDataBroker().getAsURL("/" + JLanguageTool.class.getName().replace('.', '/') + ".class");
-      if (res == null) {
-        // this will happen on Android, see http://stackoverflow.com/questions/15371274/
-        return null;
-      }
-      Object connObj = res.openConnection();
-      if (connObj instanceof JarURLConnection) {
-        Manifest manifest = ((JarURLConnection) connObj).getManifest();
-        if (manifest != null) {
-          return manifest.getMainAttributes().getValue("Implementation-Date");
-        }
-      }
-      return null;
-    } catch (IOException e) {
-      throw new RuntimeException("Could not get build date from JAR", e);
-    }
-  }
-
-  /**
-   * Returns the abbreviated git id or {@code null}.
-   */
-  @Nullable
-  private static String getShortGitId() {
-    try {
-      InputStream in = getDataBroker().getAsStream("/git.properties");
-      if (in != null) {
-        Properties props = new Properties();
-        props.load(in);
-        return props.getProperty("git.commit.id.abbrev");
-      }
-      return null;
-    } catch (IOException e) {
-      throw new RuntimeException("Could not get git id from 'git.properties'", e);
-    }
-  }
 
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
   private static ClassBroker classBroker = new DefaultClassBroker();
