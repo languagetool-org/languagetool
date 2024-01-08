@@ -67,7 +67,7 @@ class V2TextChecker extends TextChecker {
           continue;
         }
         String[] parts = line.split(",");
-        if (parts.length >= 2) {
+        if (parts.length >= 2) {   // there might be more columns for better debugging, but we don't use them here
           try {
             float confidence = Float.parseFloat(parts[1]);
             ruleIdToConfidence.put(parts[0], confidence);
