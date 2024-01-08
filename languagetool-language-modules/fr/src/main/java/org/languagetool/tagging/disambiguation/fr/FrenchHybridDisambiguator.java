@@ -40,7 +40,7 @@ import java.util.List;
 
 public class FrenchHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/fr/multiwords.txt", true, true);
+  private final MultiWordChunker chunker = new MultiWordChunker("/fr/multiwords.txt", true, true, false);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French(), true);
 
   public FrenchHybridDisambiguator() {

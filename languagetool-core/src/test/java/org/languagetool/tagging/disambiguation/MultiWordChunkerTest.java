@@ -39,7 +39,7 @@ public class MultiWordChunkerTest {
 
   @Test
   public void testDisambiguate1() throws IOException {
-    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true, true);
+    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true, true, true);
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("ah for shame");
     AnalyzedSentence disambiguated = multiWordChunker.disambiguate(analyzedSentence);
@@ -103,7 +103,7 @@ public class MultiWordChunkerTest {
 
   @Test
   public void testLettercaseVariants() throws IOException {
-    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true,true);
+    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true, true, true);
     Map<String, AnalyzedToken> map = new HashMap<>();
     map.put("rhythm and blues", new AnalyzedToken("rhythm and blues", "NCMS000_", "rhythm and blues"));
     map.put("Vênus de Milo", new AnalyzedToken("Vênus de Milo", "NCFSS00_", "Vênus de Milo"));

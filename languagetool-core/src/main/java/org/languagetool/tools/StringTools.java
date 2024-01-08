@@ -256,6 +256,19 @@ public final class StringTools {
     return Character.isLowerCase(str.charAt(0));
   }
 
+  public static boolean allStartWithLowercase(String str) {
+    String[] strParts = str.split(" ");
+    if (strParts.length < 2) {
+      return startsWithLowercase(str);
+    }
+      for (String strPart : strParts) {
+        if (!startsWithLowercase(strPart)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
   /**
    * Return <code>str</code> modified so that its first character is now an
    * uppercase character. If <code>str</code> starts with non-alphabetic
