@@ -76,6 +76,7 @@ public class Configuration {
   static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = false;
   static final boolean DEFAULT_INCLUDE_TRACKED_CHANGES = false;
   static final boolean DEFAULT_ENABLE_TMP_OFF_RULES = false;
+  static final boolean DEFAULT_ENABLE_GOAL_SPECIFIC_RULES = false;
   static final boolean DEFAULT_SAVE_LO_CACHE = true;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
@@ -130,6 +131,7 @@ public class Configuration {
   private static final String NO_SYNONYMS_AS_SUGGESTIONS_KEY = "noSynonymsAsSuggestions";
   private static final String INCLUDE_TRACKED_CHANGES_KEY = "includeTrackedChanges";
   private static final String ENABLE_TMP_OFF_RULES_KEY = "enableTmpOffRules";
+  private static final String ENABLE_GOAL_SPECIFIC_RULES_KEY = "enableGoalSpecificRules";
   private static final String SAVE_LO_CACHE_KEY = "saveLoCache";
   private static final String LT_VERSION_KEY = "ltVersion";
 
@@ -199,6 +201,7 @@ public class Configuration {
   private boolean noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
   private boolean includeTrackedChanges = DEFAULT_INCLUDE_TRACKED_CHANGES;
   private boolean enableTmpOffRules = DEFAULT_ENABLE_TMP_OFF_RULES;
+  private boolean enableGoalSpecificRules = DEFAULT_ENABLE_GOAL_SPECIFIC_RULES;
   private boolean saveLoCache = DEFAULT_SAVE_LO_CACHE;
   private String externalRuleDirectory;
   private String lookAndFeelName;
@@ -291,6 +294,7 @@ public class Configuration {
     noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
     includeTrackedChanges = DEFAULT_INCLUDE_TRACKED_CHANGES;
     enableTmpOffRules = DEFAULT_ENABLE_TMP_OFF_RULES;
+    enableGoalSpecificRules = DEFAULT_ENABLE_GOAL_SPECIFIC_RULES;
     saveLoCache = DEFAULT_SAVE_LO_CACHE;
     externalRuleDirectory = null;
     lookAndFeelName = null;
@@ -349,6 +353,7 @@ public class Configuration {
     this.noSynonymsAsSuggestions = configuration.noSynonymsAsSuggestions;
     this.includeTrackedChanges = configuration.includeTrackedChanges;
     this.enableTmpOffRules = configuration.enableTmpOffRules;
+    this.enableGoalSpecificRules = configuration.enableGoalSpecificRules;
     this.saveLoCache = configuration.saveLoCache;
     this.otherServerUrl = configuration.otherServerUrl;
     this.remoteUsername = configuration.remoteUsername;
@@ -604,6 +609,14 @@ public class Configuration {
 
   public boolean enableTmpOffRules() {
     return enableTmpOffRules;
+  }
+  
+  public void setEnableGoalSpecificRules(boolean enableGoalSpecificRules) {
+    this.enableGoalSpecificRules = enableGoalSpecificRules;
+  }
+
+  public boolean enableGoalSpecificRules() {
+    return enableGoalSpecificRules;
   }
   
   public void setSaveLoCache(boolean saveLoCache) {
@@ -1375,6 +1388,11 @@ public class Configuration {
       enableTmpOffRules = Boolean.parseBoolean(enableTmpOffRulesString);
     }
     
+    String enableGoalSpecificRulesString = (String) props.get(prefix + ENABLE_GOAL_SPECIFIC_RULES_KEY);
+    if (enableGoalSpecificRulesString != null) {
+      enableGoalSpecificRules = Boolean.parseBoolean(enableGoalSpecificRulesString);
+    }
+    
     String saveLoCacheString = (String) props.get(prefix + SAVE_LO_CACHE_KEY);
     if (saveLoCacheString != null) {
       saveLoCache = Boolean.parseBoolean(saveLoCacheString);
@@ -1606,6 +1624,7 @@ public class Configuration {
     allProfileKeys.add(NO_SYNONYMS_AS_SUGGESTIONS_KEY);
     allProfileKeys.add(INCLUDE_TRACKED_CHANGES_KEY);
     allProfileKeys.add(ENABLE_TMP_OFF_RULES_KEY);
+    allProfileKeys.add(ENABLE_GOAL_SPECIFIC_RULES_KEY);
     allProfileKeys.add(SAVE_LO_CACHE_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
@@ -1716,6 +1735,9 @@ public class Configuration {
     }
     if (enableTmpOffRules != DEFAULT_ENABLE_TMP_OFF_RULES) {
       props.setProperty(prefix + ENABLE_TMP_OFF_RULES_KEY, Boolean.toString(enableTmpOffRules));
+    }
+    if (enableGoalSpecificRules != DEFAULT_ENABLE_GOAL_SPECIFIC_RULES) {
+      props.setProperty(prefix + ENABLE_GOAL_SPECIFIC_RULES_KEY, Boolean.toString(enableGoalSpecificRules));
     }
     if (saveLoCache != DEFAULT_SAVE_LO_CACHE) {
       props.setProperty(prefix + SAVE_LO_CACHE_KEY, Boolean.toString(saveLoCache));

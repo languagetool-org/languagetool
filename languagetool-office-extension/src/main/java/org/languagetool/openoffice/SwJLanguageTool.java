@@ -22,10 +22,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -33,6 +35,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.ResultCache;
+import org.languagetool.ToneTag;
 import org.languagetool.UserConfig;
 import org.languagetool.JLanguageTool.Level;
 import org.languagetool.JLanguageTool.Mode;
@@ -61,9 +64,11 @@ public class SwJLanguageTool {
   private boolean isMultiThread;
   private boolean isRemote;
   private boolean doReset;
+  private Configuration config;
 
   public SwJLanguageTool(Language language, Language motherTongue, UserConfig userConfig, 
       Configuration config, List<Rule> extraRemoteRules, boolean testMode) throws MalformedURLException {
+    this.config = config;
     isMultiThread = config.isMultiThread();
     isRemote = config.doRemoteCheck() && !testMode;
     doReset = false;
@@ -228,12 +233,13 @@ public class SwJLanguageTool {
       } else {
         mode = Mode.ALL;
       }
+      Set<ToneTag> toneTags = config.enableGoalSpecificRules() ? Collections.singleton(ToneTag.ALL_TONE_RULES) : Collections.emptySet();
       if (isMultiThread) {
         synchronized(mlt) {
-          return mlt.check(text, paraMode, mode, from, to, document, this);
+          return mlt.check(text, paraMode, mode, from, to, document, this, toneTags);
         }
       } else {
-        return lt.check(text, paraMode, mode, from, to, document, this);
+        return lt.check(text, paraMode, mode, from, to, document, this, toneTags);
       }
     }
   }
@@ -261,22 +267,13 @@ public class SwJLanguageTool {
       } else {
         mode = Mode.ALL;
       }
+      Set<ToneTag> toneTags = config.enableGoalSpecificRules() ? Collections.singleton(ToneTag.ALL_TONE_RULES) : Collections.emptySet();
       if (isMultiThread) {
-        if (nFPara < 0) {
-          synchronized(mlt) {
-            return mlt.check(new AnnotatedTextBuilder().addText(text).build(), true, paraMode, null, mode, Level.PICKY);
-          }
-        } else {
-          synchronized(mlt) {
-            return mlt.check(text, paraMode, mode, nFPara, document, this);
-          }
+        synchronized(mlt) {
+          return mlt.check(text, paraMode, mode, nFPara, document, this, toneTags);
         }
       } else {
-        if (nFPara < 0) {
-          return lt.check(new AnnotatedTextBuilder().addText(text).build(), true, paraMode, null, mode, Level.PICKY);
-        } else {
-          return lt.check(text, paraMode, mode, nFPara, document, this);
-        }
+        return lt.check(text, paraMode, mode, nFPara, document, this, toneTags);
       }
     }
   }
@@ -398,9 +395,14 @@ public class SwJLanguageTool {
     }
 
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
-        int nFPara, SingleDocument document, SwJLanguageTool lt) throws IOException {
+        int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
 
-      List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+      List<AnalyzedSentence> analyzedSentences;
+      if (nFPara < 0) {
+        analyzedSentences = this.analyzeText(text);
+      } else {
+        analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+      }
 //      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
 //      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
@@ -408,11 +410,11 @@ public class SwJLanguageTool {
         sentences.add(analyzedSentence.getText());
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
-          Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
 
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
-        TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt) throws IOException {
+        TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
 //      text += OfficeTools.END_OF_PARAGRAPH;
 //      List<String> sentences = sentenceTokenize(text);
@@ -421,7 +423,7 @@ public class SwJLanguageTool {
         sentences.add(analyzedSentence.getText());
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
-          Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
 
   }
@@ -433,9 +435,14 @@ public class SwJLanguageTool {
     }
 
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
-        int nFPara, SingleDocument document, SwJLanguageTool lt) throws IOException {
+        int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
 
-      List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+      List<AnalyzedSentence> analyzedSentences;
+      if (nFPara < 0) {
+        analyzedSentences = this.analyzeText(text);
+      } else {
+        analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+      }
 //      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
 //      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
@@ -443,11 +450,11 @@ public class SwJLanguageTool {
         sentences.add(analyzedSentence.getText());
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
-          Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
 
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
-        TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt) throws IOException {
+        TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
 //      text += OfficeTools.END_OF_PARAGRAPH;
 //      List<String> sentences = sentenceTokenize(text);
@@ -456,7 +463,7 @@ public class SwJLanguageTool {
         sentences.add(analyzedSentence.getText());
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
-          Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
 
   }

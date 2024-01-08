@@ -1046,6 +1046,14 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(enableTmpOffRulesBox, cons);
 
+    JCheckBox enableGoalSpecificRulesBox = new JCheckBox(Tools.getLabel(messages.getString("guiEnableGoalSpecificRules")));
+    enableGoalSpecificRulesBox.setSelected(config.enableGoalSpecificRules());
+    enableGoalSpecificRulesBox.addItemListener(e -> {
+      config.setEnableGoalSpecificRules(enableGoalSpecificRulesBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(enableGoalSpecificRulesBox, cons);
+
     JCheckBox noBackgroundCheckBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoBackgroundCheck")));
     noBackgroundCheckBox.setSelected(config.noBackgroundCheck());
     noBackgroundCheckBox.addItemListener(e -> config.setNoBackgroundCheck(noBackgroundCheckBox.isSelected()));
