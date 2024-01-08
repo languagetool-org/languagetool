@@ -22,6 +22,7 @@ package org.languagetool.openoffice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -231,6 +232,9 @@ public class CacheIO implements Serializable {
           return false;
         }
       }
+    } catch (InvalidClassException e) {
+      MessageHandler.printToLogFile("Old cache Version: Cache not read");
+      return false;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
@@ -773,15 +777,18 @@ public class CacheIO implements Serializable {
           boolean out = putAll((SpellCache) in.readObject());
           in.close();
           fileIn.close();
-          MessageHandler.printToLogFile("Caches read from: " + cachePath);
+          MessageHandler.printToLogFile("Spell Cache read from: " + cachePath);
           if (out) {
             return true;
           } else {
-            MessageHandler.printToLogFile("Version has changed: Cache rejected (Cache Version: " 
+            MessageHandler.printToLogFile("Version has changed: Spell Cache rejected (Cache Version: " 
                   + version + ", actual LT Version: " + JLanguageTool.VERSION + ")");
             return false;
           }
         }
+      } catch (InvalidClassException e) {
+        MessageHandler.printToLogFile("Old cache Version: Spell Cache not read");
+        return false;
       } catch (Throwable t) {
         MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       }

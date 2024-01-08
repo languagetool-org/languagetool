@@ -43,7 +43,7 @@ import com.sun.star.lang.XComponent;
  */
 public class DocumentCache extends DocumentTextCache{
 
-  private static final long serialVersionUID = 315782693333390101L;
+  private static final long serialVersionUID = 3L;
 
   private final Map<Integer, List<AnalyzedSentence>> analyzedParagraphs = new HashMap<>();  //  stores analyzed paragraphs
   
@@ -240,7 +240,7 @@ public class DocumentCache extends DocumentTextCache{
       if (analyzedParagraph == null) {
         return null;
       }
-      if (analyzedParagraph.size() == 0) {
+      if (analyzedParagraph.size() == 0 && analyzedParagraphs.size() > 0) {
         int last = analyzedParagraphs.size() - 1;
         AnalyzedSentence sentence = analyzedParagraphs.get(last);
         AnalyzedTokenReadings[] tokens = sentence.getTokens();
