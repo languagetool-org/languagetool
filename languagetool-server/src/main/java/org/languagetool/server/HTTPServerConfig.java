@@ -1515,6 +1515,7 @@ public class HTTPServerConfig {
   /**
    * @since 6.4
    */
+  @Nullable
   public File getRuleIdToConfidenceFile() {
     return ruleIdToConfidenceFile;
   }
