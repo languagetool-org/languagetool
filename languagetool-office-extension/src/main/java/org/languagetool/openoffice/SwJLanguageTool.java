@@ -401,6 +401,7 @@ public class SwJLanguageTool {
       if (nFPara < 0) {
         analyzedSentences = this.analyzeText(text);
       } else {
+        text = document.getDocumentCache().getFlatParagraph(nFPara);
         analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
       }
 //      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
@@ -441,14 +442,17 @@ public class SwJLanguageTool {
       if (nFPara < 0) {
         analyzedSentences = this.analyzeText(text);
       } else {
+        text = document.getDocumentCache().getFlatParagraph(nFPara);
         analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
       }
 //      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
+      List<String> sentences = sentenceTokenize(text);
+/*
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
+*/
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
