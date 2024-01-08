@@ -175,6 +175,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiederhall(e|st|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiedersetz(e|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiederstreb(e|st|t|en|te|ten)?", "wieder", "wider");
+    putRepl("zurück(ge|zu)?koppe?l(e|n|t(e(st|n)?)?|nd(e(r|s|m|n)?)?|st|)?", "zurück", "rück");
     put("bekomms", "bekomm es");
     put("liegts", "liegt es");
     put("gesynct", "synchronisiert");
