@@ -4,6 +4,9 @@
 
 ...
 
+#### English
+  * tagger and spelling dictionaries have been moved to an external dependency (english-pos-dict v 0.3)
+
 #### Ukrainian
   * new words in the POS dictionary
   * new rules
