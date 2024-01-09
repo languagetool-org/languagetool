@@ -2949,6 +2949,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Offensichtlicherweise": return topMatch("Offensichtlich");
       case "wohlwissend": return topMatch("wohl wissend");
       case "Visas": return topMatch("Visa", "Plural von 'Visum'");
+      case "Interresse": return topMatch("Interesse");
+      case "Interressen": return topMatch("Interessen");
+      case "Terasse": return topMatch("Terrasse");
+      case "Terassen": return topMatch("Terrassen");
+      case "Reisverschluss": return topMatch("Reißverschluss");
+      case "Reisverschlusses": return topMatch("Reißverschlusses");
       case "Reiszwecke": return topMatch("Reißzwecke", "kurzer Nagel mit flachem Kopf");
       case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
       case "up-to-date": return topMatch("up to date");
