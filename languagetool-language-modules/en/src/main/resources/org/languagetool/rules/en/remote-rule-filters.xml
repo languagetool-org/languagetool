@@ -2134,7 +2134,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token chunk_re="E-NP.*" />
+                    <token chunk_re=".-(AD|NP|PP).*" />
                     <marker>
                         <token>but</token>
                     </marker>
@@ -2144,6 +2144,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <suggestion>, but</suggestion>
                 <example correction=", but">Fuel prices have hit record highs this year<marker> but</marker> are anticipated to start failing in 2024/25.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re=".-(AD|NP|PP).*" />
+                    <marker>
+                        <token regexp="yes">but|and|or</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">do|will|should|[wc]ould|can|cannot</token>
+                    <token postag="RB" min="0" />
+                    <token postag="VB" />
+                </pattern>
+                <suggestion>, but</suggestion>
+                <example correction=", but">I contacted Recurly support two days ago<marker> but</marker> did not receive an acknowledgement of receipt.</example>
             </rule>
             <rule>
                 <!-- #1 Single non-alphanumeric characters. -->
