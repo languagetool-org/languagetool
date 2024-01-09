@@ -18,6 +18,7 @@
  */
 package org.languagetool.tools;
 
+import com.google.common.collect.Sets;
 import com.google.common.xml.XmlEscapers;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.regex.Pattern.*;
 
@@ -75,6 +78,42 @@ public final class StringTools {
   private static final Pattern NOT_WORD_STR = compile("[^\\p{L}]+", DOTALL);
   private static final Pattern PATTERN = compile("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]");
   private static final Pattern DIACRIT_MARKS = compile("[\\p{InCombiningDiacriticalMarks}]");
+  // Sets of words used for titlecasing in a few locales; useful for named entities in foreign languages, esp. English
+  private static final Set<String> ENGLISH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("of", "in", "on", "the", "a", "an", "and", "or"))
+  );
+  private static final Set<String> PORTUGUESE_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("e", "ou", "que",
+      "de", "do", "dos", "da", "das",
+      "o", "a", "os", "as",
+      "no", "nos", "na", "nas",
+      "ao", "aos", "à", "às"))
+  );
+  private static final Set<String> FRENCH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("et", "ou", "que", "qui",
+      "de", "du", "des", "en",
+      "le", "les", "la",
+      "un", "une",
+      "à", "au", "aux"))
+  );
+  private static final Set<String> SPANISH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("y", "e", "o", "u", "que",
+      "el", "la", "los", "las",
+      "un", "unos", "una", "unas",
+      "del", "nel", "de", "en", "a", "al"))
+  );
+  private static final Set<String> GERMAN_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("von", "in", "im", "an", "am", "vom", "und", "oder", "dass", "ob",
+      "der", "die", "das", "dem", "den", "des",
+      "ein", "eines", "einem", "einen", "einer", "eine",
+      "kein", "keines", "keinem", "keinen", "keiner", "keine"))
+  );
+  private static final Set<String> DUTCH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("van", "in", "de", "het", "een", "en", "of"))
+  );
+
+
+  private static final Set<String> ALL_TITLECASE_EXCEPTIONS = collectAllTitleCaseExceptions();
 
   private StringTools() {
     // only static stuff
@@ -217,6 +256,19 @@ public final class StringTools {
     return Character.isLowerCase(str.charAt(0));
   }
 
+  public static boolean allStartWithLowercase(String str) {
+    String[] strParts = str.split(" ");
+    if (strParts.length < 2) {
+      return startsWithLowercase(str);
+    }
+      for (String strPart : strParts) {
+        if (!startsWithLowercase(strPart)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
   /**
    * Return <code>str</code> modified so that its first character is now an
    * uppercase character. If <code>str</code> starts with non-alphabetic
@@ -244,6 +296,44 @@ public final class StringTools {
     } else {
       return changeFirstCharCase(str, true);
     }
+  }
+
+  private static Set<String> collectAllTitleCaseExceptions() {
+    List<Set<String>> setList = Arrays.asList(ENGLISH_TITLECASE_EXCEPTIONS, PORTUGUESE_TITLECASE_EXCEPTIONS,
+      FRENCH_TITLECASE_EXCEPTIONS, SPANISH_TITLECASE_EXCEPTIONS, GERMAN_TITLECASE_EXCEPTIONS, DUTCH_TITLECASE_EXCEPTIONS);
+    Set<String> union = setList.stream().flatMap(Set::stream).collect(Collectors.toSet());
+    return union;
+  }
+
+  /**
+   * Title case a string ignoring a list of words. These words are ignored due to titlecasing conventions in the most
+   * frequent languages. Differs from {@link #convertToTitleCaseIteratingChars(String)} in that it is less aggressive,
+   * i.e., we do not force titlecase in all caps words (e.g. IDEA does not become Idea).
+   * This method behaves the same regardless of the language, and is rather aggressive in its ignoring of words.
+   * We can, possibly, in the future, have language-specific titlecasing conventions.
+   */
+  @Contract("!null -> !null")
+  @Nullable
+  public static String titlecaseGlobal(@Nullable final String str) {
+    assert str != null;
+    String[] strParts = str.split(" ");
+    if (strParts.length == 1) {
+      return uppercaseFirstChar(str);
+    }
+    StringJoiner titlecasedStr = new StringJoiner(" ");
+    for (int i=0; i < strParts.length; i++) {
+      String strPart = strParts[i];
+      if (i == 0) {
+        titlecasedStr.add(uppercaseFirstChar(strPart));
+        continue;
+      }
+      if (ALL_TITLECASE_EXCEPTIONS.contains(strPart.toLowerCase())) {
+        titlecasedStr.add(lowercaseFirstCharIfCapitalized(strPart));
+      } else {
+        titlecasedStr.add(uppercaseFirstChar(strPart));
+      }
+    }
+    return titlecasedStr.toString();
   }
 
   /**

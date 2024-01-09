@@ -270,6 +270,16 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testPortugueseAsymmetricalDialectDifferences() throws Exception {
+    // 'facto' is always invalid in pt-BR
+    assertSingleExactError("facto", ltBR, ruleBR, "fato",
+      "Possível erro de ortografia: esta é a grafia utilizada no português europeu.",
+      "MORFOLOGIK_RULE_PT_BR_DIALECT");
+    // 'fato' is valid in pt-PT, albeit with another meaning
+    assertNoErrors("fato", ltPT, rulePT);
+  }
+
+  @Test
   public void testPortugueseSpellingAgreementVariation() throws Exception {
     // orthographic reforms
     assertTwoWayOrthographicAgreementError("detetar", "detectar");
@@ -437,6 +447,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("andância", ltBR, ruleBR, new String[]{"andança"});
     assertSingleError("abto", ltBR, ruleBR, new String[]{"hábito"});
     assertSingleError("logo nao", ltBR, ruleBR, new String[]{"não"});
+    assertSingleError("kitchenette", ltBR, ruleBR, new String[]{"quitinete"});
   }
 
   @Test
@@ -557,7 +568,61 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("MERCEDES-BENZ", ltBR, ruleBR);
     assertNoErrors("Mercedes-Benz", ltBR, ruleBR);
     assertNoErrors("big band", ltBR, ruleBR);
+    assertNoErrors("Big band", ltBR, ruleBR);
+    assertNoErrors("Big Band", ltBR, ruleBR);
     assertNoErrors("BIG BANDS", ltBR, ruleBR);
+
+    // entry is "rhythm and blues"
+    assertNoErrors("rhythm and blues", ltBR, ruleBR);  // same as file
+    assertNoErrors("Rhythm and blues", ltBR, ruleBR);  // sentence-initial
+    assertNoErrors("Rhythm And Blues", ltBR, ruleBR);  // title-case (naïve)
+    assertNoErrors("Rhythm and Blues", ltBR, ruleBR);  // title-case (smart)
+    // entry is "stock car"
+    assertNoErrors("stock car", ltBR, ruleBR);
+    assertNoErrors("Stock Car", ltBR, ruleBR);
+    // entry is "Hall of Fame", so titlecase variants are not added
+    assertNoErrors("Hall of Fame", ltBR, ruleBR);
+    assertSingleError("Hall Of Fame", ltBR, ruleBR, new String[]{});
+    assertErrorLength("hall of fame", 2, ltBR, ruleBR, new String[]{});
+
+    assertNoErrors("Rock and Roll", ltBR, ruleBR);
+    assertNoErrors("Hall of Fame", ltBR, ruleBR);
+    assertNoErrors("Rock and Roll Hall of Fame", ltBR, ruleBR);
+    assertSingleError("Rock And Roll Hall Of Fame", ltBR, ruleBR, new String[]{});  // bad titlecasing
+    assertNoErrors("Chesapeake Bay retriever", ltBR, ruleBR);
+    assertSingleError("Chesapeake Bay Retriever", ltBR, ruleBR, new String[]{});  // an annoying limitation
+    assertNoErrors("Pit Bull", ltBR, ruleBR);
+    assertNoErrors("Mao Tsé-Tung", ltBR, ruleBR);
+    assertNoErrors("Honoris Causa", ltBR, ruleBR);
   }
 
+  @Test public void testPortugueseSpellerEnglishCompounds() throws Exception {
+    // disambiguator rule
+    assertNoErrors("UntaggedWord Card", ltBR, ruleBR);  // unknown word
+    assertNoErrors("Vaca Center", ltBR, ruleBR); // valid uppercase word
+    assertNoErrors("de Klerk Center", ltBR, ruleBR);  // any proper noun, regardless of case
+    assertSingleError("caramba Center", ltBR, ruleBR, new String[]{"Conter", "Centre"});  // not in context
+  }
+
+  @Test public void testPortugueseSpellerAcceptsArbitraryHyphenation() throws Exception {
+    assertNoErrors("Xai-Xai", ltBR, ruleBR);
+    assertNoErrors("Tsé-Tung", ltBR, ruleBR);
+    assertNoErrors("X-Men", ltBR, ruleBR);
+    assertNoErrors("t-shirts", ltBR, ruleBR);
+    assertNoErrors("além-mar", ltBR, ruleBR);
+    assertNoErrors("além-mares", ltBR, ruleBR);
+    assertNoErrors("baby-doll", ltBR, ruleBR);
+    assertNoErrors("baby-dolls", ltBR, ruleBR);
+    assertNoErrors("e-zine", ltBR, ruleBR);
+    assertNoErrors("e-zines", ltBR, ruleBR);
+    assertNoErrors("CD-ROM", ltBR, ruleBR);
+    assertNoErrors("CD-ROMs", ltBR, ruleBR);
+    assertSingleError("heavy-metal", ltBR, ruleBR, new String[]{"heavy metal"});
+  }
+
+  @Test public void testPortugueseSpellerAccepts50PercentOff() throws Exception {
+    // Tokenising rule; we need to add a rule to add the space ourselves, but at least it doesn't suggest nonsense
+    assertNoErrors("50%OFF", ltBR, ruleBR);
+    assertSingleError("50%oogabooga", ltBR, ruleBR, new String[]{});
+  }
 }
