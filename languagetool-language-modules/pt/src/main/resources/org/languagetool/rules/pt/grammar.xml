@@ -41394,7 +41394,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>2.a. Sistemas</example>
         </rule>
 
-        <rulegroup id='ORDINAL_ABBREVIATION_DOT' name="Abreviatura de ordinais: 1o -> 1.º" default="off">
+        <rulegroup id="ORDINAL_ABBREVIATION" name="Abreviatura de ordinais: 1o -> 1º" default="temp_off">
             <antipattern> <!-- enumeration as 2a. -->
                 <token postag="SENT_START"/>
                 <token regexp="yes">\d+a</token>
@@ -41424,183 +41424,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp="yes">\d+°</token>
                 <example>92° 09° O</example>
             </antipattern>
-            <rule> <!-- #1: masc. sg. no dot -->
+            <antipattern> <!-- correct structures, just to be sure we're not accidentally greedy -->
+                <token>\d+\.?[&ordm;&sup_o;&ordf;&sup_a;]&sup_s;?</token>
+                <example>O 6.&ordm; ministro.</example>
+                <example>A 7&ordf; maravilha.</example>
+            </antipattern>
+            <rule> <!-- #1: masc. sg. -->
                 <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_masc_ord;
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.?o
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
-                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_masc_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&ordm;"/></suggestion>.</message>
-                <example correction="12&NoBreak;.&NoBreak;&ordm;">O premiado é o <marker>12o</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&ordm;">O premiado é o <marker>12&ordm;</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&ordm;">O premiado é o <marker>12&sup_o;</marker> da lista.</example>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)(\.)?&any_masc_ord;" regexp_replace="$1$2&NoBreak;&ordm;"/></suggestion>.</message>
+                <example correction="12.&NoBreak;&ordm;">O premiado é o <marker>12.o</marker> da lista.</example>
+                <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12o</marker> da lista.</example>
                 <example>Temperatura máxima prevista de 38º C.</example> <!-- formatting of degrees done by DEGREE_SYMBOL -->
             </rule>
-            <rule> <!-- #2: masc. pl. no dot -->
+            <rule> <!-- #2: masc. pl. -->
                 <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_masc_ord;&any_pl_ord;
+                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.?(o[s&sup_s;]|[&any_masc_ord;]s)
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
-                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_masc_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
-                <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12os</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12&ordm;&sup_s;</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12&sup_o;&sup_s;</marker> da lista.</example>
+                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)(\.)?&any_masc_ord;&any_pl_ord;" regexp_replace="$1$2&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
+                <example correction="12.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.os</marker> da lista.</example>
+                <example correction="12.&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.&ordm;s</marker> da lista.</example>
+                <example correction="12&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12os</marker> da lista.</example>
             </rule>
-        <rule> <!-- #3: masc. sg. dot, but 'o' -->
+        <rule> <!-- #3: fem. sg. -->
             <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.o</token>
+                <token regexp='yes' case_sensitive="yes">(?:\d+)\.?a</token>
             </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.o" regexp_replace="$1&NoBreak;.&NoBreak;&ordm;"/></suggestion>.</message>
-            <example correction="12&NoBreak;.&NoBreak;&ordm;">A entrada é o <marker>12.o</marker> da lista.</example>
-            <example correction="12&NoBreak;.&NoBreak;&ordm;">A entrada é o <marker>12.o</marker>. Da lista.</example>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)(\.)?&any_fem_ord;" regexp_replace="$1$2&NoBreak;&ordf;"/></suggestion>.</message>
+            <example correction="12.&NoBreak;&ordf;">A premiado é a <marker>12.a</marker> da lista.</example>
+            <example correction="12&NoBreak;&ordf;">A premiada é a <marker>12a</marker> da lista.</example>
         </rule>
-        <rule> <!-- #4: masc. pl. dot, but 's' -->
+        <rule> <!-- #4: fem. pl. -->
             <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.&any_masc_ord;s</token>
+                <token regexp='yes' case_sensitive="yes">(?:\d+)\.?([&ordf;&sup_a;]s|a[s&sup_s;])</token>
             </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_masc_ord;s" regexp_replace="$1&NoBreak;.&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
-            <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12.os</marker> da lista.</example>
-            <example correction="12&NoBreak;.&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12.&ordm;s</marker>. Da lista.</example>
-        </rule>
-            <rule> <!-- #5: fem. sg. no dot -->
-                <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_fem_ord;</token>
-                </pattern>
-                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&ordf;"/></suggestion>.</message>
-                <example correction="12&NoBreak;.&NoBreak;&ordf;">A premiado é a <marker>12a</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&ordf;">A premiado é a <marker>12&ordf;</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&ordf;">A premiada é a <marker>12&sup_a;</marker> da lista.</example>
-            </rule>
-            <rule> <!-- #6: fem. pl. no dot -->
-                <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)&any_fem_ord;&any_pl_ord;</token>
-                </pattern>
-                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;.&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
-                <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12as</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12&ordf;&sup_s;</marker> da lista.</example>
-                <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12&sup_a;&sup_s;</marker> da lista.</example>
-            </rule>
-        <rule> <!-- #7: fem. sg. dot, but 'a' -->
-            <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.a</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.a" regexp_replace="$1&NoBreak;.&NoBreak;&ordf;"/></suggestion>.</message>
-            <example correction="12&NoBreak;.&NoBreak;&ordf;">A entrada é a <marker>12.a</marker> da lista.</example>
-            <example correction="12&NoBreak;.&NoBreak;&ordf;">A entrada é a <marker>12.a</marker>. Da lista.</example>
-        </rule>
-        <rule> <!-- #8: fem. pl. dot, but 's' -->
-            <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.&any_fem_ord;s</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;s" regexp_replace="$1&NoBreak;.&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
-            <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As entradas são as <marker>12.as</marker> da lista.</example>
-            <example correction="12&NoBreak;.&NoBreak;&sup_a;&sup_s;">As entrada são as <marker>12.&ordf;s</marker>. Da lista.</example>
-        </rule>
-    </rulegroup>
-
-        <rulegroup id='ORDINAL_ABBREVIATION_NO_DOT' name="Abreviatura de ordinais: 1o -> 1º" default="temp_off">
-            <antipattern> <!-- enumeration as 2a. -->
-                <token postag="SENT_START"/>
-                <token regexp="yes">\d+a</token>
-                <token postag="_PUNCT" spacebefore="no"/>
-                <example> 2a. Sistemas.</example>
-            </antipattern>
-            <antipattern> <!-- enumeration as 2.a. -->
-                <token postag="SENT_START"/>
-                <token regexp="yes">(?:\d+)\.[a]</token>
-                <token postag="_PUNCT" spacebefore="no"/>
-                <token regexp="yes">\p{L}+</token>
-                <example>2.a. Sistemas.</example>
-            </antipattern>
-            <antipattern> <!-- not sure what -898a- is... -->
-                <token postag="_PUNCT" spacebefore="no"/>
-                <token regexp="yes">(?:\d+)\p{L}</token>
-                <token postag="_PUNCT" spacebefore="no"/>
-                <example>-895a-</example>
-            </antipattern>
-            <antipattern> <!-- degree ranges -->
-                <token postag="_PUNCT" spacebefore="no"/>
-                <token regexp="yes">\d+°</token>
-                <example>de 90–100°</example>
-            </antipattern>
-            <antipattern> <!-- coordinates with degree signs -->
-                <token regexp="yes">\d+°|\d+</token>
-                <token regexp="yes">\d+°</token>
-                <example>92° 09° O</example>
-            </antipattern>
-            <rule> <!-- #1: masc. sg. w/ dot -->
-                <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_masc_ord;
-                        <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
-                    </token>
-                </pattern>
-                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_masc_ord;" regexp_replace="$1&NoBreak;&ordm;"/></suggestion>.</message>
-                <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12.o</marker> da lista.</example>
-                <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12.&ordm;</marker> da lista.</example>
-                <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12.&sup_o;</marker> da lista.</example>
-                <example>Temperatura máxima prevista de 38º C.</example> <!-- formatting of degrees done by DEGREE_SYMBOL -->
-            </rule>
-            <rule> <!-- #2: masc. pl. w/ dot -->
-                <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_masc_ord;&any_pl_ord;
-                        <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
-                    </token>
-                </pattern>
-                <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_masc_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
-                <example correction="12&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.os</marker> da lista.</example>
-                <example correction="12&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.&ordm;&sup_s;</marker> da lista.</example>
-                <example correction="12&NoBreak;&sup_o;&sup_s;">Os premiados são os <marker>12.&sup_o;&sup_s;</marker> da lista.</example>
-            </rule>
-        <rule> <!-- #3: masc. sg. no dot, but 'o' -->
-            <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)o</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)o" regexp_replace="$1&NoBreak;&ordm;"/></suggestion>.</message>
-            <example correction="12&NoBreak;&ordm;">A entrada é o <marker>12o</marker> da lista.</example>
-            <example correction="12&NoBreak;&ordm;">A entrada é o <marker>12o</marker>. Da lista.</example>
-        </rule>
-        <rule> <!-- #4: masc. pl. no dot, but 's' -->
-            <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)&any_masc_ord;s</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_masc_ord;s" regexp_replace="$1&NoBreak;&sup_o;&sup_s;"/></suggestion>.</message>
-            <example correction="12&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12os</marker> da lista.</example>
-            <example correction="12&NoBreak;&sup_o;&sup_s;">As entradas é os <marker>12&ordm;s</marker>. Da lista.</example>
-        </rule>
-        <rule> <!-- #5: fem. sg. w/ dot -->
-            <pattern>
-                <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_fem_ord;</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;" regexp_replace="$1&NoBreak;&ordf;"/></suggestion>.</message>
-            <example correction="12&NoBreak;&ordf;">A premiado é a <marker>12.a</marker> da lista.</example>
-            <example correction="12&NoBreak;&ordf;">A premiado é a <marker>12.&ordf;</marker> da lista.</example>
-            <example correction="12&NoBreak;&ordf;">A premiada é a <marker>12.&sup_a;</marker> da lista.</example>
-        </rule>
-        <rule> <!-- #6: fem. pl. w/ dot -->
-            <pattern>
-                <token regexp='yes' case_sensitive="yes">(?:\d+)\.&any_fem_ord;&any_pl_ord;</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)\.&any_fem_ord;&any_pl_ord;" regexp_replace="$1&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
-            <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.as</marker> da lista.</example>
-            <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.&ordf;&sup_s;</marker> da lista.</example>
-            <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.&sup_a;&sup_s;</marker> da lista.</example>
-        </rule>
-        <rule> <!-- #7: fem. sg. no dot, but 'a' -->
-            <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)a</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)a" regexp_replace="$1&NoBreak;&ordf;"/></suggestion>.</message>
-            <example correction="12&NoBreak;&ordf;">A entrada é a <marker>12a</marker> da lista.</example>
-            <example correction="12&NoBreak;&ordf;">A entrada é a <marker>12a</marker>. Da lista.</example>
-        </rule>
-        <rule> <!-- #8: fem. pl. dot, but 's' -->
-            <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)&any_fem_ord;s</token>
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)&any_fem_ord;s" regexp_replace="$1&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
-            <example correction="12&NoBreak;&sup_a;&sup_s;">As entradas são as <marker>12as</marker> da lista.</example>
-            <example correction="12&NoBreak;&sup_a;&sup_s;">As entrada são as <marker>12&ordf;s</marker>. Da lista.</example>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)(\.)?&any_fem_ord;&any_pl_ord;" regexp_replace="$1$2&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
+            <example correction="12.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.as</marker> da lista.</example>
+            <example correction="12.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.&ordf;s</marker> da lista.</example>
+            <example correction="12&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12a&sup_s;</marker> da lista.</example>
         </rule>
     </rulegroup>
 
