@@ -625,4 +625,13 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("50%OFF", ltBR, ruleBR);
     assertSingleError("50%oogabooga", ltBR, ruleBR, new String[]{});
   }
+
+  @Test public void testPortugueseSpellerAcceptsIllegalPrefixation() throws Exception {
+    // These are all illegal, to be handled by an XML rule!
+    assertNoErrors("semi-consciente", ltBR, ruleBR);
+    assertNoErrors("semi-acústicas", ltBR, ruleBR);
+    assertNoErrors("semi-frio", ltBR, ruleBR);
+    assertNoErrors("sub-taça", ltBR, ruleBR);
+    assertNoErrors("sub-pratos", ltBR, ruleBR);
+  }
 }
