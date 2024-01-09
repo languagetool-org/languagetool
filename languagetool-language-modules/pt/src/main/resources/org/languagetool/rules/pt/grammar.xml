@@ -12679,7 +12679,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="COLOCACAO_PRONOMINAL_COM_ATRATOR" name="Preferir próclise em vez de ênclise e mesóclise com atratores" default="temp_off">
+        <rulegroup id="COLOCACAO_PRONOMINAL_COM_ATRATOR" name="Preferir próclise em vez de ênclise e mesóclise com atratores" default="on">
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
             <antipattern>
                 <token postag_regexp="yes" postag="D.+"/>
@@ -16322,7 +16322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- MARCOAGPINTO 2020-06-15 *END* -->
         </rulegroup>
 
-        <rulegroup id="ABREVIATURA_DE_PAGINA_PG" name="Abreviatura de 'página' como 'pg' ou 'pag'." default="temp_off">
+        <rulegroup id="ABREVIATURA_DE_PAGINA_PG" name="Abreviatura de 'página' como 'pg' ou 'pag'." default="on">
             <antipattern> <!-- ... petagrams, for the freaks out there talking about 10^15 grams :p -->
                 <token regexp="yes">\d+</token>
                 <token case_sensitive="yes">Pg</token>
@@ -41155,7 +41155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="SIMBOLO_DE_GRAUS_COM_UNIDADE_EM_MINUSCULA" name="Pôr em maiúscula o símbolo da escala em graus nomeados (e.g. &deg;c => &deg;C)." default="temp_off">
+        <rulegroup id="SIMBOLO_DE_GRAUS_COM_UNIDADE_EM_MINUSCULA" name="Pôr em maiúscula o símbolo da escala em graus nomeados (e.g. &deg;c => &deg;C)." default="on">
             <!-- p-goulart@2023-12-19 - DESC: the rules to fix the spacing are elsewhere. The capitalisation should be prioritised. -->
             <rule>
                 <regexp case_sensitive="yes" mark="1">&deg;(&degree_abbrevs_lower;)\b</regexp>
@@ -41168,7 +41168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id='DEGREE_SYMBOL' name="Indicador de ordinal ou sobrescrito usado no lugar do símbolo de grau (°)" default="temp_off">
+        <rulegroup id='DEGREE_SYMBOL' name="Indicador de ordinal ou sobrescrito usado no lugar do símbolo de grau (°)" default="on">
             <rule id="DEGREE_SYMBOL_WITH_DEGREE_TYPE">
                 <!-- This rule, unlike SIMBOLO_DE_GRAU_ESPACAMENTO, preserves the user's spaces.
                 This is only here to turn the ordinal into a degree sign. That's the rule that fixes spaces.-->
@@ -41303,7 +41303,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>As coordenadas são 50&deg;N e 66&deg;W.</example>
                 <example>A ideia parecia seguir os trejeitos de séries como She-Ra.</example>
             </rule>
-            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE" default="temp_off">
+            <rule id="SIMBOLO_DE_GRAU_ESPACAMENTO_GRAU_E_UNIDADE" default="on">
                 <pattern>
                     <token regexp="yes">&degree_token;</token>
                     <token regexp="yes" spacebefore="yes" case_sensitive="yes">&degree_abbrevs;</token>
@@ -42376,7 +42376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             PA: Pará/Pennsylvania
             SC: Santa Catarina/South Carolina
         -->        
-        <rulegroup id="SEPARADORES_DE_ESTADOS_AMERICANOS_VIRGULA" name="Usar vírgula entre municípios e estados americanos" default="temp_off">
+        <rulegroup id="SEPARADORES_DE_ESTADOS_AMERICANOS_VIRGULA" name="Usar vírgula entre municípios e estados americanos" default="off">
             <antipattern> <!-- correct format, note the spaces! -->
                 <token case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
                 <token spacebefore="no">,</token>
