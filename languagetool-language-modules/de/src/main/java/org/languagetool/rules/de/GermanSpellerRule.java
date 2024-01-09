@@ -3783,6 +3783,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Einfallspinsel": return topMatch("Einfaltspinsel");
       case "Einfallspinseln": return topMatch("Einfaltspinseln");
       case "Parcour": return topMatch("Parcours");
+      case "Sommeliere": return topMatch("Sommelière");
+      case "Sommeliére": return topMatch("Sommelière");
+      case "Kosten-Nutzenanalyse": return topMatch("Kosten-Nutzen-Analyse");
+      case "Kosten-Nutzenanalysen": return topMatch("Kosten-Nutzen-Analysen");
+      case "Kosten-Nutzenverhältnis": return topMatch("Kosten-Nutzen-Verhältnis");
+      case "Kosten-Nutzenverhältnisse": return topMatch("Kosten-Nutzen-Verhältnisse");
+      case "Kosten-Nutzenverhältnisses": return topMatch("Kosten-Nutzen-Verhältnisses");
+      case "Kosten-Nutzenrechnung": return topMatch("Kosten-Nutzen-Rechnung");
+      case "Kosten-Nutzenrechnungen": return topMatch("Kosten-Nutzen-Rechnungen");
     }
     return Collections.emptyList();
   }
