@@ -29,6 +29,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.openoffice.DocumentCursorTools.DocumentText;
@@ -941,7 +942,7 @@ public class DocumentCache implements Serializable {
         }
         numUnknown = paragraphs.size() - numUnknown;  // nUnknown: number of headings of graphic elements
         String msg = "An error has occurred in LanguageTool "
-            + OfficeTools.LT_VERSION + " (" + OfficeTools.LT_BUILD_DATE + "):\nDocument cache mapping failed:\nParagraphs:\n"
+            + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\nDocument cache mapping failed:\nParagraphs:\n"
             + "Endnotes: " + toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() + " / " + textParas.get(CURSOR_TYPE_ENDNOTE).size() + "\n"
             + "Footnotes: " + toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() + " / " + textParas.get(CURSOR_TYPE_FOOTNOTE).size() + "\n"
             + "Headers/Footers: " + toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() + " / " + textParas.get(CURSOR_TYPE_HEADER_FOOTER).size() + "\n"

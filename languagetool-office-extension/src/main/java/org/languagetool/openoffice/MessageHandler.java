@@ -31,6 +31,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.tools.Tools;
 
@@ -64,8 +65,8 @@ public class MessageHandler {
       Date date = new Date();
       OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
       writer.write("LT office integration log from " + date + logLineBreak + logLineBreak);
-      writer.write("LanguageTool " + OfficeTools.LT_VERSION + " (" + OfficeTools.LT_BUILD_DATE + ", " 
-          + OfficeTools.LT_GIT_SHORT_ID + ")" + logLineBreak);
+      writer.write("LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " 
+          + JLanguageTool.GIT_SHORT_ID + ")" + logLineBreak);
       writer.write("OS: " + System.getProperty("os.name") + " " 
           + System.getProperty("os.version") + " on " + System.getProperty("os.arch") + logLineBreak);
       if (officeInfo != null) { 
@@ -94,7 +95,7 @@ public class MessageHandler {
       throw new RuntimeException(e);
     }
     String msg = "An error has occurred in LanguageTool "
-        + OfficeTools.LT_VERSION + " (" + OfficeTools.LT_BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
+        + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
     String metaInfo = "OS: " + System.getProperty("os.name") + " on "
         + System.getProperty("os.arch") + ", Java version "

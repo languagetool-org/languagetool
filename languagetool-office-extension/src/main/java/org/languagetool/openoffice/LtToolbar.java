@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.gui.Configuration;
 
 import com.sun.star.awt.Point;
 import com.sun.star.beans.PropertyValue;
@@ -41,6 +42,7 @@ import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.ui.DockingArea;
 import com.sun.star.ui.ItemStyle;
 import com.sun.star.ui.ItemType;
+import com.sun.star.ui.UIElementType;
 import com.sun.star.ui.XModuleUIConfigurationManagerSupplier;
 import com.sun.star.ui.XUIConfigurationManager;
 import com.sun.star.uno.Exception;
@@ -67,7 +69,7 @@ public class LtToolbar {
   
   public void makeToolbar() {
     try {
-//      Configuration config = document.getMultiDocumentsHandler().getConfiguration();
+      Configuration config = document.getMultiDocumentsHandler().getConfiguration();
       XUIConfigurationManager confMan = getUIConfigManagerDoc(xContext);
       if (confMan == null) {
         MessageHandler.printToLogFile("Cannot create configuration manager");
@@ -195,7 +197,7 @@ public class LtToolbar {
       MessageHandler.printException(e);
     }
   }
-/*
+
   private void setToolbarName(XUIConfigurationManager confMan, String toolbarUrl, String name) 
                   throws IllegalArgumentException {
     for (PropertyValue[] propValList : confMan.getUIElementsInfo(UIElementType.TOOLBAR)) {
@@ -206,7 +208,7 @@ public class LtToolbar {
       }
     }
   }
-*/  
+  
   private PropertyValue[] makeBarItem(String cmd, String itemName) {
     // propertiees for a toolbar item using a name and an image
     // problem: image does not appear next to text on toolbar
