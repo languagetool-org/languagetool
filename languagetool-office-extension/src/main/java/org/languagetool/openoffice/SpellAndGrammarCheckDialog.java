@@ -1593,6 +1593,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private void setJComboSelectionBackground(JComboBox<String> comboBox, Color color) {
       Object context = comboBox.getAccessibleContext().getAccessibleChild(0);
       BasicComboPopup popup = (BasicComboPopup)context;
+      @SuppressWarnings("unchecked")
       JList<Object> list = popup.getList();
       list.setSelectionBackground(color);
     }

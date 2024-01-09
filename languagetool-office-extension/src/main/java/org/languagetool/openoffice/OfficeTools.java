@@ -32,6 +32,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.LtBuildInfo;
 import org.languagetool.rules.AbstractStatisticSentenceStyleRule;
 import org.languagetool.rules.AbstractStatisticStyleRule;
 import org.languagetool.rules.AbstractStyleTooOftenUsedWordRule;
@@ -89,6 +90,10 @@ public class OfficeTools {
     SPELL,        //  spell error
     BOTH          //  spell and grammar error
   }
+  
+  public static final String LT_VERSION = LtBuildInfo.OS.getVersion();
+  public static final String LT_BUILD_DATE = LtBuildInfo.OS.getBuildDate();
+  public static final String LT_GIT_SHORT_ID = LtBuildInfo.OS.getShortGitId();
     
   public static final String EXTENSION_MAINTAINER = "Fred Kruse";
   public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
@@ -599,9 +604,9 @@ public class OfficeTools {
    * Get information about LanguageTool
    */
   public static String getLtInformation () {
-    String txt = JLanguageTool.VERSION;
-    if (JLanguageTool.VERSION.contains("SNAPSHOT")) {
-      txt += " - " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID;
+    String txt = LT_VERSION;
+    if (LT_VERSION.contains("SNAPSHOT")) {
+      txt += " - " + LT_BUILD_DATE + ", " + LT_GIT_SHORT_ID;
     }
     return txt;
   }

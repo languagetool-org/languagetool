@@ -59,7 +59,7 @@ public class AnalyzedParagraphsCache {
       return;
     }
     Locale tmpLocale = docCache.getFlatParagraphLocale(0);
-    if (tmpLocale == null || !mDocHandler.hasLocale(tmpLocale)) {
+    if (tmpLocale == null || !MultiDocumentsHandler.hasLocale(tmpLocale)) {
       locale = null;
       return;
     }

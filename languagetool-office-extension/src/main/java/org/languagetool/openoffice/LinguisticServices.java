@@ -53,7 +53,7 @@ import com.sun.star.uno.XComponentContext;
 public class LinguisticServices extends LinguServices {
   
   private static boolean isSetLt = false;
-  private static boolean spellerIsOn = true;
+//  private static boolean spellerIsOn = true;
 //  private XThesaurus thesaurus = null;
 //  private XSpellChecker spellChecker = null;
 //  private XHyphenator hyphenator = null;

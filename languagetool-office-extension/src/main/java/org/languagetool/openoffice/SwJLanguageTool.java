@@ -37,7 +37,6 @@ import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.ResultCache;
 import org.languagetool.ToneTag;
 import org.languagetool.UserConfig;
-import org.languagetool.JLanguageTool.Level;
 import org.languagetool.JLanguageTool.Mode;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
@@ -446,13 +445,11 @@ public class SwJLanguageTool {
         analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
       }
 //      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
-      List<String> sentences = sentenceTokenize(text);
-/*
+//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
-*/
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }

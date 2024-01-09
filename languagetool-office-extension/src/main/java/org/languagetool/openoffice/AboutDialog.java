@@ -42,11 +42,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.Languages;
@@ -120,9 +118,9 @@ public class AboutDialog {
           + "Java version: %s (%s)<br>"
           + "Java max/total/free memory: %sMB, %sMB, %sMB</p>"
           + "</html>", 
-           JLanguageTool.VERSION,
-           JLanguageTool.BUILD_DATE,
-           JLanguageTool.GIT_SHORT_ID,
+           OfficeTools.LT_VERSION,
+           OfficeTools.LT_BUILD_DATE,
+           OfficeTools.LT_GIT_SHORT_ID,
            System.getProperty("os.name"),
            System.getProperty("os.version"),
            System.getProperty("os.arch"),
@@ -173,9 +171,9 @@ public class AboutDialog {
             + "%s %s%s (%s), %s\n"
             + "Java version: %s (%s)\n"
             + "Java max/total/free memory: %sMB, %sMB, %sMB\n",
-             JLanguageTool.VERSION,
-             JLanguageTool.BUILD_DATE,
-             JLanguageTool.GIT_SHORT_ID,
+             OfficeTools.LT_VERSION,
+             OfficeTools.LT_BUILD_DATE,
+             OfficeTools.LT_GIT_SHORT_ID,
              System.getProperty("os.name"),
              System.getProperty("os.version"),
              System.getProperty("os.arch"),
@@ -318,7 +316,7 @@ public class AboutDialog {
     str.append("</table>");
     return str.toString();
   }
-  
+/*  
   private String getMaintainersAsText() {
     TreeMap<String, Language> list = new TreeMap<>();
     for (Language lang : Languages.get()) {
@@ -350,7 +348,7 @@ public class AboutDialog {
     }
     return str.toString();
   }
-  
+*/
   public void close() {
     dialog.setVisible(false);
   }

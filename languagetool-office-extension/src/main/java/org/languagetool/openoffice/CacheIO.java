@@ -36,7 +36,6 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache.SerialLocale;
 import org.languagetool.openoffice.IgnoredMatches.LocaleEntry;
@@ -187,7 +186,7 @@ public class CacheIO implements Serializable {
       try {
         if (!ignoredMatches.isEmpty() || exceedsSaveSize(docCache)) {
           allCaches = new AllCaches(docCache, paragraphsCache, mDocHandler.getAllDisabledRules(), config.getDisabledRuleIds(), config.getDisabledCategoryNames(), 
-              config.getEnabledRuleIds(), ignoredMatches, JLanguageTool.VERSION);
+              config.getEnabledRuleIds(), ignoredMatches, OfficeTools.LT_VERSION);
           saveAllCaches(cachePath);
         } else {
           File file = new File( cachePath );
@@ -228,7 +227,7 @@ public class CacheIO implements Serializable {
           return true;
         } else {
           MessageHandler.printToLogFile("Version or active rules have changed: Cache rejected (Cache Version: " 
-                + allCaches.ltVersion + ", actual LT Version: " + JLanguageTool.VERSION + ")");
+                + allCaches.ltVersion + ", actual LT Version: " + OfficeTools.LT_VERSION + ")");
           return false;
         }
       }
@@ -252,7 +251,7 @@ public class CacheIO implements Serializable {
       }
       return false;
     }
-    if (!allCaches.ltVersion.equals(JLanguageTool.VERSION)) {
+    if (!allCaches.ltVersion.equals(OfficeTools.LT_VERSION)) {
       return false;
     }
     if (config.getEnabledRuleIds().size() != allCaches.enabledRuleIds.size() || config.getDisabledRuleIds().size() != allCaches.disabledRuleIds.size() 
@@ -726,11 +725,11 @@ public class CacheIO implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Map<String, List<String>> lastWrongWords = new HashMap<>();
     private final Map<String, List<String[]>> lastSuggestions = new HashMap<>();
-    private String version = JLanguageTool.VERSION;
+    private String version = OfficeTools.LT_VERSION;
     
     private boolean putAll (SpellCache sc) {
       version = sc.version;
-      if (!version.equals(JLanguageTool.VERSION)) {
+      if (!version.equals(OfficeTools.LT_VERSION)) {
         return false;
       }
       lastWrongWords.clear();
@@ -782,7 +781,7 @@ public class CacheIO implements Serializable {
             return true;
           } else {
             MessageHandler.printToLogFile("Version has changed: Spell Cache rejected (Cache Version: " 
-                  + version + ", actual LT Version: " + JLanguageTool.VERSION + ")");
+                  + version + ", actual LT Version: " + OfficeTools.LT_VERSION + ")");
             return false;
           }
         }
