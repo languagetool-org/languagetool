@@ -174,7 +174,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern JIST = compile("[Jj]ist");
   private static final Pattern ADHOC = compile("[Ad]hoc");
   private static final Pattern DEACTIVE = compile("[De]eactive");
-  private static final Pattern HONGKONG = compile("Hong Kong");
+  private static final Pattern HONGKONG = compile("[hH]ongkong");
+  private static final Pattern BONAFIDE = compile("[Bb]onafide");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
   private static final Pattern TV = compile("tv");
@@ -1304,8 +1305,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("rideshare", Arrays.asList("ride-share"));
     s.put("Rideshare", Arrays.asList("Ride-share"));
     s.put("Rideshares", Arrays.asList("Ride-shares"));
-    s.put("bonafide", Arrays.asList("bona fide"));
-    s.put("Bonafide", Arrays.asList("Bona fide"));
     s.put("dropoff", Arrays.asList("drop-off"));
     s.put("Dropoff", Arrays.asList("Drop-off"));
     s.put("reportings", Arrays.asList("reports", "reporting"));
@@ -1486,6 +1485,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (FYI.matcher(word).matches()) return topMatch("FYI");
     if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
     if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
+    if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("TV"));
