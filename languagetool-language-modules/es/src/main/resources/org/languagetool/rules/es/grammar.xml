@@ -13460,6 +13460,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="APOSTROFO_ACENTO" name="cambi'o -> cambió" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">o.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="^o" regexp_replace="ó"/></suggestion>?</message>
+                <example correction="cambió">Él <marker>cambi'o</marker></example>
+                <example correction="camión">Un <marker>cami'on</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">a.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="^o" regexp_replace="á"/></suggestion>?</message>
+                <example correction="repetirá">Él <marker>repetir'a</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">e.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="^e" regexp_replace="é"/></suggestion>?</message>
+                <example correction="repetiré">Yo <marker>repetir'e</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">i.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="^i" regexp_replace="í"/></suggestion>?</message>
+                <example correction="viví">Yo <marker>viv'i</marker> allí.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">u.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="^u" regexp_replace="ú"/></suggestion>?</message>
+                <example correction="rurún">Un <marker>runr'un</marker> extraño.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACE_HACE" name="ace -> hace">
             <rule>
                 <pattern case_sensitive="yes">
