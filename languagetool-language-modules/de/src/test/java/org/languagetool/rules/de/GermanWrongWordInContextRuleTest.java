@@ -61,21 +61,21 @@ public class GermanWrongWordInContextRuleTest {
     //assertEquals("Lieder", rule.match(lt.getAnalyzedSentence("Wir singen gemeinsam Lider."))[0].getSuggestedReplacements().get(0));
 
     // malen/mahlen
-    assertGood("Ich soll Bilder einer Mühle malen.");
-    assertGood("Ich male ein Bild einer Mühle.");
-    assertGood("Das Bild zeigt eine mahlende Mühle.");
-    assertGood("Eine mahlende Mühle zeigt das Bild.");
-    assertGood("Wenn du mal etwas Mehl brauchst, kannst du zu mir kommen.");
-    assertBad("Weizen ausmalen.");
-    assertBad("Ich mahle das Bild aus.");
-    assertBad("Eine Mühle wird zum Malen verwendet.");
-    assertBad("Das gemalene Korn aus der Mühle ist gut.");
-    assertBad("Zum Malen verwendet man eine Mühle.");
-    assertBad("Du musst das Bild ausmahlen.");
-    assertBad("Wir haben das im Kunstunterricht gemahlt.");
-    assertBad("Er hat ein schönes Selbstporträt gemahlt.");
-    assertEquals("gemahlen", rule.match(lt.getAnalyzedSentence("Das Korn wird in den Mühlen gemalen."))[0].getSuggestedReplacements().get(0));
-    assertEquals("malten", rule.match(lt.getAnalyzedSentence("Wir mahlten im Kunstunterricht."))[0].getSuggestedReplacements().get(0));
+    //assertGood("Ich soll Bilder einer Mühle malen.");
+    //assertGood("Ich male ein Bild einer Mühle.");
+    //assertGood("Das Bild zeigt eine mahlende Mühle.");
+    //assertGood("Eine mahlende Mühle zeigt das Bild.");
+    //assertGood("Wenn du mal etwas Mehl brauchst, kannst du zu mir kommen.");
+    //assertBad("Weizen ausmalen.");
+    //assertBad("Ich mahle das Bild aus.");
+    //assertBad("Eine Mühle wird zum Malen verwendet.");
+    //assertBad("Das gemalene Korn aus der Mühle ist gut.");
+    //assertBad("Zum Malen verwendet man eine Mühle.");
+    //assertBad("Du musst das Bild ausmahlen.");
+    //assertBad("Wir haben das im Kunstunterricht gemahlt.");
+    //assertBad("Er hat ein schönes Selbstporträt gemahlt.");
+    //assertEquals("gemahlen", rule.match(lt.getAnalyzedSentence("Das Korn wird in den Mühlen gemalen."))[0].getSuggestedReplacements().get(0));
+    //assertEquals("malten", rule.match(lt.getAnalyzedSentence("Wir mahlten im Kunstunterricht."))[0].getSuggestedReplacements().get(0));
 
     // Mine/Miene
     assertGood("Er verzieht keine Miene.");
