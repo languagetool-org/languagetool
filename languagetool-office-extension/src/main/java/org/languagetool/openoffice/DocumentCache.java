@@ -30,8 +30,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.openoffice.DocumentCursorTools.DocumentText;
 import org.languagetool.openoffice.FlatParagraphTools.FlatParagraphContainer;
 import org.languagetool.openoffice.OfficeDrawTools.ParagraphContainer;
@@ -1754,6 +1752,7 @@ public class DocumentCache implements Serializable {
           for (int i = 0; i < fParas.size(); i++) {
             int nFPara = toParaMapping.get(CURSOR_TYPE_SHAPE).get(nShapeParas.get(i));
             if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {
+              removeAnalyzedParagraph(nFPara);
               paragraphs.set(nFPara, fParas.get(i));
               nChanged.add(nFPara);
             }
@@ -1766,6 +1765,7 @@ public class DocumentCache implements Serializable {
           for (int i = 0; i < fParas.size(); i++) {
             int nFPara = toParaMapping.get(CURSOR_TYPE_TABLE).get(nTableParas.get(i));
             if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {
+              removeAnalyzedParagraph(nFPara);
               paragraphs.set(nFPara, fParas.get(i));
               nChanged.add(nFPara);
             }
@@ -2433,9 +2433,11 @@ public class DocumentCache implements Serializable {
     }
     paraText = SingleCheck.removeFootnotes(paraText, 
         getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara));
-//          + OfficeTools.END_OF_PARAGRAPH;
-    AnnotatedText text = new AnnotatedTextBuilder().addText(paraText).build();
-    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(text.getPlainText());
+    return createAnalyzedParagraph(nFPara, paraText, lt);
+  }
+
+  private List<AnalyzedSentence> createAnalyzedParagraph(int nFPara, String paraText, SwJLanguageTool lt) throws IOException {
+    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText);
     putAnalyzedParagraph(nFPara, analyzedParagraph);
     return analyzedParagraph;
   }
@@ -2444,12 +2446,40 @@ public class DocumentCache implements Serializable {
    * Get an analyzed paragraph from analyzed Cache
    * if the requested paragraph doesn't exist create it
    */
-  public List<AnalyzedSentence> getOrCreateAnalyzedParagraph(int nFPara, SwJLanguageTool lt) throws IOException {
-    List<AnalyzedSentence> analyzedParagraph = getAnalyzedParagraph(nFPara);
-    if (analyzedParagraph == null) {
-      analyzedParagraph = createAnalyzedParagraph(nFPara, lt);
+  public AnalysedText getOrCreateAnalyzedParagraph(int nFPara, SwJLanguageTool lt) throws IOException {
+    String paraText = getFlatParagraph(nFPara);
+    if (paraText == null) {
+      return null;
     }
-    return analyzedParagraph;
+    paraText = SingleCheck.removeFootnotes(paraText, 
+        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara));
+    List<AnalyzedSentence> analyzedSentences = getAnalyzedParagraph(nFPara);
+    List<String> sentences = new ArrayList<>();
+    if (analyzedSentences == null) {
+      analyzedSentences = createAnalyzedParagraph(nFPara, paraText, lt);
+    }
+    int len = 0;
+    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+      String sentence = analyzedSentence.getText();
+      len += sentence.length();
+      sentences.add(sentence);
+    }
+    if (len != paraText.length()) {
+/*
+      String anSenText = "";
+      for (String txt : sentences) {
+        anSenText += txt;
+      }
+      MessageHandler.printToLogFile("DocumentCache: getOrCreateAnalyzedParagraph: Different length: (" + len + "/" + paraText.length()
+          + "):\nparaText: '" + paraText + "'\nAnalysed: '" + anSenText + "'");
+*/
+      analyzedSentences = createAnalyzedParagraph(nFPara, paraText, lt);
+      sentences.clear();
+      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        sentences.add(analyzedSentence.getText());
+      }
+    }
+    return new AnalysedText(analyzedSentences, sentences, paraText);
   }
 
   /**
@@ -2460,11 +2490,11 @@ public class DocumentCache implements Serializable {
     List<AnalyzedSentence> analyzedParagraphs = new ArrayList<>();
     for (int i = from.number; i < to.number; i++) {
       int n = getFlatParagraphNumber(new TextParagraph(from.type, i));
-      List<AnalyzedSentence> analyzedParagraph = getOrCreateAnalyzedParagraph(n, lt);
+      AnalysedText analyzedParagraph = getOrCreateAnalyzedParagraph(n, lt);
       if (analyzedParagraph == null) {
         return null;
       }
-      if (analyzedParagraph.size() == 0 && analyzedParagraphs.size() > 0) {
+      if (analyzedParagraph.analyzedSentences.size() == 0 && analyzedParagraphs.size() > 0) {
         int last = analyzedParagraphs.size() - 1;
         AnalyzedSentence sentence = analyzedParagraphs.get(last);
         AnalyzedTokenReadings[] tokens = sentence.getTokens();
@@ -2479,9 +2509,9 @@ public class DocumentCache implements Serializable {
         sentence = new AnalyzedSentence(newTokens);
         analyzedParagraphs.set(last, sentence);
       } else {
-        for (int j = 0; j < analyzedParagraph.size(); j++) {
-          AnalyzedSentence sentence = analyzedParagraph.get(j);
-          if (j == analyzedParagraph.size() - 1 && i < to.number - 1) {
+        for (int j = 0; j < analyzedParagraph.analyzedSentences.size(); j++) {
+          AnalyzedSentence sentence = analyzedParagraph.analyzedSentences.get(j);
+          if (j == analyzedParagraph.analyzedSentences.size() - 1 && i < to.number - 1) {
             AnalyzedTokenReadings[] tokens = sentence.getTokens();
             int len = tokens.length;
             AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[len + 2];
@@ -2543,6 +2573,18 @@ public class DocumentCache implements Serializable {
       this.to = to;
       this.oldSize = oldSize;
       this.newSize = newSize;
+    }
+  }
+
+  public static class AnalysedText {
+    final public List<AnalyzedSentence> analyzedSentences;
+    final public List<String> sentences;
+    final public String text;
+    
+    AnalysedText(List<AnalyzedSentence> analyzedSentences, List<String> sentences, String text) {
+      this.analyzedSentences = analyzedSentences;
+      this.sentences = sentences;
+      this.text = text;
     }
   }
 

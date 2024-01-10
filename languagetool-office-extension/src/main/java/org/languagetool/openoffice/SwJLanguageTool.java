@@ -41,6 +41,7 @@ import org.languagetool.JLanguageTool.Mode;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.openoffice.DocumentCache.AnalysedText;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
 import org.languagetool.rules.CategoryId;
@@ -397,17 +398,18 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences;
+      List<String> sentences;
       if (nFPara < 0) {
         analyzedSentences = this.analyzeText(text);
+        sentences = new ArrayList<>();
+        for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+          sentences.add(analyzedSentence.getText());
+        }
       } else {
-        text = document.getDocumentCache().getFlatParagraph(nFPara);
-        analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
-      }
-//      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
-      List<String> sentences = new ArrayList<>();
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        sentences.add(analyzedSentence.getText());
+        AnalysedText analysedText = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+        analyzedSentences = analysedText.analyzedSentences;
+        sentences = analysedText.sentences;
+        text = analysedText.text;
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
@@ -416,8 +418,6 @@ public class SwJLanguageTool {
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
         TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
-//      text += OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
@@ -438,17 +438,18 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences;
+      List<String> sentences;
       if (nFPara < 0) {
         analyzedSentences = this.analyzeText(text);
+        sentences = new ArrayList<>();
+        for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+          sentences.add(analyzedSentence.getText());
+        }
       } else {
-        text = document.getDocumentCache().getFlatParagraph(nFPara);
-        analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
-      }
-//      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
-      List<String> sentences = new ArrayList<>();
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        sentences.add(analyzedSentence.getText());
+        AnalysedText analysedText = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+        analyzedSentences = analysedText.analyzedSentences;
+        sentences = analysedText.sentences;
+        text = analysedText.text;
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
@@ -457,8 +458,6 @@ public class SwJLanguageTool {
     public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
         TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
-//      text += OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
