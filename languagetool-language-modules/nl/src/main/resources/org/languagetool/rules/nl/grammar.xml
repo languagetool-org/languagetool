@@ -673,6 +673,23 @@ regexp case-insensitive maken: (?i)
 				<example correction="personeelsbestand">Ik zoek het <marker>personeels bestand</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="GEMEENTEHUIZE" name="gemeentehuizen">
+			<rule>
+			    <antipattern>
+			        <!-- match with Simple Replace rule -->
+			        <token>steenhuize</token>
+			    </antipattern>
+				<pattern>
+				    <token><exception>ten</exception></token>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">[a-z].*[a-z]huize</token>
+					</marker>
+				</pattern>
+				<message>Dit hoort aan elkaar.</message>
+				<suggestion><match no="2" regexp_match="huize" regexp_replace="huizen"/></suggestion>
+				<example correction="gemeentehuizen">Hoeveel <marker>gemeentehuize</marker> heb je gevonden?</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
