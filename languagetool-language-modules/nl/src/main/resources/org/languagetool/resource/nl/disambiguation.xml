@@ -4641,7 +4641,7 @@ Copyright (C) 2008-2023 Ruud Baars
 	-->
     <rule id="NEW_155" name="-">
         <pattern>
-			<token postag="SENT_START"/>
+			<token postag="SENNT_START"/>
 			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
 			<marker>
 				<token skip="-1" postag="VNW:PER:2EP:EKV:ACT">je</token>
@@ -4651,4 +4651,31 @@ Copyright (C) 2008-2023 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+	<!--
+	? 218854	(2)	SENT_START BYW/VGW/WKW:TGW:1EP/SENT_START/VGW
+	218848:	~ Maar
+	-->
+    <rule id="NEW_156" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VGW">maar</token>
+			</marker>
+       </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?  49519	(2)	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_/VNW:PER:1EP:EKV:BEZ
+   49517:	~ Mijn
+	-->
+    <rule id="NEW_157" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VNW:PER:1EP:EKV:BEZ">mijn</token>
+			</marker>
+       </pattern>
+        <disambig action="filterall"/>
+    </rule>
 </rules>
