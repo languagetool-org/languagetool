@@ -4678,4 +4678,24 @@ Copyright (C) 2008-2023 Ruud Baars
        </pattern>
         <disambig action="filterall"/>
     </rule>
+	<!--
+	?  60150	(2)	SENT_START ZNW:EKV/BNW:STL:VRB
+    8253:	~ Mooie
+    2238:	~ Vele
+    2027:	~ Arme
+    1725:	~ Diverse
+    1487:	~ Oude
+	-->
+    <rule id="NEW_158" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV"/>
+				</and>
+			</marker>
+       </pattern>
+        <disambig action="remove" postag="ZNW:EKV"/>
+    </rule>
 </rules>
