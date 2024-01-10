@@ -14424,7 +14424,7 @@ USA
       -->
 
             <antipattern>
-                <token postag='DA.+|SPS00|SPS00:DA.+|SP000|_PUNCT' postag_regexp='yes'/>
+                <token postag='DA.+|SPS00:DA.+|SP.00_?|_PUNCT' postag_regexp='yes'/>
                 <token postag='DP.+|DI.+|Z0.+|CC' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
@@ -14472,7 +14472,7 @@ USA
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
+                <token postag='SPS00_?' postag_regexp='no'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <example>Eu acho que ela estava planejando ir visitar a mãe, que está no hospital.</example>
@@ -14480,7 +14480,7 @@ USA
             </antipattern>
 
             <pattern>
-                <token postag='NC.+|AQ.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|V.+' postag_regexp='yes'>
+                <token postag='NC.+|AQ.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00_?|V.+' postag_regexp='yes'>
                     <exception scope='previous' postag_regexp='yes' postag='SENT_START|V.+'/>
                     <exception postag_regexp='no' postag='RG'/>
                 </token>
