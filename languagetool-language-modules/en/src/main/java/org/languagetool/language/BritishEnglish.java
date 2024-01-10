@@ -69,7 +69,7 @@ public class BritishEnglish extends English {
   private final static Map<String, Integer> id2prio = new HashMap<>();
   static {
     id2prio.put("OXFORD_SPELLING_ISATION_NOUNS", -20);
-	id2prio.put("OXFORD_SPELLING_ISE_VERBS", -21);
+    id2prio.put("OXFORD_SPELLING_ISE_VERBS", -21);
     id2prio.put("OXFORD_SPELLING_IZE", -22);
   }
 
