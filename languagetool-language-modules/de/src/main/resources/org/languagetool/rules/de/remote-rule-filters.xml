@@ -1916,13 +1916,31 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist eine <marker>öffentl</marker>. Schule.</example>
             </rule>
-            <rule><!--9 ABK more to be added-->
+            <rule><!--10 -->
                 <pattern>
                     <marker>
                         <token>Sommeliere</token>
                     </marker>
                 </pattern>
                 <example correction="">Eine <marker>Sommeliere</marker> kennt sich mit Wein aus.</example>
+            </rule>
+            <rule><!-- 11 -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Ll]ecko</token>
+                    </marker>
+                    <token>mio</token>
+                </pattern>
+                <example correction=""><marker>Lecko</marker> mio, was ist das denn?!</example>
+            </rule>
+            <rule><!-- 12 -->
+                <pattern>
+                    <token>lecko</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Mm]io</token>
+                    </marker>
+                </pattern>
+                <example correction="">Lecko <marker>mio</marker>, was ist das denn?!</example>
             </rule>
         </rulegroup>
 
