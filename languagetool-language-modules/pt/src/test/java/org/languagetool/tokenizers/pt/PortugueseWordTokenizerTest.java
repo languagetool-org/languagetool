@@ -124,6 +124,8 @@ public class PortugueseWordTokenizerTest {
   @Test
   public void testTokeniseSplitsPercent() {
     testTokenise("50%OFF", new String[]{"50%", "OFF"});
+    testTokenise("%50", new String[]{"%", "50"});
+    testTokenise("%", new String[]{"%"});
   }
 
   @Test

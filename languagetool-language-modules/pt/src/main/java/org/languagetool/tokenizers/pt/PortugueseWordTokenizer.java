@@ -127,7 +127,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
     while (st.hasMoreElements()) {
       String token = st.nextToken();
       // make sure we join the % sign with the previous token, if it ends in a digit
-      if (Objects.equals(token, "%")) {
+      if (Objects.equals(token, "%") && !tokenList.isEmpty()) {
         int lastIndex = tokenList.size() - 1;
         String lastToken = tokenList.get(lastIndex);
         if (lastToken.matches(".*\\d$")) {
