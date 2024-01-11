@@ -113,6 +113,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern ENDS_WITH_IBELKEIT_IBLICHKEIT= compile(".*ibel[hk]eit$");
   private static final Pattern ALLMAHLLIG = compile("[aA]llmähll?i(g|ch)(e[mnrs]?)?");
   private static final Pattern CONTAINS_MAYONNAISE = compile(".*[mM]a[jy]onn?[äe]se.*");
+  private static final Pattern CONTAINS_MAßNAME = compile(".*[mM]a[ss|ß]namen?.*");
   private static final Pattern CONTAINS_RESERVIERUNG = compile(".*[rR]es(a|er)[vw]i[he]?rung(en)?");
   private static final Pattern STARTS_WITH_RESCHASCHIER= compile("[rR]eschaschier.+");
   private static final Pattern ENDS_WITH_LABORANTS= compile(".*[lL]aborants$");
@@ -2922,6 +2923,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     if (RECHTMASIG_WITH_CASES.matcher(word).matches()) {
       return topMatch(word.replaceFirst("mässig", "mäßig"));
+    }
+    if (CONTAINS_MAßNAME.matcher(word).matches()) {
+      return topMatch(word.replaceFirst("maßname", "maßnahme"));
     }
     if (HOLZ_SPIEGEL_PANEL_COMPOUND.matcher(word).matches()){
       return topMatch(word.replaceFirst("panel", "paneel"));
