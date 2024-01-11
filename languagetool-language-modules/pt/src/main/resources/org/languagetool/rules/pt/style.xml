@@ -8479,6 +8479,22 @@ USA
         </rulegroup>
 
 
+       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="[Universitário][formal] 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>ficar</token>
+                    <token regexp='yes' >parad[ao]s?</token>
+                    <token>no</token>
+                    <token>tempo</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;estagnar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estagnar</match></suggestion>
+            <example correction="estagnou">A Ana <marker>ficou parada no tempo</marker>.</example>
+            <example correction="estagnaram">Eles <marker>ficaram parados no tempo</marker>.</example>
+        </rule>
+
+
         <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token postag='SENT_START|AQ.+|NC.+|NP.+|CS|CC' postag_regexp='yes'/>
