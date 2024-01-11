@@ -2925,7 +2925,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return topMatch(word.replaceFirst("mässig", "mäßig"));
     }
     if (CONTAINS_MASZNAME.matcher(word).matches()) {
-      return topMatch(word.replaceFirst("aßname", "aßnahme"));
+      return topMatch(word.replaceFirst("a(ss|ß)name", "aßnahme"));
     }
     if (HOLZ_SPIEGEL_PANEL_COMPOUND.matcher(word).matches()){
       return topMatch(word.replaceFirst("panel", "paneel"));
