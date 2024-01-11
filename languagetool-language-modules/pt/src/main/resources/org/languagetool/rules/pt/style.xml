@@ -8479,6 +8479,42 @@ USA
         </rulegroup>
 
 
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+
+            <!-- #1 - Without d[ao]s? -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>dar</token>
+                        <token regexp='yes'>um|uns|algum|alguns</token>
+                        <token regexp='yes'>exemplos?</token>
+                    </marker>
+                    <token postag='_PUNCT|SPS00|CC|CS' postag_regexp='yes'/>
+                </pattern>
+                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match></suggestion>
+                <example correction="exemplificou">A Ana <marker>deu um exemplo</marker>.</example>
+            </rule>
+
+            <!-- #2 - With d[ao]s? -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>dar</token>
+                        <token regexp='yes'>um|uns|algum|alguns</token>
+                        <token regexp='yes'>exemplos?</token>
+                        <token regexp='yes'>d[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="exemplificou a">A Ana <marker>deu um exemplo da</marker> equação.</example>
+                <example correction="exemplificou o">O Rui <marker>deu um exemplo do</marker> problema.</example>
+            </rule>
+
+        </rulegroup>
+
+
        <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="[Universitário][formal] 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true" default="temp_off">
             <pattern>
                 <marker>
