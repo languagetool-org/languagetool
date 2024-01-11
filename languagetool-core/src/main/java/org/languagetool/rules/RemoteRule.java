@@ -266,7 +266,7 @@ public abstract class RemoteRule extends Rule {
         || id.matches("AI_.._GGEC_.*")) {
         if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
           SimpleDateFormat sdf = new SimpleDateFormat("HH");
-          System.out.println(sdf.format(new Date()) + " - ignored AI suggestion: " + m.getSuggestedReplacements().toString()
+          System.out.println(sdf.format(new Date()) + " - ignored AI suggestion " + id +": " + m.getSuggestedReplacements().toString()
             + "; original: " + m.getOriginalErrorStr());
           continue;
         }
@@ -277,7 +277,7 @@ public abstract class RemoteRule extends Rule {
           .filter(checkSpelling).collect(Collectors.toList());
         if (suggestedReplacements.isEmpty()) {
           SimpleDateFormat sdf = new SimpleDateFormat("HH");
-          System.out.println(sdf.format(new Date()) + " - ignored AI suggestion: " + m.getSuggestedReplacements().toString()
+          System.out.println(sdf.format(new Date()) + " - ignored AI suggestion " + id +": " + m.getSuggestedReplacements().toString()
             + "; original: " + m.getOriginalErrorStr());
           continue;
         }
