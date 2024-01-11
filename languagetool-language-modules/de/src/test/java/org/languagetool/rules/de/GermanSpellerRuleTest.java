@@ -714,6 +714,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("desinfektionierst", "desinfizierst", rule, lt);
     assertFirstSuggestion("Neuhichkeit", "Neuigkeit", rule, lt);
     assertFirstSuggestion("neuhichkeiten", "Neuigkeiten", rule, lt);
+    assertFirstSuggestion("Maßname", "Maßnahme", rule, lt);
+    assertFirstSuggestion("Maßnamen", "Maßnahmen", rule, lt);
+    assertFirstSuggestion("Analysemaßname", "Analysemaßnahme", rule, lt);
+    assertFirstSuggestion("Analysemaßnamen", "Analysemaßnahmen", rule, lt);
+    assertFirstSuggestion("Analysemassnamen", "Analysemaßnahmen", rule, lt);
   }
 
   @Test
