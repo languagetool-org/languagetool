@@ -53,6 +53,12 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("webschoolboek"));
     assertFalse(acceptor.acceptCompound("gezondheidsomlijningssvervangingsinfluencers"));
 
+    // test areas
+    assertTrue(acceptor.acceptCompound("Zuidoost-Turkije"));
+    assertTrue(acceptor.acceptCompound("Noord-Afghanistan"));
+    assertFalse(acceptor.acceptCompound("Zuidwest-Frank"));
+    assertTrue(acceptor.acceptCompound("Zuidwest-Gouda"));
+
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
     // prevent duplicate part1 & part2 from being accepted

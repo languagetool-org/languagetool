@@ -63,6 +63,10 @@ public class DutchTaggerTest {
     TestTools.myAssert("beoordelingsgeschiedenisje", "beoordelingsgeschiedenisje/[beoordelingsgeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
     TestTools.myAssert("Beoordelingsgeschiedenisjes", "Beoordelingsgeschiedenisjes/[beoordelingsgeschiedenis]ZNW:MRV:VRK:DE_", tokenizer, tagger);
 
+    // Test regions
+    TestTools.myAssert("Zuidoost-Gouda", "Zuidoost-Gouda/[Gouda]ENM:LOC:PTS", tokenizer, tagger);
+    TestTools.myAssert("West-Bergambacht", "West-Bergambacht/[Bergambacht]ENM:LOC:PTS", tokenizer, tagger);
+
     // Test compound words with 2 parts
     TestTools.myAssert("beroertegeschiedenisje", "beroertegeschiedenisje/[beroertegeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
     // Test compound words with 3 parts
