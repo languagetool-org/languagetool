@@ -407,7 +407,12 @@ public abstract class StringMatcher {
   }
 
   private static class TooComplexRegexp extends RuntimeException {
-    private static final TooComplexRegexp INSTANCE = new TooComplexRegexp();
+    private static final TooComplexRegexp INSTANCE = new TooComplexRegexp() {
+      @Override
+      public synchronized Throwable fillInStackTrace() {
+        return this;
+      }
+    };
   }
 
 }
