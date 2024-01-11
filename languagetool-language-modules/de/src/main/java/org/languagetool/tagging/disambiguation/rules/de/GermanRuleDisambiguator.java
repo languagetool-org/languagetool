@@ -35,13 +35,13 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
   private final Disambiguator disambiguator;
 
   private final MultiWordChunker multitokenSpeller = new MultiWordChunker(
-    "/de/multitoken-ignore.txt", false, false, false, MultiWordChunker.tagForNotAddingTags);
+    "/de/multitoken-ignore.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
 
   private final MultiWordChunker multitokenSpeller2 = new MultiWordChunker(
-    "/de/multitoken-suggest.txt", false, false, false, MultiWordChunker.tagForNotAddingTags);
+    "/de/multitoken-suggest.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
 
   private final MultiWordChunker multitokenSpeller3 = new MultiWordChunker(
-    "/spelling_global.txt", false, false, false, MultiWordChunker.tagForNotAddingTags);
+    "/spelling_global.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
 
   public GermanRuleDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
