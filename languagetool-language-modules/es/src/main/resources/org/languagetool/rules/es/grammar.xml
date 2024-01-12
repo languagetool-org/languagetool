@@ -15389,6 +15389,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Indochina</suggestion>
                 <example correction="Indochina">La guerra de <marker>Indo-China</marker>.</example>
             </rule>
+            <rule id="PREFIJO_CUASI" name="cuasi-veraniego -> cuasiveraniego" default="temp_off">
+                <pattern>
+                    <token>cuasi</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>Se escribe junto.</message>
+                <suggestion>cuasi\3</suggestion>
+                <url>https://www.fundeu.es/recomendacion/cuasi-y-casi-diferencias/</url>
+                <example correction="cuasiveraniego">Hacía un tiempo <marker>cuasi veraniego</marker>.</example>
+                <example correction="cuasipartículas">Descubrieron nuevas <marker>cuasi-partículas</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
             <pattern>
