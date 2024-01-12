@@ -2949,6 +2949,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Wiederspruch": return topMatch("Widerspruch");
+      case "Wiederspruchs": return topMatch("Widerspruchs");
+      case "Wiedersprüche": return topMatch("Widersprüche");
+      case "Wiedersprüchen": return topMatch("Widersprüchen");
       case "Vorraussetzung": return topMatch("Voraussetzung");
       case "Vorraussetzungen": return topMatch("Voraussetzungen");
       case "Schalosie": return topMatch("Jalousie", "bewegliche Lamellen zum Sicht- und Sonnenschutz");
