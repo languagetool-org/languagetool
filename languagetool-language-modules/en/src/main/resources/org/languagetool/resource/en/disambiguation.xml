@@ -17034,4 +17034,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
+
+    <rule id="WHOLE_NOTHER_IGNORE_SPELLING" name="ignore spelling of 'whole nother'">
+        <!-- https://www.merriam-webster.com/dictionary/whole%20nother -->
+        <pattern>
+            <token>whole</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">[Nn]other|NOTHER</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
 </rules>

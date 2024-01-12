@@ -100,6 +100,21 @@ USA
 <rules lang="en-US" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <category id="GRAMMAR" name="Grammar" type="grammar">
+            <rule id="ON_A_WHOLE_ANOTHER" name="on a whole another (nother/different)">
+                <pattern>
+                    <token regexp="yes">[oi]n|at</token>
+                    <token>a</token>
+                    <marker>
+                        <token>whole</token>
+                        <token regexp="yes">(an)?other</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>The correct spelling of this informal idiom is <suggestion>whole nother</suggestion>.</message>
+                <suggestion>whole different</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/whole%20nother</url>
+                <example correction="whole nother|whole different">This is on a <marker>whole another</marker> level.</example>
+            </rule>
             <rulegroup id="US_ONE_ENTITY" name="The United States are (is) 246 years old">
                 <rule>  <!-- 'United States' -->
                     <antipattern>
