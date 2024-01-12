@@ -213,6 +213,14 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("[Martín, Mártir, Martina, Mastín, Marlín, Martiño, Martí, Marvin, Marín, Martini, Marin, Marti, Martins]", matches[0].getSuggestedReplacements().toString());
 
+    matches = rule.match(lt.getAnalyzedSentence("Dnipro"));
+    assertEquals(1, matches.length);
+    assertEquals("[Dnipró]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("Dnepr"));
+    assertEquals(1, matches.length);
+    assertEquals("Dniéper", matches[0].getSuggestedReplacements().get(0).toString());
+
   }
 
 }
