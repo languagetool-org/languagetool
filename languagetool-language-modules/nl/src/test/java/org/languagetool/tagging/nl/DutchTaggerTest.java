@@ -69,6 +69,7 @@ public class DutchTaggerTest {
 
     // Test compound words with 2 parts
     TestTools.myAssert("beroertegeschiedenisje", "beroertegeschiedenisje/[beroertegeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    TestTools.myAssert("aspirant-burgemeestertje", "aspirant-burgemeestertje/[aspirant-burgemeester]ZNW:EKV:VRK:HET", tokenizer, tagger);
     // Test compound words with 3 parts
     TestTools.myAssert("gastkritiekgeschiedenis", "gastkritiekgeschiedenis/[null]null", tokenizer, tagger);
     // Test compound words with 3+ parts

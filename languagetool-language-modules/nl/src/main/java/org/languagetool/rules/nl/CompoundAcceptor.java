@@ -65,6 +65,16 @@ public class CompoundAcceptor {
     "schaps",
     "teits"
   );
+  // if part 1 ends with this, they always need a hyphen attached
+  private final Set<String> alwaysNeedsHyphen = ImmutableSet.of(
+    "adjunct-",
+    "assistent-",
+    "aspirant-",
+    "collega-",
+    "leerling-",
+    "student-",
+    "substituut-"
+  );
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
     "afgods",
@@ -1177,7 +1187,7 @@ public class CompoundAcceptor {
       } else if (geographicalDirections.contains(part1)){
         return isGeographicalCompound(part2); // directions
       } else if (part1.endsWith("-")) { // abbreviations
-        return acronymOk(part1) && spellingOk(part2);
+        return (acronymOk(part1) || alwaysNeedsHyphen.contains(part1lc)) && spellingOk(part2);
       } else if (part2.startsWith("-")) { // vowel collision
         part2 = part2.substring(1);
         return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);

@@ -73,6 +73,11 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("VRF-regels"));
     assertFalse(acceptor.acceptCompound("WIFI-verbinding"));
 
+    // test for words that always need a hyphen
+    assertTrue(acceptor.acceptCompound("collega-burgemeester"));
+    assertTrue(acceptor.acceptCompound("aspirant-buschauffeur"));
+    assertFalse(acceptor.acceptCompound("aspirantbuschauffeur"));
+
     // test for acronym exceptions
     assertFalse(acceptor.acceptCompound("AIDS-afdeling"));
     assertTrue(acceptor.acceptCompound("aidsafdeling"));
