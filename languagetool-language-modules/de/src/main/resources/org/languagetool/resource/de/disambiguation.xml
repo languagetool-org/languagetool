@@ -8325,4 +8325,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rulegroup id="TRADE_REPUBLIC_KEIN_VERB" name="'Trade' kein Verb in Eigennamen (e.g. Trade Republic)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>trade</token>
+                </marker>
+                <token regexp="yes">repu.*|desk.*|air.*|off?|the|deadline.*|mark|martin|policy|sector|unions?|weight.*</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>trade</token>
+                </marker>
+                <token postag="UNKNOWN" />
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+    </rulegroup>
 </rules>
