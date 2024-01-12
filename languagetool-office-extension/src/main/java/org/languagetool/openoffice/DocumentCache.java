@@ -47,7 +47,7 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  */
 public class DocumentCache implements Serializable {
 
-  private static final long serialVersionUID = 12L;
+  private static final long serialVersionUID = 13L;
 
   public final static int CURSOR_TYPE_UNKNOWN = -1;
   public final static int CURSOR_TYPE_ENDNOTE = 0;
@@ -2277,61 +2277,6 @@ public class DocumentCache implements Serializable {
   }
   
   /**
-   * Class of serializable locale needed to save cache
-   */
-  public static class SerialLocale implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    String Country;
-    String Language;
-    String Variant;
-
-    SerialLocale(Locale locale) {
-      this.Country = locale.Country;
-      this.Language = locale.Language;
-      this.Variant = locale.Variant;
-    }
-
-    /**
-     *  Get a String from SerialLocale
-     */
-    public String toString() {
-      return Language + (Country.isEmpty() ? "" : "-" + Country) + (Variant.isEmpty() ? "" : "-" + Variant);
-    }
-
-    /**
-     * return the Locale as String
-     */
-    Locale toLocale() {
-      return new Locale(Language, Country, Variant);
-    }
-
-    /**
-     * return the Locale as String
-     */
-    Locale toLocaleWithoutLabel() {
-      if (Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
-        return new Locale(Language, Country, Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length()));
-      }
-      return new Locale(Language, Country, Variant);
-    }
-
-    /**
-     * True if the Language is the same as Locale
-     */
-    boolean equalsLocale(Locale locale) {
-      return ((locale == null || Language == null || Country == null || Variant == null) ? false
-          : Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
-    }
-
-    boolean equalsLocale(SerialLocale locale) {
-      return ((locale == null || Language == null || Country == null || Variant == null) ? false
-          : Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
-    }
-
-  }
-
-  /**
    * Remove all analyzed paragraphs
    */
   public void clearAnalyzedParagraphs() {
@@ -2451,8 +2396,8 @@ public class DocumentCache implements Serializable {
     if (paraText == null) {
       return null;
     }
-    paraText = SingleCheck.removeFootnotes(paraText, 
-        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara));
+    paraText = fixLinebreak(SingleCheck.removeFootnotes(paraText, 
+        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara)));
     List<AnalyzedSentence> analyzedSentences = getAnalyzedParagraph(nFPara);
     List<String> sentences = new ArrayList<>();
     if (analyzedSentences == null) {
@@ -2486,28 +2431,42 @@ public class DocumentCache implements Serializable {
    * Get a range of analyzed paragraphs from analyzed Cache
    * if the requested paragraphs don't exist create it
    */
-  public List<AnalyzedSentence> getAnalyzedParagraphs(TextParagraph from, TextParagraph to, SwJLanguageTool lt) throws IOException {
+  public AnalysedText getAnalyzedParagraphs(TextParagraph from, TextParagraph to, SwJLanguageTool lt) throws IOException {
     List<AnalyzedSentence> analyzedParagraphs = new ArrayList<>();
+    List<String> sentences = new ArrayList<>();
+    StringBuilder docText = new StringBuilder();
     for (int i = from.number; i < to.number; i++) {
       int n = getFlatParagraphNumber(new TextParagraph(from.type, i));
       AnalysedText analyzedParagraph = getOrCreateAnalyzedParagraph(n, lt);
       if (analyzedParagraph == null) {
         return null;
       }
-      if (analyzedParagraph.analyzedSentences.size() == 0 && analyzedParagraphs.size() > 0) {
-        int last = analyzedParagraphs.size() - 1;
-        AnalyzedSentence sentence = analyzedParagraphs.get(last);
-        AnalyzedTokenReadings[] tokens = sentence.getTokens();
-        int len = tokens.length;
-        AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[len + 2];
-        for (int k = 0; k < len; k++) {
-          newTokens[k] = tokens[k];
+      if (analyzedParagraph.analyzedSentences.size() == 0) {
+        if (analyzedParagraphs.size() > 0) {
+          int last = analyzedParagraphs.size() - 1;
+          AnalyzedSentence sentence = analyzedParagraphs.get(last);
+          AnalyzedTokenReadings[] tokens = sentence.getTokens();
+          int len = tokens.length;
+          AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[len + 2];
+          for (int k = 0; k < len; k++) {
+            newTokens[k] = tokens[k];
+          }
+          int startPos = tokens[len - 1].getEndPos();
+          newTokens[len] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos);
+          newTokens[len + 1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos + 1);
+          sentence = new AnalyzedSentence(newTokens);
+          analyzedParagraphs.set(last, sentence);
+          sentences.set(last, sentence.getText());
+        } else {
+          AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[3];
+          newTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null), 0);
+          newTokens[1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), 0);
+          newTokens[2] = new AnalyzedTokenReadings(new AnalyzedToken("\n", JLanguageTool.SENTENCE_END_TAGNAME, null), 1);
+          newTokens[2].setParagraphEnd();
+          AnalyzedSentence sentence = new AnalyzedSentence(newTokens);
+          analyzedParagraphs.add(sentence);
+          sentences.add(sentence.getText());
         }
-        int startPos = tokens[len - 1].getEndPos();
-        newTokens[len] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos);
-        newTokens[len + 1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos + 1);
-        sentence = new AnalyzedSentence(newTokens);
-        analyzedParagraphs.set(last, sentence);
       } else {
         for (int j = 0; j < analyzedParagraph.analyzedSentences.size(); j++) {
           AnalyzedSentence sentence = analyzedParagraph.analyzedSentences.get(j);
@@ -2522,13 +2481,19 @@ public class DocumentCache implements Serializable {
             newTokens[len] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos);
             newTokens[len + 1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos + 1);
             sentence = new AnalyzedSentence(newTokens);
+            sentences.add(sentence.getText());
+          } else {
+            sentences.add(analyzedParagraph.sentences.get(j));
           }
           analyzedParagraphs.add(sentence);
         }
       }
-//      analyzedParagraphs.addAll(analyzedParagraph);
+      docText.append(analyzedParagraph.text);
+      if (i < to.number - 1) {
+        docText.append(OfficeTools.END_OF_PARAGRAPH);
+      }
     }
-    return analyzedParagraphs;
+    return new AnalysedText(analyzedParagraphs, sentences, docText.toString());
   }
   
   public static class TextParagraph implements Serializable {
@@ -2541,7 +2506,7 @@ public class DocumentCache implements Serializable {
       this.number = number;
     }
   }
-/*  
+/*
   public static void printTokenizedSentences(List<AnalyzedSentence> sentences) {
     for (AnalyzedSentence sentence : sentences) {
       String str = "";
@@ -2562,6 +2527,61 @@ public class DocumentCache implements Serializable {
     }
   }
 */
+  /**
+   * Class of serializable locale needed to save cache
+   */
+  public static class SerialLocale implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    String Country;
+    String Language;
+    String Variant;
+
+    SerialLocale(Locale locale) {
+      this.Country = locale.Country;
+      this.Language = locale.Language;
+      this.Variant = locale.Variant;
+    }
+
+    /**
+     *  Get a String from SerialLocale
+     */
+    public String toString() {
+      return Language + (Country.isEmpty() ? "" : "-" + Country) + (Variant.isEmpty() ? "" : "-" + Variant);
+    }
+
+    /**
+     * return the Locale as String
+     */
+    Locale toLocale() {
+      return new Locale(Language, Country, Variant);
+    }
+
+    /**
+     * return the Locale as String
+     */
+    Locale toLocaleWithoutLabel() {
+      if (Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
+        return new Locale(Language, Country, Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length()));
+      }
+      return new Locale(Language, Country, Variant);
+    }
+
+    /**
+     * True if the Language is the same as Locale
+     */
+    boolean equalsLocale(Locale locale) {
+      return ((locale == null || Language == null || Country == null || Variant == null) ? false
+          : Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
+    }
+
+    boolean equalsLocale(SerialLocale locale) {
+      return ((locale == null || Language == null || Country == null || Variant == null) ? false
+          : Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
+    }
+
+  }
+
   public static class ChangedRange {
     final public int from;
     final public int to;
