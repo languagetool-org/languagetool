@@ -47,7 +47,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-    
+
 //    if (match.getSentence().getText().contains("Faltes")) {
 //      int ii=0;
 //      ii++;
@@ -79,24 +79,14 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     StringComparator stringComparator = new StringComparator("");
 
     if (wordFrom != null && desiredPostag != null) {
-      int posWord = 0;
-      if (wordFrom.startsWith("marker")) {
-        while (posWord < patternTokens.length && (patternTokens[posWord].getStartPos() < match.getFromPos()
-            || patternTokens[posWord].isSentenceStart())) {
-          posWord++;
-        }
-        posWord++;
-        if (wordFrom.length()>6) {
-          wordFrom += Integer.parseInt(wordFrom.replace("marker", ""));
-        }
+      AnalyzedTokenReadings atrWord;
+      if (wordFrom.equals("inmarker")) {
+        match.setOriginalErrorStr();
+        atrWord = new AnalyzedTokenReadings(new AnalyzedToken(match.getOriginalErrorStr().replaceAll(" ",""),
+          "", ""));
       } else {
-        posWord = Integer.parseInt(wordFrom);
+        atrWord = patternTokens[getPosition(wordFrom, patternTokens, match)];
       }
-      if (posWord < 1 || posWord > patternTokens.length) {
-        throw new IllegalArgumentException("FindSuggestionsFilter: Index out of bounds in "
-            + match.getRule().getFullId() + ", wordFrom: " + posWord);
-      }
-      AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
       stringComparator = new StringComparator(atrWord.getToken());
       boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
       boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
