@@ -13515,9 +13515,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes">[\p{L}·]+</token>
+                    <token  postag="UNKNOWN" regexp="yes">[\p{L}]+</token>
                     <token regexp="yes" spacebefore="no">&apostrophe;</token>
-                    <token regexp="yes" spacebefore="no">[\p{L}·]+</token>
+                    <token regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Están|Estén">Potser <marker>Est`n</marker> aquí.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token  regexp="yes">\p{L}[\p{L}]+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token postag="UNKNOWN" regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
                 <message>Posible error de ortografía.</message>

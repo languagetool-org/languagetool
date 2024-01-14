@@ -69,6 +69,13 @@ public class SpanishTagger extends BaseTagger {
     final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
+      boolean containsTypographicApostrophe = false;
+      if (word.length() > 1) {
+        if (word.contains("’")) {
+          containsTypographicApostrophe = true;
+          word = word.replaceAll("’", "'");
+        }
+      }
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(locale);
       final boolean isLowercase = word.equals(lowerWord);
@@ -100,6 +107,9 @@ public class SpanishTagger extends BaseTagger {
         l.add(new AnalyzedToken(word, null, null));
       }
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
+      if (containsTypographicApostrophe) {
+        atr.setTypographicApostrophe();
+      }
       tokenReadings.add(atr);
       pos += word.length();
     }
