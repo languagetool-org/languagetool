@@ -42,12 +42,38 @@ public class CompoundAcceptor {
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
   private static final int MAX_WORD_SIZE = 35;
 
+  // geographical directions + city / country
+  private final Set<String> geographicalDirections = ImmutableSet.of(
+    "Noord-",
+    "Oost-",
+    "Zuid-",
+    "West-",
+    "Noordoost-",
+    "Noord-Oost-",
+    "Zuidoost-",
+    "Zuid-Oost-",
+    "Noordwest-",
+    "Noord-West-",
+    "Zuidwest-",
+    "Zuid-West-"
+  );
+
   // if part 1 ends with this, it always needs an 's' appended
   private final Set<String> alwaysNeedsS = ImmutableSet.of(
     "heids",
     "ings",
     "schaps",
     "teits"
+  );
+  // if part 1 ends with this, they always need a hyphen attached
+  private final Set<String> alwaysNeedsHyphen = ImmutableSet.of(
+    "adjunct-",
+    "assistent-",
+    "aspirant-",
+    "collega-",
+    "leerling-",
+    "student-",
+    "substituut-"
   );
   // compound parts that need an 's' appended to be used as first part of the compound:
   private final Set<String> needsS = ImmutableSet.of(
@@ -1158,8 +1184,10 @@ public class CompoundAcceptor {
           }
         }
         return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+      } else if (geographicalDirections.contains(part1)){
+        return isGeographicalCompound(part2); // directions
       } else if (part1.endsWith("-")) { // abbreviations
-        return acronymOk(part1) && spellingOk(part2);
+        return (acronymOk(part1) || alwaysNeedsHyphen.contains(part1lc)) && spellingOk(part2);
       } else if (part2.startsWith("-")) { // vowel collision
         part2 = part2.substring(1);
         return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
@@ -1180,6 +1208,13 @@ public class CompoundAcceptor {
 
   private boolean isExistingWord(String word) throws IOException {
     return dutchTagger.getPostags(word).stream().anyMatch(k -> k.getPOSTag() != null);
+  }
+
+  private boolean isGeographicalCompound(String word) throws IOException {
+    return dutchTagger.getPostags(word).stream().anyMatch(k -> {
+      assert k.getPOSTag() != null;
+      return k.getPOSTag().startsWith("ENM:LOC");
+    });
   }
 
   private boolean hasCollidingVowels(String part1, String part2) {

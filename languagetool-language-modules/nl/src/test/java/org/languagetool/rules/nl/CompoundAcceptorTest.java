@@ -53,6 +53,12 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("webschoolboek"));
     assertFalse(acceptor.acceptCompound("gezondheidsomlijningssvervangingsinfluencers"));
 
+    // test areas
+    assertTrue(acceptor.acceptCompound("Zuidoost-Turkije"));
+    assertTrue(acceptor.acceptCompound("Noord-Afghanistan"));
+    assertFalse(acceptor.acceptCompound("Zuidwest-Frank"));
+    assertTrue(acceptor.acceptCompound("Zuidwest-Gouda"));
+
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
 
     // prevent duplicate part1 & part2 from being accepted
@@ -66,6 +72,11 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("WK-finale"));
     assertTrue(acceptor.acceptCompound("VRF-regels"));
     assertFalse(acceptor.acceptCompound("WIFI-verbinding"));
+
+    // test for words that always need a hyphen
+    assertTrue(acceptor.acceptCompound("collega-burgemeester"));
+    assertTrue(acceptor.acceptCompound("aspirant-buschauffeur"));
+    assertFalse(acceptor.acceptCompound("aspirantbuschauffeur"));
 
     // test for acronym exceptions
     assertFalse(acceptor.acceptCompound("AIDS-afdeling"));

@@ -189,26 +189,31 @@ public class DutchTagger extends BaseTagger {
             String part1 = parts.get(0);
             String part2 = parts.get(1);
             List<AnalyzedTokenReadings> part2ReadingsList = tag(Collections.singletonList(part2));
-            if (!part2ReadingsList.isEmpty()) {
-              AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
-              String part1lc = part1.toLowerCase();
-              for (AnalyzedToken part2Reading : part2Readings) {
-                if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().startsWith("ZNW")) {
-                  String tag;
-                  if (alwaysNeedsHet.contains(part2)) {
-                    tag = "ZNW:EKV:HET";
-                  } else if (alwaysNeedsDe.contains(part2)) {
-                    tag = "ZNW:EKV:DE_";
-                  } else if (alwaysNeedsMrv.contains(part2)) {
-                    tag = "ZNW:MRV:DE_";
-                  } else {
-                    tag = part2Reading.getPOSTag();
-                  }
-                  l.add(new AnalyzedToken(word, tag, part1lc + part2Reading.getLemma()));
-                  // if any of these lists contain part2 of the compound, exit the loop after adding a single tag
-                  if (alwaysNeedsHet.contains(part2) || alwaysNeedsDe.contains(part2) || alwaysNeedsMrv.contains(part2)) {
-                    break;
-                  }
+            AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
+            String part1lc = part1.toLowerCase();
+            for (AnalyzedToken part2Reading : part2Readings) {
+              // if part1 ends with a hyphen, check if we are dealing with geographical compound word
+              if (part1.endsWith("-")) {
+                if (part2Reading.getPOSTag().startsWith("ENM:LOC")) {
+                  l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part2));
+                  break;
+                }
+              }
+              if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().startsWith("ZNW")) {
+                String tag;
+                if (alwaysNeedsHet.contains(part2)) {
+                  tag = "ZNW:EKV:HET";
+                } else if (alwaysNeedsDe.contains(part2)) {
+                  tag = "ZNW:EKV:DE_";
+                } else if (alwaysNeedsMrv.contains(part2)) {
+                  tag = "ZNW:MRV:DE_";
+                } else {
+                  tag = part2Reading.getPOSTag();
+                }
+                l.add(new AnalyzedToken(word, tag, part1lc + part2Reading.getLemma()));
+                // if any of these lists contain part2 of the compound, exit the loop after adding a single tag
+                if (alwaysNeedsHet.contains(part2) || alwaysNeedsDe.contains(part2) || alwaysNeedsMrv.contains(part2)) {
+                  break;
                 }
               }
             }
