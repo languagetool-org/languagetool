@@ -19,10 +19,7 @@
 package org.languagetool.rules.spelling.multitoken;
 
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -49,6 +46,21 @@ public class MultitokenSpellerFilter extends RuleFilter {
     }
     String underlinedError = match.getOriginalErrorStr();
     Language lang = ((PatternRule) match.getRule()).getLanguage();
+    // check the spelling for some languages in a different way
+    if (lang.getShortCode().equals("en") || lang.getShortCode().equals("de")) {
+      //|| lang.getShortCode().equals("pt")
+      if (lang.getShortCodeWithCountryAndVariant().length()==2) {
+        // needed in testing
+        lang = lang.getDefaultLanguageVariant();
+      }
+      JLanguageTool lt = lang.createDefaultJLanguageTool();
+      AnalyzedSentence sentence = lt.getRawAnalyzedSentence(underlinedError);
+      RuleMatch[] matches = lang.getDefaultSpellingRule().match(sentence);
+      if (matches.length == 0) {
+        return null;
+      }
+    }
+
     List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError);
     if (replacements.isEmpty()) {
       return null;
