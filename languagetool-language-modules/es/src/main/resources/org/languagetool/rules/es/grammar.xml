@@ -13513,9 +13513,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="(?iu)^u" regexp_replace="ú" case_conversion="preserve"/></suggestion>?</message>
                 <example correction="runrún">Un <marker>runr'un</marker> extraño.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <!-- 6 -->
                 <pattern>
-                    <token  postag="UNKNOWN" regexp="yes">[\p{L}]+</token>
+                    <token postag="UNKNOWN" regexp="yes">[\p{L}]+</token>
                     <token regexp="yes" spacebefore="no">&apostrophe;</token>
                     <token regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
                 </pattern>
@@ -13523,20 +13524,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible error de ortografía.</message>
                 <example correction="Están|Estén">Potser <marker>Est`n</marker> aquí.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token  regexp="yes">\p{L}[\p{L}]+</token>
+                    <token regexp="yes">\p{L}[\p{L}]+</token>
                     <token regexp="yes" spacebefore="no">&apostrophe;</token>
                     <token postag="UNKNOWN" regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
                 <message>Posible error de ortografía.</message>
-                <example correction="Están|Estén">Potser <marker>Est`n</marker> aquí.</example>
+                <example correction="Están|Estén"><marker>Est`n</marker> aquí.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- foreign terms with apostrophe -->
+                <pattern>
+                    <token regexp="yes">o|l|d</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token postag="UNKNOWN" regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="O'Neill"><marker>O’neill</marker></example>
+                <example correction="L'ALCOIÀ"><marker>L’ALCOIA</marker></example>
+                <example correction="l'Alcoià"><marker>L’Alcoia</marker></example>
+                <example correction="d'Alembert"><marker>D'Alembert</marker></example>
+                <example correction="d'Alembert"><marker>D'Alambert</marker></example>
+                <example correction="l'Alcúdia"><marker>L´Alcudia</marker></example>
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" postag="UNKNOWN">[\p{L}·]+</token>
-                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <marker>
+                        <token regexp="yes" postag="UNKNOWN">[\p{L}·]+</token>
+                        <token regexp="yes" spacebefore="no">[´`]</token>
+                    </marker>
+                    <token spacebefore="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true removeSuggestionsRegexp:.*[^áéíóú]"/>
                 <message>Posible error de ortografía.</message>
