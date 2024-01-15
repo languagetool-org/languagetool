@@ -878,6 +878,9 @@ public class SingleDocument {
               if (sChangedPara != null && !sChangedPara.equals(sPara)) {
                 docCache.setFlatParagraph(nPara, sPara);
                 removeResultCache(nPara, false);
+                for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
+                  addQueueEntry(nPara, i, mDocHandler.getNumMinToCheckParas().get(i), docID, false);
+                }
                 if (!changedParas.isEmpty()) {
                   addQueueEntry(nPara, 0, 0, docID, false);
                 } else {

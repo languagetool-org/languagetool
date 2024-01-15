@@ -113,6 +113,9 @@ class CheckRequestAnalysis {
    * get number of paragraph from node index
    */
   int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
+    if (docCache == null) {
+      return -1;
+    }
     //  test if doc cache has changed --> actualize
     if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && !docCache.isActual(documentElementsCount)) {
 //      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
@@ -138,11 +141,11 @@ class CheckRequestAnalysis {
       //  test if paragraph has changed --> actualize all caches for single paragraph
       TextParagraph tPara = docCache.getNumberOfTextParagraph(paraNum);
       DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
-      List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara, config.includeTrackedChanges());
-      
-      if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
-//        singleDocument.getFlatParagraphTools().getFlatParagraphAt(paraNum);
-        handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
+      if (docCursor != null) {
+        List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara, config.includeTrackedChanges());
+        if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
+          handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
+        }
       }
     }
     return paraNum;
