@@ -114,14 +114,14 @@ public class SentenceAnnotator {
       if (quit) {
         break;
       }
-      String[] parts = line.split("\t");
+      String[] partsLine = line.split("\t");
       String sentence;
       String sentenceHash = "Undefined";
-      if (parts.length == 2) {
-        sentence = parts[1];
-        sentenceHash = parts[0];
+      if (partsLine.length == 2) {
+        sentence = partsLine[1];
+        sentenceHash = partsLine[0];
       } else {
-        sentence = parts[0];
+        sentence = partsLine[0];
         //sentenceHash = md5FromSentence(sentence);
       }
       numSentence++;
