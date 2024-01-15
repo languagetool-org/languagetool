@@ -52,7 +52,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   private static final String DECIMAL_COMMA_REPL = "$1" + DECIMAL_COMMA_SUBST + "$2";
 
   // space between digits
-  private static final Pattern DECIMAL_SPACE_PATTERN = compile("(?<=^|[\\s(])\\d{1,3}( [\\d]{3})+(?=[\\s(]|$)", CASE_INSENSITIVE| UNICODE_CASE);
+  private static final Pattern DECIMAL_SPACE_PATTERN = compile("(?<=^|[\\s(])\\d{1,3}( \\d{3})+(?:[" + DECIMAL_COMMA_SUBST + NON_BREAKING_DOT_SUBST + "]\\d+)?(?=\\D|$)", CASE_INSENSITIVE|UNICODE_CASE);
 
   // dots in numbers
   private static final Pattern DOTTED_NUMBERS_PATTERN = compile("([\\d])\\.([\\d])", CASE_INSENSITIVE| UNICODE_CASE);

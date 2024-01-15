@@ -183,6 +183,19 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
+  public void testDoNotTokeniseSpaceSeparatedThousands() {
+    testTokenise("35 000", new String[]{"35 000"});
+    testTokenise("36 000 000", new String[]{"36 000 000"});
+    testTokenise("37 000,00", new String[]{"37 000,00"});
+    testTokenise("38 000 000,00", new String[]{"38 000 000,00"});
+    testTokenise("39 000°", new String[]{"39 000°"});
+    testTokenise("40 000%", new String[]{"40 000%"});
+    testTokenise("41 000º", new String[]{"41 000º"});
+    testTokenise("42 000o", new String[]{"42 000o"});
+    testTokenise("43 00", new String[]{"43", " ", "00"});
+  }
+
+  @Test
   public void testTokeniseExponent() {
     testTokenise("km²", new String[]{"km", "²"});
   }
