@@ -15917,6 +15917,33 @@ USA
             </antipattern>
             <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+            <!-- Fixes false positives - Rule needs to be rewritten: 2024-01-13 -->
+            <antipattern>
+                <token regexp='yes'>lhes?</token>
+                <token postag='CS'/>
+                <token inflected='yes'>estar</token>
+                <token>a</token>
+                <token postag='VMN0000'/>
+                <token postag='_PUNCT_PERIOD|_PUNCT_EXCLAMATION' postag_regexp='yes'/>
+                <example>Diga-lhe que estou a chegar.</example>
+                <example>Diga-lhes que estou a chegar.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>[ao]s?
+                    <exception scope="previous" postag_regexp='no' postag='CS'/> <!-- "que" -->
+                </token>
+                <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>estar</token>
+                <token>a</token>
+                <token postag='VMN0000'/>
+                <token postag='_PUNCT_PERIOD|_PUNCT_EXCLAMATION' postag_regexp='yes'/>
+                <example>Ena, Shidoshi, a equipa está a aumentar.</example>
+                <example>O trem está a chegar!</example>
+                <example>A esferográfica está a falhar.</example>
+                <example>O telemóvel está a carregar.</example>
+                <example>A dívida nacional está a aumentar.</example>
+            </antipattern>
+
             <!-- estou -->
             <rule>
                 <pattern>
