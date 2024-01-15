@@ -41425,24 +41425,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>92° 09° O</example>
             </antipattern>
             <antipattern> <!-- correct structures, just to be sure we're not accidentally greedy -->
-                <token>\d+\.?[&ordm;&sup_o;&ordf;&sup_a;]&sup_s;?</token>
+                <token regexp="yes">\d+\.?[&ordm;&sup_o;&ordf;&sup_a;]&sup_s;?</token>
                 <example>O 6.&ordm; ministro.</example>
                 <example>A 7&ordf; maravilha.</example>
             </antipattern>
             <rule> <!-- #1: masc. sg. -->
                 <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.?o
+                    <token regexp='yes' case_sensitive="yes">(?:&number_token_no_decimal;)\.?o
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
                 <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)(\.)?&any_masc_ord;" regexp_replace="$1$2&NoBreak;&ordm;"/></suggestion>.</message>
                 <example correction="12.&NoBreak;&ordm;">O premiado é o <marker>12.o</marker> da lista.</example>
                 <example correction="12&NoBreak;&ordm;">O premiado é o <marker>12o</marker> da lista.</example>
+                <example correction="1 000.&NoBreak;&ordm;">em honra do <marker>1 000.o</marker> aniversário</example>
                 <example>Temperatura máxima prevista de 38º C.</example> <!-- formatting of degrees done by DEGREE_SYMBOL -->
             </rule>
             <rule> <!-- #2: masc. pl. -->
                 <pattern>
-                    <token regexp='yes' case_sensitive="yes">(?:\d+)\.?(o[s&sup_s;]|[&any_masc_ord;]s)
+                    <token regexp='yes' case_sensitive="yes">(?:&number_token_no_decimal;)\.?(o[s&sup_s;]|[&any_masc_ord;]s)
                         <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception>
                     </token>
                 </pattern>
@@ -41453,7 +41454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         <rule> <!-- #3: fem. sg. -->
             <pattern>
-                <token regexp='yes' case_sensitive="yes">(?:\d+)\.?a</token>
+                <token regexp='yes' case_sensitive="yes">(?:&number_token_no_decimal;)\.?a</token>
             </pattern>
             <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)(\.)?&any_fem_ord;" regexp_replace="$1$2&NoBreak;&ordf;"/></suggestion>.</message>
             <example correction="12.&NoBreak;&ordf;">A premiado é a <marker>12.a</marker> da lista.</example>
@@ -41461,7 +41462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
         <rule> <!-- #4: fem. pl. -->
             <pattern>
-                <token regexp='yes' case_sensitive="yes">(?:\d+)\.?([&ordf;&sup_a;]s|a[s&sup_s;])</token>
+                <token regexp='yes' case_sensitive="yes">(?:&number_token_no_decimal;)\.?([&ordf;&sup_a;]s|a[s&sup_s;])</token>
             </pattern>
             <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match="(\d+)(\.)?&any_fem_ord;&any_pl_ord;" regexp_replace="$1$2&NoBreak;&sup_a;&sup_s;"/></suggestion>.</message>
             <example correction="12.&NoBreak;&sup_a;&sup_s;">As premiadas são as <marker>12.as</marker> da lista.</example>
@@ -41759,15 +41760,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </antipattern>
                 <!-- MARCOAGPINTO 2021-07-09 (25-JUN-2021+) *END* -->
                 <pattern>
-                    <token regexp="yes">\d+\.\d+
-                        <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
+                    <token regexp="yes">([\d ]+)\.\d+
+                        <exception regexp="yes">\d{1,3}\.\d{3}</exception>
+                    </token>
                 </pattern>
                 <message>Em português, utilizamos a vírgula para indicar números decimais.</message>
-                <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
+                <suggestion><match no='1' regexp_match='([\d ]+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
                 <example correction="9,5"># <marker>9.5</marker></example> <!-- XXX # - if a number is at sentence start, it can be part of an enumeration -->
                 <example correction="9,5">És de <marker>9.5</marker>.</example>
                 <example correction="9349,5"><marker>9349.5</marker></example>
-                <example correction="349,56">1 999 <marker>349.56</marker></example>
+                <example correction="1 999 349,56"><marker>1 999 349.56</marker></example>
                 <example correction="896,96">O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
                 <example>1.231</example>
                 <example>1.231.437</example>
@@ -42598,7 +42600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="9,5%"><marker>9'5%</marker></example>
             <example correction="9.349,5"><marker>9.349'5</marker></example>
             <example correction="1.999.349,5"><marker>1.999.349'5</marker></example>
-            <example correction="349,5">1 999 <marker>349'5</marker></example>
+            <example correction="1 999 349,5"><marker>1 999 349'5</marker></example>
             <example>1,23'2</example>
             <example>41° 22'44.</example>
             <example>41º 12’12” N.</example>
