@@ -262,22 +262,27 @@ public class SingleDocument {
         mDocHandler.setUseOriginalCheckDialog();
       }
       
-      if (hasSortedTextId && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
-        if (debugMode > 0) {
-          MessageHandler.printToLogFile("SingleDocument: getCheckResults: get errors direct from cache");
+      if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+        int nFPara = -1;
+        if (hasSortedTextId) {
+          nFPara = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
+          if (debugMode > 0) {
+            MessageHandler.printToLogFile("SingleDocument: getCheckResults: get errors direct from cache, nFPara: " + nFPara);
+          }
+          if (nFPara >= 0) {
+            return getErrorsFromCache(nFPara, paRes, paraText, locale, lt);
+          }
         }
-        return getErrorsFromCache(sortedTextId, paRes, paraText, locale, lt);
-      }
-      if (!hasSortedTextId && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
-          && (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || docCache.isResetRunning())) {
-        //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
-        //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
-        SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
-            docLanguage, numParasToCheck, true, isMouseRequest, false);
-        paRes.aErrors = singleCheck.checkParaRules(paraText, locale, 
-                                      footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false, errType);
-        closeDocumentCursor();
-        return paRes;
+        if ((DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || docCache.isResetRunning())) {
+          //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
+          //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
+          SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
+              docLanguage, numParasToCheck, true, isMouseRequest, false);
+          paRes.aErrors = singleCheck.checkParaRules(paraText, locale, 
+                                        footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false, errType);
+          closeDocumentCursor();
+          return paRes;
+        }
       }
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("SingleDocument: getCheckResults: start PROOFRESULT");
@@ -352,7 +357,7 @@ public class SingleDocument {
       runningParas.add(paraNum);
       isLastIntern = isIntern;
       boolean textIsChanged = false;
-      if (!isIntern) {
+      if (!isIntern && requestAnalysis != null) {
         changeFrom = requestAnalysis.getFirstParagraphToChange();
         changeTo = requestAnalysis.getLastParagraphToChange();
         numLastVCPara = requestAnalysis.getLastParaNumFromViewCursor();
@@ -1394,9 +1399,8 @@ public class SingleDocument {
    * Get the proofreading result from cache (only if sortedTextId exist)
    * @throws IOException 
    */
-  ProofreadingResult getErrorsFromCache(int sortedTextId, ProofreadingResult paRes, 
+  ProofreadingResult getErrorsFromCache(int nFPara, ProofreadingResult paRes, 
                       String para, Locale locale, SwJLanguageTool lt) throws IOException {
-    int nFPara = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
     List<SingleProofreadingError[]> errors = new ArrayList<>();
     paRes.nStartOfSentencePosition = 0;
     paRes.nStartOfNextSentencePosition = para.length();
