@@ -2912,8 +2912,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       .filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase()))
       .filter(k -> !START_WITH_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
       .filter(k -> !CONTAINS_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
-      .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END.matcher(k.getReplacement().toLowerCase()).matches())
-      .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING.matcher(k.getReplacement().toLowerCase()).matches())
+      .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END.matcher(k.getReplacement()).matches())
+      .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING.matcher(k.getReplacement()).matches())
       .collect(Collectors.toList());
   }
 
