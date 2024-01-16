@@ -13544,8 +13544,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="O'Neill"><marker>O’neill</marker></example>
-                <example correction="L'ALCOIÀ"><marker>L’ALCOIA</marker></example>
-                <example correction="l'Alcoià"><marker>L’Alcoia</marker></example>
+                <example correction="L'ALCOIÀ|L'ALCORA"><marker>L’ALCOIA</marker></example>
+                <example correction="l'Alcoià|l'Alcora"><marker>L’Alcoia</marker></example>
                 <example correction="d'Alembert"><marker>D'Alembert</marker></example>
                 <example correction="d'Alembert"><marker>D'Alambert</marker></example>
                 <example correction="l'Alcúdia"><marker>L´Alcudia</marker></example>
@@ -33468,6 +33468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token spacebefore="no"/>
                 </pattern>
+                <filter class="org.languagetool.rules.patterns.ApostropheTypeFilter" args="wordFrom:1 hasTypographicalApostrophe:false"/>
                 <message>En una tipografía cuidada, use el apóstrofo tipográfico.</message>
                 <suggestion>’</suggestion>
                 <example correction="’">Sotheby<marker>'</marker>s.</example>

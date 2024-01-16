@@ -223,6 +223,9 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("don't, doesn't, don’t, doesn’t"));
     assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("l'Alacantí, l’Alacantí"));
+    assertEquals(0, matches.length);
   }
 
 }

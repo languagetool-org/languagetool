@@ -68,9 +68,19 @@ public class SpanishTagger extends BaseTagger {
     int pos = 0;
     final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
-    for (String word : sentenceTokens) {
+    for (int i=0; i<sentenceTokens.size(); i++) {
+      String word = sentenceTokens.get(i);
+      String previousWord = "";
+      String nextWord = "";
+      if (i > 0 ) {
+        previousWord = sentenceTokens.get(i - 1);
+      }
+      if (i < sentenceTokens.size() - 1) {
+        nextWord = sentenceTokens.get(i + 1);
+      }
       boolean containsTypographicApostrophe = false;
-      if (word.length() > 1) {
+      if (word.length() > 1 || previousWord.equalsIgnoreCase("l") || previousWord.equalsIgnoreCase("d")
+        || nextWord.equalsIgnoreCase("s")) {
         if (word.contains("’")) {
           containsTypographicApostrophe = true;
           word = word.replaceAll("’", "'");
