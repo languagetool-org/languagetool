@@ -259,128 +259,139 @@ public class French extends Language implements AutoCloseable {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put("AGREEMENT_EXCEPTIONS", 100); // greater than D_N
+    id2prio.put("EXPRESSIONS_VU", 100); // greater than A_ACCENT_A
+    id2prio.put("SA_CA_SE", 100); // greater than D_N
+    id2prio.put("SIL_VOUS_PLAIT", 100); // greater than ACCORD_R_PERS_VERBE
+    id2prio.put("QUASI_NOM", 100); // greater than D_N
+    id2prio.put("MA", 100); // greater than D_J
+    id2prio.put("SON_SONT", 100); // greater than D_J
+    id2prio.put("JE_TES", 100); // greater than D_J
+    id2prio.put("A_INFINITIF", 100);
+    id2prio.put("ON_ONT", 100); // greater than PRONSUJ_NONVERBE
+    id2prio.put("LEURS_LEUR", 100); // greater than N_V
+    id2prio.put("DU_DU", 100); // greater than DU_LE
+    id2prio.put("ACCORD_CHAQUE", 100); // greater than ACCORD_NOMBRE
+    id2prio.put("J_N2", 100); // greater than J_N
+    id2prio.put("CEST_A_DIRE", 100); // greater than A_A_ACCENT
+    id2prio.put("FAIRE_VPPA", 100); // greater than A_ACCENT_A
+    id2prio.put("D_N_E_OU_E", 100); // greater than D_N
+    id2prio.put("GENS_ACCORD", 100); // greater than AGREEMENT_POSTPONED_ADJ
+    id2prio.put("VIRGULE_EXPRESSIONS_FIGEES", 100); // greater than agreement rules
+    id2prio.put("TRAIT_UNION", 100); // greater than other rules for trait d'union
+    id2prio.put("PLURIEL_AL2", 100); // greater than other rules for pluriel al
+    id2prio.put("FR_SPLIT_WORDS_HYPHEN", 100); // greater than MOTS_INCOMP
+    id2prio.put("PAS_DE_TRAIT_UNION", 50); //  // greater than agreement rules
+    id2prio.put("PRIME-TIME", 50); //  // greater than agreement rules
+    id2prio.put("A_VERBE_INFINITIF", 20); // greater than PRONSUJ_NONVERBE
+    id2prio.put("DE_OU_DES", 20); // greater than PAS_ADJ
+    id2prio.put("EMPLOI_EMPLOIE", 20); // greater than MOTS_INCOMP
+    id2prio.put("VOIR_VOIRE", 20); // greater than PLACE_DE_LA_VIRGULE
+    id2prio.put("CAT_TYPOGRAPHIE", 20); // greater than PRONSUJ_NONVERBE or agreement rules
+    id2prio.put("CAT_HOMONYMES_PARONYMES", 20);
+    id2prio.put("CAT_TOURS_CRITIQUES", 20);
+    id2prio.put("D_VPPA", 20); //greater than D_J
+    id2prio.put("EST_CE_QUE", 20); // greater than TRAIT_UNION_INVERSION
+    id2prio.put("CONFUSION_PARLEZ_PARLER", 10); // greater than N_V
+    id2prio.put("AGREEMENT_TOUT_LE", 10); // compare to TOUT_LES
+    id2prio.put("ESPACE_UNITES", 10); // needs to have higher priority than spell checker
+    id2prio.put("BYTES", 10); // needs to be higher than spell checker for 10MB style matches
+    id2prio.put("Y_A", 10); // needs to be higher than spell checker for style suggestion
+    id2prio.put("COTE", 10); // needs to be higher than D_N
+    id2prio.put("PEUTETRE", 10); // needs to be higher than AUX_ETRE_VCONJ
+    id2prio.put("A_A_ACCENT", 10); // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
+    id2prio.put("A_ACCENT_A", 10); // greater than PRONSUJ_NONVERBE
+    id2prio.put("A_A_ACCENT2", 10); // greater than ACCORD_SUJET_VERBE
+    id2prio.put("A_ACCENT", 10); // greater than ACCORD_SUJET_VERBE
+    id2prio.put("JE_M_APPEL", 10);  // override NON_V
+    id2prio.put("ACCORD_R_PERS_VERBE", 10);  // match before POSER_UNE_QUESTION
+    id2prio.put("JE_SUI", 10);  // needs higher priority than spell checker
+    //id2prio.put("D_N", 10); // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher: CAT_REGIONALISMES, CAT_TYPOGRAPHIE, CAT_GRAMMAIRE...
+    //id2prio.put("ACCORD_COULEUR", 1); // needs to have higher priority than agreement postponed adj
+    id2prio.put("R_VAVOIR_VINF", 10); // needs higher priority than A_INFINITIF
+    id2prio.put("AN_EN", 10); // needs higher priority than AN_ANNEE
+    id2prio.put("APOS_M", 10); // needs higher priority than APOS_ESPACE
+    id2prio.put("ACCORD_PLURIEL_ORDINAUX", 10); // needs higher priority than D_J
+    id2prio.put("SUJET_AUXILIAIRE", 10); // needs higher priority than JE_VERBE; TU_VERBE; IL_VERBE; ILS_VERBE; ON_VERBE;
+    id2prio.put("ADJ_ADJ_SENT_END", 10); // needs higher priority than ACCORD_COULEUR
+    id2prio.put("OU_PAS", 10); // needs higher priority than VERBE_OBJ
+    id2prio.put("PLACE_DE_LA_VIRGULE", 10); // needs higher priority than C_EST_QUOI
+    id2prio.put("SE_CE", -10); // needs higher priority than ELISION
+    id2prio.put("SYNONYMS", -10); // less than ELISION
+    id2prio.put("PAS_DE_SOUCIS", 10); // needs higher priority than PAS_DE_PB_SOUCIS (premium)
+    //id2prio.put("PRONSUJ_NONVERBE", 10); // needs higher priority than AUXILIAIRE_MANQUANT
+    //id2prio.put("AUXILIAIRE_MANQUANT", 5); // needs higher priority than ACCORD_NOM_VERBE
+    id2prio.put("CONFUSION_PAR_PART", -5);  // turn off completely when PART_OU_PAR is activated
+    id2prio.put("SON", -5); // less than ETRE_VPPA_OU_ADJ
+    id2prio.put("J_N", -10); // needs lesser priority than D_J
+    id2prio.put("TE_NV", -20); // less than SE_CE, SE_SA and SE_SES
+    id2prio.put("TE_NV2", -10); // less than SE_CE, SE_SA and SE_SES
+    id2prio.put("PLURIEL_AL", -10); // less than AGREEMENT_POSTPONED_ADJ
+    id2prio.put("INTERROGATIVE_DIRECTE", -10); // less than OU
+    id2prio.put("D_J_N", -10); // less than J_N
+    id2prio.put("FAMILIARITES", -10); // less than grammar rules
+    id2prio.put("V_J_A_R", -10); // less than grammar rules
+    id2prio.put("TRES_TRES_ADJ", -10); // less than grammar rules
+    id2prio.put("IMP_PRON", -10); // less than D_N
+    id2prio.put("TOO_LONG_PARAGRAPH", -15);
+    id2prio.put("PREP_VERBECONJUGUE", -20);
+    id2prio.put("LA_LA2", -20); // less than LA_LA
+    id2prio.put("FRENCH_WORD_REPEAT_RULE", -20); // less than TRES_TRES_ADJ
+    id2prio.put("CROIRE", -20); // less than JE_CROIS_QUE
+    id2prio.put("PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF", -20);
+    id2prio.put("VIRGULE_VERBE", -20); // less than grammar rules
+    id2prio.put("VERBES_FAMILIERS", -25);  // less than PREP_VERBECONJUGUE + PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF
+    id2prio.put("VERB_PRONOUN", -50); // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
+    id2prio.put("IL_VERBE", -50); // greater than FR_SPELLING_RULE
+    id2prio.put("A_LE", -50); // less than A_ACCENT
+    id2prio.put("ILS_VERBE", -50); // greater than FR_SPELLING_RULE
+    id2prio.put("AGREEMENT_POSTPONED_ADJ", -50);
+    id2prio.put("MULTI_ADJ", -50);
+    id2prio.put("PARENTHESES", -50);// less than grammar rules
+    id2prio.put("ESSENTIEL", -50); // lesser than grammar rules
+    id2prio.put("CONFUSION_AL_LA", -50); // lesser than AUX_AVOIR_VCONJ
+    id2prio.put("IMPORTANT", -50); // lesser than grammar rules
+    id2prio.put("SOUHAITER", -50); // lesser than grammar rules
+    id2prio.put("CAR", -50); // lesser than grammar rules
+    id2prio.put("AIMER", -50); // lesser than grammar rules
+    id2prio.put("CONFUSION_RULE_PREMIUM", -50); // lesser than PRONSUJ_NONVERBE
+    id2prio.put("LE_COVID", -60); // lower than COVID_19_GRAPHIE
+    id2prio.put("FR_SPELLING_RULE", -100);
+    id2prio.put("VIRG_INF", -100);// lesser than CONFUSION_E_ER
+    id2prio.put("ET_SENT_START", -151); // lower than grammalecte rules
+    id2prio.put("MAIS_SENT_START", -151); // lower than grammalecte rules
+    id2prio.put("EN_CE_QUI_CONCERNE", -152);  // less than MAIS_SENT_START + ET_SENT_START
+    id2prio.put("EN_MEME_TEMPS", -152);  // less than MAIS_SENT_START + ET_SENT_START
+    id2prio.put("ET_AUSSI", -152);  // less than CONFUSION_EST_ET + ET_SENT_START
+    id2prio.put("MAIS_AUSSI", -152);  // less than MAIS_SENT_START
+    id2prio.put("ELISION", -200); // should be lower in priority than spell checker
+    id2prio.put("POINT", -200); // should be lower in priority than spell checker
+    id2prio.put("REPETITIONS_STYLE", -250);  // repetition style rules, usually with prefix REP_
+    id2prio.put("FR_REPEATEDWORDS_EXIGER", -250);  // repetition style rules,
+    id2prio.put("POINTS_SUSPENSIONS_SPACE", -250);  // should be lower in priority than ADJ_ADJ_SENT_END
+    id2prio.put("UPPERCASE_SENTENCE_START", -300);
+    id2prio.put("FRENCH_WHITESPACE_STRICT", -350); // picky; if on, it should overwrite FRENCH_WHITESPACE
+    id2prio.put("TOUT_MAJUSCULES", -400);
+    id2prio.put("VIRG_NON_TROUVEE", -400);
+    id2prio.put("POINTS_2", -400);
+    id2prio.put("MOTS_INCOMP", -400); // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
+    id2prio.put("FRENCH_WHITESPACE", -400); // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
+    id2prio.put("MOT_TRAIT_MOT", -400); // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
+    id2prio.put("FRENCH_WORD_REPEAT_BEGINNING_RULE", -350); // less than REPETITIONS_STYLE	    
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
+
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
-      case "AGREEMENT_EXCEPTIONS": return 100; // greater than D_N
-      case "EXPRESSIONS_VU": return 100; // greater than A_ACCENT_A
-      case "SA_CA_SE": return 100; // greater than D_N
-      case "SIL_VOUS_PLAIT": return 100; // greater than ACCORD_R_PERS_VERBE
-      case "QUASI_NOM": return 100; // greater than D_N
-      case "MA": return 100; // greater than D_J
-      case "SON_SONT": return 100; // greater than D_J
-      case "JE_TES": return 100; // greater than D_J
-      case "A_INFINITIF": return 100;
-      case "ON_ONT": return 100; // greater than PRONSUJ_NONVERBE
-      case "LEURS_LEUR": return 100; // greater than N_V
-      case "DU_DU": return 100; // greater than DU_LE
-      case "ACCORD_CHAQUE": return 100; // greater than ACCORD_NOMBRE
-      case "J_N2": return 100; // greater than J_N
-      case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
-      case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
-      case "D_N_E_OU_E": return 100; // greater than D_N
-      case "GENS_ACCORD": return 100; // greater than AGREEMENT_POSTPONED_ADJ
-      case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
-      case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
-      case "PLURIEL_AL2": return 100; // greater than other rules for pluriel al
-      case "FR_SPLIT_WORDS_HYPHEN": return 100; // greater than MOTS_INCOMP
-      case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
-      case "PRIME-TIME": return 50; //  // greater than agreement rules
-      case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
-      case "DE_OU_DES": return 20; // greater than PAS_ADJ
-      case "EMPLOI_EMPLOIE": return 20; // greater than MOTS_INCOMP
-      case "VOIR_VOIRE": return 20; // greater than PLACE_DE_LA_VIRGULE
-      case "CAT_TYPOGRAPHIE": return 20; // greater than PRONSUJ_NONVERBE or agreement rules
-      case "CAT_HOMONYMES_PARONYMES": return 20;
-      case "CAT_TOURS_CRITIQUES": return 20;
-      case "D_VPPA": return 20; //greater than D_J
-      case "EST_CE_QUE": return 20; // greater than TRAIT_UNION_INVERSION
-      case "CONFUSION_PARLEZ_PARLER": return 10; // greater than N_V
-      case "AGREEMENT_TOUT_LE": return 10; // compare to TOUT_LES
-      case "ESPACE_UNITES": return 10; // needs to have higher priority than spell checker
-      case "BYTES": return 10; // needs to be higher than spell checker for 10MB style matches
-      case "Y_A": return 10; // needs to be higher than spell checker for style suggestion
-      case "COTE": return 10; // needs to be higher than D_N
-      case "PEUTETRE": return 10; // needs to be higher than AUX_ETRE_VCONJ
-      case "A_A_ACCENT": return 10; // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
-      case "A_ACCENT_A": return 10; // greater than PRONSUJ_NONVERBE
-      case "A_A_ACCENT2": return 10; // greater than ACCORD_SUJET_VERBE
-      case "A_ACCENT": return 10; // greater than ACCORD_SUJET_VERBE
-      case "JE_M_APPEL": return 10;  // override NON_V
-      case "ACCORD_R_PERS_VERBE": return 10;  // match before POSER_UNE_QUESTION
-      case "JE_SUI": return 10;  // needs higher priority than spell checker
-      //case "D_N": return 10; // needs to have higher priority than agreement postponed adj | Commented out because many other rules should be higher: CAT_REGIONALISMES, CAT_TYPOGRAPHIE, CAT_GRAMMAIRE...
-      //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
-      case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
-      case "AN_EN": return 10; // needs higher priority than AN_ANNEE
-      case "APOS_M": return 10; // needs higher priority than APOS_ESPACE
-      case "ACCORD_PLURIEL_ORDINAUX": return 10; // needs higher priority than D_J
-      case "SUJET_AUXILIAIRE": return 10; // needs higher priority than JE_VERBE; TU_VERBE; IL_VERBE; ILS_VERBE; ON_VERBE;
-      case "ADJ_ADJ_SENT_END": return 10; // needs higher priority than ACCORD_COULEUR
-      case "OU_PAS": return 10; // needs higher priority than VERBE_OBJ
-      case "PLACE_DE_LA_VIRGULE": return 10; // needs higher priority than C_EST_QUOI
-      case "SE_CE": return -10; // needs higher priority than ELISION
-      case "SYNONYMS": return -10; // less than ELISION
-      case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
-      //case "PRONSUJ_NONVERBE": return 10; // needs higher priority than AUXILIAIRE_MANQUANT
-      //case "AUXILIAIRE_MANQUANT": return 5; // needs higher priority than ACCORD_NOM_VERBE
-      case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
-      case "SON": return -5; // less than ETRE_VPPA_OU_ADJ
-      case "J_N": return -10; // needs lesser priority than D_J
-      case "TE_NV": return -20; // less than SE_CE, SE_SA and SE_SES
-      case "TE_NV2": return -10; // less than SE_CE, SE_SA and SE_SES
-      case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
-      case "INTERROGATIVE_DIRECTE": return -10; // less than OU
-      case "D_J_N": return -10; // less than J_N
-      case "FAMILIARITES": return -10; // less than grammar rules
-      case "V_J_A_R": return -10; // less than grammar rules
-      case "TRES_TRES_ADJ": return -10; // less than grammar rules
-      case "IMP_PRON": return -10; // less than D_N
-      case "TOO_LONG_PARAGRAPH": return -15;
-      case "PREP_VERBECONJUGUE": return -20;
-      case "LA_LA2": return -20; // less than LA_LA
-      case "FRENCH_WORD_REPEAT_RULE": return -20; // less than TRES_TRES_ADJ
-      case "CROIRE": return -20; // less than JE_CROIS_QUE
-      case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
-      case "VIRGULE_VERBE": return -20; // less than grammar rules
-      case "VERBES_FAMILIERS": return -25;  // less than PREP_VERBECONJUGUE + PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF
-      case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
-      case "IL_VERBE": return -50; // greater than FR_SPELLING_RULE
-      case "A_LE": return -50; // less than A_ACCENT
-      case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
-      case "AGREEMENT_POSTPONED_ADJ": return -50;
-      case "MULTI_ADJ": return -50;
-      case "PARENTHESES": return -50;// less than grammar rules
-      case "ESSENTIEL": return -50; // lesser than grammar rules
-      case "CONFUSION_AL_LA": return -50; // lesser than AUX_AVOIR_VCONJ
-      case "IMPORTANT": return -50; // lesser than grammar rules
-      case "SOUHAITER": return -50; // lesser than grammar rules
-      case "CAR": return -50; // lesser than grammar rules
-      case "AIMER": return -50; // lesser than grammar rules
-      case "CONFUSION_RULE_PREMIUM": return -50; // lesser than PRONSUJ_NONVERBE
-      case "LE_COVID": return -60; // lower than COVID_19_GRAPHIE
-      case "FR_SPELLING_RULE": return -100;
-      case "VIRG_INF": return -100;// lesser than CONFUSION_E_ER
-      case "ET_SENT_START": return -151; // lower than grammalecte rules
-      case "MAIS_SENT_START": return -151; // lower than grammalecte rules
-      case "EN_CE_QUI_CONCERNE": return -152;  // less than MAIS_SENT_START + ET_SENT_START
-      case "EN_MEME_TEMPS": return -152;  // less than MAIS_SENT_START + ET_SENT_START
-      case "ET_AUSSI": return -152;  // less than CONFUSION_EST_ET + ET_SENT_START
-      case "MAIS_AUSSI": return -152;  // less than MAIS_SENT_START
-      case "ELISION": return -200; // should be lower in priority than spell checker
-      case "POINT": return -200; // should be lower in priority than spell checker
-      case "REPETITIONS_STYLE": return -250;  // repetition style rules, usually with prefix REP_
-      case "FR_REPEATEDWORDS_EXIGER": return -250;  // repetition style rules,
-      case "POINTS_SUSPENSIONS_SPACE": return -250;  // should be lower in priority than ADJ_ADJ_SENT_END
-      case "UPPERCASE_SENTENCE_START": return -300;
-      case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
-      case "TOUT_MAJUSCULES": return -400;
-      case "VIRG_NON_TROUVEE": return -400;
-      case "POINTS_2": return -400;
-      case "MOTS_INCOMP": return -400; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
-      case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
-      case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
-      case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
     if (id.startsWith("FR_COMPOUNDS")) {
       return 500;
