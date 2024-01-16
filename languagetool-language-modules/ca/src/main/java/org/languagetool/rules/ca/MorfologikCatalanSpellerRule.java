@@ -48,8 +48,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final List<String> PREFIX_AMB_ESPAI = Arrays.asList("pod", "ultra", "eco", "tele", "anti", "re", "des",
     "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "trans", "pro", "g", "l", "m");
 
+  private static final List<String> PRONOM_INICIAL = Arrays.asList("em", "et", "es", "se", "ens", "us", "vos", "li", "hi",
+    "ho", "el", "la", "els", "les");
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])[90]?(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
   private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)[90]?(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])[90]?(h?[aeiouàéèíòóú]...+)$",
@@ -177,6 +180,14 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
           List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
           boolean isBalear = atkn.get(0).hasPosTag("VMIP1S0B") && !atkn.get(0).hasPosTagStartingWith("N");
           if (!isBalear) {
+            newSuggestions.add(posNewSugg, suggestions.get(i));
+            continue;
+          }
+        }
+        if (parts[1].length() > 1 && PRONOM_INICIAL.contains(parts[0].toLowerCase())) {
+          String newSuggestion = parts[1];
+          List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
+          if (atkn.get(0).matchesPosTagRegex(VERB_INDSUBJ)) {
             newSuggestions.add(posNewSugg, suggestions.get(i));
             continue;
           }

@@ -739,5 +739,12 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("innal·làmbricamente"));
     assertEquals(1, matches.length);
     assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("empots"));
+    assertEquals(1, matches.length);
+    assertEquals("em pots", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("enspodeu"));
+    assertEquals(1, matches.length);
+    assertEquals("ens podeu", matches[0].getSuggestedReplacements().get(0));
   }
 }
