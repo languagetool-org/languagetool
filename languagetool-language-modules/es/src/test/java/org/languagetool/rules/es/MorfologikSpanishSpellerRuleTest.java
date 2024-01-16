@@ -226,6 +226,10 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("l'Alacantí, l’Alacantí"));
     assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("medices algo"));
+    assertEquals(1, matches.length);
+    assertEquals("Me dices", matches[0].getSuggestedReplacements().get(0).toString());
   }
 
 }
