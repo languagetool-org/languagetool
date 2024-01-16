@@ -751,6 +751,74 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
         <rulegroup id="AI_ES_HYDRA_LEO_CP_SITILDE_SI" name="">
             <rule>
+                <antipattern>
+                    <token inflected="yes" skip="7" regexp="yes">preguntar|decir</token>
+                    <token>que</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token skip="-1">si</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token skip="-1" postag="V.I.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="10" regexp="yes">más|menos|tantos?|tantas?</token>
+                    <token>que<exception postag="LOC_CS"/></token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="2" regexp="yes">más|menos|tantos?|tantas?</token>
+                    <token skip="10">que<exception postag="LOC_CS"/></token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">igual|vaya|toma</token>
+                    <token>que</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">qué|que</token>
+                    <token>tal</token>
+                    <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token>cuanto</token>
+                    <token>a</token>
+                    <token>que</token>
+                    <token>si</token>
+                </antipattern>
+                <pattern>
+                    <token postag="CS|LOC_CS|PR.*" postag_regexp="yes" regexp="yes">que|porque|pues|aunque</token>
+                    <token postag="D.*|N.*|A.*|_IS_URL" postag_regexp="yes" min="0" max="4"/>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token skip="-1" postag="V.I.*" postag_regexp="yes"><exception scope="next" postag="V.[ISM].*" postag_regexp="yes"/></token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">No quiero más, porque <marker>si</marker> afecta a mi salud.</example>
+                <example correction="">No quiero más, ya que <marker>si</marker> afecta a mi salud.</example>
+                <example correction="">Aunque librosramona.com <marker>si</marker> guarda un registro de las solicitudes.</example>
+                <example correction="">Me siento frente a la pantalla de un computador el día entero, así que <marker>si</marker> resulto enormemente bombardeado por ondas electromagnéticas.</example>
+                <example>Dijo que si puedo detener una Señal, que la cadena se romperia</example>
+                <example>Le digo a La Heredera que si podemos jugar juntas.</example>
+                <example>de modo que si observamos alguna incomodidad o alguna reacción exagerada, poder parar para atender sus necesidades</example>
+                <example>Prestaban más atención que si gritaba sin parar. </example>
+                <example>Es más agradable a la vista que si lo tachas concienzudamente.</example>
+                <example>Son menos que las posibles opciones si aplicamos las 27 letras del alfabeto.</example>
+                <example>No es igual que si tienen algo que ocultar.</example>
+                <example>Vaya que si ha sido dramático.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token>sí</token>
