@@ -64,6 +64,10 @@ public class MultitokenSpeller {
   }
 
   public List<String> getSuggestions(String originalWord) throws IOException {
+    return getSuggestions(originalWord, false);
+  }
+
+  public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
     originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
     String word = DASH_SPACE.matcher(originalWord).replaceAll("-");
     word = SPACE_DASH.matcher(word).replaceAll("-");
@@ -136,6 +140,9 @@ public class MultitokenSpeller {
     Collections.sort(weightedCandidates);
     List<String> results = new ArrayList<>();
     int weightFirstCandidate = weightedCandidates.get(0).getWeight();
+    if (areTokensAcceptedBySpeller && weightFirstCandidate > 1) {
+      return Collections.emptyList();
+    }
     for (WeightedSuggestion weightedCandidate : weightedCandidates) {
       // keep only cadidates with the distance of the first candidate
       if (weightedCandidate.getWeight() - weightFirstCandidate < 1) {
