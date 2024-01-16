@@ -176,6 +176,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern DEACTIVE = compile("[De]eactive");
   private static final Pattern HONGKONG = compile("[hH]ongkong");
   private static final Pattern BONAFIDE = compile("[Bb]onafide");
+  private static final Pattern WHEREEVER = compile("[Ww]hereever");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
   private static final Pattern TV = compile("tv");
@@ -1486,6 +1487,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
     if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
     if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
+    if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("TV"));
