@@ -294,7 +294,7 @@ public class German extends Language implements AutoCloseable {
   static {
     id2prio.put("DE_PROHIBITED_PHRASE", 11);
     id2prio.put("WRONG_SPELLING_PREMIUM_INTERNAL", 10);
-    id2prio.put("OLD_SPELLING", 10);
+    id2prio.put("OLD_SPELLING_RULE", 10);
     id2prio.put("DE_COMPOUNDS", 10);
     id2prio.put("E_MAIL_SIGNATUR", 10);
     id2prio.put("TELEFON_NR", 10);

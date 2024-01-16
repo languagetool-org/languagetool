@@ -70,7 +70,7 @@ public class OldSpellingRule extends Rule {
 
   @Override
   public String getId() {
-    return "OLD_SPELLING";
+    return "OLD_SPELLING_RULE";
   }
 
   @Override
