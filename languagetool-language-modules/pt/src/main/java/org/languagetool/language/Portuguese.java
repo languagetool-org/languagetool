@@ -214,6 +214,80 @@ public class Portuguese extends Language implements AutoCloseable {
     return true;
   }
   
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put("FRAGMENT_TWO_ARTICLES", 50);
+    id2prio.put("DEGREE_MINUTES_SECONDS", 30);
+    id2prio.put("INTERJECTIONS_PUNTUATION", 20);
+    id2prio.put("CONFUSION_POR", 10);
+    id2prio.put("PARONYM_POLITICA_523", 10);
+    id2prio.put("PARONYM_PRONUNCIA_262", 10);
+    id2prio.put("PARONYM_CRITICA_397", 10);
+    id2prio.put("PARONYM_INICIO_169", 10);
+    id2prio.put("LP_PARONYMS", 10);
+    id2prio.put("PARONYM_MUSICO_499_bis", 10);
+    id2prio.put("NA_NÃO", 10);
+    id2prio.put("VERB_COMMA_CONJUNCTION", 10); // greater than PORTUGUESE_WORD_REPEAT_RULE
+    id2prio.put("HOMOPHONE_AS_CARD", 5);
+    id2prio.put("TODOS_FOLLOWED_BY_NOUN_PLURAL", 3);
+    id2prio.put("TODOS_FOLLOWED_BY_NOUN_SINGULAR", 2);
+    id2prio.put("AUSENCIA_VIRGULA", 1);
+    id2prio.put("EMAIL", 1);
+    id2prio.put("UNPAIRED_BRACKETS", -5);
+    id2prio.put("PROFANITY", -6);
+    id2prio.put("PT_BARBARISMS_REPLACE", -10);
+    id2prio.put("BARBARISMS_PT_PT_V2", -10);
+    id2prio.put("PT_PT_SIMPLE_REPLACE", -11);  // for pt-PT, not lower than speller, not sure why
+    id2prio.put("PT_REDUNDANCY_REPLACE", -12);
+    id2prio.put("PT_WORDINESS_REPLACE", -13);
+    id2prio.put("PT_CLICHE_REPLACE", -17);
+    id2prio.put("INTERNET_ABBREVIATIONS", -24);
+    id2prio.put("CHILDISH_LANGUAGE", -25);
+    id2prio.put("ARCHAISMS", -26);
+    id2prio.put("INFORMALITIES", -27);
+    id2prio.put("PUFFERY", -30);
+    id2prio.put("BIASED_OPINION_WORDS", -31);
+    id2prio.put("WEAK_WORDS", -32);
+    id2prio.put("PT_AGREEMENT_REPLACE", -35);
+    id2prio.put("CONTA_TO", -44);
+    id2prio.put("PT_DIACRITICS_REPLACE", -45);  // prefer over spell checker
+    id2prio.put("DIACRITICS", -45);
+    id2prio.put("PT_COMPOUNDS_POST_REFORM", -45);
+    id2prio.put("AUX_VERBO", -45);  // HIGHER THAN SPELLER
+    // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
+    id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
+    id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
+    id2prio.put("CRASE_CONFUSION", -54);
+    id2prio.put("NAO_MILITARES", -54);
+    id2prio.put("NA_QUELE", -54);
+    id2prio.put("NOTAS_FICAIS", -54);
+    id2prio.put("GENERAL_VERB_AGREEMENT_ERRORS", -55);
+    id2prio.put("GENERAL_NUMBER_AGREEMENT_ERRORS", -56);
+    id2prio.put("GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS", -56);
+    id2prio.put("FINAL_STOPS", -75);
+    id2prio.put("EU_NÓS_REMOVAL", -90);
+    id2prio.put("COLOCAÇÃO_ADVÉRBIO", -90);
+    id2prio.put("FAZER_USO_DE-USAR-RECORRER", -90);
+    id2prio.put("T-V_DISTINCTION", -100);
+    id2prio.put("T-V_DISTINCTION_ALL", -101);
+    id2prio.put("REPEATED_WORDS", -210);
+    id2prio.put("REPEATED_WORDS_3X", -211);
+    id2prio.put("PT_WIKIPEDIA_COMMON_ERRORS", -500);
+    id2prio.put("FILLER_WORDS_PT", -990);
+    id2prio.put(LongSentenceRule.RULE_ID, -997);
+    id2prio.put(LongParagraphRule.RULE_ID, -998);
+    id2prio.put("READABILITY_RULE_SIMPLE_PT", -1100);
+    id2prio.put("READABILITY_RULE_DIFFICULT_PT", -1101);
+    id2prio.put("CACOPHONY", -1500);
+    id2prio.put("UNKNOWN_WORD", -2000);
+    id2prio.put("NO_VERB", -2100);
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
+  
   @Override
   protected int getPriorityForId(String id) {
     if (id.startsWith("MORFOLOGIK_RULE")) {
@@ -222,72 +296,9 @@ public class Portuguese extends Language implements AutoCloseable {
     if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
       return -49;
     }
-    switch (id) {
-      case "FRAGMENT_TWO_ARTICLES":                    return 50;
-      case "DEGREE_MINUTES_SECONDS":                   return 30;
-      case "INTERJECTIONS_PUNTUATION":                 return 20;
-      case "CONFUSION_POR":                            return 10;
-      case "PARONYM_POLITICA_523":                     return 10;
-      case "PARONYM_PRONUNCIA_262":                    return 10;
-      case "PARONYM_CRITICA_397":                      return 10;
-      case "PARONYM_INICIO_169":                       return 10;
-      case "LP_PARONYMS":                              return 10;
-      case "PARONYM_MUSICO_499_bis":                   return 10;
-      case "NA_NÃO":                                   return 10;
-      case "VERB_COMMA_CONJUNCTION":                   return 10; // greater than PORTUGUESE_WORD_REPEAT_RULE
-      case "HOMOPHONE_AS_CARD":                        return  5;
-      case "TODOS_FOLLOWED_BY_NOUN_PLURAL":            return  3;
-      case "TODOS_FOLLOWED_BY_NOUN_SINGULAR":          return  2;
-      case "AUSENCIA_VIRGULA":                         return  1;
-      case "EMAIL":                                    return  1;
-      case "UNPAIRED_BRACKETS":                        return -5;
-      case "PROFANITY":                                return -6;
-      case "PT_BARBARISMS_REPLACE":                    return -10;
-      case "BARBARISMS_PT_PT_V2":                      return -10;
-      case "PT_PT_SIMPLE_REPLACE":                     return -11;  // for pt-PT, not lower than speller, not sure why
-      case "PT_REDUNDANCY_REPLACE":                    return -12;
-      case "PT_WORDINESS_REPLACE":                     return -13;
-      case "PT_CLICHE_REPLACE":                        return -17;
-      case "INTERNET_ABBREVIATIONS":                   return -24;
-      case "CHILDISH_LANGUAGE":                        return -25;
-      case "ARCHAISMS":                                return -26;
-      case "INFORMALITIES":                            return -27;
-      case "PUFFERY":                                  return -30;
-      case "BIASED_OPINION_WORDS":                     return -31;
-      case "WEAK_WORDS":                               return -32;
-      case "PT_AGREEMENT_REPLACE":                     return -35;
-      case "CONTA_TO":                                 return -44;
-      case "PT_DIACRITICS_REPLACE":                    return -45;  // prefer over spell checker
-      case "DIACRITICS":                               return -45;
-      case "PT_COMPOUNDS_POST_REFORM":                 return -45;
-      case "AUX_VERBO":                                return -45;  // HIGHER THAN SPELLER
-      // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
-      case "PRETERITO_PERFEITO":                       return -51;  // LOWER THAN SPELLER
-      case "PT_BR_SIMPLE_REPLACE":                     return -51;
-      case "CRASE_CONFUSION":                          return -54;
-      case "NAO_MILITARES":                            return -54;
-      case "NA_QUELE":                                 return -54;
-      case "NOTAS_FICAIS":                             return -54;
-      case "GENERAL_VERB_AGREEMENT_ERRORS":            return -55;
-      case "GENERAL_NUMBER_AGREEMENT_ERRORS":          return -56;
-      case "GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS":   return -56;
-      case "FINAL_STOPS":                              return -75;
-      case "EU_NÓS_REMOVAL":                           return -90;
-      case "COLOCAÇÃO_ADVÉRBIO":                       return -90;
-      case "FAZER_USO_DE-USAR-RECORRER":               return -90;
-      case "T-V_DISTINCTION":                          return -100;
-      case "T-V_DISTINCTION_ALL":                      return -101;
-      case "REPEATED_WORDS":                           return -210;
-      case "REPEATED_WORDS_3X":                        return -211;
-      case "PT_WIKIPEDIA_COMMON_ERRORS":               return -500;
-      case "FILLER_WORDS_PT":                          return -990;
-      case LongSentenceRule.RULE_ID:                   return -997;
-      case LongParagraphRule.RULE_ID:                  return -998;
-      case "READABILITY_RULE_SIMPLE_PT":               return -1100;
-      case "READABILITY_RULE_DIFFICULT_PT":            return -1101;
-      case "CACOPHONY":                                return -1500;
-      case "UNKNOWN_WORD":                             return -2000;
-      case "NO_VERB":                                  return -2100;
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
 
     if (id.startsWith("AI_PT_HYDRA_LEO")) { // prefer more specific rules (also speller)
