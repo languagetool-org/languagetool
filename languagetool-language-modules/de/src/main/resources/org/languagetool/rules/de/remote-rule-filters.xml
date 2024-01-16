@@ -1781,6 +1781,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_DE_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup id="AI_DE_GGEC_MISSING_PUNCTUATION_COMMA" name="">
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token>Osama</token>
+                    </marker>
+                    <token>bin</token>
+                    <token regexp="yes">Ladens?</token>
+                </pattern>
+                <example correction="">Das ist <marker>Osama</marker> bin Ladens Frau.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD" name="">
             <rule><!--1--><!-- ABK more to be added-->
                 <pattern>
@@ -1953,7 +1966,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--2-->
                 <pattern>
-                    <token regexp="yes">asbachuralt.*|gelingsicher.*</token>
+                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*</token>
                 </pattern>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>!</example>
                 <example correction="">Ist <marker>gelingsicher</marker>, kann nicht anbrennen, ist immer saftig und zart!!</example>
