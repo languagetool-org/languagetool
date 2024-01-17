@@ -19,18 +19,23 @@
 
 package org.languagetool.rules.nl;
 
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
   private final static CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+  private final String englishDictFilepath;
+  private final UserConfig userConfig;
 
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
     this(messages, language, userConfig, Collections.emptyList());
@@ -38,6 +43,9 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
   
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+    englishDictFilepath = "/en/hunspell/en_US" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    this.userConfig = userConfig;
+    initEnglishSpeller();
   }
 
   @Override
@@ -68,6 +76,48 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
   @Override
   protected String getProhibitFileName() {
     return "/nl/spelling/prohibit.txt";
+  }
+
+  private void initEnglishSpeller() throws IOException {
+    List<String> plainTextDicts = new ArrayList<>();
+    String languageVariantPlainTextDict = null;
+    if (getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDicts.add(getSpellingFileName());
+    }
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (getDataBroker().resourceExists(fileName)) {
+        plainTextDicts.add(fileName);
+      }
+    }
+    if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
+    }
+    MorfologikMultiSpeller englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+            userConfig, 1, language);
+  }
+
+  @Override
+  public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+    List<RuleMatch> ruleMatchesSoFar, int idx,
+    AnalyzedTokenReadings[] tokens) throws IOException {
+    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH")) {
+      System.out.println(word + " is Engels");
+      return Collections.emptyList();
+      /* // next step: correct spelling
+      if (englishSpeller.isMisspelled(word)) {
+        String message = "Het lijkt erop dat dit een foutief gespeld Engels woord is.";
+        String shortMessage = "Mogelijke fout in Engels woord";
+        List<String> suggestions = englishSpeller.getSuggestions(word);
+        System.out.println(word + " is spelled incorrectly. Suggestions: " + suggestions);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
+          message, shortMessage, suggestions);
+        return Collections.singletonList(ruleMatch);
+      } else {
+        return Collections.emptyList();
+      }
+      */
+    }
+    return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
   }
 
 }

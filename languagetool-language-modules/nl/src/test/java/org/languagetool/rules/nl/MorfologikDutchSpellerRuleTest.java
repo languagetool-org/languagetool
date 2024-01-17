@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
- */
+ */ 
 package org.languagetool.rules.nl;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -49,6 +49,8 @@ public class MorfologikDutchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("háár")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("kán")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ín")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Mijn favoriete film is The Strange Contraption.")).length);
+    //assertEquals(1, rule.match(lt.getAnalyzedSentence("Mijn favoriete film is The Strange Contrpation.")).length); // this gives a suggestion if checking for misspellings is re-enabled
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("géén")).length);
 
