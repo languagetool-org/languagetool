@@ -383,9 +383,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("QUIET_QUITE", 1);   // higher prio than A_QUITE_WHILE
     id2prio.put("A_OK", 1);   // prefer over A_AN
     id2prio.put("I_A", 1);   // higher prio than I_IF
-    id2prio.put("NO_GOOD", 1);   // higher prio than I_IF
     id2prio.put("PRP_NO_VB", 1);   // higher prio than I_IF
-    id2prio.put("GOT_GO", 1);   // higher prio than MD_BASEFORM
     id2prio.put("GAVE_HAVE", 1);   // higher prio than MD_BASEFORM
     id2prio.put("THERE_FORE", 1);   // higher prio than FORE_FOR
     id2prio.put("FOLLOW_UP", 1);   // higher prio than MANY_NN
@@ -395,9 +393,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("DON_T_AREN_T", 1);   // higher prio than DID_BASEFORM
     id2prio.put("WILL_BECOMING", 1);   // higher prio than MD_BASEFORM
     id2prio.put("WOULD_NEVER_VBN", 1);   // higher prio than MD_BASEFORM
-    id2prio.put("MD_APPRECIATED", 1);   // higher prio than MD_BASEFORM
     id2prio.put("MONEY_BACK_HYPHEN", 1);   // higher prio than A_UNCOUNTABLE
-    id2prio.put("FINAL_THOUGH_HOWEVER_Q", 1);   // higher prio than THOUGH_COMMA
     id2prio.put("WORLDS_BEST", 1);   // higher prio than THE_SUPERLATIVE
     id2prio.put("STEP_COMPOUNDS", 1);   // higher prio than STARS_AND_STEPS
     id2prio.put("WON_T_TO", 1);   // higher prio than DON_T_AREN_T
@@ -413,7 +409,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("A_WINDOWS", 1);   // higher prio than A_NNS
     id2prio.put("A_SCISSOR", 1);   // higher prio than A_NNS
     id2prio.put("A_SNICKERS", 1);   // higher prio than A_NNS
-    id2prio.put("ROUND_A_BOUT", 1);   // higher prio than A_NNS
     id2prio.put("A_NNS_BEST_NN", 1);   // higher prio than A_NNS
     id2prio.put("BACHELORS", 1);   // higher prio than A_NNS
     id2prio.put("WERE_WEAR", 1);   // higher prio than agreement rules
@@ -441,15 +436,13 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("LIGATURES", 1);   // prefer over spell checker
     id2prio.put("APPSTORE", 1);   // prefer over spell checker
     id2prio.put("INCORRECT_CONTRACTIONS", 1);   // prefer over EN_CONTRACTION_SPELLING
-    id2prio.put("CAUSED_BY", 1);   // prefer over PASSIVE_VOICE_SIMPLE
     id2prio.put("DONT_T", 1);   // prefer over EN_CONTRACTION_SPELLING
-    id2prio.put("DONT_LIKE", 1);   // prefer over EN_WORDINESS_PREMIUM
     id2prio.put("WHATS_APP", 1);   // prefer over EN_CONTRACTION_SPELLING
     id2prio.put("NON_STANDARD_COMMA", 1);   // prefer over spell checker
-    id2prio.put("NON_STANDARD_ALPHABETIC_CHARACTERS", 1);  // prefer over spell checker
+    id2prio.put("NON_ENGLISH_CHARACTER_IN_A_WORD", 1);  // prefer over spell checker
     id2prio.put("WONT_CONTRACTION", 1);   // prefer over WONT_WANT
     id2prio.put("THAN_THANK", 1);   // prefer over THAN_THEN
-    id2prio.put("CD_NN_APOSTROPHE_S", 1);   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
+    id2prio.put("SPURIOUS_APOSTROPHE", 1);   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
     id2prio.put("IT_IF", 1);   // needs higher prio than PRP_COMMA and IF_YOU_ANY
     id2prio.put("FINE_TUNE_COMPOUNDS", 1);   // prefer over less specific rules
     id2prio.put("WHAT_IS_YOU", 1);   // prefer over HOW_DO_I_VB, NON3PRS_VERB
@@ -472,7 +465,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("MD_VBD", -1);  // prefer LOWERCASE_MONTHS
     id2prio.put("PRP_PRP", -1);  // prefer other rules that give a suggestion
     id2prio.put("IS_LIKELY_TO_BE", -1);  // give IS_RB_BE precedence (more suggestions)
-    id2prio.put("FOCUS_IN_2", 1);   // prefer over FOCUS_IN (delete this setting and FOCUS_IN after testing)
     id2prio.put("WANNA", 1);   // prefer over spell checker
     id2prio.put("LOOK_FORWARD_TO", 1);   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
     id2prio.put("LOOK_SLIKE", 1);   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
@@ -512,7 +504,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("BE_RB_BE", -1);  // prefer other more specific rules
     id2prio.put("IT_ITS", -1);  // prefer other more specific rules
     id2prio.put("ENGLISH_WORD_REPEAT_RULE", -1);  // prefer other more specific rules (e.g. IT_IT)
-    id2prio.put("NON_ANTI_PRE_JJ", -1);  // prefer other more specific rules
     id2prio.put("DT_JJ_NO_NOUN", -1);  // prefer other more specific rules (e.g. THIRD_PARTY)
     id2prio.put("AGREEMENT_SENT_START", -1);  // prefer other more specific rules
     id2prio.put("PREPOSITION_VERB", -1);  // prefer other more specific rules
@@ -542,7 +533,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("VB_A_JJ_NNS", -1);  // prefer other more specific rules (e.g. A_NNS)
     id2prio.put("DUPLICATION_OF_IS_VBZ", -1);  // prefer other more specific rules (e.g. A_NNS)
     id2prio.put("METRIC_UNITS_EN_IMPERIAL", -1);  // prefer MILE_HYPHEN
-    id2prio.put("METRIC_UNITS_EN_GB", -1);  // prefer MILE_HYPHEN
     id2prio.put("IF_THEN_COMMA", -1);  // prefer CONFUSION_OF_THEN_THAN
     id2prio.put("COMMA_COMPOUND_SENTENCE", -1);  // prefer other rules
     id2prio.put("COMMA_COMPOUND_SENTENCE_2", -1);  // prefer other rules
@@ -568,7 +558,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("A_INFINITIVE", -3);  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
     id2prio.put("INDIAN_ENGLISH", -3);  // prefer grammar rules, but higher prio than spell checker
     id2prio.put("DO_PRP_NOTVB", -3);  // prefer other more specific rules (e.g. HOW_DO_I_VB)
-    id2prio.put("ARTICLE_VB", -3);  // prefer A_INFINITIVE and other more specific rules (with suggestions)
     id2prio.put("GONNA", -4);  // prefer over spelling rules
     id2prio.put("WHATCHA", -4);  // prefer over spelling rules
     id2prio.put("DONTCHA", -4);  // prefer over spelling rules
@@ -588,7 +577,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("MORFOLOGIK_RULE_EN_AU", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MD_PRP_QUESTION_MARK", -11);  // speller needs higher priority
     id2prio.put("PRP_RB_NO_VB", -12);  // prefer other more specific rules (with suggestions)
-    id2prio.put("EN_UPPER_CASE_NGRAM", -12);  // prefer other more specific rules (e.g. AI models)
+    id2prio.put("UPPER_CASE_NGRAM", -12);  // prefer other more specific rules (e.g. AI models)
     id2prio.put("MD_JJ", -12);  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
     id2prio.put("HE_VERB_AGR", -12);  // prefer other more specific rules (e.g. AI models, PRP_VBG)
     id2prio.put("MD_BASEFORM", -12);  // prefer other more specific rules (e.g. AI models)
@@ -611,7 +600,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("THE_NNS_NN_IS", -12);  // prefer HYDRA_LEO
     id2prio.put("IF_DT_NN_VBZ", -12);  // prefer HYDRA_LEO and lector
     id2prio.put("PRP_MD_NN", -12);  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
-    id2prio.put("PRP_A", -13);  // prefer other more specific rules (e.g. AI models, I_AN, PRP_JJ)
     id2prio.put("HAVE_PART_AGREEMENT", -13);  // prefer HYDRA_LEO and lector
     id2prio.put("BEEN_PART_AGREEMENT", -13);  // prefer HYDRA_LEO and lector
     id2prio.put("BE_WITH_WRONG_VERB_FORM", -14);  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
@@ -626,7 +614,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("CC_PRP_ARTICLE", -15);  // prefer other more specific rules
     id2prio.put("BE_MD", -20);  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
     id2prio.put("POSSESSIVE_APOSTROPHE", -10);  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
-    id2prio.put("PRP_VB_IMPROVE", -24);  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
     id2prio.put("WANT_TO_NN", -25);  // prefer more specific rules that give a suggestion
     id2prio.put("QUESTION_WITHOUT_VERB", -25);  // prefer more specific rules that give a suggestion
     id2prio.put("PRP_VB", -25);  // prefer other rules (with suggestions, e.g. confusion rules)
@@ -639,7 +626,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("COULD_YOU_NOT_NEEDED", -49);  // prefer over TAKE_A_LOOK
     id2prio.put("SENTENCE_FRAGMENT", -50);  // prefer other more important sentence start corrections.
     id2prio.put("AI_HYDRA_LEO_MISSING_COMMA", -51); // prefer comma style rules.
-    id2prio.put("SENTENCE_FRAGMENT_SINGLE_WORDS", -51);  // prefer other more important sentence start corrections.
+    id2prio.put("SENTENCE_FRAGMENT", -51);  // prefer other more important sentence start corrections.
     id2prio.put("SEEMS_TO_BE", -51);  // prefer SEEM_APPEAR
     id2prio.put("QB_EN_OXFORD", -51);  // MISSING_COMMA_AFTER_YEAR
     id2prio.put("MD_NN", -60);  // prefer PRP_MD_NN
