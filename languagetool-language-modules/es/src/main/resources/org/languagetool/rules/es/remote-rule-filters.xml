@@ -85,7 +85,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <token>claro</token>
             </antipattern>
             <antipattern>
-                <token>,</token>
                 <token>es</token>
                 <token regexp="yes">lógico|claro|obvio|evidente</token>
                 <token>,</token>
@@ -96,14 +95,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>,</token>
                     <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar|especificar</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>,</token>
                     <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar|especificar</token>
@@ -112,7 +109,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <antipattern>
                 <marker>
                     <token postag="_GN_.P" postag_regexp="yes"/>
-                    <token>,</token>
                     <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
                     <token postag="V....S." postag_regexp="yes"/>
                 </marker>
@@ -120,7 +116,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <antipattern>
                 <marker>
                     <token postag="_GN_.S" postag_regexp="yes"/>
-                    <token>,</token>
                     <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
                     <token postag="V....P." postag_regexp="yes"/>
                 </marker>
@@ -147,24 +142,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
                 </pattern>
                 <example correction="">Mi <marker>amigo</marker> va hacia su casa.</example>
-                <example>El 1918, partió hacia el sur.</example>
-                <example>El año 1918, partió hacia el sur.</example>
-                <example>En año 1918, partió hacia el sur.</example>
-                <example>Juan, ven aquí.</example>
-                <example>La primavera anterior, había estado en Venecia.</example>
-                <example>Come comida rápida, muere en seguida.</example>
-                <example>Este paisaje, rico en oro, es espectacular.</example>
-                <example>George, te tengo que decir algo.</example>
-                <example>Los otros, venid conmigo.</example>
-                <example>¿Este método, es bastante seguro?</example>
-                <example>El objetivo, dice, es salvar vidas.</example>
-                <example>El objetivo, nos dice, es salvar vidas.</example>
-                <example>El objetivo, nos ha dicho, es salvar vidas.</example>
-                <example>La aplicación, activa desde octubre</example>
-                <example>Los peces marions, susurró.</example>
-                <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
-                <example>Los usuarios, además, pueden publicar comentarios en las historias.</example>
-                <example>Un momento, espera un minuto.</example>
+                <example>El 1918 partió hacia el sur.</example>
+                <example>El año 1918 partió hacia el sur.</example>
+                <example>En año 1918 partió hacia el sur.</example>
+                <example>Juan ven aquí.</example>
+                <example>La primavera anterior había estado en Venecia.</example>
+                <example>Come comida rápida muere en seguida.</example>
+                <example>Este paisaje, rico en oro es espectacular.</example>
+                <example>George te tengo que decir algo.</example>
+                <example>Los otros venid conmigo.</example>
+                <example>¿Este método es bastante seguro?</example>
+                <example>El objetivo dice, es salvar vidas.</example>
+                <example>El objetivo nos dice, es salvar vidas.</example>
+                <example>El objetivo nos ha dicho, es salvar vidas.</example>
+                <example>La aplicación activa desde octubre</example>
+                <example>Los peces marions susurró.</example>
+                <example>Esta sangre, baja en oxígeno se suministra al resto del cuerpo.</example>
+                <example>Los usuarios además, pueden publicar comentarios en las historias.</example>
+                <example>Los usuarios, además pueden publicar comentarios en las historias.</example>
+                <example>Un momento espera un minuto.</example>
             </rule>
             <rule>
                 <!--[1.2]-->
@@ -256,23 +252,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Mi <marker>amigo</marker> se va hacia su casa.</example>
                 <example correction="">Mi <marker>amigo</marker> no se va hacia su casa.</example>
                 <example correction="">Mi <marker>amigo</marker> no se lo da.</example>
-                <example>El 1918, partió hacia el sur.</example>
-                <example>El año 1918, partió hacia el sur.</example>
-                <example>En año 1918, partió hacia el sur.</example>
-                <example>Juan, ven aquí.</example>
-                <example>La primavera anterior, había estado en Venecia.</example>
-                <example>Come comida rápida, muere en seguida.</example>
-                <example>Este paisaje, rico en oro, es espectacular.</example>
-                <example>George, te tengo que decir algo.</example>
-                <example>Los otros, venid conmigo.</example>
-                <example>¿Este método, es bastante seguro?</example>
-                <example>El objetivo, dice, es salvar vidas.</example>
-                <example>El objetivo, nos dice, es salvar vidas.</example>
-                <example>El objetivo, nos ha dicho, es salvar vidas.</example>
-                <example>La aplicación, activa desde octubre</example>
-                <example>Los peces marions, susurró.</example>
-                <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
-                <example>Los usuarios, además, pueden publicar comentarios en las historias.</example>
+                <example>El 1918 partió hacia el sur.</example>
+                <example>El año 1918 partió hacia el sur.</example>
+                <example>En año 1918 partió hacia el sur.</example>
+                <example>Juan ven aquí.</example>
+                <example>La primavera anterior había estado en Venecia.</example>
+                <example>Come comida rápida muere en seguida.</example>
+                <example>Este paisaje, rico en oro es espectacular.</example>
+                <example>George te tengo que decir algo.</example>
+                <example>Los otros venid conmigo.</example>
+                <example>¿Este método es bastante seguro?</example>
+                <example>El objetivo dice, es salvar vidas.</example>
+                <example>El objetivo nos dice, es salvar vidas.</example>
+                <example>El objetivo nos ha dicho, es salvar vidas.</example>
+                <example>La aplicación activa desde octubre</example>
+                <example>Los peces marions susurró.</example>
+                <example>Esta sangre, baja en oxígeno se suministra al resto del cuerpo.</example>
+                <example>Los usuarios además, pueden publicar comentarios en las historias.</example>
+                <example>Los usuarios, además pueden publicar comentarios en las historias.</example>
             </rule>
             <rule>
                 <!--[2.2]-->
@@ -372,24 +369,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception><exception scope="next">tu</exception></token>
                 </pattern>
                 <example correction=""><marker>Juan</marker> va hacia su casa.</example>
-                <example>Mañana, alunizará.</example>
-                <example>Gracias, es todo.</example>
-                <example>No, es de segunda mano.</example>
-                <example>Cansado, se fue a la cama antes de lo normal.</example>
-                <example>Tranquilo, es sólo un espantapájaros.</example>
-                <example>Bill, abre la puerta.</example>
-                <example>Jim, cierra la ventana.</example>
-                <example>Segundo, recibe una violenta oposición.</example>
-                <example>Mira, está lloviendo.</example>
-                <example>Louis, vienen tus amigos.</example>
-                <example>Tom, hay algo que quiero darte.</example>
-                <example>Mira, se le rompió la fuente a esa señora.</example>
-                <example>Tom, te llama tu mamá.</example>
-                <example>Mary, venga, deja de protestar.</example>
-                <example>Ricardo, ora por mi.</example>
-                <example>María, me gustan mucho las enumeraciones.</example>
-                <example>Tom, te llama mamá.</example>
-                <example>Claro, le duele.</example>
+                <example>Mañana alunizará.</example>
+                <example>Gracias es todo.</example>
+                <example>No es de segunda mano.</example>
+                <example>Cansado se fue a la cama antes de lo normal.</example>
+                <example>Tranquilo es sólo un espantapájaros.</example>
+                <example>Bill abre la puerta.</example>
+                <example>Jim cierra la ventana.</example>
+                <example>Segundo recibe una violenta oposición.</example>
+                <example>Mira está lloviendo.</example>
+                <example>Louis vienen tus amigos.</example>
+                <example>Tom hay algo que quiero darte.</example>
+                <example>Mira se le rompió la fuente a esa señora.</example>
+                <example>Tom te llama tu mamá.</example>
+                <example>Mary venga, deja de protestar.</example>
+                <example>Ricardo ora por mi.</example>
+                <example>María me gustan mucho las enumeraciones.</example>
+                <example>Tom te llama mamá.</example>
+                <example>Claro le duele.</example>
             </rule>
             <rule>
                 <!--[3.2]-->
@@ -459,25 +456,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction=""><marker>Juan</marker> no va hacia su casa.</example>
                 <example correction=""><marker>Juan</marker> no se va hacia su casa.</example>
                 <example correction=""><marker>Juan</marker> no se lo da.</example>
-                <example>Mañana, alunizará.</example>
-                <example>Gracias, es todo.</example>
-                <example>No, es de segunda mano.</example>
-                <example>Cansado, se fue a la cama antes de lo normal.</example>
-                <example>Tranquilo, es sólo un espantapájaros.</example>
-                <example>Bill, abre la puerta.</example>
-                <example>Jim, cierra la ventana.</example>
-                <example>Segundo, recibe una violenta oposición.</example>
-                <example>Mira, está lloviendo.</example>
-                <example>Louis, vienen tus amigos.</example>
-                <example>Tom, hay algo que quiero darte.</example>
-                <example>Mira, se le rompió la fuente a esa señora.</example>
-                <example>Tom, te llama tu mamá.</example>
-                <example>Mary, venga, deja de protestar.</example>
-                <example>Ricardo, ora por mi.</example>
-                <example>María, me gustan mucho las enumeraciones.</example>
-                <example>Tom, te llama mamá.</example>
-                <example>Claro, le duele.</example>
-                <example>Tom, no es necesario que te disculpes.</example>
+                <example>Mañana alunizará.</example>
+                <example>Gracias es todo.</example>
+                <example>No es de segunda mano.</example>
+                <example>Cansado se fue a la cama antes de lo normal.</example>
+                <example>Tranquilo es sólo un espantapájaros.</example>
+                <example>Bill abre la puerta.</example>
+                <example>Jim cierra la ventana.</example>
+                <example>Segundo recibe una violenta oposición.</example>
+                <example>Mira está lloviendo.</example>
+                <example>Louis vienen tus amigos.</example>
+                <example>Tom hay algo que quiero darte.</example>
+                <example>Mira se le rompió la fuente a esa señora.</example>
+                <example>Tom te llama tu mamá.</example>
+                <example>Mary venga, deja de protestar.</example>
+                <example>Ricardo ora por mi.</example>
+                <example>María me gustan mucho las enumeraciones.</example>
+                <example>Tom te llama mamá.</example>
+                <example>Claro le duele.</example>
+                <example>Tom no es necesario que te disculpes.</example>
             </rule>
             <rule>
                 <!--[4.2]-->
@@ -750,6 +747,74 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_ES_HYDRA_LEO_CP_SITILDE_SI" name="">
+            <rule>
+                <antipattern>
+                    <token inflected="yes" skip="7" regexp="yes">preguntar|decir</token>
+                    <token>que</token>
+                    <token>sí</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token skip="-1">sí</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token>sí</token>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token skip="-1" postag="V.I.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="10" regexp="yes">más|menos|tantos?|tantas?</token>
+                    <token>que<exception postag="LOC_CS"/></token>
+                    <token>sí</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="2" regexp="yes">más|menos|tantos?|tantas?</token>
+                    <token skip="10">que<exception postag="LOC_CS"/></token>
+                    <token>sí</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">igual|vaya|toma</token>
+                    <token>que</token>
+                    <token>sí</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">qué|que</token>
+                    <token>tal</token>
+                    <token>sí</token>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token>cuanto</token>
+                    <token>a</token>
+                    <token>que</token>
+                    <token>sí</token>
+                </antipattern>
+                <pattern>
+                    <token postag="CS|LOC_CS|PR.*" postag_regexp="yes" regexp="yes">que|porque|pues|aunque</token>
+                    <token postag="D.*|N.*|A.*|_IS_URL" postag_regexp="yes" min="0" max="4"/>
+                    <marker>
+                        <token>sí</token>
+                    </marker>
+                    <token min="0" max="2" postag="PP3..A.*|PP[123]C[SP][0D]00|P0[123].*" postag_regexp="yes"/>
+                    <token skip="-1" postag="V.I.*" postag_regexp="yes"><exception scope="next" postag="V.[ISM].*" postag_regexp="yes"/></token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">No quiero más, porque <marker>sí</marker> afecta a mi salud.</example>
+                <example correction="">No quiero más, ya que <marker>sí</marker> afecta a mi salud.</example>
+                <example correction="">Aunque librosramona.com <marker>sí</marker> guarda un registro de las solicitudes.</example>
+                <example correction="">Me siento frente a la pantalla de un computador el día entero, así que <marker>sí</marker> resulto enormemente bombardeado por ondas electromagnéticas.</example>
+                <example>Dijo que sí puedo detener una Señal, que la cadena se romperia</example>
+                <example>Le digo a La Heredera que sí podemos jugar juntas.</example>
+                <example>de modo que sí observamos alguna incomodidad o alguna reacción exagerada, poder parar para atender sus necesidades</example>
+                <example>Prestaban más atención que sí gritaba sin parar. </example>
+                <example>Es más agradable a la vista que sí lo tachas concienzudamente.</example>
+                <example>Son menos que las posibles opciones sí aplicamos las 27 letras del alfabeto.</example>
+                <example>No es igual que sí tienen algo que ocultar.</example>
+                <example>Vaya que sí ha sido dramático.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
