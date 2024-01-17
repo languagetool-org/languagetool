@@ -219,7 +219,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("FRAGMENT_TWO_ARTICLES", 50);
     id2prio.put("DEGREE_MINUTES_SECONDS", 30);
     id2prio.put("INTERJECTIONS_PUNTUATION", 20);
-    id2prio.put("CONFUSION_POR", 10);
+    id2prio.put("CONFUSION_POR_PÔR_V2", 10);
     id2prio.put("PARONYM_POLITICA_523", 10);
     id2prio.put("PARONYM_PRONUNCIA_262", 10);
     id2prio.put("PARONYM_CRITICA_397", 10);
@@ -236,7 +236,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("UNPAIRED_BRACKETS", -5);
     id2prio.put("PROFANITY", -6);
     id2prio.put("PT_BARBARISMS_REPLACE", -10);
-    id2prio.put("BARBARISMS_PT_PT_V2", -10);
+    id2prio.put("BARBARISMS_PT_PT_V3", -10);
     id2prio.put("PT_PT_SIMPLE_REPLACE", -11);  // for pt-PT, not lower than speller, not sure why
     id2prio.put("PT_REDUNDANCY_REPLACE", -12);
     id2prio.put("PT_WORDINESS_REPLACE", -13);
@@ -245,9 +245,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("CHILDISH_LANGUAGE", -25);
     id2prio.put("ARCHAISMS", -26);
     id2prio.put("INFORMALITIES", -27);
-    id2prio.put("PUFFERY", -30);
     id2prio.put("BIASED_OPINION_WORDS", -31);
-    id2prio.put("WEAK_WORDS", -32);
     id2prio.put("PT_AGREEMENT_REPLACE", -35);
     id2prio.put("CONTA_TO", -44);
     id2prio.put("PT_DIACRITICS_REPLACE", -45);  // prefer over spell checker
@@ -268,19 +266,16 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("EU_NÓS_REMOVAL", -90);
     id2prio.put("COLOCAÇÃO_ADVÉRBIO", -90);
     id2prio.put("FAZER_USO_DE-USAR-RECORRER", -90);
-    id2prio.put("T-V_DISTINCTION", -100);
-    id2prio.put("T-V_DISTINCTION_ALL", -101);
+    id2prio.put("FORMAL_T-V_DISTINCTION", -100);
+    id2prio.put("FORMAL_T-V_DISTINCTION_ALL", -101);
     id2prio.put("REPEATED_WORDS", -210);
-    id2prio.put("REPEATED_WORDS_3X", -211);
     id2prio.put("PT_WIKIPEDIA_COMMON_ERRORS", -500);
     id2prio.put("FILLER_WORDS_PT", -990);
     id2prio.put(LongSentenceRule.RULE_ID, -997);
     id2prio.put(LongParagraphRule.RULE_ID, -998);
     id2prio.put("READABILITY_RULE_SIMPLE_PT", -1100);
     id2prio.put("READABILITY_RULE_DIFFICULT_PT", -1101);
-    id2prio.put("CACOPHONY", -1500);
     id2prio.put("UNKNOWN_WORD", -2000);
-    id2prio.put("NO_VERB", -2100);
   }
 
   @Override
