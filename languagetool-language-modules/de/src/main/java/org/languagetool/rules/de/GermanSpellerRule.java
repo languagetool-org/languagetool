@@ -57,6 +57,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
 
+  private static final int MIN_WORD_LENGTH   = 5;
+  private static final int MAX_WORD_LENGTH   = 40;
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
@@ -2222,8 +2224,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
-    if (word.length() <= 5 || word.length() >= 40 || startsWithLowercase(word) || isProhibited(word)) {
-      // exclude weird/irrelevant cases (also the splitter can crash on VERY long words)
+    if (isValidWordLength(word) || startsWithLowercase(word) || isProhibited(word)) {
+      // Exclude cases like weird/irrelevant words and very long words that can cause crashes
       return false;
     }
     if (word.endsWith("gruße") ||   // too big chance of a "...grüße" typo
@@ -2309,7 +2311,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isEligibleForCompoundWithoutInfixS(String part1, String part2, String part2uc, boolean hasInfixS) throws IOException {
     return !hasInfixS &&
-      isPartLengthValid(part1, part2) &&
+      isValidPartLength(part1, part2) &&
       !part2.contains("-") &&
       startsWithLowercase(part2) &&
       !part1.equals("Lass") && // Special case handling
@@ -2318,7 +2320,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       isNoun(part2uc);
   }
 
-  private boolean isPartLengthValid(String part1, String part2) {
+  private boolean isValidWordLength(String word) {
+    return word.length() <= MIN_WORD_LENGTH || word.length() >= MAX_WORD_LENGTH;
+  }
+
+  private boolean isValidPartLength(String part1, String part2) {
     // don't assume very short parts (like "Ei") are correct, these can easily be typos:
     return part1.length() >= 3 && part2.length() >= 4;
   }
