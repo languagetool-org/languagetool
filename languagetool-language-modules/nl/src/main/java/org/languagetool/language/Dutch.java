@@ -179,23 +179,18 @@ public class Dutch extends Language {
     id2prio.put("N_PERSOONS", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
     id2prio.put("HOOFDLETTERS_OVERBODIG_A", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
     id2prio.put("VERSCHILLENDE_AANHALINGSTEKENS", 1); // needs higher priority than UNPAIRED_BRACKETS
-    id2prio.put("IJ_HFDLTRS", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
     id2prio.put("STAM_ZONDER_IK", -1);  // see https://github.com/languagetool-org/languagetool/issues/7644
     id2prio.put("KOMMA_ONTBR", -1);   // see https://github.com/languagetool-org/languagetool/issues/7644
-    id2prio.put("KOMMA_AANH", -1); // needs higher priority than DOUBLE_PUNCTUATION
     id2prio.put("KOMMA_KOMMA", -1); // needs higher priority than DOUBLE_PUNCTUATION
     id2prio.put("HET_FIETS", -2); // first let other rules check for compound words
     id2prio.put("JIJ_JOU_JOUW", -2);  // needs higher priority than JOU_JOUW
     id2prio.put("JOU_JOUW", -3);
     id2prio.put("BE", -3); // needs lower priority than BE_GE_SPLITST
     id2prio.put("DOUBLE_PUNCTUATION", -3);
-    id2prio.put("KORT_1", -5);
-    id2prio.put("KORT_2", -5);  //so that spelling errors are recognized first
     id2prio.put("EINDE_ZIN_ONVERWACHT", -5);  //so that spelling errors are recognized first
     id2prio.put("TOO_LONG_PARAGRAPH", -15);
     id2prio.put("ERG_LANG_WOORD", -20);  // below spell checker and simple replace rule
     id2prio.put("DE_ONVERWACHT", -20);  // below spell checker and simple replace rule
-    id2prio.put("TE-VREEMD", -20);  // below spell checker and simple replace rule
     // category style : -50	  
   }
 
