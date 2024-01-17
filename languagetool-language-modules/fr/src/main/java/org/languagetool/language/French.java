@@ -284,7 +284,6 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("PLURIEL_AL2", 100); // greater than other rules for pluriel al
     id2prio.put("FR_SPLIT_WORDS_HYPHEN", 100); // greater than MOTS_INCOMP
     id2prio.put("PAS_DE_TRAIT_UNION", 50); //  // greater than agreement rules
-    id2prio.put("PRIME-TIME", 50); //  // greater than agreement rules
     id2prio.put("A_VERBE_INFINITIF", 20); // greater than PRONSUJ_NONVERBE
     id2prio.put("DE_OU_DES", 20); // greater than PAS_ADJ
     id2prio.put("EMPLOI_EMPLOIE", 20); // greater than MOTS_INCOMP
@@ -319,19 +318,14 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("OU_PAS", 10); // needs higher priority than VERBE_OBJ
     id2prio.put("PLACE_DE_LA_VIRGULE", 10); // needs higher priority than C_EST_QUOI
     id2prio.put("SE_CE", -10); // needs higher priority than ELISION
-    id2prio.put("SYNONYMS", -10); // less than ELISION
     id2prio.put("PAS_DE_SOUCIS", 10); // needs higher priority than PAS_DE_PB_SOUCIS (premium)
     //id2prio.put("PRONSUJ_NONVERBE", 10); // needs higher priority than AUXILIAIRE_MANQUANT
     //id2prio.put("AUXILIAIRE_MANQUANT", 5); // needs higher priority than ACCORD_NOM_VERBE
-    id2prio.put("CONFUSION_PAR_PART", -5);  // turn off completely when PART_OU_PAR is activated
     id2prio.put("SON", -5); // less than ETRE_VPPA_OU_ADJ
     id2prio.put("J_N", -10); // needs lesser priority than D_J
     id2prio.put("TE_NV", -20); // less than SE_CE, SE_SA and SE_SES
     id2prio.put("TE_NV2", -10); // less than SE_CE, SE_SA and SE_SES
-    id2prio.put("PLURIEL_AL", -10); // less than AGREEMENT_POSTPONED_ADJ
     id2prio.put("INTERROGATIVE_DIRECTE", -10); // less than OU
-    id2prio.put("D_J_N", -10); // less than J_N
-    id2prio.put("FAMILIARITES", -10); // less than grammar rules
     id2prio.put("V_J_A_R", -10); // less than grammar rules
     id2prio.put("TRES_TRES_ADJ", -10); // less than grammar rules
     id2prio.put("IMP_PRON", -10); // less than D_N
@@ -339,7 +333,6 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("PREP_VERBECONJUGUE", -20);
     id2prio.put("LA_LA2", -20); // less than LA_LA
     id2prio.put("FRENCH_WORD_REPEAT_RULE", -20); // less than TRES_TRES_ADJ
-    id2prio.put("CROIRE", -20); // less than JE_CROIS_QUE
     id2prio.put("PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF", -20);
     id2prio.put("VIRGULE_VERBE", -20); // less than grammar rules
     id2prio.put("VERBES_FAMILIERS", -25);  // less than PREP_VERBECONJUGUE + PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF
@@ -350,12 +343,9 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("AGREEMENT_POSTPONED_ADJ", -50);
     id2prio.put("MULTI_ADJ", -50);
     id2prio.put("PARENTHESES", -50);// less than grammar rules
-    id2prio.put("ESSENTIEL", -50); // lesser than grammar rules
+    id2prio.put("REP_ESSENTIEL", -50); // lesser than grammar rules
     id2prio.put("CONFUSION_AL_LA", -50); // lesser than AUX_AVOIR_VCONJ
-    id2prio.put("IMPORTANT", -50); // lesser than grammar rules
-    id2prio.put("SOUHAITER", -50); // lesser than grammar rules
     id2prio.put("CAR", -50); // lesser than grammar rules
-    id2prio.put("AIMER", -50); // lesser than grammar rules
     id2prio.put("CONFUSION_RULE_PREMIUM", -50); // lesser than PRONSUJ_NONVERBE
     id2prio.put("LE_COVID", -60); // lower than COVID_19_GRAPHIE
     id2prio.put("FR_SPELLING_RULE", -100);
@@ -369,7 +359,6 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("ELISION", -200); // should be lower in priority than spell checker
     id2prio.put("POINT", -200); // should be lower in priority than spell checker
     id2prio.put("REPETITIONS_STYLE", -250);  // repetition style rules, usually with prefix REP_
-    id2prio.put("FR_REPEATEDWORDS_EXIGER", -250);  // repetition style rules,
     id2prio.put("POINTS_SUSPENSIONS_SPACE", -250);  // should be lower in priority than ADJ_ADJ_SENT_END
     id2prio.put("UPPERCASE_SENTENCE_START", -300);
     id2prio.put("FRENCH_WHITESPACE_STRICT", -350); // picky; if on, it should overwrite FRENCH_WHITESPACE
