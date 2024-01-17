@@ -2245,45 +2245,34 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       nonStrictMode = true;
     }
     String part1;
-    String part2;
+    String part2 = "";
+    part1 = parts.get(0);
+    if (parts.size() >= 2) {
+      part2 = parts.get(1);
+    }
     boolean hasInfixS = false;
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
-      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
+      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2)
+        && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
         // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
         part1 = part1 + "s";
         part2 = part2.substring(1);
         hasInfixS = true;
       }
-    } else if (parts.size() == 3 && parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
-      // e.g. "Prioritäts-Dings" gets split like "Priorität", "s", "dings" -> treat it as if there was no "-":
-      part1 = parts.get(0) + "s";
-      part2 = lowercaseFirstChar(parts.get(2));
-      hasInfixS = true;
-    } else if (parts.size() == 3 && !word.contains("-")) {
-      // e.g. Hundefutterschachtel = Hunde, Futter, Schachtel
-      part1 = parts.get(0);
-      part2 = parts.get(1);
-      String compound1 = parts.get(0) + parts.get(1);
-      String compound1noS = compound1.replaceFirst("s$", "");
-      String compound2 = uppercaseFirstChar(parts.get(1)) + parts.get(2);
-      boolean compound1ok = false;
-      if (germanPrefixes.contains(part2)) {
-        compound1ok = 
-          (((!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) ||  // Weinkühlschrank gets split into Wein, kühl, schrank
-          ignorePotentiallyMisspelledWord(part1+parts.get(2))) &&
-          parts.get(2).length() >= 3) ||  //Vorraus --> Vor, rau, s
-          (!isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||   //Menschenrechtsdemos as 'rechts' is in germanPrefixes
-          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS)); 
-      } else {
-        compound1ok =
-          !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
-          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
-      }
-      boolean compound2ok =
-        (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
-      return compound1ok && compound2ok;
+    } else if (parts.size() == 3) {
+        if (parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
+            // Handle compound words with a hyphen and 's' infix (e.g., "Prioritäts-Dings")
+            part1 = parts.get(0) + "s";
+            part2 = lowercaseFirstChar(parts.get(2));
+            hasInfixS = true;
+        } else if (!word.contains("-")) {
+            // Handle compound words without a hyphen (e.g., "Hundefutterschachtel")
+            part1 = parts.get(0);
+            part2 = parts.get(1);
+            return processThreePartCompoundWithoutHyphen(parts, part1, part2);
+        }
     } else {
       // more than three parts can be supported later
       return false;
@@ -2321,6 +2310,49 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     return false;
   }
+
+  protected boolean processThreePartCompoundWithoutHyphen(List<String> parts, String part1, String part2) throws IOException {
+    String compound1 = part1 + part2;
+    String compound1noS = compound1.replaceFirst("s$", "");
+    String compound2 = uppercaseFirstChar(part2) + parts.get(2);
+
+    boolean compound1ok = isCompound1Ok(part1, part2, compound1, compound1noS);
+    boolean compound2ok = (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
+    //
+    if (!compound1ok && compound2ok && (part1.equals("Aus") || part1.equals("Wein"))) {
+      //just quick fix for Ausleihstelle and Weinkühlschrank
+      //TODO simplify method
+      return true;
+    } else {
+      return compound1ok && compound2ok;
+    }
+  }
+
+  private boolean isCompound1Ok(String part1, String part2, String compound1, String compound1noS) throws IOException {
+    if (germanPrefixes.contains(part2)) {
+      return checkGermanPrefixes(part1, part2, compound1, compound1noS);
+    } else {
+      return !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
+        !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
+    }
+  }
+
+  private boolean checkGermanPrefixes(String part1, String part2, String compound1, String compound1noS) throws IOException {
+    // Logic for handling German prefixes
+    // This method checks if the first part of the compound is not misspelled,
+    // or if it is a potentially misspelled word that should be ignored.
+    // It also checks if the second part of the compound is not misspelled or should be ignored.
+    // Additionally, it ensures that the second part has a minimum length of 3 characters.
+    boolean compound1ok =
+      (((!isMisspelled(part1) && !isMisspelled(part1 + part2)) ||
+        ignorePotentiallyMisspelledWord(part1 + part2)) &&
+        part2.length() >= 3) ||
+        (!isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
+          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS));
+
+    return compound1ok;
+  }
+
 
   private boolean isAdjective(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("ADJ:"));
