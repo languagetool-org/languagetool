@@ -115,14 +115,11 @@ public class SentenceAnnotator {
         break;
       }
       String[] partsLine = line.split("\t");
-      String sentence;
-      String sentenceHash = "Undefined";
+      String sentence = partsLine[0];
+      String sentenceID = "N/A";
+      String sentenceHash = md5FromSentence(sentence);
       if (partsLine.length == 2) {
-        sentence = partsLine[1];
-        sentenceHash = partsLine[0];
-      } else {
-        sentence = partsLine[0];
-        //sentenceHash = md5FromSentence(sentence);
+        sentenceID = partsLine[1];
       }
       numSentence++;
       if (numSentence < startLine) {
@@ -262,7 +259,7 @@ public class SentenceAnnotator {
         }
 
         if (!errorType.isEmpty()) {
-          printOutputLine(cfg, sentenceHash, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
+          printOutputLine(cfg, sentenceHash, sentenceID, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
               suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
@@ -371,7 +368,7 @@ public class SentenceAnnotator {
           replacement = iEMatch.getReplacements().get(0);
           break;
         }
-        printOutputLine(cfg, sentenceHash, formattedOriginalSentence, formattedCorrectSentence, errorType,
+        printOutputLine(cfg, sentenceHash, "N/A", formattedOriginalSentence, formattedCorrectSentence, errorType,
             detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
@@ -409,12 +406,13 @@ public class SentenceAnnotator {
     return DatatypeConverter.printHexBinary(digest);
   }
 
-  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash,
+  private static void printOutputLine(AnnotatorConfig cfg, String sentenceID, String sentenceHash,
                                       String errorSentence, String correctedSentence, String errorType,
                                       String detectedErrorStr, String suggestion, int suggestionPos,
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
       sentenceHash,
+      sentenceID,
       cfg.annotatorName,
       timestamp,
       errorSentence,
