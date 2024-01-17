@@ -2356,7 +2356,7 @@ public class DocumentCache implements Serializable {
         }
       } else {
         for (int i : tmpParagraphs.keySet()) {
-          if (i < fromParagraph) {
+          if (i < fromParagraph - 1) {  // remove also the last paragraph before (it was changed in many cases)
             analyzedParagraphs.put(i, tmpParagraphs.get(i));
           } else if (i >= toParagraph) {
             analyzedParagraphs.put(i + shift, tmpParagraphs.get(i));
