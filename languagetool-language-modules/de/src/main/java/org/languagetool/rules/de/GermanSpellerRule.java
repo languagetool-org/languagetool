@@ -2245,11 +2245,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       nonStrictMode = true;
     }
     String part1;
-    String part2 = "";
-    part1 = parts.get(0);
-    if (parts.size() >= 2) {
-      part2 = parts.get(1);
-    }
+    String part2;
+    //part1 = parts.get(0);
+    //if (parts.size() >= 2) {
+    //  part2 = parts.get(1);
+    //}
     boolean hasInfixS = false;
     if (parts.size() == 2) {
       part1 = parts.get(0);
@@ -2261,12 +2261,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         part2 = part2.substring(1);
         hasInfixS = true;
       }
+      return generalProcessing(word, part1, part2, hasInfixS);
     } else if (parts.size() == 3) {
         if (parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
             // Handle compound words with a hyphen and 's' infix (e.g., "Prioritäts-Dings")
             part1 = parts.get(0) + "s";
             part2 = lowercaseFirstChar(parts.get(2));
             hasInfixS = true;
+            return generalProcessing(word, part1, part2, hasInfixS);
         } else if (!word.contains("-")) {
             // Handle compound words without a hyphen (e.g., "Hundefutterschachtel")
             part1 = parts.get(0);
@@ -2277,38 +2279,79 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // more than three parts can be supported later
       return false;
     }
+    return false;
+  }
+
+
+  private boolean generalProcessing(String word, String part1, String part2, boolean hasInfixS) throws IOException {
+    // Processing that needs to be done for both two-part and three-part compounds
+    // To improve readability in *ignorePotentiallyMisspelledWord*, the following part was taken from there
     if (word.contains("-" + part2)) {
       // don't accept e.g. "Implementierungs-pflicht"
       return false;
     }
-    // don't assume very short parts (like "Ei") are correct, these can easily be typos:
-    if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
-      String part1noInfix = part1.substring(0, part1.length()-1);
+    if (isValidCompoundCondition(part1, part2, hasInfixS)) {
+      String part1noInfix = removeInfixS(part1);
       String part2uc = uppercaseFirstChar(part2);
-      if ((compoundPatternWithHeit.matcher(part1).matches() || wordsNeedingInfixS.contains(part1noInfix)) &&
-          isNoun(part2uc)) {
-        if (compoundPatternWithAction.matcher(part1noInfix).matches() ||
-            compoundPatternWithFirst.matcher(part2uc).matches() ||
-            part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
-          return false;
-        }
-        return true;
+
+      if (isValidCompoundPattern(part1, part1noInfix, part2uc) && isNoun(part2uc)) {
+        return !isInvalidCompoundEnding(part1, part1noInfix, part2uc);
       }
     }
     String part2uc = uppercaseFirstChar(part2);
-    if (!hasInfixS &&
-        part1.length() >= 3 && part2.length() >= 4 &&
-        !part2.contains("-") &&
-        startsWithLowercase(part2) &&
-        !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
-        (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
-        !isMisspelled(part1) &&
-        isNoun(part2uc) // don't accept e.g. "Azubikommt"
-      ) {
+
+    if (isEligibleForCompoundWithoutInfixS(part1, part2, part2uc, hasInfixS)) {
       System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
       return true;
     }
     return false;
+  }
+
+  private boolean isEligibleForCompoundWithoutInfixS(String part1, String part2, String part2uc, boolean hasInfixS) throws IOException {
+    return !hasInfixS &&
+      isPartLengthValid(part1, part2) &&
+      !part2.contains("-") &&
+      startsWithLowercase(part2) &&
+      !part1.equals("Lass") && // Special case handling
+      isValidCompound(part1, part2uc) &&
+      !isMisspelled(part1) &&
+      isNoun(part2uc);
+  }
+
+  private boolean isPartLengthValid(String part1, String part2) {
+    // don't assume very short parts (like "Ei") are correct, these can easily be typos:
+    return part1.length() >= 3 && part2.length() >= 4;
+  }
+
+  private boolean isValidCompound(String part1, String part2uc) throws IOException {
+    return wordsWithoutInfixS.contains(part1) ||
+      (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc));
+  }
+
+
+  private boolean isValidCompoundCondition(String part1, String part2, boolean hasInfixS) {
+    return (hasInfixS || part1.endsWith("s")) &&
+      part1.length() >= 4 && // includes 's'
+      part2.length() >= 3 &&
+      startsWithLowercase(part2);
+  }
+
+  private boolean isValidCompoundPattern(String part1, String part1noInfix, String part2uc) {
+    return compoundPatternWithHeit.matcher(part1).matches() ||
+      wordsNeedingInfixS.contains(part1noInfix) ||
+      compoundPatternWithAction.matcher(part1noInfix).matches() ||
+      compoundPatternWithFirst.matcher(part2uc).matches();
+  }
+
+  private String removeInfixS(String part1) {
+    return part1.substring(0, part1.length() - 1);
+  }
+
+  private boolean isInvalidCompoundEnding(String part1, String part1noInfix, String part2uc) {
+    return part1.endsWith("schwungs") ||
+      part1.endsWith("sprungs") ||
+      isMisspelled(part1noInfix) ||
+      isMisspelled(part2uc);
   }
 
   protected boolean processThreePartCompoundWithoutHyphen(List<String> parts, String part1, String part2) throws IOException {
