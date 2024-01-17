@@ -4683,4 +4683,54 @@ Copyright (C) 2008-2023 Ruud Baars
        </pattern>
         <disambig action="remove" postag="ZNW:EKV"/>
     </rule>
+	<!--
+	?	 51643	(3)	ZNW:EKV/BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+		962:	 volle gang.
+		405:	 snelle levering.
+		340:	 hoge kwaliteit.
+		280:	 mobiele telefoon.
+		268:	 lange tijd.
+		233:	 rode wijn.
+		213:	 korte termijn.
+		206:	 korte tijd.
+		202:	 Lichte muziek.
+	-->
+    <rule id="NEW_160" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[‘’“'"„”]</token>
+       </pattern>
+        <disambig action="remove" postag="ZNW:EKV"/>
+    </rule>
+
+	<!--
+	?	 47027	(2)	ZNW:EKV:DE_ WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	  1023:	 tijd was
+	   951:	 vrouw was
+	   473:	 naam was
+	   409:	 avond was
+	   345:	 huid was
+	   323:	 kamer was
+	   306:	 reactie was
+	   291:	 schuld was
+	   289:	 orde was
+	   277:	 Mama was
+	   241:	 dochter was
+	-->
+    <rule id="NEW_161" name="-">
+        <pattern>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<token>was</token>
+			</marker>
+       </pattern>
+        <disambig action="remove" postag="ZNW:EKV:DE_"/>
+    </rule>
+
 </rules>
