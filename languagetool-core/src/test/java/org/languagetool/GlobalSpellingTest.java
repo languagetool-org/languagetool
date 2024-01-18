@@ -21,13 +21,15 @@ package org.languagetool;
 import org.junit.Test;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.languagetool.JLanguageTool.getDataBroker;
 
 public class GlobalSpellingTest {
 
   private List<String> prohibitedExpressions = Arrays.asList("Dnipro", "Dnepr");
-  private List<String> prohibitedtokens = Arrays.asList("Tolstoi", "Tolstoy", "Dostoevsky");
+  private List<String> prohibitedTokens = Arrays.asList("Tolstoi", "Tolstoy", "Dostoevsky");
 
   @Test
   public void avoidSomeWords() throws IOException {
@@ -43,7 +45,7 @@ public class GlobalSpellingTest {
       }
       String[ ] tokens = entry.split(" ");
       for (String token : tokens) {
-        if (prohibitedtokens.contains(token)) {
+        if (prohibitedTokens.contains(token)) {
           throw new IllegalStateException("Do not use '" + token + "' in global_spelling.txt. It is not a valid spelling for all languages.");
         }
       }
