@@ -29,7 +29,7 @@ public class DutchMultitokenSpeller extends MultitokenSpeller {
 
   protected DutchMultitokenSpeller() {
     super(Languages.getLanguageForShortCode("nl-NL"),
-      Arrays.asList("/spelling_global.txt"));
+      Arrays.asList("/nl/multiwords.txt", "/spelling_global.txt"));
   }
 
   @Override
