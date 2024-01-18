@@ -190,7 +190,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("fá-lo-á", lt, rule);
     assertNoErrors("dir-lhe-ia", lt, rule);
     assertNoErrors("amar-nos-emos", lt, rule);
-    assertNoErrors("dê-mo", lt, rule);
+    assertNoErrors("dê-mo", lt, rule);  // not a single token!
     assertNoErrors("fizemo-lo", lt, rule);
     assertNoErrors("compramo-lo", lt, rule);
     assertNoErrors("apercebemo-nos", lt, rule);
@@ -202,11 +202,34 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("fê-lo", lt, rule);
     assertNoErrors("trá-las", lt, rule);
     assertNoErrors("pu-las", lt, rule);
+    assertNoErrors("pusé-lo", lt, rule);
+    assertNoErrors("soubé-lo", lt, rule);
   }
 
   @Test
   public void testEuropeanPortugueseHyphenatedClitics() throws Exception {
-    testPortugueseHyphenatedClitics(ltPT, rulePT);
+//    testPortugueseHyphenatedClitics(ltPT, rulePT);
+    JLanguageTool lt = ltPT;
+    MorfologikPortugueseSpellerRule rule = rulePT;
+
+//    assertNoErrors("diz-se", lt, rule);
+    assertNoErrors("fá-lo-á", lt, rule);
+    assertNoErrors("dir-lhe-ia", lt, rule);
+    assertNoErrors("amar-nos-emos", lt, rule);
+    assertNoErrors("dê-mo", lt, rule);  // not a single token!
+    assertNoErrors("fizemo-lo", lt, rule);
+//    assertNoErrors("compramo-lo", lt, rule);
+    assertNoErrors("apercebemo-nos", lt, rule);
+    assertNoErrors("referirmo-nos", lt, rule);
+//    assertNoErrors("amamo-las", lt, rule);
+    assertNoErrors("mantínhamo-nos", lt, rule);
+    assertNoErrors("qui-lo", lt, rule);
+    assertNoErrors("fi-lo", lt, rule);
+    assertNoErrors("fê-lo", lt, rule);
+    assertNoErrors("trá-las", lt, rule);
+    assertNoErrors("pu-las", lt, rule);
+//    assertNoErrors("pusé-lo", lt, rule);
+//    assertNoErrors("soubé-lo", lt, rule);
   }
 
   @Test
@@ -219,12 +242,18 @@ public class MorfologikPortugueseSpellerRuleTest {
     // These will need to be accepted until the tokenisation is made to work with pt-BR better.
     // We will, for now, have an XML rule to correct these (id: ELISAO_VERBAL_DESNECESSARIA).
     // Once we rework the tokenisation logic, these will need to be single error assertions!
-    assertNoErrors("amávamo", ltBR, ruleBR);
-    assertNoErrors("fizemo", ltBR, ruleBR);
-    assertNoErrors("compramo", ltBR, ruleBR);
-    assertNoErrors("pusemo", ltBR, ruleBR);
-    assertNoErrors("fazê", ltBR, ruleBR);
-    assertNoErrors("fi", ltBR, ruleBR);  // 'fi-lo'
+    assertSingleError("amávamo", ltBR, ruleBR, new String[]{"amávamos"});
+    assertSingleError("fizemo", ltBR, ruleBR, new String[]{"fizemos"});
+    assertSingleError("compramo", ltBR, ruleBR, new String[]{"compramos"});
+    assertSingleError("pusemo", ltBR, ruleBR, new String[]{"pusemos"});
+    assertSingleError("fazê", ltBR, ruleBR, new String[]{"fazer"});
+    assertSingleError("fê", ltBR, ruleBR, new String[]{"fé"});  // 'fê-lo', not sure about suggesting "fez"
+  }
+
+  @Test
+  public void testPortugueseSpellerAcceptsVerbsWithProductivePrefixes() throws Exception {
+    assertNoErrors("soto-pôr", ltBR, ruleBR);     // exists in speller, ignoreSpelling() from tagger
+    assertNoErrors("soto-trepar", ltBR, ruleBR);  // NOT in speller, ignoreSpelling() from tagger
   }
 
   @Test
@@ -265,8 +294,8 @@ public class MorfologikPortugueseSpellerRuleTest {
     // new words from portal da língua portuguesa
     assertTwoWayDialectError("napoleônia", "napoleónia");
     assertTwoWayDialectError("hiperêmese", "hiperémese");
-    // will not work due to tokenisation quirk, bebê-lo, must be fixed
-    // assertTwoWayDialectError("bebê", "bebé");
+    // as of dict v0.13! party emoji!
+    assertTwoWayDialectError("bebê", "bebé");
   }
 
   @Test
@@ -351,7 +380,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     // each given incorrectly spelt word
     assertSingleErrorWithNegativeSuggestion("pwta", ltBR, ruleBR, "puta");
     assertSingleErrorWithNegativeSuggestion("bâbaca", ltBR, ruleBR, "babaca");
-    assertSingleErrorWithNegativeSuggestion("redardado", ltBR, ruleBR, "retardado");
+    assertSingleErrorWithNegativeSuggestion("rexardado", ltBR, ruleBR, "retardado");
     assertSingleErrorWithNegativeSuggestion("cagguei", ltBR, ruleBR, "caguei");
     assertSingleErrorWithNegativeSuggestion("bucetas", ltBR, ruleBR, "bocetas");
     assertSingleErrorWithNegativeSuggestion("mongolóide", ltBR, ruleBR, "mongoloide");

@@ -92,14 +92,32 @@ public class PortugueseWordTokenizerTest {
 
   @Test
   public void testTokeniseHyphenatedClitics() {
-    testTokenise("diz-se", new String[]{"diz", "-", "se"});
+    // As of dict v0.13!
+    testTokenise("diz-se", new String[]{"diz-se"});
+    testTokenise("amamo-lo", new String[]{"amamo-lo"});
+    testTokenise("fi-lo", new String[]{"fi-lo"});
+    testTokenise("pusé-lo", new String[]{"pusé-lo"});
+    testTokenise("canta-lo", new String[]{"canta-lo"}); // cantas + o, may not be in speller!
+    // pretty rare, but we need to generate these because the 'nos' in 'no-lo' triggers elision in -mos forms >:(
+    testTokenise("dar-no-lo", new String[]{"dar-no-lo"});
+    // rare contractions like these are NOT generated
+    testTokenise("dê-mo", new String[]{"dê", "-", "mo"});
   }
 
   @Test
   public void testTokeniseMesoclisis() {
-    testTokenise("fá-lo-á", new String[]{"fá", "-", "lo", "-", "á"});
-    testTokenise("dir-lhe-ia", new String[]{"dir", "-", "lhe", "-", "ia"});
-    testTokenise("banhar-nos-emos", new String[]{"banhar", "-", "nos", "-", "emos"});
+    // As of dict v0.13!
+    testTokenise("fá-lo-á", new String[]{"fá-lo-á"});
+    testTokenise("dir-lhe-ia", new String[]{"dir-lhe-ia"});
+    testTokenise("banhar-nos-emos", new String[]{"banhar-nos-emos"});
+  }
+
+  @Test
+  public void testTokeniseProductivePrefixes() {
+    // These are specifically forms that are NOT in the tagger dict (though they might be in the speller).
+    // The idea is that our word tagger should be able to tag them by identifying the prefix.
+    testTokenise("soto-pôr", new String[]{"soto-pôr"});  // speller, but not tagger
+    testTokenise("soto-trepar", new String[]{"soto-trepar"});  // neither speller nor tagger
   }
 
   @Test
