@@ -30,8 +30,8 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.nl.DutchTagger;
+import org.languagetool.tagging.nl.DutchHybridDisambiguator;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
@@ -91,7 +91,7 @@ public class Dutch extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(getDefaultLanguageVariant());
+    return new DutchHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
