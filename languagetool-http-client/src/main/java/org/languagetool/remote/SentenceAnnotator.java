@@ -114,17 +114,22 @@ public class SentenceAnnotator {
       if (quit) {
         break;
       }
-      String[] partsLine = line.split("\t");
-      String sentence = partsLine[0];
-      String sentenceID = "N/A";
-      String sentenceHash = md5FromSentence(sentence);
-      if (partsLine.length == 2) {
-        sentenceID = partsLine[1];
-      }
       numSentence++;
       if (numSentence < startLine) {
         continue;
       }
+      String[] partsLine = line.split("\t");
+      String sentenceID;
+      String originalSentence;
+      if (partsLine.length == 2) {
+        originalSentence = partsLine[1];
+        sentenceID = partsLine[0];
+      } else {
+        originalSentence = partsLine[0];
+        sentenceID = "N/A";
+      }
+      String sentence = originalSentence;
+      String sentenceHash = md5FromSentence(sentence);
       boolean done = false;
       List<String> fpMatches = new ArrayList<>();
       int annotationsPerSentence = 0;
@@ -170,7 +175,7 @@ public class SentenceAnnotator {
         }
         switch (response) {
         case "r":
-          sentence = line;
+          sentence = originalSentence;
           fpMatches.clear();
           cfg.outStrB = new StringBuilder();
           break;
@@ -406,7 +411,7 @@ public class SentenceAnnotator {
     return DatatypeConverter.printHexBinary(digest);
   }
 
-  private static void printOutputLine(AnnotatorConfig cfg, String sentenceID, String sentenceHash,
+  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash, String sentenceID,
                                       String errorSentence, String correctedSentence, String errorType,
                                       String detectedErrorStr, String suggestion, int suggestionPos,
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
