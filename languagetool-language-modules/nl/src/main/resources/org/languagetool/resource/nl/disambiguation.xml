@@ -4914,5 +4914,36 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
         <disambig action="filterall"/>
     </rule>
+	<!--
+	?	 32645	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	 32360:	 dat niet
+	-->
+    <rule id="NEW_174" name="-">
+        <pattern>
+			<marker>
+				<token>dat</token>
+			</marker>
+			<token>niet</token>
+		</pattern>
+        <disambig action="remove" postag="VNW:AWZ:EKV:HET"/>
+    </rule>
+
+	<!--
+	?	 31687	(2)	VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VGW:EKV:DE_/VGW:MRV:DE_/VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ WKW:TGW:3EP
+	 10275:	 Die is
+	  3034:	 Die heeft
+	  1753:	 die is
+	  1328:	 Die wordt
+	  1027:	 Die gaat
+	-->
+    <rule id="NEW_175" name="-">
+        <pattern>
+			<marker>
+				<token>die</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+        <disambig action="remove" postag="VNW:OND:MRV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
+    </rule>
 
 </rules>
