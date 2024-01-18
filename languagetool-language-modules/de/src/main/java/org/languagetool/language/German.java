@@ -423,7 +423,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("VER_ADJ_ZU_SCHLAFEN", -1); // prefer ETWAS_GUTES
     id2prio.put("MIO_PUNKT", -1); // higher prio than spell checker
     id2prio.put("AUSLASSUNGSPUNKTE_LEERZEICHEN", -1); // higher prio than spell checker
-    id2prio.put("IM_ERSCHEINUNG", -1); // prefer ZUM_FEM_NOMEN
+    id2prio.put("IM_ERSCHEINUNG_SPELLING_RULE", -1); // prefer ZUM_FEM_NOMEN
     id2prio.put("SPACE_BEFORE_OG", -1); // higher prio than spell checker
     id2prio.put("VERSEHENTLICHERWEISE", -1); // higher prio than spell checker
     id2prio.put("VERMOD_SKIP_VER_PKT", -1); // less prio than casing rules
@@ -478,7 +478,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("SAGT_SAGT", -9); // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
     //id2prio.put("PUNKT_ENDE_ABSATZ", -10);  // should never hide other errors, as chance for a false alarm is quite high
     //id2prio.put("KOMMA_VOR_RELATIVSATZ", -10);
-    id2prio.put("VON_LEBENSLAEUFE", -12); // less prio than AI
+    id2prio.put("VON_LEBENSLAEUFE_SPELLING_RULE", -12); // less prio than AI
     id2prio.put("VER_WER_VER_3", -12); // less prio than AI
     id2prio.put("PA_WAS", -12); // less prio than AI
     id2prio.put("ICH_GEHE_DU_BLEIBST", -12); // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI
