@@ -140,6 +140,10 @@ public class MultitokenSpeller {
     Collections.sort(weightedCandidates);
     List<String> results = new ArrayList<>();
     int weightFirstCandidate = weightedCandidates.get(0).getWeight();
+    if (areTokensAcceptedBySpeller && weightedCandidates.get(0).getWord().toUpperCase().equals(originalWord)) {
+      // don't correct all-upper case words accepted by the speller
+      return Collections.emptyList();
+    }
     if (areTokensAcceptedBySpeller && weightFirstCandidate > 1) {
       return Collections.emptyList();
     }
