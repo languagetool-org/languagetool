@@ -196,22 +196,16 @@ public class Spanish extends Language implements AutoCloseable {
   
   private final static Map<String, Integer> id2prio = new HashMap<>();
   static {
-    id2prio.put("CONFUSIONS2", 50); // greater than CONFUSIONS
-    id2prio.put("RARE_WORDS", 50);
     id2prio.put("LOS_MAPUCHE", 50);
     id2prio.put("TE_TILDE", 50);
     id2prio.put("DE_TILDE", 50); // greater than CONTRACCIONES
     id2prio.put("PLURAL_SEPARADO", 50);
     id2prio.put("PERSONAJES_FAMOSOS", 50);
-    id2prio.put("INCORRECT_EXPRESSIONS", 40);
-    id2prio.put("MISSPELLING", 40);  
-    id2prio.put("CONFUSIONS", 40);
     id2prio.put("NO_SEPARADO", 40);
     id2prio.put("PARTICIPIO_MS", 40);
     id2prio.put("VERBO_MODAL_INFINITIVO", 40); // greater than DIACRITICS
     id2prio.put("EL_NO_TILDE", 40); // greater than SE_CREO
     id2prio.put("SE_CREO", 35); // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
-    id2prio.put("DIACRITICS", 30);
     id2prio.put("POR_CIERTO", 30);
     id2prio.put("DEGREE_CHAR", 30); // greater than SPACE_UNITIES
     id2prio.put("LO_LOS", 30);
@@ -266,6 +260,24 @@ public class Spanish extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
+    if (id.equals("CONFUSIONS2")) {
+      return 50; // greater than CONFUSIONS
+    }
+    if (id.equals("RARE_WORDS")) {
+      return 50;
+    }
+    if (id.equals("MISSPELLING")) {
+      return 40;
+    }
+    if (id.equals("CONFUSIONS")) {
+      return 40;
+    }
+    if (id.equals("INCORRECT_EXPRESSIONS")) {
+      return 40;
+    }
+    if (id.equals("DIACRITICS")) {
+      return 30;
+    } 
     if (id.startsWith("ES_SIMPLE_REPLACE_SIMPLE")) {
       return 30;
     }
