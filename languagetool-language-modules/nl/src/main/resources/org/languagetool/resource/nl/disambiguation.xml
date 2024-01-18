@@ -4774,4 +4774,145 @@ Copyright (C) 2008-2023 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+	<!--
+	?	 37026	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:1EP/WKW:TGW:3EP
+	   221:	~ De voorzitter sluit
+	   220:	~ De overheid moet
+	   205:	~ De inschrijving sluit
+	   167:	~ De Commissie kan
+	   144:	~ De rest moet
+	   130:	~ De rest kan
+	   129:	~ De vis kan
+	   126:	~ De politie kan
+	   112:	~ De gemeente kan
+	   105:	~ De VVD wil
+	-->
+    <rule id="NEW_166" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<token postag="WKW:TGW:3EP"/>
+			</marker>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	 22828	(4)	VRZ VNW:OND:MRV:HET/VNW:AWZ:EKV:HET WKW:TGW:1EP/ZNW:EKV:HET ITP:PNT/SENT_END
+	  2563:	 aan het werk.
+	  1074:	 in het water.
+	   844:	 van het land.
+	-->
+    <rule id="NEW_167" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET" regexp="yes">het|dit</token>
+			<token postag="ZNW:EKV:HET"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	TYD:DAG/BYW/ZNW:EKV:DE_ GET:ARA:002:MRV TYD:MND GET:ARA:004:MRV
+	dag voor complete datum
+	-->
+    <rule id="NEW_168" name="-">
+        <pattern>
+			<token postag="TYD:DAG"/>
+			<token postag="GET:ARA:002:MRV"/>
+			<token postag="TYD:MND"/>
+			<token postag="GET:ARA:004:MRV"/>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	2727	' BNW:STL:ONV/WKW:VLT:1EP ENM:PER:FST ITP:PNT/SENT_END
+  '  vroeg  Kate .
+	  '  vroeg  Lisa .
+	-->
+    <rule id="NEW_169" name="-">
+        <pattern>
+			<token regexp="yes">['|&quot;]</token>
+			<token postag="WKW:VLT:1EP">vroeg</token>
+			<token postag_regexp="yes" postag="ENM:PER:FST|ENM:PER:LST.*"/>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	1959	SENT_START TSW ITP:KMA ENM:LOC:PTS/ENM:PER:FST ITP:PNT/SENT_END
+		Godverdomme ,  Cody .
+		Sorry ,  Pearl .
+		Hé ,  Emmie .
+		Welterusten ,  Elise .
+		Welterusten ,  Alexander .
+		Alsjeblieft ,  Elin .
+		Hallo ,  Rosalind .
+		-->
+    <rule id="NEW_170" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="TSW"/>
+			<token>,</token>
+			<marker>
+				<and>
+					<token postag="ENM:LOC:PTS"/>
+					<token postag="ENM:PER:FST"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="ENM:LOC:PTS"/>
+    </rule>
+
+	<!--
+	?	 41987	(3)	SENT_START BYW/VGW WKW:TGW:3EP
+	 13312:	~ Dan is
+	  3941:	~ Dan wordt
+	  2566:	~ Dan komt
+		Dan is ook een naam
+	-->
+    <rule id="CORRECTION_171" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>Dan<exception postag="ENM:PER:FST"/></token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="ENM>PER:FST"/></disambig>
+    </rule>
+
+	<!--
+	?	 41943	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET VNW:PER:3EP:EKV:ACT
+	 39744:	 dat hij
+	-->
+    <rule id="NEW_172" name="-">
+        <pattern>
+			<marker>
+				<token>dat</token>
+			</marker>
+			<token>hij</token>
+		</pattern>
+        <disambig action="remove" postag="VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET"/>
+    </rule>
+
+	<!--?	 33252	(2)	BYW WKW:TGW:1EP/BYW/VNW:OBP:EKV/ZNW:EKV:HET
+	 12814:	 er niets
+	  6824:	 helemaal niets
+	  2905:	 nog niets
+	-->
+    <rule id="NEW_173" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			</marker>
+			<token postag="VNW:OBP:EKV">niets</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 </rules>
