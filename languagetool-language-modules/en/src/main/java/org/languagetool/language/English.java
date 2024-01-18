@@ -549,7 +549,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("VB_TO_NN_DT", -2);  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
     id2prio.put("THE_CC", -2);  // prefer other more specific rules (with suggestions)
     id2prio.put("PRP_VBG", -2);  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
-    id2prio.put("PRP_VBZ", -2);  // prefer other more specific rules (with suggestions)
     id2prio.put("CANT_JJ", -2);  // prefer other more specific rules
     id2prio.put("WOULD_A", -2);  // prefer other more specific rules
     id2prio.put("I_AM_VB", -2);  // prefer other rules
@@ -577,7 +576,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("MORFOLOGIK_RULE_EN_AU", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MD_PRP_QUESTION_MARK", -11);  // speller needs higher priority
     id2prio.put("PRP_RB_NO_VB", -12);  // prefer other more specific rules (with suggestions)
-    id2prio.put("UPPER_CASE_NGRAM", -12);  // prefer other more specific rules (e.g. AI models)
     id2prio.put("MD_JJ", -12);  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
     id2prio.put("HE_VERB_AGR", -12);  // prefer other more specific rules (e.g. AI models, PRP_VBG)
     id2prio.put("MD_BASEFORM", -12);  // prefer other more specific rules (e.g. AI models)
@@ -625,10 +623,8 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("ETC_PERIOD", -49);  // prefer over QB rules that are now style
     id2prio.put("COULD_YOU_NOT_NEEDED", -49);  // prefer over TAKE_A_LOOK
     id2prio.put("SENTENCE_FRAGMENT", -50);  // prefer other more important sentence start corrections.
-    id2prio.put("AI_HYDRA_LEO_MISSING_COMMA", -51); // prefer comma style rules.
     id2prio.put("SENTENCE_FRAGMENT", -51);  // prefer other more important sentence start corrections.
     id2prio.put("SEEMS_TO_BE", -51);  // prefer SEEM_APPEAR
-    id2prio.put("QB_EN_OXFORD", -51);  // MISSING_COMMA_AFTER_YEAR
     id2prio.put("MD_NN", -60);  // prefer PRP_MD_NN
     id2prio.put("I_THINK_FEEL", -60);
     id2prio.put("KNOW_AWARE_REDO", -60);
@@ -661,8 +657,14 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("EN_COMPOUNDS_")) {
       return 2;
     }
+    if (id.equals("PRP_VBZ")) {
+      return -2; // prefer other more specific rules (with suggestions)
+    }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
+    }
+    if (id.equals("EN_UPPER_CASE_NGRAM")) {
+      return -12; // prefer other more specific rules (e.g. AI models)
     }
     if (id.startsWith("AI_SPELLING_RULE")) {
       return -9; // higher than MORFOLOGIK_*, for testing
@@ -670,7 +672,13 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("EN_MULTITOKEN_SPELLING_")) {
       return -9; // higher than MORFOLOGIK_*
     }
+    if (id.equals("QB_EN_OXFORD")) {
+      return -51; // MISSING_COMMA_AFTER_YEAR
+    }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.equals("AI_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
       if (id.startsWith("AI_HYDRA_LEO_CP_YOU_YOUARE")) {
         return -1;
       }
