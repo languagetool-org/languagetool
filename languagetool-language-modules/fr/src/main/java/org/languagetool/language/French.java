@@ -288,9 +288,6 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("DE_OU_DES", 20); // greater than PAS_ADJ
     id2prio.put("EMPLOI_EMPLOIE", 20); // greater than MOTS_INCOMP
     id2prio.put("VOIR_VOIRE", 20); // greater than PLACE_DE_LA_VIRGULE
-    id2prio.put("CAT_TYPOGRAPHIE", 20); // greater than PRONSUJ_NONVERBE or agreement rules
-    id2prio.put("CAT_HOMONYMES_PARONYMES", 20);
-    id2prio.put("CAT_TOURS_CRITIQUES", 20);
     id2prio.put("D_VPPA", 20); //greater than D_J
     id2prio.put("EST_CE_QUE", 20); // greater than TRAIT_UNION_INVERSION
     id2prio.put("CONFUSION_PARLEZ_PARLER", 10); // greater than N_V
@@ -321,7 +318,6 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("PAS_DE_SOUCIS", 10); // needs higher priority than PAS_DE_PB_SOUCIS (premium)
     //id2prio.put("PRONSUJ_NONVERBE", 10); // needs higher priority than AUXILIAIRE_MANQUANT
     //id2prio.put("AUXILIAIRE_MANQUANT", 5); // needs higher priority than ACCORD_NOM_VERBE
-    id2prio.put("SON", -5); // less than ETRE_VPPA_OU_ADJ
     id2prio.put("J_N", -10); // needs lesser priority than D_J
     id2prio.put("TE_NV", -20); // less than SE_CE, SE_SA and SE_SES
     id2prio.put("TE_NV2", -10); // less than SE_CE, SE_SA and SE_SES
@@ -345,8 +341,6 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("PARENTHESES", -50);// less than grammar rules
     id2prio.put("REP_ESSENTIEL", -50); // lesser than grammar rules
     id2prio.put("CONFUSION_AL_LA", -50); // lesser than AUX_AVOIR_VCONJ
-    id2prio.put("CAR", -50); // lesser than grammar rules
-    id2prio.put("CONFUSION_RULE_PREMIUM", -50); // lesser than PRONSUJ_NONVERBE
     id2prio.put("LE_COVID", -60); // lower than COVID_19_GRAPHIE
     id2prio.put("FR_SPELLING_RULE", -100);
     id2prio.put("VIRG_INF", -100);// lesser than CONFUSION_E_ER
@@ -384,6 +378,24 @@ public class French extends Language implements AutoCloseable {
     }
     if (id.startsWith("FR_COMPOUNDS")) {
       return 500;
+    }
+    if (id.equals("CAT_TYPOGRAPHIE")) {
+      return 20; // greater than PRONSUJ_NONVERBE or agreement rules
+    }
+    if (id.equals("CAT_TOURS_CRITIQUES")) {
+      return 20;
+    }
+    if (id.equals("CAT_HOMONYMES_PARONYMES")) {
+      return 20;
+    }
+    if (id.equals("SON")) {
+      return -5; // less than ETRE_VPPA_OU_ADJ
+    }		
+    if (id.startsWith("CAR")) {
+      return -50; // lesser than grammar rules
+    }
+    if (id.equals("CONFUSION_RULE_PREMIUM")) {
+      return -50; // lesser than PRONSUJ_NONVERBE
     }
     if (id.startsWith("FR_MULTITOKEN_SPELLING_")) {
       return -90;
