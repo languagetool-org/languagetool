@@ -120,7 +120,7 @@ public class JLanguageToolTest {
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Garcia Horta").toString());
     assertEquals("[John Venn]", lang.getMultitokenSpeller().getSuggestions("Jon Benn").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("josue garcia").toString());
-    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Franco more").toString());
+    assertEquals("[Frank Gore]", lang.getMultitokenSpeller().getSuggestions("Franco more").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("maria Lopez").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("carlos fesi").toString());
     assertEquals("[Nikolai Rimski-Kórsakov]", lang.getMultitokenSpeller().getSuggestions("Nicolai Rimski-Kórsakov").toString());

@@ -204,16 +204,23 @@ public class MultitokenSpeller {
     if (a == 'b' && b == 'v' || a == 'v' && b == 'b') {
       return 0.2F;
     }
+    if (a == 'i' && b == 'y' || a == 'y' && b == 'i') {
+      return 0;
+    }
     return 1;
   }
 
   private int levenshteinDistance(String s1, String s2) {
-    int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);
+    int distance = LevenshteinDistance.getDefaultInstance().apply(normalizeSimilarChars(s1), normalizeSimilarChars(s2));
     // consider transpositions without having a Damerau-Levenshtein method
     if (distance == 2 && StringTools.isAnagram(s1,s2)) {
       distance--;
     }
     return distance;
+  }
+
+  private String normalizeSimilarChars(String s) {
+    return s.replaceAll("y", "i").replaceAll("k", "c");
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {
