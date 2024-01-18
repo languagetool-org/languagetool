@@ -461,7 +461,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN", -4); // prefer speller
     id2prio.put("ZEICHENSETZUNG_DIREKTE_REDE", -4); // prefer speller
     id2prio.put("GROSSSCHREIBUNG_WOERTLICHER_REDE", -4); // prefer speller
-    id2prio.put("IM_IHM", -4);  // lower prio than spell checker
+    id2prio.put("IM_IHM_SPELLING_RULE", -4);  // lower prio than spell checker
     id2prio.put("IN_UNKNOWNKLEIN_VER", -4);  // lower prio than spell checker
     id2prio.put("SEHR_GEEHRTER_NAME", -4);  // lower prio than spell checker
     id2prio.put("DE_PHRASE_REPETITION", -4);  // lower prio than spell checker
@@ -514,7 +514,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ", -53);
     id2prio.put("VERB_IST", -53); // less prio than comma rules and spell checker
     id2prio.put("WAR_WERDEN", -53); // less prio than comma rules
-    id2prio.put("INF_VER_MOD", -53); // prefer case, spelling and AI rules
+    id2prio.put("INF_VER_MOD_SPELLING_RULE", -53); // prefer case, spelling and AI rules
     id2prio.put("DOPPELTES_VERB", -53); // prefer comma rules (including AI)
     id2prio.put("VERB_FEM_SUBST", -54); // prefer comma rules (including AI)
     id2prio.put("SUBJUNKTION_KOMMA_2", -54); // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
