@@ -4733,4 +4733,45 @@ Copyright (C) 2008-2023 Ruud Baars
         <disambig action="remove" postag="ZNW:EKV:DE_"/>
     </rule>
 
+	<!--
+	?	 53275	(3)	VGW/VRZ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	   471:	 tot stilstand.
+	   448:	 om hulp.
+	   318:	 met vakantie.
+	   313:	 met tegenzin.
+	   279:	 voor humor.
+	-->
+    <rule id="NEW_164" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+       </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	 43049	(2)	VNW:PER:1EP:MRV:BEZ:VRB/ZNW:EKV:DE_ ZNW:EKV:DE_
+	  1876:	 onze website
+	   875:	 onze nieuwsbrief
+	   644:	 onze site
+	   553:	 onze webshop
+	   480:	 onze tijd
+	   381:	 onze samenleving
+	-->
+    <rule id="NEW_165" name="-">
+        <pattern>
+			<token><exception>de</exception></token>
+			<marker>
+				<token postag="VNW:PER:1EP:MRV:BEZ:VRB">onze</token>
+			</marker>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 </rules>
