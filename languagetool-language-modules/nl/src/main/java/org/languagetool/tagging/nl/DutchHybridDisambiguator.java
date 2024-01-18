@@ -53,7 +53,8 @@ public class DutchHybridDisambiguator extends AbstractDisambiguator {
 
   public DutchHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
-    chunker.setRemovePreviousTags(true);
+    chunker.setIgnoreSpelling(true);
+    chunkerGlobal.setIgnoreSpelling(true);
   }
   
   @Override
