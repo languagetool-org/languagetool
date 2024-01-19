@@ -5451,5 +5451,149 @@ Copyright (C) 2008-2023 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="VGW"/>
     </rule>
+	<!--
+	?	 23988	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:VLT:1EP/WKW:VLT:GIJ
+	 23555:	~ Ik weet
+	-->
+    <rule id="NEW_203" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token>ik</token>
+			<marker>
+				<token>weet</token>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="WKW:VLT:GIJ"/>
+    </rule>
+
+	<!--
+	?	 22692	(2)	SENT_START TSW/WKW:TGW:1EP/BYW/ZNW:EKV
+	 22681:	~ Wel
+	-->
+    <rule id="NEW_204" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>wel</token>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="ZNW:EKV"/>
+    </rule>
+
+	<!--
+	?	 22687	(3)	VGW/SENT_START VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	 13282:	 En dat is
+	   873:	 En dat geldt
+	   691:	 En dat gaat
+	-->
+    <rule id="NEW_205" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token regexp="yes">dat|dit|het</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+        <disambig action="remove" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET"/>
+    </rule>
+
+	<!--
+	?	 21975	(4)	SENT_START VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ WKW:TGW:INF/ZNW:MRV:DE_
+	   121:	~ De kinderen kunnen
+	    92:	~ De mensen willen
+	    80:	~ De mensen moeten
+	    67:	~ De kinderen moeten
+	    59:	~ Die mensen moeten
+	-->
+    <rule id="NEW_206" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="ZNW:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	 21642	(4)	VGW/VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	   650:	 voor de kinderen.
+	   307:	 met de kinderen.
+	   188:	 voor de mogelijkheden.
+	-->
+    <rule id="NEW_207" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	 21455	(3)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	  2837:	 zijn hand.
+	  1883:	 zijn schouder.
+	  1874:	 zijn mond.
+	  1511:	 zijn stoel.
+	  1418:	 zijn vader.
+	-->
+    <rule id="NEW_208a" name="-">
+        <pattern>
+			<marker>
+				<token>zijn</token>
+			</marker>
+			<and>
+				<token postag="ZNW:EKV:DE_"/>
+				<token postag="WKW:TGW:1EP"/>
+			</and>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:INF"/>
+    </rule>
+    <rule id="NEW_208b" name="-">
+        <pattern>
+			<token>zijn</token>
+			<marker>
+				<and>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="WKW:TGW:1EP"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	 23613	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW/VGW
+	  3599:	~ Het is dus
+	  3570:	~ Dat is dus
+	  2458:	~ Dat is dan
+	  1475:	~ Het is dan
+	-->
+    <rule id="NEW_209" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<token postag="BYW"/>
+				<token postag="VGW"/>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
 
 </rules>
