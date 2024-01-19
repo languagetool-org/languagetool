@@ -50,7 +50,7 @@ public class MorfologikDutchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("kán")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ín")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Deze duifkuiker was vlak onder de oever aan het jagen.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ik speelde weleens het spel Left for Dead.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ik vond het undubitably preposterous, wat vond jij ervan?")).length);
     //assertEquals(1, rule.match(lt.getAnalyzedSentence("Ik speelde weleens het spel Left for Deat.")).length); // triggers when EN spelling check is enabled
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("géén")).length);
