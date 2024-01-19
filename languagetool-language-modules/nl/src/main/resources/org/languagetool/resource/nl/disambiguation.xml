@@ -1181,50 +1181,6 @@ Copyright (C) 2008-2023 Ruud Baars
         </pattern>
 		<disambig action="filterall"/>
     </rule>
-
-	<!-- define start and end elements to ignore -->
-
-	<rule id="START_IGNORE_01" name="">
-		<pattern>
-			<token postag="SENT_START"/>
-			<marker>
-				<token regexp="yes">[‘’“'"„”]</token>
-			</marker>
-		</pattern>
-		<disambig action="add"><wd pos="SENT_START"/></disambig>
-	</rule>
-
-	<rule id="START_IGNORE_02" name="">
-		<pattern>
-			<token postag="SENT_START"/>
-			<marker>
-				<token regexp="yes">en|maar</token>
-			</marker>
-		</pattern>
-		<disambig action="add"><wd pos="SENT_START"/></disambig>
-	</rule>
-
-	<rule id="END_IGNORE_01" name="">
-		<pattern>
-			<marker>
-				<token/>
-			</marker>
-			<token postag="SENT_END" regexp="yes">[‘’“'"„”]</token>
-			</pattern>
-		<disambig action="add"><wd pos="SENT_END"/></disambig>
-	</rule>
-
-	<!-- voegt gij-vorm toe; heeft nog uitzonderingen nodig -->
-	<!--
-	<rule id="GIJ_VORM_01" name="">
-		<pattern><marker><token postag="WKW:TGW:3EP"><exception regexp="yes">zal|is|.*mag$|.*geeft$</exception></token></marker></pattern>
-		<disambig action="add"><wd pos="WKW:TGW:GIJ"/></disambig>
-	</rule>
-	<rule id="GIJ_VORM_02" name="">
-		<pattern><marker><token postag="WKW:TGW:3EP:LOS"><exception regexp="yes">zal|is|.*mag$|.*geeft$</exception></token></marker></pattern>
-		<disambig action="add"><wd pos="WKW:TGW:GIJ:LOS"/></disambig>
-	</rule>
-	-->
 	
 	<!-- Wees een goed mens etc. -->
 
