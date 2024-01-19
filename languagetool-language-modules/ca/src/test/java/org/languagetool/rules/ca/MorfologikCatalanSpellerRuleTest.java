@@ -674,12 +674,12 @@ public class MorfologikCatalanSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("SegleXXI"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("Segle XXI", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("segleXIX"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("segle XIX", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("PolíticaInternacionalEuropea"));
@@ -739,5 +739,12 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("innal·làmbricamente"));
     assertEquals(1, matches.length);
     assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("empots"));
+    assertEquals(1, matches.length);
+    assertEquals("em pots", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("enspodeu"));
+    assertEquals(1, matches.length);
+    assertEquals("ens podeu", matches[0].getSuggestedReplacements().get(0));
   }
 }

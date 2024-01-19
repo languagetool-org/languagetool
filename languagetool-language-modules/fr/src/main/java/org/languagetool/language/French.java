@@ -400,7 +400,7 @@ public class French extends Language implements AutoCloseable {
     }
 
     if (id.startsWith("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY")) { // prefer more specific rules (also speller)
-      return -11;
+      return -101;
     }
     return super.getPriorityForId(id);
   }
@@ -433,6 +433,9 @@ public class French extends Language implements AutoCloseable {
     return ruleMatches;
   }
 
+
+  private final List<String> spellerExceptions = Arrays.asList("Ho Chi Minh");
+
   @Override
   public String prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
@@ -441,6 +444,9 @@ public class French extends Language implements AutoCloseable {
     }
     String[] formTag = parts[0].split("[\t;]");
     String form = formTag[0].trim();
+    if (spellerExceptions.contains(form)) {
+      return "";
+    }
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("Z") || tag.startsWith("N") || tag.equals("A") ) {

@@ -33,6 +33,7 @@ import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
@@ -41,6 +42,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -59,6 +62,19 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
+  public void testGetMessage() {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.getMessage("aussen", new SuggestedReplacement("außen")),
+      is("Nach einer Silbe aus zwei Vokalen (hier: au) schreibt man 'ß' statt 'ss'."));
+    assertThat(rule.getMessage("Strasse", new SuggestedReplacement("Straße")),
+      is("Nach einer lang gesprochenen Silbe (hier: a) schreibt man 'ß' statt 'ss'."));
+    assertThat(rule.getMessage("STRASSE", new SuggestedReplacement("STRAßE")),
+      is("Möglicher Tippfehler gefunden."));
+    assertThat(rule.getMessage("nomral", new SuggestedReplacement("normal")),
+      is("Möglicher Tippfehler gefunden."));
+  }
+
+  @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(rule.ignorePotentiallyMisspelledWord("Atmosphärenkonzept"));
@@ -69,6 +85,8 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Dachfrist"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Hospizgemeinschaft"));  //no infix-s for compounds: .*z + noun
     assertFalse(rule.ignorePotentiallyMisspelledWord("Azubikommt"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Lasstest"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Ablassbild"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Wachtums-Pistole"));  // split as "Wacht, ums-Pistole"
     assertFalse(rule.ignorePotentiallyMisspelledWord("Discorum"));  // "Disco, rum" and "rum" is only 3 chars and thus too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
@@ -120,6 +138,28 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate"));
+  }
+
+  @Test
+  @Ignore("interactive use only to make a diff after a change (call twice, store result, and run 'diff' manually)")
+  public void testIgnoreMisspelledWordForRegressions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/data/corpus/jan_schreiber/german.txt"));
+    for (String line : lines) {
+      boolean accept = rule.ignorePotentiallyMisspelledWord(line.trim());
+      System.out.println(accept + " " + line);
+    }
+  }
+
+  @Test
+  @Ignore("interactive use only to make a diff after a change (call twice, store result, and run 'diff' manually)")
+  public void testForRegressions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/data/corpus/jan_schreiber/german.txt"));
+    for (String line : lines) {
+      boolean misspelled = rule.isMisspelled(line.trim());
+      System.out.println(misspelled + " " + line);
+    }
   }
 
   @Test
@@ -674,6 +714,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("desinfektionierst", "desinfizierst", rule, lt);
     assertFirstSuggestion("Neuhichkeit", "Neuigkeit", rule, lt);
     assertFirstSuggestion("neuhichkeiten", "Neuigkeiten", rule, lt);
+    assertFirstSuggestion("Maßname", "Maßnahme", rule, lt);
+    assertFirstSuggestion("Maßnamen", "Maßnahmen", rule, lt);
+    assertFirstSuggestion("Analysemaßname", "Analysemaßnahme", rule, lt);
+    assertFirstSuggestion("Analysemaßnamen", "Analysemaßnahmen", rule, lt);
+    assertFirstSuggestion("Analysemassnamen", "Analysemaßnahmen", rule, lt);
   }
 
   @Test
@@ -969,6 +1014,18 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Wandhalterun")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Halterung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wandhalterung")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Willkommenbei")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Fantasieschafft")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Babyquietschte")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("nordwestfranzösisch")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("nordestnisch")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("westmünsterländische")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("süddeutschland")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktopbetrieb")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktophintergrund")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Unibetrieb")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Integrallogarithmus")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Fledermaussonar")).length);
   }
   
   @Test

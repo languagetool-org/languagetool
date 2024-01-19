@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.openoffice.DocumentCursorTools.DocumentText;
 import org.languagetool.openoffice.FlatParagraphTools.FlatParagraphContainer;
@@ -43,7 +47,7 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  */
 public class DocumentCache implements Serializable {
 
-  private static final long serialVersionUID = 11L;
+  private static final long serialVersionUID = 13L;
 
   public final static int CURSOR_TYPE_UNKNOWN = -1;
   public final static int CURSOR_TYPE_ENDNOTE = 0;
@@ -61,6 +65,7 @@ public class DocumentCache implements Serializable {
   private static boolean debugMode;     // should be false except for testing
   private static boolean debugModeTm;   // time measurement should be false except for testing
 
+
   private final List<String> paragraphs = new ArrayList<String>(); // stores the flat paratoTextMappinggraphs of
                                                                    // document
 
@@ -74,6 +79,7 @@ public class DocumentCache implements Serializable {
   private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
   protected final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;                 // stores the document type (Writer, Impress, Calc)
+  private final Map<Integer, List<AnalyzedSentence>> analyzedParagraphs = new HashMap<>();  //  stores analyzed paragraphs
   private List<Integer> sortedTextIds = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)
   private Map<Integer, Integer> headingMap;
   private boolean isReset = false;
@@ -132,6 +138,7 @@ public class DocumentCache implements Serializable {
       isReset = true;
       debugMode = OfficeTools.DEBUG_MODE_DC;
       debugModeTm = OfficeTools.DEBUG_MODE_TM;
+      clearAnalyzedParagraphs();
       this.paragraphs.addAll(paragraphs);
       this.footnotes.addAll(footnotes);
       this.chapterBegins.addAll(chapterBegins);
@@ -168,6 +175,7 @@ public class DocumentCache implements Serializable {
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
       }
+      clearAnalyzedParagraphs();
       if (docType != DocumentType.WRITER) {
         refreshImpressCalcCache(xComponent);
       } else {
@@ -196,6 +204,7 @@ public class DocumentCache implements Serializable {
       List<List<Integer>> toParaMapping = new ArrayList<>();
       List<Integer> sortedTextIds;
       clear();
+      boolean withDeleted = document.getMultiDocumentsHandler().getConfiguration().includeTrackedChanges();
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         toParaMapping.add(new ArrayList<Integer>());
       }
@@ -208,12 +217,12 @@ public class DocumentCache implements Serializable {
         MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: docCursor == null: return");
         return;
       }
-      documentTexts.set(CURSOR_TYPE_TEXT, docCursor.getAllTextParagraphs());
-      documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables());
-      documentTexts.set(CURSOR_TYPE_SHAPE, docCursor.getTextOfAllShapes());
-      documentTexts.set(CURSOR_TYPE_FOOTNOTE, docCursor.getTextOfAllFootnotes());
-      documentTexts.set(CURSOR_TYPE_ENDNOTE, docCursor.getTextOfAllEndnotes());
-      documentTexts.set(CURSOR_TYPE_HEADER_FOOTER, docCursor.getTextOfAllHeadersAndFooters());
+      documentTexts.set(CURSOR_TYPE_TEXT, docCursor.getAllTextParagraphs(withDeleted));
+      documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables(withDeleted));
+      documentTexts.set(CURSOR_TYPE_SHAPE, docCursor.getTextOfAllShapes(withDeleted));
+      documentTexts.set(CURSOR_TYPE_FOOTNOTE, docCursor.getTextOfAllFootnotes(withDeleted));
+      documentTexts.set(CURSOR_TYPE_ENDNOTE, docCursor.getTextOfAllEndnotes(withDeleted));
+      documentTexts.set(CURSOR_TYPE_HEADER_FOOTER, docCursor.getTextOfAllHeadersAndFooters(withDeleted));
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         if(documentTexts.get(i) == null) {
           documentTexts.set(i, new DocumentText());
@@ -345,6 +354,7 @@ public class DocumentCache implements Serializable {
       List<List<Integer>> deletedCharacters, List<Integer> automaticParagraphs, List<Integer> sortedTextIds) {
     rwLock.writeLock().lock();
     try {
+      clearAnalyzedParagraphs();
       this.paragraphs.clear();
       this.paragraphs.addAll(paragraphs);
       this.chapterBegins.clear();
@@ -1201,6 +1211,7 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraph(int n, String sPara) {
     rwLock.writeLock().lock();
     try {
+      removeAnalyzedParagraph(n);
       if (n >= 0 && n < paragraphs.size()) {
         paragraphs.set(n, sPara);
       }
@@ -1213,11 +1224,12 @@ public class DocumentCache implements Serializable {
    * set Flat Paragraph and Locale at Index
    */
   public void setFlatParagraph(int n, String sPara, Locale locale) {
-    if (n >= 0 && n < locales.size()) {
-      locales.set(n, new SerialLocale(locale));
-    }
     rwLock.writeLock().lock();
     try {
+      removeAnalyzedParagraph(n);
+      if (n >= 0 && n < locales.size()) {
+        locales.set(n, new SerialLocale(locale));
+      }
       if (n >= 0 && n < paragraphs.size()) {
         paragraphs.set(n, sPara);
       }
@@ -1251,6 +1263,7 @@ public class DocumentCache implements Serializable {
   public void setMultilingualFlatParagraph(int n) {
     rwLock.writeLock().lock();
     try {
+      removeAnalyzedParagraph(n);
       if (n >= 0 && n < locales.size()) {
         SerialLocale locale = locales.get(n);
         if (!locale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
@@ -1281,6 +1294,7 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphLocale(int n, Locale locale) {
     rwLock.writeLock().lock();
     try {
+      removeAnalyzedParagraph(n);
       if (n >= 0 && n < locales.size()) {
         locales.set(n, new SerialLocale(locale));
       }
@@ -1307,6 +1321,7 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphFootnotes(int n, int[] footnotePos) {
     rwLock.writeLock().lock();
     try {
+      removeAnalyzedParagraph(n);
       if (n >= 0 && n < footnotes.size()) {
         footnotes.set(n, footnotePos);
       }
@@ -1354,6 +1369,7 @@ public class DocumentCache implements Serializable {
   public void setFlatParagraphDeletedCharacters(int n, List<Integer> deletedChars) {
     rwLock.writeLock().lock();
     try {
+      removeAnalyzedParagraph(n);
       if (n >= 0 && n < deletedCharacters.size()) {
         deletedCharacters.set(n, deletedChars);
       }
@@ -1508,7 +1524,8 @@ public class DocumentCache implements Serializable {
   public int getFlatParagraphNumber(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0 
+      if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0
+          || toParaMapping.size() < NUMBER_CURSOR_TYPES
           || toParaMapping.get(textParagraph.type).size() <= textParagraph.number) {
         return -1;
       }
@@ -1572,6 +1589,7 @@ public class DocumentCache implements Serializable {
   public void setTextParagraphFootnotes(TextParagraph textParagraph, int[] footnotePos) {
     rwLock.writeLock().lock();
     try {
+      removeAnalyzedTextParagraph(textParagraph);
       if (textParagraph.type != CURSOR_TYPE_UNKNOWN && textParagraph.number >= 0) {
         footnotes.set(toParaMapping.get(textParagraph.type).get(textParagraph.number), footnotePos);
       }
@@ -1734,6 +1752,7 @@ public class DocumentCache implements Serializable {
           for (int i = 0; i < fParas.size(); i++) {
             int nFPara = toParaMapping.get(CURSOR_TYPE_SHAPE).get(nShapeParas.get(i));
             if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {
+              removeAnalyzedParagraph(nFPara);
               paragraphs.set(nFPara, fParas.get(i));
               nChanged.add(nFPara);
             }
@@ -1746,6 +1765,7 @@ public class DocumentCache implements Serializable {
           for (int i = 0; i < fParas.size(); i++) {
             int nFPara = toParaMapping.get(CURSOR_TYPE_TABLE).get(nTableParas.get(i));
             if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {
+              removeAnalyzedParagraph(nFPara);
               paragraphs.set(nFPara, fParas.get(i));
               nChanged.add(nFPara);
             }
@@ -2086,7 +2106,7 @@ public class DocumentCache implements Serializable {
    */
   public ChangedRange refreshAndCompare(SingleDocument document, Locale fixedLocale, Locale docLocale, XComponent xComponent, int fromWhere) {
     DocumentCache oldCache = new DocumentCache(this);
-    refresh(document, fixedLocale, docLocale, xComponent, fromWhere);
+    this.refresh(document, fixedLocale, docLocale, xComponent, fromWhere);
     rwLock.readLock().lock();
     try {
       if (paragraphs == null || paragraphs.isEmpty() || oldCache.paragraphs == null || oldCache.paragraphs.isEmpty()) {
@@ -2256,20 +2276,226 @@ public class DocumentCache implements Serializable {
     }
   }
   
-  class ChangedRange {
-    final public int from;
-    final public int to;
-    final public int oldSize;
-    final public int newSize;
-    
-    ChangedRange(int from, int to, int oldSize, int newSize) {
-      this.from = from;
-      this.to = to;
-      this.oldSize = oldSize;
-      this.newSize = newSize;
+  /**
+   * Remove all analyzed paragraphs
+   */
+  public void clearAnalyzedParagraphs() {
+    analyzedParagraphs.clear();
+  }
+  
+  /**
+   * Get all analyzed paragraphs
+   */
+  public Map<Integer, List<AnalyzedSentence>> getAllAnalyzedParagraphs() {
+    return analyzedParagraphs;
+  }
+  
+  /**
+   * Get an analyzed paragraphs
+   */
+  public List<AnalyzedSentence> getAnalyzedParagraph(int nFPara) {
+    rwLock.readLock().lock();
+    try {
+      return analyzedParagraphs.get(nFPara);
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+  
+  /**
+   * Remove an analyzed paragraph
+   */
+  private void removeAnalyzedParagraph(int nFPara) {
+    analyzedParagraphs.remove(nFPara);
+  }
+  
+  /**
+   * Remove an analyzed text paragraph
+   */
+  private void removeAnalyzedTextParagraph(TextParagraph textParagraph) {
+    if (textParagraph.type != CURSOR_TYPE_UNKNOWN && textParagraph.number >= 0 
+        && textParagraph.number < toParaMapping.get(textParagraph.type).size()) {
+      analyzedParagraphs.remove(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+    }
+  }
+  
+  /**
+   * Put an analyzed paragraphs
+   */
+  public void putAnalyzedParagraph(int nFPara, List<AnalyzedSentence> analyzedParagraph) {
+    rwLock.writeLock().lock();
+    try {
+      analyzedParagraphs.put(nFPara, analyzedParagraph);
+    } finally {
+      rwLock.writeLock().unlock();
+    }
+  }
+  
+  /**
+   * Remove and shift analyzed paragraphs by a range
+   */
+  public void removeAndShiftAnalyzedParagraph(int fromParagraph, int toParagraph, int oldSize, int newSize) {
+    if (analyzedParagraphs == null || analyzedParagraphs.isEmpty()) {
+      return;
+    }
+    int shift = newSize - oldSize;
+    if (fromParagraph < 0 && toParagraph >= newSize) {
+      return;
+    }
+    rwLock.writeLock().lock();
+    try {
+      Map<Integer, List<AnalyzedSentence>> tmpParagraphs = new HashMap<>(analyzedParagraphs);
+      analyzedParagraphs.clear();
+      if (shift < 0) {   // new size < old size
+        for (int i : tmpParagraphs.keySet()) {
+          if (i < fromParagraph) {
+            analyzedParagraphs.put(i, tmpParagraphs.get(i));
+          } else if (i >= toParagraph - shift) {
+            analyzedParagraphs.put(i + shift, tmpParagraphs.get(i));
+          }
+        }
+      } else {
+        for (int i : tmpParagraphs.keySet()) {
+          if (i < fromParagraph - 1) {  // remove also the last paragraph before (it was changed in many cases)
+            analyzedParagraphs.put(i, tmpParagraphs.get(i));
+          } else if (i >= toParagraph) {
+            analyzedParagraphs.put(i + shift, tmpParagraphs.get(i));
+          }
+        }
+      }
+    } finally {
+      rwLock.writeLock().unlock();
     }
   }
 
+  /**
+   * create an analyzed paragraph and store it in analyzed Cache
+   */
+  public List<AnalyzedSentence> createAnalyzedParagraph(int nFPara, SwJLanguageTool lt) throws IOException {
+    String paraText = getFlatParagraph(nFPara);
+    if (paraText == null) {
+      return null;
+    }
+    paraText = SingleCheck.removeFootnotes(paraText, 
+        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara));
+    return createAnalyzedParagraph(nFPara, paraText, lt);
+  }
+
+  private List<AnalyzedSentence> createAnalyzedParagraph(int nFPara, String paraText, SwJLanguageTool lt) throws IOException {
+    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText);
+    putAnalyzedParagraph(nFPara, analyzedParagraph);
+    return analyzedParagraph;
+  }
+
+  /**
+   * Get an analyzed paragraph from analyzed Cache
+   * if the requested paragraph doesn't exist create it
+   */
+  public AnalysedText getOrCreateAnalyzedParagraph(int nFPara, SwJLanguageTool lt) throws IOException {
+    String paraText = getFlatParagraph(nFPara);
+    if (paraText == null) {
+      return null;
+    }
+    paraText = fixLinebreak(SingleCheck.removeFootnotes(paraText, 
+        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara)));
+    List<AnalyzedSentence> analyzedSentences = getAnalyzedParagraph(nFPara);
+    List<String> sentences = new ArrayList<>();
+    if (analyzedSentences == null) {
+      analyzedSentences = createAnalyzedParagraph(nFPara, paraText, lt);
+    }
+    int len = 0;
+    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+      String sentence = analyzedSentence.getText();
+      len += sentence.length();
+      sentences.add(sentence);
+    }
+    if (len != paraText.length()) {
+/*
+      String anSenText = "";
+      for (String txt : sentences) {
+        anSenText += txt;
+      }
+      MessageHandler.printToLogFile("DocumentCache: getOrCreateAnalyzedParagraph: Different length: (" + len + "/" + paraText.length()
+          + "):\nparaText: '" + paraText + "'\nAnalysed: '" + anSenText + "'");
+*/
+      analyzedSentences = createAnalyzedParagraph(nFPara, paraText, lt);
+      sentences.clear();
+      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        sentences.add(analyzedSentence.getText());
+      }
+    }
+    return new AnalysedText(analyzedSentences, sentences, paraText);
+  }
+
+  /**
+   * Get a range of analyzed paragraphs from analyzed Cache
+   * if the requested paragraphs don't exist create it
+   */
+  public AnalysedText getAnalyzedParagraphs(TextParagraph from, TextParagraph to, SwJLanguageTool lt) throws IOException {
+    List<AnalyzedSentence> analyzedParagraphs = new ArrayList<>();
+    List<String> sentences = new ArrayList<>();
+    StringBuilder docText = new StringBuilder();
+    for (int i = from.number; i < to.number; i++) {
+      int n = getFlatParagraphNumber(new TextParagraph(from.type, i));
+      AnalysedText analyzedParagraph = getOrCreateAnalyzedParagraph(n, lt);
+      if (analyzedParagraph == null) {
+        return null;
+      }
+      if (analyzedParagraph.analyzedSentences.size() == 0) {
+        if (analyzedParagraphs.size() > 0) {
+          int last = analyzedParagraphs.size() - 1;
+          AnalyzedSentence sentence = analyzedParagraphs.get(last);
+          AnalyzedTokenReadings[] tokens = sentence.getTokens();
+          int len = tokens.length;
+          AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[len + 2];
+          for (int k = 0; k < len; k++) {
+            newTokens[k] = tokens[k];
+          }
+          int startPos = tokens[len - 1].getEndPos();
+          newTokens[len] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos);
+          newTokens[len + 1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos + 1);
+          sentence = new AnalyzedSentence(newTokens);
+          analyzedParagraphs.set(last, sentence);
+          sentences.set(last, sentence.getText());
+        } else {
+          AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[3];
+          newTokens[0] = new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null), 0);
+          newTokens[1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), 0);
+          newTokens[2] = new AnalyzedTokenReadings(new AnalyzedToken("\n", JLanguageTool.SENTENCE_END_TAGNAME, null), 1);
+          newTokens[2].setParagraphEnd();
+          AnalyzedSentence sentence = new AnalyzedSentence(newTokens);
+          analyzedParagraphs.add(sentence);
+          sentences.add(sentence.getText());
+        }
+      } else {
+        for (int j = 0; j < analyzedParagraph.analyzedSentences.size(); j++) {
+          AnalyzedSentence sentence = analyzedParagraph.analyzedSentences.get(j);
+          if (j == analyzedParagraph.analyzedSentences.size() - 1 && i < to.number - 1) {
+            AnalyzedTokenReadings[] tokens = sentence.getTokens();
+            int len = tokens.length;
+            AnalyzedTokenReadings[] newTokens = new AnalyzedTokenReadings[len + 2];
+            for (int k = 0; k < len; k++) {
+              newTokens[k] = tokens[k];
+            }
+            int startPos = tokens[len - 1].getEndPos();
+            newTokens[len] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos);
+            newTokens[len + 1] = new AnalyzedTokenReadings(new AnalyzedToken("\n", null, null), startPos + 1);
+            sentence = new AnalyzedSentence(newTokens);
+            sentences.add(sentence.getText());
+          } else {
+            sentences.add(analyzedParagraph.sentences.get(j));
+          }
+          analyzedParagraphs.add(sentence);
+        }
+      }
+      docText.append(analyzedParagraph.text);
+      if (i < to.number - 1) {
+        docText.append(OfficeTools.END_OF_PARAGRAPH);
+      }
+    }
+    return new AnalysedText(analyzedParagraphs, sentences, docText.toString());
+  }
+  
   public static class TextParagraph implements Serializable {
     private static final long serialVersionUID = 1L;
     int type;
@@ -2280,7 +2506,27 @@ public class DocumentCache implements Serializable {
       this.number = number;
     }
   }
-
+/*
+  public static void printTokenizedSentences(List<AnalyzedSentence> sentences) {
+    for (AnalyzedSentence sentence : sentences) {
+      String str = "";
+      for (AnalyzedTokenReadings token : sentence.getTokens()) {
+        str += "'" + token.getToken(); 
+        if (token.isSentenceStart()) {
+          str += "{sent start}";
+        }
+        if (token.isSentenceEnd()) {
+          str += "{sent end}";
+        }
+        if (token.isParagraphEnd()) {
+          str += "{para end}";
+        }
+        str += "' ";
+      }
+      MessageHandler.printToLogFile("Sentence: " + str);
+    }
+  }
+*/
   /**
    * Class of serializable locale needed to save cache
    */
@@ -2334,6 +2580,32 @@ public class DocumentCache implements Serializable {
           : Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
     }
 
+  }
+
+  public static class ChangedRange {
+    final public int from;
+    final public int to;
+    final public int oldSize;
+    final public int newSize;
+    
+    ChangedRange(int from, int to, int oldSize, int newSize) {
+      this.from = from;
+      this.to = to;
+      this.oldSize = oldSize;
+      this.newSize = newSize;
+    }
+  }
+
+  public static class AnalysedText {
+    final public List<AnalyzedSentence> analyzedSentences;
+    final public List<String> sentences;
+    final public String text;
+    
+    AnalysedText(List<AnalyzedSentence> analyzedSentences, List<String> sentences, String text) {
+      this.analyzedSentences = analyzedSentences;
+      this.sentences = sentences;
+      this.text = text;
+    }
   }
 
 }

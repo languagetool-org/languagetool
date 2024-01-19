@@ -293,7 +293,7 @@ public class UkrainianTagger extends BaseTagger {
 
       String newWord = LemmaHelper.capitalizeProperName(word);
 
-      List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, newWord, Pattern.compile("noun.*?:prop.*"), null, null);
+      List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, newWord, Pattern.compile("noun.*?:prop.*|noninfl.*"), null, null);
       if( newTokens.size() > 0 ) {
           if( tokens.get(0).hasNoTag() ) {
             //TODO: add special tags if necessary

@@ -237,15 +237,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="KORYSTUVATYSIA_POPYTOM" name="Користуватися попитом">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">користуватися|користу(вавши|ючи)сь</token>
+          <token inflected="yes">користуватися</token>
           <token regexp="yes" min="0">би?</token>
-          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
           <token>попитом</token>
         </pattern>
-        <message>Правильно: <suggestion>мати попит</suggestion>.</message>
+        <message>Правильно: <suggestion><match
+           no="1" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">мати</match> \2 <match
+           no="3" postag_regexp="yes" postag="(adj:m:)v_oru(.*)" postag_replace="$1v_zna:rinanim$2"/> попит</suggestion>.</message>
         <example correction="мати попит"><marker>користуватися попитом</marker></example>
-        <example correction="мати попит"><marker>користуючись попитом</marker></example>
-        <example><marker>мав попит</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">користу(вавши|ючи)сь</token>
+          <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+          <token>попитом</token>
+        </pattern>
+        <message>Правильно: <suggestion><match
+           no="1" postag_regexp="yes" postag="advp:rev(.*)" postag_replace="advp:imperf">мавши</match> <match
+           no="2" postag_regexp="yes" postag="(adj:m:)v_oru(.*)" postag_replace="$1v_zna:rinanim$2"/> попит</suggestion>.</message>
+        <suggestion><match
+           no="1" postag_regexp="yes" postag="advp:rev(.*)" postag_replace="advp:imperf">маючи</match> <match
+           no="2" postag_regexp="yes" postag="(adj:m:)v_oru(.*)" postag_replace="$1v_zna:rinanim$2"/> попит</suggestion>
+        <example correction="мавши великий попит|маючи великий попит"><marker>користуючись великим попитом</marker></example>
       </rule>
 
       <rule>
@@ -255,9 +270,118 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token min="0">не</token>
           <token inflected="yes">користуватися</token>
         </pattern>
-        <message>Правильно: <suggestion>попит мати</suggestion>.</message>
-        <example correction="попит мати">Великим <marker>попитом користувалися</marker> велосипеди.</example>
-        <example correction="попит мати">Великим <marker>попитом ніколи не користувалися</marker> велосипеди.</example>
+        <message>Правильно: <suggestion>попит \2 \3 <match
+           no="4" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">мати</match></suggestion>.</message>
+        <example correction="попит мали">Великим <marker>попитом користувалися</marker> велосипеди.</example>
+        <example correction="попит ніколи не мали">Великим <marker>попитом ніколи не користувалися</marker> велосипеди.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="korystuvatysia_doviroyu" name="Користуватися довірою">
+      <rule>
+        <pattern>
+          <token inflected="yes">користуватися</token>
+          <token regexp="yes" min="0">би?</token>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj:[fn]:v_oru.*" min="0"/>
+            <token regexp="yes">довірою|довір'ям</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion><match
+           no="1" postag_regexp="yes" postag="verb(:rev)(.*)" postag_replace="verb$2">мати</match> \2 <match
+           no="3" postag_regexp="yes" postag="(adj:.):v_oru(.*)" postag_replace="$1:v_zna$2"/> <match
+           no="4" postag_regexp="yes" postag="(noun:inanim:.):v_oru" postag_replace="$1:v_zna"/></suggestion></message>
+        <example correction="мав довіру">він <marker>користувався довірою</marker> свого колективу</example>
+        <example correction="мав її довіру">він <marker>користувався її довірою</marker></example>
+        <example correction="мав б найбільшу довіру">він <marker>користувався б найбільшою довірою</marker></example>
+        <example correction="мав довір'я">він <marker>користувався довір'ям</marker> свого колективу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">користу(вавши|ючи)сь</token>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj:[fn]:v_oru.*" min="0"/>
+            <token regexp="yes">довірою|довір'ям</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion><match
+           no="1" postag_regexp="yes" postag="advp:rev(.*)" postag_replace="advp:imperf">мавши</match> <match
+           no="2" postag_regexp="yes" postag="(adj:.:)v_oru(.*)" postag_replace="$1v_zna$2"/> <match
+           no="3" postag_regexp="yes" postag="(noun:inanim:.):v_oru" postag_replace="$1:v_zna"/></suggestion>.</message>
+        <suggestion><match
+           no="1" postag_regexp="yes" postag="advp:rev(.*)" postag_replace="advp:imperf">маючи</match> <match
+           no="2" postag_regexp="yes" postag="(adj:.:)v_oru(.*)" postag_replace="$1v_zna$2"/> <match
+           no="3" postag_regexp="yes" postag="(noun:inanim:.):v_oru" postag_replace="$1:v_zna"/></suggestion>
+        <example correction="мавши значну довіру|маючи значну довіру"><marker>користуючись значною довірою</marker></example>
+        <example correction="мавши велике довір'я|маючи велике довір'я"><marker>користуючись великим довір'ям</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">довірою|довір'ям</token>
+          <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
+          <token min="0">не</token>
+          <token inflected="yes">користуватися</token>
+        </pattern>
+        <message>Правильно: <suggestion><match
+           no="1" postag_regexp="yes" postag="(noun:inanim:.):v_oru" postag_replace="$1:v_zna"/> \2 \3 <match
+           no="4" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">мати</match></suggestion>.</message>
+        <example correction="довір'я мали">Великим <marker>довір'ям користувалися</marker> велосипеди.</example>
+        <example correction="довіру ніколи не мали">Великою <marker>довірою ніколи не користувалися</marker> велосипеди.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="KORYSTUVATYSIA_POPULYARNISTYU" name="Користуватися популярністю">
+      <rule>
+        <pattern>
+          <token inflected="yes">користуватися</token>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="adj:f:v_oru.*" min="0"/>
+          <token>популярністю</token>
+        </pattern>
+        <message>Правильно: <suggestion><match
+           no="1" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">мати</match> \2 <match
+           no="3" postag_regexp="yes" postag="(adj:f:)v_oru(.*)" postag_replace="$1v_zna$2"/> популярність</suggestion>.</message>
+        <suggestion><match
+           no="1" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">бути</match> \2 [\3] популярним</suggestion>
+        <example correction="мати шалену популярність|бути [шаленою] популярним"><marker>користуватися шаленою популярністю</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">користу(вавши|ючи)сь</token>
+          <token postag_regexp="yes" postag="adj:f:v_oru.*" min="0"/>
+          <token>популярністю</token>
+        </pattern>
+        <message>Правильно: <suggestion><match
+           no="1" postag_regexp="yes" postag="advp:rev(.*)" postag_replace="advp:imperf">мавши</match> <match
+           no="2" postag_regexp="yes" postag="(adj:f:)v_oru(.*)" postag_replace="$1v_zna$2"/> популярність</suggestion>.</message>
+        <suggestion><match
+           no="1" postag_regexp="yes" postag="advp:rev(.*)" postag_replace="advp:imperf">маючи</match> <match
+           no="2" postag_regexp="yes" postag="(adj:f:)v_oru(.*)" postag_replace="$1v_zna$2"/> популярність</suggestion>
+        <suggestion><match
+           no="1" postag_regexp="yes" postag="advp:rev(.*)" postag_replace="advp:imperf">бувши</match> [\2] популярним</suggestion>
+        <example correction="мавши велику популярність|маючи велику популярність|бувши [великою] популярним"><marker>користуючись великою популярністю</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>популярністю</token>
+          <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
+          <token min="0">не</token>
+          <token inflected="yes">користуватися</token>
+        </pattern>
+        <message>Правильно: <suggestion>популярність \2 \3 <match
+           no="4" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">мати</match></suggestion>.</message>
+        <suggestion>популярним \2 \3 <match
+           no="4" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">бути</match></suggestion>
+        <example correction="популярність мали|популярним були">Великим <marker>популярністю користувалися</marker> велосипеди.</example>
+        <example correction="популярність ніколи не мали|популярним ніколи не були">Великим <marker>популярністю ніколи не користувалися</marker> велосипеди.</example>
       </rule>
     </rulegroup>
 
@@ -772,6 +896,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="поділяти">Цю думку <marker>розділяли</marker> і його товариші.</example>
       </rule>
     </rulegroup>
+
+    <rule id="mizh_tym_vs_tym_chasom" name="Між тим і тим часом">
+      <antipattern>
+        <token>між</token>
+        <token>тим</token>
+        <token>,</token>
+        <token>що</token>
+      </antipattern>
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>між</token>
+          <token>тим</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>тим часом</suggestion></message>
+      <suggestion>проте</suggestion>
+      <example correction="Тим часом|Проте"><marker>Між тим</marker> робітники погодилися взяти...</example>
+      <example>Між тим, що вони говорять, і тим, що роблять, зяє величезна прірва.</example>
+    </rule>
 
     <rule id="VESTY_SEBE" name="Вести себе">
       <pattern>
@@ -3474,15 +3618,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>за</token>
-          <token postag_regexp="yes" postag="adj.*:m:v_zna.*"/>
+          <token postag_regexp="yes" postag="adj:m:v_zna:rinanim.*"/>
           <token>рахунок</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj.*:m):v_zna(?::rinanim)?(.*)" postag_replace="$1:v_oru$2"/> коштом</suggestion></message>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj:m):v_zna(?::rinanim)?(.*)" postag_replace="$1:v_oru$2"/> коштом</suggestion></message>
         <example correction="своїм коштом"><marker>за свій рахунок</marker></example>
         <example correction="їхнім коштом"><marker>за їхній рахунок</marker></example>
         <example correction="її коштом"><marker>за її рахунок</marker></example>
         <example correction="власним коштом"><marker>за власний рахунок</marker></example>
-        <example>коштом держави</example>
       </rule>
 
       <rule>
@@ -3493,7 +3636,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Краще: <suggestion>коштом</suggestion>, <suggestion>шляхом</suggestion>, <suggestion>користуючись з</suggestion>, <suggestion>ким/чим</suggestion>, <suggestion>внаслідок</suggestion></message>
         <suggestion>завдяки</suggestion>
         <example correction="коштом|шляхом|користуючись з|ким/чим|внаслідок|завдяки"><marker>за рахунок</marker> держави</example>
-        <example>коштом держави</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>за</token>
+          <token>рахунок</token>
+          <token postag_regexp="yes" postag="adj:p:v_rod.*" min="0"/>
+          <token>коштів</token>
+        </pattern>
+        <message>Краще: <suggestion>з \3 \4</suggestion></message>
+        <example correction="з коштів"><marker>за рахунок коштів</marker></example>
+        <example correction="з бюджетних коштів"><marker>за рахунок бюджетних коштів</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>за</token>
+          <token>рахунок</token>
+          <token regexp="yes">субвенції|бюджету</token>
+        </pattern>
+        <message>Краще: <suggestion>з коштів \3</suggestion></message>
+        <example correction="з коштів субвенції"><marker>за рахунок субвенції</marker></example>
       </rule>
     </rulegroup>
 
@@ -4533,7 +4697,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token>більше
+            <token regexp="yes">більше?
               <exception scope="previous">не</exception>
             </token>
             <token>того</token>
@@ -4546,7 +4710,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>до того</suggestion>
         <suggestion>ще й надто</suggestion>
         <example correction="щобільше|мало того|на додаток|до того|ще й надто">Шухевич знав про це, <marker>більше того</marker>, він допоміг виробити</example>
-        <example correction="щобільше|мало того|на додаток|до того|ще й надто">ене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
+        <example correction="щобільше|мало того|на додаток|до того|ще й надто">мене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
+        <example correction="Щобільше|Мало того|На додаток|До того|Ще й надто"><marker>Більш того</marker>, він все знав…</example>
         <example>...процесу в Україні, і не більше того.</example>
         <example>щораз більше того самого.</example>
         <example>не в стані більше того витримувати фізично</example>
@@ -4556,7 +4721,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token>не</token>
-            <token>більше</token>
+            <token regexp="yes">більше?</token>
             <token>того</token>
           </marker>
           <token regexp="yes">&punct_std;</token>
@@ -7364,6 +7529,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Активні дієприкметники не властиві українській мові.</message>
       <suggestion>що спить</suggestion>
       <example correction="що спить"><marker>сплячого</marker> на океані</example>
+    </rule>
+
+    <rule id="kontrolyuyuchyi_organ" name="Контролюючий орган">
+      <pattern>
+        <token inflected="yes">контролюючий</token>
+        <token inflected="yes">орган</token>
+      </pattern>
+      <message>Правильно: <suggestion>\2 контролю</suggestion></message>
+      <example correction="органом контролю"><marker>контролюючим органом</marker>.</example>
     </rule>
 
     <rule id="na_vskydku" name="На вскидку">

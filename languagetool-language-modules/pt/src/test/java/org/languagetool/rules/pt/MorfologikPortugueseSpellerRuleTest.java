@@ -156,7 +156,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("A família.", lt, rule);
     assertSingleError("A familia.", lt, rule, new String[]{"família", "famílias", "familiar"});
 
-    assertNoErrors("Covid-19, COVID-19, covid-19.", lt, rule);
+    assertNoErrors("Covid-19, COVID-19", lt, rule);
 
     assertSingleError("eu so", lt, rule, new String[]{"sou", "só"});
     assertSingleError("é so", lt, rule, new String[]{"só"});
@@ -235,6 +235,14 @@ public class MorfologikPortugueseSpellerRuleTest {
     // we need the compound rule active to catch this!
     assertNoErrors("antirrepublicanismo", ltPT, rulePT);
     assertSingleError("antirrepublicanismo", ltMZ, ruleMZ, new String[]{"anti-republicanismo"});
+    assertNoErrors("anglo-saxônico", ltBR, ruleBR);
+    assertNoErrors("paraquedista", ltBR, ruleBR);
+    assertSingleError("para-quedista", ltBR, ruleBR, new String[]{"paraquedista"});
+    assertNoErrors("sub-bairro", ltBR, ruleBR);
+    assertNoErrors("hiper-revista", ltBR, ruleBR);
+    assertNoErrors("pseudo-história", ltBR, ruleBR);
+    assertNoErrors("semiacústico", ltBR, ruleBR);
+    assertNoErrors("húngaro-americano", ltBR, ruleBR);
   }
 
   // FUCK YEAH WAHOO
@@ -259,6 +267,16 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertTwoWayDialectError("hiperêmese", "hiperémese");
     // will not work due to tokenisation quirk, bebê-lo, must be fixed
     // assertTwoWayDialectError("bebê", "bebé");
+  }
+
+  @Test
+  public void testPortugueseAsymmetricalDialectDifferences() throws Exception {
+    // 'facto' is always invalid in pt-BR
+    assertSingleExactError("facto", ltBR, ruleBR, "fato",
+      "Possível erro de ortografia: esta é a grafia utilizada no português europeu.",
+      "MORFOLOGIK_RULE_PT_BR_DIALECT");
+    // 'fato' is valid in pt-PT, albeit with another meaning
+    assertNoErrors("fato", ltPT, rulePT);
   }
 
   @Test
@@ -303,12 +321,25 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("verba volant, scripta remnant", ltBR, ruleBR);
     assertSingleError("Raspberry", ltBR, ruleBR, new String[]{});
     assertNoErrors("Raspberry Pi", ltBR, ruleBR);
+    assertNoErrors("lan houses", ltBR, ruleBR);
+    assertSingleError("Crohn", ltBR, ruleBR, new String[]{}); // this should prob. be okay tbh
+    assertNoErrors("doença de Crohn", ltBR, ruleBR);
+    // some of these should come from the global spelling file
+    assertNoErrors("Hillary Clinton", ltBR, ruleBR);
+    // these used to be in the disambiguator and have been moved to multiwords
+    assertNoErrors("está en vogue", ltBR, ruleBR);
+    assertNoErrors("startups de Silicon Valley", ltBR, ruleBR);
+    assertNoErrors("comme de rigueur", ltBR, ruleBR);
+    assertNoErrors("uma T shirt", ltBR, ruleBR); // we may need to have an XML rule for this
+    // these are still done by a disambiguator rule
+    assertNoErrors("mora na 82nd Street", ltBR, ruleBR);
+    assertNoErrors("mora na Fifth Avenue", ltBR, ruleBR);
   }
 
   @Test
   public void testPortugueseSpellingSpellingTXT() throws Exception {
-    assertNoErrors("xávega", ltBR, ruleBR);
-    assertNoErrors("thirties", ltPT, rulePT);
+    assertNoErrors("physalis", ltBR, ruleBR);
+    assertNoErrors("jackpot", ltPT, rulePT);
   }
 
   @Test
@@ -362,6 +393,18 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testPortugueseSpellerDoesNotCorrectDegreeExpressions() throws Exception {
+    assertNoErrors("1,0°", ltBR, ruleBR);
+    assertNoErrors("2°c", ltBR, ruleBR);
+    assertNoErrors("3°C", ltBR, ruleBR);
+    assertNoErrors("4,0ºc", ltBR, ruleBR);
+    assertNoErrors("5.0ºc", ltBR, ruleBR);
+    assertNoErrors("6,0ºRø", ltBR, ruleBR); // degrees Rømer
+    assertNoErrors("7,5ºN", ltBR, ruleBR); // North
+    assertNoErrors("−8,0°", ltBR, ruleBR); // negative
+  }
+
+  @Test
   public void testPortugueseSpellerDoesNotCorrectCopyrightSymbol() throws Exception {
     assertNoErrors("Copyright©", ltBR, ruleBR);
   }
@@ -404,6 +447,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("andância", ltBR, ruleBR, new String[]{"andança"});
     assertSingleError("abto", ltBR, ruleBR, new String[]{"hábito"});
     assertSingleError("logo nao", ltBR, ruleBR, new String[]{"não"});
+    assertSingleError("kitchenette", ltBR, ruleBR, new String[]{"quitinete"});
   }
 
   @Test
@@ -516,5 +560,78 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("Fulgencio Fuhao", ltBR, ruleBR);
     // making sure the accents are okay
     assertSingleError("Jordao", ltBR, ruleBR, new String[] {"Jordão"});
+  }
+
+  @Test public void testPortugueseSpellerMultitokens() throws Exception {
+    assertNoErrors("BRIGITTE BARDOT", ltBR, ruleBR);
+    assertNoErrors("Brigitte Bardot", ltBR, ruleBR);
+    assertNoErrors("MERCEDES-BENZ", ltBR, ruleBR);
+    assertNoErrors("Mercedes-Benz", ltBR, ruleBR);
+    assertNoErrors("big band", ltBR, ruleBR);
+    assertNoErrors("Big band", ltBR, ruleBR);
+    assertNoErrors("Big Band", ltBR, ruleBR);
+    assertNoErrors("BIG BANDS", ltBR, ruleBR);
+
+    // entry is "rhythm and blues"
+    assertNoErrors("rhythm and blues", ltBR, ruleBR);  // same as file
+    assertNoErrors("Rhythm and blues", ltBR, ruleBR);  // sentence-initial
+    assertNoErrors("Rhythm And Blues", ltBR, ruleBR);  // title-case (naïve)
+    assertNoErrors("Rhythm and Blues", ltBR, ruleBR);  // title-case (smart)
+    // entry is "stock car"
+    assertNoErrors("stock car", ltBR, ruleBR);
+    assertNoErrors("Stock Car", ltBR, ruleBR);
+    // entry is "Hall of Fame", so titlecase variants are not added
+    assertNoErrors("Hall of Fame", ltBR, ruleBR);
+    assertSingleError("Hall Of Fame", ltBR, ruleBR, new String[]{});
+    assertErrorLength("hall of fame", 2, ltBR, ruleBR, new String[]{});
+
+    assertNoErrors("Rock and Roll", ltBR, ruleBR);
+    assertNoErrors("Hall of Fame", ltBR, ruleBR);
+    assertNoErrors("Rock and Roll Hall of Fame", ltBR, ruleBR);
+    assertSingleError("Rock And Roll Hall Of Fame", ltBR, ruleBR, new String[]{});  // bad titlecasing
+    assertNoErrors("Chesapeake Bay retriever", ltBR, ruleBR);
+    assertSingleError("Chesapeake Bay Retriever", ltBR, ruleBR, new String[]{});  // an annoying limitation
+    assertNoErrors("Pit Bull", ltBR, ruleBR);
+    assertNoErrors("Mao Tsé-Tung", ltBR, ruleBR);
+    assertNoErrors("Honoris Causa", ltBR, ruleBR);
+  }
+
+  @Test public void testPortugueseSpellerEnglishCompounds() throws Exception {
+    // disambiguator rule
+    assertNoErrors("UntaggedWord Card", ltBR, ruleBR);  // unknown word
+    assertNoErrors("Vaca Center", ltBR, ruleBR); // valid uppercase word
+    assertNoErrors("de Klerk Center", ltBR, ruleBR);  // any proper noun, regardless of case
+    assertSingleError("caramba Center", ltBR, ruleBR, new String[]{"Conter", "Centre"});  // not in context
+  }
+
+  @Test public void testPortugueseSpellerAcceptsArbitraryHyphenation() throws Exception {
+    assertNoErrors("Xai-Xai", ltBR, ruleBR);
+    assertNoErrors("Tsé-Tung", ltBR, ruleBR);
+    assertNoErrors("X-Men", ltBR, ruleBR);
+    assertNoErrors("t-shirts", ltBR, ruleBR);
+    assertNoErrors("além-mar", ltBR, ruleBR);
+    assertNoErrors("além-mares", ltBR, ruleBR);
+    assertNoErrors("baby-doll", ltBR, ruleBR);
+    assertNoErrors("baby-dolls", ltBR, ruleBR);
+    assertNoErrors("e-zine", ltBR, ruleBR);
+    assertNoErrors("e-zines", ltBR, ruleBR);
+    assertNoErrors("CD-ROM", ltBR, ruleBR);
+    assertNoErrors("CD-ROMs", ltBR, ruleBR);
+    assertSingleError("heavy-metal", ltBR, ruleBR, new String[]{"heavy metal"});
+  }
+
+  @Test public void testPortugueseSpellerAccepts50PercentOff() throws Exception {
+    // Tokenising rule; we need to add a rule to add the space ourselves, but at least it doesn't suggest nonsense
+    assertNoErrors("50%OFF", ltBR, ruleBR);
+    assertSingleError("50%oogabooga", ltBR, ruleBR, new String[]{});
+  }
+
+  @Test public void testPortugueseSpellerAcceptsIllegalPrefixation() throws Exception {
+    // These are all illegal, to be handled by an XML rule!
+    assertNoErrors("semi-consciente", ltBR, ruleBR);
+    assertNoErrors("semi-acústicas", ltBR, ruleBR);
+    assertNoErrors("semi-frio", ltBR, ruleBR);
+    assertNoErrors("sub-taça", ltBR, ruleBR);
+    assertNoErrors("sub-pratos", ltBR, ruleBR);
   }
 }

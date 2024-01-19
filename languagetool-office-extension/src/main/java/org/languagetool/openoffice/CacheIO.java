@@ -22,6 +22,7 @@ package org.languagetool.openoffice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -60,7 +61,9 @@ public class CacheIO implements Serializable {
   private static final String CACHEFILE_MAP = "LtCacheMap";           //  Name of cache map file
   private static final String CACHEFILE_PREFIX = "LtCache";           //  Prefix for cache files (simply a number is added for file name)
   private static final String CACHEFILE_EXTENSION = "lcz";            //  extension of the files name (Note: cache files are in zip format)
-  private static final int MIN_CHARACTERS_TO_SAVE_CACHE = 25000;      //  Minimum characters of document for saving cache 
+  private static final int MIN_CHARACTERS_TO_SAVE_CACHE = 25000;      //  Minimum characters of document for saving cache
+
+  private static final String SPELL_CACHEFILE = "LtSpellCache." + CACHEFILE_EXTENSION;  //  Spell cache name
   
   private String documentPath = null;
   private AllCaches allCaches;
@@ -68,6 +71,8 @@ public class CacheIO implements Serializable {
   CacheIO(XComponent xComponent) {
     setDocumentPath(xComponent);
   }
+  
+  CacheIO() {}
   
   void setDocumentPath(XComponent xComponent) {
     if (xComponent != null) {
@@ -227,6 +232,9 @@ public class CacheIO implements Serializable {
           return false;
         }
       }
+    } catch (InvalidClassException e) {
+      MessageHandler.printToLogFile("Old cache Version: Cache not read");
+      return false;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
@@ -700,7 +708,8 @@ public class CacheIO implements Serializable {
           File[] cacheFiles = cacheDir.listFiles();
           if (cacheFiles != null) {
             for (File cacheFile : cacheFiles) {
-              if (!cacheMap.containsValue(cacheFile.getName()) && !cacheFile.getName().equals(CACHEFILE_MAP)) {
+              if (!cacheMap.containsValue(cacheFile.getName()) && !cacheFile.getName().equals(CACHEFILE_MAP)
+                  && !cacheFile.getName().equals(SPELL_CACHEFILE)) {
                 cacheFile.delete();
                 MessageHandler.printToLogFile("Delete cache file: " + cacheFile.getAbsolutePath());
               }
@@ -712,5 +721,89 @@ public class CacheIO implements Serializable {
       }
     }
   }
+
+  public class SpellCache implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private final Map<String, List<String>> lastWrongWords = new HashMap<>();
+    private final Map<String, List<String[]>> lastSuggestions = new HashMap<>();
+    private String version = JLanguageTool.VERSION;
+    
+    private boolean putAll (SpellCache sc) {
+      version = sc.version;
+      if (!version.equals(JLanguageTool.VERSION)) {
+        return false;
+      }
+      lastWrongWords.clear();
+      lastWrongWords.putAll(sc.lastWrongWords);
+      lastSuggestions.clear();
+      lastSuggestions.putAll(sc.lastSuggestions);
+      return true;
+    }
+    
+    public void write(Map<String, List<String>> lastWrongWords, Map<String, List<String[]>> lastSuggestions) {
+      this.lastWrongWords.clear();
+      this.lastSuggestions.clear();
+      this.lastWrongWords.putAll(lastWrongWords);
+      this.lastSuggestions.putAll(lastSuggestions);
+      try {
+        File cacheDir = OfficeTools.getCacheDir();
+        File cacheFilePath = new File(cacheDir, SPELL_CACHEFILE);
+        String cachePath = cacheFilePath.getAbsolutePath();
+        if (cachePath != null) {
+          GZIPOutputStream fileOut = new GZIPOutputStream(new FileOutputStream(cachePath));
+          ObjectOutputStream out = new ObjectOutputStream(fileOut);
+          out.writeObject(this);
+          out.close();
+          fileOut.close();
+          MessageHandler.printToLogFile("Spell Cache saved to: " + cachePath);
+        }
+      } catch (Throwable t) {
+        MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      }
+    }
+    
+    public boolean read() {
+      File cacheDir = OfficeTools.getCacheDir();
+      File cacheFilePath = new File(cacheDir, SPELL_CACHEFILE);
+      String cachePath = cacheFilePath.getAbsolutePath();
+      if (cachePath == null) {
+        return false;
+      }
+      try {
+        File file = new File(cachePath);
+        if (file.exists() && !file.isDirectory()) {
+          GZIPInputStream fileIn = new GZIPInputStream(new FileInputStream(file));
+          ObjectInputStream in = new ObjectInputStream(fileIn);
+          boolean out = putAll((SpellCache) in.readObject());
+          in.close();
+          fileIn.close();
+          MessageHandler.printToLogFile("Spell Cache read from: " + cachePath);
+          if (out) {
+            return true;
+          } else {
+            MessageHandler.printToLogFile("Version has changed: Spell Cache rejected (Cache Version: " 
+                  + version + ", actual LT Version: " + JLanguageTool.VERSION + ")");
+            return false;
+          }
+        }
+      } catch (InvalidClassException e) {
+        MessageHandler.printToLogFile("Old cache Version: Spell Cache not read");
+        return false;
+      } catch (Throwable t) {
+        MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      }
+      return false;
+    }
+    
+    public Map<String, List<String>> getWrongWords() {
+      return lastWrongWords;
+    }
+    
+    public Map<String, List<String[]>> getSuggestions() {
+      return lastSuggestions;
+    }
+    
+  }
+
   
 }

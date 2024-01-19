@@ -496,6 +496,67 @@ For more detailed information, including tag definitions, please check out our d
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rulegroup id="TWITTER_X" name="Twitter (X)" tags="picky">
+            <short>Outdated Name</short>
+            <antipattern>
+                <token skip="-1">twitter</token>
+                <token regexp="yes">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token regexp="yes">[_.]</token>
+                <token regexp="yes" spacebefore="no">.*[a-z].*</token>
+            </antipattern>
+            <antipattern>
+                <token>#</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern><!-- used a verb -->
+                <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">named|founded|established|led</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>known</token>
+                <token>as</token>
+                <token>twitter</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">on|via|for|at|against|with(out|in)?</token>
+                    <token regexp="yes" min="0">my|y?our|their|his|her|the</token>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                </pattern>
+                <message>This popular online platform has been renamed to "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (formerly known as Twitter)</suggestion>
+                <example correction="X|𝕏|X (formerly known as Twitter)">I have seen his message on <marker>Twitter</marker>.</example>
+                <example>I have seen his message on Twitter (also known as 𝕏).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                    <token spacebefore="no">'s</token>
+                </pattern>
+                <message>This popular online platform has been renamed to "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <example correction="X|𝕏"><marker>Twitter</marker>'s owner is Elon Musk.</example>
+            </rule>
+        </rulegroup>
         <rule id="BUSSES" name="busses (buses)">
             <antipattern>
                 <token regexp="yes">s?he|it</token>
@@ -4386,7 +4447,7 @@ For more detailed information, including tag definitions, please check out our d
                 <example>They call me Gonna.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TRYNA" name="tryna → trying to" default="temp_off">
+        <rulegroup id="TRYNA" name="tryna → trying to">
             <rule>
                 <pattern>
                     <token regexp="yes">tryi?n?na</token>

@@ -21,15 +21,13 @@ package org.languagetool.rules.nl;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CompoundAcceptorTest {
 
   @Test
-  public void testAcceptCompound() throws IOException {
+  public void testAcceptCompound() {
     CompoundAcceptor acceptor = new CompoundAcceptor();
 
     assertTrue(acceptor.acceptCompound("bedrijfsregels"));
@@ -45,7 +43,26 @@ public class CompoundAcceptorTest {
     assertFalse(acceptor.acceptCompound("zwangersschap"));
 
     assertTrue(acceptor.acceptCompound("Papierversnipperaar"));
+    assertTrue(acceptor.acceptCompound("adresvervloeking"));
+    assertTrue(acceptor.acceptCompound("sportagente"));
+    assertTrue(acceptor.acceptCompound("transferpersjes"));
+    assertTrue(acceptor.acceptCompound("kunstomlijning"));
+    assertTrue(acceptor.acceptCompound("webomlijning"));
+    assertFalse(acceptor.acceptCompound("lingsboek"));
+
+    assertTrue(acceptor.acceptCompound("webschoolboek"));
+    assertFalse(acceptor.acceptCompound("gezondheidsomlijningssvervangingsinfluencers"));
+
+    // test areas
+    assertTrue(acceptor.acceptCompound("Zuidoost-Turkije"));
+    assertTrue(acceptor.acceptCompound("Noord-Afghanistan"));
+    assertFalse(acceptor.acceptCompound("Zuidwest-Frank"));
+    assertTrue(acceptor.acceptCompound("Zuidwest-Gouda"));
+
     assertFalse(acceptor.acceptCompound("Papiersversnipperaar"));
+
+    // prevent duplicate part1 & part2 from being accepted
+    assertFalse(acceptor.acceptCompound("vriendenvrienden"));
 
     assertFalse(acceptor.acceptCompound("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
     assertFalse(acceptor.acceptCompound("bedrijfskijkt"));
@@ -56,11 +73,18 @@ public class CompoundAcceptorTest {
     assertTrue(acceptor.acceptCompound("VRF-regels"));
     assertFalse(acceptor.acceptCompound("WIFI-verbinding"));
 
+    // test for words that always need a hyphen
+    assertTrue(acceptor.acceptCompound("collega-burgemeester"));
+    assertTrue(acceptor.acceptCompound("aspirant-buschauffeur"));
+    assertFalse(acceptor.acceptCompound("aspirantbuschauffeur"));
+
     // test for acronym exceptions
     assertFalse(acceptor.acceptCompound("AIDS-afdeling"));
     assertTrue(acceptor.acceptCompound("aidsafdeling"));
     assertFalse(acceptor.acceptCompound("VIP-behandeling"));
     assertTrue(acceptor.acceptCompound("vipbehandeling"));
+    assertTrue(acceptor.acceptCompound("vipcriticus"));
+    assertTrue(acceptor.acceptCompound("vip-criticus"));
     assertFalse(acceptor.acceptCompound("ZZP-ondernemertje"));
     assertFalse(acceptor.acceptCompound("Zzp-ondernemertje"));
     assertTrue(acceptor.acceptCompound("zzp-ondernemertje"));
@@ -94,12 +118,11 @@ public class CompoundAcceptorTest {
 
     assertTrue(acceptor.acceptCompound("auto-uitlaat"));
     assertFalse(acceptor.acceptCompound("autouitlaat"));
-
   }
 
   @Ignore("Use for interactive debugging")
   @Test
-  public void testAcceptCompoundInternal() throws IOException {
+  public void testAcceptCompoundInternal() {
     CompoundAcceptor acceptor = new CompoundAcceptor();
     assertTrue(acceptor.acceptCompound("passagiers", "schip"));
     assertTrue(acceptor.acceptCompound("papier", "versnipperaar"));

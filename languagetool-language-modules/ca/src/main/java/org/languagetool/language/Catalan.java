@@ -282,6 +282,7 @@ public class Catalan extends Language {
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
       case "TASCAS_TASQUES": return -97;
+      case "PREPOSICIONS_MINUSCULA": return -97; // less than CA_MULTITOKEN_SPELLING
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
@@ -434,7 +435,7 @@ public class Catalan extends Language {
   }
   
   private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
-    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol");
+    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas");
 
   @Override
   public String prepareLineForSpeller(String line) {

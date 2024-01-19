@@ -42,8 +42,8 @@ import java.util.List;
  */
 public class SpanishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/es/multiwords.txt", true, true);
-  private final Disambiguator chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, "NPCN000");
+  private final MultiWordChunker chunker = new MultiWordChunker("/es/multiwords.txt", true, true, false);
+  private final Disambiguator chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false, "NPCN000");
   private final Disambiguator disambiguator;
 
   public SpanishHybridDisambiguator(Language lang) {

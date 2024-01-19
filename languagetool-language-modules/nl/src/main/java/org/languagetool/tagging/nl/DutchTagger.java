@@ -37,6 +37,7 @@ import static java.util.regex.Pattern.compile;
  */
 public class DutchTagger extends BaseTagger {
 
+  public static final DutchTagger INSTANCE = new DutchTagger();
   private static final Pattern PATTERN1_A = compile("([^aeiouáéíóú])(á)([^aeiouáéíóú])");
   private static final Pattern PATTERN1_E = compile("([^aeiouáéíóú])(é)([^aeiouáéíóú])");
   private static final Pattern PATTERN1_I = compile("([^aeiouáéíóú])(í)([^aeiouáéíóú])");
@@ -69,29 +70,29 @@ public class DutchTagger extends BaseTagger {
     super("/nl/dutch.dict", new Locale("nl"));
   }
   private static final Set<String> alwaysNeedsHet = ImmutableSet.of(
-          "patroon",
-          "punt",
-          "gemaal",
-          "weer",
-          "kussen",
-          "deel"
+    "patroon",
+    "punt",
+    "gemaal",
+    "weer",
+    "kussen",
+    "deel"
   );
   private static final Set<String> alwaysNeedsDe = ImmutableSet.of(
-          "keten",
-          "boor",
-          "dans"
+    "keten",
+    "boor",
+    "dans"
   );
   private static final Set<String> alwaysNeedsMrv = ImmutableSet.of(
-          "pies",
-          "koeken",
-          "heden"
+    "pies",
+    "koeken",
+    "heden"
   );
   // custom code to deal with words carrying optional accents
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    CompoundAcceptor compoundAcceptor = new CompoundAcceptor(this);
+    CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
@@ -188,11 +189,18 @@ public class DutchTagger extends BaseTagger {
             String part1 = parts.get(0);
             String part2 = parts.get(1);
             List<AnalyzedTokenReadings> part2ReadingsList = tag(Collections.singletonList(part2));
-            if (!part2ReadingsList.isEmpty()) {
-              AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
-              String part1lc = part1.toLowerCase();
-              for (AnalyzedToken part2Reading : part2Readings) {
-                if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().startsWith("ZNW")) {
+            AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
+            String part1lc = part1.toLowerCase();
+            for (AnalyzedToken part2Reading : part2Readings) {
+              if (part2Reading.getPOSTag() != null) {
+                // if part1 ends with a hyphen, check if we are dealing with geographical compound word
+                if (part1.endsWith("-")) {
+                  if (part2Reading.getPOSTag().startsWith("ENM:LOC")) {
+                    l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part2));
+                    break;
+                  }
+                }
+                if (part2Reading.getPOSTag().startsWith("ZNW")) {
                   String tag;
                   if (alwaysNeedsHet.contains(part2)) {
                     tag = "ZNW:EKV:HET";
@@ -248,6 +256,11 @@ public class DutchTagger extends BaseTagger {
     }
     
     return tokenReadings;
+  }
+
+  // get tags and prevent tagger from passing value back to CompoundAcceptor, going into tagging loop
+  public List<AnalyzedToken> getPostags(String word) {
+    return asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
   }
 
   private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {

@@ -112,8 +112,8 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     
     RuleMatch[] matches3 = rule.match(lt.getAnalyzedSentence("I'm g oing"));
     Assert.assertThat(matches3.length, is(1));
-    Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("go ing"));
-    Assert.assertThat(matches3[0].getSuggestedReplacements().get(1), is("going"));
+    Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("going"));
+    Assert.assertThat(matches3[0].getSuggestedReplacements().get(1), is("g going"));
     Assert.assertThat(matches3[0].getFromPos(), is(4));
     Assert.assertThat(matches3[0].getToPos(), is(10));
     

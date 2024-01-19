@@ -22,22 +22,27 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.ResultCache;
+import org.languagetool.ToneTag;
 import org.languagetool.UserConfig;
-import org.languagetool.JLanguageTool.Level;
 import org.languagetool.JLanguageTool.Mode;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.openoffice.DocumentCache.AnalysedText;
+import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
@@ -52,16 +57,18 @@ public class SwJLanguageTool {
   
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
-  private final MultiThreadedJLanguageTool mlt;
+  private final MultiThreadedJLanguageToolLo mlt;
   private final LORemoteLanguageTool rlt;
+  private JLanguageToolLo lt;
 
   private boolean isMultiThread;
   private boolean isRemote;
-  private JLanguageTool lt;
   private boolean doReset;
+  private Configuration config;
 
   public SwJLanguageTool(Language language, Language motherTongue, UserConfig userConfig, 
       Configuration config, List<Rule> extraRemoteRules, boolean testMode) throws MalformedURLException {
+    this.config = config;
     isMultiThread = config.isMultiThread();
     isRemote = config.doRemoteCheck() && !testMode;
     doReset = false;
@@ -73,14 +80,14 @@ public class SwJLanguageTool {
         MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
         isRemote = false;
         isMultiThread = false;
-        lt = new JLanguageTool(language, motherTongue, null, userConfig);
+        lt = new JLanguageToolLo(language, motherTongue, null, userConfig);
       }
     } else if (isMultiThread) {
       lt = null;
-      mlt = new MultiThreadedJLanguageTool(language, motherTongue, userConfig);
+      mlt = new MultiThreadedJLanguageToolLo(language, motherTongue, userConfig);
       rlt = null;
     } else {
-      lt = new JLanguageTool(language, motherTongue, null, userConfig);
+      lt = new JLanguageToolLo(language, motherTongue, null, userConfig);
       mlt = null;
       rlt = null;
     }
@@ -203,11 +210,13 @@ public class SwJLanguageTool {
    * local: LT checks only grammar (spell check is not implemented locally)
    * remote: spell checking is used for LT check dialog (is needed because method getAnalyzedSentence is not supported by remote check)
    */
-  public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode) throws IOException {
-    return check(text, tokenizeText, paraMode, RemoteCheck.ONLY_GRAMMAR);
+  public List<RuleMatch> check(TextParagraph from, TextParagraph to, String text, ParagraphHandling paraMode, 
+      SingleDocument document) throws IOException {
+    return check(from, to, text, paraMode, document, RemoteCheck.ALL);
   }
 
-  public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode, RemoteCheck checkMode) throws IOException {
+  public List<RuleMatch> check(TextParagraph from, TextParagraph to, String text, ParagraphHandling paraMode, 
+      SingleDocument document, RemoteCheck checkMode) throws IOException {
     if (isRemote) {
       List<RuleMatch> ruleMatches = rlt.check(text, paraMode, checkMode);
       if (ruleMatches == null) {
@@ -224,16 +233,50 @@ public class SwJLanguageTool {
       } else {
         mode = Mode.ALL;
       }
+      Set<ToneTag> toneTags = config.enableGoalSpecificRules() ? Collections.singleton(ToneTag.ALL_TONE_RULES) : Collections.emptySet();
       if (isMultiThread) {
         synchronized(mlt) {
-          return mlt.check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode, null, mode, Level.PICKY);
+          return mlt.check(from, to, paraMode, mode, document, this, toneTags);
         }
       } else {
-        return lt.check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode, null, mode, Level.PICKY);
+        return lt.check(from, to, paraMode, mode, document, this, toneTags);
       }
     }
   }
 
+  public List<RuleMatch> check(String text, ParagraphHandling paraMode, 
+      int nFPara, SingleDocument document) throws IOException {
+    return check(text, paraMode, nFPara, document, RemoteCheck.ALL);
+  }
+
+  public List<RuleMatch> check(String text, ParagraphHandling paraMode, 
+      int nFPara, SingleDocument document, RemoteCheck checkMode) throws IOException {
+    if (isRemote) {
+      List<RuleMatch> ruleMatches = rlt.check(text, paraMode, checkMode);
+      if (ruleMatches == null) {
+        doReset = true;
+        ruleMatches = new ArrayList<>();
+      }
+      return ruleMatches;
+    } else {
+      Mode mode;
+      if (paraMode == ParagraphHandling.ONLYNONPARA) {
+        mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
+      } else if (paraMode == ParagraphHandling.ONLYPARA) {
+        mode = Mode.TEXTLEVEL_ONLY;
+      } else {
+        mode = Mode.ALL;
+      }
+      Set<ToneTag> toneTags = config.enableGoalSpecificRules() ? Collections.singleton(ToneTag.ALL_TONE_RULES) : Collections.emptySet();
+      if (isMultiThread) {
+        synchronized(mlt) {
+          return mlt.check(text, paraMode, mode, nFPara, document, this, toneTags);
+        }
+      } else {
+        return lt.check(text, paraMode, mode, nFPara, document, this, toneTags);
+      }
+    }
+  }
   /**
    * Get a list of tokens from a sentence
    * This Method may be used only for local checks
@@ -343,6 +386,110 @@ public class SwJLanguageTool {
    */
   public boolean doReset() {
     return doReset;
+  }
+  
+  public class JLanguageToolLo extends JLanguageTool {
+
+    public JLanguageToolLo(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
+      super(language, motherTongue, cache, userConfig);
+    }
+
+    public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
+        int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+
+      List<AnalyzedSentence> analyzedSentences;
+      List<String> sentences;
+      if (nFPara < 0) {
+        analyzedSentences = this.analyzeText(text);
+        sentences = new ArrayList<>();
+        for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+          sentences.add(analyzedSentence.getText());
+        }
+      } else {
+        AnalysedText analysedText = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+        analyzedSentences = analysedText.analyzedSentences;
+        sentences = analysedText.sentences;
+        text = analysedText.text;
+      }
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
+    }
+
+    public List<RuleMatch> check(TextParagraph from, TextParagraph to, ParagraphHandling paraMode, Mode mode, 
+        SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+      AnalysedText analysedText = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+      if (analysedText == null) {
+        return null;
+      }
+      List<AnalyzedSentence> analyzedSentences = analysedText.analyzedSentences;
+      List<String> sentences = analysedText.sentences;
+      String text = analysedText.text;
+/*      
+      List<AnalyzedSentence> testAnalyzedSentences = this.analyzeText(text);
+      MessageHandler.printToLogFile("From text: ");
+      DocumentCache.printTokenizedSentences(testAnalyzedSentences);
+      MessageHandler.printToLogFile("From AnalyzedSentence: ");
+      DocumentCache.printTokenizedSentences(analyzedSentences);
+/*      
+      List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+      List<String> sentences = new ArrayList<>();
+      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        sentences.add(analyzedSentence.getText());
+      }
+*/
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
+    }
+
+  }
+
+  public class MultiThreadedJLanguageToolLo extends MultiThreadedJLanguageTool {
+
+    public MultiThreadedJLanguageToolLo(Language language, Language motherTongue, UserConfig userConfig) {
+      super(language, motherTongue, userConfig);
+    }
+
+    public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
+        int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+
+      List<AnalyzedSentence> analyzedSentences;
+      List<String> sentences;
+      if (nFPara < 0) {
+        analyzedSentences = this.analyzeText(text);
+        sentences = new ArrayList<>();
+        for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+          sentences.add(analyzedSentence.getText());
+        }
+      } else {
+        AnalysedText analysedText = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+        analyzedSentences = analysedText.analyzedSentences;
+        sentences = analysedText.sentences;
+        text = analysedText.text;
+      }
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
+    }
+
+    public List<RuleMatch> check(TextParagraph from, TextParagraph to, ParagraphHandling paraMode, Mode mode, 
+        SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+      AnalysedText analysedText = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+      if (analysedText == null) {
+        return null;
+      }
+      List<AnalyzedSentence> analyzedSentences = analysedText.analyzedSentences;
+      List<String> sentences = analysedText.sentences;
+      String text = analysedText.text;
+/*      
+      List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+      List<String> sentences = new ArrayList<>();
+      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        sentences.add(analyzedSentence.getText());
+      }
+*/
+      return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
+          Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
+    }
+
   }
 
 }

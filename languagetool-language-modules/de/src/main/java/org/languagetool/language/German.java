@@ -155,7 +155,7 @@ public class German extends Language implements AutoCloseable {
             new PunctuationMarkAtParagraphEnd(messages, this),
             // specific to German:
             new SimpleReplaceRule(messages, this),
-            new OldSpellingRule(messages),
+            new OldSpellingRule(messages, this),
             new SentenceWhitespaceRule(messages),
             new GermanDoublePunctuationRule(messages),
             new MissingVerbRule(messages, this),
@@ -290,247 +290,258 @@ public class German extends Language implements AutoCloseable {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put("DE_PROHIBITED_PHRASE", 11);
+    id2prio.put("WRONG_SPELLING_PREMIUM_INTERNAL", 10);
+    id2prio.put("OLD_SPELLING_RULE", 10);
+    id2prio.put("DE_COMPOUNDS", 10);
+    id2prio.put("E_MAIL_SIGNATUR", 10);
+    id2prio.put("TELEFON_NR", 10);
+    id2prio.put("IRGEND_COMPOUND", 10);
+    id2prio.put("DA_DURCH", 2); // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
+    id2prio.put("BEI_GOOGLE", 2);   // prefer over agreement rules and VOR_BEI
+    id2prio.put("EINE_ORIGINAL_RECHNUNG_TEST", 2);   // prefer over agreement rules
+    id2prio.put("VON_SEITEN_RECOMMENDATION", 2);   // prefer over AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE
+    id2prio.put("AUFFORDERUNG_SIE", 2);   // prefer over AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE
+    id2prio.put("WEIS_ICH", 2);   // prefer over AI_DE_GGEC_*
+    id2prio.put("VONSTATTEN_GEHEN", 2);   // prefer over EINE_ORIGINAL_RECHNUNG
+    id2prio.put("VERWECHSLUNG_MIR_DIR_MIR_DIE", 1); // prefer over MIR_DIR
+    id2prio.put("ERNEUERBARE_ENERGIEN", 1); // prefer over VEREINBAREN
+    id2prio.put("DRIVE_IN", 1); // prefer over agreement rules
+    id2prio.put("DIES_MAL", 1); // prefer over GROSSSCHREIBUNG_MAL
+    id2prio.put("AN_STATT", 1); // prefer over agreement rules
+    id2prio.put("VOR_BEI", 1); // prefer over BEI_BEHALTEN
+    id2prio.put("SUB_VER_KLEIN", 1); // prefer over casing rules
+    id2prio.put("ALLES_GUTE", 1); // prefer over premium rules
+    id2prio.put("NEUN_NEUEN", 1); // prefer over VIELZAHL_PLUS_SINGULAR
+    id2prio.put("VERWANDET_VERWANDTE", 1); // prefer over DE_CASE
+    id2prio.put("IN_DEUTSCHE_SPRACHE", 1); // prefer over most other rules
+    id2prio.put("SCHMIERE_STEHEN", 1); // prefer over most other rules
+    id2prio.put("UEBER_EIN_MANGEL", 1); // prefer over PRAEP_AKK
+    id2prio.put("SEIT_LAENGEREN", 1); // prefer over DE_CASE
+    id2prio.put("WIR_GEFUEHL", 1); // prefer over DE_CASE
+    id2prio.put("VORHER_NACHHER_BILD", 1); // prefer over DE_CASE
+    id2prio.put("SEIT_KLEIN_AUF", 1); // prefer over agreement rules
+    id2prio.put("SEIT_GEBURT_AN", 1); // prefer over agreement rules
+    id2prio.put("WO_VON", 1); // prefer over most agreement rules
+    id2prio.put("ICH_BIN_STAND_JETZT_KOMMA", 1); // prefer over most agreement rules
+    id2prio.put("EIN_LOGGEN", 1); // prefer over most agreement rules
+    id2prio.put("ZU_GENÜGE", 1);   // prefer over ZU_KOENNE
+    id2prio.put("SEIT_BEKANNT_WERDEN", 1);   // prefer over agreement and comma rules
+    id2prio.put("IMPFLICHT", 1);   // prefer over agreement rules DE_AGREEMENT
+    id2prio.put("NULL_KOMMA_NICHTS", 1);   // prefer over agreement rules
+    id2prio.put("ZWEI_AN_HALB", 1);   // prefer over agreement rules
+    id2prio.put("BLUETOOTH_LAUTSPRECHER", 1);   // prefer over agreement rules
+    //id2prio.put("KOENNT_ICH", 1);   // prefer over DE_VERBAGREEMENT
+    id2prio.put("WIR_HABE", 1);   // prefer over DE_VERBAGREEMENT
+    id2prio.put("DAS_IST_GLAUBE_ICH_EGAL", 1);   // prefer over agreement rules
+    id2prio.put("ICH_KOENNT", 1);   // prefer over DE_VERBAGREEMENT
+    id2prio.put("HAT_DU", 1);   // prefer over agreement rules
+    id2prio.put("HAST_DICH", 1);   // prefer over agreement rules
+    id2prio.put("GRUNDE", 1);   // prefer over agreement rules
+    id2prio.put("EIN_FACH", 1);   // prefer over agreement rules
+    id2prio.put("WOGEN_SUBST", 1);   // prefer over agreement rules
+    id2prio.put("SO_WIES_IST", 1);   // prefer over agreement rules
+    id2prio.put("SICH_SICHT", 1);   // prefer over agreement rules
+    id2prio.put("MIT_VERANTWORTLICH", 1);   // prefer over agreement rules
+    id2prio.put("VOR_LACHEN", 1);   // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("TOUREN_SUBST", 1);   // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("AUF_DRÄNGEN", 1);   // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("AUF_ZACK", 1);   // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("UNTER_DRUCK", 1);   // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("ZUCCHINIS", 1);   // overwrite spell checker
+    id2prio.put("PASSWORTE", 1);   // overwrite agreement rules
+    id2prio.put("ANGL_PA_ED_UNANGEMESSEN", 1);   // overwrite spell checker
+    id2prio.put("ANFUEHRUNGSZEICHEN_DE_AT", 1); // higher prio than UNPAIRED_BRACKETS
+    id2prio.put("ANFUEHRUNGSZEICHEN_CH_FR", 1); // higher prio than UNPAIRED_BRACKETS
+    id2prio.put("EMAIL", 1);  // better suggestion than SIMPLE_AGREEMENT_*
+    id2prio.put("IM_STICH_LASSEN", 1);  // higher prio than agreement rules
+    id2prio.put("ZULANGE", 1);  // better suggestion than SAGT_RUFT
+    id2prio.put("ROCK_N_ROLL", 1);  // better error than DE_CASE
+    id2prio.put("JOE_BIDEN", 1);  // better error than DE_CASE
+    //id2prio.put("RESOURCE_RESSOURCE", 1);  // better error than DE_CASE
+    id2prio.put("ANS_OHNE_APOSTROPH", 1);
+    id2prio.put("DIESEN_JAHRES", 1);
+    id2prio.put("TAG_EIN_TAG_AUS", 1); // prefer over agreement rules
+    id2prio.put("WERT_SEIN", 1); // prefer over DE_AGREEMENT
+    id2prio.put("EBEN_FALLS", 1);
+    //id2prio.put("DA_DRAUS", 1);
+    id2prio.put("AUSSER_ORDENTLICH", 1);
+    id2prio.put("IN_UND_AUSWENDIG", 1); // prefer over DE_CASE
+    id2prio.put("HIER_MIT", 1); // prefer over agreement rules
+    id2prio.put("HIER_FUER", 1); // prefer over agreement rules
+    id2prio.put("MIT_REISSEN", 1); // prefer over agreement rules
+    id2prio.put("JEDEN_FALLS", 1);
+    id2prio.put("MOEGLICHER_WEISE_ETC", 1); // prefer over agreement rules
+    id2prio.put("UST_ID", 1);
+    id2prio.put("INS_FITNESS", 1); // prefer over DE_AGREEMENT
+    id2prio.put("MIT_UNTER", 1); // prefer over agreement rules
+    id2prio.put("SEIT_VS_SEID", 1); // prefer over some agreement rules (HABE_BIN from premium)
+    id2prio.put("ZU_KOMMEN_LASSEN", 1); // prefer over INFINITIVGRP_VERMOD_PKT
+    id2prio.put("ZU_SCHICKEN_LASSEN", 1); // prefer over INFINITIVGRP_VERMOD_PKT
+    id2prio.put("IM_UM", 1); // prefer over MIT_MIR and IM_ERSCHEINUNG (premium)
+    id2prio.put("EINEN_VERSUCH_WERT", 1); // prefer over DE_AGREEMENT
+    id2prio.put("DASS_DAS_PA2_DAS_PROIND", 1); // prefer over HILFSVERB_HABEN_SEIN, DE_AGREEMENT
+    id2prio.put("AUF_BITTEN", 1); // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("MEINET_WEGEN", 1); // prefer over AUF_DEM_WEG
+    id2prio.put("FUER_INSBESONDERE", 1); // prefer over KOMMA_VOR_ERLAEUTERUNG
+    id2prio.put("COVID_19", 1); // prefer over PRAEP_GEN and DE_AGREEMENT
+    id2prio.put("DA_VOR", 1); // prefer over ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("DAS_WUENSCHE_ICH", 1); // prefer over DE_AGREEMENT
+    id2prio.put("KLEINSCHREIBUNG_MAL", 1); // prefer over DE_AGREEMENT
+    id2prio.put("VERINF_DAS_DASS_SUB", 1); // prefer over DE_AGREEMENT
+    id2prio.put("IM_ALTER", 1); // prefer over ART_ADJ_SOL
+    id2prio.put("DAS_ALTER", 1); // prefer over ART_ADJ_SOL
+    id2prio.put("VER_INF_PKT_VER_INF", 1); // prefer over DE_CASE
+    id2prio.put("DASS_MIT_VERB", 1); // prefer over SUBJUNKTION_KOMMA ("Dass wird Konsequenzen haben.")
+    id2prio.put("AB_TEST", 1); // prefer over spell checker and agreement
+    id2prio.put("BZGL_ABK", 1); // prefer over spell checker
+    id2prio.put("DURCH_WACHSEN", 1); // prefer over SUBSTANTIVIERUNG_NACH_DURCH
+    //id2prio.put("ICH_WARTE", 1); // prefer over verb agreement rules (e.g. SUBJECT_VERB_AGREEMENT)
+    id2prio.put("RUNDUM_SORGLOS_PAKET", 1); // higher prio than DE_CASE
+    id2prio.put("MIT_FREUNDLICHEN_GRUESSE", 1); // higher prio than MEIN_KLEIN_HAUS
+    id2prio.put("OK", 1); // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
+    id2prio.put("EINE_ORIGINAL_RECHNUNG", 1); // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
+    //id2prio.put("VALENZ_TEST", 1); // see if this generates more corpus matches
+    id2prio.put("WAEHRUNGSANGABEN_CHF", 1); // higher prio than WAEHRUNGSANGABEN_KOMMA
+    // default is 0
+    id2prio.put("FALSCHES_ANFUEHRUNGSZEICHEN", -1); // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS
+    id2prio.put("VER_KOMMA_PRO_RIN", -1); // prefer WENN_WEN
+    id2prio.put("VER_INF_VER_INF", -1); // prefer id2prio.put(rules
+    id2prio.put("DE_COMPOUND_COHERENCY", -1);  // prefer EMAIL
+    id2prio.put("GEFEATURED", -1); // prefer over spell checker
+    id2prio.put("NUMBER_SUB", -1); // prefer over spell checker
+    id2prio.put("MFG", -1); // prefer over spell checker
+    id2prio.put("VER123_VERAUXMOD", -1); // prefer casing rules
+    id2prio.put("DE_AGREEMENT", -1);  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
+    id2prio.put("DE_AGREEMENT2", -1);  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions
+    id2prio.put("KOMMA_NEBEN_UND_HAUPTSATZ", -1);  // prefer SAGT_RUFT
+    id2prio.put("FALSCHES_RELATIVPRONOMEN", -1); // prefer dass/das rules
+    id2prio.put("AKZENT_STATT_APOSTROPH", -1);  // lower prio than PLURAL_APOSTROPH
+    id2prio.put("BEENDE_IST_SENTEND", -1); // prefer more specific rules
+    id2prio.put("VER_ADJ_ZU_SCHLAFEN", -1); // prefer ETWAS_GUTES
+    id2prio.put("MIO_PUNKT", -1); // higher prio than spell checker
+    id2prio.put("AUSLASSUNGSPUNKTE_LEERZEICHEN", -1); // higher prio than spell checker
+    id2prio.put("IM_ERSCHEINUNG_SPELLING_RULE", -1); // prefer ZUM_FEM_NOMEN
+    id2prio.put("SPACE_BEFORE_OG", -1); // higher prio than spell checker
+    id2prio.put("VERSEHENTLICHERWEISE", -1); // higher prio than spell checker
+    id2prio.put("VERMOD_SKIP_VER_PKT", -1); // less prio than casing rules
+    id2prio.put("N_NETTER_TYP", -1); // higher prio than EINZELBUCHSTABE_PREMIUM and speller
+    id2prio.put("EINZELBUCHSTABE_PREMIUM", -2);  // lower prio than "A_LA_CARTE"
+    id2prio.put("ART_IND_ADJ_SUB", -2);  // prefer DE_AGREEMENT rules
+    id2prio.put("KATARI", -2); // higher prio than spell checker
+    id2prio.put("SCHOENE_WETTER", -2); // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
+    id2prio.put("MEIN_KLEIN_HAUS", -2); // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
+    id2prio.put("UNPAIRED_BRACKETS", -2);
+    id2prio.put("ICH_GLAUBE_FUER_EUCH", -2); // prefer agreement rules
+    id2prio.put("OBJECT_AGREEMENT", -2); // less prio than DE_AGREEMENT
+    id2prio.put("ICH_INF_PREMIUM", -2); // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
+    id2prio.put("MEHRERE_WOCHE_PREMIUM", -2);  // less prio than DE_AGREEMENT
+    id2prio.put("DOPPELTER_NOMINATIV", -2);  // give precedence to wie-wir-wird confusion rules
+    id2prio.put("KUDAMM", -2);   // overwrite spell checker
+    id2prio.put("ALTERNATIVEN_FUER_ANGLIZISMEN", -2);   // overwrite spell checker
+    //id2prio.put("ANGLIZISMUS_INTERNAL", -2);   // overwrite spell checker
+    id2prio.put("DOPPELUNG_VER_MOD_AUX", -2);
+    //id2prio.put("AERZTEN_INNEN", -2);  // overwrite speller ("Ärzte/-innen")
+    id2prio.put("ANGLIZISMEN", -2);   // overwrite spell checker
+    id2prio.put("ANGLIZISMUS_PA_MIT_ED", -2);   // overwrite spell checker
+    id2prio.put("MEINSTE", -2);   // overwrite spell checker
+    //id2prio.put("ZAHL_IM_WORT", -2); //should not override rules like H2O
+    id2prio.put("ICH_LIEBS", -2);  // higher prio than spell checker
+    id2prio.put("WENNS_UND_ABERS", -2);  // higher prio than spell checker
+    id2prio.put("ABERS_SATZANFANG_SPELLING_RULE", -2);  // higher prio than spell checker
+    id2prio.put("VERNEB", -2);  // higher prio than spell checker
+    id2prio.put("ZAHL_IM_WORT_SPELLING_RULE", -2); // higher prio than spell checker
+    id2prio.put("GERMAN_SPELLER_RULE", -3);  // assume most other rules are more specific and helpful than the spelling rule
+    id2prio.put("AUSTRIAN_GERMAN_SPELLER_RULE", -3);  // assume most other rules are more specific and helpful than the spelling rule
+    id2prio.put("SWISS_GERMAN_SPELLER_RULE", -3);  // assume most other rules are more specific and helpful than the spelling rule
+    id2prio.put("DE_VERBAGREEMENT", -4); // prefer more specific rules (e.g DU_WUENSCHT) and speller
+    id2prio.put("PUNKT_ENDE_DIREKTE_REDE", -4); // prefer speller
+    id2prio.put("LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN", -4); // prefer speller
+    id2prio.put("ZEICHENSETZUNG_DIREKTE_REDE", -4); // prefer speller
+    id2prio.put("GROSSSCHREIBUNG_WOERTLICHER_REDE", -4); // prefer speller
+    id2prio.put("IM_IHM_SPELLING_RULE", -4);  // lower prio than spell checker
+    id2prio.put("IN_UNKNOWNKLEIN_VER", -4);  // lower prio than spell checker
+    id2prio.put("SEHR_GEEHRTER_NAME", -4);  // lower prio than spell checker
+    id2prio.put("DE_PHRASE_REPETITION", -4);  // lower prio than spell checker
+    id2prio.put("FRAGEZEICHEN_NACH_DIREKTER_REDE", -4);  // lower prio than spell checker
+    id2prio.put("PUNCTUATION_PARAGRAPH_END", -4);  // don't hide spelling mistakes
+    id2prio.put("F_ANSTATT_PH_2", -4);  // don't hide spelling mistakes
+    id2prio.put("DAS_WETTER_IST", -5); // lower prio than spell checker
+    id2prio.put("VEREIZ_VERINF_PKT", -5); // lower prio than spell checker
+    id2prio.put("WER_STARK_SCHWITZ", -5); // lower prio than spell checker
+    id2prio.put("VERBEN_PRAEFIX_AUS", -5); // lower prio than spell checker
+    id2prio.put("ANFUEHRUNG_VERSCHACHTELT", -5);  // lower prio than speller and FALSCHES_ANFUEHRUNGSZEICHEN
+    id2prio.put("SATZBAU_AN_DEN_KOMMT", -5);  // lower prio than rules that give a suggestion
+    id2prio.put("SUBJECT_VERB_AGREEMENT", -5); // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
+    id2prio.put("SAGT_SAGT", -9); // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
+    //id2prio.put("PUNKT_ENDE_ABSATZ", -10);  // should never hide other errors, as chance for a false alarm is quite high
+    //id2prio.put("KOMMA_VOR_RELATIVSATZ", -10);
+    id2prio.put("VON_LEBENSLAEUFE_SPELLING_RULE", -12); // less prio than AI
+    id2prio.put("VER_WER_VER_3", -12); // less prio than AI
+    id2prio.put("PA_WAS", -12); // less prio than AI
+    id2prio.put("ICH_GEHE_DU_BLEIBST", -12); // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI
+    id2prio.put("PROPERNOMSIN_VERIMPSIN", -12); // less prio than AI
+    id2prio.put("VER123_VERAUXMOD_TEST1", -12); // less prio than AI to produce a single suggestion
+    id2prio.put("ZUSAMMENGESETZTE_VERBEN", -12); // less prio than most more specific rules and AI
+    id2prio.put("PRP_VER_PRGK", -13); // lower prio than ZUSAMMENGESETZTE_VERBEN
+    id2prio.put("COMMA_IN_FRONT_RELATIVE_CLAUSE", -13); // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
+    id2prio.put("SAGT_RUFT", -13); // prefer id2prio.put(rules, DE_VERBAGREEMENT, AI and speller
+    id2prio.put("KANNST_WERDEN", -13); // prefer more specific rules that offer a suggestion (A.I., spelling)
+    id2prio.put("KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2", -14); // lower prio than SAGT_SAGT, but higher than GERMAN_WORD_REPEAT_RULE
+    id2prio.put("MAN_SIEHT_SEHR_SCHOEN", -14); // prefer over SEHR_SCHOEN
+    id2prio.put("BEI_VERB", -14); // prefer case, spelling and AI rules
+    id2prio.put("MODALVERB_FLEKT_VERB", -14); // prefer case, spelling and AI rules
+    id2prio.put("DATIV_NACH_PRP", -14); // spelling and AI rules
+    id2prio.put("DAT_ODER_AKK_NACH_PRP", -14); // prefer more specific rules that offer a suggestion (A.I., spelling)
+    id2prio.put("SENT_START_SIN_PLU", -14); // prefer more specific rules that offer a suggestion (A.I., spelling)
+    id2prio.put("SENT_START_PLU_SIN", -14); // prefer more specific rules that offer a suggestion (A.I., spelling)
+    id2prio.put("VER_INFNOMEN", -14);  // prefer spelling and AI rules
+    id2prio.put("GERMAN_WORD_REPEAT_RULE", -15); // lower prio than SAGT_RUFT and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
+    id2prio.put("TOO_LONG_PARAGRAPH", -15);
+    id2prio.put("ALL_UPPERCASE", -15);
+    id2prio.put("NUR_LEDIGLICH", -16); // lower prio than GERMAN_WORD_REPEAT_RULE
+    id2prio.put("COMMA_BEHIND_RELATIVE_CLAUSE", -52); // less prio than AI_DE_HYDRA_LEO
+    id2prio.put("DOPPELUNG_MODALVERB", -52); // prefer comma rules (DOPPELUNG_MODALVERB, AI)
+    id2prio.put("VER_DOPPELUNG", -52); // prefer comma rules (including AI)
+    id2prio.put("DEF_ARTIKEL_INDEF_ADJ", -52); // less prio than DE_AGREMEENT and less prio than most comma rules
+    id2prio.put("PRP_ADJ_AGREEMENT", -52); // less prio than DE_AGREMEENT and less prio than most comma rules
+    id2prio.put("SIE_WOLLTEN_SIND", -52);
+    id2prio.put("ART_ADJ_SOL", -52); // prefer comma rules
+    id2prio.put("WURDEN_WORDEN_1", -52); // prefer comma rules
+    id2prio.put("WAR_WAHR", -52); // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ
+    id2prio.put("KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ", -53);
+    id2prio.put("VERB_IST", -53); // less prio than comma rules and spell checker
+    id2prio.put("WAR_WERDEN", -53); // less prio than comma rules
+    id2prio.put("INF_VER_MOD_SPELLING_RULE", -53); // prefer case, spelling and AI rules
+    id2prio.put("DOPPELTES_VERB", -53); // prefer comma rules (including AI)
+    id2prio.put("VERB_FEM_SUBST", -54); // prefer comma rules (including AI)
+    id2prio.put("SUBJUNKTION_KOMMA_2", -54); // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
+    id2prio.put("DOPPELUNG_GLEICHES_VERB", -55); // prefer comma rules
+    id2prio.put("FEHLENDES_NOMEN", -60); // lower prio than most rules
+    id2prio.put("REPETITIONS_STYLE", -60);
+    id2prio.put("GERMAN_WORD_REPEAT_BEGINNING_RULE", -61); 
+    // Category ids - make sure style issues don't hide overlapping "real" errors:
+    id2prio.put("TYPOGRAPHY", -14);
+    id2prio.put("COLLOQUIALISMS", -15);
+    id2prio.put("STYLE", -15);
+    id2prio.put("REDUNDANCY", -15);
+    id2prio.put("GENDER_NEUTRALITY", -15);
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
+  
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
-      // Rule ids:
-      case "DE_PROHIBITED_PHRASE": return 11;
-      case "WRONG_SPELLING_PREMIUM_INTERNAL": return 10;
-      case "OLD_SPELLING_INTERNAL": return 10;
-      case "DE_COMPOUNDS": return 10;
-      case "E_MAIL_SIGNATUR": return 10;
-      case "TELEFON_NR": return 10;
-      case "IRGEND_COMPOUND": return 10;
-      case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
-      case "BEI_GOOGLE" : return 2;   // prefer over agreement rules and VOR_BEI
-      case "EINE_ORIGINAL_RECHNUNG_TEST" : return 2;   // prefer over agreement rules
-      case "VON_SEITEN_RECOMMENDATION" : return 2;   // prefer over AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE
-      case "AUFFORDERUNG_SIE" : return 2;   // prefer over AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE
-      case "WEIS_ICH" : return 2;   // prefer over AI_DE_GGEC_*
-      case "VONSTATTEN_GEHEN" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
-      case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
-      case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
-      case "DRIVE_IN": return 1; // prefer over agreement rules
-      case "AN_STATT": return 1; // prefer over agreement rules
-      case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
-      case "SUB_VER_KLEIN": return 1; // prefer over casing rules
-      case "ALLES_GUTE": return 1; // prefer over premium rules
-      case "NEUN_NEUEN": return 1; // prefer over VIELZAHL_PLUS_SINGULAR
-      case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
-      case "IN_DEUTSCHE_SPRACHE": return 1; // prefer over most other rules
-      case "SCHMIERE_STEHEN": return 1; // prefer over most other rules
-      case "UEBER_EIN_MANGEL": return 1; // prefer over PRAEP_AKK
-      case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
-      case "WIR_GEFUEHL": return 1; // prefer over DE_CASE
-      case "VORHER_NACHHER_BILD": return 1; // prefer over DE_CASE
-      case "SEIT_KLEIN_AUF": return 1; // prefer over agreement rules
-      case "SEIT_GEBURT_AN": return 1; // prefer over agreement rules
-      case "WO_VON": return 1; // prefer over most agreement rules
-      case "ICH_BIN_STAND_JETZT_KOMMA": return 1; // prefer over most agreement rules
-      case "EIN_LOGGEN": return 1; // prefer over most agreement rules
-      case "ZU_GENÜGE" : return 1;   // prefer over ZU_KOENNE
-      case "SEIT_BEKANNT_WERDEN" : return 1;   // prefer over agreement and comma rules
-      case "IMPFLICHT" : return 1;   // prefer over agreement rules DE_AGREEMENT
-      case "NULL_KOMMA_NICHTS" : return 1;   // prefer over agreement rules
-      case "ZWEI_AN_HALB" : return 1;   // prefer over agreement rules
-      case "BLUETOOTH_LAUTSPRECHER" : return 1;   // prefer over agreement rules
-      case "KOENNT_ICH" : return 1;   // prefer over DE_VERBAGREEMENT
-      case "WIR_HABE" : return 1;   // prefer over DE_VERBAGREEMENT
-      case "DAS_IST_GLAUBE_ICH_EGAL" : return 1;   // prefer over agreement rules
-      case "ICH_KOENNT" : return 1;   // prefer over DE_VERBAGREEMENT
-      case "HAT_DU" : return 1;   // prefer over agreement rules
-      case "HAST_DICH" : return 1;   // prefer over agreement rules
-      case "GRUNDE" : return 1;   // prefer over agreement rules
-      case "EIN_FACH" : return 1;   // prefer over agreement rules
-      case "WOGEN_SUBST" : return 1;   // prefer over agreement rules
-      case "SO_WIES_IST" : return 1;   // prefer over agreement rules
-      case "SICH_SICHT" : return 1;   // prefer over agreement rules
-      case "MIT_VERANTWORTLICH" : return 1;   // prefer over agreement rules
-      case "VOR_LACHEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
-      case "TOUREN_SUBST" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
-      case "AUF_DRÄNGEN" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
-      case "AUF_ZACK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
-      case "UNTER_DRUCK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
-      case "ZUCCHINIS" : return 1;   // overwrite spell checker
-      case "PASSWORTE" : return 1;   // overwrite agreement rules
-      case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
-      case "ANFUEHRUNGSZEICHEN_DE_AT": return 1; // higher prio than UNPAIRED_BRACKETS
-      case "ANFUEHRUNGSZEICHEN_CH_FR": return 1; // higher prio than UNPAIRED_BRACKETS
-      case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
-      case "IM_STICH_LASSEN": return 1;  // higher prio than agreement rules
-      case "ZULANGE": return 1;  // better suggestion than SAGT_RUFT
-      case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
-      case "JOE_BIDEN": return 1;  // better error than DE_CASE
-      case "RESOURCE_RESSOURCE": return 1;  // better error than DE_CASE
-      case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
-      case "ANS_OHNE_APOSTROPH": return 1;
-      case "DIESEN_JAHRES": return 1;
-      case "TAG_EIN_TAG_AUS": return 1; // prefer over agreement rules
-      case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
-      case "EBEN_FALLS": return 1;
-      case "DA_DRAUS": return 1;
-      case "AUSSER_ORDENTLICH": return 1;
-      case "IN_UND_AUSWENDIG": return 1; // prefer over DE_CASE
-      case "HIER_MIT": return 1; // prefer over agreement rules
-      case "HIER_FUER": return 1; // prefer over agreement rules
-      case "MIT_REISSEN": return 1; // prefer over agreement rules
-      case "JEDEN_FALLS": return 1;
-      case "MOEGLICHER_WEISE_ETC": return 1; // prefer over agreement rules
-      case "UST_ID": return 1;
-      case "INS_FITNESS": return 1; // prefer over DE_AGREEMENT
-      case "MIT_UNTER": return 1; // prefer over agreement rules
-      case "SEIT_VS_SEID": return 1; // prefer over some agreement rules (HABE_BIN from premium)
-      case "ZU_KOMMEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
-      case "ZU_SCHICKEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
-      case "IM_UM": return 1; // prefer over MIT_MIR and IM_ERSCHEINUNG (premium)
-      case "EINEN_VERSUCH_WERT": return 1; // prefer over DE_AGREEMENT
-      case "DASS_DAS_PA2_DAS_PROIND": return 1; // prefer over HILFSVERB_HABEN_SEIN, DE_AGREEMENT
-      case "AUF_BITTEN": return 1; // prefer over ZUSAMMENGESETZTE_VERBEN
-      case "MEINET_WEGEN": return 1; // prefer over AUF_DEM_WEG
-      case "FUER_INBESONDERE": return 1; // prefer over KOMMA_VOR_ERLAEUTERUNG
-      case "COVID_19": return 1; // prefer over PRAEP_GEN and DE_AGREEMENT
-      case "DA_VOR": return 1; // prefer over ZUSAMMENGESETZTE_VERBEN
-      case "KLEINSCHREIBUNG_MAL": return 1; // prefer over DE_AGREEMENT
-      case "VERINF_DAS_DASS_SUB": return 1; // prefer over DE_AGREEMENT
-      case "IM_ALTER": return 1; // prefer over ART_ADJ_SOL
-      case "DAS_ALTER": return 1; // prefer over ART_ADJ_SOL
-      case "VER_INF_PKT_VER_INF": return 1; // prefer over DE_CASE
-      case "DASS_MIT_VERB": return 1; // prefer over SUBJUNKTION_KOMMA ("Dass wird Konsequenzen haben.")
-      case "AB_TEST": return 1; // prefer over spell checker and agreement
-      case "BZGL_ABK": return 1; // prefer over spell checker
-      case "DURCH_WACHSEN": return 1; // prefer over SUBSTANTIVIERUNG_NACH_DURCH
-      case "ICH_WARTE": return 1; // prefer over verb agreement rules (e.g. SUBJECT_VERB_AGREEMENT)
-      case "RUNDUM_SORGLOS_PAKET": return 1; // higher prio than DE_CASE
-      case "MIT_FREUNDLICHEN_GRUESSE": return 1; // higher prio than MEIN_KLEIN_HAUS
-      case "OK": return 1; // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
-      case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
-      case "VALENZ_TEST": return 1; // see if this generates more corpus matches
-      case "WAEHRUNGSANGABEN_CHF": return 1; // higher prio than WAEHRUNGSANGABEN_KOMMA
-      // default is 0
-      case "FALSCHES_ANFUEHRUNGSZEICHEN": return -1; // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS
-      case "VER_KOMMA_PRO_RIN": return -1; // prefer WENN_WEN
-      case "DE_PROHIBITED_COMPOUNDS_PREMIUM": return -1; // prefer other rules (e.g. AUS_MITTEL)
-      case "VER_INF_VER_INF": return -1; // prefer case rules
-      case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
-      case "GEFEATURED": return -1; // prefer over spell checker
-      case "NUMBER_SUB": return -1; // prefer over spell checker
-      case "MFG": return -1; // prefer over spell checker
-      case "VER123_VERAUXMOD": return -1; // prefer casing rules
-      case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
-      case "DE_AGREEMENT2": return -1;  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions
-      case "KOMMA_NEBEN_UND_HAUPTSATZ": return -1;  // prefer SAGT_RUFT
-      case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
-      case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
-      case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
-      case "VER_ADJ_ZU_SCHLAFEN": return -1; // prefer ETWAS_GUTES
-      case "MIO_PUNKT": return -1; // higher prio than spell checker
-      case "AUSLASSUNGSPUNKTE_LEERZEICHEN": return -1; // higher prio than spell checker
-      case "IM_ERSCHEINUNG": return -1; // prefer ZUM_FEM_NOMEN
-      case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
-      case "VERSEHENTLICHERWEISE": return -1; // higher prio than spell checker
-      case "VERMOD_SKIP_VER_PKT": return -1; // less prio than casing rules
-      case "N_NETTER_TYP": return -1; // higher prio than EINZELBUCHSTABE_PREMIUM and speller
-      case "EINZELBUCHSTABE_PREMIUM": return -2;  // lower prio than "A_LA_CARTE"
-      case "ART_IND_ADJ_SUB": return -2;  // prefer DE_AGREEMENT rules
-      case "KATARI": return -2; // higher prio than spell checker
-      case "SCHOENE_WETTER": return -2; // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
-      case "MEIN_KLEIN_HAUS": return -2; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
-      case "UNPAIRED_BRACKETS": return -2;
-      case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
-      case "OBJECT_AGREEMENT": return -2; // less prio than DE_AGREEMENT
-      case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
-      case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
-      case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
-      case "KUDAMM": return -2;   // overwrite spell checker
-      case "ALTERNATIVEN_FUER_ANGLIZISMEN" : return -2;   // overwrite spell checker
-      case "ANGLIZISMUS_INTERNAL" : return -2;   // overwrite spell checker
-      case "DOPPELUNG_VER_MOD_AUX": return -2;
-      case "AERZTEN_INNEN": return -2;  // overwrite speller ("Ärzte/-innen")
-      case "ANGLIZISMEN" : return -2;   // overwrite spell checker
-      case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
-      case "MEINSTE" : return -2;   // overwrite spell checker
-      case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
-      case "ICH_LIEBS": return -2;  // higher prio than spell checker
-      case "WENNS_UND_ABERS": return -2;  // higher prio than spell checker
-      case "ABERS_SATZANFANG": return -2;  // higher prio than spell checker
-      case "VERNEB": return -2;  // higher prio than spell checker
-      case "ZAHL_IM_WORT_SPELLING_RULE": return -2; // higher prio than spell checker
-      case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
-      case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
-      case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
-      case "DE_VERBAGREEMENT": return -4; // prefer more specific rules (e.g DU_WUENSCHT) and speller
-      case "PUNKT_ENDE_DIREKTE_REDE": return -4; // prefer speller
-      case "LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN": return -4; // prefer speller
-      case "ZEICHENSETZUNG_DIREKTE_REDE": return -4; // prefer speller
-      case "GROSSSCHREIBUNG_WOERTLICHER_REDE": return -4; // prefer speller
-      case "IM_IHM": return -4;  // lower prio than spell checker
-      case "IN_UNKNOWNKLEIN_VER": return -4;  // lower prio than spell checker
-      case "SEHR_GEEHRTER_NAME": return -4;  // lower prio than spell checker
-      case "DE_PHRASE_REPETITION": return -4;  // lower prio than spell checker
-      case "FRAGEZEICHEN_NACH_DIREKTER_REDE": return -4;  // lower prio than spell checker
-      case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
-      case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
-      case "DAS_WETTER_IST": return -5; // lower prio than spell checker
-      case "VEREIZ_VERINF_PKT": return -5; // lower prio than spell checker
-      case "WER_STARK_SCHWITZ": return -5; // lower prio than spell checker
-      case "VERBEN_PRAEFIX_AUS": return -5; // lower prio than spell checker
-      case "ANFUEHRUNG_VERSCHACHTELT": return -5;  // lower prio than speller and FALSCHES_ANFUEHRUNGSZEICHEN
-      case "SATZBAU_AN_DEN_KOMMT": return -5;  // lower prio than rules that give a suggestion
-      case "SUBJECT_VERB_AGREEMENT": return -5; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
-      case "SAGT_SAGT": return -9; // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
-      case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
-      case "KOMMA_VOR_RELATIVSATZ": return -10;
-      case "VON_LEBENSLAEUFE": return -12; // less prio than AI
-      case "VER_WER_VER_3": return -12; // less prio than AI
-      case "PA_WAS": return -12; // less prio than AI
-      case "ICH_GEHE_DU_BLEIBST": return -12; // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI
-      case "PROPERNOMSIN_VERIMPSIN": return -12; // less prio than AI
-      case "VER123_VERAUXMOD_TEST1": return -12; // less prio than AI to produce a single suggestion
-      case "ZUSAMMENGESETZTE_VERBEN": return -12; // less prio than most more specific rules and AI
-      case "PRP_VER_PRGK": return -13; // lower prio than ZUSAMMENGESETZTE_VERBEN
-      case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
-      case "SAGT_RUFT": return -13; // prefer case rules, DE_VERBAGREEMENT, AI and speller
-      case "KANNST_WERDEN": return -13; // prefer more specific rules that offer a suggestion (A.I., spelling)
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -14; // lower prio than SAGT_SAGT, but higher than GERMAN_WORD_REPEAT_RULE
-      case "BEI_VERB": return -14; // prefer case, spelling and AI rules
-      case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
-      case "DATIV_NACH_PRP": return -14; // spelling and AI rules
-      case "DAT_ODER_AKK_NACH_PRP": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
-      case "SENT_START_SIN_PLU": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
-      case "SENT_START_PLU_SIN": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
-      case "VER_INFNOMEN": return -14;  // prefer spelling and AI rules
-      case "GERMAN_WORD_REPEAT_RULE": return -15; // lower prio than SAGT_RUFT and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
-      case "TOO_LONG_PARAGRAPH": return -15;
-      case "ALL_UPPERCASE": return -15;
-      case "NUR_LEDIGLICH": return -16; // lower prio than GERMAN_WORD_REPEAT_RULE
-      case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
-      case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)
-      case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
-      case "DEF_ARTIKEL_INDEF_ADJ": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
-      case "PRP_ADJ_AGREEMENT": return -52; // less prio than DE_AGREMEENT and less prio than most comma rules
-      case "SIE_WOLLTEN_SIND": return -52;
-      case "ART_ADJ_SOL": return -52; // prefer comma rules
-      case "WURDEN_WORDEN_1": return -52; // prefer comma rules
-      case "WAR_WAHR": return -52; // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
-      case "VERB_IST": return -53; // less prio than comma rules and spell checker
-      case "WAR_WERDEN": return -53; // less prio than comma rules
-      case "INF_VER_MOD": return -53; // prefer case, spelling and AI rules
-      case "DOPPELTES_VERB": return -53; // prefer comma rules (including AI)
-      case "VERB_FEM_SUBST": return -54; // prefer comma rules (including AI)
-      case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
-      case "DOPPELUNG_GLEICHES_VERB": return -55; // prefer comma rules
-      case "FEHLENDES_NOMEN": return -60; // lower prio than most rules
-      case "REPETITIONS_STYLE": return -60;
-      case "MAN_SIEHT_SEHR_SCHOEN": return -14; // prefer over SEHR_SCHOEN
-      // Category ids - make sure style issues don't hide overlapping "real" errors:
-      case "TYPOGRAPHY": return -14;
-      case "COLLOQUIALISMS": return -15;
-      case "STYLE": return -15;
-      case "REDUNDANCY": return -15;
-      case "GENDER_NEUTRALITY": return -15;
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
-    if (id.startsWith("DE_PROHIBITED_COMPOUNDS_")) {   // don't hide spelling mistakes
+    if (id.startsWith("DE_PROHIBITED_COMPOUNDS_") || id.startsWith("DE_PROHIBITED_COMPOUNDS_PREMIUM_")) {   // don't hide spelling mistakes
       return -4;
     }
     if (id.startsWith("DE_MULTITOKEN_SPELLING")) {

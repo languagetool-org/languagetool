@@ -32,6 +32,7 @@ import org.languagetool.rules.en.*;
 import org.languagetool.rules.en.LongSentenceRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -469,6 +470,7 @@ public class English extends Language implements AutoCloseable {
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "TO_NIGHT_TO_DAY":           return 1;   // prefer over TOO_JJ_TO
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
+      case "MD_APOSTROPHE_VB":          return 1;   // prefer over typography rules
       case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
       case "THINK_BELIEVE_THAT":        return 1;
       case "HAS_TO_APPROVED_BY":        return 1;   // prefer over TO_NON_BASE
@@ -561,7 +563,6 @@ public class English extends Language implements AutoCloseable {
       case "NNP_COMMA_QUESTION":        return -2;  // prefer other more specific rules
       case "VB_TO_NN_DT":               return -2;  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
       case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
-      case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
       case "CANT_JJ":                   return -2;  // prefer other more specific rules
@@ -591,6 +592,7 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
+      case "PRP_RB_NO_VB":              return -12;  // prefer other more specific rules (with suggestions)
       case "EN_UPPER_CASE_NGRAM":       return -12;  // prefer other more specific rules (e.g. AI models)
       case "MD_JJ":                     return -12;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
       case "HE_VERB_AGR":               return -12;  // prefer other more specific rules (e.g. AI models, PRP_VBG)
@@ -671,6 +673,9 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("AI_SPELLING_RULE")) {
       return -9; // higher than MORFOLOGIK_*, for testing
     }
+    if (id.startsWith("EN_MULTITOKEN_SPELLING_")) {
+      return -9; // higher than MORFOLOGIK_*
+    }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_HYDRA_LEO_CP_YOU_YOUARE")) {
         return -1;
@@ -745,6 +750,33 @@ public class English extends Language implements AutoCloseable {
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
+  }
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    if (line.contains("+")) {
+      // while the morfologik separator is "+", multiwords with '+' can cause undesired results.
+      return "";
+    }
+    String[] formTag = parts[0].split("\t");
+    String form = formTag[0].trim();
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (tag.startsWith("NN") || tag.startsWith("JJ")) {
+        return form;
+      } else {
+        return "";
+      }
+    }
+    return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return EnglishMultitokenSpeller.INSTANCE;
   }
 
 }

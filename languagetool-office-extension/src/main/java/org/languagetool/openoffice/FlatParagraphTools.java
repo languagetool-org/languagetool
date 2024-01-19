@@ -863,8 +863,8 @@ public class FlatParagraphTools {
         flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
             pError.nErrorStart, pError.nErrorLength, props);
       }
-      props = flatPara.getMarkupInfoContainer();
-      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
+//      props = flatPara.getMarkupInfoContainer();
+//      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
     }
     if (isChecked) {
       flatPara.setChecked(TextMarkupType.PROOFREADING, true);

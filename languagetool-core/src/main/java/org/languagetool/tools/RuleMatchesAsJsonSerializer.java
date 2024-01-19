@@ -51,6 +51,7 @@ public class RuleMatchesAsJsonSerializer {
 
   private final int compactMode;
   private final Language lang;
+  private Map<String, Float> ruleIdToConfidence;
 
   public RuleMatchesAsJsonSerializer() {
     this(0, null);
@@ -96,11 +97,11 @@ public class RuleMatchesAsJsonSerializer {
             hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint, null);
   }
 
-    /**
-     * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
-     *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
-     * @since 5.3
-     */
+  /**
+   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+   *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
+   * @since 5.3
+   */
   public String ruleMatchesToJson2(List<CheckResults> res, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                    DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint, JLanguageTool.Mode mode) {
     ContextTools contextTools = new ContextTools();
@@ -355,6 +356,12 @@ public class RuleMatchesAsJsonSerializer {
       }
       g.writeEndArray();
     }
+    if (ruleIdToConfidence != null) {
+      Float confidence = ruleIdToConfidence.get(rule.getId());
+      if (confidence != null) {
+        g.writeNumberField("confidence", confidence);
+      }
+    }
     g.writeEndObject();
   }
 
@@ -366,4 +373,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
+  public void setRuleIdToConfidenceMap(Map<String, Float> ruleIdToConfidence) {
+    this.ruleIdToConfidence = ruleIdToConfidence;
+  }
 }

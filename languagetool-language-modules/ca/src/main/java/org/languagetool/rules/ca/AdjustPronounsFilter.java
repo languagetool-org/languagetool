@@ -70,6 +70,7 @@ public class AdjustPronounsFilter extends RuleFilter {
     addEn.put("em", "me'n");
     addEn.put("et", "te'n");
     addEn.put("es", "se'n");
+    addEn.put("se", "se'n");
     addEn.put("ens", "ens en");
     addEn.put("us", "us en");
     addEn.put("li", "li'n");

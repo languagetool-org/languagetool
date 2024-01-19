@@ -83,7 +83,8 @@ public abstract class RuleFilter {
     int i;
     if (fromStr.startsWith("marker")) {
       i = 0;
-      while (i < patternTokens.length && patternTokens[i].getStartPos() < match.getFromPos()) {
+      while (i < patternTokens.length && patternTokens[i].getStartPos() < match.getFromPos()
+        || patternTokens[i].isSentenceStart()) {
         i++;
       }
       i++;

@@ -30,7 +30,6 @@ import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -269,7 +268,6 @@ public class ProhibitedCompoundRule extends Rule {
     for (Pair pair : pairs) {
       map.put(pair.part1, pair.part1);
       map.put(pair.part2, pair.part2);
-
       pairMap.putIfAbsent(pair.part1, new LinkedList<>());
       pairMap.putIfAbsent(pair.part2, new LinkedList<>());
       pairMap.get(pair.part1).add(pair);

@@ -114,12 +114,22 @@ public class SentenceAnnotator {
       if (quit) {
         break;
       }
-      String sentence = line;
-      String sentenceHash = md5FromSentence(sentence);
       numSentence++;
       if (numSentence < startLine) {
         continue;
       }
+      String[] partsLine = line.split("\t");
+      String sentenceID;
+      String originalSentence;
+      if (partsLine.length == 2) {
+        originalSentence = partsLine[1];
+        sentenceID = partsLine[0];
+      } else {
+        originalSentence = partsLine[0];
+        sentenceID = "N/A";
+      }
+      String sentence = originalSentence;
+      String sentenceHash = md5FromSentence(sentence);
       boolean done = false;
       List<String> fpMatches = new ArrayList<>();
       int annotationsPerSentence = 0;
@@ -165,7 +175,7 @@ public class SentenceAnnotator {
         }
         switch (response) {
         case "r":
-          sentence = line;
+          sentence = originalSentence;
           fpMatches.clear();
           cfg.outStrB = new StringBuilder();
           break;
@@ -254,7 +264,7 @@ public class SentenceAnnotator {
         }
 
         if (!errorType.isEmpty()) {
-          printOutputLine(cfg, sentenceHash, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
+          printOutputLine(cfg, sentenceHash, sentenceID, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
               suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
@@ -363,7 +373,7 @@ public class SentenceAnnotator {
           replacement = iEMatch.getReplacements().get(0);
           break;
         }
-        printOutputLine(cfg, sentenceHash, formattedOriginalSentence, formattedCorrectSentence, errorType,
+        printOutputLine(cfg, sentenceHash, "N/A", formattedOriginalSentence, formattedCorrectSentence, errorType,
             detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
@@ -401,12 +411,13 @@ public class SentenceAnnotator {
     return DatatypeConverter.printHexBinary(digest);
   }
 
-  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash,
+  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash, String sentenceID,
                                       String errorSentence, String correctedSentence, String errorType,
                                       String detectedErrorStr, String suggestion, int suggestionPos,
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
       sentenceHash,
+      sentenceID,
       cfg.annotatorName,
       timestamp,
       errorSentence,

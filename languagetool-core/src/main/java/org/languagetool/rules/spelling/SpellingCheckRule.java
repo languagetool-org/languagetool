@@ -77,7 +77,7 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
   protected static final String CUSTOM_SPELLING_FILE = "/hunspell/spelling_custom.txt";
-  protected static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
+  public static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;

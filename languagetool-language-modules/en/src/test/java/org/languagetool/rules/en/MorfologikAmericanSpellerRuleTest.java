@@ -156,6 +156,25 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("The statements¹ of⁷ the⁵⁰ government⁹‽")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o'clock.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o’clock.")).length);
+
+    // multiwords.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("C'est la vie.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("c’est la guerre!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Andorra la Vella is the capital and largest city of Andorra.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("bona fides.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("doctor honoris causa")).length);
+
+    assertSuggestion("Abu-Bakr", "Abu Bakr");
+    assertSuggestion("Abudhabi", "Abu Dhabi");
+    assertSuggestion("Burkina-Faso", "Burkina Faso");
+    assertSuggestion("Deutschmark", "Deutsche Mark");
+    assertSuggestion("Casagrande", "Casa Grande");
+    assertSuggestion("ELPASO", "El Paso");
+    assertSuggestion("Eldorado", "El Dorado");
+    assertSuggestion("nom-de-plume", "nom de plume");
+    assertSuggestion("sui-generis", "sui generis");
+    assertSuggestion("Wiener-Neustadt", "Wiener Neustadt");
+    assertSuggestion("Zyklon-B", "Zyklon B");
     
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);

@@ -18,13 +18,10 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.pt.*;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.IOException;
 import java.util.*;

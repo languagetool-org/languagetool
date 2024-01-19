@@ -42,6 +42,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
@@ -243,18 +244,20 @@ public class HunspellRule extends SpellingCheckRule {
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           String cleanWord2 = cleanWord.substring(dashCorr);
+          // log non-accepted de-DE words for debugging - only log hour to make aggregation easier:
+          if (language.getShortCodeWithCountryAndVariant().equals("de-DE") && cleanWord2.matches("[A-ZÖÄÜ][a-zöäüß]{6,30}+")) {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH");
+            System.out.println(sdf.format(new Date()) + " - speller: " + cleanWord2);
+          }
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
-            ruleMatch.setLazySuggestedReplacements(() -> {
-              try {
-                List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
-                if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
-                  sugg.get(0).setConfidence(HIGH_CONFIDENCE);
-                }
-                return sugg;
-              } catch (IOException e) {
-                throw new RuntimeException(e);
-              }
-            });
+            List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
+            if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
+              sugg.get(0).setConfidence(HIGH_CONFIDENCE);
+            }
+            if (sugg.size() > 0) {
+              ruleMatch.setMessage(getMessage(cleanWord2, sugg.get(0)));
+            }
+            ruleMatch.setSuggestedReplacementObjects(sugg);
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
@@ -294,6 +297,16 @@ public class HunspellRule extends SpellingCheckRule {
       }
     }*/
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @NotNull
+  protected String getMessage(String origWord, SuggestedReplacement firstSuggestion) {
+    return messages.getString("spelling");
+  }
+
+  @NotNull
+  protected String getShortMessage(String origWord, SuggestedReplacement firstSuggestion) {
+    return messages.getString("desc_spelling_short");
   }
 
   protected boolean acceptSuggestion(String suggestion) {

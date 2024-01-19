@@ -46,11 +46,12 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   private static final List<String> PREFIX_WITH_WHITESPACE = Arrays.asList("ultra", "eco", "tele", "anti", "auto", "ex",
     "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "hiper",
     "trans", "re", "g", "l", "m");
+  private static final List<String> PRONOMBRE_INICIAL = Arrays.asList("me", "te", "se", "nos", "os", "lo", "le", "la", "los",
+    "las");
   private static final Pattern CAMEL_CASE = Pattern.compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", Pattern.UNICODE_CASE);
   private static final List<String> PARTICULA_FINAL = Arrays.asList("que", "cual");
   private static final List<String> SPLIT_DIGITS_AT_END = Arrays.asList("en", "de", "del", "al", "a", "y", "o", "con");
-
-  private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
+  private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
   private static final SpanishTagger tagger = SpanishTagger.INSTANCE;
 
   public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -84,9 +85,17 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   @Override
   protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
+    String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
       String replacement = suggestions.get(i).getReplacement().toLowerCase();
       String parts[] = replacement.split(" ");
+      // Don't change first suggestions if they match word without diacritics
+      int posNewSugg = 0;
+      while (newSuggestions.size() > posNewSugg
+        && StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())
+        .equalsIgnoreCase(wordWithouDiacriticsString)) {
+        posNewSugg++;
+      }
       if (parts.length == 2) {
         // remove wrong split prefixes
         if (parts[1].equals("s")) {
@@ -95,6 +104,16 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
         if (PREFIX_WITH_WHITESPACE.contains(parts[0])) {
           continue;
         }
+        // move some split words to first place
+        if (parts[1].length() > 1 && PRONOMBRE_INICIAL.contains(parts[0].toLowerCase())) {
+          String newSuggestion = parts[1];
+          List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
+          if (atkn.get(0).matchesPosTagRegex(VERB_INDSUBJ)) {
+            newSuggestions.add(posNewSugg, suggestions.get(i));
+            continue;
+          }
+        }
+
         // move some split words to first place
         if (PARTICULA_FINAL.contains(parts[1])) {
           newSuggestions.add(0, suggestions.get(i));

@@ -403,11 +403,6 @@ abstract class TextChecker {
     Language lang = detLang.getGivenLanguage();
 
     List<Rule> userRules = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
-    boolean isMultiLangEnabled = false;
-    //only enable this feature with parameter
-    if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
-      isMultiLangEnabled = true;
-    }
     boolean untrustedSource = false;
     if (referrer != null) {
       untrustedSource = config.getUntrustedReferrers().stream().anyMatch(s -> siteMatches(referrer, s));

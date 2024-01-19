@@ -6,7 +6,9 @@ import org.languagetool.*;
 import org.languagetool.tagging.xx.DemoTagger;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -37,7 +39,7 @@ public class MultiWordChunkerTest {
 
   @Test
   public void testDisambiguate1() throws IOException {
-    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true, true);
+    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true, true, true);
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("ah for shame");
     AnalyzedSentence disambiguated = multiWordChunker.disambiguate(analyzedSentence);
@@ -97,6 +99,23 @@ public class MultiWordChunkerTest {
     assertFalse(tokens[1].getReadings().toString().contains("FakePosTag"));
     assertFalse(tokens[3].getReadings().toString().contains("FakePosTag"));
     assertFalse(tokens[5].getReadings().toString().contains("FakePosTag"));
+  }
+
+  @Test
+  public void testLettercaseVariants() throws IOException {
+    MultiWordChunker multiWordChunker = new MultiWordChunker("/yy/multiwords.txt", true, true, true);
+    Map<String, AnalyzedToken> map = new HashMap<>();
+    map.put("rhythm and blues", new AnalyzedToken("rhythm and blues", "NCMS000_", "rhythm and blues"));
+    map.put("Vênus de Milo", new AnalyzedToken("Vênus de Milo", "NCFSS00_", "Vênus de Milo"));
+    List<String> tokenVariantsRnB = multiWordChunker.getTokenLettercaseVariants("rhythm and blues", map);
+    assertTrue(tokenVariantsRnB.contains("Rhythm and blues"));  // simple upcase of first word
+    assertTrue(tokenVariantsRnB.contains("Rhythm And Blues"));  // naïve titlecase
+    assertTrue(tokenVariantsRnB.contains("Rhythm and Blues"));  // smarter titlecase
+    assertTrue(tokenVariantsRnB.contains("RHYTHM AND BLUES"));  // all caps
+    List<String> tokenVariantsVenus = multiWordChunker.getTokenLettercaseVariants("Vênus de Milo", map);
+    assertFalse(tokenVariantsVenus.contains("Vênus De Milo"));  // naïve titlecase
+    assertFalse(tokenVariantsVenus.contains("vênus de milo"));  // downcased
+    assertTrue(tokenVariantsVenus.contains("VÊNUS DE MILO"));   // all caps
   }
 
 }

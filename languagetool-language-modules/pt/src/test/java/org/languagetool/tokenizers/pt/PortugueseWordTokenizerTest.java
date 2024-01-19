@@ -67,6 +67,8 @@ public class PortugueseWordTokenizerTest {
     testTokenise("sex-appeal", new String[]{"sex-appeal"});
     testTokenise("Aix-en-Provence", new String[]{"Aix-en-Provence"});
     testTokenise("Montemor-o-Novo", new String[]{"Montemor-o-Novo"});
+    testTokenise("Andorra-a-Velha", new String[]{"Andorra-a-Velha"});
+    testTokenise("Tsé-Tung", new String[]{"Tsé-Tung"});
   }
 
   @Test
@@ -74,6 +76,7 @@ public class PortugueseWordTokenizerTest {
     testTokenise("Paris-São Paulo", new String[]{"Paris", "-", "São", " ", "Paulo"});
     // this word exists in the speller but not the tagger dict; this may become a problem
     testTokenise("Sem-Peixe", new String[]{"Sem", "-", "Peixe"});
+    testTokenise("húngaro-americano", new String[]{"húngaro", "-", "americano"});
   }
 
   @Test
@@ -119,6 +122,13 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
+  public void testTokeniseSplitsPercent() {
+    testTokenise("50%OFF", new String[]{"50%", "OFF"});
+    testTokenise("%50", new String[]{"%", "50"});
+    testTokenise("%", new String[]{"%"});
+  }
+
+  @Test
   public void testTokeniseNumberAbbreviation() {
     testTokenise("Nº666", new String[]{"Nº666"});  // superscript 'o'
     testTokenise("N°666", new String[]{"N°666"});  // degree symbol
@@ -129,9 +139,60 @@ public class PortugueseWordTokenizerTest {
 
   @Test
   public void testDoNotTokeniseOrdinalSuperscript() {
-    testTokenise("6º", new String[]{"6º"});  // superscript 'o'
-    testTokenise("100°", new String[]{"100°"});  // degree symbol
-    testTokenise("21ª", new String[]{"21ª"});
+    // ordinal indicators
+    testTokenise("1º", new String[]{"1º"});
+    testTokenise("2.º", new String[]{"2.º"});
+    testTokenise("3ºˢ", new String[]{"3ºˢ"});
+    testTokenise("4.ºˢ", new String[]{"4.ºˢ"});
+    testTokenise("5ª", new String[]{"5ª"});
+    testTokenise("6ª", new String[]{"6ª"});
+    testTokenise("7ªˢ", new String[]{"7ªˢ"});
+    testTokenise("8ªˢ", new String[]{"8ªˢ"});
+    // superscripts
+    testTokenise("9ᵒ", new String[]{"9ᵒ"});
+    testTokenise("10.ᵒ", new String[]{"10.ᵒ"});
+    testTokenise("11ᵒˢ", new String[]{"11ᵒˢ"});
+    testTokenise("12.ᵒˢ", new String[]{"12.ᵒˢ"});
+    testTokenise("13ᵃ", new String[]{"13ᵃ"});
+    testTokenise("14.ᵃ", new String[]{"14.ᵃ"});
+    testTokenise("15ᵃˢ", new String[]{"15ᵃˢ"});
+    testTokenise("16.ᵃˢ", new String[]{"16.ᵃˢ"});
+    // regular lowercase
+    testTokenise("17o", new String[]{"17o"});
+    testTokenise("18.o", new String[]{"18.o"});
+    testTokenise("19os", new String[]{"19os"});
+    testTokenise("20.os", new String[]{"20.os"});
+    testTokenise("21a", new String[]{"21a"});
+    testTokenise("22.a", new String[]{"22.a"});
+    testTokenise("23as", new String[]{"23as"});
+    testTokenise("24.as", new String[]{"24.as"});
+  }
+
+  @Test
+  public void testDoNotTokeniseDegreeExpressions() {
+    testTokenise("25°", new String[]{"25°"});
+    testTokenise("26,0°", new String[]{"26,0°"});
+    testTokenise("27.0°", new String[]{"27.0°"});
+    testTokenise("28,0°C", new String[]{"28,0°C"});
+    testTokenise("29.0°C", new String[]{"29.0°C"});
+    testTokenise("30,0°c", new String[]{"30,0°c"});
+    testTokenise("31.0°c", new String[]{"31.0°c"});
+    testTokenise("32°Ra", new String[]{"32°Ra"});
+    testTokenise("33,1°Rø", new String[]{"33,1°Rø"});
+    testTokenise("34°N", new String[]{"34°N"});
+  }
+
+  @Test
+  public void testDoNotTokeniseSpaceSeparatedThousands() {
+    testTokenise("35 000", new String[]{"35 000"});
+    testTokenise("36 000 000", new String[]{"36 000 000"});
+    testTokenise("37 000,00", new String[]{"37 000,00"});
+    testTokenise("38 000 000,00", new String[]{"38 000 000,00"});
+    testTokenise("39 000°", new String[]{"39 000°"});
+    testTokenise("40 000%", new String[]{"40 000%"});
+    testTokenise("41 000º", new String[]{"41 000º"});
+    testTokenise("42 000o", new String[]{"42 000o"});
+    testTokenise("43 00", new String[]{"43", " ", "00"});
   }
 
   @Test

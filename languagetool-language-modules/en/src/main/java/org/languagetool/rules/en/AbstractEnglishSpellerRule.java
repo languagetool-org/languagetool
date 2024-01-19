@@ -49,6 +49,13 @@ import static org.languagetool.rules.SuggestedReplacement.topMatch;
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
+  @Override
+  public List<String> getAdditionalSpellingFileNames() {
+    // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE,
+      "/en/multiwords.txt");
+  }
+
   private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
@@ -95,6 +102,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "client side",
     "server side",
     "worry some", // suggestion for worrysome
+    "skillet", // wrong suggestion for skillset
+    "skillets", // wrong suggestion for skillsets
     "code named",
     "code naming",
     "in house",
@@ -165,7 +174,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern JIST = compile("[Jj]ist");
   private static final Pattern ADHOC = compile("[Ad]hoc");
   private static final Pattern DEACTIVE = compile("[De]eactive");
-  private static final Pattern HUBSPOT = compile("Hubspot");
+  private static final Pattern HONGKONG = compile("[hH]ongkong");
+  private static final Pattern BONAFIDE = compile("[Bb]onafide");
+  private static final Pattern WHEREEVER = compile("[Ww]hereever");
+  private static final Pattern HUBSPOT = compile("[Hh]ubspot");
+  private static final Pattern URL = compile("[Uu]rl");
+  private static final Pattern TV = compile("tv");
+  private static final Pattern HTTP = compile("[Hh]ttp");
+  private static final Pattern HTTPS = compile("[Hh]ttps");
+  private static final Pattern FYI = compile("[Ff]yi");
+  private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
 
   private final BeoLingusTranslator translator;
 
@@ -1117,7 +1135,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("grandmom", Arrays.asList("grandma", "grandmother"));
     s.put("Grandmum", Arrays.asList("Grandma", "Grandmother"));
     s.put("Grandmom", Arrays.asList("Grandma", "Grandmother"));
-    s.put("Hongkong", Arrays.asList("Hong Kong"));
     s.put("enlighting", Arrays.asList("enlightening"));
     s.put("Enlighting", Arrays.asList("Enlightening"));
     // For non-US English
@@ -1289,8 +1306,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("rideshare", Arrays.asList("ride-share"));
     s.put("Rideshare", Arrays.asList("Ride-share"));
     s.put("Rideshares", Arrays.asList("Ride-shares"));
-    s.put("bonafide", Arrays.asList("bona fide"));
-    s.put("Bonafide", Arrays.asList("Bona fide"));
     s.put("dropoff", Arrays.asList("drop-off"));
     s.put("Dropoff", Arrays.asList("Drop-off"));
     s.put("reportings", Arrays.asList("reports", "reporting"));
@@ -1465,6 +1480,20 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (ADHOC.matcher(word).matches()) return topMatch("ad hoc");
     if (DEACTIVE.matcher(word).matches()) return topMatch("inactive");
     if (HUBSPOT.matcher(word).matches()) return topMatch("HubSpot");
+    if (URL.matcher(word).matches()) return topMatch("URL");
+    if (HTTP.matcher(word).matches()) return topMatch("HTTP");
+    if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
+    if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
+    if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
+    if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
+    if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
+    if (TV.matcher(word).matches()) {
+      List<SuggestedReplacement> l = new ArrayList<>();
+      l.add(new SuggestedReplacement("TV"));
+      l.add(new SuggestedReplacement("to"));
+      return l;
+    }
     if (JIST.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("just"));

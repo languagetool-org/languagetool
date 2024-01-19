@@ -34,6 +34,7 @@ USA
     <!ENTITY % verbs     SYSTEM "../../resource/pt/entities/verbs.ent"    >
     <!ENTITY % languages SYSTEM "../../resource/pt/entities/languages.ent">
     <!ENTITY % postal    SYSTEM "../../resource/pt/entities/postal.ent"   >
+    <!ENTITY % chars     SYSTEM "../../resource/pt/entities/chars.ent"    >
     %messages;
     %datetime;
     %misc;
@@ -42,6 +43,7 @@ USA
     %verbs;
     %languages;
     %postal;
+    %chars;
 ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -520,7 +522,7 @@ USA
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
                 <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion>\1 \2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="o seu motivo|o motivo destes|o motivo deles">O estudo dos conflitos permite perceber <marker>o motivo dos mesmos</marker> ocorrerem.</example>
             </rule>
             <rule>
@@ -544,7 +546,7 @@ USA
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='DA.(..).' postag_replace='DP3$1S'>seu</match> \2 \3</suggestion>
                 <suggestion suppress_misspelled="yes">\1 <match no='1' postag='SPS00:DA.(..).' postag_replace='DP3$1S'>seu</match> \2 \3</suggestion>
                 <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion>\1 \2 \3 <match no='5' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="o seu motivo justificável|o motivo justificável destes|o motivo justificável deles">O estudo dos conflitos permite perceber <marker>o motivo justificável dos mesmos</marker> ocorrerem.</example>
             </rule>
             <rule>
@@ -565,7 +567,7 @@ USA
                 </pattern>
                 <message>&simplify_msg;</message>
                 <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion><match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="destes|deles">sem perder a essência de homenagem <marker>dos mesmos</marker> ocorrerem.</example>
                 <example correction="destas|delas">sem perder a essência de homenagem <marker>das mesmas</marker> ocorrerem.</example>
             </rule>
@@ -588,7 +590,7 @@ USA
                 <message>&simplify_msg;</message>
                 <suggestion><match no='2' postag='N.(..)...|A..(..).' postag_replace='DP3$1S'>seu</match> \2</suggestion>
                 <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:DD0$10'>de:este</match></suggestion>
-                <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$100'>de:ele</match></suggestion>
+                <suggestion>\2 <match no='4' postag='PI0(..)000' postag_replace='SPS00:PP3$1N00'>de:ele</match></suggestion>
                 <example correction="seus excrementos|excrementos deste|excrementos dele">O contato com o inseto ou <marker>excrementos do mesmo</marker> é prejudicial.</example>
             </rule>
         </rulegroup>
@@ -902,7 +904,7 @@ USA
                 <example>99,6% com iluminação pública, 99,3% com coleta de resíduos e 89,7% dos lares tem</example>
                 <example>Andou de estação em estação à procura dela.</example>
                 <example correction="">Andou de estação sim em <marker>estação</marker> não à procura dela.</example>
-                <example>Cerca de 42% de todos os judeus residem em Israel e cerca de 42% nos Estados Unidos e Canadá, com a maioria restante na Europa.</example>
+                <!-- <example>Cerca de 42% de todos os judeus residem em Israel e cerca de 42% nos Estados Unidos e Canadá, com a maioria restante na Europa.</example> -->
                 <example>Não estou totalmente satisfeito com a situação, mas regras são regras", disse Bolt.</example>
                 <example>Hectares e hectares de terra ardida.</example>
                 <example>Bateu o recorde na prova dos cem metros, muito antes de ter considerado competir nos quatrocentos metros barreiras.</example>
@@ -3617,6 +3619,24 @@ USA
         </rule>
     </category>
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
+
+
+        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp='yes'>aos|os</token>
+                    <token>países</token>
+                    <token>do</token>
+                    <token>terceiro</token>
+                    <token>mundo</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal pode omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
+            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
+            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
+        </rule>
+
+
         <!-- VESTIR calçar -->
         <rule id='CONFUSÃO_VESTIR_CALÇAR' name="[Confusão] vestir/calçar" tags='picky' tone_tags="formal">
             <antipattern>
@@ -6759,7 +6779,7 @@ USA
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decepcionar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desapontar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>insatisfazer</match></suggestion>
-                <example correction='decepciona|desaponta|insatisfaz'>Ele não <marker>deixa a desejar</marker>.</example>
+                <example correction='decepciona|desaponta|insatisfaz|insatisfaze'>Ele não <marker>deixa a desejar</marker>.</example>
             </rule>
             <rule id='CLICHE_383_DETONAR' name='Clichê: Detonar um processo'>
                 <pattern>
@@ -8401,6 +8421,115 @@ USA
 
     </category>
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
+
+        <rule id='APAGAR_INDELÉVEL' name="[Universitário][Científico] Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>que
+                        <exception scope="previous" postag_regexp='no' postag='SENT_START'/>
+                    </token>
+                    <token>não</token>
+                    <token>se</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token>apagar</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever &quot;indelével&quot;.</message>
+            <suggestion>indelével</suggestion>
+            <example correction="indelével">O passado é algo <marker>que não se consegue apagar</marker>.</example>
+        </rule>
+
+
+        <rulegroup id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+            <!--
+                TO-DO:
+                1. Look at the next diff results and add the words to the 2nd subrule;
+                2. Replace the "min" & "max" with "skip" like in the "furto de identidade" rule;
+                3. Replace the exception with the words from subrule 2 and check my PhD thesis for more words.
+                : It will provide less results, but they will be more accurate.
+            -->
+
+            <antipattern>
+                <token regexp='yes'>unidades?</token>
+                <token regexp='yes'>básicas?</token>
+                <token>de</token>
+                <token>saúde</token>
+                <example>IND-0295/2018 Indica a reforma completa da UBS (Unidade Básica de Saúde) da Vila Cretti.</example>
+                <example>Existem na cidade Unidades Básicas de Saúde e Unidade de Serviço de Apoio de Diagnose e Terapia.</example>
+            </antipattern>
+
+            <rule>
+                <pattern>
+                    <!-- Triggering (good) words below. Add more as found -->
+                    <token regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|forma|fórmula|função|fundamento|informação|interpretação|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
+                    <token min='0' max='2' postag='Z0.+|RM|RG|NC.+|AQ.+' postag_regexp='yes'>
+                        <exception regexp='yes'>básic[ao]s?</exception>
+                    </token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
+                <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
+                <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
+            </rule>
+        </rulegroup>
+
+
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+
+            <!-- #1 - Without d[ao]s? -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>dar</token>
+                        <token regexp='yes'>um|uns|algum|alguns</token>
+                        <token regexp='yes'>exemplos?</token>
+                    </marker>
+                    <token postag='_PUNCT|SPS00|CC|CS' postag_regexp='yes'/>
+                </pattern>
+                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match></suggestion>
+                <example correction="exemplificou">A Ana <marker>deu um exemplo</marker>.</example>
+            </rule>
+
+            <!-- #2 - With d[ao]s? -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>dar</token>
+                        <token regexp='yes'>um|uns|algum|alguns</token>
+                        <token regexp='yes'>exemplos?</token>
+                        <token regexp='yes'>d[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="exemplificou a">A Ana <marker>deu um exemplo da</marker> equação.</example>
+                <example correction="exemplificou o">O Rui <marker>deu um exemplo do</marker> problema.</example>
+            </rule>
+
+        </rulegroup>
+
+
+       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="[Universitário][formal] 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>ficar</token>
+                    <token regexp='yes' >parad[ao]s?</token>
+                    <token>no</token>
+                    <token>tempo</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;estagnar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estagnar</match></suggestion>
+            <example correction="estagnou">A Ana <marker>ficou parada no tempo</marker>.</example>
+            <example correction="estagnaram">Eles <marker>ficaram parados no tempo</marker>.</example>
+        </rule>
+
 
         <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
             <pattern>
@@ -12355,7 +12484,7 @@ USA
                     <token regexp='yes'>del[ae]s?</token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>usá-l<match no='3' postag='SPS00:PP3(..)00' postag_replace='DA0$10'>o</match></suggestion>
+                <suggestion>usá-l<match no='3' postag='SPS00:PP3(..)...' postag_replace='DA0$10'>o</match></suggestion>
                 <example correction="usá-la">Vamos <marker>fazer uso dela</marker> para o bem.</example>
                 <example correction="usá-las">Vamos <marker>fazer uso delas</marker> para o bem.</example>
                 <example correction="usá-lo">Vamos <marker>fazer uso dele</marker> para o bem.</example>
@@ -12778,6 +12907,7 @@ USA
                             <exception case_sensitive='yes'>Aliados</exception>
                             <exception scope='next' regexp='yes'>de|em</exception> <!-- Limited SPS00 -->
                             <exception scope='next' postag_regexp='yes' postag='AQ.+'/> <!-- Exceptions for adjective agreements -->
+                            <exception scope='next' postag_regexp='yes' postag='SPS00:DD0.+|SPS00:PP3.+'/> <!-- Exceptions "dele(s)", "deste(s)"-->
                         </token>
                     </marker>
                 </pattern>
@@ -12792,6 +12922,8 @@ USA
                 <example>No final do ano, o pêndulo da superioridade aérea pendeu mais uma vez a favor dos Aliados.</example>
                 <example>O bispo tomou o cavalo, pondo o rei do adversário em xeque.</example>
                 <example>Enquanto isso, os representantes dos Aliados em Viena, sem o apoio de seus respectivos governos, tentaram derrubar o governo de Kun e substituí-...</example>
+                <example>Para ceifarem as vidas dos inimigos deles e do seu mestre.</example>
+                <example>Para ceifarem as vidas dos inimigos destes e do seu mestre.</example>
             </rule>
 
             <!-- #2: Number/gender agreement depends on using "de|d[ao]s?" -->
@@ -12828,6 +12960,7 @@ USA
                         <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente
                             <exception case_sensitive='yes'>Aliados</exception>
                             <exception scope='next' postag_regexp='yes' postag='AQ.+'/> <!-- Exceptions for adjective agreements -->
+                            <exception scope='next' postag_regexp='yes' postag='SPS00:DD0.+|SPS00:PP3.+'/> <!-- Exceptions "dele(s)", "deste(s)"-->
                         </token>
                     </marker>
                 </pattern>
@@ -14046,7 +14179,7 @@ USA
                 <token>pois</token>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token postag='CC' postag_regexp='no'/>
-                <token postag='PP3CN000' postag_regexp='no'/>
+                <token postag='PP3CNO00' postag_regexp='no'/>
                 <token postag='VMSP.+' postag_regexp='yes'/>
                 <example>O parâmetro é ignorado, pois, quer se veja ou não o resultado é o correto.</example>
             </antipattern>
@@ -14343,7 +14476,7 @@ USA
       -->
 
             <antipattern>
-                <token postag='DA.+|SPS00|SPS00:DA.+|SP000|_PUNCT' postag_regexp='yes'/>
+                <token postag='DA.+|SPS00:DA.+|SP.00_?|_PUNCT' postag_regexp='yes'/>
                 <token postag='DP.+|DI.+|Z0.+|CC' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
@@ -14391,7 +14524,7 @@ USA
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
+                <token postag='SPS00_?' postag_regexp='no'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <example>Eu acho que ela estava planejando ir visitar a mãe, que está no hospital.</example>
@@ -14399,7 +14532,7 @@ USA
             </antipattern>
 
             <pattern>
-                <token postag='NC.+|AQ.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|V.+' postag_regexp='yes'>
+                <token postag='NC.+|AQ.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00_?|V.+' postag_regexp='yes'>
                     <exception scope='previous' postag_regexp='yes' postag='SENT_START|V.+'/>
                     <exception postag_regexp='no' postag='RG'/>
                 </token>
@@ -14826,6 +14959,8 @@ USA
             <!-- For female all results were false positives, so I have removed the code. -->
 
         </rulegroup>
+
+
         <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
         <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="[Simplificar] Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
             <!--IDEA shorten_it-->
@@ -14861,6 +14996,17 @@ USA
             </antipattern>
             <!-- MARCOAGPINTO 2022-11-16 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+            <antipattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes'>foram|foi|são|é</token>
+                <token postag='VMN0000' postag_regexp='no'/>
+                <token regexp='yes'>com|como|em|n[ao]s?|para|pel[ao]s?|por</token>
+                <example>Tenho uma ideia que é armazenar em variáveis os valores.</example>
+                <example>Ou seja, quando viu que poderia ficar de fora da mamata que é estar no poder como Deputado Estadual, o parlamentar resolveu voltar atrás do seu voto, dizendo que na verda...</example>
+                <example>Na linha 02 desativamos o padrão do protocolo que é trabalhar com IPv4, afinal estaremos trabalhando com IPv6.</example>
+            </antipattern>
+
             <pattern>
                 <token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC|V.+' postag_regexp='yes'/>
                 <marker>
@@ -14880,6 +15026,8 @@ USA
             <example>O habitat é o ambiente sobre a qual uma espécies sabemos que ocorre e o tipo de comunidade formada como resultado.</example>
             <example>Estamos a viver uma fase de elevado desemprego, provocado por um baixo consumo.</example>
         </rule>
+
+
         <!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
         <rule id='QUE_EM_NC_SER_VERBO_NUM' name="[Simplificar] Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
             <!--IDEA shorten_it-->
@@ -15769,6 +15917,33 @@ USA
             </antipattern>
             <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+            <!-- Fixes false positives - Rule needs to be rewritten: 2024-01-13 -->
+            <antipattern>
+                <token regexp='yes'>lhes?</token>
+                <token postag='CS'/>
+                <token inflected='yes'>estar</token>
+                <token>a</token>
+                <token postag='VMN0000'/>
+                <token postag='_PUNCT_PERIOD|_PUNCT_EXCLAMATION' postag_regexp='yes'/>
+                <example>Diga-lhe que estou a chegar.</example>
+                <example>Diga-lhes que estou a chegar.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>[ao]s?
+                    <exception scope="previous" postag_regexp='no' postag='CS'/> <!-- "que" -->
+                </token>
+                <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>estar</token>
+                <token>a</token>
+                <token postag='VMN0000'/>
+                <token postag='_PUNCT_PERIOD|_PUNCT_EXCLAMATION' postag_regexp='yes'/>
+                <example>Ena, Shidoshi, a equipa está a aumentar.</example>
+                <example>O trem está a chegar!</example>
+                <example>A esferográfica está a falhar.</example>
+                <example>O telemóvel está a carregar.</example>
+                <example>A dívida nacional está a aumentar.</example>
+            </antipattern>
+
             <!-- estou -->
             <rule>
                 <pattern>
@@ -16519,7 +16694,7 @@ USA
                         <token>há</token>
                     </marker>
                     <or>
-                        <token negate_pos="yes" postag='Z0.+|DI.+|PP.+|SPS00' postag_regexp='yes'/>
+                        <token negate_pos="yes" postag='Z0.+|DI.+|(SPS00:)?PP.+|SPS00' postag_regexp='yes'/>
                         <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
                     </or>
                 </pattern>
@@ -16553,7 +16728,7 @@ USA
                         <token>há</token>
                     </marker>
                     <or>
-                        <token negate_pos="yes" postag='Z0.+|DI.+|PP.+' postag_regexp='yes'/> <!-- With "não" there is no SPS00 -->
+                        <token negate_pos="yes" postag='Z0.+|DI.+|(SPS00:)?PP.+' postag_regexp='yes'/> <!-- With "não" there is no SPS00 -->
                         <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
                     </or>
                 </pattern>

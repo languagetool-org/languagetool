@@ -64,6 +64,10 @@ public class MultitokenSpeller {
   }
 
   public List<String> getSuggestions(String originalWord) throws IOException {
+    return getSuggestions(originalWord, false);
+  }
+
+  public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
     originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
     String word = DASH_SPACE.matcher(originalWord).replaceAll("-");
     word = SPACE_DASH.matcher(word).replaceAll("-");
@@ -136,6 +140,13 @@ public class MultitokenSpeller {
     Collections.sort(weightedCandidates);
     List<String> results = new ArrayList<>();
     int weightFirstCandidate = weightedCandidates.get(0).getWeight();
+    if (areTokensAcceptedBySpeller && weightedCandidates.get(0).getWord().toUpperCase().equals(originalWord)) {
+      // don't correct all-upper case words accepted by the speller
+      return Collections.emptyList();
+    }
+    if (areTokensAcceptedBySpeller && weightFirstCandidate > 1) {
+      return Collections.emptyList();
+    }
     for (WeightedSuggestion weightedCandidate : weightedCandidates) {
       // keep only cadidates with the distance of the first candidate
       if (weightedCandidate.getWeight() - weightFirstCandidate < 1) {
@@ -193,16 +204,23 @@ public class MultitokenSpeller {
     if (a == 'b' && b == 'v' || a == 'v' && b == 'b') {
       return 0.2F;
     }
+    if (a == 'i' && b == 'y' || a == 'y' && b == 'i') {
+      return 0;
+    }
     return 1;
   }
 
   private int levenshteinDistance(String s1, String s2) {
-    int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);
+    int distance = LevenshteinDistance.getDefaultInstance().apply(normalizeSimilarChars(s1), normalizeSimilarChars(s2));
     // consider transpositions without having a Damerau-Levenshtein method
     if (distance == 2 && StringTools.isAnagram(s1,s2)) {
       distance--;
     }
     return distance;
+  }
+
+  private String normalizeSimilarChars(String s) {
+    return s.replaceAll("y", "i").replaceAll("k", "c");
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {

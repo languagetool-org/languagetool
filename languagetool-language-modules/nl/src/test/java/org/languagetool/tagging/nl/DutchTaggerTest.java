@@ -63,6 +63,21 @@ public class DutchTaggerTest {
     TestTools.myAssert("beoordelingsgeschiedenisje", "beoordelingsgeschiedenisje/[beoordelingsgeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
     TestTools.myAssert("Beoordelingsgeschiedenisjes", "Beoordelingsgeschiedenisjes/[beoordelingsgeschiedenis]ZNW:MRV:VRK:DE_", tokenizer, tagger);
 
+    // Test regions
+    TestTools.myAssert("Zuidoost-Gouda", "Zuidoost-Gouda/[Gouda]ENM:LOC:PTS", tokenizer, tagger);
+    TestTools.myAssert("West-Bergambacht", "West-Bergambacht/[Bergambacht]ENM:LOC:PTS", tokenizer, tagger);
+
+    // Test compound words with 2 parts
+    TestTools.myAssert("beroertegeschiedenisje", "beroertegeschiedenisje/[beroertegeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    TestTools.myAssert("aspirant-burgemeestertje", "aspirant-burgemeestertje/[aspirant-burgemeester]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    // Test compound words with 3 parts
+    TestTools.myAssert("gastkritiekgeschiedenis", "gastkritiekgeschiedenis/[null]null", tokenizer, tagger);
+    // Test compound words with 3+ parts
+    TestTools.myAssert("haarhalfbergnacht", "haarhalfbergnacht/[null]null", tokenizer, tagger);
+
+    // Make sure part1 and part2 as duplicates are not accepted
+    TestTools.myAssert("vriendenvrienden", "vriendenvrienden/[null]null", tokenizer, tagger);
+
     // This is not modified, as it's already found in dictionary. If it was, getCompoundPOS would give it postag ZNW:EKV, from "mout".
     TestTools.myAssert("havermout", "havermout/[havermout]ZNW:EKV:DE_", tokenizer, tagger);
 

@@ -1,0 +1,58 @@
+<!ENTITY aspas "(«“‘’”»)">
+<!ENTITY hifen "(?:[-‑])">
+<!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
+<!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
+<!ENTITY NoBreak "&#x2060;"> <!-- Word joiner, which has superseded the zero-width non-breaking space -->
+<!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
+<!ENTITY separadores_de_fecho "(?:\)|\}|\])">
+<!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[\]\{\})">
+<!ENTITY tracos_de_separacao "(?:[-‑]|–|—|ㅡ)">
+<!ENTITY minus_sign "−">
+
+<!-- ORDINALS, SUPERSCRIPTS, DEGREE SIGNS, AND OTHER NONSENSE 😩 -->
+<!-- For some reason, entities with special characters do NOT work in the disambiguation.xml file 
+I've tried making explicit reference to the hex or decimal entities, and that also fails, incl. when used
+in the disambiguation file directly. There might be something off with the encoding, but idk where.-->
+<!ENTITY ordf "ª">
+<!ENTITY ordm "º">
+
+<!ENTITY sup_a "ᵃ">
+<!ENTITY sup_o "ᵒ">
+<!ENTITY sup_s "ˢ">
+
+<!ENTITY deg "°">
+
+<!ENTITY any_masc_ord "[o&ordm;&sup_o;]">
+<!ENTITY any_fem_ord "[a&ordf;&sup_a;]">
+<!ENTITY any_pl_ord "[s&sup_s;]">
+<!ENTITY any_ord "[o&ordm;&sup_o;a&ordf;&sup_a;]&any_pl_ord;?">
+<!-- END -->
+
+<!-- More degree stuff -->
+<!ENTITY prime "′">
+<!ENTITY double_prime "″|&prime;{2}">
+<!ENTITY triple_prime "‴|&prime;{3}">
+
+<!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿→⇋]|\=|\+">
+
+<!ENTITY currency_symbols "\p{Lu}*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]">
+
+<!-- A previous version of this entity included NSEW, which are north/norte/south/sul/east/leste/west/oeste. -->
+<!-- We're also adding °D (Delisle), °Ré (Réamur), °Ra (Rankine), °Rø (Rømer). Specifically skipping °N (degrees Newton). -->
+<!-- Accepting Kelvin, even though not a degree; this will be fixed by a style rule. -->
+<!ENTITY degree_abbrevs "[CFKD]|R[éaø]">
+<!-- for correction -->
+<!ENTITY degree_abbrevs_lower "[cfkd]|r[éaø]">
+
+<!ENTITY cardinal_points "[NSEWO]">
+
+<!ENTITY follow_degree_sign "&degree_abbrevs;|&cardinal_points;">
+
+<!-- Convenience entity, should encompass all valid numbers that the PT tokeniser doesn't split. -->
+<!-- Due to the really liberal regexp, do NOT use this in <regexp> keys, only in <token> keys with regexp mode. -->
+<!ENTITY number_token "&minus_sign;?\d+(?:[,. ]\d+)*">
+<!ENTITY number_token_no_decimal "\d+([. ]\d{3})*">
+<!ENTITY degree_token "&number_token;&nnbsp;?&deg;">
+<!-- No decimals or negatives, as that makes no sense, only thousands allowed -->
+<!ENTITY ordinal_token "&number_token_no_decimal;&any_ord;">
+

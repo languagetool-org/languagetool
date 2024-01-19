@@ -214,6 +214,8 @@ public class SingleCheck {
       }
       int cursorType = tPara.type;
       
+      int startPara = docCache.getStartOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
+      int endPara = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
       String textToCheck = docCache.getDocAsString(tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       List<RuleMatch> paragraphMatches = null;
       List<Integer> nextSentencePositions = null;
@@ -221,16 +223,14 @@ public class SingleCheck {
       //        but empty proof reading errors have added to cache to satisfy text level queue
       if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
         if (!docCache.isAutomaticGenerated(nFPara)) {
-          paragraphMatches = lt.check(textToCheck, true, 
-              cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA);
+          paragraphMatches = lt.check(new TextParagraph(tPara.type, startPara), new TextParagraph(tPara.type, endPara), textToCheck,
+              cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA, singleDocument);
         }
         if (cacheNum == 0) {
           nextSentencePositions = getNextSentencePositions(textToCheck, lt);
         }
       }
       
-      int startPara = docCache.getStartOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
-      int endPara = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, false);
       int startPos = docCache.getStartOfParagraph(startPara, tPara, parasToCheck, checkOnlyParagraph, useQueue, hasFootnotes);
       int endPos;
       if (debugMode > 1) {
@@ -252,7 +252,7 @@ public class SingleCheck {
         } else {
           endPos = textToCheck.length();
         }
-        if (paragraphMatches == null || paragraphMatches.isEmpty()) {
+        if (paragraphMatches == null || paragraphMatches.isEmpty() || lt == null) {
           paragraphsCache.get(cacheNum).put(docCache.getFlatParagraphNumber(textPara), nextSentencePositions, new SingleProofreadingError[0]);
           if (debugMode > 1) {
             MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: Enter to para cache(" + cacheNum + "): Paragraph(" 
@@ -356,36 +356,40 @@ public class SingleCheck {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       List <TextParagraph> toRemarkTextParas = new ArrayList<>();
       for (int i = 0; i < changedParas.size(); i++) {
-        List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(changedParas.get(i), lt, LoErrorType.GRAMMAR);
-        changedParasMap.put(changedParas.get(i), sentencesErrors);
-        if (debugMode > 1) {
-          String message = "SingleCheck: remarkChangedParagraphs: Mark errors: Paragraph: " + changedParas.get(i) 
-          + "; Number of sentences: " + sentencesErrors.size();
-          for (int j = 0; j < sentencesErrors.size(); j++) {
-            message += "; Sentence " + j + ": Start = " + sentencesErrors.get(j).sentenceStart + "; End = " + sentencesErrors.get(j).sentenceEnd 
-                        + ", Number of Errors = " + sentencesErrors.get(j).sentenceErrors.length;
-          }
-          MessageHandler.printToLogFile(message);
-          message = "SingleCheck: remarkChangedParagraphs: Errors of Sentence 0: ";
-          for (int j = 0; j < sentencesErrors.get(0).sentenceErrors.length; j++) {
-            message += "Error " + j + ": Start = " + sentencesErrors.get(0).sentenceErrors[j].nErrorStart 
-                + ", Length = " + sentencesErrors.get(0).sentenceErrors[j].nErrorLength 
-                + "; ErrorID = " + sentencesErrors.get(0).sentenceErrors[j].aRuleIdentifier + "; ";
-          }
-          MessageHandler.printToLogFile(message);
-          for (int j = 0; j < paragraphsCache.size(); j++) {
-            MessageHandler.printToLogFile("SingleCheck: remarkChangedParagraphs: Paragraph " + changedParas.get(i) + ": Cache " + j 
-                    + ": Number of Errors = " 
-                    + (paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR) == null ? "null" 
-                        : paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR).length));
+        if (!singleDocument.isRunning(i)) {
+          List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(changedParas.get(i), lt, LoErrorType.GRAMMAR);
+          changedParasMap.put(changedParas.get(i), sentencesErrors);
+          if (debugMode > 1) {
+            String message = "SingleCheck: remarkChangedParagraphs: Mark errors: Paragraph: " + changedParas.get(i) 
+            + "; Number of sentences: " + sentencesErrors.size();
+            for (int j = 0; j < sentencesErrors.size(); j++) {
+              message += "; Sentence " + j + ": Start = " + sentencesErrors.get(j).sentenceStart + "; End = " + sentencesErrors.get(j).sentenceEnd 
+                          + ", Number of Errors = " + sentencesErrors.get(j).sentenceErrors.length;
+            }
+            MessageHandler.printToLogFile(message);
+            message = "SingleCheck: remarkChangedParagraphs: Errors of Sentence 0: ";
+            for (int j = 0; j < sentencesErrors.get(0).sentenceErrors.length; j++) {
+              message += "Error " + j + ": Start = " + sentencesErrors.get(0).sentenceErrors[j].nErrorStart 
+                  + ", Length = " + sentencesErrors.get(0).sentenceErrors[j].nErrorLength 
+                  + "; ErrorID = " + sentencesErrors.get(0).sentenceErrors[j].aRuleIdentifier + "; ";
+            }
+            MessageHandler.printToLogFile(message);
+            for (int j = 0; j < paragraphsCache.size(); j++) {
+              MessageHandler.printToLogFile("SingleCheck: remarkChangedParagraphs: Paragraph " + changedParas.get(i) + ": Cache " + j 
+                      + ": Number of Errors = " 
+                      + (paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR) == null ? "null" 
+                          : paragraphsCache.get(j).getMatches(changedParas.get(i), LoErrorType.GRAMMAR).length));
+            }
           }
         }
       }
       for (int i = 0; i < toRemarkParas.size(); i++) {
-        toRemarkTextParas.add(docCache.getNumberOfTextParagraph(toRemarkParas.get(i)));
-        if (debugMode > 1) {
-          String message = "SingleCheck: remarkChangedParagraphs: Remark: Paragraph: " + toRemarkParas.get(i);
-          MessageHandler.printToLogFile(message);
+        if (!(singleDocument).isRunning(i)) {
+          toRemarkTextParas.add(docCache.getNumberOfTextParagraph(toRemarkParas.get(i)));
+          if (debugMode > 1) {
+            String message = "SingleCheck: remarkChangedParagraphs: Remark: Paragraph: " + toRemarkParas.get(i);
+            MessageHandler.printToLogFile(message);
+          }
         }
       }
       if (!isDisposed() && !toRemarkTextParas.isEmpty()) {
@@ -563,7 +567,7 @@ public class SingleCheck {
           paragraphMatches = null;
         } else {
           paraText = removeFootnotes(paraText, footnotePos, deletedChars);
-          paragraphMatches = mLt.check(paraText, true, JLanguageTool.ParagraphHandling.NORMAL);
+          paragraphMatches = mLt.check(paraText, JLanguageTool.ParagraphHandling.NORMAL, nFPara, singleDocument);
         }
         if (isDisposed()) {
           return null;
@@ -625,7 +629,12 @@ public class SingleCheck {
     if (!ruleMatch.getRule().isDictionaryBasedSpellingRule()) {
       return true;
     }
-    String word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
+    String word;
+    if (ruleMatch.getToPos() < text.length()) {
+      word = text.substring(ruleMatch.getFromPos(), ruleMatch.getToPos());
+    } else {
+      word = text.substring(ruleMatch.getFromPos());
+    }
     if (!mDocHandler.getLinguisticServices().isCorrectSpell(word, lang)) {
       if (debugMode > 0) {
         MessageHandler.printToLogFile("SingleCheck: checkParaRules: not correct spelled word: " + word + "; lang: " + lang.toString());

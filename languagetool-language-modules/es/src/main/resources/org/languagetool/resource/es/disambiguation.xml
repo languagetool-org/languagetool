@@ -746,7 +746,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">pre|pos|post</token>
+                    <token regexp="yes">pre|pos|post|co</token>
                 </marker>
                 <token spacebefore="no">-</token>
                 <token spacebefore="no" regexp="yes">[\p{Lu}\d].*</token>
@@ -1899,6 +1899,16 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="annual" name="desastre de Annual">
+        <pattern>
+            <token regexp="yes" inflected="yes">desastre|batalla|ocupación|victoria|derrota</token>
+            <token>de</token>
+            <marker>
+                <token case_sensitive="yes">Annual</token>
+            </marker>
+        </pattern>
+        <disambig action="add" postag="NPCSG00"/>
+    </rule>
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
             <pattern>
@@ -6503,6 +6513,24 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.M.*"/>
         </rule>
     </rulegroup>
+    <rulegroup id="imperative_not_indicative" name="imperativo, no indicativo">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" regexp="yes">\p{P}</token>
+                <marker>
+                <and>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="7"/>
+                    <token postag="V.M.*" postag_regexp="yes"/>
+                </and>
+                </marker>
+                <!--<token>o</token>-->
+                <token>si</token>
+                <token>no</token>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="allowed_repetitions" name="allowed repetitions">
         <rule>
             <pattern>
@@ -7916,6 +7944,18 @@ Copyright (C) 2011 Juan Martorell
             <token regexp="yes">[A-Z]</token>
             <token regexp="yes">[aoy]</token>
             <token regexp="yes">[A-Z]</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="prefijo_entre_parentesis" name="prefijo entre parèntesis">
+        <!-- (mal)gastar -->
+        <pattern>
+            <token>(</token>
+            <marker>
+                <token regexp="yes" spacebefore="no">des|de|dis|in|mal|anti|pro</token>
+                <token spacebefore="no">)</token>
+            </marker>
+            <token spacebefore="no"/>
         </pattern>
         <disambig action="immunize"/>
     </rule>

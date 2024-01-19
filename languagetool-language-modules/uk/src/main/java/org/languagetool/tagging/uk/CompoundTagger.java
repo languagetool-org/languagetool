@@ -66,6 +66,12 @@ class CompoundTagger {
   private static final Pattern INTJ_PATTERN = Pattern.compile("intj.*");
   private static final Pattern ONOMAT_PATTERN = Pattern.compile("onomat.*");
   private static final Pattern UKR_LETTERS_PATTERN = Pattern.compile("[А-ЯІЇЄҐа-яіїєґ'-]+");
+  private static final Pattern GEO_V_NAZ = Pattern.compile("noun:inanim:.:v_naz.*:geo.*");
+  private static final Pattern FNAME = Pattern.compile("noun:anim:[mf].*fname.*");
+  private static final Pattern LNAME_V_NAZ = Pattern.compile("noun:anim:[fm]:v_naz.*lname.*");
+  private static final Pattern LNAME_V_ROD = Pattern.compile("noun:anim:[fm]:v_rod.*lname.*");
+  private static final Pattern NAME = Pattern.compile("noun:anim:.*name.*");
+  private static final Pattern PROP_V_NAZ = Pattern.compile("noun:inanim:.:v_naz.*prop.*");
 
   private static final Pattern MNP_NAZ_REGEX = Pattern.compile(".*?:[mnp]:v_naz.*");
   private static final Pattern MNP_ZNA_REGEX = Pattern.compile(".*?:[mnp]:v_zna.*");
@@ -395,6 +401,40 @@ class CompoundTagger {
       return null;
     }
 
+    if( Character.isUpperCase(leftWord.charAt(0)) && Character.isUpperCase(rightWord.charAt(0)) ) {  
+        // Київ-Прага
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, GEO_V_NAZ)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, GEO_V_NAZ) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop:geo", word));
+        }
+        // Хуана-Карлоса
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, FNAME)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, FNAME) ) {
+          leftAnalyzedTokens = PosTagHelper.filter(leftAnalyzedTokens, Pattern.compile(".*fname.*"));
+          rightAnalyzedTokens = PosTagHelper.filter(rightAnalyzedTokens, Pattern.compile(".*fname.*"));
+          return tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
+        }
+        // подружжя Карпа-Хансен
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, LNAME_V_NAZ)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, LNAME_V_NAZ) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop:lname", word));
+        }
+        // Джеймса-Веніка
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, LNAME_V_ROD)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, LNAME_V_ROD) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop:lname", word));
+        }
+        // bad: Квітки-Основ'яненко
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, NAME)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, NAME) ) {
+          return null;
+        }
+        // Україна-ЄС
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, PROP_V_NAZ)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, PROP_V_NAZ) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop", word));
+        }
+    }
 
     // exclude: Малишко-це, відносини-коли
 

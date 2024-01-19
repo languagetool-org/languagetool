@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rule id="WEIST_DU_DE" name="weist (weißt) du">
+        <rule id="WEIST_DU_DE_SPELLING_RULE" name="weist (weißt) du">
             <antipattern>
                 <token>weist</token>
                 <token>du</token>
@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Weißt"><marker>Weist</marker> du, ob das richtig ist?</example>
             <example correction="Weißt"><marker>Weist</marker> du, dass ich dich wirklich gern hab?</example>
         </rule>
-        <rule id="WEISS" name="weiss (weiß)">
+        <rule id="WEISS_SPELLING_RULE" name="weiss (weiß)">
             <antipattern>
                 <token regexp="yes">Herrn?|Frau|Fräulein|Gebrüder</token>
                 <token case_sensitive="yes">Weiss</token>
@@ -715,6 +715,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Er ist es gewohnt, nach der Arbeit am Kamin zu sitzen.</example>
 
         </rule>
+
+    </category>
+
+    <category id="CASING" name="Groß-/Kleinschreibung">
+
+    <rulegroup id="MIT_FREUNDLICHEN_SPELLING_RULE" name="'mit Freundlichen (freundlichen) grüßen (Grüßen)'">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[mM]it</token>
+                <marker>
+                    <token>Freundlichen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2" /></suggestion>?</message>
+            <example correction="freundlichen">Mit <marker>Freundlichen</marker> Grüßen</example>
+        </rule>
+        <rule><!--2-->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[mM]it</token>
+                <token regexp="yes">(herz|freund)lichen|besten|lieben|liebsten</token>
+                <marker>
+                    <token regexp="yes">grüßen?|grüssen?</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper" regexp_match="(ss|ß)en?" regexp_replace="ßen"/></suggestion>?</message>
+            <example correction="Grüßen">Mit freundlichen <marker>grüßen</marker></example>
+            <example correction="Grüßen">Mit freundlichen <marker>grüsse</marker></example>
+        </rule>
+        <rule><!--3-->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">(Herz|Freund)liche|Liebe|Viele|Beste|Liebste</token>
+                <marker>
+                    <token regexp="yes">grüße|grüsse</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper" regexp_match="(ss|ß)e" regexp_replace="ße"/></suggestion>?</message>
+            <example correction="Grüße">Herzliche <marker>grüße</marker></example>
+            <example correction="Grüße">Viele <marker>grüße</marker></example>
+            <example correction="Grüße">Liebste <marker>grüsse</marker></example>
+        </rule>
+    </rulegroup>
+
     </category>
 </rules>
 

@@ -2637,14 +2637,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token regexp="yes" inflected="yes">підняти|підійняти|підіймати|підійма(ючи|вши)|піднімавши</token>
+            <token min="0" regexp="yes">би?</token>
             <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
             <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">питання</token>
           </marker>
         </pattern>
-        <message>Краще: <suggestion>порушувати \2 \3</suggestion></message>
-        <suggestion>підносити \2 \3</suggestion>
+        <message>Краще: <suggestion>порушувати \2 \3 \4</suggestion></message>
+        <suggestion>підносити \2 \3 \4</suggestion>
         <example correction="порушувати це питання|підносити це питання">він <marker>підняв це питання</marker> одразу.</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
@@ -2656,6 +2658,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Краще: <suggestion>порушення \2 \3</suggestion></message>
         <suggestion>піднесення \2 \3</suggestion>
         <example correction="порушення цього питання|піднесення цього питання">і <marker>підняття цього питання</marker>...</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <unify>
+              <feature id="gender"/>
+              <feature id="case"/>
+              <token inflected="yes">піднятий</token>
+              <token inflected="yes">питання</token>
+            </unify>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj:.*">порушений</match> \2</suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="adj:.*" postag_replace="$0.*">піднесений</match> \2</suggestion>
+        <example correction="порушене питання|піднесене питання">і <marker>підняте питання</marker>...</example>
       </rule>
     </rulegroup>
 
@@ -3749,6 +3767,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Краще: <suggestion>наводити \2 \3</suggestion></message>
       <example correction="наводити приклад"><marker>приведіть приклад</marker></example>
       <example correction="наводити гарний приклад"><marker>приведіть гарний приклад</marker></example>
+    </rule>
+
+    <rule id="na_dnyah_vs_dnyamy" name="На днях і днями">
+      <pattern>
+        <token>на</token>
+        <token>днях</token>
+      </pattern>
+      <message>Краще: <suggestion>днями</suggestion></message>
+      <suggestion>цими днями</suggestion>
+      <example correction="днями|цими днями"><marker>на днях</marker> бачив знайомого</example>
     </rule>
 
     <rule id="poklanyatysia" name="Покланятися і поклонятися">
