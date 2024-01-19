@@ -25,9 +25,16 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Pattern;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.server.ServerTools.setCommonHeaders;
 
 /**
@@ -37,9 +44,41 @@ import static org.languagetool.server.ServerTools.setCommonHeaders;
 class V2TextChecker extends TextChecker {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
+  private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
+  private static final Logger logger = LoggerFactory.getLogger(V2TextChecker.class);
+
+  private static final Map<String,Float> ruleIdToConfidence = new HashMap<>();
 
   V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     super(config, internalServer, workQueue, reqCounter);
+    try {
+      loadConfidenceMap();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void loadConfidenceMap() throws IOException {
+    if (config.getRuleIdToConfidenceFile() != null) {
+      logger.info("Loading confidence map for rules from " + ruleIdToConfidence);
+      List<String> lines = Files.readAllLines(Paths.get(config.getRuleIdToConfidenceFile().getAbsolutePath()), UTF_8);
+      for (String line : lines) {
+        if (line.startsWith("#")) {
+          continue;
+        }
+        String[] parts = line.split(",");
+        if (parts.length >= 2) {   // there might be more columns for better debugging, but we don't use them here
+          try {
+            float confidence = Float.parseFloat(parts[1]);
+            ruleIdToConfidence.put(parts[0], confidence);
+          } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid confidence float value in " + config.getRuleIdToConfidenceFile() + ", expected 'RULE_ID,float_value[,...]': " + line);
+          }
+        } else {
+          throw new RuntimeException("Invalid line in " + config.getRuleIdToConfidenceFile() + ", expected 'RULE_ID,float_value[,...]': " + line);
+        }
+      }
+    }
   }
 
   @Override
@@ -51,6 +90,7 @@ class V2TextChecker extends TextChecker {
   protected String getResponse(AnnotatedText text, Language usedLang, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
                                List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode, boolean showPremiumHint, JLanguageTool.Mode mode) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer(compactMode, usedLang);
+    serializer.setRuleIdToConfidenceMap(ruleIdToConfidence);
     return serializer.ruleMatchesToJson2(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason,
       showPremiumHint, mode);
   }
@@ -119,7 +159,7 @@ class V2TextChecker extends TextChecker {
   protected List<String> getPreferredVariants(Map<String, String> parameters) {
     List<String> preferredVariants;
     if (parameters.get("preferredVariants") != null) {
-      preferredVariants = Arrays.asList(parameters.get("preferredVariants").split(",\\s*"));
+      preferredVariants = Arrays.asList(COMMA_WHITESPACE_PATTERN.split(parameters.get("preferredVariants")));
       if (!"auto".equals(parameters.get("language")) && (parameters.get("multilingual") == null || parameters.get("multilingual").equals("false"))) {
         throw new BadRequestException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
       }

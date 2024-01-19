@@ -81,8 +81,8 @@ import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
 import org.languagetool.openoffice.OfficeDrawTools.UndoMarkupContainer;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
-import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 // import org.languagetool.rules.Rule;
+import org.languagetool.rules.Rule;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
@@ -108,7 +108,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   
   private static boolean debugMode = OfficeTools.DEBUG_MODE_CD;         //  should be false except for testing
 //  private static boolean debugModeTm = OfficeTools.DEBUG_MODE_TM;       //  should be false except for testing
-  private static boolean debugModeTm = true;       //  should be false except for testing
+  private static boolean debugModeTm = OfficeTools.DEBUG_MODE_TM;       //  should be false except for testing
 
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
 //  private static final String spellRuleId = "LO_SPELLING_ERROR";
@@ -176,6 +176,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private Language lastLanguage;
   private Locale locale;
   private int checkType = 0;
+  private String checkRuleId = null;
   private DocumentCache docCache;
   private DocumentType docType = DocumentType.WRITER;
   private boolean doInit = true;
@@ -261,7 +262,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Actualize impress/calc document cache
    */
   private void actualizeNonWriterDocumentCache(SingleDocument document) {
-    if (docType != DocumentType.WRITER) {
+    if (docType != DocumentType.WRITER || documents.isBackgroundCheckOff()) {
       DocumentCache oldCache = new DocumentCache(docCache);
       docCache.refresh(document, null, null, document.getXComponent(), 7);
       if (!oldCache.isEmpty()) {
@@ -309,7 +310,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (currentDocument != null) {
       docType = currentDocument.getDocumentType();
       docCache = currentDocument.getDocumentCache();
-      if (docType != DocumentType.WRITER) {
+      if (docType != DocumentType.WRITER || documents.isBackgroundCheckOff()) {
         actualizeNonWriterDocumentCache(currentDocument);
       }
     }
@@ -501,7 +502,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * Get the proofreading result from cache
    */
-  @SuppressWarnings("null")
   SingleProofreadingError[] getErrorsFromCache(int nFPara) {
     int nWait = 0;
     boolean noNull = true;
@@ -554,7 +554,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (text == null || text.isEmpty() || x >= text.length() || !MultiDocumentsHandler.hasLocale(locale)) {
       return null;
     }
-    if (document.getDocumentType() == DocumentType.WRITER) {
+    if (document.getDocumentType() == DocumentType.WRITER && documents.getTextLevelCheckQueue() != null) {
       SingleProofreadingError[] errors = getErrorsFromCache(nFPara);
       if (errors == null) {
         return null;
@@ -567,10 +567,30 @@ public class SpellAndGrammarCheckDialog extends Thread {
                     + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
           }
         }
-        if ((errType != LoErrorType.SPELL && error.nErrorType != TextMarkupType.SPELLCHECK)
+        if (checkType != 3 && ((errType != LoErrorType.SPELL && error.nErrorType != TextMarkupType.SPELLCHECK)
              || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK
-             && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale))) {
+             && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)))
+            || (checkType == 3 && error.aRuleIdentifier.equals(checkRuleId)) ) {
           if (error.nErrorStart >= x) {
+            if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+                && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
+              error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
+            } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+              List<String> suggestionList = new ArrayList<>();
+              for (String suggestion : error.aSuggestions) {
+                suggestionList.add(suggestion);
+              }
+              String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(
+                        text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale);
+              if (suggestions != null) {
+                for (String suggestion : suggestions) {
+                  if (!suggestionList.contains(suggestion)) {
+                    suggestionList.add(suggestion);
+                  }
+                }
+              }
+              error.aSuggestions = suggestionList.toArray(new String[0]);
+            }
             return error;
           }
         }
@@ -614,14 +634,32 @@ public class SpellAndGrammarCheckDialog extends Thread {
           for (SingleProofreadingError error : paRes.aErrors) {
             if (debugMode) {
               MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Start: " + error.nErrorStart + ", ID: " + error.aRuleIdentifier);
-            }
-            if (error.nErrorType != TextMarkupType.SPELLCHECK) {
-              MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
-                      + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
+              if (error.nErrorType != TextMarkupType.SPELLCHECK) {
+                MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
+                        + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
+              }
             }
             if (error.nErrorType != TextMarkupType.SPELLCHECK 
                  || !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)) {
               if (error.nErrorStart >= x) {
+                if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+                    && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
+                  error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
+                } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+                  List<String> suggestionList = new ArrayList<>();
+                  for (String suggestion : error.aSuggestions) {
+                    suggestionList.add(suggestion);
+                  }
+                  String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
+                  if (suggestions != null) {
+                    for (String suggestion : suggestions) {
+                      if (!suggestionList.contains(suggestion)) {
+                        suggestionList.add(suggestion);
+                      }
+                    }
+                  }
+                  error.aSuggestions = suggestionList.toArray(new String[0]);
+                }
                 return error;
               }
             }
@@ -761,11 +799,25 @@ public class SpellAndGrammarCheckDialog extends Thread {
   }
   
   /**
+   * class contains the SingleProofreadingError and the locale of the match
+   */
+  private class RuleIdentification {
+    public String ruleId;
+    public String ruleName;
+    
+    RuleIdentification (String ruleId, String ruleName) {
+      this.ruleId = ruleId;
+      this.ruleName = ruleName;
+    }
+  }
+  
+  /**
    * Class for dialog to check text for spell and grammar errors
    */
   public class LtCheckDialog implements ActionListener {
     private final static String ACORR_PREFIX = "acor_";
     private final static String ACORR_SUFFIX = ".dat";
+    private final static int CHECK_TYPE_NUM = 4;
     private final static int maxUndos = 50;
     private final static int toolTipWidth = 300;
     
@@ -798,6 +850,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JButton deactivateRule;
     private final JComboBox<String> addToDictionary; 
     private final JComboBox<String> activateRule; 
+    private final JComboBox<String> checkRuleBox; 
     private final JButton change; 
     private final JButton changeAll; 
     private final JButton autoCorrect; 
@@ -812,6 +865,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private SingleDocument currentDocument;
     private ViewCursorTools viewCursor;
     private SingleProofreadingError error;
+    private List<RuleIdentification> allDifferentErrors;
     String docId;
     private String[] userDictionaries;
     private String informationUrl;
@@ -860,7 +914,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       suggestionsLabel = new JLabel(labelSuggestions);
       suggestions = new JList<String>();
       checkTypeLabel = new JLabel(Tools.getLabel(messages.getString("guiOOoCheckTypeLabel")));
-      checkTypeButtons = new JRadioButton[3];
+      checkTypeButtons = new JRadioButton[CHECK_TYPE_NUM];
       checkTypeGroup = new ButtonGroup();
       help = new JButton (helpButtonName);
       options = new JButton (optionsButtonName);
@@ -877,8 +931,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
       changeAll = new JButton (changeAllButtonName);
       autoCorrect = new JButton (autoCorrectButtonName);
       activateRule = new JComboBox<String> ();
+      checkRuleBox = new JComboBox<String> ();
       checkProgressLabel = new JLabel(labelCheckProgress);
       cacheStatusLabel = new JLabel(" █ ");
+      cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel"));
       checkProgress = new JProgressBar(0, 100);
 
       try {
@@ -1042,6 +1098,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkTypeButtons[0].addActionListener(e -> {
           setAtWorkButtonState();
           checkType = 0;
+          checkRuleBox.setEnabled(false);
           Thread t = new Thread(new Runnable() {
             public void run() {
               try {
@@ -1059,6 +1116,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkTypeButtons[1].addActionListener(e -> {
           setAtWorkButtonState();
           checkType = 1;
+          checkRuleBox.setEnabled(false);
           Thread t = new Thread(new Runnable() {
             public void run() {
               try {
@@ -1076,6 +1134,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkTypeButtons[2].addActionListener(e -> {
           setAtWorkButtonState();
           checkType = 2;
+          checkRuleBox.setEnabled(false);
           Thread t = new Thread(new Runnable() {
             public void run() {
               try {
@@ -1089,7 +1148,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
           });
           t.start();
         });
-        for (int i = 0; i < 3; i++) {
+        checkTypeButtons[3] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckOnlyRuleButton")));
+        checkTypeButtons[3].addActionListener(e -> {
+          if (checkType != 3) {
+            checkType = 3;
+//            checkRuleId = null;
+          }
+          checkRuleBox.setEnabled(true);
+        });
+        for (int i = 0; i < CHECK_TYPE_NUM; i++) {
           checkTypeGroup.add(checkTypeButtons[i]);
           checkTypeButtons[i].setFont(dialogFont);
           checkTypeButtons[i].setToolTipText(formatToolTipText(checkTypeHelp));
@@ -1187,7 +1254,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         autoCorrect.setActionCommand("autoCorrect");
         autoCorrect.setEnabled(false);
         autoCorrect.setToolTipText(formatToolTipText(autoCorrectButtonHelp));
-  
+        
         activateRule.setFont(dialogFont);
         activateRule.setToolTipText(formatToolTipText(activateRuleButtonHelp));
         activateRule.setVisible(false);
@@ -1218,6 +1285,37 @@ public class SpellAndGrammarCheckDialog extends Thread {
               }
             });
             t.start();
+          }
+        });
+        
+        checkRuleBox.setFont(dialogFont);
+        checkRuleBox.setVisible(true);
+        checkRuleBox.setEnabled(false);
+        checkRuleBox.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED && checkType == 3) {
+            int selectedIndex = checkRuleBox.getSelectedIndex();
+            if (selectedIndex < 0) {
+              selectedIndex = 0;
+            }
+            String newRuleId = allDifferentErrors.get(selectedIndex).ruleId;
+            if (checkRuleId == null || !checkRuleId.equals(newRuleId)) {
+              Thread t = new Thread(new Runnable() {
+                public void run() {
+                  try {
+                    MessageHandler.printToLogFile("checkDialog: Set checkRuleId old: " + checkRuleId + ", new: " + newRuleId);
+                    checkRuleId = newRuleId;
+                    startOfRange = -1;
+                    endOfRange = -1;
+                    lastPara = -1;
+                    gotoNextError();
+                  } catch (Throwable t) {
+                    MessageHandler.showError(t);
+                    closeDialog();
+                  }
+                }
+              });
+              t.start();
+            }
           }
         });
         
@@ -1396,7 +1494,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         cons22.gridy++;
         rightPanel2.add(resetIgnorePermanent, cons22);
         
-        //  Define language panel
+        //  Define check type panel
         JPanel checkTypePanel = new JPanel();
         checkTypePanel.setLayout(new GridBagLayout());
         GridBagConstraints cons12 = new GridBagConstraints();
@@ -1405,13 +1503,42 @@ public class SpellAndGrammarCheckDialog extends Thread {
         cons12.gridy = 0;
         cons12.anchor = GridBagConstraints.NORTHWEST;
         cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.weightx = 1.0f;
+        cons12.weightx = 0.0f;
         cons12.weighty = 0.0f;
         checkTypePanel.add(checkTypeLabel, cons12);
-        for (int i = 0; i < 3; i++) {
-          cons12.gridx++;
-          checkTypePanel.add(checkTypeButtons[i], cons12);
+        JPanel checkTypePanel1 = new JPanel();
+        checkTypePanel1.setLayout(new GridBagLayout());
+        GridBagConstraints cons121 = new GridBagConstraints();
+        cons121.insets = new Insets(2, 2, 2, 2);
+        cons121.gridx = 0;
+        cons121.gridy = 0;
+        cons121.anchor = GridBagConstraints.NORTHWEST;
+        cons121.fill = GridBagConstraints.HORIZONTAL;
+        cons121.weightx = 1.0f;
+        cons121.weighty = 0.0f;
+        for (int i = 0; i < CHECK_TYPE_NUM - 1; i++) {
+          checkTypePanel1.add(checkTypeButtons[i], cons121);
+          cons121.gridx++;
         }
+        cons12.weightx = 1.0f;
+        cons12.gridx++;
+        checkTypePanel.add(checkTypePanel1, cons12);
+        JPanel checkTypePanel2 = new JPanel();
+        checkTypePanel2.setLayout(new GridBagLayout());
+        GridBagConstraints cons122 = new GridBagConstraints();
+        cons122.insets = new Insets(2, 2, 2, 2);
+        cons122.gridx = 0;
+        cons122.gridy = 0;
+        cons122.anchor = GridBagConstraints.NORTHWEST;
+        cons122.fill = GridBagConstraints.HORIZONTAL;
+        cons122.weightx = 0.0f;
+        cons122.weighty = 0.0f;
+        checkTypePanel2.add(checkTypeButtons[3], cons122);
+        cons122.gridx++;
+        cons122.weightx = 1.0f;
+        checkTypePanel2.add(checkRuleBox, cons122);
+        cons12.gridy++;
+        checkTypePanel.add(checkTypePanel2, cons12);
         
         //  Define main panel
         JPanel mainPanel = new JPanel();
@@ -1605,10 +1732,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
           numCache++;
         }
       }
-      int size = (fullSize == 0 || numCache == 0) ? 0 : (pSize * 100) / (fullSize * numCache);
-      if (debugMode) {
-        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
+      int size;
+      if (docType == DocumentType.WRITER) {
+        size = (fullSize == 0 || numCache == 0) ? 0 : (pSize * 100) / (fullSize * numCache);
+      } else {
+        size = 100;
       }
+      cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel") + ": " + size + "%");
+//      if (debugMode) {
+//        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
+//      }
       if (size < 25) {
         cacheStatusLabel.setForeground(new Color(145 + 4 * size, 0, 0));
       } else if (size < 50) {
@@ -1734,6 +1867,63 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
 
     /**
+     * get all different kinds of errors
+     */
+    List<RuleIdentification> getAllDifferentErrors() {
+      List<RuleIdentification> errors = new ArrayList<>();
+      List<Rule> allRules = lt.getAllRules();
+      for (int nFPara = 0; nFPara < docCache.size(); nFPara++) {
+        for (int cacheNum = 0; cacheNum < documents.getNumMinToCheckParas().size(); cacheNum++) {
+          if (!docCache.isAutomaticGenerated(nFPara) && (cacheNum == 0 || (documents.isSortedRuleForIndex(cacheNum) 
+                                  && !currentDocument.getDocumentCache().isSingleParagraph(nFPara)))) {
+            SingleProofreadingError[] pErrors = currentDocument.getParagraphsCache().get(cacheNum).getSafeMatches(nFPara);
+            if (pErrors != null) {
+              for (SingleProofreadingError pError : pErrors) {
+                if (pError.nErrorType != TextMarkupType.SPELLCHECK) {
+                  boolean toAdd = true;
+                  for (RuleIdentification error : errors) {
+                    if (pError.aRuleIdentifier.equals(error.ruleId)) {
+                      toAdd = false;
+                      break;
+                    }
+                  }
+                  if (toAdd) {
+                    for (Rule rule : allRules) {
+                      if (rule.getId().equals(pError.aRuleIdentifier)) {
+                        int n = 0;
+                        for (RuleIdentification error : errors) {
+                          if (rule.getDescription().compareToIgnoreCase(error.ruleName) < 0) {
+                            break;
+                          }
+                          n++;
+                        }
+                        errors.add(n, new RuleIdentification(pError.aRuleIdentifier, rule.getDescription()));
+                        break;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return errors;
+    }
+    
+    /**
+     * get the name of a rule by Id out of a list of RuleIdentification
+     */
+    String getRuleName (String ruleId, List<RuleIdentification> rules) {
+      for (RuleIdentification rule : rules) {
+        if (ruleId.equals(rule.ruleId)) {
+          return rule.ruleName;
+        }
+      }
+      return null;
+    }
+    
+    /**
      * Formats the tooltip text
      * The text is given by a text string which is formatted into html:
      * \n are formatted to html paragraph breaks
@@ -1821,6 +2011,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       language.setEnabled(false);
       changeLanguage.setEnabled(false);
       activateRule.setEnabled(false);
+      checkRuleBox.setEnabled(false);
       endOfDokumentMessage = null;
       sentenceIncludeError.setBackground(Color.LIGHT_GRAY);
       sentenceIncludeError.setEnabled(false);
@@ -1854,6 +2045,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
           MessageHandler.printToLogFile("CheckDialog: findNextError: start getNextError");
         }
         removeMarkups();
+        if (checkType == 3) {
+          if (checkRuleId == null) {
+            if (checkRuleBox.getItemCount() > 0) {
+              int selectedIndex = checkRuleBox.getSelectedIndex();
+              checkRuleId = allDifferentErrors.get(selectedIndex).ruleId;
+            } else {
+              checkTypeButtons[0].setSelected(true);
+              checkType = 0;
+              checkRuleBox.setEnabled(false);
+            }
+          }
+        }
         CheckError checkError = getNextError(startAtBegin);
         if (isDisposed) {
           return;
@@ -1922,6 +2125,21 @@ public class SpellAndGrammarCheckDialog extends Thread {
           if (debugMode) {
             MessageHandler.printToLogFile("CheckDialog: findNextError: Language set");
           }
+          
+          allDifferentErrors = getAllDifferentErrors();
+          if (allDifferentErrors.size() != checkRuleBox.getItemCount()) {
+            checkRuleBox.removeAllItems();
+            for (RuleIdentification error : allDifferentErrors) {
+              checkRuleBox.addItem(error.ruleName);
+            }
+          }
+          if (checkType == 3) {
+            if (checkRuleId != null) {
+              checkRuleBox.setSelectedItem(getRuleName(checkRuleId, allDifferentErrors));
+            }
+            checkRuleBox.setEnabled(true);
+          }
+          
           Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
           if (!isSpellError && !deactivatedRulesMap.isEmpty()) {
             activateRule.removeAllItems();
@@ -1949,7 +2167,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             addToDictionary.setEnabled(true);
             changeAll.setEnabled(true);
             autoCorrect.setEnabled(true);
-            ignorePermanent.setEnabled(false);
+            ignorePermanent.setEnabled(true);
           } else {
             ignoreAll.setText(ignoreRuleButtonName);
             addToDictionary.setVisible(false);
@@ -2029,6 +2247,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         languages.add(lang.getTranslatedName(messages));
         languages.sort(null);
       }
+      languages.add(0, messages.getString("loDialogDoNotCheck"));
       return languages.toArray(new String[languages.size()]);
     }
 
@@ -2036,6 +2255,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * returns the locale from a translated language name 
      */
     private Locale getLocaleFromLanguageName(String translatedName) {
+      if (translatedName.equals(messages.getString("loDialogDoNotCheck"))) {
+        return new Locale(OfficeTools.IGNORE_LANGUAGE, "", "");
+      }
       for (Language lang : Languages.get()) {
         if (translatedName.equals(lang.getTranslatedName(messages))) {
           return (LinguisticServices.getLocale(lang));
@@ -2369,7 +2591,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     private void ignorePermanent() throws Throwable {
       x = error.nErrorStart;
-      currentDocument.setPermanentIgnoredMatch(x, y, error.aRuleIdentifier, true);
+      Locale locale = error.nErrorType == TextMarkupType.SPELLCHECK ? docCache.getFlatParagraphLocale(y) : null;
+      int len = error.nErrorType == TextMarkupType.SPELLCHECK ? error.nErrorLength : 0;
+      currentDocument.setPermanentIgnoredMatch(error.nErrorStart, y, len, error.aRuleIdentifier, locale, false);
       addUndo(x, y, "ignorePermanent", error.aRuleIdentifier);
       gotoNextError();
     }

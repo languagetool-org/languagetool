@@ -129,25 +129,19 @@ public class GermanReadabilityRule extends ReadabilityRule {
     return 180 - asl - ( 58.5 * asw );  //  German
   }
   
-  private static boolean isVowel(char c) {
-    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y' ||
-        c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' || c == 'Y' ||
-        c == 'ä' || c == 'ö' || c == 'ü' || c == 'Ä' || c == 'Ö' || c == 'Ü');
-  }
-  
   @Override
   protected int simpleSyllablesCount(String word) {
     if (word.length() == 0) {
       return 0;
     }
     int nSyllables = 0;
-    if (isVowel(word.charAt(0))) {
+    if (GermanTools.isVowel(word.charAt(0))) {
       nSyllables++;
     }
     boolean lastDouble = false;
     for (int i = 1; i < word.length(); i++) {
       char c = word.charAt(i);
-      if (isVowel(c)) {
+      if (GermanTools.isVowel(c)) {
         char cl = word.charAt(i - 1);
         if (lastDouble) {
           nSyllables++;

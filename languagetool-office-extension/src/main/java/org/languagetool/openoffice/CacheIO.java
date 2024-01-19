@@ -22,6 +22,7 @@ package org.languagetool.openoffice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -37,9 +38,12 @@ import java.util.zip.GZIPOutputStream;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
-import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
+import org.languagetool.openoffice.DocumentCache.SerialLocale;
+import org.languagetool.openoffice.IgnoredMatches.LocaleEntry;
+import org.languagetool.openoffice.OfficeTools.LoErrorType;
 
 import com.sun.star.frame.XModel;
+import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.uno.UnoRuntime;
 
@@ -57,7 +61,9 @@ public class CacheIO implements Serializable {
   private static final String CACHEFILE_MAP = "LtCacheMap";           //  Name of cache map file
   private static final String CACHEFILE_PREFIX = "LtCache";           //  Prefix for cache files (simply a number is added for file name)
   private static final String CACHEFILE_EXTENSION = "lcz";            //  extension of the files name (Note: cache files are in zip format)
-  private static final int MIN_CHARACTERS_TO_SAVE_CACHE = 25000;      //  Minimum characters of document for saving cache 
+  private static final int MIN_CHARACTERS_TO_SAVE_CACHE = 25000;      //  Minimum characters of document for saving cache
+
+  private static final String SPELL_CACHEFILE = "LtSpellCache." + CACHEFILE_EXTENSION;  //  Spell cache name
   
   private String documentPath = null;
   private AllCaches allCaches;
@@ -65,6 +71,8 @@ public class CacheIO implements Serializable {
   CacheIO(XComponent xComponent) {
     setDocumentPath(xComponent);
   }
+  
+  CacheIO() {}
   
   void setDocumentPath(XComponent xComponent) {
     if (xComponent != null) {
@@ -224,6 +232,9 @@ public class CacheIO implements Serializable {
           return false;
         }
       }
+    } catch (InvalidClassException e) {
+      MessageHandler.printToLogFile("Old cache Version: Cache not read");
+      return false;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
@@ -308,7 +319,7 @@ public class CacheIO implements Serializable {
   /**
    * get ignored matches
    */
-  public Map<Integer, Map<String, Set<Integer>>> getIgnoredMatches() {
+  public IgnoredMatches getIgnoredMatches() {
     Map<Integer, Map<String, Set<Integer>>> ignoredMatches = new HashMap<>();
     for (int y : allCaches.ignoredMatches.keySet()) {
       Map<String, Set<Integer>> newIdMap = new HashMap<>();
@@ -319,7 +330,18 @@ public class CacheIO implements Serializable {
       }
       ignoredMatches.put(y, newIdMap);
     }
-    return ignoredMatches;
+    Map<Integer, List<LocaleEntry>> sLocales = new HashMap<>();
+    MessageHandler.printToLogFile("CacheIO: getIgnoredMatches: spellLocales: size: " + allCaches.spellLocales.size());
+    for (int y : allCaches.spellLocales.keySet()) {
+      List<LocaleEntry> newEntryList = new ArrayList<>();
+      List<LocaleSerialEntry> locEntries = new ArrayList<>(allCaches.spellLocales.get(y));
+      MessageHandler.printToLogFile("CacheIO: getIgnoredMatches: spellLocales: size: " + locEntries.size() + " at y: " + y);
+      for (LocaleSerialEntry entry : locEntries) {
+        newEntryList.add(new LocaleEntry(entry.start, entry.length, entry.locale.toLocale(), entry.ruleId));
+      }
+      sLocales.put(y, newEntryList);
+    }
+    return new IgnoredMatches(ignoredMatches, sLocales);
   }
   
   /**
@@ -348,15 +370,16 @@ public class CacheIO implements Serializable {
     } else {
       if (allCaches.paragraphsCache.get(0).getNumberOfMatches() > 0) {
         for (int n = 0; n < allCaches.paragraphsCache.get(0).getNumberOfParas(); n++) {
-          if (allCaches.paragraphsCache.get(0).getMatches(n) == null) {
+          if (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH) == null) {
             MessageHandler.printToLogFile("allCaches.sentencesCache.getMatches(" + n + ") == null");
           } else {
-            if (allCaches.paragraphsCache.get(0).getMatches(n).length > 0) {
+            if (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH).length > 0) {
               MessageHandler.printToLogFile("Paragraph " + n + " sentence match[0]: " 
-                  + "nStart = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorStart 
-                  + ", nLength = " + allCaches.paragraphsCache.get(0).getMatches(n)[0].nErrorLength
+                  + "nStart = " + allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].nErrorStart 
+                  + ", nLength = " + allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].nErrorLength
                   + ", errorID = " 
-                  + (allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier == null ? "null" : allCaches.paragraphsCache.get(0).getMatches(n)[0].aRuleIdentifier));
+                  + (allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].aRuleIdentifier == null ? "null" 
+                      : allCaches.paragraphsCache.get(0).getMatches(n, LoErrorType.BOTH)[0].aRuleIdentifier));
             }
           }
         }
@@ -366,7 +389,7 @@ public class CacheIO implements Serializable {
 
   class AllCaches implements Serializable {
 
-    private static final long serialVersionUID = 5L;
+    private static final long serialVersionUID = 6L;
 
     DocumentCache docCache;                 //  cache of paragraphs
     List<ResultCache> paragraphsCache;      //  Cache for matches of text rules
@@ -375,6 +398,7 @@ public class CacheIO implements Serializable {
     List<String> disabledCategories;
     List<String> enabledRuleIds;
     Map<Integer, Map<String, Set<Integer>>> ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
+    Map<Integer, List<LocaleSerialEntry>> spellLocales;
     String ltVersion;
     
     AllCaches(DocumentCache docCache, List<ResultCache> paragraphsCache, Map<String, Set<String>> disabledRulesUI, Set<String> disabledRuleIds, 
@@ -403,7 +427,7 @@ public class CacheIO implements Serializable {
       }
       this.ltVersion = ltVersion;
       Map<Integer, Map<String, Set<Integer>>> clone = new HashMap<>();
-      for (int y : ignoredMatches.getFullMap().keySet()) {
+      for (int y : ignoredMatches.getFullIMMap().keySet()) {
         Map<String, Set<Integer>> newIdMap = new HashMap<>();
         Map<String, Set<Integer>> idMap = new HashMap<>(ignoredMatches.get(y));
         for (String id : idMap.keySet()) {
@@ -413,8 +437,36 @@ public class CacheIO implements Serializable {
         clone.put(y, newIdMap);
       }
       this.ignoredMatches = clone;
+      Map<Integer, List<LocaleSerialEntry>> sLocales = new HashMap<>();
+      for (int y : ignoredMatches.getFullSLMap().keySet()) {
+        List<LocaleSerialEntry> newEntryList = new ArrayList<>();
+        List<LocaleEntry> locEntries = new ArrayList<>(ignoredMatches.getLocaleEntries(y));
+        MessageHandler.printToLogFile("CacheIO: AllCaches: spellLocales: size: " + locEntries.size() + " at y: " + y);
+        for (LocaleEntry entry : locEntries) {
+          newEntryList.add(new LocaleSerialEntry(entry.start, entry.length, entry.locale, entry.ruleId));
+        }
+        sLocales.put(y, newEntryList);
+      }
+      this.spellLocales = sLocales;
     }
     
+  }
+  
+  public class LocaleSerialEntry  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    int start;
+    int length;
+    SerialLocale locale;
+    String ruleId;
+    
+    LocaleSerialEntry(int start, int length, Locale locale, String ruleId) {
+      this.start = start;
+      this.length = length;
+      this.locale = new SerialLocale(locale);
+      this.ruleId = new String(ruleId);
+    }
   }
 
   /**
@@ -656,7 +708,8 @@ public class CacheIO implements Serializable {
           File[] cacheFiles = cacheDir.listFiles();
           if (cacheFiles != null) {
             for (File cacheFile : cacheFiles) {
-              if (!cacheMap.containsValue(cacheFile.getName()) && !cacheFile.getName().equals(CACHEFILE_MAP)) {
+              if (!cacheMap.containsValue(cacheFile.getName()) && !cacheFile.getName().equals(CACHEFILE_MAP)
+                  && !cacheFile.getName().equals(SPELL_CACHEFILE)) {
                 cacheFile.delete();
                 MessageHandler.printToLogFile("Delete cache file: " + cacheFile.getAbsolutePath());
               }
@@ -668,5 +721,89 @@ public class CacheIO implements Serializable {
       }
     }
   }
+
+  public class SpellCache implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private final Map<String, List<String>> lastWrongWords = new HashMap<>();
+    private final Map<String, List<String[]>> lastSuggestions = new HashMap<>();
+    private String version = JLanguageTool.VERSION;
+    
+    private boolean putAll (SpellCache sc) {
+      version = sc.version;
+      if (!version.equals(JLanguageTool.VERSION)) {
+        return false;
+      }
+      lastWrongWords.clear();
+      lastWrongWords.putAll(sc.lastWrongWords);
+      lastSuggestions.clear();
+      lastSuggestions.putAll(sc.lastSuggestions);
+      return true;
+    }
+    
+    public void write(Map<String, List<String>> lastWrongWords, Map<String, List<String[]>> lastSuggestions) {
+      this.lastWrongWords.clear();
+      this.lastSuggestions.clear();
+      this.lastWrongWords.putAll(lastWrongWords);
+      this.lastSuggestions.putAll(lastSuggestions);
+      try {
+        File cacheDir = OfficeTools.getCacheDir();
+        File cacheFilePath = new File(cacheDir, SPELL_CACHEFILE);
+        String cachePath = cacheFilePath.getAbsolutePath();
+        if (cachePath != null) {
+          GZIPOutputStream fileOut = new GZIPOutputStream(new FileOutputStream(cachePath));
+          ObjectOutputStream out = new ObjectOutputStream(fileOut);
+          out.writeObject(this);
+          out.close();
+          fileOut.close();
+          MessageHandler.printToLogFile("Spell Cache saved to: " + cachePath);
+        }
+      } catch (Throwable t) {
+        MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      }
+    }
+    
+    public boolean read() {
+      File cacheDir = OfficeTools.getCacheDir();
+      File cacheFilePath = new File(cacheDir, SPELL_CACHEFILE);
+      String cachePath = cacheFilePath.getAbsolutePath();
+      if (cachePath == null) {
+        return false;
+      }
+      try {
+        File file = new File(cachePath);
+        if (file.exists() && !file.isDirectory()) {
+          GZIPInputStream fileIn = new GZIPInputStream(new FileInputStream(file));
+          ObjectInputStream in = new ObjectInputStream(fileIn);
+          boolean out = putAll((SpellCache) in.readObject());
+          in.close();
+          fileIn.close();
+          MessageHandler.printToLogFile("Spell Cache read from: " + cachePath);
+          if (out) {
+            return true;
+          } else {
+            MessageHandler.printToLogFile("Version has changed: Spell Cache rejected (Cache Version: " 
+                  + version + ", actual LT Version: " + JLanguageTool.VERSION + ")");
+            return false;
+          }
+        }
+      } catch (InvalidClassException e) {
+        MessageHandler.printToLogFile("Old cache Version: Spell Cache not read");
+        return false;
+      } catch (Throwable t) {
+        MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      }
+      return false;
+    }
+    
+    public Map<String, List<String>> getWrongWords() {
+      return lastWrongWords;
+    }
+    
+    public Map<String, List<String[]>> getSuggestions() {
+      return lastSuggestions;
+    }
+    
+  }
+
   
 }

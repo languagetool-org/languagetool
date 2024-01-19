@@ -33,8 +33,12 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
+
+  private static final Pattern ENDS_IN_VOWEL = Pattern.compile("[aeioué]$");
+  private static final Pattern PATTERN = Pattern.compile("^[smntl]'|^(nous|vous|le|la|les|me|te|se|leur|en|y) ");
 
   private static MorfologikFrenchSpellerRule morfologikRule;
   
@@ -70,7 +74,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
     if (w.endsWith("s")) {
       wordsToCheck.add(w.substring(0, w.length() - 1));
     }
-    if (w.matches("[aeioué]$")) {
+    if (ENDS_IN_VOWEL.matcher(w).matches()) {
       wordsToCheck.add(w + "s");
     }
     for (String word : wordsToCheck) {
@@ -89,7 +93,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   @Override
   protected String cleanSuggestion(String s) {
     //remove pronouns before verbs
-    String output = s.replaceAll("^[smntl]'|^(nous|vous|le|la|les|me|te|se|leur|en|y) ", "");
+    String output = PATTERN.matcher(s).replaceAll("");
     //check only first element 
     output = output.split(" ")[0];
     return output;

@@ -68,9 +68,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
   static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
   
-  private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
-  private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
+  private final static Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
+  private final static Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
   private static final Pattern WORD_FOR_SPELLER = Pattern.compile("^[\\p{L}\\d\\p{P}\\p{Zs}]+$");
+
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -575,7 +576,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-    List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
+    List<SuggestedReplacement> topSuggestions = new ArrayList<>();
+    if (defaultSuggestions.size() == 0 && userSuggestions.size() == 0 && word.contains("-"))  {
+      addHyphenSuggestions(word.split("-"), topSuggestions);
+    }
+    topSuggestions.addAll(getAdditionalTopSuggestions(defaultSuggestions, word));
     topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
     defaultSuggestions.addAll(0, topSuggestions);
     //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
@@ -590,6 +595,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     defaultSuggestions = orderSuggestions(defaultSuggestions, word);
 
     return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+  }
+
+  protected void addHyphenSuggestions(String[] split, List<SuggestedReplacement> topSuggestions) throws IOException {
   }
 
   @NotNull

@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import org.languagetool.tools.Tools;
 import org.languagetool.tools.DiffsAsMatches;
@@ -58,6 +59,7 @@ public class SentenceAnnotator {
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
+      cfg.waitMilliseconds = Integer.valueOf(prop.getProperty("waitMilliseconds", "0").trim());
       String customParamsStr = prop.getProperty("customParams", "").trim();
       if (!customParamsStr.isEmpty()) {
         for (String customParam : customParamsStr.split(";")) {
@@ -94,7 +96,7 @@ public class SentenceAnnotator {
     System.out.println(printTimeFromStart(start, "Total time:"));
   }
 
-  private static void runAnnotation(AnnotatorConfig cfg) throws IOException, NoSuchAlgorithmException {
+  private static void runAnnotation(AnnotatorConfig cfg) throws IOException, NoSuchAlgorithmException, InterruptedException {
     List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
     int numSentence = 0;
     Scanner sc = new Scanner(System.in);
@@ -112,12 +114,22 @@ public class SentenceAnnotator {
       if (quit) {
         break;
       }
-      String sentence = line;
-      String sentenceHash = md5FromSentence(sentence);
       numSentence++;
       if (numSentence < startLine) {
         continue;
       }
+      String[] partsLine = line.split("\t");
+      String sentenceID;
+      String originalSentence;
+      if (partsLine.length == 2) {
+        originalSentence = partsLine[1];
+        sentenceID = partsLine[0];
+      } else {
+        originalSentence = partsLine[0];
+        sentenceID = "N/A";
+      }
+      String sentence = originalSentence;
+      String sentenceHash = md5FromSentence(sentence);
       boolean done = false;
       List<String> fpMatches = new ArrayList<>();
       int annotationsPerSentence = 0;
@@ -163,7 +175,7 @@ public class SentenceAnnotator {
         }
         switch (response) {
         case "r":
-          sentence = line;
+          sentence = originalSentence;
           fpMatches.clear();
           cfg.outStrB = new StringBuilder();
           break;
@@ -252,7 +264,7 @@ public class SentenceAnnotator {
         }
 
         if (!errorType.isEmpty()) {
-          printOutputLine(cfg, sentenceHash, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
+          printOutputLine(cfg, sentenceHash, sentenceID, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
               suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
@@ -361,7 +373,7 @@ public class SentenceAnnotator {
           replacement = iEMatch.getReplacements().get(0);
           break;
         }
-        printOutputLine(cfg, sentenceHash, formattedOriginalSentence, formattedCorrectSentence, errorType,
+        printOutputLine(cfg, sentenceHash, "N/A", formattedOriginalSentence, formattedCorrectSentence, errorType,
             detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
@@ -399,12 +411,13 @@ public class SentenceAnnotator {
     return DatatypeConverter.printHexBinary(digest);
   }
 
-  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash,
+  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash, String sentenceID,
                                       String errorSentence, String correctedSentence, String errorType,
                                       String detectedErrorStr, String suggestion, int suggestionPos,
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
       sentenceHash,
+      sentenceID,
       cfg.annotatorName,
       timestamp,
       errorSentence,
@@ -543,14 +556,17 @@ public class SentenceAnnotator {
     }
     int correctedPos = 0;
     String sentence = line;
-
     for (RemoteRuleMatch match : matches) {
-      StringBuilder sb = new StringBuilder();
-      sb.append(sentence.substring(0, match.getErrorOffset() + correctedPos));
-      sb.append(match.getReplacements().get().get(0));
-      sb.append(sentence.substring(match.getErrorOffset() + match.getErrorLength() + correctedPos));
-      sentence = sb.toString();
-      correctedPos += match.getReplacements().get().get(0).length() - match.getErrorLength();
+      List<String> replacements = match.getReplacements().get();
+      if (replacements.size()>0) {
+        // if there is no suggestion, the match is ignored
+        StringBuilder sb = new StringBuilder();
+        sb.append(sentence.substring(0, match.getErrorOffset() + correctedPos));
+        sb.append(match.getReplacements().get().get(0));
+        sb.append(sentence.substring(match.getErrorOffset() + match.getErrorLength() + correctedPos));
+        sentence = sb.toString();
+        correctedPos += match.getReplacements().get().get(0).length() - match.getErrorLength();
+      }
     }
     return sentence;
   }
@@ -576,8 +592,9 @@ public class SentenceAnnotator {
     return sb.toString();
   }
 
-  private static List<RemoteRuleMatch> getMatches(AnnotatorConfig cfg, String sentence) {
+  private static List<RemoteRuleMatch> getMatches(AnnotatorConfig cfg, String sentence) throws InterruptedException {
     List<RemoteRuleMatch> matches;
+    TimeUnit.MILLISECONDS.sleep(cfg.waitMilliseconds);
     if (cachedMatches.containsKey(sentence)) {
       matches = cachedMatches.get(sentence);
     } else {
@@ -613,6 +630,7 @@ public class SentenceAnnotator {
     String ansiHighlight = "";
     List<String> enabledOnlyRules = new ArrayList<String>();
     List<String> disabledRules = new ArrayList<String>();
+    Integer waitMilliseconds = 0;
 
     void prepareConfiguration() throws IOException {
       CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);

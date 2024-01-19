@@ -25,6 +25,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -65,7 +66,7 @@ public class Dutch extends Language {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new DutchTagger();
+    return DutchTagger.INSTANCE;
   }
 
   @Nullable
@@ -114,7 +115,7 @@ public class Dutch extends Language {
             new MorfologikDutchSpellerRule(messages, this, userConfig, altLanguages),
             new MultipleWhitespaceRule(messages, this),
             new CompoundRule(messages, this, userConfig),
-            new DutchWrongWordInContextRule(messages),
+            new DutchWrongWordInContextRule(messages, this),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
             new LongSentenceRule(messages, userConfig, 40),
@@ -182,6 +183,7 @@ public class Dutch extends Language {
       case "ET_AL": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "N_PERSOONS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "HOOFDLETTERS_OVERBODIG_A": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
+      case "VERSCHILLENDE_AANHALINGSTEKENS": return 1; // needs higher priority than UNPAIRED_BRACKETS
       case "IJ_HFDLTRS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "STAM_ZONDER_IK": return -1;  // see https://github.com/languagetool-org/languagetool/issues/7644
       case "KOMMA_ONTBR": return -1;   // see https://github.com/languagetool-org/languagetool/issues/7644
@@ -224,4 +226,7 @@ public class Dutch extends Language {
     return new MorfologikDutchSpellerRule(messages, this, null, Collections.emptyList());
   }
 
+  public MultitokenSpeller getMultitokenSpeller() {
+    return DutchMultitokenSpeller.INSTANCE;
+  }
 }

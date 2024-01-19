@@ -27,6 +27,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.*;
@@ -58,6 +59,9 @@ class AgreementSuggestor2 {
   private final static List<String> nounCases = Arrays.asList("NOM", "AKK", "DAT", "GEN");
   private final static Set<String> skipSuggestions =
     new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
+  private static final Pattern sinPlu = Pattern.compile("SIN/PLU");
+  private static final Pattern masFemNeu = Pattern.compile("MAS/FEM/NEU");
+  private static final Pattern nomAkkDatGen = Pattern.compile("NOM/AKK/DAT/GEN");
 
   private final Synthesizer synthesizer;
   private final AnalyzedTokenReadings determinerToken;
@@ -378,7 +382,10 @@ class AgreementSuggestor2 {
   }
 
   private String replaceVars(String template, String num, String gen, String aCase) {
-    return template.replaceFirst("SIN/PLU", num).replaceFirst("MAS/FEM/NEU", gen).replaceFirst("NOM/AKK/DAT/GEN", aCase);
+    template = sinPlu.matcher(template).replaceFirst(num);
+    template = masFemNeu.matcher(template).replaceFirst(gen);
+    template = nomAkkDatGen.matcher(template).replaceFirst(aCase);
+    return template;
   }
 
   private static class Suggestion implements Comparable<Suggestion> {

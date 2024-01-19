@@ -73,6 +73,7 @@ public class HTTPServerConfig {
   protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
+  protected File ruleIdToConfidenceFile = null;
   protected boolean pipelineCaching = false;
   protected boolean pipelinePrewarming = false;
 
@@ -96,6 +97,7 @@ public class HTTPServerConfig {
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
+  protected List<String> untrustedReferrers = new ArrayList<>();
   protected boolean premiumAlways;
   protected boolean premiumOnly;
   protected String requestLimitAccessToken = null;
@@ -168,7 +170,7 @@ public class HTTPServerConfig {
 
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
-  protected List<String> abTest = null;
+  protected List<String> abTest = Collections.emptyList();
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
   protected File ngramLangIdentData;
@@ -199,12 +201,13 @@ public class HTTPServerConfig {
     "dbTimeoutSeconds", "dbMaxConnections", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
     "redisDatabase", "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
-    "premiumAlways",
+    "premiumAlways", "untrustedReferrers",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
-    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken");
+    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken",
+    "ruleIdToConfidenceFile");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -337,6 +340,13 @@ public class HTTPServerConfig {
         maxPort = Integer.parseInt(getOptionalProperty(props, "maxPort", "0"));
         String url = getOptionalProperty(props, "serverURL", null);
         setServerURL(url);
+        String ruleIdToConfidence = getOptionalProperty(props, "ruleIdToConfidenceFile", null);
+        if (ruleIdToConfidence != null) {
+          ruleIdToConfidenceFile = new File(ruleIdToConfidence);
+          if (!ruleIdToConfidenceFile.exists() || !ruleIdToConfidenceFile.isFile()) {
+            throw new RuntimeException("ruleIdToConfidenceFile cannot be found: " + ruleIdToConfidenceFile);
+          }
+        }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
@@ -389,6 +399,7 @@ public class HTTPServerConfig {
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
+        untrustedReferrers = Arrays.asList(getOptionalProperty(props, "untrustedReferrers","").split(",\\s*"));
         String premiumAlwaysValue = props.getProperty("premiumAlways");
         if (premiumAlwaysValue != null) {
           premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());
@@ -1008,7 +1019,16 @@ public class HTTPServerConfig {
   void setBlockedReferrers(List<String> blockedReferrers) {
     this.blockedReferrers = Objects.requireNonNull(blockedReferrers);
   }
-  
+
+  @NotNull
+  public List<String> getUntrustedReferrers() {
+    return Collections.unmodifiableList(untrustedReferrers);
+  }
+
+  public void setUntrustedReferrers(List<String> untrustedReferrers) {
+    this.untrustedReferrers = Objects.requireNonNull(untrustedReferrers);
+  }
+
   /**
    * @return the file from which server rules configuration should be loaded, or {@code null}
    * @since 3.0
@@ -1492,4 +1512,11 @@ public class HTTPServerConfig {
     this.dbMaxConnections = dbMaxConnections;
   }
 
+  /**
+   * @since 6.4
+   */
+  @Nullable
+  public File getRuleIdToConfidenceFile() {
+    return ruleIdToConfidenceFile;
+  }
 }

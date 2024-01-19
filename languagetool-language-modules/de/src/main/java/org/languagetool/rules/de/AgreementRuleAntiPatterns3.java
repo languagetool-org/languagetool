@@ -32,6 +32,13 @@ class AgreementRuleAntiPatterns3 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
+      // "Mit dem Tod von Rabin und der kurze Zeit später erfolgenden Wahl..."
+      token("der"),
+      token("kurze"),
+      token("Zeit"),
+      tokenRegex("später|früher|darauf|danach|vorher")
+    ),
+    asList(
       // "Was in aller Welt soll das denn für ein Satz sein?"
       token("was"),
       token("in"),
@@ -579,6 +586,11 @@ class AgreementRuleAntiPatterns3 {
       token("auf"),
       token("vieles"),
       tokenRegex("Lust|Bock")
+    ),
+    asList( // die Französisch Polizei deportiert mich.
+      tokenRegex("die(se)?|der|das|[msdk]?ein(en?)?|ihren?|euren?|euer|unser(er)?|viele|einige|sonstige"),
+      csRegex("Deutsch|Französisch|Arabisch|Katalanisch|Spanisch|Türkisch|Holländisch|Tschechisch|Griechisch|Kurdisch|Indisch|Schweizerisch|Österreichisch|Pakistanisch|Belgisch|Baye?risch|Serbisch|Kroatisch|Portugiesisch|Italienisch|Dänisch|Schwedisch|Irisch|Norwegisch|Russisch|Polnisch|Chinesisch"),
+      posRegex("SUB.*")
     ),
     asList( // ob die Bock haben
       token("die"),

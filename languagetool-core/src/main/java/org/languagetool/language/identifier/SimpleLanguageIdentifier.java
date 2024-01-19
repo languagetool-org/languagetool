@@ -32,11 +32,14 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.languagetool.JLanguageTool.getDataBroker;
 
 @Slf4j
 public class SimpleLanguageIdentifier extends LanguageIdentifier {
+
+  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
   private final Map<String, SpellingCheckRule> spellingCheckRules = new HashMap<>();
 
@@ -87,7 +90,7 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
     List<String> additionalLangs = parsedLanguageLists.getAdditionalLangs();
     List<String> preferredLangs = parsedLanguageLists.getPreferredLangs();
 
-    String[] words = cleanText.split("\\s+");
+    String[] words = WHITESPACE.split(cleanText);
     List<String> dominantLangCodes = UNICODE_BASED_LANG_IDENTIFIER.getDominantLangCodes(cleanText);
     Map<String, Double> scores = new HashMap<>();
     String detectionSource = "spellchecker";

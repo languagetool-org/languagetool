@@ -32,16 +32,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.*;
 
 public class MultitokenSpeller {
 
-  private final int MAX_LENGTH_DIFF = 3;
+  private static final int MAX_LENGTH_DIFF = 3;
+  private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
+  private static final Pattern DASH_SPACE = compile("- ");
+  private static final Pattern SPACE_DASH = compile(" -");
+  private static final Pattern SPACE_OR_DASH = compile("[ -]");
+
+  private final SpellingCheckRule spellingRule;
+  private final Language language;
+
   private HashMap<String, String> oneSpace;
   private HashMap<String, String> twoSpaces;
   private HashMap<String, String> threeSpaces;
   private HashMap<String, String> hyphenated;
-  private SpellingCheckRule spellingRule;
-  private Language language;
 
   /*
    * Ultra-naive speller that provides spelling suggestions for multitoken words from a list of words.
@@ -55,9 +64,13 @@ public class MultitokenSpeller {
   }
 
   public List<String> getSuggestions(String originalWord) throws IOException {
-    originalWord = originalWord.replaceAll("\\p{Zs}+", " ");
-    String word = originalWord.replaceAll("- ", "-");
-    word = word.replaceAll(" -", "-");
+    return getSuggestions(originalWord, false);
+  }
+
+  public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
+    originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
+    String word = DASH_SPACE.matcher(originalWord).replaceAll("-");
+    word = SPACE_DASH.matcher(word).replaceAll("-");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
     }
@@ -70,7 +83,12 @@ public class MultitokenSpeller {
     for (Map.Entry<String, String> entry : set.entrySet()) {
       String candidateLowercase = entry.getValue();
       String candidate = entry.getKey();
+      if (isException(originalWord, candidate)) {
+        weightedCandidates.clear();
+        break;
+      }
       if (candidate.equals(originalWord)) {
+        weightedCandidates.clear();
         break;
       }
       // require that the first letter is correct to speed up the generation of suggestions even more
@@ -84,18 +102,36 @@ public class MultitokenSpeller {
         && StringTools.convertToTitleCaseIteratingChars(candidate).equals(word)) {
         return Collections.emptyList();
       }
-      List<Integer> distances = distancesPerWord(candidateLowercase, wordLowercase);
-      int distance = distances.stream().reduce(0, Integer::sum);
-      if (distance < 1) {
-        weightedCandidates.clear();
+      String[] candidateParts = SPACE_OR_DASH.split(candidateLowercase);
+      String[] wordParts = SPACE_OR_DASH.split(wordLowercase);
+      List<Integer> distances = distancesPerWord(candidateParts, wordParts, candidateLowercase, wordLowercase);
+      int totalDistance = distances.stream().reduce(0, Integer::sum);
+      if (totalDistance < 1) {
         weightedCandidates.add(new WeightedSuggestion(candidate, 0));
-        break;
-      }
-      if (distances.stream().anyMatch(j -> j > 2)) {
+        // "continue" allows several candidates with different casing
+        if (weightedCandidates.size() == 2) {
+          break;
+        }
         continue;
       }
-      if (distance <= maxEditDistance(candidateLowercase, wordLowercase)) {
-        weightedCandidates.add(new WeightedSuggestion(candidate, distance));
+      // for very short candidates, allow only distance=0 (casing and diacritics differences)
+      if (candidate.length() < 7) {
+        continue;
+      }
+      boolean exceedsMaxDistancePerToken = false;
+      for (int i=0; i<distances.size(); i++) {
+        // usually 2, but 1 for short words
+        int maxDistance = (wordParts[i].length() > 5 ? 2: 1);
+        if (distances.get(i) > maxDistance) {
+          exceedsMaxDistancePerToken = true;
+          break;
+        }
+      }
+      if (exceedsMaxDistancePerToken) {
+        continue;
+      }
+      if (totalDistance <= maxEditDistance(candidateLowercase, wordLowercase)) {
+        weightedCandidates.add(new WeightedSuggestion(candidate, totalDistance));
       }
     }
     if (weightedCandidates.isEmpty()) {
@@ -104,7 +140,15 @@ public class MultitokenSpeller {
     Collections.sort(weightedCandidates);
     List<String> results = new ArrayList<>();
     int weightFirstCandidate = weightedCandidates.get(0).getWeight();
+    if (areTokensAcceptedBySpeller && weightedCandidates.get(0).getWord().toUpperCase().equals(originalWord)) {
+      // don't correct all-upper case words accepted by the speller
+      return Collections.emptyList();
+    }
+    if (areTokensAcceptedBySpeller && weightFirstCandidate > 1) {
+      return Collections.emptyList();
+    }
     for (WeightedSuggestion weightedCandidate : weightedCandidates) {
+      // keep only cadidates with the distance of the first candidate
       if (weightedCandidate.getWeight() - weightFirstCandidate < 1) {
         results.add(weightedCandidate.getWord());
       }
@@ -115,17 +159,15 @@ public class MultitokenSpeller {
   private int maxEditDistance(String candidateLowercase, String wordLowercase) {
     int totalLength = wordLowercase.length();
     int correctLength = totalLength - numberOfCorrectChars(candidateLowercase, wordLowercase);
-    Float firstCharWrong = firstCharacterDistances(candidateLowercase, wordLowercase).stream().reduce(Float.valueOf(0), Float::sum);
+    float firstCharWrong = firstCharacterDistances(candidateLowercase, wordLowercase).stream().reduce((float) 0, Float::sum);
     if (correctLength <= 7) {
       return (int) (2 - firstCharWrong);
     }
     return (int) (2 + 0.25 * (correctLength - 7) - 0.6 * firstCharWrong);
   }
 
-  private List<Integer> distancesPerWord(String s1, String s2) {
+  private List<Integer> distancesPerWord(String[] parts1, String[] parts2, String s1, String s2) {
     List<Integer> distances = new ArrayList<>();
-    String parts1[] = s1.split("[ -]");
-    String parts2[] = s2.split("[ -]");
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
         distances.add(levenshteinDistance(parts1[i], parts2[i]));
@@ -138,8 +180,8 @@ public class MultitokenSpeller {
 
   private List<Float> firstCharacterDistances(String s1, String s2) {
     List<Float> distances = new ArrayList<>();
-    String parts1[] = s1.split("[ -]");
-    String parts2[] = s2.split("[ -]");
+    String[] parts1 = SPACE_OR_DASH.split(s1);
+    String[] parts2 = SPACE_OR_DASH.split(s2);
     // for now, only phrase with two tokens
     if (parts1.length == parts2.length && parts1.length == 2) {
       for (int i=0; i<parts1.length; i++) {
@@ -162,16 +204,28 @@ public class MultitokenSpeller {
     if (a == 'b' && b == 'v' || a == 'v' && b == 'b') {
       return 0.2F;
     }
+    if (a == 'i' && b == 'y' || a == 'y' && b == 'i') {
+      return 0;
+    }
     return 1;
   }
 
   private int levenshteinDistance(String s1, String s2) {
-    return LevenshteinDistance.getDefaultInstance().apply(s1, s2);
+    int distance = LevenshteinDistance.getDefaultInstance().apply(normalizeSimilarChars(s1), normalizeSimilarChars(s2));
+    // consider transpositions without having a Damerau-Levenshtein method
+    if (distance == 2 && StringTools.isAnagram(s1,s2)) {
+      distance--;
+    }
+    return distance;
+  }
+
+  private String normalizeSimilarChars(String s) {
+    return s.replaceAll("y", "i").replaceAll("k", "c");
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {
-    String parts1[] = s1.split(" ");
-    String parts2[] = s2.split(" ");
+    String[] parts1 = s1.split(" ");
+    String[] parts2 = s2.split(" ");
     int correctTokens = 0;
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
@@ -184,8 +238,8 @@ public class MultitokenSpeller {
   }
 
   private int numberOfCorrectChars(String s1, String s2) {
-    String parts1[] = s1.split(" ");
-    String parts2[] = s2.split(" ");
+    String[] parts1 = s1.split(" ");
+    String[] parts2 = s2.split(" ");
     int correctTokens = 0;
     if (parts1.length == parts2.length && parts1.length > 1) {
       for (int i=0; i<parts1.length; i++) {
@@ -249,7 +303,7 @@ public class MultitokenSpeller {
   }
 
   private boolean discardRunOnWords(String underlinedError) throws IOException {
-    String parts[] = underlinedError.split(" ");
+    String[] parts = underlinedError.split(" ");
     if (parts.length == 2) {
       if (StringTools.isCapitalizedWord(parts[1])) {
         return false;
@@ -259,12 +313,16 @@ public class MultitokenSpeller {
       if (!spellingRule.isMisspelled(sugg1a) && !spellingRule.isMisspelled(sugg1b)) {
         return true;
       }
-      String sugg2a = parts[0] + parts[1].substring(0,1);
-      String sugg2b = parts[1].substring(1, parts[1].length());
+      String sugg2a = parts[0] + parts[1].charAt(0);
+      String sugg2b = parts[1].substring(1);
       if (!spellingRule.isMisspelled(sugg2a) && !spellingRule.isMisspelled(sugg2b)) {
         return true;
       }
     }
+    return false;
+  }
+
+  protected boolean isException(String original, String candidate) {
     return false;
   }
 

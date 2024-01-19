@@ -869,6 +869,14 @@ class AgreementRuleAntiPatterns1 {
       csToken("Verlass"),
       csToken("zu"),
       csToken("sein")
+    ),
+    asList(  
+      // kannst du mal schauen, ob das zahlende Kunden sind?
+      token("ob"),
+      token("das"),
+      csRegex(".+e"),
+      posRegex("SUB:NOM:PLU.*"),
+      csRegex("sind|waren")
     )
 
   );

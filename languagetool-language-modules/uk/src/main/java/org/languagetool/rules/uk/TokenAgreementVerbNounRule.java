@@ -329,7 +329,8 @@ public class TokenAgreementVerbNounRule extends Rule {
               msg += ". Можливо ви мали на увазі «сиплючи»?";
             }
             
-            RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.verbAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+            int startPos = state.verbAnalyzedTokenReadings.getStartPos();
+            RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, startPos, tokenReadings.getEndPos(), msg, getShort());
             
             // TODO: need to adjust highlight to the verb to replace instead of the noun
 //            if( state.verbTokenReadings.get(0).getToken().equalsIgnoreCase("сиплячи") ) {
@@ -340,6 +341,10 @@ public class TokenAgreementVerbNounRule extends Rule {
             if( tokenReadings.getCleanToken().equals("піку") && suggestions.contains("піка") ) {
               suggestions = Arrays.asList("піка");
             }
+            State state_ = state;
+            suggestions = suggestions.stream()
+                .map(s -> String.format("%s %s", state_.verbAnalyzedTokenReadings.getToken(), s))
+                .collect(Collectors.toList());
             potentialRuleMatch.addSuggestedReplacements(suggestions);
             
             ruleMatches.add(potentialRuleMatch);

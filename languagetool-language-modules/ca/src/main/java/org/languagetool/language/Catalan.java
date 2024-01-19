@@ -40,8 +40,14 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
+
 public class Catalan extends Language {
-  
+
+  private static final Pattern PATTERN_1 = compile("(\\b[lmnstdLMNSTD])'");
+  private static final Pattern PATTERN_2 = compile("(\\b[lmnstdLMNSTD])’\"");
+  private static final Pattern PATTERN_3 = compile("(\\b[lmnstdLMNSTD])’'");
+
   @Override
   public String getName() {
     return "Catalan";
@@ -85,7 +91,7 @@ public class Catalan extends Language {
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
-            new CatalanWrongWordInContextRule(messages),
+            new CatalanWrongWordInContextRule(messages, this),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages, this),
             new SimpleReplaceRule(messages, this),
@@ -167,9 +173,9 @@ public class Catalan extends Language {
     String output = super.toAdvancedTypography(input);
     
     // special cases: apostrophe + quotation marks
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])'", "$1’");
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])’\"", "$1’" + getOpeningDoubleQuote());
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])’'", "$1’" + getOpeningSingleQuote());
+    output = PATTERN_1.matcher(output).replaceAll("$1’");
+    output = PATTERN_2.matcher(output).replaceAll("$1’" + getOpeningDoubleQuote());
+    output = PATTERN_3.matcher(output).replaceAll("$1’" + getOpeningSingleQuote());
     
     return output;
   }
@@ -223,6 +229,7 @@ public class Catalan extends Language {
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
       case "PRONOMS_FEBLES_DARRERE_VERB": return 30; // greater than PRONOMS_FEBLES_SOLTS2
+      case "VERBS_NO_INCOATIUS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
       case "HAVER_SENSE_HAC": return 28; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
@@ -257,6 +264,7 @@ public class Catalan extends Language {
       case "VENIR_NO_REFLEXIU": return 5;
       case "DEUS_SEUS": return 5;
       case "SON_BONIC": return 5;
+      case "ACCENTUACIO": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
@@ -273,11 +281,14 @@ public class Catalan extends Language {
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
+      case "TASCAS_TASQUES": return -97;
+      case "PREPOSICIONS_MINUSCULA": return -97; // less than CA_MULTITOKEN_SPELLING
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
       case "PHRASE_REPETITION": return -150;
       case "SUBSTANTIUS_JUNTS": return -150;
+      case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "PUNT_FINAL": return -200;
       case "UPPERCASE_SENTENCE_START": return -500;
@@ -319,7 +330,7 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
@@ -365,7 +376,8 @@ public class Catalan extends Language {
   }
   
   private String removeOldDiacritics(String s) {
-    return s.replace("dóna", "dona")
+    return s
+        .replace("dóna", "dona")
         .replace("dónes", "dones")
         .replace("sóc", "soc")
         .replace("vénen", "venen")
@@ -379,22 +391,22 @@ public class Catalan extends Language {
         .replace("Fóra", "Fora");
   }
   
-  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES1 = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ");
   // exceptions: l'FBI, l'statu quo
-  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
   // exceptions: el iogurt, la essa
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
+  private static final Pattern CA_APOSTROPHES3 = compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
+  private static final Pattern CA_APOSTROPHES4 = compile("\\b(l)a ([aeoàúèéí][^ ])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES5 = Pattern.compile("\\b([mts]e) (['’])",
+  private static final Pattern CA_APOSTROPHES5 = compile("\\b([mts]e) (['’])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES6 = Pattern.compile("\\bs'e(ns|ls)\\b",
+  private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern POSSESSIUS_v = Pattern.compile("\\b([mtsMTS]e)v(a|es)\\b",
+  private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
       Pattern.UNICODE_CASE);
-  private static final Pattern POSSESSIUS_V = Pattern.compile("\\b([MTS]E)V(A|ES)\\b",
+  private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
       Pattern.UNICODE_CASE);
 
   @Override
@@ -421,20 +433,27 @@ public class Catalan extends Language {
     s = s.replace(" ,", ",");
     return s;
   }
+  
+  private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
+    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas");
 
   @Override
   public String prepareLineForSpeller(String line) {
-    String parts[] = line.split("#");
+    String[] parts = line.split("#");
     if (parts.length == 0) {
       return line;
     }
     String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (spellerExceptions.contains(form)) {
+      return "";
+    }
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
-      if (!tag.startsWith("N")) {
-        return "";
+      if (tag.startsWith("N") || tag.equals("_Latin_")) {
+        return form;
       } else {
-        return formTag[0].trim();
+        return "";
       }
     }
     return line;

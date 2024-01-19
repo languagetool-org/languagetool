@@ -66,12 +66,6 @@ public class PortugalPortuguese extends Portuguese {
     return super.getPriorityForId(id);
   }
 
-  @Nullable
-  @Override
-  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
-    return new HunspellRule(messages, this, null, null);
-  }
-
   @Override
   public String getOpeningDoubleQuote() {
     return "«";

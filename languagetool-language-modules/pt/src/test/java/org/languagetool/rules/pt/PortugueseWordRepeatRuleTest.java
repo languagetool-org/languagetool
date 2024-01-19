@@ -33,16 +33,16 @@ public class PortugueseWordRepeatRuleTest {
     Language lang = Languages.getLanguageForShortCode("pt");
     JLanguageTool lt = new JLanguageTool(lang);
     PortugueseWordRepeatRule rule = new PortugueseWordRepeatRule(TestTools.getEnglishMessages(), lang);
-    assertFalse(ignore("no repetition", lt, rule));
-    assertTrue(ignore("blá blá", lt, rule));
-    assertTrue(ignore("Aaptos aaptos", lt, rule));
-    // assertTrue(ignore("Coloquem-na na sala.", lt, rule)); XXX passes tests. TODO improve ignore function
+    assertFalse(ignore("no repetition", lt, rule, 2));
+    assertTrue(ignore("blá blá", lt, rule, 2));
+    assertTrue(ignore("Aaptos aaptos", lt, rule, 2));
+    assertTrue(ignore("Logo logo vamos ao mercado", lt, rule, 2));
+    assertTrue(ignore("Coloquem-na na sala.", lt, rule, 4)); // the hyphen is a token
   }
 
-  private boolean ignore(String input, JLanguageTool lt, PortugueseWordRepeatRule rule) throws IOException {
+  private boolean ignore(String input, JLanguageTool lt, PortugueseWordRepeatRule rule, int position) throws IOException {
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    return rule.ignore(tokens, 2);
+    return rule.ignore(tokens, position);
   }
-
 }

@@ -37,8 +37,9 @@ import java.util.stream.Collectors;
 public abstract class LanguageIdentifier {
   private static final Pattern URL_REGEX = Pattern.compile("https?://[-_.?&~;+=/#%0-9A-Za-z]+");   // '%' has been added
   private static final Pattern MAIL_REGEX = Pattern.compile("[-_.0-9A-Za-z]+@[-_0-9A-Za-z]+[-_.0-9A-Za-z]+");
-  private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
+  private static final Pattern SIGNATURE = Pattern.compile("\n--[ \u00A0]\n.*", Pattern.DOTALL);
   private static final Pattern MENTION = Pattern.compile("@[A-Za-z0-9_]+");
+  private static final Pattern NBSP_INVIS_SEPARATOR = Pattern.compile("[\uFEFF\u2063]+");
   protected static final float SCORE_THRESHOLD = 0.85f;
   protected static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
   protected static final List<String> NON_LATIN_CHARS_LANGUAGES = Arrays.asList("ar", "fa", "ru", "uk", "be", "zh", "ja", "km", "ta", "el", "hi", "mr", "th", "he", "ko");
@@ -96,7 +97,7 @@ public abstract class LanguageIdentifier {
    */
   public String cleanAndShortenText(String text) {
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
-    shortText = shortText.replaceAll("[\uFEFF\u2063]+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
+    shortText = NBSP_INVIS_SEPARATOR.matcher(shortText).replaceAll(" ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
     shortText = REMOVE_URL_FILTER.filter(shortText);
     shortText = REMOVE_EMAIL_SIGNATURE_FILTER.filter(shortText);
     shortText = REMOVE_MENTION_FILTER.filter(shortText);

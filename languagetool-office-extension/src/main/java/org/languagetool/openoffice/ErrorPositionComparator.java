@@ -25,7 +25,7 @@ import java.util.Comparator;
 /**
  * A simple comparator for sorting errors by their position.
  */
-class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
+public class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 
   @Override
   public int compare(SingleProofreadingError match1, SingleProofreadingError match2) {

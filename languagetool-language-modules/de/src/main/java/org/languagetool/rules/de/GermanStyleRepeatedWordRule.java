@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
@@ -46,7 +47,8 @@ import morfologik.speller.Speller;
 public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   private static final String SYNONYMS_URL = "https://www.openthesaurus.de/synonyme/";
-  
+  private static final Pattern LETTERS = Pattern.compile("^[A-Za-zÄÖÜäöüß]+$");
+
   private Speller speller = null;
 
   public GermanStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
@@ -105,7 +107,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
    * Is a unknown word (has only letters and no PosTag) 
    */
   private static boolean isUnknownWord(AnalyzedTokenReadings token) {
-    return token.isPosTagUnknown() && token.getToken().length() > 2 && token.getToken().matches("^[A-Za-zÄÖÜäöüß]+$");
+    return token.isPosTagUnknown() && token.getToken().length() > 2 && LETTERS.matcher(token.getToken()).matches();
   }
 
   /**

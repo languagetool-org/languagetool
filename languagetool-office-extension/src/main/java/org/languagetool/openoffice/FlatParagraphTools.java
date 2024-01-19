@@ -519,6 +519,13 @@ public class FlatParagraphTools {
   /** 
    * Returns positions of properties by name 
    */
+  public int[] getFootnotePosition(XFlatParagraph xFlatPara) {
+    return getIntArrayPropertyValue("FootnotePositions", xFlatPara);
+  }
+
+  /** 
+   * Returns positions of properties by name 
+   */
   private Object getPropertyValueAsObject(String propName, XFlatParagraph xFlatPara) {
     try {
       if (xFlatPara == null) {
@@ -856,8 +863,8 @@ public class FlatParagraphTools {
         flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
             pError.nErrorStart, pError.nErrorLength, props);
       }
-      props = flatPara.getMarkupInfoContainer();
-      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
+//      props = flatPara.getMarkupInfoContainer();
+//      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
     }
     if (isChecked) {
       flatPara.setChecked(TextMarkupType.PROOFREADING, true);

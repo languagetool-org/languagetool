@@ -25,6 +25,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -39,8 +40,33 @@ import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
 
 public class French extends Language implements AutoCloseable {
+
+  private static final String BEFORE_APOS = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
+  private static final Pattern BEFORE_APOS_PATTERN_1 = compile("(\\b" + BEFORE_APOS + ")'");
+  private static final Pattern BEFORE_APOS_PATTERN_2 = compile("(\\b" + BEFORE_APOS + ")’\"");
+  private static final Pattern BEFORE_APOS_PATTERN_3 = compile("(\\b" + BEFORE_APOS + ")’'");
+
+  private static final Pattern TYPOGRAPHY_PATTERN_1 = compile("\u00a0;");
+  private static final Pattern TYPOGRAPHY_PATTERN_2 = compile("\u00a0!");
+  private static final Pattern TYPOGRAPHY_PATTERN_3 = compile("\u00a0\\?");
+  private static final Pattern TYPOGRAPHY_PATTERN_4 = compile(";");
+  private static final Pattern TYPOGRAPHY_PATTERN_5 = compile("!");
+  private static final Pattern TYPOGRAPHY_PATTERN_6 = compile("\\?");
+  private static final Pattern TYPOGRAPHY_PATTERN_7 = compile(":");
+  private static final Pattern TYPOGRAPHY_PATTERN_8 = compile("»");
+  private static final Pattern TYPOGRAPHY_PATTERN_9 = compile("«");
+  private static final Pattern TYPOGRAPHY_PATTERN_10 = compile("\u00a0\u00a0");
+  private static final Pattern TYPOGRAPHY_PATTERN_11 = compile("\u202f\u202f");
+  private static final Pattern TYPOGRAPHY_PATTERN_12 = compile("  ");
+  private static final Pattern TYPOGRAPHY_PATTERN_13 = compile("\u00a0 ");
+  private static final Pattern TYPOGRAPHY_PATTERN_14 = compile(" \u00a0");
+  private static final Pattern TYPOGRAPHY_PATTERN_15 = compile(" \u202f");
+  private static final Pattern TYPOGRAPHY_PATTERN_16 = compile("\u202f ");
 
   private LanguageModel languageModel;
 
@@ -188,32 +214,31 @@ public class French extends Language implements AutoCloseable {
     String output = super.toAdvancedTypography(input);
   
     // special cases: apostrophe + quotation marks
-    String beforeApostrophe = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
-    output = output.replaceAll("(\\b"+beforeApostrophe+")'", "$1’");
-    output = output.replaceAll("(\\b"+beforeApostrophe+")’\"", "$1’" + getOpeningDoubleQuote());
-    output = output.replaceAll("(\\b"+beforeApostrophe+")’'", "$1’" + getOpeningSingleQuote());
-    
+    output = BEFORE_APOS_PATTERN_1.matcher(output).replaceAll("$1’");
+    output = BEFORE_APOS_PATTERN_2.matcher(output).replaceAll("$1’" + getOpeningDoubleQuote());
+    output = BEFORE_APOS_PATTERN_3.matcher(output).replaceAll("$1’" + getOpeningSingleQuote());
+
     // non-breaking (thin) space 
     // according to https://fr.wikipedia.org/wiki/Espace_ins%C3%A9cable#En_France
-    output = output.replaceAll("\u00a0;", "\u202f;");
-    output = output.replaceAll("\u00a0!", "\u202f!");
-    output = output.replaceAll("\u00a0\\?", "\u202f?");
-    output = output.replaceAll(";", "\u202f;");
-    output = output.replaceAll("!", "\u202f!");
-    output = output.replaceAll("\\?", "\u202f?");
-    
-    output = output.replaceAll(":", "\u00a0:");
-    output = output.replaceAll("»", "\u00a0»");
-    output = output.replaceAll("«", "«\u00a0");
+    output = TYPOGRAPHY_PATTERN_1.matcher(output).replaceAll("\u202f;");
+    output = TYPOGRAPHY_PATTERN_2.matcher(output).replaceAll("\u202f!");
+    output = TYPOGRAPHY_PATTERN_3.matcher(output).replaceAll("\u202f?");
+    output = TYPOGRAPHY_PATTERN_4.matcher(output).replaceAll("\u202f;");
+    output = TYPOGRAPHY_PATTERN_5.matcher(output).replaceAll("\u202f!");
+    output = TYPOGRAPHY_PATTERN_6.matcher(output).replaceAll("\u202f?");
+
+    output = TYPOGRAPHY_PATTERN_7.matcher(output).replaceAll("\u00a0:");
+    output = TYPOGRAPHY_PATTERN_8.matcher(output).replaceAll("\u00a0»");
+    output = TYPOGRAPHY_PATTERN_9.matcher(output).replaceAll("«\u00a0");
     
     //remove duplicate spaces
-    output = output.replaceAll("\u00a0\u00a0", "\u00a0");
-    output = output.replaceAll("\u202f\u202f", "\u202f");
-    output = output.replaceAll("  ", " ");
-    output = output.replaceAll("\u00a0 ", "\u00a0");
-    output = output.replaceAll(" \u00a0", "\u00a0");
-    output = output.replaceAll(" \u202f", "\u202f");
-    output = output.replaceAll("\u202f ", "\u202f");
+    output = TYPOGRAPHY_PATTERN_10.matcher(output).replaceAll("\u00a0");
+    output = TYPOGRAPHY_PATTERN_11.matcher(output).replaceAll("\u202f");
+    output = TYPOGRAPHY_PATTERN_12.matcher(output).replaceAll(" ");
+    output = TYPOGRAPHY_PATTERN_13.matcher(output).replaceAll("\u00a0");
+    output = TYPOGRAPHY_PATTERN_14.matcher(output).replaceAll("\u00a0");
+    output = TYPOGRAPHY_PATTERN_15.matcher(output).replaceAll("\u202f");
+    output = TYPOGRAPHY_PATTERN_16.matcher(output).replaceAll("\u202f");
     
     return output;
   }
@@ -333,6 +358,7 @@ public class French extends Language implements AutoCloseable {
       case "CAR": return -50; // lesser than grammar rules
       case "AIMER": return -50; // lesser than grammar rules
       case "CONFUSION_RULE_PREMIUM": return -50; // lesser than PRONSUJ_NONVERBE
+      case "LE_COVID": return -60; // lower than COVID_19_GRAPHIE
       case "FR_SPELLING_RULE": return -100;
       case "VIRG_INF": return -100;// lesser than CONFUSION_E_ER
       case "ET_SENT_START": return -151; // lower than grammalecte rules
@@ -359,6 +385,9 @@ public class French extends Language implements AutoCloseable {
     if (id.startsWith("FR_COMPOUNDS")) {
       return 500;
     }
+    if (id.startsWith("FR_MULTITOKEN_SPELLING_")) {
+      return -90;
+    }
     if (id.startsWith("FR_SIMPLE_REPLACE")) {
       return 150;
     }
@@ -367,6 +396,10 @@ public class French extends Language implements AutoCloseable {
     }
 
     if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      return -101;
+    }
+
+    if (id.startsWith("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY")) { // prefer more specific rules (also speller)
       return -101;
     }
     return super.getPriorityForId(id);
@@ -386,7 +419,7 @@ public class French extends Language implements AutoCloseable {
         for (SuggestedReplacement s : replacements) {
           String newReplStr = s.getReplacement();
           if (s.getReplacement().length() > 1) {
-            newReplStr = s.getReplacement().replace("'", "’");
+            newReplStr = s.getReplacement().replace('\'', '’');
           }
           SuggestedReplacement newRepl = new SuggestedReplacement(s);
           newRepl.setReplacement(newReplStr);
@@ -398,6 +431,35 @@ public class French extends Language implements AutoCloseable {
       return newRuleMatches;
     }
     return ruleMatches;
+  }
+
+
+  private final List<String> spellerExceptions = Arrays.asList("Ho Chi Minh");
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (spellerExceptions.contains(form)) {
+      return "";
+    }
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (tag.startsWith("Z") || tag.startsWith("N") || tag.equals("A") ) {
+        return form;
+      } else {
+        return "";
+      }
+    }
+    return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return FrenchMultitokenSpeller.INSTANCE;
   }
 
 }

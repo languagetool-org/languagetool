@@ -25,10 +25,12 @@ import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.openoffice.MessageHandler;
+import org.languagetool.openoffice.ResultCache;
 import org.languagetool.rules.AbstractStatisticSentenceStyleRule;
 import org.languagetool.rules.AbstractStatisticStyleRule;
 import org.languagetool.rules.ReadabilityRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
 /**
@@ -60,6 +62,7 @@ public class LevelRule {
   
   public void generateBasicNumbers(StatAnCache cache) {
     try {
+      ResultCache statAnalysisCache = new ResultCache();
       numFound.clear();
       numBase.clear();
       numSyllables.clear();
@@ -67,20 +70,28 @@ public class LevelRule {
         MessageHandler.printToLogFile("withDirectSpeech: " + withDirectSpeech);
       }
       for (int i = 0; i < cache.size(); i++) {
-        //  TODO: Generate a result cache for later evaluations
-        rule.match(cache.getAnalysedParagraph(i), null);
+        RuleMatch[] matches = rule.match(cache.getAnalysedParagraph(i), null);
+        if (matches != null && matches.length > 0) {
+          int n = cache.getNumFlatParagraph(i);
+          statAnalysisCache.put(n, cache.createLoErrors(matches));
+        }
         if (rule instanceof AbstractStatisticSentenceStyleRule) {
           numFound.add(((AbstractStatisticSentenceStyleRule) rule).getNumberOfMatches());
           numBase.add(((AbstractStatisticSentenceStyleRule) rule).getSentenceCount());
+//          MessageHandler.printToLogFile("RuleId: " + rule.getId() + ", matches: " + (matches == null ? "null" : matches.length) 
+//              +  ", numFound: " + ((AbstractStatisticSentenceStyleRule) rule).getNumberOfMatches());
         } else if (rule instanceof AbstractStatisticStyleRule) {
           numFound.add(((AbstractStatisticStyleRule) rule).getNumberOfMatches());
           numBase.add(((AbstractStatisticStyleRule) rule).getWordCount());
+//          MessageHandler.printToLogFile("RuleId: " + rule.getId() + ", matches: " + (matches == null ? "null" : matches.length) 
+//              +  ", numFound: " + ((AbstractStatisticStyleRule) rule).getNumberOfMatches());
         } else if (rule instanceof ReadabilityRule) {
           numFound.add(((ReadabilityRule) rule).getAllWords());
           numSyllables.add(((ReadabilityRule) rule).getAllSyllables());
           numBase.add(((ReadabilityRule) rule).getAllSentences());
         }
       }
+      cache.setNewResultcache(rule.getId(), statAnalysisCache);
       if (debugMode) {
         MessageHandler.printToLogFile("Number of: numFound: " + numFound.size() + ", numBase: " + numBase.size() +
             ", numSyllables: " + numSyllables.size());
@@ -89,7 +100,7 @@ public class LevelRule {
       MessageHandler.showError(e);
     }
   }
-
+  
   /**
    * get level of occurrence of filler words(0 - 6)
    */

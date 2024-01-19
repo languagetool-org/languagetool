@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Write rule matches and some meta information as JSON.
@@ -42,10 +43,15 @@ public class RuleMatchesAsJsonSerializer {
   private static final String STATUS = "";
   private static final String PREMIUM_HINT = "You might be missing errors only the Premium version can find. Contact us at support<at>languagetoolplus.com.";
   private static final String START_MARKER = "__languagetool_start_marker";
+  private static final Pattern START_MARKER_PATTERN = Pattern.compile(START_MARKER);
   private static final JsonFactory factory = new JsonFactory();
-  
+  private static final Pattern SUGGESTION = Pattern.compile("<suggestion>");
+  private static final Pattern SUGGESTION_END = Pattern.compile("</suggestion>");
+  private static final Pattern ANYTHING_SLASH_PATTERN = Pattern.compile(".*/");
+
   private final int compactMode;
   private final Language lang;
+  private Map<String, Float> ruleIdToConfidence;
 
   public RuleMatchesAsJsonSerializer() {
     this(0, null);
@@ -91,11 +97,11 @@ public class RuleMatchesAsJsonSerializer {
             hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint, null);
   }
 
-    /**
-     * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
-     *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
-     * @since 5.3
-     */
+  /**
+   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+   *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
+   * @since 5.3
+   */
   public String ruleMatchesToJson2(List<CheckResults> res, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                    DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint, JLanguageTool.Mode mode) {
     ContextTools contextTools = new ContextTools();
@@ -261,7 +267,7 @@ public class RuleMatchesAsJsonSerializer {
     if (lang != null) {
       return lang.toAdvancedTypography(s); //.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote())
     } else {
-      return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
+      return SUGGESTION_END.matcher(SUGGESTION.matcher(s).replaceAll("\"")).replaceAll("\"");
     }
   }
   
@@ -301,7 +307,7 @@ public class RuleMatchesAsJsonSerializer {
     if (compactMode != 1) {
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
       int contextOffset = context.indexOf(START_MARKER);
-      context = context.replaceFirst(START_MARKER, "");
+      context = START_MARKER_PATTERN.matcher(context).replaceFirst("");
       g.writeObjectFieldStart("context");
       g.writeStringField("text", context);
       g.writeNumberField("offset", contextOffset);
@@ -321,7 +327,7 @@ public class RuleMatchesAsJsonSerializer {
       g.writeStringField("subId", rule.getSubId());
     }
     if (rule.getSourceFile() != null && compactMode != 1) {
-      g.writeStringField("sourceFile", rule.getSourceFile().replaceFirst(".*/", ""));
+      g.writeStringField("sourceFile", ANYTHING_SLASH_PATTERN.matcher(rule.getSourceFile()).replaceFirst(""));
     }
     g.writeStringField("description", rule.getDescription());
     g.writeStringField("issueType", rule.getLocQualityIssueType().toString());
@@ -350,6 +356,12 @@ public class RuleMatchesAsJsonSerializer {
       }
       g.writeEndArray();
     }
+    if (ruleIdToConfidence != null) {
+      Float confidence = ruleIdToConfidence.get(rule.getId());
+      if (confidence != null) {
+        g.writeNumberField("confidence", confidence);
+      }
+    }
     g.writeEndObject();
   }
 
@@ -361,4 +373,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
+  public void setRuleIdToConfidenceMap(Map<String, Float> ruleIdToConfidence) {
+    this.ruleIdToConfidence = ruleIdToConfidence;
+  }
 }

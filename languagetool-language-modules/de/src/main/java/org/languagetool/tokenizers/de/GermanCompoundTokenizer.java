@@ -72,6 +72,14 @@ public class GermanCompoundTokenizer implements Tokenizer {
       // Add compound parts here so we don't need to update JWordSplitter for every missing word we find.
       // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if "sport"
       // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
+      words.add("salami");
+      words.add("eukalyptus");
+      words.add("kreativ");
+      words.add("hochvolt");
+      words.add("trading");
+      words.add("extraktion");
+      words.add("verstetigung");
+      words.add("diagonal");
       words.add("margen");
       words.add("synonym");
       words.add("aufbringung");
@@ -84,6 +92,10 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("vollstreckbarkeit");
       words.add("vollziehung");
       words.add("kasko");
+      words.add("blitzableiter");
+      words.add("abschattungen");
+      words.add("kuscheltier");
+      words.add("gastro");
       words.trim();
       return words;
     }
@@ -130,6 +142,19 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Freibergs", asList("Freibergs"));
     wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
     wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
+    wordSplitter.addException("Digitalisierung", asList("Digitalisierung"));
+    wordSplitter.addException("Abtrocknung", asList("Abtrocknung"));
+    wordSplitter.addException("Erlösung", asList("Erlösung"));
+    wordSplitter.addException("Feuerung", asList("Feuerung"));
+    wordSplitter.addException("Aktivierung", asList("Aktivierung"));
+    wordSplitter.addException("Protokollierung", asList("Protokollierung"));
+    wordSplitter.addException("Budgetierung", asList("Budgetierung"));
+    wordSplitter.addException("Faltung", asList("Faltung"));
+    wordSplitter.addException("Anhäufung", asList("Anhäufung"));
+    wordSplitter.addException("Aufkohlung", asList("Aufkohlung"));
+    wordSplitter.addException("Festigung", asList("Festigung"));
+    wordSplitter.addException("Allerheiligen", asList("Allerheiligen"));
+    wordSplitter.addException("Druckerpressen", asList("Drucker", "pressen"));
   }
 
   @Override

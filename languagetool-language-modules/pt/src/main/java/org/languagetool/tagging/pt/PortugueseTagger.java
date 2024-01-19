@@ -44,14 +44,85 @@ public class PortugueseTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("V.P..SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(...+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final String ORDINAL_SUFFIX_MASC = "oºᵒ";
+  private static final String ORDINAL_SUFFIX_FEM = "aªᵃ";
+  private static final String ORDINAL_SUFFIX_PL = "sˢ";
+
+  private static final String ORDINAL_SUFFIXES = String.format("[%s%s][%s]?",
+    ORDINAL_SUFFIX_MASC, ORDINAL_SUFFIX_FEM, ORDINAL_SUFFIX_PL);
+  private static final Pattern ORDINAL_PATTERN = Pattern.compile("^\\d+[\\d,.]*\\.?" + ORDINAL_SUFFIXES + "$");
+  private static final Pattern ORDINAL_MASC_SG = Pattern.compile(String.format("[%s]$", ORDINAL_SUFFIX_MASC));
+  private static final Pattern ORDINAL_FEM_SG = Pattern.compile(String.format("[%s]$", ORDINAL_SUFFIX_FEM));
+  private static final Pattern ORDINAL_MASC_PL = Pattern.compile(String.format("[%s][%s]$",
+    ORDINAL_SUFFIX_MASC, ORDINAL_SUFFIX_PL));
+  private static final Pattern ORDINAL_FEM_PL = Pattern.compile(String.format("[%s][%s]$",
+    ORDINAL_SUFFIX_FEM, ORDINAL_SUFFIX_PL));
+
+  private static final Pattern PERCENT_PATTERN = Pattern.compile("−?\\d+[\\d,.]*%");
+  private static final Pattern DEGREE_PATTERN = Pattern.compile("−?\\d+[\\d,.]*°");
 
   public PortugueseTagger() {
     super("/pt/portuguese.dict", new Locale("pt"));
   }
 
-  @Override
-  public boolean overwriteWithManualTagger(){
-    return false;
+  private List<AnalyzedToken> tagNumberExpressions(String word) {
+    if (isOrdinal(word)) {
+      return buildOrdinalTokens(word);
+    }
+    if (isDegree(word)) {
+      return Collections.singletonList(buildMascPlNoun(word));
+    }
+    if (isPercent(word)) {
+      // TODO: remove "PERCENTAGES" disambiguator rule
+      return Collections.singletonList(buildMascPlNoun(word));
+    }
+    return Collections.emptyList();
+  }
+
+  private AnalyzedToken buildMascPlNoun(String word) {
+    return new AnalyzedToken(word, "NCMP000", word);
+  }
+
+  private List<AnalyzedToken> buildOrdinalTokens(String word) {
+    List<AnalyzedToken> resultTokens = new ArrayList<>(Collections.emptyList());
+    // The lemma has the ordinal indicator form, this is arbitrary
+    // It also keeps the ".", since we need to keep those forms distinct
+    String lemma = word.replaceAll(ORDINAL_SUFFIXES, "º");
+    String numberGenderTags = "";
+    if (ORDINAL_MASC_SG.matcher(word).find()) {
+      numberGenderTags = "MS";
+    }
+    if (ORDINAL_FEM_SG.matcher(word).find()) {
+      numberGenderTags = "FS";
+    }
+    if (ORDINAL_MASC_PL.matcher(word).find()) {
+      numberGenderTags = "MP";
+    }
+    if (ORDINAL_FEM_PL.matcher(word).find()) {
+      numberGenderTags = "FP";
+    }
+    String nounTag = String.format("NC%s000", numberGenderTags);
+    String adjTag = String.format("AO0%s0", numberGenderTags);
+    AnalyzedToken nounToken = new AnalyzedToken(word, nounTag, lemma);
+    AnalyzedToken adjToken = new AnalyzedToken(word, adjTag, lemma);
+    resultTokens.add(nounToken);
+    resultTokens.add(adjToken);
+    return resultTokens;
+  }
+
+  private boolean isOrdinal(String word) {
+    Matcher matcher = ORDINAL_PATTERN.matcher(word);
+    return matcher.matches();
+  }
+
+  private boolean isPercent(String word) {
+    Matcher matcher = PERCENT_PATTERN.matcher(word);
+    return matcher.matches();
+  }
+
+  private boolean isDegree(String word) {
+    Matcher matcher = DEGREE_PATTERN.matcher(word);
+    return matcher.matches();
   }
 
   @Override
@@ -69,7 +140,7 @@ public class PortugueseTagger extends BaseTagger {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
         }
-        word = word.replace("’", "'");
+        word = word.replace('’', '\'');
       }
       List<AnalyzedToken> l = new ArrayList<>();
       String lowerWord = word.toLowerCase(locale);
@@ -84,6 +155,11 @@ public class PortugueseTagger extends BaseTagger {
       if (!isLowercase && !isMixedCase) {
         List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
+      }
+
+      // tag ordinals and percentages, i.e. expressions that include digits
+      if (l.isEmpty()) {
+        addTokens(tagNumberExpressions(word), l);
       }
 
       // additional tagging with prefixes
@@ -153,9 +229,7 @@ public class PortugueseTagger extends BaseTagger {
 
   private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
-      for (AnalyzedToken at : taggedTokens) {
-        l.add(at);
-      }
+      l.addAll(taggedTokens);
     }
   }
 

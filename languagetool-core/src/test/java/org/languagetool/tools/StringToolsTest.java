@@ -278,4 +278,21 @@ public class StringToolsTest {
 
   }
 
+  @Test
+  public void testTitlecaseGlobal() {
+    assertEquals("The Lord of the Rings", StringTools.titlecaseGlobal("the lord of the rings"));
+    assertEquals("Rhythm and Blues", StringTools.titlecaseGlobal("rhythm And blues"));
+    assertEquals("Memória de Leitura", StringTools.titlecaseGlobal("memória de leitura"));
+    assertEquals("Fond du Lac", StringTools.titlecaseGlobal("fond du lac"));
+    assertEquals("El Niño de las Islas", StringTools.titlecaseGlobal("el niño de Las islas"));
+  }
+
+  @Test
+  public void testAllStartWithLowercase() {
+    assertTrue(StringTools.allStartWithLowercase("the lord of the rings"));
+    assertFalse(StringTools.allStartWithLowercase("the Fellowship of the Ring"));
+    assertTrue(StringTools.allStartWithLowercase("bilbo"));
+    assertFalse(StringTools.allStartWithLowercase("Baggins"));
+  }
+
 }

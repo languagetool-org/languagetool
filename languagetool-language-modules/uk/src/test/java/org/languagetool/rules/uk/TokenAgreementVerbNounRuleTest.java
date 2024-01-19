@@ -18,14 +18,18 @@
  */
 package org.languagetool.rules.uk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.TestTools;
+import org.languagetool.rules.RuleMatch;
 
 public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
 
@@ -34,6 +38,17 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     rule = new TokenAgreementVerbNounRule(TestTools.getMessages("uk"), lt.getLanguage());
   }
 
+  @Test
+  public void testRuleTPSuggestions() throws IOException {
+    String text = "перераховувати причин";
+    AnalyzedSentence sent = lt.getAnalyzedSentence(text);
+    RuleMatch[] match = rule.match(sent);
+    assertEquals(1, match.length);
+    assertEquals("перераховувати причин", text.substring(match[0].getFromPos(), match[0].getToPos()));
+    assertEquals(Arrays.asList("перераховувати причинам", "перераховувати причинами", "перераховувати причини"), match[0].getSuggestedReplacements());
+  }
+  
+  
   @Test
   public void testRuleTP() throws IOException {
 

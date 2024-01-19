@@ -38,14 +38,14 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final String SPELLING_FILE = "/fr/hunspell/spelling.txt";
 
   private static final int flags = CASE_INSENSITIVE | UNICODE_CASE;
-  private static final Pattern PARTICULA_INICIAL = compile(
-      "^(non|en|a|le|la|les|pour|de|du|des|un|une|mon|ma|mes|ton|ta|tes|son|sa|ses|leur|leurs|ce|cet) (..+)$", flags);
-  private static final Pattern CAMEL_CASE = compile("^(.\\p{Ll}+)(\\p{Lu}.+)$", UNICODE_CASE);
-  private static final Pattern PREFIX_AMB_ESPAI = compile(
-      "^(agro|anti|archi|auto|aéro|cardio|co|cyber|demi|ex|extra|géo|hospitalo|hydro|hyper|hypo|infra|inter|macro|mega|meta|mi|micro|mini|mono|multi|musculo|méga|méta|néo|omni|pan|para|pluri|poly|post|prim|pro|proto|pré|pseudo|psycho|péri|re|retro|ré|semi|simili|socio|super|supra|sus|trans|tri|télé|ultra|uni|vice|éco|[^ayà\\P{L}]) (..+)$",
-      //grand, haut, nord, sud, sous, sur l|d|s|t
-      flags);
-
+  private static final List<String> TOKEN_AT_START = Arrays.asList("non", "en", "a", "le", "la", "les", "pour", "de",
+    "du", "des", "un", "une", "mon", "ma", "mes", "ton", "ta", "tes", "son", "sa", "ses", "leur", "leurs", "ce", "cet");
+  private static final List<String> PREFIX_WITH_WHITESPACE = Arrays.asList("agro", "anti", "archi", "auto", "aéro",
+    "cardio", "co", "cyber", "demi", "ex", "extra", "géo", "hospitalo", "hydro", "hyper", "hypo", "infra", "inter",
+    "macro", "mega", "meta", "mi", "micro", "mini", "mono", "multi", "musculo", "méga", "méta", "néo", "omni", "pan",
+    "para", "pluri", "poly", "post", "prim", "pro", "proto", "pré", "pseudo", "psycho", "péri", "re", "retro", "ré",
+    "semi", "simili", "socio", "super", "supra", "sus", "trans", "tri", "télé", "ultra", "uni", "vice", "éco");
+  //grand, haut, nord, sud, sous, sur l|d|s|t
   private static final List<String> exceptionsEgrave = Arrays.asList(new String[]{"burkinabè", "koinè", "épistémè"});
   private static final Pattern APOSTROF_INICI_VERBS = compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$", flags);
   private static final Pattern APOSTROF_INICI_VERBS_M = compile("^(m)(h?[aeiouàéèíòóú].*[^è])$", flags);
@@ -60,7 +60,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern HYPHEN_NOUS = compile("^([\\p{L}]+)[’']?(nous)$", flags);
   private static final Pattern HYPHEN_VOUS = compile("^([\\p{L}]+)[’']?(vous)$", flags);
   private static final Pattern HYPHEN_ILS = compile("^([\\p{L}]+)[’']?(ils|elles)$", flags);
-  private static final Pattern SPLIT_SUGGESTIONS = compile("^(..+\\p{L}|et|ou|de|en|à|aux|des)(\\d+)$", flags);
+  private static final List<String> SPLIT_DIGITS_AT_END = Arrays.asList("et", "ou", "de", "en", "à", "aux", "des");
   private static final Pattern IMPERATIVE_HYPHEN = compile(
       "^([\\p{L}]+)[’']?(moi|toi|le|la|lui|nous|vous|les|leur|y|en)$", flags); //|vs|y
 
@@ -82,19 +82,18 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_1P = compile("V .*(ind).* 1 p");
   private static final Pattern VERB_2P = compile("V .*(ind).* 2 p");
   private static final Pattern VERB_3P = compile("V .*(ind).* 3 p");
-
-  private final String dictFilename;
+  private static final String DICT_FILE = "/fr/french.dict";
+  private static final Pattern HYPHEN_OR_QUOTE = compile("['-]");
 
   public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
-    this.setIgnoreTaggedWords();
-    dictFilename = "/fr/french.dict";
+    setIgnoreTaggedWords();
   }
 
   @Override
   public String getFileName() {
-    return dictFilename;
+    return DICT_FILE;
   }
 
   @Override
@@ -121,11 +120,15 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
 
+      String[] parts = suggestions.get(i).getReplacement().toLowerCase().split(" ");
+
       // remove wrong split prefixes
-      if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
+      if (parts.length == 2 && PREFIX_WITH_WHITESPACE.contains(parts[0])) {
         continue;
       }
-
+      if (parts[0].length() == 1 && !parts[0].equals("a") && !parts[0].equals("à") && !parts[0].equals("y")) {
+        continue;
+      }
       // remove: informè V ind pres 1 s
       if (suggestions.get(i).getReplacement().toLowerCase().endsWith("è")
         && !exceptionsEgrave.contains(suggestions.get(i).getReplacement().toLowerCase())) {
@@ -140,8 +143,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
         posNewSugg++;
       }
       // move some split words to first place
-      Matcher matcher = PARTICULA_INICIAL.matcher(suggestions.get(i).getReplacement());
-      if (matcher.matches()) {
+      if (parts.length == 2 && TOKEN_AT_START.contains(parts[0]) && parts[1].length() > 1) {
         newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
@@ -153,7 +155,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       }
 
       // move words with apostrophe or hyphen to second position
-      String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
+      String cleanSuggestion = HYPHEN_OR_QUOTE.matcher(suggestions.get(i).getReplacement()).replaceAll("");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
         if (posNewSugg == 0) {
           posNewSugg = 1;
@@ -201,9 +203,24 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     /*
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
+    String[] parts = StringTools.splitCamelCase(word);
+    if (parts.length > 1 && parts[0].length() > 1) {
+      boolean isNotMisspelled = true;
+      for(String part: parts) {
+        isNotMisspelled &= !speller1.isMisspelled(part);
+      }
+      if (isNotMisspelled) {
+        return Collections.singletonList(String.join(" ",parts));
+      }
+    }
+    parts = StringTools.splitDigitsAtEnd(word);
+    if (parts.length > 1) {
+      if (FrenchTagger.INSTANCE.tag(Arrays.asList(parts[0])).get(0).isTagged()
+        && (parts[0].length() > 2 || SPLIT_DIGITS_AT_END.contains(parts[0].toLowerCase()))) {
+        return Collections.singletonList(String.join(" ",parts));
+      }
+    }
     List<String> newSuggestions = new ArrayList<>();
-    newSuggestions.addAll(findSuggestion(word, CAMEL_CASE, ANY_TAG, 1, " ", false));
-    newSuggestions.addAll(findSuggestion(word, SPLIT_SUGGESTIONS, ANY_TAG, 1, " ", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true));
     newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_C, VERB_INDSUBJ_C, 2, "'", true));

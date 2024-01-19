@@ -62,6 +62,8 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern MISSING_APO = Pattern.compile("([бвгґдзкмнпрстфхш])([єїюя])");
   private static final Pattern MISSING_HYPHEN = Pattern.compile("([а-яіїєґ']+)(небудь)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern CAPS_INSIDE_WORD = Pattern.compile("[а-яіїєґ'-]*[а-яіїєґ][А-ЯІЇЄҐ][а-яіїєґ][а-яіїєґ'-]*");
+  private static final Pattern PATTERN_MD = Pattern.compile("[MD]+");
+  private static final Pattern QUOTES = Pattern.compile("[«»\"„“]");
 
 
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, locale);
@@ -79,7 +81,7 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
-    if ( LATIN_NUMBER.matcher(word).matches() && ! word.matches("[MD]+") ) {
+    if ( LATIN_NUMBER.matcher(word).matches() && !PATTERN_MD.matcher(word).matches()) {
       List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin", word));
       return additionalTaggedTokens;
@@ -159,7 +161,7 @@ public class UkrainianTagger extends BaseTagger {
       if( word.length() >= 6 ) {
         if (COMPOUND_WITH_QUOTES_REGEX.matcher(word).find()
             || COMPOUND_WITH_QUOTES_REGEX2.matcher(word).find()) {
-          String adjustedWord = word.replaceAll("[«»\"„“]", "");
+          String adjustedWord = QUOTES.matcher(word).replaceAll("");
           return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
         }
       }
@@ -272,7 +274,7 @@ public class UkrainianTagger extends BaseTagger {
               }
             }
             if( tokens.get(0).hasNoTag() 
-                && word.indexOf("[") != -1 && word.indexOf("]") != -1 
+                && word.contains("[") && word.contains("]")
                 && UkrainianWordTokenizer.WORDS_WITH_BRACKETS_PATTERN.matcher(word).find() ) {
               String adjustedWord = word.replace("[", "").replace("]", "");
               List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, adjustedWord, null, ":alt",
@@ -291,7 +293,7 @@ public class UkrainianTagger extends BaseTagger {
 
       String newWord = LemmaHelper.capitalizeProperName(word);
 
-      List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, newWord, Pattern.compile("noun.*?:prop.*"), null, null);
+      List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, newWord, Pattern.compile("noun.*?:prop.*|noninfl.*"), null, null);
       if( newTokens.size() > 0 ) {
           if( tokens.get(0).hasNoTag() ) {
             //TODO: add special tags if necessary

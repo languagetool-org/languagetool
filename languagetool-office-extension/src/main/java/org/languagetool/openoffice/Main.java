@@ -179,7 +179,7 @@ public class Main extends WeakBase implements XJobExecutor,
     SingletonFactory xFactory = null;
     if (sImplName.equals(Main.class.getName())) {
       xFactory = new SingletonFactory(false);
-    } else if (sImplName.equals(LanguageToolSpellChecker.class.getName())) {
+    } else if (sImplName.equals(LtSpellChecker.class.getName())) {
       xFactory = new SingletonFactory(true);
     }
     return xFactory;
@@ -191,7 +191,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
     boolean ret = Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
-    ret = ret && Factory.writeRegistryServiceInfo(LanguageToolSpellChecker.class.getName(), LanguageToolSpellChecker.getServiceNames(), regKey);
+    ret = ret && Factory.writeRegistryServiceInfo(LtSpellChecker.class.getName(), LtSpellChecker.getServiceNames(), regKey);
     return ret;
   }
 

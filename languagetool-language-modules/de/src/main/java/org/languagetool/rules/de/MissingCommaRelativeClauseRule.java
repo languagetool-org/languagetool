@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
@@ -45,7 +46,10 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
  */
 public class MissingCommaRelativeClauseRule extends Rule {
 
-  private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
+  private static final Pattern MARKS_REGEX = compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
+  private static final Pattern PRONOUN = compile("(d(e[mnr]|ie|as|e([nr]|ss)en)|welche[mrs]?|wessen|was)");
+  private static final Pattern verbPattern = Pattern.compile("(VER:[1-3]:|VER:.*:[1-3]:).*");
+  private static final Pattern zalEtcPattern = Pattern.compile("(ZAL|AD[JV]|ART|SUB|PRO:POS|PRP).*");
 
   private final boolean behind;
 
@@ -114,6 +118,14 @@ public class MissingCommaRelativeClauseRule extends Rule {
         token("werden"),
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
       ),
+      Arrays.asList( // Aus diesem Grund sind die Wörter nicht direkt übersetzt, stattdessen wird der Zustand oder die Situation beschrieben in der die Wörter benutzt werden.
+        posRegex("PA2.*|VER:PA2.*"),
+        new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("haben|werden").build()
+      ),
+      Arrays.asList( // Es würde noch sehr helfen eine Kopie der Google Slide dort zu verlinken damit wir das direkt nachstellen können
+        posRegex("VER:INF.*"),
+        new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("können|werden|sollen|dürfen|müssen|wollen|mögen").build()
+      ),
       Arrays.asList(
         // Komma an der falschen Stelle
         regex("ja|mal"),
@@ -167,6 +179,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
         regex("haben?|hatten?"),
         posRegex("VER:EIZ.*"),
         pos("PKT")
+      ),
+      Arrays.asList(
+        posRegex("VER.*"),
+        regex("\\u2063")
       )
   ), GermanyGerman.INSTANCE);
 
@@ -221,8 +237,8 @@ public class MissingCommaRelativeClauseRule extends Rule {
    * is a potential verb used in sentence or subclause
    */
   private static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
-    return (tokens[n].matchesPosTagRegex("(VER:[1-3]:|VER:.*:[1-3]:).*")
-        && !tokens[n].matchesPosTagRegex("(ZAL|AD[JV]|ART|SUB|PRO:POS|PRP).*")
+    return (tokens[n].matchesPosTagRegex(verbPattern)
+        && !tokens[n].matchesPosTagRegex(zalEtcPattern)
         && (!tokens[n].hasPosTagStartingWith("VER:INF:") || !tokens[n-1].getToken().equals("zu"))
         && !tokens[n].isImmunized()
       );
@@ -326,7 +342,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
    * is potential relative pronoun
    */
   private static boolean isPronoun(AnalyzedTokenReadings[] tokens, int n) {
-    return (tokens[n].getToken().matches("(d(e[mnr]|ie|as|e([nr]|ss)en)|welche[mrs]?|wessen|was)")
+    return (PRONOUN.matcher(tokens[n].getToken()).matches()
             && !tokens[n - 1].getToken().equals("sowie"));
   }
 

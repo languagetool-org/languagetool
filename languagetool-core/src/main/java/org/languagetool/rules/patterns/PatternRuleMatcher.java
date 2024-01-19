@@ -48,6 +48,11 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       .compile(RuleMatch.SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME
           + allowedChars + "(\\(" + allowedChars + "\\)|" + MISTAKE + ")" + allowedChars  
           + RuleMatch.SUGGESTION_END_TAG);
+  private static final Pattern SINGLE_QUOTE = Pattern.compile("'");
+  private static final Pattern WHITESPACE_OR_PUNCT = Pattern.compile("[\\s,:;.!?].*");
+  private static final Pattern TAG_AND_PLEASE_SPELL_ME = Pattern.compile(RuleMatch.SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME);
+  private static final Pattern PLEASE_SPELL_ME_PATTERN = Pattern.compile(PatternRuleHandler.PLEASE_SPELL_ME);
+  private static final Pattern MISTAKE_PATTERN = Pattern.compile(MISTAKE);
 
   private final boolean useList;
   //private final Integer slowMatchThreshold;
@@ -144,7 +149,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     boolean isInputAllUppercase = StringTools.isAllUppercase(inputTokens);
     // one-character words (A, J', L') are not enough to consider it an all-uppercase word
     boolean isAllUppercase = isInputAllUppercase &&
-      (firstMatchTokenObj.getToken().replaceAll("'", "").length() > 1 || lastMatchToken > idx)
+      (SINGLE_QUOTE.matcher(firstMatchTokenObj.getToken()).replaceAll("").length() > 1 || lastMatchToken > idx)
       && matchPreservesCase(rule.getSuggestionMatches(), rule.getMessage())
       && matchPreservesCase(rule.getSuggestionMatchesOutMsg(), rule.getSuggestionsOutMsg());
     isAllUppercase = isAllUppercase && rule.isAdjustSuggestionCase();
@@ -179,7 +184,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       // then do not create the rule match
       if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && !errMessage.contains(RuleMatch.SUGGESTION_START_TAG)
           && !suggestionsOutMsg.contains(RuleMatch.SUGGESTION_START_TAG))) {
-        String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
+        String clearMsg = PLEASE_SPELL_ME_PATTERN.matcher(errMessage).replaceAll("");
+        clearMsg = MISTAKE_PATTERN.matcher(clearMsg).replaceAll("");
         RuleMatch ruleMatch = new RuleMatch(rule, sentence, fromPos, toPos, tokens[firstMatchToken].getStartPos(), tokens[lastMatchToken].getEndPos(),
                 clearMsg, shortErrMessage, startsWithUppercase, isAllUppercase, suggestionsOutMsg, true);
         ruleMatch.setType(rule.getType());
@@ -343,7 +349,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
     // can't do \\p{Punct} as it catches \2 placeholder
-    if (leftSide.endsWith(" ") && rightSide.matches("[\\s,:;.!?].*")) {
+    if (leftSide.endsWith(" ") && WHITESPACE_OR_PUNCT.matcher(rightSide).matches()) {
       return leftSide.substring(0, leftSide.length()-1) + rightSide;
     }
     if (leftSide.endsWith("suggestion>") && rightSide.startsWith(" ")) {
@@ -359,7 +365,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     Matcher matcher = SUGGESTION_PATTERN_SUPPRESS.matcher(result);
     result = matcher.replaceAll("");
     // remove the remaining tags <pleasespellme/> in suggestions but not in the message
-    result = result.replaceAll(RuleMatch.SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME, RuleMatch.SUGGESTION_START_TAG);
+    result = TAG_AND_PLEASE_SPELL_ME.matcher(result).replaceAll(RuleMatch.SUGGESTION_START_TAG);
     return result;
   }
 

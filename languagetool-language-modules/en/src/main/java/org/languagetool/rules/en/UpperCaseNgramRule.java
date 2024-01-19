@@ -36,6 +36,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
@@ -49,13 +50,18 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
 public class UpperCaseNgramRule extends Rule {
 
   public static final int THRESHOLD = 50;
+
   private static MorfologikAmericanSpellerRule spellerRule = null;
   private static LinguServices linguServices = null;
+
+  private static final Pattern PUNCT_PATTERN = Pattern.compile("[.!?:]");
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
     "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied"
   ));
+  private static final Pattern TYPICAL_LOWERCASE = Pattern.compile("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&|/");
+
   private static AhoCorasickDoubleArrayTrie<String> exceptionTrie = null;
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
@@ -660,7 +666,7 @@ public class UpperCaseNgramRule extends Rule {
 
   private boolean isShortWord(AnalyzedTokenReadings token) {
     // ignore words typically spelled lowercase even in titles
-    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&|/");
+    return token.getToken().trim().isEmpty() || TYPICAL_LOWERCASE.matcher(token.getToken()).matches();
   }
 
   private boolean trieMatches(String text, AnalyzedTokenReadings token) {
@@ -694,7 +700,7 @@ public class UpperCaseNgramRule extends Rule {
   private boolean isSentence(AnalyzedTokenReadings[] tokens) {
     boolean isSentence = false;
     for (int i = tokens.length - 1; i > 0; i--) {
-      if (tokens[i].getToken().matches("[.!?:]")) {
+      if (PUNCT_PATTERN.matcher(tokens[i].getToken()).matches()) {
         isSentence = true;
         break;
       }

@@ -13,6 +13,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
 class SearchHelper {
   
    public static class Match {
+     private static final Pattern WHITESPACE = Pattern.compile("\\s");
      private boolean ignoreQuotes = true;
      private boolean ignoreInserts = false;
 //    private boolean ignoreCase = true;
@@ -23,7 +24,7 @@ class SearchHelper {
 
 //    public Match tokens(String... tokens) { this.searchTokens = tokens; return this; }
     public Match tokenLine(String tokenLine) { 
-      this.targets = Stream.of(tokenLine.split("\\s"))
+      this.targets = Stream.of(WHITESPACE.split(tokenLine))
           .map(s -> Condition.token(s))
           .collect(Collectors.toList());
       return this;

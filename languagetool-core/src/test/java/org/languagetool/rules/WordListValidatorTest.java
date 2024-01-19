@@ -31,10 +31,10 @@ import static junit.framework.TestCase.fail;
 public class WordListValidatorTest {
 
   private static final String VALID_CHARS =
-          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
+          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòŁÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
           "___INSERT___" +
-          "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
-          "ŚśŌōżúïÎôêâû" +
+          "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłńÿ" +
+          "ČŚśŌōżúïÎôêâû" +
           "ÇÃÕÚÊÂÔ" +
           "ă" +
           "å" +
@@ -49,6 +49,7 @@ public class WordListValidatorTest {
           "Varaždin/S",
           "Będzin",
           "Aydın",
+          "Pavlović",
           "Poreč",
           "Čeferin",
           "Čeferin/S",
@@ -58,6 +59,9 @@ public class WordListValidatorTest {
           "Modrić/S",
           "Miłosz",
           "Arnautović/S",
+          "Dàoxuān",
+          "Sigara böreği",
+          "Sigara böreği/S",
           "Bhagavad-gītā",
           "Sønderjylland/S",
           "Utøya/S",

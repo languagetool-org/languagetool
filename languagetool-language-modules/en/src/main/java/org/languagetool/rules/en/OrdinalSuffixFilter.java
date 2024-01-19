@@ -25,6 +25,7 @@ import org.languagetool.rules.patterns.RuleFilter;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Fixes the suggestion for ordinal suffixes, like "1nd" -&gt; "1st".
@@ -32,11 +33,14 @@ import java.util.Map;
  */
 public class OrdinalSuffixFilter extends RuleFilter {
 
+  private static final Pattern PATTERN = Pattern.compile(".*(11|12|13)");
+  private static final Pattern NON_DIGITS = Pattern.compile("[^0-9]");
+
   @Nullable
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException {
-    String ordinal = match.getSuggestedReplacements().get(0).replaceAll("[^0-9]", "");
-    if (ordinal.matches(".*(11|12|13)")) {
+    String ordinal = NON_DIGITS.matcher(match.getSuggestedReplacements().get(0)).replaceAll("");
+    if (PATTERN.matcher(ordinal).matches()) {
       match.setSuggestedReplacement(ordinal + "th");
     } else if (ordinal.endsWith("1")) {
       match.setSuggestedReplacement(ordinal + "st");

@@ -36,6 +36,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.*;
 import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
@@ -138,7 +139,7 @@ public class VerbAgreementRule extends TextLevelRule {
       posRegex("VER:IMP:SIN.*"),
       token("du")
     ),
-    Arrays.asList(
+    asList(
       // - Wirst du ausflippen?
       tokenRegex("[-–]"),
       posRegex("VER:.*(AUX|MOD).*"),
@@ -628,7 +629,8 @@ public class VerbAgreementRule extends TextLevelRule {
   private static final Set<String> QUOTATION_MARKS = new HashSet<>(asList(
     "\"", "„"
   ));
-  
+  private static final Pattern COMMA = Pattern.compile("‚", Pattern.LITERAL);
+
   private final German language;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
@@ -702,7 +704,7 @@ public class VerbAgreementRule extends TextLevelRule {
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
 
       String strToken = tokens[i].getToken().toLowerCase();
-      strToken = strToken.replace("‚", "");
+      strToken = COMMA.matcher(strToken).replaceAll("");
 
       switch (strToken) {
         case "ich":

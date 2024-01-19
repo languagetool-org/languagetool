@@ -65,6 +65,26 @@ public class GermanCompoundRule extends AbstractCompoundRule {
       token("ca"),
       token("."),
       tokenRegex("\\d+")
+    ),
+    Arrays.asList(  // Eigenname
+      token("Kung"),
+      token("Fu"),
+      tokenRegex("Panda|Fighting")
+    ),
+    Arrays.asList(  // Eigenname
+      token("Harlem"),
+      token("Gospel"),
+      token("Singers")
+    ),
+    Arrays.asList(  // Englisch
+      token("Always"),
+      token("on"),
+      tokenRegex("my|your|the|an?|their")
+    ),
+    Arrays.asList(  // sich selbst gerecht werden
+      tokenRegex("sich|uns|ihm|ihr|mir|euch"),
+      token("selbst"),
+      tokenRegex("gerecht.*")
     )
   ), GERMAN);
 

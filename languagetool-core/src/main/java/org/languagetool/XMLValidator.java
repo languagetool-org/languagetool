@@ -36,8 +36,6 @@ import javax.xml.validation.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Validate XML files with a given DTD or XML Schema (XSD).
@@ -48,26 +46,6 @@ public final class XMLValidator {
 
   public XMLValidator() {
     Tools.setPasswordAuthenticator();
-  }
-
-  /**
-   * Check some limits of our simplified XML output.
-   */
-  public void checkSimpleXMLString(String xml) throws IOException {
-    Pattern pattern = Pattern.compile("(<error.*?/>)", Pattern.DOTALL|Pattern.MULTILINE);
-    Matcher matcher = pattern.matcher(xml);
-    int pos = 0;
-    while (matcher.find(pos)) {
-      String errorElement = matcher.group();
-      pos = matcher.end();
-      if (errorElement.contains("\n") || errorElement.contains("\r")) {
-        throw new IOException("<error ...> may not contain line breaks");
-      }
-      char beforeError = xml.charAt(matcher.start()-1);
-      if (beforeError != '\n' && beforeError != '\r') {
-        throw new IOException("Each <error ...> must start on a new line");
-      }
-    }
   }
 
   /**

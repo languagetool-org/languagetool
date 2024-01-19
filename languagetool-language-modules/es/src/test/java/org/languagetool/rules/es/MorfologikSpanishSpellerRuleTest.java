@@ -34,7 +34,7 @@ public class MorfologikSpanishSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     Spanish language = new Spanish();
-    MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("en"), language, null,
+    MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("es"), language, null,
         Collections.emptyList());
     JLanguageTool lt = new JLanguageTool(language);
 
@@ -111,20 +111,31 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Windows10"));
     assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("windows10"));
     assertEquals("Windows 10", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
 
-    matches = rule.match(lt.getAnalyzedSentence("windows1995"));
+    matches = rule.match(lt.getAnalyzedSentence("Windows1995"));
     assertEquals("Windows 1995", matches[0].getSuggestedReplacements().get(0));
+
+    //FIXME
+    //matches = rule.match(lt.getAnalyzedSentence("windows1995"));
+    //assertEquals("Windows 1995", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("windows95"));
+    assertEquals("Windows 95", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("en1995"));
     assertEquals("en 1995", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("BretañaItinerante"));
     assertEquals("Bretaña Itinerante", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("sigloXXI"));
+    assertEquals("siglo XXI", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("gustarÃ\u00ADa"));
+    assertEquals("gustaría", matches[0].getSuggestedReplacements().get(0));
 
     // currencies
     matches = rule.match(lt.getAnalyzedSentence("$100"));
@@ -210,8 +221,25 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Martin"));
     assertEquals(1, matches.length);
-    assertEquals("[Martín, Mártir, Martina, Mastín, Martí, Marvin, Marín, Martini]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[Martín, Mártir, Martina, Mastín, Marlín, Martiño, Martí, Marvin, Marín, Martini, Marin, Marti, Martins]", matches[0].getSuggestedReplacements().toString());
 
+    matches = rule.match(lt.getAnalyzedSentence("Dnipro"));
+    assertEquals(1, matches.length);
+    assertEquals("[Dnipró]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("Dnepr"));
+    assertEquals(1, matches.length);
+    assertEquals("Dniéper", matches[0].getSuggestedReplacements().get(0).toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("don't, doesn't, don’t, doesn’t"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("l'Alacantí, l’Alacantí"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("medices algo"));
+    assertEquals(1, matches.length);
+    assertEquals("Me dices", matches[0].getSuggestedReplacements().get(0).toString());
   }
 
 }

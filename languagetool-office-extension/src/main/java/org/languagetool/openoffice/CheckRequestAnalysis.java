@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
@@ -52,6 +53,7 @@ class CheckRequestAnalysis {
   private final String docID;                       //  docID of the document
   private final MultiDocumentsHandler mDocHandler;  //  handles the different documents loaded in LO/OO
   private final SingleDocument singleDocument;      //  handles one document
+  private final Configuration config;               //  Configuration
   private final List<Integer> minToCheckPara;       //  List of minimal to check paragraphs for different classes of text level rules
   private final Language docLanguage;               //  docLanguage (usually the Language of the first paragraph)
   private final Language fixedLanguage;             //  fixed language (by configuration); if null: use language of document (given by LO/OO)
@@ -60,6 +62,7 @@ class CheckRequestAnalysis {
   private final int proofInfo;                      //  Information about proof request (supported by LO > 6.4 otherwise: 0 == UNKNOWN)
   private final DocumentCache docCache;             //  cache of paragraphs (only readable by parallel thread)
   private final Map<Integer, String> changedParas;  //  Map of last changed paragraphs;
+  private final Set<Integer> runningParas;         //  List of running checks for paragraphs;
   private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
 
 //  private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
@@ -76,7 +79,7 @@ class CheckRequestAnalysis {
 //  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck, Language fixedLanguage, Language docLanguage,
 //      SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor, Map<Integer, String> changedParas) {
   CheckRequestAnalysis(int numLastVCPara, List<Integer> numLastFlPara, int proofInfo, int numParasToCheck, Language fixedLanguage, Language docLanguage,
-      SingleDocument singleDocument, List<ResultCache> paragraphsCache, Map<Integer, String> changedParas) {
+      SingleDocument singleDocument, List<ResultCache> paragraphsCache, Map<Integer, String> changedParas, Set<Integer> runningParas) {
     debugMode = OfficeTools.DEBUG_MODE_CR;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.singleDocument = singleDocument;
@@ -86,6 +89,7 @@ class CheckRequestAnalysis {
     this.proofInfo = proofInfo;
     this.paragraphsCache = paragraphsCache;
     this.changedParas = changedParas;
+    this.runningParas = runningParas;
     this.fixedLanguage = fixedLanguage;
     this.docLanguage = docLanguage;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
@@ -95,7 +99,7 @@ class CheckRequestAnalysis {
     minToCheckPara = mDocHandler.getNumMinToCheckParas();
     docCache = singleDocument.getDocumentCache();
 //    flatPara = singleDocument.getFlatParagraphTools();
-    Configuration config = mDocHandler.getConfiguration();
+    config = mDocHandler.getConfiguration();
     this.numParasToCheck = mDocHandler.isTestMode() ? 0 : numParasToCheck;
     useQueue = (numParasToCheck != 0 && proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && config.useTextLevelQueue());
     for (int minPara : minToCheckPara) {
@@ -109,6 +113,9 @@ class CheckRequestAnalysis {
    * get number of paragraph from node index
    */
   int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
+    if (docCache == null) {
+      return -1;
+    }
     //  test if doc cache has changed --> actualize
     if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && !docCache.isActual(documentElementsCount)) {
 //      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
@@ -118,10 +125,11 @@ class CheckRequestAnalysis {
       }
     }
     int paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
+    if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+      return paraNum;
+    }
     //  if number of paragraph < 0 --> actualize doc cache and try again
-//    if (paraNum < 0 || docCache.nearestParagraphHasChanged(paraNum, singleDocument.getFlatParagraphTools())) {
     if (paraNum < 0) {
-//      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
       handleCacheChanges();
       paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
       if (debugMode > 0) {
@@ -129,15 +137,15 @@ class CheckRequestAnalysis {
               " --> cache actualized, new paraNum: " + paraNum);
       }
     }
-    if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && paraNum >= 0) {
+    if (paraNum >= 0) {
       //  test if paragraph has changed --> actualize all caches for single paragraph
       TextParagraph tPara = docCache.getNumberOfTextParagraph(paraNum);
       DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
-      List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara);
-      
-      if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
-//        singleDocument.getFlatParagraphTools().getFlatParagraphAt(paraNum);
-        handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
+      if (docCursor != null) {
+        List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara, config.includeTrackedChanges());
+        if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
+          handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
+        }
       }
     }
     return paraNum;
@@ -202,7 +210,8 @@ class CheckRequestAnalysis {
     try {
       Locale locale = FlatParagraphTools.getPrimaryParagraphLanguage(xFlatPara, 0, chPara.length(), docLocale, lastLocale, false);
       DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
-      List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(docCache.getNumberOfTextParagraph(nPara));
+      List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(
+          docCache.getNumberOfTextParagraph(nPara), config.includeTrackedChanges());
       if (!docCache.isEqual(nPara, chPara, locale, deletedChars)) {
         if (debugMode > 1) {
           MessageHandler.printToLogFile("ICheckRequestAnalysis: actualizeDocumentCache: Paragraph has changed:\nold:" 
@@ -643,7 +652,7 @@ class CheckRequestAnalysis {
    * adjust the result cache to changes
    */
   private boolean handleCacheChanges() {
-    if (useQueue) {
+    if (useQueue && mDocHandler.getTextLevelCheckQueue() != null) {
       mDocHandler.getTextLevelCheckQueue().interruptCheck(docID, true);
     }
     ChangedRange changed = docCache.refreshAndCompare(singleDocument, LinguisticServices.getLocale(fixedLanguage), 
@@ -660,6 +669,9 @@ class CheckRequestAnalysis {
     if(!isDisposed()) {
       for (ResultCache cache : paragraphsCache) {
         cache.removeAndShift(changed.from, changed.to, changed.oldSize, changed.newSize);
+      }
+      if (mDocHandler.useAnalyzedSentencesCache()) {
+        docCache.removeAndShiftAnalyzedParagraph(changed.from, changed.to, changed.oldSize, changed.newSize);
       }
       if (useQueue) {
         if (debugMode > 0) {
@@ -817,6 +829,7 @@ class CheckRequestAnalysis {
     docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
 //    mDocHandler.handleLtDictionary(chPara, locale);
     if (useQueue) {
+      runningParas.add(nPara);
       changedParas.put(nPara, chPara);
       singleDocument.removeResultCache(nPara, true);
       for (int i = 1; i < minToCheckPara.size(); i++) {
@@ -845,7 +858,7 @@ class CheckRequestAnalysis {
     }
     TextParagraph tPara = docCache.getNumberOfTextParagraph(nPara);
     DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
-    List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara);
+    List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara, config.includeTrackedChanges());
     
     if (!docCache.isEqual(nPara, chPara, locale, deletedChars)) {
       handleChangedPara(nPara, chPara, locale, footnotePos, deletedChars);

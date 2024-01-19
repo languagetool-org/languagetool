@@ -48,6 +48,39 @@ public class DutchTaggerTest {
     TestTools.myAssert("Aardappels koken.", "Aardappels/[aardappel]ZNW:MRV:DE_ -- koken/[koken]WKW:TGW:INF", tokenizer,
         tagger);
     TestTools.myAssert("zwijnden", "zwijnden/[zwijnen]WKW:VLT:INF", tokenizer, tagger);
+
+    //Tag random accepted compound words
+    TestTools.myAssert("oorlogsbeker", "oorlogsbeker/[oorlogsbeker]ZNW:EKV:DE_", tokenizer, tagger);
+    TestTools.myAssert("dorpswezen", "dorpswezen/[dorpswees]ZNW:MRV:DE_|dorpswezen/[dorpswezen]ZNW:EKV:HET", tokenizer, tagger);
+    TestTools.myAssert("varkensweer", "varkensweer/[varkensweer]ZNW:EKV:HET", tokenizer, tagger);
+    TestTools.myAssert("jongenstablet", "jongenstablet/[jongenstablet]ZNW:EKV:DE_|jongenstablet/[jongenstablet]ZNW:EKV:HET", tokenizer, tagger);
+    TestTools.myAssert("passagierssituaties", "passagierssituaties/[passagierssituatie]ZNW:MRV:DE_", tokenizer, tagger);
+
+    //As this does not end in "ings", should not be accepted by CompoundAcceptor
+    TestTools.myAssert("beoordelinggeschiedenis", "beoordelinggeschiedenis/[null]null", tokenizer, tagger);
+    //These do, and are tagged
+    TestTools.myAssert("beoordelingsgeschiedenis", "beoordelingsgeschiedenis/[beoordelingsgeschiedenis]ZNW:EKV:DE_", tokenizer, tagger);
+    TestTools.myAssert("beoordelingsgeschiedenisje", "beoordelingsgeschiedenisje/[beoordelingsgeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    TestTools.myAssert("Beoordelingsgeschiedenisjes", "Beoordelingsgeschiedenisjes/[beoordelingsgeschiedenis]ZNW:MRV:VRK:DE_", tokenizer, tagger);
+
+    // Test regions
+    TestTools.myAssert("Zuidoost-Gouda", "Zuidoost-Gouda/[Gouda]ENM:LOC:PTS", tokenizer, tagger);
+    TestTools.myAssert("West-Bergambacht", "West-Bergambacht/[Bergambacht]ENM:LOC:PTS", tokenizer, tagger);
+
+    // Test compound words with 2 parts
+    TestTools.myAssert("beroertegeschiedenisje", "beroertegeschiedenisje/[beroertegeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    TestTools.myAssert("aspirant-burgemeestertje", "aspirant-burgemeestertje/[aspirant-burgemeester]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    // Test compound words with 3 parts
+    TestTools.myAssert("gastkritiekgeschiedenis", "gastkritiekgeschiedenis/[null]null", tokenizer, tagger);
+    // Test compound words with 3+ parts
+    TestTools.myAssert("haarhalfbergnacht", "haarhalfbergnacht/[null]null", tokenizer, tagger);
+
+    // Make sure part1 and part2 as duplicates are not accepted
+    TestTools.myAssert("vriendenvrienden", "vriendenvrienden/[null]null", tokenizer, tagger);
+
+    // This is not modified, as it's already found in dictionary. If it was, getCompoundPOS would give it postag ZNW:EKV, from "mout".
+    TestTools.myAssert("havermout", "havermout/[havermout]ZNW:EKV:DE_", tokenizer, tagger);
+
     TestTools.myAssert("déúr", "déúr/[deur]ZNW:EKV:DE_", tokenizer, tagger);
     TestTools.myAssert("kómen", "kómen/[komen]WKW:TGW:INF", tokenizer, tagger);
     TestTools.myAssert("kán", "kán/[kan]ZNW:EKV:DE_|kán/[kunnen]WKW:TGW:1EP|kán/[kunnen]WKW:TGW:3EP", tokenizer,

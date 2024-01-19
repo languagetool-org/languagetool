@@ -34,8 +34,10 @@ public class BelarusianWordTokenizer extends WordTokenizer {
   private final String tokenizingCharacters;
 
   public BelarusianWordTokenizer() {
-    tokenizingCharacters = super.getTokenizingCharacters().replace("\u0027", "").replace("\u2019", "").replace("\u02BC",
-        "");
+    tokenizingCharacters = super.getTokenizingCharacters().
+      replace("'", "").
+      replace("’", "").
+      replace("ʼ", "");
   }
 
   @Override
@@ -53,7 +55,7 @@ public class BelarusianWordTokenizer extends WordTokenizer {
     List<String> outputlist = new ArrayList<>();
     for (String token : joinEMailsAndUrls(l)) {
       if (token.length() > 1) {
-        outputlist.add(token.replaceAll("\u2019", "'"));
+        outputlist.add(token.replace('’', '\''));
       } else
         outputlist.add(token);
     }

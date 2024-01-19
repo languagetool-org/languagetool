@@ -43,10 +43,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.util.regex.Pattern.*;
 import static org.languagetool.rules.SuggestedReplacement.topMatch;
 
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
+
+  @Override
+  public List<String> getAdditionalSpellingFileNames() {
+    // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE,
+      "/en/multiwords.txt");
+  }
 
   private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
@@ -70,6 +78,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "cunt",
     "germane", // confused with German
     "double check",
+    "flat screen", // flatscreen
     "java script",
     "off topic",
     "hard coding",
@@ -93,6 +102,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "client side",
     "server side",
     "worry some", // suggestion for worrysome
+    "skillet", // wrong suggestion for skillset
+    "skillets", // wrong suggestion for skillsets
     "code named",
     "code naming",
     "in house",
@@ -118,6 +129,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "nigger lip",
     "nigger lips",
     "niggers",
+    "skillet",
     "shit",
     "shits",
     "shitfaced",
@@ -132,42 +144,81 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     // extension:
     "niggard", "niggardly"
   ));
-  
+  private static final Pattern PROFILERATION = compile("[Pp]rofileration");
+  private static final Pattern CEMETARY = compile("[Cc]emetary");
+  private static final Pattern CEMETARIES = compile("[Cc]emetaries");
+  private static final Pattern BASICLY = compile("[Bb]asicly");
+  private static final Pattern BELEIVES = compile("[Bb]eleives?");
+  private static final Pattern BELIVES = compile("[Bb]elives?");
+  private static final Pattern BIZZARE = compile("[Bb]izzare");
+  private static final Pattern COMPLETLY = compile("[Cc]ompletly");
+  private static final Pattern DISSAPEARS = compile("[Dd]issapears?");
+  private static final Pattern FARENHEIT = compile("[Ff]arenheit");
+  private static final Pattern FREINDS = compile("[Ff]reinds?");
+  private static final Pattern INCIDENTLY = compile("[Ii]ncidently");
+  private static final Pattern INTERUPTS = compile("[Ii]nterupts?");
+  private static final Pattern LOLLYPOPS = compile("[Ll]ollypops?");
+  private static final Pattern OCASSIONS = compile("[Oo]cassions?");
+  private static final Pattern OCCURANCES = compile("[Oo]ccurances?");
+  private static final Pattern PERSISTANT = compile("[Pp]ersistant");
+  private static final Pattern PEICES = compile("[Pp]eices?");
+  private static final Pattern SEIGES = compile("[Ss]eiges?");
+  private static final Pattern SUPERCEDES = compile("[Ss]upercedes?");
+  private static final Pattern THRESHHOLDS = compile("[Tt]hreshholds?");
+  private static final Pattern TOMMORROWS = compile("[Tt]ommorrows?");
+  private static final Pattern TOUTES = compile("[Tt]ounges?");
+  private static final Pattern WIERD = compile("[Ww]ierd");
+  private static final Pattern SARGENT = compile("[Ss]argent");
+  private static final Pattern SWIMMED = compile("swimmed");
+  private static final Pattern MISSPELT = compile("misspelt");
+  private static final Pattern JIST = compile("[Jj]ist");
+  private static final Pattern ADHOC = compile("[Ad]hoc");
+  private static final Pattern DEACTIVE = compile("[De]eactive");
+  private static final Pattern HONGKONG = compile("[hH]ongkong");
+  private static final Pattern BONAFIDE = compile("[Bb]onafide");
+  private static final Pattern WHEREEVER = compile("[Ww]hereever");
+  private static final Pattern HUBSPOT = compile("[Hh]ubspot");
+  private static final Pattern URL = compile("[Uu]rl");
+  private static final Pattern TV = compile("tv");
+  private static final Pattern HTTP = compile("[Hh]ttp");
+  private static final Pattern HTTPS = compile("[Hh]ttps");
+  private static final Pattern FYI = compile("[Ff]yi");
+  private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
+
   private final BeoLingusTranslator translator;
 
   private static NERService nerPipe = null;
   
-    
-  
   private static final int maxPatterns = 9;
   private static final Pattern[] wordPatterns = new Pattern[maxPatterns];
   private static final String[] blogLinks = new String[maxPatterns];
+  private static final Pattern CONTAINS_TOKEN = compile(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)");
   static  {
-    wordPatterns[0] = Pattern.compile(".*[yi][zs]e(s|d)?|.*[yi][zs]ings?|.*i[zs]ations?", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[0] = compile(".*[yi][zs]e([sd])?|.*[yi][zs]ings?|.*i[zs]ations?", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[0] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
 
-    wordPatterns[1] = Pattern.compile(".*(defen[cs]e|offen[sc]e|preten[sc]e).*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[1] = compile(".*(defen[cs]e|offen[sc]e|preten[sc]e).*", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[1] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
 
-    wordPatterns[2] = Pattern.compile(".*og|.*ogue", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[2] = compile(".*og|.*ogue", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[2] = "https://languagetool.org/insights/post/ise-ize/#another-difference-because-of-foreign-words-%E2%80%9C-og%E2%80%9D-vs-%E2%80%9C-ogue%E2%80%9D";
     
-    wordPatterns[3] = Pattern.compile(".*(or|our).*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    blogLinks[3] = "https://languagetool.org/insights/post/our-or/#colour-or-color-%E2%80%94-colourise-or-colorize";
+    wordPatterns[3] = compile(".*(or|our).*", CASE_INSENSITIVE | UNICODE_CASE);
+    blogLinks[3] = "https://languagetool.org/insights/post/our-or/#colour-or-color%E2%80%94colourise-or-colorize";
 
-    wordPatterns[4] = Pattern.compile(".*e?able|.*dge?ments?|aging|ageing|ax|axe|.*grame?s?|neuron|neurone|neurons|neurones", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[4] = compile(".*e?able|.*dge?ments?|aging|ageing|ax|axe|.*grame?s?|neuron|neurone|neurons|neurones", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[4] = "https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen";
     
-    wordPatterns[5] = Pattern.compile(".*(centre|center).*|.*(re|er)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[5] = compile(".*(centre|center).*|.*(re|er)", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[5] = "https://languagetool.org/insights/post/re-vs-er/#the-difference-of-%E2%80%9C-reer%E2%80%9D-at-the-center-of-attention";
    
-    wordPatterns[6] = Pattern.compile("canceled|cancelled|canceling|cancelling|chili|chilli|chilies|chillies|chilis|chillis|counselor|counsellor|counselors|counsellors|defueled|defuelled|defueling|defuelling|defuelings|defuellings|dialed|dialled|dialer|dialler|dialers|diallers|dialing|dialling|dialog|dialogue|dialogize|dialogise|dialogized|dialogised|dialogizes|dialogises|dialogizing|dialogising|dialogs|dialogues|dialyzable|dialysable|dialyze|dialyse|dialyzed|dialysed|dialyzes|dialyses|dialyzing|dialysing|enroll|enrol|enrolled|enroled|enrolling|enroling|enrollment|enrolment|enrollments|enrolments|enrolls|enrols|fueled|fuelled|fueling|fuelling|fulfill|fulfil|fulfillment|fulfilment|fulfills|fulfils|installment|instalment|installments|instalments|jewelry|jewellery|labeled|labelled|labeling|labelling|marvelous|marvellous|medalist|medallist|medalists|medallists|modeled|modelled|modeling|modelling|noise-canceling|noise-cancelling|refueled|refuelled|refueling|refuelling|relabeled|relabelled|relabeling|relabelling|remodeled|remodelled|remodeling|remodelling|signalization|signalisation|signalize|signalise|signalized|signalised|signalizes|signalises|signalizing|signalising|skillful|skilful|skillfully|skilfully|tranquilize|tranquillize|tranquilized|tranquillized|tranquilizes|tranquillizes|traveled|travelled|traveler|traveller|travelers|travellers|traveling|travelling|uncanceled|uncancelled|uncanceling|uncancelling|unlabeled|unlabelled|wooly|woolly", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[6] = compile("canceled|cancelled|canceling|cancelling|chili|chilli|chilies|chillies|chilis|chillis|counselor|counsellor|counselors|counsellors|defueled|defuelled|defueling|defuelling|defuelings|defuellings|dialed|dialled|dialer|dialler|dialers|diallers|dialing|dialling|dialog|dialogue|dialogize|dialogise|dialogized|dialogised|dialogizes|dialogises|dialogizing|dialogising|dialogs|dialogues|dialyzable|dialysable|dialyze|dialyse|dialyzed|dialysed|dialyzes|dialyses|dialyzing|dialysing|enroll|enrol|enrolled|enroled|enrolling|enroling|enrollment|enrolment|enrollments|enrolments|enrolls|enrols|fueled|fuelled|fueling|fuelling|fulfill|fulfil|fulfillment|fulfilment|fulfills|fulfils|installment|instalment|installments|instalments|jewelry|jewellery|labeled|labelled|labeling|labelling|marvelous|marvellous|medalist|medallist|medalists|medallists|modeled|modelled|modeling|modelling|noise-canceling|noise-cancelling|refueled|refuelled|refueling|refuelling|relabeled|relabelled|relabeling|relabelling|remodeled|remodelled|remodeling|remodelling|signalization|signalisation|signalize|signalise|signalized|signalised|signalizes|signalises|signalizing|signalising|skillful|skilful|skillfully|skilfully|tranquilize|tranquillize|tranquilized|tranquillized|tranquilizes|tranquillizes|traveled|travelled|traveler|traveller|travelers|travellers|traveling|travelling|uncanceled|uncancelled|uncanceling|uncancelling|unlabeled|unlabelled|wooly|woolly", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[6] = "https://languagetool.org/insights/post/re-vs-er/#british-english-prefers-doubling-consonants-doesn%E2%80%99t-it";
     
-    wordPatterns[7] = Pattern.compile("airfoil|aerofoil|airfoils|aerofoils|airplane|aeroplane|airplanes|aeroplanes|aluminum|aluminium|artifact|artefact|artifacts|artefacts|backdraft|backdraught|cozy|cosy|", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[7] = compile("airfoil|aerofoil|airfoils|aerofoils|airplane|aeroplane|airplanes|aeroplanes|aluminum|aluminium|artifact|artefact|artifacts|artefacts|backdraft|backdraught|cozy|cosy|", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[7] = "https://languagetool.org/insights/post/re-vs-er/#more-radical-differences-between-british-and-american-english-spellings";
     
-    wordPatterns[8] = Pattern.compile("amenorrhea|amenorrhoea|anesthesia|anaesthesia|anesthesias|anaesthesias|anesthetic|anaesthetic|anesthetically|anaesthetically|anesthetics|anaesthetics|anesthetist|anaesthetist|anesthetists|anaesthetists|anesthetization|anaesthetisation|anesthetizations|anaesthetisations|anesthetize|anaesthetise|anesthetized|anaesthetised|anesthetizes|anaesthetises|anesthetizing|anaesthetising|archeological|archaeological|archeologically|archaeologically|archeologies|archaeologies|archeology|archaeology|cesium|caesium|diarrhea|diarrhoea|diarrheal|diarrhoeal|dyslipidemia|dyslipidaemia|dyslipidemias|dyslipidaemias|edematous|oedematous|encyclopedia|encyclopaedia|encyclopedias|encyclopaedias|eon|aeon|eons|aeons|esophagi|oesophagi|esophagus|oesophagus|esophaguses|oesophaguses|esthetic|aesthetic|esthetical|aesthetical|esthetically|aesthetically|esthetician|aesthetician|estheticians|aestheticians|estrogen|oestrogen|estrus|oestrus|etiologies|aetiologies|etiology|aetiology|feces|faeces|fetal|foetal|fetus|foetus|fetuses|foetuses|gastroesophageal|gastro-oesophageal|glycemic|glycaemic|gynecomastia|gynaecomastia|hematemesis|haematemesis|hematoma|haematoma|hematomas|haematomas|hematopoietic|haematopoietic|hematuria|haematuria|hematurias|haematurias|hemolytic|haemolytic|hemophilia|haemophilia|hemorrhage|haemorrhage|hemorrhages|haemorrhages|hemostasis|haemostasis|homeopathies|homoeopathies|homeopathy|homoeopathy|hyperemia|hyperaemia|hyperemic|hyperaemic|hypnopedia|hypnopaedia|hypnopedic|hypnopaedic|hypocalcaemia|hypocalcaemia|hypokalaemic|hypokalemic|kinesthesia|kinaesthesia|kinesthesis|kinaesthesis|kinesthetic|kinaesthetic|kinesthetically|kinaesthetically|maneuver|manoeuvre|maneuvers|manoeuvres|orthopedic|orthopaedic|orthopedics|orthopaedics|paleoecology|palaeoecology|paleogeographical|palaeogeographical|paleogeographically|palaeogeographically|paleogeography|palaeogeography|paresthesia|paraesthesia|pediatric|paediatric|pediatrically|paediatrically|pediatrician|paediatrician|pediatricians|paediatricians|pedomorphic|paedomorphic|pedophile|paedophile|pedophiles|paedophiles|polycythemia|polycythaemia|pretorium|praetorium|pyorrhea|pyorrhoea|septicemia|septicaemia|synesthesia|synaesthesia|synesthete|synaesthete|synesthetes|synaesthetes|tracheoesophageal|tracheo-oesophageal", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    wordPatterns[8] = compile("amenorrhea|amenorrhoea|anesthesia|anaesthesia|anesthesias|anaesthesias|anesthetic|anaesthetic|anesthetically|anaesthetically|anesthetics|anaesthetics|anesthetist|anaesthetist|anesthetists|anaesthetists|anesthetization|anaesthetisation|anesthetizations|anaesthetisations|anesthetize|anaesthetise|anesthetized|anaesthetised|anesthetizes|anaesthetises|anesthetizing|anaesthetising|archeological|archaeological|archeologically|archaeologically|archeologies|archaeologies|archeology|archaeology|cesium|caesium|diarrhea|diarrhoea|diarrheal|diarrhoeal|dyslipidemia|dyslipidaemia|dyslipidemias|dyslipidaemias|edematous|oedematous|encyclopedia|encyclopaedia|encyclopedias|encyclopaedias|eon|aeon|eons|aeons|esophagi|oesophagi|esophagus|oesophagus|esophaguses|oesophaguses|esthetic|aesthetic|esthetical|aesthetical|esthetically|aesthetically|esthetician|aesthetician|estheticians|aestheticians|estrogen|oestrogen|estrus|oestrus|etiologies|aetiologies|etiology|aetiology|feces|faeces|fetal|foetal|fetus|foetus|fetuses|foetuses|gastroesophageal|gastro-oesophageal|glycemic|glycaemic|gynecomastia|gynaecomastia|hematemesis|haematemesis|hematoma|haematoma|hematomas|haematomas|hematopoietic|haematopoietic|hematuria|haematuria|hematurias|haematurias|hemolytic|haemolytic|hemophilia|haemophilia|hemorrhage|haemorrhage|hemorrhages|haemorrhages|hemostasis|haemostasis|homeopathies|homoeopathies|homeopathy|homoeopathy|hyperemia|hyperaemia|hyperemic|hyperaemic|hypnopedia|hypnopaedia|hypnopedic|hypnopaedic|hypocalcaemia|hypocalcaemia|hypokalaemic|hypokalemic|kinesthesia|kinaesthesia|kinesthesis|kinaesthesis|kinesthetic|kinaesthetic|kinesthetically|kinaesthetically|maneuver|manoeuvre|maneuvers|manoeuvres|orthopedic|orthopaedic|orthopedics|orthopaedics|paleoecology|palaeoecology|paleogeographical|palaeogeographical|paleogeographically|palaeogeographically|paleogeography|palaeogeography|paresthesia|paraesthesia|pediatric|paediatric|pediatrically|paediatrically|pediatrician|paediatrician|pediatricians|paediatricians|pedomorphic|paedomorphic|pedophile|paedophile|pedophiles|paedophiles|polycythemia|polycythaemia|pretorium|praetorium|pyorrhea|pyorrhoea|septicemia|septicaemia|synesthesia|synaesthesia|synesthete|synaesthete|synesthetes|synaesthetes|tracheoesophageal|tracheo-oesophageal", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[8] = "https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen";
   }
   
@@ -193,7 +244,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         logger.warn("Could not run NER test on '" + sentenceText + "', will assume there are no named entities", e);
       }
     }
-    
     // add custom URLs
     for (RuleMatch match : matches) {
       String misspelledWord = (String) match.getSentence().getText().subSequence(match.getFromPos(), match.getToPos());
@@ -206,9 +256,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           }
         }  
       }
-      
     }
-    
     return matches;
   }
 
@@ -223,10 +271,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           if (!StringTools.startsWithUppercase(covered)) {
             continue;
           }
-          List<String> infos = new ArrayList<>();
+          //List<String> infos = new ArrayList<>();
           long textCount = lm.getCount(covered);
           //System.out.println(textCount + " for " + covered);
-          infos.add(covered + "/" + textCount);
+          //infos.add(covered + "/" + textCount);
           String mostCommonRepl = null;
           long mostCommonReplCount = textCount;
           int i = 0;
@@ -247,7 +295,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                 mostCommonRepl = repl.getReplacement();
                 mostCommonReplCount = replCount;
               }
-              infos.add(repl + "/" + replCount);
+              //infos.add(repl + "/" + replCount);
             } else {
               lookupFailures++;
             }
@@ -342,9 +390,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> result = super.filterSuggestions(suggestions);
     List<SuggestedReplacement> clean = new ArrayList<>();
     for (SuggestedReplacement suggestion : result) {
-      if (!suggestion.getReplacement().matches(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
+      if (!CONTAINS_TOKEN.matcher(suggestion.getReplacement()).matches())   // e.g. 'timezones' suggests 'timezone s'
         clean.add(suggestion);
-      }
     }
     return clean;
   }
@@ -380,172 +427,187 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static List<SuggestedReplacement> cleanSuggestions(RuleMatch ruleMatch) {
     return ruleMatch.getSuggestedReplacementObjects().stream()
-      .filter(k -> !k.getReplacement().toLowerCase().startsWith("re ") &&
-                   !k.getReplacement().toLowerCase().startsWith("en ") &&
-                   !k.getReplacement().toLowerCase().startsWith("co ") &&
-                   !k.getReplacement().toLowerCase().startsWith("cl ") &&
-                   !k.getReplacement().toLowerCase().startsWith("de ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ex ") &&
-                   !k.getReplacement().toLowerCase().startsWith("es ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ab ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ty ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mid ") &&
-                   !k.getReplacement().toLowerCase().startsWith("non ") &&
-                   !k.getReplacement().toLowerCase().startsWith("bio ") &&
-                   !k.getReplacement().toLowerCase().startsWith("bi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("con ") &&
-                   !k.getReplacement().startsWith("ins ") && // instable (ins table)
-                   !k.getReplacement().toLowerCase().startsWith("pre ") &&
-                   !k.getReplacement().toLowerCase().startsWith("socio ") &&
-                   !k.getReplacement().toLowerCase().startsWith("proto ") &&
-                   !k.getReplacement().toLowerCase().startsWith("neo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("geo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("inter ") &&
-                   !k.getReplacement().toLowerCase().startsWith("multi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("retro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("extra ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mega ") &&
-                   !k.getReplacement().toLowerCase().startsWith("meta ") &&
-                   !k.getReplacement().toLowerCase().startsWith("poly ") &&
-                   !k.getReplacement().toLowerCase().startsWith("para ") &&
-                   !k.getReplacement().toLowerCase().startsWith("uni ") &&
-                   !k.getReplacement().toLowerCase().startsWith("anti ") &&
-                   !k.getReplacement().toLowerCase().startsWith("necro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("photo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("post ") &&
-                   !k.getReplacement().toLowerCase().startsWith("sub ") &&
-                   !k.getReplacement().toLowerCase().startsWith("auto ") &&
-                   !k.getReplacement().toLowerCase().startsWith("pl ") &&
-                   !k.getReplacement().startsWith("i ") &&
-                   !k.getReplacement().startsWith("sh ") &&
-                   !k.getReplacement().startsWith("li ") &&
-                   !k.getReplacement().startsWith("ha ") &&
-                   !k.getReplacement().startsWith("st ") &&
-                   !k.getReplacement().toLowerCase().startsWith("dis ") &&
-                   !k.getReplacement().toLowerCase().startsWith("est ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mono ") &&
-                   !k.getReplacement().toLowerCase().startsWith("trans ") &&
-                   !k.getReplacement().toLowerCase().startsWith("neuro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ultra ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mini ") &&
-                   !k.getReplacement().toLowerCase().startsWith("hyper ") &&
-                   !k.getReplacement().toLowerCase().startsWith("micro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("counter ") &&
-                   !k.getReplacement().toLowerCase().startsWith("over ") &&
-                   !k.getReplacement().toLowerCase().startsWith("overs ") &&
-                   !k.getReplacement().toLowerCase().startsWith("overt ") &&
-                   !k.getReplacement().toLowerCase().startsWith("under ") &&
-                   !k.getReplacement().toLowerCase().startsWith("cyber ") &&
-                   !k.getReplacement().toLowerCase().startsWith("hydro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ergo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("fore ") &&
-                   !k.getReplacement().toLowerCase().startsWith("geo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("pro ") &&
-                   !k.getReplacement().toLowerCase().startsWith("pseudo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("psycho ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("nano ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ans ") &&
-                   !k.getReplacement().toLowerCase().startsWith("semi ") &&
-                   !k.getReplacement().toLowerCase().startsWith("infra ") &&
-                   !k.getReplacement().toLowerCase().startsWith("hypo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("syn ") &&
-                   !k.getReplacement().toLowerCase().startsWith("adv ") &&
-                   !k.getReplacement().toLowerCase().startsWith("lo ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ed ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ac ") &&
-                   !k.getReplacement().toLowerCase().startsWith("al ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ea ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ge ") &&
-                   !k.getReplacement().toLowerCase().startsWith("mu ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ma ") &&
-                   !k.getReplacement().toLowerCase().startsWith("la ") &&
-                   !k.getReplacement().toLowerCase().startsWith("bis ") &&
-                   !k.getReplacement().toLowerCase().startsWith("ger ") &&
-                   !k.getReplacement().toLowerCase().startsWith("inf ") &&
-                   !k.getReplacement().toLowerCase().startsWith("tar ") &&
-                   !k.getReplacement().toLowerCase().startsWith("f ") &&
-                   !k.getReplacement().toLowerCase().startsWith("k ") &&
-                   !k.getReplacement().toLowerCase().startsWith("l ") &&
-                   !k.getReplacement().toLowerCase().startsWith("b ") &&
-                   !k.getReplacement().toLowerCase().startsWith("e ") &&
-                   !k.getReplacement().toLowerCase().startsWith("c ") &&
-                   !k.getReplacement().toLowerCase().startsWith("d ") &&
-                   !k.getReplacement().toLowerCase().startsWith("p ") &&
-                   !k.getReplacement().toLowerCase().startsWith("v ") &&
-                   !k.getReplacement().toLowerCase().startsWith("h ") &&
-                   !k.getReplacement().toLowerCase().startsWith("r ") &&
-                   !k.getReplacement().toLowerCase().startsWith("s ") &&
-                   !k.getReplacement().toLowerCase().startsWith("t ") &&
-                   !k.getReplacement().toLowerCase().startsWith("u ") &&
-                   !k.getReplacement().toLowerCase().startsWith("w ") &&
-                   !k.getReplacement().toLowerCase().startsWith("um ") &&
-                   !k.getReplacement().toLowerCase().startsWith("oft ") &&
-                   !k.getReplacement().endsWith(" i") &&
-                   !k.getReplacement().endsWith(" ING") &&
-                   !k.getReplacement().endsWith(" able") &&
-                   !k.getReplacement().endsWith(" om") &&
-                   !k.getReplacement().endsWith(" ox") &&
-                   !k.getReplacement().endsWith(" wide") && // (e.g. storewide)
-                   !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
-                   !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
-                   !k.getReplacement().endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
-                   !k.getReplacement().endsWith(" HHH") && // unnecessary suggestion (e.g. for "OHHHH")
-                   !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
-                   !k.getReplacement().endsWith(" ize") && // "advertize"
-                   !k.getReplacement().endsWith(" sh") &&
-                   !k.getReplacement().endsWith(" st") &&
-                   !k.getReplacement().endsWith(" est") &&
-                   !k.getReplacement().endsWith(" ward") &&
-                   !k.getReplacement().endsWith(" ability") && // interruptability
-                   !k.getReplacement().endsWith(" ware") && // drinkware
-                   !k.getReplacement().endsWith(" logy") && // volcanology
-                   !k.getReplacement().endsWith(" ting") && // someting
-                   !k.getReplacement().endsWith(" ion") && // presention
-                   !k.getReplacement().endsWith(" ions") && // sealions
-                   !k.getReplacement().endsWith(" cal") &&
-                   !k.getReplacement().endsWith(" ted") && // "bursted"
-                   !k.getReplacement().endsWith(" sphere") &&
-                   !k.getReplacement().endsWith(" ell") &&
-                   !k.getReplacement().endsWith(" con") &&
-                   !k.getReplacement().endsWith(" sis") &&
-                   !k.getReplacement().endsWith(" like") && // "ribbonlike"
-                   !k.getReplacement().endsWith(" full") && // do not suggest "use full" for "useful"
-                   !k.getReplacement().endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
-                   !k.getReplacement().endsWith(" ne") &&
-                   !k.getReplacement().endsWith(" ed") &&
-                   !k.getReplacement().endsWith(" al") &&
-                   !k.getReplacement().endsWith(" ans") &&
-                   !k.getReplacement().endsWith(" mans") &&
-                   !k.getReplacement().endsWith(" ti") &&
-                   !k.getReplacement().endsWith(" de") &&
-                   !k.getReplacement().endsWith(" ea") &&
-                   !k.getReplacement().endsWith(" ge") &&
-                   !k.getReplacement().endsWith(" ab") &&
-                   !k.getReplacement().endsWith(" mi") &&
-                   !k.getReplacement().endsWith(" tar") &&
-                   !k.getReplacement().endsWith(" adv") &&
-                   !k.getReplacement().endsWith(" re") &&
-                   !k.getReplacement().endsWith(" e") &&
-                   !k.getReplacement().endsWith(" c") &&
-                   !k.getReplacement().endsWith(" v") &&
-                   !k.getReplacement().endsWith(" h") &&
-                   !k.getReplacement().endsWith(" s") &&
-                   !k.getReplacement().endsWith(" r") &&
-                   !k.getReplacement().endsWith(" l") &&
-                   !k.getReplacement().endsWith(" u") &&
-                   !k.getReplacement().endsWith(" um") &&
-                   !k.getReplacement().endsWith(" er") &&
-                   !k.getReplacement().endsWith(" es") &&
-                   !k.getReplacement().endsWith(" ex") &&
-                   !k.getReplacement().endsWith(" na") &&
-                   !k.getReplacement().endsWith(" ifs") &&
-                   !k.getReplacement().endsWith(" gs") &&
-                   !k.getReplacement().endsWith(" don") &&
-                   !k.getReplacement().endsWith(" dons") &&
-                   !k.getReplacement().endsWith(" la") &&
-                   !k.getReplacement().endsWith(" ism") &&
-                   !k.getReplacement().endsWith(" ma"))
+      .filter(k -> {
+        String rep = k.getReplacement();
+        if (!rep.contains(" ")) {
+          return true;
+        }
+        String repLc = rep.toLowerCase();
+        return
+          !repLc.startsWith("re ") &&
+          !repLc.startsWith("en ") &&
+          !repLc.startsWith("co ") &&
+          !repLc.startsWith("cl ") &&
+          !repLc.startsWith("de ") &&
+          !repLc.startsWith("ex ") &&
+          !repLc.startsWith("es ") &&
+          !repLc.startsWith("ab ") &&
+          !repLc.startsWith("ty ") &&
+          !repLc.startsWith("mid ") &&
+          !repLc.startsWith("non ") &&
+          !repLc.startsWith("bio ") &&
+          !repLc.startsWith("bi ") &&
+          !repLc.startsWith("op ") &&
+          !repLc.startsWith("con ") &&
+          !repLc.startsWith("pre ") &&
+          !repLc.startsWith("socio ") &&
+          !repLc.startsWith("proto ") &&
+          !repLc.startsWith("neo ") &&
+          !repLc.startsWith("geo ") &&
+          !repLc.startsWith("inter ") &&
+          !repLc.startsWith("multi ") &&
+          !repLc.startsWith("retro ") &&
+          !repLc.startsWith("extra ") &&
+          !repLc.startsWith("mega ") &&
+          !repLc.startsWith("meta ") &&
+          !repLc.startsWith("poly ") &&
+          !repLc.startsWith("para ") &&
+          !repLc.startsWith("uni ") &&
+          !repLc.startsWith("anti ") &&
+          !repLc.startsWith("necro ") &&
+          !repLc.startsWith("photo ") &&
+          !repLc.startsWith("post ") &&
+          !repLc.startsWith("sub ") &&
+          !repLc.startsWith("auto ") &&
+          !repLc.startsWith("pl ") &&
+          !repLc.startsWith("dis ") &&
+          !repLc.startsWith("est ") &&
+          !repLc.startsWith("mono ") &&
+          !repLc.startsWith("trans ") &&
+          !repLc.startsWith("neuro ") &&
+          !repLc.startsWith("ultra ") &&
+          !repLc.startsWith("mini ") &&
+          !repLc.startsWith("hyper ") &&
+          !repLc.startsWith("micro ") &&
+          !repLc.startsWith("counter ") &&
+          !repLc.startsWith("over ") &&
+          !repLc.startsWith("overs ") &&
+          !repLc.startsWith("overt ") &&
+          !repLc.startsWith("under ") &&
+          !repLc.startsWith("cyber ") &&
+          !repLc.startsWith("hydro ") &&
+          !repLc.startsWith("ergo ") &&
+          !repLc.startsWith("fore ") &&
+          !repLc.startsWith("pro ") &&
+          !repLc.startsWith("pseudo ") &&
+          !repLc.startsWith("psycho ") &&
+          !repLc.startsWith("mi ") &&
+          !repLc.startsWith("nano ") &&
+          !repLc.startsWith("ans ") &&
+          !repLc.startsWith("semi ") &&
+          !repLc.startsWith("infra ") &&
+          !repLc.startsWith("hypo ") &&
+          !repLc.startsWith("syn ") &&
+          !repLc.startsWith("adv ") &&
+          !repLc.startsWith("com ") &&
+          !repLc.startsWith("res ") &&
+          !repLc.startsWith("resp ") &&
+          !repLc.startsWith("lo ") &&
+          !repLc.startsWith("ed ") &&
+          !repLc.startsWith("ac ") &&
+          !repLc.startsWith("al ") &&
+          !repLc.startsWith("ea ") &&
+          !repLc.startsWith("ge ") &&
+          !repLc.startsWith("mu ") &&
+          !repLc.startsWith("ma ") &&
+          !repLc.startsWith("la ") &&
+          !repLc.startsWith("bis ") &&
+          !repLc.startsWith("ger ") &&
+          !repLc.startsWith("inf ") &&
+          !repLc.startsWith("tar ") &&
+          !repLc.startsWith("f ") &&
+          !repLc.startsWith("k ") &&
+          !repLc.startsWith("l ") &&
+          !repLc.startsWith("b ") &&
+          !repLc.startsWith("e ") &&
+          !repLc.startsWith("c ") &&
+          !repLc.startsWith("d ") &&
+          !repLc.startsWith("p ") &&
+          !repLc.startsWith("v ") &&
+          !repLc.startsWith("h ") &&
+          !repLc.startsWith("r ") &&
+          !repLc.startsWith("s ") &&
+          !repLc.startsWith("t ") &&
+          !repLc.startsWith("u ") &&
+          !repLc.startsWith("w ") &&
+          !repLc.startsWith("um ") &&
+          !repLc.startsWith("oft ") &&
+          !rep.startsWith("i ") &&
+          !rep.startsWith("sh ") &&
+          !rep.startsWith("li ") &&
+          !rep.startsWith("ha ") &&
+          !rep.startsWith("st ") &&
+          !rep.startsWith("ins ") && // instable (ins table)
+          !rep.endsWith(" i") &&
+          !rep.endsWith(" ING") &&
+          !rep.endsWith(" able") &&
+          !rep.endsWith(" om") &&
+          !rep.endsWith(" ox") &&
+          !rep.endsWith(" wide") && // (e.g. storewide)
+          !rep.endsWith(" less") && // (e.g. permissionless)
+          !rep.endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
+          !rep.endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
+          !rep.endsWith(" HHH") && // unnecessary suggestion (e.g. for "OHHHH")
+          !rep.endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
+          !rep.endsWith(" ize") && // "advertize"
+          !rep.endsWith(" sh") &&
+          !rep.endsWith(" st") &&
+          !rep.endsWith(" est") &&
+          !rep.endsWith(" em") &&
+          !rep.endsWith(" ward") &&
+          !rep.endsWith(" ability") && // interruptability
+          !rep.endsWith(" ware") && // drinkware
+          !rep.endsWith(" logy") && // volcanology
+          !rep.endsWith(" ting") && // someting
+          !rep.endsWith(" ion") && // presention
+          !rep.endsWith(" ions") && // sealions
+          !rep.endsWith(" cal") &&
+          !rep.endsWith(" ted") && // "bursted"
+          !rep.endsWith(" sphere") &&
+          !rep.endsWith(" ell") &&
+          !rep.endsWith(" co") &&
+          !rep.endsWith(" con") &&
+          !rep.endsWith(" com") &&
+          !rep.endsWith(" sis") &&
+          !rep.endsWith(" like") && // "ribbonlike"
+          !rep.endsWith(" full") && // do not suggest "use full" for "useful"
+          !rep.endsWith(" en") && // "Antwerpen" suggests "Antwerp en"
+          !rep.endsWith(" ne") &&
+          !rep.endsWith(" ed") &&
+          !rep.endsWith(" al") &&
+          !rep.endsWith(" ans") &&
+          !rep.endsWith(" mans") &&
+          !rep.endsWith(" ti") &&
+          !rep.endsWith(" de") &&
+          !rep.endsWith(" ea") &&
+          !rep.endsWith(" ge") &&
+          !rep.endsWith(" ab") &&
+          !rep.endsWith(" rs") &&
+          !rep.endsWith(" mi") &&
+          !rep.endsWith(" tar") &&
+          !rep.endsWith(" adv") &&
+          !rep.endsWith(" re") &&
+          !rep.endsWith(" e") &&
+          !rep.endsWith(" c") &&
+          !rep.endsWith(" v") &&
+          !rep.endsWith(" h") &&
+          !rep.endsWith(" s") &&
+          !rep.endsWith(" r") &&
+          !rep.endsWith(" l") &&
+          !rep.endsWith(" u") &&
+          !rep.endsWith(" um") &&
+          !rep.endsWith(" er") &&
+          !rep.endsWith(" es") &&
+          !rep.endsWith(" ex") &&
+          !rep.endsWith(" na") &&
+          !rep.endsWith(" ifs") &&
+          !rep.endsWith(" gs") &&
+          !rep.endsWith(" don") &&
+          !rep.endsWith(" dons") &&
+          !rep.endsWith(" la") &&
+          !rep.endsWith(" ism") &&
+          !rep.endsWith(" ma");
+      })
       .collect(Collectors.toList());
   }
 
@@ -729,8 +791,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Transwoman", Arrays.asList("Trans woman"));
     s.put("transwomen", Arrays.asList("trans women"));
     s.put("Transwomen", Arrays.asList("Trans women"));
-    s.put("litterly ", Arrays.asList("literally"));
-    s.put("Litterly ", Arrays.asList("Literally"));
+    s.put("litterly", Arrays.asList("literally"));
+    s.put("Litterly", Arrays.asList("Literally"));
     s.put("abt", Arrays.asList("about"));
     s.put("ley", Arrays.asList("let"));
     s.put("Ley", Arrays.asList("Let"));
@@ -771,6 +833,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Mumbo-Jumbo", Arrays.asList("Mumbo Jumbo"));
     s.put("Tuffed", Arrays.asList("Toughed"));
     s.put("tuffed", Arrays.asList("toughed"));
+    s.put("biosim", Arrays.asList("biosimilar"));
+    s.put("biosims", Arrays.asList("biosimilars"));
     s.put("Tuffest", Arrays.asList("Toughest"));
     s.put("tuffest", Arrays.asList("toughest"));
     s.put("Tuffer", Arrays.asList("Tougher"));
@@ -1071,7 +1135,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("grandmom", Arrays.asList("grandma", "grandmother"));
     s.put("Grandmum", Arrays.asList("Grandma", "Grandmother"));
     s.put("Grandmom", Arrays.asList("Grandma", "Grandmother"));
-    s.put("Hongkong", Arrays.asList("Hong Kong"));
     s.put("enlighting", Arrays.asList("enlightening"));
     s.put("Enlighting", Arrays.asList("Enlightening"));
     // For non-US English
@@ -1243,8 +1306,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("rideshare", Arrays.asList("ride-share"));
     s.put("Rideshare", Arrays.asList("Ride-share"));
     s.put("Rideshares", Arrays.asList("Ride-shares"));
-    s.put("bonafide", Arrays.asList("bona fide"));
-    s.put("Bonafide", Arrays.asList("Bona fide"));
     s.put("dropoff", Arrays.asList("drop-off"));
     s.put("Dropoff", Arrays.asList("Drop-off"));
     s.put("reportings", Arrays.asList("reports", "reporting"));
@@ -1343,6 +1404,37 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
 
+  // trivial approach that assumes only one part of the hyphenated word has a typo...
+  @Override
+  protected void addHyphenSuggestions(String[] parts, List<SuggestedReplacement> topSuggestions) throws IOException {
+    int i = 0;
+    for (String part : parts) {
+      if (isMisspelled(part)) {
+        List<String> partSuggestions = speller1.getSuggestions(part);
+        if (partSuggestions.size() == 0) {
+          partSuggestions = speller2.getSuggestions(part);
+        }
+        if (partSuggestions.size() > 0) {
+          String suggestion = getHyphenatedWordSuggestion(parts, i, partSuggestions.get(0));
+          topSuggestions.add(new SuggestedReplacement(suggestion));
+        }
+      }
+      i++;
+    }
+  }
+
+  private String getHyphenatedWordSuggestion(String[] parts, int currentPos, String currentPostSuggestion) {
+    List<String> newParts = new ArrayList<>();
+    for (int j = 0; j < parts.length; j++) {
+      if (currentPos == j) {
+        newParts.add(currentPostSuggestion);
+      } else {
+        newParts.add(parts[j]);
+      }
+    }
+    return String.join("-", newParts);
+  }
+
   @Override
   protected Translator getTranslator(GlobalConfig globalConfig) {
     return translator;
@@ -1358,33 +1450,51 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<SuggestedReplacement> getOnlySuggestions(String word) {
     // NOTE: only add words here that would otherwise have more than one suggestion
     // and have apply to all variants of English (en-US, en-GB, ...):
-    if (word.matches("[Cc]emetary")) return topMatch(word.replaceFirst("emetary", "emetery"));
-    if (word.matches("[Cc]emetaries")) return topMatch(word.replaceFirst("emetaries", "emeteries"));
-    if (word.matches("[Bb]asicly")) return topMatch(word.replaceFirst("asicly", "asically"));
-    if (word.matches("[Bb]eleives?")) return topMatch(word.replaceFirst("eleive", "elieve"));
-    if (word.matches("[Bb]elives?")) return topMatch(word.replaceFirst("elive", "elieve"));
-    if (word.matches("[Bb]izzare")) return topMatch(word.replaceFirst("izzare", "izarre"));
-    if (word.matches("[Cc]ompletly")) return topMatch(word.replaceFirst("ompletly", "ompletely"));
-    if (word.matches("[Dd]issapears?")) return topMatch(word.replaceFirst("issapear", "isappear"));
-    if (word.matches("[Ff]arenheit")) return topMatch(word.replaceFirst("arenheit", "ahrenheit"));
-    if (word.matches("[Ff]reinds?")) return topMatch(word.replaceFirst("reind", "riend"));
-    if (word.matches("[Ii]ncidently")) return topMatch(word.replaceFirst("ncidently", "ncidentally"));
-    if (word.matches("[Ii]nterupts?")) return topMatch(word.replaceFirst("nterupt", "nterrupt"));
-    if (word.matches("[Ll]ollypops?")) return topMatch(word.replaceFirst("ollypop", "ollipop"));
-    if (word.matches("[Oo]cassions?")) return topMatch(word.replaceFirst("cassion", "ccasion"));
-    if (word.matches("[Oo]ccurances?")) return topMatch(word.replaceFirst("ccurance", "ccurrence"));
-    if (word.matches("[Pp]ersistant")) return topMatch(word.replaceFirst("ersistant", "ersistent"));
-    if (word.matches("[Pp]eices?")) return topMatch(word.replaceFirst("eice", "iece"));
-    if (word.matches("[Ss]eiges?")) return topMatch(word.replaceFirst("eige", "iege"));
-    if (word.matches("[Ss]upercedes?")) return topMatch(word.replaceFirst("upercede", "upersede"));
-    if (word.matches("[Tt]hreshholds?")) return topMatch(word.replaceFirst("hreshhold", "hreshold"));
-    if (word.matches("[Tt]ommorrows?")) return topMatch(word.replaceFirst("ommorrow", "omorrow"));
-    if (word.matches("[Tt]ounges?")) return topMatch(word.replaceFirst("ounge", "ongue"));
-    if (word.matches("[Ww]ierd")) return topMatch(word.replaceFirst("ierd", "eird"));
-    if (word.matches("[Ss]argent")) return topMatch(word.replaceFirst("argent", "ergeant"));
-    if (word.matches("swimmed")) return topMatch("swam");
-    if (word.matches("misspelt")) return topMatch("misspelled");
-    if (word.matches("[Jj]ist")) {
+    if (PROFILERATION.matcher(word).matches()) return topMatch(word.replaceFirst("rofileration", "roliferation"), "rapid expansion");
+    if (CEMETARY.matcher(word).matches()) return topMatch(word.replaceFirst("emetary", "emetery"));
+    if (CEMETARIES.matcher(word).matches()) return topMatch(word.replaceFirst("emetaries", "emeteries"));
+    if (BASICLY.matcher(word).matches()) return topMatch(word.replaceFirst("asicly", "asically"));
+    if (BELEIVES.matcher(word).matches()) return topMatch(word.replaceFirst("eleive", "elieve"));
+    if (BELIVES.matcher(word).matches()) return topMatch(word.replaceFirst("elive", "elieve"));
+    if (BIZZARE.matcher(word).matches()) return topMatch(word.replaceFirst("izzare", "izarre"));
+    if (COMPLETLY.matcher(word).matches()) return topMatch(word.replaceFirst("ompletly", "ompletely"));
+    if (DISSAPEARS.matcher(word).matches()) return topMatch(word.replaceFirst("issapear", "isappear"));
+    if (FARENHEIT.matcher(word).matches()) return topMatch(word.replaceFirst("arenheit", "ahrenheit"));
+    if (FREINDS.matcher(word).matches()) return topMatch(word.replaceFirst("reind", "riend"));
+    if (INCIDENTLY.matcher(word).matches()) return topMatch(word.replaceFirst("ncidently", "ncidentally"));
+    if (INTERUPTS.matcher(word).matches()) return topMatch(word.replaceFirst("nterupt", "nterrupt"));
+    if (LOLLYPOPS.matcher(word).matches()) return topMatch(word.replaceFirst("ollypop", "ollipop"));
+    if (OCASSIONS.matcher(word).matches()) return topMatch(word.replaceFirst("cassion", "ccasion"));
+    if (OCCURANCES.matcher(word).matches()) return topMatch(word.replaceFirst("ccurance", "ccurrence"));
+    if (PERSISTANT.matcher(word).matches()) return topMatch(word.replaceFirst("ersistant", "ersistent"));
+    if (PEICES.matcher(word).matches()) return topMatch(word.replaceFirst("eice", "iece"));
+    if (SEIGES.matcher(word).matches()) return topMatch(word.replaceFirst("eige", "iege"));
+    if (SUPERCEDES.matcher(word).matches()) return topMatch(word.replaceFirst("upercede", "upersede"));
+    if (THRESHHOLDS.matcher(word).matches()) return topMatch(word.replaceFirst("hreshhold", "hreshold"));
+    if (TOMMORROWS.matcher(word).matches()) return topMatch(word.replaceFirst("ommorrow", "omorrow"));
+    if (TOUTES.matcher(word).matches()) return topMatch(word.replaceFirst("ounge", "ongue"));
+    if (WIERD.matcher(word).matches()) return topMatch(word.replaceFirst("ierd", "eird"));
+    if (SARGENT.matcher(word).matches()) return topMatch(word.replaceFirst("argent", "ergeant"));
+    if (SWIMMED.matcher(word).matches()) return topMatch("swam");
+    if (MISSPELT.matcher(word).matches()) return topMatch("misspelled");
+    if (ADHOC.matcher(word).matches()) return topMatch("ad hoc");
+    if (DEACTIVE.matcher(word).matches()) return topMatch("inactive");
+    if (HUBSPOT.matcher(word).matches()) return topMatch("HubSpot");
+    if (URL.matcher(word).matches()) return topMatch("URL");
+    if (HTTP.matcher(word).matches()) return topMatch("HTTP");
+    if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
+    if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
+    if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
+    if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
+    if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
+    if (TV.matcher(word).matches()) {
+      List<SuggestedReplacement> l = new ArrayList<>();
+      l.add(new SuggestedReplacement("TV"));
+      l.add(new SuggestedReplacement("to"));
+      return l;
+    }
+    if (JIST.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("just"));
       l.add(new SuggestedReplacement("gist"));

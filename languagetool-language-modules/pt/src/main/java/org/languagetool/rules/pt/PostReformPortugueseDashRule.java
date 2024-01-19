@@ -23,12 +23,15 @@ import org.languagetool.rules.AbstractDashRule;
 import org.languagetool.rules.ITSIssueType;
 
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * Check for compounds written with dashes instead of hyphens.
  * @since 3.8
  */
 public class PostReformPortugueseDashRule extends AbstractDashRule {
+
+  private static final Pattern PATTERN = Pattern.compile("[a-zA-ZÂâÃãÇçÊêÓóÔôÕõü]");
 
   private static volatile AhoCorasickDoubleArrayTrie<String> trie;
   
@@ -54,7 +57,7 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
 
   @Override
   protected boolean isBoundary(String s) {
-    return !s.matches("[a-zA-ZÂâÃãÇçÊêÓóÔôÕõü]");  // chars from http://unicode.e-workers.de/portugiesisch.php
+    return !PATTERN.matcher(s).matches();  // chars from http://unicode.e-workers.de/portugiesisch.php
   }
 
   @Override
@@ -68,7 +71,6 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
         }
       }
     }
-
     return data;
   }
 

@@ -108,4 +108,24 @@ public class JLanguageToolTest {
       assertEquals(1, lt.check(sentence2).size());
     }
   }
+
+  @Test
+  public void testMultitokenSpeller() throws IOException {
+    Language lang = new GermanyGerman();
+
+    assertEquals("[Ricardo Simonetti]", lang.getMultitokenSpeller().getSuggestions("Ricardo Simoneti").toString());
+    //assertEquals("[et al., El Al]", lang.getMultitokenSpeller().getSuggestions("et al").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Clint Eastwoods").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("otto dvd").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("one place").toString());
+    assertEquals("[Yuval Noah Harari]", lang.getMultitokenSpeller().getSuggestions("Yuval Noha Harari").toString());
+    assertEquals("[Homo sapiens]", lang.getMultitokenSpeller().getSuggestions("Homos Sapiens").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("à la carte").toString());
+    assertEquals("[à la carte]", lang.getMultitokenSpeller().getSuggestions("a la carte").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("dierser Straße").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Tum Universität").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("fuer Trump").toString());
+  }
+
 }
+

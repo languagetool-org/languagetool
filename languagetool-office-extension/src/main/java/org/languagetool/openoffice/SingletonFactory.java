@@ -49,7 +49,7 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
   @Override
   public final Object createInstanceWithContext(XComponentContext xContext) {
     if (isSpellChecker) {
-      return new org.languagetool.openoffice.LanguageToolSpellChecker(xContext);
+      return new org.languagetool.openoffice.LtSpellChecker(xContext);
 //      if (spellInstance == null) {     
 //        spellInstance = new org.languagetool.openoffice.LanguageToolSpellChecker(xContext);
 //      }
@@ -66,7 +66,7 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
   @Override
   public final String getImplementationName() {
-    return isSpellChecker ? LanguageToolSpellChecker.class.getName() : Main.class.getName();
+    return isSpellChecker ? LtSpellChecker.class.getName() : Main.class.getName();
   }
 
   @Override
@@ -81,6 +81,6 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
   @Override
   public final String[] getSupportedServiceNames() {
-    return isSpellChecker ? LanguageToolSpellChecker.getServiceNames() : Main.getServiceNames();
+    return isSpellChecker ? LtSpellChecker.getServiceNames() : Main.getServiceNames();
   }
 }

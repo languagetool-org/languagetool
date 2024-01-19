@@ -97,6 +97,515 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
         ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
+        <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que..." tone_tags="general">
+            <rule>
+                <!-- 1 = 1. R.* que ne !V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2">
+                        <exception regexp="yes">en|y</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6 \7 \3</suggestion> dans un contexte plus formel.</message>
+                <url>https://languagetool.org/insights/fr/poste/solecisme/</url>
+                <example correction="pour que je ne me fâche pas" type="incorrect">Il ne m'a rien dit <marker>pour pas que je me fâche</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 2 = 1a. R.* qu' ne !V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token regexp="yes">qu[’´'‛′‘]</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2">
+                        <exception regexp="yes">en|y</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6 \7 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour qu'il ne se sente pas" type="incorrect">Je vais lui rendre visite <marker>pour pas qu'il se sente</marker> seul.</example>
+            </rule>
+            <rule>
+                <!-- 3 = 1b. R.* que ne !V.* V[aeéiouyh] -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2">
+                        <exception regexp="yes">en|y|nous|vous|les|lui</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">[aeéiouyh].*
+                        <exception regexp="yes" inflected="yes">&H_ASPIRE;</exception></token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6\7 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que je ne m'énerve pas" type="incorrect">Il ne m'a rien dit <marker>pour pas que je m'énerve</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 4 = 1c. R.* qu' ne !V.* V[aeéiouyh] -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token regexp="yes">qu[’´'‛′‘]</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2">
+                        <exception regexp="yes">en|y|nous|vous|les|lui</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes"> [aeéiouyh].*
+                        <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="V.*">&H_ASPIRE;</exception></token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6\7 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour qu'il ne s'énerve pas" type="incorrect">Je vais le faire <marker>pour pas qu'il s'énerve</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 5 = 2. R.* que ne V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que je ne grossisse pas" type="incorrect">Je ne mange plus de chocolat <marker>pour pas que je grossisse</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 6 = 2a. R.* qu' ne V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token regexp="yes">qu[’´'‛′‘]</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour qu'il ne grossisse pas" type="incorrect">Il ne mange plus de chocolat <marker>pour pas qu'il grossisse</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 7 = 3. que R.* n'!V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes">
+                        <exception regexp="yes">(j[’´'‛′‘])|(c[’´'‛′‘])</exception></token>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que tu n'y ailles pas" type="incorrect">Je t'ai averti <marker>pour pas que tu y ailles</marker> seul.</example>
+            </rule>
+            <rule>
+                <!-- 8 = 3a. qu' R.* n'!V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token regexp="yes">qu[’´'‛′‘]</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes">
+                        <exception regexp="yes">(j[’´'‛′‘])|(c[’´'‛′‘])</exception></token>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour qu'elle n'y aille pas" type="incorrect">Je vais lui parler <marker>pour pas qu'elle y aille</marker> seule.</example>
+            </rule>
+            <rule>
+                <!-- 9 = 3b. R.* n'!V.*: j'>je -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token regexp="yes">j[’´'‛′‘]</token>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 je n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que je n'y aille pas" type="incorrect">Je t'attends <marker>pour pas que j'y aille</marker> seule.</example>
+            </rule>
+            <rule>
+                <!-- 10 = 3c. R.* n'!V.*: c'>ce -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token regexp="yes">c[’´'‛′‘]</token>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 ce n'\6 \7 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que ce n'en soit pas" type="incorrect">Il faut faire attention <marker>pour pas que c'en soit</marker> trop.</example>
+            </rule>
+            <rule>
+                <!-- 11 = 3d. que R.* ne s'en V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes">
+                        <exception regexp="yes">(j[’´'‛′‘])|(c[’´'‛′‘])</exception></token>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes"/>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 ne \6\7 \8 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que tu ne t'en ailles pas" type="incorrect">Je t'ai dit cela <marker>pour pas que tu t'en ailles</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 12 = 3e. qu' R.* ne s'en V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token regexp="yes">qu[’´'‛′‘]</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes">
+                        <exception regexp="yes">(j[’´'‛′‘])|(c[’´'‛′‘])</exception></token>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes"/>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 ne \6\7 \8 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour qu'il ne s'en aille pas" type="incorrect">Je vais lui parler <marker>pour pas qu'il s'en aille</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 13 = 4. que R.* n'V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes">
+                        <exception regexp="yes">(j[’´'‛′‘])|(c[’´'‛′‘])</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes"> [aeéiouyh].*
+                        <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 n'\6 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que nous n'oublions pas" type="incorrect">Il nous a appelé <marker>pour pas que nous oublions</marker> d'acheter un cadeau.</example>
+            </rule>
+            <rule>
+                <!-- 14 = 4a. R.* qu' n'V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token regexp="yes">qu[’´'‛′‘]</token>
+                    <token postag="(R pers suj.*)|(R dem.*)" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes"> [aeéiouyh].*
+                        <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4\5 n'\6 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour qu'elle n'oublie pas" type="incorrect">Je vais lui parler <marker>pour pas qu'elle oublie</marker> ton anniversaire.</example>
+            </rule>
+            <rule>
+                <!-- 15 = 4b. que R.* n'V.* j'>je -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token regexp="yes">(j[’´'‛′‘])</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes"> [aeéiouyh].*
+                        <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 je n'\6 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que je n'oublie pas" type="incorrect">Il nous a appelé <marker>pour pas que j'oublie</marker> d'acheter un cadeau.</example>
+            </rule>
+            <rule>
+                <!-- 16 = 5. NZ que ne !V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
+                    <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2">
+                        <exception regexp="yes">en|y</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8 \9 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que mon père ne se fâche pas" type="incorrect">Je ne sortirai pas ce soir <marker>pour pas que mon père se fâche</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 17 = 5a. NZ que ne !V.* V[aeéiouyh] -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
+                    <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes" min="1" max="2">
+                        <exception regexp="yes">en|y|nous|vous|les|lui</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes"> [aeéiouyh].*
+                        <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8\9 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que mon père ne s'énerve pas" type="incorrect">Je ne sortirai pas ce soir <marker>pour pas que mon père s'énerve</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 18 = 6. NZ que ne V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
+                    <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">[^aeéiouyh].*|&H_ASPIRE;</token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que mon père ne parte pas" type="incorrect">J'ai caché les clés de la voiture <marker>pour pas que mon père parte</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 19 = 7. NZ n'!V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
+                    <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 n'\8 \9 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que mon frère n'en boive pas" type="incorrect">J'ai caché le bon vin <marker>pour pas que mon frère en boive</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 20 = 7b. NZ ne s'en V.*-->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
+                    <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                    <token postag="(R refl.*)|(R pers obj.*)" postag_regexp="yes">
+                        <exception regexp="yes">nous|vous|les|lui</exception></token>
+                    <token regexp="yes">en|y</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 ne \8\9 \10 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que mon frère ne s'en aille pas" type="incorrect">J'ai dit cela <marker>pour pas que mon frère s'en aille</marker>.</example>
+            </rule>
+            <rule>
+                <!-- 21 = 8. NZ n'V.* -->
+                <pattern>
+                    <token>pour
+                        <exception scope="next">,</exception></token>
+                    <token min="0">ne</token>
+                    <token>pas</token>
+                    <token>que</token>
+                    <token postag="(D.*)|(R dem.*)" postag_regexp="yes" min="0"/>
+                    <token postag="J.*" postag_regexp="yes" min="0"/>
+                    <token postag="(N.*)|(Z.*)" postag_regexp="yes"/>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes"> [aeéiouyh].*
+                        <exception regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">&H_ASPIRE;</exception></token>
+                </pattern>
+                <message>Cette formulation est considérée familière. Employez <suggestion>\1 \4 \5 \6 \7 n'\8 \3</suggestion> dans un contexte plus formel.</message>
+                <example correction="pour que mon frère n'aille pas" type="incorrect">Ma mère m'a appelé <marker>pour pas que mon frère aille</marker> tout seul.</example>
+            </rule>
+        </rulegroup>
+        <rule id="CA_CE" name="ça/ce" tags="picky" tone_tags="formal">
+            <pattern>
+                <marker>
+                    <token>ça</token>
+                </marker>
+                <token postag="V etre.*" postag_regexp="yes">
+                    <exception regexp="yes">[eé].*</exception></token>
+            </pattern>
+            <message>Ce pronom peut sembler familier dans la langue soignée.</message>
+            <suggestion>ce</suggestion>
+            <suggestion>cela</suggestion>
+            <example correction="ce|cela">Alors, <marker>ça</marker> sera pour demain.</example>
+        </rule>
+        <rule id="DESSUS" name="dessus">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">deso?us</token>
+            </pattern>
+            <message>La consonne doit être doublée.</message>
+            <suggestion><match no="1" regexp_match="des(?iu)" regexp_replace="dess"/></suggestion>
+            <example correction="dessus">Il est <marker>desus</marker>.</example>
+        </rule>
+
+        <rulegroup id="INVESTIGUER" name="investiguer" tone_tags="professional" tags="picky">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">investiguer
+                            <exception scope="next">sur</exception></token>
+                    </marker>
+                </pattern>
+                <message>D'autres verbes sont plus appropriés, car celui-ci peut sembler familier.</message>
+                <suggestion><match no="1" postag="V.*" postag_regexp="yes">enquêter</match> sur</suggestion>
+                <example correction="enquêter sur">Il faut <marker>investiguer</marker> cette affaire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">investiguer</token>
+                    </marker>
+                    <token>sur</token>
+                </pattern>
+                <message>D'autres verbes sont plus appropriés, car celui-ci peut sembler familier.</message>
+                <suggestion><match no="1" postag="V.*" postag_regexp="yes">enquêter</match></suggestion>
+                <example correction="enquêter">Il faut <marker>investiguer</marker> sur cette affaire.</example>
+            </rule>
+        </rulegroup>
+        <rule id="DEBOUCHONNER" name="débouchonner → déboucher" tone_tags="professional" tags="picky">
+            <pattern>
+                <token regexp="yes">d[ée]bouchonn?.*
+                    <exception>débouchons</exception></token>
+            </pattern>
+            <message>Ce verbe familier n'apparait pas dans le dictionnaire. Il peut être remplacé par le verbe "déboucher" utilisé dans la langue courante.</message>
+            <suggestion><match no="1" regexp_match="d[ée]bouchonn?(.*)" regexp_replace="débouch$1"/></suggestion>
+            <example correction="débouchera">Il <marker>débouchonnera</marker> la bouteille.</example>
+        </rule>
+        <rule id="CONFUSION_EMOTIONNER_EMU" name="confusion émotionner/ému" tone_tags="professional">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">émotionner</token>
+            </pattern>
+            <message>Ce verbe peut sembler familier.</message>
+            <suggestion><match no="1" postag="V (.*)" postag_regexp="yes" postag_replace="V $1">émouvoir</match></suggestion>
+            <example correction="ému">Il était tout <marker>émotionné</marker>.</example>
+        </rule>
+        <rulegroup id="ECRITURE_INCLUSIVE" name="écriture inclusive" tone_tags="general">
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes">
+                        <exception regexp="yes">(?-i)[A-Z].*</exception>
+                        <exception postag="V.* (ind|con|sub).*" postag_regexp="yes"/></token>
+                    <token regexp="yes">ou|et</token>
+                    <token><match no="0"/>e
+                    <exception regexp="yes">(?-i)[A-Z].*</exception>
+                    <exception postag="V.* (ind|con|sub).*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Par politesse, le féminin précède le masculin en français.</message>
+                <suggestion>\3 \2 \1</suggestion>
+                <suggestion><match no="1" postag="(N) ([fm]) ([ps])" postag_regexp="yes" postag_replace="$1 m $3"/>·e</suggestion>
+                <example correction="étudiante ou étudiant|étudiant·e">Pour l'<marker>étudiant ou étudiante</marker>.</example>
+            </rule>
+            <rule default="off">
+                <antipattern>
+                    <token postag="J . sp?" postag_regexp="yes"/>
+                    <token>son</token>
+                </antipattern>
+                <pattern>
+                    <token postag="D m s">
+                        <exception regexp="yes">tel|telle|nul|(?-i)CE</exception></token>
+                    <token regexp="yes">et|ou</token>
+                    <token postag="D f s"/>
+                    <token postag="N e s">
+                        <exception scope="next" spacebefore="no" regexp="yes">[\[\(]</exception></token>
+                </pattern>
+                <message>Une autre structure peut sembler plus percutante.</message>
+                <suggestion>les \4s</suggestion>
+                <example correction="les photographes">Il parle avec <marker>le ou la photographe</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>le</token>
+                    <token regexp="yes">et|ou</token>
+                    <token postag="D f s"/>
+                    <token postag="N [fm] s" postag_regexp="yes">
+                        <exception scope="next" spacebefore="no" regexp="yes">[\[\(]</exception></token>
+                </pattern>
+                <message>Une autre structure peut sembler plus percutante.</message>
+                <suggestion>la personne \4</suggestion>
+                <suggestion>\1 <match no="4" postag="(N) ([fm]) (s)" postag_regexp="yes" postag_replace="$1 ([em]) $3"/>·e</suggestion>
+                <example correction="la personne professeur|le professeur·e">Il parle avec <marker>le ou la professeur</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>un
+                        <exception scope="previous">l'</exception></token>
+                    <token regexp="yes">et|ou</token>
+                    <token postag="D f s"/>
+                    <token postag="N [fm] s" postag_regexp="yes">
+                        <exception scope="next" spacebefore="no" regexp="yes">[\[\(]</exception></token>
+                </pattern>
+                <message>Une autre structure peut sembler plus percutante.</message>
+                <suggestion>la personne \4</suggestion>
+                <suggestion>un·e <match no="4" postag="(N) ([fm]) (s)" postag_regexp="yes" postag_replace="$1 ([em]) $3"/>·e</suggestion>
+                <example correction="la personne professeur|un·e professeur·e">Il parle avec <marker>un ou une professeur</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="Y_AVAIT" name="Expression familière y'avait" tone_tags="general">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">y'(avait|aurait|eut|aura|ait|eût|ayant)</token>
+                    </marker>
+                    <token regexp="yes">-il|-t-il</token>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion><match no="1" regexp_match="'" regexp_replace=" "/></suggestion> ?</message>
+                <example correction="Y avait"><marker>Y'avait</marker>-il des étoiles dans le ciel?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>il</token>
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">y'(avait|aurait|eut|aura|ait|eût|ayant)</token>
+                    </marker>
+                </pattern>
+                <message>Vouliez-vous dire <suggestion><match no="2" regexp_match="'" regexp_replace=" "/></suggestion> ?</message>
+                <example correction="y aura">Il <marker>y'aura</marker> beaucoup d'eau en été.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">y'(avait|aurait|eut|aura|ait|eût|ayant)</token>
+                    </marker>
+                </pattern>
+                <message>La formulation « \1 » est très familière. Vouliez-vous dire <suggestion>il <match no="1" regexp_match="'" regexp_replace=" " case_conversion="alllower"/></suggestion> ?</message>
+                <example correction="Il y aura"><marker>Y'aura</marker> beaucoup d'eau en été.</example>
+                <example correction="Il y avait"><marker>Y'avait</marker> une contrainte de temps.</example>
+            </rule>
+        </rulegroup>
+        <rule id="NOUVEL_AN" name="Nouvel An" tone_tags="general">
+            <pattern case_sensitive="yes">
+                <token>nouvel</token>
+                <token>an</token>
+            </pattern>
+            <message>Si vous parlez de la fête, il faut deux majuscules : <suggestion>Nouvel An</suggestion>. Bonne année !</message>
+            <example correction="Nouvel An">Tu fais quoi pour <marker>nouvel an</marker> cette année ?</example>
+        </rule>
         <rulegroup id="NOMBRES_EN_LETTRES" name="nombres en lettres" type="style" tone_tags="formal">
             <antipattern>
                 <token postag="Y"/>
@@ -842,6 +1351,61 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="excuse-moi">Je ne voulais pas te déranger, <marker>je m'excuse</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="COVID_19_GRAPHIE" name="graphie covid 19">
+            <url>https://languagetool.org/insights/fr/poste/nouveaux-mots-du-dico-2023/#les-mots-nouveaux-li%C3%A9s-%C3%A0-la-pand%C3%A9mie-mondiale</url>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Covid</token>
+                    <token>19</token>
+                </pattern>
+                <message>Privilégiez la forme en minuscules sans majuscule initiale, conformément aux graphies acceptées.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid" case_conversion="alllower"/> \2</suggestion>
+                <example correction="covid 19">La <marker>Covid 19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid-19</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Covid-19</token>
+                </pattern>
+                <message>Privilégiez l'écriture en minuscules ou en majuscules complètes. Évitez la forme avec une majuscule initiale.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid-19" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="COVID-19" case_conversion="allupper"/></suggestion>
+                <example correction="covid-19|COVID-19">La <marker>Covid-19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid19</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="no">Covid19</token>
+                </pattern>
+                <message>Un trait d'union ou une espace est nécessaire. D'autres graphies sont également acceptées.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="COVID-19" case_conversion="allupper"/></suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid-19" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid 19" case_conversion="alllower"/></suggestion>
+                <example correction="COVID-19|covid-19|covid 19">La <marker>Covid19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Covid</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Covid</token>
+                </pattern>
+                <message>Utilisez la forme en minuscules sans majuscule initiale, conformément aux graphies acceptées.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="covid" case_conversion="alllower"/></suggestion>
+                <example correction="covid">La <marker>Covid</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+            </rule>
+        </rulegroup>
         <rule id="LE_COVID" name="la Covid et le Covid" type="style" tone_tags="clarity">
             <pattern>
                 <token postag="(P\+)?D m s" postag_regexp="yes"/>
@@ -850,10 +1414,10 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <message>Voulez-vous utiliser la forme féminine recommandée, au détriment du masculin "\1" couramment utilisé ?</message>
             <suggestion><match no="1" case_conversion="preserve" postag="(P?).?D m s" postag_regexp="yes" postag_replace="$1.?D f s"/> \2</suggestion>
             <url>https://languagetool.org/insights/fr/poste/nouveaux-mots-du-dico-2023/#les-mots-nouveaux-li%C3%A9s-%C3%A0-la-pand%C3%A9mie-mondiale</url>
-            <example correction="la Covid-19">Il faut faire attention car <marker>le Covid-19</marker> est récent.</example>
-            <example correction="La Covid-19"><marker>Le Covid-19</marker> est une maladie grave.</example>
-            <example correction="de la Covid">Les répercussions économiques <marker>du Covid</marker> ne se sauront pas avant 2022.</example>
-            <example correction="à la COVID">Les dommages humains et économiques dus <marker>au COVID</marker> sont considérables.</example>
+            <example correction="la covid-19">Il faut faire attention car <marker>le covid-19</marker> est récent.</example>
+            <example correction="La covid-19"><marker>Le covid-19</marker> est une maladie grave.</example>
+            <example correction="de la covid">Les répercussions économiques <marker>du covid</marker> ne se sauront pas avant 2022.</example>
+            <example correction="à la COVID-19">Les dommages humains et économiques dus <marker>au COVID-19</marker> sont considérables.</example>
         </rule>
         <rule id="CELLES_CEUX" name="celles et ceux" tone_tags="clarity">
             <pattern>
@@ -1071,6 +1635,19 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example><marker>Qu'est-ce que tu y trouves</marker> ?</example>
             </rule>
         </rulegroup>
+        <rule id="TOMBER_DANS_LES_POMMES" name="tomber dans les pommes">
+            <pattern>
+                <token inflected="yes" skip="2">tomber</token>
+                <token>dans</token>
+                <token>les</token>
+                <token>pommes</token>
+            </pattern>
+            <message>« Tomber dans les pommes » est une expression fautive.</message>
+            <suggestion>tomber dans les pâmes</suggestion>
+            <suggestion>perdre connaissance</suggestion>
+            <example correction="tomber dans les pâmes|perdre connaissance"><marker>tomber dans les pommes</marker></example>
+            <example><marker>tomber dans les pâmes</marker></example>
+        </rule>
     </category>
     <category id="CAT_PLEONASMES" name="Pléonasmes" type="style" tone_tags="clarity">
         <!--The following rules were created by Hugo Voisard
@@ -3285,7 +3862,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="sauvé par le gong"><marker>sauver par la cloche</marker></example>
             <example><marker>sauver par le gong</marker></example>
         </rule>
-        <rule id="ARENA" name="aréna">
+        <rule id="ARENA" name="aréna" tags="picky">
             <pattern>
                 <token regexp="yes">arénas?</token>
             </pattern>
@@ -4740,45 +5317,182 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="steward|hôtesse"><marker>agent de bord</marker> de Charlevoix a son charme.</example>
             <example>Le <marker>steward</marker> de Charlevoix a son charme.</example>
         </rule>
-        <rule id="TOUS_AZIMUTS" name="toutes azimuts → tous azimuts" tone_tags="general">
+    </category>
+    <category id="CAT_ARCHAISMES" name="Archaïsmes (tours vieillis, anciens et vieux)" type="style" tone_tags="professional" tags="picky">
+        <!--The following rules were created by Hugo Voisard-->
+        <rule id="FETE_DE_DOLLARD" name="fête de Dollard">
             <pattern>
-                <token regexp="yes">toute?s?</token>
-                <token regexp="yes">azimuts?</token>
-            </pattern>
-            <message>Employez <suggestion>tous azimuts</suggestion>.</message>
-            <example correction="tous azimuts">Une répression <marker>tout azimut</marker></example>
-            <example>Une répression tous azimuts</example>
-        </rule>
-        <rule id="DE_TOUT_TEMPS" name="de tous temps → de tout temps" tone_tags="general">
-            <pattern>
+                <token regexp="yes">f[eê]tes?</token>
                 <token>de</token>
-                <token>tous</token>
-                <token>temps</token>
+                <token regexp="yes">Dollard?</token>
             </pattern>
-            <message>Employez <suggestion>\1 tout \3</suggestion>.</message>
-            <example correction="De tout temps"><marker>De tous temps</marker></example>
-            <example><marker>De tout temps</marker></example>
+            <message>La « fête de Dollard » a été rebaptisée depuis 2002. Son nom est maintenant <suggestion>Journée nationale des patriotes</suggestion>.</message>
+            <example correction="Journée nationale des patriotes"><marker>fête de Dollard</marker></example>
         </rule>
-        <rule id="A_TOUT_PRIX" name="à tous prix → à tout prix" tone_tags="general">
+        <rule id="PIERRE_AU_FOIE" name="pierre au foie">
             <pattern>
-                <token>à</token>
-                <token>tous</token>
-                <token>prix</token>
+                <token regexp="yes">pierres?</token>
+                <token regexp="yes">aux?</token>
+                <token regexp="yes">foies?</token>
             </pattern>
-            <message>Employez <suggestion>\1 tout \3</suggestion>.</message>
-            <example correction="À tout prix"><marker>À tous prix</marker></example>
-            <example><marker>À tout prix</marker></example>
+            <message>« Pierre au foie » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>calcul biliaire</suggestion>
+            <example correction="calcul biliaire"><marker>pierre au foie</marker></example>
         </rule>
-        <rule id="DE_TOUTE_FACON" name="de toutes façons → de toute façon" tone_tags="general">
+        <rule id="PIERRE_SUR_LE_FOIE" name="pierre sur le foie">
             <pattern>
+                <token regexp="yes">pierres?</token>
+                <token>sur</token>
+                <token regexp="yes">les?</token>
+                <token regexp="yes">foies?</token>
+            </pattern>
+            <message>« Pierre au foie » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>calcul biliaire</suggestion>
+            <example correction="calcul biliaire"><marker>pierre sur le foie</marker></example>
+        </rule>
+        <rule id="PIERRE_AU_REIN" name="pierre au rein">
+            <pattern>
+                <token regexp="yes">pierres?</token>
+                <token regexp="yes">aux?</token>
+                <token regexp="yes">reins?</token>
+            </pattern>
+            <message>« Pierre au rein » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>calcul rénal</suggestion>
+            <example correction="calcul rénal"><marker>pierre au rein</marker></example>
+        </rule>
+        <rule id="PIERRE_SUR_LE_REIN" name="pierre sur le rein">
+            <pattern>
+                <token regexp="yes">pierres?</token>
+                <token>sur</token>
+                <token regexp="yes">les?</token>
+                <token regexp="yes">reins?</token>
+            </pattern>
+            <message>« Pierre sur le rein » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>calcul rénal</suggestion>
+            <example correction="calcul rénal"><marker>pierre sur le rein</marker></example>
+        </rule>
+        <rule id="PAIRE_DE_PANTALON" name="paire de pantalons">
+            <pattern>
+                <token regexp="yes">paires?</token>
                 <token>de</token>
-                <token>toutes</token>
-                <token regexp="yes">façons?</token>
+                <token regexp="yes">pantalons?</token>
             </pattern>
-            <message>Cette expression figée s'écrit toujours au singulier.</message>
-            <suggestion>\1 toute façon</suggestion>
-            <example correction="De toute façon"><marker>De toutes façons</marker></example>
-            <example><marker>De toute façon</marker></example>
+            <message>« Paire de pantalons » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>pantalon</suggestion>
+            <example correction="pantalon"><marker>paire de pantalons</marker></example>
+        </rule>
+        <rule id="INFLUENZA" name="influenza">
+            <pattern>
+                <token regexp="yes">influenzas?</token>
+            </pattern>
+            <message>« Influenza » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>grippe</suggestion>
+            <example correction="grippe"><marker>influenza</marker></example>
+        </rule>
+        <rule id="GRAVELLE" name="gravelle">
+            <pattern>
+                <token regexp="yes">gravelles?</token>
+            </pattern>
+            <message>« Gravelle » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>lithiase urinaire</suggestion>
+            <example correction="lithiase urinaire"><marker>gravelle</marker></example>
+        </rule>
+        <rule id="MENTERIE" name="menterie">
+            <pattern>
+                <token regexp="yes">menteries?</token>
+            </pattern>
+            <message>« Menterie » est un archaïsme et un régionalisme de registre familier. Vous pourriez préférer le français standard.</message>
+            <suggestion>mensonge</suggestion>
+            <example correction="mensonge"><marker>menterie</marker></example>
+        </rule>
+        <rule id="NUMERO_CIVIQUE" name="numéro civique">
+            <pattern>
+                <token regexp="yes">numéros?</token>
+                <token regexp="yes">civiques?</token>
+            </pattern>
+            <message>« Numéro civique » est un régionalisme. Vous pourriez préférer le français standard <suggestion>numéro</suggestion>, <suggestion>numéro de rue</suggestion>, <suggestion>numéro de l'adresse</suggestion>. Civique s'emploie normalement dans les expressions comme « devoir civique ».</message>
+            <example correction="numéro|numéro de rue|numéro de l'adresse"><marker>numéro civique</marker></example>
+            <example><marker>numéro</marker></example>
+        </rule>
+        <rule id="BRU" name="bru">
+            <pattern>
+                <token regexp="yes">brue?s?</token>
+            </pattern>
+            <message>« Bru » est un archaïsme et un régionalisme. Vous pourriez préférer le français standard.</message>
+            <suggestion>belle-fille</suggestion>
+            <example correction="belle-fille"><marker>bru</marker></example>
+        </rule>
+        <rule id="A_CAUSE_QUE" name="à cause que">
+            <pattern>
+                <token regexp="yes">[aà]</token>
+                <token>cause</token>
+                <token regexp="yes">que|qu'</token>
+            </pattern>
+            <message>« À cause que » est un archaïsme populaire et un régionalisme. Vous pourriez préférer le français standard.</message>
+            <suggestion>parce que</suggestion>
+            <suggestion>vu que</suggestion>
+            <suggestion>car</suggestion>
+            <example correction="parce que|vu que|car"><marker>à cause que</marker></example>
+            <example><marker>parce que</marker></example>
+        </rule>
+        <rule id="EN_MEMOIRE_DE" name="en mémoire de" default="off">
+            <pattern>
+                <token>en</token>
+                <token regexp="yes">mémoires?</token>
+                <token>de</token>
+            </pattern>
+            <message>« En mémoire de » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>à la mémoire de</suggestion>
+            <example correction="à la mémoire de"><marker>en mémoire de</marker></example>
+        </rule>
+        <rule id="CENTIGRADE" name="centigrade">
+            <pattern>
+                <token regexp="yes">centigrades?</token>
+            </pattern>
+            <message>« Centigrade » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>Celsius</suggestion>
+            <example correction="Celsius"><marker>Centigrade</marker></example>
+        </rule>
+        <rule id="BARBIER" name="barbier">
+            <pattern>
+                <token regexp="yes">barbiers?|barbières?
+                    <exception scope="next">-</exception></token>
+            </pattern>
+            <message>« Barbier » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>coiffeur</suggestion>
+            <example correction="coiffeur"><marker>barbier</marker></example>
+        </rule>
+        <rule id="BRULEMENT_DESTOMAC" name="brûlement d'estomac">
+            <pattern>
+                <token regexp="yes">br[ûu]lements?</token>
+                <token>d'</token>
+                <token regexp="yes">estomacs?</token>
+            </pattern>
+            <message>« Brûlement d'estomac » est un archaïsme. Vous pourriez préférer le français standard.</message>
+            <suggestion>brûlure d'estomac</suggestion>
+            <example correction="brûlure d'estomac"><marker>brûlement d'estomac</marker></example>
+        </rule>
+        <rule id="DOUBLER_UNE_CLASSE" name="doubler une classe">
+            <pattern>
+                <token inflected="yes" skip="5">doubler</token>
+                <token>classe</token>
+            </pattern>
+            <message>« Doubler une classe » est un archaïsme et un régionalisme. Vous pourriez préférer le français standard.</message>
+            <suggestion>redoubler une année</suggestion>
+            <suggestion>redoubler une classe</suggestion>
+            <example correction="redoubler une année|redoubler une classe"><marker>doubler une classe</marker></example>
+            <example><marker>redoubler une année</marker></example>
+        </rule>
+        <rule id="AU_FUR_ET_A_MESURE" name="Au fur et à mesure">
+            <pattern>
+                <token regexp="yes">à|a</token>
+                <token>fur</token>
+                <token min="0">et</token>
+                <token min="0">à</token>
+                <token>mesure</token>
+            </pattern>
+            <message>Cet emploi est considéré comme vieilli, utilisez plutôt <suggestion>au fur et à mesure</suggestion>.</message>
+            <example correction="au fur et à mesure">L'écran affiche les jours choisis <marker>à fur et à mesure</marker> que vous les sélectionnez.</example>
         </rule>
     </category>
     <category id="CAT_ANGLICISMES_FOREIGN_TERMS" name="Anglicismes non adaptés" type="style" tags="picky">
@@ -5097,7 +5811,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>velours côtelé</suggestion>
             <example correction="velours côtelé"><marker>corduroy</marker></example>
         </rule>
-        <rule id="BRANDING" name="branding">
+        <rule id="BRANDING" name="branding" tags="picky">
             <pattern>
                 <token regexp="yes">branding|bradings</token>
             </pattern>
@@ -5105,7 +5819,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="stratégie de marque|valorisation de la marque|image de marque|pouvoir de la marque|notoriété"><marker>branding</marker></example>
             <example><marker>stratégie de marque</marker></example>
         </rule>
-        <rule id="CART" name="cart">
+        <rule id="CART" name="cart" default="off">
             <pattern>
                 <token regexp="yes">carts?</token>
             </pattern>
@@ -5492,7 +6206,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="chauffe-moteur"><marker>blockheater</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="BACKUP" name="backup">
+        <rulegroup id="BACKUP" name="backup" tags="picky">
             <rule>
                 <pattern>
                     <token case_sensitive="yes">back
@@ -5577,7 +6291,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="garnie"><marker>alldressed</marker></example>
             </rule>
         </rulegroup>
-        <rule id="SPLIT" name="split">
+        <rule id="SPLIT" name="split" default="off">
             <pattern>
                 <token regexp="yes">splits?
                     <exception scope="previous">-</exception></token>
@@ -5649,6 +6363,10 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="pansement"><marker>plaster</marker></example>
         </rule>
         <rule id="PLUG" name="plug">
+            <antipattern>
+                <token regexp="yes">plugs?</token>
+                <token regexp="yes">anal|anaux</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">plugs?</token>
             </pattern>
@@ -6197,8 +6915,8 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <pattern>
                 <token regexp="yes" case_sensitive="yes">cover|covers</token>
             </pattern>
-            <message>« Cover » peut être considéré comme un anglicisme. Employez <suggestion>couverture</suggestion>, <suggestion>pochette</suggestion> (de disque), <suggestion>emballage</suggestion>, <suggestion>enveloppe</suggestion>.</message>
-            <example correction="couverture|pochette|emballage|enveloppe"><marker>cover</marker></example>
+            <message>« Cover » peut être considéré comme un anglicisme. Employez <suggestion>couverture</suggestion>, <suggestion>pochette</suggestion> (de disque) ou <suggestion>reprise</suggestion> (musicale).</message>
+            <example correction="couverture|pochette|reprise"><marker>cover</marker></example>
             <example><marker>pochette</marker></example>
         </rule>
         <rule id="STUCCO" name="stucco">
@@ -6336,7 +7054,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example><marker>suivi</marker></example>
             </rule>
         </rulegroup>
-        <rule id="BLIND" name="blind">
+        <rule id="BLIND" name="blind" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">blind|blinds</token>
             </pattern>
@@ -6901,7 +7619,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="point de contrôle"><marker>check point</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="CHECK_OUT" name="check out">
+        <rulegroup id="CHECK_OUT" name="check out" default="off">
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">checkouts?
@@ -7085,18 +7803,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="temps partagé"><marker>time sharing</marker></example>
             </rule>
         </rulegroup>
-        <rule id="GAME_DESIGNER" name="game designer">
-            <pattern>
-                <token regexp="yes">games?</token>
-                <token min="0">-</token>
-                <token regexp="yes">designers?</token>
-            </pattern>
-            <message>« Game designer » peut être considéré comme un anglicisme.</message>
-            <suggestion>concepteur de jeux vidéos</suggestion>
-            <suggestion>concepteur de jeux</suggestion>
-            <example correction="concepteur de jeux vidéos|concepteur de jeux"><marker>game designer</marker></example>
-            <example><marker>concepteur de jeux</marker></example>
-        </rule>
         <rule id="JOKE" name="joke">
             <pattern>
                 <token regexp="yes">jokes?</token>
@@ -7674,7 +8380,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example correction="heures supplémentaires"><marker>over time</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="OVERSIZE" name="oversize(d)">
+        <rulegroup id="OVERSIZE" name="oversize(d)" default="off"><!-- see issue #6825 -->
             <rule>
                 <pattern>
                     <token regexp="yes">over-?sized?s?</token>
@@ -7793,7 +8499,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             </rule>
         </rulegroup>
         -->
-        <rulegroup id="VG" name="v.g.">
+        <rulegroup id="VG" name="v.g." default="off"><!-- see issue #6825 -->
             <antipattern>
                 <token>V</token>
                 <token>.</token>
@@ -7878,7 +8584,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="vente à l'arrachée|vente forcée"><marker>hard selling</marker></example>
             <example><marker>vente forcée</marker></example>
         </rule>
-        <rule id="SNAP" name="snap">
+        <rule id="SNAP" name="snap" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">snaps?</token>
             </pattern>
@@ -7992,7 +8698,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>essuie-glace</suggestion>
             <example correction="essuie-glace"><marker>wiper</marker></example>
         </rule>
-        <rule id="WISE" name="wise">
+        <rule id="WISE" name="wise" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">wises?</token>
             </pattern>
@@ -8080,15 +8786,6 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>fixage</suggestion>
             <example correction="fixage"><marker>fixing</marker>.</example>
         </rule>
-        <rule id="CLIPPER" name="clipper">
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">clippers?
-                    <exception scope="previous">-</exception></token>
-            </pattern>
-            <message>« Clipper » peut être considéré comme un anglicisme. Employez <suggestion>tondeuse</suggestion> (à cheveux), <suggestion>rasoir</suggestion>, <suggestion>coupe-ongles</suggestion>.</message>
-            <example correction="tondeuse|rasoir|coupe-ongles"><marker>clipper</marker>.</example>
-            <example><marker>tondeuse</marker> à cheveux.</example>
-        </rule>
         <rulegroup id="COCONUT" name="coconut">
             <rule>
                 <pattern>
@@ -8153,7 +8850,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
                 <example><marker>emballage de six</marker></example>
             </rule>
         </rulegroup>
-        <rule id="LOCKER" name="locker">
+        <rule id="LOCKER" name="locker" default="off">
             <pattern>
                 <token regexp="yes">lockers?</token>
             </pattern>
@@ -8173,7 +8870,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion>lien</suggestion>
             <example correction="lien">Pense à mettre <marker>link</marker> entre les deux éléments.</example>
         </rule>
-        <rule id="SEARCH" name="search">
+        <rule id="SEARCH" name="search" default="off">
             <pattern>
                 <token>search</token>
             </pattern>
@@ -9310,7 +10007,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <example correction="chef de direction|directeur général"><marker>directeur exécutif</marker></example>
             <example><marker>chef de direction</marker></example>
         </rule>
-        <rule id="SECRETAIRE_EXECUTIF" name="secrétaire exécutif" tone_tags="professional">
+        <rule id="SECRETAIRE_EXECUTIF" name="secrétaire exécutif" tone_tags="professional" default="off"><!-- see issue #6825 -->
             <pattern>
                 <token regexp="yes">secrétaires?</token>
                 <token min="0">-</token>
@@ -12910,11 +13607,15 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
         <rule id="PRIX_DEMANDE" name="prix demandé" tone_tags="clarity">
             <pattern>
                 <token>prix</token>
-                <token regexp="yes">demandés?</token>
+                <token regexp="yes">demandés?
+                    <exception regexp="yes" scope="next">par|pour</exception></token>
             </pattern>
             <message>« Prix demandé » peut être considéré comme un anglicisme (asked price). Employez <suggestion>offre</suggestion> (finance), <suggestion>cours vendeur</suggestion> (finance), <suggestion>cours de vente</suggestion> (finance).</message>
             <example correction="offre|cours vendeur|cours de vente"><marker>prix demandé</marker></example>
             <example><marker>offre</marker></example>
+            <example>Le prix demandé par les vendeurs n'avait aucun sens.</example>
+            <example>C'est vraiment le prix demandé pour ces chaussures ?</example>
+            <example>Une offre à la hauteur du prix demandé pour financer les travaux.</example>
         </rule>
         <rule id="PRIX_DE_LISTE" name="prix de liste" tone_tags="clarity">
             <pattern>
@@ -17966,7 +18667,7 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
             <suggestion><match no="1" postag="J (.*)" postag_regexp="yes" postag_replace="J $1">similaire</match></suggestion>
             <example correction="proche|similaire">C'est un milieu <marker>identique</marker>.</example>
         </rule>
-        <rule id="REP_GENERAL" name="général" min_prev_matches="3" tags="picky">
+        <rule id="REP_GENERAL" name="général" min_prev_matches="3" tags="picky" default="off"> <!-- see issue #6825 -->
             <pattern>
                 <marker>
                     <token postag="J (.*)" postag_regexp="yes" inflected="yes" case_sensitive="yes">général

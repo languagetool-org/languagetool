@@ -19,6 +19,7 @@
 package org.languagetool.rules.uk;
 
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.rules.AbstractPunctuationCheckRule;
 
@@ -29,6 +30,10 @@ import org.languagetool.rules.AbstractPunctuationCheckRule;
  * @author Andriy Rysin
  */
 public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
+
+  private static final Pattern PATTERN_1 = Pattern.compile("([,:] | *- |,- | ) *");
+  private static final Pattern PATTERN_2 = Pattern.compile("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
+  private static final Pattern PATTERN_3 = Pattern.compile("^[.,!?: -]$");
 
   public PunctuationCheckRule(ResourceBundle messages) {
     super(messages);
@@ -49,8 +54,8 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
   @Override
   protected final boolean isPunctsJoinOk(String tokens) {
     return // we ignore duplicated spaces - too many errors
-           tokens.matches("([,:] | *- |,- | ) *") // internal punctuation
-        || tokens.matches("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
+           PATTERN_1.matcher(tokens).matches() // internal punctuation
+        || PATTERN_2.matcher(tokens).matches();
   }
 
   /*
@@ -62,7 +67,7 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
    */
   @Override
   protected final boolean isPunctuation(String token) {
-    return token.matches("^[.,!?: -]$");
+    return PATTERN_3.matcher(token).matches();
   }
 
 }

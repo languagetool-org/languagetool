@@ -21,13 +21,14 @@ package org.languagetool.rules.es;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class SpanishWrongWordInContextRule extends WrongWordInContextRule {
   
-  public SpanishWrongWordInContextRule(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public SpanishWrongWordInContextRule(ResourceBundle messages, Language lang) throws IOException {
+    super(messages, lang);
     setLocQualityIssueType(ITSIssueType.Grammar);
     setMatchLemmmas();
   }
@@ -44,7 +45,7 @@ public class SpanishWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "Confusión según el contexto (infligir/infringir, etc.)";
+    return "Confusión según el contexto: $match";
   }
   
   @Override

@@ -21,7 +21,6 @@ package org.languagetool.rules.fr;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tools.StringTools;
@@ -39,13 +38,10 @@ import java.util.regex.Pattern;
  */
 public class WordWithDeterminerFilter extends RuleFilter {
 
-  private static final String determinerRegexp = "(P.)?D .*|J .*|V.* ppa .*";
-  private static final Pattern DETERMINER = Pattern.compile(determinerRegexp);
-  private static final String wordRegexp = "[ZNJ] .*|V.* ppa .*";
-  private static final Pattern WORD = Pattern.compile(wordRegexp);
-
+  private static final Pattern detPattern = Pattern.compile("(P.)?D .*|J .*|V.* ppa .*");
+  private static final Pattern wordPattern = Pattern.compile("[ZNJ] .*|V.* ppa .*");
   // 0=MS, 1=FS, 2=MP, 3=FP
-  private static final String[] GenderNumber = { "([me]) (s|sp)", "([fe]) (s|sp)", "([me]) (p|sp)", "([fe]) (p|sp)" };
+  private static final String[] genderNumber = { "([me]) (s|sp)", "([fe]) (s|sp)", "([me]) (p|sp)", "([fe]) (p|sp)" };
   private static final String determiner = "((P.)?D |J |V.* ppa )";
 
   private static final List<String> exceptionsDeterminer =
@@ -84,8 +80,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
     boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken())
         && !atrDeterminer.getToken().equalsIgnoreCase("L'");
     boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
-    AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, DETERMINER);
-    AnalyzedToken atWord = getAnalyzedToken(atrWord, WORD);
+    AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, detPattern);
+    AnalyzedToken atWord = getAnalyzedToken(atrWord, wordPattern);
     if (atWord == null || atDeterminer == null) {
       throw new RuntimeException(
           "Error analyzing sentence: '" + match.getSentence().getText() + "' with rule " + match.getRule().getFullId());
@@ -105,14 +101,14 @@ public class WordWithDeterminerFilter extends RuleFilter {
     String[][] determinerForms = new String[4][];
     String[][] wordForms = new String[4][];
     for (int i = 0; i < 4; i++) {
-      determinerForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atDeterminer, determiner + GenderNumber[i], true);
-      wordForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atWord, prefix + GenderNumber[i], true);
+      determinerForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atDeterminer, determiner + genderNumber[i], true);
+      wordForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atWord, prefix + genderNumber[i], true);
       // if it cannot be synthesyzed, keep the original determiner
-      if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + GenderNumber[i])) {
+      if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + genderNumber[i])) {
         determinerForms[i] = new String[] { atDeterminer.getToken() };
       }
       // if it cannot be synthesyzed, keep the original word
-      if (wordForms[i].length == 0 && atWord.getPOSTag().matches(".+" + GenderNumber[i])) {
+      if (wordForms[i].length == 0 && atWord.getPOSTag().matches(".+" + genderNumber[i])) {
         wordForms[i] = new String[] { atWord.getToken() };
       }
     }
@@ -169,7 +165,7 @@ public class WordWithDeterminerFilter extends RuleFilter {
     AnalyzedSentence analyzedSentence = lt.analyzeText(newSuggestion).get(0);
     for (Rule r: lt.getAllActiveRules()) {
       if (r.getCategory().getId().toString().equals(categoryToCheck) || rulesToCheck.contains(r.getId())) {
-        RuleMatch matches[] = r.match(analyzedSentence);
+        RuleMatch[] matches = r.match(analyzedSentence);
         if (matches.length > 0) {
           return false;
         }

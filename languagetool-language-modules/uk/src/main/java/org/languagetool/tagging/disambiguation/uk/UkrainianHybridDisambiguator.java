@@ -44,21 +44,28 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.uk.PosTagHelper;
 
+import static java.util.regex.Pattern.compile;
+
 /**
  * Hybrid chunker-disambiguator for Ukrainian.
  */
 
 public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private static final String LAST_NAME_TAG = ":prop:lname";
-  private static final Pattern INITIAL_REGEX = Pattern.compile("[А-ЯІЇЄҐ]\\.");
-  private static final Pattern INANIM_VKLY = Pattern.compile("noun:inanim:.:v_kly.*");
-  private static final Pattern PLURAL_NAME = Pattern.compile("noun:anim:p:.*:fname.*");
+  private static final Pattern INITIAL_REGEX = compile("[А-ЯІЇЄҐ]\\.");
+  private static final Pattern INANIM_VKLY = compile("noun:inanim:.:v_kly.*");
+  private static final Pattern PLURAL_NAME = compile("noun:anim:p:.*:fname.*");
 //  private static final Pattern PLURAL_LNAME_OR_PATR = Pattern.compile("noun:anim:p:.*:lname.*");
-  private static final Pattern PLURAL_LNAME_PATTERN = Pattern.compile("noun:anim:p:.*:[lp]name.*");
+  private static final Pattern PLURAL_LNAME_PATTERN = compile("noun:anim:p:.*:[lp]name.*");
   private static final String ST_ABBR = "ст.";
-  private static final Pattern LATIN_DIGITS_PATTERN = Pattern.compile("[XIVХІ]+([–—-][XIVХІ]+)?");
-  private static final Pattern DIGITS_PATTERN = Pattern.compile("[0-9]+([–—-][0-9]+)?");
-  private static final Pattern STATION_NAME_PATTERN = Pattern.compile("метро|[А-Я][а-яіїєґ'-]+");
+  private static final Pattern LATIN_DIGITS_PATTERN = compile("[XIVХІ]+([–—-][XIVХІ]+)?");
+  private static final Pattern DIGITS_PATTERN = compile("[0-9]+([–—-][0-9]+)?");
+  private static final Pattern STATION_NAME_PATTERN = compile("метро|[А-Я][а-яіїєґ'-]+");
+  private static final Pattern PATTERN_1 = compile("[а-яіїєґa-z0-9].*");
+  private static final Pattern PATTERN_2 = compile("[0-9]+([.,–—-][0-9]+)?");
+  private static final Pattern PATTERN_3 = compile("два|дві|три|чотири");
+  private static final Pattern PATTERN_4 = compile(":(alt|nv|ua_\\d{4}|xp\\d)");
+  private static final Pattern PATTERN_5 = compile(":[mfn]:v_rod");
 
   private final Disambiguator chunker = new UkrainianMultiwordChunker("/uk/multiwords.txt", true);
 
@@ -84,7 +91,6 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
     preDisambiguate(input);
-    
     return disambiguator.disambiguate(chunker.disambiguate(input));
   }
 
@@ -102,7 +108,6 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     disambiguateSt(input);
     disambiguatePronPos(input);
     retagPulralProp(input);
-
     return input;
   }
 
@@ -121,9 +126,9 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         String animPropTagPrefix = "noun:anim:"+gen+":v_naz:prop";
         
 
-        if( (LemmaHelper.hasLemma(tokens[i], prefix, Pattern.compile("noun:anim:"+gen+":v_naz.*"))
+        if( (LemmaHelper.hasLemma(tokens[i], prefix, compile("noun:anim:"+gen+":v_naz.*"))
             || PosTagHelper.hasPosTagStart(tokens[i], animPropTagPrefix + ":fname"))
-            && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("verb.*:past:"+gen)) ) {
+            && PosTagHelper.hasPosTag(tokens[i+2], compile("verb.*:past:"+gen)) ) {
 
           AnalyzedTokenReadings nameToken = tokens[i+1];
           if( PosTagHelper.hasPosTagStart(nameToken, animPropTagPrefix) ) {
@@ -175,7 +180,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           startCheck = true;
         }
         else {
-          if( lowerCaseToken.matches("[а-яіїєґa-z0-9].*") ) {
+          if(PATTERN_1.matcher(lowerCaseToken).matches()) {
             // sometimes sentences incorrectly split, e.g. "захопленню зброї;" - leave it
             if( StringUtils.isAllLowerCase(tokens[i].getToken()) ) {
               continue;
@@ -214,7 +219,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     return foundVmis && foundOther;
   }
 
-  private static final Pattern IGNORE_IN_PRON_POS = Pattern.compile("pron|noun:anim:p:v_zna.*:rare.*");
+  private static final Pattern IGNORE_IN_PRON_POS = compile("pron|noun:anim:p:v_zna.*:rare.*");
   
   private void disambiguatePronPos(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
@@ -229,9 +234,9 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       
       if( Arrays.asList("його", "її", "їх").contains(lowerCaseToken) ) {
         
-        if( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("adj.*pron:pos.*")) ) {
+        if( PosTagHelper.hasPosTag(tokens[i], compile("adj.*pron:pos.*")) ) {
         
-          List<InflectionHelper.Inflection> nounInflections = new ArrayList<>();
+          List<Inflection> nounInflections = new ArrayList<>();
           if( i > 1 ) {
             List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i-1].getReadings(), IGNORE_IN_PRON_POS);
             nounInflections.addAll( nounInflections_ );
@@ -264,7 +269,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     for (int i = 1; i < tokens.length; i++) {
       if( tokens[i].getReadings().size() > 1
           && LemmaHelper.isCapitalized(tokens[i].getCleanToken())
-          && LemmaHelper.hasLemma(tokens[i], Pattern.compile("[А-ЯІЇЄҐ][а-яіїєґ'-].*"), Pattern.compile(".*?:prop")) ) {
+          && LemmaHelper.hasLemma(tokens[i], compile("[А-ЯІЇЄҐ][а-яіїєґ'-].*"), compile(".*?:prop")) ) {
 
         String lowerLemmaToCheck = tokens[i].getAnalyzedToken(0).getLemma().toLowerCase();
         
@@ -302,14 +307,14 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     }    
   }
 
-  private static final Pattern PUNCT_AFTER_KLY_PATTERN = Pattern.compile("[!?,»\"\u201C\u201D…]|[\\.!?]{2,3}");
+  private static final Pattern PUNCT_AFTER_KLY_PATTERN = compile("[!?,»\"\u201C\u201D…]|[\\.!?]{2,3}");
 
   private void removeInanimVKly(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) {
       List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
 
-      if( ! PosTagHelper.hasPosTag(analyzedTokens, Pattern.compile("noun:inanim:.:v_kly(?!.*:geo).*") )
+      if( ! PosTagHelper.hasPosTag(analyzedTokens, compile("noun:inanim:.:v_kly(?!.*:geo).*") )
           || likelyVklyContext(tokens, i) )
         continue;
 
@@ -490,12 +495,12 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       // 10 мм рт. ст.
       if (i > 1) {
         if (tokens[i - 1].getToken().equals("рт.")) {
-          Pattern pattern = Pattern.compile("noun.*:xp3.*");
+          Pattern pattern = compile("noun.*:xp3.*");
           removeTokensWithout(tokens[i], pattern);
           continue;
         }
         else {
-          Pattern pattern = Pattern.compile("(?!.*:xp3).*");
+          Pattern pattern = compile("(?!.*:xp3).*");
           removeTokensWithout(tokens[i], pattern);
         }
       }
@@ -503,11 +508,11 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       
       // стаття/сторінка
       if (i < tokens.length - 1) {
-        if (tokens[i + 1].getToken().matches("[0-9]+([.,–—-][0-9]+)?")) {
-          Pattern pattern = Pattern.compile("noun:inanim:f:.*");
+        if (PATTERN_2.matcher(tokens[i + 1].getToken()).matches()) {
+          Pattern pattern = compile("noun:inanim:f:.*");
 
           if (i > 2 && ST_ABBR.equals(tokens[i - 1].getToken())) {
-            pattern = Pattern.compile("noun:inanim:p:.*");
+            pattern = compile("noun:inanim:p:.*");
             removeTokensWithout(tokens[i - 1], pattern);
           }
 
@@ -521,7 +526,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         // столова
         if (LemmaHelper.hasLemma(tokens[i + 1], "ложка") 
             || tokens[i + 1].getToken().equals("л.")) {
-          Pattern pattern = Pattern.compile("adj:[fp]:.*");
+          Pattern pattern = compile("adj:[fp]:.*");
           removeTokensWithout(tokens[i], pattern);
           i++;
           continue;
@@ -530,7 +535,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         // старший
         if (LemmaHelper.hasLemma(tokens[i + 1],
             Arrays.asList("лейтенант", "сержант", "солдат", "науковий", "медсестра"))) {
-          Pattern pattern = Pattern.compile("adj:m:.*");
+          Pattern pattern = compile("adj:m:.*");
           removeTokensWithout(tokens[i], pattern);
           i++;
           continue;
@@ -538,7 +543,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
         // станція
         if (STATION_NAME_PATTERN.matcher(tokens[i + 1].getToken()).matches()) {
-          Pattern pattern = Pattern.compile("noun:inanim:f:.*");
+          Pattern pattern = compile("noun:inanim:f:.*");
           removeTokensWithout(tokens[i], pattern);
           i++;
           continue;
@@ -548,10 +553,10 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       // століття
       if (i > 1) {
         if( LATIN_DIGITS_PATTERN.matcher(tokens[i - 1].getToken()).matches() ) {
-          Pattern pattern = Pattern.compile("noun:inanim:n:.*");
+          Pattern pattern = compile("noun:inanim:n:.*");
 
           if (i < tokens.length - 1 && ST_ABBR.equals(tokens[i + 1].getToken())) {
-            pattern = Pattern.compile("noun:inanim:p:.*");
+            pattern = compile("noun:inanim:p:.*");
             removeTokensWithout(tokens[i + 1], pattern);
           }
 
@@ -560,10 +565,10 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           continue;
         }
         else if( DIGITS_PATTERN.matcher(tokens[i - 1].getToken()).matches() ) {
-          Pattern pattern = Pattern.compile("noun:inanim:[nf]:.*"); // 18 ст. - стаття або століття
+          Pattern pattern = compile("noun:inanim:[nf]:.*"); // 18 ст. - стаття або століття
 
           if (i < tokens.length - 1 && ST_ABBR.equals(tokens[i + 1].getToken())) {
-            pattern = Pattern.compile("noun:inanim:p:.*");
+            pattern = compile("noun:inanim:p:.*");
             removeTokensWithout(tokens[i + 1], pattern);
           }
 
@@ -583,11 +588,11 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     // дві Франції, три Катерини, два Володьки
     for (int i = 2; i < tokens.length; i++) {
       AnalyzedTokenReadings propTokens = tokens[i];
-      if( tokens[i-1].getCleanToken().toLowerCase().matches("два|дві|три|чотири")
+      if( PATTERN_3.matcher(tokens[i - 1].getCleanToken().toLowerCase()).matches()
           && ! PosTagHelper.hasPosTag(propTokens, "noun.*:p:v_naz.*:prop.*")
           && ! PosTagHelper.hasPosTag(propTokens, "noun.*:[mfn]:v_naz.*:prop.*")) { 
         
-        List<AnalyzedToken> propOnly = PosTagHelper.filter(propTokens.getReadings(), Pattern.compile("noun:.*:[fmn]:v_rod.*prop.*"));
+        List<AnalyzedToken> propOnly = PosTagHelper.filter(propTokens.getReadings(), compile("noun:.*:[fmn]:v_rod.*prop.*"));
         
         propOnly = propOnly.stream()
             .filter(s -> !s.getPOSTag().contains(":m:") || s.getLemma().endsWith("а") || s.getLemma().endsWith("о") )
@@ -596,7 +601,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         
         if( propOnly.size() > 0 ) {
 
-          String postag = propOnly.get(0).getPOSTag().replaceFirst(":[mfn]:v_rod", ":p:v_naz");
+          String postag = PATTERN_5.matcher(propOnly.get(0).getPOSTag()).replaceFirst(":p:v_naz");
           String lemma = propOnly.get(0).getLemma();
 
           for(AnalyzedToken tokenReading: propTokens.getReadings()) {
@@ -641,7 +646,7 @@ TODO:
       if( lnamePosTag == null || ! lnamePosTag.contains(LAST_NAME_TAG) )
         continue;
       
-      lnamePosTag = lnamePosTag.replaceAll(":(alt|nv|ua_\\d{4}|xp\\d)", "");
+      lnamePosTag = PATTERN_4.matcher(lnamePosTag).replaceAll("");
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":nv:abbr:prop:"+initialType), initialsToken);

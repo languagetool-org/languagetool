@@ -24,6 +24,7 @@ package org.languagetool.rules.pt;
 
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
@@ -31,8 +32,8 @@ import org.languagetool.rules.WrongWordInContextRule;
 
 public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
   
-  public PortugueseWrongWordInContextRule(ResourceBundle messages) {
-    super(messages);
+  public PortugueseWrongWordInContextRule(ResourceBundle messages, Language lang) {
+    super(messages, lang);
     super.setCategory(Categories.SEMANTICS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("O acidente <marker>infringiu</marker> grandes danos."),
@@ -41,7 +42,7 @@ public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getCategoryString() {
-    return "Confusão de Palavras";
+    return "Confusão de Palavras: $match";
   }
   
   @Override
