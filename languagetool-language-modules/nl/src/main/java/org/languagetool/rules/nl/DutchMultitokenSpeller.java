@@ -34,6 +34,18 @@ public class DutchMultitokenSpeller extends MultitokenSpeller {
 
   @Override
   protected boolean isException(String original, String candidate) {
+    if (original.length()>2) {
+      if (original.substring(0, original.length()-1).equals(candidate)) {
+        if (original.endsWith("s")) {
+          return true;
+        }
+      }
+      if (original.substring(0, original.length()-2).equals(candidate)) {
+        if (original.endsWith("'s") || original.endsWith("’s") ) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 
