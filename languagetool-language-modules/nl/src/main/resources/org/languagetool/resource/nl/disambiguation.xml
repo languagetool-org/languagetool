@@ -5427,11 +5427,14 @@ Copyright (C) 2008-2023 Ruud Baars
 	-->
     <rule id="NEW_201" name="-">
         <pattern>
-			<token postag="SENT_START"/>
-			<marker>
-				<token postag_regexp="yes" postag="BYW:VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW:VRZ"/></token>
-			</marker>
-		</pattern>
+		<token postag="SENT_START"/>
+		<marker>
+			<and>
+				<token postag="BYW"/>
+				<token postag="VRZ"/>
+			</and>
+		</marker>
+	</pattern>
         <disambig action="remove" postag="BYW"/>
     </rule>
 
