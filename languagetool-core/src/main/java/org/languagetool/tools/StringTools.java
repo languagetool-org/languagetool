@@ -919,7 +919,8 @@ public final class StringTools {
       }
     }
     return s;
-
+  }
+  
   public static String[] splitCamelCase(String input) {
     if (isAllUppercase(input)) {
       return new String[]{input};
