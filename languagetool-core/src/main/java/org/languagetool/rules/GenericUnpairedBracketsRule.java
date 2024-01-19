@@ -284,7 +284,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
 
   private boolean getPrecededByWhitespace(AnalyzedTokenReadings[] tokens, int i, int j) {
     boolean precededByWhitespace = true;
-    if (startSymbols.get(j).equals(endSymbols.get(j))) {
+    if (startSymbols.get(j).equals(endSymbols.get(j)) || endSymbols.contains(startSymbols.get(j))) {
       precededByWhitespace = tokens[i - 1].isSentenceStart()
           || tokens[i].isWhitespaceBefore()
           || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches()
@@ -316,7 +316,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       int index = endSymbols.indexOf(symbol.symbol);
       if (index >= 0) {
         SymbolLocator rLoc = ruleMatchStack.peek();
-        if (rLoc.getSymbol().symbol.equals(startSymbols.get(index))) {
+        if (rLoc.getSymbol().symbolType == Symbol.Type.Opening && rLoc.getSymbol().symbol.equals(startSymbols.get(index))) {
           if (ruleMatches.size() > rLoc.getIndex()) {
             ruleMatches.remove(rLoc.getIndex());
             ruleMatchStack.pop();
