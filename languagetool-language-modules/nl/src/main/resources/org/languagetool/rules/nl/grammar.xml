@@ -693,6 +693,21 @@ regexp case-insensitive maken: (?i)
 				<example correction="gemeentehuizen">Hoeveel <marker>gemeentehuize</marker> heb je gevonden?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="TYPE_MEERVOUD" name="Alle type(typen) mensen." default="temp_off">
+			<rule>
+				<pattern>
+				    <token postag_regexp="yes" postag="BNW:STL:VRB|GET.*|VNW:OBP.*">
+				        <exception regexp="yes">een|één|welk|eigen|[0-9][0-9].*</exception>
+				    </token>
+				    <marker>
+					    <token>type</token>
+					</marker>
+					<token postag="ZNW:MRV:DE_"/>
+				</pattern>
+				<message><suggestion>\2n</suggestion>.</message>
+				<example correction="typen">Wij bieden verschillende <marker>type</marker> voertuigen aan.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
