@@ -35,6 +35,7 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
   private final static CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
   private final String englishDictFilepath;
+  protected MorfologikMultiSpeller englishSpeller;
   private final UserConfig userConfig;
 
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
@@ -92,8 +93,9 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
     if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
       languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
     }
-    MorfologikMultiSpeller englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
             userConfig, 1, language);
+    setConvertsCase(englishSpeller.convertsCase());
   }
 
   @Override
@@ -101,14 +103,13 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
     List<RuleMatch> ruleMatchesSoFar, int idx,
     AnalyzedTokenReadings[] tokens) throws IOException {
     if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH")) {
-      System.out.println(word + " is Engels");
+      System.out.println(word + " is assumed English");
       return Collections.emptyList();
-      /* // next step: correct spelling
+      /* next step: offer suggestions
       if (englishSpeller.isMisspelled(word)) {
         String message = "Het lijkt erop dat dit een foutief gespeld Engels woord is.";
         String shortMessage = "Mogelijke fout in Engels woord";
         List<String> suggestions = englishSpeller.getSuggestions(word);
-        System.out.println(word + " is spelled incorrectly. Suggestions: " + suggestions);
         RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
           message, shortMessage, suggestions);
         return Collections.singletonList(ruleMatch);

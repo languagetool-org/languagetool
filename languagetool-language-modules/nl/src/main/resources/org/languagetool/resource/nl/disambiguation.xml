@@ -10,6 +10,8 @@ Copyright (C) 2008-2023 Ruud Baars
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
 <!ENTITY Maand '<token regexp="yes">&months;|&abbrevMonths;</token>'>
 <!ENTITY WeekDag '<token regexp="yes">&weekdays;</token>'>
+<!ENTITY ENGLISH_WORDS "up|at|mother|father|nothing|press|dead|selected|left|width|height|within|love|life|loser?s?|secret|influential|most|king|week|function|length|yeah|welcome|these|but|top|too|return|go|goes|baby|shop|appeal|trade|toys?|or|who|years?|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|spot|games?|are|by|couldn?|can|wouldn?|might|the|and|for|your|back|that|you|he|she|its?|they|him|her|them|good|bad">
+<!ENTITY TEST_ENGLISH_WORDS "duifkuiker">
 
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -4685,18 +4687,11 @@ Copyright (C) 2008-2023 Ruud Baars
     </rule>
 
   <rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
-      <rule> <!-- tag common English words with _FOREIGN_ENGLISH (thanks Pedro) -->
+      <rule>
           <pattern>
-              <token regexp="yes" postag_regexp="yes" postag="UNKNOWN|NULL" negate_pos="yes">up|at|mother|father|nothing|press|dead|selected|left|width|height|within|love|life|loser?s?|secret|influential|most|king|week|function|length|yeah|welcome|these|but|top|too|return|go|goes|baby|shop|appeal|trade|toys?|or|who|years?|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|spot|games?|are|by|couldn?|can|wouldn?|might|the|and|for|your|back|that|you|he|she|its?|they|him|her|them|good|bad</token>
+              <token regexp="yes" postag_regexp="yes" postag="UNKNOWN|NULL">&ENGLISH_WORDS;</token>
           </pattern>
           <disambig action="add"><wd pos="_FOREIGN_ENGLISH"/></disambig>
-      </rule>
-
-      <rule> <!-- tag common English words with _FOREIGN_ENGLISH (if untagged, i.e. completely unknown to us) -->
-          <pattern>
-              <token regexp="yes" postag_regexp="yes" postag="UNKNOWN|NULL">up|at|mother|father|nothing|press|dead|selected|left|width|height|within|love|life|loser?s?|secret|influential|most|king|week|function|length|yeah|welcome|these|but|top|too|return|go|goes|baby|shop|appeal|trade|toys?|or|who|years?|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|spot|games?|are|by|couldn?|can|wouldn?|might|the|and|for|your|back|that|you|he|she|its?|they|him|her|them|good|bad</token>
-          </pattern>
-          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
       </rule>
   </rulegroup>
 
@@ -4705,7 +4700,7 @@ Copyright (C) 2008-2023 Ruud Baars
           <pattern>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
           </pattern>
           <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
@@ -4713,25 +4708,7 @@ Copyright (C) 2008-2023 Ruud Baars
       <rule>
           <pattern>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
-              </marker>
-              <token postag="_FOREIGN_ENGLISH" skip="1"/>
-          </pattern>
-          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
-      </rule>
-      <rule>
-          <pattern>
-              <token postag="_FOREIGN_ENGLISH" skip="1"/>
-              <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
-              </marker>
-          </pattern>
-          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
-      </rule>
-      <rule>
-          <pattern>
-              <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
           </pattern>
@@ -4741,7 +4718,7 @@ Copyright (C) 2008-2023 Ruud Baars
           <pattern>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
           </pattern>
           <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
@@ -4749,25 +4726,7 @@ Copyright (C) 2008-2023 Ruud Baars
       <rule>
           <pattern>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
-              </marker>
-              <token postag="_FOREIGN_ENGLISH" skip="1"/>
-          </pattern>
-          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
-      </rule>
-      <rule>
-          <pattern>
-              <token postag="_FOREIGN_ENGLISH" skip="1"/>
-              <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
-              </marker>
-          </pattern>
-          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
-      </rule>
-      <rule>
-          <pattern>
-              <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
           </pattern>
@@ -4777,7 +4736,7 @@ Copyright (C) 2008-2023 Ruud Baars
           <pattern>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
           </pattern>
           <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
@@ -4785,7 +4744,7 @@ Copyright (C) 2008-2023 Ruud Baars
       <rule>
           <pattern>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
           </pattern>
@@ -4795,7 +4754,7 @@ Copyright (C) 2008-2023 Ruud Baars
           <pattern>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
           </pattern>
           <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
@@ -4803,7 +4762,43 @@ Copyright (C) 2008-2023 Ruud Baars
       <rule>
           <pattern>
               <marker>
-                  <token postag_regexp="yes" postag="NULL|UNKNOWN"/>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+              </marker>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag="_FOREIGN_ENGLISH" skip="1"/>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+              </marker>
+          </pattern>
+          <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+          <pattern>
+              <marker>
+                  <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
               </marker>
               <token postag="_FOREIGN_ENGLISH" skip="1"/>
           </pattern>
