@@ -43,6 +43,7 @@ public class CompoundAcceptor {
   private static final Pattern specialAcronymPattern = Pattern.compile("[A-Za-z]{2,4}-");
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
   private static final int MAX_WORD_SIZE = 35;
+  public static final CompoundAcceptor INSTANCE = new CompoundAcceptor();
   protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
   protected final Set<String> noS = new ObjectOpenHashSet<>(), 
                               needsS = new ObjectOpenHashSet<>(),

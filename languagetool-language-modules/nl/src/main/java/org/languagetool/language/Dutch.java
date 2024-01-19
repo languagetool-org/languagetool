@@ -74,6 +74,10 @@ public class Dutch extends Language {
     return DutchSynthesizer.INSTANCE;
   }
 
+  public static CompoundAcceptor getCompoundAcceptor() {
+    return CompoundAcceptor.INSTANCE;
+  }
+
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SRXSentenceTokenizer(this);
