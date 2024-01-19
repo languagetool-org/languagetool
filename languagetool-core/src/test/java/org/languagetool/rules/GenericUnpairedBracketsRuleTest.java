@@ -78,6 +78,10 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches(1, "»Correct, he said. This is the next sentence. Here's another sentence.");
     assertMatches(1, "»Correct, he said. This is the next sentence.\n\nHere's another sentence.");
     assertMatches(1, "»Correct, he said. This is the next sentence.\n\n\n\nHere's another sentence.");
+    assertMatches(1, "This is not correct«");
+    
+    assertMatches(2, "This is not correct«. »There are two quotes missing.");
+    assertMatches(2, "This is not correct\". \"There are two quotes missing.");
   }
 
   @Test
@@ -110,7 +114,7 @@ public class GenericUnpairedBracketsRuleTest {
       lt.disableRule(rule.getId());
     }
     GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(),
-            Arrays.asList("»"), Arrays.asList("«"));
+            Arrays.asList("\"", "»", "«"), Arrays.asList("\"", "«", "»"));
     lt.addRule(rule);
   }
 
