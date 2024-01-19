@@ -4946,4 +4946,58 @@ Copyright (C) 2008-2023 Ruud Baars
         <disambig action="remove" postag="VNW:OND:MRV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
     </rule>
 
+	<!--
+	?	 31231	(2)	ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF ITP:PNT/SENT_END
+	 31194:	 haar.
+	-->
+    <rule id="NEW_176" name="-">
+        <pattern>
+			<marker>
+				<token>haar</token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VNW:PER:3EP:EKV:BEZ"/>
+    </rule>
+
+	<!--
+	?	 30282	(2)	ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF WKW:TGW:INF/ZNW:MRV:DE_
+	 11138:	 haar ogen
+	  4645:	 haar handen
+	  2575:	 Haar ogen
+	  2090:	 haar lippen
+	   935:	 haar benen
+	-->
+    <rule id="NEW_177" name="-">
+        <pattern>
+			<marker>
+				<token>haar</token>
+			</marker>
+			<and>
+				<token postag="WKW:TGW:INF"/>
+				<token postag="ZNW:MRV:DE_"/>
+			</and>
+
+		</pattern>
+        <disambig action="remove" postag="ZNW:EKV"/>
+    </rule>
+
+	<!--
+	?	 29847	(3)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ ZNW:EKV:HET ITP:PNT/SENT_END
+	 12459:	 zijn hoofd.
+	  2011:	 zijn horloge.
+	  1945:	 zijn voorhoofd.
+	   847:	 zijn bureau.
+	-->
+    <rule id="NEW_178" name="-">
+        <pattern>
+			<marker>
+				<token>zijn</token>
+			</marker>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:INF"/>
+    </rule>
+
 </rules>
