@@ -31,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 import org.languagetool.tools.DiffsAsMatches;
 import org.languagetool.tools.PseudoMatch;
@@ -70,6 +71,9 @@ public class SentenceAnnotator {
       String automaticAnnotationStr = prop.getProperty("automaticAnnotation", "").trim();
       cfg.automaticAnnotation = automaticAnnotationStr.equalsIgnoreCase("yes")
           || automaticAnnotationStr.equalsIgnoreCase("true");
+      String ignoreStyleRulesStr = prop.getProperty("ignoreStyleRules", "yes").trim();
+      cfg.ignoreStyleRules = ignoreStyleRulesStr.equalsIgnoreCase("yes")
+        || ignoreStyleRulesStr.equalsIgnoreCase("true");
       String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
       if (!enabledOnlyRulesStr.isEmpty()) {
         cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
@@ -142,6 +146,9 @@ public class SentenceAnnotator {
           match = matches.get(i);
           i++;
           isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence, match));
+          if (cfg.ignoreStyleRules && match.getLocQualityIssueType().get().equals("style")) {
+            isValidMatch = false;
+          }
           if (!isValidMatch) {
             match = null;
           }
@@ -621,6 +628,7 @@ public class SentenceAnnotator {
     File inputFile;
     File outputFile;
     boolean automaticAnnotation;
+    boolean ignoreStyleRules;
     CheckConfiguration ltConfig;
     RemoteLanguageTool lt;
     Map<String, String> customParams = new HashMap<>();
