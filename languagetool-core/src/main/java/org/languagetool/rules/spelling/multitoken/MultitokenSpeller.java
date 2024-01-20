@@ -220,7 +220,7 @@ public class MultitokenSpeller {
   }
 
   private String normalizeSimilarChars(String s) {
-    return s.replaceAll("y", "i").replaceAll("k", "c");
+    return s.replaceAll("y", "i").replaceAll("ko", "co");
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {
