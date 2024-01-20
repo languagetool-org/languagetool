@@ -5842,4 +5842,102 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+	<!--
+	?	 17034	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	  6170:	~ Hij wil
+	  5479:	~ Hij moet
+	  3212:	~ Hij zit
+	   591:	~ Hij zet
+	-->
+    <rule id="NEW_224" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="WKW:TGW:3EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	?	 16938	(3)	SENT_START BYW/TSW ITP:KMA
+	 13997:	~ Nou,
+	  1372:	~ Helaas,
+	-->
+    <rule id="NEW_225" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="TSW"/>
+			</marker>
+			<token>,</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	 16736	(3)	SENT_START VGW VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+	  4490:	~ Als je
+	  4427:	~ En je
+	  4320:	~ Maar je
+	   845:	~ Of je
+	   799:	~ Omdat je
+	   397:	~ Alsof je
+	-->
+    <rule id="NEW_226" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<marker>
+				<token>je</token>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="VNW:PER:2EP:EKV:PSF"/>
+    </rule>
+
+	<!--
+	?	 16547	(3)	WKW:VLT:1EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF ITP:PNT/SENT_END
+	  4952:	 zei ze.
+	  2613:	 vroeg ze.
+	  1764:	 riep ze.
+	   987:	 fluisterde ze.
+	   473:	 schreeuwde ze.
+	   449:	 antwoordde ze.
+	-->
+    <rule id="NEW_227" name="-">
+        <pattern>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token>ze</token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VNW:PER:3EP:MRV:ACT"/>
+    </rule>
+
+	<!--
+	?	 16398	(3)	SENT_START VNW:PER:3EP:EKV:ACT ZNW:EKV:DE_/WKW:VLT:1EP
+	  6353:	~ Hij stond
+	  1378:	~ Hij drukte
+	  1149:	~ Hij greep
+	   903:	~ Hij schreef
+	   859:	~ Hij sprong
+	   850:	~ Hij wreef
+	-->
+    <rule id="NEW_228" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token>ze</token>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="VNW:PER:3EP:MRV:ACT"/>
+    </rule>
+
 </rules>
