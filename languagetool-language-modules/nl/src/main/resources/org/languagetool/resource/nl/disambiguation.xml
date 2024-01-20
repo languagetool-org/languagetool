@@ -5539,6 +5539,14 @@ Copyright (C) 2008-2024 Ruud Baars
 	  2458:	~ Dat is dan
 	  1475:	~ Het is dan
 	-->
+	<!--
+	?	 21990	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW/VGW
+	  3499:	~ Het is dus
+	  3415:	~ Dat is dus
+	  2363:	~ Dat is dan
+	  1431:	~ Het is dan
+	  1430:	~ Dit is dus
+	-->
     <rule id="NEW_209" name="-">
         <pattern>
 			<token postag="SENT_START"/>
@@ -5546,10 +5554,26 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 			<marker>
 				<token postag="BYW"/>
-				<token postag="VGW"/>
 			</marker>
 		</pattern>
-        <disambig action="remove" postag="VGW"/>
+        <disambig action="filterall"/>
     </rule>
 
-</rules>
+	<!--
+	?	 21914	(3)	BYW/VGW/VRZ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	  1413:	 voor kinderen.
+	   391:	 voor vrouwen.
+	   293:	 voor beginners.
+	   250:	 voor dames.
+	   246:	 voor mensen.
+	-->
+    <rule id="NEW_210" name="-">
+        <pattern>
+			<marker>
+				<token postag="VRZ">voor</token>
+			</marker>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule></rules>
