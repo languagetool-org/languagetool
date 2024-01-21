@@ -6075,4 +6075,40 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="BNW:STL:IET"/>
 	</rule>
 
+	<!--
+	?	 15681	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	  5312:	~ Het moet
+	  2673:	~ Het spijt
+	  2426:	~ Dit moet
+	  2280:	~ Het zit
+	  1256:	~ Het kost
+	556:	~ Dit kost
+	-->
+	<rule id="NEW_238a" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+				<token postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET">
+					<exception negate_pos="yes" postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/>
+				</token>
+				<marker>
+					<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_">
+						<exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_"/>
+					</token>
+				</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:1EP|WKW:TGW:3EP"/>
+	</rule>
+	<rule id="NEW_238b" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+				<marker>
+					<token postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET">
+						<exception negate_pos="yes" postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/>
+					</token>
+				</marker>
+				<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:1EP|WKW:TGW:3EP"/>
+	</rule>
+	
 </rules>
