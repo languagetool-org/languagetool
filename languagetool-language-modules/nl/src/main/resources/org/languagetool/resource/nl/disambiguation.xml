@@ -5932,12 +5932,15 @@ Copyright (C) 2008-2024 Ruud Baars
     <rule id="NEW_228" name="-">
         <pattern>
 			<token postag="SENT_START"/>
-			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
 			<marker>
-				<token>ze</token>
+				<and>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="WKW:VLT:1EP"/>
+				</and>
 			</marker>
 		</pattern>
         <disambig action="remove" postag="VNW:PER:3EP:MRV:ACT"/>
     </rule>
-
+	
 </rules>
