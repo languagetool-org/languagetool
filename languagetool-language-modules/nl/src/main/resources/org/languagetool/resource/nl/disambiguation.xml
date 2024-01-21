@@ -6221,4 +6221,27 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="BNW:STL:MRV:DE_"/>
 	</rule>
 
+	<!--
+	?	 14775	(5)	VGW/VRZ GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	    49:	 voor een nieuwe uitdaging.
+	    46:	 met een verstandelijke beperking.
+	    29:	 met een rijke historie.
+	    28:	 met een rijke geschiedenis.
+	-->
+	<rule id="NEW_244" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
 </rules>
