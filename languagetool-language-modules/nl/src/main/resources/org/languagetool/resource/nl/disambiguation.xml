@@ -6244,4 +6244,78 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VGW"/>
     </rule>
 
+	<!--
+	?	 14840	(2)	BYW/WKW:TGW:1EP ITP:PNT/SENT_END
+	 14839:	 maar.
+	-->
+	<rule id="NEW_245" name="-">
+        <pattern>
+			<marker>
+				<token postag="maar"/>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	 14694	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/ZNW:EKV:HET
+	  2767:	~ Ik werk
+	  2518:	~ Ik begin
+	  1449:	~ Ik gebruik
+	1271:	~ Ik stel
+	-->
+	<rule id="NEW_246" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token>ik</token>
+			<marker>
+				<and>
+					<token postag="ZNW:EKV:HET"/>
+					<token postag="WKW:TGW:1EP"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV:HET"/>
+	</rule>
+
+	<!--
+	?	 14441	(2)	MEH:EKV/GET:ROM:MRV ITP:PNT/SENT_END
+	  9665:	 cm.
+	  2992:	 mm.
+	  1042:	 m.
+	-->
+	<rule id="NEW_247" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="MEH:EKV"/>
+					<token postag="GET:ROM:MRV"/>
+				</and>
+			</marker>
+			<token postag="SENT_END">.</token>
+		</pattern>
+        <disambig action="remove" postag="GET:ROM:MRV"/>
+    </rule>
+
+	<!--
+	?	 14404	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT WKW:TGW:3EP
+	  5507:	~ Zij is
+	  2340:	~ Zij heeft
+	   337:	~ Zij wordt
+	-->
+	<rule id="NEW_248" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="VNW:PER:3EP:EKV:ACT"/>
+					<token postag="VNW:PER:3EP:MRV:ACT"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="remove" postag="VNW:PER:3EP:MRV:ACT"/>
+	</rule>
+
 </rules>
