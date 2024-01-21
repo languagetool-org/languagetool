@@ -211,16 +211,24 @@ public class MultitokenSpeller {
   }
 
   private int levenshteinDistance(String s1, String s2) {
-    int distance = LevenshteinDistance.getDefaultInstance().apply(normalizeSimilarChars(s1), normalizeSimilarChars(s2));
+    int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);
+    String ns1= normalizeSimilarChars(s1);
+    String ns2= normalizeSimilarChars(s2);
+    if (!s1.equals(ns1) || !s2.equals(ns2)) {
+      distance = Math.min(distance, LevenshteinDistance.getDefaultInstance().apply(normalizeSimilarChars(s1), normalizeSimilarChars(s2)));
+    }
     // consider transpositions without having a Damerau-Levenshtein method
-    if (distance == 2 && StringTools.isAnagram(s1,s2)) {
+    if (distance > 1 && StringTools.isAnagram(s1,s2)) {
       distance--;
+    }
+    if (distance > 0 && s1.length()==s2.length() && StringTools.isAnagram(s1,s2)) {
+      distance = 1;
     }
     return distance;
   }
 
   private String normalizeSimilarChars(String s) {
-    return s.replaceAll("y", "i").replaceAll("ko", "co");
+    return s.replaceAll("y", "i").replaceAll("ko", "co").replaceAll("ka", "ca");
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {
