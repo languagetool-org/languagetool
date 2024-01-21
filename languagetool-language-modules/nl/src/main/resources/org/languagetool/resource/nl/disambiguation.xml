@@ -6158,4 +6158,67 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="WKW:TGW:1EP|WKW:TGW:3EP"/>
 	</rule>
 
+	<!--
+	?	 15104	(4)	VGW/VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET ITP:PNT/SENT_END
+	   383:	 voor het milieu.
+	   284:	 met het resultaat.
+	   138:	 voor het avondeten.
+	   127:	 voor het kind.
+	   117:	 tot het einde.
+	-->
+    <rule id="NEW_241" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	 15073	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:VLT:1EP/WKW:VLT:GIJ
+	  8868:	~ Ik dacht
+	  1812:	~ Ik liet
+	  1604:	~ Ik mocht
+	   982:	~ Ik besloot
+	   762:	~ Ik zocht
+	-->
+	<rule id="NEW_242" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token>ik</token>
+			<marker>
+				<and>
+					<token postag="WKW:VLT:1EP"/>
+					<token postag="WKW:VLT:GIJ"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:VLT:GIJ"/>
+	</rule>
+
+	<!--
+	?	 14897	(2)	SENT_START WKW:TGW:INF/BNW:STL:MRV:DE_
+	 13009:	~ Laten
+	  1330:	~ Helen
+	-->
+	<rule id="NEW_243" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="BNW:STL:MRV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="BNW:STL:MRV:DE_"/>
+	</rule>
+
 </rules>
