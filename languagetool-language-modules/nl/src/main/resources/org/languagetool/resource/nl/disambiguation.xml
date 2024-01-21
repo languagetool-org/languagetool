@@ -6074,5 +6074,26 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="BNW:STL:IET"/>
 	</rule>
-
+	
+	<!--
+?	 29176	(4)	SENT_START VGW VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	  8140:	~ Maar het is
+	  4339:	~ En het is
+	  2353:	~ Maar dit is
+	  1583:	~ En dit is
+	   890:	~ Maar het gaat
+	   777:	~ Maar het blijft
+	-->
+	<rule id="NEW_237" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">en|of|maar</token>
+			<marker>
+				<token postag="VNW:OND:EKV:HET"/>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+	
 </rules>
