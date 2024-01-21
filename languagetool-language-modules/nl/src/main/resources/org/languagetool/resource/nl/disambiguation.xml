@@ -6095,5 +6095,67 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+
+	<!--
+	?	 16568	(3)	SENT_START VNW:PER:1EP:EKV:BEZ WKW:TGW:1EP/ZNW:EKV:DE_
+	  5165:	~ Mijn vader
+	  5109:	~ Mijn moeder
+	  1412:	~ Mijn man
+	   965:	~ Mijn stem
+	   326:	~ Mijn mond
+	   322:	~ Mijn hand
+	   218:	~ Mijn dank
+	   152:	~ Mijn hemel
+	-->
+	<rule id="NEW_238" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:EKV:BEZ">mijn</token>
+			<token postag="ZNW:EKV:DE_"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	 15645	(3)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ BNW:STL:ONV ITP:PNT/SENT_END
+	   694:	 zijn mogelijk.
+	   641:	 zijn welkom.
+	   382:	 zijn aanwezig.
+	   380:	 zijn belangrijk.
+	   281:	 zijn groot.
+	   237:	 zijn gratis.
+	   201:	 zijn beschikbaar.
+	   182:	 zijn duidelijk.
+	-->
+    <rule id="NEW_239" name="-">
+        <pattern>
+			<marker>
+				<token>zijn</token>
+			</marker>
+		<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+		<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VNW:PER:3EP:EKV:BEZ"/>
+    </rule>
+
+	<!--
+	?	 15681	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	  5312:	~ Het moet
+	  2673:	~ Het spijt
+	  2426:	~ Dit moet
+	  2280:	~ Het zit
+	  1256:	~ Het kost
+	   556:	~ Dit kost
+	-->
+	<rule id="NEW_240" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">het|dit|dat</token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_"><exception postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_"/></token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:1EP|WKW:TGW:3EP"/>
+	</rule>
 	
 </rules>
