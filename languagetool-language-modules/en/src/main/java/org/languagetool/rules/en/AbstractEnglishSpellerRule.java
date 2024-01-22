@@ -79,6 +79,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "germane", // confused with German
     "double check",
     "flat screen", // flatscreen
+    "full time", // should be 'full-time'
+    "part time", // should be 'part-time'
     "java script",
     "off topic",
     "hard coding",
@@ -1368,6 +1370,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Reaking", Arrays.asList("Wreaking"));
     s.put("hight", Arrays.asList("height"));
     s.put("Hight", Arrays.asList("Height"));
+    s.put("fulltime", Arrays.asList("full-time"));
+    s.put("Fulltime", Arrays.asList("Full-time"));
 
     return s;
   }
