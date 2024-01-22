@@ -6318,4 +6318,54 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="VNW:PER:3EP:MRV:ACT"/>
 	</rule>
 
+	<!--
+	-	 14136	(3)	WKW:TGW:3EP WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+	   656:	 is afgelopen.
+	   593:	 is gekomen.
+	   301:	 is aangebroken.
+	   257:	 is gestorven.
+	   248:	 is gebroken.
+	   242:	 is gebleven.
+	-->
+	<rule id="NEW_249" name="-">
+        <pattern>
+			<marker>
+				<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+			<token postag="SENT_END">.</token>
+		</pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	 14065	(3)	WKW:TGW:1EP/BNW:STL:ONV/BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	   525:	 eigen schuld.
+	   323:	 open haard.
+	   319:	 eigen verantwoordelijkheid.
+	   266:	 eigen kamer.
+	   250:	 open deur.
+	   221:	 eigen kracht.
+	   220:	 eigen manier.
+	   218:	 eigen rekening.
+	-->
+	<rule id="NEW_250" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="BNW:STL:VRB"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END">.</token>
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+
 </rules>
