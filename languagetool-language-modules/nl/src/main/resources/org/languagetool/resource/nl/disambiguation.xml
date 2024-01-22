@@ -6584,5 +6584,73 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
     </rule>
 
+	<!--
+	?	 13958	(4)	GET:TXT:EKV ZNW:EKV/BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	  1103:	 een belangrijke rol.
+	   262:	 een oude man.
+	   123:	 een droge mond.
+	   114:	 een brede glimlach.
+	    83:	 een flinke slok.
+	    80:	 een harde klap.
+	    79:	 een gezellige boel.
+	-->
+	<rule id="NEW_261" name="-">
+        <pattern>
+			<token>een</token>
+			<marker>
+				<token postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"/></token>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="ZNW:EKV|WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	 13329	(3)	SENT_START VNW:AWZ:EKV:HET WKW:TGW:1EP/ZNW:EKV:HET
+	   984:	~ Het antwoord
+	   864:	~ Het water
+	   761:	~ Het boek
+	   611:	~ Het verschil
+	   469:	~ Het werk
+	   417:	~ Het geld
+	   375:	~ Het onderzoek
+	   361:	~ Het land
+	   299:	~ Het beeld
+	-->
+	<rule id="NEW_262" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:HET"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:HET"/></token>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	 10807	(5)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET/VNW:OND:EKV:HET BYW
+	   643:	~ Ik vind het ook
+	   327:	~ Ik heb het ook
+	   273:	~ Ik heb het nog
+	   221:	~ Ik heb het nooit
+	   189:	~ Ik heb het hier
+	-->
+	<rule id="NEW_263" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token>ik</token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<marker>
+				<and>
+					<token postag="VNW:OND:MRV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+				</and>
+			</marker>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+		</pattern>
+        <disambig action="remove" postag="VNW:OND:MRV:HET"/>
+    </rule>
 
 </rules>
