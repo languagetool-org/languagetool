@@ -6367,5 +6367,44 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="WKW:TGW:1EP"/>
     </rule>
 
+	<!--
+	?	 13729	(3)	SENT_START WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP/ZNW:EKV:DE_
+	  4677:	~ Zijn stem
+	  2291:	~ Zijn vader
+	  1709:	~ Zijn moeder
+	  1077:	~ Zijn hand
+	   671:	~ Zijn mond
+	   474:	~ Zijn glimlach
+	-->
+	<rule id="NEW_251" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>zijn</token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:INF"/>
+	</rule>
+
+	<!--
+	?	 13355	(3)	SENT_START VGW/ENM:PER:FST WKW:TGW:INF
+	  1985:	~ Dan gaan
+	  1483:	~ Dan kunnen
+	  1166:	~ Dan hebben
+	   911:	~ Dan komen
+	   730:	~ Dan moeten
+	   580:	~ Dan zullen
+	-->
+	<rule id="NEW_252" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>dan</token>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+		</pattern>
+		<disambig action="remove" postag="ENM:PER:FST"/>
+	</rule>
 
 </rules>
