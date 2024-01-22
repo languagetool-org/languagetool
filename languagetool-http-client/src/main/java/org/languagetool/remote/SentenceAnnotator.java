@@ -166,7 +166,7 @@ public class SentenceAnnotator {
           detectedErrorStr = sentence.substring(match.getErrorOffset(),
               match.getErrorOffset() + match.getErrorLength());
         }
-        System.out.println(listSuggestions(match));
+        System.out.println(listSuggestions(match, detectedErrorStr));
         System.out.println("---------------------------------------------");
         System.out.print("Action? ");
         response = sc.nextLine();
@@ -494,7 +494,7 @@ public class SentenceAnnotator {
     return ruleType;
   }
 
-  static private String listSuggestions(RemoteRuleMatch match) {
+  static private String listSuggestions(RemoteRuleMatch match, String detectedErrorStr) {
     StringBuilder sb = new StringBuilder();
     sb.append("(Q)uit (D)one (G)arbled (R)estartSentence ");
     if (match == null) {
@@ -504,6 +504,10 @@ public class SentenceAnnotator {
     sb.append("(I)gnoreMatch ");
     sb.append("(B)othOK ");
     sb.append("(F)P ");
+    if (!detectedErrorStr.isEmpty()) {
+      sb.append("\nUNDERLINED_STR: ");
+      sb.append(detectedErrorStr);
+    }
     if (match.getReplacements().get().size() > 0) {
       sb.append("\nSUGGESTIONS: ");
     }
