@@ -2243,6 +2243,31 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="Smart Cities" id="CITIES"> <!--Wir mögen alle Short Stories, Smart Cities und die Westchester Counties.-->
+        <pattern>
+            <token postag="UNKNOWN"/>
+            <token postag="UNKNOWN" regexp="yes">.+ies</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup name="Graphic" id="GRAPHIC"> <!--Graphic Environment | Latin Dictionary-->
+        <rule><!--1-->
+            <pattern>
+                <token regexp="yes">Graphics?|Latin</token>
+                <token postag="UNKNOWN"/>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token postag="UNKNOWN"/>
+                <token regexp="yes">Graphics?|Latin</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rule name="Schlacht bei" id="SCHLACHTEN">
         <pattern>
             <token>Schlacht</token>
