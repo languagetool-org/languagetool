@@ -25941,6 +25941,19 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rule id="DE_US" name="US/VS">
+			<antipattern case_sensitive="yes"><token>US</token><token regexp="yes">[A-Z].*</token></antipattern>
+			<pattern>
+				<token>de</token>
+				<marker>
+					<token case_sensitive="yes">US</token>
+				</marker>
+				<token negate_pos="yes" postag="UNKNWON"/>
+			</pattern>
+			<message>In het Nederlands is het de <suggestion>VS</suggestion>.</message>
+			<example correction="VS">In de <marker>US</marker> denkt men groots.</example>
+		</rule>
+
 		<rulegroup id="RONDT_UUR" name="rondt/rond" >
 			<!-- R. Baars 27-10-2022 -->
 			<rule>
