@@ -23,7 +23,7 @@ import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.language.Dutch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.RuleMatch;
@@ -37,7 +37,6 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
-  private final static CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
   private final String englishDictFilepath;
   private final UserConfig userConfig;
 
@@ -47,14 +46,14 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
   
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
-    englishDictFilepath = "/en/hunspell/en_US" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    englishDictFilepath = "/en/hunspell/en_US.dict";
     this.userConfig = userConfig;
     initEnglishSpeller();
   }
 
   @Override
   protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
-    return compoundAcceptor.acceptCompound(word);
+    return Dutch.getCompoundAcceptor().acceptCompound(word);
   }
 
   @Override
