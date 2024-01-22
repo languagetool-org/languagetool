@@ -21,6 +21,7 @@ package org.languagetool.rules.nl;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.language.Dutch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
@@ -30,7 +31,8 @@ import java.util.ResourceBundle;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
-  private final static CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+  //private final static CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+
 
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
     this(messages, language, userConfig, Collections.emptyList());
@@ -42,7 +44,7 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
   @Override
   protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
-    return compoundAcceptor.acceptCompound(word);
+    return Dutch.getCompoundAcceptor().acceptCompound(word);
   }
 
   @Override

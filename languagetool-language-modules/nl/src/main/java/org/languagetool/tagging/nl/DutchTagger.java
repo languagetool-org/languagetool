@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.nl.CompoundAcceptor;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
+import org.languagetool.language.Dutch;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -92,7 +93,7 @@ public class DutchTagger extends BaseTagger {
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+    CompoundAcceptor compoundAcceptor = Dutch.getCompoundAcceptor();
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
