@@ -6407,4 +6407,184 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="ENM:PER:FST"/>
 	</rule>
 
+	<!--
+?	 13332	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP/WKW:VLT:GIJ
+	  4392:	~ Hij liet
+	  2792:	~ Hij dacht
+	  1211:	~ Hij mocht
+	   944:	~ Hij bracht
+	   919:	~ Hij zocht
+	-->
+	<rule id="NEW_253" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VLT:1EP"/>
+					<token postag="WKW:VLT:GIJ"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="WKW:VLT:GIJ"/>
+    </rule>
+
+    <!--
+    ?	 13312	(3)	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_ WKW:TGW:3EP
+	   257:	~ Moeder is
+	   220:	~ Vader is
+	   201:	~ Seks is
+	   189:	~ Pijn is
+	   170:	~ Service is
+	   161:	~ Kleur is
+	-->
+	<rule id="NEW_254" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="WKW:VLT:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+        <disambig action="remove" postag="WKW:VLT:1EP"/>
+    </rule>
+
+    <!--
+    ?	 13304	(4)	SENT_START BYW WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+	  1182:	~ Daar heb je
+	   910:	~ Hier vind je
+	   905:	~ Daar kun je
+	   500:	~ Hier heb je
+	   445:	~ Hier kun je
+	   437:	~ Misschien heb je
+	   360:	~ Misschien kun je
+	   338:	~ Daar ben je
+	   318:	~ Daar word je
+	-->
+	<rule id="NEW_255" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<marker>
+				<token>je</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+        <disambig action="remove" postag="VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF"/>
+    </rule>
+
+    <!--
+    ?	 13270	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET WKW:TGW:1EP/ZNW:EKV:HET
+	   984:	~ Het antwoord
+	   864:	~ Het water
+	   761:	~ Het boek
+	   611:	~ Het verschil
+	   469:	~ Het werk
+	   417:	~ Het geld
+	   375:	~ Het onderzoek
+	-->
+	<rule id="NEW_256" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token regexp="yes">het|dit|dat</token>
+			</marker>
+			<and>
+				<token postag="WKW:VLT:1EP"/>
+				<token postag="ZNW:EKV:HET"/>
+			</and>
+		</pattern>
+		<disambig action="remove" postag="VNW:OND:MRV:HET"/>
+    </rule>
+
+    <!--
+    ?	 13035	(3)	VNW:AWZ:EKV:DE_ BNW:STL:ONV/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	  2243:	 de dood.
+	  1464:	 de ander.
+	  1404:	 de bar.
+	  1200:	 de politiek.
+	   894:	 de week.
+	   734:	 de hel.
+	   650:	 de arm.
+	-->
+	<rule id="NEW_257" name="-">
+        <pattern>
+			<marker>
+				<token>de</token>
+				<and>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	 12974	(3)	SENT_START WKW:TGW:3EP VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET
+	 10300:	~ Is dat
+	   243:	~ Gaat dat
+	   233:	~ Klinkt dat
+	   203:	~ Komt dat
+	   195:	~ Wordt dat
+	   194:	~ Klopt dat
+	   179:	~ Heeft dat
+	-->
+	<rule id="NEW_258" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<token regexp="yes">het|dit|dat</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="VGW|VGW:EKV:HET"/>
+    </rule>
+
+    <!--
+    ?	 12962	(5)	SENT_START TSW ITP:KMA VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	  2400:	~ Ja, dat is
+	  1675:	~ Nee, dat is
+	  1037:	~ Nou, dat is
+	   406:	~ O, dat is
+	   341:	~ Tja, dat is
+	-->
+	<rule id="NEW_259" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="TSW"><exception negate_pos="yes" postag="TSW"/></token>
+			<token>,</token>
+			<marker>
+				<token regexp="yes">het|dit|dat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="remove" postag="VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET"/>
+    </rule>
+
+    <!--
+    ?	 12794	(3)	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:1EP
+	  2013:	~ Wat heb
+	  1240:	~ Wat doe
+	  1206:	~ Wat moet
+	  1083:	~ Wat ben
+	   965:	~ Wat vind
+	   787:	~ Wat kan
+	-->
+	<rule id="NEW_260" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token regexp="yes">wat</token>
+			</marker>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+		</pattern>
+		<disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
+    </rule>
+
 </rules>
