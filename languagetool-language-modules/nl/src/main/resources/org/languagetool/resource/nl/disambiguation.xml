@@ -6364,7 +6364,7 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 			<token postag="SENT_END">.</token>
 		</pattern>
-        <disambig action="remove" postag="WKW:TGW:1EP"/>
+        <disambig action="remove" postag="WKW:TGW:1EP|BNW:STL:ONV"/>
     </rule>
 
 	<!--
@@ -6379,12 +6379,10 @@ Copyright (C) 2008-2024 Ruud Baars
 	<rule id="NEW_251" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
-			<marker>
-				<token>zijn</token>
-			</marker>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">zijn</token>
+			<token postag="ZNW:EKV:DE_"/>
 		</pattern>
-		<disambig action="remove" postag="WKW:TGW:INF"/>
+		<disambig action="filterall"/>
 	</rule>
 
 	<!--
@@ -6443,13 +6441,13 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="SENT_START"/>
 			<marker>
 				<and>
-					<token postag="WKW:VLT:1EP"/>
+					<token postag="WKW:TGW:1EP"/>
 					<token postag="ZNW:EKV:DE_"/>
 				</and>
 			</marker>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
-        <disambig action="remove" postag="WKW:VLT:1EP"/>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
     </rule>
 
     <!--
@@ -6472,7 +6470,6 @@ Copyright (C) 2008-2024 Ruud Baars
 			<marker>
 				<token>je</token>
 			</marker>
-			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
         <disambig action="remove" postag="VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF"/>
     </rule>
@@ -6494,7 +6491,7 @@ Copyright (C) 2008-2024 Ruud Baars
 				<token regexp="yes">het|dit|dat</token>
 			</marker>
 			<and>
-				<token postag="WKW:VLT:1EP"/>
+				<token postag="WKW:TGW:1EP"/>
 				<token postag="ZNW:EKV:HET"/>
 			</and>
 		</pattern>
@@ -6513,8 +6510,8 @@ Copyright (C) 2008-2024 Ruud Baars
 	-->
 	<rule id="NEW_257" name="-">
         <pattern>
+			<token>de</token>
 			<marker>
-				<token>de</token>
 				<and>
 					<token postag="BNW:STL:ONV"/>
 					<token postag="ZNW:EKV:DE_"/>
@@ -6586,5 +6583,24 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
     </rule>
+
+	<!--
+	?	 13958	(4)	GET:TXT:EKV ZNW:EKV/BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	  1103:	 een belangrijke rol.
+	   262:	 een oude man.
+	   123:	 een droge mond.
+	   114:	 een brede glimlach.
+	    83:	 een flinke slok.
+	-->
+	<rule id="NEW_257" name="-">
+        <pattern>
+				<token>een</token>
+				<token postag="BNW:STL:VRB"/>
+				<token postag="ZNW:EKV:DE_"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 
 </rules>
