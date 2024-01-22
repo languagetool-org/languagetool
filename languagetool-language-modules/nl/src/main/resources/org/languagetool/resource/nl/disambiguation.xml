@@ -6387,4 +6387,24 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="WKW:TGW:INF"/>
 	</rule>
 
+	<!--
+	?	 13355	(3)	SENT_START VGW/ENM:PER:FST WKW:TGW:INF
+	  1985:	~ Dan gaan
+	  1483:	~ Dan kunnen
+	  1166:	~ Dan hebben
+	   911:	~ Dan komen
+	   730:	~ Dan moeten
+	   580:	~ Dan zullen
+	-->
+	<rule id="NEW_252" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>dan</token>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+		</pattern>
+		<disambig action="remove" postag="ENM:PER:FST"/>
+	</rule>
+
 </rules>
