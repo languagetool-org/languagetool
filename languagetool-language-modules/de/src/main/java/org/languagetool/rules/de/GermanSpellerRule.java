@@ -138,6 +138,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
   private final Set<String> wordsWithoutInfixS          = new HashSet<>();
   private final Set<String> germanPrefixes              = new HashSet<>();
+  private final Set<String> verbStems                   = new HashSet<>();
+  private final Set<String> verbPrefixes                = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -1723,6 +1725,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     loadFile("/de/words_infix_s.txt", wordsNeedingInfixS);
     loadFile("/de/words_no_infix_s.txt", wordsWithoutInfixS);
     loadFile("/de/german_prefix.txt", germanPrefixes);
+    loadFile("/de/verb_stems.txt", verbStems);
+    loadFile("/de/verb_prefixes.txt", verbPrefixes);
   }
 
   private void loadFile(String fileInClasspath, Set<String> set) {
@@ -2248,10 +2252,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     String part1;
     String part2;
-    //part1 = parts.get(0);
-    //if (parts.size() >= 2) {
-    //  part2 = parts.get(1);
-    //}
     boolean hasInfixS = false;
     if (parts.size() == 2) {
       part1 = parts.get(0);
@@ -2263,8 +2263,23 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         part2 = part2.substring(1);
         hasInfixS = true;
       }
-      return generalProcessing(word, part1, part2, hasInfixS);
+
+      // make sure that the individual parts of the compound have appropriate length
+      // short words can also be typos
+      if (!isValidPartLength(part1, part2)) {
+        return false;
+      }
+
+      // process hyphenated two-part compounds with old code
+      if (wordNoDot.contains("-")) {
+        return generalProcessing(word, part1, part2, hasInfixS);
+      }
+
+      // process non-hyphenated two-part compounds with new code
+      return checkPOSandPotentialInfixS(part1, part2);
+
     } else if (parts.size() == 3) {
+        String part3;
         if (parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
             // Handle compound words with a hyphen and 's' infix (e.g., "Prioritäts-Dings")
             part1 = parts.get(0) + "s";
@@ -2275,6 +2290,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             // Handle compound words without a hyphen (e.g., "Hundefutterschachtel")
             part1 = parts.get(0);
             part2 = parts.get(1);
+            part3 = parts.get(2);
             return processThreePartCompoundWithoutHyphen(parts, part1, part2);
         }
     } else {
@@ -2361,20 +2377,31 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   protected boolean processThreePartCompoundWithoutHyphen(List<String> parts, String part1, String part2) throws IOException {
+    String part3 = parts.get(2);
     String compound1 = part1 + part2;
-    String compound1noS = compound1.replaceFirst("s$", "");
+    //String compound1noS = compound1.replaceFirst("s$", "");
     String compound2 = uppercaseFirstChar(part2) + parts.get(2);
 
-    boolean compound1ok = isCompound1Ok(part1, part2, compound1, compound1noS);
-    boolean compound2ok = (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
-    //
-    if (!compound1ok && compound2ok && (part1.equals("Aus") || part1.equals("Wein"))) {
-      //just quick fix for Ausleihstelle and Weinkühlschrank
-      //TODO simplify method
-      return true;
-    } else {
-      return compound1ok && compound2ok;
+    //TODO handle hyphenated compounds
+    if (isNoun(compound2)) {
+      if (isNoun(compound1)) {
+        return (checkPOSandPotentialInfixS(part1, part2) && checkPOSandPotentialInfixS(part2, part3));
+      }
+      // Handle special cases for three-part compounds
+      if (isVerbPrefix(part1) && isVerbStem(part2)) {
+        // e. g. Ausleihstelle
+        return true;
+      }
+      if (isNounNom(part1) && isVerbStem(part2)) {
+        // e. g. Weinkühlschrank
+        return true;
+      }
     }
+    return false;
+    // TODO replace the following code, *isCompound1Ok* and *checkGermanPrefixes* with the new code above
+    //boolean compound1ok = isCompound1Ok(part1, part2, compound1, compound1noS);
+    //boolean compound2ok = (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
+    //return compound1ok && compound2ok;
   }
 
   private boolean isCompound1Ok(String part1, String part2, String compound1, String compound1noS) throws IOException {
@@ -2402,7 +2429,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return compound1ok;
   }
 
-
   private boolean isAdjective(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("ADJ:"));
   }
@@ -2418,6 +2444,56 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean isOnlyPluralNoun(String word) throws IOException {
     return isPluralNoun(word) && word.endsWith("en") && isOnlyNoun(word);
   }
+
+  private boolean checkPOSandPotentialInfixS(String part1, String part2) throws IOException {
+    // Expects two parts of a compound and checks
+    //  if their POS tags are correct,
+    //  if an infix s is missing or
+    //  if an infix s is incorrect
+    String part1uc = uppercaseFirstChar(part1);
+    String part2uc = uppercaseFirstChar(part2);
+    if (isNoun(part2uc) && !isMisspelled(uppercaseFirstChar(part2uc))) {
+      if (part1.endsWith("s")) {
+        if (isNounNom(part1uc) || isVerbStem(part1)) {
+          if (hasNoInfixS(part1uc) || !needsInfixS(part1uc)) {
+            return true;
+          }
+        } else if (isNounNom(removeInfixS(part1uc))) {
+          if (!hasNoInfixS(removeInfixS(part1uc)) || needsInfixS(removeInfixS(part1uc))) {
+            return true;
+          }
+        }
+      } else { // *part1* does not end with 's'
+        if ((isNounNom(part1uc) || isVerbStem(part1))
+          && (hasNoInfixS(part1uc) || !needsInfixS(part1uc))) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean needsInfixS(String word) throws IOException {
+    return wordsNeedingInfixS.contains(word);
+  }
+
+  private boolean hasNoInfixS(String word) throws IOException {
+    return wordsWithoutInfixS.contains(word);
+  }
+
+  private boolean isNounNom(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM"));
+  }
+
+  private boolean isVerbPrefix(String word) throws IOException {
+    return verbPrefixes.contains(lowercaseFirstChar(word));
+  }
+
+  private boolean isVerbStem(String word) throws IOException {
+    return verbStems.contains(lowercaseFirstChar(word));
+  }
+
+
 
   @Override
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
