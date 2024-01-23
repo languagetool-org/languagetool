@@ -836,13 +836,35 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction=""><marker>Sí</marker>, es el efecto que tiene el fármaco.</example>
             </rule>
         </rulegroup>
-        <rule id="AI_ES_GGEC_REPLACEMENT_DETERMINER_FORM" name="la cima -> *el cima">
-            <pattern>
-                <token>la</token>
-                <token>cima</token>
-            </pattern>
-            <example correction="">Había una torre en <marker>la cima</marker> de la montaña.</example>
-            <example correction=""><marker>La cima</marker> del Monte Fuji está cubierta de nieve.</example>
-        </rule>
+        <rulegroup id="AI_ES_GGEC_REPLACEMENT_DETERMINER_FORM" name="la cima -> *el cima">
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token>cima</token>
+                </pattern>
+                <example correction="">Había una torre en <marker>la cima</marker> de la montaña.</example>
+                <example correction=""><marker>La cima</marker> del Monte Fuji está cubierta de nieve.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <token postag="RG.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes">acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica</token>
+                </pattern>
+                <example correction="">Tom no tenía <marker>mucha agua</marker> para beber.</example>
+                <example correction="">Tenía <marker>tanta hambre</marker> que me lo comí.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_ES_GGEC_REPLACEMENT_ADVERB_FORM" name="tanta hambre -> *tanto hambre">
+            <rule>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <token postag="RG.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes">acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica</token>
+                </pattern>
+                <example correction="">Tom no tenía <marker>mucha agua</marker> para beber.</example>
+                <example correction="">Tenía <marker>tanta hambre</marker> que me lo comí.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
