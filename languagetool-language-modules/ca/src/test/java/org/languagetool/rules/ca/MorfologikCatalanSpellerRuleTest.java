@@ -606,6 +606,12 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("únic", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(lt.getAnalyzedSentence("\uD83E\uDDE1\uD83E\uDDE1\uD83E\uDDE1l'unic"));
+    assertEquals(1, matches.length);
+    assertEquals("únic", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(8, matches[0].getFromPos());
+    assertEquals(12, matches[0].getToPos());
+
     matches = rule.match(lt.getAnalyzedSentence("rà dio"));
     assertEquals("Ràdio", matches[0].getSuggestedReplacements().get(0));
     assertEquals(0, matches[0].getFromPos());

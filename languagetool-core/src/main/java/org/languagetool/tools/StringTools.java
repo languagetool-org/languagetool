@@ -78,6 +78,12 @@ public final class StringTools {
       WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
     }
   }
+  private static final String[] SLASH_ARRAY = new String[20];
+  static {
+    for (int i = 0; i < 20; i++) {
+      SLASH_ARRAY[i] = StringUtils.repeat('/', i);
+    }
+  }
 
   private static final Pattern CHARS_NOT_FOR_SPELLING = compile("[^\\p{L}\\d\\p{P}\\p{Zs}]");
   private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
@@ -916,6 +922,18 @@ public final class StringTools {
         String found = matcher.group(0);
         // some symbols such as emojis (😂) have a string length larger than 1
         s = s.replaceAll(found, WHITESPACE_ARRAY[found.length()]);
+      }
+    }
+    return s;
+  }
+
+  public static String replaceEmojis(String s) {
+    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
+      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+      while (matcher.find()) {
+        String found = matcher.group(0);
+        // some symbols such as emojis (😂) have a string length larger than 1
+        s = s.replaceAll(found, SLASH_ARRAY[found.length()]);
       }
     }
     return s;
