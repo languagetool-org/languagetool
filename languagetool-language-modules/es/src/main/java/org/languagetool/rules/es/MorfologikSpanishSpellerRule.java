@@ -43,6 +43,22 @@ import java.util.stream.Collectors;
  */
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
+  private static final List<String> REMOVE_FROM_SUGGESTIONS = Arrays.asList("abu", "abue", "abus", "anarco", "anarcos",
+    "arbi", "arbis", "arqui", "arquis", "Barna", "bibe", "bibes", "biblio", "biblios", "bolche", "bolches", "cami",
+    "camis", "capi", "capis", "celu", "celus", "ceni", "cenis", "cerve", "cerves", "chiqui", "chiquis", "chuche",
+    "chuches", "chumi", "chumis", "cintu", "cintus", "comi", "comis", "compu", "compus", "confe", "confes", "confi",
+    "confis", "conge", "conges", "copi", "copis", "cosquis", "coti", "cotis", "cíber", "deco", "decos", "deli", "delis",
+    "depa", "depas", "díver", "facu", "facus", "festi", "festis", "frigo", "frigos", "fácul", "gili", "gilis", "gine",
+    "gineco", "ginecos", "gines", "Graná", "hospi", "hospis", "ilu", "ilus", "impeque", "impeques", "inge", "inges",
+    "joputa", "joputas", "jueputa", "jueputas", "lesbi", "lesbis", "lipo", "lipos", "lito", "litos", "mani", "manifa",
+    "manifas", "manis", "mari", "maris", "masoca", "masocas", "milqui", "milquis", "munipa", "munipas", "ofi", "ofis",
+    "pandi", "pandis", "pasti", "pastis", "pelu", "pelus", "pendeviejo", "pendeviejos", "peni", "penis", "pisci",
+    "piscis", "piti", "pitis", "porfaplís", "porfi", "porfiplís", "porfis", "porsi", "porsiaca", "porsiacas", "porsis",
+    "prefe", "prefes", "prince", "princes", "pringui", "pringuis", "prosti", "prostis", "prota", "protas", "prote",
+    "protes", "psico", "psicos", "psiqui", "psiquis", "publi", "publis", "puti", "putis", "quillo", "quillos", "refri",
+    "refris", "regu", "regus", "repe", "repes", "resi", "resis", "ridi", "ridis", "rotu", "rotus", "sado", "sados",
+    "soco", "socos", "sufi", "sufis", "suje", "sujes", "tatu", "tatus", "torti", "tortis", "tranqui", "tranquis",
+    "trici", "tricis", "ulti", "ultis", "urba", "urbas", "vice", "vices", "vitro", "vitros", "ñero", "ñeros");
   private static final List<String> PREFIX_WITH_WHITESPACE = Arrays.asList("ultra", "eco", "tele", "anti", "auto", "ex",
     "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "hiper",
     "trans", "re", "g", "l", "m");
@@ -88,6 +104,9 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
       String replacement = suggestions.get(i).getReplacement().toLowerCase();
+      if (REMOVE_FROM_SUGGESTIONS.contains(replacement)) {
+        continue;
+      }
       String parts[] = replacement.split(" ");
       // Don't change first suggestions if they match word without diacritics
       int posNewSugg = 0;
