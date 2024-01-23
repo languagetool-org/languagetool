@@ -6653,4 +6653,25 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VNW:OND:MRV:HET"/>
     </rule>
 
+	<!--
+	?	 10843	(4)	' WKW:VLT:1EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:PSF ITP:PNT/SENT_END
+	  3677:	' zei ze.
+	  2613:	' vroeg ze.
+	  1061:	' riep ze.
+	   786:	' fluisterde ze.
+	   359:	' antwoordde ze.
+	-->
+	<rule id="NEW_264" name="-">
+        <pattern>
+			<token regexp="yes">['&quot;]</token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token>ze</token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VNW:PER:3EP:MRV:PSF"/>
+    </rule>
+
+
 </rules>
