@@ -350,7 +350,23 @@ public class MultiWordChunker extends AbstractDisambiguator {
           continue;
         }
         line = StringUtils.substringBefore(line, "#").trim();
-        lines.add(line);
+        if (line.matches("^.*/[ESN]+$")) {
+          //German special case
+          String [] parts = line.split("/");
+          lines.add(parts[0].trim());
+          if (parts[1].contains("E")) {
+            lines.add(parts[0].trim()+"e");
+          }
+          if (parts[1].contains("S")) {
+            lines.add(parts[0].trim()+"s");
+          }
+          if (parts[1].contains("N")) {
+            lines.add(parts[0].trim()+"n");
+          }
+        } else {
+          lines.add(line);
+        }
+
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

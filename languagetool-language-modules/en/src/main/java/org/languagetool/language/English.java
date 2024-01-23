@@ -48,11 +48,7 @@ import org.languagetool.tools.Tools;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -753,26 +749,26 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public String prepareLineForSpeller(String line) {
+  public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return line;
+      return Arrays.asList(line);
     }
     if (line.contains("+")) {
       // while the morfologik separator is "+", multiwords with '+' can cause undesired results.
-      return "";
+      return Arrays.asList("");
     }
     String[] formTag = parts[0].split("\t");
     String form = formTag[0].trim();
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("NN") || tag.startsWith("JJ")) {
-        return form;
+        return Arrays.asList(form);
       } else {
-        return "";
+        return Arrays.asList("");
       }
     }
-    return line;
+    return Arrays.asList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
