@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
@@ -39,6 +39,7 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
   private final String englishDictFilepath;
   private final UserConfig userConfig;
+  protected MorfologikMultiSpeller englishSpeller;
 
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
     this(messages, language, userConfig, Collections.emptyList());
@@ -95,8 +96,8 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
     if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
       languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
     }
-    MorfologikMultiSpeller englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
-            userConfig, 1, language);
+    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+          userConfig, 1, language);
     setConvertsCase(englishSpeller.convertsCase());
   }
 
@@ -104,23 +105,18 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
   public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
     List<RuleMatch> ruleMatchesSoFar, int idx,
     AnalyzedTokenReadings[] tokens) throws IOException {
-    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH")) {
-      //System.out.println(word + " is assumed English");
+    // for now, just accept correctly spelled English words
+    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH") && !englishSpeller.isMisspelled(tokens[idx].getToken())) {
       return Collections.emptyList();
-      /* next step: offer suggestions
-      if (englishSpeller.isMisspelled(word)) {
-        String message = "Het lijkt erop dat dit een foutief gespeld Engels woord is.";
-        String shortMessage = "Mogelijke fout in Engels woord";
-        List<String> suggestions = englishSpeller.getSuggestions(word);
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
-          message, shortMessage, suggestions);
-        return Collections.singletonList(ruleMatch);
-      } else {
-        return Collections.emptyList();
-      }
-      */
     }
     return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
   }
 
 }
+
+
+
+
+
+
+
