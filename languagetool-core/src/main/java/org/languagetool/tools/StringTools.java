@@ -18,8 +18,8 @@
  */
 package org.languagetool.tools;
 
-import com.google.common.collect.Sets;
 import com.google.common.xml.XmlEscapers;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -30,8 +30,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.regex.Pattern.*;
 
@@ -71,6 +71,20 @@ public final class StringTools {
   public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
 
+  private static final String[] WHITESPACE_ARRAY = new String[20];
+  static {
+    for (int i = 0; i < 20; i++) {
+      WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
+    }
+  }
+  public static final char REMOVED_EMOJI = '\u0004';
+  private static final String[] REMOVED_EMOJI_ARRAY = new String[20];
+  static {
+    for (int i = 0; i < 20; i++) {
+      REMOVED_EMOJI_ARRAY[i] = StringUtils.repeat(REMOVED_EMOJI, i);
+    }
+  }
+  private static final Pattern CHARS_NOT_FOR_SPELLING = compile("[^\\p{L}\\d\\p{P}\\p{Zs}]");
   private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
   private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
   private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
@@ -111,7 +125,6 @@ public final class StringTools {
   private static final Set<String> DUTCH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
     new HashSet<>(Arrays.asList("van", "in", "de", "het", "een", "en", "of"))
   );
-
 
   private static final Set<String> ALL_TITLECASE_EXCEPTIONS = collectAllTitleCaseExceptions();
 
@@ -536,7 +549,8 @@ public final class StringTools {
    */
   public static boolean isWhitespace(String str) {
     if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
-        || "\u0001".equals(str)) { // breakable field in OOo
+        || "\u0001".equals(str) // breakable field in OOo
+        || String.valueOf(StringTools.REMOVED_EMOJI).equals(str)) {
       return false;
     }
 
@@ -894,6 +908,37 @@ public final class StringTools {
       converted.append(ch);
     }
     return converted.toString();
+  }
+
+
+  /*
+   * Replace characters that are not letters, digits, punctuation or white spaces
+   * by white spaces
+   */
+  public static String stringForSpeller(String s) {
+    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
+      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+      while (matcher.find()) {
+        String found = matcher.group(0);
+        // some symbols such as emojis (😂) have a string length larger than 1
+        s = s.replace(found, WHITESPACE_ARRAY[found.length()]);
+      }
+    }
+    return s;
+  }
+
+  public static String replaceEmojis(String s) {
+    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
+      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+      while (matcher.find()) {
+        String found = matcher.group(0);
+        // some symbols such as emojis (😂) have a string length larger than 1
+        if (found.length() > 1) {
+          s = s.replace(found, REMOVED_EMOJI_ARRAY[found.length()]);
+        }
+      }
+    }
+    return s;
   }
 
   public static String[] splitCamelCase(String input) {

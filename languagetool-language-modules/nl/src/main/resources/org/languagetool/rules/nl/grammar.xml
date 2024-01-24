@@ -54,6 +54,9 @@ regexp case-insensitive maken: (?i)
 -->
 <!-- definieer macro's voor datumregels -->
 <!DOCTYPE rules [
+<!ENTITY exceptions_multitoken_spell "[^\p{L}]|[\p{P}\+@©\|#_].*|you|the|were|here|we|was|they|are|and|will|love|in|it|is|let|make|may|by|at|su|sus|this|that|my|your|his|her|on|ours|theirs|all|time|dr|jr|if|iz|\d.*|en|per|sr|sra|dra|andren|dierser|fuer|au|best|del|et|al|à|made|many">
+<!ENTITY particles_of "de|von|van|of|d'|di|du|da|ibn|des|am|an|zur|for|to">
+<!ENTITY exceptions_multitoken_sensitive "(?-i)[A-Z]+\d+|[a-z][a-z]?\d+">
 <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
 <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
@@ -207,7 +210,7 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 					<token skip="-1">het</token>
-					<token regexp="yes" inflected="yes">betekenen|noemen|heten|gieten</token>
+					<token regexp="yes" inflected="yes">betekenen|noemen|heten|gieten|zijn</token>
 					<example>Anders dan in het Duits, waar het kameraad of vriend betekent.</example>
 				</antipattern>
 				<antipattern>
@@ -688,6 +691,21 @@ regexp case-insensitive maken: (?i)
 				<message>Dit hoort aan elkaar.</message>
 				<suggestion><match no="2" regexp_match="huize" regexp_replace="huizen"/></suggestion>
 				<example correction="gemeentehuizen">Hoeveel <marker>gemeentehuize</marker> heb je gevonden?</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TYPE_MEERVOUD" name="Alle type(typen) mensen." default="temp_off">
+			<rule>
+				<pattern>
+				    <token postag_regexp="yes" postag="BNW:STL:VRB|GET.*|VNW:OBP.*">
+				        <exception regexp="yes">een|één|welk|eigen|[0-9][0-9].*</exception>
+				    </token>
+				    <marker>
+					    <token>type</token>
+					</marker>
+					<token postag="ZNW:MRV:DE_"/>
+				</pattern>
+				<message><suggestion>\2n</suggestion>.</message>
+				<example correction="typen">Wij bieden verschillende <marker>type</marker> voertuigen aan.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -14672,6 +14690,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="Rode Kruis">Ze doet vrijwilligerswerk bij het <marker>rode kruis</marker> en in een bejaardentehuis, dus het is niet dat ze zich nu verveeld of opsluit.</example>
 				<example correction="Rode Kruisgala">Het <marker>rode kruisgala</marker> in Monte Carlo sluit de top 5 af.</example>
 			</rule>
+			<!-- centrale bank is gewoon correct
 			<rule>
 				<antipattern case_sensitive="yes"><token>Centrale</token><token>Bank</token></antipattern>
 				<pattern>
@@ -14682,6 +14701,7 @@ regexp case-insensitive maken: (?i)
 				<url>https://onzetaal.nl/taaladvies/advies/tweede-kamerlid-tweede-kamer-lid-tweede-kamerlid</url>
 				<example correction="Centrale Bank">De <marker>centrale bank</marker> vergadert vandaag.</example>
 			</rule>
+			-->
 			<rule>
 				<antipattern case_sensitive="yes"><token>Europese</token><token>Unie</token></antipattern>
 				<pattern>
@@ -25923,6 +25943,21 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="DE_US" name="US/VS">
+			<rule>
+				<antipattern case_sensitive="yes"><token>US</token><token regexp="yes">[0-9A-Z].*</token></antipattern>
+				<pattern>
+					<token>de</token>
+					<marker>
+						<token case_sensitive="yes">US</token>
+					</marker>
+					<token><exception postag="UNKNOWN"/></token>
+				</pattern>
+				<message>In het Nederlands is het de <suggestion>VS</suggestion>.</message>
+				<example correction="VS">In de <marker>US</marker> denkt men groots.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="RONDT_UUR" name="rondt/rond" >
 			<!-- R. Baars 27-10-2022 -->
 			<rule>
@@ -26084,13 +26119,14 @@ regexp case-insensitive maken: (?i)
 					<token>een</token>
 					<marker>
 						<token postag_regexp="yes" postag="BNW:STL:ONV|WKW:ODW:ONV|WKW:VTD:ONV"><exception postag_regexp="yes" postag=".*VRB"/><exception regexp="yes">dier|heel|herstart|laag|naar|paar|stuk|super|totaal|tweedehands|veel|week|content|veeg</exception><exception case_sensitive="yes" regexp="yes">Trouw|Bol</exception></token>
-						<token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|ZNW:EKV|GET.*MRV|.*VRB|WKW.*INF|ENM:LOC.*"/><exception regexp="yes">moet|won|plaats|waar|was|stuk|staat|waard|kan|wil|ander|.*(man|geleerde|agent|adviseur|aanklager|arts|ballerina|begeleider|architect|tennisser|enaar|reiziger|politicus|marxist|fiolosoof|meester|vader|ieur|teur|aander|politica|collega|moslima|Ajacied|trice|gedetineerde|gedeputeerde|dominee|leerlinge|soapie|hippie|kampioene|goeroe|kandidate|atlete|docente|presidente|dissidente|studente|agente|patiënte|echtgenote|journaliste|detective|filosoof|strateeg|leerling|koning|oloog|coach|nazi|kok|kardinaal|generaal|crimineel|kolonel|consul|econoom|kampioen|christen|koningin|spion|worstelaar|gijzelaar|minnaar|winnaar|leraar|hebber|leider|strijder|velder|voerder|Feyenoorder|speurder|bestuurder|stadhouder|manager|aanhanger|zanger|officier|priester|maker|onist|olist|vorst|ambassadeur|staatsburger|organist|icus|aris|ontwerper|geneesheer|astronoom|dichter|gitarist|jurist|schrijver|schilder|persoon|kunstschilder|advocaat|componist|student|militair|keizer|wetgever|voorstander|verdediger|toneelschrijver|secretaris|politiek|pleitbezorger|pianist|organisator|koloniaal|heerser|eraar|zwemster|zangeres|werkster|waarnemer|voorloper|baller|violist|vibrafonist|vegetariër|tennisster|presentator|tegenstander|superieur|spreker|speelster|specialist|solist|soldaat|schrijfster|romancier|rechter|publicist|psychiater|proteïne|propagandist|programmeur|producent|literatuur|lesgever|ograaf|moordenaar|katholiek|isotoop|intellectueel|industrieel|hervormer|held|handwerker|goochelaar|fan|tator|commandant|dictator|despoot|democraat|criticus|conservatief|communist|chemicus|chansonnier|burger|artiest|antisemiet|elaar|adeldom|bezoeker|blogger|vlogger|minister|misdadiger|kandidaat|alchemist|onderwijzer|stilist|chirurg)</exception></token>
+						<token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|ZNW:EKV|GET.*MRV|.*VRB|WKW.*INF|ENM:LOC.*|WKW:TGW:3EP"/><exception regexp="yes">moet|won|plaats|waar|was|stuk|staat|waard|kan|wil|ander|.*(man|geleerde|agent|adviseur|aanklager|arts|ballerina|begeleider|architect|tennisser|enaar|reiziger|politicus|marxist|fiolosoof|meester|vader|ieur|teur|aander|politica|collega|moslima|Ajacied|trice|gedetineerde|gedeputeerde|dominee|leerlinge|soapie|hippie|kampioene|goeroe|kandidate|atlete|docente|presidente|dissidente|studente|agente|patiënte|echtgenote|journaliste|detective|filosoof|strateeg|leerling|koning|oloog|coach|nazi|kok|kardinaal|generaal|crimineel|kolonel|consul|econoom|kampioen|christen|koningin|spion|worstelaar|gijzelaar|minnaar|winnaar|leraar|hebber|leider|strijder|velder|voerder|Feyenoorder|speurder|bestuurder|stadhouder|manager|aanhanger|zanger|officier|priester|maker|onist|olist|vorst|ambassadeur|staatsburger|organist|icus|aris|ontwerper|geneesheer|astronoom|dichter|gitarist|jurist|schrijver|schilder|persoon|kunstschilder|advocaat|componist|student|militair|keizer|wetgever|voorstander|verdediger|toneelschrijver|secretaris|politiek|pleitbezorger|pianist|organisator|koloniaal|heerser|eraar|zwemster|zangeres|werkster|waarnemer|voorloper|baller|violist|vibrafonist|vegetariër|tennisster|presentator|tegenstander|superieur|spreker|speelster|specialist|solist|soldaat|schrijfster|romancier|rechter|publicist|psychiater|proteïne|propagandist|programmeur|producent|literatuur|lesgever|ograaf|moordenaar|katholiek|isotoop|intellectueel|industrieel|hervormer|held|handwerker|goochelaar|fan|tator|commandant|dictator|despoot|democraat|criticus|conservatief|communist|chemicus|chansonnier|burger|artiest|antisemiet|elaar|adeldom|bezoeker|blogger|vlogger|minister|misdadiger|kandidaat|alchemist|onderwijzer|stilist|chirurg)</exception></token>
 					</marker>
 				</pattern>
 				<message>\3 is een de-woord. Daar hoort meestal de verbogen vorm van '\2' voor, maar er zijn (veel) uitzonderingen. Zo kan iemand een groot kampioen zijn. Met name als het om een 'rol' of 'functie' gaat. Het kan ook zijn dat u onterecht een spatie hebt gezet tussen 2 woorden die 1 begrip zijn (spatiefout).</message>
 				<suggestion><match no="2" postag_regexp="yes" postag="(^.+):ONV" postag_replace="$1:VRB"/> \3</suggestion>
 				<example correction="lichte amandelgeur">Er hangt een <marker>licht amandelgeur</marker>.</example>
 				<example>Hij liep tegen een stuk muur.</example>
+				<example>Ik weet dat je een hypocriet bent.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ZEER_GROTERE" name="Zeer grotere/grote" >
@@ -26251,4 +26287,403 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 
 	</category>
+    
+    <category id="MULTITOKEN_SPELLING" name="Spelfouten in eigennamen" type="misspelling">
+        <rulegroup id="NL_MULTITOKEN_SPELLING_FOUR" name="Spelfouten in eigennamen (4 tokens)" default="temp_off">
+            <rule><!--1-->
+                <pattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Parc</marker>.</example>
+                <example>Tokyo Marble Chocolate.</example>
+                <example>Ctrl + Shift + R</example>
+                <example>+=n</example>
+                <example>&lt;= maxDate</example>
+                <example>== day</example>
+                <example>University of the Arts London</example>
+                <example>Montse Saez | Administración | Web master: FA? | Administración |</example>
+                <example>=mx+p</example>
+                <example>=2Fx/ρvS</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="The Dark Knight Rises"><marker>Ther Derk Knaight Rises</marker>.</example>
+                <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Park</marker>.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="The Dark Knight Rises"><marker>The Daerk Knight Rises</marker>.</example>
+                <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Park</marker>.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="The Dark Knight Rises"><marker>The Derk Knaight Rises</marker>.</example>
+                <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Park</marker>.</example>
+            </rule>
+            <rule><!--5-->
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="The Dark Knight Rises"><marker>The Derk Knight Rises</marker>.</example>
+                <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Parrk</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NL_MULTITOKEN_SPELLING_THREE" name="Spelfouten in eigennamen (3 tokens)" default="temp_off">
+            <antipattern>
+                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}.+</token>
+                <token regexp="yes">\p{Lu}.+</token>
+                <token regexp="yes">\p{Lu}.+</token>
+                <token regexp="yes">\p{Lu}.+</token>
+                <example>Pedro Julián Pérez Martín</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">.+</token>
+                <token><match no="0"/></token>
+                <token><match no="0"/></token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" postag="UNKNOWN">s</token>
+                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                <example>Charlie Chaplin – A Tramp’s Life.</example>
+            </antipattern>
+            <rule><!--1-->
+                <pattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Yuval Noah Harari"><marker>yuval Noha Harari</marker>.</example>
+                <!--<example correction="Osama bin Laden"><marker>Ossama Bin Laden</marker></example>-->
+                <!--<example correction="Osama bin Laden"><marker>Osama Bin Laden</marker>.</example>-->
+                <example correction="Yuval Noah Harari"><marker>Yuval Noha Hariri</marker>.</example>
+                <example correction="Yuval Noah Harari"><marker>Yuval Noha Harari</marker>.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Johann Sebastian Bach"><marker>Johann Sebastián Bach</marker>.</example>
+                <example correction="Johann Sebastian Bach"><marker>Johann Sebestien Bach</marker>.</example>
+                <!--<example correction="Samuel L. Jackson"><marker>Samuel L Jackson</marker>.</example>-->
+                <!--<example correction="Mohammed bin Salman"><marker>Mohamed bin Salman</marker>.</example>-->
+                <example correction="Johann Sebastian Bach"><marker>Johan Sebastián Bach</marker>.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Yuval Noah Harari"><marker>Yuval Noha hariri</marker>.</example>
+                <example correction="New York Magazine"><marker>New York Magazin</marker>.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Yuval Noah Harari"><marker>Yuvl Nohah Harirri</marker>.</example>
+                <example>Tokyo Marble Chocolate.</example>
+                <example>Ctrl + Shift + R</example>
+                <example>+=n</example>
+                <example>&lt;= maxDate</example>
+                <example>== day</example>
+                <example>University of the Arts London</example>
+                <example>Montse Saez | Administración | Web master: FA? | Administración |</example>
+            </rule>
+            <rule><!--5-->
+                <pattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">&particles_of;|e|&amp;</token>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Académie des sciences"><marker>Académie de Sciences</marker>.</example>
+                <!-- ignored by ENGLISH_NAMES in disambiguation.xml <example correction="University of Texas"><marker>Universiti of Tejas</marker>.</example>-->
+                <!--<example correction="Eching am Ammersee"><marker>Eching am Ammerse</marker></example>-->
+                <example>sierra de Sa Verdera</example>
+                <example>Rey de Roma</example>
+                <!--<example correction="Costa del Sol"><marker>Costa de Sol</marker>.</example>-->
+            </rule>
+            <rule><!--6-->
+                <pattern>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">&particles_of;|e|&amp;</token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Leonardo da Vinci"><marker>Leonardo Da Vinsi</marker>.</example>
+                <example correction="University of Texas"><marker>Universiti of Tejas</marker>.</example>
+                <!--<example correction="Rio de Janeiro"><marker>Rio De Janeiro</marker>.</example>-->
+                <!--<example correction="Louis van Gaal"><marker>Louis Van Gaal</marker>.</example>-->
+                <!--<example correction="Brian De Palma"><marker>Brian de Palma</marker>.</example>-->
+                <example correction="Antoine de Saint-Exupéry"><marker>Antoin de Saint-Exupéry</marker>.</example>
+                <example correction="Leonardo da Vinci"><marker>Leonardo Da Vinci</marker>.</example>
+                <example correction="Lorenzo de’ Medici|Lorenzo de' Medici"><marker>Lorenzo de Medicis</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NL_MULTITOKEN_SPELLING_TWO" name="Spelfouten in eigennamen (2 tokens)" default="temp_off">
+            <antipattern>
+                <token/>
+                <token>-</token>
+                <token spacebefore="no"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">..+</token>
+                <token><match no="0"/></token>
+                <example>ciao ciao</example>
+            </antipattern>
+            <rule><!--1-->
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*<exception postag="D.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <antipattern>
+                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH" regexp="yes">\p{Lu}</token>
+                  <example>Sirius B ist der lichtschwache Begleiter von Sirius A.</example>
+                </antipattern>
+                <antipattern>
+                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH">São</token>
+                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                  <example>São Francisco</example>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Britney Spears"><marker>britaney speers</marker>.</example>
+                <example correction="Britney Spears"><marker>britney speers</marker>.</example>
+                <example correction="García Márquez"><marker>Garcìa Mrquez</marker>.</example>
+                <example correction="García Márquez"><marker>Garcìa Mraquez</marker>.</example>
+                <example correction="Homo sapiens"><marker>Homos Sapiens</marker></example>
+                <!--<example correction="Lluís Llach"><marker>Lluís Lach</marker>.</example>-->
+                <!--<example correction="Nikolai Rimski-Korsakow"><marker>Nicolai Rimski-Kórsakov</marker></example>-->
+                <!--<example correction="Groß Oesingen"><marker>Gross Oesingen</marker></example>-->
+                <example>Massachusetts Institute of Technology</example>
+                <example>el piano inicial d'I want you back</example>
+                <example>+ appendText</example>
+                <example>&lt;br /</example>
+                <example>600md+</example>
+                <example>7c+</example>
+                <example>= $target</example>
+                <example>Alexander von Bach.</example>
+                <example>MARTIN LUTHER</example>
+                <!--<example correction="Atlanta Falcons"><marker>Atlanta Flacons</marker>.</example>-->
+                <!--<example correction="Blu-ray Disc"><marker>Blu-Ray Disc</marker>.</example>-->
+                <!--<example correction="Checkpoint Charlie"><marker>Checkpoint Charly</marker>.</example>-->
+                <!--<example correction="Frédéric Chopin"><marker>Frederick Chopin</marker>.</example>-->
+                <example correction="Georgios Papandreou"><marker>Giorgios Papandreou</marker>.</example>
+                <!--<example correction="Garri Kasparow"><marker>Garry Kasparow</marker>.</example>-->
+                <!--<example correction="iPad Mini"><marker>IPAD mini</marker>.</example>-->
+                <!--<example correction="Luis Suárez"><marker>Luiz Suárez</marker>.</example>-->
+                <!--<example correction="São Francisco"><marker>Sao Francisco</marker>.</example>-->
+                <example correction="Sigismond Thalberg"><marker>Sigismund Thalberg</marker>.</example>
+                <!--<example correction="ante portas">Hannibal <marker>ante Portas</marker>.</example>-->
+                <!--<example correction="Spiegel Online"><marker>spiegel online</marker>.</example>-->
+            </rule>
+            <rule><!--2-->
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token postag="ENM:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token spacebefore="no">-</token>
+                    <token postag="ENM:.*" postag_regexp="yes" spacebefore="no"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="ENM.*|ZNW.*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Michael Jordan"><marker>Michael Jodan</marker>.</example>
+                <!--<example correction="García Márquez"><marker>Garcia Marquez</marker>.</example>-->
+                <!--<example correction="Stephen Hawking"><marker>Stephen Hawkins</marker></example>-->
+                <!--<example correction="William Byrd"><marker>William Bird</marker></example>-->
+                <!--<example correction="Virginia Woolf"><marker>Virginia Wolf</marker></example>-->
+                <!--<example correction="Cyndi Lauper"><marker>Cindy Lauper</marker></example>-->
+                <example correction="René Magritte"><marker>René Magrite</marker></example>
+                <!--<example correction="René Magritte"><marker>Rene Magrite</marker></example>-->
+                <example correction="Marie Curie"><marker>Marie Cuirie</marker></example>
+                <!--<example correction="Ricardo Simonetti"><marker>Ricardo Simoneti</marker></example>-->
+                <example correction="Led Zeppelin"><marker>Led Zepelin</marker>.</example>
+                <example>Que sais-je ?</example>
+                <example>Anna-Greta Winberg</example>
+                <example>Jean-Pierre Jeunet</example>
+                <example>Jean-François Davy</example>
+                <example>–Robert Downey Jr.–</example>
+                <example>Yolanda Perez</example>
+                <example>Yolanda Pérez</example>
+                <example>Frederic Udina</example>
+                <example>fuer Trump oder für Trump</example>
+                <example>MARTIN LUTHER</example>
+                <example>Max Bernhardt</example>
+                <!--<example correction="Christiaan Huygens"><marker>Christian Huygens</marker>.</example>-->
+                <!--<example correction="Paul Valéry"><marker>Paul Valery</marker>.</example>-->
+                <!--<example correction="Edmund Spenser"><marker>Edmund Spencer</marker>.</example>-->
+                <!--<example correction="García Márquez"><marker>Garcia Márquez</marker>.</example>-->
+                <!--<example correction="Ludwig Erhard"><marker>Ludwig Erhardt</marker>.</example>-->
+                <example correction="Oscar Troplowitz"><marker>Oskar Troplowitz</marker>.</example>
+                <!--<example correction="Peter Altmaier"><marker>Peter Altmeyer</marker>.</example>-->
+                <!--<example correction="Philipp Lahm"><marker>Philip Lahm</marker>.</example>-->
+                <!--<example correction="Robert Oppenheimer"><marker>Robert Oppenheim</marker>.</example>-->
+                <!--<example correction="Rudy Giuliani"><marker>Rudi Giuliani</marker>.</example>-->
+                <!--<example correction="Søren Kierkegaard"><marker>Sören Kierkegaard</marker>.</example>-->
+                <!--<example correction="Georges Simenon"><marker>George Simenon</marker>.</example>-->
+                <!--<example correction="Hannah Arendt"><marker>Hanna Arendt</marker>.</example>-->
+                <example correction="Lucas Cranach"><marker>Lukas Cranach</marker>.</example>
+                <!--<example correction="Michail Chodorkowski"><marker>Michael Chodorkowski</marker>.</example>-->
+                <example correction="Richard Dreyfuss"><marker>Richard Dreyfus</marker>.</example>
+                <!--<example correction="Stephen Hawking"><marker>Stephan Hawking</marker>.</example>-->
+                <example correction="Walther Rathenau"><marker>Walter Rathenau</marker>.</example>
+                <example correction="Khan Yunis"><marker>Khan Junis</marker>.</example>
+                <example correction="Gisele Bündchen"><marker>Giselle Bündchen</marker>.</example>
+                <example correction="Carolina Panthers"><marker>Carolina Panther</marker>.</example>
+                <example correction="Batman Begins"><marker>Batman Beginns</marker>.</example>
+                <example>Dikke rallydemo's met bijzondere Audi Quattro's, maar ook stuntshows met bikes en drifkarts en donuts door een originele A1 GP formule racer!</example>
+                <example>U ziet, kun je niet wreed over Alfa Romeos zijn.</example>
+                <example>1932 - Charles Lindberghs zoon wordt gekidnapt.</example>
+                <example>Neolithicum in grote lijnen\nKanariepietje, een nachtvlinder\nHij schreef het op zijn zeventiende en nam daarbij Charles Gounods (1818-1893) Symfonie Nr. 1 als voorbeeld.</example>
+            </rule>
+            <rule><!--3-->
+                 <antipattern>
+                    <token regexp="yes">planare[rnm]?</token>
+                    <token regexp="yes">Graph(s|e(s|n)?)?</token>
+                    <example>Die Nachbarschaftsbeziehung der Länder kann man als planaren Graph repräsentieren.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">&particles_of;|e|&amp;</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <pattern>
+                    <token postag="UNKNOWN|_FOREIGN_ENGLISH|ADJ.*" postag_regexp="yes" regexp="yes">\p{L}..*<exception regexp="yes">sir|don</exception><exception regexp="yes">die|der|&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token regexp="yes">\p{Lu}\p{Ll}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="keepSpaces:true"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <!--<example correction="Michael Jordan"><marker>Michel Jordan</marker>.</example>-->
+                <example correction="Virginia Woolf"><marker>Viginia Woolf</marker></example>
+                <example>Carlos Linares</example>
+                <example>Yolanda Perez</example>
+                <example>Yolanda Pérez</example>
+                <example>Alexander von Bach.</example>
+                <example>RMN-GP Foto</example>
+                <example>Kinofilme wie „Die Welle“ und „Die Untergang“</example>
+                <example>die Stoßstange . Der Grund war Adresse unbekannt</example>
+                <example>MARTIN LUTHER</example>
+                <!--<example correction="Malu Dreyer"><marker>Manu Dreyer</marker>.</example>-->
+                <!--<example correction="Jorge González"><marker>Jorge Gonzalez</marker>.</example>-->
+                <!--<example correction="Hillary Clinton"><marker>Hilary Clinton</marker>.</example>-->
+                <!--<example correction="Herb Alpert"><marker>Herb Albert</marker>.</example>-->
+                <!--<example correction="Gerhard Schröder"><marker>Gerhart Schröder</marker>.</example>-->
+                <!--<example correction="Carrie Fisher"><marker>Carrie Fischer</marker>.</example>-->
+                <!--<example correction="Tyrannosaurus rex"><marker>Tyrannosaurus Rex</marker>.</example>-->
+                <!--<example correction="San Sebastián"><marker>San Sebastian</marker>.</example>-->
+                <!--<example correction="San Martín"><marker>San Martin</marker>.</example>-->
+                <!--<example correction="Mélanie Laurent"><marker>Mélanie Lauren</marker>.</example>-->
+                <example correction="Yuval Harari"><marker>Yuval Hariri</marker></example>
+                <example correction="Helmut Krauss"><marker>Helmuth Krauss</marker>.</example>
+                <example correction="Sigmar Gabriel"><marker>Siegmar Gabriel</marker>.</example>
+                <example correction="Woody Allen"><marker>Woodie Alen</marker></example>
+                <example correction="Disney Channel"><marker>Disnei Chanell</marker>.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token postag="ENM.*" postag_regexp="yes" regexp="yes">\p{Lu}.*
+                        <exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception>
+	                </token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH">
+                        <exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception>
+                        <exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception>
+                        <exception regexp="yes">[A-Z][A-Z\d]?</exception>
+                    </token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example>Adobes Acrobat und Amazons Kindle</example>
+                <example correction="Apple Watch"><marker>Apple Watch©</marker></example>
+                <example correction="Disney Channel"><marker>Disney Chennel</marker>.</example>
+                <!--<example correction="Disney Channel"><marker>Disney Chanel</marker>.</example>-->
+            </rule>
+            <rule><!--5-->
+                <pattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
+                    <token postag="ENM.*" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
+                <message>Mogelijk staat hier een typfout.</message>
+                <example correction="Helmut Schmidt">Auf dem Foto war <marker>Hemut Schmidt</marker> zu sehen.</example>
+                <example>MARTIN LUTHER</example>
+                <!--<example correction="Isaac Newton"><marker>Isaak Newton</marker>.</example>-->
+                <!--<example correction="Alfredo García"><marker>Alfredo Garcia</marker>.</example>-->
+            </rule>
+        </rulegroup>
+    </category>
+
 </rules>

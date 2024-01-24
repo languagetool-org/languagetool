@@ -25,6 +25,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -72,6 +73,10 @@ public class Dutch extends Language {
   @Override
   public Synthesizer createDefaultSynthesizer() {
     return DutchSynthesizer.INSTANCE;
+  }
+
+  public static CompoundAcceptor getCompoundAcceptor() {
+    return CompoundAcceptor.INSTANCE;
   }
 
   @Override
@@ -225,4 +230,7 @@ public class Dutch extends Language {
     return new MorfologikDutchSpellerRule(messages, this, null, Collections.emptyList());
   }
 
+  public MultitokenSpeller getMultitokenSpeller() {
+    return DutchMultitokenSpeller.INSTANCE;
+  }
 }

@@ -152,8 +152,8 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("🚴"));
     assertEquals(0, matches.length);
-    // matches = rule.match(langTool.getAnalyzedSentence("🏽"));
-    // assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("🏽"));
+    assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("♂️"));
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("🎉"));
@@ -166,6 +166,16 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️"));
     assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("- Prueva"));
+    assertEquals(1, matches.length);
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(8, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("🧡 Prueva"));
+    assertEquals(1, matches.length);
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(9, matches[0].getToPos());
 
     // Combining diacritics
     matches = rule.match(lt.getAnalyzedSentence("publicacio\u0301n"));
@@ -230,6 +240,13 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("medices algo"));
     assertEquals(1, matches.length);
     assertEquals("Me dices", matches[0].getSuggestedReplacements().get(0).toString());
+
+    // coloquialism allowed, but not suggested
+    matches = rule.match(lt.getAnalyzedSentence("El munipa"));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("El munipe"));
+    assertEquals(1, matches.length);
+    assertEquals(false, matches[0].getSuggestedReplacements().contains("munipa"));
   }
 
 }

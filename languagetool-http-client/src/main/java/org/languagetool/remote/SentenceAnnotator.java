@@ -31,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 import org.languagetool.tools.DiffsAsMatches;
 import org.languagetool.tools.PseudoMatch;
@@ -70,6 +71,9 @@ public class SentenceAnnotator {
       String automaticAnnotationStr = prop.getProperty("automaticAnnotation", "").trim();
       cfg.automaticAnnotation = automaticAnnotationStr.equalsIgnoreCase("yes")
           || automaticAnnotationStr.equalsIgnoreCase("true");
+      String ignoreStyleRulesStr = prop.getProperty("ignoreStyleRules", "yes").trim();
+      cfg.ignoreStyleRules = ignoreStyleRulesStr.equalsIgnoreCase("yes")
+        || ignoreStyleRulesStr.equalsIgnoreCase("true");
       String enabledOnlyRulesStr = prop.getProperty("enabledOnlyRules", "").trim();
       if (!enabledOnlyRulesStr.isEmpty()) {
         cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(","));
@@ -114,20 +118,22 @@ public class SentenceAnnotator {
       if (quit) {
         break;
       }
-      String[] partsLine = line.split("\t");
-      String sentence;
-      String sentenceHash = "Undefined";
-      if (partsLine.length == 2) {
-        sentence = partsLine[1];
-        sentenceHash = partsLine[0];
-      } else {
-        sentence = partsLine[0];
-        //sentenceHash = md5FromSentence(sentence);
-      }
       numSentence++;
       if (numSentence < startLine) {
         continue;
       }
+      String[] partsLine = line.split("\t");
+      String sentenceID;
+      String originalSentence;
+      if (partsLine.length == 2) {
+        originalSentence = partsLine[1];
+        sentenceID = partsLine[0];
+      } else {
+        originalSentence = partsLine[0];
+        sentenceID = "N/A";
+      }
+      String sentence = originalSentence;
+      String sentenceHash = md5FromSentence(sentence);
       boolean done = false;
       List<String> fpMatches = new ArrayList<>();
       int annotationsPerSentence = 0;
@@ -140,6 +146,9 @@ public class SentenceAnnotator {
           match = matches.get(i);
           i++;
           isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence, match));
+          if (cfg.ignoreStyleRules && match.getLocQualityIssueType().get().equals("style")) {
+            isValidMatch = false;
+          }
           if (!isValidMatch) {
             match = null;
           }
@@ -157,7 +166,7 @@ public class SentenceAnnotator {
           detectedErrorStr = sentence.substring(match.getErrorOffset(),
               match.getErrorOffset() + match.getErrorLength());
         }
-        System.out.println(listSuggestions(match));
+        System.out.println(listSuggestions(match, detectedErrorStr));
         System.out.println("---------------------------------------------");
         System.out.print("Action? ");
         response = sc.nextLine();
@@ -173,7 +182,7 @@ public class SentenceAnnotator {
         }
         switch (response) {
         case "r":
-          sentence = line;
+          sentence = originalSentence;
           fpMatches.clear();
           cfg.outStrB = new StringBuilder();
           break;
@@ -262,7 +271,7 @@ public class SentenceAnnotator {
         }
 
         if (!errorType.isEmpty()) {
-          printOutputLine(cfg, sentenceHash, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
+          printOutputLine(cfg, sentenceHash, sentenceID, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
               suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
@@ -371,7 +380,7 @@ public class SentenceAnnotator {
           replacement = iEMatch.getReplacements().get(0);
           break;
         }
-        printOutputLine(cfg, sentenceHash, formattedOriginalSentence, formattedCorrectSentence, errorType,
+        printOutputLine(cfg, sentenceHash, "N/A", formattedOriginalSentence, formattedCorrectSentence, errorType,
             detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
@@ -409,12 +418,13 @@ public class SentenceAnnotator {
     return DatatypeConverter.printHexBinary(digest);
   }
 
-  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash,
+  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash, String sentenceID,
                                       String errorSentence, String correctedSentence, String errorType,
                                       String detectedErrorStr, String suggestion, int suggestionPos,
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
       sentenceHash,
+      sentenceID,
       cfg.annotatorName,
       timestamp,
       errorSentence,
@@ -484,7 +494,7 @@ public class SentenceAnnotator {
     return ruleType;
   }
 
-  static private String listSuggestions(RemoteRuleMatch match) {
+  static private String listSuggestions(RemoteRuleMatch match, String detectedErrorStr) {
     StringBuilder sb = new StringBuilder();
     sb.append("(Q)uit (D)one (G)arbled (R)estartSentence ");
     if (match == null) {
@@ -494,6 +504,10 @@ public class SentenceAnnotator {
     sb.append("(I)gnoreMatch ");
     sb.append("(B)othOK ");
     sb.append("(F)P ");
+    if (!detectedErrorStr.isEmpty()) {
+      sb.append("\nUNDERLINED_STR: ");
+      sb.append(detectedErrorStr);
+    }
     if (match.getReplacements().get().size() > 0) {
       sb.append("\nSUGGESTIONS: ");
     }
@@ -618,6 +632,7 @@ public class SentenceAnnotator {
     File inputFile;
     File outputFile;
     boolean automaticAnnotation;
+    boolean ignoreStyleRules;
     CheckConfiguration ltConfig;
     RemoteLanguageTool lt;
     Map<String, String> customParams = new HashMap<>();
