@@ -1766,11 +1766,11 @@ Copyright (C) 2008-2024 Ruud Baars
 	<rule id="NEW_010" name="-">
 		<pattern>
 			<marker>
-				<token postag="BYW">te</token>
+				<token postag="BYW:GRD">te</token>
 			</marker>
-			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag_regexp="yes" postag="BNW:STL:ONV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes" postag="BNW:STL:ONV|BNW:STL:VRB"/></token>
 		</pattern>
-		<disambig postag="BYW:GRD"/>
+		<disambig action="filterall"/>
 	</rule>
 
 	<!--
@@ -3911,7 +3911,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <pattern>
 			<token postag="SENT_START"/>
 			<marker>
-				<token postag="VGW">toen</token>
+				<token postag="BYW">toen</token>
 			</marker>
 			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
         </pattern>
@@ -7939,6 +7939,104 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  9110	(4)	BYW/VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT/SENT_END
+	    76:	 voor kleine kinderen.
+	    55:	 voor jonge kinderen.
+	    52:	 voor grote uitdagingen.
+	    38:	 over coronagerelateerde sterfgevallen.
+	    37:	 voor nieuwe ideeën.
+	    37:	 voor andere zaken.
+	    33:	 voor andere mensen.
+	    27:	 voor nieuwe uitdagingen.
+		27:	 bij jonge kinderen.
+	-->
+	<rule id="NEW_328" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="BYW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	==
+?	  8575	(4)	SENT_START VGW BYW/VGW WKW:VLT:1EP
+	   641:	~ En toen kwam
+	   312:	~ En toen werd
+	   310:	~ En toen ging
+	   280:	~ En toen begon
+	   208:	~ En toen zag
+		196:	~ Maar daar had-->
+
+	<rule id="NEW_329" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">en|of</token>
+			<marker>
+				<token postag="BYW">toen</token>
+			</marker>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  8308	(4)	SENT_START BNW:STL:ONV WKW:TGW:3EP VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET
+	   651:	~ Eigenlijk is het
+	   571:	~ Natuurlijk is het
+	   427:	~ Gelukkig is het
+	   207:	~ Tegenwoordig is het
+	   202:	~ Waarschijnlijk is het
+	-->
+	<rule id="NEW_330" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token regexp="yes">en|of</token>
+			<marker>
+				<and>
+					<token postag="VNW:OND:MRV:HET"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+				</and>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="VNW:OND:MRV:HET"/>
+    </rule>
+
+	<!--
+	?	  8241	(5)	VGW/VRZ VNW:AWZ:EKV:DE_ BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	   119:	 voor de lange termijn.
+	   108:	 voor de hele familie.
+	    41:	 voor de goede samenwerking.
+	    39:	 voor de goede zaak.
+	    38:	 voor de hele wereld.
+	-->
+	<rule id="NEW_331" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
         <disambig action="remove" postag="VGW"/>
     </rule>
 
