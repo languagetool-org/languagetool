@@ -3454,7 +3454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="2">tener|haber</token>
+                    <token inflected="yes" regexp="yes" skip="2">tener|haber<exception scope="next" postag_regexp="yes" postag="V.P.*"/></token>
                     <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio|algo</token>
                     <token postag="SPS00" min="0"/>
                     <marker>
@@ -3474,6 +3474,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Puede explicarme alguien por qué siempre pasa esto?</example>
                 <example>No le dije a nadie a qué hora llegaría.</example>
                 <example>¿Nada de qué?</example>
+                <example>Tom no le ha dicho a nadie por qué ha llegado tarde.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11744,6 +11745,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d\d\d\d</token>
                 <token><exception regexp="yes" inflected="yes">&unidades_tiempo;</exception></token>
             </antipattern>
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>,</token>
+                <token>hacia</token>
+                <token>,</token>
+                <token postag="SPS00"/>
+                <example>Las preposiciones en español son: a, ante, bajo, cabe, con, de, desde, contra, en, entre, hacia, hasta, para, por, según, sin, so, sobre, tras.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -18271,6 +18280,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>por</token>
                     <token>que</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">tener|haber</token>
+                    <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio|algo</token>
+                    <token postag="SPS00" min="0"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>por</token>
@@ -18282,13 +18299,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>por qué</suggestion>
                 <example correction="porque|por qué">No le gustan <marker>por que</marker> sabe que son malos.</example>
                 <example correction="porque|por qué">Y también <marker>por que</marker> se había tomado tantas molestias.</example>
+                <example correction="porque|por qué">Tom no le ha dicho a nadie <marker>por que</marker> ha llegado tarde.</example>
                 <example>Optaron por que no hubiera elecciones.</example>
                 <example>Estaban ansiosos por que vinieran.</example>
                 <example>El motivo por que vinimos no es este.</example>
                 <example>Nos expresó su preocupación por que los niños pudieran irse.</example>
                 <example correction="porque|por qué" type="triggers_error">Los premios <marker>por que</marker> competían eran atractivos.</example>
                 <example>Yo estaba impaciente por que el juego comenzara.</example>
-                <!-- No puedo responder por que él sea un deshonesto. -->
+                <example>No tienes nada por que preocuparte.</example>
+                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él es un deshonesto.</example>
+                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él sea un deshonesto.</example>
             </rule>
         </rulegroup>
         <rule id="ENVIO" name="envio -> envío">
@@ -23576,6 +23596,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="AQ.[MC]S." postag_regexp="yes"/>
                     <token>gracias</token>
                     <example>Un humilde gracias</example>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token regexp="yes">auténtico|verdadero</token>
+                    <token regexp="yes">pelota|veleta</token>
                 </antipattern>
                 <pattern>
                     <unify negate="yes">
