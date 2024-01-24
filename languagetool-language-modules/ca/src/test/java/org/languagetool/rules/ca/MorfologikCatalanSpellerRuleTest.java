@@ -612,6 +612,22 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals(8, matches[0].getFromPos());
     assertEquals(12, matches[0].getToPos());
 
+
+    matches = rule.match(lt.getAnalyzedSentence("🧡 Bacances"));
+    assertEquals(1, matches.length);
+    assertEquals("Vacances", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(11, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("- Bacances"));
+    assertEquals(1, matches.length);
+    assertEquals("Vacances", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
+
+    //Sol Picó (🐌+🐚)
+    matches = rule.match(lt.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
+
     matches = rule.match(lt.getAnalyzedSentence("rà dio"));
     assertEquals("Ràdio", matches[0].getSuggestedReplacements().get(0));
     assertEquals(0, matches[0].getFromPos());

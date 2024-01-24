@@ -18,7 +18,6 @@
  */
 package org.languagetool.tools;
 
-import com.google.common.collect.Sets;
 import com.google.common.xml.XmlEscapers;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
@@ -33,7 +32,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 import static java.util.regex.Pattern.*;
 
 /**
@@ -78,13 +77,13 @@ public final class StringTools {
       WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
     }
   }
-  private static final String[] SLASH_ARRAY = new String[20];
+  public static final char REMOVED_EMOJI = '\u0004';
+  private static final String[] REMOVED_EMOJI_ARRAY = new String[20];
   static {
     for (int i = 0; i < 20; i++) {
-      SLASH_ARRAY[i] = StringUtils.repeat('/', i);
+      REMOVED_EMOJI_ARRAY[i] = StringUtils.repeat(REMOVED_EMOJI, i);
     }
   }
-
   private static final Pattern CHARS_NOT_FOR_SPELLING = compile("[^\\p{L}\\d\\p{P}\\p{Zs}]");
   private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
   private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
@@ -550,7 +549,8 @@ public final class StringTools {
    */
   public static boolean isWhitespace(String str) {
     if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
-        || "\u0001".equals(str)) { // breakable field in OOo
+        || "\u0001".equals(str) // breakable field in OOo
+        || String.valueOf(StringTools.REMOVED_EMOJI).equals(str)) {
       return false;
     }
 
@@ -921,7 +921,7 @@ public final class StringTools {
       while (matcher.find()) {
         String found = matcher.group(0);
         // some symbols such as emojis (😂) have a string length larger than 1
-        s = s.replaceAll(found, WHITESPACE_ARRAY[found.length()]);
+        s = s.replace(found, WHITESPACE_ARRAY[found.length()]);
       }
     }
     return s;
@@ -933,12 +933,14 @@ public final class StringTools {
       while (matcher.find()) {
         String found = matcher.group(0);
         // some symbols such as emojis (😂) have a string length larger than 1
-        s = s.replaceAll(found, SLASH_ARRAY[found.length()]);
+        if (found.length() > 1) {
+          s = s.replace(found, REMOVED_EMOJI_ARRAY[found.length()]);
+        }
       }
     }
     return s;
   }
-  
+
   public static String[] splitCamelCase(String input) {
     if (isAllUppercase(input)) {
       return new String[]{input};

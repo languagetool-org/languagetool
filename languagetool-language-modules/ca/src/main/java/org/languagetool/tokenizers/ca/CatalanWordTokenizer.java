@@ -77,7 +77,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE0 = Pattern.compile("\\u0001\\u0001CA_SPACE0\\u0001\\u0001");
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−";
+  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−" + StringTools.REMOVED_EMOJI;
   
   public CatalanWordTokenizer() {
 
