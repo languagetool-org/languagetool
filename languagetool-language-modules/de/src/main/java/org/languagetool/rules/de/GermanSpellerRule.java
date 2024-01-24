@@ -2235,7 +2235,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (word.endsWith("gruße") ||   // too big chance of a "...grüße" typo
         word.endsWith("schaf") ||  // too big chance of a "...schaft" typo
         word.endsWith("schafs") ||
-        word.endsWith("schafen")
+        word.endsWith("schafen") ||
+        word.endsWith("Standart") ||
+        word.startsWith("Standart")
     ) {
       return false;
     }
@@ -2244,6 +2246,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
     // Deals with two-part compounds only and could be extended.
     String wordNoDot = word.endsWith(".") ? word.substring(0, word.length()-1) : word;
+
+    // Format gender neutral forms here to make processing easier
+    // "Expert*innen" -> "Expertinnen"
+    wordNoDot = wordNoDot.replaceFirst("\\*innen", "innen");
+
     List<String> parts = compoundTokenizer.tokenize(wordNoDot);
     boolean nonStrictMode = false;
     if (parts.size() == 1) {
@@ -2252,88 +2259,52 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     String part1;
     String part2;
-    boolean hasInfixS = false;
+
+    // If at least one element in *parts* at position i equals "s", then append "s" to element at i-1
+    parts = avoidInfixSAsSingleToken(parts);
+
+    // Handle cases for hyphenated compounds that don't depend on tokenization
+    // and preprocess further
+    if (wordNoDot.contains("-")) {
+      //Split original word by hyphen
+      List<String> splitByHyphen= new ArrayList<String>(Arrays.asList(wordNoDot.split("-")));//  wordNoDot.split("-");
+      String last_part = splitByHyphen.get(splitByHyphen.size() - 1);
+
+      if (!isNoun(last_part) &&  isNoun(uppercaseFirstChar(last_part))) {
+        // Make sure that last part is uppercase, if it is probably a noun
+        // e.g. "Implementierungs-pflicht"
+        return false;
+      }
+
+      for (String w : splitByHyphen) {
+        if (isMisspelled(w) && isMisspelled(removeInfixSAndHyphen(w))) {
+          return false;
+        }
+      }
+
+      // Split tokenized parts that contain hyphens
+      // example: "Wacht" + "ums-pistole" -> "Wacht" + "ums" + "pistole"
+      parts = splitPartsByHyphen(parts);
+    }
+
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
-      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2)
-        && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
-        // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
-        part1 = part1 + "s";
-        part2 = part2.substring(1);
-        hasInfixS = true;
-      }
 
-      // make sure that the individual parts of the compound have appropriate length
-      // short words can also be typos
+      // Make sure that the individual parts of the compound have appropriate length.
+      // Short words can also be typos.
       if (!isValidPartLength(part1, part2)) {
         return false;
       }
 
-      // process hyphenated two-part compounds with old code
-      if (wordNoDot.contains("-")) {
-        return generalProcessing(word, part1, part2, hasInfixS);
-      }
-
-      // process non-hyphenated two-part compounds with new code
-      return checkPOSandPotentialInfixS(part1, part2);
+      return processTwoPartCompounds(part1, part2);
 
     } else if (parts.size() == 3) {
-        String part3;
-        if (parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
-            // Handle compound words with a hyphen and 's' infix (e.g., "Prioritäts-Dings")
-            part1 = parts.get(0) + "s";
-            part2 = lowercaseFirstChar(parts.get(2));
-            hasInfixS = true;
-            return generalProcessing(word, part1, part2, hasInfixS);
-        } else if (!word.contains("-")) {
-            // Handle compound words without a hyphen (e.g., "Hundefutterschachtel")
-            part1 = parts.get(0);
-            part2 = parts.get(1);
-            part3 = parts.get(2);
-            return processThreePartCompoundWithoutHyphen(parts, part1, part2);
-        }
+      return processThreePartCompound(parts);
     } else {
       // more than three parts can be supported later
       return false;
     }
-    return false;
-  }
-
-
-  private boolean generalProcessing(String word, String part1, String part2, boolean hasInfixS) throws IOException {
-    // Processing that needs to be done for both two-part and three-part compounds
-    // To improve readability in *ignorePotentiallyMisspelledWord*, the following part was taken from there
-    if (word.contains("-" + part2)) {
-      // don't accept e.g. "Implementierungs-pflicht"
-      return false;
-    }
-    if (isValidCompoundCondition(part1, part2, hasInfixS)) {
-      String part1noInfix = removeInfixS(part1);
-      String part2uc = uppercaseFirstChar(part2);
-
-      if (isValidCompoundPattern(part1, part1noInfix, part2uc) && isNoun(part2uc)) {
-        return !isInvalidCompoundEnding(part1, part1noInfix, part2uc);
-      }
-    }
-    String part2uc = uppercaseFirstChar(part2);
-
-    if (isEligibleForCompoundWithoutInfixS(part1, part2, part2uc, hasInfixS)) {
-      System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
-      return true;
-    }
-    return false;
-  }
-
-  private boolean isEligibleForCompoundWithoutInfixS(String part1, String part2, String part2uc, boolean hasInfixS) throws IOException {
-    return !hasInfixS &&
-      isValidPartLength(part1, part2) &&
-      !part2.contains("-") &&
-      startsWithLowercase(part2) &&
-      !part1.equals("Lass") && // Special case handling
-      isValidCompound(part1, part2uc) &&
-      !isMisspelled(part1) &&
-      isNoun(part2uc);
   }
 
   private boolean isValidWordLength(String word) {
@@ -2345,88 +2316,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return part1.length() >= 3 && part2.length() >= 4;
   }
 
-  private boolean isValidCompound(String part1, String part2uc) throws IOException {
-    return wordsWithoutInfixS.contains(part1) ||
-      (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc));
-  }
-
-
-  private boolean isValidCompoundCondition(String part1, String part2, boolean hasInfixS) {
-    return (hasInfixS || part1.endsWith("s")) &&
-      part1.length() >= 4 && // includes 's'
-      part2.length() >= 3 &&
-      startsWithLowercase(part2);
-  }
-
-  private boolean isValidCompoundPattern(String part1, String part1noInfix, String part2uc) {
-    return compoundPatternWithHeit.matcher(part1).matches() ||
-      wordsNeedingInfixS.contains(part1noInfix) ||
-      compoundPatternWithAction.matcher(part1noInfix).matches() ||
-      compoundPatternWithFirst.matcher(part2uc).matches();
-  }
-
-  private String removeInfixS(String part1) {
-    return part1.substring(0, part1.length() - 1);
-  }
-
-  private boolean isInvalidCompoundEnding(String part1, String part1noInfix, String part2uc) {
-    return part1.endsWith("schwungs") ||
-      part1.endsWith("sprungs") ||
-      isMisspelled(part1noInfix) ||
-      isMisspelled(part2uc);
-  }
-
-  protected boolean processThreePartCompoundWithoutHyphen(List<String> parts, String part1, String part2) throws IOException {
-    String part3 = parts.get(2);
-    String compound1 = part1 + part2;
-    //String compound1noS = compound1.replaceFirst("s$", "");
-    String compound2 = uppercaseFirstChar(part2) + parts.get(2);
-
-    //TODO handle hyphenated compounds
-    if (isNoun(compound2)) {
-      if (isNoun(compound1)) {
-        return (checkPOSandPotentialInfixS(part1, part2) && checkPOSandPotentialInfixS(part2, part3));
-      }
-      // Handle special cases for three-part compounds
-      if (isVerbPrefix(part1) && isVerbStem(part2)) {
-        // e. g. Ausleihstelle
-        return true;
-      }
-      if (isNounNom(part1) && isVerbStem(part2)) {
-        // e. g. Weinkühlschrank
-        return true;
-      }
-    }
-    return false;
-    // TODO replace the following code, *isCompound1Ok* and *checkGermanPrefixes* with the new code above
-    //boolean compound1ok = isCompound1Ok(part1, part2, compound1, compound1noS);
-    //boolean compound2ok = (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
-    //return compound1ok && compound2ok;
-  }
-
-  private boolean isCompound1Ok(String part1, String part2, String compound1, String compound1noS) throws IOException {
-    if (germanPrefixes.contains(part2)) {
-      return checkGermanPrefixes(part1, part2, compound1, compound1noS);
-    } else {
-      return !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
-        !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
-    }
-  }
-
-  private boolean checkGermanPrefixes(String part1, String part2, String compound1, String compound1noS) throws IOException {
-    // Logic for handling German prefixes
-    // This method checks if the first part of the compound is not misspelled,
-    // or if it is a potentially misspelled word that should be ignored.
-    // It also checks if the second part of the compound is not misspelled or should be ignored.
-    // Additionally, it ensures that the second part has a minimum length of 3 characters.
-    boolean compound1ok =
-      (((!isMisspelled(part1) && !isMisspelled(part1 + part2)) ||
-        ignorePotentiallyMisspelledWord(part1 + part2)) &&
-        part2.length() >= 3) ||
-        (!isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
-          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS));
-
-    return compound1ok;
+  private String removeInfixSAndHyphen(String part1) {
+    return part1.replaceFirst("s-?$", "");
   }
 
   private boolean isAdjective(String word) throws IOException {
@@ -2445,7 +2336,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return isPluralNoun(word) && word.endsWith("en") && isOnlyNoun(word);
   }
 
-  private boolean checkPOSandPotentialInfixS(String part1, String part2) throws IOException {
+  private boolean processTwoPartCompounds(String part1, String part2) throws IOException {
     // Expects two parts of a compound and checks
     //  if their POS tags are correct,
     //  if an infix s is missing or
@@ -2458,8 +2349,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           if (hasNoInfixS(part1uc) || !needsInfixS(part1uc)) {
             return true;
           }
-        } else if (isNounNom(removeInfixS(part1uc))) {
-          if (!hasNoInfixS(removeInfixS(part1uc)) || needsInfixS(removeInfixS(part1uc))) {
+        } else if (isNounNom(removeInfixSAndHyphen(part1uc))) {
+          if (!hasNoInfixS(removeInfixSAndHyphen(part1uc)) || needsInfixS(removeInfixSAndHyphen(part1uc))) {
             return true;
           }
         }
@@ -2469,8 +2360,90 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return true;
         }
       }
+      if (isAllUppercase(removeInfixSAndHyphen(part1))) {
+        // "SEO-Expertinnen"
+        return true;
+      }
     }
     return false;
+  }
+
+  protected boolean processThreePartCompound(List<String> parts) throws IOException {
+    String part1 = parts.get(0);
+    String part2 = parts.get(1);
+    String part3 = parts.get(2);
+    String compound1 = part1 + part2;
+    String compound2 = uppercaseFirstChar(part2) + parts.get(2);
+
+    if (isNoun(compound2)) {
+      if (isNoun(compound1)) {
+        // If part1part2 and part2part3 are compounds, then so is part1part2part3
+        return (processTwoPartCompounds(part1, part2) && processTwoPartCompounds(part2, part3));
+      }
+      // Handle special cases for three-part compounds
+      if (isVerbPrefix(part1) && isVerbStem(part2)) {
+        // e.g. "Aus" + "leih" + "stelle"
+        return true;
+      }
+      if (isNounNom(part1) && isVerbStem(part2)) {
+        // e.g. "Wein" + "kühl" + "schrank"
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private List<String> avoidInfixSAsSingleToken(List<String> parts) {
+    // If a part equals "s", append it to its predecessor
+    // example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
+    List<String> fixed_parts = new ArrayList<String>();
+    List<Integer> indexes_of_s = indexOfInfixS(parts);
+
+    // Sort indexes in descending order to avoid shifting issues while removing elements
+    Collections.sort(indexes_of_s, Collections.reverseOrder());
+
+    for (Integer index : indexes_of_s) {
+      if (index > 0 && index < parts.size()) { // Ensure index is within bounds and not the first element
+        String toAppend = parts.remove((int) index); // Remove the element at position i and store it
+        parts.set(index - 1, parts.get(index - 1) + toAppend); // Append the removed string to the element at i-1
+      }
+    }
+    return parts;
+  }
+
+  private List<String> splitPartsByHyphen(List<String> parts) {
+    // Iterate through the list using indices to safely modify it while iterating
+    for (int i = 0; i < parts.size(); i++) {
+      String element = parts.get(i);
+
+      if (element.contains("-")) {
+        String[] split_words = element.split("-");
+
+        // Remove the original element
+        parts.remove(i);
+
+        // Insert the split parts back into the list at the current position
+        // Insert in reverse order to maintain the original order after insertion
+        for (int j = split_words.length - 1; j >= 0; j--) {
+          parts.add(i, split_words[j]);
+        }
+
+        // Adjust the index to account for the newly inserted elements
+        // Subtracting 1 because the loop increment will add 1 back
+        i += split_words.length - 1;
+      }
+    }
+    return parts;
+  }
+
+  private List<Integer> indexOfInfixS(List<String> parts) {
+    List<Integer> indexList = new ArrayList<>();
+    for (int i = 0; i < parts.size(); i++) {
+      if ("s".equals(parts.get(i))) {
+        indexList.add(i);
+      }
+    }
+    return indexList;
   }
 
   private boolean needsInfixS(String word) throws IOException {
