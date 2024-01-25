@@ -17224,13 +17224,13 @@ regexp case-insensitive maken: (?i)
 				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> toen ik het zag, ging het mis.</example>
 			</rule>
 			<rule>
+				<antipattern>
+					<token>jij</token>
+					<token>maar</token>
+					<token regexp="yes">daar|er|hier</token>
+					<example>Ga jij maar hier staan</example>
+				</antipattern>
 				<pattern>
-					<antipattern>
-						<token>jij</token>
-						<token>maar</token>
-						<token regexp="yes">daar|er|hier</token>
-						<example>Ga jij maar hier staan</example>
-					</antipattern>
 					<marker>
 						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
 						<token>maar</token>
