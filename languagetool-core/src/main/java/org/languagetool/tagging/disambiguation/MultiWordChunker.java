@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 /**
  * Multiword tagger-chunker.
@@ -65,6 +66,8 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private boolean isRemovePreviousTags = false;
 
   public static String tagForNotAddingTags = "_NONE_";
+
+  private static final Pattern GermanLineExpander = Pattern.compile("^.*/[ESN]+$");
 
   /**
    * @param filename file text with multiwords and tags
@@ -350,7 +353,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
           continue;
         }
         line = StringUtils.substringBefore(line, "#").trim();
-        if (line.matches("^.*/[ESN]+$")) {
+        if (GermanLineExpander.matcher(line).matches()) {
           //German special case
           String [] parts = line.split("/");
           lines.add(parts[0].trim());
