@@ -597,6 +597,13 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="WKW:TGW:1EP"/>
 	</rule>
 
+	<rule id="NIET" name="-">
+		<pattern>
+			<marker><token>niet</token></marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:1EP|WKW:TGW:3EP|VNW:OBP|ZNW:EKV:DE_"/>
+	</rule>
+
 	<!-- correct for 'een ons bekend ... -->
 	<rule id="ONS_BEKEND" name="terugcorrigeren">
 		<pattern>
@@ -8036,6 +8043,134 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	(4222)	SENT_START ENM:PER:FST WKW:VLT:1EP BNW:STL:ONV/WKW:VTD:ONV ITP:PNT/SENT_END
+   Ian keek vermoeid.
+   Saul keek bezorgd.
+   Suzy keek bezorgd.
+   Lena keek bezorgd.
+	-->
+	<!--
+	(3218)	SENT_START ENM:PER:FST WKW:VLT:1EP BNW:STL:ONV/WKW:ODW:ONV ITP:PNT/SENT_END
+   Grace was laaiend.
+   Maud keek woedend.
+   Glenn keek woedend.
+   Aurian was woedend.
+   Grace werd laaiend.
+	-->
+	<!--
+	(3147)	SENT_START ENM:PER:FST/ENM:PER:LST:NIX WKW:VLT:1EP ITP:PNT/SENT_END
+   Marshall aarzelde.
+   Ally zuchtte.
+   Rania huiverde.
+   Rania zweeg.
+   Ally aarzelde.
+   Rania zuchtte.
+	-->
+	<rule id="FULL_332" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag_regexp="yes" postag="ENM:PER.*"><exception negate_pos="yes" postag_regexp="yes" postag="ENM:PER.*"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<and>
+					<token postag="BNW:STL:ONV"/>
+					<token postag_regexp="yes" postag="WKW:VTD:ONV|WKW:ODW:ONV"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	(2225)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+   Dat is een hele les.
+   Het is een hele rij.
+   Het is een enge man.
+   Dat is een hele rij.
+   Het is een hele klim.
+   Dat is een goede les.
+	-->
+	<rule id="FULL_333" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	  8219	(5)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BNW:STL:ONV/WKW:VTD:ONV
+	   109:	~ De foto is gemaakt
+	    96:	~ De kerk is gebouwd
+	    85:	~ De woning is gebouwd
+	    35:	~ De vogel is gemiddeld
+	    31:	~ De kerk is gewijd
+	-->
+	<rule id="NEW_334" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<and>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="WKW:VTD:ONV"/>
+				</and>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  8195	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:VLT:1EP WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	  6772:	~ Ik weet niet
+	  1368:	~ Ik was niet
+	-->
+	<rule id="NEW_335" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token>ik</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:VLT:1EP"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|WKW:VLT:1EP"/></token>
+			<marker>
+				<token>niet</token>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP|WKW:TGW:3EP|VNW:OBP"/>
+    </rule>
+
+	<!--
+	?	 10569	(4)	VGW/VRZ GET:ARA:002:MRV ITP:PNT GET:ARA:002:MRV
+	   487:	 tot 17.00
+	   400:	 om 20.00
+	   331:	 om 19.30
+	-->
+	<rule id="NEW_336" name="-">
+        <pattern>
+			<marker>
+				<token postag="VGW"/>
+				<token postag="VRZ"/>
+			</marker>
+			<token postag="GET:ARA:002:MRV"><exception negate_pos="yes" postag="GET:ARA:002:MRV"/></token>
+			<token>.</token>
+			<token postag="GET:ARA:002:MRV"><exception negate_pos="yes" postag="GET:ARA:002:MRV"/></token>
         </pattern>
         <disambig action="remove" postag="VGW"/>
     </rule>
