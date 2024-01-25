@@ -77,14 +77,8 @@ public final class StringTools {
       WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
     }
   }
-  public static final char REMOVED_EMOJI = '\u0004';
-  private static final String[] REMOVED_EMOJI_ARRAY = new String[20];
-  static {
-    for (int i = 0; i < 20; i++) {
-      REMOVED_EMOJI_ARRAY[i] = StringUtils.repeat(REMOVED_EMOJI, i);
-    }
-  }
-  private static final Pattern CHARS_NOT_FOR_SPELLING = compile("[^\\p{L}\\d\\p{P}\\p{Zs}]");
+
+  public static final Pattern CHARS_NOT_FOR_SPELLING = compile("[^\\p{L}\\d\\p{P}\\p{Zs}]");
   private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
   private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
   private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
@@ -549,8 +543,7 @@ public final class StringTools {
    */
   public static boolean isWhitespace(String str) {
     if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
-        || "\u0001".equals(str) // breakable field in OOo
-        || String.valueOf(StringTools.REMOVED_EMOJI).equals(str)) {
+        || "\u0001".equals(str)) { // breakable field in OOo
       return false;
     }
 
@@ -922,20 +915,6 @@ public final class StringTools {
         String found = matcher.group(0);
         // some symbols such as emojis (😂) have a string length larger than 1
         s = s.replace(found, WHITESPACE_ARRAY[found.length()]);
-      }
-    }
-    return s;
-  }
-
-  public static String replaceEmojis(String s) {
-    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
-      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
-      while (matcher.find()) {
-        String found = matcher.group(0);
-        // some symbols such as emojis (😂) have a string length larger than 1
-        if (found.length() > 1) {
-          s = s.replace(found, REMOVED_EMOJI_ARRAY[found.length()]);
-        }
       }
     }
     return s;

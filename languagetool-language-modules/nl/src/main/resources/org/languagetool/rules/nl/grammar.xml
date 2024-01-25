@@ -7750,6 +7750,12 @@ regexp case-insensitive maken: (?i)
 					<token regexp="yes">iOS|iPad(OS)?|iPhone|Mac(intosh)?|MacOS|OSX|tv(OS)?|watchOS</token>
 				</antipattern>
 				<antipattern>
+					<token postag="ENM:ORG"><exception postag_regexp="yes" postag="GET.*MRV"/></token>
+					<token skip="2">geld</token>
+					<token>verdienen</token>
+					<example>Met Dumpert geld verdienen.</example>
+				</antipattern>
+				<antipattern>
 					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|GET.*"/>
 					<token/>
 					<token/>
@@ -7761,7 +7767,7 @@ regexp case-insensitive maken: (?i)
 						<token postag="ENM:ORG"><exception postag_regexp="yes" postag="GET.*MRV"/></token>
 						<token postag_regexp="yes" postag="ZNW.*">
 							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ|.*VRB|BNW.*|GET.*"/>
-							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des|nu|(&weekdays;)(avond|ochtend|(na)?middag|morgen)|sprake|thuis|onze</exception>
+							<exception regexp="yes">den|niets|zo|ipod|binnenboord|mede|zeer|do|des|nu|(&weekdays;)(avond|ochtend|(na)?middag|morgen)|sprake|thuis|onze</exception>
 							<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
 						</token>
 					</marker>
@@ -17218,6 +17224,13 @@ regexp case-insensitive maken: (?i)
 				<example correction="gestoord, maar">Het is <marker>gestoord maar</marker> toen ik het zag, ging het mis.</example>
 			</rule>
 			<rule>
+				<antipattern>
+					<token postag="SENT_START" skip="1"/>
+					<token>jij</token>
+					<token>maar</token>
+					<token regexp="yes">daar|er|hier</token>
+					<example>Ga jij maar hier staan</example>
+				</antipattern>
 				<pattern>
 					<marker>
 						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
@@ -17380,11 +17393,13 @@ regexp case-insensitive maken: (?i)
 				    <token>,</token>
 				    <token>dat</token>
 				</antipattern>
+				<!--
 				<antipattern>
 				    <token postag_regexp="yes" postag="TSW|UNKNOWN|BYW"><exception postag_regexp="yes" postag="WKW.*"/></token>
 				    <token>,</token>
 				    <token>dat</token>
 				</antipattern>
+				-->
 				<antipattern>
 				    <token>dat</token>
 				    <token postag_regexp="yes" postag="BYW|VRZ"/>
@@ -26119,7 +26134,7 @@ regexp case-insensitive maken: (?i)
 					<token>een</token>
 					<marker>
 						<token postag_regexp="yes" postag="BNW:STL:ONV|WKW:ODW:ONV|WKW:VTD:ONV"><exception postag_regexp="yes" postag=".*VRB"/><exception regexp="yes">dier|heel|herstart|laag|naar|paar|stuk|super|totaal|tweedehands|veel|week|content|veeg</exception><exception case_sensitive="yes" regexp="yes">Trouw|Bol</exception></token>
-						<token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|ZNW:EKV|GET.*MRV|.*VRB|WKW.*INF|ENM:LOC.*|WKW:TGW:3EP"/><exception regexp="yes">moet|won|plaats|waar|was|stuk|staat|waard|kan|wil|ander|.*(man|geleerde|agent|adviseur|aanklager|arts|ballerina|begeleider|architect|tennisser|enaar|reiziger|politicus|marxist|fiolosoof|meester|vader|ieur|teur|aander|politica|collega|moslima|Ajacied|trice|gedetineerde|gedeputeerde|dominee|leerlinge|soapie|hippie|kampioene|goeroe|kandidate|atlete|docente|presidente|dissidente|studente|agente|patiënte|echtgenote|journaliste|detective|filosoof|strateeg|leerling|koning|oloog|coach|nazi|kok|kardinaal|generaal|crimineel|kolonel|consul|econoom|kampioen|christen|koningin|spion|worstelaar|gijzelaar|minnaar|winnaar|leraar|hebber|leider|strijder|velder|voerder|Feyenoorder|speurder|bestuurder|stadhouder|manager|aanhanger|zanger|officier|priester|maker|onist|olist|vorst|ambassadeur|staatsburger|organist|icus|aris|ontwerper|geneesheer|astronoom|dichter|gitarist|jurist|schrijver|schilder|persoon|kunstschilder|advocaat|componist|student|militair|keizer|wetgever|voorstander|verdediger|toneelschrijver|secretaris|politiek|pleitbezorger|pianist|organisator|koloniaal|heerser|eraar|zwemster|zangeres|werkster|waarnemer|voorloper|baller|violist|vibrafonist|vegetariër|tennisster|presentator|tegenstander|superieur|spreker|speelster|specialist|solist|soldaat|schrijfster|romancier|rechter|publicist|psychiater|proteïne|propagandist|programmeur|producent|literatuur|lesgever|ograaf|moordenaar|katholiek|isotoop|intellectueel|industrieel|hervormer|held|handwerker|goochelaar|fan|tator|commandant|dictator|despoot|democraat|criticus|conservatief|communist|chemicus|chansonnier|burger|artiest|antisemiet|elaar|adeldom|bezoeker|blogger|vlogger|minister|misdadiger|kandidaat|alchemist|onderwijzer|stilist|chirurg)</exception></token>
+						<token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|ZNW:EKV|GET.*MRV|.*VRB|WKW.*INF|ENM:LOC.*"/><exception regexp="yes">bent|plot|tint|moet|won|plaats|waar|was|stuk|staat|waard|kan|wil|ander|.*(man|geleerde|agent|adviseur|aanklager|arts|ballerina|begeleider|architect|tennisser|enaar|reiziger|politicus|marxist|fiolosoof|meester|vader|ieur|teur|aander|politica|collega|moslima|Ajacied|trice|gedetineerde|gedeputeerde|dominee|leerlinge|soapie|hippie|kampioene|goeroe|kandidate|atlete|docente|presidente|dissidente|studente|agente|patiënte|echtgenote|journaliste|detective|filosoof|strateeg|leerling|koning|oloog|coach|nazi|kok|kardinaal|generaal|crimineel|kolonel|consul|econoom|kampioen|christen|koningin|spion|worstelaar|gijzelaar|minnaar|winnaar|leraar|hebber|leider|strijder|velder|voerder|Feyenoorder|speurder|bestuurder|stadhouder|manager|aanhanger|zanger|officier|priester|maker|onist|olist|vorst|ambassadeur|staatsburger|organist|icus|aris|ontwerper|geneesheer|astronoom|dichter|gitarist|jurist|schrijver|schilder|persoon|kunstschilder|advocaat|componist|student|militair|keizer|wetgever|voorstander|verdediger|toneelschrijver|secretaris|politiek|pleitbezorger|pianist|organisator|koloniaal|heerser|eraar|zwemster|zangeres|werkster|waarnemer|voorloper|baller|violist|vibrafonist|vegetariër|tennisster|presentator|tegenstander|superieur|spreker|speelster|specialist|solist|soldaat|schrijfster|romancier|rechter|publicist|psychiater|proteïne|propagandist|programmeur|producent|literatuur|lesgever|ograaf|moordenaar|katholiek|isotoop|intellectueel|industrieel|hervormer|held|handwerker|goochelaar|fan|tator|commandant|dictator|despoot|democraat|criticus|conservatief|communist|chemicus|chansonnier|burger|artiest|antisemiet|elaar|adeldom|bezoeker|blogger|vlogger|minister|misdadiger|kandidaat|alchemist|onderwijzer|stilist|chirurg)</exception></token>
 					</marker>
 				</pattern>
 				<message>\3 is een de-woord. Daar hoort meestal de verbogen vorm van '\2' voor, maar er zijn (veel) uitzonderingen. Zo kan iemand een groot kampioen zijn. Met name als het om een 'rol' of 'functie' gaat. Het kan ook zijn dat u onterecht een spatie hebt gezet tussen 2 woorden die 1 begrip zijn (spatiefout).</message>

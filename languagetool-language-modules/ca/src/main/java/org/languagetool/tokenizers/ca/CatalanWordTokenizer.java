@@ -77,7 +77,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE0 = Pattern.compile("\\u0001\\u0001CA_SPACE0\\u0001\\u0001");
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−" + StringTools.REMOVED_EMOJI;
+  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−";
   
   public CatalanWordTokenizer() {
 
@@ -127,7 +127,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
     final List<String> l = new ArrayList<>();
     // replace hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
-    auxText = StringTools.replaceEmojis(auxText);
+    auxText = replaceEmojis(auxText);
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
@@ -200,7 +200,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
         hyphensAtEnd--;
       }
     }
-    return joinEMailsAndUrls(l);
+    return joinEMailsAndUrls(restoreEmojis(l));
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. 

@@ -21,7 +21,6 @@ package org.languagetool.tools;
 import org.junit.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.TestTools;
 
 import java.io.FileInputStream;
@@ -221,7 +220,6 @@ public class StringToolsTest {
     assertEquals(false, StringTools.isWhitespace("\u0001"));
     // narrow nbsp:
     assertEquals(true, StringTools.isWhitespace("\u202F"));
-    assertEquals(false, StringTools.isWhitespace(String.valueOf(StringTools.REMOVED_EMOJI)));
   }
 
   @Test
@@ -276,15 +274,6 @@ public class StringToolsTest {
 
     emojiStr = "\uD83E\uDDE1\uD83D\uDEB4\uD83C\uDFFD♂\uFE0F Prueva";
     assertTrue(StringTools.stringForSpeller(emojiStr).equals("         Prueva"));
-  }
-
-  @Test
-  public void testReplaceEmojis() {
-    String emojiStr = "Sol Picó (🐌+🐚)";
-    assertTrue(emojiStr.length() == StringTools.replaceEmojis(emojiStr).length());
-
-    emojiStr = "🧡 Prueva";
-    assertTrue(emojiStr.length() == StringTools.replaceEmojis(emojiStr).length());
   }
 
   @Test
