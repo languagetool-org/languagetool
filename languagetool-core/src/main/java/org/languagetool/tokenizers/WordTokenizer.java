@@ -31,6 +31,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.tools.StringTools;
 
+import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
+
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets their own tokens.
  * The tokenizer is a quite simple character-based one, though it knows
@@ -281,4 +283,44 @@ public class WordTokenizer implements Tokenizer {
     }
     return newList;
   }
+
+  private List<String> removedEmojis;
+
+  final private String REMOVED_EMOJI = "MyReMoVeDeMoJi";
+  public String replaceEmojis(String s) {
+    removedEmojis = new ArrayList<>();
+    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
+      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+      while (matcher.find()) {
+        String found = matcher.group(0);
+        // some symbols such as emojis (😂) have a string length larger than 1
+        if (found.length() > 1) {
+          s = s.replace(found, ","+REMOVED_EMOJI+",");
+          removedEmojis.add(found);
+        }
+      }
+    }
+    return s;
+  }
+
+  public List<String> restoreEmojis(List<String> tokens) {
+    if (removedEmojis.isEmpty()) {
+      return tokens;
+    }
+    List<String> results = new ArrayList<>();
+    int i = 0;
+    int emojiCount = 0;
+    while (i < tokens.size()) {
+      if (i + 2 < tokens.size() && tokens.get(i + 1).equals(REMOVED_EMOJI)) {
+        results.add(removedEmojis.get(emojiCount));
+        emojiCount++;
+        i = i + 3;
+      } else {
+        results.add(tokens.get(i));
+        i = i + 1;
+      }
+    }
+    return results;
+  }
+
 }

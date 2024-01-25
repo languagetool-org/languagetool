@@ -627,6 +627,7 @@ public class MorfologikCatalanSpellerRuleTest {
 
     //Sol Picó (🐌+🐚)
     matches = rule.match(lt.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
+    assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("rà dio"));
     assertEquals("Ràdio", matches[0].getSuggestedReplacements().get(0));
