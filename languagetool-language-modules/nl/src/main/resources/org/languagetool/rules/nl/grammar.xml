@@ -7750,6 +7750,12 @@ regexp case-insensitive maken: (?i)
 					<token regexp="yes">iOS|iPad(OS)?|iPhone|Mac(intosh)?|MacOS|OSX|tv(OS)?|watchOS</token>
 				</antipattern>
 				<antipattern>
+					<token postag="ENM:ORG"><exception postag_regexp="yes" postag="GET.*MRV"/></token>
+					<token skip="2">geld</token>
+					<token>verdienen</token>
+					<example>Met Dumpert geld verdienen.</example>
+				</antipattern>
+				<antipattern>
 					<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|GET.*"/>
 					<token/>
 					<token/>
@@ -7761,7 +7767,7 @@ regexp case-insensitive maken: (?i)
 						<token postag="ENM:ORG"><exception postag_regexp="yes" postag="GET.*MRV"/></token>
 						<token postag_regexp="yes" postag="ZNW.*">
 							<exception postag_regexp="yes" postag="WKW.*|ENM.*|VRZ|.*VRB|BNW.*|GET.*"/>
-							<exception regexp="yes">den|niets|zo|ipod|binnenboord|zeer|do|des|nu|(&weekdays;)(avond|ochtend|(na)?middag|morgen)|sprake|thuis|onze</exception>
+							<exception regexp="yes">den|niets|zo|ipod|binnenboord|mede|zeer|do|des|nu|(&weekdays;)(avond|ochtend|(na)?middag|morgen)|sprake|thuis|onze</exception>
 							<exception regexp="yes" case_sensitive="yes">[A-Z].*</exception>
 						</token>
 					</marker>
@@ -17219,6 +17225,12 @@ regexp case-insensitive maken: (?i)
 			</rule>
 			<rule>
 				<pattern>
+					<antipattern>
+						<token>jij</token>
+						<token>maar</token>
+						<token regexp="yes">daar|er|hier</token>
+						<example>Ga jij maar hier staan</example>
+					</antipattern>
 					<marker>
 						<token negate_pos="yes" postag="SENT_START"><exception regexp="yes">[:;,&DBLQUOTE;(-–]</exception><exception postag="WKW:TGW:1EP"/></token>
 						<token>maar</token>
