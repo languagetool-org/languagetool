@@ -166,5 +166,8 @@ public class CatalanWordTokenizerTest {
 
     tokens = wordTokenizer.tokenize("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)");
     assertEquals("[Sol,  , Picó,  , (, \uD83D\uDC0C, +, \uD83D\uDC1A, )]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("\uD83E\uDDE1proba.");
+    assertEquals("[\uD83E\uDDE1, proba, .]", tokens.toString());
   }
 }
