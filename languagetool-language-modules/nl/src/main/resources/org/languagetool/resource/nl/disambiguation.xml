@@ -8326,5 +8326,152 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VNW:PER:3EP:EKV:PSF"/>
     </rule>
 
+	<!--
+	?	  7175	(4)	ZNW:EKV:HET ZNW:EKV:HET/WKW:VTD:ONV VRZ GET:ARA:003:MRV
+	    25:	 Bureau geschat op 107
+	-->
+	<rule id="NEW_344" name="-">
+        <pattern>
+			<token postag="WKW:VTD:ONV">geschat</token>
+			<token postag="VRZ">op</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	  7624	(4)	BYW WKW:TGW:INF/ZNW:MRV:DE_ WKW:TGW:INF ITP:PNT/SENT_END
+	   285:	 niet moeten doen.
+	   180:	 niet kunnen doen.
+	   157:	 niet kunnen vinden.
+	   126:	 ook moeten doen.
+	   101:	 niet moeten zijn.
+	-->
+	<rule id="NEW_345" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="ZNW:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	  7572	(4)	BNW:STL:ONV/VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	   257:	 naar de mogelijkheden.
+	   250:	 naar de anderen.
+	   195:	 naar de foto's.
+	   155:	 naar de jongen.
+	   131:	 naar de haven.
+	   119:	 naar de kinderen.
+	-->
+	<rule id="NEW_346" name="-">
+        <pattern>
+			<marker>
+				<token postag="VRZ">naar</token>
+			</marker>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7557	(4)	WKW:TGW:1EP/WKW:TGW:3EP/VRZ VRZ WKW:TGW:INF ITP:PNT/SENT_END
+	  1264:	 uit te leggen.
+	   414:	 uit te zoeken.
+	   275:	 uit te gaan.
+	   258:	 uit te voeren.
+	   246:	 uit te komen.
+	   240:	 uit te kijken.
+	   222:	 uit te barsten.
+	-->
+	<rule id="NEW_347" name="-">
+        <pattern>
+			<marker>
+				<token postag="VRZ"/>
+			</marker>
+			<token>te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7472	(4)	BYW/ZNW:EKV:DE_/ZNW:EKV:HET/WKW:TGW:1EP VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	   347:	 weer aan de slag
+	   127:	 weer voor de deur
+	   125:	 weer op de grond
+	   122:	 weer van de partij
+	   114:	 weer in de auto
+	-->
+	<rule id="NEW_348" name="-">
+        <pattern>
+			<marker>
+				<token>weer</token>
+			</marker>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="ZNW:EKV:DE_|WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	  7445	(4)	VGW/VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	   394:	 met zijn hand.
+	   219:	 om zijn mond.
+	   172:	 met zijn tong.
+	   143:	 om zijn nek.
+	   109:	 om zijn hals.
+	    93:	 met zijn vrouw.
+	    84:	 met zijn vader.
+	-->
+	<rule id="NEW_349" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  7262	(4)	BYW/VGW BYW BYW ITP:PNT/SENT_END
+	   474:	 nu niet meer.
+	   302:	 dus ook niet.
+	   285:	 daar niet bij.
+	   282:	 dan ook niet.
+	   263:	 dus niet meer.
+	   251:	 dan eindelijk zover.
+	-->
+	<rule id="NEW_350" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="BYW"/>
+				</and>
+			</marker>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
 
 </rules>
