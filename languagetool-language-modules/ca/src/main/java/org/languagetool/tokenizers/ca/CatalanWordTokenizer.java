@@ -127,7 +127,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
     final List<String> l = new ArrayList<>();
     // replace hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
-    auxText = replaceEmojis(auxText);
+    List<String> removedEmojis = replaceEmojis(auxText);
+    auxText = removedEmojis.get(0);
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
@@ -200,7 +201,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
         hyphensAtEnd--;
       }
     }
-    return joinEMailsAndUrls(restoreEmojis(l));
+    return joinEMailsAndUrls(restoreEmojis(l, removedEmojis));
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. 
