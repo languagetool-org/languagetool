@@ -848,31 +848,41 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_ES_GGEC_REPLACEMENT_DETERMINER_FORM" name="la cima -> *el cima">
             <rule>
                 <pattern>
-                    <token>la</token>
-                    <token>cima</token>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                    </marker>
+                    <token case_sensitive="yes">cima</token>
                 </pattern>
-                <example correction="">Había una torre en <marker>la cima</marker> de la montaña.</example>
-                <example correction=""><marker>La cima</marker> del Monte Fuji está cubierta de nieve.</example>
+                <example correction="">Había una torre en <marker>la</marker> cima de la montaña.</example>
+                <example correction="">Había una torre en <marker>una</marker> cima de la montaña.</example>
+                <example correction="">Había una torre en <marker>aquella</marker> cima de la montaña.</example>
+                <example correction="">Había una torre en <marker>esta</marker> cima de la montaña.</example>
+                <example correction=""><marker>La</marker> cima del Monte Fuji está cubierta de nieve.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                    </marker>
                     <token postag="RG.*" postag_regexp="yes" min="0"/>
                     <token regexp="yes">acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica</token>
                 </pattern>
-                <example correction="">Tom no tenía <marker>mucha agua</marker> para beber.</example>
-                <example correction="">Tenía <marker>tanta hambre</marker> que me lo comí.</example>
+                <example correction="">Tom no tenía <marker>mucha</marker> agua para beber.</example>
+                <example correction="">Tenía <marker>tanta</marker> hambre que me lo comí.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_ES_GGEC_REPLACEMENT_ADVERB_FORM" name="tanta hambre -> *tanto hambre">
             <rule>
                 <pattern>
-                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                    </marker>
                     <token postag="RG.*" postag_regexp="yes" min="0"/>
                     <token regexp="yes">acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica</token>
                 </pattern>
-                <example correction="">Tom no tenía <marker>mucha agua</marker> para beber.</example>
-                <example correction="">Tenía <marker>tanta hambre</marker> que me lo comí.</example>
+                <example correction="">Tom no tenía <marker>mucha</marker> agua para beber.</example>
+                <example correction="">Tom no tenía <marker>mucha</marker> más agua para beber.</example>
+                <example correction="">Tenía <marker>tanta</marker> hambre que me lo comí.</example>
             </rule>
         </rulegroup>
     </category>
