@@ -53,7 +53,8 @@ public class SpanishWordTokenizer extends WordTokenizer {
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
     String auxText = text;
-
+    List<String> removedEmojis = replaceEmojis(auxText);
+    auxText = removedEmojis.get(0);
     Matcher matcher = DECIMAL_POINT.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ES_DECIMAL_POINT\u0001\u0001$2");
     matcher = DECIMAL_COMMA.matcher(auxText);
@@ -70,7 +71,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
       s = PATTERN_3.matcher(s).replaceAll(".");
       l.addAll(wordsToAdd(s));   
     }
-    return joinEMailsAndUrls(l);
+    return joinEMailsAndUrls(restoreEmojis(l, removedEmojis));
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
