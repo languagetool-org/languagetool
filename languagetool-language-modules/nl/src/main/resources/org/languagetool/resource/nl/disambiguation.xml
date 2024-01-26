@@ -8474,4 +8474,76 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VGW"/>
     </rule>
 
+	<!--
+	?	  7193	(4)	SENT_START WKW:TGW:1EP/VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
+	   387:	~ In het begin
+	   349:	~ In dit artikel
+	   293:	~ In dit geval
+	   185:	~ In het noorden
+	   153:	~ In het zuiden
+	   144:	~ In het voorjaar
+	   141:	~ In dit verband
+	-->
+	<rule id="NEW_351" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag="VRZ">in</token>
+			</marker>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5162	(4)	WKW:VTD:ONV/WKW:VTD:VRB VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	    58:	 opgenomen in de selectie
+	    41:	 getroffen door de coronacrisis
+	    31:	 aangehouden door de politie
+	    21:	 overgedragen aan de politie
+	    19:	 overgedragen aan de Stichting
+	    18:	 opgenomen in de voorselectie
+	    14:	 getroffen door de pandemie
+	-->
+	<rule id="NEW_352" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:VRB"/>
+					<token postag="WKW:VTD:ONV"/>
+				</and>
+			</marker>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+        </pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  4920	(4)	VGW/VRZ GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET
+	    54:	 tot een goed einde
+	    39:	 voor een groot deel
+	    34:	 voor een persoonlijk gesprek
+	    34:	 voor een goed gesprek
+	    32:	 voor een half jaar
+	    27:	 voor een persoonlijk advies
+	    25:	 voor een paar uur
+	-->
+	<rule id="NEW_353" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="VGW"/>
+				</and>
+			</marker>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
 </rules>
