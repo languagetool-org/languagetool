@@ -8535,11 +8535,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="D.*|PX.*" postag_regexp="yes"/></token>
+                <token><exception postag="D.*|PX.*" postag_regexp="yes"/><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].*</exception></token>
                 <marker>
                     <token postag="PI.*" postag_regexp="yes">cap</token>
                 </marker>
-                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00|RN|_GV_" postag_regexp="yes"/>
+                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00|RN" postag_regexp="yes" min="0"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
                 <!-- |PP3..A00 -->
             </pattern>
             <disambig action="filter" postag="PI.*"/>
@@ -12474,6 +12475,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <token postag="SPS00">en</token>
                 <token postag="NCFP000">costes</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="els_dona" name="els dona">
+        <pattern>
+            <marker>
+                <token postag="PP3CP000">els</token>
+                <token postag="VMIP3S00">dona</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>

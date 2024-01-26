@@ -20,7 +20,6 @@
 package org.languagetool.rules.spelling.hunspell;
 
 import com.google.common.io.Resources;
-import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
@@ -32,6 +31,7 @@ import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.ForeignLanguageChecker;
 import org.languagetool.rules.spelling.RuleWithLanguage;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -469,14 +469,8 @@ public class HunspellRule extends SpellingCheckRule {
             sb.append(' ');
           }
         }
-      } else if (token.length() > 1 && token.codePointCount(0, token.length()) != token.length()) {
-        // some symbols such as emojis (😂) have a string length larger than 1 
-        List<String> emojis = EmojiParser.extractEmojis(token);
-        for (String emoji : emojis) {
-          token = StringUtils.replace(token, emoji, WHITESPACE_ARRAY[emoji.length()]);
-        }
-        sb.append(token);
       } else {
+        token = StringTools.stringForSpeller(token);
         sb.append(token);
       }
     }

@@ -79,6 +79,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "germane", // confused with German
     "double check",
     "flat screen", // flatscreen
+    "full time", // should be 'full-time'
+    "part time", // should be 'part-time'
     "java script",
     "off topic",
     "hard coding",
@@ -183,6 +185,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern HTTP = compile("[Hh]ttp");
   private static final Pattern HTTPS = compile("[Hh]ttps");
   private static final Pattern FYI = compile("[Ff]yi");
+  private static final Pattern DEVOPS = compile("[Dd]evops");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
 
   private final BeoLingusTranslator translator;
@@ -1368,6 +1371,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Reaking", Arrays.asList("Wreaking"));
     s.put("hight", Arrays.asList("height"));
     s.put("Hight", Arrays.asList("Height"));
+    s.put("fulltime", Arrays.asList("full-time"));
+    s.put("Fulltime", Arrays.asList("Full-time"));
 
     return s;
   }
@@ -1484,6 +1489,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (HTTP.matcher(word).matches()) return topMatch("HTTP");
     if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
     if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (DEVOPS.matcher(word).matches()) return topMatch("DevOps");
     if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
     if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
     if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));

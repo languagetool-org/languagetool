@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
-
+import org.languagetool.tools.StringTools;
 
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
@@ -77,7 +77,6 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE0 = Pattern.compile("\\u0001\\u0001CA_SPACE0\\u0001\\u0001");
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
   private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−";
   
   public CatalanWordTokenizer() {
@@ -128,7 +127,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
     final List<String> l = new ArrayList<>();
     // replace hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
-
+    List<String> removedEmojis = replaceEmojis(auxText);
+    auxText = removedEmojis.get(0);
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
@@ -153,6 +153,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2");
     matcher=SPACE0.matcher(auxText);
     auxText = SPACE0.matcher(auxText).replaceAll(" ");
+
 
     // Important: middle dot (·) not included!!
     final StringTokenizer st = new StringTokenizer(auxText, CA_TOKENIZING_CHARACTERS, true); 
@@ -200,7 +201,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
         hyphensAtEnd--;
       }
     }
-    return joinEMailsAndUrls(l);
+    return joinEMailsAndUrls(restoreEmojis(l, removedEmojis));
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. 

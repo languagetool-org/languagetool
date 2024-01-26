@@ -3454,7 +3454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="2">tener|haber</token>
+                    <token inflected="yes" regexp="yes" skip="2">tener|haber<exception scope="next" postag_regexp="yes" postag="V.P.*"/></token>
                     <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio|algo</token>
                     <token postag="SPS00" min="0"/>
                     <marker>
@@ -3474,6 +3474,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Puede explicarme alguien por qué siempre pasa esto?</example>
                 <example>No le dije a nadie a qué hora llegaría.</example>
                 <example>¿Nada de qué?</example>
+                <example>Tom no le ha dicho a nadie por qué ha llegado tarde.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11744,6 +11745,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d\d\d\d</token>
                 <token><exception regexp="yes" inflected="yes">&unidades_tiempo;</exception></token>
             </antipattern>
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>,</token>
+                <token>hacia</token>
+                <token>,</token>
+                <token postag="SPS00"/>
+                <example>Las preposiciones en español son: a, ante, bajo, cabe, con, de, desde, contra, en, entre, hacia, hasta, para, por, según, sin, so, sobre, tras.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -18271,6 +18280,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>por</token>
                     <token>que</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">tener|haber</token>
+                    <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio|algo</token>
+                    <token postag="SPS00" min="0"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>por</token>
@@ -18282,13 +18299,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>por qué</suggestion>
                 <example correction="porque|por qué">No le gustan <marker>por que</marker> sabe que son malos.</example>
                 <example correction="porque|por qué">Y también <marker>por que</marker> se había tomado tantas molestias.</example>
+                <example correction="porque|por qué">Tom no le ha dicho a nadie <marker>por que</marker> ha llegado tarde.</example>
                 <example>Optaron por que no hubiera elecciones.</example>
                 <example>Estaban ansiosos por que vinieran.</example>
                 <example>El motivo por que vinimos no es este.</example>
                 <example>Nos expresó su preocupación por que los niños pudieran irse.</example>
                 <example correction="porque|por qué" type="triggers_error">Los premios <marker>por que</marker> competían eran atractivos.</example>
                 <example>Yo estaba impaciente por que el juego comenzara.</example>
-                <!-- No puedo responder por que él sea un deshonesto. -->
+                <example>No tienes nada por que preocuparte.</example>
+                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él es un deshonesto.</example>
+                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él sea un deshonesto.</example>
             </rule>
         </rulegroup>
         <rule id="ENVIO" name="envio -> envío">
@@ -20967,6 +20987,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+|[,'"‘’“”«»]<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
             </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>gracias</token>
+                <example>Quiero decirte un gracias muy fuerte.</example>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>cada</token>
@@ -23565,6 +23590,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>a</token>
                     <token>buen</token>
                     <token>hambre</token>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token postag="AQ.[MC]S." postag_regexp="yes"/>
+                    <token>gracias</token>
+                    <example>Un humilde gracias</example>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token regexp="yes">auténtico|verdadero</token>
+                    <token regexp="yes">pelota|veleta</token>
                 </antipattern>
                 <pattern>
                     <unify negate="yes">
@@ -31922,102 +31958,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="NUMEROS_ESPACIO" name="10200 personas > 10 200 personas" premium="no" tags="picky">
-        <url>https://www.fundeu.es/recomendacion/miles-y-millones-claves-de-escritura/</url>
-        <!--based on the German rule ZAHL_FORMAT_PREMIUM-->
-        <antipattern>
-            <token skip="3" regexp="yes">tel|tel[ée]f|tel[ée]fono|tfno|cel|celular|número|n[uú]m|n[ºo]?|ref|referencia|isbn|código|postal|cp</token>
-            <token regexp="yes">(\d){5,30}</token>
-            <example>Mi teléfono es: 02407380705 L.B.</example>
-        </antipattern>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">^0{1,30}[1-9]\d*$<exception scope="previous" regexp="yes">\d+</exception></token>
-                </marker>
-                <or>
-                    <token regexp="yes" inflected="yes">personas|habitantes|.*metros|.*gramos|.*litros|[khdcm]?[mgl]|&divisa;|&simbolo_divisa;</token>
-                    <token regexp="yes" case_sensitive="yes">&ISO_divisa;</token>
-                </or>
-            </pattern>
-            <message>Para facilitar la lectura, considere eliminar los '0' iniciales.</message>
-            <suggestion><match no="1" regexp_match="^(0{1,})([1-9]\d*)$" regexp_replace="$2"/></suggestion>
-            <example correction="50607">Archivo:<marker>050607</marker> M.</example>
-            <example correction="2467"><marker>0002467</marker> m.</example>
-            <example>Existen 712 glaciares que representan 486 037 km².</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">(\d{13,15})<exception regexp="yes">^0{9,11}[1-9]\d*$</exception></token>
-                </marker>
-                <or>
-                    <token regexp="yes" inflected="yes">personas|habitantes|.*metros|.*gramos|.*litros|[khdcm]?[mgl]|&divisa;|&simbolo_divisa;</token>
-                    <token regexp="yes" case_sensitive="yes">&ISO_divisa;</token>
-                </or>
-            </pattern>
-            <message>Para facilitar la lectura, los números de más de cuatro cifras se escriben con espacio cada tres dígitos.</message>
-            <suggestion><match no="1" regexp_match="^(.+)(\d{3})(\d{3})(\d{3})(\d{3})$" regexp_replace="$1&#8239;$2&#8239;$3&#8239;$4&#8239;$5"/></suggestion>
-            <example correction="1&#8239;234&#8239;567&#8239;891&#8239;234">Le hizo pagar <marker>1234567891234</marker> dólares por daños y perjuicios.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">(\d{10,12})<exception regexp="yes">^0{6,8}[1-9]\d*$</exception></token>
-                </marker>
-                <or>
-                    <token regexp="yes" inflected="yes">personas|habitantes|.*metros|.*gramos|.*litros|[khdcm]?[mgl]|&divisa;|&simbolo_divisa;</token>
-                    <token regexp="yes" case_sensitive="yes">&ISO_divisa;</token>
-                </or>
-            </pattern>
-            <message>Para facilitar la lectura, los números de más de cuatro cifras se escriben con espacio cada tres dígitos.</message>
-            <suggestion><match no="1" regexp_match="^(.+)(\d{3})(\d{3})(\d{3})$" regexp_replace="$1&#8239;$2&#8239;$3&#8239;$4"/></suggestion>
-            <example correction="1&#8239;234&#8239;567&#8239;891">Le hizo pagar <marker>1234567891</marker> dólares por daños y perjuicios.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">(\d){7,9}<exception regexp="yes">^0{3,5}[1-9]\d*$</exception></token>
-                </marker>
-                <or>
-                    <token regexp="yes" inflected="yes">personas|habitantes|.*metros|.*gramos|.*litros|[khdcm]?[mgl]|&divisa;|&simbolo_divisa;</token>
-                    <token regexp="yes" case_sensitive="yes">&ISO_divisa;</token>
-                </or>
-            </pattern>
-            <message>Para facilitar la lectura, los números de más de cuatro cifras se escriben con espacio cada tres dígitos.</message>
-            <suggestion><match no="1" regexp_match="^(.+)(\d{3})(\d{3})$" regexp_replace="$1&#8239;$2&#8239;$3"/></suggestion>
-            <example correction="1&#8239;500&#8239;000">Le hizo pagar <marker>1500000</marker> dólares por daños y perjuicios.</example>
-            <example>0002467 m.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">(\d){5,6}<exception regexp="yes">^0{2}[1-9]\d*$</exception></token>
-                </marker>
-                <or>
-                    <token regexp="yes" inflected="yes">personas|habitantes|.*metros|.*gramos|.*litros|[khdcm]?[mgl]|&divisa;|&simbolo_divisa;</token>
-                    <token regexp="yes" case_sensitive="yes">&ISO_divisa;</token>
-                </or>
-            </pattern>
-            <message>Para facilitar la lectura, los números de más de cuatro cifras se escriben con espacio cada tres dígitos.</message>
-            <suggestion><match no="1" regexp_match="^(.+)(\d{3})$" regexp_replace="$1&#8239;$2"/></suggestion>
-            <example correction="10&#8239;200">El aforo proyectado es de <marker>10200</marker> personas.</example>
-            <example>PHILIPS A 00195 L.</example>
-            <example correction="050&#8239;607">Archivo:<marker>050607</marker> M.</example>
-        </rule>
-        <!-- no suggestions
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">(\d){5,30}</token>
-                </marker>
-                <token regexp="yes" inflected="yes">personas|habitantes|.*metros|.*gramos|.*litros|[khdcm]?[mgl]|&divisa;|&ISO_divisa;|&simbolo_divisa;</token>
-            </pattern>
-            <message>Para facilitar la lectura, los números de más de cuatro cifras se escriben con espacio cada tres dígitos.</message>
-            <example correction="">Le hizo pagar <marker>1500000</marker> dólares por daños y perjuicios.</example>
-        </rule>
-        -->
-        </rulegroup>
         <rulegroup id="COMILLAS_APOSTROFO" name="Confusión comillas de apertura/apóstrofo">
             <short>Carácter incorrecto</short>
             <rule>
@@ -35307,6 +35247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="MULTITOKEN_SPELLING" name="Errores ortográficos" type="misspelling">
         <!-- Avoid antipatterns because the AP doesn't prevent the filter to be executed -->
         <rulegroup id="ES_MULTITOKEN_SPELLING_FOUR" name="errores de ortografía en nombres propios (4 elementos)" default="on">
+            <short>Posible error</short>
             <rule>
                 <pattern>
                     <token postag="UNKNOWN"><exception regexp="yes">&particles_of;</exception></token>
@@ -35378,6 +35319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_THREE" name="errores de ortografía en nombres propios (3 elementos)" default="on">
+            <short>Posible error</short>
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token><match no="0"/></token>
@@ -35480,6 +35422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_TWO" name="errores de ortografía en nombres propios (dos elementos)" default="on">
+            <short>Posible error</short>
             <antipattern>
                 <token spacebefore="no">-</token>
                 <token spacebefore="no"/>
@@ -35580,6 +35523,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios con guion" default="on">
+            <short>Posible error</short>
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token>-</token>
