@@ -8167,7 +8167,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <pattern>
 			<token postag="VRZ"/>
 			<token postag="GET:ARA:002:MRV"><exception negate_pos="yes" postag="GET:ARA:002:MRV"/></token>
-			<token spacebefore="no" postag="ITP:PNT"><exception negate_pos="yes" postag="ITP:PNT"/></token>
+			<token spacebefore="no" postag_regexp="yes" postag="ITP:(DPT|PNT)"><exception negate_pos="yes" postag="ITP:PNT"/></token>
 			<token spacebefore="no" postag="GET:ARA:002:MRV"><exception negate_pos="yes" postag="GET:ARA:002:MRV"/></token>
         </pattern>
         <disambig action="filterall"/>
@@ -8704,6 +8704,46 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+	<!--
+?	 10003	(4)	 ' VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	  5239:	 'Het is
+	  1849:	 'Dit is
+	   605:	 'Het gaat
+	   211:	 'Het wordt
+	   209:	 'Het lijkt
+	   142:	 'Het heeft
+	   107:	 'Het komt
+	-->
+	<rule id="NEW_003b" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">'|en|of|maar</token>
+			<marker>
+				<token postag="VNW:OND:EKV:HET"/>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  9627	(4)	VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VGW:EKV:DE_/VGW:MRV:DE_/VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_
+	   125:	 van de man die
+	    83:	 op de manier die
+	    79:	 naar de man die
+	    44:	 met de man die
+	-->
+	<rule id="NEW_361" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token>die</token>
+        </pattern>
+        <disambig action="remove" postag="VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
+    </rule>
+
+	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
 		<rule>
