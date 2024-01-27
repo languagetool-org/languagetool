@@ -274,6 +274,7 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("вплив на її або його здоров'я");
     assertEmptyMatch("щодо його \"лікування\":");
+    assertEmptyMatch("За її словами,");
     
     assertHasError("вище за їх?");
 //    assertHasError("займався в їх помаленьку");
