@@ -4265,6 +4265,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="do_beztyamy" name="До безтями">
+      <pattern>
+        <token>до</token>
+        <marker>
+          <token>безтями</token>
+        </marker>
+      </pattern>
+      <message>Краще: <suggestion>нестями</suggestion></message>
+      <example correction="нестями">я до <marker>безтями</marker> щаслива</example>
+    </rule>
+
+    <rule id="v_kinci_zasidannya" name="В кінці засідання">
+      <pattern>
+        <marker>
+          <token regexp="yes">[ву]</token>
+          <token>кінці</token>
+        </marker>
+        <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0" />
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*" regexp="yes">засідання|обговорення|навчання|лікування</token>
+      </pattern>
+      <message>Краще: <suggestion>під кінець</suggestion></message>
+      <example correction="під кінець">я <marker>в кінці</marker> засідання заснув</example>
+    </rule>
+
+    <rulegroup id="v_zalezhnosti_vid" name="В залежності від">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>залежності</token>
+          <token>від</token>
+        </pattern>
+        <message>Краще: <suggestion>залежно від</suggestion></message>
+        <suggestion>як до</suggestion>
+        <example correction="залежно від|як до"><marker>в залежності від</marker> результату</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">знаходитися</token>
+          <token regexp="yes">[ву]</token>
+          <token>залежності</token>
+          <token>від</token>
+        </pattern>
+        <message>Краще: <suggestion>залежати \4</suggestion></message>
+        <example correction="залежати від">я <marker>знаходився в залежності від</marker> нього</example>
+      </rule>
+    </rulegroup>
+
 <!--
     схоже, «відсутній» не має такого чіткого розділення
 

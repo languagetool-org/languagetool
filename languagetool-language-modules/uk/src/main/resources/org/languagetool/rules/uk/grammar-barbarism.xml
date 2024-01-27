@@ -7442,6 +7442,86 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="інакше кажучи|іншими словами"><marker>другими словами</marker>, вона це зробила.</example>
     </rule>
 
+    <rule id="v_samyi_raz" name="В самий раз">
+      <pattern>
+        <token>в</token>
+        <token>самий</token>
+        <token>раз</token>
+      </pattern>
+      <message>Правильно: <suggestion>як раз</suggestion>.</message>
+      <example correction="як раз"><marker>в самий раз</marker></example>
+    </rule>
+
+    <rule id="vybraty_predstavnyka" name="Вибрати vs обрати">
+      <pattern>
+        <marker>
+          <token inflected="yes" regexp="yes">виби?рати|вибираючи|виби?равши</token>
+        </marker>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_zna:ranim.*" min="0"/>
+          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:.*v_zna.*">представник|президент|депутат</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion>обрати</suggestion>.</message>
+      <suggestion>обирати</suggestion>
+      <example correction="обрати|обирати"><marker>вибирали</marker> представників.</example>
+    </rule>
+
+    <!--TODO: find other cases -->
+    <rule id="vystup_po_temi" name="Виступ по темі">
+      <pattern>
+          <token inflected="yes" regexp="yes">виступ|виступати|виступити</token>
+        <marker>
+          <token>по</token>
+          <token>темі</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>за темою</suggestion>.</message>
+      <example correction="за темою">виступив <marker>по темі</marker> злочинності.</example>
+    </rule>
+
+    <rule id="dyvu_davatysia" name="Диву даватися">
+      <pattern>
+        <token>диву</token>
+        <token inflected="yes">даватися</token>
+      </pattern>
+      <message>Правильно: <suggestion>(дивом) дивуватися</suggestion>.</message>
+      <suggestion>здивуватися</suggestion>
+      <example correction="(дивом) дивуватися|здивуватися">тільки <marker>диву давався</marker>.</example>
+    </rule>
+
+    <rule id="dopustyty_pomykly" name="Допустити помилку">
+      <pattern>
+        <token inflected="yes" regexp="yes">допустити(ся)?|допускати(ся)?</token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_zna:ranim.*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_(zna|rod).*">помилка</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion>припуститися помилки</suggestion>.</message>
+      <example correction="припуститися помилки">тільки <marker>допустив помилку</marker>.</example>
+    </rule>
+
+    <rule id="vidtik_kapitalu" name="Відтік капіталу">
+      <pattern>
+        <marker>
+          <token inflected="yes" regexp="yes">відтік|відтікання</token>
+        </marker>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">капітал</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion>відплив</suggestion>.</message>
+      <example correction="відплив">такого <marker>відтоку</marker> капіталу.</example>
+    </rule>
+
     <rule id="korinnyi_zub" name="Корінний зуб">
       <pattern>
         <marker>
@@ -7753,6 +7833,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="shepotom" name="Шепотом і пошепки">
+      <rule>
+        <pattern>
+          <token>шепотом</token>
+        </pattern>
+        <message>Правильно: <suggestion>пошепки</suggestion></message>
+        <suggestion>навпошепки</suggestion>
+        <example correction="пошепки|навпошепки">А <marker>шепотом</marker> казали.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">вимовляти|вимовити|вимовляючи|вимовлявши|промовляти|промовити|промовляючи|промовлявши</token>
+          <token>шепотом</token>
+        </pattern>
+        <message>Правильно: <suggestion>вишепочувати</suggestion></message>
+        <example correction="вишепочувати"><marker>вимовляв шепотом</marker>.</example>
+      </rule>
+      <!-- TODO: також відповідати -> відшепочувати,  повідомляти -> нашіптувати (але немає в ГРАКу) -->
+    </rulegroup>
 
 <!--  Too many false positives with надоїти, moved to replace.txt
     <rule id="nadoyisty" name="Надоїсти">
