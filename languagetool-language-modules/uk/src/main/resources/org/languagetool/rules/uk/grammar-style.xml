@@ -566,10 +566,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="у"><marker>в</marker> вівторок.</example>
         <example correction="У"><marker>В</marker> вольєрі сталася пожежа.</example>
         <example correction="у">Наприклад, <marker>в</marker> фанерних будинках.</example>
-        <example>у вівторок.</example>
-        <example>Сьогодні у Львові.</example>
+        <example correction="у">Цей рік <marker>в</marker> Варшаві.</example>
+        <example>Сьогодні в Варшаві.</example>
         <example>перевагу в швидкості</example>
-        <example>сингулярності в квантовій</example>
+        <example>сингулярності в квантовій</example> <!-- handled by the rule above -->
         <example>В МВС.</example>
         <example>в V столітті.</example>
       </rule>
@@ -1104,7 +1104,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
-        <example correction="овації">Не треба шукати <marker>бурхливі овації</marker>.</example>
+        <suggestion>\1 <match no="2" postag_regexp="yes" postag="noun:inanim:p:.*" postag_replace="$0.*">оплески</match></suggestion>
+        <example correction="овацій|бурхливих оплесків">зал вибухнув від <marker>бурхливих овацій</marker>.</example>
       </rule>
 
       <rule>
@@ -4196,6 +4197,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         TODO: колега/товариш по ...
         <example>кілька тижнів по запровадженні такого режиму</example>
         -->
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="zakatuvaty_vs_zakochuvaty" name="закатувати і закочувати">
+      <rule>
+        <pattern>
+      <!-- закатувати imperf not in dict yet
+          <token inflected="yes" postag_regexp="yes" postag="verb:imperf.*">закатувати
+            <exception inflected="yes" postag_regexp="yes" postag="verb:perf.*">закатувати</exception>
+          </token>
+      -->
+          <token regexp="yes">закатуючи|закатуватим.*</token>
+        </pattern>  
+        <message>Краще: <suggestion>закочувати</suggestion></message>
+        <suggestion>засукувати</suggestion>
+        <suggestion>закручувати</suggestion>
+        <example correction="закочувати|засукувати|закручувати"><marker>закатуватиме</marker> рукави</example>
+        <example correction="закочувати|засукувати|закручувати"><marker>закатуючи</marker> рукави</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">закатувати</token>
+          </marker>
+          <token min="0" max="3" />
+          <token regexp="yes">[ву]</token>
+          <token>асфальт</token>
+        </pattern>  
+        <message>Краще: <suggestion>закочувати</suggestion></message>
+        <example correction="закочувати"><marker>закатувати</marker> в асфальт</example>
+        <example correction="закочувати"><marker>закатувала</marker> ковідні гроші в асфальт</example>
+        <!--
+        <example correction="">закатував у трилітрові банки</example>
+        -->
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">закатувати</token>
+          </marker>
+          <token min="0" max="3" />
+          <token regexp="yes">[ву]</token>
+          <token postag_regexp="yes" postag="adj:p:v_zna.*" min="0" />
+          <token inflected="yes">банка</token>
+        </pattern>  
+        <message>Краще: <suggestion>закручувати</suggestion></message>
+        <example correction="закручувати"><marker>закатувала</marker> в трилітрові банки</example>
+        <!--
+        <example correction="">закатував у трилітрові банки</example>
+        -->
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">закатувати</token>
+          <token postag_regexp="yes" postag="adj:p:v_(zna|rod).*" min="0" />
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:v_(zna|rod)">око</token>
+        </pattern>  
+        <message>Краще: <suggestion>закочувати \2 \3</suggestion></message>
+        <suggestion>заводити \2 \3 вгору</suggestion>
+        <suggestion>пускати \2 \3 під лоба</suggestion>
+        <example correction="закочувати очі|заводити очі вгору|пускати очі під лоба"><marker>закатувала очі</marker></example>
+        <example correction="закочувати свої очі|заводити свої очі вгору|пускати свої очі під лоба"><marker>закатував свої очі</marker></example>
       </rule>
     </rulegroup>
 
