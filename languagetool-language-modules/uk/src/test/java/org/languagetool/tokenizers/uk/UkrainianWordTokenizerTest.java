@@ -531,6 +531,9 @@ public class UkrainianWordTokenizerTest {
     
     testList = w.tokenize("поч. 1945 - кін. 1946");
     assertEquals(Arrays.asList("поч.", " ", "1945", " ", "-", " ", "кін.", " ", "1946"), testList);
+
+    testList = w.tokenize("Поч. XX ст.");
+    assertEquals(Arrays.asList("Поч.", " ", "XX", " ", "ст."), testList);
   }
 
   @Test
