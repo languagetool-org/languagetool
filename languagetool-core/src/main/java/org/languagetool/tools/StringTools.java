@@ -43,6 +43,7 @@ import static java.util.regex.Pattern.*;
 public final class StringTools {
 
   private static final Pattern NONCHAR = compile("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]");
+  private static final Pattern WORD_FOR_SPELLER = Pattern.compile("^[\\p{L}\\d\\p{P}\\p{Zs}]+$");
 
   /**
    * Constants for printing XML rule matches.
@@ -903,10 +904,24 @@ public final class StringTools {
     return converted.toString();
   }
 
+  /**
+   * Checks whether a given String is an Emoji with a string length larger 1.
+   * @param word to be checked
+   * @since 6.4
+   */
+  public static boolean isEmoji(String word) {
+    if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
+      // some symbols such as emojis (😂) have a string length that equals 2
+      return !WORD_FOR_SPELLER.matcher(word).matches();
+    }
+    return false;
+  }
 
   /*
    * Replace characters that are not letters, digits, punctuation or white spaces
    * by white spaces
+   * @param word to be checked
+   * @since 6.4
    */
   public static String stringForSpeller(String s) {
     if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {

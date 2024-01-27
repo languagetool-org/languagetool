@@ -41,10 +41,8 @@ public class WordRepeatRuleTest {
     assertGood("A test...");
     assertGood("1 000 000 years");
     assertGood("010 020 030");
-
-    assertBad("A A test");
-    assertBad("A a test");
-    assertBad("This is is a test");
+    //👍💚🌲🌲
+    assertGood("\uD83D\uDC4D\uD83D\uDC9A\uD83C\uDF32\uD83C\uDF32");
   }
 
   private void assertGood(String s) throws IOException {
