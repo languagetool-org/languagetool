@@ -8816,12 +8816,12 @@ Copyright (C) 2008-2024 Ruud Baars
 			<marker>
 				<and>
 					<token postag="WKW:VTD:ONV"/>
-					<token postag="WKW:VTD:VRB"/>
+					<token postag="BNW:STL:ONV"/>
 				</and>
 			</marker>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
         </pattern>
-        <disambig action="remove" postag="WKW:VTD:VRB"/>
+        <disambig action="remove" postag="BNW:STL:ONV"/>
     </rule>
 
 	<!--
@@ -8999,8 +8999,6 @@ Copyright (C) 2008-2024 Ruud Baars
 					<token postag="WKW:TGW:3EP"/>
 				</and>
 			</marker>
-			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
         </pattern>
         <disambig action="remove" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/>
     </rule>
@@ -9246,6 +9244,92 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="filterall"/>
     </rule>
+
+	<!--
+	?	  7613	(4)	SENT_START VNW:OND:EKV:DE_/VNW:AWZ:EKV:DE_/VNW:OND:MRV:DE_ WKW:TGW:1EP/ZNW:EKV:DE_ WKW:TGW:3EP
+	    15:	~ Deze man is
+	     9:	~ Deze zin is
+	     7:	~ Deze plek is
+	     4:	~ Deze tafel is
+	     3:	~ Deze app is
+	     3:	~ Deze rol is
+	-->
+	<rule id="NEW_387" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_">deze</token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7612	(4)	VRZ VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:INF ITP:PNT/SENT_END
+	    58:	 van het lachen.
+	     3:	 aan het telefoneren.
+	     2:	 aan het koken.
+	     2:	 aan het rijden.
+	     2:	 aan het bloeden.
+	     1:	 aan het afnemen.
+	     1:	 aan het skiën.
+	     1:	 aan het huilen.
+	-->
+	<rule id="NEW_388" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7584	(4)	WKW:TGW:3EP BYW WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+	    13:	 is niet gevonden.
+	     9:	 is nooit gevonden.
+	     4:	 is nooit gekomen.
+	     4:	 is niet gekomen.
+	     4:	 is nu afgelopen.
+	     2:	 is er gekomen.
+	     2:	 wordt niet opgenomen.
+	     2:	 is niet opgenomen.
+	-->
+	<rule id="NEW_389" name="-">
+        <pattern>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  7563	(4)	VRZ VNW:OND:EKV:DE_/VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	     1:	 Op die dvd.
+	     1:	 Op die foto.
+	     1:	 Van die cel.
+	     1:	 Aan die jurk.
+	     1:	 Van die auto.
+	     1:	 Op die video.
+	-->
+	<rule id="NEW_390" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
