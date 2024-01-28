@@ -64,7 +64,8 @@ public class CatalanWordRepeatRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("HUCHA-GANGA.ES es presenta."));
     assertEquals(0, matches.length);
-
+    matches = rule.match(lt.getAnalyzedSentence("Ja fa, arreu arreu, més de quaranta anys."));
+    assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("obrim inscripcions\uD83D\uDC4D\uD83D\uDC9A\uD83C\uDF32\uD83C\uDF32"));
     assertEquals(0, matches.length);
         
