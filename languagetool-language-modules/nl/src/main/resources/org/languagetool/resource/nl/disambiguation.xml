@@ -8992,15 +8992,9 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="SENT_START"/>
 			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
 			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
-			<marker>
-				<and>
-					<token postag="WKW:TGW:1EP"/>
-					<token postag="ZNW:EKV:DE_"/>
-					<token postag="WKW:TGW:3EP"/>
-				</and>
-			</marker>
+			<token postag="WKW:TGW:3EP" regexp="yes">moet|wil</token>
         </pattern>
-        <disambig action="remove" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/>
+        <disambig action="filterall"/>
     </rule>
 
 	<!--
@@ -9238,7 +9232,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	<rule id="NEW_386" name="-">
         <pattern>
 			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:MRV:EKV:DE_"/></token>
+			<token postag="VNW:AWZ:MRV:DE_"/>
 			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
 			<token postag="VGW:MRV:DE_">die</token>
         </pattern>
@@ -9258,7 +9252,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <pattern>
 			<token postag="SENT_START"/>
 			<token postag="VNW:AWZ:EKV:DE_">deze</token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"/>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
         </pattern>
         <disambig action="filterall"/>
@@ -9278,7 +9272,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	<rule id="NEW_388" name="-">
         <pattern>
 			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
 			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
         </pattern>
@@ -9328,6 +9322,68 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7841	(4)	VGW/VRZ BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	     1:	 tot nationale actiedag.
+	     1:	 met abstracte geometrie.
+	     1:	 tot verticale transmissie.
+	     1:	 Met herbruikbare tandenbeschermer.
+	-->
+	<rule id="NEW_391" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+?	  7653	(4)	VRZ VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ WKW:VLT:1EP/WKW:VTD:VRB ZNW:MRV:DE_
+	    51:	 in de Verenigde Staten
+	    21:	 van de Verenigde Staten
+	    17:	 van de Verenigde Naties
+	-->
+	<rule id="NEW_392" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:MRV:DE_"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7556	(4)	BYW BYW WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+	    14:	 nog niet afgelopen.
+	    12:	 nog niet gevonden.
+	     7:	 er nooit gekomen.
+	     2:	 nog niet gekomen.
+	     2:	 nog niet aangehouden.
+	     2:	 er niet gekomen.
+	-->
+	<rule id="NEW_393" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
     </rule>
 
 
