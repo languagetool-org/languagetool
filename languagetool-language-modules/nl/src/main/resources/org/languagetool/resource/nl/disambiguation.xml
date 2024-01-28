@@ -8938,6 +8938,102 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+	<!--
+	?	  6455	(4)	SENT_START VGW BYW/VGW WKW:TGW:1EP
+	     4:	~ En dan ga
+	     2:	~ En dus ga
+	     2:	~ En dan kom
+	     2:	~ En dus ben
+	     2:	~ En daar ben
+	-->
+	<rule id="NEW_371" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<marker>
+				<and>
+					<token postag="BYW"/>
+					<token postag="VGW"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  6420	(4)	VGW/VRZ VNW:AWZ:EKV:HET WKW:TGW:INF VRZ
+	     5:	 met het maken van
+	     2:	 met het aanbieden van
+	     2:	 met het testen van
+	     2:	 sinds het uitbreken van
+	     2:	 met het versturen van
+	-->
+	<rule id="NEW_372" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="VGW"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  6416	(4)	SENT_START VNW:AWZ:EKV:HET ZNW:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	     6:	~ Het kind moet
+	     4:	~ Het mengsel moet
+	     3:	~ Het systeem moet
+	     2:	~ Het model moet
+	     2:	~ Het debat moet
+	-->
+	<rule id="NEW_373" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="WKW:TGW:3EP"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+?	  6229	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ZNW:EKV:DE_/WKW:VLT:1EP
+	     2:	~ De hond sprong
+	     1:	~ De update stond
+	     1:	~ De formatie won
+	     1:	~ De productie won
+	-->
+	<rule id="NEW_374" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="WKW:VLT:1EP"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig action="remove" postag="ZNW:EKV:DE_"/>
+    </rule>
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
