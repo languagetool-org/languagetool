@@ -870,6 +870,50 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Tom no tenía <marker>mucha</marker> agua para beber.</example>
                 <example correction="">Tenía <marker>tanta</marker> hambre que me lo comí.</example>
             </rule>
+            <rule>
+                <!-- MS -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[MC][SN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[MC][SN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>el</marker> coche</example>
+            </rule>
+            <rule>
+                <!-- FS -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[FC][SN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[FC][SN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>la</marker> página</example>
+                <example correction="">Por favor, lea <marker>la</marker> página noventa y cuatro.</example>
+                <example correction=""><marker>Alguna</marker> observación vino anexa.</example>
+                <example correction="">Uno de <marker>su</marker> autoridad quiere tomarla.</example>
+            </rule>
+            <rule>
+                <!-- MP -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[MC][PN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[MC][PN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>los</marker> coches</example>
+            </rule>
+            <rule>
+                <!-- FP -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[FC][PN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[FC][PN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>las</marker> páginas</example>
+                <example correction="">Se depila <marker>las</marker> piernas.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_ES_GGEC_REPLACEMENT_ADVERB_FORM" name="tanta hambre -> *tanto hambre">
             <rule>
