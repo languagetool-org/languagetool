@@ -29,6 +29,8 @@ import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
+import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
+
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
  * Special treatment for hyphens and apostrophes in Catalan.
@@ -57,7 +59,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
-  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[.\u2022]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[.\u2022⋅∙]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
   private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
   // apostrophe 
   private static final Pattern APOSTROF_RECTE = Pattern.compile("([\\p{L}])'([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -127,8 +129,6 @@ public class CatalanWordTokenizer extends WordTokenizer {
     final List<String> l = new ArrayList<>();
     // replace hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
-    List<String> removedEmojis = replaceEmojis(auxText);
-    auxText = removedEmojis.get(0);
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
@@ -154,6 +154,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
     matcher=SPACE0.matcher(auxText);
     auxText = SPACE0.matcher(auxText).replaceAll(" ");
 
+    List<String> removedEmojis = replaceEmojis(auxText);
+    auxText = removedEmojis.get(0);
 
     // Important: middle dot (·) not included!!
     final StringTokenizer st = new StringTokenizer(auxText, CA_TOKENIZING_CHARACTERS, true); 
@@ -249,5 +251,26 @@ public class CatalanWordTokenizer extends WordTokenizer {
       }
       return l;
     }
+  }
+
+  @Override
+  public List<String> replaceEmojis(String s) {
+    List<String> removedEmojis = new ArrayList<>();
+    Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+    while (matcher.find()) {
+      String found = matcher.group(0);
+      // emojis (😂) have a string length larger than 1
+      if (found.length() > 1 || found.codePointAt(0)>0x2000) {
+        if (found.length() == 1 && found.codePointAt(0)>=0xFE00 && found.codePointAt(0)<=0xFE0F) {
+          removedEmojis.set(removedEmojis.size() - 1, removedEmojis.get(removedEmojis.size() - 1) + found);
+          s = s.replace(found, "");
+        } else {
+          s = s.replace(found, ","+REMOVED_EMOJI+",");
+          removedEmojis.add(found);
+        }
+      }
+    }
+    removedEmojis.add(0, s);
+    return removedEmojis;
   }
 }

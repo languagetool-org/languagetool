@@ -665,12 +665,12 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("En 1993", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("✅Compto amb el títol"));
-    assertEquals(1, matches.length);
-    assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(0, matches.length);
+    //assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("✅Conpto amb el títol"));
     assertEquals(1, matches.length);
-    assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Compto", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("·Compto amb el títol"));
     assertEquals(1, matches.length);

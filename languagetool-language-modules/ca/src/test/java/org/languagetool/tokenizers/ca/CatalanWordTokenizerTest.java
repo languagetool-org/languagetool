@@ -31,7 +31,7 @@ public class CatalanWordTokenizerTest {
   public void testTokenize() {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;
-    
+
     tokens = wordTokenizer.tokenize("-contar-se'n-");
     assertEquals("[-, contar, -se, 'n, -]", tokens.toString());
     tokens = wordTokenizer.tokenize("-M'agradaria.");
@@ -167,7 +167,33 @@ public class CatalanWordTokenizerTest {
     tokens = wordTokenizer.tokenize("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)");
     assertEquals("[Sol,  , Picó,  , (, \uD83D\uDC0C, +, \uD83D\uDC1A, )]", tokens.toString());
 
-    tokens = wordTokenizer.tokenize("\uD83E\uDDE1proba.");
-    assertEquals("[\uD83E\uDDE1, proba, .]", tokens.toString());
+    tokens = wordTokenizer.tokenize("\uD83E\uDDE1prova.");
+    assertEquals("[\uD83E\uDDE1, prova, .]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("\uD83E\uDDE1\uD83E\uDDE1prova\uD83E\uDDE1");
+    assertEquals("[\uD83E\uDDE1, \uD83E\uDDE1, prova, \uD83E\uDDE1]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("❤\uFE0Fprova");
+    assertEquals("[❤\uFE0F, prova]", tokens.toString());
+
+    //H₂O
+    tokens = wordTokenizer.tokenize("H₂O");
+    assertEquals("[H, ₂, O]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("❤\uFE0F");
+    assertEquals("[❤\uFE0F]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("\uD83E\uDDE1");
+    assertEquals("[\uD83E\uDDE1]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("sol∙licitud");
+    assertEquals("[sol.licitud]", tokens.toString());
+
+    /*String emoji = "🧡";
+    System.out.println("Length of the string: " + emoji.length());  // Output: 1
+    System.out.println("code point count: " + emoji.codePointCount(0, emoji.length()));
+    emoji = "❤\uFE0F";
+    System.out.println("Length of the string: " + emoji.length());  // Output: 1
+    System.out.println("code point count: " + emoji.codePointCount(0, emoji.length()));*/
   }
 }
