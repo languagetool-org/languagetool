@@ -155,7 +155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         -->
       </rule>
 
-      <!-- загальне правило: прикметник вищого ступіня + іменник в р.в. — забагато фальшивих помилок -->
+      <!-- загальне правило: прикметник вищого ступеня + іменник в р.в. — забагато фальшивих помилок -->
       <!--       TODO: core bug??: if we put від after ніж/як the suggestions are wrong!!!  -->
       <!--
           <rule id="COMPAR_PLUS_V_ROD" name="Потрібніше чого і потрібніше від чого" default="off">
@@ -168,7 +168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="noun.*:v_rod.*"/>
           </marker>
           </pattern>
-          <message>Після прикметника вищого ступіня краще вживати «ніж», «як», «від»</message>
+          <message>Після прикметника вищого ступеня краще вживати «ніж», «як», «від»</message>
           <suggestion>ніж/як <match no="2" postag_regexp="yes" postag="(adj.*):v_rod(.*)" postag_replace="$1:v_zna$2"/> <match no="3" postag_regexp="yes" postag="(noun.*):v_rod(.*)" postag_replace="$1:v_zna$2"/></suggestion>
           <suggestion>від <match no="2"/> <match no="3"/></suggestion>
           <example correction="від тактичного узгодження|ніж/як тактичне узгодження|ніж/як тактичний узгодження|ніж/як тактичного узгодження">Оперативне реагування стало зараз потрібніше <marker>тактичного узгодження</marker> дій.</example>
@@ -190,7 +190,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>З числівником замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2" postag="numr:p:v_zna"/></suggestion></message>
         <suggestion>менш ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
         <example>Менше одного</example>
-        <example>цюпка не менше шести кроків вдовж</example>
+        <example>човен не менше шести кроків вдовж</example>
         <example correction="менш як сто|менш ніж сто"><marker>менше ста</marker>.</example>
       </rule>
       <rule>
@@ -591,7 +591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception regexp="yes">[бгґджзйклнпрствмцшщх]ь?[вф].*</exception>
           </token>
           </pattern>
-          <message>Після голосного, перед приголосними (окрім в, ф та комбінацій приглосних із в, ф) пишемо в: <suggestion>в</suggestion></message>
+          <message>Після голосного, перед приголосними (окрім в, ф та комбінацій приголосних із в, ф) пишемо в: <suggestion>в</suggestion></message>
           <example correction="в">Завада <marker>у</marker> приладі.</example>
           <example>Завада у втулці.</example>
           <example>мають відбуватися у два етапи</example>
@@ -610,7 +610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <url>https://r2u.org.ua/pravopys/pravXXI/11.html</url>
           <example>Звичайно, у закладі.</example>
           <example>Звичайно, в закладі.</example>
-          <example correction="у">Наприклад, <marker>в</marker> простих визарах.</example>
+          <example correction="у">Наприклад, <marker>в</marker> простих виразах.</example>
           <example correction="у">Наприклад, <marker>в</marker> 80 років.</example>
           </rule>
       -->
@@ -1937,7 +1937,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>оверхневий стосується фізичної поверхні, а сенсі «неглибокий» вживаємо поверховий</message>
+        <message>Поверхневий стосується фізичної поверхні, а сенсі «неглибокий» вживаємо поверховий</message>
         <suggestion>поверховий</suggestion>
         <example correction="поверхове"><marker>поверхневі</marker> води.</example>
       </rule>
@@ -1965,7 +1965,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
       </pattern>
       <message>Неточно вжите слово. Ви мали на увазі <suggestion>частинка</suggestion>?</message>
-      <short>Правльно: строк</short>
       <example correction="частинка">всі елементарні <marker>частки</marker></example>
       <example>всі елементарні частинки</example>
       <example>всі частки майна</example>
@@ -2110,7 +2109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Правильно: <suggestion>їда</suggestion></message>
         <url>http://mova.kreschatic.kiev.ua/9.htm</url>
         <example correction="їда">Випиту склянку після <marker>їжі</marker>.</example>
-        <example>Багато їжи.</example>
+        <example>Багато їжі.</example>
       </rule>
 
       <rule>
@@ -2124,7 +2123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Правильно: <suggestion>їда</suggestion></message>
         <url>http://mova.kreschatic.kiev.ua/9.htm</url>
         <example correction="їда">Випиту склянку 30 хвилин до <marker>їжі</marker>.</example>
-        <example>Взявся до їжи.</example>
+        <example>Взявся до їжі.</example>
       </rule>
     </rulegroup>
 
@@ -2482,10 +2481,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">об'єм</token>
           </marker>
           <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
-          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*" regexp="yes">будівництво|бюджет|знання|інформація|капіталовкладення|навантаженя|продукція|постачання|робота</token>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*" regexp="yes">будівництво|бюджет|знання|інформація|капіталовкладення|навантаження|продукція|постачання|робота</token>
         </pattern>
         <message>Правильно: <suggestion>обсяг</suggestion></message>
-        <example correction="Обсяг"><marker>Об'єм</marker> продукції збільшився вдвічи</example>
+        <example correction="Обсяг"><marker>Об'єм</marker> продукції збільшився вдвічі</example>
         <example>Об'єм двигуна - 3 кубічних дециметри</example>
       </rule>
 
@@ -2657,7 +2656,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="вітровий">і <marker>вітряне</marker> скло</example>
       </rule>
 
-      <!-- вітрова енергія, енергентика, а отже й вітрова електростанція, турбіна тощо, і навіть млин -->
+      <!-- вітрова енергія, енергетика, а отже й вітрова електростанція, турбіна тощо, і навіть млин -->
       <rule>
         <pattern>
           <marker>
@@ -2706,7 +2705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Правильно: <suggestion>зумовлювати</suggestion></message>
         <suggestion>спричиняти</suggestion>
         <example correction="зумовлювати|спричиняти"><marker>обумовив</marker> чіткий ефект</example>
-        <example>обумовив задвадння</example>
+        <example>обумовив завдання</example>
       </rule>
     </rulegroup>
 
@@ -4281,7 +4280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception postag_regexp="yes" postag="noun:anim.*"/>
           </token>
         </pattern>
-        <message>Відстутній можуть стосуватися лише людей</message>
+        <message>Відсутній можуть стосуватися лише людей</message>
         <suggestion>немає</suggestion>
         <suggestion>бракує</suggestion>
         <suggestion>не маємо</suggestion>
