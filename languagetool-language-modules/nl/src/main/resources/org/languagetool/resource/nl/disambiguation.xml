@@ -9386,6 +9386,121 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="WKW:VTD:VRB"/>
     </rule>
 
+	<!--
+	?	  6727	(5)	VGW/VRZ VNW:AWZ:EKV:DE_ BNW:STL:VRB ZNW:EKV:DE_ VRZ
+	     6:	 om de juiste keuze te
+	     5:	 om de juiste diagnose te
+	     4:	 om de juiste balans te
+	     3:	 om de juiste informatie te
+	     3:	 om de openbare orde te
+
+	-->
+	<rule id="NEW_394" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ">te</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6694	(4)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET VRZ WKW:TGW:INF ITP:PNT/SENT_END
+	    33:	 het te begrijpen.
+	     8:	 het te merken.
+	     6:	 het te negeren.
+	     3:	 het te bagatelliseren.
+	     3:	 het te overwegen.
+	     3:	 het te verwerken.
+	     2:	 het te snappen.
+	     2:	 dit te voelen.
+	     2:	 het te volgen.
+	-->
+	<rule id="NEW_395" name="-">
+        <pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6657	(4)	BNW:STL:ONV/VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	     8:	 naar haar kamer.
+	     7:	 naar zijn auto.
+	     5:	 naar haar zoon.
+	     4:	 naar haar auto.
+	     4:	 naar zijn kamer.
+	     4:	 naar zijn zoon.
+	-->
+	<rule id="NEW_396" name="-">
+        <pattern>
+			<token postag="VRZ">naar</token>
+			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6640	(5)	VGW/VRZ GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ VRZ
+	     7:	 om een goede keuze te
+	     4:	 voor een nieuwe manier van
+	     3:	 om een goede balans te
+	     2:	 om een nieuwe serie in
+	-->
+	<rule id="NEW_397" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ">te</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	  6611	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BNW:STL:ONV/ZNW:EKV:HET
+	     1:	 De pH is goed
+	     1:	 De FM is goed
+	     1:	 De wet is goed
+	     1:	 De wil is goed
+	-->
+	<rule id="NEW_398" name="-">
+        <pattern>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BNW:STL:ONV">goed</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6598	(4)	WKW:VLT:1EP GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_
+	     3:	 was een goede les
+	     3:	 was een hele schok
+	     3:	 was een goede plek
+	     3:	 was een hele puzzel
+	     3:	 was een enorme klap
+	     2:	 was een hele rij
+	     2:	 was een hele stap
+	-->
+	<rule id="NEW_399" name="-">
+        <pattern>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"/>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
