@@ -9502,6 +9502,25 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+	<!--
+	?	  6636	(4)	SENT_START GET:ARA:002:MRV ZNW:EKV:HET ZNW:MRV:DE_/BNW:STL:MRV:DE_/WKW:VTD:ONV/WKW:VTD:VRB/BYW
+	     7:	~ 15 uur geleden
+	     7:	~ 19 uur geleden
+	     6:	~ 20 uur geleden
+	     6:	~ 21 uur geleden
+	-->
+	<rule id="NEW_400" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="GET:(ARA|TXT).*"/>
+			<token inflected="yes" regexp="yes">seconde|minuut|kwartier|halfuur|uur|dag|week|maand|seizoen|jaar|decennium|eeuw|eeuwigheid</token>
+			<marker>
+				<token postag="BYW">geleden</token>
+			</marker>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
