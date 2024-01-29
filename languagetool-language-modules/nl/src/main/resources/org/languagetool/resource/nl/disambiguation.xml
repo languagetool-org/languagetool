@@ -9799,8 +9799,27 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
 		</pattern>
-        <disambig action="remove" postag="VGW"/>
+        <disambig action="filterall"/>
     </rule>
+
+	<!--
+	?	  6280	(4)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET ZNW:EKV/BNW:STL:VRB ZNW:EKV:HET ITP:PNT/SENT_END
+			1:	 dit warme familiehuis.
+			1:	 het belangrijke duel.
+			1:	 het vorige studiejaar.
+			1:	 het vaste salaris.
+			1:	 het parlementaire jaar.
+			1:	 het juiste adres.
+	-->
+	<rule id="NEW_416 name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
 
 	<!-- ##################################################################################################### -->
