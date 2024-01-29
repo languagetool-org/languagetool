@@ -23074,6 +23074,28 @@ regexp case-insensitive maken: (?i)
 				<example correction="ook, hè">Ik <marker>ook he</marker>?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HE_BEGIN" name="Hè daar kom ik net vandaan!" default="temp_off">
+			<rule>
+			    <antipattern>
+		            <token>hè</token>
+		            <token>hè</token>
+			    </antipattern>
+			    <antipattern>
+		            <token>hè</token>
+		            <token postag_regexp="yes" postag="UNKNOWN|TSW"/>
+			    </antipattern>
+				<pattern>
+				    <token postag="SENT_START"/>
+					<marker>
+						<token>hè</token>
+					</marker>
+					<token><exception spacebefore="no">,</exception></token>
+				</pattern>
+				<message>Het lijkt erop dat hier een komma ontbreekt.</message>
+				<suggestion>\2,</suggestion>
+				<example correction="Hè,"><marker>Hè</marker> daar kom ik net vandaan!</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="HE_EINDE" name="Lekker weertje, he(hè)?">
 			<rule>
 				<antipattern>
