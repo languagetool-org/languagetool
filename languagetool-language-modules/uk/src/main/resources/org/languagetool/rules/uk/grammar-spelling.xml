@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- group: дефіс -->
 
-    <rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з напів- пишемо разом">
+    <rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з префіксом «напів» пишемо разом">
       <rule>
         <pattern>
           <marker>
@@ -46,11 +46,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Правильно писати разом</short>
         <example correction="напівгіркий">У цього овоча <marker>напів гіркий</marker> присмак.</example>
         <example correction="напіввагон">Зелений <marker>напів вагон</marker></example>
-        <example>У цього овоча напівгіркий присмак.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">напів[-–][а-яіїєґ].*</token>
+          </marker>
+        </pattern>
+        <message>Слова з «напів» пишемо разом <suggestion><match no="1" regexp_match="(напів)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
+        <short>Правильно писати разом</short>
+        <example correction="напівгіркий">У цього овоча <marker>напів-гіркий</marker> присмак.</example>
+        <example correction="напіввагон">Зелений <marker>напів-вагон</marker></example>
       </rule>
     </rulegroup>
 
-    <rule id="piv_with_proper_noun_1992" name="пів- з власними назвами">
+    <rule id="piv_with_proper_noun_1992" name="«пів-» з власними назвами (правопис 1992)" default="off">
       <pattern>
         <marker>
           <token>пів</token>
@@ -67,7 +78,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Снігопади паралізували пів-Європи.</example>
     </rule>
 
-    <rule id="piv_before_iotized_1992" name="пів' перед йотованими">
+    <rule id="piv_before_iotized_1992" name="«пів'» перед йотованими (правопис 1992)" default="off">
       <pattern>
         <marker>
           <token>пів</token>
@@ -85,7 +96,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>об'їздив пів Європи</example>
     </rule>
 
-    <rulegroup id="piv_okremo_2019" name="пів пишемо окремо">
+    <rulegroup id="piv_okremo_2019" name="«пів» пишемо окремо">
       <rule>
         <pattern>
           <token regexp="yes">пів['–-][а-яіїєґ'].*
