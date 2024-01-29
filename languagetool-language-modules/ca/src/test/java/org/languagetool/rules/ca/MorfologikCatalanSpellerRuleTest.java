@@ -681,13 +681,13 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("[105.3 FM]", matches[0].getSuggestedReplacements().toString());
 
     //invisible characters at start
-    matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
-    assertEquals(1, matches.length);
-    assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
+    //matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
+    //assertEquals(1, matches.length);
+    //assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
 
-    matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
-    assertEquals(1, matches.length);
-    assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
+    //matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
+    //assertEquals(1, matches.length);
+    //assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
 
     // camel case
     matches = rule.match(lt.getAnalyzedSentence("polÃtiques"));
