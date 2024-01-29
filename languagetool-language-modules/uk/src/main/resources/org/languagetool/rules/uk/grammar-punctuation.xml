@@ -115,7 +115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- «Більше того» є росіянізмом - handled in grammar-barbarism.xml
 
-    <rulegroup id="comma_bilshe_togo" name="Кома: більше того">
+    <rulegroup id="comma_bilshe_togo" name="Кома: більше того" default="off">
       <rule>
         <pattern>
           <marker>
@@ -823,7 +823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <!-- 
-    <rulegroup id="comma_navpaky" name="Кома: навпаки">
+    <rulegroup id="comma_navpaky" name="Кома: навпаки" default="off">
       <rule>
         <pattern>
           <marker>
@@ -2159,7 +2159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <!-- Too many FP:
       Коли «тоді як» вжито в ролі сполучного засобу (Він помилявся, тоді як вона мала рацію.) ставимо кому перед «тоді» і не ставимо перед «як». Однак коли в реченні можна поставити запитання (коли? тоді), ставимо лише одну кому перед «як» (Вони прийдуть тоді, як звільняться.)
-      <rule>
+      <rule name="Тоді, як" default="off">
         <pattern>
           <token>тоді</token>
           <token>,</token>
@@ -2414,8 +2414,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="na_chyyus_dumku" name="На чиюсь думку">
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>на</token>
+          <token regexp="yes">мою|нашу|його|її|їхню</token>
+          <token>думку</token>
+        </marker>
+        <token>
+          <exception regexp="yes">&punct_std;</exception>
+        </token>
+      </pattern>
+      <message>Після вставного звороту має йти кома</message>
+      <suggestion>\2 \3 \4,</suggestion>
+      <example>пристав на його думку</example>
+      <example correction="На мою думку,"><marker>На мою думку</marker> це марнотратство.</example>
+    </rule>
+
   <!-- 
-      <rule>
+      <rule name="А саме" default="off">
         <pattern>
           <marker>
             <token>а</token>
@@ -2437,7 +2455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
      -->
 
 <!--
-    <rulegroup id="VOCATIVE_NO_COMMA" name="Кличний без коми">
+    <rulegroup id="VOCATIVE_NO_COMMA" name="Кличний без коми" default="off">
       <rule>
         <pattern>
           <token postag_regexp="yes" postag="noun:inanim.*v_kly.*">
