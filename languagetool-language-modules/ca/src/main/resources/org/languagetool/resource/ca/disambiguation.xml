@@ -20564,4 +20564,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="MATEMATIQUES" name="notació matemàtica">
+        <rule>
+            <pattern>
+                <token regexp="yes">[&#x2200;-&#x22FF;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[=&gt;&lt;]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[=&gt;&lt;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z][⁰ⁱ⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

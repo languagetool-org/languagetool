@@ -116,6 +116,9 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("col·Laboració");
     assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("COL∙LABORADORES");
+    assertEquals(tokens.size(), 1);
+
     tokens = wordTokenizer.tokenize("abans-d’ahir");
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("abans-d'ahir");
@@ -182,9 +185,6 @@ public class CatalanWordTokenizerTest {
     //H₂O
     tokens = wordTokenizer.tokenize("H₂O");
     assertEquals("[H₂O]", tokens.toString());
-
-    //tokens = wordTokenizer.tokenize("❤\uFE0F");
-    //assertEquals("[❤\uFE0F]", tokens.toString());
 
     tokens = wordTokenizer.tokenize("\uD83E\uDDE1");
     assertEquals("[\uD83E\uDDE1]", tokens.toString());

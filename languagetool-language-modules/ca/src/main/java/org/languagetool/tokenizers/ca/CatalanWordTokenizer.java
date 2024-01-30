@@ -39,7 +39,7 @@ import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
  */
 public class CatalanWordTokenizer extends WordTokenizer {
 
-  private static final String wordCharacters = "©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u2070-\u209F°%‰‱&";
+  private static final String wordCharacters = "©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u2070-\u209F°%‰‱&\uFFFD";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
@@ -60,8 +60,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
-  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[.\u2022⋅∙]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
-  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[.\u2022\u22C5\u2219\uF0D7]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022\u22C5\u2219\uF0D7]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
   // apostrophe 
   private static final Pattern APOSTROF_RECTE = Pattern.compile("([\\p{L}])'([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_RODO = Pattern.compile("([\\p{L}])’([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
