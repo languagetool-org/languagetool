@@ -975,5 +975,29 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Tenía <marker>tanta</marker> hambre que me lo comí.</example>
             </rule>
         </rulegroup>
+        <rulegroup name="formas de voseo correctas" id="AI_ES_GGEC_REPLACEMENT_CONFUSION">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V...2[PV]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                    <token>vos</token>
+                </pattern>
+                <example correction=""><marker>peleás</marker> vos</example>
+                <example correction=""><marker>peleás</marker> siempre vos</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vos</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token postag="V...2[PV]." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Vos siempre <marker>peleás</marker>.</example>
+                <example correction="">Vos <marker>peleás</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
