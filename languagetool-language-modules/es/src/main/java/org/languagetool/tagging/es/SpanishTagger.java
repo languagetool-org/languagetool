@@ -113,6 +113,10 @@ public class SpanishTagger extends BaseTagger {
       if (l.isEmpty() && !isMixedCase) {
         addTokens(additionalTags(word, dictLookup), l);
       }
+      // emoji
+      if (l.isEmpty() && StringTools.isEmoji(word)) {
+        l.add(new AnalyzedToken(word, "_emoji_", "_emoji_"));
+      }
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
       }

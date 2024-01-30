@@ -121,7 +121,7 @@ public class MultitokenSpeller {
       boolean exceedsMaxDistancePerToken = false;
       for (int i=0; i<distances.size(); i++) {
         // usually 2, but 1 for short words
-        int maxDistance = (wordParts[i].length() > 5 ? 2: 1);
+        int maxDistance = (wordParts[i].length() > 5 && candidateParts[i].length() > 4 ? 2: 1);
         if (distances.get(i) > maxDistance) {
           exceedsMaxDistancePerToken = true;
           break;
@@ -270,26 +270,28 @@ public class MultitokenSpeller {
     for (String filePath : filePaths) {
       try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
            BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-          if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
+        String lineOriginal;
+        while ((lineOriginal = reader.readLine()) != null) {
+          if (lineOriginal.isEmpty() || lineOriginal.charAt(0) == '#') { // ignore comments
             continue;
           }
-          line = language.prepareLineForSpeller(StringUtils.substringBefore(line, "#").trim());
-          if (line.isEmpty()) {
-            continue;
-          }
-          int numSpaces = StringTools.numberOf(line, " ");
-          int numHyphens = StringTools.numberOf(line, "-");
-          if (numSpaces==1) {
-            oneSpace.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          } else if (numSpaces==2) {
-            twoSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          } else if (numSpaces>=3) {
-            threeSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          } else if (numSpaces==0 && numHyphens==1) {
-            hyphenated.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          }
+          for (String line : language.prepareLineForSpeller(StringUtils.substringBefore(lineOriginal, "#").trim())) {
+            if (line.isEmpty()) {
+              continue;
+            }
+            int numSpaces = StringTools.numberOf(line, " ");
+            int numHyphens = StringTools.numberOf(line, "-");
+            if (numSpaces==1) {
+              oneSpace.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            } else if (numSpaces==2) {
+              twoSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            } else if (numSpaces>=3) {
+              threeSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            } else if (numSpaces==0 && numHyphens==1) {
+              hyphenated.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            }
+          };
+
         }
       } catch (IOException e) {
         throw new RuntimeException(e);

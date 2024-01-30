@@ -603,16 +603,32 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public String prepareLineForSpeller(String line) {
+  public List<String> prepareLineForSpeller(String line) {
+    List<String> results = new ArrayList<>();
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return line;
+      return Arrays.asList(line);
     }
-    String[] formTag = parts[0].split("[\t;/]");
+    String[] formTag = parts[0].split("[/]");
     if (formTag.length == 0) {
-      return "";
+      return Arrays.asList("");
     }
-    return formTag[0].trim();
+    String form = formTag[0];
+    results.add(form);
+    String tag = "";
+    if (formTag.length==2) {
+      tag = formTag[1];
+    }
+    if (tag.contains("E")) {
+      results.add(form + "e");
+    }
+    if (tag.contains("S")) {
+      results.add(form + "s");
+    }
+    if (tag.contains("N")) {
+      results.add(form + "n");
+    }
+    return results;
   }
 
   public MultitokenSpeller getMultitokenSpeller() {

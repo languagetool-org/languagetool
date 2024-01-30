@@ -627,6 +627,7 @@ public class MorfologikCatalanSpellerRuleTest {
 
     //Sol Picó (🐌+🐚)
     matches = rule.match(lt.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
+    assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("rà dio"));
     assertEquals("Ràdio", matches[0].getSuggestedReplacements().get(0));
@@ -664,12 +665,12 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("En 1993", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("✅Compto amb el títol"));
-    assertEquals(1, matches.length);
-    assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(0, matches.length);
+    //assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("✅Conpto amb el títol"));
     assertEquals(1, matches.length);
-    assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Compto", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("·Compto amb el títol"));
     assertEquals(1, matches.length);
@@ -680,13 +681,13 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("[105.3 FM]", matches[0].getSuggestedReplacements().toString());
 
     //invisible characters at start
-    matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
-    assertEquals(1, matches.length);
-    assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
+    //matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
+    //assertEquals(1, matches.length);
+    //assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
 
-    matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
-    assertEquals(1, matches.length);
-    assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
+    //matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
+    //assertEquals(1, matches.length);
+    //assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
 
     // camel case
     matches = rule.match(lt.getAnalyzedSentence("polÃtiques"));

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.es.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -34,6 +35,7 @@ import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
 import org.languagetool.tagging.es.SpanishTagger;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -296,24 +298,64 @@ public class Spanish extends Language implements AutoCloseable {
   }
 
   @Override
-  public String prepareLineForSpeller(String line) {
+  public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return line;
+      return Arrays.asList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_") || tag.equals("LOC_ADV")) {
-        return formTag[0].trim();
+        return Arrays.asList(formTag[0].trim());
       } else {
-        return "";
+        return Arrays.asList("");
       }
     }
-    return line;
+    return Arrays.asList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
     return SpanishMultitokenSpeller.INSTANCE;
   }
+
+
+  private List<String> suggestionsToAvoid = Arrays.asList("aquél", "aquélla", "aquéllas", "aquéllos", "ésa", "ésas",
+    "ése", "ésos", "ésta", "éstas", "éste", "éstos", "sólo");
+  private Pattern voseoPostagPatern = Pattern.compile("V....V.*");
+  @Override
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<String> suggestions = ruleMatch.getSuggestedReplacements();
+      if (suggestions.size()>0) {
+        String suggestion = suggestions.get(0);
+        // avoid obsolete diacritics
+        if (suggestionsToAvoid.contains(suggestion.toLowerCase())) {
+          continue;
+        }
+        // avoid lowercase at the sentence start
+        ruleMatch.setOriginalErrorStr();
+        if (ruleMatch.getFromPos() == 0 && StringTools.uppercaseFirstChar(suggestion).equals(ruleMatch.getOriginalErrorStr())) {
+          continue;
+        }
+        // avoid voseo forms in suggestions
+        List<AnalyzedTokenReadings> atr;
+        try {
+          atr = this.getTagger().tag(Arrays.asList(suggestion));
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        if (atr != null && atr.size()>0) {
+          if (atr.get(0).matchesPosTagRegex(voseoPostagPatern)) {
+            continue;
+          }
+        }
+      }
+      results.add(ruleMatch);
+    }
+
+    return results;
+  }
 }
+

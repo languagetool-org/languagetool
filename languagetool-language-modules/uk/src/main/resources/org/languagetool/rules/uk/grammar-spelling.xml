@@ -32,6 +32,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
   <category name="Орфографія" id="SPELLING">
 
+    <!-- group: дефіс -->
+
     <rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з напів- пишемо разом">
       <rule>
         <pattern>
@@ -114,389 +116,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>півколо</example>
         <example>південноафриканський</example>
       </rule>
-
-    </rulegroup>
-
-    <rulegroup id="SLOVA_BEZ_DEFISU" name="Слова без дефісу">
-      <rule>
-        <antipattern>
-          <token regexp="yes">[«"“„]</token>
-          <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
-          <token regexp="yes">[»"”“]</token>
-        </antipattern>
-        <pattern>
-          <!-- to speed up slow rule: these don't happen often: геліо|гідро|космо|метео|мілі|палео|рентгено|стерео|фоно  -->
-          <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|гео|гіпер|давньо|екзо|еко|екстра|електро|етно|загально|зоо|ізо|квазі|кіно|контр|лже|макро|мета|мікро|моно|мото|мульти|нео|пост|псевдо|радіо|соціо|супер|теле|транс|турбо|ультра|фото)[-–][а-яіїєґ][^-]{2,35}
-            <exception inflected="yes" regexp="yes">аудіо-відео|геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
-            <!-- will be handled by 2019 spelling rule -->
-            <exception regexp="yes">контр[-–]адмір.*</exception>
-            <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
-          </token>
-        </pattern>
-        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
-        <url>http://www.pravopys.net/#search=25-33</url>
-        <short>Правильно писати разом</short>
-        <example correction="мультивалютний"><marker>мульти-валютний</marker> обмін.</example>
-        <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
-        <example correction="Квазісмішний"><marker>Квазі-смішний</marker> жарт.</example>
-        <!-- 
-        <example correction="гідроаеропорт"><marker>гідро-аеропорт</marker>.</example>
-         -->
-        <example correction="екопоселення"><marker>еко-поселення</marker></example>
-        <example correction="супербагатії">яку складають <marker>супер-багатії</marker></example>
-        <example>анти-Забужко</example>
-        <example>мета-2013</example>
-        <example>контр-адмірал</example>
-        <example>на «Супер-нова»</example>
-        <example>не багато-не мало</example>
-      </rule>
-
-      <rule id="habar_2019" name="Хабара і хабаря">
-        <pattern>
-          <token inflected="yes" postag_regexp="yes" postag=".*ua_1992.*">хабар
-            <exception postag_regexp="yes" postag=".*ua_2019.*"/>
-          </token>
-        </pattern>
-        <message>За правописом 2019 хабар відмінюється, як м'яка група</message>
-        <suggestion><match no="1" postag_regexp="yes" postag="(.*?)ua_1992(.*)" postag_replace="$1ua_2019$2" /></suggestion>
-        <example correction="хабаря">дав <marker>хабара</marker>.</example>
-        <example correction="хабарем"><marker>хабаром</marker>.</example>
-        <example>хабарі</example>
-      </rule>
-
-      <rule id="vitra" name="Вітра">
-        <antipattern>
-          <token regexp="yes" inflected="yes">шукати|ловити</token>
-          <token min="0" regexp="yes">би?</token>
-          <token min="0" postag_regexp="yes" postag="adv(?!p).*"/>
-          <token>вітра</token>
-        </antipattern>
-        <pattern>
-          <token>вітра</token>
-        </pattern>
-        <message>За винятком декількох сталих зворотів р.в. від слова «вітер» є <suggestion>вітру</suggestion></message>
-        <example correction="вітру">десь <marker>вітра</marker>.</example>
-        <example>шукав вітра в полі</example>
-        <example>шукай тепер вітра в полі</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token regexp="yes">анти|віце|екс|квазі|лже|супер|ультра</token>
-          <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="noun.*?prop.*">[А-ЯІЇЄҐ][а-яіїєґ']{3,35}
-            <exception>Нова</exception>
-          </token>
-        </pattern>
-        <message>Із власною назвою компонента <match no="1"/> пишеться через дефіс</message>
-        <suggestion><match no="1"/>-<match no="2"/></suggestion>
-        <url>http://www.pravopys.net/#search=25-33</url>
-        <short>Правильно писати разом</short>
-        <example correction="екс-Югославія"><marker>екс Югославія</marker>.</example>
-        <example>супер Нова</example>
-        <!-- handled by rule above -->
-        <example>екс капітан</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token regexp="yes">(багато|високо|мало|низько)[-–][а-яіїєґ][^-]{2,35}
-            <exception regexp="yes">багато[–-](пре)?багато|високо[–-](пре)?високо|низько[–-]низ(ен)?ько|мало[–-]помалу|мало[–-]мало</exception>
-            <!-- TODO: exception for everything tagged -->
-            <exception regexp="yes">(багато|мало)[–-](хто|кому|кого|ким|що|чого|чому|чим|багато|мало|коли|де)</exception>
-            <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
-          </token>
-        </pattern>
-        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
-        <url>http://www.pravopys.net/#search=25-33</url>
-        <short>Правильно писати разом</short>
-        <example correction="Багатоповерховий"><marker>Багато-поверховий</marker> будинок.</example>
-        <example>багато-багато</example>
-        <example>багато-кому</example>
-        <example>мало-багато</example>
-        <example>високо-високо</example>
-        <example>мало-не</example>
-        <example>село Мало-Янисоль</example>
-        <example>Високо-Литовськ</example>
-        <example>мало-коли</example>    <!-- пишеться окремо -->
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="WORDS_WITH_DASH" name="Слова через дефіс">
-      <rule>
-        <antipattern>
-          <token>що</token>
-          <token>буде</token>
-        </antipattern>
-        <antipattern>
-          <token>як</token>
-          <token>є</token>
-        </antipattern>
-        <antipattern>
-          <token>будь</token>
-          <token>що</token>
-          <token>,</token>
-          <token>а</token>
-        </antipattern>
-        <pattern>
-          <token>будь</token>
-          <token regexp="yes" inflected="yes">де|що|як|хто|чий|коли|який|котрий</token>
-        </pattern>
-        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
-        <example correction="будь-де">І в нас і <marker>будь де</marker>.</example>
-        <example correction="будь-якому">І в нас і в <marker>будь якому</marker> місці.</example>
-        <example>будь що буде</example>
-        <!--        <example>будь як усі</example> -->
-        <example>будь як є</example>
-        <example>Будь що, а першого вересня</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">де|хто|коли|який|котрий</token>
-          <token>будь</token>
-        </pattern>
-        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
-        <example correction="де-будь">І в нас і <marker>де будь</marker>.</example>
-        <example>Колись ви казали, що будь у вас друге життя...</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>все</token>
-          <token>таки</token>
-        </pattern>
-        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
-        <example correction="все-таки">Ви <marker>все таки</marker> вирішили піддатися спокусі.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>пліч</token>
-          <token>о</token>
-          <token>пліч</token>
-        </pattern>
-        <message>Це слово пишеться через дефіс: <suggestion>\1-\2-\3</suggestion></message>
-        <example correction="пліч-о-пліч">і <marker>пліч о пліч</marker> билися зі своїми.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token regexp="yes">Нь?ю</token>
-          <token inflected="yes" regexp="yes">Йорк|Джер[сз]і</token>
-        </pattern>
-        <message>Це слово пишеться через дефіс: <suggestion>Нью-\2</suggestion></message>
-        <example correction="Нью-Йорк">у <marker>Нью Йорк</marker>.</example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="ALT_SPELLING" name="Альтернативний правопис">
-      <rule>
-        <pattern>
-          <token postag_regexp="yes" postag=".*:alt.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|PARA_END" />
-          </token>
-        </pattern>
-        <message>Слово, написане не за чинним правописом</message>
-        <example correction=""><marker>диференціялу</marker></example>
-        <example correction=""><marker>ґрантовий</marker></example>
-        <example>проекту</example>
-        <example>проєкту</example>
-        <example correction=""><marker>ґра́нтовий</marker></example>
-        <!-- TODO: fix core
-        <example correction=""><marker>ґра́нтовий</marker>.</example>
-        -->
-        <example>хоче прорости</example>
-        <example>проекту</example>
-      </rule>
-    </rulegroup>
-
-    <rule id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
-      <antipattern>
-        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]([а-яіїєґ']+|\.)</token>
-        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']+</token>
-      </antipattern>
-      <pattern>
-        <token postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*|SENT_END|PARA_END"/>
-        </token>
-      </pattern>
-      <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
-      <url>http://pravopys.net/#search=80-85</url>
-      <example correction="підемо">Сьогодні <marker>підем</marker> в кіно.</example>
-      <example correction="прогуляємося">Підемо <marker>прогуляємся</marker>.</example>
-      <example correction="Підемо"><marker>Підем</marker> в кіно завтра.</example>
-      <example correction="Скажемо">…<marker>Скажем</marker> їм.</example>
-      <example>прозвали Сергієм Підрахуєм</example>
-      <example>В.Кукольником, П.Подієм, І.Орлом</example>
-      <example>хотять</example>
-    </rule>
-
-    <rule id="VERB_SUBSTANDARD_FORMS_2" name="Просторічні форми 2">
-      <pattern>
-        <token postag_regexp="yes" postag="verb.*?:3.*?:subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:3.*?:subst.*|SENT_END|PARA_END"/>
-        </token>
-      </pattern>
-      <message>Ця дієслівна форма є просторічною</message>
-      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):subst(.*)" postag_replace="$1$2"/></suggestion>
-      <example correction="хочуть">щось <marker>хотять</marker>.</example>
-      <example correction="ходить">хтось <marker>ходе</marker>.</example>
-    </rule>
-
-    <rule id="zakordon" name="Закордон і за кордон">
-      <antipattern>
-        <token>закордон</token>
-        <token min="0" max="2"/>
-        <token inflected="yes" regexp="yes">(до)?помагати|(до)?помогти</token>
-      </antipattern>
-      <pattern>
-        <token>закордон
-          <exception scope="previous" postag_regexp="yes" postag="prep.*|adj:m:v_zna:rinanim.*"/>
-          <exception scope="previous" regexp="yes">[«"„]|це</exception>
-        </token>
-      </pattern>
-      <message>Можливо ви мали на увазі <suggestion>за кордон</suggestion>?</message>
-      <example correction="за кордон">поїхав <marker>закордон</marker>.</example>
-      <example>взнати про закордон</example>
-      <example>взнати «закордон»</example>
-      <example>далекий «закордон»</example>
-      <example>закордон нам не допоможе</example>
-    </rule>
-
-    <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
-      <rule>
-      <!--
-        <antipattern>
-          <token regexp="yes">[«"„]</token>
-          <token regexp="yes" spacebefore="no">[а-яіїєґ'-][а-яіїєґ]+[0-9]</token>
-        </antipattern>
-        -->
-        <pattern>
-          <marker>
-            <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]*[а-яіїєґ]+</token>
-            <token regexp="yes" spacebefore="no">[0-9]+</token>
-          </marker>
-        </pattern>
-        <message>Відсутній дефіс або пробіл між словом і числом</message>
-        <suggestion><match no="1"/>-<match no="2"/></suggestion>
-        <suggestion><match no="1"/> <match no="2"/></suggestion>
-        <example correction="Мі-17|Мі 17"><marker>Мі17</marker></example>
-        <example>СО2</example>
-        <example>абстракція11</example>
-        <example>"Приват24 для бізнезу"</example>
-        <example>Ан32-П</example>
-      </rule>
-
-      <rule>
-        <antipattern>
-          <token regexp="yes">([кдсмн]|мк)?м</token>
-          <token regexp="yes" spacebefore="no">[23]</token>
-        </antipattern>
-        <pattern>
-          <marker>
-            <token regexp="yes">[а-яіїєґ][а-яіїєґ'.-]*</token>
-            <token regexp="yes" spacebefore="no">[0-9][0-9.,:–—-]*%?</token>
-          </marker>
-        </pattern>
-        <message>Відсутній дефіс або пробіл між словом і числом</message>
-        <suggestion><match no="1"/> <match no="2"/></suggestion>
-        <suggestion><match no="1"/>-<match no="2"/></suggestion>
-        <example correction="мої 1|мої-1">А <marker>мої1</marker>.</example>
-        <example correction="культивувати 170|культивувати-170">почали <marker>культивувати170</marker> років</example>
-        <example correction="до 1600|до-1600"><marker>до1600</marker> ккал</example>
-        <example correction="Євро 2012|Євро-2012">на хвилі <marker>Євро2012</marker></example>
-        <example correction="майже 100|майже-100"><marker>майже100</marker>%.</example>
-        <example correction="тримаємо 12–15|тримаємо-12–15"><marker>тримаємо12–15</marker> хвилин</example>
-        <example>20 мм2</example>
-        <!-- CO2 in cyrillic -->
-        <example>СО2</example>
-        <example>ми скористалися службою «Інфо300»</example>
-        <example>АН4774087</example>
-        <example>ТУ4-2441</example>
-        <example>в підпункті 14а</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[а-яіїєґ]+
-            </token>
-          </marker>
-        </pattern>
-        <message>Цифри всередині слова</message>
-        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)([а-яіїєґ'-])" regexp_replace="$1$3"/></suggestion>
-        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)([а-яіїєґ'-])" regexp_replace="$1 $2 $3"/></suggestion>
-        <example correction="напередодні|напе 1 редодні"><marker>напе1редодні</marker></example>
-        <example>40х40х30</example>
-      </rule>
-
-      <rule>
-        <antipattern>
-          <token regexp="yes">[А-ЯІЇЄҐ].*</token>
-          <token regexp="yes">,</token>
-          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
-        </antipattern>
-        <antipattern>
-          <token regexp="yes">номер.*|буд\.|нумерац.*|[/№]</token>
-          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
-        </antipattern>
-        <antipattern>
-          <token>«</token>
-          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
-          <token>»</token>
-        </antipattern>
-        <antipattern>
-          <token regexp="yes">[0-9]{1,3}[а-яіїєґ]?</token>
-          <token regexp="yes">,|і|та</token>
-          <token regexp="yes">[0-9]{1,3}[а-яіїєґ]</token>
-        </antipattern>
-        <pattern>
-          <marker>
-            <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*[.²³]?
-              <exception case_sensitive="yes">1С</exception>
-              <exception regexp="yes">[0-9]+'|[0-9]+к</exception>
-              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>  <!-- both lat and cyr o and C, taken care by rule below -->
-            </token>
-          </marker>
-        </pattern>
-        <message>Відсутній дефіс або пробіл між числом і словом (або пропущена кома після назви вулиці, або вжито тире на позначення мінуса)</message>
-        <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1 $2"/></suggestion>
-        <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1-$2"/></suggestion>
-        <example correction="21 відсоток|21-відсоток">набрав <marker>21відсоток</marker>.</example>
-        <example correction="505 грн|505-грн"><marker>505грн</marker>.</example>
-        <example correction="5,05 грн|5,05-грн"><marker>5,05грн</marker>.</example>
-        <example correction="1989 го|1989-го">15 лютого <marker>1989го</marker>.</example>
-        <example correction="0,4-10 кВ|0,4-10-кВ">напруги <marker>0,4-10кВ</marker>.</example>
-        <!--TODO: for some reason antipattrn tiggers here when no space between тис. and ,
-        <example correction="6 те|6-те">5-те місце — $10 тис., <marker>6те</marker> місце — $6 тис..</example>
-        -->
-        <example>Естафета 4х100 м.</example>
-        <example>Грушевського, 9а</example>
-        <example>Грушевського, буд. 9а</example>
-        <example>14,7оС</example>
-        <example>та ж вулиця, номер 8ж</example>
-        <example>автобусом № 441, 41к</example>
-        <example>Будівля №36а</example>
-        <example>у справі № 8/348а</example>
-        <example>1С</example>
-        <example>23° 27'</example>
-        <example>програма «4М».</example>
-        <example>від 27 грудня 1978 року за №44у—279 вирок</example>
-      </rule>
-
-      <!-- we now smart enough to split tokens of year and letter -->
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">[$+-]?[0-9,-]*[0-9]</token>
-            <token regexp="yes" spacebefore="no">[а-яіїєґ][а-яіїєґ'.-]*
-              <exception postag_regexp="yes" postag="noun.*:abbr:prop:fname"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Відсутній дефіс або пробіл між числом і словом</message>
-        <suggestion><match no="1"/> <match no="2"/></suggestion>
-        <suggestion><match no="1"/>-<match no="2"/></suggestion>
-        <example correction="1981 р.|1981-р.">З <marker>1981р.</marker></example>
-        <example>концерти № 1 Л. Бетховена</example>
-      </rule>
     </rulegroup>
 
     <rulegroup id="top_with_num_2019" name="Топ- з числівниками">
@@ -519,305 +138,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion><match no="1" regexp_match="(?iu)(топ)-(.*)" regexp_replace="найкращі $2"/></suggestion>
         <suggestion><match no="1" regexp_match="(?iu)(топ)-(.*)" regexp_replace="найбільші $2"/></suggestion>
         <example correction="найкращі десять|найбільші десять"><marker>топ-десять</marker>.</example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
-      <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
-      <url>https://r2u.org.ua/data/other/%D0%94%D0%A1%D0%A2%D0%A3_3582-97.pdf</url>
-      <rule>
-        <antipattern>
-          <token>.</token>
-          <token regexp="yes">&punct_dash;</token>
-          <token regexp="yes">(авт\.|ред\.)</token>
-        </antipattern>
-        <pattern>
-          <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв|млн|млрд</token>
-          <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
-        </pattern>
-        <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
-        <example correction="грн">100 <marker>грн.</marker> в банк.</example>
-        <example correction="год">Двадцять <marker>год.</marker> їзди.</example>
-        <example correction="грн">40 800 грн при комерційній ціні лише 3 400 <marker>грн.</marker> за одиницю!</example>
-        <example>Двадцять год.</example>
-        <example>12,75 грн.</example>
-        <example>В м. Київ.</example>
-        <example>Прийшов Л. Коцюба.</example>
-        <example>штрафували на 30 тисяч злотих (близько 54 000 грн. – Авт.), конфіскували у нього машину.</example>
-        <example>населення Землі налічує 257 млн. </example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token regexp="yes">млн\.|млрд\.</token>
-        </pattern>
-        <message>Стягнені скорочення пишуться без крапки: <suggestion><match no="1" regexp_match="(.*)\." regexp_replace="$1"/></suggestion></message>
-        <example correction="млн">всього 20 <marker>млн.</marker> осіб.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token case_sensitive="yes">смт</token>
-          <token>.</token>
-        </pattern>
-        <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
-        <example correction="смт">розташовано у <marker>смт.</marker> Луків.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
-          <marker>
-            <token case_sensitive="yes" regexp="yes">([смкд]|мк)?м\.?</token>
-            <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
-          </marker>
-          <token case_sensitive="yes" negate="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
-        </pattern>
-        <message>Метричні одиниці пишуться без крапки: <suggestion><match no="2"/></suggestion></message>
-        <example correction="м">100 <marker>м.</marker> дороги.</example>
-        <example correction="м">100 кв. <marker>м.</marker> дороги.</example>
-        <example>Останні 100 м.</example>
-        <example>Прийшов М. Гориня.</example>
-        <example>Проїхали м. Львів.</example>
-        <example>Листи надсилайте на адресу: 79026    м. Львів, вул. Володимира Великого</example>
-        <!-- TODO: важко розрізнити секунди від села від сторінки -->
-        <!--
-            <example correction="с">Останніх 37,8 <marker>с.</marker> шляху.</example>
-            <example>Проїхали с. Веселе.</example>
-        -->
-      </rule>
-
-      <rule>
-        <pattern case_sensitive="yes">
-          <token>р.</token>
-          <token>р.</token>
-        </pattern>
-        <message>Роки скорочено пишуться <suggestion>рр.</suggestion></message>
-        <example correction="рр.">70-80 <marker>р.р.</marker></example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="ABBREVIATIONS_MISSING_DOT" name="Скорочення - пропущена крапка">
-      <rule>
-        <antipattern>
-          <token regexp="yes">коп|тис</token>
-          <token regexp="yes">[….!?]|[.!?]{2,3}</token>   <!-- dot may still happen separately - tokenizing all cases properly is hard -->
-        </antipattern>
-        <pattern>
-          <token regexp="yes">.*[0-9]</token>
-          <marker>
-            <token regexp="yes">коп|тис</token>
-          </marker>
-        </pattern>
-        <message>Скорочення з відкиданням літер пишуться з крапкою: <suggestion><match no="2"/>.</suggestion></message>
-        <example correction="коп.">зросла на 50—70 <marker>коп</marker>/л</example>
-        <example correction="коп.">496 грн 75 <marker>коп</marker> за екземпляр</example>
-        <example correction="тис.">штраф у 150 <marker>тис</marker> гривень</example>
-        <example correction="тис.">штраф у 150 <marker>тис</marker></example>
-        <example correction="тис.">штраф у 150&#xA; <marker>тис</marker> гривень</example>
-        <example>це $400&#xA;   тис.», – розповідає Олег.</example>
-        <example>це 100 тис…</example>
-        <example>це 100 тис...</example>
-      </rule>
-    </rulegroup>
-
-    <rule id="dot_with_gram_hryven" name="Крапка з грамами і гривнями">
-      <pattern>
-        <token regexp="yes">[0-9]([0-9, ]*)</token>
-        <marker>
-          <token>гр.</token>
-        </marker>
-      </pattern>
-      <message>Грами скорочено пишемо: <suggestion>г</suggestion>; гривні скорочено пишемо <suggestion>грн</suggestion></message>
-      <example correction="г|грн">800 <marker>гр.</marker> м'яса.</example>
-      <example correction="г|грн">1 000 <marker>гр.</marker> 80 коп.</example>
-    </rule>
-
-<!--
-    <rule id="INVALID_APOSTROPHE" name="Нерекомендований символ апострофа">
-      <regexp>[а-яіїєґ'-]*[бпвмфгґкхжчшр][`´‘”‟"][єїюя][а-яіїєґ'-]*</regexp>
-      <message>Правильно: <suggestion><match no="1" regexp_match="(.*[бпвмфгґкхжчшр])[`´‘”‟&quot;]([єїюя].*)" regexp_replace="$1'$2"/></suggestion></message>
-      <example correction="кар'єра"><marker>кар‘єра</marker>.</example>
-    </rule>
--->
-
-    <rule id="UL_VS_VUL" name="ул. і вул.">
-      <pattern>
-        <marker>
-          <token>ул</token>
-          <token>.</token>
-        </marker>
-      </pattern>
-      <message>Правильно: <suggestion>вул.</suggestion></message>
-      <example correction="вул.">на <marker>ул.</marker> Городецькій.</example>
-      <example>вул.</example>
-    </rule>
-
-    <rulegroup id="graty_vs_hraty" name="Грати/ґрати">
-      <rule>
-        <pattern>
-          <token postag_regexp="yes" postag="prep.*">
-            <exception postag_regexp="yes" postag="adv.*"/>
-            <exception>проти</exception>
-          </token>
-          <marker>
-            <token inflected="yes" postag_regexp="yes" postag="noun:inanim.*">грати</token>
-          </marker>
-        </pattern>
-        <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
-        <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
-        <example correction="ґрати">кинути за <marker>грати</marker>.</example>
-        <example correction="ґратами">сидіти за <marker>гратами</marker>.</example>
-        <example>щоб просто грати</example>
-        <example>щоб добре грати</example>
-      </rule>
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-
-            <token regexp="yes" inflected="yes">тюремний|залізний|дерев'яний|мічний|холодний</token>
-            <marker>
-              <token inflected="yes" postag_regexp="yes" postag="noun:inanim.*">грати</token>
-            </marker>
-          </unify>
-        </pattern>
-        <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
-        <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
-        <example correction="ґратами">за залізними <marker>гратами</marker>.</example>
-        <example>на такому рівні грати</example>
-      </rule>
-    </rulegroup>
-
-      <!--
-    <rulegroup id="TON_VS_TONN" name="Тон/тонн">
-          <rule>
-          <pattern>
-          <token postag_regexp="yes" postag="num.*"/>
-          <marker>
-          <token>тон</token>
-          </marker>
-          </pattern>
-          <message>Правильно: <suggestion>тонн</suggestion></message>
-          <example correction="тонн">1600 <marker>тон</marker></example>
-          <example correction="тонн">п'ять <marker>тон</marker></example>
-          </rule>
-      <rule>
-        <pattern>
-          -
-              <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|сотня|тисяча|мільйон|мільярд|тис.|млн|млрд|([0-9-]*[05-9]|[0-9-]+11)
-          -
-          <or>
-            <token regexp="yes" inflected="yes">тис\.|млн|млрд</token>
-            <token postag_regexp="yes" postag=".*num.*">
-              <exception postag_regexp="yes" postag=".*:v_oru.*"/>
-              <exception scope="previous" regexp="yes">[:./№«]</exception>
-              <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
-              <exception regexp="yes">один|перший</exception>
-            </token>
-          </or>
-          <marker>
-            <token regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?тон</token>
-          </marker>
-        </pattern>
-        <message>Ви мали на увазі: <suggestion><match no="2"/>н</suggestion>?</message>
-        <example correction="кілотонн">10 <marker>кілотон</marker></example>
-        <example correction="тонн">10 <marker>тон</marker></example>
-        <example correction="тонн">п'ять <marker>тон</marker></example>
-        <example correction="тонн">72-78 <marker>тон</marker></example>
-        <example correction="тонн">кілька <marker>тон</marker></example>
-        <example>лише один тон</example>
-        <example>10 тонн</example>
-        <example>10 тонів</example>
-      </rule>
-    </rulegroup>
-      -->
-
-    <rule id="VYSHIDNYI_VYHIDNYI" name="Висхідний замість вихідний">
-      <pattern>
-        <marker>
-          <token inflected="yes">висхідний</token>
-        </marker>
-        <token inflected="yes" regexp="yes">позиція|положення|пункт|точка</token>
-      </pattern>
-      <message>Ви мали на увазі: <suggestion>вихідний</suggestion>?</message>
-      <example correction="вихідний">Поверталися на <marker>висхідну</marker> позицію.</example>
-    </rule>
-
-    <rule id="HRYVNA_HRYVNIA" name="Гривна замість гривня">
-      <antipattern>
-        <token inflected="yes" regexp="yes" skip="-1">браслет|золотавий|плести|прикраса|прикрашати|шийний|шия</token>
-        <token inflected="yes">гривна
-          <exception inflected="yes">гривня</exception>
-        </token>
-      </antipattern>
-      <antipattern>
-        <token inflected="yes" skip="-1">гривна
-          <exception inflected="yes">гривня</exception>
-        </token>
-        <token inflected="yes" regexp="yes">браслет|плести|прикраса|прикрашати|шийний|шия</token>
-      </antipattern>
-      <pattern>
-        <marker>
-          <token inflected="yes">гривна
-            <exception inflected="yes">гривня</exception>
-          </token>
-        </marker>
-      </pattern>
-      <message>Ви мали на увазі: <suggestion>гривня</suggestion>?</message>
-      <example correction="гривня">Заробив 7 млн <marker>гривен</marker>.</example>
-      <example>девальвація гривні</example>
-      <example>На шиї він мав золоту гривну, на пальцях – золоті персні</example>
-      <example>«гривна» — це давня нашийна прикраса.</example>
-    </rule>
-
-    <rulegroup id="BEZVISTI_VS_BEZVISTY" name="Безвісті/безвісти">
-      <rule>
-        <pattern>
-          <token regexp="yes">зник.*|пропа[вл].*</token>
-          <marker>
-            <token>безвісті</token>
-          </marker>
-        </pattern>
-        <message>Правильно: <suggestion>безвісти</suggestion></message>
-        <example correction="безвісти">зниклих <marker>безвісті</marker>.</example>
-        <example correction="безвісти">пропали <marker>безвісті</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token>безвісті</token>
-          </marker>
-          <token regexp="yes">зник.*|пропа[вл].*</token>
-        </pattern>
-        <message>Правильно: <suggestion>безвісти</suggestion></message>
-        <example correction="безвісти"><marker>безвісті</marker> зникли.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token regexp="yes">зник.*|пропа[вл].*</token>
-          <marker>
-            <token>без</token>
-            <token regexp="yes">віст[іи]</token>
-          </marker>
-        </pattern>
-        <message>Правильно: <suggestion>безвісти</suggestion></message>
-        <example correction="безвісти">зниклих <marker>без вісті</marker>.</example>
-        <example correction="безвісти">пропали <marker>без вісти</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token>без</token>
-            <token regexp="yes">віст[іи]</token>
-          </marker>
-          <token regexp="yes">зник.*|пропа[вл].*</token>
-        </pattern>
-        <message>Правильно: <suggestion>безвісти</suggestion></message>
-        <example correction="безвісти"><marker>без вісті</marker> зникли.</example>
-        <example correction="безвісти"><marker>без вісти</marker> зникли.</example>
       </rule>
     </rulegroup>
 
@@ -980,6 +300,569 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="WORDS_WITH_DASH" name="Слова через дефіс">
+      <rule>
+        <antipattern>
+          <token>що</token>
+          <token>буде</token>
+        </antipattern>
+        <antipattern>
+          <token>як</token>
+          <token>є</token>
+        </antipattern>
+        <antipattern>
+          <token>будь</token>
+          <token>що</token>
+          <token>,</token>
+          <token>а</token>
+        </antipattern>
+        <pattern>
+          <token>будь</token>
+          <token regexp="yes" inflected="yes">де|що|як|хто|чий|коли|який|котрий</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
+        <example correction="будь-де">І в нас і <marker>будь де</marker>.</example>
+        <example correction="будь-якому">І в нас і в <marker>будь якому</marker> місці.</example>
+        <example>будь що буде</example>
+        <!--        <example>будь як усі</example> -->
+        <example>будь як є</example>
+        <example>Будь що, а першого вересня</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">де|хто|коли|який|котрий</token>
+          <token>будь</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
+        <example correction="де-будь">І в нас і <marker>де будь</marker>.</example>
+        <example>Колись ви казали, що будь у вас друге життя...</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>все</token>
+          <token>таки</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
+        <example correction="все-таки">Ви <marker>все таки</marker> вирішили піддатися спокусі.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>пліч</token>
+          <token>о</token>
+          <token>пліч</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2-\3</suggestion></message>
+        <example correction="пліч-о-пліч">і <marker>пліч о пліч</marker> билися зі своїми.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">Нь?ю</token>
+          <token inflected="yes" regexp="yes">Йорк|Джер[сз]і</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>Нью-\2</suggestion></message>
+        <example correction="Нью-Йорк">у <marker>Нью Йорк</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="dva_prizvyscha" name="Два прізвища через дефіс">
+      <pattern>
+        <token regexp="yes">Джексона-Веніка|Колесніченка-Ківалова|Молотова-Ріббентропа</token>
+      </pattern>
+      <message>Два прізвища пишуться через (довге) тире</message>
+      <suggestion><match no="1" regexp_match="(.*?)-(.*?)" regexp_replace="$1 — $2"/></suggestion>
+      <example correction="Джексона — Веніка">поправка <marker>Джексона-Веніка</marker>.</example>
+    </rule>
+
+    <rulegroup id="skladni_neozhacheni_zaymennyky" name="Складні неозначені займенники">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">бо|чорт|хто</token>
+            <token>зна</token>
+            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
+          </marker>
+        </pattern>
+        <message>Орфографічна помилка</message>
+        <suggestion><match no="1"/><match no="2"/>-<match no="3"/></suggestion>
+        <example correction="бозна-якому"><marker>бо зна якому</marker></example>
+        <example correction="хтозна-що"><marker>хто зна що</marker></example>
+        <example>бозна в якому</example>
+        <example>і хтозна, що діятиметься</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">казна|хтозна|чортзна|бозна</token>
+            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
+          </marker>
+        </pattern>
+        <message>Орфографічна помилка</message>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <example correction="казна-якому"><marker>казна якому</marker></example>
+        <example>казна щомісяця одержуватиме</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="SLOVA_BEZ_DEFISU" name="Слова без дефісу">
+      <rule>
+        <antipattern>
+          <token regexp="yes">[«"“„]</token>
+          <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
+          <token regexp="yes">[»"”“]</token>
+        </antipattern>
+        <pattern>
+          <!-- to speed up slow rule: these don't happen often: геліо|гідро|космо|метео|мілі|палео|рентгено|стерео|фоно  -->
+          <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|гео|гіпер|давньо|екзо|еко|екстра|електро|етно|загально|зоо|ізо|квазі|кіно|контр|лже|макро|мета|мікро|моно|мото|мульти|нео|пост|псевдо|радіо|соціо|супер|теле|транс|турбо|ультра|фото)[-–][а-яіїєґ][^-]{2,35}
+            <exception inflected="yes" regexp="yes">аудіо-відео|геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
+            <!-- will be handled by 2019 spelling rule -->
+            <exception regexp="yes">контр[-–]адмір.*</exception>
+            <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
+          </token>
+        </pattern>
+        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
+        <url>http://www.pravopys.net/#search=25-33</url>
+        <short>Правильно писати разом</short>
+        <example correction="мультивалютний"><marker>мульти-валютний</marker> обмін.</example>
+        <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
+        <example correction="Квазісмішний"><marker>Квазі-смішний</marker> жарт.</example>
+        <!-- 
+        <example correction="гідроаеропорт"><marker>гідро-аеропорт</marker>.</example>
+         -->
+        <example correction="екопоселення"><marker>еко-поселення</marker></example>
+        <example correction="супербагатії">яку складають <marker>супер-багатії</marker></example>
+        <example>анти-Забужко</example>
+        <example>мета-2013</example>
+        <example>контр-адмірал</example>
+        <example>на «Супер-нова»</example>
+        <example>не багато-не мало</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">анти|віце|екс|квазі|лже|супер|ультра</token>
+          <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="noun.*?prop.*">[А-ЯІЇЄҐ][а-яіїєґ']{3,35}
+            <exception>Нова</exception>
+          </token>
+        </pattern>
+        <message>Із власною назвою компонента <match no="1"/> пишеться через дефіс</message>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <url>http://www.pravopys.net/#search=25-33</url>
+        <short>Правильно писати разом</short>
+        <example correction="екс-Югославія"><marker>екс Югославія</marker>.</example>
+        <example>супер Нова</example>
+        <!-- handled by rule above -->
+        <example>екс капітан</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">(багато|високо|мало|низько)[-–][а-яіїєґ][^-]{2,35}
+            <exception regexp="yes">багато[–-](пре)?багато|високо[–-](пре)?високо|низько[–-]низ(ен)?ько|мало[–-]помалу|мало[–-]мало</exception>
+            <!-- TODO: exception for everything tagged -->
+            <exception regexp="yes">(багато|мало)[–-](хто|кому|кого|ким|що|чого|чому|чим|багато|мало|коли|де)</exception>
+            <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
+          </token>
+        </pattern>
+        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
+        <url>http://www.pravopys.net/#search=25-33</url>
+        <short>Правильно писати разом</short>
+        <example correction="Багатоповерховий"><marker>Багато-поверховий</marker> будинок.</example>
+        <example>багато-багато</example>
+        <example>багато-кому</example>
+        <example>мало-багато</example>
+        <example>високо-високо</example>
+        <example>мало-не</example>
+        <example>село Мало-Янисоль</example>
+        <example>Високо-Литовськ</example>
+        <example>мало-коли</example>    <!-- пишеться окремо -->
+      </rule>
+    </rulegroup>
+
+    <!-- group: non-standard word categories -->
+
+    <rulegroup id="ALT_SPELLING" name="Альтернативний правопис">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag=".*:alt.*">
+            <!-- negate_pos fails for when we have accent char in the last word with dot
+            <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|PARA_END" />
+            -->
+            <exception postag_regexp="yes" postag="[a-z](?!.*alt).*" />
+          </token>
+        </pattern>
+        <message>Слово, написане не за чинним правописом</message>
+        <example correction=""><marker>диференціялу</marker></example>
+        <example correction=""><marker>ґрантовий</marker></example>
+        <example correction=""><marker>ґра́нтовий</marker></example>
+        <example correction=""><marker>ґра́нтовий</marker>.</example>
+        <example>проекту</example>
+        <example>проєкту</example>
+        <example>хоче прорости</example>
+        <example>в ролі стюарда</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="DASYSH" name="Дасиш, їсиш, відповісиш">
+      <pattern>
+        <marker>
+          <token regexp="yes">.*дасиш|.*їсиш|.+вісиш
+            <exception postag_regexp="yes" postag="[a-z].*"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" regexp_match="(.*)ш" regexp_replace="$1"/></suggestion></message>
+      <example correction="віддаси"><marker>віддасиш</marker>.</example>
+      <example correction="їси"><marker>їсиш</marker>.</example>
+      <example correction="розповіси"><marker>розповісиш</marker>.</example>
+      <example>вивісиш</example>
+    </rule>
+
+    <rule id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
+      <antipattern>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]([а-яіїєґ']+|\.)</token>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']+</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*|SENT_END|PARA_END"/>
+        </token>
+      </pattern>
+      <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
+      <url>http://pravopys.net/#search=80-85</url>
+      <example correction="підемо">Сьогодні <marker>підем</marker> в кіно.</example>
+      <example correction="прогуляємося">Підемо <marker>прогуляємся</marker>.</example>
+      <example correction="Підемо"><marker>Підем</marker> в кіно завтра.</example>
+      <example correction="Скажемо">…<marker>Скажем</marker> їм.</example>
+      <example>прозвали Сергієм Підрахуєм</example>
+      <example>В.Кукольником, П.Подієм, І.Орлом</example>
+      <example>хотять</example>
+    </rule>
+
+    <rule id="VERB_SUBSTANDARD_FORMS_2" name="Просторічні форми 2">
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*?:3.*?:subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:3.*?:subst.*|SENT_END|PARA_END"/>
+        </token>
+      </pattern>
+      <message>Ця дієслівна форма є просторічною</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):subst(.*)" postag_replace="$1$2"/></suggestion>
+      <example correction="хочуть">щось <marker>хотять</marker>.</example>
+      <example correction="ходить">хтось <marker>ходе</marker>.</example>
+    </rule>
+
+    <!-- group: abbreviations -->
+
+    <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
+      <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
+      <url>https://r2u.org.ua/data/other/%D0%94%D0%A1%D0%A2%D0%A3_3582-97.pdf</url>
+      <rule>
+        <antipattern>
+          <token>.</token>
+          <token regexp="yes">&punct_dash;</token>
+          <token regexp="yes">(авт\.|ред\.)</token>
+        </antipattern>
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв|млн|млрд</token>
+          <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
+        </pattern>
+        <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
+        <example correction="грн">100 <marker>грн.</marker> в банк.</example>
+        <example correction="год">Двадцять <marker>год.</marker> їзди.</example>
+        <example correction="грн">40 800 грн при комерційній ціні лише 3 400 <marker>грн.</marker> за одиницю!</example>
+        <example>Двадцять год.</example>
+        <example>12,75 грн.</example>
+        <example>В м. Київ.</example>
+        <example>Прийшов Л. Коцюба.</example>
+        <example>штрафували на 30 тисяч злотих (близько 54 000 грн. – Авт.), конфіскували у нього машину.</example>
+        <example>населення Землі налічує 257 млн. </example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">млн\.|млрд\.</token>
+        </pattern>
+        <message>Стягнені скорочення пишуться без крапки: <suggestion><match no="1" regexp_match="(.*)\." regexp_replace="$1"/></suggestion></message>
+        <example correction="млн">всього 20 <marker>млн.</marker> осіб.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token case_sensitive="yes">смт</token>
+          <token>.</token>
+        </pattern>
+        <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
+        <example correction="смт">розташовано у <marker>смт.</marker> Луків.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
+          <marker>
+            <token case_sensitive="yes" regexp="yes">([смкд]|мк)?м\.?</token>
+            <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
+          </marker>
+          <token case_sensitive="yes" negate="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
+        </pattern>
+        <message>Метричні одиниці пишуться без крапки: <suggestion><match no="2"/></suggestion></message>
+        <example correction="м">100 <marker>м.</marker> дороги.</example>
+        <example correction="м">100 кв. <marker>м.</marker> дороги.</example>
+        <example>Останні 100 м.</example>
+        <example>Прийшов М. Гориня.</example>
+        <example>Проїхали м. Львів.</example>
+        <example>Листи надсилайте на адресу: 79026    м. Львів, вул. Володимира Великого</example>
+        <!-- TODO: важко розрізнити секунди від села від сторінки -->
+        <!--
+            <example correction="с">Останніх 37,8 <marker>с.</marker> шляху.</example>
+            <example>Проїхали с. Веселе.</example>
+        -->
+      </rule>
+
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>р.</token>
+          <token>р.</token>
+        </pattern>
+        <message>Роки скорочено пишуться <suggestion>рр.</suggestion></message>
+        <example correction="рр.">70-80 <marker>р.р.</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="ABBREVIATIONS_MISSING_DOT" name="Скорочення - пропущена крапка">
+      <rule>
+        <antipattern>
+          <token regexp="yes">коп|тис</token>
+          <token regexp="yes">[….!?]|[.!?]{2,3}</token>   <!-- dot may still happen separately - tokenizing all cases properly is hard -->
+        </antipattern>
+        <pattern>
+          <token regexp="yes">.*[0-9]</token>
+          <marker>
+            <token regexp="yes">коп|тис</token>
+          </marker>
+        </pattern>
+        <message>Скорочення з відкиданням літер пишуться з крапкою: <suggestion><match no="2"/>.</suggestion></message>
+        <example correction="коп.">зросла на 50—70 <marker>коп</marker>/л</example>
+        <example correction="коп.">496 грн 75 <marker>коп</marker> за екземпляр</example>
+        <example correction="тис.">штраф у 150 <marker>тис</marker> гривень</example>
+        <example correction="тис.">штраф у 150 <marker>тис</marker></example>
+        <example correction="тис.">штраф у 150&#xA; <marker>тис</marker> гривень</example>
+        <example>це $400&#xA;   тис.», – розповідає Олег.</example>
+        <example>це 100 тис…</example>
+        <example>це 100 тис...</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="dot_with_gram_hryven" name="Крапка з грамами і гривнями">
+      <pattern>
+        <token regexp="yes">[0-9]([0-9, ]*)</token>
+        <marker>
+          <token>гр.</token>
+        </marker>
+      </pattern>
+      <message>Грами скорочено пишемо: <suggestion>г</suggestion>; гривні скорочено пишемо <suggestion>грн</suggestion></message>
+      <example correction="г|грн">800 <marker>гр.</marker> м'яса.</example>
+      <example correction="г|грн">1 000 <marker>гр.</marker> 80 коп.</example>
+    </rule>
+
+    <rule id="UL_VS_VUL" name="ул. і вул.">
+      <pattern>
+        <marker>
+          <token>ул</token>
+          <token>.</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>вул.</suggestion></message>
+      <example correction="вул.">на <marker>ул.</marker> Городецькій.</example>
+      <example>вул.</example>
+    </rule>
+
+    <!-- group: правопис 2019 -->
+
+    <rule id="habar_2019" name="Хабара і хабаря">
+      <pattern>
+        <token inflected="yes" postag_regexp="yes" postag=".*ua_1992.*">хабар
+          <exception postag_regexp="yes" postag=".*ua_2019.*"/>
+        </token>
+      </pattern>
+      <message>За правописом 2019 хабар відмінюється, як м'яка група</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(.*?)ua_1992(.*)" postag_replace="$1ua_2019$2" /></suggestion>
+      <example correction="хабаря">дав <marker>хабара</marker>.</example>
+      <example correction="хабарем"><marker>хабаром</marker>.</example>
+      <example>хабарі</example>
+    </rule>
+
+    <!-- group: р.в.ч.р -->
+
+    <rule id="vitra" name="Вітра">
+      <antipattern>
+        <token regexp="yes" inflected="yes">шукати|ловити</token>
+        <token min="0" regexp="yes">би?</token>
+        <token min="0" postag_regexp="yes" postag="adv(?!p).*"/>
+        <token>вітра</token>
+      </antipattern>
+      <pattern>
+        <token>вітра</token>
+      </pattern>
+      <message>За винятком декількох сталих зворотів р.в. від слова «вітер» є <suggestion>вітру</suggestion></message>
+      <example correction="вітру">десь <marker>вітра</marker>.</example>
+      <example>шукав вітра в полі</example>
+      <example>шукай тепер вітра в полі</example>
+    </rule>
+
+    <rule id="tumana" name="Тумана">
+      <pattern>
+        <token>тумана</token>
+      </pattern>
+      <message>У значенні природного явища р.в.<suggestion>туману</suggestion></message>
+      <example correction="туману"><marker>тумана</marker> напустив.</example>
+    </rule>
+
+    <rule id="BABUSIV" name="Бабусів">
+      <pattern>
+        <token regexp="yes">бабусів(-.+)?</token>
+      </pattern>
+      <message>Неправильна форма</message>
+      <suggestion>бабусь</suggestion>
+      <suggestion>бабусин</suggestion>
+      <example correction="бабусь|бабусин">до тих <marker>бабусів-дідусів</marker>.</example>
+    </rule>
+
+    <rule id="IHOR_VOCATIVE" name="Кличний для «Ігор»">
+      <pattern>
+        <token case_sensitive="yes">Ігоре</token>
+      </pattern>
+      <message>Правильно: <suggestion>Ігорю</suggestion></message>
+      <url>http://www.bbc.co.uk/blogs/ukrainian/ponomariv</url>
+      <example correction="Ігорю">Агов, <marker>Ігоре</marker>!</example>
+    </rule>
+
+
+    <!-- group: зайвий пробіл -->
+
+    <rule id="zakordon" name="Закордон і за кордон">
+      <antipattern>
+        <token>закордон</token>
+        <token min="0" max="2"/>
+        <token inflected="yes" regexp="yes">(до)?помагати|(до)?помогти</token>
+      </antipattern>
+      <pattern>
+        <token>закордон
+          <exception scope="previous" postag_regexp="yes" postag="prep.*|adj:m:v_zna:rinanim.*"/>
+          <exception scope="previous" regexp="yes">[«"„]|це</exception>
+        </token>
+      </pattern>
+      <message>Можливо ви мали на увазі <suggestion>за кордон</suggestion>?</message>
+      <example correction="за кордон">поїхав <marker>закордон</marker>.</example>
+      <example>взнати про закордон</example>
+      <example>взнати «закордон»</example>
+      <example>далекий «закордон»</example>
+      <example>закордон нам не допоможе</example>
+    </rule>
+
+    <rule id="za_te" name="«За те» і «зате»">
+      <pattern>
+        <token negate="yes">,</token>
+        <marker>
+          <token>зате
+            <exception case_sensitive="yes">Зате</exception>
+          </token>
+        </marker>
+        <token>,</token>
+        <token>що</token>
+      </pattern>
+      <message>Можливо треба: <suggestion>за те</suggestion>?</message>
+      <example correction="за те">А не <marker>зате</marker>, що вони скоїли</example>
+      <example>Цікаво, зате, що вони</example>
+      <example>— Зате, щоправда,</example>
+    </rule>
+
+    <rulegroup id="stretch_plivka" name="Стретч плівка">
+      <rule>
+        <pattern>
+          <token regexp="yes">стре[йт]ч</token>
+          <token>плівка</token>
+        </pattern>
+        <message>Правильно: <suggestion>стретч-плівка</suggestion></message>
+        <example correction="стретч-плівка">отака <marker>стрейч плівка</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="vid_teper" name="Від тепер">
+      <pattern>
+        <token>від</token>
+        <token>тепер</token>
+      </pattern>
+      <message>Відтепер пишеться разом</message>
+      <suggestion>відтепер</suggestion>
+      <example correction="відтепер"><marker>від тепер</marker> і до кінця.</example>
+    </rule>
+
+    <rule id="ne_perelyvky" name="Не переливки">
+      <pattern>
+        <token>не</token>
+        <token>переливки</token>
+      </pattern>
+      <message>Присудкове слово <suggestion>непереливки</suggestion> пишеться разом</message>
+      <example correction="непереливки">буде <marker>не переливки</marker>.</example>
+    </rule>
+
+    <rule id="na_pryzvolyasche" name="На призволяще">
+      <pattern>
+        <token>на</token>
+        <token>призволяще</token>
+      </pattern>
+      <message><suggestion>напризволяще</suggestion> пишеться разом</message>
+      <example correction="напризволяще">кинути <marker>на призволяще</marker>.</example>
+    </rule>
+
+    <rule id="chym_duzh" name="Чим дуж">
+      <pattern>
+        <token>чим</token>
+        <token>дуж</token>
+      </pattern>
+      <message><suggestion>чимдуж</suggestion> пишеться разом</message>
+      <example correction="чимдуж"><marker>чим дуж</marker>.</example>
+    </rule>
+
+    <rulegroup id="ne_syla" name="Не сила">
+      <rule>
+        <pattern>
+          <marker>
+            <token>не</token>
+            <token>сила</token>
+          </marker>
+          <token postag_regexp="yes" postag="verb.*?inf.*"/>
+        </pattern>
+        <message><suggestion>несила</suggestion> перед інфінітивом пишеться разом</message>
+        <example correction="несила">і <marker>не сила</marker> терпіти</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>не</token>
+            <token>сила</token>
+          </marker>
+          <token regexp="yes">було|буде</token>
+        </pattern>
+        <message><suggestion>несила</suggestion> перед інфінітивом пишеться разом</message>
+        <example correction="несила">і <marker>не сила</marker> було терпіти</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="v_odnochas" name="В одночас">
+      <pattern>
+        <token>в</token>
+        <token>одночас</token>
+      </pattern>
+      <message>«Одночас» пишеться разом</message>
+      <suggestion>водночас</suggestion>
+      <example correction="водночас"><marker>в одночас</marker>.</example>
+    </rule>
+
+    <!-- group: іноземні -->
+
     <rule id="DASH_STREET" name="-стріт/-стрит">
       <pattern>
         <token regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*-[Сс]трит</token>
@@ -1005,51 +888,146 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Іст-Ривер"><marker>Іст-Рівер</marker>.</example>
     </rule>
 
+    <!-- group: числівники та числа -->
 
-    <rule id="BABUSIV" name="Бабусів">
-      <pattern>
-        <token regexp="yes">бабусів(-.+)?</token>
-      </pattern>
-      <message>Неправильна форма</message>
-      <suggestion>бабусь</suggestion>
-      <suggestion>бабусин</suggestion>
-      <example correction="бабусь|бабусин">до тих <marker>бабусів-дідусів</marker>.</example>
-    </rule>
+    <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
+      <rule>
+      <!--
+        <antipattern>
+          <token regexp="yes">[«"„]</token>
+          <token regexp="yes" spacebefore="no">[а-яіїєґ'-][а-яіїєґ]+[0-9]</token>
+        </antipattern>
+        -->
+        <pattern>
+          <marker>
+            <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]*[а-яіїєґ]+</token>
+            <token regexp="yes" spacebefore="no">[0-9]+</token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між словом і числом</message>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <suggestion><match no="1"/> <match no="2"/></suggestion>
+        <example correction="Мі-17|Мі 17"><marker>Мі17</marker></example>
+        <example>СО2</example>
+        <example>абстракція11</example>
+        <example>"Приват24 для бізнесу"</example>
+        <example>Ан32-П</example>
+      </rule>
 
-    <rule id="IHOR_VOCATIVE" name="Кличний для «Ігор»">
-      <pattern>
-        <token case_sensitive="yes">Ігоре</token>
-      </pattern>
-      <message>Правильно: <suggestion>Ігорю</suggestion></message>
-      <url>http://www.bbc.co.uk/blogs/ukrainian/ponomariv</url>
-      <example correction="Ігорю">Агов, <marker>Ігоре</marker>!</example>
-    </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">([кдсмн]|мк)?м</token>
+          <token regexp="yes" spacebefore="no">[23]</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">[а-яіїєґ][а-яіїєґ'.-]*</token>
+            <token regexp="yes" spacebefore="no">[0-9][0-9.,:–—-]*%?</token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між словом і числом</message>
+        <suggestion><match no="1"/> <match no="2"/></suggestion>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <example correction="мої 1|мої-1">А <marker>мої1</marker>.</example>
+        <example correction="культивувати 170|культивувати-170">почали <marker>культивувати170</marker> років</example>
+        <example correction="до 1600|до-1600"><marker>до1600</marker> ккал</example>
+        <example correction="Євро 2012|Євро-2012">на хвилі <marker>Євро2012</marker></example>
+        <example correction="майже 100|майже-100"><marker>майже100</marker>%.</example>
+        <example correction="тримаємо 12–15|тримаємо-12–15"><marker>тримаємо12–15</marker> хвилин</example>
+        <example>20 мм2</example>
+        <!-- CO2 in cyrillic -->
+        <example>СО2</example>
+        <example>ми скористалися службою «Інфо300»</example>
+        <example>АН4774087</example>
+        <example>ТУ4-2441</example>
+        <example>в підпункті 14а</example>
+      </rule>
 
-    <rule id="na_trebe" name="На треба">
-      <pattern>
-        <token>на</token>
-        <token>треба</token>
-      </pattern>
-      <message>Правильно: <suggestion>не треба</suggestion></message>
-      <example correction="не треба">Агов, <marker>на треба</marker> цього!</example>
-    </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[а-яіїєґ]+
+            </token>
+          </marker>
+        </pattern>
+        <message>Цифри всередині слова</message>
+        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)([а-яіїєґ'-])" regexp_replace="$1$3"/></suggestion>
+        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)([а-яіїєґ'-])" regexp_replace="$1 $2 $3"/></suggestion>
+        <example correction="напередодні|напе 1 редодні"><marker>напе1редодні</marker></example>
+        <example>40х40х30</example>
+      </rule>
 
-    <rule id="za_te" name="«За те» і «зате»">
-      <pattern>
-        <token negate="yes">,</token>
-        <marker>
-          <token>зате
-            <exception case_sensitive="yes">Зате</exception>
-          </token>
-        </marker>
-        <token>,</token>
-        <token>що</token>
-      </pattern>
-      <message>Можливо треба: <suggestion>за те</suggestion>?</message>
-      <example correction="за те">А не <marker>зате</marker>, що вони скоїли</example>
-      <example>Цікаво, зате, що вони</example>
-      <example>— Зате, щоправда,</example>
-    </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">[А-ЯІЇЄҐ].*</token>
+          <token regexp="yes">,</token>
+          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">номер.*|буд\.|нумерац.*|[/№]</token>
+          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+        </antipattern>
+        <antipattern>
+          <token>«</token>
+          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+          <token>»</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">[0-9]{1,3}[а-яіїєґ]?</token>
+          <token regexp="yes">,|і|та</token>
+          <token regexp="yes">[0-9]{1,3}[а-яіїєґ]</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*[.²³]?
+              <exception case_sensitive="yes">1С</exception>
+              <exception regexp="yes">[0-9]+'|[0-9]+к</exception>
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>  <!-- both lat and cyr o and C, taken care by rule below -->
+            </token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між числом і словом (або пропущена кома після назви вулиці, або вжито тире на позначення мінуса)</message>
+        <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1 $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1-$2"/></suggestion>
+        <example correction="21 відсоток|21-відсоток">набрав <marker>21відсоток</marker>.</example>
+        <example correction="505 грн|505-грн"><marker>505грн</marker>.</example>
+        <example correction="5,05 грн|5,05-грн"><marker>5,05грн</marker>.</example>
+        <example correction="1989 го|1989-го">15 лютого <marker>1989го</marker>.</example>
+        <example correction="0,4-10 кВ|0,4-10-кВ">напруги <marker>0,4-10кВ</marker>.</example>
+        <!--TODO: for some reason antipattrn tiggers here when no space between тис. and ,
+        <example correction="6 те|6-те">5-те місце — $10 тис., <marker>6те</marker> місце — $6 тис..</example>
+        -->
+        <example>Естафета 4х100 м.</example>
+        <example>Грушевського, 9а</example>
+        <example>Грушевського, буд. 9а</example>
+        <example>14,7оС</example>
+        <example>та ж вулиця, номер 8ж</example>
+        <example>автобусом № 441, 41к</example>
+        <example>Будівля №36а</example>
+        <example>у справі № 8/348а</example>
+        <example>1С</example>
+        <example>23° 27'</example>
+        <example>програма «4М».</example>
+        <example>від 27 грудня 1978 року за №44у—279 вирок</example>
+      </rule>
+
+      <!-- we now smart enough to split tokens of year and letter -->
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9]</token>
+            <token regexp="yes" spacebefore="no">[а-яіїєґ][а-яіїєґ'.-]*
+              <exception postag_regexp="yes" postag="noun.*:abbr:prop:fname"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між числом і словом</message>
+        <suggestion><match no="1"/> <match no="2"/></suggestion>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <example correction="1981 р.|1981-р.">З <marker>1981р.</marker></example>
+        <example>концерти № 1 Л. Бетховена</example>
+      </rule>
+    </rulegroup>
 
     <rule id="numr_suffix" name="Нарощування числівників">
       <pattern>
@@ -1063,6 +1041,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="10">А не <marker>10-ти</marker> класів</example>
     </rule>
 
+    <rulegroup id="zakinchennya_cyfrovyh_chyslivnykiv" name="Закінчення цифрових числівників">
+      <url>https://r2u.org.ua/check/rules/zakinchennya_cyfrovyh_chyslivnykiv</url>
+<!-- Не є усталеним правилом, пишуть по-різному
+      <rule>
+        <pattern>
+          <or>
+            <token regexp="yes">([0-9]*[02-9])?((1-ш|2-г|[4560]-т|[78]-м)(ий|ого|ому|им|а|ої|ій|ою|е|і|их|ими))</token>
+            <token regexp="yes">([0-9]*1[0-9]-т)(ий|ого|ому|им|а|ої|ій|ою|е|і|их|ими)</token>
+            <token regexp="yes">([0-9]*[02-9])?3-т(ій|ього|ьому|ім|я|ьої|ій|ю|ьою|є|і|іх|іми)</token>
+            <token regexp="yes">([0-9]*[02-9])?((1-|2-|[4560]-|[78]-|[0-9]*1[0-9]-|[0-9]*[2-9]0-)(ий|ого|ому|им|ої|ій|ою|их|ими))</token>
+            <token regexp="yes">([0-9]*1[0-9]-т)(ий|ого|ому|им|ої|ій|ою|их|ими)</token>
+            <token regexp="yes">([0-9]*[02-9])?3-(ій|ь?ого|ьому|ім|ь?ої|ій|ь?ою|іх|іми)</token>
+          </or>
+        </pattern>
+        <message>Потенційна помилка: зайві літери закінчення числівника.</message>
+        <example correction=""><marker>1-ший</marker> поверх.</example>
+        <example correction="">у <marker>2-гій</marker> Київський гімназії.</example>
+        <example correction="">е базується <marker>173-тя</marker> десантна бригада</example>
+        <example correction="">між <marker>3-тім</marker> та 4-м валом</example>
+        <example correction="">між 3-м та <marker>4-тим</marker> валом</example>
+        <example correction="">між 13-м та <marker>14-им</marker> валом</example>
+        <example correction=""><marker>7-ма</marker> ракетка.</example>
+        <example correction=""><marker>11-та</marker> ракетка.</example>
+        <example correction="">в <marker>70-тих</marker> роках</example>
+        <example correction="">на <marker>3-ьому</marker> поверсі</example>
+        <example>разом із 17-ма тисячами</example>
+        <example>11-а ракетка</example>
+        <example>в 70-х роках</example>
+        <example>на 12-му поверсі</example>
+        <example>1990-і</example>
+      </rule>
+-->
+      <rule id="ROMAN_DIGITS_SUFFIX" name="Закінчення для римських чисел">
+        <pattern>
+          <token regexp="yes" case_sensitive="yes">(X{1,3}(IX|IV|V?I{0,3})|X{0,3}(IX|I?V|V?I{1,3}))-[а-яіїє]{1,4}</token>
+        </pattern>
+        <message>Потенційна помилка: до римських цифр букви не дописуються</message>
+        <suggestion><match no="1" regexp_match="([IVX]+)-[а-яіїє]+" regexp_replace="$1"/></suggestion>
+        <example correction="III">починаючи з <marker>III-го</marker> кварталу.</example>
+        <example correction="IX">на <marker>IX-му</marker> з'їзді.</example>
+        <example>на IX з'їзді.</example>
+      </rule>
+    </rulegroup>
+
+    <!-- group: латинські літери -->
+    
     <rulegroup id="LATIN_LETTERS_IN_SENTENCE" name="Латинські літери в реченні">
       <rule>
         <pattern>
@@ -1172,109 +1196,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-
-    <rulegroup id="zakinchennya_cyfrovyh_chyslivnykiv" name="Закінчення цифрових числівників">
-      <url>https://r2u.org.ua/check/rules/zakinchennya_cyfrovyh_chyslivnykiv</url>
-<!-- Не є усталеним правилом, пишуть по-різному
-      <rule>
-        <pattern>
-          <or>
-            <token regexp="yes">([0-9]*[02-9])?((1-ш|2-г|[4560]-т|[78]-м)(ий|ого|ому|им|а|ої|ій|ою|е|і|их|ими))</token>
-            <token regexp="yes">([0-9]*1[0-9]-т)(ий|ого|ому|им|а|ої|ій|ою|е|і|их|ими)</token>
-            <token regexp="yes">([0-9]*[02-9])?3-т(ій|ього|ьому|ім|я|ьої|ій|ю|ьою|є|і|іх|іми)</token>
-            <token regexp="yes">([0-9]*[02-9])?((1-|2-|[4560]-|[78]-|[0-9]*1[0-9]-|[0-9]*[2-9]0-)(ий|ого|ому|им|ої|ій|ою|их|ими))</token>
-            <token regexp="yes">([0-9]*1[0-9]-т)(ий|ого|ому|им|ої|ій|ою|их|ими)</token>
-            <token regexp="yes">([0-9]*[02-9])?3-(ій|ь?ого|ьому|ім|ь?ої|ій|ь?ою|іх|іми)</token>
-          </or>
-        </pattern>
-        <message>Потенційна помилка: зайві літери закінчення числівника.</message>
-        <example correction=""><marker>1-ший</marker> поверх.</example>
-        <example correction="">у <marker>2-гій</marker> Київський гімназії.</example>
-        <example correction="">е базується <marker>173-тя</marker> десантна бригада</example>
-        <example correction="">між <marker>3-тім</marker> та 4-м валом</example>
-        <example correction="">між 3-м та <marker>4-тим</marker> валом</example>
-        <example correction="">між 13-м та <marker>14-им</marker> валом</example>
-        <example correction=""><marker>7-ма</marker> ракетка.</example>
-        <example correction=""><marker>11-та</marker> ракетка.</example>
-        <example correction="">в <marker>70-тих</marker> роках</example>
-        <example correction="">на <marker>3-ьому</marker> поверсі</example>
-        <example>разом із 17-ма тисячами</example>
-        <example>11-а ракетка</example>
-        <example>в 70-х роках</example>
-        <example>на 12-му поверсі</example>
-        <example>1990-і</example>
-      </rule>
--->
-      <rule id="ROMAN_DIGITS_SUFFIX" name="Закінчення для римських чисел">
-        <pattern>
-          <token regexp="yes" case_sensitive="yes">(X{1,3}(IX|IV|V?I{0,3})|X{0,3}(IX|I?V|V?I{1,3}))-[а-яіїє]{1,4}</token>
-        </pattern>
-        <message>Потенційна помилка: до римських цифр букви не дописуються</message>
-        <suggestion><match no="1" regexp_match="([IVX]+)-[а-яіїє]+" regexp_replace="$1"/></suggestion>
-        <example correction="III">починаючи з <marker>III-го</marker> кварталу.</example>
-        <example correction="IX">на <marker>IX-му</marker> з'їзді.</example>
-        <example>на IX з'їзді.</example>
-      </rule>
-    </rulegroup>
-
-    <rule id="tumana" name="Тумана">
-      <pattern>
-        <token>тумана</token>
-      </pattern>
-      <message>У значенні природного явища р.в.<suggestion>туману</suggestion></message>
-      <example correction="туману"><marker>тумана</marker> напустив.</example>
-    </rule>
-
-    <rulegroup id="neporivniuvayi" name="Непорівнюваний">
-      <rule>
-        <pattern>
-          <token inflected="yes">непорівнюваний</token>
-        </pattern>
-        <message>Непорівнюваний має значення "що його не порівнюють" (в момент мовлення). В більшості випадків потрібне слово: <suggestion>непорівнянний</suggestion> "що його неможливо порівняти"</message>
-        <example correction="непорівнянний">отакий <marker>непорівнюваний</marker> варіант</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token inflected="yes">непорівнюваність</token>
-        </pattern>
-        <message>Непорівнюваність має значення "що його не порівнюють" (в момент мовлення). В більшості випадків потрібне слово: <suggestion>непорівнянність</suggestion> "неможливість порівняти"</message>
-        <example correction="непорівнянність">отака <marker>непорівнюваність</marker></example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token inflected="yes">непояснюваний</token>
-        </pattern>
-        <message>Непояснюваний має значення "що його не пояснюють" (в момент мовлення). В більшості випадків потрібне слово: <suggestion>непоясненний</suggestion> "що його неможливо пояснити"</message>
-        <example correction="непоясненний">отакий <marker>непояснюваний</marker> варіант</example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="stretch_plivka" name="Стретч плівка">
-      <rule>
-        <pattern>
-          <token regexp="yes">стре[йт]ч</token>
-          <token>плівка</token>
-        </pattern>
-        <message>Правильно: <suggestion>стретч-плівка</suggestion></message>
-        <example correction="стретч-плівка">отака <marker>стрейч плівка</marker>.</example>
-      </rule>
-    </rulegroup>
-
-<!-- we have Java rule
-    <rule id="small_letter_at_sent_start" name="Мала літера на початку речення">
-      <pattern>
-        <token postag="SENT_START"/>
-        <marker>
-          <token case_sensitive="yes" regexp="yes">[а-яіїєґ][а-яіїєґ'-]*</token>
-        </marker>
-      </pattern>
-      <message>Речення має починатися з великої літери</message>
-      <suggestion><match no="2" case_conversion ="startupper"/></suggestion>
-      <example correction="Машина"><marker>машина</marker> приїхала рано.</example>
-    </rule>
--->
+    <!-- group: велика літера -->
 
     <rule id="z_velykoiy" name="Назви з великої">
       <pattern>
@@ -1292,135 +1214,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>така затишна господа</example>
     </rule>
 
-    <rule id="vid_teper" name="Від тепер">
-      <pattern>
-        <token>від</token>
-        <token>тепер</token>
-      </pattern>
-      <message>Відтепер пишеться разом</message>
-      <suggestion>відтепер</suggestion>
-      <example correction="відтепер"><marker>від тепер</marker> і до кінця.</example>
-    </rule>
-
-    <rule id="ne_perelyvky" name="Не переливки">
-      <pattern>
-        <token>не</token>
-        <token>переливки</token>
-      </pattern>
-      <message>Присудкове слово <suggestion>непереливки</suggestion> пишеться разом</message>
-      <example correction="непереливки">буде <marker>не переливки</marker>.</example>
-    </rule>
-
-    <rule id="na_pryzvolyasche" name="На призволяще">
-      <pattern>
-        <token>на</token>
-        <token>призволяще</token>
-      </pattern>
-      <message><suggestion>напризволяще</suggestion> пишеться разом</message>
-      <example correction="напризволяще">кинути <marker>на призволяще</marker>.</example>
-    </rule>
-
-    <rule id="chym_duzh" name="Чим дуж">
-      <pattern>
-        <token>чим</token>
-        <token>дуж</token>
-      </pattern>
-      <message><suggestion>чимдуж</suggestion> пишеться разом</message>
-      <example correction="чимдуж"><marker>чим дуж</marker>.</example>
-    </rule>
-
-    <rulegroup id="ne_syla" name="Не сила">
-      <rule>
-        <pattern>
-          <marker>
-            <token>не</token>
-            <token>сила</token>
-          </marker>
-          <token postag_regexp="yes" postag="verb.*?inf.*"/>
-        </pattern>
-        <message><suggestion>несила</suggestion> перед іфінітивом пишеться разом</message>
-        <example correction="несила">і <marker>не сила</marker> терпіти</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token>не</token>
-            <token>сила</token>
-          </marker>
-          <token regexp="yes">було|буде</token>
-        </pattern>
-        <message><suggestion>несила</suggestion> перед іфінітивом пишеться разом</message>
-        <example correction="несила">і <marker>не сила</marker> було терпіти</example>
-      </rule>
-    </rulegroup>
-
-    <rule id="v_odnochas" name="В одночас">
-      <pattern>
-        <token>в</token>
-        <token>одночас</token>
-      </pattern>
-      <message>«Одночас» пишеться разом</message>
-      <suggestion>водночас</suggestion>
-      <example correction="водночас"><marker>в одночас</marker>.</example>
-    </rule>
-
-    <rule id="dva_prizvyscha" name="Два прізвища через дефіс">
-      <pattern>
-        <token regexp="yes">Джексона-Веніка|Колесніченка-Ківалова|Молотова-Ріббентропа</token>
-      </pattern>
-      <message>Два прізвища пишуться через (довге) тире</message>
-      <suggestion><match no="1" regexp_match="(.*?)-(.*?)" regexp_replace="$1 — $2"/></suggestion>
-      <example correction="Джексона — Веніка">поправка <marker>Джексона-Веніка</marker>.</example>
-    </rule>
-
-    <rulegroup id="skladni_neozhacheni_zaymennyky" name="Складні неозначені займенники">
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">бо|чорт|хто</token>
-            <token>зна</token>
-            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
-          </marker>
-        </pattern>
-        <message>Орфографічна помилка</message>
-        <suggestion><match no="1"/><match no="2"/>-<match no="3"/></suggestion>
-        <example correction="бозна-якому"><marker>бо зна якому</marker></example>
-        <example correction="хтозна-що"><marker>хто зна що</marker></example>
-        <example>бозна в якому</example>
-        <example>і хтозна, що діятиметься</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">казна|хтозна|чортзна|бозна</token>
-            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
-          </marker>
-        </pattern>
-        <message>Орфографічна помилка</message>
-        <suggestion><match no="1"/>-<match no="2"/></suggestion>
-        <example correction="казна-якому"><marker>казна якому</marker></example>
-        <example>казна щомісяця одержуватиме</example>
-      </rule>
-    </rulegroup>
-
-    <rule id="vidryvaty_dveri" name="Відривати двері">
-      <pattern>
-        <marker>
-          <token inflected="yes" regexp="yes">відривати(ся)?|відрити(ся)?|відритий</token>
-        </marker>
-        <token inflected="yes" regexp="yes">двері|вікно</token>
-      </pattern>
-      <message>Можливо: <suggestion><match no="1" regexp_match="(?iu)відри(.*)" regexp_replace="відкри$1"/></suggestion>?</message>
-      <example correction="відкрив">він <marker>відрив</marker> двері</example>
-    </rule>
-
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
     без пробіла: ДСТУ 3582-13 (2013) http://lib.npu.edu.ua/full_txt/DSTU_3582_2013.pdf
 
-    <rulegroup id="I_T_P" name="і т.п.">
+    <rulegroup id="I_T_P" name="і т.п." default="off">
       <rule>
         <regexp>т\.(д|п|ін)\.</regexp>
         <message>Правильно <suggestion>т. \1.</suggestion>?</message>
@@ -1438,7 +1236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <category id="TYPOGRAPHY" name="Типографія" type="typographical">
     <!-- short dash is replaced with '-' in tagger, so we have to use Java rule to catch it -->
     <!-- 
-    <rulegroup id="long_dash" name="Риска">
+    <rulegroup id="long_dash" name="Риска" default="off">
       <rule>
         <pattern>
           <token regexp="yes">[а-яіїєґ']+[—–][а-яіїєґ']+</token>
@@ -1469,6 +1267,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>зими&#xa0;— літа</example>
       </rule>
     </rulegroup>
+
+    <!-- group: символи -->
 
     <rulegroup id="KVT_HOD" name="кВт*год">
       <rule>
@@ -1524,14 +1324,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>20 ОС</example>
     </rule>
 
-    <rule id="vytupaye" name="Витупає і виступає">
-      <pattern>
-        <token regexp="yes">витупа(є|ють|ємо?)</token>
-      </pattern>
-      <message>Можливо, ви мали на увазі <suggestion><match no="1" regexp_match="(?iu)витупа(є|ють|ємо?)" regexp_replace="виступа$1"/></suggestion>?</message>
-      <example correction="виступає">він <marker>витупає</marker> завтра.</example>
-    </rule>
-
     <rule id="invalid_apostrophe" name="Неправильний символ апострофа">
       <regexp>([а-яіїєґ'-]*[бвджзклмнпрстфхш])[&quot;”‟`´]([єїюя][а-яіїєґ'-]*)</regexp>
       <message>Можливо вжито неправильний символ апострофа?</message>
@@ -1539,6 +1331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="прим'ятий">він <marker>прим"ятий</marker>.</example>
       <example correction="прим'ятий">він <marker>прим´ятий</marker>.</example>
     </rule>
+
   </category>
 
 </rules>

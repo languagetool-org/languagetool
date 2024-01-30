@@ -45,7 +45,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <example correction="">¿Ser <marker>quien</marker> quiero ser?</example>
             <example>Ahora sé quien es mi abuelo.</example>
         </rule>
-        <rule id="AI_ES_HYDRA_LEO_CP_QUIEN_TILDE_QUIEN" name="">
+        <rule id="AI_ES_HYDRA_LEO_CP_QUIENTILDE_QUIEN" name="">
             <pattern>
                 <token regexp="yes">el|del|al</token>
                 <marker>
@@ -848,31 +848,131 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_ES_GGEC_REPLACEMENT_DETERMINER_FORM" name="la cima -> *el cima">
             <rule>
                 <pattern>
-                    <token>la</token>
-                    <token>cima</token>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                    </marker>
+                    <token case_sensitive="yes">cima</token>
                 </pattern>
-                <example correction="">Había una torre en <marker>la cima</marker> de la montaña.</example>
-                <example correction=""><marker>La cima</marker> del Monte Fuji está cubierta de nieve.</example>
+                <example correction="">Había una torre en <marker>la</marker> cima de la montaña.</example>
+                <example correction="">Había una torre en <marker>una</marker> cima de la montaña.</example>
+                <example correction="">Había una torre en <marker>aquella</marker> cima de la montaña.</example>
+                <example correction="">Había una torre en <marker>esta</marker> cima de la montaña.</example>
+                <example correction=""><marker>La</marker> cima del Monte Fuji está cubierta de nieve.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                    </marker>
                     <token postag="RG.*" postag_regexp="yes" min="0"/>
                     <token regexp="yes">acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica</token>
                 </pattern>
-                <example correction="">Tom no tenía <marker>mucha agua</marker> para beber.</example>
-                <example correction="">Tenía <marker>tanta hambre</marker> que me lo comí.</example>
+                <example correction="">Tom no tenía <marker>mucha</marker> agua para beber.</example>
+                <example correction="">Tenía <marker>tanta</marker> hambre que me lo comí.</example>
+            </rule>
+            <rule>
+                <!-- MS -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[MC][SN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[MC][SN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>el</marker> coche</example>
+            </rule>
+            <rule>
+                <!-- FS -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[FC][SN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[FC][SN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>la</marker> página</example>
+                <example correction="">Por favor, lea <marker>la</marker> página noventa y cuatro.</example>
+                <example correction=""><marker>Alguna</marker> observación vino anexa.</example>
+                <example correction="">Uno de <marker>su</marker> autoridad quiere tomarla.</example>
+            </rule>
+            <rule>
+                <!-- MP -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[MC][PN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[MC][PN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>los</marker> coches</example>
+            </rule>
+            <rule>
+                <!-- FP -->
+                <pattern>
+                    <marker>
+                        <token postag="D..[FC][PN]." postag_regexp="yes"/>
+                    </marker>
+                    <token postag="N.[FC][PN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>las</marker> páginas</example>
+                <example correction="">Se depila <marker>las</marker> piernas.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_ES_GGEC_REPLACEMENT_NOUN_FORM" name="esa clase -> *esas clases">
+            <rule>
+                <!-- MS -->
+                <pattern>
+                    <token postag="D..[MC][SN]." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.[MC][SN].*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">el <marker>coche</marker></example>
+            </rule>
+            <rule>
+                <!-- FS -->
+                <pattern>
+                    <token postag="D..[FC][SN]." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.[FC][SN].*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">la <marker>página</marker></example>
+                <example correction="">Por favor, lea la <marker>página</marker> noventa y cuatro.</example>
+                <example correction="">Alguna <marker>observación</marker> vino anexa.</example>
+                <example correction="">Uno de su <marker>autoridad</marker> quiere tomarla.</example>
+            </rule>
+            <rule>
+                <!-- MP -->
+                <pattern>
+                    <token postag="D..[MC][PN]." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.[MC][PN].*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">los <marker>coches</marker></example>
+            </rule>
+            <rule>
+                <!-- FP -->
+                <pattern>
+                    <token postag="D..[FC][PN]." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.[FC][PN].*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">las <marker>páginas</marker></example>
+                <example correction="">Se depila las <marker>piernas</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_ES_GGEC_REPLACEMENT_ADVERB_FORM" name="tanta hambre -> *tanto hambre">
             <rule>
                 <pattern>
-                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                    </marker>
                     <token postag="RG.*" postag_regexp="yes" min="0"/>
                     <token regexp="yes">acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica</token>
                 </pattern>
-                <example correction="">Tom no tenía <marker>mucha agua</marker> para beber.</example>
-                <example correction="">Tenía <marker>tanta hambre</marker> que me lo comí.</example>
+                <example correction="">Tom no tenía <marker>mucha</marker> agua para beber.</example>
+                <example correction="">Tom no tenía <marker>mucha</marker> más agua para beber.</example>
+                <example correction="">Tenía <marker>tanta</marker> hambre que me lo comí.</example>
             </rule>
         </rulegroup>
     </category>

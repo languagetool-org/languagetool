@@ -98,16 +98,17 @@ public class CatalanTagger extends BaseTagger {
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
-
       // additional tagging with prefixes
       if (l.isEmpty() && !isMixedCase) {
         addTokens(additionalTags(originalWord, dictLookup), l);
       }
-
+      // emoji
+      if (l.isEmpty() && StringTools.isEmoji(originalWord)) {
+        l.add(new AnalyzedToken(originalWord, "_emoji_", "_emoji_"));
+      }
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(originalWord, null, null));
       }
-
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
       if (containsTypographicApostrophe) {
         atr.setTypographicApostrophe();

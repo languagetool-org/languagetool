@@ -1001,8 +1001,8 @@ public abstract class Language {
     return rm;
   }
 
-  public String prepareLineForSpeller(String s) {
-    return s;
+  public List<String> prepareLineForSpeller(String s) {
+    return Arrays.asList(s);
   }
 
   /**
