@@ -136,6 +136,10 @@ public class JLanguageTool {
    * Extension of dictionary files read by Spellers
    */
   public static final String DICTIONARY_FILENAME_EXTENSION = ".dict";
+  /**
+   * Maximum suggestions allowed (the rest of suggestions will not show in UI)
+   */
+  public static final int MAX_SUGGESTIONS = 5;
 
   private final ResultCache cache;
   private final UserConfig userConfig;

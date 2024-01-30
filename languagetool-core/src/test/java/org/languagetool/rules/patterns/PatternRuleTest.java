@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -492,6 +493,30 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         if (!msg.trim().matches(".*[.?)'\"]$")) {
           fail("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
           //System.out.println("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
+        }
+      }
+
+      if (rule instanceof PatternRule) {
+        PatternRule patternRule = (PatternRule)rule;
+        int msgSuggestionCount = StringUtils.countMatches(patternRule.getMessage(), "<suggestion>");
+        int suggestionOutCount = StringUtils.countMatches(patternRule.getSuggestionsOutMsg(), "<suggestion>");
+        int noButtonCount = msgSuggestionCount + suggestionOutCount - JLanguageTool.MAX_SUGGESTIONS;
+        
+        if (noButtonCount > 0) {
+          StringBuilder sb = new StringBuilder(128);
+          sb.append(String.format("*** WARNING: Rule %s has %d suggestions",  
+                rule.getFullId(), msgSuggestionCount + suggestionOutCount));
+
+          int invisibleCount = suggestionOutCount - Math.max(JLanguageTool.MAX_SUGGESTIONS - msgSuggestionCount, 0);
+
+          if (noButtonCount - invisibleCount > 0) {
+            sb.append(String.format(", %d of them won't have buttons", noButtonCount - invisibleCount));
+          }
+
+          if (invisibleCount > 0) {
+            sb.append(String.format(", %d won't be visible in UI", invisibleCount));
+          }
+          System.err.println(sb);
         }
       }
     }

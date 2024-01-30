@@ -81,6 +81,13 @@ public class LanguageSpecificTest {
           for (Map<String, SuggestionWithMessage> entry : wrongWords) {
             for (String s : entry.keySet()) {
               String repl = entry.get(s).getSuggestion();
+              
+              String[] suggestions = entry.get(s).getSuggestion().split("\\|");
+              if (suggestions.length > JLanguageTool.MAX_SUGGESTIONS) {
+                System.err.println(String.format("*** WARNING: %d replacements for '%s' from one of %s, lang of %s",
+                    suggestions.length, repl, replRule.getFileNames(), lang));
+              }
+
               RuleMatch[] matches = spellRule.match(lt.getAnalyzedSentence(repl));
               if (matches.length > 0) {
                 System.err.println("*** WARNING: replacement '" + repl + "' for '" + s + "' from one of " + replRule.getFileNames() +
@@ -127,7 +134,13 @@ public class LanguageSpecificTest {
           AbstractSimpleReplaceRule replRule = (AbstractSimpleReplaceRule) rule;
           Map<String, List<String>> wrongWords = replRule.getWrongWords();
           for (String key : wrongWords.keySet()) {
-            String repl = wrongWords.get(key).toString();
+            
+            List<String> suggestions = wrongWords.get(key);
+            if (suggestions.size() > JLanguageTool.MAX_SUGGESTIONS) {
+              System.err.println(String.format("*** WARNING: %d replacements for '%s', rule: %s, lang of %s",
+                  suggestions.size(), key, rule.getId(), lang.getName()));
+            }
+            String repl = suggestions.toString();
             RuleMatch[] matches = spellRule.match(lt.getAnalyzedSentence(repl));
             if (matches.length > 0) {
               System.err.println("*** WARNING: replacement '" + repl + "' for '" + key + "' from rule " + rule.getId() + ", files: [\"replace.txt\", \"replace_custom.txt\"]" +
