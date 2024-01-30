@@ -2383,20 +2383,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String compound1 = part1 + part2;
     String compound2 = uppercaseFirstChar(part2) + parts.get(2);
 
-    if (isNoun(compound2)) {
-      if (isNoun(compound1)) {
-        // If part1part2 and part2part3 are compounds, then so is part1part2part3
-        return (processTwoPartCompounds(part1, part2) && processTwoPartCompounds(part2, part3));
-      }
-      // Handle special cases for three-part compounds
-      if (isVerbPrefix(part1) && isVerbStem(part2)) {
-        // e.g. "Aus" + "leih" + "stelle"
-        return true;
-      }
-      if (isNounNom(part1) && isVerbStem(part2)) {
-        // e.g. "Wein" + "kühl" + "schrank"
-        return true;
-      }
+    if (isNoun(compound1) && isNoun(compound2)) {
+      // If part1part2 and part2part3 are compounds, then so is part1part2part3
+      return (processTwoPartCompounds(part1, part2) && processTwoPartCompounds(part2, part3));
+    }
+    if (isVerbPrefix(part1) && isVerbStem(part2) && isNoun(compound2)) {
+      // e.g. "Aus" + "leih" + "stelle"
+      return true;
+    }
+    if (isNounNom(part1) && isVerbStem(part2) && isNoun(compound2)) {
+      // e.g. "Wein" + "kühl" + "schrank"
+      return true;
     }
     return false;
   }

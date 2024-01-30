@@ -113,7 +113,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungschäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"));  // lowercase
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungschäden"));  // missing infix-s
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungschäden"));  // missing infix-s
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltung-Schäden"));  // missing infix-s
     assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungsschäden"));  // misspelling in first word
     assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungs-Schäden"));  // misspelling in first word
