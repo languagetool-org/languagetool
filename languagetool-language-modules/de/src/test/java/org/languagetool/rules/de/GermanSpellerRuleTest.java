@@ -95,6 +95,7 @@ public class GermanSpellerRuleTest {
     //assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Aus-leihstelle"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("AusLeihStelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
     assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinkühl-schrank"));
@@ -137,6 +138,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Agensprinzip"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert*innen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("ArbeitnehmerInnenschutzgesetz"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Jungsnamen")); // 'Jungs' is colloquial for 'Jungen'
@@ -349,7 +351,7 @@ public class GermanSpellerRuleTest {
 //    assertFirstSuggestion("Au-pair-Agentr", "Au-pair-Agentur", rule, lt); // "Au-pair" from spelling.txt 
     assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, lt); // "Netflix" from spelling.txt
     assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, lt);
-    //assertFirstSuggestion("Emailaccount", "E-Mail-Account", rule, lt);
+    assertFirstSuggestion("Emailaccount", "E-Mail-Account", rule, lt);
     assertFirstSuggestion("Emailacount", "E-Mail-Account", rule, lt);
     assertFirstSuggestion("millionmal", "Million Mal", rule, lt);
     assertFirstSuggestion("millionenmal", "Millionen Mal", rule, lt);
@@ -571,7 +573,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("deutsprachiger", "deutschsprachiger", rule, lt);
     assertFirstSuggestion("gehäckelten", "gehäkelten", rule, lt);
     assertFirstSuggestion("Alterego", "Alter Ego", rule, lt);
-    //assertFirstSuggestion("Makeupstylistin", "Make-up-Stylistin", rule, lt);
+    assertFirstSuggestion("Makeupstylistin", "Make-up-Stylistin", rule, lt);
     assertFirstSuggestion("islamophobische", "islamophobe", rule, lt);
     assertFirstSuggestion("Fedbäck", "Feedback", rule, lt);
     assertFirstSuggestion("desöfterem", "des Öfteren", rule, lt);

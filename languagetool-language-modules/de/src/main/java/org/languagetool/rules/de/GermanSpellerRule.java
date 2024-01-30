@@ -2237,8 +2237,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         word.endsWith("schaf") ||  // too big chance of a "...schaft" typo
         word.endsWith("schafs") ||
         word.endsWith("schafen") ||
-        word.endsWith("Standart") ||
-        word.startsWith("Standart")
+        word.matches("([Ee]mail|[Mm]akeup|[Ss]tandart).*")
     ) {
       return false;
     }
@@ -2250,7 +2249,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
     // Format gender neutral forms here to make processing easier
     // "Expert*innen" -> "Expertinnen"
-    wordNoDot = wordNoDot.replaceFirst("\\*innen", "innen");
+    // "ExpertInnen"  -> "Expertinnen"
+    wordNoDot = wordNoDot.replaceFirst("(\\*innen|(?<=(\\w|-))Innen)", "innen");
+
+    if (!isValidCamelCase(wordNoDot)) {
+      return false;
+    }
 
     List<String> parts = compoundTokenizer.tokenize(wordNoDot);
     boolean nonStrictMode = false;
@@ -2359,10 +2363,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean part2ucIsNoun = isNoun(part2uc);
     boolean part2ucIsMisspelled = isMisspelled(uppercaseFirstChar(part2uc));
 
-    if (!part1.endsWith("-") && startsWithUppercase(part2)) {
-      return false;
-    }
-
     if (part2ucIsNoun && !part2ucIsMisspelled &&
       // 's' is the last character in *part1* and is not an infix
       part1WithoutHyphen.endsWith("s") && (isNounNom(part1uc) || isVerbStem(part1)) &&
@@ -2414,6 +2414,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return false;
   }
 
+  private boolean isValidCamelCase(String input) {
+    // Check if the string contains any instance of camel casing
+    boolean containsCamelCase = input.matches(".*\\p{Ll}\\p{Lu}.*");
+
+    return !containsCamelCase;
+  }
+
   private List<String> restoreRemovedHyphens(List<String> parts, String word) {
       List<String> tokensWithHyphens = new ArrayList<>();
 
@@ -2436,11 +2443,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           }
         }
         tokensWithHyphens.add(token);
-        System.out.println(token);
         currentPos += token.length();
-      }
-      for (String p : tokensWithHyphens) {
-        System.out.println(p);
       }
       return tokensWithHyphens;
     }
