@@ -2344,27 +2344,34 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     //  if an infix s is incorrect
     String part1uc = uppercaseFirstChar(part1);
     String part2uc = uppercaseFirstChar(part2);
-    if (isNoun(part2uc) && !isMisspelled(uppercaseFirstChar(part2uc))) {
-      if (part1.endsWith("s")) {
-        if (isNounNom(part1uc) || isVerbStem(part1)) {
-          if (hasNoInfixS(part1uc) || !needsInfixS(part1uc)) {
-            return true;
-          }
-        } else if (isNounNom(removeInfixSAndHyphen(part1uc))) {
-          if (!hasNoInfixS(removeInfixSAndHyphen(part1uc)) || needsInfixS(removeInfixSAndHyphen(part1uc))) {
-            return true;
-          }
-        }
-      } else { // *part1* does not end with 's'
-        if ((isNounNom(part1uc) || isVerbStem(part1))
-          && (hasNoInfixS(part1uc) || !needsInfixS(part1uc))) {
-          return true;
-        }
-      }
-      if (isAllUppercase(removeInfixSAndHyphen(part1))) {
-        // "SEO-Expertinnen"
-        return true;
-      }
+    boolean part2ucIsNoun = isNoun(part2uc);
+    boolean part2ucIsMisspelled = isMisspelled(uppercaseFirstChar(part2uc));
+
+    if (part2ucIsNoun && !part2ucIsMisspelled &&
+      // 's' is the last character in *part1* and is not an infix
+      part1.endsWith("s") && (isNounNom(part1uc) || isVerbStem(part1)) &&
+      // check if infix 's' is required or not allowed
+      (hasNoInfixS(part1uc) || !needsInfixS(part1uc))) {
+      return true;
+    }
+    if (part2ucIsNoun && !part2ucIsMisspelled &&
+      // 's' is the last character in *part1* and is an infix
+      part1.endsWith("s") && isNounNom(removeInfixSAndHyphen(part1uc)) &&
+      // check if infix 's' is required or not allowed
+      (!hasNoInfixS(removeInfixSAndHyphen(part1uc)) || needsInfixS(removeInfixSAndHyphen(part1uc)))) {
+      return true;
+    }
+    if (part2ucIsNoun && !part2ucIsMisspelled &&
+      // *part1* does not end with 's' and is noun or verb stem
+      (!part1.endsWith("s")) && (isNounNom(part1uc) || isVerbStem(part1)) &&
+      // check if infix 's' is required or not allowed
+      (hasNoInfixS(part1uc) || !needsInfixS(part1uc))) {
+      return true;
+    }
+    if (part2ucIsNoun && !part2ucIsMisspelled &&
+      // *part1* is acronym, e. g. "SEO-Expertinnen"
+      isAllUppercase(removeInfixSAndHyphen(part1)) && !isMisspelled(removeInfixSAndHyphen(part1))) {
+      return true;
     }
     return false;
   }
