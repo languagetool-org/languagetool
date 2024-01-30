@@ -9805,6 +9805,253 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  6237	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:VLT:1EP|WKW:VTD:VRB
+	     1:	De overheid verdubbelde
+	     1:	De man verdiende
+	     1:	De EHBO ontfermde
+	     1:	De schrijfster vergaarde
+	     1:	De politie betrapte
+	-->
+	<rule id="NEW_417" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VLT:1EP"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  6223	(4)	VRZ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     7:	 op zijn knieën.
+	     3:	 op zijn vingers.
+	     2:	 op zijn wangen.
+	     2:	 aan zijn kleren.
+	     2:	 door zijn knieën.
+	-->
+	<rule id="NEW_418" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">zijn</token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6182	(5)	VGW|VRZ BYW VRZ WKW:TGW:INF ITP:PNT|SENT_END
+	    16:	 om mee te maken.
+	     7:	 om mee te werken.
+	     5:	 om hier te zijn.
+	     4:	 om mee te nemen.
+	     4:	 om mee te rijden.
+	     3:	 om er te zijn.
+	-->
+	<rule id="NEW_419" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6167	(4)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET VRZ
+	    20:	 aan het werk te
+	     6:	 van het land in
+	     4:	 op dit gebied te
+	     3:	 in het water te
+	     3:	 bij het werk te
+	-->
+	<rule id="NEW_420" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="ZNW:EKV:HET"/>
+			<token postag="VRZ">te</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6161	(4)	SENT_START VGW VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
+	    77:	Maar het was
+	    22:	Maar dit was
+	-->
+	<rule id="NEW_421" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="WKW:VLT:1EP">was</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6142	(4)	ZNW:EKV:DE_ VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET
+	    10:	 editie van het toernooi
+	     4:	 deelname van het land
+	     2:	 strijd tussen het netwerk
+	     2:	 man in het water
+	-->
+	<rule id="NEW_422" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="ZNW:EKV:HET"/>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6124	(5)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ SENT_END
+	     1:	 het met de man?
+	     1:	 het met de auto?
+	     1:	 het met de liefde?
+	-->
+	<rule id="NEW_423" name="-">
+        <pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6014	(4)	ZNW:EKV:DE_ WKW:TGW:INF|ZNW:MRV:DE_ WKW:TGW:INF ITP:PNT|SENT_END
+	     4:	 truc kunnen zijn.
+	     2:	 val kunnen zijn.
+	     2:	 kans kunnen zijn.
+	     2:	 valstrik kunnen zijn.
+	     2:	 uitkomst kunnen zijn.
+	     2:	 dekmantel kunnen zijn.
+	-->
+	<rule id="NEW_424" name="-">
+        <pattern>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="ZNW:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	  6009	(4)	VGW|VRZ VNW:RFX BYW ITP:PNT|SENT_END
+	    99:	 om zich heen.
+	-->
+	<rule id="NEW_425" name="-">
+        <pattern>
+			<token postag="VRZ">om</token>
+			<token postag="VNW:RFX"><exception negate_pos="yes" postag="VNW:RFX"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5984	(4)	VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW BYW ITP:PNT|SENT_END
+	    30:	 het nog eens.
+	    18:	 het daarmee eens.
+	    11:	 het ermee eens.
+	     6:	 het hiermee eens.
+	-->
+	<rule id="NEW_426" name="-">
+        <pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5979	(4)	BYW|VNW:OBP|BNW:STL:ONV|BYW:GRD|WKW:TGW:1EP BYW:GRD BNW:STL:ONV ITP:PNT|SENT_END
+	     1:	 veel te voorbarig.
+	     1:	 veel te laag.
+	     1:	Veel te na.
+	     1:	Veel te fel.
+	     1:	Veel te lui.
+	     1:	Veel te oud.
+	     1:	Veel te dik.
+	     1:	Veel te nat.
+	     1:	Veel te ruw.
+	-->
+	<rule id="NEW_427" name="-">
+        <pattern>
+			<token postag="BYW:GRD">veel</token>
+			<token postag="BYW:GRD">te</token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5954	(4)	SENT_START VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:1EP VNW:PER:1EP:EKV:ACT
+	    22:	Die wil ik
+	    18:	Die ga ik
+	    18:	Die kan ik
+	    17:	Die moet ik
+	-->
+	<rule id="NEW_428" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="VNW:OND:EKV:DE_"/>
+					<token postag="VNW:OND:MRV:DE_"/>
+					<token postag="VGW:EKV:DE_"/>
+					<token postag="VGW:MRV:DE_"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token>ik</token>
+		</pattern>
+        <disambig action="remove" postag="VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	  5861	(4)	VRZ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
+	    38:	 in zijn ogen.
+	    17:	 in zijn handen.
+	    10:	 op zijn lippen.
+	     5:	 in zijn zakken.
+	     4:	 op zijn benen.
+	-->
+	<rule id="NEW_429" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">zijn</token>
+			<token postag="ZNW:MRV:DE_"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
