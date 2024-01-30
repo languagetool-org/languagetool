@@ -39,17 +39,18 @@ import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
  */
 public class CatalanWordTokenizer extends WordTokenizer {
 
+  private static final String wordCharacters = "©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u2070-\u209F°%‰‱&";
+  private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
-
-  private static final Pattern PATTERN_1 = Pattern.compile("\u0001\u0001CA_APOS_RECTE\u0001\u0001", Pattern.LITERAL);
-  private static final Pattern PATTERN_2 = Pattern.compile("\u0001\u0001CA_APOS_RODO\u0001\u0001", Pattern.LITERAL);
-  private static final Pattern PATTERN_3 = Pattern.compile("\u0001\u0001CA_HYPHEN\u0001\u0001", Pattern.LITERAL);
-  private static final Pattern PATTERN_4 = Pattern.compile("\u0001\u0001CA_DECIMALPOINT\u0001\u0001", Pattern.LITERAL);
-  private static final Pattern PATTERN_5 = Pattern.compile("\u0001\u0001CA_DECIMALCOMMA\u0001\u0001", Pattern.LITERAL);
-  private static final Pattern PATTERN_6 = Pattern.compile("\u0001\u0001CA_SPACE\u0001\u0001", Pattern.LITERAL);
-  private static final Pattern PATTERN_7 = Pattern.compile("\u0001\u0001ELA_GEMINADA\u0001\u0001", Pattern.LITERAL);
-  private static final Pattern PATTERN_8 = Pattern.compile("\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001", Pattern.LITERAL);
+  private static final Pattern PATTERN_1 = Pattern.compile("xxCA_APOS_RECTExx", Pattern.LITERAL);
+  private static final Pattern PATTERN_2 = Pattern.compile("xxCA_APOS_RODOxx", Pattern.LITERAL);
+  private static final Pattern PATTERN_3 = Pattern.compile("xxCA_HYPHENxx", Pattern.LITERAL);
+  private static final Pattern PATTERN_4 = Pattern.compile("xxCA_DECIMALPOINTxx", Pattern.LITERAL);
+  private static final Pattern PATTERN_5 = Pattern.compile("xxCA_DECIMALCOMMAxx", Pattern.LITERAL);
+  private static final Pattern PATTERN_6 = Pattern.compile("xxCA_SPACExx", Pattern.LITERAL);
+  private static final Pattern PATTERN_7 = Pattern.compile("xxELA_GEMINADAxx", Pattern.LITERAL);
+  private static final Pattern PATTERN_8 = Pattern.compile("xxELA_GEMINADA_UPPERCASExx", Pattern.LITERAL);
   private static final Pattern SOFT_HYPHEN = Pattern.compile("\u00AD");
   private static final Pattern CURLY_SINGLE_QUOTE = Pattern.compile("’", Pattern.LITERAL);
   private static final Pattern LL = Pattern.compile("l-l", Pattern.LITERAL);
@@ -76,11 +77,10 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE_DIGITS0= Pattern.compile("([\\d]{4}) ",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS= Pattern.compile("([\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2= Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern SPACE0 = Pattern.compile("\\u0001\\u0001CA_SPACE0\\u0001\\u0001");
+  private static final Pattern SPACE0 = Pattern.compile("xxCA_SPACE0xx");
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−";
-  
+
   public CatalanWordTokenizer() {
 
     // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
@@ -121,8 +121,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
   /**
    * @param text Text to tokenize
    * @return List of tokens.
-   *         Note: a special string \u0001\u0001CA_APOS\u0001\u0001 is used to replace apostrophes,
-   *         and \u0001\u0001CA_HYPHEN\u0001\u0001 to replace hyphens.
+   *         Note: a special string xxCA_APOSxx is used to replace apostrophes,
+   *         and xxCA_HYPHENxx to replace hyphens.
    */
   @Override
   public List<String> tokenize(final String text) {
@@ -130,41 +130,40 @@ public class CatalanWordTokenizer extends WordTokenizer {
     // replace hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxELA_GEMINADAxx$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxELA_GEMINADA_UPPERCASExx$2");
     matcher=APOSTROF_RECTE.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RECTE\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxCA_APOS_RECTExx$2");
     matcher=APOSTROF_RECTE_1.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RECTE\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxCA_APOS_RECTExx$2");
     matcher=APOSTROF_RODO.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RODO\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxCA_APOS_RODOxx$2");
     matcher=APOSTROF_RODO_1.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RODO\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxCA_APOS_RODOxx$2");
     matcher=DECIMAL_POINT.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALPOINT\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxCA_DECIMALPOINTxx$2");
     matcher=DECIMAL_COMMA.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALCOMMA\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxCA_DECIMALCOMMAxx$2");
     matcher=SPACE_DIGITS0.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE0\u0001\u0001");
+    auxText = matcher.replaceAll("$1xxCA_SPACE0xx");
     matcher=SPACE_DIGITS2.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2\u0001\u0001CA_SPACE\u0001\u0001$3");
+    auxText = matcher.replaceAll("$1xxCA_SPACExx$2xxCA_SPACExx$3");
     matcher=SPACE_DIGITS.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxCA_SPACExx$2");
     matcher=SPACE0.matcher(auxText);
     auxText = SPACE0.matcher(auxText).replaceAll(" ");
 
-    List<String> removedEmojis = replaceEmojis(auxText);
-    auxText = removedEmojis.get(0);
-
-    // Important: middle dot (·) not included!!
-    final StringTokenizer st = new StringTokenizer(auxText, CA_TOKENIZING_CHARACTERS, true); 
-
+    Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
     String s;
     String groupStr;
-
-    while (st.hasMoreElements()) {
-      s = PATTERN_1.matcher(st.nextToken()).replaceAll("'");
+    while (tokenizerMatcher.find()) {
+      s = tokenizerMatcher.group();
+      if (s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
+        l.set(l.size() - 1, l.get(l.size() - 1) + s);
+        continue;
+      }
+      s = PATTERN_1.matcher(s).replaceAll("'");
       s = PATTERN_2.matcher(s).replaceAll("’");
       s = PATTERN_3.matcher(s).replaceAll("-");
       s = PATTERN_4.matcher(s).replaceAll(".");
@@ -203,7 +202,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
         hyphensAtEnd--;
       }
     }
-    return joinEMailsAndUrls(restoreEmojis(l, removedEmojis));
+    return joinEMailsAndUrls(l);
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. 
@@ -253,24 +252,4 @@ public class CatalanWordTokenizer extends WordTokenizer {
     }
   }
 
-  @Override
-  public List<String> replaceEmojis(String s) {
-    List<String> removedEmojis = new ArrayList<>();
-    Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
-    while (matcher.find()) {
-      String found = matcher.group(0);
-      // emojis (😂) have a string length larger than 1
-      if (found.length() > 1 || found.codePointAt(0)>0x2000) {
-        if (found.length() == 1 && found.codePointAt(0)>=0xFE00 && found.codePointAt(0)<=0xFE0F) {
-          removedEmojis.set(removedEmojis.size() - 1, removedEmojis.get(removedEmojis.size() - 1) + found);
-          s = s.replace(found, "");
-        } else {
-          s = s.replace(found, ","+REMOVED_EMOJI+",");
-          removedEmojis.add(found);
-        }
-      }
-    }
-    removedEmojis.add(0, s);
-    return removedEmojis;
-  }
 }
