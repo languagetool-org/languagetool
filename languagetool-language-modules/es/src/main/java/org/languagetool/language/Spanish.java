@@ -335,8 +335,7 @@ public class Spanish extends Language implements AutoCloseable {
           continue;
         }
         // avoid lowercase at the sentence start
-        ruleMatch.setOriginalErrorStr();
-        if (ruleMatch.getFromPos() == 0 && StringTools.uppercaseFirstChar(suggestion).equals(ruleMatch.getOriginalErrorStr())) {
+        if (ruleMatch.getSentence().getText().startsWith(StringTools.uppercaseFirstChar(suggestion))) {
           continue;
         }
         // avoid voseo forms in suggestions
