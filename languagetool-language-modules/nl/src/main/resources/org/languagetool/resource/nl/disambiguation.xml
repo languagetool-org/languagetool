@@ -9540,23 +9540,6 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8071	(4)	ITP:KMA GET:ARA:001:MRV GET:TXT:MRV|ZNW:EKV:HET MEH|ZNW:EKV:DE_
-	    12:	,5 miljoen euro
-	     9:	,8 miljoen euro
-	     8:	,6 miljoen euro
-	     7:	,3 miljoen euro
-	-->
-	<rule id="NEW_402" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="GET:ARA.*"/>
-			<marker>
-				<token postag="MEH"/>
-			</marker>
-			</pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
 	?	  6882	(5)	VGW|VRZ VNW:OND:EKV:HET VRZ WKW:TGW:INF SENT_END<|SENT_END
 	    11:	 om dit te lezen.
 	     4:	 om dit te zien.
@@ -9659,7 +9642,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	<rule id="NEW_408" name="-">
         <pattern>
 			<token postag="VGW">om</token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
 			<token postag="VRZ">te</token>
 			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
 			</pattern>
@@ -9678,7 +9661,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	<rule id="NEW_409" name="-">
         <pattern>
 			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
-			<token postag="VGW VNW:PER:2EP:EKV:ACT">je</token>
+			<token postag="VNW:PER:2EP:EKV:ACT">je</token>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 			</pattern>
         <disambig action="filterall"/>
@@ -9795,7 +9778,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	-->
 	<rule id="NEW_415" name="-">
         <pattern>
-			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
 			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
 			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
