@@ -2286,6 +2286,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // Split tokenized parts that contain hyphens
       // example: "Wacht" + "ums-pistole" -> "Wacht" + "ums" + "pistole"
       parts = splitPartsByHyphen(parts);
+
+      // Hyphens are often removed by the tokenizer. Restore them to determine later if a compound is correct
+      parts = restoreRemovedHyphens(parts, wordNoDot);
     }
 
     if (parts.size() == 2) {
@@ -2317,8 +2320,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return part1.length() >= 3 && part2.length() >= 4;
   }
 
+  private String removeInfixS(String part1) {
+    return part1.replaceFirst("s?$", "");
+  }
+
+  private String removeHyphen(String part1) {
+    return part1.replaceFirst("-?$", "");
+  }
+
   private String removeInfixSAndHyphen(String part1) {
-    return part1.replaceFirst("s-?$", "");
+    return removeInfixS(removeHyphen(part1));
   }
 
   private boolean isAdjective(String word) throws IOException {
@@ -2344,26 +2355,31 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     //  if an infix s is incorrect
     String part1uc = uppercaseFirstChar(part1);
     String part2uc = uppercaseFirstChar(part2);
+    String part1WithoutHyphen = removeHyphen(part1);
     boolean part2ucIsNoun = isNoun(part2uc);
     boolean part2ucIsMisspelled = isMisspelled(uppercaseFirstChar(part2uc));
 
+    if (!part1.endsWith("-") && startsWithUppercase(part2)) {
+      return false;
+    }
+
     if (part2ucIsNoun && !part2ucIsMisspelled &&
       // 's' is the last character in *part1* and is not an infix
-      part1.endsWith("s") && (isNounNom(part1uc) || isVerbStem(part1)) &&
+      part1WithoutHyphen.endsWith("s") && (isNounNom(part1uc) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
       (hasNoInfixS(part1uc) || !needsInfixS(part1uc))) {
       return true;
     }
     if (part2ucIsNoun && !part2ucIsMisspelled &&
       // 's' is the last character in *part1* and is an infix
-      part1.endsWith("s") && isNounNom(removeInfixSAndHyphen(part1uc)) &&
+      part1WithoutHyphen.endsWith("s") && isNounNom(removeInfixSAndHyphen(part1uc)) &&
       // check if infix 's' is required or not allowed
       (!hasNoInfixS(removeInfixSAndHyphen(part1uc)) || needsInfixS(removeInfixSAndHyphen(part1uc)))) {
       return true;
     }
     if (part2ucIsNoun && !part2ucIsMisspelled &&
       // *part1* does not end with 's' and is noun or verb stem
-      (!part1.endsWith("s")) && (isNounNom(part1uc) || isVerbStem(part1)) &&
+      (!part1WithoutHyphen.endsWith("s")) && (isNounNom(part1uc) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
       (hasNoInfixS(part1uc) || !needsInfixS(part1uc))) {
       return true;
@@ -2397,6 +2413,37 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     return false;
   }
+
+  private List<String> restoreRemovedHyphens(List<String> parts, String word) {
+      List<String> tokensWithHyphens = new ArrayList<>();
+
+      // Find and store the positions of hyphens in the original word
+      List<Integer> hyphenPositions = new ArrayList<>();
+      for (int i = 0; i < word.length(); i++) {
+        if (word.charAt(i) == '-') {
+          hyphenPositions.add(i);
+        }
+      }
+
+      int currentPos = 0;
+      for (String token : parts) {
+        // Check if the next hyphen is within the current token
+        for (int hyphenPos : hyphenPositions) {
+          if (hyphenPos >= currentPos && hyphenPos == currentPos + token.length()) {
+            // Insert hyphen at the end of this token
+            token += "-";
+            break; // Move to the next token after adding a hyphen
+          }
+        }
+        tokensWithHyphens.add(token);
+        System.out.println(token);
+        currentPos += token.length();
+      }
+      for (String p : tokensWithHyphens) {
+        System.out.println(p);
+      }
+      return tokensWithHyphens;
+    }
 
   private List<String> avoidInfixSAsSingleToken(List<String> parts) {
     // If a part equals "s", append it to its predecessor

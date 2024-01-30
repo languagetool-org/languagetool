@@ -94,8 +94,10 @@ public class GermanSpellerRuleTest {
     //assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
     //assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aus-leihstelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
     assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinkühl-schrank"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinsskühlschrank"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel"));
@@ -119,7 +121,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungs-Schäden"));  // misspelling in first word
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsscheden"));  // misspelling in second part
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Scheden"));  // misspelling in second part
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("HaltungsSchäden"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("HaltungsSchäden"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsei"));  // second part too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Ei"));  // second part too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsnach"));  // second part not a noun
