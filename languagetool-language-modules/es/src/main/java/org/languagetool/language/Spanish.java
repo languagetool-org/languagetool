@@ -328,7 +328,7 @@ public class Spanish extends Language implements AutoCloseable {
     List<RuleMatch> results = new ArrayList<>();
     for (RuleMatch ruleMatch : ruleMatches) {
       List<String> suggestions = ruleMatch.getSuggestedReplacements();
-      if (suggestions.size()>0) {
+      if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_ES_GGEC")) {
         String suggestion = suggestions.get(0);
         // avoid obsolete diacritics
         if (suggestionsToAvoid.contains(suggestion.toLowerCase())) {
