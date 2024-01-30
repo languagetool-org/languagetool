@@ -44,6 +44,9 @@ public class AvsAnRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("This is a oncer.");
+    assertCorrect("She was a Oaxacan chef.");
+    assertCorrect("The doctor requested a urinalysis.");
     assertCorrect("She brought a Ouija board.");
     assertCorrect("This is a test sentence.");
     assertCorrect("It was an hour ago.");
