@@ -11641,12 +11641,25 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="ISLAMITISCH" name="Islamitisch/islamitisch">
 			<rule>
-				<antipattern case_sensitive="yes"><token>Islamitische</token><token>Staat</token></antipattern>
+				<antipattern case_sensitive="yes">
+					<token>Organisatie</token>
+					<token>voor</token>
+					<token>Islamitische</token>
+					<token>Samenwerking</token>
+				</antipattern>
+				<antipattern case_sensitive="yes">
+					<token>Islamitische</token>
+					<token regexp="yes">Staat|Jihad</token>
+				</antipattern>
 				<pattern>
-					<token inflected="yes">islamitisch<exception case_sensitive="yes" regexp="yes">i.*</exception></token>
+					<token/>
+					<token/>
+					<marker>
+						<token inflected="yes">islamitisch<exception case_sensitive="yes" regexp="yes">i.*</exception></token>
+					</marker>
 				</pattern>
 				<message>Religies horen zonder hoofdletter.</message>
-				<suggestion><match no="1" case_conversion="alllower"/></suggestion>
+				<suggestion><match no="3" case_conversion="alllower"/></suggestion>
 				<example correction="islamitisch">Het is een <marker>Islamitisch</marker> gebed.</example>
 				<example>De terreurorganisatie heet Islamitische Staat.</example>
 			</rule>
