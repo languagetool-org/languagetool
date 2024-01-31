@@ -3375,8 +3375,8 @@ regexp case-insensitive maken: (?i)
 				<example correction="zuiden">Het woord <marker>suiden</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
+		<!-- disabled: too many falses in good documents
 		<rulegroup id="SONDE_ZONDE" name="waarschuwing bij gebruik sonde i.p.v. zonde">
-			<rule>
 				<pattern>
 					<token inflected="yes">sonde</token>
 				</pattern>
@@ -3384,7 +3384,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="zonde">Het woord <marker>sonde</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<rulegroup id="SELDEN_ZELDEN" name="waarschuwing bij gebruik selden i.p.v. zelden">
 			<rule>
 				<pattern><token case_sensitive="yes">selden</token></pattern>
@@ -9566,6 +9566,10 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<rule>
+				<antipattern>
+					<token>de</token>
+					<token regexp="yes" case_sensitive="yes">[WEN]K</token>
+				</antipattern>
 				<!-- 2014-08-20 TaalTik -->
 				<antipattern>
 					<token regexp="yes">dat|of|en</token>
@@ -11641,7 +11645,7 @@ regexp case-insensitive maken: (?i)
 				<pattern>
 					<token inflected="yes">islamitisch<exception case_sensitive="yes" regexp="yes">i.*</exception></token>
 				</pattern>
-				<message>Religies horen zonnder hoofdletter.</message>
+				<message>Religies horen zonder hoofdletter.</message>
 				<suggestion><match no="1" case_conversion="alllower"/></suggestion>
 				<example correction="islamitisch">Het is een <marker>Islamitisch</marker> gebed.</example>
 				<example>De terreurorganisatie heet Islamitische Staat.</example>
