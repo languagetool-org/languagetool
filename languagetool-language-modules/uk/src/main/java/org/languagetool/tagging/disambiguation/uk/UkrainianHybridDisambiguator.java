@@ -400,8 +400,11 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         }
       }
       if( pluralNameReadings.size() > 0 && otherFound ) {
-        for(AnalyzedToken analyzedToken: pluralNameReadings) {
-          tokens[i].removeReading(analyzedToken, "plural_for_names");
+        // наймолодшого з Моцартів
+        if( ! LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("з", "із", "зі"), "prep") ) {
+          for(AnalyzedToken analyzedToken: pluralNameReadings) {
+            tokens[i].removeReading(analyzedToken, "plural_for_names");
+          }
         }
       }
     }

@@ -266,6 +266,12 @@ public class UkrainianHybridDisambiguationTest {
         + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname|Кравчука/[кравчук]noun:anim:m:v_rod|Кравчука/[кравчук]noun:anim:m:v_zna"
         + "  /[null]null та/[та]conj:coord|та/[та]part  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("молодшого з Вікторів",
+        "/[null]SENT_START молодшого/[молодший]adj:m:v_rod:compc|молодшого/[молодший]adj:m:v_zna:ranim:compc|молодшого/[молодший]adj:n:v_rod:compc"
+        + "  /[null]null з/[з]prep"
+        + "  /[null]null Вікторів/[Віктор]noun:anim:p:v_rod:prop:fname|Вікторів/[Віктор]noun:anim:p:v_zna:prop:fname|Вікторів/[Вікторів]adj:m:v_kly|Вікторів/[Вікторів]adj:m:v_naz|Вікторів/[Вікторів]adj:m:v_zna:rinanim|Вікторів/[Вікторів]noun:inanim:m:v_naz:prop:geo|Вікторів/[Вікторів]noun:inanim:m:v_zna:prop:geo",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
   
   @Test

@@ -208,6 +208,10 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("100%-й", "100%-й/[100%-й]adj:f:v_dav:&numr|100%-й/[100%-й]adj:f:v_mis:&numr|100%-й/[100%-й]adj:m:v_naz:&numr|100%-й/[100%-й]adj:m:v_zna:rinanim:&numr", tokenizer, tagger);
     TestTools.myAssert("2000-ні", "2000-ні/[2000-й]adj:p:v_naz:&numr|2000-ні/[2000-й]adj:p:v_zna:rinanim:&numr", tokenizer, tagger);
 
+    //TODO: tag this as bad
+    TestTools.myAssert("58-мою", "58-мою/[58-й]adj:f:v_oru:&numr:bad", tokenizer, tagger);
+//    assertNotTagged("58-мою");
+    
     // n-dash
     TestTools.myAssert("54–річна", "54-річна/[54-річний]adj:f:v_kly|54-річна/[54-річний]adj:f:v_naz|54–річна/[null]null", tokenizer, tagger);
     assertNotTagged("54–бкх");
