@@ -2515,26 +2515,28 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return parts;
   }
 
-  private List<String> splitPartsByHyphen(List<String> parts) {
+  private List<String> splitPartsByHyphen(List<String> originalParts) {
+    List<String> parts = new ArrayList<>(originalParts);
+
     // Iterate through the list using indices to safely modify it while iterating
     for (int i = 0; i < parts.size(); i++) {
       String element = parts.get(i);
 
       if (element.contains("-")) {
-        String[] split_words = element.split("-");
+        String[] splitWords = element.split("-");
 
         // Remove the original element
         parts.remove(i);
 
         // Insert the split parts back into the list at the current position
         // Insert in reverse order to maintain the original order after insertion
-        for (int j = split_words.length - 1; j >= 0; j--) {
-          parts.add(i, split_words[j]);
+        for (int j = splitWords.length - 1; j >= 0; j--) {
+          parts.add(i, splitWords[j]);
         }
 
         // Adjust the index to account for the newly inserted elements
         // Subtracting 1 because the loop increment will add 1 back
-        i += split_words.length - 1;
+        i += splitWords.length - 1;
       }
     }
     return parts;
