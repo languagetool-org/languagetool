@@ -39,7 +39,7 @@ import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
  */
 public class CatalanWordTokenizer extends WordTokenizer {
 
-  private static final String wordCharacters = "©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u2070-\u209F°%‰‱&\uFFFD";
+  private static final String wordCharacters = "§©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
