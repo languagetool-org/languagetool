@@ -889,6 +889,12 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 					<token>je</token>
+					<token>wordt</token>
+					<token>je</token>
+					<example>Je wordt je er meer van bewust.</example>
+				</antipattern>
+				<antipattern>
+					<token>je</token>
 					<token postag_regexp="yes" postag="ZNW:EKV.*"/>
 				</antipattern>
 				<antipattern>
@@ -3369,8 +3375,8 @@ regexp case-insensitive maken: (?i)
 				<example correction="zuiden">Het woord <marker>suiden</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
+		<!-- disabled: too many falses in good documents
 		<rulegroup id="SONDE_ZONDE" name="waarschuwing bij gebruik sonde i.p.v. zonde">
-			<rule>
 				<pattern>
 					<token inflected="yes">sonde</token>
 				</pattern>
@@ -3378,7 +3384,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="zonde">Het woord <marker>sonde</marker> kan een vergissing zijn.</example>
 			</rule>
 		</rulegroup>
-
+		-->
 		<rulegroup id="SELDEN_ZELDEN" name="waarschuwing bij gebruik selden i.p.v. zelden">
 			<rule>
 				<pattern><token case_sensitive="yes">selden</token></pattern>
@@ -9560,6 +9566,10 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<rule>
+				<antipattern>
+					<token>de</token>
+					<token regexp="yes" case_sensitive="yes">[WEN]K</token>
+				</antipattern>
 				<!-- 2014-08-20 TaalTik -->
 				<antipattern>
 					<token regexp="yes">dat|of|en</token>
@@ -11165,12 +11175,12 @@ regexp case-insensitive maken: (?i)
 				<example correction="Beukenlaan">Hij woont op <marker>beukenlaan</marker> 35 te Haarlem.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="PEKING" name="Bejing">
+		<rulegroup id="PEKING" name="Bejing" tags="picky">
 			<rule>
 				<pattern>
 					<token>Beijing </token>
 				</pattern>
-				<message><suggestion>Peking</suggestion> heeft de voorkeur.</message>
+				<message><suggestion>Peking</suggestion> is de Nederlandse naam van deze stad.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/94/beijing_peking/</url>
 				<example correction="Peking">Deels was hij ook wel eens in <marker>Beijing</marker>.</example>
 				<example correction="Peking">We volgen de Nederlandse sporters op de spelen van <marker>Beijing</marker> op de voet.</example>
@@ -11628,6 +11638,20 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
+
+		<rulegroup id="ISLAMITISCH" name="Islamitisch/islamitisch">
+			<rule>
+				<antipattern case_sensitive="yes"><token>Islamitische</token><token>Staat</token></antipattern>
+				<pattern>
+					<token inflected="yes">islamitisch<exception case_sensitive="yes" regexp="yes">i.*</exception></token>
+				</pattern>
+				<message>Religies horen zonder hoofdletter.</message>
+				<suggestion><match no="1" case_conversion="alllower"/></suggestion>
+				<example correction="islamitisch">Het is een <marker>Islamitisch</marker> gebed.</example>
+				<example>De terreurorganisatie heet Islamitische Staat.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="ETC_ZONDER_HOOFDLETTERS" name="ETC./etc." type="misspelling">
 			<rule>
 				<pattern>
@@ -12059,11 +12083,11 @@ regexp case-insensitive maken: (?i)
 			</rule>
 
 			<rule>
-				<antipattern case_sensitive="yes"><token>De</token><token>Krim</token></antipattern>
+				<antipattern><token>De</token><token case_sensitive="yes">Krim</token></antipattern>
 				<pattern><token>de</token><token>krim</token></pattern>
-				<message>U bedoelt misschien de plaats <suggestion>De Krim</suggestion>.</message>
-				<short>Plaatsnaam verkeerd</short>
-				<example correction="De Krim">Ik zie <marker>de krim</marker>.</example>
+				<message>U bedoelt misschien het schiereiland <suggestion>de Krim</suggestion> of de plaats <suggestion>De Krim</suggestion>.</message>
+				<short>Naam verkeerd</short>
+				<example correction="de Krim|De Krim">Ik zie <marker>de krim</marker>.</example>
 			</rule>
 
 			<rule>

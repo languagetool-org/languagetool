@@ -72,7 +72,7 @@ public class GermanDisambiguationTest {
     assertEquals(true, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
     assertEquals(true, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
 
-    tokens = lt.analyzeText("3-adische Systems");
+    tokens = lt.analyzeText("3-adischen Systems");
     assertEquals(true, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
     assertEquals(true, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
 
