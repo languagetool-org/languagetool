@@ -130,6 +130,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
   private static final Pattern DIRECTION = compile("nord|ost|süd|west");
   private static final Pattern SS = compile("ss");
+  private static final Pattern ARBEIT = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
+  private static final Pattern RECHT = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
+  private static final Pattern RECHTS = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|chutz|dienst|durchsetzung|empfinden|entwicklung|etzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|taat|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -2250,7 +2253,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Format gender neutral forms here to make processing easier
     // "Expert*innen" -> "Expertinnen"
     // "ExpertInnen"  -> "Expertinnen"
-    wordNoDot = wordNoDot.replaceFirst("(\\*innen|(?<=(\\w|-))Innen)", "innen");
+    wordNoDot = wordNoDot.replaceFirst("(\\*in|(?<=(\\w))In)", "in");
 
     if (!isValidCamelCase(wordNoDot)) {
       return false;
@@ -2363,6 +2366,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean part2ucIsNoun = isNoun(part2uc);
     boolean part2ucIsMisspelled = isMisspelled(uppercaseFirstChar(part2uc));
 
+    // For some part1-and-part2 combinations an infix s is correct or incorrect
+    if (needsSometimesInfixS(part1, part2)) {
+      return false;
+    }
+
     if (part2ucIsNoun && !part2ucIsMisspelled &&
       // 's' is the last character in *part1* and is not an infix
       part1WithoutHyphen.endsWith("s") && (isNounNom(part1uc) || isVerbStem(part1)) &&
@@ -2401,7 +2409,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
     if (isNoun(compound1) && isNoun(compound2)) {
       // If part1part2 and part2part3 are compounds, then so is part1part2part3
-      return (processTwoPartCompounds(part1, part2) && processTwoPartCompounds(part2, part3));
+      return (processTwoPartCompounds(part1, removeHyphen(part2)) && processTwoPartCompounds(part2, part3));
+    }
+    if (compound1.endsWith("s") || compound1.endsWith("s-")) {
+      String part2NoInfixSNoHyphen = removeInfixSAndHyphen(part2);
+      // If part1part2NoInfixSNoHyphen and part2part3 are compounds, then so is part1part2part3
+      return (processTwoPartCompounds(part1, part2NoInfixSNoHyphen) && processTwoPartCompounds(part2, part3));
     }
     if (isVerbPrefix(part1) && isVerbStem(part2) && isNoun(compound2)) {
       // e.g. "Aus" + "leih" + "stelle"
@@ -2412,6 +2425,42 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return true;
     }
     return false;
+  }
+
+  private boolean needsSometimesInfixS (String part1, String part2) throws IOException {
+    String part2_lemma = findLemmaForNoun(removeHyphen(part2));
+    if (part2_lemma.equals("") && removeHyphen(part2).endsWith("s")) {
+      part2_lemma = findLemmaForNoun(removeInfixSAndHyphen(part2));
+    }
+
+    if (part1.equals("Arbeit") && !(ARBEIT.matcher(part2).matches())) {
+      // e. g. "Arbeitplatz"
+      return true;
+    }
+    if (part1.equals("Arbeits") && (ARBEIT.matcher(part2).matches())) {
+      // e. g. "Arbeitsgeber"
+      return true;
+    }
+    if (part1.equals("Recht") && RECHTS.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+      // e. g. "Rechtanwälte"
+      return true;
+    }
+    if (part1.equals("Rechts") && RECHT.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+      // e. g. "Rechtsfertigung"
+      return true;
+    }
+    return false;
+  }
+
+  private String findLemmaForNoun(String word) throws IOException {
+    String lemma = "";
+    List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(uppercaseFirstChar(word)));
+    for (AnalyzedTokenReadings reading : readings) {
+      if (reading.hasPosTagStartingWith("SUB")) {
+        lemma = reading.getReadings().get(0).getLemma();
+      }
+    }
+    return lemma;
   }
 
   private boolean isValidCamelCase(String input) {

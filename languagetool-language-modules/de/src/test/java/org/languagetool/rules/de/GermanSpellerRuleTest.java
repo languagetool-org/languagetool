@@ -77,6 +77,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.ignorePotentiallyMisspelledWord("ArbeitnehmerInnenschutzgesetz"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Atmosphärenkonzept"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Wölkchenbildung"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Abschlussgruße"));  // probably "...grüße"
@@ -89,10 +90,14 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ablassbild"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Wachtums-Pistole"));  // split as "Wacht, ums-Pistole"
     assertFalse(rule.ignorePotentiallyMisspelledWord("Discorum"));  // "Disco, rum" and "rum" is only 3 chars and thus too short
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeberverhandlungen"));
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeberverhandlungen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitplatz"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtanwälten"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Rechtfertigungsgrund"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtsfertigungsgrund"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Aus-leihstelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("AusLeihStelle"));
