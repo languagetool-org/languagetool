@@ -143,6 +143,7 @@ public class German extends Language implements AutoCloseable {
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann."),
                     Tools.getUrl("https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen")),
             new GermanUnpairedBracketsRule(messages, this),
+            new GermanUnpairedQuotesRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),
                     Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut."),
