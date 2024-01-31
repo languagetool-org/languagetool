@@ -36,19 +36,24 @@ import org.languagetool.tools.Tools;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  //private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{");
-  //private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}");
-  private static final Pattern INCH_PATTERN = Pattern.compile(".*\\d\".*", Pattern.DOTALL);
+  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{");
+  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}");
+  // private static final Pattern INCH_PATTERN = Pattern.compile(".*\\d\".*", Pattern.DOTALL);
   // This is more strict, but also leads to confusing messages for users who mix up the many
   // characters that are be used as a quote character (https://github.com/languagetool-org/languagetool/issues/2356): 
-  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'", "‘");
-  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'", "’");
+  // private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'", "‘");
+  // private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'", "’");
+  // ^^^ Quotes are handled by EnglishUnpairedQuotesRule since 6.4 ^^^
 
   public EnglishUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
     setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-parentheses"));
-      addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
-                     Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
+/*
+    addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
+        Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
+*/
+    addExamplePair(Example.wrong("He lived in a <marker>(</marker>large house."),
+        Example.fixed("He lived in a <marker>(</marker>large) house."));
   }
 
   @Override
@@ -56,6 +61,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     return "EN_UNPAIRED_BRACKETS";
   }
 
+/*  TODO:  Remove after Tests
   @Override
   protected boolean preventMatch(AnalyzedSentence sentence) {
     String text = sentence.getText();
@@ -96,6 +102,6 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     }
     return true;
   }
- 
+*/ 
 
 }
