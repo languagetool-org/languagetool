@@ -55,6 +55,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
 public class TokenAgreementPrepNounRule extends Rule {
   
   private static final List<String> Z_ZI_IZ = Arrays.asList("з", "зі", "із");
+  private static final List<String> Z_ZI_IZ_ZO = Arrays.asList("з", "зі", "із", "зо");
   private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim:.:v_naz.*");
   private static final String VIDMINOK_SUBSTR = ":v_";
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
@@ -64,6 +65,14 @@ public class TokenAgreementPrepNounRule extends Rule {
   private final Synthesizer synthesizer;
   private final Language ukrainian;
 
+  static class State {
+    int prepPos;
+    AnalyzedTokenReadings prepTokenReadings = null;
+    boolean ziZnaRemoved = false;
+    Set<String> posTagsToFind;
+  }
+
+  
   public TokenAgreementPrepNounRule(ResourceBundle messages, Language ukrainian) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
     this.ukrainian = ukrainian;
@@ -88,7 +97,7 @@ public class TokenAgreementPrepNounRule extends Rule {
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    AnalyzedTokenReadings prepTokenReadings = null;
+    State state = null;
     
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
@@ -107,11 +116,9 @@ public class TokenAgreementPrepNounRule extends Rule {
 
       if (posTag == null
           || posTag.contains(IPOSTag.unknown.getText()) ){
-        
-        prepTokenReadings = null;
+        state = null;
         continue;
       }
-
 
       // часто вживають укр. В замість лат.: гепатит В
       // first token is always SENT_START
@@ -120,7 +127,7 @@ public class TokenAgreementPrepNounRule extends Rule {
           && Character.isUpperCase(thisToken.charAt(0)) 
           && tokenReadings.isWhitespaceBefore() 
           && tokens[i-1].getToken().matches(".*[а-яіїєґ0-9]")) {
-        prepTokenReadings = null;
+        state = null;
         continue;
       }
 
@@ -130,18 +137,20 @@ public class TokenAgreementPrepNounRule extends Rule {
         if (Z_ZI_IZ.contains(tokenReadings.getCleanToken().toLowerCase()) 
             && multiwordReqToken.getLemma().startsWith("згідно ") ) { // напр. "згідно з"
           posTag = multiwordReqToken.getPOSTag(); // "rv_oru";
-          prepTokenReadings = tokenReadings;
+          state = new State();
+          state.prepTokenReadings = tokenReadings;
+          state.prepPos = i;
           continue;
         }
         else {
           if( posTag.startsWith(IPOSTag.prep.name()) ) {
-            prepTokenReadings = null;
+            state = null;
             continue;
           }
 
           String mwPosTag = multiwordReqToken.getPOSTag();
           if( ! mwPosTag.contains("adv") && ! mwPosTag.contains("insert") ) {
-            prepTokenReadings = null;
+            state = null;
           }
         }
 
@@ -155,7 +164,7 @@ public class TokenAgreementPrepNounRule extends Rule {
 
         // що то була за людина
         if( prep.equals("за") && LemmaHelper.reverseSearch(tokens, i, 4, Pattern.compile("що"), null) ) {
-          prepTokenReadings = null;
+          state = null;
           continue;
         }
 
@@ -164,35 +173,58 @@ public class TokenAgreementPrepNounRule extends Rule {
           continue;
 
         if( prep.equals("шляхом") || prep.equals("од") || prep.equals("поруч") ) {
-          prepTokenReadings = null;
+          state = null;
           continue;
         }
 
-        prepTokenReadings = tokenReadings;
+        state = new State();
+        state.prepTokenReadings = tokenReadings;
+        state.prepPos = i;
         continue;
       }
 
-      if( prepTokenReadings == null )
+      if( state == null )
         continue;
+
+      // з Ван Дамом
+      if( Arrays.asList("ван").contains(tokens[i].getCleanToken().toLowerCase()) ) {
+        // prepTokenReadings = null;
+        continue;
+      }
+      if( Arrays.asList("Фон").contains(tokens[i].getCleanToken()) ) {
+        // prepTokenReadings = null;
+        continue;
+      }
 
 
       // Do actual check
 
-
-      Set<String> posTagsToFind = new LinkedHashSet<>();
-      String prep = prepTokenReadings.getAnalyzedToken(0).getLemma();
+      state.posTagsToFind = new LinkedHashSet<>();
+      String prep = state.prepTokenReadings.getAnalyzedToken(0).getLemma();
+//      state.prepTokenReadings = state.prepAnalyzedTokenReadings.getReadings();
 
       // замість Андрій вибрали Федір
-      if( prep.equalsIgnoreCase("замість") ) {
-        posTagsToFind.add("v_naz");
+      if( prep.equals("замість") ) {
+        state.posTagsToFind.add("v_naz");
       }
 
-      Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(prepTokenReadings, IPOSTag.prep.name());
+      Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(state.prepTokenReadings, IPOSTag.prep.name());
 
       // згідно з документа
-      if( Z_ZI_IZ.contains(prep.toLowerCase())
-          && i >= 3 && tokens[i-2].getCleanToken().equalsIgnoreCase("згідно") ) {
-        expectedCases = new HashSet<>(Arrays.asList("v_oru"));
+      if( Z_ZI_IZ_ZO.contains(prep) ) {
+        if( "нізвідки".equalsIgnoreCase(tokens[i].getCleanToken()) ) {
+          state = null;
+          continue;
+        }
+      
+        if( Z_ZI_IZ.contains(prep)
+            && i >= 3 
+            && tokens[i-2].getCleanToken().equalsIgnoreCase("згідно")) {
+          expectedCases = new HashSet<>(Arrays.asList("v_oru"));
+        } else if( ! isLikelyApproxWithZi(tokens, i, state) ) {
+          expectedCases.remove("v_zna");
+          state.ziZnaRemoved = true;
+        }
       }
 
       // we want to ignore «залежно» + noun, but we want to catch «незважаючи» без «на»
@@ -202,12 +234,12 @@ public class TokenAgreementPrepNounRule extends Rule {
 //      }
 
       expectedCases.remove("v_inf"); // we don't care about rv_inf here
-      posTagsToFind.addAll(expectedCases);
+      state.posTagsToFind.addAll(expectedCases);
 
-      RuleException exception = TokenAgreementPrepNounExceptionHelper.getExceptionStrong(tokens, i, prepTokenReadings, posTagsToFind);
+      RuleException exception = TokenAgreementPrepNounExceptionHelper.getExceptionStrong(tokens, i, state.prepTokenReadings);
       switch( exception.type ) {
       case exception:
-        prepTokenReadings = null;
+        state = null;
         continue;
       case skip:
         i += exception.skip;
@@ -236,15 +268,15 @@ public class TokenAgreementPrepNounRule extends Rule {
             continue;
           }
           else {
-            int insertEndPos = findInsertEnd(prepTokenReadings, tokens, i+1, true);
+            int insertEndPos = findInsertEnd(state.prepTokenReadings, tokens, i+1, true);
             if( insertEndPos > 0 ) {
               i=insertEndPos;
               continue;
             }
             
-            RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+            RuleMatch potentialRuleMatch = createRuleMatch(state, sentence, tokens, i);
             ruleMatches.add(potentialRuleMatch);
-            prepTokenReadings = null;
+            state = null;
             continue;
           }
         }
@@ -257,10 +289,10 @@ public class TokenAgreementPrepNounRule extends Rule {
         // to detect: завдяки його зусиллі
         if( pronPosAdjReadings.size() > 0 ) {
 
-          if (! TokenAgreementPrepNounRule.hasVidmPosTag(posTagsToFind, pronPosAdjReadings)) {
-            RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+          if (! TokenAgreementPrepNounRule.hasVidmPosTag(state.posTagsToFind, pronPosAdjReadings)) {
+            RuleMatch potentialRuleMatch = createRuleMatch(state, sentence, tokens, i);
             ruleMatches.add(potentialRuleMatch);
-            prepTokenReadings = null;
+            state = null;
             continue;
           }
 
@@ -271,21 +303,21 @@ public class TokenAgreementPrepNounRule extends Rule {
           }
         }
         else if ( thisToken.equals("їх") ) {
-          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+          RuleMatch potentialRuleMatch = createRuleMatch(state, sentence, tokens, i);
           ruleMatches.add(potentialRuleMatch);
-          prepTokenReadings = null;
+          state = null;
           continue;
         }
 
-        if( hasVidmPosTag(posTagsToFind, tokenReadings) ) {
-          prepTokenReadings = null;
+        if( hasVidmPosTag(state.posTagsToFind, tokenReadings) ) {
+          state = null;
           continue;
         }
 
-        exception = TokenAgreementPrepNounExceptionHelper.getExceptionNonInfl(tokens, i, prepTokenReadings, posTagsToFind);
+        exception = TokenAgreementPrepNounExceptionHelper.getExceptionNonInfl(tokens, i, state);
         switch( exception.type ) {
         case exception:
-          prepTokenReadings = null;
+          state = null;
           continue;
         case skip:
           i += exception.skip;
@@ -294,10 +326,10 @@ public class TokenAgreementPrepNounRule extends Rule {
           break;
         }
 
-        exception = TokenAgreementPrepNounExceptionHelper.getExceptionInfl(tokens, i, prepTokenReadings, posTagsToFind);
+        exception = TokenAgreementPrepNounExceptionHelper.getExceptionInfl(tokens, i, state);
         switch( exception.type ) {
         case exception:
-          prepTokenReadings = null;
+          state = null;
           continue;
         case skip:
           i += exception.skip;
@@ -306,15 +338,15 @@ public class TokenAgreementPrepNounRule extends Rule {
           break;
         }
 
-        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+        RuleMatch potentialRuleMatch = createRuleMatch(state, sentence, tokens, i);
         ruleMatches.add(potentialRuleMatch);
       }
       else { // no _v found
 
-        exception = TokenAgreementPrepNounExceptionHelper.getExceptionNonInfl(tokens, i, prepTokenReadings, posTagsToFind);
+        exception = TokenAgreementPrepNounExceptionHelper.getExceptionNonInfl(tokens, i, state);
         switch( exception.type ) {
         case exception:
-          prepTokenReadings = null;
+          state = null;
           continue;
         case skip:
           i += exception.skip;
@@ -324,10 +356,38 @@ public class TokenAgreementPrepNounRule extends Rule {
         }
 
       }
-      prepTokenReadings = null;
+      state = null;
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private static final List<String> approxLemmas = Arrays.asList(
+      "розмір", "величина", "товщина", "вартість", "ріст", "зріст", "висота", "глибина", "діаметр", "вага", "обсяг", "площа",
+      "приблизно", "десь", "завбільшки", "завширшки", "завдовжки", "завтовшки", "заввишки", "завглибшки");
+  private static final Pattern approxTag = Pattern.compile("noun.*v_oru.*|adv.*|part.*");
+  private static final Set<String> lemmas = new HashSet<>(LemmaHelper.TIME_LEMMAS);
+  static {
+    lemmas.addAll(LemmaHelper.DISTANCE_LEMMAS);
+    lemmas.addAll(LemmaHelper.PSEUDO_NUM_LEMMAS);
+    lemmas.addAll(Arrays.asList("ложка", "ложечка"));
+  }
+
+  private boolean isLikelyApproxWithZi(AnalyzedTokenReadings[] tokens, int i, State state) {
+    // TODO: ледь не
+
+    // з 2-поверховий, з 10-поверхівку
+    if( tokens[i].getCleanToken().matches(".*поверх(ов|ів).*") )
+      return true;
+
+    return PosTagHelper.hasPosTag(tokens[i], Pattern.compile("noun:inanim:[fnm]:v_zna.*num.*|num.*"))
+        || LemmaHelper.hasLemma(tokens[i], lemmas, Pattern.compile("noun:inanim:[mnf]:v_zna.*"))
+        || (i < tokens.length - 1 
+            && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("adj:[mnf]:v_zna.*"))
+            && LemmaHelper.hasLemma(tokens[i+1], lemmas, Pattern.compile("noun:inanim:[mnf]:v_zna.*")))
+        || LemmaHelper.hasLemma(tokens[state.prepPos-1], approxLemmas, approxTag)
+        || (i < tokens.length - 1 
+            && LemmaHelper.hasLemma(tokens[i+1], approxLemmas, approxTag));
   }
 
   private static int findInsertEnd(AnalyzedTokenReadings prepTokenReadings, AnalyzedTokenReadings[] tokens, int i, boolean lookForPart) {
@@ -390,12 +450,13 @@ public class TokenAgreementPrepNounRule extends Rule {
     return ! vidminokFound; //false;
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind, AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, int i) throws IOException {
-    String tokenString = tokenReadings.getToken();
+  private RuleMatch createRuleMatch(State state, AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, int i) throws IOException {
+    AnalyzedTokenReadings tokenReadings = tokens[i];
+    String tokenString = tokenReadings.getCleanToken().toLowerCase();
     
     List<String> suggestions = new ArrayList<>();
     
-    String requiredPostTagsRegEx = ":(" + String.join("|", posTagsToFind) + ")";
+    String requiredPostTagsRegEx = ":(" + String.join("|", state.posTagsToFind) + ")";
     for (AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
     
       String oldPosTag = analyzedToken.getPOSTag();
@@ -429,7 +490,7 @@ public class TokenAgreementPrepNounRule extends Rule {
     }
 
     List<String> reqVidminkyNames = new ArrayList<>();
-    for (String vidm: posTagsToFind) {
+    for (String vidm: state.posTagsToFind) {
       reqVidminkyNames.add(PosTagHelper.VIDMINKY_MAP.get(vidm));
     }
 
@@ -452,9 +513,13 @@ public class TokenAgreementPrepNounRule extends Rule {
     }
 
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
-        prepTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
+        state.prepTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
 
-    if( posTagsToFind.contains("v_rod")
+    if( state.ziZnaRemoved ) {
+      msg += ". Але з.в. вимагається у випадках порівнянн предметів.";
+    }
+
+    if( state.posTagsToFind.contains("v_rod")
         && tokens[i].getToken().matches(".*[ую]")
         && PosTagHelper.hasPosTag(tokenReadings.getReadings(), "noun.*?:m:v_dav.*") ) {
       msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;
@@ -481,7 +546,7 @@ public class TokenAgreementPrepNounRule extends Rule {
         throw new RuntimeException(e);
       }
     }
-    else if( prepTokenReadings.getToken().equalsIgnoreCase("о") ) {
+    else if( state.prepTokenReadings.getCleanToken().equalsIgnoreCase("о") ) {
       for(AnalyzedToken token: tokenReadings.getReadings()) {
         if( PosTagHelper.hasPosTag(token, NOUN_ANIM_V_NAZ_PATTERN) ) {
           msg += ". Можливо, тут «о» — це вигук і потрібно кличний відмінок?";
@@ -501,7 +566,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       }
     }
     else if( PosTagHelper.hasPosTagStart(tokens[i-1], "adv")) {
-      String mergedToken = prepTokenReadings.getCleanToken() + tokens[i-1].getCleanToken();
+      String mergedToken = state.prepTokenReadings.getCleanToken() + tokens[i-1].getCleanToken();
       List<AnalyzedTokenReadings> mergedTagged = ukrainian.getTagger().tag(Arrays.asList(mergedToken));
       if( PosTagHelper.hasPosTagStart(mergedTagged.get(0), "adv") ) {
         msg += ". Можливо, прийменник і прислівник мають бути одним словом?";
