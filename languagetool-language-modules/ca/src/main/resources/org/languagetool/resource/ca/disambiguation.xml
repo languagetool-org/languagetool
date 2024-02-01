@@ -10903,6 +10903,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filterall"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="NC[MC][SN].*|_GN_MS" postag_regexp="yes"/>
+                <token>algun</token>
+                <marker>
+                    <token postag="SPS00">sobre</token>
+                </marker>
+                <token postag="[PD].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
     </rulegroup>
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
