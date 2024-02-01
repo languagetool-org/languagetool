@@ -36,7 +36,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class SpanishWordTokenizer extends WordTokenizer {
 
-  private static final String wordCharacters = "§©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD";
+  private static final String wordCharacters = "§©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //decimal point between digits
   private static final Pattern DECIMAL_POINT= Pattern.compile("([\\d])\\.([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
