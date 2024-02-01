@@ -64,7 +64,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
     String s;
     while (tokenizerMatcher.find()) {
       s = tokenizerMatcher.group();
-      if (s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
+      if (l.size() > 0 && s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
         l.set(l.size() - 1, l.get(l.size() - 1) + s);
         continue;
       }
