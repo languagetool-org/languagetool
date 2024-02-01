@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- * Rule that finds unpaired quotes, brackets etc.
+ * Rule that finds unpaired quotes
  * 
  * @author Fred Kruse
  * @since 6.4
