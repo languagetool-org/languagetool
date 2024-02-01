@@ -199,11 +199,6 @@ public class Ukrainian extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
-  @Override
-  public List<String> getDefaultDisabledRulesForVariant() {
-    return Arrays.asList("piv_before_iotized_1992", "piv_with_proper_noun_1992");
-  }
-  
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {

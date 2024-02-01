@@ -121,7 +121,7 @@ public class MultitokenSpeller {
       boolean exceedsMaxDistancePerToken = false;
       for (int i=0; i<distances.size(); i++) {
         // usually 2, but 1 for short words
-        int maxDistance = (wordParts[i].length() > 5 ? 2: 1);
+        int maxDistance = (wordParts[i].length() > 5 && candidateParts[i].length() > 4 ? 2: 1);
         if (distances.get(i) > maxDistance) {
           exceedsMaxDistancePerToken = true;
           break;

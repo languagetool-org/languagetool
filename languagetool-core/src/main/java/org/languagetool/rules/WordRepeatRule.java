@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * Check if a word is repeated, e.g. "the the".
@@ -122,16 +123,18 @@ public class WordRepeatRule extends Rule {
 
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
-    boolean isWord = true;
+    if (StringTools.isEmoji(token)) {
+      return false;
+    }
     if (StringUtils.isNumericSpace(token)) {
-      isWord = false;
+      return false;
     } else if (token.length() == 1) {
       char c = token.charAt(0);
       if (!Character.isLetter(c)) {
-        isWord = false;
+        return false;
       }
     }
-    return isWord;
+    return true;
   }
 
 }

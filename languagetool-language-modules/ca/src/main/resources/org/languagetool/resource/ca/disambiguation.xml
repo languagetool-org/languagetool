@@ -47,6 +47,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="imprimar"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">C#</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NPMSO00"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
@@ -167,6 +175,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="add">
             <wd pos="NCFS000"/>
         </disambig>
+    </rule>
+    <rule id="la_lies" name="la lies">
+        <pattern>
+            <token>la</token>
+            <marker>
+                <token>lies</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NCMN000"/>
     </rule>
     <rule id="M_nompropi" name="M. en nom propis">
         <pattern>
@@ -3465,6 +3482,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="han_donat" name="Han donat (verb)">
+        <pattern>
+            <marker>
+                <token postag="VAIP3P00">han</token>
+            </marker>
+            <token postag="V.P..SM." postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="VAIP3P00"/>
+    </rule>
     <rulegroup id="Nom_propi" name="noms propis">
         <antipattern>
             <token postag="V.M.*" postag_regexp="yes"/>
@@ -9032,7 +9058,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="NCFS000">entrevista</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NCFS000"/>
+            <disambig action="remove" postag="V.P.*"/>
         </rule>
         <rule>
             <pattern>
@@ -9041,7 +9067,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="NCFP000">entrevistes</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NCFP000"/>
+            <disambig action="remove" postag="V.P.*"/>
         </rule>
     </rulegroup>
     <rule id="NoParticipi" name="no participi, és nom">
@@ -14492,7 +14518,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">l'|el|la|els|les|en</token>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception>bloc</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -20544,6 +20570,35 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="GV"/>
                 <wd pos="GV"/>
             </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="MATEMATIQUES" name="notació matemàtica">
+        <rule>
+            <pattern>
+                <token regexp="yes">[&#x2200;-&#x22FF;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[=&gt;&lt;]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[=&gt;&lt;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z][⁰ⁱ⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
 </rules>

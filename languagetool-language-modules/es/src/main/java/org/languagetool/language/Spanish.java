@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.es.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -34,6 +35,7 @@ import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
 import org.languagetool.tagging.es.SpanishTagger;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -316,4 +318,43 @@ public class Spanish extends Language implements AutoCloseable {
   public MultitokenSpeller getMultitokenSpeller() {
     return SpanishMultitokenSpeller.INSTANCE;
   }
+
+
+  private List<String> suggestionsToAvoid = Arrays.asList("aquél", "aquélla", "aquéllas", "aquéllos", "ésa", "ésas",
+    "ése", "ésos", "ésta", "éstas", "éste", "éstos", "sólo");
+  private Pattern voseoPostagPatern = Pattern.compile("V....V.*");
+  @Override
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<String> suggestions = ruleMatch.getSuggestedReplacements();
+      if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_ES_GGEC")) {
+        String suggestion = suggestions.get(0);
+        // avoid obsolete diacritics
+        if (suggestionsToAvoid.contains(suggestion.toLowerCase())) {
+          continue;
+        }
+        // avoid lowercase at the sentence start
+        if (ruleMatch.getSentence().getText().trim().startsWith(StringTools.uppercaseFirstChar(suggestion))) {
+          continue;
+        }
+        // avoid voseo forms in suggestions
+        List<AnalyzedTokenReadings> atr;
+        try {
+          atr = this.getTagger().tag(Arrays.asList(suggestion));
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        if (atr != null && atr.size()>0) {
+          if (atr.get(0).matchesPosTagRegex(voseoPostagPatern)) {
+            continue;
+          }
+        }
+      }
+      results.add(ruleMatch);
+    }
+
+    return results;
+  }
 }
+

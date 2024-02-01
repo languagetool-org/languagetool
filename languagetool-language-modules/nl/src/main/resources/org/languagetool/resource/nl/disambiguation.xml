@@ -85,7 +85,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern case_sensitive="yes">
 			<token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
+		<disambig action="ignore_spelling"/>
 	</rule>
 	<rule name="tag roman numbers" id="TAG_SPELLER_ROMAN_NUMBERS">
 		<pattern case_sensitive="yes">
@@ -111,7 +111,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token regexp="yes">^[0-9]+e$|^([1-9]0)?[2345679]de$|^([1-9]0)?[18]ste$|^([1-9])?[1][0-9]de$|^([0-9]+)?[2-9][0-9]ste$|^000ste$</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
+		<disambig action="ignore_spelling"/>
 	</rule>
 
 	<!-- tijden -->
@@ -155,7 +155,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token regexp="yes">[^a-zA-Z-]{1,80}</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
+		<disambig action="ignore_spelling"/>
 	</rule>
 
     <!-- alles kort en in hoofdletters -->
@@ -163,7 +163,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern case_sensitive="yes">
 			<token regexp="yes" case_sensitive="yes">[A-Z0-9]{2,5}</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
+		<disambig action="ignore_spelling"/>
 	</rule>
 
 	<!-- mailadressen en twitternamen -->
@@ -171,17 +171,17 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token regexp="yes">.*[@].*</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
+		<disambig action="ignore_spelling"/>
 	</rule>
-	
+
 	<!-- straten etc -->
 	<rule name="ignore adresses" id="SPELLER_STREETS">
 		<pattern>
 			<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*(straat|plein|steeg|allee|boulevard|weg|wijk)</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
+		<disambig action="ignore_spelling"/>
 	</rule>
-	
+
 	<!-- FC Twente etc. -->
 	<rule name="ignore clubs" id="SPELLER_FC_CLUB">
 		<pattern>
@@ -190,36 +190,17 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 			<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
-	</rule>  
-	
+		<disambig action="ignore_spelling"/>
+	</rule>
+
 	<!-- wegnummers van NL en Vlaanderen -->
 	<rule name="ignore numbers of roads" id="SPELLER_ROAD_NUMBERS">
 		<pattern>
 			<token regexp="yes" case_sensitive="yes">A[0-9]{1,3}|N[0-9]{1,3}|s[0-9]{3}|R[0-9]|B[0-9]{3}</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
-	</rule>  
+		<disambig action="ignore_spelling"/>
+	</rule>
 
-	<rule id="TEN_KOSTE" name="x">
-		<pattern>
-			<token>ten</token>
-			<marker>
-				<token>koste</token>
-			</marker>
-		</pattern>
-		<disambig action="ignore_spelling"/>
-	</rule>
-	<rule id="KOSTE_WAT_KOST" name="x">
-		<pattern>
-			<marker>
-				<token>koste</token>
-			</marker>
-			<token>wat</token>
-			<token>kost</token>
-		</pattern>
-		<disambig action="ignore_spelling"/>
-	</rule>
 
 	<rule name="ignore Arab name" id="IBN">
 		<pattern>
@@ -238,9 +219,9 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 			<token case_sensitive="yes">Bank</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
-	</rule>  
-	
+		<disambig action="ignore_spelling"/>
+	</rule>
+
 	<!-- domains etc -->
 	<rule name="ignore parts of domains" id="SPELLER_DOMAINS_a">
 		<pattern>
@@ -250,17 +231,17 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token spacebefore="no">.</token>
 			<token spacebefore="no" regexp="yes">com|nl|be|de</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
-	</rule>  
-	
+		<disambig action="ignore_spelling"/>
+	</rule>
+
 	<!-- bijv naamw met getal-->
 	<rule name="getal-ig" id="SPELLER_NUMBER_IG">
 		<pattern>
 			<token regexp="yes">[0-9]{1,3}[-](jarig|jarige|tal|tallen)</token>
 		</pattern>
-		<disambig action="ignore_spelling"/>  
-	</rule>  
-	
+		<disambig action="ignore_spelling"/>
+	</rule>
+
 	<!-- mond- en klauwzeer en dergelijke woordgroepen -->
 	<rule name="AFKO_SAMENSTELLING" id="AFKO_SAMENSTELLING"><pattern><token postag="DVS"/><token regexp="yes">en|of</token></pattern><disambig action="ignore_spelling"/></rule>
 
@@ -459,14 +440,6 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!-- GETALLEN -->
-	<!-- replaced by the rules below
-	<rule name="GUESS_number" id="TAG_NUMBERS">
-		<pattern>
-			<token regexp="yes">[0-9]{1,10}<exception>1</exception></token>
-		</pattern>
-		<disambig action="add"><wd pos="GET:ARA:MRV"/></disambig>
-	</rule>
-	-->
 	<rule name="GUESS_number" id="TAG_NUMBER_1EKV">
 		<pattern>
 			<token>1</token>
@@ -577,7 +550,7 @@ Copyright (C) 2008-2024 Ruud Baars
 			<marker><token regexp="yes">niet|bij|voor|dan|maar|nu|van|jan|zij|ik|ben|een|is|heeft|ons|[a-z]</token></marker>
 		</pattern>
 		<disambig action="remove" postag="ZNW.*"/>
-	</rule>	
+	</rule>
 	<rule id="ZNW_ZELDZAAM2" name="niet, bij etc">
 		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
 		<pattern>
@@ -614,14 +587,14 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag_regexp="yes" postag="WKW:VTD:.*"/>
 		</pattern>
 		<disambig action="add"><wd pos="VNW:PER:1EP:MRV:PSF"/></disambig>
-	</rule>	
+	</rule>
 
 	<rule id="ZIJ_AWS" name="wat er ook van zij">
 		<pattern>
 			<token>wat</token><token regexp="yes">er|daar</token><token>ook</token><token>van</token><token postag="WKW:AWS">zij</token>
 		</pattern>
 		<disambig action="filterall"/>
-	</rule>	
+	</rule>
 
 	<rule id="DES_TE_X" name="na des te komt een vergroting">
 		<pattern>
@@ -630,7 +603,7 @@ Copyright (C) 2008-2024 Ruud Baars
 			<marker><token postag_regexp="yes" postag="BNW:VGR:.*"/></marker>
 		</pattern>
 		<disambig action="filterall"/>
-	</rule>	
+	</rule>
 
 	<rule id="TE_X" name="na te komt een werkwoord of een vergroting meestal; eventueel een plaats">
 		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
@@ -694,7 +667,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="START_IK_DENK" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
@@ -759,7 +732,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="DE_MANNEN_VAN" name="-">
 		<pattern>
 			<token>de</token>
@@ -778,7 +751,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="EEN_LELIJKE_MAN_VAN" name="-">
 		<pattern>
 			<token>een</token>
@@ -788,7 +761,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="ZO_SNEL_MOGELIJK" name="-">
 		<pattern>
 			<token>zo</token>
@@ -815,7 +788,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="DE_ZWARE_MAN_DIE" name="-">
 		<pattern>
 			<token>de</token>
@@ -852,8 +825,8 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
-	
+
+
 	<rule id="OP_DEZE_PAGINA_VIND_JE" name="-">
 		<pattern>
 			<marker>
@@ -866,7 +839,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="OP_DEZE_PAGINA_VINDEN_WE" name="-">
 		<pattern>
 			<marker>
@@ -934,18 +907,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-<!--
-	<rule id="START_1EP_X" name="-">
-		<pattern>
-			<token postag_regexp="yes" postag="SENT_START"|postag="SENT_START"/>
-			<marker>
-				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"><exception regexp="yes">in|naast|uit</exception></token>
-				<token regexp="yes">het|dit|dat|die|de|een</token>
-			</marker>
-		</pattern>
-		<disambig action="filterall"/>
-	</rule>
-	-->
+
 	<rule id="START_DIT_IS_EEN_FRAGMENT_UIT" name="-">
 		<pattern>
 			<token postag="SENT_START"/>
@@ -1020,12 +982,12 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="VRZ">in</token>
 		</pattern>
 		<disambig action="filterall"/>
-	</rule>	
-	
+	</rule>
+
 	<rule id="ZIJ_AAN_ZIJ" name="-">
-		<pattern><token postag="ZNW:EKV:DE">zij</token><token postag="VRZ">aan</token><token postag="ZNW:EKV:DE">zij</token></pattern>	
+		<pattern><token postag="ZNW:EKV:DE">zij</token><token postag="VRZ">aan</token><token postag="ZNW:EKV:DE">zij</token></pattern>
 		<disambig action="filterall"/>
-	</rule>	
+	</rule>
 
 	<rule id="GEVONDEN_ZIJN" name="-">
 		<pattern>
@@ -1045,7 +1007,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="DE_VAN_DE_TRAPPEN_GELAZERDE_DOOS" name="-">
 		<pattern>
 			<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:PER:.*:BEZ|GET:EKV"/>
@@ -1117,7 +1079,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="EEN_VAN_DE_TRAPPEN_GELAZERD_KIND" name="-">
 		<pattern>
 			<token postag="GET:EKV"/>
@@ -1149,7 +1111,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-	
+
 	<rule id="X_MEN" name="-">
 		<pattern>
 			<token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/>
@@ -1179,7 +1141,7 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
 		<disambig action="filterall"/>
     </rule>
-	
+
 	<!-- Wees een goed mens etc. -->
 
 	<rule id="WEES_01" name="">
@@ -1258,7 +1220,7 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-	 
+
     <rule name="IGNORE_TIMES" id="X_TIMES">
         <pattern>
 				<!-- 2x -->
@@ -1266,7 +1228,7 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-	 
+
     <rule name="WILLEM_II" id="WILLEM_II">
         <pattern>
            <token case_sensitive="yes">Willem</token>
@@ -1274,7 +1236,7 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-	 
+
     <rule name="_2-0-ZEGE" id="_2-0-ZEGE">
         <pattern>
            <token regexp="yes">[0-9]+[-][0-9]+[-](uit|thuis)?(zege|winst|verlies|score|voorsprong|gelijkspel|remise|(rust|eind)?stand|(achter|tussen)?stand|overwinning|nederlaag|cijfers)</token>
@@ -1366,7 +1328,7 @@ Copyright (C) 2008-2024 Ruud Baars
 				</marker>
         </pattern>
         <disambig action="ignore_spelling"/>
-    </rule>	 
+    </rule>
     <rule name="NATIONS_LEAGUE" id="NATIONS_LEAGUE">
 			<!-- meneer Teach -->
         <pattern case_sensitive="yes" >
@@ -1377,14 +1339,7 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="GRAND_SLAM-DING" id="GRAND_SLAM-DING">
-        <pattern case_sensitive="yes">
-           <token>Grand</token>
-           <token regexp="yes">Slam-?(toernooi)</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="XX_IG" id="XX_IG">
+	<rule name="XX_IG" id="XX_IG">
 			<!-- meneer Teach -->
         <pattern case_sensitive="yes" >
 			<token regexp="yes">[0-9]+[-](voud|blad|jar|kopp|vorm|ur|cijfer|talig|del)ige?</token>
@@ -1463,6 +1418,12 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+	<rule id="IGNORE_SPELLING_OF_100K" name="ignore spelling of '100k' and '2022b'">
+		<pattern>
+			<token regexp="yes">\d+[a-z]</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
 
 	<rule id="AMBIGUITY_001" name="x">
 		<antipattern>
@@ -1489,18 +1450,45 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 	   <disambig action="remove" postag="BNW:.*ONV"/>
 	</rule>
+
+	<!--
+?	450219	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP
+	     7:	De politie heeft
+	     2:	De KNVB heeft
+	     2:	De politie is
+	-->
 	<rule id="AMBIGUITY_536066" name="x">
-		<pattern>
+        <pattern>
+			<token postag="SENT_START"/>
 			<marker>
 				<and>
-					<token postag="VNW:AWZ:MRV:DE_"/>
 					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
 				</and>
 			</marker>
-			<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag=".*MRV.*"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
-	   <disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
-	</rule>
+        <disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
+    </rule>
+	<!--
+?	240675	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_ VRZ
+	     2:	 op de uitnodiging van
+	     2:	 in de nacht van
+	     2:	 in de omgeving van
+	-->
+	<rule id="AMBIGUITY_536067" name="x">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+        <disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
+    </rule>
 	<rule id="AMBIGUITY_235830" name="x">
 		<pattern>
 			<marker>
@@ -1512,18 +1500,6 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag_regexp="yes" postag="ZNW.*HET"/>
 		</pattern>
 	   <disambig action="remove" postag="VNW:OND:EKV:HET"/>
-	</rule>
-	<rule id="WKWTGW1EP_WKWVLT1EP_" name="x">
-		<pattern>
-			<marker>
-				<and>
-					<token postag="WKW:TGW:1EP"/>
-					<token postag_regexp="yes" postag="ENM.*"/>
-				</and>
-			</marker>
-			<token postag="WKW:VLT:1EP"/>
-		</pattern>
-	   <disambig action="remove" postag="WKW:TGW:1EP"/>
 	</rule>
 
 	<rule id="ENM_CAPS" name="x">
@@ -1538,13 +1514,6 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 		</pattern>
 	   <disambig action="remove" postag="[^E]"/>
-	</rule>
-
-	<rule id="IGNORE_SPELLING_OF_100K" name="ignore spelling of '100k' and '2022b'">
-		<pattern>
-			<token regexp="yes">\d+[a-z]</token>
-		</pattern>
-		<disambig action="ignore_spelling"/>
 	</rule>
 
 	<!-- verwijder bijvoeglijke patronen bij BYW:GRD -->
@@ -1573,7 +1542,36 @@ Copyright (C) 2008-2024 Ruud Baars
 	<!-- NEW DISAMBIGUATION PATTERNS -->
 
 	<!--
-	? 416647    (2)    BYW/VRZ WKW:TGW:INF
+	remove ambiguity between BYW and VRZ
+	Elk voorzetsel wordt een bijwoord als het los is van het werkwoord.
+	-->
+	<rule id="NEW_000" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="BYW"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="BYW"/>
+	</rule>
+	<rule id="NEW_000b" name="-">
+		<pattern>
+			<token>in</token>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:1EP"/>
+	</rule>
+	<rule id="NEW_000c" name="-">
+		<pattern case_sensitive="yes">
+			<token postag="GET:RNG" regexp="yes">Tweede|Eerste</token>
+			<token postag="ZNW:EKV:DE_">Kamer</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	? 416647    (2)    BYW|VRZ WKW:TGW:INF
 	019914:    te doen
 	017636:    te zijn
 	017628:    te zien
@@ -1592,7 +1590,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 342690	(2)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
+	? 342690	(2)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
 	004502:	de kinderen
 	004002:	De kinderen
 	003780:	de mensen
@@ -1609,7 +1607,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 318491	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	? 318491	(3)	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:3EP
 	124240:	~ Het is
 	047964:	~ Dit is
 	022962:	~ Het gaat
@@ -1639,7 +1637,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 283602	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET ZNW:EKV:HET
+	? 283602	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET ZNW:EKV:HET
 	005414:	het hoofd
 	004633:	het aantal
 	003666:	het ziekenhuis
@@ -1659,7 +1657,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 167101	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:VLT:1EP
+	? 167101	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:VLT:1EP
 	019087:	~ Ze had
 	014701:	~ Ze keek
 	005478:	~ Ze kon
@@ -1679,7 +1677,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 092256	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET BYW
+	? 092256	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BYW
 	012182:	het ook
 	009978:	het niet
 	008288:	het nog
@@ -1705,7 +1703,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 066081	(2)	WKW:TGW:3EP WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	? 066081	(2)	WKW:TGW:3EP WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP
 	036659:	is niet
 	003878:	wordt niet
 	003063:	gaat niet
@@ -1722,7 +1720,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 104843	(2)	VNW:OND:EKV:DE_/VNW:AWZ:EKV:DE_/VNW:OND:MRV:DE_ ZNW:EKV:DE_
+	? 104843	(2)	VNW:OND:EKV:DE_|VNW:AWZ:EKV:DE_|VNW:OND:MRV:DE_ ZNW:EKV:DE_
 	002040:	 deze pagina
 	001726:	 deze site
 	001518:	 deze tijd
@@ -1742,7 +1740,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 089364	(2)	WKW:TGW:1EP/ZNW:EKV:DE_/VNW:PER:1EP:EKV:BEZ ZNW:EKV:DE_
+	? 089364	(2)	WKW:TGW:1EP|ZNW:EKV:DE_|VNW:PER:1EP:EKV:BEZ ZNW:EKV:DE_
 	003481:	 Mijn naam
 	001492:	 mijn vrouw
 	001321:	 mijn zoon
@@ -1762,7 +1760,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 054616	(2)	BYW/VRZ BNW:STL:ONV
+	? 054616	(2)	BYW|VRZ BNW:STL:ONV
 	009134:	te veel
 	004029:	te laat
 	001919:	te ver
@@ -1783,7 +1781,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 083596	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:TGW:3EP
+	? 083596	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:TGW:3EP
 	022813:	~ Ze is
 	012452:	~ Ze heeft
 	003293:	~ Ze kijkt
@@ -1805,7 +1803,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 218691	(3)	SENT_START VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	? 218691	(3)	SENT_START VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:3EP
 	114105:	~ Dat is
 	007369:	~ Dat heeft
 	006640:	~ Dat wordt
@@ -1826,7 +1824,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 080181	(3)	SENT_START VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF WKW:TGW:3EP
+	? 080181	(3)	SENT_START VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF WKW:TGW:3EP
 	018508:	~ Je hebt
 	012733:	~ Je kunt
 	003707:	~ Je ziet
@@ -1848,7 +1846,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 079542	(3)	GET:TXT:EKV ZNW:EKV/BNW:STL:VRB ZNW:EKV:DE_
+	? 079542	(3)	GET:TXT:EKV ZNW:EKV|BNW:STL:VRB ZNW:EKV:DE_
 	000259:	 een jonge vrouw
 	000212:	 een lange tijd
 	000195:	 een gezellige avond
@@ -1875,7 +1873,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 072216	(3)	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:3EP
+	? 072216	(3)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:3EP
 	035325:	~ Wat is
 	008362:	~ Wat betekent
 	003809:	~ Wat doet
@@ -1907,7 +1905,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	? 068701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:1EP/ZNW:EKV:DE_
+	? 068701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|WKW:TGW:1EP|ZNW:EKV:DE_
 	038927:	~ Ik wil
 	019790:	~ Ik moet
 	005065:	~ Ik zit
@@ -1928,7 +1926,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  80861	(4)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP BYW
+	?  80861	(4)	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:3EP BYW
     6406:	~ Het is niet
     4341:	~ Het is ook
     2802:	~ Het is nog
@@ -1951,7 +1949,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  78320	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?  78320	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
    57590:	 Het was
    10090:	 Dit was
     9256:	 het was (deze niet, want 'als ik het was' )
@@ -1968,7 +1966,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  71462	(3)	SENT_START BYW/VGW WKW:TGW:3EP
+	?  71462	(3)	SENT_START BYW|VGW WKW:TGW:3EP
 	13342:	~ Daar is
 	(de andere startwoorden niet)
 	-->
@@ -1984,7 +1982,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  68701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	?  68701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
    38927:	~ Ik wil
    19790:	~ Ik moet
     5065:	~ Ik zit
@@ -2005,7 +2003,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  66213	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF/ZNW:MRV:DE_
+	?  66213	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF|ZNW:MRV:DE_
    15992:	~ We moeten
     9826:	~ We kunnen
     4772:	~ We willen
@@ -2026,7 +2024,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  65965	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:VLT:1EP
+	?  65965	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:VLT:1EP
     6109:	 Het werd
     5066:	 Het zou
     4463:	 Het ging
@@ -2055,7 +2053,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  70353	(2)	VNW:URT/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:3EP
+	?  70353	(2)	VNW:URT|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:3EP
    35325:	 Wat is
     8362:	 Wat betekent
     3809:	 Wat doet
@@ -2078,7 +2076,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  65227	(2)	VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:TGW:INF
+	?  65227	(2)	VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:TGW:INF
    13256:	 Ze hebben
     3749:	 Ze worden
     2736:	 Ze zullen
@@ -2098,7 +2096,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  64337	(3)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ BNW:STL:VRB ZNW:EKV:DE_
+	?  64337	(3)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ BNW:STL:VRB ZNW:EKV:DE_
      920:	 de hele tijd
      722:	 de hele wereld
      699:	 de hele nacht
@@ -2117,7 +2115,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  63921	(2)	BYW:GRD/WKW:TGW:1EP BNW:STL:ONV
+	?  63921	(2)	BYW:GRD|WKW:TGW:1EP BNW:STL:ONV
     4224:	 heel erg
     2868:	 heel mooi
     2277:	 heel belangrijk
@@ -2137,7 +2135,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  62198	(2)	VNW:AWZ:EKV:DE_ WKW:TGW:3EP/ZNW:EKV:DE_
+	?  62198	(2)	VNW:AWZ:EKV:DE_ WKW:TGW:3EP|ZNW:EKV:DE_
     6786:	 De rest
     6401:	 de lucht
     4108:	 de rest
@@ -2163,7 +2161,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  71462	(3)	SENT_START BYW/VGW WKW:TGW:3EP
+	?  71462	(3)	SENT_START BYW|VGW WKW:TGW:3EP
 	13342:	~ Daar is
 	(de andere startwoorden niet)
 	-->
@@ -2179,7 +2177,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  59836	(2)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/ZNW:EKV:DE_
+	?  59836	(2)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|ZNW:EKV:DE_
     8934:	 Ik kom
     7202:	 Ik kijk
     4024:	 Ik krijg
@@ -2205,7 +2203,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  57018	(3)	BYW/VGW/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	?  57018	(3)	BYW|VGW|VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
     1896:	 voor de deur
     1291:	 voor de toekomst
      837:	 voor de hand
@@ -2223,7 +2221,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  54749	(3)	ZNW:EKV/BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?  54749	(3)	ZNW:EKV|BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
      283:	 mooie foto's.
      209:	 blote voeten.
      208:	 sociale media.
@@ -2245,7 +2243,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  65332	(4)	VGW/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?  65332	(4)	VGW|VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT|SENT_END
     1373:	 voor de deur.
      889:	 voor de toekomst.
      800:	 om de hoek.
@@ -2271,7 +2269,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  64767	(2)	BYW TSW/WKW:TGW:1EP/BYW/ZNW:EKV
+	?  64767	(2)	BYW TSW|WKW:TGW:1EP|BYW|ZNW:EKV
    13015:	 nog wel
    12688:	 er wel
    11800:	 ook wel
@@ -2290,7 +2288,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  60422	(3)	BNW:STL:ONV/VRZ VNW:AWZ:EKV:DE_
+	?  60422	(3)	BNW:STL:ONV|VRZ VNW:AWZ:EKV:DE_
     3306:	 naar de deur
     1552:	 naar de keuken
     1103:	 naar de grond
@@ -2306,7 +2304,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  58402	(3)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?  58402	(3)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
     1238:	 De man was
      769:	 de hand was
      648:	 De lucht was
@@ -2323,7 +2321,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  51280	(2)	ZNW:EKV:DE_/BNW:STL:VRB ZNW:EKV:DE_
+	?  51280	(2)	ZNW:EKV:DE_|BNW:STL:VRB ZNW:EKV:DE_
      332:	 fijne vakantie
      325:	 fijne avond
      230:	 vriendelijke bediening
@@ -2349,7 +2347,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-    ?  51074    (2)    GET:TXT:MRV/ZNW:EKV:DE_ ZNW:MRV:DE_
+    ?  51074    (2)    GET:TXT:MRV|ZNW:EKV:DE_ ZNW:MRV:DE_
     1251:     tien minuten
     1232:     vijf minuten
      749:     twee kinderen
@@ -2372,7 +2370,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  49919	(2)	SENT_START BYW:VRG/ZNW:EKV:HET
+	?  49919	(2)	SENT_START BYW:VRG|ZNW:EKV:HET
    47261:	~ Waarom
 	-->
 	<rule id="NEW_038" name="-">
@@ -2386,7 +2384,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
     <!--
-	?  49498	(2)	WKW:VLT:1EP WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	?  49498	(2)	WKW:VLT:1EP WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP
 	6022:	 kon niet
 	3474:	 had niet
 	3461:	 was niet
@@ -2408,7 +2406,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  51335	(2)	VGW/VRZ VRZ
+	?  51335	(2)	VGW|VRZ VRZ
    35811:	 om te
 	-->
     <rule id="NEW_040" name="-">
@@ -2422,7 +2420,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-	?  70353    (3)    SENT_START VNW:URT/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:3EP
+	?  70353    (3)    SENT_START VNW:URT|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:3EP
 	35325:    ~ Wat is
 	8362:    ~ Wat betekent
 	3809:    ~ Wat doet
@@ -2445,7 +2443,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-	?  54719    (2)    BNW:STL:ONV/BNW:STL:VRB ITP:PNT/SENT_END
+	?  54719    (2)    BNW:STL:ONV|BNW:STL:VRB ITP:PNT|SENT_END
 	11741:     even.
 	9278:     prima.
 	4936:     tevreden.
@@ -2467,7 +2465,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-	?  52054    (2)    VGW/VGW:EKV:HET/VNW:OND:EKV:HET WKW:VLT:1EP
+	?  52054    (2)    VGW|VGW:EKV:HET|VNW:OND:EKV:HET WKW:VLT:1EP
 	10714:     Dat zou
 	5854:     Dat had
 	3342:     Dat kon
@@ -2485,7 +2483,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  47871    (2)    VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ WKW:TGW:INF/ZNW:MRV:DE_
+	?  47871    (2)    VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:INF|ZNW:MRV:DE_
 	2333:     De mannen
 	1272:     De kosten
 	991:     De prijzen
@@ -2507,7 +2505,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-	?  55621    (4)    SENT_START VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ
+	?  55621    (4)    SENT_START VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
 	526:    ~ De mensen zijn
 	524:    ~ De resultaten zijn
 	445:    ~ De kinderen zijn
@@ -2526,7 +2524,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  49046	(2)	VNW:PER:3EP:EKV:ACT WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?  49046	(2)	VNW:PER:3EP:EKV:ACT WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
    43078:	 Hij was
     5169:	 hij was
 	-->
@@ -2541,7 +2539,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  47673	(2)	ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF ZNW:EKV:DE_
+	?  47673	(2)	ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF ZNW:EKV:DE_
     1582:	 haar rug
     1196:	 haar naam
     1003:	 haar wang
@@ -2558,7 +2556,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  47090	(3)	SENT_START BYW/VGW WKW:TGW:1EP
+	?  47090	(3)	SENT_START BYW|VGW WKW:TGW:1EP
     4516:	~ Daar heb
     3478:	~ Daar ben
 	-->
@@ -2574,7 +2572,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  45665	(2)	WKW:VLT:INF/WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+	?  45665	(2)	WKW:VLT:INF|WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
     9039:	 verdwenen.
     6572:	 begonnen.
     4738:	 verloren.
@@ -2595,7 +2593,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  44380	(3)	WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP WKW:TGW:INF ITP:PNT/SENT_END
+	?  44380	(3)	WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP WKW:TGW:INF ITP:PNT|SENT_END
     2639:	 niet doen.
     1581:	 niet zien.
     1562:	 niet zijn.
@@ -2613,7 +2611,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  44134	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?  44134	(2)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
    33978:	 Dat was
    10078:	 dat was
 	-->
@@ -2626,7 +2624,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  43712	(2)	BYW/VRZ VNW:AWZ:EKV:DE_
+	?  43712	(2)	BYW|VRZ VNW:AWZ:EKV:DE_
    28286:	 bij de
     4626:	 achter de
     3092:	 Bij de
@@ -2634,6 +2632,7 @@ Copyright (C) 2008-2024 Ruud Baars
     1464:	 binnen de
     1062:	 vanaf de
 	-->
+	<!--
     <rule id="NEW_053" name="-">
         <pattern>
 			<marker>
@@ -2646,9 +2645,10 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="remove" postag="BYW"/>
     </rule>
+	-->
 
 	<!--
-	?  42747	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:VLT:INF
+	?  42747	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:VLT:INF
     6748:	~ Ze hadden
     2386:	~ Ze zouden
     2120:	~ Ze gingen
@@ -2665,7 +2665,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  42566	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP
+	?  42566	(2)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP
     5741:	 Dat heb
     5225:	 Dat vind
     1950:	 Dat doe
@@ -2684,7 +2684,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  40182	(3)	SENT_START WKW:TGW:3EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF
+	?  40182	(3)	SENT_START WKW:TGW:3EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:EKV:PSF
     8020:	~ Heeft u
     5676:	~ Hebt u
     4755:	~ Wilt u
@@ -2703,7 +2703,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  39724	(3)	BYW/VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	?  39724	(3)	BYW|VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
     1453:	 achter de rug
     1114:	 bij de deur
      871:	 bij de politie
@@ -2721,7 +2721,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  38518	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF WKW:TGW:3EP
+	?  38518	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:EKV:PSF WKW:TGW:3EP
     7420:	~ U kunt
     5398:	~ U hebt
     3792:	~ U heeft
@@ -2744,7 +2744,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  38011	(2)	WKW:TGW:INF/ZNW:MRV:DE_ VNW:PER:1EP:MRV:ACT
+	?  38011	(2)	WKW:TGW:INF|ZNW:MRV:DE_ VNW:PER:1EP:MRV:ACT
     9746:	 kunnen we
     9695:	 moeten we
     3376:	 Kunnen we
@@ -2770,7 +2770,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  37786	(2)	ZNW:EKV:DE_/VNW:PER:1EP:MRV:BEZ ZNW:EKV:DE_
+	?  37786	(2)	ZNW:EKV:DE_|VNW:PER:1EP:MRV:BEZ ZNW:EKV:DE_
     1259:	 onze website
      594:	 onze nieuwsbrief
      485:	 onze site
@@ -2787,7 +2787,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  37632	(2)	BYW BNW:STL:ONV/VGW/VRZ
+	?  37632	(2)	BYW BNW:STL:ONV|VGW|VRZ
     8375:	 terug naar
     3503:	 Terug naar
     3180:	 eens naar
@@ -2805,7 +2805,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  36905	(3)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?  36905	(3)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT|SENT_END
     1279:	 zijn rug.
     1119:	 zijn vrouw.
      837:	 zijn naam.
@@ -2823,7 +2823,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  36146	(3)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ ZNW:EKV/BNW:STL:VRB ZNW:EKV:DE_
+	?  36146	(3)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV|BNW:STL:VRB ZNW:EKV:DE_
      526:	 de enige manier
      331:	 De oude vrouw
      325:	 De jonge vrouw
@@ -2858,7 +2858,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  41379	(2)	BYW/VGW WKW:TGW:INF
+	?  41379	(2)	BYW|VGW WKW:TGW:INF
     2276:	 Daar hebben
     1670:	 Dan gaan
     1230:	 Daar moeten
@@ -2878,7 +2878,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  35686	(2)	ZNW:EKV:DE_ WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	?  35686	(2)	ZNW:EKV:DE_ WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
      213:	 overheid moet
      155:	 God wil
      152:	 rest moet
@@ -2901,7 +2901,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  35579	(2)	WKW:TGW:3EP BYW/TSW/VGW
+	?  35579	(2)	WKW:TGW:3EP BYW|TSW|VGW
    19509:	 is nu
     2498:	 wordt nu
     1535:	 gaat nu
@@ -2922,7 +2922,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  35494	(2)	VRZ WKW:TGW:1EP/ZNW:EKV:DE_/VNW:PER:1EP:EKV:BEZ
+	?  35494	(2)	VRZ WKW:TGW:1EP|ZNW:EKV:DE_|VNW:PER:1EP:EKV:BEZ
    11960:	 in mijn
     8227:	 van mijn
     7806:	 op mijn
@@ -2940,7 +2940,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  35106	(3)	SENT_START ZNW:EKV/BNW:STL:VRB ZNW:EKV:DE_
+	?  35106	(3)	SENT_START ZNW:EKV|BNW:STL:VRB ZNW:EKV:DE_
      418:	~ Snelle levering
      270:	~ Mooie foto
      267:	~ Lange tijd
@@ -2965,7 +2965,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  35042	(3)	WKW:TGW:3EP BYW WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	?  35042	(3)	WKW:TGW:3EP BYW WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP
     6098:	 is nog niet
     4524:	 is er niet
     2212:	 is ook niet
@@ -2983,7 +2983,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  35039	(2)	WKW:TGW:1EP/VRZ GET:ARA:004:MRV
+	?  35039	(2)	WKW:TGW:1EP|VRZ GET:ARA:004:MRV
     4271:	 In 2006
      613:	 In 2010
      558:	 In 2009
@@ -3004,7 +3004,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  34082	(2)	WKW:TGW:3EP TSW/WKW:TGW:1EP/BYW/ZNW:EKV
+	?  34082	(2)	WKW:TGW:3EP TSW|WKW:TGW:1EP|BYW|ZNW:EKV
    14460:	 is wel
     3839:	 lijkt wel
     1644:	 heeft wel
@@ -3025,7 +3025,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  32425	(3)	WKW:TGW:3EP VNW:OND:MRV:HET/VNW:OND:EKV:HET BYW
+	?  32425	(3)	WKW:TGW:3EP VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW
     2506:	 is het ook
     1457:	 is het nog
     1012:	 is het toch
@@ -3043,7 +3043,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 
 	<!--
-	?  32057	(2)	BNW:STL:ONV BYW/VGW/VRZ
+	?  32057	(2)	BNW:STL:ONV BYW|VGW|VRZ
     4036:	 bang voor
     1220:	 belangrijk voor
      897:	 dankbaar voor
@@ -3060,7 +3060,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  32041	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET VNW:PER:1EP:EKV:ACT
+	?  32041	(2)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VNW:PER:1EP:EKV:ACT
    29690:	 dat ik
 	-->
     <rule id="NEW_074" name="-">
@@ -3074,7 +3074,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  31493	(2)	BYW/VRZ/ZNW:EKV ITP:PNT/SENT_END
+	?  31493	(2)	BYW|VRZ|ZNW:EKV ITP:PNT|SENT_END
    31490:	 over.
 	-->
     <rule id="NEW_075" name="-">
@@ -3087,7 +3087,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  31186	(2)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:3EP
+	?  31186	(2)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|WKW:TGW:3EP
    21396:	 Ik zal
     2963:	 Ik mag
     2639:	 ik zal
@@ -3107,7 +3107,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  31033	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ
+	?  31033	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
    22655:	~ We zijn
     8318:	~ Wij zijn
 	-->
@@ -3123,7 +3123,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  30643	(2)	GET:TXT:EKV WKW:TGW:1EP/ZNW:EKV:HET
+	?  30643	(2)	GET:TXT:EKV WKW:TGW:1EP|ZNW:EKV:HET
     2319:	 een boek
     2173:	 een antwoord
     1487:	 een eind
@@ -3145,7 +3145,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  30643	(2)	ZNW:MRV:DE_ WKW:TGW:INF/BNW:STL:MRV:DE_/ZNW:MRV:DE_/WKW:VLT:INF
+	?  30643	(2)	ZNW:MRV:DE_ WKW:TGW:INF|BNW:STL:MRV:DE_|ZNW:MRV:DE_|WKW:VLT:INF
      642:	 kinderen waren
      642:	 mensen waren
      295:	 resultaten waren
@@ -3165,7 +3165,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  30316	(2)	BYW/VGW/VRZ ITP:PNT/SENT_END
+	?  30316	(2)	BYW|VGW|VRZ ITP:PNT|SENT_END
    30306:	 voor.
 	-->
     <rule id="NEW_080" name="-">
@@ -3179,7 +3179,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  29483	(2)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ BYW
+	?  29483	(2)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ BYW
     5565:	 zijn ook
     3904:	 zijn nog
     3100:	 zijn hier
@@ -3196,7 +3196,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:URT/VNW/VNW:VRG WKW:TGW:3EP ZNW:EKV:DE_ ITP:VRT/SENT_END
+	SENT_START VNW:URT/VNW/VNW:VRG WKW:TGW:3EP ZNW:EKV:DE_ ITP:VRT|SENT_END
 	Wat betekent effectenportefeuille?
 	Wat betekent seizoensgevoeligheid?
 	Wat betekent continentverschuiving?
@@ -3217,7 +3217,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	  29221	(2)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ ZNW:EKV
+	  29221	(2)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV
     1613:	 de mens
      961:	 De mens
      905:	 de kant
@@ -3234,7 +3234,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  29125	(3)	SENT_START VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VGW:EKV:DE_/VGW:MRV:DE_/VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	?  29125	(3)	SENT_START VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
 	TBD: pattern klopt niet met items in header. Checken of deze rule wel correct is.
 	-->
     <rule id="NEW_084" name="-">
@@ -3248,7 +3248,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  28621	(2)	ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF ZNW:EKV:HET
+	?  28621	(2)	ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF ZNW:EKV:HET
    11660:	 haar hoofd
     1342:	 haar voorhoofd
     1031:	 haar horloge
@@ -3266,7 +3266,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
   Wat een rare meid.
   Wat een nare foto.
   Wat een gave naam.
@@ -3287,8 +3287,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	=================================================================
-	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV ZNW:EKV:DE_ ITP:PNT/SENT_END
+	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV ZNW:EKV:DE_ ITP:PNT|SENT_END
 	Wat een vakman.
 	Wat een zin.
 	Wat een eer.
@@ -3307,7 +3306,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:URT/VNW/VNW:VRG WKW:TGW:3EP GET:TXT:EKV ZNW:EKV:DE_ ITP:VRT/SENT_END
+	SENT_START VNW:URT/VNW/VNW:VRG WKW:TGW:3EP GET:TXT:EKV ZNW:EKV:DE_ ITP:VRT|SENT_END
 	Wat doet een poes?
 	Wat is een advocaat?
 	Wat betekent een kus?
@@ -3327,7 +3326,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ ITP:URT/SENT_END
+	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ ITP:URT|SENT_END
 	Wat een rare zaak!
 	Wat een arme meid!
 	Wat een wilde zee!
@@ -3348,7 +3347,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_ VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_ VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT|SENT_END
 	Klik op de tv.
 	Tik op de app.
 	Duw op de bel.
@@ -3369,7 +3368,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START ENM:LOC:PTS/ENM:PER:FST WKW:VLT:1EP BYW ITP:PNT/SENT_END
+	SENT_START ENM:LOC:PTS/ENM:PER:FST WKW:VLT:1EP BYW ITP:PNT|SENT_END
 	Mo ging ook.
 	Tim keek opzij.
 	Kofi keek opzij.
@@ -3392,7 +3391,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV ZNW:EKV:DE_ ITP:URT/SENT_END
+	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV ZNW:EKV:DE_ ITP:URT|SENT_END
 	Wat een ontmoeting!
 	Wat een pc!
 	Wat een dj!
@@ -3411,7 +3410,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:URT/VNW/VNW:VRG WKW:TGW:3EP VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:VRT/SENT_END
+	SENT_START VNW:URT/VNW/VNW:VRG WKW:TGW:3EP VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:VRT|SENT_END
 	-->
     <rule id="NEW_094" name="-">
         <pattern>
@@ -3427,7 +3426,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	SENT_START GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT|SENT_END
   Een hele fles.
   Een goede les.
   Een hele berg.
@@ -3450,7 +3449,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  28255	(2)	WKW:TGW:1EP WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	?  28255	(2)	WKW:TGW:1EP WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP
     5650:	 ben niet
     2506:	 kan niet
     2188:	 wil niet
@@ -3468,7 +3467,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  28029	(3)	SENT_START ZNW:MRV:DE_ WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ
+	?  28029	(3)	SENT_START ZNW:MRV:DE_ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
     1211:	~ Mensen zijn
      433:	~ Vrouwen zijn
      381:	~ Kinderen zijn
@@ -3488,7 +3487,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  29125	(3)	SENT_START VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VGW:EKV:DE_/VGW:MRV:DE_/VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	?  29125	(3)	SENT_START VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
      680:	~ Die vrouw
      562:	~ Die tijd
      519:	~ Die kans
@@ -3514,7 +3513,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT/SENT_END
+	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
   Het zijn arme mensen.
   Het zijn boze mensen.
   Het zijn oude mensen.
@@ -3535,7 +3534,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	SENT_START BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT|SENT_END
   Kosmische ruis.
   Grote stap.
   Fantastische man.
@@ -3554,7 +3553,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START BNW:STL:VRB WKW:TGW:INF/ZNW:MRV:DE_ ITP:PNT/SENT_END
+	SENT_START BNW:STL:VRB WKW:TGW:INF/ZNW:MRV:DE_ ITP:PNT|SENT_END
   Blauwe ogen.
   Donkerbruine ogen.
   Kleine dingen.
@@ -3576,7 +3575,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START BYW:VRG WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF ZNW:EKV:DE_ ITP:VRT/SENT_END
+	SENT_START BYW:VRG WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF ZNW:EKV:DE_ ITP:VRT|SENT_END
   Hoe schrijf je geloofsverkondiger?
   Hoe voorkom je decompressieziekte?
   Hoe schrijf je decompressieziekte?
@@ -3597,7 +3596,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  27455	(2)	VRZ WKW:TGW:1EP/ZNW:EKV:HET
+	?  27455	(2)	VRZ WKW:TGW:1EP|ZNW:EKV:HET
     3823:	 van plan
     2540:	 van belang
     1841:	 in gebruik
@@ -3618,7 +3617,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  27407	(3)	WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF BYW
+	?  27407	(3)	WKW:TGW:1EP VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF BYW
     1243:	 Heb je nog
     1052:	 vind je hier
      597:	 Heb je er
@@ -3636,7 +3635,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  27380	(2)	WKW:TGW:INF/WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+	?  27380	(2)	WKW:TGW:INF|WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
     8052:	 vergeten.
     3825:	 ontvangen.
     1977:	 vervangen.
@@ -3659,7 +3658,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START ENM:LOC:PTS/ENM:PER:FST WKW:VLT:1EP ITP:PNT/SENT_END
+	SENT_START ENM:LOC:PTS/ENM:PER:FST WKW:VLT:1EP ITP:PNT|SENT_END
 	Meredith knikte.
 	Colin knikte.
 	Margaret glimlachte.
@@ -3701,7 +3700,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  30546	(2)	ENM:PER:FST WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?  30546	(2)	ENM:PER:FST WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
      763:	 Tom was
      181:	 Maria was
      177:	 Paul was
@@ -3723,7 +3722,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  27562	(2)	BYW/VGW WKW:TGW:INF
+	?  27562	(2)	BYW|VGW WKW:TGW:INF
     1670:	 Dan gaan
     1180:	 Dan kunnen
      885:	 Dan hebben
@@ -3754,7 +3753,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  27310	(3)	SENT_START BYW/VGW/WKW:TGW:1EP/SENT_START BYW
+	?  27310	(3)	SENT_START BYW|VGW|WKW:TGW:1EP|SENT_START BYW
     9005:	~ Maar er
     5211:	~ Maar ook
     2393:	~ Maar toch
@@ -3772,7 +3771,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  27019	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET ITP:PNT/SENT_END
+	?  27019	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET ITP:PNT|SENT_END
    21480:	 het.
     5508:	 dit.
 	-->
@@ -3787,7 +3786,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET ITP:PNT/SENT_END
+	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET ITP:PNT|SENT_END
 	Wat een eng land.
 	Wat een tof boek.
 	Wat een mooi pak.
@@ -3807,7 +3806,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:MRV:DE_ ITP:PNT|SENT_END
   Het zijn mensen.
   Dit zijn veiligheidsvoorschriften.
   Het zijn ontwenningsverschijnselen.
@@ -3826,7 +3825,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	SENT_START BYW:VRG/BNW:STL:ONV/VGW/ZNW:EKV:DE_ WKW:TGW:3EP VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:VRT/SENT_END
+	SENT_START BYW:VRG/BNW:STL:ONV/VGW/ZNW:EKV:DE_ WKW:TGW:3EP VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:VRT|SENT_END
   Waar is de zon?
   Waar is de tijd?
   Waar is de rest?
@@ -3848,13 +3847,14 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  26660	(2)	BYW/VRZ ZNW:EKV:DE_
+	?  26660	(2)	BYW|VRZ ZNW:EKV:DE_
      773:	 Bij voorkeur
      644:	 te voet
      618:	 te hulp
      505:	 bij voorkeur
      219:	 boven verwachting
 	-->
+	<!--
     <rule id="NEW_116" name="-">
         <pattern>
 			<marker>
@@ -3867,9 +3867,9 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig action="remove" postag="BYW"/>
     </rule>
-
+	-->
 	<!--
-	?  26540	(3)	BYW:GRD/TYD:DAG/BYW/TSW/VGW BNW:STL:ONV ITP:PNT/SENT_END
+	?  26540	(3)	BYW:GRD|TYD:DAG|BYW|TSW|VGW BNW:STL:ONV ITP:PNT|SENT_END
     1081:	 zo ver.
     1036:	 zo mooi.
      801:	 zo erg.
@@ -3890,7 +3890,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  26024	(2)	BYW/TSW/VGW BYW
+	?  26024	(2)	BYW|TSW|VGW BYW
     4326:	 nu ook
     3791:	 nu nog
     2754:	 nu eenmaal
@@ -3906,7 +3906,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  37606	(3)	SENT_START BYW/VGW WKW:VLT:1EP
+	?  37606	(3)	SENT_START BYW|VGW WKW:VLT:1EP
     2905:	~ Toen kwam
     1893:	~ Toen werd
     1773:	~ Toen ging
@@ -3927,7 +3927,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  25543	(2)	SENT_START BYW/ZNW:EKV:DE_
+	?  25543	(2)	SENT_START BYW|ZNW:EKV:DE_
     9767:	~ Morgen
     6571:	~ Overal
     5444:	~ Weg
@@ -3950,7 +3950,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  24663	(3)	VGW/VRZ GET:TXT:EKV ZNW:EKV:DE_
+	?  24663	(3)	VGW|VRZ GET:TXT:EKV ZNW:EKV:DE_
      844:	 met een ruk
      452:	 met een glimlach
      307:	 met een klap
@@ -3969,7 +3969,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  24077	(2)	WKW:TGW:1EP/BYW/VNW:OBP:EKV/ZNW:EKV:HET VRZ
+	?  24077	(2)	WKW:TGW:1EP|BYW|VNW:OBP:EKV|ZNW:EKV:HET VRZ
     9243:	 niets van
     5359:	 niets te
     5012:	 niets aan
@@ -3985,7 +3985,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  23958	(2)	VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF ZNW:EKV/WKW:TGW:3EP
+	?  23958	(2)	VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF ZNW:EKV|WKW:TGW:3EP
    20601:	 Je bent
     3323:	 je bent
 	-->
@@ -3998,7 +3998,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  23890	(2)	VNW:OBP WKW:TGW:1EP/ZNW:EKV:DE_
+	?  23890	(2)	VNW:OBP WKW:TGW:1EP|ZNW:EKV:DE_
     4853:	 geen zin
      948:	 geen pijn
      531:	 geen twijfel
@@ -4022,7 +4022,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  23646	(3)	ITP:VRT null BNW:STL:ONV/WKW:VLT:1EP
+	?  23646	(3)	ITP:VRT null BNW:STL:ONV|WKW:VLT:1EP
    21685:	?' vroeg
 	-->
     <rule id="NEW_126" name="-">
@@ -4037,7 +4037,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  23540	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?  23540	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
    23102:	~ Ze was
 	-->
     <rule id="NEW_127" name="-">
@@ -4052,7 +4052,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	(2152) SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT/SENT_END
+	(2152) SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
    Het zijn arme mensen.
    Het zijn boze mensen.
    Het zijn oude mensen.
@@ -4072,7 +4072,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	(2083) SENT_START ENM:PER:FST WKW:VLT:1EP WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ ZNW:EKV:HET ITP:PNT/SENT_END
+	(2083) SENT_START ENM:PER:FST WKW:VLT:1EP WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:EKV:HET ITP:PNT|SENT_END
    Jim neeg zijn hoofd.
    Tom boog zijn hoofd.
    Sam boog zijn hoofd.
@@ -4093,7 +4093,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	(2009) SENT_START ZNW:EKV:DE_ VGW/VRZ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	(2009) SENT_START ZNW:EKV:DE_ VGW|VRZ ZNW:EKV:DE_ ITP:PNT|SENT_END
    Leidraad voor kosten-batenanalyse.
    Handleiding voor ouderbegeleiding.
    Achterzak met klittenbandsluiting.
@@ -4116,7 +4116,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  51330	(3)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ GET:RNG ZNW:EKV:DE_
+	?  51330	(3)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ GET:RNG ZNW:EKV:DE_
     3737:	 de tweede helft
     3005:	 de eerste helft
     1261:	 de Tweede Wereldoorlog
@@ -4139,7 +4139,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  49213	(2)	BNW:STL:ONV/VGW/VRZ GET:TXT:EKV
+	?  49213	(2)	BNW:STL:ONV|VGW|VRZ GET:TXT:EKV
    25506:	 naar een
    15972:	 na een
     6471:	 Na een
@@ -4155,7 +4155,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  47090	(3)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ BNW:STL:VRB ZNW:MRV:DE_
+	?  47090	(3)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ BNW:STL:VRB ZNW:MRV:DE_
     2343:	 de halve finales
      276:	 de nieuwe regels
      204:	 de andere kinderen
@@ -4177,7 +4177,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	<!-- ========================================================================================================== -->
 
 	<!--
-	?  58921	(3)	VGW/VRZ GET:TXT:EKV ZNW:EKV:DE_
+	?  58921	(3)	VGW|VRZ GET:TXT:EKV ZNW:EKV:DE_
     1171:	 met een ruk
     1044:	 met een glimlach
      595:	 met een man
@@ -4197,7 +4197,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 <!--
-	(1792) SENT_START ENM:PER:FST WKW:VLT:1EP ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF ZNW:MRV:DE_ VRZ ITP:PNT/SENT_END
+	(1792) SENT_START ENM:PER:FST WKW:VLT:1EP ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF ZNW:MRV:DE_ VRZ ITP:PNT|SENT_END
    Lissa trok haar wenkbrauwen op.
    Lissa haalde haar schouders op.
    Nina haalde haar schouders op.
@@ -4223,7 +4223,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 
 	<!--
-	?  41984	(2)	VGW/VRZ WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ
+	?  41984	(2)	VGW|VRZ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
    28502:	 met zijn
 	-->
     <rule id="NEW_136" name="-">
@@ -4237,7 +4237,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  38738	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET ZNW:EKV:VRK:HET
+	?  38738	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET ZNW:EKV:VRK:HET
     3368:	 het meisje
      933:	 Het meisje
      745:	 het raampje
@@ -4253,7 +4253,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  38638	(2)	BYW/VGW/WKW:TGW:1EP BYW
+	?  38638	(2)	BYW|VGW|WKW:TGW:1EP BYW
     9529:	 maar ook
     8433:	 maar eens
     3877:	 maar er
@@ -4270,7 +4270,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
-	<!-- ?  86064	(2)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ UNKNOWN
+	<!-- ?  86064	(2)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ UNKNOWN
     3466:	 de '
     1606:	 de mijne
     1551:	 de "
@@ -4295,7 +4295,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  37507	(2)	VRZ ENM:LOC:PTS/ENM:PER:LST:VAN
+	?  37507	(2)	VRZ ENM:LOC:PTS|ENM:PER:LST:VAN
     3453:	 in Londen
     3093:	 in Rotterdam
     1861:	 in Utrecht
@@ -4316,7 +4316,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  35968	(2)	WKW:VLT:1EP ENM:LOC:PTS/ENM:PER:FST
+	?  35968	(2)	WKW:VLT:1EP ENM:LOC:PTS|ENM:PER:FST
      770:	 zei Carmen
      493:	 zei Poe
      177:	 zei Sofia
@@ -4337,7 +4337,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  65661	(2)	ITP:KMA VGW/VRZ
+	?  65661	(2)	ITP:KMA VGW|VRZ
    40758:	, met
    12726:	, om
     7340:	, tot
@@ -4356,7 +4356,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  40749	(3)	WKW:TGW:INF ITP:KMA BYW/VGW/WKW:TGW:1EP
+	?  40749	(3)	WKW:TGW:INF ITP:KMA BYW|VGW|WKW:TGW:1EP
     3369:	 zijn, maar
     1571:	 worden, maar
     1226:	 komen, maar
@@ -4374,7 +4374,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  39077	(3)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET BNW:STL:VRB ZNW:EKV:HET
+	?  39077	(3)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:VRB ZNW:EKV:HET
      700:	 het nieuwe seizoen
      565:	 het hele jaar
      532:	 het nieuwe jaar
@@ -4394,7 +4394,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  36418	(3)	BYW/VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
+	?  36418	(3)	BYW|VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
      874:	 over het hoofd
      685:	 over het feit
      502:	 boven het hoofd
@@ -4402,7 +4402,8 @@ Copyright (C) 2008-2024 Ruud Baars
      286:	 over het aantal
      248:	 over het coronavirus
 	-->
-    <rule id="NEW_146" name="-">
+	<!--
+	<rule id="NEW_146" name="-">
         <pattern>
 			<marker>
 				<and>
@@ -4415,9 +4416,10 @@ Copyright (C) 2008-2024 Ruud Baars
        </pattern>
         <disambig action="remove" postag="BYW"/>
     </rule>
+	-->
 
 	<!--
-?  26694	(3)	BNW:STL:ONV/VGW/VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
+?  26694	(3)	BNW:STL:ONV|VGW|VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
     2291:	 naar het ziekenhuis
      855:	 naar het buitenland
      560:	 naar het noorden
@@ -4443,7 +4445,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  25400	(2)	VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ GET:TXT:MRV
+	?  25400	(2)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ GET:TXT:MRV
     5254:	 de twee
     2466:	 de drie
     1670:	 De twee
@@ -4460,7 +4462,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  39598	(3)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET BNW:STL:VRB ZNW:EKV:HET
+	?  39598	(3)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:VRB ZNW:EKV:HET
      700:	 het nieuwe seizoen
      569:	 het hele jaar
      532:	 het nieuwe jaar
@@ -4482,7 +4484,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  32570	(3)	VRZ WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_
+	?  32570	(3)	VRZ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_
     1165:	 op zijn naam
      626:	 op zijn rug
      623:	 in zijn carrière
@@ -4500,7 +4502,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  32308	(2)	ITP:KMA VGW/ZNW:EKV/WKW:TGW:3EP
+	?  32308	(2)	ITP:KMA VGW|ZNW:EKV|WKW:TGW:3EP
    32292:	, want
 	-->
     <rule id="NEW_151" name="-">
@@ -4514,7 +4516,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  31303	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET ZNW:EKV
+	?  31303	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET ZNW:EKV
     3924:	 dit soort
     3429:	 het idee
     2316:	 het risico
@@ -4532,7 +4534,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  31060	(3)	VRZ VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET BNW:STL:VRB
+	?  31060	(3)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:VRB
     1324:	 van het nieuwe
      812:	 in het hele
      691:	 in het nieuwe
@@ -4549,7 +4551,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  30828	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET VNW:AWZ:MRV:DE_
+	?  30828	(2)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VNW:AWZ:MRV:DE_
    27141:	 dat de
     1461:	 dat deze
 	-->
@@ -4570,7 +4572,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  65096	(3)	SENT_START WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+	?  65096	(3)	SENT_START WKW:TGW:1EP VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF
    20301:	~ Heb je
     7299:	~ Ben je
     5834:	~ Kun je
@@ -4590,7 +4592,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	? 218854	(2)	SENT_START BYW/VGW/WKW:TGW:1EP/SENT_START/VGW
+	? 218854	(2)	SENT_START BYW|VGW|WKW:TGW:1EP|SENT_START|VGW
 	218848:	~ Maar
 	-->
     <rule id="NEW_156" name="-">
@@ -4604,7 +4606,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  49519	(2)	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_/VNW:PER:1EP:EKV:BEZ
+	?  49519	(2)	SENT_START WKW:TGW:1EP|ZNW:EKV:DE_|VNW:PER:1EP:EKV:BEZ
    49517:	~ Mijn
 	-->
     <rule id="NEW_157" name="-">
@@ -4617,7 +4619,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 	<!--
-	?  60150	(2)	SENT_START ZNW:EKV/BNW:STL:VRB
+	?  60150	(2)	SENT_START ZNW:EKV|BNW:STL:VRB
     8253:	~ Mooie
     2238:	~ Vele
     2027:	~ Arme
@@ -4637,7 +4639,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="ZNW:EKV"/>
     </rule>
 	<!--
-	?	 51643	(3)	ZNW:EKV/BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 51643	(3)	ZNW:EKV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
 		962:	 volle gang.
 		405:	 snelle levering.
 		340:	 hoge kwaliteit.
@@ -4663,7 +4665,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 47027	(2)	ZNW:EKV:DE_ WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?	 47027	(2)	ZNW:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
 	  1023:	 tijd was
 	   951:	 vrouw was
 	   473:	 naam was
@@ -4687,7 +4689,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 53275	(3)	VGW/VRZ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 53275	(3)	VGW|VRZ ZNW:EKV:DE_ ITP:PNT|SENT_END
 	   471:	 tot stilstand.
 	   448:	 om hulp.
 	   318:	 met vakantie.
@@ -4709,7 +4711,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 43049	(2)	VNW:PER:1EP:MRV:BEZ:VRB/ZNW:EKV:DE_ ZNW:EKV:DE_
+	?	 43049	(2)	VNW:PER:1EP:MRV:BEZ:VRB|ZNW:EKV:DE_ ZNW:EKV:DE_
 	  1876:	 onze website
 	   875:	 onze nieuwsbrief
 	   644:	 onze site
@@ -4728,7 +4730,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 37026	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:1EP/WKW:TGW:3EP
+	?	 37026	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:1EP|WKW:TGW:3EP
 	   221:	~ De voorzitter sluit
 	   220:	~ De overheid moet
 	   205:	~ De inschrijving sluit
@@ -4753,7 +4755,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-?	 22828	(4)	VRZ VNW:OND:MRV:HET/VNW:AWZ:EKV:HET WKW:TGW:1EP/ZNW:EKV:HET ITP:PNT/SENT_END
+?	 22828	(4)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET ITP:PNT|SENT_END
 	  2563:	 aan het werk.
 	  1074:	 in het water.
 	   844:	 van het land.
@@ -4783,7 +4785,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	2727	' BNW:STL:ONV/WKW:VLT:1EP ENM:PER:FST ITP:PNT/SENT_END
+	2727	' BNW:STL:ONV/WKW:VLT:1EP ENM:PER:FST ITP:PNT|SENT_END
   '  vroeg  Kate .
 	  '  vroeg  Lisa .
 	-->
@@ -4797,7 +4799,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	1959	SENT_START TSW ITP:KMA ENM:LOC:PTS/ENM:PER:FST ITP:PNT/SENT_END
+	1959	SENT_START TSW ITP:KMA ENM:LOC:PTS/ENM:PER:FST ITP:PNT|SENT_END
 		Godverdomme ,  Cody .
 		Sorry ,  Pearl .
 		Hé ,  Emmie .
@@ -4822,7 +4824,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 41987	(3)	SENT_START BYW/VGW WKW:TGW:3EP
+	?	 41987	(3)	SENT_START BYW|VGW WKW:TGW:3EP
 	 13312:	~ Dan is
 	  3941:	~ Dan wordt
 	  2566:	~ Dan komt
@@ -4839,7 +4841,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 41943	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET VNW:PER:3EP:EKV:ACT
+	?	 41943	(2)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VNW:PER:3EP:EKV:ACT
 	 39744:	 dat hij
 	-->
     <rule id="NEW_172" name="-">
@@ -4849,10 +4851,10 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 			<token>hij</token>
 		</pattern>
-        <disambig action="remove" postag="VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET"/>
+        <disambig action="remove" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/>
     </rule>
 
-	<!--?	 33252	(2)	BYW WKW:TGW:1EP/BYW/VNW:OBP:EKV/ZNW:EKV:HET
+	<!--?	 33252	(2)	BYW WKW:TGW:1EP|BYW|VNW:OBP:EKV|ZNW:EKV:HET
 	 12814:	 er niets
 	  6824:	 helemaal niets
 	  2905:	 nog niets
@@ -4868,7 +4870,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 	<!--
-	?	 32645	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	?	 32645	(2)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP
 	 32360:	 dat niet
 	-->
     <rule id="NEW_174" name="-">
@@ -4882,7 +4884,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 31687	(2)	VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VGW:EKV:DE_/VGW:MRV:DE_/VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ WKW:TGW:3EP
+	?	 31687	(2)	VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:3EP
 	 10275:	 Die is
 	  3034:	 Die heeft
 	  1753:	 die is
@@ -4900,7 +4902,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 31231	(2)	ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF ITP:PNT/SENT_END
+	?	 31231	(2)	ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF ITP:PNT|SENT_END
 	 31194:	 haar.
 	-->
     <rule id="NEW_176" name="-">
@@ -4914,7 +4916,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 30282	(2)	ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF WKW:TGW:INF/ZNW:MRV:DE_
+	?	 30282	(2)	ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF WKW:TGW:INF|ZNW:MRV:DE_
 	 11138:	 haar ogen
 	  4645:	 haar handen
 	  2575:	 Haar ogen
@@ -4936,7 +4938,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 29847	(3)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ ZNW:EKV:HET ITP:PNT/SENT_END
+	?	 29847	(3)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:EKV:HET ITP:PNT|SENT_END
 	 12459:	 zijn hoofd.
 	  2011:	 zijn horloge.
 	  1945:	 zijn voorhoofd.
@@ -4954,7 +4956,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 		<!--
-	?	 29116	(3)	BYW:GRD/BYW BNW:STL:ONV ITP:PNT/SENT_END
+	?	 29116	(3)	BYW:GRD|BYW BNW:STL:ONV ITP:PNT|SENT_END
 	  1399:	 zo ver.
 	  1106:	 zo mooi.
 	   982:	 zo erg.
@@ -4974,7 +4976,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 29097	(2)	VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET ZNW:EKV:HET
+	?	 29097	(2)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET ZNW:EKV:HET
 	  4723:	 dat moment
 	   614:	 dat jaar
 	   445:	 dat woord
@@ -4996,7 +4998,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 27620	(3)	ZNW:EKV:DE_ BNW:STL:ONV/WKW:VTD:ONV ITP:PNT/SENT_END
+	?	 27620	(3)	ZNW:EKV:DE_ BNW:STL:ONV|WKW:VTD:ONV ITP:PNT|SENT_END
 	   596:	 priester gewijd.
 	   323:	 aangifte gedaan.
 	   292:	 keuze gemaakt.
@@ -5017,7 +5019,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 27532	(3)	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_ BYW
+	?	 27532	(3)	SENT_START WKW:TGW:1EP|ZNW:EKV:DE_ BYW
 	  7265:	~ Klik hier
 	  2955:	~ Kijk eens
 	  1680:	~ Kijk hier
@@ -5040,7 +5042,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 
 	<!--
-	?	 26686	(3)	SENT_START VNW:OND:EKV:DE_/VGW:EKV:DE_ WKW:TGW:3EP
+	?	 26686	(3)	SENT_START VNW:OND:EKV:DE_|VGW:EKV:DE_ WKW:TGW:3EP
 	 10275:	~ Die is
 	  3034:	~ Die heeft
 	  1328:	~ Die wordt
@@ -5060,7 +5062,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 26681	(2)	BNW:STL:ONV/ZNW:EKV:HET ZNW:EKV:HET
+	?	 26681	(2)	BNW:STL:ONV|ZNW:EKV:HET ZNW:EKV:HET
 	  1986:	 half uur
 	  1613:	 paar uur
 	  1593:	 paar jaar
@@ -5083,7 +5085,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 25576	(3)	SENT_START BYW/VGW/ENM:PER:FST WKW:TGW:1EP
+	?	 25576	(3)	SENT_START BYW|VGW|ENM:PER:FST WKW:TGW:1EP
 	  3027:	~ Dan ben
 	  2835:	~ Dan heb
 	  2027:	~ Dan ga
@@ -5103,7 +5105,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 25333	(2)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET TSW/WKW:TGW:1EP/BYW/ZNW:EKV
+	?	 25333	(2)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET TSW|WKW:TGW:1EP|BYW|ZNW:EKV
 	22815:	 het wel
 	-->
     <rule id="NEW_186" name="-">
@@ -5117,7 +5119,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	-	 24682	(2)	WKW:TGW:INF VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF
+	-	 24682	(2)	WKW:TGW:INF VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF
 	  5299:	 hebben ze
 	  1905:	 doen ze
 	  1755:	 gaan ze
@@ -5136,7 +5138,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 24423	(3)	BYW WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP VRZ
+	?	 24423	(3)	BYW WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP VRZ
 	  1806:	 er niet aan
 	  1575:	 er niet van
 	  1497:	 er niet in
@@ -5155,7 +5157,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 	<!-- ======================================== -->
 	<!--
-	?	 24304	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ
+	?	 24304	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
 	 24286:	~ Ze zijn
 	-->
     <rule id="NEW_189a" name="-">
@@ -5180,7 +5182,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 24289	(3)	SENT_START WKW:TGW:3EP VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET
+	?	 24289	(3)	SENT_START WKW:TGW:3EP VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
 	 10285:	~ Is het
 	  6206:	~ Is dit
 	  1330:	~ Gaat het
@@ -5198,7 +5200,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 24267	(2)	SENT_START BYW/VNW:OBP/ZNW:EKV:HET/WKW:TGW:1EP
+	?	 24267	(2)	SENT_START BYW|VNW:OBP|ZNW:EKV:HET|WKW:TGW:1EP
 	 24251:	~ Meer
 	-->
     <rule id="NEW_191" name="-">
@@ -5212,7 +5214,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 24240	(2)	VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG VNW:PER:1EP:EKV:ACT
+	?	 24240	(2)	VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG VNW:PER:1EP:EKV:ACT
 	 22504:	 wat ik
 	-->
     <rule id="NEW_192" name="-">
@@ -5226,7 +5228,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 24156	(4)	SENT_START BYW WKW:TGW:3EP VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET
+	?	 24156	(4)	SENT_START BYW WKW:TGW:3EP VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
 	  1899:	~ Misschien is het
 	  1371:	~ Toch is het
 	   917:	~ Daar is het
@@ -5251,7 +5253,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 24070	(2)	BYW:GRD/ZNW:EKV:HET BNW:STL:ONV
+	?	 24070	(2)	BYW:GRD|ZNW:EKV:HET BNW:STL:ONV
 	   968:	 zeer belangrijk
 	   484:	 zeer groot
 	   434:	 zeer vriendelijk
@@ -5269,7 +5271,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 23766	(2)	WKW:TGW:3EP WKW:TGW:1EP/WKW:TGW:3EP/VRZ
+	?	 23766	(2)	WKW:TGW:3EP WKW:TGW:1EP|WKW:TGW:3EP|VRZ
 	  8811:	 bestaat uit
 	  2917:	 blijkt uit
 	  2548:	 komt uit
@@ -5287,7 +5289,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 23762	(2)	BYW/VRZ GET:TXT:EKV
+	?	 23762	(2)	BYW|VRZ GET:TXT:EKV
 	  8492:	 over een
 	  7863:	 bij een
 	  1949:	 Over een
@@ -5295,6 +5297,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	  1317:	 binnen een
 	   891:	 Binnen een
 	-->
+	<!--
     <rule id="NEW_197" name="-">
         <pattern>
 			<marker>
@@ -5307,9 +5310,10 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="BYW"/>
     </rule>
+	-->
 
 	<!--
-	?	 23165	(3)	VGW/VRZ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	 23165	(3)	VGW|VRZ ZNW:MRV:DE_ ITP:PNT|SENT_END
 	   582:	 met kinderen.
 	   347:	 met mensen.
 	   198:	 met woorden.
@@ -5329,7 +5333,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 22922	(2)	SENT_START GET:TXT:MRV/ZNW:EKV:DE_
+	?	 22922	(2)	SENT_START GET:TXT:MRV|ZNW:EKV:DE_
 	 10697:	~ Twee
 	  5178:	~ Drie
 	  2596:	~ Vijf
@@ -5350,7 +5354,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 22324	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ
+	?	 22324	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
 	  1469:	~ Hij had zijn
 	  1337:	~ Hij stak zijn
 	  1313:	~ Hij legde zijn
@@ -5370,7 +5374,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 50061	(2)	SENT_START BYW/VRZ
+	?	 50061	(2)	SENT_START BYW|VRZ
 	 16940:	~ Bij
 	 14629:	~ Over
 	  5446:	~ Vanaf
@@ -5378,6 +5382,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	  2306:	~ Te
 	  2295:	~ Achter
 	-->
+	<!--
     <rule id="NEW_201" name="-">
         <pattern>
 		<token postag="SENT_START"/>
@@ -5390,9 +5395,10 @@ Copyright (C) 2008-2024 Ruud Baars
 	</pattern>
         <disambig action="remove" postag="BYW"/>
     </rule>
+	-->
 
 	<!--
-	?	 32676	(2)	BYW/VGW/VRZ ITP:PNT/SENT_END
+	?	 32676	(2)	BYW|VGW|VRZ ITP:PNT|SENT_END
 	 32666:	 voor.
 	-->
     <rule id="NEW_202" name="-">
@@ -5405,7 +5411,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VGW"/>
     </rule>
 	<!--
-	?	 23988	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:VLT:1EP/WKW:VLT:GIJ
+	?	 23988	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|WKW:VLT:1EP|WKW:VLT:GIJ
 	 23555:	~ Ik weet
 	-->
     <rule id="NEW_203" name="-">
@@ -5420,7 +5426,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 22692	(2)	SENT_START TSW/WKW:TGW:1EP/BYW/ZNW:EKV
+	?	 22692	(2)	SENT_START TSW|WKW:TGW:1EP|BYW|ZNW:EKV
 	 22681:	~ Wel
 	-->
     <rule id="NEW_204" name="-">
@@ -5434,7 +5440,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 22687	(3)	SENT_START VGW VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+	?	 22687	(3)	SENT_START VGW VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:3EP
 	 13282:	 En dat is
 	   873:	 En dat geldt
 	   691:	 En dat gaat
@@ -5452,7 +5458,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 21975	(4)	SENT_START VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ WKW:TGW:INF/ZNW:MRV:DE_
+	?	 21975	(4)	SENT_START VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ WKW:TGW:INF|ZNW:MRV:DE_
 	   121:	~ De kinderen kunnen
 	    92:	~ De mensen willen
 	    80:	~ De mensen moeten
@@ -5475,7 +5481,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 21642	(4)	VGW/VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	 21642	(4)	VGW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT|SENT_END
 	   650:	 voor de kinderen.
 	   307:	 met de kinderen.
 	   188:	 voor de mogelijkheden.
@@ -5496,7 +5502,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 21455	(3)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 21455	(3)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
 	  2837:	 zijn hand.
 	  1883:	 zijn schouder.
 	  1874:	 zijn mond.
@@ -5531,14 +5537,14 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 23613	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW/VGW
+	?	 23613	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW|VGW
 	  3599:	~ Het is dus
 	  3570:	~ Dat is dus
 	  2458:	~ Dat is dan
 	  1475:	~ Het is dan
 	-->
 	<!--
-	?	 21990	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW/VGW
+	?	 21990	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW|VGW
 	  3499:	~ Het is dus
 	  3415:	~ Dat is dus
 	  2363:	~ Dat is dan
@@ -5558,7 +5564,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 21914	(3)	BYW/VGW/VRZ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	 21914	(3)	BYW|VGW|VRZ ZNW:MRV:DE_ ITP:PNT|SENT_END
 	  1413:	 voor kinderen.
 	   391:	 voor vrouwen.
 	   293:	 voor beginners.
@@ -5577,7 +5583,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 21315	(3)	SENT_START BYW:GRD/TYD:DAG/BYW/TSW/VGW WKW:TGW:3EP
+	?	 21315	(3)	SENT_START BYW:GRD|TYD:DAG|BYW|TSW|VGW WKW:TGW:3EP
 	  5362:	~ Zo is
 	  2414:	~ Zo wordt
 	  2185:	~ Zo gaat
@@ -5598,7 +5604,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 20068	(3)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:INF ITP:PNT/SENT_END
+	?	 20068	(3)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:INF ITP:PNT|SENT_END
 	   922:	 het doen.
 	   633:	 het lachen.
 	   480:	 het gebeuren.
@@ -5613,11 +5619,11 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
 		</pattern>
-        <disambig action="remove" postag="VNW:AWZ:EKV:HET/VNW:OND:EKV:HET"/>
+        <disambig action="remove" postag="VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/>
     </rule>
 
 	<!--
-	?	 20051	(3)	SENT_START BYW/TSW/VGW WKW:TGW:3EP
+	?	 20051	(3)	SENT_START BYW|TSW|VGW WKW:TGW:3EP
 	 10059:	~ Nu is
 	  1472:	~ Nu wordt
 	  1122:	~ Nu komt
@@ -5639,7 +5645,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 20004	(3)	SENT_START VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:INF
+	?	 20004	(3)	SENT_START VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:INF
 	  3367:	~ Dat hebben
 	  2928:	~ Dat doen
 	  1374:	~ Dat moeten
@@ -5661,7 +5667,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 19510	(3)	SENT_START VNW:VRG/VNW:BTR WKW:TGW:3EP
+	?	 19510	(3)	SENT_START VNW:VRG|VNW:BTR WKW:TGW:3EP
 	  5805:	~ Wie is
 	  3510:	~ Wie heeft
 	   880:	~ Wie gaat
@@ -5682,12 +5688,13 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 19353	(3)	ZNW:EKV:DE_ BYW/VRZ ITP:PNT/SENT_END
+	?	 19353	(3)	ZNW:EKV:DE_ BYW|VRZ ITP:PNT|SENT_END
 	  1367:	 tijd voor.
 	   696:	 kamer binnen.
 	   375:	 oplossing voor.
 	   365:	 verklaring voor.
 	-->
+	<!--
     <rule id="NEW_217" name="-">
         <pattern>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
@@ -5701,9 +5708,10 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="VRZ"/>
     </rule>
+	-->
 
 	<!--
-	?	 19163	(3)	VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VGW:EKV:DE_/VGW:MRV:DE_/VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 19163	(3)	VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT|SENT_END
 	  1181:	 die tijd.
 	   356:	 die richting.
 	   337:	 die vrouw.
@@ -5721,7 +5729,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 19131	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET
+	?	 19131	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
 	  4910:	~ Ik denk dat
 	  3917:	~ Ik vind dat
 	  3187:	~ Ik hoop dat
@@ -5743,7 +5751,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 18591	(2)	SENT_START VGW/ZNW:EKV/WKW:TGW:3EP
+	?	 18591	(2)	SENT_START VGW|ZNW:EKV|WKW:TGW:3EP
 	 18591:	~ Want
 	-->
     <rule id="NEW_220" name="-">
@@ -5757,7 +5765,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 17942	(3)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET BNW:STL:ONV ITP:PNT/SENT_END
+	?	 17942	(3)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:ONV ITP:PNT|SENT_END
 	   697:	 het gewoon.
 	   695:	 het prima.
 	   560:	 het moeilijk.
@@ -5778,7 +5786,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 17454	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF
+	?	 17454	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF
 	    48:	~ Tom keek haar
 	    40:	~ Sam keek haar
 	    39:	~ John keek haar
@@ -5800,7 +5808,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 17156	(4)	SENT_START BYW:VRG WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+	?	 17156	(4)	SENT_START BYW:VRG WKW:TGW:1EP VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF
 	  5552:	~ Hoe schrijf je
 	   979:	~ Hoe kun je
 	   899:	~ Waarom heb je
@@ -5820,7 +5828,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 17034	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	?	 17034	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
 	  6170:	~ Hij wil
 	  5479:	~ Hij moet
 	  3212:	~ Hij zit
@@ -5842,7 +5850,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 16938	(3)	SENT_START BYW/TSW ITP:KMA
+	?	 16938	(3)	SENT_START BYW|TSW ITP:KMA
 	 13997:	~ Nou,
 	  1372:	~ Helaas,
 	-->
@@ -5858,7 +5866,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 16736	(3)	SENT_START VGW VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+	?	 16736	(3)	SENT_START VGW VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF
 	  4490:	~ Als je
 	  4427:	~ En je
 	  4320:	~ Maar je
@@ -5878,7 +5886,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 16547	(3)	WKW:VLT:1EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF ITP:PNT/SENT_END
+	?	 16547	(3)	WKW:VLT:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF ITP:PNT|SENT_END
 	  4952:	 zei ze.
 	  2613:	 vroeg ze.
 	  1764:	 riep ze.
@@ -5898,7 +5906,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 16398	(3)	SENT_START VNW:PER:3EP:EKV:ACT ZNW:EKV:DE_/WKW:VLT:1EP
+	?	 16398	(3)	SENT_START VNW:PER:3EP:EKV:ACT ZNW:EKV:DE_|WKW:VLT:1EP
 	  6353:	~ Hij stond
 	  1378:	~ Hij drukte
 	  1149:	~ Hij greep
@@ -5922,7 +5930,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 
 	<!--
-	?	 16328	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP BYW/VGW
+	?	 16328	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP BYW|VGW
 	  2270:	~ Ik heb daar
 	  1640:	~ Ik ben daar
 	   906:	~ Ik ben dus
@@ -5945,7 +5953,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 15994	(3)	SENT_START WKW:TGW:1EP BYW/VGW
+	?	 15994	(3)	SENT_START WKW:TGW:1EP BYW|VGW
 	  2449:	~ Neem dan
 	  1693:	~ Ga dan
 	  1281:	~ Bekijk dan
@@ -5969,7 +5977,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 15955	(2)	WKW:TGW:1EP/BYW/VNW ITP:PNT/SENT_END
+	?	 15955	(2)	WKW:TGW:1EP|BYW|VNW ITP:PNT|SENT_END
 	 15943:	 genoeg.
 	-->
     <rule id="NEW_231" name="-">
@@ -5984,7 +5992,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 15878	(2)	SENT_START WKW:TGW:1EP/WKW:TGW:3EP/BNW:STL:ONV/ZNW:EKV:DE_
+	?	 15878	(2)	SENT_START WKW:TGW:1EP|WKW:TGW:3EP|BNW:STL:ONV|ZNW:EKV:DE_
 	 15670:	~ Echt
 	-->
     <rule id="NEW_232" name="-">
@@ -5998,7 +6006,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 15742	(3)	BYW/VGW BYW ITP:PNT/SENT_END
+	?	 15742	(3)	BYW|VGW BYW ITP:PNT|SENT_END
 	  1506:	 dan ook.
 	  1170:	 dus ook.
 	  1167:	 dan ooit.
@@ -6019,7 +6027,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 19154	(3)	VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 19154	(3)	VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT|SENT_END
 	  1181:	 die tijd.
 	   356:	 die richting.
 	   337:	 die vrouw.
@@ -6041,7 +6049,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 16993	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET ZNW:EKV:DE_/WKW:TGW:1EP/WKW:TGW:3EP
+	?	 16993	(3)	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET ZNW:EKV:DE_|WKW:TGW:1EP|WKW:TGW:3EP
 	  9196:	~ Het kan
 	  7688:	~ Dit kan
 	-->
@@ -6055,7 +6063,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 16331	(2)	SENT_START BYW/BNW:STL:IET
+	?	 16331	(2)	SENT_START BYW|BNW:STL:IET
 	 11799:	~ Anders
 	  2833:	~ Straks
 	  1650:	~ Slechts
@@ -6072,9 +6080,9 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="BNW:STL:IET"/>
 	</rule>
-	
+
 	<!--
-?	 29176	(4)	SENT_START VGW VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+?	 29176	(4)	SENT_START VGW VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:3EP
 	  8140:	~ Maar het is
 	  4339:	~ En het is
 	  2353:	~ Maar dit is
@@ -6082,9 +6090,10 @@ Copyright (C) 2008-2024 Ruud Baars
 	   890:	~ Maar het gaat
 	   777:	~ Maar het blijft
 	-->
+
 	<rule id="NEW_237" name="-">
 		<pattern>
-			<token postag="SENT_START"/>
+			<!-- <token postag="SENT_START"/> -->
 			<token regexp="yes">en|of|maar</token>
 			<marker>
 				<token postag="VNW:OND:EKV:HET"/>
@@ -6095,7 +6104,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?	 16568	(3)	SENT_START VNW:PER:1EP:EKV:BEZ WKW:TGW:1EP/ZNW:EKV:DE_
+	?	 16568	(3)	SENT_START VNW:PER:1EP:EKV:BEZ WKW:TGW:1EP|ZNW:EKV:DE_
 	  5165:	~ Mijn vader
 	  5109:	~ Mijn moeder
 	  1412:	~ Mijn man
@@ -6115,7 +6124,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?	 15645	(3)	WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ BNW:STL:ONV ITP:PNT/SENT_END
+	?	 15645	(3)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ BNW:STL:ONV ITP:PNT|SENT_END
 	   694:	 zijn mogelijk.
 	   641:	 zijn welkom.
 	   382:	 zijn aanwezig.
@@ -6137,7 +6146,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 15681	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+	?	 15681	(3)	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
 	  5312:	~ Het moet
 	  2673:	~ Het spijt
 	  2426:	~ Dit moet
@@ -6157,7 +6166,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?	 15104	(4)	VGW/VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET ITP:PNT/SENT_END
+	?	 15104	(4)	VGW|VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET ITP:PNT|SENT_END
 	   383:	 voor het milieu.
 	   284:	 met het resultaat.
 	   138:	 voor het avondeten.
@@ -6180,7 +6189,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 15073	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:VLT:1EP/WKW:VLT:GIJ
+	?	 15073	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:VLT:1EP|WKW:VLT:GIJ
 	  8868:	~ Ik dacht
 	  1812:	~ Ik liet
 	  1604:	~ Ik mocht
@@ -6202,7 +6211,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?	 14897	(2)	SENT_START WKW:TGW:INF/BNW:STL:MRV:DE_
+	?	 14897	(2)	SENT_START WKW:TGW:INF|BNW:STL:MRV:DE_
 	 13009:	~ Laten
 	  1330:	~ Helen
 	-->
@@ -6220,7 +6229,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?	 14775	(5)	VGW/VRZ GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 14775	(5)	VGW|VRZ GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
 	    49:	 voor een nieuwe uitdaging.
 	    46:	 met een verstandelijke beperking.
 	    29:	 met een rijke historie.
@@ -6243,7 +6252,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 14840	(2)	BYW/WKW:TGW:1EP ITP:PNT/SENT_END
+	?	 14840	(2)	BYW|WKW:TGW:1EP ITP:PNT|SENT_END
 	 14839:	 maar.
 	-->
 	<rule id="NEW_245" name="-">
@@ -6257,7 +6266,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 14694	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/ZNW:EKV:HET
+	?	 14694	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|ZNW:EKV:HET
 	  2767:	~ Ik werk
 	  2518:	~ Ik begin
 	  1449:	~ Ik gebruik
@@ -6278,7 +6287,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?	 14441	(2)	MEH:EKV/GET:ROM:MRV ITP:PNT/SENT_END
+	?	 14441	(2)	MEH:EKV|GET:ROM:MRV ITP:PNT|SENT_END
 	  9665:	 cm.
 	  2992:	 mm.
 	  1042:	 m.
@@ -6297,7 +6306,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 14404	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT WKW:TGW:3EP
+	?	 14404	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT WKW:TGW:3EP
 	  5507:	~ Zij is
 	  2340:	~ Zij heeft
 	   337:	~ Zij wordt
@@ -6317,7 +6326,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	-	 14136	(3)	WKW:TGW:3EP WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+	-	 14136	(3)	WKW:TGW:3EP WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
 	   656:	 is afgelopen.
 	   593:	 is gekomen.
 	   301:	 is aangebroken.
@@ -6340,7 +6349,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 14065	(3)	WKW:TGW:1EP/BNW:STL:ONV/BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 14065	(3)	WKW:TGW:1EP|BNW:STL:ONV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
 	   525:	 eigen schuld.
 	   323:	 open haard.
 	   319:	 eigen verantwoordelijkheid.
@@ -6366,7 +6375,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 13729	(3)	SENT_START WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP/ZNW:EKV:DE_
+	?	 13729	(3)	SENT_START WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP|ZNW:EKV:DE_
 	  4677:	~ Zijn stem
 	  2291:	~ Zijn vader
 	  1709:	~ Zijn moeder
@@ -6384,7 +6393,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?	 13355	(3)	SENT_START VGW/ENM:PER:FST WKW:TGW:INF
+	?	 13355	(3)	SENT_START VGW|ENM:PER:FST WKW:TGW:INF
 	  1985:	~ Dan gaan
 	  1483:	~ Dan kunnen
 	  1166:	~ Dan hebben
@@ -6404,7 +6413,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-?	 13332	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP/WKW:VLT:GIJ
+?	 13332	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP|WKW:VLT:GIJ
 	  4392:	~ Hij liet
 	  2792:	~ Hij dacht
 	  1211:	~ Hij mocht
@@ -6426,7 +6435,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-    ?	 13312	(3)	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_ WKW:TGW:3EP
+    ?	 13312	(3)	SENT_START WKW:TGW:1EP|ZNW:EKV:DE_ WKW:TGW:3EP
 	   257:	~ Moeder is
 	   220:	~ Vader is
 	   201:	~ Seks is
@@ -6449,7 +6458,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-    ?	 13304	(4)	SENT_START BYW WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+    ?	 13304	(4)	SENT_START BYW WKW:TGW:1EP VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF
 	  1182:	~ Daar heb je
 	   910:	~ Hier vind je
 	   905:	~ Daar kun je
@@ -6473,7 +6482,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-    ?	 13270	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET WKW:TGW:1EP/ZNW:EKV:HET
+    ?	 13270	(3)	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET
 	   984:	~ Het antwoord
 	   864:	~ Het water
 	   761:	~ Het boek
@@ -6497,7 +6506,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-    ?	 13035	(3)	VNW:AWZ:EKV:DE_ BNW:STL:ONV/ZNW:EKV:DE_ ITP:PNT/SENT_END
+    ?	 13035	(3)	VNW:AWZ:EKV:DE_ BNW:STL:ONV|ZNW:EKV:DE_ ITP:PNT|SENT_END
 	  2243:	 de dood.
 	  1464:	 de ander.
 	  1404:	 de bar.
@@ -6521,7 +6530,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 12974	(3)	SENT_START WKW:TGW:3EP VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET
+	?	 12974	(3)	SENT_START WKW:TGW:3EP VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
 	 10300:	~ Is dat
 	   243:	~ Gaat dat
 	   233:	~ Klinkt dat
@@ -6542,7 +6551,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-    ?	 12962	(5)	SENT_START TSW ITP:KMA VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:3EP
+    ?	 12962	(5)	SENT_START TSW ITP:KMA VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:3EP
 	  2400:	~ Ja, dat is
 	  1675:	~ Nee, dat is
 	  1037:	~ Nou, dat is
@@ -6563,7 +6572,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
     <!--
-    ?	 12794	(3)	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG WKW:TGW:1EP
+    ?	 12794	(3)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:1EP
 	  2013:	~ Wat heb
 	  1240:	~ Wat doe
 	  1206:	~ Wat moet
@@ -6583,7 +6592,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 13958	(4)	GET:TXT:EKV ZNW:EKV/BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 13958	(4)	GET:TXT:EKV ZNW:EKV|BNW:STL:VRB WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
 	  1103:	 een belangrijke rol.
 	   262:	 een oude man.
 	   123:	 een droge mond.
@@ -6605,7 +6614,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 13329	(3)	SENT_START VNW:AWZ:EKV:HET WKW:TGW:1EP/ZNW:EKV:HET
+	?	 13329	(3)	SENT_START VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET
 	   984:	~ Het antwoord
 	   864:	~ Het water
 	   761:	~ Het boek
@@ -6628,7 +6637,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10807	(5)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET/VNW:OND:EKV:HET BYW
+	?	 10807	(5)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW
 	   643:	~ Ik vind het ook
 	   327:	~ Ik heb het ook
 	   273:	~ Ik heb het nog
@@ -6652,7 +6661,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10843	(4)	' WKW:VLT:1EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:PSF ITP:PNT/SENT_END
+	?	 10843	(4)	' WKW:VLT:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:PSF ITP:PNT|SENT_END
 	  3677:	' zei ze.
 	  2613:	' vroeg ze.
 	  1061:	' riep ze.
@@ -6673,7 +6682,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 
 	<!--
-	?	 10677	(4)	SENT_START BYW WKW:VLT:1EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF
+	?	 10677	(4)	SENT_START BYW WKW:VLT:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF
 	   599:	~ Daar had ze
 	   465:	~ Misschien had ze
 	   209:	~ Daar kon ze
@@ -6695,7 +6704,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 
 	<!--
-?	 10614	(3)	ZNW:MRV:DE_ WKW:TGW:INF/ZNW:MRV:DE_ ITP:PNT/SENT_END
+?	 10614	(3)	ZNW:MRV:DE_ WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
 	   161:	 minuten lopen.
 	   127:	 schouders hangen.
 	   106:	 prioriteiten stellen.
@@ -6717,7 +6726,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10309	(3)	VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF WKW:TGW:3EP ITP:PNT/SENT_END
+	?	 10309	(3)	VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF WKW:TGW:3EP ITP:PNT|SENT_END
 	  1370:	 je wilt.
 	   892:	 je denkt.
 	   616:	 je doet.
@@ -6737,7 +6746,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10208	(4)	SENT_START BYW WKW:TGW:3EP BYW/VGW
+	?	 10208	(4)	SENT_START BYW WKW:TGW:3EP BYW|VGW
 	  2518:	~ Er is dus
 	   948:	~ Er is dan
 	   655:	~ Er is daar
@@ -6764,7 +6773,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10147	(3)	WKW:TGW:3EP WKW:TGW:1EP/BNW:STL:ONV ITP:PNT/SENT_END
+	?	 10147	(3)	WKW:TGW:3EP WKW:TGW:1EP|BNW:STL:ONV ITP:PNT|SENT_END
 	   745:	 is nodig.
 	   585:	 is ziek.
 	   333:	 is open.
@@ -6790,7 +6799,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9890	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP WKW:TGW:1EP/WKW:TGW:3EP/BNW:STL:ONV/ZNW:EKV:DE_
+	?	  9890	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP WKW:TGW:1EP|WKW:TGW:3EP|BNW:STL:ONV|ZNW:EKV:DE_
 	  3007:	~ Het is echt
 	  2467:	~ Dat is echt
 	  1953:	~ Dit is echt
@@ -6815,7 +6824,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9884	(3)	SENT_START BYW/TSW/VGW WKW:VLT:1EP
+	?	  9884	(3)	SENT_START BYW|TSW|VGW WKW:VLT:1EP
 	   990:	~ Nu had
 	   755:	~ Nu kon
 	   721:	~ Nu werd
@@ -6833,7 +6842,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9808	(3)	BYW/VGW BNW:STL:ONV ITP:PNT/SENT_END
+	?	  9808	(3)	BYW|VGW BNW:STL:ONV ITP:PNT|SENT_END
 	   252:	 dus belangrijk.
 	   208:	 dan welkom.
 	   165:	 dus noodzakelijk.
@@ -6856,7 +6865,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9769	(4)	SENT_START  ' ENM:PER:LST/TSW
+	?	  9769	(4)	SENT_START  ' ENM:PER:LST|TSW
 	8682:	~ 'Nee
 	-->
 	<rule id="NEW_273" name="-">
@@ -6871,7 +6880,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9760	(3)	SENT_START VNW:URT/BYW:GRD/TSW/VNW/VNW:OBP:EKV/VNW:VRG WKW:VLT:1EP
+	?	  9760	(3)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:VLT:1EP
 	  2416:	~ Wat zou
 	  1467:	~ Wat had
 	   858:	~ Wat deed
@@ -6889,7 +6898,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9668	(4)	SENT_START BYW/TSW/VGW WKW:TGW:1EP VNW:PER:1EP:EKV:ACT
+	?	  9668	(4)	SENT_START BYW|TSW|VGW WKW:TGW:1EP VNW:PER:1EP:EKV:ACT
 	  1670:	~ Nu ben ik
 	  1334:	~ Nu heb ik
 	   784:	~ Nu moet ik
@@ -6909,7 +6918,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9662	(2)	BYW/ZNW:EKV:DE_/WKW:TGW:1EP ITP:PNT/SENT_END
+	?	  9662	(2)	BYW|ZNW:EKV:DE_|WKW:TGW:1EP ITP:PNT|SENT_END
 	  9661:	 neer.
 	-->
 	<rule id="NEW_276" name="-">
@@ -6923,7 +6932,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9615	(2)	BYW/VNW:OBP/BNW:STL:ONV/BYW:GRD/WKW:TGW:1EP ITP:PNT/SENT_END
+	?	  9615	(2)	BYW|VNW:OBP|BNW:STL:ONV|BYW:GRD|WKW:TGW:1EP ITP:PNT|SENT_END
 	  9592:	 veel.
 	-->
 	<rule id="NEW_277" name="-">
@@ -6937,7 +6946,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9596	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:1EP/WKW:VLT:1EP
+	?	  9596	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:1EP|WKW:VLT:1EP
 	  3519:	~ Hij leek
 	  2045:	~ Hij boog
 	  1014:	~ Hij reed
@@ -6959,7 +6968,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9501	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP WKW:TGW:1EP/ZNW:EKV:DE_/VNW:PER:1EP:EKV:BEZ
+	?	  9501	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP WKW:TGW:1EP|ZNW:EKV:DE_|VNW:PER:1EP:EKV:BEZ
 	  1883:	~ Ik heb mijn
 	   691:	~ Ik wil mijn
 	   552:	~ Ik moet mijn
@@ -6980,7 +6989,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9496	(3)	SENT_START VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP
+	?	  9496	(3)	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|WKW:TGW:3EP
 	  5371:	~ Het zal
 	  1640:	~ Dit zal
 	  1227:	~ Het mag
@@ -7002,7 +7011,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 
 	<!--
-	?	  9403	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP/WKW:VTD:VRB
+	?	  9403	(3)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP|WKW:VTD:VRB
 	   772:	~ Hij vertelde
 	   581:	~ Hij herkende
 	   320:	~ Hij gebruikte
@@ -7023,13 +7032,14 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-?	  9403	(2)	BYW/VRZ ITP:VRT/SENT_END
+?	  9403	(2)	BYW|VRZ ITP:VRT|SENT_END
 	  2998:	 over?
 	  2482:	 voor?
 	  1753:	 bij?
 	   869:	 binnen?
 	   596:	 achter?
 	-->
+	<!--
 	<rule id="NEW_282" name="-">
         <pattern>
 			<marker>
@@ -7043,9 +7053,10 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VRZ"/>
     </rule>
 
+	-->
 
 	<!--
-	?	  9340	(4)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF BYW/VGW
+	?	  9340	(4)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF BYW|VGW
 	   552:	~ We hebben daar
 	   395:	~ We hebben dus
 	   393:	~ We spreken dan
@@ -7067,7 +7078,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9332	(3)	ITP:KMA ENM:LOC:PTS/ENM:PER:FST ITP:PNT/SENT_END
+	?	  9332	(3)	ITP:KMA ENM:LOC:PTS|ENM:PER:FST ITP:PNT|SENT_END
 	   232:	, Paul.
 	   139:	, Max.
 	   129:	, Emma.
@@ -7088,7 +7099,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-?	 12141	(3)	SENT_START VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP/ZNW:EKV:DE_
+?	 12141	(3)	SENT_START VNW:OND:EKV:HET WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
 	  5312:	~ Het moet
 	  2673:	~ Het spijt
 	  2280:	~ Het zit
@@ -7110,7 +7121,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10868	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF ZNW:EKV:DE_/WKW:TGW:3EP
+	?	 10868	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:EKV:PSF ZNW:EKV:DE_|WKW:TGW:3EP
 	  9889:	~ U bent
 	-->
 	<rule id="NEW_286" name="-">
@@ -7122,7 +7133,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 25842	(3)	SENT_START ENM:PER:FST/ZNW:EKV:DE_ WKW:VLT:1EP
+	?	 25842	(3)	SENT_START ENM:PER:FST|ZNW:EKV:DE_ WKW:VLT:1EP
 	   246:	~ Peter keek
 	   228:	~ Richard keek
 	   214:	~ Bob keek
@@ -7145,7 +7156,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 18134	(3)	SENT_START ENM:PER:FST/ZNW:EKV:DE_ WKW:TGW:3EP
+	?	 18134	(3)	SENT_START ENM:PER:FST|ZNW:EKV:DE_ WKW:TGW:3EP
 	  1382:	~ God is
 	   594:	~ God heeft
 	   278:	~ Peter is
@@ -7168,7 +7179,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 26686	(2)	SENT_START ENM:PER:LST:VAN/VNW:OND:EKV:DE_
+	?	 26686	(2)	SENT_START ENM:PER:LST:VAN|VNW:OND:EKV:DE_
 	 26686:	~ Die
 	-->
 	<rule id="NEW_289" name="-">
@@ -7182,7 +7193,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 20213	(3)	SENT_START BYW:VRG/BNW:STL:ONV/VGW/ZNW:EKV:DE_ WKW:TGW:3EP
+	?	 20213	(3)	SENT_START BYW:VRG|BNW:STL:ONV|VGW|ZNW:EKV:DE_ WKW:TGW:3EP
 	 10352:	~ Waar is
 	  2130:	~ Waar komt
 	  1233:	~ Waar blijft
@@ -7201,7 +7212,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10171	(3)	VGW/VRZ WKW:TGW:INF ITP:PNT/SENT_END
+	?	 10171	(3)	VGW|VRZ WKW:TGW:INF ITP:PNT|SENT_END
 	  1828:	 om lachen.
 	   301:	 met praten.
 	   242:	 tot nadenken.
@@ -7222,7 +7233,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10000	(3)	BYW/ZNW:EKV:DE_/ZNW:EKV:HET/WKW:TGW:1EP BYW ITP:PNT/SENT_END
+	?	 10000	(3)	BYW|ZNW:EKV:DE_|ZNW:EKV:HET|WKW:TGW:1EP BYW ITP:PNT|SENT_END
 	  3520:	 weer terug.
 	   705:	 weer zover.
 	   607:	 weer over.
@@ -7242,13 +7253,14 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9984	(3)	BYW/VRZ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	  9984	(3)	BYW|VRZ ZNW:MRV:DE_ ITP:PNT|SENT_END
 	   249:	 bij kinderen.
 	   135:	 bij mensen.
 	   117:	 over mensen.
 	   101:	 bij vrienden.
 	    92:	 bij vrouwen.
 	-->
+	<!--
 	<rule id="NEW_293" name="-">
         <pattern>
 			<marker>
@@ -7262,9 +7274,10 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="BYW"/>
     </rule>
+	-->
 
 	<!--
-	?	 11673	(3)	SENT_START VNW:OND:EKV:DE_/VNW:OND:MRV:DE_/VGW:EKV:DE_/VGW:MRV:DE_/VNW:AWZ:EKV:DE_/VNW:AWZ:MRV:DE_ WKW:VLT:1EP
+	?	 11673	(3)	SENT_START VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:VLT:1EP
 	  1958:	~ Die had
 	  1068:	~ Die zou
 	   645:	~ Die werd
@@ -7286,7 +7299,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9614	(3)	SENT_START BYW/VGW WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?	  9614	(3)	SENT_START BYW|VGW WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
 	  5529:	~ Daar was
 	  3658:	~ Toen was
 	-->
@@ -7302,7 +7315,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9602	(2)	BYW/VNW:OBP/BNW:STL:ONV ITP:PNT/SENT_END
+	?	  9602	(2)	BYW|VNW:OBP|BNW:STL:ONV ITP:PNT|SENT_END
 	  9592:	 veel.
 	-->
 	<rule id="NEW_296" name="-">
@@ -7316,7 +7329,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9356	(3)	SENT_START ENM:PER:FST/ZNW:EKV WKW:VLT:1EP
+	?	  9356	(3)	SENT_START ENM:PER:FST|ZNW:EKV WKW:VLT:1EP
 	   295:	~ Jack keek
 	   167:	~ Nick keek
 	   101:	~ Jack had
@@ -7338,7 +7351,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9261	(3)	SENT_START VNW:AWZ:EKV:DE_ BNW:STL:ONV/ZNW:EKV:DE_
+	?	  9261	(3)	SENT_START VNW:AWZ:EKV:DE_ BNW:STL:ONV|ZNW:EKV:DE_
 	  1453:	~ De ander
 	  1321:	~ De dood
 	   668:	~ De politiek
@@ -7362,7 +7375,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9205	(3)	ZNW:EKV/BNW:OVR:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	  9205	(3)	ZNW:EKV|BNW:OVR:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
 	   409:	 beste vriend.
 	   291:	 laatste tijd.
 	   264:	 beste oplossing.
@@ -7384,7 +7397,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9173	(3)	SENT_START VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF ZNW:EKV:DE_/WKW:VLT:1EP
+	?	  9173	(3)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF ZNW:EKV:DE_|WKW:VLT:1EP
 	  3574:	~ Ze stond
 	   924:	~ Ze drukte
 	   617:	~ Ze greep
@@ -7403,7 +7416,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9115	(3)	BYW/VNW:OBP/BNW:STL:ONV/BYW:GRD/WKW:TGW:1EP ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	  9115	(3)	BYW|VNW:OBP|BNW:STL:ONV|BYW:GRD|WKW:TGW:1EP ZNW:MRV:DE_ ITP:PNT|SENT_END
 	   509:	 veel mensen.
 	   333:	 veel mogelijkheden.
 	   250:	 veel voordelen.
@@ -7422,7 +7435,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9045	(3)	WKW:TGW:1EP/ZNW:EKV:HET WKW:TGW:INF ITP:PNT/SENT_END
+	?	  9045	(3)	WKW:TGW:1EP|ZNW:EKV:HET WKW:TGW:INF ITP:PNT|SENT_END
 	   433:	 werk gaan.
 	   384:	 antwoord geven.
 	   337:	 geval zijn.
@@ -7445,7 +7458,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9034	(3)	SENT_START WKW:TGW:1EP WKW:TGW:1EP/VNW:PER:2EP:EKV:ACT
+	?	  9034	(3)	SENT_START WKW:TGW:1EP WKW:TGW:1EP|VNW:PER:2EP:EKV:ACT
 	  2104:	~ Ben jij
 	  1498:	~ Heb jij
 	   905:	~ Wil jij
@@ -7466,7 +7479,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-?	  9044	(3)	ZNW:EKV:HET WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+?	  9044	(3)	ZNW:EKV:HET WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
 	   184:	 uur geslapen.
 	   149:	 woord gehouden.
 	    94:	 veld geslagen.
@@ -7487,7 +7500,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8951	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP TSW/WKW:TGW:1EP/BYW/ZNW:EKV
+	?	  8951	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP TSW|WKW:TGW:1EP|BYW|ZNW:EKV
 	  1345:	~ Ik heb wel
 	   931:	~ Ik ben wel
 	   649:	~ Ik kan wel
@@ -7508,7 +7521,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8932	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:3EP BYW/VGW
+	?	  8932	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:3EP BYW|VGW
 	   426:	~ Hij is daar
 	   402:	~ Hij is dus
 	   388:	~ Hij is dan
@@ -7528,7 +7541,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8692	(3)	BYW BYW/VNW:OBP/ZNW:EKV:HET/WKW:TGW:1EP ITP:PNT/SENT_END
+	?	  8692	(3)	BYW BYW|VNW:OBP|ZNW:EKV:HET|WKW:TGW:1EP ITP:PNT|SENT_END
 	  4387:	 niet meer.
 	  1377:	 nog meer.
 	   997:	 nooit meer.
@@ -7546,7 +7559,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8686	(3)	SENT_START BYW:GRD/TYD:DAG/BYW/TSW/VGW BNW:STL:ONV
+	?	  8686	(3)	SENT_START BYW:GRD|TYD:DAG|BYW|TSW|VGW BNW:STL:ONV
 	   502:	~ Zo simpel
 	   475:	~ Zo ver
 	   405:	~ Zo erg
@@ -7568,7 +7581,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	-	  8651	(3)	BNW:STL:ONV WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP ITP:PNT/SENT_END
+	-	  8651	(3)	BNW:STL:ONV WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP ITP:PNT|SENT_END
 	  1795:	 gewoon niet.
 	  1455:	 natuurlijk niet.
 	   962:	 eigenlijk niet.
@@ -7586,7 +7599,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9722	(3)	SENT_START VNW:PER:3EP:EKV:ACT BNW:STL:VRB/WKW:VLT:1EP
+	?	  9722	(3)	SENT_START VNW:PER:3EP:EKV:ACT BNW:STL:VRB|WKW:VLT:1EP
 	  8384:	~ Hij wilde
 	   363:	~ Hij bestudeerde
 	   209:	~ Hij vertrouwde
@@ -7626,7 +7639,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-?	  8637	(3)	SENT_START WKW:TGW:1EP/ZNW:EKV:DE_ VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+?	  8637	(3)	SENT_START WKW:TGW:1EP|ZNW:EKV:DE_ VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF
 	  3341:	~ Dank je
 	  1196:	~ Kom je
 	   641:	~ Krijg je
@@ -7642,7 +7655,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8631	(3)	ZNW:EKV:HET BNW:STL:ONV/WKW:VTD:ONV ITP:PNT/SENT_END
+	?	  8631	(3)	ZNW:EKV:HET BNW:STL:ONV|WKW:VTD:ONV ITP:PNT|SENT_END
 	   272:	 jaar getrouwd.
 	   206:	 verslag gestemd.
 	   112:	 slot gedaan.
@@ -7664,7 +7677,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8617	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF
+	?	  8617	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF
 	  2603:	~ Ik heb haar
 	   653:	~ Ik wil haar
 	-->
@@ -7681,7 +7694,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8597	(3)	SENT_START VNW:OND:MRV:HET/VGW/VGW:EKV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET WKW:TGW:1EP/WKW:TGW:3EP
+	?	  8597	(3)	SENT_START VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|WKW:TGW:3EP
 	  5630:	~ Dat zal
 	  2493:	~ Dat mag
 	-->
@@ -7697,7 +7710,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8575	(4)	SENT_START VGW BYW/VGW WKW:VLT:1EP
+	?	  8575	(4)	SENT_START VGW BYW|VGW WKW:VLT:1EP
 	   641:	~ En toen kwam
 	   312:	~ En toen werd
 	   310:	~ En toen ging
@@ -7717,7 +7730,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8516	(3)	SENT_START BYW:GRD/TYD:DAG/BYW/TSW/VGW WKW:VLT:1EP
+	?	  8516	(3)	SENT_START BYW:GRD|TYD:DAG|BYW|TSW|VGW WKW:VLT:1EP
 	   911:	~ Zo ging
 	   813:	~ Zo werd
 	   622:	~ Zo had
@@ -7736,7 +7749,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 24607	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP ZNW:EKV/WKW:TGW:1EP/VNW:PER:3EP:EKV:BEZ/VNW:PER:3EP:EKV:PSF
+	?	 24607	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF
 	  1624:	~ Hij keek haar
 	  1483:	~ Hij had haar
 	   867:	~ Hij gaf haar
@@ -7755,7 +7768,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 16941	(4)	SENT_START VNW:AWZ:EKV:HET ZNW:EKV:HET WKW:TGW:1EP/ZNW:EKV:DE_/WKW:VLT:1EP
+	?	 16941	(4)	SENT_START VNW:AWZ:EKV:HET ZNW:EKV:HET WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
 	   570:	~ Het resultaat was
 	   489:	~ Het huis was
 	   367:	~ Het water was
@@ -7776,7 +7789,7 @@ Copyright (C) 2008-2024 Ruud Baars
 
 	<!--
 
-?	 16282	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:PER:2EP:EKV:ACT/VNW:PER:2EP:EKV:BEZ/VNW:PER:2EP:EKV:PSF
+?	 16282	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF
 	  2362:	~ Ik heb je
 	  2056:	~ Ik zal je
 	  1389:	~ Ik wil je
@@ -7796,7 +7809,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 12772	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP WKW:TGW:INF/VNW:PER:3EP:EKV:BEZ
+	?	 12772	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
 	    22:	~ Sam stak zijn
 	    22:	~ Tom stak zijn
 	    22:	~ Jack stak zijn
@@ -7818,7 +7831,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 12472	(4)	SENT_START VNW:URT/VNW/VNW:VRG WKW:TGW:3EP BYW
+	?	 12472	(4)	SENT_START VNW:URT|VNW|VNW:VRG WKW:TGW:3EP BYW
 	  4283:	~ Wat is er
 	  1852:	~ Wat gebeurt er
 	   840:	~ Wat rijmt er
@@ -7837,7 +7850,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 12166	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:VTD:ONV/WKW:VTD:VRB ITP:PNT/SENT_END
+	?	 12166	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
 	   187:	 de hand gelopen.
 	   127:	 de krant gelezen.
 	   107:	 de vlucht geslagen.
@@ -7859,7 +7872,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 11825	(4)	VGW/VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	 11825	(4)	VGW|VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
 	   138:	 met volle teugen.
 	    63:	 met andere woorden.
 	    62:	 met lange mouwen.
@@ -7882,7 +7895,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 11567	(5)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BYW/VGW
+	?	 11567	(5)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BYW|VGW
 	    63:	~ De vraag is dan
 	    37:	~ De vraag is dus
 	    36:	~ De minister heeft daar
@@ -7906,7 +7919,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 11288	(4)	VGW/VRZ GET:TXT:EKV ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	 11288	(4)	VGW|VRZ GET:TXT:EKV ZNW:EKV:DE_ ITP:PNT|SENT_END
 	   208:	 voor een afspraak.
 	    86:	 voor een vrouw.
 	    81:	 tot een glimlach.
@@ -7928,7 +7941,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10973	(4)	SENT_START VGW BYW/VGW WKW:TGW:3EP
+	?	 10973	(4)	SENT_START VGW BYW|VGW WKW:TGW:3EP
 	  1624:	~ En dan is
 	   830:	~ En daar is
 	   578:	~ Maar daar is
@@ -7951,7 +7964,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  9110	(4)	BYW/VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	  9110	(4)	BYW|VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
 	    76:	 voor kleine kinderen.
 	    55:	 voor jonge kinderen.
 	    52:	 voor grote uitdagingen.
@@ -7962,6 +7975,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	    27:	 voor nieuwe uitdagingen.
 		27:	 bij jonge kinderen.
 	-->
+	<!--
 	<rule id="NEW_328" name="-">
         <pattern>
 			<marker>
@@ -7976,10 +7990,11 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="VGW"/>
     </rule>
+	-->
 
 	<!--
 	==
-?	  8575	(4)	SENT_START VGW BYW/VGW WKW:VLT:1EP
+?	  8575	(4)	SENT_START VGW BYW|VGW WKW:VLT:1EP
 	   641:	~ En toen kwam
 	   312:	~ En toen werd
 	   310:	~ En toen ging
@@ -8000,7 +8015,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8308	(4)	SENT_START BNW:STL:ONV WKW:TGW:3EP VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET
+	?	  8308	(4)	SENT_START BNW:STL:ONV WKW:TGW:3EP VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
 	   651:	~ Eigenlijk is het
 	   571:	~ Natuurlijk is het
 	   427:	~ Gelukkig is het
@@ -8025,7 +8040,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8241	(5)	VGW/VRZ VNW:AWZ:EKV:DE_ BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	  8241	(5)	VGW|VRZ VNW:AWZ:EKV:DE_ BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
 	   119:	 voor de lange termijn.
 	   108:	 voor de hele familie.
 	    41:	 voor de goede samenwerking.
@@ -8049,28 +8064,19 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	(4222)	SENT_START ENM:PER:FST WKW:VLT:1EP BNW:STL:ONV/WKW:VTD:ONV ITP:PNT/SENT_END
+	(4222)	SENT_START ENM:PER:FST WKW:VLT:1EP BNW:STL:ONV|WKW:VTD:ONV ITP:PNT|SENT_END
    Ian keek vermoeid.
    Saul keek bezorgd.
    Suzy keek bezorgd.
    Lena keek bezorgd.
 	-->
 	<!--
-	(3218)	SENT_START ENM:PER:FST WKW:VLT:1EP BNW:STL:ONV/WKW:ODW:ONV ITP:PNT/SENT_END
+	(3218)	SENT_START ENM:PER:FST WKW:VLT:1EP BNW:STL:ONV|WKW:ODW:ONV ITP:PNT|SENT_END
    Grace was laaiend.
    Maud keek woedend.
    Glenn keek woedend.
    Aurian was woedend.
    Grace werd laaiend.
-	-->
-	<!--
-	(3147)	SENT_START ENM:PER:FST/ENM:PER:LST:NIX WKW:VLT:1EP ITP:PNT/SENT_END
-   Marshall aarzelde.
-   Ally zuchtte.
-   Rania huiverde.
-   Rania zweeg.
-   Ally aarzelde.
-   Rania zuchtte.
 	-->
 	<rule id="FULL_332" name="-">
         <pattern>
@@ -8089,7 +8095,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	(2225)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP/ZNW:EKV:DE_ ITP:PNT/SENT_END
+	(2225)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
    Dat is een hele les.
    Het is een hele rij.
    Het is een enge man.
@@ -8116,7 +8122,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8219	(5)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BNW:STL:ONV/WKW:VTD:ONV
+	?	  8219	(5)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BNW:STL:ONV|WKW:VTD:ONV
 	   109:	~ De foto is gemaakt
 	    96:	~ De kerk is gebouwd
 	    85:	~ De woning is gebouwd
@@ -8140,7 +8146,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8195	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP/WKW:VLT:1EP WKW:TGW:1EP/WKW:TGW:3EP/BYW/VNW:OBP
+	?	  8195	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|WKW:VLT:1EP WKW:TGW:1EP|WKW:TGW:3EP|BYW|VNW:OBP
 	  6772:	~ Ik weet niet
 	  1368:	~ Ik was niet
 	-->
@@ -8158,7 +8164,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	 10569	(4)	VGW/VRZ GET:ARA:002:MRV ITP:PNT GET:ARA:002:MRV
+	?	 10569	(4)	VGW|VRZ GET:ARA:002:MRV ITP:PNT GET:ARA:002:MRV
 	   487:	 tot 17.00
 	   400:	 om 20.00
 	   331:	 om 19.30
@@ -8167,14 +8173,14 @@ Copyright (C) 2008-2024 Ruud Baars
         <pattern>
 			<token postag="VRZ"/>
 			<token postag="GET:ARA:002:MRV"><exception negate_pos="yes" postag="GET:ARA:002:MRV"/></token>
-			<token spacebefore="no" postag="ITP:PNT"><exception negate_pos="yes" postag="ITP:PNT"/></token>
+			<token spacebefore="no" postag_regexp="yes" postag="ITP:(DPT|PNT)"/>
 			<token spacebefore="no" postag="GET:ARA:002:MRV"><exception negate_pos="yes" postag="GET:ARA:002:MRV"/></token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
 
 	<!--
-?	  9850	(6)	VNW:OND:MRV:HET/VNW:AWZ:EKV:HET/VNW:OND:EKV:HET ENM:ORG  States ZNW:EKV:DE_ ZNW:EKV:HET
+?	  9850	(6)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET ENM:ORG  States ZNW:EKV:DE_ ZNW:EKV:HET
 	  9850:	 het United States Census Bureau
 	-->
 	<rule id="NEW_337" name="-">
@@ -8191,7 +8197,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  8080	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF
+	?	  8080	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:EKV:PSF
 	  1118:	~ Ik zal u
 	   841:	~ Ik heb u
 	   703:	~ Ik kan u
@@ -8214,7 +8220,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7966	(4)	VGW/VRZ GET:TXT:EKV ZNW:EKV:HET ITP:PNT/SENT_END
+	?	  7966	(4)	VGW|VRZ GET:TXT:EKV ZNW:EKV:HET ITP:PNT|SENT_END
 	   168:	 voor een gesprek.
 	   152:	 voor een raadsel.
 	   152:	 met een probleem.
@@ -8238,7 +8244,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7938	(4)	SENT_START BYW WKW:TGW:3EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:MRV:ACT/VNW:PER:3EP:MRV:PSF
+	?	  7938	(4)	SENT_START BYW WKW:TGW:3EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF
 	   576:	~ Misschien is ze
 	   459:	~ Daar is ze
 	   440:	~ Nu is ze
@@ -8259,7 +8265,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7870	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP BYW/VGW
+	?	  7870	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP BYW|VGW
 	   750:	~ Hij was toen
 	   363:	~ Hij was daar
 	   338:	~ Hij was dus
@@ -8285,7 +8291,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7796	(4)	BYW BYW/VNW:OBP/ZNW:EKV:HET WKW:TGW:INF ITP:PNT/SENT_END
+	?	  7796	(4)	BYW BYW|VNW:OBP|ZNW:EKV:HET WKW:TGW:INF ITP:PNT|SENT_END
 	   441:	 niet meer zien.
 	   316:	 niet meer doen.
 	   286:	 nooit meer zien.
@@ -8307,7 +8313,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7765	(4)	SENT_START BYW WKW:TGW:3EP VNW:PER:3EP:EKV:ACT/VNW:PER:3EP:EKV:PSF
+	?	  7765	(4)	SENT_START BYW WKW:TGW:3EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:EKV:PSF
 	  1113:	~ Hier vindt u
 	   475:	~ Hier kunt u
 	   308:	~ Daar kunt u
@@ -8329,7 +8335,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7175	(4)	ZNW:EKV:HET ZNW:EKV:HET/WKW:VTD:ONV VRZ GET:ARA:003:MRV
+	?	  7175	(4)	ZNW:EKV:HET ZNW:EKV:HET|WKW:VTD:ONV VRZ GET:ARA:003:MRV
 	    25:	 Bureau geschat op 107
 	-->
 	<rule id="NEW_344" name="-">
@@ -8341,7 +8347,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-?	  7624	(4)	BYW WKW:TGW:INF/ZNW:MRV:DE_ WKW:TGW:INF ITP:PNT/SENT_END
+?	  7624	(4)	BYW WKW:TGW:INF|ZNW:MRV:DE_ WKW:TGW:INF ITP:PNT|SENT_END
 	   285:	 niet moeten doen.
 	   180:	 niet kunnen doen.
 	   157:	 niet kunnen vinden.
@@ -8364,7 +8370,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7572	(4)	BNW:STL:ONV/VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT/SENT_END
+	?	  7572	(4)	BNW:STL:ONV|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT|SENT_END
 	   257:	 naar de mogelijkheden.
 	   250:	 naar de anderen.
 	   195:	 naar de foto's.
@@ -8385,7 +8391,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7557	(4)	WKW:TGW:1EP/WKW:TGW:3EP/VRZ VRZ WKW:TGW:INF ITP:PNT/SENT_END
+	?	  7557	(4)	WKW:TGW:1EP|WKW:TGW:3EP|VRZ VRZ WKW:TGW:INF ITP:PNT|SENT_END
 	  1264:	 uit te leggen.
 	   414:	 uit te zoeken.
 	   275:	 uit te gaan.
@@ -8407,7 +8413,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7472	(4)	BYW/ZNW:EKV:DE_/ZNW:EKV:HET/WKW:TGW:1EP VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	?	  7472	(4)	BYW|ZNW:EKV:DE_|ZNW:EKV:HET|WKW:TGW:1EP VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
 	   347:	 weer aan de slag
 	   127:	 weer voor de deur
 	   125:	 weer op de grond
@@ -8428,7 +8434,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7445	(4)	VGW/VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT/SENT_END
+	?	  7445	(4)	VGW|VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT|SENT_END
 	   394:	 met zijn hand.
 	   219:	 om zijn mond.
 	   172:	 met zijn tong.
@@ -8453,7 +8459,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7262	(4)	BYW/VGW BYW BYW ITP:PNT/SENT_END
+	?	  7262	(4)	BYW|VGW BYW BYW ITP:PNT|SENT_END
 	   474:	 nu niet meer.
 	   302:	 dus ook niet.
 	   285:	 daar niet bij.
@@ -8477,7 +8483,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  7193	(4)	SENT_START WKW:TGW:1EP/VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
+	?	  7193	(4)	SENT_START WKW:TGW:1EP|VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
 	   387:	~ In het begin
 	   349:	~ In dit artikel
 	   293:	~ In dit geval
@@ -8499,7 +8505,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  5162	(4)	WKW:VTD:ONV/WKW:VTD:VRB VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	?	  5162	(4)	WKW:VTD:ONV|WKW:VTD:VRB VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
 	    58:	 opgenomen in de selectie
 	    41:	 getroffen door de coronacrisis
 	    31:	 aangehouden door de politie
@@ -8524,7 +8530,7 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?	  4920	(4)	VGW/VRZ GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET
+	?	  4920	(4)	VGW|VRZ GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET
 	    54:	 tot een goed einde
 	    39:	 voor een groot deel
 	    34:	 voor een persoonlijk gesprek
@@ -8548,7 +8554,2135 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VGW"/>
     </rule>
 
-  
+
+	<!--
+	?	  4862	(4)	BYW BNW:STL:ONV WKW:TGW:1EP|WKW:TGW:3EP|VRZ ITP:PNT|SENT_END
+	   190:	 er prachtig uit.
+	   153:	 er mooi uit.
+	   115:	 er fantastisch uit.
+	    93:	 er moe uit.
+	    93:	 er geweldig uit.
+	    72:	 er veelbelovend uit.
+	-->
+	<rule id="NEW_354" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<marker>
+				<token postag="VRZ">uit</token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  4798	(4)	WKW:TGW:3EP BYW BNW:STL:ONV|WKW:VTD:ONV ITP:PNT|SENT_END
+	   784:	 is niet bekend.
+	    61:	 wordt niet genoemd.
+	    53:	 is inmiddels afgerond.
+	    44:	 is inmiddels bekend.
+	    40:	 is niet gezond.
+	    39:	 is niet verkeerd.
+	    38:	 is niet overtuigd.
+	    35:	 wordt nog gezocht.
+	-->
+	<rule id="NEW_355" name="-">
+        <pattern>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="WKW:VTD:ONV"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  4762	(4)	SENT_START WKW:TGW:3EP VNW:AWZ:EKV:HET|VNW:OND:EKV:HET GET:TXT:EKV
+	  1780:	~ Is het een
+	  1387:	~ Is dat een
+	  1173:	~ Is dit een
+	-->
+	<rule id="NEW_356" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<token postag="VNW:AWZ:EKV:HET"/>
+			</marker>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  4546	(4)	SENT_START WKW:TGW:1EP|ZNW:EKV:DE_ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	   557:	~ Mevrouw de Voorzitterv
+	    68:	~ Pel de ui
+	    39:	~ Mevrouw de commissaris
+	    31:	~ Snipper de ui
+	    23:	~ Schil de komkommer
+	    21:	~ Schil de wortel
+	-->
+	<rule id="NEW_357" name="-">
+		<antipattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">mevrouw|mijnheer</token>
+		</antipattern>
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+        </pattern>
+        <disambig action="remove" postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	?	  4368	(4)	BYW|VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT|SENT_END
+	   300:	 over zijn schouder.
+	   201:	 over zijn kin.
+	    81:	 over haar rug.
+	    73:	 over haar wang.
+	    65:	 voor zijn rekening.
+	-->
+	<!--
+	<rule id="NEW_358" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="BYW"/>
+				</and>
+			</marker>
+			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="BYW"/>
+    </rule>
+	-->
+
+	<!--
+	?	  4238	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:VLT:1EP WKW:TGW:1EP|ZNW:EKV:DE_|VNW:PER:1EP:EKV:BEZ
+	   408:	~ Ik deed mijn
+	   323:	~ Ik legde mijn
+	   309:	~ Ik stak mijn
+	   257:	~ Ik schudde mijn
+	   243:	~ Ik hield mijn
+	   243:	~ Ik sloeg mijn
+	-->
+	<rule id="NEW_359" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token>ik</token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token postag="VNW:PER:1EP:EKV:BEZ">mijn</token>
+			</marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  4198	(4)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ BNW:OVR:VRB ZNW:EKV:DE_ VRZ
+	   118:	 de laatste dag van
+	    90:	 de snelste tijd van
+	    77:	 de laatste wedstrijd van
+	    72:	 de laatste week van
+	    61:	 de grootste stad van
+	    61:	 de laatste stand van
+	-->
+	<rule id="NEW_360" name="-">
+        <pattern>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="BNW:OVR:VRB"><exception negate_pos="yes" postag="BNW:OVR:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	 10003	(4)	 ' VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:3EP
+	  5239:	 'Het is
+	  1849:	 'Dit is
+	   605:	 'Het gaat
+	   211:	 'Het wordt
+	   209:	 'Het lijkt
+	   142:	 'Het heeft
+	   107:	 'Het komt
+	-->
+	<rule id="NEW_003b" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">'|en|of|maar</token>
+			<marker>
+				<token postag="VNW:OND:EKV:HET"/>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  9627	(4)	VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_
+	   125:	 van de man die
+	    83:	 op de manier die
+	    79:	 naar de man die
+	    44:	 met de man die
+	-->
+	<rule id="NEW_361" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<token>die</token>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	 30162	(4)	BYW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     2:	 over de financiën.
+	     1:	 bij de Republikeinen.
+	     1:	 voor de demonstranten.
+	     1:	 voor de kiezers.
+	     1:	 bij de schoenenketens.
+	     1:	 over de implantaten.
+	     1:	 voor de incassokosten.
+	     1:	 voor de levensverzekeraars.
+	-->
+	<!--
+	<rule id="NEW_362" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="BYW"/>
+				</and>
+			</marker>
+			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="BYW"/>
+    </rule>
+	-->
+	<!--
+	?	  7069	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP WKW:VTD:ONV|WKW:VTD:VRB
+	     1:	 de directeur heeft neergeschoten
+	     1:	 de route is afgeweken
+	     1:	 De zee is gekomen
+	     1:	 De VVD is gekozen
+	-->
+	<rule id="NEW_363" name="-">
+        <pattern>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  6905	(4)	VNW:PER:3EP:EKV:ACT WKW:VLT:1EP VNW:RFX VGW|VRZ
+	    46:	 Ze wendde zich tot
+	    38:	 Hij wendde zich tot
+	     7:	 Ze richtte zich tot
+	     6:	 Hij richtte zich tot
+	     1:	 Ze draaide zich om
+	     1:	 Hij keerde zich tot
+	-->
+	<rule id="NEW_364" name="-">
+        <pattern>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:RFX"><exception negate_pos="yes" postag="VNW:RFX"/></token>
+			<marker>
+				<and>
+					<token postag="VGW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+	</rule>
+
+	<!--
+	?	  6873	(4)	BYW BYW BNW:STL:ONV|WKW:VTD:ONV ITP:PNT|SENT_END
+	    36:	 nog niet bekend.
+	    13:	 nog niet afgerond.
+	     5:	 nog niet gekend.
+	     2:	 nog niet gemaakt.
+	     2:	 ook niet verkeerd.
+	     2:	 vooralsnog niet bekend.
+	     2:	 binnenkort nog uitgebreid.
+	-->
+	<rule id="NEW_365" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="BNW:STL:ONV"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  6706	(4)	WKW:TGW:3EP GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP|ZNW:EKV:DE_
+	     2:	 heeft een prachtige stem
+	     1:	 is een grote update
+	     1:	 heeft een nieuwe app
+	     1:	 heeft een ijswitte kleur
+	     1:	 is een keramische kachel
+	1:	 is een wrede man
+	-->
+	<rule id="NEW_366" name="-">
+        <pattern>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	  6581	(4)	VRZ ZNW:EKV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
+	    70:	 in volle gang.
+	     8:	 van hoge kwaliteit.
+	     3:	 van slechte kwaliteit.
+	     3:	 onder volledige narcose.
+	     1:	 van intellectuele oprechtheid.
+	     1:	 in zuidelijke richting.
+	     1:	 in digitale veiligheid.
+	     1:	 in duurzame energie.
+	-->
+	<rule id="NEW_367" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<marker>
+				<and>
+					<token postag="ZNW:EKV"/>
+					<token postag="BNW:STL:VRB"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="ZNW:EKV"/>
+    </rule>
+
+	<!--
+	?	  6572	(4)	VGW|VRZ VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	     1:	 om op de uitnodiging
+	     1:	 om met de trein
+	     1:	 om met de metro
+	-->
+	<rule id="NEW_368" name="-">
+        <pattern>
+			<marker>
+				<token>om</token>
+			</marker>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig action="remove" postag="VRZ"/>
+    </rule>
+
+	<!--
+	?	  6543	(4)	VNW:PER:3EP:EKV:ACT WKW:VLT:1EP VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW
+	     1:	 hij was het ook
+	     1:	 hij deed dit toch
+	     1:	 Hij nam het af
+	     1:	 Ze zei het ook
+	     1:	 Hij deed het af
+	-->
+	<rule id="NEW_369" name="-">
+        <pattern>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<and>
+					<token postag="VNW:OND:MRV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+				</and>
+			</marker>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+        </pattern>
+        <disambig action="remove" postag="VNW:OND:MRV:HET"/>
+    </rule>
+
+	<!--
+	?	  6518	(4)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:INF ITP:PNT|SENT_END
+	    58:	 van het lachen.
+	     3:	 aan het telefoneren.
+	     2:	 aan het koken.
+	     2:	 aan het rijden.
+	     2:	 aan het bloeden.
+	-->
+	<rule id="NEW_370" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token postag="VNW:AWZ:EKV:HET"/>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6455	(4)	SENT_START VGW BYW|VGW WKW:TGW:1EP
+	     4:	~ En dan ga
+	     2:	~ En dus ga
+	     2:	~ En dan kom
+	     2:	~ En dus ben
+	     2:	~ En daar ben
+	-->
+	<rule id="NEW_371" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<marker>
+				<and>
+					<token postag="BYW"/>
+					<token postag="VGW"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  6420	(4)	VGW|VRZ VNW:AWZ:EKV:HET WKW:TGW:INF VRZ
+	     5:	 met het maken van
+	     2:	 met het aanbieden van
+	     2:	 met het testen van
+	     2:	 sinds het uitbreken van
+	     2:	 met het versturen van
+	-->
+	<rule id="NEW_372" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="VGW"/>
+				</and>
+			</marker>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  6416	(4)	SENT_START VNW:AWZ:EKV:HET ZNW:EKV:HET WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
+	     6:	~ Het kind moet
+	     4:	~ Het mengsel moet
+	     3:	~ Het systeem moet
+	     2:	~ Het model moet
+	     2:	~ Het debat moet
+	-->
+	<rule id="NEW_373" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="WKW:TGW:3EP" regexp="yes">moet|wil</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	  6229	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ZNW:EKV:DE_|WKW:VLT:1EP
+	     2:	~ De hond sprong
+	     1:	~ De update stond
+	     1:	~ De formatie won
+	     1:	~ De productie won
+	-->
+	<rule id="NEW_374" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="WKW:VLT:1EP"/>
+				</and>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+?	  1958	(5)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|BYW
+	    26:	~ Ik kan het wel
+	    23:	~ Ik zal het wel
+	    18:	~ Ik wil het wel
+	     6:	~ Ik ga het wel
+	     5:	~ Ik moet het wel
+	-->
+	<rule id="NEW_376" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BYW">wel</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7379	(4)	SENT_START VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET ZNW:EKV:HET WKW:TGW:3EP
+	     9:	~ Dat kind is
+	     6:	~ Dat spul is
+	     3:	~ Dat aantal is
+	     2:	~ Dat bedrag is
+	     2:	~ Dat effect is
+	     2:	~ Dat kind wordt
+	     2:	~ Dat slot is
+	-->
+	<rule id="NEW_377" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:HET">dat</token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7230	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP BYW|TSW
+	    21:	~ Ik ga nu
+	    15:	~ Ik ben nu
+	    14:	~ Ik kom nu
+	    10:	~ Ik zit nu
+	    10:	~ Ik sta nu
+	-->
+	<rule id="NEW_378" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"/>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="BYW">nu</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7200	(4)	SENT_START VGW VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:VLT:1EP
+	    14:	~ En dat ging
+	    12:	~ En dat lukte
+	     8:	~ En dat werkte
+	     7:	~ En dat voelde
+	     4:	~ En dat verliep
+	     4:	~ En dat klopte
+	     2:	~ En dat duurde
+	-->
+	<rule id="NEW_379" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7077	(4)	SENT_START VGW VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:3EP
+	    46:	~ En wat is
+	    34:	~ En wat doet
+	    12:	~ En wat zegt
+	     2:	~ En wat vindt
+	     1:	~ Maar wat is
+	-->
+	<rule id="NEW_380" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
+    </rule>
+
+	<!--
+	?	  7063	(4)	WKW:TGW:1EP|ZNW:EKV:DE_ VRZ WKW:TGW:INF ITP:PNT|SENT_END
+	     2:	 vader te worden.
+	     1:	 omtrek te zien.
+	     1:	 moeder te verpanden.
+	     1:	 plaats te houden.
+	     1:	 man te staan.
+		1:	 uitleg te geven.
+	-->
+	<rule id="NEW_381" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+			<token>te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	  7025	(4)	WKW:TGW:1EP|BYW|VNW:OBP:EKV|ZNW:EKV:HET VRZ WKW:TGW:INF ITP:PNT|SENT_END
+	     5:	 niets te zien.
+	     4:	 niets te halen.
+	     4:	 niets te vinden.
+	     3:	 niets te doen.
+	     3:	 niets te zeggen.
+	-->
+	<rule id="NEW_382" name="-">
+        <pattern>
+			<marker>
+				<token>niets</token>
+			</marker>
+			<token>te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	  6922	(4)	VRZ VNW:PER:1EP:EKV:BEZ WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
+	    43:	 van mijn vader.
+	    32:	 van mijn moeder.
+	     8:	 van mijn man.
+	     2:	 van mijn fiets.
+	     2:	 in mijn nek.
+	-->
+	<rule id="NEW_383" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:PER:1EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:BEZ"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	  6786	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP WKW:TGW:1EP|BNW:STL:ONV
+	    36:	~ Het is stil
+	    14:	~ Het wordt stil
+	    13:	~ Het is warm
+	     8:	~ Dat geldt zeker
+	     6:	~ Het blijft stil
+	     4:	~ Het is vol
+	-->
+	<rule id="NEW_384" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="BNW:STL:ONV"/>
+				</and>
+			</marker>
+        </pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP"/>
+    </rule>
+
+	<!--
+	?	  6779	(4)	VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ VRZ|ZNW:EKV:HET
+	    15:	 in de strijd tegen
+	     8:	 in de thuiswedstrijd tegen
+	     7:	 voor de strijd tegen
+	-->
+	<rule id="NEW_385" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ">tegen</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6730	(4)	VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_
+	    14:	 van de dingen die
+	     7:	 van de mensen die
+	     4:	 van de activiteiten die
+	-->
+	<rule id="NEW_386" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:MRV:DE_"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="VGW:MRV:DE_">die</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7613	(4)	SENT_START VNW:OND:EKV:DE_|VNW:AWZ:EKV:DE_|VNW:OND:MRV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ WKW:TGW:3EP
+	    15:	~ Deze man is
+	     9:	~ Deze zin is
+	     7:	~ Deze plek is
+	     4:	~ Deze tafel is
+	     3:	~ Deze app is
+	     3:	~ Deze rol is
+	-->
+	<rule id="NEW_387" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_">deze</token>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7612	(4)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:INF ITP:PNT|SENT_END
+	    58:	 van het lachen.
+	     3:	 aan het telefoneren.
+	     2:	 aan het koken.
+	     2:	 aan het rijden.
+	     2:	 aan het bloeden.
+	     1:	 aan het afnemen.
+	     1:	 aan het skiën.
+	     1:	 aan het huilen.
+	-->
+	<rule id="NEW_388" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7584	(4)	WKW:TGW:3EP BYW WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
+	    13:	 is niet gevonden.
+	     9:	 is nooit gevonden.
+	     4:	 is nooit gekomen.
+	     4:	 is niet gekomen.
+	     4:	 is nu afgelopen.
+	     2:	 is er gekomen.
+	     2:	 wordt niet opgenomen.
+	     2:	 is niet opgenomen.
+	-->
+	<rule id="NEW_389" name="-">
+        <pattern>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  7563	(4)	VRZ VNW:OND:EKV:DE_|VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	 Op die dvd.
+	     1:	 Op die foto.
+	     1:	 Van die cel.
+	     1:	 Aan die jurk.
+	     1:	 Van die auto.
+	     1:	 Op die video.
+	-->
+	<rule id="NEW_390" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7841	(4)	VGW|VRZ BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	 tot nationale actiedag.
+	     1:	 met abstracte geometrie.
+	     1:	 tot verticale transmissie.
+	     1:	 Met herbruikbare tandenbeschermer.
+	-->
+	<rule id="NEW_391" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+?	  7653	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:VLT:1EP|WKW:VTD:VRB ZNW:MRV:DE_
+	    51:	 in de Verenigde Staten
+	    21:	 van de Verenigde Staten
+	    17:	 van de Verenigde Naties
+	-->
+	<rule id="NEW_392" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:MRV:DE_"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  7556	(4)	BYW BYW WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
+	    14:	 nog niet afgelopen.
+	    12:	 nog niet gevonden.
+	     7:	 er nooit gekomen.
+	     2:	 nog niet gekomen.
+	     2:	 nog niet aangehouden.
+	     2:	 er niet gekomen.
+	-->
+	<rule id="NEW_393" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  6727	(5)	VGW|VRZ VNW:AWZ:EKV:DE_ BNW:STL:VRB ZNW:EKV:DE_ VRZ
+	     6:	 om de juiste keuze te
+	     5:	 om de juiste diagnose te
+	     4:	 om de juiste balans te
+	     3:	 om de juiste informatie te
+	     3:	 om de openbare orde te
+
+	-->
+	<rule id="NEW_394" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ">te</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6694	(4)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VRZ WKW:TGW:INF ITP:PNT|SENT_END
+	    33:	 het te begrijpen.
+	     8:	 het te merken.
+	     6:	 het te negeren.
+	     3:	 het te bagatelliseren.
+	     3:	 het te overwegen.
+	     3:	 het te verwerken.
+	     2:	 het te snappen.
+	     2:	 dit te voelen.
+	     2:	 het te volgen.
+	-->
+	<rule id="NEW_395" name="-">
+        <pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6657	(4)	BNW:STL:ONV|VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     8:	 naar haar kamer.
+	     7:	 naar zijn auto.
+	     5:	 naar haar zoon.
+	     4:	 naar haar auto.
+	     4:	 naar zijn kamer.
+	     4:	 naar zijn zoon.
+	-->
+	<rule id="NEW_396" name="-">
+        <pattern>
+			<token postag="VRZ">naar</token>
+			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6640	(5)	VGW|VRZ GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_ VRZ
+	     7:	 om een goede keuze te
+	     4:	 voor een nieuwe manier van
+	     3:	 om een goede balans te
+	     2:	 om een nieuwe serie in
+	-->
+	<rule id="NEW_397" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ">te</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	  6611	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP BNW:STL:ONV|ZNW:EKV:HET
+	     1:	 De pH is goed
+	     1:	 De FM is goed
+	     1:	 De wet is goed
+	     1:	 De wil is goed
+	-->
+	<rule id="NEW_398" name="-">
+        <pattern>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BNW:STL:ONV">goed</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6598	(4)	WKW:VLT:1EP GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP|ZNW:EKV:DE_
+	     3:	 was een goede les
+	     3:	 was een hele schok
+	     3:	 was een goede plek
+	     3:	 was een hele puzzel
+	     3:	 was een enorme klap
+	     2:	 was een hele rij
+	     2:	 was een hele stap
+	-->
+	<rule id="NEW_399" name="-">
+        <pattern>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"/>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6636	(4)	SENT_START GET:ARA:002:MRV ZNW:EKV:HET ZNW:MRV:DE_|BNW:STL:MRV:DE_|WKW:VTD:ONV|WKW:VTD:VRB|BYW
+	     7:	~ 15 uur geleden
+	     7:	~ 19 uur geleden
+	     6:	~ 20 uur geleden
+	     6:	~ 21 uur geleden
+	-->
+	<rule id="NEW_400" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="GET:(ARA|TXT).*"/>
+			<token inflected="yes" regexp="yes">seconde|minuut|kwartier|halfuur|uur|dag|week|maand|seizoen|jaar|decennium|eeuw|eeuwigheid</token>
+			<marker>
+				<token postag="BYW">geleden</token>
+			</marker>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+
+	<!--
+	?	  1327	(5)	VGW|VRZ VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW VRZ WKW:TGW:INF
+	    10:	 om het niet te doen
+	     8:	 om het eens te proberen
+	     3:	 om dit mee te maken
+	     2:	 om het mee te nemen
+	-->
+	<rule id="NEW_401" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6882	(5)	VGW|VRZ VNW:OND:EKV:HET VRZ WKW:TGW:INF SENT_END<|SENT_END
+	    11:	 om dit te lezen.
+	     4:	 om dit te zien.
+	     3:	 om dit te ervaren.
+	     2:	 om dit te horen.
+	     2:	 om dit te volgen.
+	     1:	 om dat te regelen.
+		 -->
+	<rule id="NEW_403" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6508	(4)	SENT_START BNW:STL:ONV WKW:VLT:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF
+	     9:	~ Langzaam liep ze
+	     3:	~ Nieuwsgierig keek ze
+	     3:	~ Voorzichtig liep ze
+	     2:	~ Haastig liep ze
+	     2:	~ Angstig keek ze
+	     2:	~ Wanhopig keek ze
+	-->
+	<rule id="NEW_404" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:ACT">ze</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6489	(4)	SENT_START BNW:STL:VRB ZNW:MRV:DE_ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
+	     2:	~ Andere materialen zijn
+	     2:	~ Andere suggesties zijn
+	     2:	~ Andere afmetingen zijn
+	     1:	~ Diverse beroemdheden zijn
+	-->
+	<rule id="NEW_405" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="WKW:TGW:INF">zijn</token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6486	(4)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:ONV ZNW:EKV:HET
+	     6:	 in het wetenschappelijk tijdschrift
+	     2:	 in het sociaal domein
+	     2:	 aan het Centraal Station
+	     2:	 van het nationaal park
+	-->
+	<rule id="NEW_406" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6472	(4)	GET:TXT:EKV ZNW:EKV:DE_ WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
+	     2:	 een man aangehouden.
+	     2:	 een traumahelikopter opgeroepen.
+	     2:	 een betalingsregeling getroffen.
+	-->
+	<rule id="NEW_407" name="-">
+        <pattern>
+			<token postag="GET:TXT:EKV"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VTD:ONV"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  6453	(4)	VGW|VRZ ZNW:MRV:DE_ VRZ WKW:TGW:INF
+	     1:	 om trainers te verlonen
+	     1:	 om ondernemers te inspireren
+	     1:	 om mensen te verzoeken
+	     1:	 om vakbondsacties te ondernemen
+	-->
+	<rule id="NEW_408" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6453	(4)	SENT_START VGW VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ WKW:TGW:3EP
+	     2:	~ Als je wilt
+	     1:	~ Zoals je wilt
+	     1:	~ Alsof je nadenkt
+	     1:	~ Indien je terugkeert
+	     1:	~ Of je valt
+	     1:	~ Of je danst
+	-->
+	<rule id="NEW_409" name="-">
+        <pattern>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="VNW:PER:2EP:EKV:ACT">je</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6439	(4)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ VRZ
+	     5:	 zijn de gevolgen voor
+	     5:	 zijn de openingstijden van
+	     3:	 zijn de plannen voor
+	     3:	 zijn de doelstellingen van
+	-->
+	<rule id="NEW_410" name="-">
+        <pattern>
+			<token postag="WKW:TGW:INF">zijn</token>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6390	(4)	VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
+	    11:	 Aan de orde zijn
+	    11:	 op de hoogte zijn
+	     3:	 In de verte zijn
+	     3:	 In de omgeving zijn
+	-->
+	<rule id="NEW_411" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:INF">zijn</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6385	(4)	VRZ WKW:TGW:INF WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     3:	 te gaan slapen.
+	     3:	 te gaan vissen.
+	     2:	 te gaan geloven.
+	     2:	 te gaan lunchen.
+	     2:	 te kunnen vergelijken.
+	     2:	 te gaan lopen.
+	-->
+	<rule id="NEW_412" name="-">
+        <pattern>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+
+		</pattern>
+        <disambig action="remove" postag="ZNW:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	  6340	(4)	BYW BYW|VNW:OBP|ZNW:EKV:HET|WKW:TGW:1EP VRZ WKW:TGW:INF
+	    17:	 niet meer te zien
+	    11:	 niet meer te stoppen
+	     7:	 nergens meer te zien
+	-->
+	<rule id="NEW_413" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<and>
+					<token postag="BYW"/>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="ZNW:EKV:HET"/>
+					<token postag="VNW:OBP"/>
+				</and>
+			</marker>
+
+		</pattern>
+        <disambig action="remove" postag="WKW:TGW:1EP|ZNW:EKV:HET"/>
+    </rule>
+
+	<!--
+	?	  6323	(4)	SENT_START VNW:OND:EKV:HET WKW:VLT:1EP BYW|VGW
+	    29:	~ Het was dus
+	    19:	~ Dat was dus
+	    17:	~ Dat was toen
+	    11:	~ Het werd dus
+	     6:	~ Dat was dan
+	-->
+	<rule id="NEW_414" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<and>
+					<token postag="BYW"/>
+					<token postag="VGW"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  6317	(4)	VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW WKW:TGW:INF ITP:PNT|SENT_END
+	     4:	 het samen doen.
+	     4:	 het toch proberen.
+	     4:	 het opnieuw proberen.
+	     3:	 het eens proberen.
+	     3:	 het eens bekijken.
+	-->
+	<rule id="NEW_415" name="-">
+        <pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6280	(4)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET ZNW:EKV|BNW:STL:VRB ZNW:EKV:HET ITP:PNT|SENT_END
+			1:	 dit warme familiehuis.
+			1:	 het belangrijke duel.
+			1:	 het vorige studiejaar.
+			1:	 het vaste salaris.
+			1:	 het parlementaire jaar.
+			1:	 het juiste adres.
+	-->
+	<rule id="NEW_416" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  6237	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:VLT:1EP|WKW:VTD:VRB
+	     1:	De overheid verdubbelde
+	     1:	De man verdiende
+	     1:	De EHBO ontfermde
+	     1:	De schrijfster vergaarde
+	     1:	De politie betrapte
+	-->
+	<rule id="NEW_417" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:VLT:1EP"/>
+					<token postag="WKW:VTD:VRB"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="WKW:VTD:VRB"/>
+    </rule>
+
+	<!--
+	?	  6223	(4)	VRZ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     7:	 op zijn knieën.
+	     3:	 op zijn vingers.
+	     2:	 op zijn wangen.
+	     2:	 aan zijn kleren.
+	     2:	 door zijn knieën.
+	-->
+	<rule id="NEW_418" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">zijn</token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6182	(5)	VGW|VRZ BYW VRZ WKW:TGW:INF ITP:PNT|SENT_END
+	    16:	 om mee te maken.
+	     7:	 om mee te werken.
+	     5:	 om hier te zijn.
+	     4:	 om mee te nemen.
+	     4:	 om mee te rijden.
+	     3:	 om er te zijn.
+	-->
+	<rule id="NEW_419" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6167	(4)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET VRZ
+	    20:	 aan het werk te
+	     6:	 van het land in
+	     4:	 op dit gebied te
+	     3:	 in het water te
+	     3:	 bij het werk te
+	-->
+	<rule id="NEW_420" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="ZNW:EKV:HET"/>
+			<token postag="VRZ">te</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6161	(4)	SENT_START VGW VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
+	    77:	Maar het was
+	    22:	Maar dit was
+	-->
+	<rule id="NEW_421" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="WKW:VLT:1EP">was</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6142	(4)	ZNW:EKV:DE_ VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET
+	    10:	 editie van het toernooi
+	     4:	 deelname van het land
+	     2:	 strijd tussen het netwerk
+	     2:	 man in het water
+	-->
+	<rule id="NEW_422" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="ZNW:EKV:HET"/>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6124	(5)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ SENT_END
+	     1:	 het met de man?
+	     1:	 het met de auto?
+	     1:	 het met de liefde?
+	-->
+	<rule id="NEW_423" name="-">
+        <pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6014	(4)	ZNW:EKV:DE_ WKW:TGW:INF|ZNW:MRV:DE_ WKW:TGW:INF ITP:PNT|SENT_END
+	     4:	 truc kunnen zijn.
+	     2:	 val kunnen zijn.
+	     2:	 kans kunnen zijn.
+	     2:	 valstrik kunnen zijn.
+	     2:	 uitkomst kunnen zijn.
+	     2:	 dekmantel kunnen zijn.
+	-->
+	<rule id="NEW_424" name="-">
+        <pattern>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="ZNW:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	  6009	(4)	VGW|VRZ VNW:RFX BYW ITP:PNT|SENT_END
+	    99:	 om zich heen.
+	-->
+	<rule id="NEW_425" name="-">
+        <pattern>
+			<token postag="VRZ">om</token>
+			<token postag="VNW:RFX"><exception negate_pos="yes" postag="VNW:RFX"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5984	(4)	VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW BYW ITP:PNT|SENT_END
+	    30:	 het nog eens.
+	    18:	 het daarmee eens.
+	    11:	 het ermee eens.
+	     6:	 het hiermee eens.
+	-->
+	<rule id="NEW_426" name="-">
+        <pattern>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5979	(4)	BYW|VNW:OBP|BNW:STL:ONV|BYW:GRD|WKW:TGW:1EP BYW:GRD BNW:STL:ONV ITP:PNT|SENT_END
+	     1:	 veel te voorbarig.
+	     1:	 veel te laag.
+	     1:	Veel te na.
+	     1:	Veel te fel.
+	     1:	Veel te lui.
+	     1:	Veel te oud.
+	     1:	Veel te dik.
+	     1:	Veel te nat.
+	     1:	Veel te ruw.
+	-->
+	<rule id="NEW_427" name="-">
+        <pattern>
+			<token postag="BYW:GRD">veel</token>
+			<token postag="BYW:GRD">te</token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5954	(4)	SENT_START VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:1EP VNW:PER:1EP:EKV:ACT
+	    22:	Die wil ik
+	    18:	Die ga ik
+	    18:	Die kan ik
+	    17:	Die moet ik
+	-->
+	<rule id="NEW_428" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<and>
+					<token postag="VNW:OND:EKV:DE_"/>
+					<token postag="VNW:OND:MRV:DE_"/>
+					<token postag="VGW:EKV:DE_"/>
+					<token postag="VGW:MRV:DE_"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token>ik</token>
+		</pattern>
+        <disambig action="remove" postag="VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
+    </rule>
+
+	<!--
+	?	  5861	(4)	VRZ WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
+	    38:	 in zijn ogen.
+	    17:	 in zijn handen.
+	    10:	 op zijn lippen.
+	     5:	 in zijn zakken.
+	     4:	 op zijn benen.
+	-->
+	<rule id="NEW_429" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">zijn</token>
+			<token postag="ZNW:MRV:DE_"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  6082	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:VLT:1EP BYW|ZNW:EKV:DE_|ZNW:EKV:HET|WKW:TGW:1EP
+	     1:	Ze zag weer
+	     1:	Ze viel weer
+	     1:	Ze riep weer
+	-->
+	<rule id="NEW_430" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="BYW">weer</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	  5804	(4)	SENT_START VGW VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:VLT:1EP
+	     5:	Maar ze ging
+	     4:	Maar ze kwam
+	     3:	Maar ze zweeg
+	     3:	Maar ze lachte
+	     3:	Maar ze huilde
+	-->
+	<rule id="NEW_431" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="VNW:PER:3EP:EKV:ACT"/>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5766	(5)	VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     1:	 van de bank schaden.
+	     1:	 uit de lucht vallen.
+	     1:	 in de filmwereld werken.
+	     1:	 in de wijk schoonmaken.
+	-->
+	<rule id="NEW_432" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:INF"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5748	(4)	VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_|BNW:STL:VRB ZNW:MRV:DE_
+	     3:	 van de Nederlandse Spoorwegen
+	     2:	 bij de Belgische strijdkrachten
+	     1:	 door de Slowaakse autoriteiten
+	     1:	 van de eigenwijze Amsterdammers
+	-->
+	<rule id="NEW_433" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5746	(4)	BNW:STL:ONV|BYW VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	     1:	 alleen voor de pop
+	     1:	 alleen door de kwaliteit
+	     1:	Alleen op de bank
+	-->
+	<rule id="NEW_434" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BYW">alleen</token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5709	(4)	SENT_START VNW:PER:3EP:EKV:ACT WKW:TGW:3EP BYW|VGW
+	    21:	Hij is dus
+	    15:	Hij is daar
+	     9:	Hij heeft daar
+	     7:	Hij heeft dus
+	-->
+	<rule id="NEW_435" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<and>
+					<token postag="BYW"/>
+					<token postag="VGW"/>
+				</and>
+			</marker>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+
+	<!--
+	?	  5650	(4)	SENT_START BYW WKW:TGW:INF VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF
+	     2:	Daar zitten ze
+	     2:	Daar komen ze
+	     1:	Ook mogen ze
+	     1:	Anders krijgen ze
+	     1:	Daarmee hebben ze
+	     1:	Toch gaan ze
+	-->
+	<rule id="NEW_436" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VNW:PER:3EP:MRV:ACT"/>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5649	(4)	SENT_START ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF WKW:TGW:1EP|ZNW:EKV:DE_ WKW:VLT:1EP
+	    44:	Haar stem klonk
+	    16:	Haar stem werd
+	     3:	Haar mond trok
+	     3:	Haar lach klonk
+	     2:	Haar mond werd
+	     2:	Haar stem bleef
+	-->
+	<rule id="NEW_437" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5601	(4)	VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_
+	     1:	 het een halfjaarlijkse hoogmis
+	     1:	 het een bewuste keuze
+	     1:	 het een potentiële vervanger
+	-->
+	<rule id="NEW_438" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VNW:OND:MRV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+				</and>
+			</marker>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+		</pattern>
+        <disambig action="remove" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET"/>
+    </rule>
+
+	<!--
+	?	  5517	(4)	SENT_START VNW:URT|VNW:VRG WKW:TGW:1EP VNW:PER:1EP:EKV:ACT
+	    24:	Wat moet ik
+	    19:	Wat kan ik
+	    18:	Wat zal ik
+	    16:	Wat ga ik
+	-->
+	<rule id="NEW_439" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:VRG">wat</token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token>ik</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5452	(4)	VNW:PER:1EP:EKV:ACT WKW:VLT:1EP VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW
+	     1:	Ik had het ook
+	     1:	Ik kon het ook
+	     1:	Ik zag het ook
+	-->
+	<rule id="NEW_440" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token>ik</token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+
+	<!--
+	?	  5395	(4)	VNW:OBP ZNW:EKV:DE_ BYW|VNW:OBP|ZNW:EKV:HET|WKW:TGW:1EP ITP:PNT|SENT_END
+	     1:	 geen plofkip mveer.
+	     1:	 geen actie meer.
+	     1:	Geen tv meer.
+	     1:	Geen SP meer.
+	     1:	Geen fut meer.
+	     1:	Geen AOW meer.
+	-->
+	<rule id="NEW_441" name="-">
+        <pattern>
+			<token postag="VNW:OBP"><exception negate_pos="yes" postag="VNW:OBP"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="BYW">meer</token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  1932	(4)	WKW:VLT:1EP BNW:STL:ONV|VGW|VRZ ENM:PER:FST ITP:PNT|SENT_END
+	     2:	 keek naar Tom.
+	     2:	 keek naar Anne.
+	     2:	 keek naar Eve.
+	     2:	 keek naar Julia.
+	-->
+	<rule id="NEW_442" name="-">
+        <pattern>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VRZ">naar</token>
+			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2451	(4)	SENT_START VNW:URT|VNW|VNW:VRG WKW:TGW:3EP GET:TXT:EKV
+	    96:	Wat is een
+	     1:	Wat betekent een
+	     1:	Wat weegt een
+	     1:	Wat doet een
+	-->
+	<!--
+	?	  2737	(4)	SENT_START VNW:URT|VNW|VNW:VRG WKW:TGW:3EP BYW
+	    30:	Wat gebeurt er
+	    21:	Wat is er
+	     8:	Wat speelt er
+	     6:	Wat gaat er
+	     5:	Wat leeft er
+	-->
+	<rule id="NEW_443" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:VRG">wat</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag_regexp="yes" postag="BYW|GET:TXT:EKV"/>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2302	(4)	WKW:TGW:3EP BYW WKW:TGW:1EP|BNW:STL:ONV ITP:PNT|SENT_END
+	    12:	 is nog lang.
+	    10:	 is nog open.
+	     8:	 is nu open.
+	     7:	 is er zeker.
+	     6:	 is nog bezig.
+	-->
+	<rule id="NEW_444" name="-">
+        <pattern>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|BNW:STL:ONV"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  1554	(4)	SENT_START BNW:STL:ONV WKW:TGW:1EP|ZNW:EKV:HET ITP:PNT|SENT_END
+	     1:	Onbekend nummer.
+	     1:	Mooi werk.
+	     1:	Strak plan.
+	     1:	Fantastisch werk.
+	-->
+	<rule id="FULL_445" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:HET"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|ZNW:EKV:HET"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="ZNW:EKV:HET"/>
+    </rule>
+
+	<!--
+?	  7814	(4)	GET:TXT:EKV BNW:STL:VRB WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	 een zwarte bank.
+	     1:	 een felle brand.
+	     1:	 een foute wissel.
+	     1:	 een experimentele film.
+	     1:	 een belangrijke rol.
+	     1:	 een nieuwe club.
+	     1:	 een grote brand.
+	-->
+	<rule id="NEW_446" name="-">
+        <pattern>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	?	  3263	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:3EP|ZNW:EKV:DE_ WKW:TGW:3EP
+	    20:	De rest is
+	    13:	De rest wordt
+	     4:	De start is
+	     4:	De kat is
+	-->
+	<rule id="NEW_447" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2900	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:VLT:1EP WKW:TGW:1EP|BNW:STL:ONV
+	     1:	De man verdiende zeker
+	     1:	De kar was vol
+	     1:	De bus was vol
+	     1:	De hal lag vol
+	     1:	De cel was warm
+	     1:	De tank was vol
+	     1:	De zee was glad
+	     1:	De wijn was vol
+	-->
+	<rule id="NEW_448" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|BNW:STL:ONV"/></token>
+			</marker>
+        </pattern>
+        <disambig postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  2749	(4)	ZNW:EKV:DE_ WKW:TGW:3EP BNW:STL:ONV|ZNW:EKV:HET ITP:PNT|SENT_END
+	     1:	 melk is vers.
+	     1:	 koffie is vers.
+	     1:	 nacht is totaal.
+	     1:	 aanpak is totaal.
+	     1:	 paniek is totaal.
+	     1:	 staking is totaal.
+	-->
+	<rule id="NEW_449" name="-">
+        <pattern>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="BNW:STL:ONV|ZNW:EKV:HET"><exception negate_pos="yes" postag_regexp="yes"  postag="BNW:STL:ONV|ZNW:EKV:HET"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  2698	(4)	WKW:VLT:1EP VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW ITP:PNT|SENT_END
+	    47:	 wist het niet.
+	    15:	 weet het niet.
+	    11:	 zag het niet.
+	     9:	 was het niet.
+	-->
+	<rule id="NEW_450" name="-">
+        <pattern>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:OND:EKV:HET"><exception negate_pos="yes" postag_regexp="yes"  postag="VNW:OND:MRV:HET|VNW:OND:EKV:HET"/></token>
+			</marker>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig postag="VNW:OND:EKV:HET"/>
+    </rule>
+
+	<!--
+	?	  2106	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP WKW:TGW:1EP|BNW:STL:ONV|ZNW:EKV:HET
+	     1:	Tom sliep diep
+	     1:	Nana had gelijk
+	     1:	Derek had gelijk
+	     1:	Tom zuchtte diep
+	     1:	Cathy had gelijk
+	     1:	Carrie had gelijk
+	-->
+	<rule id="NEW_451" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV|ZNW:EKV:HET"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|BNW:STL:ONV|ZNW:EKV:HET"/></token>
+			</marker>
+        </pattern>
+        <disambig postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  1572	(4)	BNW:STL:VRB ZNW:EKV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	 forse economische schade.
+	     1:	 nieuwe tijdelijke arbeidsovereenkomst.
+	     1:	Hele mooie foto.
+	     1:	Hele gezellige sfeer.
+	     1:	Prachtige burgerlijke treurigheid.
+	     1:	Sympathieke jeugdige onwetendheid.
+	-->
+	<rule id="NEW_452" name="-">
+        <pattern>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes"  postag="ZNW:EKV|BNW:STL:VRB"/></token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+        </pattern>
+        <disambig postag="BNW:STL:VRB"/>
+    </rule>
+
+	<!--
+-	  1394	(4)	VNW:URT|VNW|VNW:VRG WKW:TGW:3EP ZNW:EKV:HET ITP:VRT|SENT_END
+	     1:	Wat betekent Ordeningsstelsel?
+	     1:	Wat betekent verwijdercentrum?
+	     1:	Wat Betekent referentienummer?
+	     1:	Wat is SQ?
+	     1:	Wat is DNA?
+	     1:	Wat is ego?
+	-->
+	<rule id="FULL_453" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:VRG">wat</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="ZNW:EKV:HET"/>
+			<token postag="SENT_END">?</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  1365	(4)	SENT_START BNW:STL:ONV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	Prima ontwikkeling.v
+	     1:	Mega inflatie.
+	     1:	Prima zaak.
+	     1:	Gratis toegang.
+	     1:	Prima marketing.
+	     1:	Prima goal.
+	-->
+	<rule id="FULL_454" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token postag_regexp="yes" postag="BNW:STL:ONV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes"  postag="BNW:STL:ONV|BNW:STL:VRB"/></token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig postag="BNW:STL:VRB"/>
+    </rule>
+
+	<!--
+	?	  1335	(4)	SENT_START BNW:STL:VRB WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	Arme man.
+	     1:	Lieve hemel.
+	     1:	Vaste prik.
+	     1:	Eeuwige dank.
+	     1:	Foute boel.
+	-->
+	<rule id="FULL_455" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	?	  2027	(4)	SENT_START ENM:BEZ WKW:TGW:1EP|ZNW:EKV:DE_ WKW:VLT:1EP
+	     1:	Ruths mond trok
+	     1:	Lidy's gsm ging
+	     1:	Rafi's gsm ging
+	     1:	Vens lip krulde
+	     1:	Rods stem sneed
+	     1:	Neds adem stokte
+	-->
+	<rule id="NEW_456" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="ENM:BEZ"><exception negate_pos="yes" postag="ENM:BEZ"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			</marker>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+        </pattern>
+        <disambig postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	-	  2628	(4)	WKW:TGW:1EP|BNW:STL:ONV VGW BNW:STL:ONV ITP:PNT|SENT_END
+	     1:	Ruw en onaf.
+	     1:	Snel en vurig.
+	     1:	Snel en gratis.
+	     1:	Snel en foutloos.
+	-->
+	<rule id="NEW_457" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|BNW:STL:ONV"/></token>
+			</marker>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  2626	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP WKW:TGW:1EP|ZNW:EKV:DE_|VNW:PER:1EP:EKV:BEZ
+	    37:	Dit is mijn
+	    33:	Dat is mijn
+	    18:	Het is mijn
+	     2:	Dit ontstijgt mijn
+	-->
+	<rule id="NEW_458" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="VNW:PER:1EP:EKV:BEZ">mijn</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2542	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:3EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
+	    14:	 in de lucht.
+	     8:	 op de kaart.
+	     7:	 op de markt.
+	     5:	 in de lift.
+	     4:	 in de boot.
+	     3:	 op de vlucht.
+	     3:	 op de lijst.
+	-->
+	<rule id="NEW_459" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag=".*MRV.*"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  3187	(4)	VNW:PER:3EP:EKV:ACT WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP|ZNW:EKV:DE_
+	    20:	Hij legde zijn hand
+	     6:	Hij stak zijn hand
+	     4:	Hij legde zijn vinger
+	     3:	Hij hield zijn vinger
+	     2:	Hij had zijn hand
+	     2:	Hij nam zijn hoed
+	-->
+	<rule id="NEW_460" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag=".*BEZ"><exception negate_pos="yes" postag_regexp="yes" postag=".*BEZ"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			</marker>
+        </pattern>
+        <disambig postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
 		<rule>

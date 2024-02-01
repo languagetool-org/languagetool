@@ -23,12 +23,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.tools.StringTools;
 
 import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
@@ -288,7 +285,7 @@ public class WordTokenizer implements Tokenizer {
     Removes emojis from a string.
     Output: a list with the cleaned string in position 0, the next elements are the removed emojis in order
    */
-  final private String REMOVED_EMOJI = "MyReMoVeDeMoJi";
+  final protected String REMOVED_EMOJI = "MyReMoVeDeMoJi";
   public List<String> replaceEmojis(String s) {
     List<String> removedEmojis = new ArrayList<>();
     if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {

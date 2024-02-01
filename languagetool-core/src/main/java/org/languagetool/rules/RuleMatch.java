@@ -697,15 +697,25 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (!this.originalErrorStr.isEmpty()) {
       return;
     }
-    int fromPos = this.getFromPos();
-    int toPos = this.getToPos();
-    if (this.getSentence() != null) {
-      if (fromPos > -1 && toPos > -1) {
-        String sentenceStr = this.getSentence().getText();
-        if (!sentenceStr.isEmpty()) {
-          this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
-        }
-      }
+    if (this.getSentence() == null) {
+      return;
+    }
+    String sentenceStr = this.getSentence().getText();
+    if (sentenceStr.isEmpty()) {
+      return;
+    }
+    // use the positions in the sentence if available
+    int fromPos = this.getFromPosSentence();
+    int toPos = this.getToPosSentence();
+    if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
+      this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
+      return;
+    }
+    // otherwise use the positions before the offsetPosition is adjusted to the whole text
+    fromPos = this.getFromPos();
+    toPos = this.getToPos();
+    if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
+      this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
     }
   }
 
