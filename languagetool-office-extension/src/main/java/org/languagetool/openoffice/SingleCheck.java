@@ -314,9 +314,9 @@ public class SingleCheck {
             if (paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
               if (ResultCache.areDifferentEntries(paragraphsCache.get(cacheNum).getSerialCacheEntry(nFlat), oldCache.getSerialCacheEntry(nFlat))) {
                 changedParas.add(nFlat);
-                if(!ResultCache.isEmptyEntry(oldCache.getSerialCacheEntry(nFlat))) {
+//                if(!ResultCache.isEmptyEntry(oldCache.getSerialCacheEntry(nFlat))) {
                   toRemarkParas.add(nFlat);
-                }
+//                }
               }
             }
           }

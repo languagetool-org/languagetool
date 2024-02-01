@@ -880,9 +880,10 @@ public class SingleDocument {
             if (!isRunning(nPara)) {
               String sChangedPara = changedParas.get(nPara);
               changedParas.remove(nPara);
-              if (sChangedPara != null && !sChangedPara.equals(sPara)) {
+              if (sChangedPara != null && (!sChangedPara.equals(sPara)
+                  || docCache.isCorrectAnalyzedParagraphLength(nPara, sPara))) {
                 docCache.setFlatParagraph(nPara, sPara);
-                removeResultCache(nPara, false);
+//                removeResultCache(nPara, false);
                 for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
                   addQueueEntry(nPara, i, mDocHandler.getNumMinToCheckParas().get(i), docID, false);
                 }

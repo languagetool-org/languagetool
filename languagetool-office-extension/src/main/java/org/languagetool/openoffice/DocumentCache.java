@@ -2303,6 +2303,21 @@ public class DocumentCache implements Serializable {
   }
   
   /**
+   * Has analyzed paragraph same length as text
+   */
+  public boolean isCorrectAnalyzedParagraphLength(int nFPara, String text) {
+    text = fixLinebreak(SingleCheck.removeFootnotes(text, 
+        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara)));
+    List<AnalyzedSentence> analyzedSentences = getAnalyzedParagraph(nFPara);
+    int len = 0;
+    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+      String sentence = analyzedSentence.getText();
+      len += sentence.length();
+    }
+    return len == text.length();
+  }
+
+  /**
    * Remove an analyzed paragraph
    */
   private void removeAnalyzedParagraph(int nFPara) {
