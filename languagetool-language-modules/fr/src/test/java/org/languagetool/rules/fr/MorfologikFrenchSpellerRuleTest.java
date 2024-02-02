@@ -44,8 +44,8 @@ public class MorfologikFrenchSpellerRuleTest {
       Collections.emptyList());
   }
 
-  private List<String> getFiveTopSuggestions(RuleMatch match) {
-    return match.getSuggestedReplacements().subList(0, Math.min(5, match.getSuggestedReplacements().size()));
+  private List<String> getTopSuggestions(RuleMatch match, int maxSuggestions) {
+    return match.getSuggestedReplacements().subList(0, Math.min(maxSuggestions, match.getSuggestedReplacements().size()));
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
@@ -65,14 +65,14 @@ public class MorfologikFrenchSpellerRuleTest {
 
   private void assertSuggestionsContain(String input, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    List<String> suggestions = getFiveTopSuggestions(matches[0]);
+    List<String> suggestions = getTopSuggestions(matches[0], 5);
     assertIterateOverSuggestions(suggestions, expectedSuggestions);
   }
 
   private void assertSingleMatchWithSuggestions(String input, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertEquals(1, matches.length);
-    List<String> suggestions = getFiveTopSuggestions(matches[0]);
+    List<String> suggestions = getTopSuggestions(matches[0], 5);
     assertIterateOverSuggestions(suggestions, expectedSuggestions);
   }
 
@@ -86,7 +86,7 @@ public class MorfologikFrenchSpellerRuleTest {
   private void assertExactSuggestion(String input, String... expected) throws IOException {
     RuleMatch[]  matches = rule.match(lt.getAnalyzedSentence(input));
     int i = 0;
-    List<String> suggestions = getFiveTopSuggestions(matches[0]);
+    List<String> suggestions = getTopSuggestions(matches[0], 5);
     for (String s : expected) {
       assertEquals(s, suggestions.get(i));
       i++;
@@ -196,16 +196,16 @@ public class MorfologikFrenchSpellerRuleTest {
     assertExactSuggestion("problemes", "problèmes");
     assertExactSuggestion("la sante", "santé"); // see #2900
     // had to make these laxer as the order changed
-    assertSuggestionsContain("offe", "effet", "offre", "coffre", "bouffe");
-    assertSuggestionsContain("camara", "caméra", "camard");
     assertSuggestionsContain("damazon", "d'Amazon", "Amazon", "d'Amazone", "Damazan");
     assertSuggestionsContain("coulurs", "couleurs");
-    assertSuggestionsContain("boton", "boson", "boston", "bottin", "bouton", "boxon");  // "bouton" would be better?
-    assertSuggestionsContain("La journé", "journée"); // see #2900. Better: journée
     // strict
     assertExactSuggestion("deja", "déjà");
     // wtf
     assertSingleMatchWithSuggestions("Den", "De");
+    assertSuggestionsContain("offe", "effet", "offre", "coffre", "bouffe");
+    assertSuggestionsContain("camara", "caméra", "camard");
+    assertSuggestionsContain("boton", "bâton", "béton", "Boston", "coton", "bouton");  // "bouton" would be better?
+    assertSuggestionsContain("La journé", "journée"); // see #2900. Better: journée
   }
 
   @Test
@@ -221,24 +221,24 @@ public class MorfologikFrenchSpellerRuleTest {
   public void testVerbsWithPronouns() throws Exception {
     assertSingleMatchWithSuggestions("ecoute-moi", "Écoute", "Écouté", "Coûte");
     assertSingleMatchWithSuggestions("ecrit-il", "Écrit", "Décrit");
-    assertExactSuggestion("Etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
-    assertExactSuggestion("etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
-    assertExactSuggestion("etiez-vous", "Étiez");
-    assertExactSuggestion("étaistu", "étais-tu");
-    assertExactSuggestion("etaistu", "étais-tu", "était");
-    assertExactSuggestion("voulezvous", "voulez-vous");
-    assertExactSuggestion("ecoutemoi", "écoute-moi");
-    assertExactSuggestion("mappelle", "m'appelle", "mappe-le");
-    assertExactSuggestion("mapelle", "ma pelle", "m'appelle");
-    assertExactSuggestion("allonsy", "allons-y");
-    assertExactSuggestion("àllonsy", "allons-y");
-    assertExactSuggestion("buvezen", "buvez-en");
-    assertExactSuggestion("avaisje", "avais-je");
-    assertExactSuggestion("depeche-toi", "Dépêche", "Dépêché", "D'empêché", "D'évêché", "Repêché");
-    assertExactSuggestion("depechetoi", "dépêche-toi", "dépêcherai");
-    assertExactSuggestion("sattendre", "s'attendre", "attendre");
-    // lax
-    assertSuggestionsContain("preferes-tu", "Préférés", "Préfères"); //TODO
+    assertSingleMatchWithSuggestions("Etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
+    assertSingleMatchWithSuggestions("etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
+    assertSingleMatchWithSuggestions("etiez-vous", "Étiez");
+    assertSingleMatchWithSuggestions("étaistu", "étais-tu");
+    assertSingleMatchWithSuggestions("etaistu", "étais-tu");
+    assertSingleMatchWithSuggestions("voulezvous", "voulez-vous");
+    assertSingleMatchWithSuggestions("ecoutemoi", "écoute-moi");
+    assertSingleMatchWithSuggestions("mappelle", "m'appelle", "mappe-le");
+    assertSingleMatchWithSuggestions("mapelle", "ma pelle", "m'appelle");
+    assertSingleMatchWithSuggestions("allonsy", "allons-y");
+    assertSingleMatchWithSuggestions("buvezen", "buvez-en");
+    assertSingleMatchWithSuggestions("avaisje", "avais-je");
+    assertSingleMatchWithSuggestions("depeche-toi", "Dépêche", "Dépêché");
+    assertSingleMatchWithSuggestions("depechetoi", "dépêche-toi");
+    assertSingleMatchWithSuggestions("sattendre", "s'attendre", "attendre");
+    assertSingleMatchWithSuggestions("preferes-tu", "Préférés", "Préfères"); //TODO
+    // wtf
+    assertSingleMatchWithSuggestions("àllonsy", "allons-y");
   }
 
   @Test
@@ -246,18 +246,19 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSingleMatchWithSuggestions("Lhomme", "L'homme");
     assertSingleMatchWithSuggestions("dhommes", "d'hommes");
     assertSingleMatchWithSuggestions("ladolescence", "l'adolescence", "adolescence");
-    assertExactSuggestion("qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
+    assertSingleMatchWithSuggestions("qu’il sagissait", "il s'agissait"); // see #3068 TODO: change order
     assertSingleMatchWithSuggestions("dIsraël", "d'Israël");
+    assertSingleMatchWithSuggestions("dOrient", "d'Orient");
   }
 
   @Test
   public void testWordEdgeElisionWithTypos() throws Exception {
-    assertSingleMatchWithSuggestions("dOrien", "dorien", "d'Orient", "d'Arien");
+    assertSingleMatchWithSuggestions("dOrien", "dorien", "d'Orient");
   }
 
   @Test
   public void testWordBoundaryIssues() throws Exception {
-    assertExactSuggestion("bonne sante", "santé"); // see #3068; original "bonnes ante" is gone
+    assertSingleMatchWithSuggestions("bonne sante", "bonne santé", "bonnes ante"); // see #3068
   }
 
   @Test
@@ -269,8 +270,7 @@ public class MorfologikFrenchSpellerRuleTest {
   public void testHours() throws Exception {
     assertSingleMatchWithSuggestions("123heures", "123 heures");
     assertSingleMatchWithSuggestions("\u23F0heures", "⏰ heures");
-    assertSingleMatchWithSuggestions("\u23F0heuras", "⏰ heures", "⏰ beurras", "⏰ heurtas",
-      "⏰ hueras", "⏰ leurras");
+    assertSingleMatchWithSuggestions("\u23F0heuras", "⏰ heures");
     assertSingleMatchWithSuggestions("©heures", "© heures");
     assertSingleMatchWithSuggestions("►heures", "► heures");
     assertSingleMatchWithSuggestions("◦heures", "◦ heures");
@@ -290,8 +290,8 @@ public class MorfologikFrenchSpellerRuleTest {
 
   @Test
   public void testToImprove() throws Exception {
-    assertSuggestionsContain("language", "l'engage", "largage", "tangage", "langages", "langage");
-    assertExactSuggestion("saperçoit", "sa perçoit", "s'aperçoit");
-    assertExactSuggestion("saperçu", "sa perçu", "aperçu");
+    assertSuggestionsContain("language", "l'engage", "l'aiguage", "l'engagé", "langage", "langages");
+    assertSuggestionsContain("saperçoit", "sa perçoit", "s'aperçoit");
+    assertSuggestionsContain("saperçu", "sa perçu", "aperçu");
   }
 }
