@@ -111,5 +111,8 @@ public class FrenchWordTokenizerTest {
     tokens = wordTokenizer.tokenize("$1");
     assertEquals(tokens.size(), 1);
     assertEquals("[$1]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("Mais ça ne l'empêche pas de la « décomposer » avec humour.");
+    assertEquals("[Mais,  , ça,  , ne,  , l', empêche,  , pas,  , de,  , la,  , «,  , décomposer,  , »,  , avec,  , humour, .]", tokens.toString());
   }
 }

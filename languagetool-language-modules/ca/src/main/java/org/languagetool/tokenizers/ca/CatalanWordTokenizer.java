@@ -155,10 +155,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = SPACE0.matcher(auxText).replaceAll(" ");
 
     Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
-    String s;
-    String groupStr;
     while (tokenizerMatcher.find()) {
-      s = tokenizerMatcher.group();
+      String s = tokenizerMatcher.group();
       if (l.size() > 0 && s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
         l.set(l.size() - 1, l.get(l.size() - 1) + s);
         continue;
@@ -189,7 +187,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
       }
       if (matchFound) {
         for (int i = 1; i <= matcher.groupCount(); i++) {
-          groupStr = matcher.group(i);
+          String groupStr = matcher.group(i);
           if (groupStr!=null) {
             l.addAll(wordsToAdd(groupStr));  
           }

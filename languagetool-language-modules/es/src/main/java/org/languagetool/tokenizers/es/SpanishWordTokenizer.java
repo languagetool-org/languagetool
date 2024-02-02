@@ -61,9 +61,8 @@ public class SpanishWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1xxES_ORDINAL_POINTxx$2");
 
     Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
-    String s;
     while (tokenizerMatcher.find()) {
-      s = tokenizerMatcher.group();
+      String s = tokenizerMatcher.group();
       if (l.size() > 0 && s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
         l.set(l.size() - 1, l.get(l.size() - 1) + s);
         continue;
