@@ -10696,6 +10696,138 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig postag="ZNW:EKV:DE_"/>
     </rule>
 
+	<!--
+	?	  5854	(4)	VGW|VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ VRZ
+	    14:	 met zijn vuist op
+	    10:	 met zijn wijsvinger op
+	     7:	 met zijn vuist tegen
+	     5:	 met zijn voet tegen
+	     5:	 met zijn vinger in
+	     4:	 met zijn hand op
+	-->
+	<rule id="NEW_461" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="VGW|VRZ"><exception negate_pos="yes" postag_regexp="yes"  postag="VGW|VRZ"/></token>
+			</marker>
+			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig postag="VRZ"/>
+    </rule>
+
+	<!--
+?	  5748	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_|BNW:STL:VRB ZNW:MRV:DE_
+	     3:	 van de Nederlandse Spoorwegen
+	     2:	 bij de Belgische strijdkrachten
+	     1:	 door de Slowaakse autoriteiten
+	     1:	 van de eigenwijze Amsterdammers
+	     1:	 van de zieke agenten
+	-->
+	<rule id="NEW_462" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:MRV:DE_"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5393	(4)	WKW:VTD:ONV|WKW:VTD:VRB VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET
+	     2:	 afgenomen door het CBR
+	     2:	 opgenomen in dit artikel
+	     2:	 meegenomen in het advies
+	     2:	 opgevangen in het gemeentehuis
+	-->
+	<rule id="NEW_463" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:VTD:ONV|WKW:VTD:VRB"><exception negate_pos="yes" postag_regexp="yes"  postag="WKW:VTD:ONV|WKW:VTD:VRB"/></token>
+			</marker>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig postag="WKW:VTD:ONV"/>
+    </rule>
+
+	<!--
+	?	  5372	(4)	SENT_START VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:TGW:INF|ZNW:MRV:DE_ BYW
+	     1:	Ze moeten nog
+	     1:	Ze veren mee
+	     1:	Ze moeten mee
+	     1:	Ze werken mee
+	     1:	Ze liften mee
+	     1:	Ze klinken mee
+	     1:	Ze waken altijd
+	-->
+	<rule id="NEW_464" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:3EP:MRV:ACT">ze</token>
+			<token postag="WKW:TGW:INF"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5288	(4)	WKW:TGW:INF|ZNW:MRV:DE_ VGW ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     2:	 mannen en vrouwen.
+	     1:	 bomen en struiken.
+	     1:	 ogen en ademhalingsproblemen.
+	     1:	 bedrijven en overheden.
+	     1:	 bedrijven en klanten.
+	     1:	 kleuren en afwerkingen.
+	     1:	Dalen en heuvels.
+	-->
+	<rule id="NEW_465" name="-">
+        <pattern>
+			<token postag="ZNW:MRV:DE_"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5282	(4)	VRZ GET:ARA:004:MRV VGW|VRZ GET:ARA:004:MRV
+	     1:	Van 2008 tot 2010
+	     1:	 van 1978 tot 1989
+	     1:	 van 1986 tot 2001
+	     1:	 van 1976 tot 1989
+	-->
+	<rule id="NEW_466" name="-">
+        <pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="GET:ARA:004:MRV"><exception negate_pos="yes" postag="GET:ARA:004:MRV"/></token>
+			<token postag="VRZ">tot</token>
+			<token postag="GET:ARA:004:MRV"><exception negate_pos="yes" postag="GET:ARA:004:MRV"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  5265	(4)	GET:TXT:EKV BNW:STL:ONV|ZNW:EKV:DE_ ZNW:EKV:HET ITP:PNT|SENT_END
+	     1:	 een ander voertuig.
+	     1:	 een militair museum.
+	     1:	 een ander element.
+	     1:	Een arm gezin.
+	     1:	Een druk gezin.
+	     1:	Een dood gezin.
+	-->
+	<rule id="NEW_467" name="-">
+        <pattern>
+			<token postag="GET:TXT:EKV"/>
+			<token postag="BNW:STL:ONV"/>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
