@@ -7518,6 +7518,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="venir_gerundi" name="venir gerundi (construcció incorrecta)">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">venir</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <!-- restar + participi-->
     <rulegroup id="restar_participi" name="restar + participi">
         <rule>
