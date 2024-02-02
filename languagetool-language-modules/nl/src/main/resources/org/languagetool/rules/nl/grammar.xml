@@ -26207,6 +26207,21 @@ regexp case-insensitive maken: (?i)
 				<example correction="zeer grote">Het is een <marker>zeer grotere</marker> fout.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="CONTINUE" name="Continue/continu" default="temp_off">
+			<rule>
+				<antipattern>
+					<token regexp="yes">een|de</token>
+					<token>continue</token>
+					<token postag="ZNW:EKV:DE_"/>
+				</antipattern>
+				<pattern>
+					<token>continue</token>
+				</pattern>
+				<message>Bedoelt u misschien <suggestion>continu</suggestion> (voortdurend)?</message>
+				<example correction="continu">Het gaat <marker>continue</marker> fout.</example>
+				<example>Er is een continue machtsstrijd.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="FULL_SENTENCES" name="volledige zinnen met fout">
 		<rule id="FULL_SENTENCE_001" name="verkeerde werkwoordvorm" >
