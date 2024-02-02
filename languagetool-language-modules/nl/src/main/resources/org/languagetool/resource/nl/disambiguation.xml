@@ -17,6 +17,20 @@ Copyright (C) 2008-2024 Ruud Baars
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
 	<!-- SPELLING IGNORES -->
+
+    <rule name="Ignore spelling of road numbers" id="ROADS">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[AENR][0-9]{1,3}+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Postag for road numbers" id="ROADS_POS">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[AENR][0-9]{1,3}+</token>
+        </pattern>
+        <disambig postag="ZNW:EKV:DE_"/>
+    </rule>
+
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern><!-- chrome://, ftp://, file:// -->
             <token regexp="yes">[a-z\-]+</token>
@@ -10681,6 +10695,7 @@ Copyright (C) 2008-2024 Ruud Baars
         </pattern>
         <disambig postag="ZNW:EKV:DE_"/>
     </rule>
+
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
