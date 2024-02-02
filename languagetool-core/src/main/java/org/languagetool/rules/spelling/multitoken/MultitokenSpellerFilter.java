@@ -23,8 +23,6 @@ import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -32,12 +30,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MultitokenSpellerFilter extends RuleFilter {
 
    /* Provide suggestions for misspelled multitoken expressions, usually proper nouns*/
-
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
@@ -65,7 +61,14 @@ public class MultitokenSpellerFilter extends RuleFilter {
     if (replacements.isEmpty()) {
       return null;
     }
-    if (patternTokenPos==1) {
+    int wordsStartPos = 1;
+    // ignore punctuation marks at the sentence start to do the capitalization
+    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
+    while (wordsStartPos<tokens.length && (StringTools.isPunctuationMark(tokens[wordsStartPos].getToken())
+      || StringTools.isNotWordString((tokens[wordsStartPos].getToken())))) {
+      wordsStartPos++;
+    }
+    if (patternTokenPos==wordsStartPos) {
       List<String> capitalizedReplacements = new ArrayList<>();
       for (String replacement : replacements) {
         String newReplacement = replacement;
