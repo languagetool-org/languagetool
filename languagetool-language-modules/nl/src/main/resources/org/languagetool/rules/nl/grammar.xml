@@ -457,6 +457,21 @@ regexp case-insensitive maken: (?i)
 	</category>
 
 	<category id="GRAMMAR" name="Grammaticaregels">
+
+		<rule id="ISRAEL" name="Israël/Israel" >
+			<antipattern><token>Israel</token><token>Start-Up</token><token>Nation</antipattern>
+			<antipattern case_sensitive="yes"><token>Israel</token><token postag="UNKNoWN"/></antipattern>
+			<antipattern case_sensitive="yes">Israel</token><token>van</token><token postag_regexp="yes" postag="ENM:PER:LST.*"></antipattern>
+			<antipattern case_sensitive="yes">
+				<token>Israël</token>
+			</antipattern>
+			<pattern>
+				<token>israel</token>
+			</pattern>
+			<message>Het land is <suggestion>Israël</suggestion>, maar in buitenlandse namen kan het ook Israel zijn.</message>
+			<example correction="Israël">Een alweer is <marker>israel</marker> in oorlog.</example>
+		</rule>
+
 		<rule id="MEN_MIJN" name="Appels zijn men (mijn) favoriete fruitsoort" type="misspelling" >
 			<pattern>
 				<token>zijn</token>
@@ -15161,14 +15176,14 @@ regexp case-insensitive maken: (?i)
 				<example correction="Academisch Medisch Centrum">Ons <marker>academisch medisch centrum</marker> is fout bezig.</example>
 			</rule>
 			<rule>
-				<antipattern case_sensitive="yes"><token>Artsen</token><token>Zonder</token><token>Grenzen</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Artsen</token><token>zonder</token><token>Grenzen</token></antipattern>
 				<pattern>
 					<token>Artsen</token>
-					<token>Zonder</token>
+					<token>zonder</token>
 					<token>Grenzen</token>
 				</pattern>
 				<message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
-				<example correction="Artsen Zonder Grenzen">Ons <marker>artsen zonder grenzen</marker> is fout bezig.</example>
+				<example correction="Artsen znder Grenzen">Ons <marker>artsen zonder grenzen</marker> is fout bezig.</example>
 			</rule>
 			<rule>
 				<antipattern case_sensitive="yes"><token>Europees</token><token>Sociaal</token><token>Fonds</token></antipattern>
