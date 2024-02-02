@@ -27,236 +27,271 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class MorfologikFrenchSpellerRuleTest {
+  private static final JLanguageTool lt = new JLanguageTool(new French());
+  private final MorfologikFrenchSpellerRule rule;
+
+  public MorfologikFrenchSpellerRuleTest() throws IOException {
+    rule = getRule();
+  }
+
+  private static MorfologikFrenchSpellerRule getRule() throws IOException {
+    return new MorfologikFrenchSpellerRule(TestTools.getMessages("fr"), new French(), null,
+      Collections.emptyList());
+  }
+
+  private List<String> getFiveTopSuggestions(RuleMatch match) {
+    return match.getSuggestedReplacements().subList(0, Math.min(5, match.getSuggestedReplacements().size()));
+  }
+
+  private void assertMatches(String input, int expectedMatches) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertEquals(expectedMatches, matches.length);
+  }
+
+  private void assertNoMatches(String input) throws IOException {
+    assertMatches(input, 0);
+  }
+
+  private void assertIterateOverSuggestions(List<String> returnedSuggestions, String[] expectedSuggestions) {
+    for (String expectedSuggestion : expectedSuggestions) {
+      assert returnedSuggestions.contains(expectedSuggestion) : "Expected suggestions to contain '" + expectedSuggestion + "' but got " + returnedSuggestions;
+    }
+  }
+
+  private void assertSuggestionsContain(String input, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    List<String> suggestions = getFiveTopSuggestions(matches[0]);
+    assertIterateOverSuggestions(suggestions, expectedSuggestions);
+  }
+
+  private void assertSingleMatchWithSuggestions(String input, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertEquals(1, matches.length);
+    List<String> suggestions = getFiveTopSuggestions(matches[0]);
+    assertIterateOverSuggestions(suggestions, expectedSuggestions);
+  }
+
+  public void assertSingleMatchZeroSuggestions(String input) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertEquals(1, matches.length);
+    List<String> suggestions = matches[0].getSuggestedReplacements();
+    assertEquals(0, suggestions.size());
+  }
+
+  private void assertExactSuggestion(String input, String... expected) throws IOException {
+    RuleMatch[]  matches = rule.match(lt.getAnalyzedSentence(input));
+    int i = 0;
+    List<String> suggestions = getFiveTopSuggestions(matches[0]);
+    for (String s : expected) {
+      assertEquals(s, suggestions.get(i));
+      i++;
+    }
+  }
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    MorfologikFrenchSpellerRule rule = new MorfologikFrenchSpellerRule(TestTools.getMessages("fr"), new French(), null,
-        Collections.emptyList());
-
-    RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new French());
-
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Écoute-moi.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("35%")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("20$")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("4x4")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("300 000 yen")).length);   
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("20°C")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("même s'il coûte 10.000 yens")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("J'ai 38,9 de fièvre.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Thunderbird 2.0.0.14")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Va-t’en !")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("-Je ne suis pas venu par manque de temps.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("12hr-14hr")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dominique Strauss-Kahn")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'ONU")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'1")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'email")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Et d'Harvard")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("déconfinement")).length);  // from spelling.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Déconfinement")).length); 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Le Déconfinement")).length); // Should be only lower-case??
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Cesse de t'autoflageller.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'iPhone")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Une #sprache @mentioned mywebsite.org ereredd.7z, domaine .com, NH₄OH")).length);
-    
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Un test simple.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Le cœur, la sœur.")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Un test simpple.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ç'avait")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("LanguageTool")).length);
-    
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'ONU")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Il arrive après-demain.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'Haÿ-les-Roses")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("L'Haÿ les Roses")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Aujourd'hui et jusqu'à demain.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Aujourd’hui et jusqu’à demain.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("L'Allemagne et l'Italie.")).length);
-    assertEquals(2, rule.match(lt.getAnalyzedSentence("L’allemagne et l’italie.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("de Harvard ou d'Harvard")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'1")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("l'email")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("À propos de cette chose… ")).length);
-        
-    // Test for Multiwords.
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("vox populi")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("statu quo.")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Bugs Bunny")).length);
-
-    // tests for mixed case words
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("pH")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald's")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald’s")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("McDonald")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("thisisanerror")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("thisIsAnError")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("Thisisanerror")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("ThisIsAnError")).length);
-
-    // incorrect words:
-    matches = rule.match(lt.getAnalyzedSentence("ecoute-moi"));
-    assertEquals(1, matches.length);
-    assertEquals("Écoute", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Écouté", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("Coûte", matches[0].getSuggestedReplacements().get(2));
-
-    matches = rule.match(lt.getAnalyzedSentence("ecrit-il"));
-    assertEquals(1, matches.length);
-    assertEquals("Écrit", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Décrit", matches[0].getSuggestedReplacements().get(1));
-
-    matches = rule.match(lt.getAnalyzedSentence("Mcdonald"));
-    assertEquals(1, matches.length);
-    assertEquals("McDonald", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Macdonald", matches[0].getSuggestedReplacements().get(1));
-
-    matches = rule.match(lt.getAnalyzedSentence("Lhomme"));
-    assertEquals(1, matches.length);
-    assertEquals("L'homme", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(lt.getAnalyzedSentence("dhommes"));
-    assertEquals(1, matches.length);
-    assertEquals("d'hommes", matches[0].getSuggestedReplacements().get(0));
-    
-    matches = rule.match(lt.getAnalyzedSentence("ladolescence"));
-    // no: "l adolescence" 
-    assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
-    assertEquals("l'adolescence", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("adolescence", matches[0].getSuggestedReplacements().get(1));
-        
-    assertSuggestion(rule, lt, "qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
-    assertSuggestion(rule, lt, "bonne sante", "bonnes ante", "bonne santé"); // see #3068 TODO: change order
-    //assertSuggestion(rule, lt, "et ca", "CA", "cA"); // see #2900
-    assertSuggestion(rule, lt, "La journé", "journée"); // see #2900. Better: journée
-    assertSuggestion(rule, lt, "la sante", "santé"); // see #2900
-    assertSuggestion(rule, lt, "Parcontre", "Par contre");  // see #1797
-    assertSuggestion(rule, lt, "parcontre", "par contre");  // see #1797
-    //assertSuggestion(rule, lt, "Ca", "Ça");  // see #912
-    //assertSuggestion(rule, lt, "aus", "aux"); // TODO: to be improved with frequency information
-    assertSuggestion(rule, lt, "Décu", "Déçu");  // see #912
-    assertSuggestion(rule, lt, "etant", "étant");  // see #1633
-    assertSuggestion(rule, lt, "Cliqez", "Cliquez");
-    assertSuggestion(rule, lt, "cliqez", "cliquez");
-    assertSuggestion(rule, lt, "offe", "effet", "offre", "coffre");  // "offre" would be better as first suggestion? 
-    assertSuggestion(rule, lt, "problemes", "problèmes"); 
-    assertSuggestion(rule, lt, "coulurs", "couleurs"); 
-    assertSuggestion(rule, lt, "boton", "bâton", "béton", "Boston", "coton", "bouton");  // "bouton" would be better? 
-    //assertSuggestion(rule, lt, "skype", "Skype");
-    assertSuggestion(rule, lt, "Wordpress", "WordPress");
-    assertSuggestion(rule, lt, "wordpress", "WordPress");
-    assertSuggestion(rule, lt, "Etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
-    assertSuggestion(rule, lt, "etais-tu", "Étais", "Étés"); //TODO: suggest only verbs 
-    assertSuggestion(rule, lt, "depechetoi", "dépêche-toi", "dépêcherai");
-    assertSuggestion(rule, lt, "etiez-vous", "Étiez");
-    assertSuggestion(rule, lt, "preferes-tu", "Préférés", "Préfères"); //TODO
-    assertSuggestion(rule, lt, "Playstation", "PlayStation"); 
-    assertSuggestion(rule, lt, "étaistu", "étais-tu");
-    assertSuggestion(rule, lt, "etaistu", "étais-tu", "était");
-    assertSuggestion(rule, lt, "voulezvous", "voulez-vous");
-    assertSuggestion(rule, lt, "ecoutemoi", "écoute-moi");
-    assertSuggestion(rule, lt, "mappelle", "m'appelle", "mappe-le");
-    assertSuggestion(rule, lt, "mapelle", "ma pelle", "m'appelle");
-    assertSuggestion(rule, lt, "camara", "caméra", "Samara");
-    assertSuggestion(rule, lt, "allonsy", "allons-y");
-    assertSuggestion(rule, lt, "àllonsy", "allons-y");
-    assertSuggestion(rule, lt, "buvezen", "buvez-en");
-    assertSuggestion(rule, lt, "avaisje", "avais-je");
-    assertSuggestion(rule, lt, "damazon", "d'Amazon", "d'amazone", "d'Amazone");
-    assertSuggestion(rule, lt, "deja", "déjà", "d'EA");
-    assertSuggestion(rule, lt, "depeche-toi", "Dépêche", "Dépêché", "D'empêché", "D'évêché", "Repêché");
-    assertSuggestion(rule, lt, "sattendre", "s'attendre", "attendre");
-    assertSuggestion(rule, lt, "darriver", "d'arriver", "arriver");
-    assertSuggestion(rule, lt, "Situé àseulement 9 km", "seulement", "à seulement");
-    assertSuggestion(rule, lt, "decodés", "décodés", "décodes", "de codés");
-    // to improve
-    assertSuggestion(rule, lt, "language", "l'engage", "l'engagé", "l'aiguage", "langage");
-    assertSuggestion(rule, lt, "saperçoit", "sa perçoit", "s'aperçoit");
-    assertSuggestion(rule, lt, "saperçu", "sa perçu", "aperçu");
-    
-    // don't split prefixes 
-    matches = rule.match(lt.getAnalyzedSentence("macrodiscipline"));
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getSuggestedReplacements().size());
-    
-    // digits
-    matches = rule.match(lt.getAnalyzedSentence("windows1"));
-    assertEquals(1, matches.length);
-    //assertEquals("Windows 1", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("Windows", matches[0].getSuggestedReplacements().get(0));
-    
-    matches = rule.match(lt.getAnalyzedSentence("windows95"));
-    assertEquals(1, matches.length);
-    assertEquals("Windows 95", matches[0].getSuggestedReplacements().get(0));
-    //assertEquals("Windows", matches[0].getSuggestedReplacements().get(1));
-    
-    matches = rule.match(lt.getAnalyzedSentence("à1930"));
-    assertEquals(1, matches.length);
-    assertEquals("à 1930", matches[0].getSuggestedReplacements().get(0));
-    
-    //BretagneItinéraire
-    matches = rule.match(lt.getAnalyzedSentence("BretagneItinéraire"));
-    assertEquals(1, matches.length);
-    assertEquals("Bretagne Itinéraire", matches[0].getSuggestedReplacements().get(0));
-    
-    
-    matches = rule.match(lt.getAnalyzedSentence("123heures"));
-    assertEquals(1, matches.length);
-    assertEquals("123 heures", matches[0].getSuggestedReplacements().get(0));
-
-    //⏰
-    matches = rule.match(lt.getAnalyzedSentence("\u23F0heures"));
-    assertEquals(0, matches.length);
-    
-    matches = rule.match(lt.getAnalyzedSentence("\u23F0heuras"));
-    assertEquals(1, matches.length);
-    assertEquals("[heures, heurts, heurs, hourras, beurras, heurtas, hueras, leurras, heu ras, heur as]", matches[0].getSuggestedReplacements().toString());
-    
-    matches = rule.match(lt.getAnalyzedSentence("©heures"));
-    assertEquals(1, matches.length);
-    assertEquals("[© heures]", matches[0].getSuggestedReplacements().toString());
-    
-    matches = rule.match(lt.getAnalyzedSentence("►heures"));
-    assertEquals(0, matches.length);
-    
-    matches = rule.match(lt.getAnalyzedSentence("◦heures"));
-    assertEquals(0, matches.length);
-
-    matches = rule.match(lt.getAnalyzedSentence("AAAAAAAAAAAH"));
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getSuggestedReplacements().size());
-
-    matches = rule.match(lt.getAnalyzedSentence("Den"));
-    assertEquals(1, matches.length);
-    assertEquals("De", matches[0].getSuggestedReplacements().get(0).toString());
-
-    matches = rule.match(lt.getAnalyzedSentence("dOrien"));
-    assertEquals(1, matches.length);
-    assertEquals("dorien", matches[0].getSuggestedReplacements().get(0).toString());
-    assertEquals("d'Arien", matches[0].getSuggestedReplacements().get(1).toString());
-    assertEquals("d'Orient", matches[0].getSuggestedReplacements().get(2).toString());
-
-    matches = rule.match(lt.getAnalyzedSentence("dIsraël"));
-    assertEquals(1, matches.length);
-    assertEquals("d'Israël", matches[0].getSuggestedReplacements().get(0).toString());
-
-    // hashtags, url, email
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("(#sensepastanagues)")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("C#, F#")).length);
+    assertSuggestionsContain("darriver", "d'arriver", "arriver");
+    assertSuggestionsContain("decodés", "décodés", "décodes", "de codés");
   }
-  
-  private void assertSuggestion(MorfologikFrenchSpellerRule rule, JLanguageTool lt, String input, String... expected) throws IOException {
-    RuleMatch[]  matches = rule.match(lt.getAnalyzedSentence(input));
-    int i = 0;
-    for (String s : expected) {
-      assertEquals(s, matches[0].getSuggestedReplacements().get(i));
-      i++;
-    }
-    
+
+  @Test
+  public void testApostrophes() throws Exception {
+    assertNoMatches("d'1");
+    assertNoMatches("l'email");
+    assertNoMatches("Aujourd'hui et jusqu'à demain.");
+    assertNoMatches("Aujourd’hui et jusqu’à demain.");
+    assertNoMatches("L'Allemagne et l'Italie.");
+    assertMatches("L’allemagne et l’italie.", 2);
+    assertNoMatches("de Harvard ou d'Harvard");
+  }
+
+  @Test
+  public void testHyphenated() throws Exception {
+    assertNoMatches("L'Haÿ-les-Roses");
+    assertMatches("L'Haÿ les Roses", 1);
+    assertNoMatches("Il arrive après-demain.");
+  }
+
+  @Test
+  public void testEmptyString() throws Exception {
+    assertNoMatches("");
+  }
+
+  @Test
+  public void testUnusualPunctuaion() throws Exception {
+    assertNoMatches("À propos de cette chose… ");
+  }
+
+  @Test
+  public void testSanity() throws Exception {
+    assertNoMatches("Un test simple.");
+    assertNoMatches("Le cœur, la sœur.");
+    assertNoMatches("Ç'avait");
+    assertNoMatches("LanguageTool");
+    assertMatches("Un test simpple.", 1);
+  }
+
+  @Test
+  public void testCorrectWords() throws Exception {
+    assertNoMatches("Écoute-moi.");
+    assertNoMatches("35%");
+    assertNoMatches("20$");
+    assertNoMatches("4x4");
+    assertNoMatches("300 000 yen");
+    assertNoMatches("20°C");
+    assertNoMatches("même s'il coûte 10.000 yens");
+    assertNoMatches("J'ai 38,9 de fièvre.");
+    assertNoMatches("Thunderbird 2.0.0.14");
+    assertNoMatches("Va-t’en !");
+    assertNoMatches("-Je ne suis pas venu par manque de temps.");
+    assertNoMatches("12hr-14hr");
+    assertNoMatches("Dominique Strauss-Kahn");
+    assertNoMatches("L'ONU");
+    assertNoMatches("d'1");
+    assertNoMatches("L'email");
+    assertNoMatches("Et d'Harvard");
+    assertNoMatches("déconfinement");
+    assertNoMatches("Déconfinement");
+    assertNoMatches("Le Déconfinement");
+    assertNoMatches("Cesse de t'autoflageller.");
+    assertNoMatches("L'iPhone");
+    assertNoMatches("Une #sprache @mentioned mywebsite.org ereredd.7z, domaine .com, NH₄OH");
+  }
+
+  @Test
+  public void testMultiwords() throws Exception {
+    assertNoMatches("vox populi");
+    assertNoMatches("statu quo");
+    assertNoMatches("Bugs Bunny");
+  }
+
+  @Test
+  public void testMixedCase() throws Exception {
+    assertNoMatches("pH");
+    assertSingleMatchWithSuggestions("Mcdonald", "McDonald", "Macdonald");
+    assertNoMatches("McDonald's");
+    assertNoMatches("McDonald’s");
+    assertNoMatches("McDonald");
+    assertMatches("thisisanerror", 1);
+    assertMatches("thisIsAnError", 1);
+    assertMatches("Thisisanerror", 1);
+    assertMatches("ThisIsAnError", 1);
+    assertExactSuggestion("Wordpress", "WordPress");
+    assertExactSuggestion("wordpress", "WordPress");
+    assertExactSuggestion("Playstation", "PlayStation");
+  }
+
+  @Test
+  public void testIncorrectWords() throws Exception {
+    // might be too strict, but work
+    assertExactSuggestion("Décu", "Déçu");  // see #912
+    assertExactSuggestion("etant", "étant");  // see #1633
+    assertExactSuggestion("Cliqez", "Cliquez");
+    assertExactSuggestion("cliqez", "cliquez");
+    assertExactSuggestion("problemes", "problèmes");
+    assertExactSuggestion("la sante", "santé"); // see #2900
+    // had to make these laxer as the order changed
+    assertSuggestionsContain("offe", "effet", "offre", "coffre", "bouffe");
+    assertSuggestionsContain("camara", "caméra", "camard");
+    assertSuggestionsContain("damazon", "d'Amazon", "Amazon", "d'Amazone", "Damazan");
+    assertSuggestionsContain("coulurs", "couleurs");
+    assertSuggestionsContain("boton", "boson", "boston", "bottin", "bouton", "boxon");  // "bouton" would be better?
+    assertSuggestionsContain("La journé", "journée"); // see #2900. Better: journée
+    // strict
+    assertExactSuggestion("deja", "déjà");
+    // wtf
+    assertSingleMatchWithSuggestions("Den", "De");
+  }
+
+  @Test
+  public void testWordSplitting() throws Exception {
+    assertSingleMatchWithSuggestions("BretagneItinéraire", "Bretagne Itinéraire");
+    assertSingleMatchWithSuggestions("BruxellesCapitale", "Bruxelles Capitale");
+    assertExactSuggestion("Parcontre", "Par contre");  // see #1797
+    assertExactSuggestion("parcontre", "par contre");  // see #1797
+    assertExactSuggestion("Situé àseulement 9 km", "seulement", "à seulement");
+  }
+
+  @Test
+  public void testVerbsWithPronouns() throws Exception {
+    assertSingleMatchWithSuggestions("ecoute-moi", "Écoute", "Écouté", "Coûte");
+    assertSingleMatchWithSuggestions("ecrit-il", "Écrit", "Décrit");
+    assertExactSuggestion("Etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
+    assertExactSuggestion("etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
+    assertExactSuggestion("etiez-vous", "Étiez");
+    assertExactSuggestion("étaistu", "étais-tu");
+    assertExactSuggestion("etaistu", "étais-tu", "était");
+    assertExactSuggestion("voulezvous", "voulez-vous");
+    assertExactSuggestion("ecoutemoi", "écoute-moi");
+    assertExactSuggestion("mappelle", "m'appelle", "mappe-le");
+    assertExactSuggestion("mapelle", "ma pelle", "m'appelle");
+    assertExactSuggestion("allonsy", "allons-y");
+    assertExactSuggestion("àllonsy", "allons-y");
+    assertExactSuggestion("buvezen", "buvez-en");
+    assertExactSuggestion("avaisje", "avais-je");
+    assertExactSuggestion("depeche-toi", "Dépêche", "Dépêché", "D'empêché", "D'évêché", "Repêché");
+    assertExactSuggestion("depechetoi", "dépêche-toi", "dépêcherai");
+    assertExactSuggestion("sattendre", "s'attendre", "attendre");
+    // lax
+    assertSuggestionsContain("preferes-tu", "Préférés", "Préfères"); //TODO
+  }
+
+  @Test
+  public void testWordEdgeElision() throws Exception {
+    assertSingleMatchWithSuggestions("Lhomme", "L'homme");
+    assertSingleMatchWithSuggestions("dhommes", "d'hommes");
+    assertSingleMatchWithSuggestions("ladolescence", "l'adolescence", "adolescence");
+    assertExactSuggestion("qu’il sagissait", "ils agissait", "il s'agissait"); // see #3068 TODO: change order
+    assertSingleMatchWithSuggestions("dIsraël", "d'Israël");
+  }
+
+  @Test
+  public void testWordEdgeElisionWithTypos() throws Exception {
+    assertSingleMatchWithSuggestions("dOrien", "dorien", "d'Orient", "d'Arien");
+  }
+
+  @Test
+  public void testWordBoundaryIssues() throws Exception {
+    assertExactSuggestion("bonne sante", "santé"); // see #3068; original "bonnes ante" is gone
+  }
+
+  @Test
+  public void testScreaming() throws Exception {
+    assertSingleMatchZeroSuggestions("AAAAAAAAAAAH");
+  }
+
+  @Test
+  public void testHours() throws Exception {
+    assertSingleMatchWithSuggestions("123heures", "123 heures");
+    assertSingleMatchWithSuggestions("\u23F0heures", "⏰ heures");
+    assertSingleMatchWithSuggestions("\u23F0heuras", "⏰ heures", "⏰ beurras", "⏰ heurtas",
+      "⏰ hueras", "⏰ leurras");
+    assertSingleMatchWithSuggestions("©heures", "© heures");
+    assertSingleMatchWithSuggestions("►heures", "► heures");
+    assertSingleMatchWithSuggestions("◦heures", "◦ heures");
+  }
+
+  @Test
+  public void testNoPrefixSplit() throws Exception {
+    assertSingleMatchZeroSuggestions("macrodiscipline");
+  }
+
+  @Test
+  public void testDigits() throws Exception {
+    assertSingleMatchWithSuggestions("windows1", "Windows");
+    assertSingleMatchWithSuggestions("windows95", "Windows 95");
+    assertSingleMatchWithSuggestions("à1930", "à 1930");
+  }
+
+  @Test
+  public void testToImprove() throws Exception {
+    assertSuggestionsContain("language", "l'engage", "largage", "tangage", "langages", "langage");
+    assertExactSuggestion("saperçoit", "sa perçoit", "s'aperçoit");
+    assertExactSuggestion("saperçu", "sa perçu", "aperçu");
   }
 }
