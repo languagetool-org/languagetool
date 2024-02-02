@@ -68,12 +68,13 @@ public class MultitokenSpellerFilter extends RuleFilter {
     if (patternTokenPos==1) {
       List<String> capitalizedReplacements = new ArrayList<>();
       for (String replacement : replacements) {
+        String newReplacement = replacement;
         if (replacement.equals(replacement.toLowerCase())) {
-          String capitalized = StringTools.uppercaseFirstChar(replacement);
-          capitalizedReplacements.add(capitalized);
-        } else {
           //do not capitalize iPad
-          capitalizedReplacements.add(replacement);
+          newReplacement = StringTools.uppercaseFirstChar(replacement);
+        }
+        if (!capitalizedReplacements.contains(newReplacement)) {
+          capitalizedReplacements.add(newReplacement);
         }
       }
       replacements = capitalizedReplacements;
