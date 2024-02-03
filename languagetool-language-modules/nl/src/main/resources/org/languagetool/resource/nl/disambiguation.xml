@@ -11209,6 +11209,23 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  2950	(5)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
+	    29:	Ik denk dat het
+	    17:	Ik denk dat dit
+	    14:	Ik hoop dat het
+	-->
+	<rule id="NEW_490" name="-">
+		<pattern>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<marker>
+				<token>dat</token>
+			</marker>
+			<token regexp="yes">het|dit|dat</token>
+		</pattern>
+		<disambig action="remove" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/>
+	</rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
