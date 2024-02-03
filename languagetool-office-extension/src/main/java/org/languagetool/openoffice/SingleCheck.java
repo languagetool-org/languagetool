@@ -132,7 +132,7 @@ public class SingleCheck {
     if (isDisposed()) {
       return new SingleProofreadingError[0];
     }
-    if (docType == DocumentType.WRITER && !isIntern && lastChangedPara >= 0) {
+    if (docType == DocumentType.WRITER && !isIntern && lastChangedPara >= 0 && !useQueue) {
 //      if (docCursor == null) {
 //        docCursor = new DocumentCursorTools(xComponent);
 //      }
@@ -161,7 +161,7 @@ public class SingleCheck {
       MessageHandler.printToLogFile("SingleCheck: getCheckResults: paRes.aErrors.length: " + errors.length 
           + "; docID: " + singleDocument.getDocID());
     }
-    if (!isDisposed() && docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
+    if (!isDisposed() && docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && !useQueue && (textIsChanged || isDialogRequest)) {
       if (!isIntern && isDialogRequest && !textIsChanged) {
         List<Integer> changedParas = new ArrayList<Integer>();
         changedParas.add(paraNum);
