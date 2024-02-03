@@ -26209,6 +26209,13 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="CONTINUE" name="Continue/continu" default="temp_off">
 			<rule>
+				<antipattern><token>to</token><token>continue</token></antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="VRZ|VNW:AWZ:.*DE_"/>
+					<token>continue</token>
+					<token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</antipattern>
 				<antipattern>
 					<token regexp="yes">een|de</token>
 					<token>continue</token>
