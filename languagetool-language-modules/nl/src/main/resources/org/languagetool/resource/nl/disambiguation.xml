@@ -11050,6 +11050,78 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+		<!--
+	?	  4900	(4)	BYW|VGW|VNW:OBP VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	    13:	 al bij de deur
+	     7:	 al naar de deur
+	     2:	 al op de grond
+	     2:	 al in de hal
+	     2:	 al in de auto
+	-->
+	<rule id="NEW_481" name="-">
+        <pattern>
+			<token postag="BYW">al</token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	  4860	(4)	BYW VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET ITP:PNT|SENT_END
+	    38:	 niet het geval.
+	    10:	 ook het geval.
+	     9:	 altijd het geval.
+	     8:	 wel het geval.
+	     6:	 nooit het geval.
+	     3:	 geenszins het geval.
+	-->
+	<rule id="NEW_482" name="-">
+        <pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="ZNW:EKV:HET"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+?	  4844	(4)	SENT_START VGW VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF WKW:TGW:3EP
+	    64:	En ze is
+	    13:	Maar ze is
+	     3:	En ze wordt
+	     2:	En ze ruikt
+	-->
+	<rule id="NEW_483" name="-">
+		<pattern>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<marker>
+				<token postag="VNW:PER:3EP:EKV:ACT">ze</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+?	  4836	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP WKW:TGW:1EP|BNW:STL:ONV
+	     2:	De tijd is snel
+	     1:	De kerkzaal zit vol
+	     1:	De reorganisatie is nodig
+	-->
+	<rule id="NEW_484" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"/></token>
+			</marker>
+		</pattern>
+		<disambig postag="BNW:STL:ONV"/>
+	</rule>
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
