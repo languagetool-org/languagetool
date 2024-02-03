@@ -1583,7 +1583,15 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-
+	<rule id="NEW_000d" name="-">
+		<pattern case_sensitive="yes">
+			<and>
+				<token postag="BYW"/>
+				<token postag_regexp="yes" postag="BNW.*ONV"/>
+			</and>
+		</pattern>
+		<disambig action="remove" postag="BYW"/>
+	</rule>
 	<!--
 	? 416647    (2)    BYW|VRZ WKW:TGW:INF
 	019914:    te doen
