@@ -127,8 +127,9 @@ public class CatalanWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    // replace hyphen -> hyphen-minus
+    // replace hyphen, non-break hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
+    auxText = auxText.replace('\u2011', '\u002d');
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1xxELA_GEMINADAxx$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);

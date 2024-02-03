@@ -128,7 +128,9 @@ public class FrenchWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText = text;
+    // replace hyphen, non-break hyphen -> hyphen-minus
+    String auxText = text.replace('\u2010', '\u002d');
+    auxText = auxText.replace('\u2011', '\u002d');
     Matcher matcher = TYPEWRITER_APOSTROPHE.matcher(auxText);
     auxText = matcher.replaceAll("$1xxFR_APOS_TYPEWxx$2");
     matcher = TYPOGRAPHIC_APOSTROPHE.matcher(auxText);

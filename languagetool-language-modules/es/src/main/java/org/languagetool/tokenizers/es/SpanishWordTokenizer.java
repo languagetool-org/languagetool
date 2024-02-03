@@ -52,7 +52,9 @@ public class SpanishWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText = text;
+    // replace hyphen, non-break hyphen -> hyphen-minus
+    String auxText = text.replace('\u2010', '\u002d');
+    auxText = auxText.replace('\u2011', '\u002d');
     Matcher matcher = DECIMAL_POINT.matcher(auxText);
     auxText = matcher.replaceAll("$1xxES_DECIMAL_POINTxx$2");
     matcher = DECIMAL_COMMA.matcher(auxText);
