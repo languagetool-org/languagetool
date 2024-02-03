@@ -26227,6 +26227,18 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="CONTINUE" name="Continue/continu" default="temp_off">
 			<rule>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token postag="VRZ"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token postag="VRZ"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token>,</token><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token>continue</token><token postag_regexp="yes" postag=".*VRB"/></antipattern>
+				<antipattern><token>een</token><token postag="BYW:GRD"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token regexp="yes">nergens|onze|geen</token><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token postag="VGW"/><token postag_regexp="yes" postag=".*VRB"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>continue</token><token postag_regexp="yes" postag=".*HET"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>continue</token><token postag="VRZ"/><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag=".*VRB"/></antipattern>
 				<antipattern><token>to</token><token>continue</token></antipattern>
 				<antipattern>
 					<token postag_regexp="yes" postag="VRZ|VNW:AWZ:.*DE_"/>
