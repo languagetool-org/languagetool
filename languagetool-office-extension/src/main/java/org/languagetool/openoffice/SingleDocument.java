@@ -528,7 +528,7 @@ public class SingleDocument {
       return docLanguage;
     }
     Language lang = MultiDocumentsHandler.getLanguage(locale);
-    if (!lang.equals(docLanguage)) {
+    if (lang != null && !lang.equals(docLanguage)) {
       docLanguage = lang;
     }
     return docLanguage;

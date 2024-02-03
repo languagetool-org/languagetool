@@ -1739,18 +1739,25 @@ public class SpellAndGrammarCheckDialog extends Thread {
         size = 100;
       }
       cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel") + ": " + size + "%");
-//      if (debugMode) {
-//        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
-//      }
       if (size < 25) {
-        cacheStatusLabel.setForeground(new Color(145 + 4 * size, 0, 0));
+        cacheStatusLabel.setForeground(new Color(fitToColorboundaries(145 + 4 * size), 0, 0));
       } else if (size < 50) {
-        cacheStatusLabel.setForeground(new Color(255, 5 + 4 * size, 0));
+        cacheStatusLabel.setForeground(new Color(255, fitToColorboundaries(5 + 4 * size), 0));
       } else if (size < 75) {
-        cacheStatusLabel.setForeground(new Color(255 - 4 * (size - 25), 255, 0));
+        cacheStatusLabel.setForeground(new Color(fitToColorboundaries(255 - 4 * (size - 25)), 255, 0));
       } else {
-        cacheStatusLabel.setForeground(new Color(0, 255 - 4 * (size - 70), 0));
+        cacheStatusLabel.setForeground(new Color(0, fitToColorboundaries(255 - 4 * (size - 70)), 0));
       }
+    }
+
+    private int fitToColorboundaries(int col) {
+      if (col < 0) {
+        return 0;
+      }
+      if (col > 255) {
+        return 255;
+      }
+      return col;
     }
     
     void errorReturn() {
