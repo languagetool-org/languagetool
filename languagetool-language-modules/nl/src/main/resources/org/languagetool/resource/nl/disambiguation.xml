@@ -11027,6 +11027,23 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig postag="WKW:VLT:1EP"/>
     </rule>
 
+	<!--
+	?	  4928	(5)	VGW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ VRZ WKW:TGW:INF
+	     1:	 om de dieren te vangen
+	     1:	 om de oren te slaan
+	     1:	 om de kosten te dekken
+	     1:	 om de resultaten te verbeteren
+	-->
+	<rule id="NEW_480" name="-">
+        <pattern>
+			<token postag="VGW">om</token>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
