@@ -11666,6 +11666,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 
 		<rulegroup id="ETC_ZONDER_HOOFDLETTERS" name="ETC./etc." type="misspelling">
+
 			<rule>
 				<pattern>
 					<token regexp="yes" case_sensitive="yes">E[Tt][Cc]</token>
@@ -14429,6 +14430,23 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="HOOFDLETTERS_OVERBODIG_A" name="Woorden middenin de zin die ook klein geschreven mogen worden." type="misspelling" tags="picky">
+
+			<rule>
+				<antipattern><token>Maatschappij</token><token>voor</token><token>Beter</token><token>OV</token></antipattern>
+				<antipattern><token>OV</token><token>loket</token></antipattern>
+				<pattern>
+					<token/>
+					<token/>
+					<marker>
+						<token case_sensitive="yes">OV</token>
+					</marker>
+				</pattern>
+				<message>Het openbaar vervoer is zonder hoofdletters, dus de afkorting ook.</message>
+				<suggestion>ov</suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="ov">We gaan met het <marker>OV</marker> in de winkel kopen.</example>
+			</rule>
+
 			<rule>
 				<antipattern>
 				    <token spacebefore="no">JPG</token>
