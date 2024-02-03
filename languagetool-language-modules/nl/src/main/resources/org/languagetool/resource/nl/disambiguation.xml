@@ -11122,6 +11122,94 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig postag="BNW:STL:ONV"/>
 	</rule>
 
+	<!--
+	?	  3616	(4)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VGW|VGW:EKV:HET VNW:PER:1EP:EKV:ACT
+	    38:	Ik denk dat ik
+	    21:	Ik voel dat ik
+	     7:	Ik zeg dat ik
+	     6:	Ik vrees dat ik
+	     5:	Ik hoop dat ik
+	-->
+	<rule id="NEW_485" name="-">
+		<pattern>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<token>dat</token>
+			</marker>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+		</pattern>
+		<disambig action="remove" postag="VGW:EKV:HET"/>
+	</rule>
+
+	<!--
+	?	  3589	(4)	VNW:PER:3EP:EKV:ACT WKW:VLT:1EP ZNW:EKV|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF WKW:TGW:1EP|ZNW:EKV:DE_
+	     1:	Ze had haar zin
+	     1:	Ze nam haar tas
+	     1:	Ze nam haar pols
+	     1:	Ze pakte haar jas
+	-->
+	<rule id="NEW_486" name="-">
+		<pattern>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="ZNW:EKV:DE_"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3435	(4)	VGW|VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BYW VRZ
+	    49:	 voor het eerst in
+	    10:	 voor het eerst te
+	    10:	 voor het eerst op
+	-->
+	<rule id="NEW_487" name="-">
+		<pattern>
+			<token postag="VRZ">voor</token>
+			<token postag="VNW:AWZ:EKV:HET">het</token>
+			<token postag="BYW">eerst</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3288	(4)	SENT_START VRZ VNW:OBP:ONV WKW:TGW:1EP|ZNW:EKV:HET
+	    58:	In ieder geval
+	    41:	In elk geval
+	-->
+	<rule id="NEW_488" name="-">
+		<pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:OBP:ONV"><exception negate_pos="yes" postag="VNW:OBP:ONV"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:HET"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:HET"/></token>
+			</marker>
+		</pattern>
+		<disambig postag="ZNW:EKV:HET"/>
+	</rule>
+
+	<!--
+	?	  3166	(4)	VNW:PER:1EP:MRV:ACT WKW:TGW:INF VNW:OND:MRV:HET|VNW:OND:EKV:HET BYW
+	     1:	We slaan het af
+	     1:	We maken het af
+	     1:	We geven het af
+	     1:	We kappen het af
+	-->
+	<rule id="NEW_489" name="-">
+		<pattern>
+			<token postag="VNW:PER:1EP:MRV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:MRV:ACT"/></token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
