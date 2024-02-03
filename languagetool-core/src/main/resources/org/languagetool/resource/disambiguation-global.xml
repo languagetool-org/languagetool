@@ -319,8 +319,7 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
-    <rulegroup id="IGNORE_SPELLING_OF_TEXT_IN_BRACKETS" name="ignore spelling of text in brackets">
+    <rulegroup id="GLOBAL_IGNORE_SPELLING_OF_TEXT_IN_BRACKETS" name="ignore spelling of text in brackets">
         <!-- e.g. {user_id} -->
         <rule>
             <pattern>
@@ -349,6 +348,22 @@ Copyright (C) 2021 Jaume Ortolà
                 </marker>
                 <token regexp="yes" min="0">["'`]</token>
                 <token regexp="yes">[\}\]&gt;]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="GLOBAL_IGNORE_CHAR_CODIFICATIONS" name="char codifications (&amp;#x00FF;)">
+        <rule>
+            <pattern>
+                <token regexp="yes">&amp;\d+</token>
+                <token spacebefore="no">;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&amp;#x[\dabcdef]+</token>
+                <token spacebefore="no">;</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
