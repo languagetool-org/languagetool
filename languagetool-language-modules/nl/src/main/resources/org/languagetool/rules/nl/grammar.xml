@@ -14432,8 +14432,37 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="HOOFDLETTERS_OVERBODIG_A" name="Woorden middenin de zin die ook klein geschreven mogen worden." type="misspelling" tags="picky">
 
 			<rule>
-				<antipattern><token>Maatschappij</token><token>voor</token><token>Beter</token><token>OV</token></antipattern>
-				<antipattern><token>OV</token><token>loket</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Nederlandse</token><token>Publieke</token><token>Omroep</token></antipattern>
+				<pattern case_sensitive="yes">
+					<token/>
+					<token/>
+					<marker>
+						<token>Publieke</token>
+						<token>Omroep</token>
+					</marker>
+				</pattern>
+				<message>Dit is zonder hoofdletters, behalve als deel van een enigennaam.</message>
+				<suggestion><match no="3" case_conversion="alllower"/> <match no="4" case_conversion="alllower"/></suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="publieke omroep">We volgen de <marker>Publieke Omroep</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern case_sensitive="yes"><token>Katholieke</token><token>Universiteit</token></antipattern>
+				<pattern>
+					<token/>
+					<token/>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">Katholieke?</token>
+					</marker>
+				</pattern>
+				<message>Religies zijn zonder hoofdletters.</message>
+				<suggestion><match no="3" case_conversion="alllower"/></suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="katholiek">We zijn <marker>Katholiek</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern case_sensitive="yes"><token>Maatschappij</token><token>voor</token><token>Beter</token><token>OV</token></antipattern>
+				<antipattern case_sensitive="yes"><token>OV</token><token>loket</token></antipattern>
 				<pattern>
 					<token/>
 					<token/>
