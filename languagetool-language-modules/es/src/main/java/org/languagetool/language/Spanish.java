@@ -205,6 +205,7 @@ public class Spanish extends Language implements AutoCloseable {
       return 50;
     }
     switch (id) {
+      case "ES_SIMPLE_REPLACE_MULTIWORDS": return 50; //unambiguous replacements
       case "CONFUSIONS2": return 50; // greater than CONFUSIONS
       case "RARE_WORDS": return 50;
       case "LOS_MAPUCHE": return 50;
