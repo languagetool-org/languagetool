@@ -291,9 +291,10 @@ public class Catalan extends Language {
       case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "PUNT_FINAL": return -200;
+      case "DICENDI_QUE": return -250;
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
-      case "ELA_GEMINADA_WIKI": return -200;
+      case "ELA_GEMINADA_WIKI": return -500;
     }
     if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
       return -95;
