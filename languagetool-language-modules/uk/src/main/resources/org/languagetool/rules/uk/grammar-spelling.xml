@@ -528,16 +528,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="DASYSH" name="Дасиш, їсиш, відповісиш">
       <pattern>
         <marker>
-          <token regexp="yes">.*дасиш|.*їсиш|.+вісиш
-            <exception postag_regexp="yes" postag="[a-z].*"/>
-          </token>
+          <token regexp="yes" postag_regexp="yes" postag="verb.*:subst">.*дасиш|.*їсиш|.+вісиш</token>
         </marker>
       </pattern>
       <message>Правильно: <suggestion><match no="1" regexp_match="(.*)ш" regexp_replace="$1"/></suggestion></message>
       <example correction="віддаси"><marker>віддасиш</marker>.</example>
       <example correction="їси"><marker>їсиш</marker>.</example>
       <example correction="розповіси"><marker>розповісиш</marker>.</example>
+      <!-- we can't speculate on words we don't know - could be good like: попопросиш
+      <example correction="надаси"><marker>надасиш</marker>.</example>
+      -->
       <example>вивісиш</example>
+      <example>просиш</example>
     </rule>
 
     <rule id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
