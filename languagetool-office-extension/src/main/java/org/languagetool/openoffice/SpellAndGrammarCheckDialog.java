@@ -1292,12 +1292,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkRuleBox.setVisible(true);
         checkRuleBox.setEnabled(false);
         checkRuleBox.addItemListener(e -> {
-          if (e.getStateChange() == ItemEvent.SELECTED && checkType == 3) {
-            int selectedIndex = checkRuleBox.getSelectedIndex();
-            if (selectedIndex < 0) {
-              selectedIndex = 0;
-            }
-            String newRuleId = allDifferentErrors.get(selectedIndex).ruleId;
+          if (e.getStateChange() == ItemEvent.SELECTED && checkType == 3 && checkRuleBox.getItemCount() > 0) {
+            String newRuleId = getRuleId((String) checkRuleBox.getSelectedItem(), allDifferentErrors);
             if (checkRuleId == null || !checkRuleId.equals(newRuleId)) {
               Thread t = new Thread(new Runnable() {
                 public void run() {
@@ -1751,10 +1747,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
 
     private int fitToColorboundaries(int col) {
-      if (col < 0) {
-        return 0;
-      }
-      if (col > 255) {
+      if (col < 0 || col > 255) {
         return 255;
       }
       return col;
@@ -1931,6 +1924,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
     
     /**
+     * get the ID of a rule by name out of a list of RuleIdentification
+     */
+    String getRuleId (String ruleName, List<RuleIdentification> rules) {
+      for (RuleIdentification rule : rules) {
+        if (ruleName.equals(rule.ruleName)) {
+          return rule.ruleId;
+        }
+      }
+      return null;
+    }
+    
+    /**
      * Formats the tooltip text
      * The text is given by a text string which is formatted into html:
      * \n are formatted to html paragraph breaks
@@ -2055,8 +2060,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (checkType == 3) {
           if (checkRuleId == null) {
             if (checkRuleBox.getItemCount() > 0) {
-              int selectedIndex = checkRuleBox.getSelectedIndex();
-              checkRuleId = allDifferentErrors.get(selectedIndex).ruleId;
+              checkRuleId = getRuleId((String) checkRuleBox.getSelectedItem(), allDifferentErrors);
             } else {
               checkTypeButtons[0].setSelected(true);
               checkType = 0;
