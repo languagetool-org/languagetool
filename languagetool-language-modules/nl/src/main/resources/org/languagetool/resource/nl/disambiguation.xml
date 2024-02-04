@@ -11750,6 +11750,131 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  4418	(4)	SENT_START BYW:GRD|TYD:DAG|BYW|TSW|VGW WKW:TGW:1EP VNW:PER:1EP:EKV:ACT
+	     8:	Zo zie ik
+	     7:	Zo doe ik
+	     6:	Zo lees ik
+	     6:	Zo ervaar ik
+	     6:	Zo noem ik
+	     5:	Zo denk ik
+	     3:	Zo wil ik
+	-->
+	<rule id="NEW_522" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="BYW">zo</token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VNW:PER:1EP:EKV:ACT"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4412	(4)	SENT_START VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET ZNW:EKV|BNW:STL:VRB ZNW:EKV:HET
+	     3:	Het onderste slaapvenster
+	     2:	Het gehele gebouw
+	     2:	Het sociale aspect
+	-->
+	<rule id="NEW_523" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4381	(5)	VGW|VRZ ZNW:EKV:DE_ VGW ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     2:	 voor innovatie en samenwerking.
+	     1:	 voor harmonisering en liberalisering.
+	     1:	 om snelheid of motoriek.
+	     1:	Met liefde en passie.
+	-->
+	<rule id="NEW_524" name="-">
+		<pattern>
+			<token postag="VRZ"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VGW" regexp="yes">en|of</token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4367	(4)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VGW|VGW:EKV:HET VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
+	    28:	Ik denk dat het
+	    17:	Ik denk dat dit
+	    14:	Ik hoop dat het
+	-->
+	<rule id="NEW_525" name="-">
+		<pattern>
+			<marker>
+				<token postag="VNW:PER:1EP:EKV:ACT"/>
+				<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+				<token postag="VGW">dat</token>
+				<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			</marker>
+			<token regexp="yes">het|dit|dat</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4337	(4)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:INF VNW:PER:1EP:MRV:ACT
+	    31:	Wat gaan we
+	    21:	Wat moeten we
+	    17:	Wat zullen we
+	    12:	Wat kunnen we
+	-->
+	<rule id="NEW_526" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VNW:PER:1EP:MRV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:MRV:ACT"/></token>
+		</pattern>
+		<disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
+	</rule>
+
+	<!--
+	?	  4332	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:3EP|ZNW:EKV:DE_ WKW:VLT:1EP
+	     8:	De rest werd
+	     4:	De rest ging
+	     3:	De lucht werd
+	     3:	De kat miauwde
+	-->
+	<rule id="NEW_527" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4325	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_|BNW:STL:VRB ZNW:MRV:DE_
+	     2:	De Nederlandse pensioenfondsen
+	     1:	De Nederlandse vakbonden
+	     1:	De Belgische ngo's
+	-->
+	<rule id="NEW_528" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
