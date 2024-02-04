@@ -11390,6 +11390,128 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  4660	(5)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:INF VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
+	     1:	Wat zijn de afkortingen
+	     1:	Wat zijn de ouders
+	     1:	Wat zijn de behandelmogelijkheden
+	     1:	Wat zijn de toekomstverwachtingen
+	     1:	Wat zijn de concurrentievoordelen
+	     1:	Wat zijn de betalingsmogelijkheden
+	-->
+	<rule id="NEW_501" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
+	</rule>
+
+	<!--
+	?	  4655	(4)	VNW:PER:3EP:EKV:ACT WKW:VLT:1EP ZNW:EKV|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF WKW:TGW:1EP|ZNW:EKV:DE_
+	     1:	Ze had haar zin
+	     1:	Ze nam haar tas
+	     1:	Ze nam haar pols
+	-->
+	<rule id="NEW_502" name="-">
+		<pattern>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<!--
+	?	  4652	(4)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VGW|VGW:EKV:HET VNW:PER:1EP:EKV:ACT
+	    38:	Ik denk dat ik
+	    21:	Ik voel dat ik
+	     7:	Ik zeg dat ik
+	-->
+	<rule id="NEW_503" name="-">
+		<pattern>
+			<token postag="VNW:PER:1EP:EKV:ACT"/>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VGW">dat</token>
+			<token postag="VNW:PER:1EP:EKV:ACT"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+
+	<!--
+?	  4632	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ DVW ZNW:EKV:DE_
+	    44:	 in de Champions League
+	    37:	 van de Champions League
+	     7:	 in de Champions League-wedstrijd
+	-->
+	<rule id="NEW_504" name="-">
+		<pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="DVW"><exception negate_pos="yes" postag="DVW"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<!--
+	?	  4609	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV|BNW:STL:VRB ZNW:MRV:DE_
+	     3:	De economische gevolgen
+	     3:	De creatieve mogelijkheden
+	     3:	De economische vooruitzichten
+	-->
+	<rule id="NEW_505" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:MRV:DE_"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<!--
+	?	  4577	(4)	SENT_START BYW:VRG WKW:TGW:3EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:EKV:PSF
+	     3:	Hoe doet u
+	     3:	Hoe noemt u
+	     3:	Waarom doet u
+	     3:	Waarom zegt u
+	-->
+	<rule id="NEW_506" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="BYW:VRG"><exception negate_pos="yes" postag="BYW:VRG"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:ACT">u</token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<!--
+	?	  4568	(5)	VGW|VRZ ZNW:MRV:DE_ VGW ZNW:MRV:DE_ SENT_END
+	     1:	 voor fusies en overnames.
+	     1:	 voor smartphones en tablets.
+	     1:	 voor desktops en laptops.
+	-->
+	<rule id="NEW_507" name="-">
+		<pattern>
+			<token postag="VRZ"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="VGW" regexp="yes">en|of</token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
