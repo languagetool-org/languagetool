@@ -11285,7 +11285,109 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="GET:RNG"><exception negate_pos="yes" postag="GET:RNG"/></token>
 			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
 		</pattern>
-		<disambig postag="BYW"/>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  6551	(4)	SENT_START VGW BYW|ENM:PER:FST WKW:TGW:3EP
+	    44:	En dan komt
+	    19:	En dan volgt
+	    11:	En dan begint
+	4:	En dan gaat-->
+	<rule id="NEW_495" name="-">
+		<pattern>
+			<token case_sensitive="yes">dan</token>
+		</pattern>
+		<disambig action="remove" postag="ENM:PER:FST"/>
+	</rule>
+
+	<!--
+	?	  4825	(4)	GET:TXT:EKV BNW:STL:ONV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	 een standaard videobelfunctie.
+	     1:	 een fulltime medewerker.
+	     1:	 een gratis verzending.
+	     1:	 een online gitarenveiling.
+	-->
+	<rule id="NEW_496" name="-">
+		<pattern>
+			<token>een</token>
+			<marker>
+				<token postag_regexp="yes" postag="BNW:STL:ONV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes" postag="BNW:STL:ONV|BNW:STL:VRB"/></token>
+			</marker>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig postag="BNW:STL:VRB"/>
+	</rule>
+
+	<!--
+	?	  4739	(4)	VGW|VRZ ZNW:EKV:DE_ VRZ VNW:AWZ:EKV:DE_
+	     7:	Tot ergernis van de
+	     6:	Met toestemming van de
+	     5:	Met uitzondering van de
+	     3:	Met hulp van de
+	-->
+	<rule id="NEW_497" name="-">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="VGW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="VGW|VRZ"/></token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+		</pattern>
+		<disambig postag="VRZ"/>
+	</rule>
+
+	<!--
+	?	  4726	(4)	VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET ZNW:EKV:DE_|BNW:STL:VRB ZNW:EKV:HET
+	    12:	 van het Internationale Gerechtshof
+	     3:	 van het Portugese voorzitterschap
+	     3:	Op het Griekse eiland
+	     2:	 door het mindere contrast
+	-->
+	<rule id="NEW_498" name="-">
+		<pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4726	(4)	VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV|BNW:STL:VRB WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	 de commerciële zender.
+	     1:	 de harde wind.
+	     1:	De sociale cirkel.
+	     1:	De criminele cirkel.
+	-->
+	<rule id="NEW_499" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="BNW:STL:VRB"/>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+			</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4707	(4)	SENT_START ZNW:MRV:DE_ WKW:TGW:INF|ZNW:MRV:DE_ BYW
+	     1:	Werknemers kiezen er
+	     1:	Mensen werken niet
+	     1:	Toestandsvergelijkingen kloppen inderdaad
+	     1:	Referentiekaders verschillen bijvoorbeeld
+	     1:	Eieren kunnen altijd
+	-->
+	<rule id="NEW_500" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="WKW:TGW:INF"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			</pattern>
+		<disambig action="filterall"/>
 	</rule>
 
 	<!-- ##################################################################################################### -->
