@@ -244,6 +244,10 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("dIsraël"));
     assertEquals(1, matches.length);
     assertEquals("d'Israël", matches[0].getSuggestedReplacements().get(0).toString());
+
+    // hashtags, url, email
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("(#sensepastanagues)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("C#, F#")).length);
   }
   
   private void assertSuggestion(MorfologikFrenchSpellerRule rule, JLanguageTool lt, String input, String... expected) throws IOException {

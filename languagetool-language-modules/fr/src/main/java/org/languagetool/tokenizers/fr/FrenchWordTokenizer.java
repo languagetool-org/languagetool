@@ -36,7 +36,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class FrenchWordTokenizer extends WordTokenizer {
 
-  private static final String wordCharacters = "§©#@€£\\$_\\p{L}\\d\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
+  private static final String wordCharacters = "§©@€£\\$_\\p{L}\\d\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   private static final Pattern SOFT_HYPHEN = Pattern.compile("\u00AD");
   private static final Pattern CURLY_QUOTE = Pattern.compile("’");
