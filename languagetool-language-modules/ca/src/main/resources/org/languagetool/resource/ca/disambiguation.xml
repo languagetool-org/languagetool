@@ -47,14 +47,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="imprimar"/>
             </disambig>
         </rule>
-        <rule>
-            <pattern>
-                <token case_sensitive="yes" regexp="yes">[FC]#</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="NPMSO00"/>
-            </disambig>
-        </rule>
     </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
@@ -7530,6 +7522,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^V].*"/>
     </rule>
     <rule id="venir_gerundi" name="venir gerundi (construcció incorrecta)">
+        <antipattern>
+            <token postag="SPS00"/>
+            <token min="0" postag="D.*" postag_regexp="yes"/>
+            <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">venir|portar|dur</token>
