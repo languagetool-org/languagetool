@@ -11390,6 +11390,61 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  4660	(5)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:INF VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
+	     1:	Wat zijn de afkortingen
+	     1:	Wat zijn de ouders
+	     1:	Wat zijn de behandelmogelijkheden
+	     1:	Wat zijn de toekomstverwachtingen
+	     1:	Wat zijn de concurrentievoordelen
+	     1:	Wat zijn de betalingsmogelijkheden
+	-->
+	<rule id="NEW_501" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+		</pattern>
+		<disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
+	</rule>
+
+	<!--
+	?	  4655	(4)	VNW:PER:3EP:EKV:ACT WKW:VLT:1EP ZNW:EKV|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF WKW:TGW:1EP|ZNW:EKV:DE_
+	     1:	Ze had haar zin
+	     1:	Ze nam haar tas
+	     1:	Ze nam haar pols
+	-->
+	<rule id="NEW_501" name="-">
+		<pattern>
+			<token postag="VNW:PER:3EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:ACT"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<!--
+	?	  4652	(4)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VGW|VGW:EKV:HET VNW:PER:1EP:EKV:ACT
+	    38:	Ik denk dat ik
+	    21:	Ik voel dat ik
+	     7:	Ik zeg dat ik
+	-->
+	<rule id="NEW_502" name="-">
+		<pattern>
+			<token postag="VNW:PER:1EP:EKV:ACT"/>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VGW">dat</token>
+			<token postag="VNW:PER:1EP:EKV:ACT"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
