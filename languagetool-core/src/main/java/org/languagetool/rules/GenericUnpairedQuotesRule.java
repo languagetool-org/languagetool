@@ -105,7 +105,7 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
           }
           int index = indexOfOpeningQuote(openingQuotes, symbol);
           if (index >= 0) {
-            removeAllOpenInnerQuotes(index - 1, openingQuotes, ruleMatches, "(s1)");
+            removeAllOpenInnerQuotes(index - 1, openingQuotes, ruleMatches);
           }
           openingQuotes.add(new SymbolLocator(symbol, tokens[i].getStartPos() + startPosBase, sentence));
         } else if (isClosingQuote(tokens, i)) {
@@ -115,7 +115,7 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
           String startSymbol = findCorrespondingSymbol(symbol);
           int index = indexOfOpeningQuote(openingQuotes, startSymbol);
           if (index >= 0) {
-            removeAllOpenInnerQuotes(index, openingQuotes, ruleMatches, "(e1)");
+            removeAllOpenInnerQuotes(index, openingQuotes, ruleMatches);
             openingQuotes.remove(index);
             if (lastApostropheSymbol != null && lastApostropheSymbol.equals(startSymbol)) {
               lastApostropheSymbol = null;;
@@ -126,7 +126,7 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
           } else if (isNotEndingApostrophe(tokens, i)){
             if (!isInch && (!isInchSymb || !wasInch)) {
               if (lastApostropheSymbol == null || !lastApostropheSymbol.equals(symbol)) {
-                addMatch(new SymbolLocator(symbol, tokens[i].getStartPos() + startPosBase, sentence), ruleMatches, "(e2)");
+                addMatch(new SymbolLocator(symbol, tokens[i].getStartPos() + startPosBase, sentence), ruleMatches);
               } else {
                 lastApostropheSymbol = null;
               }
@@ -138,7 +138,7 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
       }
       startPosBase += sentence.getCorrectedTextLength();
     }
-    removeAllOpenInnerQuotes(-1, openingQuotes, ruleMatches, "(s2)");
+    removeAllOpenInnerQuotes(-1, openingQuotes, ruleMatches);
     return toRuleMatchArray(ruleMatches);
   }
   
@@ -163,7 +163,8 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
               || tokens[i].isWhitespaceBefore()
               || OPENING_BRACKETS.matcher(tokens[i - 1].getToken()).matches()
               || isStartSymbolbefore(tokens, i)
-              || tokens[i - 1].getToken().endsWith("-"));
+              || (tokens[i - 1].getToken().endsWith("-") 
+                  && i < tokens.length - 1 && !tokens[i + 1].isWhitespaceBefore()));
         }
         return true;
       }
@@ -204,16 +205,16 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
     return -1;
   }
   
-  private void addMatch(SymbolLocator openingQuote, List<RuleMatch> ruleMatches, String add) {
-    String message = MessageFormat.format(messages.getString("unpaired_brackets"), findCorrespondingSymbol(openingQuote.getSymbol()) + add);
+  private void addMatch(SymbolLocator openingQuote, List<RuleMatch> ruleMatches) {
+    String message = MessageFormat.format(messages.getString("unpaired_brackets"), findCorrespondingSymbol(openingQuote.getSymbol()));
     RuleMatch match = new RuleMatch(this, openingQuote.getSentence(), openingQuote.getStartPos(), 
         openingQuote.getStartPos() + openingQuote.getSymbol().length(), message);
     ruleMatches.add(match);
   }
   
-  private void removeAllOpenInnerQuotes(int index, List<SymbolLocator> openingQuotes, List<RuleMatch> ruleMatches, String add) {
+  private void removeAllOpenInnerQuotes(int index, List<SymbolLocator> openingQuotes, List<RuleMatch> ruleMatches) {
     for (int i = openingQuotes.size() - 1; i > index; i--) {
-      addMatch(openingQuotes.get(i), ruleMatches, add);
+      addMatch(openingQuotes.get(i), ruleMatches);
       openingQuotes.remove(i);
     }
   }
