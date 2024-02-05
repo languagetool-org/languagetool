@@ -12124,6 +12124,75 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  7590	(4)	SENT_START VGW VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|ZNW:EKV:DE_
+	    31:	Maar ik moet
+	    17:	Maar ik wil
+	     5:	Maar ik kom
+	     4:	Maar ik kijk
+	4:	Maar ik stop
+	-->
+	<rule id="NEW_544" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<token postag="VGW VNW:PER:1EP:EKV:ACT"/>
+			<token postag="WKW:TGW:1EP"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+?	  4225	(4)	SENT_START UNKNOWN VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG WKW:TGW:3EP
+	    79:	'Wat is
+	    10:	"Wat is
+	    10:	'Wat gebeurt
+	-->
+	<rule id="NEW_545" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">[&quot;']</token>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig action="remove" postag="BYW:GRD|TSW|VNW|VNW:OBP:EKV"/>
+    </rule>
+
+	<!--
+	?	  2895	(4)	VGW|VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:OVR:ONV
+	    99:	 voor het laatst ververst
+	TBD omzetten in rij bijwoorden, net als 'voor het eers'?
+	-->
+	<rule id="NEW_546" name="-">
+        <pattern>
+			<token postag="VRZ">voor</token>
+			<token postag="VNW:AWZ:EKV:HET">het</token>
+			<token postag="BNW:OVR:ONV">laatst</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  4154	(4)	SENT_START VGW BYW|TSW WKW:TGW:3EP
+	    27:	En nu is
+	    18:	Maar nu komt
+	    14:	En nu komt
+	-->
+	<rule id="NEW_547" name="-">
+        <pattern>
+			<token postag="SENT_START"/>
+			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|TSW"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|TSW"/></token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+        </pattern>
+        <disambig postag="BYW"/>
+    </rule>
+
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
