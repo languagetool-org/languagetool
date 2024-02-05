@@ -145,24 +145,25 @@ public class StatAnDialog extends Thread  {
     document.getMultiDocumentsHandler().setStatAnDialogRunning(true);
     rules.clear();
     Language lang = document.getLanguage();
-    try {
-      Map<String, Integer> ruleValues = new HashMap<>();
-      for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, lang, null)) {
-        if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
-            rule instanceof ReadabilityRule || rule instanceof AbstractStyleTooOftenUsedWordRule) {
-          ruleValues.put(rule.getId(), 0);
+    if (lang != null) {
+      try {
+        Map<String, Integer> ruleValues = new HashMap<>();
+        for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, lang, null)) {
+          if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
+              rule instanceof ReadabilityRule || rule instanceof AbstractStyleTooOftenUsedWordRule) {
+            ruleValues.put(rule.getId(), 0);
+          }
         }
-      }
-      UserConfig userConfig = new UserConfig(ruleValues);
-      for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), userConfig, lang, null)) {
-        if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
-            (rule instanceof ReadabilityRule && !hasReadabilityRule()) || rule instanceof AbstractStyleTooOftenUsedWordRule) {
-          rules.add((TextLevelRule)rule);
+        UserConfig userConfig = new UserConfig(ruleValues);
+        for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), userConfig, lang, null)) {
+          if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
+              (rule instanceof ReadabilityRule && !hasReadabilityRule()) || rule instanceof AbstractStyleTooOftenUsedWordRule) {
+            rules.add((TextLevelRule)rule);
+          }
         }
+      } catch (IOException e) {
+        MessageHandler.showError(e);
       }
-//      MessageHandler.printToLogFile(getStatisticalRulesSupportedLanguages());
-    } catch (IOException e) {
-      MessageHandler.showError(e);
     }
   }
   
@@ -183,6 +184,11 @@ public class StatAnDialog extends Thread  {
   }
   
   private void runDialog(WaitDialogThread waitdialog) {
+    if (rules.isEmpty()) {
+      Language lang = document.getLanguage();
+      String shortCode = lang == null ? "unknown" : lang.getShortCode();
+      MessageHandler.printToLogFile("Statistical Rules are not supported for language: " + shortCode);
+    }
     dialog = new JDialog();
     dialog.setName(dialogName);
     dialog.setTitle(dialogName);

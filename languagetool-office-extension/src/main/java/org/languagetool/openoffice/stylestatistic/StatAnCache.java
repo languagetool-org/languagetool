@@ -47,6 +47,7 @@ import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
 
@@ -67,6 +68,7 @@ public class StatAnCache {
   private final static boolean debugMode = false;
   
   private final Map<Integer, List<AnalyzedSentence>> analyzedParagraphs;
+  private final String langCode;
   private List<Heading> headings = new ArrayList<>();
   private List<Paragraph> paragraphs = new ArrayList<>();
   private SingleDocument document;
@@ -79,6 +81,7 @@ public class StatAnCache {
   
   public StatAnCache(SingleDocument document, StatAnConfiguration conf, WaitDialogThread waitdialog) {
     this.document = document;
+    langCode = document.getLanguage().getShortCode();
     config = conf;
     lt = document.getMultiDocumentsHandler().getLanguageTool();
     docCache = document.getDocumentCache();
@@ -98,16 +101,19 @@ public class StatAnCache {
     for (int i = 0; i < textSize; i++) {
       try {
         int nFPara = docCache.getFlatParagraphNumber(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, i));
-        if (docCache.getAnalyzedParagraph(nFPara) == null) {
+        Locale locale = docCache.getFlatParagraphLocale(nFPara);
+        if (docCache.getAnalyzedParagraph(nFPara) == null && locale != null && langCode.equals(locale.Language)) {
           Language lang = MultiDocumentsHandler.getLanguage(docCache.getFlatParagraphLocale(nFPara));
-          SwJLanguageTool tmpLt = lt;
-          if(!lang.equals(tmpLt.getLanguage())) {
-            tmpLt = document.getMultiDocumentsHandler().getLanguageTool();
+          if (lang != null) {
+            SwJLanguageTool tmpLt = lt;
             if(!lang.equals(tmpLt.getLanguage())) {
-              tmpLt = document.getMultiDocumentsHandler().initLanguageTool(lang, false);
+              tmpLt = document.getMultiDocumentsHandler().getLanguageTool();
+              if(!lang.equals(tmpLt.getLanguage())) {
+                tmpLt = document.getMultiDocumentsHandler().initLanguageTool(lang, false);
+              }
             }
+            docCache.createAnalyzedParagraph(nFPara, tmpLt);
           }
-          docCache.createAnalyzedParagraph(nFPara, tmpLt);
         }
       } catch (IOException e) {
         MessageHandler.showError(e);
@@ -173,6 +179,24 @@ public class StatAnCache {
    */
   public int getNumFlatParagraph(int textPara) {
     return docCache.getFlatParagraphNumber(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, textPara));
+  }
+  
+  /**
+   * get language short code of flatparagraph from Number of text paragraph
+   */
+  public String getLanguageFlatParagraph(int textPara) {
+    Locale locale = docCache.getTextParagraphLocale(new TextParagraph(DocumentCache.CURSOR_TYPE_TEXT, textPara));
+    if (locale == null) {
+      return OfficeTools.IGNORE_LANGUAGE;
+    }
+    return locale.Language;
+  }
+
+  /**
+   * get document language short code
+   */
+  public String getDocShortCodeLanguage() {
+    return langCode;
   }
   
   /**

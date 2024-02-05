@@ -120,7 +120,7 @@ public class DocumentCache implements Serializable {
         add(in);
       }
       docType = in.docType;
-      docLocale = getMostUsedLanguage (locales);
+      docLocale = getMostUsedLanguage(locales);
     } finally {
       isReset = false;
       in.rwLock.readLock().unlock();
@@ -2235,19 +2235,21 @@ public class DocumentCache implements Serializable {
     }
   }
   
-  private SerialLocale getMostUsedLanguage (List<SerialLocale> locales) {
+  private SerialLocale getMostUsedLanguage(List<SerialLocale> locales) {
     Map<SerialLocale, Integer> localesMap = new HashMap<>();
     for (SerialLocale locale : locales) {
-      boolean localeExists = false;
-      for (SerialLocale loc : localesMap.keySet()) {
-        if (loc.equalsLocale(locale)) {
-          localesMap.put(loc, localesMap.get(loc) + 1);
-          localeExists = true;
-          break;
+      if (!OfficeTools.IGNORE_LANGUAGE.equals(locale.Language)) {
+        boolean localeExists = false;
+        for (SerialLocale loc : localesMap.keySet()) {
+          if (loc.equalsLocale(locale)) {
+            localesMap.put(loc, localesMap.get(loc) + 1);
+            localeExists = true;
+            break;
+          }
         }
-      }
-      if (!localeExists) {
-        localesMap.put(locale, 1);
+        if (!localeExists) {
+          localesMap.put(locale, 1);
+        }
       }
     }
     int max = 0;
