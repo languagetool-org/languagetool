@@ -11933,12 +11933,94 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
 			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
 			<marker>
-				<token postag="VRZ">ze</token>
+				<token>ze</token>
 			</marker>
 		</pattern>
 		<disambig action="remove" postag="VNW:PER:3EP:MRV:ACT"/>
 	</rule>
 
+	<!--
+?	 13722	(4)	VRZ ZNW:EKV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     2:	 in volle gang.
+	     1:	 van intellectuele oprechtheid.
+	     1:	 met rode romp.
+	     1:	 in zuidelijke richting.
+	-->
+	<rule id="NEW_534" name="-">
+		<pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"/></token>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig postag="BNW:STL:VRB"/>
+	</rule>
+
+	<!--
+	?	  4308	(5)	SENT_START VNW:AWZ:EKV:HET ZNW:EKV:HET WKW:TGW:3EP BYW|VGW
+	     2:	Het probleem is dus
+	     2:	Het huis is dus
+	     1:	Het festival is daar
+	-->
+	<rule id="NEW_535" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BYW"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+?	  4303	(4)	BYW WKW:TGW:1EP|BYW|VNW:OBP:EKV|ZNW:EKV:HET VRZ ITP:PNT|SENT_END
+	    92:	 er niets van.
+	     4:	 hier niets van.
+	     1:	 er niets aan.
+	-->
+	<rule id="NEW_536" name="-">
+		<pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="VNW:OBP:EKV">niets</token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+?	  4300	(4)	WKW:TGW:1EP|ZNW:EKV:DE_ VGW ZNW:EKV:DE_ ITP:PNT|SENT_END
+	     1:	 bus of auto.
+	     1:	 zak en as.
+	     1:	 man of vriend.
+	-->
+	<rule id="NEW_537" name="-">
+		<pattern>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="VGW" regexp="yes">en|of</token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4274	(4)	WKW:TGW:1EP VNW:PER:1EP:EKV:ACT BYW|VGW BYW
+	     3:	Kan ik dan ook
+	     3:	Kan ik dan toch
+	     3:	Mag ik dan ook
+	     3:	Moet ik nu ook
+	     3:	Moet ik dan ook
+	-->
+	<rule id="NEW_538" name="-">
+		<pattern>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<token postag="BYW"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
