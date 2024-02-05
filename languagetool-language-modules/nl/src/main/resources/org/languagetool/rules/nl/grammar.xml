@@ -8751,6 +8751,7 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="IN_DE" name="inde → in de">
 			<!-- 2017-06-21 TaalTik -->
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token>euro</token></antipattern>
 				<pattern>
 					<marker>
 						<token>inde</token>
@@ -9566,6 +9567,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<rule>
+				<antipattern><token>KNMI</token><token>code</token></antipattern>
 				<antipattern>
 					<token>de</token>
 					<token regexp="yes" case_sensitive="yes">[WEN]K</token>
