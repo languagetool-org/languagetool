@@ -655,6 +655,13 @@ public class SingleDocument {
   }
   
   /**
+   *  get changed paragraphs map
+   */
+  Map<Integer, String> getChangedParasMap() {
+    return changedParas;
+  }
+  
+  /**
    * reset the Document
    */
   void resetDocument() {

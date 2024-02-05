@@ -223,7 +223,9 @@ public class SingleCheck {
       //        but empty proof reading errors have added to cache to satisfy text level queue
       if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
         if (!docCache.isAutomaticGenerated(nFPara)) {
-          paragraphMatches = lt.check(new TextParagraph(tPara.type, startPara), new TextParagraph(tPara.type, endPara), textToCheck,
+          int startText = docCache.getStartOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, true);
+          int endText = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, true);
+          paragraphMatches = lt.check(new TextParagraph(tPara.type, startText), new TextParagraph(tPara.type, endText), textToCheck,
               cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA, singleDocument);
         }
         if (cacheNum == 0) {
