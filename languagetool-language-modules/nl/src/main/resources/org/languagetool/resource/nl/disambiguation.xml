@@ -902,6 +902,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="remove" postag="WKW:(TGW|VLT):1EP"/>
 	</rule>
 
+	<!--
 	<rule id="_1EP_IK" name="-">
 		<pattern>
 			<marker>
@@ -911,6 +912,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+	-->
 
 	<rule id="START_INDIEN" name="-">
 		<pattern>
@@ -12031,6 +12033,96 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  4373	(4)	SENT_START VNW:OND:EKV:HET WKW:VLT:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:PSF
+	    32:	Dat vond ze
+	    16:	Dat deed ze
+	     9:	Dat maakte ze
+	     5:	Dat zei ze
+	-->
+	<rule id="NEW_539" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:ACT">ze</token>
+			<token postag="BYW"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4264	(5)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VGW|VGW:EKV:HET|VNW:OND:EKV:HET BYW
+	     1:	Ik ken dat ook
+	     1:	Ik ben dat ook
+	     1:	Ik wil dat ook
+	-->
+	<rule id="NEW_540" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"/>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4244	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV|BNW:OVR:VRB ZNW:EKV:DE_
+	     3:	De belangrijkste wijziging
+	     3:	De belangrijkste industrie
+	     2:	De belangrijkste factor
+	     2:	De belangrijkste inkomstenbron
+	     2:	De laatste fase
+	-->
+	<rule id="NEW_541" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag_regexp="yes" postag="BNW:.*:VRB"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4241	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:VLT:1EP WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ
+	     2:	De man trok zijn
+	     2:	De agent trok zijn
+	     1:	De rechtsback bracht zijn
+	     1:	De arts zette zijn
+	-->
+	<rule id="NEW_542" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">zijn</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  4233	(4)	SENT_START WKW:TGW:1EP VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|ZNW:EKV:DE_
+	    37:	Maar ik moet
+	    19:	Maar ik wil
+	     6:	Maar ik kom
+	     4:	Maar ik kijk
+	     4:	Maar ik stop
+	-->
+	<rule id="NEW_543" name="-">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">zijn</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
