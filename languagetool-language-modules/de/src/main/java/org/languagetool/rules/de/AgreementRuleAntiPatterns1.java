@@ -883,8 +883,20 @@ class AgreementRuleAntiPatterns1 {
       token("ob"),
       token("das"),
       token("Frauen")
+    ),
+    asList(
+      // Ich lese das Korrektur.
+      csRegex("l[ea]sen?|liest|l[ea]st?"),
+      token("das"),
+      token("Korrektur")
+    ),
+    asList(
+      // Ich habe das Korrektur gelesen.
+      csRegex("habe?n?|ha[sb]?t"),
+      token("das"),
+      token("Korrektur"),
+      token("gelesen")
     )
-
   );
 
 }
