@@ -2425,13 +2425,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
-            <rule><!--1--> <!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">sie</token>
+                </pattern>
+                <example correction="">Wenn <marker>sie</marker> die Qualität der Vorschläge in den Griff kriegen, hat das sicher Potenzial.</example>
+            </rule>
+            <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">mydays|essie</token><!-- can be extended by other words-->
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>
-            <rule><!--2--> <!-- gGEC wants to capitalize the word, but lower case is intended -->
+            <rule><!-- gGEC wants to capitalize the word, but lower case is intended -->
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">mords|cappella</token>
@@ -2440,7 +2446,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist aber <marker>mords</marker> klein.</example>
             </rule>
-            <rule><!--3-->
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">mords</token>
@@ -2450,7 +2456,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Hier ist heute aber <marker>mords</marker> was los.</example>
             </rule>
-            <rule><!--4-->
+            <rule>
                 <pattern>
                     <token>ach</token>
                     <token>,</token>
@@ -2460,11 +2466,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ach, <marker>herrjemine</marker>!</example>
             </rule>
-            <rule><!--5-->
+            <rule>
                 <pattern>
                         <token case_sensitive="yes" postag="ADJ.*" postag_regexp="yes">indikativ</token>
                 </pattern>
-                <example correction="">Aktien, die  <marker>indikativ</marker> nicht mindestens ein Prozent Dividendenrendite abwerfen, werden deshalb aussortiert.</example>
+                <example correction="">Aktien, die <marker>indikativ</marker> nicht mindestens ein Prozent Dividendenrendite abwerfen, werden deshalb aussortiert.</example>
             </rule>
         </rulegroup>
 

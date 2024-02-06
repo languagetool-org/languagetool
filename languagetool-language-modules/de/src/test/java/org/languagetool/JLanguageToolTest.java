@@ -94,7 +94,7 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("i.d.R."), "i.\u00a0d.\u00a0R.");
     assertEquals(lang.toAdvancedTypography("i. d. R."), "i.\u00a0d.\u00a0R."); 
     
-    assertEquals(lang.toAdvancedTypography("Zeichen ohne sein Gegenstück: '\"' scheint zu fehlen"), "Zeichen ohne sein Gegenstück: ‚\"‘ scheint zu fehlen");
+    assertEquals(lang.toAdvancedTypography("Zeichen ohne sein Gegenstück '\"' scheint zu fehlen"), "Zeichen ohne sein Gegenstück ‚\"‘ scheint zu fehlen");
     
   }
   
