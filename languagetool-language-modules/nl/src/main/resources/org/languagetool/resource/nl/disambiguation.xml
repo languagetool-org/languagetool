@@ -7985,6 +7985,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	   476:	~ En dan wordt
 	   433:	~ En dan komt
 	-->
+	<!--
 	<rule id="NEW_327" name="-">
         <pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
@@ -7999,7 +8000,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
         <disambig action="remove" postag="VGW"/>
     </rule>
-
+	-->
 	<!--
 	?	  9110	(4)	BYW|VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
 	    76:	 voor kleine kinderen.
@@ -12309,6 +12310,200 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  5181	(4)	WKW:TGW:1EP|BNW:STL:ONV BYW BNW:STL:ONV ITP:PNT|SENT_END
+	     1:	 zeker niet kansloos.
+	     1:	Ruw en onaf.
+	     1:	Snel en vurig.
+	     1:	Snel en gratis.
+	     1:	Snel en foutloos.
+	-->
+	<rule id="NEW_555" name="-">
+		<pattern>
+			<token postag="VNW:OND:EKV:DE_"><exception negate_pos="yes" postag="VNW:OND:EKV:DE_"/></token>
+			<token postag="VGW" regexp="yes">en|maar|of</token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3974	(4)	VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG VRZ WKW:TGW:INF ITP:PNT|SENT_END
+	    12:	 wat te doen.
+	    10:	 wat te zien.
+	     8:	 wat te beleven.
+	     4:	 wat te regelen.
+	-->
+	<rule id="NEW_556" name="-">
+		<pattern>
+			<token postag="VNW:OBP:EKV"/>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3971	(4)	ZNW:EKV:DE_ VRZ WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     1:	 bouw van huizen.
+	     1:	 smartphonemarkt in handen.
+	     1:	IT van banken.
+	-->
+	<rule id="NEW_557" name="-">
+		<pattern>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3962	(4)	VGW|VRZ BNW:STL:ONV VRZ WKW:TGW:INF
+	     1:	 om onzichtbaar te blijven
+	     1:	 om alleen te regeren
+	     1:	 om gelukkig te zijn
+	     1:	 om vertrouwelijk te lezen
+	     1:	Om oud te zijn
+	     1:	Om mooi te zijn
+	-->
+	<rule id="NEW_558" name="-">
+		<pattern>
+			<token postag="VGW">om</token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3960	(4)	BYW|VGW BYW WKW:TGW:INF ITP:PNT|SENT_END
+	     1:	Dus nooit jokken.
+	     1:	Dus meteen kijken.
+	     1:	Daar linksaf slaan.
+	     1:	Dus vooral doorgaan.
+	-->
+	<rule id="NEW_559" name="-">
+		<pattern>
+			<token postag="VGW"/>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3955	(4)	BYW VGW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_
+	     8:	 samen met de grenzen
+	     4:	 niet voor de voeten
+	     2:	 niet tot de mogelijkheden
+	     2:	 ook voor de kosten
+	     2:	 samen met de kinderen
+	-->
+	<rule id="NEW_560" name="-">
+		<pattern>
+			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
+			<token postag="VGW"/>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3950	(4)	ZNW:EKV:DE_ WKW:TGW:3EP WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
+	     1:	 weerklank heeft gevonden.
+	     1:	 hulp is gekomen.
+	     1:	 onafhankelijkheid heeft afgewezen.
+	     1:	 vrouw wordt geschreven.
+	     1:	 Rokjesdag heeft gekregen.
+	     1:	 dochter heeft gekregen.
+	     1:	 beslissing is gekomen.
+	-->
+	<rule id="NEW_561" name="-">
+		<pattern>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="WKW:VTD:ONV"/>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3945	(4)	SENT_START VNW:OND:EKV:HET WKW:VLT:1EP TSW|WKW:TGW:1EP|BYW|ZNW:EKV
+	    44:	Dat was wel
+	    34:	Het was wel
+	     2:	Het kon wel
+	     2:	Dat ging wel
+	     2:	Het klonk wel
+	-->
+	<rule id="NEW_562" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="BYW">wel</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3941	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:1EP VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF
+	    51:	Dat kun je
+	    14:	Dat noem je
+	     8:	Dat ga je
+	     7:	Dat zie je
+	-->
+	<rule id="NEW_563" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VNW:PER:2EP:EKV:ACT">je</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3919	(4)	WKW:TGW:1EP|WKW:TGW:3EP|VRZ VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_
+	    10:	 uit over de zee
+	     5:	 uit over de oceaan
+	     3:	 uit naar de toekomst
+	     2:	 uit over de tuin
+	-->
+	<rule id="NEW_564" name="-">
+		<pattern>
+			<token postag="VRZ">uit</token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3839	(4)	SENT_START WKW:TGW:3EP VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:ONV
+	     1:	Is dit herkenbaar
+	     1:	Is dit erg
+	     1:	Is dit eng
+	-->
+	<rule id="NEW_565" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="VNW:OND:EKV:HET"/>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
