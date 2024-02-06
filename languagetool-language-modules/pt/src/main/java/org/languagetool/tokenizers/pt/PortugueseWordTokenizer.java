@@ -22,7 +22,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Splitter;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -76,7 +75,24 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   private static final String HYPHEN_REPL = "$1" + HYPHEN_SUBST + "$2";
   private static final Pattern NEARBY_HYPHENS_PATTERN = compile("([\\p{L}])-([\\p{L}])-([\\p{L}])", CASE_INSENSITIVE | UNICODE_CASE);
   private static final String NEARBY_HYPHENS_REPL = "$1" + HYPHEN_SUBST + "$2" + HYPHEN_SUBST + "$3";
-  private final String PT_TOKENISING_CHARS = getTokenizingCharacters() + "⌈⌋″©%";
+  // \u0300-\u036F is the range of combining diacritical marks
+  // \u00A8 is the diaeresis
+  // \u2070-\u209F is the range of superscript characters
+  // The degree sign is included in the word characters, as it is used in temperatures and angles, and can appear
+  // in the middle of a token, e.g. "30°C".
+  private final String wordChars = "°\\-\\p{L}\\d\\u0300-\\u036F\\u00A8\\u2070-\\u209F" + DECIMAL_COMMA_SUBST +
+    NON_BREAKING_DOT_SUBST + NON_BREAKING_COLON_SUBST + NON_BREAKING_SPACE_SUBST + HYPHEN_SUBST;
+  // The following characters might be included at some point, but, to preserve the current behaviour, they aren't:
+  // - ©®™
+  // - # (hashtags)
+  // This leads to some inconsistencies, e.g. '@user' is tokenised as '@user', but '#hashtag' as '#' + 'hashtag'.
+  private final String wordCharsLeftEdge = "§@€£\\$¢¥¤";
+  private final String wordCharsRightEdge = "€£\\$%‰‱ºªᵃᵒˢ";
+  private final Pattern wordPattern = compile(
+    "[" + wordCharsLeftEdge + "]?[" + wordChars + "]+[" + wordCharsRightEdge + "]?|" +
+      "[^" + wordChars + "]",
+    CASE_INSENSITIVE | UNICODE_CASE
+  );
 
   public PortugueseWordTokenizer() {
     tagger = new PortugueseTagger();
@@ -123,17 +139,13 @@ public class PortugueseWordTokenizer extends WordTokenizer {
     }
 
     List<String> tokenList = new ArrayList<>();
-    StringTokenizer st = new StringTokenizer(tokenisedText, PT_TOKENISING_CHARS, true);
-    while (st.hasMoreElements()) {
-      String token = st.nextToken();
-      // make sure we join the % sign with the previous token, if it ends in a digit
-      if (Objects.equals(token, "%") && !tokenList.isEmpty()) {
-        int lastIndex = tokenList.size() - 1;
-        String lastToken = tokenList.get(lastIndex);
-        if (lastToken.matches(".*\\d$")) {
-          tokenList.set(lastIndex, lastToken + "%");
-          continue;
-        }
+    Matcher tokeniserMatcher = wordPattern.matcher(tokenisedText);
+    while (tokeniserMatcher.find()) {
+      String token = tokeniserMatcher.group();
+      // 0xFE00-0xFE0F are non-spacing marks
+      if (!tokenList.isEmpty() && token.length() == 1 && token.codePointAt(0)>=0xFE00 && token.codePointAt(0)<=0xFE0F) {
+        tokenList.set(tokenList.size() - 1, tokenList.get(tokenList.size() - 1) + tokenList);
+        continue;
       }
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
       token = token.replace(NON_BREAKING_COLON_SUBST, ':');
