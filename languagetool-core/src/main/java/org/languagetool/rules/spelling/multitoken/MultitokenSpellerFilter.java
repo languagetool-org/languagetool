@@ -23,6 +23,7 @@ import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -49,12 +50,7 @@ public class MultitokenSpellerFilter extends RuleFilter {
         // needed in testing
         lang = lang.getDefaultLanguageVariant();
       }
-      JLanguageTool lt = lang.createDefaultJLanguageTool();
-      AnalyzedSentence sentence = lt.getRawAnalyzedSentence(underlinedError);
-      RuleMatch[] matches = lang.getDefaultSpellingRule().match(sentence);
-      if (matches.length == 0) {
-        areTokensAcceptedBySpeller = true;
-      }
+      areTokensAcceptedBySpeller = !isMisspelled(underlinedError, lang) ;
     }
 
     List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError, areTokensAcceptedBySpeller);
@@ -86,4 +82,17 @@ public class MultitokenSpellerFilter extends RuleFilter {
     return match;
   }
 
+  public boolean isMisspelled(String s, Language language) throws IOException {
+    SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
+    if (spellerRule == null) {
+      return false;
+    }
+    List<String> tokens = language.getWordTokenizer().tokenize(s);
+    for (String token : tokens) {
+      if (spellerRule.isMisspelled(token)) {
+        return true;
+      };
+    }
+    return false;
+  }
 }
