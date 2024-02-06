@@ -414,6 +414,7 @@ public class ConfigurationDialog implements ActionListener {
 
     tabpane.addTab(messages.getString("guiStyleRules"), jPane);
 
+//  Style special tabs (optional)
     for (int i = 0; i < specialTabNames.length; i++) {
       jPane = new JPanel();
       jPane.setLayout(new GridBagLayout());
@@ -442,6 +443,17 @@ public class ConfigurationDialog implements ActionListener {
 
       tabpane.addTab(specialTabNames[i], jPane);
     }
+    
+//  technical options tab (only office)
+    if(insideOffice) {
+      String label = messages.getString("guiTechnicalSettings");
+      if (label.endsWith(":")) {
+        label = label.substring(0, label.length() - 1);
+      }
+      tabpane.add(label, new JScrollPane(getOfficeTechnicalElements()));
+      
+    }
+
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -610,7 +622,7 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.add(languagePanel, cons);
   }
 
-  private void addOfficeTextruleElements(GridBagConstraints cons, JPanel portPanel, JCheckBox useQueueResetbox, JCheckBox saveCacheBox) {
+  private void addOfficeTextruleElements(GridBagConstraints cons, JPanel portPanel) {
     int numParaCheck = config.getNumParasToCheck();
     boolean useTextLevelQueue = config.useTextLevelQueue();
     JRadioButton[] radioButtons = new JRadioButton[3];
@@ -635,9 +647,7 @@ public class ConfigurationDialog implements ActionListener {
     if (numParaCheck == 0 || config.onlySingleParagraphMode()) {
       radioButtons[1].setSelected(true);
       numParaField.setEnabled(false);
-      saveCacheBox.setEnabled(false);
       config.setUseTextLevelQueue(false);
-//      useQueueResetbox.setEnabled(false);
       if (config.onlySingleParagraphMode()) {
         radioButtons[0].setEnabled(false);
         radioButtons[2].setEnabled(false);
@@ -656,16 +666,12 @@ public class ConfigurationDialog implements ActionListener {
       numParaField.setEnabled(false);
       config.setNumParasToCheck(-2);
       config.setUseTextLevelQueue(true);
-//      useQueueResetbox.setEnabled(false);
-      saveCacheBox.setEnabled(true);
     });
     
     radioButtons[1].addActionListener(e -> {
       numParaField.setEnabled(false);
       config.setNumParasToCheck(0);
       config.setUseTextLevelQueue(false);
-//      useQueueResetbox.setEnabled(true);
-      saveCacheBox.setEnabled(false);
     });
     
     radioButtons[2].addActionListener(e -> {
@@ -677,8 +683,6 @@ public class ConfigurationDialog implements ActionListener {
       numParaField.setText(Integer.toString(numParaCheck1));
       numParaField.setEnabled(true);
       config.setUseTextLevelQueue(false);
-//      useQueueResetbox.setEnabled(true);
-      saveCacheBox.setEnabled(true);
     });
     
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
@@ -730,11 +734,18 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.add(radioPanel, cons);
   }
   
-  private void addOfficeTechnicalElements(GridBagConstraints cons, JPanel portPanel) {
-    JLabel typeOfCheckLabel = new JLabel(Tools.getLabel(messages.getString("guiTechnicalSettings")));
+  private JPanel getOfficeTechnicalElements() {
     // technical settings
-    cons.gridy++;
-    portPanel.add(typeOfCheckLabel, cons);
+    JPanel portPanel = new JPanel();
+    portPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.insets = new Insets(0, SHIFT1, 0, 0);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.anchor = GridBagConstraints.WEST;
+    cons.fill = GridBagConstraints.NONE;
+    cons.weightx = 0.0f;
+    JCheckBox saveCacheBox = new JCheckBox(Tools.getLabel(messages.getString("guiSaveCacheToFile")));
     JTextField otherServerNameField = new JTextField(config.getServerUrl() ==  null ? "" : config.getServerUrl(), 25);
     otherServerNameField.setMinimumSize(new Dimension(100, 25));
     otherServerNameField.getDocument().addDocumentListener(new DocumentListener() {
@@ -988,13 +999,22 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(premiumPanel, cons);
+    saveCacheBox.setSelected(config.saveLoCache());
+    saveCacheBox.addItemListener(e1 -> {
+      config.setSaveLoCache(saveCacheBox.isSelected());
+    });
+    cons.insets = new Insets(0, SHIFT2, 0, 0);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(saveCacheBox, cons);
+
+    cons.gridy++;
+    portPanel.add(getNgramPanel(), cons);
+    return portPanel;
   }
   
   private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
 
-    JCheckBox useQueueResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiUseTextLevelQueue")));
-    JCheckBox saveCacheBox = new JCheckBox(Tools.getLabel(messages.getString("guiSaveCacheToFile")));
-    
     addOfficeLanguageElements(cons, portPanel);
 
     cons.gridx = 0;
@@ -1063,40 +1083,14 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(new JLabel(" "), cons);
     
-    addOfficeTextruleElements(cons, portPanel, useQueueResetbox, saveCacheBox);
+    addOfficeTextruleElements(cons, portPanel);
     
     cons.insets = new Insets(0, SHIFT1, 0, 0);
     cons.gridx = 0;
-/*
-    cons.gridy++;
-    JLabel dummyLabel4 = new JLabel(" ");
-    portPanel.add(dummyLabel4, cons);
-*/    
     cons.gridy++;
     portPanel.add(new JLabel(" "), cons);
     
-    addOfficeTechnicalElements(cons, portPanel);
-/*
-    useQueueResetbox.setSelected(config.useTextLevelQueue());
-    useQueueResetbox.addItemListener(e -> {
-      config.setUseTextLevelQueue(useQueueResetbox.isSelected());
-    });
-    cons.insets = new Insets(0, SHIFT1, 0, 0);
-    cons.gridx = 0;
-    cons.gridy++;
-    portPanel.add(useQueueResetbox, cons);
-*/
-    saveCacheBox.setSelected(config.saveLoCache());
-    saveCacheBox.addItemListener(e -> {
-      config.setSaveLoCache(saveCacheBox.isSelected());
-    });
-    cons.insets = new Insets(0, SHIFT2, 0, 0);
-    cons.gridx = 0;
-    cons.gridy++;
-    portPanel.add(saveCacheBox, cons);
-
-    cons.gridy++;
-    portPanel.add(getNgramPanel(), cons);
+//    addOfficeTechnicalElements(cons, portPanel);
   }
   
   private int showRemoteServerHint(Component component, boolean otherServer) {
