@@ -100,6 +100,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Aus-leihstelle"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("AusLeihStelle"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Trauringkollektionen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
     assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinkühl-schrank"));
