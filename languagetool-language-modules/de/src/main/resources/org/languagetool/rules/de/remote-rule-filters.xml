@@ -79,6 +79,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
+                        <token case_sensitive="yes" regexp="yes">Flei(ss|ß)ige[snm]?</token>
+                    </marker>
+                    <token regexp="yes">Lieschens?</token>
+                </pattern>
+                <example correction="">Das sind <marker>Fleißige</marker> Lieschen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token case_sensitive="yes">Ach</token>
                         <token case_sensitive="yes">und</token>
                         <token case_sensitive="yes">Krach</token>
@@ -1873,7 +1882,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL">
             <rule><!--1 single words that should be ignored by gGEC can be added here-->
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">kleenesche[rn]?|Stratokratien?|Handstreiche?|Buchstabieralphabets?|Zaineisens?|Villmergerkrieg(en?)?|Schwangerenberatung|Oration|Schönstattbewegung|Soteriologie|Ursünden?|Patrozinium|Pontifikalien|Altardiener|papperlapapp|Lemongrass|Sommeliere|Sergey|Spüli|Sträflingskolonien?|Neoromanik|Tonfunkensender(s|n)?|Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten|Gegröle</token>
+                    <token case_sensitive="yes" regexp="yes">Lieschens?|kleenesche[rn]?|Stratokratien?|Handstreiche?|Buchstabieralphabets?|Zaineisens?|Villmergerkrieg(en?)?|Schwangerenberatung|Oration|Schönstattbewegung|Soteriologie|Ursünden?|Patrozinium|Pontifikalien|Altardiener|papperlapapp|Lemongrass|Sommeliere|Sergey|Spüli|Sträflingskolonien?|Neoromanik|Tonfunkensender(s|n)?|Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten|Gegröle</token>
                 </pattern>
                 <example correction="">Das ist doch <marker>papperlapapp</marker></example>
                 <example correction=""><marker>Lemongrass</marker> ist ein aromatisches Gras, das als traditionelles Gewürz in der asiatischen Küche bekannt ist.</example>
@@ -1881,6 +1890,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Das ist <marker>Sergey</marker>.</example>
                 <example correction="">Ich muss heute noch <marker>Spüli</marker> kaufen.</example>
                 <example correction="">Eine <marker>Aaltreppe</marker> ermöglicht eine Umgehung von Hindernissen in Gewässern.</example>
+                <example correction="">Das sind Fleißige <marker>Lieschen</marker>.</example>
             </rule>
             <rule><!--2-->
                 <pattern>
@@ -2270,7 +2280,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
-            <rule><!--1-->
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">Du|Dir|Dich|Dein(e[rnms]?)?|Euch|Eue?re[rmns]?|Ihr(e(mnrs)?|s)?|Ihnen|Sie|(Ihrer|Deiner|Eur?er)seits|(Deinet|Ihret|Eue?ret)willen|(Deinet|Ihret|Eue?ret)wegen|(Deinet|Ihret|Eue?ret)halb(en)?|(Deines|Eue?res|Euers|Ihres)gleichen</token>
                 </pattern>
@@ -2279,13 +2289,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Wie geht es <marker>Ihnen</marker>?</example><!--ambiguous-->
                 <example correction="">Können <marker>Sie</marker> morgen?</example><!--ambiguous-->
             </rule>
-            <rule><!--2-->
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">Du|Dir|Dich|Dein(e[rnms]?)?|Euch|Eue?re[rmns]?|Ihr(e(mnrs)?|s)?|Ihnen|Sie|(Ihrer|Deiner|Eur?er)seits|(Deinet|Ihret|Eue?ret)willen|(Deinet|Ihret|Eue?ret)wegen|(Deinet|Ihret|Eue?ret)halb(en)?|(Deines|Eue?res|Euers|Ihres)gleichen</token>
                     <token regexp="yes">Du|Dir|Dich|Dein(e[rnms]?)?|Euch|Eue?re[rmns]?|Ihr(e(mnrs)?|s)?|Ihnen|Sie|(Ihrer|Deiner|Eur?er)seits|(Deinet|Ihret|Eue?ret)willen|(Deinet|Ihret|Eue?ret)wegen|(Deinet|Ihret|Eue?ret)halb(en)?|(Deines|Eue?res|Euers|Ihres)gleichen</token>
                 </pattern>
                 <example correction="">Damit <marker>Du Dich</marker> nicht verläufst.</example>
                 <example correction="">Damit <marker>Ihr Euch</marker> nicht verlauft.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token regexp="yes">(Gelb|Grün)e[mns]?</token></marker>
+                    <token regexp="yes">Trikot?</token>
+                </pattern>
+                <example correction="">Er hat das <marker>Grüne</marker> Trikot an.</example>
             </rule>
         </rulegroup>
 
