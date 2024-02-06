@@ -69,26 +69,35 @@ public class LevelRule {
       if (debugMode) {
         MessageHandler.printToLogFile("withDirectSpeech: " + withDirectSpeech);
       }
+      String langCode = cache.getDocShortCodeLanguage();
       for (int i = 0; i < cache.size(); i++) {
-        RuleMatch[] matches = rule.match(cache.getAnalysedParagraph(i), null);
-        if (matches != null && matches.length > 0) {
-          int n = cache.getNumFlatParagraph(i);
-          statAnalysisCache.put(n, cache.createLoErrors(matches));
-        }
-        if (rule instanceof AbstractStatisticSentenceStyleRule) {
-          numFound.add(((AbstractStatisticSentenceStyleRule) rule).getNumberOfMatches());
-          numBase.add(((AbstractStatisticSentenceStyleRule) rule).getSentenceCount());
-//          MessageHandler.printToLogFile("RuleId: " + rule.getId() + ", matches: " + (matches == null ? "null" : matches.length) 
-//              +  ", numFound: " + ((AbstractStatisticSentenceStyleRule) rule).getNumberOfMatches());
-        } else if (rule instanceof AbstractStatisticStyleRule) {
-          numFound.add(((AbstractStatisticStyleRule) rule).getNumberOfMatches());
-          numBase.add(((AbstractStatisticStyleRule) rule).getWordCount());
-//          MessageHandler.printToLogFile("RuleId: " + rule.getId() + ", matches: " + (matches == null ? "null" : matches.length) 
-//              +  ", numFound: " + ((AbstractStatisticStyleRule) rule).getNumberOfMatches());
-        } else if (rule instanceof ReadabilityRule) {
-          numFound.add(((ReadabilityRule) rule).getAllWords());
-          numSyllables.add(((ReadabilityRule) rule).getAllSyllables());
-          numBase.add(((ReadabilityRule) rule).getAllSentences());
+        if (langCode.equals(cache.getLanguageFlatParagraph(i))) {
+          RuleMatch[] matches = rule.match(cache.getAnalysedParagraph(i), null);
+          if (matches != null && matches.length > 0) {
+            int n = cache.getNumFlatParagraph(i);
+            statAnalysisCache.put(n, cache.createLoErrors(matches));
+          }
+          if (rule instanceof AbstractStatisticSentenceStyleRule) {
+            numFound.add(((AbstractStatisticSentenceStyleRule) rule).getNumberOfMatches());
+            numBase.add(((AbstractStatisticSentenceStyleRule) rule).getSentenceCount());
+  //          MessageHandler.printToLogFile("RuleId: " + rule.getId() + ", matches: " + (matches == null ? "null" : matches.length) 
+  //              +  ", numFound: " + ((AbstractStatisticSentenceStyleRule) rule).getNumberOfMatches());
+          } else if (rule instanceof AbstractStatisticStyleRule) {
+            numFound.add(((AbstractStatisticStyleRule) rule).getNumberOfMatches());
+            numBase.add(((AbstractStatisticStyleRule) rule).getWordCount());
+  //          MessageHandler.printToLogFile("RuleId: " + rule.getId() + ", matches: " + (matches == null ? "null" : matches.length) 
+  //              +  ", numFound: " + ((AbstractStatisticStyleRule) rule).getNumberOfMatches());
+          } else if (rule instanceof ReadabilityRule) {
+            numFound.add(((ReadabilityRule) rule).getAllWords());
+            numSyllables.add(((ReadabilityRule) rule).getAllSyllables());
+            numBase.add(((ReadabilityRule) rule).getAllSentences());
+          }
+        } else {
+          numFound.add(0);
+          numBase.add(0);
+          if (rule instanceof ReadabilityRule) {
+            numSyllables.add(0);
+          }
         }
       }
       cache.setNewResultcache(rule.getId(), statAnalysisCache);

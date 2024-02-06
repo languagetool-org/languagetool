@@ -216,6 +216,7 @@ public class MultiDocumentsHandler {
       setJavaLookAndFeel();
     }
     if (!hasLocale(locale)) {
+      docLanguage = null;
       MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: Sorry, don't have locale: " + OfficeTools.localeToString(locale));
       return paRes;
     }
@@ -676,6 +677,9 @@ public class MultiDocumentsHandler {
     if (locale == null) {
       locale = new Locale("en","US","");
     }
+    if (locale.Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
+      return null;
+    }
     if (!hasLocale(locale)) {
       String message = Tools.i18n(messages, "language_not_supported", locale.Language);
       MessageHandler.showMessage(message);
@@ -798,6 +802,9 @@ public class MultiDocumentsHandler {
    */
   public static Language getLanguage(Locale locale) {
     try {
+      if (locale.Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
+        return null;
+      }
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
         return Languages.getLanguageForShortCode(locale.Variant);
       } else {
@@ -1626,6 +1633,9 @@ public class MultiDocumentsHandler {
   public void trigger(String sEvent) {
     try {
 //      MessageHandler.printToLogFile("Trigger event: " + sEvent);
+      if (getCurrentDocument() == null) {
+        return;
+      }
       long startTime = 0;
       if (debugModeTm) {
         startTime = System.currentTimeMillis();

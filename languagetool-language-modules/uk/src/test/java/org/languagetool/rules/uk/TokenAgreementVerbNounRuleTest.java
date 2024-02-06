@@ -502,6 +502,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("з’являться наступного ранку на суд");
     assertEmptyMatch("мучитися три з половиною роки");
     assertEmptyMatch("попрацювала місяць-півтора");
+    assertEmptyMatch("сніг не тане всю зиму");
 
     assertEmptyMatch("вщухнуть протягом кількох днів");
     
@@ -553,4 +554,5 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
 //    assertEmptyMatch("триває повним ходом.");
 //    assertEmptyMatch("скоюються незнайомими жертві злочинцями");
   }
+  
 }

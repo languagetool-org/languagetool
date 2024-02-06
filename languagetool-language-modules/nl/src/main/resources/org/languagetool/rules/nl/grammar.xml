@@ -286,6 +286,30 @@ regexp case-insensitive maken: (?i)
 				<example>Is het angst dat je voelt?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HET_RESULTATEN" name="Het(De) resultaten" default="temp_off">
+			<rule>
+				<antipattern>
+					<token>het</token>
+					<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+					<example>Het Macromedia Flash-SWF-bestandsformaat.</example>
+				</antipattern>
+				<antipattern>
+					<token>het</token>
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="ZNW:EKV:HET"/>
+					<example>Het vrouwen tennis deed het goed.</example>
+				</antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>het</token>
+						<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>De \3</suggestion>?</message>
+				<example correction="De resultaten"><marker>Het resultaten</marker> waren niet goed.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="off">
             <!-- temp_off for a long time, to test and re-enable if it works well -->
 			<rule>
@@ -390,6 +414,11 @@ regexp case-insensitive maken: (?i)
 				<antipattern>
 					<token>ons</token>
 					<token regexp="yes">onze|privacy|drie|twee|was|Heer|kan|pad</token>
+				</antipattern>
+				<antipattern>
+					<token>ons</token>
+					<token>kennis</token>
+					<token>maken</token>
 				</antipattern>
 				<antipattern>
 					<token>ons</token>
@@ -7639,6 +7668,25 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="AANBOD_KOMEN" name="Aanbod(Aan bod) komen.">
+			<rule>
+				<antipattern>
+					<token skip="5">vraag</token>
+					<token>aanbod</token>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>aanbod</token>
+						<token min="0" postag_regexp="yes" postag="WKW.*"/>
+						<token inflected="yes">komen</token>
+					</marker>
+					<token regexp="yes">[.,!?]</token>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>aan bod \3</suggestion>?</message>
+				<example correction="aan bod komen"><marker>aanbod komen</marker>.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="VAN_DE_WEGRAKEN" name="wegraken / weg raken" >
 			<antipattern><token>de</token><token>wegwerken</token></antipattern>
 			<rule>
@@ -11641,18 +11689,32 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="ISLAMITISCH" name="Islamitisch/islamitisch">
 			<rule>
-				<antipattern case_sensitive="yes"><token>Islamitische</token><token>Staat</token></antipattern>
+				<antipattern case_sensitive="yes">
+					<token>Organisatie</token>
+					<token>voor</token>
+					<token>Islamitische</token>
+					<token>Samenwerking</token>
+				</antipattern>
+				<antipattern case_sensitive="yes">
+					<token>Islamitische</token>
+					<token regexp="yes">Staat|Jihad</token>
+				</antipattern>
 				<pattern>
-					<token inflected="yes">islamitisch<exception case_sensitive="yes" regexp="yes">i.*</exception></token>
+					<token/>
+					<token/>
+					<marker>
+						<token inflected="yes">islamitisch<exception case_sensitive="yes" regexp="yes">i.*</exception></token>
+					</marker>
 				</pattern>
 				<message>Religies horen zonder hoofdletter.</message>
-				<suggestion><match no="1" case_conversion="alllower"/></suggestion>
+				<suggestion><match no="3" case_conversion="alllower"/></suggestion>
 				<example correction="islamitisch">Het is een <marker>Islamitisch</marker> gebed.</example>
 				<example>De terreurorganisatie heet Islamitische Staat.</example>
 			</rule>
 		</rulegroup>
 
 		<rulegroup id="ETC_ZONDER_HOOFDLETTERS" name="ETC./etc." type="misspelling">
+
 			<rule>
 				<pattern>
 					<token regexp="yes" case_sensitive="yes">E[Tt][Cc]</token>
@@ -14416,6 +14478,52 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="HOOFDLETTERS_OVERBODIG_A" name="Woorden middenin de zin die ook klein geschreven mogen worden." type="misspelling" tags="picky">
+
+			<rule>
+				<antipattern case_sensitive="yes"><token>Nederlandse</token><token>Publieke</token><token>Omroep</token></antipattern>
+				<pattern case_sensitive="yes">
+					<token/>
+					<token/>
+					<marker>
+						<token>Publieke</token>
+						<token>Omroep</token>
+					</marker>
+				</pattern>
+				<message>Dit is zonder hoofdletters, behalve als deel van een enigennaam.</message>
+				<suggestion><match no="3" case_conversion="alllower"/> <match no="4" case_conversion="alllower"/></suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="publieke omroep">We volgen de <marker>Publieke Omroep</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern case_sensitive="yes"><token>Katholieke</token><token>Universiteit</token></antipattern>
+				<pattern>
+					<token/>
+					<token/>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">Katholieke?</token>
+					</marker>
+				</pattern>
+				<message>Religies zijn zonder hoofdletters.</message>
+				<suggestion><match no="3" case_conversion="alllower"/></suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="katholiek">We zijn <marker>Katholiek</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern case_sensitive="yes"><token>Maatschappij</token><token>voor</token><token>Beter</token><token>OV</token></antipattern>
+				<antipattern case_sensitive="yes"><token>OV</token><token>loket</token></antipattern>
+				<pattern>
+					<token/>
+					<token/>
+					<marker>
+						<token case_sensitive="yes">OV</token>
+					</marker>
+				</pattern>
+				<message>Het openbaar vervoer is zonder hoofdletters, dus de afkorting ook.</message>
+				<suggestion>ov</suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="ov">We gaan met het <marker>OV</marker> in de winkel kopen.</example>
+			</rule>
+
 			<rule>
 				<antipattern>
 				    <token spacebefore="no">JPG</token>
@@ -15148,14 +15256,14 @@ regexp case-insensitive maken: (?i)
 				<example correction="Academisch Medisch Centrum">Ons <marker>academisch medisch centrum</marker> is fout bezig.</example>
 			</rule>
 			<rule>
-				<antipattern case_sensitive="yes"><token>Artsen</token><token>Zonder</token><token>Grenzen</token></antipattern>
+				<antipattern case_sensitive="yes"><token>Artsen</token><token>zonder</token><token>Grenzen</token></antipattern>
 				<pattern>
 					<token>Artsen</token>
-					<token>Zonder</token>
+					<token>zonder</token>
 					<token>Grenzen</token>
 				</pattern>
-				<message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
-				<example correction="Artsen Zonder Grenzen">Ons <marker>artsen zonder grenzen</marker> is fout bezig.</example>
+				<message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startlower"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+				<example correction="Artsen zonder Grenzen">Ons <marker>artsen zonder grenzen</marker> is fout bezig.</example>
 			</rule>
 			<rule>
 				<antipattern case_sensitive="yes"><token>Europees</token><token>Sociaal</token><token>Fonds</token></antipattern>
@@ -17782,6 +17890,40 @@ regexp case-insensitive maken: (?i)
 				<message>'\3' is een het-woord, dus is de verwijzing verkeerd.</message>
 				<suggestion>dat</suggestion>
 				<example correction="dat">Het stuk <marker>die</marker> ik speel is mooi.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="LICHAMELIJK" name="Ze doet aan lichamelijk(e) opvoeding">
+			<!-- Lichamelijk -->
+			<rule>
+				<antipattern>
+					<token skip="5">lichamelijk</token>
+					<token>te</token>
+					<example>Hij begon lichamelijk behoefte aan vlees te merken.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>lichamelijk</token>
+						<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>lichamelijke</suggestion>?</message>
+				<example correction="lichamelijke">Ik hoorde dat je <marker>lichamelijk opvoeding</marker> studeert.</example>
+			</rule>
+			<!-- Lichamelijke -->
+			<rule>
+				<antipattern>
+					<token skip="5" postag_regexp="yes" postag="VNW:AWZ.*"/>
+					<token>lichamelijke</token>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>lichamelijke</token>
+						<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>lichamelijk</suggestion>?</message>
+				<example correction="lichamelijk">Heb je <marker>lichamelijke letsel</marker> opgelopen?</example>
 			</rule>
 		</rulegroup>
 
@@ -26194,6 +26336,40 @@ regexp case-insensitive maken: (?i)
 				<example correction="zeer grote">Het is een <marker>zeer grotere</marker> fout.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="CONTINUE" name="Continue/continu" default="temp_off">
+			<rule>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token postag="VRZ"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token postag="VRZ"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token>,</token><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag=".*VRB"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token>continue</token><token postag_regexp="yes" postag=".*VRB"/></antipattern>
+				<antipattern><token>een</token><token postag="BYW:GRD"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token regexp="yes">nergens|onze|geen</token><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token postag="VGW"/><token postag_regexp="yes" postag=".*VRB"/><token postag="VGW"/><token>continue</token><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>continue</token><token postag_regexp="yes" postag=".*HET"/></antipattern>
+				<antipattern><token regexp="yes">het|dit|dat</token><token>continue</token><token postag="VRZ"/><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag=".*VRB"/></antipattern>
+				<antipattern><token>to</token><token>continue</token></antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="VRZ|VNW:AWZ:.*DE_"/>
+					<token>continue</token>
+					<token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">een|de</token>
+					<token>continue</token>
+					<token postag="ZNW:EKV:DE_"/>
+				</antipattern>
+				<pattern>
+					<token>continue</token>
+				</pattern>
+				<message>Bedoelt u misschien <suggestion>continu</suggestion> (voortdurend)?</message>
+				<example correction="continu">Het gaat <marker>continue</marker> fout.</example>
+				<example>Er is een continue machtsstrijd.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	<category id="FULL_SENTENCES" name="volledige zinnen met fout">
 		<rule id="FULL_SENTENCE_001" name="verkeerde werkwoordvorm" >
@@ -26564,6 +26740,11 @@ regexp case-insensitive maken: (?i)
                 <example correction="García Márquez"><marker>Garcìa Mrquez</marker>.</example>
                 <example correction="García Márquez"><marker>Garcìa Mraquez</marker>.</example>
                 <example correction="Homo sapiens"><marker>Homos Sapiens</marker></example>
+                <example correction="Homo sapiens">"<marker>Homos Sapiens</marker>"</example>
+                <example correction="Homo sapiens">" <marker>Homos Sapiens</marker> "</example>
+                <example correction="Homo sapiens">--" <marker>Homos Sapiens</marker> "</example>
+                <example correction="Homo sapiens">--(<marker>Homos Sapiens</marker>)</example>
+                <example correction="Homo sapiens">* * <marker>Homos Sapiens</marker></example>
                 <!--<example correction="Lluís Llach"><marker>Lluís Lach</marker>.</example>-->
                 <!--<example correction="Nikolai Rimski-Korsakow"><marker>Nicolai Rimski-Kórsakov</marker></example>-->
                 <!--<example correction="Groß Oesingen"><marker>Gross Oesingen</marker></example>-->

@@ -381,6 +381,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="спитався"><marker>запитався</marker> дозволу</example>
     </rule>
 
+    <rulegroup id="predyavlyaty" name="Пред'являти і подавати/заявляти/ставити">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">пред'являти|пред'явити|пред'явивши|пред'являючи</token>
+          </marker>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="adj:[mp]:v_zna(?!:ranim).*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">позов</token>
+        </pattern>
+        <message>Правильно: <suggestion>подавати</suggestion></message>
+        <suggestion>вчиняти</suggestion>
+        <example correction="подавати|вчиняти">І він <marker>пред'явив</marker> позов.</example>
+        <example correction="подавати|вчиняти">І він <marker>пред'являв</marker> би новий позов.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">пред'являти|пред'явити|пред'явивши|пред'являючи</token>
+          </marker>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="adj:[np]:v_zna(?!:ranim).*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">посвідчення</token>
+        </pattern>
+        <message>Правильно: <suggestion>показувати</suggestion></message>
+        <example correction="показувати">І він <marker>пред'явив</marker> посвідчення.</example>
+        <example correction="показувати">І він <marker>пред'являв</marker> би нові посвідчення.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">пред'являти|пред'явити|пред'явивши|пред'являючи</token>
+          </marker>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="adj:[fp]:v_zna(?!:ranim).*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">претензія</token>
+        </pattern>
+        <message>Правильно: <suggestion>заявляти</suggestion></message>
+        <suggestion>мати</suggestion>
+        <example correction="заявляти|мати">І він <marker>пред'явив</marker> претензії.</example>
+        <example correction="заявляти|мати">І він <marker>пред'являв</marker> би нові претензії.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">пред'являти|пред'явити|пред'явивши|пред'являючи</token>
+          </marker>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="adj:[fnp]:v_zna(?!:ranim).*" min="0"/>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*" regexp="yes">вимога|звинувачення|обвинувачення</token>
+        </pattern>
+        <message>Правильно: <suggestion>ставити</suggestion></message>
+        <example correction="ставити">І він <marker>пред'явив</marker> вимогу.</example>
+        <example correction="ставити">І він <marker>пред'явив</marker> нові звинувачення.</example>
+        <example correction="ставити">І він <marker>пред'являв</marker> би нові вимоги.</example>
+      </rule>
+    </rulegroup>
+
     <!-- group: дієслова: керування -->
 
     <rule id="ODRUZHYTYSIA_NA" name="Одружитися на">

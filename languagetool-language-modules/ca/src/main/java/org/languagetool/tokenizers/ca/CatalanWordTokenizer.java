@@ -39,7 +39,7 @@ import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
  */
 public class CatalanWordTokenizer extends WordTokenizer {
 
-  private static final String wordCharacters = "§©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD";
+  private static final String wordCharacters = "§©@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
@@ -127,8 +127,9 @@ public class CatalanWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    // replace hyphen -> hyphen-minus
+    // replace hyphen, non-break hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
+    auxText = auxText.replace('\u2011', '\u002d');
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1xxELA_GEMINADAxx$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
@@ -155,11 +156,9 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = SPACE0.matcher(auxText).replaceAll(" ");
 
     Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
-    String s;
-    String groupStr;
     while (tokenizerMatcher.find()) {
-      s = tokenizerMatcher.group();
-      if (s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
+      String s = tokenizerMatcher.group();
+      if (l.size() > 0 && s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
         l.set(l.size() - 1, l.get(l.size() - 1) + s);
         continue;
       }
@@ -189,7 +188,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
       }
       if (matchFound) {
         for (int i = 1; i <= matcher.groupCount(); i++) {
-          groupStr = matcher.group(i);
+          String groupStr = matcher.group(i);
           if (groupStr!=null) {
             l.addAll(wordsToAdd(groupStr));  
           }

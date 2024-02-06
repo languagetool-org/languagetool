@@ -769,5 +769,9 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("enspodeu"));
     assertEquals(1, matches.length);
     assertEquals("ens podeu", matches[0].getSuggestedReplacements().get(0));
+
+    // hashtags, url, email
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("(#sensepastanagues)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("C#, F#")).length);
   }
 }

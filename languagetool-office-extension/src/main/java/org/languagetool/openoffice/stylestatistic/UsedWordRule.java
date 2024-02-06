@@ -72,11 +72,16 @@ public class UsedWordRule {
         if (debugMode) {
           MessageHandler.printToLogFile("withDirectSpeech: " + withDirectSpeech);
         }
+        String langCode = cache.getDocShortCodeLanguage();
         for (int i = 0; i < cache.size(); i++) {
-          rule.match(cache.getAnalysedParagraph(i), null);
-          wordMapList.add(new HashMap<>(((AbstractStyleTooOftenUsedWordRule) rule).getWordMap()));
-          if (debugMode) {
-            MessageHandler.printToLogFile("Paragraph " + i + ": Number of words: " + wordMapList.get(i).size());
+          if (langCode.equals(cache.getLanguageFlatParagraph(i))) {
+            rule.match(cache.getAnalysedParagraph(i), null);
+            wordMapList.add(new HashMap<>(((AbstractStyleTooOftenUsedWordRule) rule).getWordMap()));
+            if (debugMode) {
+              MessageHandler.printToLogFile("Paragraph " + i + ": Number of words: " + wordMapList.get(i).size());
+            }
+          } else {
+            wordMapList.add(new HashMap<>());
           }
         }
         mostUsed = getMostUsed(0, cache.size());
@@ -264,6 +269,9 @@ public class UsedWordRule {
    */
   public int getLevel(int from, int to) throws Throwable {
     List<WordFrequency> mostUsed = getMostUsed(from, to);
+    if (mostUsed.isEmpty()) {
+      return 7;
+    }
     double percent = 0;
     for (WordFrequency used : mostUsed) {
       if (selectedWord.equals(used.word)) {
@@ -288,20 +296,20 @@ public class UsedWordRule {
   public void setCacheForParagraph(int nFPara, int nTPara, StatAnCache cache) {
     ResultCache statAnalysisCache = new ResultCache();
     List<AnalyzedSentence> analyzedSentences = cache.getAnalysedParagraph(nTPara);
-    List<SingleProofreadingError> wordMatches = new ArrayList<>();
-    int nSentPos = 0;
-    for (AnalyzedSentence sentence : analyzedSentences) {
-      for (AnalyzedTokenReadings token : sentence.getTokens()) {
-//          MessageHandler.printToLogFile("Token: " + token.getToken() + "token.getStartPos: " + token.getStartPos() 
-//              + "nSentPos: " + nSentPos + ", match.getFromPos: " + match.getFromPos());
-        if (token.hasLemma(selectedWord)) {
-          wordMatches.add(cache.createLoError(token.getStartPos() + nSentPos, token.getEndPos() - token.getStartPos(), 
-              rule.getId(), selectedWord, null));
+    if (analyzedSentences != null) {
+      List<SingleProofreadingError> wordMatches = new ArrayList<>();
+      int nSentPos = 0;
+      for (AnalyzedSentence sentence : analyzedSentences) {
+        for (AnalyzedTokenReadings token : sentence.getTokens()) {
+          if (token.hasLemma(selectedWord)) {
+            wordMatches.add(cache.createLoError(token.getStartPos() + nSentPos, token.getEndPos() - token.getStartPos(), 
+                rule.getId(), selectedWord, null));
+          }
         }
+        nSentPos += sentence.getCorrectedTextLength();
       }
-      nSentPos += sentence.getCorrectedTextLength();
+      statAnalysisCache.put(nFPara, wordMatches.toArray(new SingleProofreadingError[wordMatches.size()]));
     }
-    statAnalysisCache.put(nFPara, wordMatches.toArray(new SingleProofreadingError[wordMatches.size()]));
     cache.setNewResultcache(rule.getId(), statAnalysisCache);
   }
   

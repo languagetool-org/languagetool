@@ -120,7 +120,7 @@ public class DocumentCache implements Serializable {
         add(in);
       }
       docType = in.docType;
-      docLocale = getMostUsedLanguage (locales);
+      docLocale = getMostUsedLanguage(locales);
     } finally {
       isReset = false;
       in.rwLock.readLock().unlock();
@@ -2235,19 +2235,21 @@ public class DocumentCache implements Serializable {
     }
   }
   
-  private SerialLocale getMostUsedLanguage (List<SerialLocale> locales) {
+  private SerialLocale getMostUsedLanguage(List<SerialLocale> locales) {
     Map<SerialLocale, Integer> localesMap = new HashMap<>();
     for (SerialLocale locale : locales) {
-      boolean localeExists = false;
-      for (SerialLocale loc : localesMap.keySet()) {
-        if (loc.equalsLocale(locale)) {
-          localesMap.put(loc, localesMap.get(loc) + 1);
-          localeExists = true;
-          break;
+      if (!OfficeTools.IGNORE_LANGUAGE.equals(locale.Language)) {
+        boolean localeExists = false;
+        for (SerialLocale loc : localesMap.keySet()) {
+          if (loc.equalsLocale(locale)) {
+            localesMap.put(loc, localesMap.get(loc) + 1);
+            localeExists = true;
+            break;
+          }
         }
-      }
-      if (!localeExists) {
-        localesMap.put(locale, 1);
+        if (!localeExists) {
+          localesMap.put(locale, 1);
+        }
       }
     }
     int max = 0;
@@ -2302,6 +2304,21 @@ public class DocumentCache implements Serializable {
     }
   }
   
+  /**
+   * Has analyzed paragraph same length as text
+   */
+  public boolean isCorrectAnalyzedParagraphLength(int nFPara, String text) {
+    text = fixLinebreak(SingleCheck.removeFootnotes(text, 
+        getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara)));
+    List<AnalyzedSentence> analyzedSentences = getAnalyzedParagraph(nFPara);
+    int len = 0;
+    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+      String sentence = analyzedSentence.getText();
+      len += sentence.length();
+    }
+    return len == text.length();
+  }
+
   /**
    * Remove an analyzed paragraph
    */

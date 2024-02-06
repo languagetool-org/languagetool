@@ -36,7 +36,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class SpanishWordTokenizer extends WordTokenizer {
 
-  private static final String wordCharacters = "§©#@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD";
+  private static final String wordCharacters = "§©@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //decimal point between digits
   private static final Pattern DECIMAL_POINT= Pattern.compile("([\\d])\\.([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -52,7 +52,9 @@ public class SpanishWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText = text;
+    // replace hyphen, non-break hyphen -> hyphen-minus
+    String auxText = text.replace('\u2010', '\u002d');
+    auxText = auxText.replace('\u2011', '\u002d');
     Matcher matcher = DECIMAL_POINT.matcher(auxText);
     auxText = matcher.replaceAll("$1xxES_DECIMAL_POINTxx$2");
     matcher = DECIMAL_COMMA.matcher(auxText);
@@ -61,10 +63,9 @@ public class SpanishWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1xxES_ORDINAL_POINTxx$2");
 
     Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
-    String s;
     while (tokenizerMatcher.find()) {
-      s = tokenizerMatcher.group();
-      if (s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
+      String s = tokenizerMatcher.group();
+      if (l.size() > 0 && s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
         l.set(l.size() - 1, l.get(l.size() - 1) + s);
         continue;
       }

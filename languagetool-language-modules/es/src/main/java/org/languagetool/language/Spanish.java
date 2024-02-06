@@ -205,6 +205,7 @@ public class Spanish extends Language implements AutoCloseable {
       return 50;
     }
     switch (id) {
+      case "ES_SIMPLE_REPLACE_MULTIWORDS": return 50; //unambiguous replacements
       case "CONFUSIONS2": return 50; // greater than CONFUSIONS
       case "RARE_WORDS": return 50;
       case "LOS_MAPUCHE": return 50;
@@ -267,6 +268,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "SPANISH_WORD_REPEAT_RULE": return -150;
       case "UPPERCASE_SENTENCE_START": return -200;
       case "ES_QUESTION_MARK": return -250;
+      case "AI_ES_GGEC_REPLACEMENT_OTHER": return -300;
     }
 
     if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)

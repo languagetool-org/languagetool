@@ -132,7 +132,7 @@ public class SingleCheck {
     if (isDisposed()) {
       return new SingleProofreadingError[0];
     }
-    if (docType == DocumentType.WRITER && !isIntern && lastChangedPara >= 0) {
+    if (docType == DocumentType.WRITER && !isIntern && lastChangedPara >= 0 && !useQueue) {
 //      if (docCursor == null) {
 //        docCursor = new DocumentCursorTools(xComponent);
 //      }
@@ -161,7 +161,7 @@ public class SingleCheck {
       MessageHandler.printToLogFile("SingleCheck: getCheckResults: paRes.aErrors.length: " + errors.length 
           + "; docID: " + singleDocument.getDocID());
     }
-    if (!isDisposed() && docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
+    if (!isDisposed() && docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && !useQueue && (textIsChanged || isDialogRequest)) {
       if (!isIntern && isDialogRequest && !textIsChanged) {
         List<Integer> changedParas = new ArrayList<Integer>();
         changedParas.add(paraNum);
@@ -223,7 +223,9 @@ public class SingleCheck {
       //        but empty proof reading errors have added to cache to satisfy text level queue
       if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
         if (!docCache.isAutomaticGenerated(nFPara)) {
-          paragraphMatches = lt.check(new TextParagraph(tPara.type, startPara), new TextParagraph(tPara.type, endPara), textToCheck,
+          int startText = docCache.getStartOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, true);
+          int endText = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, true);
+          paragraphMatches = lt.check(new TextParagraph(tPara.type, startText), new TextParagraph(tPara.type, endText), textToCheck,
               cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA, singleDocument);
         }
         if (cacheNum == 0) {
@@ -314,9 +316,9 @@ public class SingleCheck {
             if (paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
               if (ResultCache.areDifferentEntries(paragraphsCache.get(cacheNum).getSerialCacheEntry(nFlat), oldCache.getSerialCacheEntry(nFlat))) {
                 changedParas.add(nFlat);
-                if(!ResultCache.isEmptyEntry(oldCache.getSerialCacheEntry(nFlat))) {
+//                if(!ResultCache.isEmptyEntry(oldCache.getSerialCacheEntry(nFlat))) {
                   toRemarkParas.add(nFlat);
-                }
+//                }
               }
             }
           }

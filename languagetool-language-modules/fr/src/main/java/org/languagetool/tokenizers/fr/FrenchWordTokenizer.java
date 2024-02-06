@@ -36,14 +36,16 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class FrenchWordTokenizer extends WordTokenizer {
 
+  private static final String wordCharacters = "§©@€£\\$_\\p{L}\\d\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
+  private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   private static final Pattern SOFT_HYPHEN = Pattern.compile("\u00AD");
   private static final Pattern CURLY_QUOTE = Pattern.compile("’");
-  private static final Pattern PATTERN_1 = Pattern.compile("\u0001\u0001FR_APOS_TYPEW\u0001\u0001");
-  private static final Pattern PATTERN_2 = Pattern.compile("\u0001\u0001FR_APOS_TYPOG\u0001\u0001");
-  private static final Pattern PATTERN_3 = Pattern.compile("\u0001\u0001FR_HYPHEN\u0001\u0001");
-  private static final Pattern PATTERN_4 = Pattern.compile("\u0001\u0001FR_DECIMALPOINT\u0001\u0001");
-  private static final Pattern PATTERN_5 = Pattern.compile("\u0001\u0001FR_DECIMALCOMMA\u0001\u0001");
-  private static final Pattern PATTERN_6 = Pattern.compile("\u0001\u0001FR_SPACE\u0001\u0001");
+  private static final Pattern PATTERN_1 = Pattern.compile("xxFR_APOS_TYPEWxx");
+  private static final Pattern PATTERN_2 = Pattern.compile("xxFR_APOS_TYPOGxx");
+  private static final Pattern PATTERN_3 = Pattern.compile("xxFR_HYPHENxx");
+  private static final Pattern PATTERN_4 = Pattern.compile("xxFR_DECIMALPOINTxx");
+  private static final Pattern PATTERN_5 = Pattern.compile("xxFR_DECIMALCOMMAxx");
+  private static final Pattern PATTERN_6 = Pattern.compile("xxFR_SPACExx");
 
   // Patterns to avoid splitting words in certain special cases
 
@@ -73,7 +75,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPACE0 = Pattern.compile("\\u0001\\u0001FR_SPACE0\\u0001\\u0001");
+  private static final Pattern SPACE0 = Pattern.compile("xxFR_SPACE0xx");
 
   private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
       "ph-metre", "ph-metres", "anti-ivg", "anti-uv", "anti-vih", "al-qaïda", "c'est-à-dire", "add-on", "add-ons",
@@ -120,42 +122,44 @@ public class FrenchWordTokenizer extends WordTokenizer {
   /**
    * @param text Text to tokenize
    * @return List of tokens. Note: a special string
-   *         \u0001\u0001FR_APOS\u0001\u0001 is used to replace apostrophes, and
-   *         \u0001\u0001FR_HYPHEN\u0001\u0001 to replace hyphens.
+   *         xxFR_APOSxx is used to replace apostrophes, and
+   *         xxFR_HYPHENxx to replace hyphens.
    */
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText = text;
-    List<String> removedEmojis = replaceEmojis(auxText);
-    auxText = removedEmojis.get(0);
+    // replace hyphen, non-break hyphen -> hyphen-minus
+    String auxText = text.replace('\u2010', '\u002d');
+    auxText = auxText.replace('\u2011', '\u002d');
     Matcher matcher = TYPEWRITER_APOSTROPHE.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_APOS_TYPEW\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxFR_APOS_TYPEWxx$2");
     matcher = TYPOGRAPHIC_APOSTROPHE.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_APOS_TYPOG\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxFR_APOS_TYPOGxx$2");
     matcher = NEARBY_HYPHENS.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_HYPHEN\u0001\u0001$2\u0001\u0001FR_HYPHEN\u0001\u0001$3");
+    auxText = matcher.replaceAll("$1xxFR_HYPHENxx$2xxFR_HYPHENxx$3");
     matcher = HYPHENS.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_HYPHEN\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxFR_HYPHENxx$2");
     matcher = DECIMAL_POINT.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_DECIMALPOINT\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxFR_DECIMALPOINTxx$2");
     matcher = DECIMAL_COMMA.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_DECIMALCOMMA\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxFR_DECIMALCOMMAxx$2");
     matcher = SPACE_DIGITS2.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE\u0001\u0001$2\u0001\u0001FR_SPACE\u0001\u0001$3");
+    auxText = matcher.replaceAll("$1xxFR_SPACExx$2xxFR_SPACExx$3");
     matcher = SPACE_DIGITS0.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE0\u0001\u0001");
+    auxText = matcher.replaceAll("$1xxFR_SPACE0xx");
     matcher = SPACE_DIGITS.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE\u0001\u0001$2");
+    auxText = matcher.replaceAll("$1xxFR_SPACExx$2");
     matcher = SPACE0.matcher(auxText);
     auxText = matcher.replaceAll(" ");
 
-    final StringTokenizer st = new StringTokenizer(auxText, frTokenizingChars, true);
-    String s;
-    String groupStr;
-
-    while (st.hasMoreElements()) {
-      s = PATTERN_1.matcher(st.nextToken()).replaceAll("'");
+    Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
+    while (tokenizerMatcher.find()) {
+      String s = tokenizerMatcher.group();
+      if (l.size() > 0 && s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
+        l.set(l.size() - 1, l.get(l.size() - 1) + s);
+        continue;
+      }
+      s = PATTERN_1.matcher(s).replaceAll("'");
       s = PATTERN_2.matcher(s).replaceAll("’");
       s = PATTERN_3.matcher(s).replaceAll("-");
       s = PATTERN_4.matcher(s).replaceAll(".");
@@ -179,7 +183,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
       }
       if (matchFound) {
         for (int i = 1; i <= matcher.groupCount(); i++) {
-          groupStr = matcher.group(i);
+          String groupStr = matcher.group(i);
           l.addAll(wordsToAdd(groupStr));
         }
       } else {
@@ -190,7 +194,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
         hyphensAtEnd--;
       }
     }
-    return joinEMailsAndUrls(restoreEmojis(l, removedEmojis));
+    return joinEMailsAndUrls(l);
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */

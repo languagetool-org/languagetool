@@ -3192,6 +3192,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">“My husband’s right.<marker> </marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">[•*]</token>
+                        <token regexp="yes">.*[a-z0-9].*</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>• This</marker> is why cultural alignment will play an essential role in setting us up for success.</example>
+            </rule>
+        </rulegroup>
         <rule id="QB_EN_INSERT_PERIOD_ERROR_IDS" name="">
             <pattern>
                 <token postag="SENT_START" />
@@ -3667,6 +3679,51 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="SENT_END" />
                 </pattern>
                 <example correction="">Culture and people are a portrayal of our <marker>country</marker> with unique values and perceptions.</example>
+            </rule>
+            <rule>
+                <!-- # No commas after twitter handles e.g. @jack -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">@.+</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>@jack</marker> you are right.</example>
+            </rule>
+            <rule>
+                <!-- # No commas after twitter handles e.g. @jack -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">@.+</token>
+                    <marker>
+                        <token regexp="yes">@.+</token>
+                    </marker>
+                </pattern>
+                <example correction="">@peter <marker>@jack</marker> you both are right.</example>
+            </rule>
+            <rule>
+                <!-- # No commas after twitter handles e.g. @Jessia Schwarz -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes" case_sensitive="yes">@[A-Z].+</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Jessica <marker>Schwarz</marker> could you have a look?</example>
+            </rule>
+            <rule>
+                <!-- # No commas after twitter handles e.g. @Jessia van der Schwarz -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes" case_sensitive="yes">@[A-Z].+</token>
+                    <token regexp="yes">v[oa]n|del</token>
+                    <token regexp="yes" min="0">der?</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Jessica van der <marker>Heet</marker> could you have a look?</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_INSERT_DTSPACEUNDERSCORESP_ERROR_IDS_000004" name="">

@@ -1292,12 +1292,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkRuleBox.setVisible(true);
         checkRuleBox.setEnabled(false);
         checkRuleBox.addItemListener(e -> {
-          if (e.getStateChange() == ItemEvent.SELECTED && checkType == 3) {
-            int selectedIndex = checkRuleBox.getSelectedIndex();
-            if (selectedIndex < 0) {
-              selectedIndex = 0;
-            }
-            String newRuleId = allDifferentErrors.get(selectedIndex).ruleId;
+          if (e.getStateChange() == ItemEvent.SELECTED && checkType == 3 && checkRuleBox.getItemCount() > 0) {
+            String newRuleId = getRuleId((String) checkRuleBox.getSelectedItem(), allDifferentErrors);
             if (checkRuleId == null || !checkRuleId.equals(newRuleId)) {
               Thread t = new Thread(new Runnable() {
                 public void run() {
@@ -1739,18 +1735,22 @@ public class SpellAndGrammarCheckDialog extends Thread {
         size = 100;
       }
       cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel") + ": " + size + "%");
-//      if (debugMode) {
-//        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
-//      }
       if (size < 25) {
-        cacheStatusLabel.setForeground(new Color(145 + 4 * size, 0, 0));
+        cacheStatusLabel.setForeground(new Color(fitToColorboundaries(145 + 4 * size), 0, 0));
       } else if (size < 50) {
-        cacheStatusLabel.setForeground(new Color(255, 5 + 4 * size, 0));
+        cacheStatusLabel.setForeground(new Color(255, fitToColorboundaries(5 + 4 * size), 0));
       } else if (size < 75) {
-        cacheStatusLabel.setForeground(new Color(255 - 4 * (size - 25), 255, 0));
+        cacheStatusLabel.setForeground(new Color(fitToColorboundaries(255 - 4 * (size - 25)), 255, 0));
       } else {
-        cacheStatusLabel.setForeground(new Color(0, 255 - 4 * (size - 70), 0));
+        cacheStatusLabel.setForeground(new Color(0, fitToColorboundaries(255 - 4 * (size - 70)), 0));
       }
+    }
+
+    private int fitToColorboundaries(int col) {
+      if (col < 0 || col > 255) {
+        return 255;
+      }
+      return col;
     }
     
     void errorReturn() {
@@ -1924,6 +1924,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
     
     /**
+     * get the ID of a rule by name out of a list of RuleIdentification
+     */
+    String getRuleId (String ruleName, List<RuleIdentification> rules) {
+      for (RuleIdentification rule : rules) {
+        if (ruleName.equals(rule.ruleName)) {
+          return rule.ruleId;
+        }
+      }
+      return null;
+    }
+    
+    /**
      * Formats the tooltip text
      * The text is given by a text string which is formatted into html:
      * \n are formatted to html paragraph breaks
@@ -2048,8 +2060,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (checkType == 3) {
           if (checkRuleId == null) {
             if (checkRuleBox.getItemCount() > 0) {
-              int selectedIndex = checkRuleBox.getSelectedIndex();
-              checkRuleId = allDifferentErrors.get(selectedIndex).ruleId;
+              checkRuleId = getRuleId((String) checkRuleBox.getSelectedItem(), allDifferentErrors);
             } else {
               checkTypeButtons[0].setSelected(true);
               checkType = 0;

@@ -24,7 +24,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -32,12 +31,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MultitokenSpellerFilter extends RuleFilter {
 
    /* Provide suggestions for misspelled multitoken expressions, usually proper nouns*/
-
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens) throws IOException {
@@ -53,27 +50,30 @@ public class MultitokenSpellerFilter extends RuleFilter {
         // needed in testing
         lang = lang.getDefaultLanguageVariant();
       }
-      JLanguageTool lt = lang.createDefaultJLanguageTool();
-      AnalyzedSentence sentence = lt.getRawAnalyzedSentence(underlinedError);
-      RuleMatch[] matches = lang.getDefaultSpellingRule().match(sentence);
-      if (matches.length == 0) {
-        areTokensAcceptedBySpeller = true;
-      }
+      areTokensAcceptedBySpeller = !isMisspelled(underlinedError, lang) ;
     }
 
     List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError, areTokensAcceptedBySpeller);
     if (replacements.isEmpty()) {
       return null;
     }
-    if (patternTokenPos==1) {
+    int wordsStartPos = 1;
+    // ignore punctuation marks at the sentence start to do the capitalization
+    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
+    while (wordsStartPos<tokens.length && (StringTools.isPunctuationMark(tokens[wordsStartPos].getToken())
+      || StringTools.isNotWordString((tokens[wordsStartPos].getToken())))) {
+      wordsStartPos++;
+    }
+    if (patternTokenPos==wordsStartPos) {
       List<String> capitalizedReplacements = new ArrayList<>();
       for (String replacement : replacements) {
+        String newReplacement = replacement;
         if (replacement.equals(replacement.toLowerCase())) {
-          String capitalized = StringTools.uppercaseFirstChar(replacement);
-          capitalizedReplacements.add(capitalized);
-        } else {
           //do not capitalize iPad
-          capitalizedReplacements.add(replacement);
+          newReplacement = StringTools.uppercaseFirstChar(replacement);
+        }
+        if (!capitalizedReplacements.contains(newReplacement)) {
+          capitalizedReplacements.add(newReplacement);
         }
       }
       replacements = capitalizedReplacements;
@@ -82,4 +82,17 @@ public class MultitokenSpellerFilter extends RuleFilter {
     return match;
   }
 
+  public boolean isMisspelled(String s, Language language) throws IOException {
+    SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
+    if (spellerRule == null) {
+      return false;
+    }
+    List<String> tokens = language.getWordTokenizer().tokenize(s);
+    for (String token : tokens) {
+      if (spellerRule.isMisspelled(token)) {
+        return true;
+      };
+    }
+    return false;
+  }
 }

@@ -76,19 +76,16 @@ public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFi
 
   public boolean isMisspelled(String s) throws IOException {
     SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
-    if (spellerRule == null)
+    if (spellerRule == null) {
       return false;
-
-    try {
-      List<String> tokens = language.getWordTokenizer().tokenize(s);
-      boolean isMisspelled = false;
-      for (String token : tokens) {
-        isMisspelled = isMisspelled || (spellerRule != null && spellerRule.isMisspelled(token));
-      }
-      return isMisspelled;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
     }
+    List<String> tokens = language.getWordTokenizer().tokenize(s);
+    for (String token : tokens) {
+      if (spellerRule.isMisspelled(token)) {
+        return true;
+      };
+    }
+    return false;
   }
 
 }
