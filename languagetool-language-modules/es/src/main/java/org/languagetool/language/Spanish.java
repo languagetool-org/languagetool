@@ -345,8 +345,8 @@ public class Spanish extends Language implements AutoCloseable {
   public MultitokenSpeller getMultitokenSpeller() {
     return SpanishMultitokenSpeller.INSTANCE;
   }
-  
-  
+
+
   private List<String> suggestionsToAvoid = Arrays.asList("aquél", "aquélla", "aquéllas", "aquéllos", "ésa", "ésas",
     "ése", "ésos", "ésta", "éstas", "éste", "éstos", "sólo");
   private Pattern voseoPostagPatern = Pattern.compile("V....V.*");
@@ -380,7 +380,7 @@ public class Spanish extends Language implements AutoCloseable {
       }
       results.add(ruleMatch);
     }
-	
+
     return results;
   }
 }
