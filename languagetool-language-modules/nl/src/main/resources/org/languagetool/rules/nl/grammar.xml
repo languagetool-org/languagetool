@@ -393,6 +393,11 @@ regexp case-insensitive maken: (?i)
 				</antipattern>
 				<antipattern>
 					<token>ons</token>
+					<token>kennis</token>
+					<token>maken</token>
+				</antipattern>
+				<antipattern>
+					<token>ons</token>
 					<token postag_regexp="yes" postag="BYW.*|BNW.*|WKW.*"/>
 				</antipattern>
 				<antipattern>
@@ -17842,6 +17847,40 @@ regexp case-insensitive maken: (?i)
 				<message>'\3' is een het-woord, dus is de verwijzing verkeerd.</message>
 				<suggestion>dat</suggestion>
 				<example correction="dat">Het stuk <marker>die</marker> ik speel is mooi.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="LICHAMELIJK" name="Ze doet aan lichamelijk(e) opvoeding">
+			<!-- Lichamelijk -->
+			<rule>
+				<antipattern>
+					<token skip="5">lichamelijk</token>
+					<token>te</token>
+					<example>Hij begon lichamelijk behoefte aan vlees te merken.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>lichamelijk</token>
+						<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>lichamelijke</suggestion>?</message>
+				<example correction="lichamelijke">Ik hoorde dat je <marker>lichamelijk opvoeding</marker> studeert.</example>
+			</rule>
+			<!-- Lichamelijke -->
+			<rule>
+				<antipattern>
+					<token skip="5" postag_regexp="yes" postag="VNW:AWZ.*"/>
+					<token>lichamelijke</token>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>lichamelijke</token>
+						<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>lichamelijk</suggestion>?</message>
+				<example correction="lichamelijk">Heb je <marker>lichamelijke letsel</marker> opgelopen?</example>
 			</rule>
 		</rulegroup>
 
