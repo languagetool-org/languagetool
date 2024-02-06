@@ -233,7 +233,6 @@ public class Spanish extends Language implements AutoCloseable {
     id2prio.put("SEPARADO", 1);
     id2prio.put("ES_SPLIT_WORDS", -10);
     id2prio.put("U_NO", -10);
-    id2prio.put("E_EL", -10);
     id2prio.put("EL_TILDE", -10);
     id2prio.put("SINGLE_CHARACTER", -15); // less than ES_SPLIT_WORDS
     id2prio.put("TOO_LONG_PARAGRAPH", -15);
