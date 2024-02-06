@@ -286,6 +286,30 @@ regexp case-insensitive maken: (?i)
 				<example>Is het angst dat je voelt?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HET_RESULTATEN" name="Het(De) resultaten" default="temp_off">
+			<rule>
+				<antipattern>
+					<token>het</token>
+					<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+					<example>Het Macromedia Flash-SWF-bestandsformaat.</example>
+				</antipattern>
+				<antipattern>
+					<token>het</token>
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="ZNW:EKV:HET"/>
+					<example>Het vrouwen tennis deed het goed.</example>
+				</antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>het</token>
+						<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+					</marker>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>De \3</suggestion>?</message>
+				<example correction="De resultaten"><marker>Het resultaten</marker> waren niet goed.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="off">
             <!-- temp_off for a long time, to test and re-enable if it works well -->
 			<rule>
@@ -7641,6 +7665,25 @@ regexp case-insensitive maken: (?i)
 				<suggestion>\1\2</suggestion>
 				<url>https://onzetaal.nl/taaladvies/prive</url>
 				<example correction="privé-eigendom">Het is mijn <marker>privé eigendom</marker>.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="AANBOD_KOMEN" name="Aanbod(Aan bod) komen.">
+			<rule>
+				<antipattern>
+					<token skip="5">vraag</token>
+					<token>aanbod</token>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>aanbod</token>
+						<token min="0" postag_regexp="yes" postag="WKW.*"/>
+						<token inflected="yes">komen</token>
+					</marker>
+					<token regexp="yes">[.,!?]</token>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>aan bod \3</suggestion>?</message>
+				<example correction="aan bod komen"><marker>aanbod komen</marker>.</example>
 			</rule>
 		</rulegroup>
 
