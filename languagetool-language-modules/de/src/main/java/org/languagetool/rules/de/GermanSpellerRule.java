@@ -2240,7 +2240,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         word.endsWith("schaf") ||  // too big chance of a "...schaft" typo
         word.endsWith("schafs") ||
         word.endsWith("schafen") ||
-        word.matches("([Ee]mail|[Mm]akeup|[Ss]tandart).*")
+        word.matches("([Ee]mail|[Ii]reland|[Mm]akeup|[Ss]tandart).*")
     ) {
       return false;
     }
@@ -2375,7 +2375,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // 's' is the last character in *part1* and is not an infix
       part1WithoutHyphen.endsWith("s") && (isNounNom(part1uc) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
-      (hasNoInfixS(part1uc) || !needsInfixS(part1uc))) {
+      (!hasNoInfixS(removeInfixS(part1uc)) || needsInfixS(removeInfixS(part1uc)))) {
       return true;
     }
     if (part2ucIsNoun && !part2ucIsMisspelled &&
@@ -2465,7 +2465,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isValidCamelCase(String input) {
     // Check if the string contains any instance of camel casing
-    boolean containsCamelCase = input.matches(".*\\p{Ll}\\p{Lu}.*");
+    boolean containsCamelCase = input.matches(".*(\\p{Ll}\\p{Lu}|\\p{Lu}{2,}\\p{Ll}).*");
 
     return !containsCamelCase;
   }

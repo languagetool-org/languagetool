@@ -106,6 +106,12 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinkühl-schrank"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinsskühlschrank"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Schokobrunnen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Schokosbrunnen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Gensfleisch"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Grossmächten"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aussichtplattform"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Datumangabe"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
@@ -143,7 +149,9 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Agensprinzip"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert*innen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("PDFversion"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("ArbeitnehmerInnenschutzgesetz"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Ireland"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Jungsnamen")); // 'Jungs' is colloquial for 'Jungen'
