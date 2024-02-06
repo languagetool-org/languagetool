@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
@@ -61,6 +62,7 @@ class CheckRequestAnalysis {
   private final int proofInfo;                      //  Information about proof request (supported by LO > 6.4 otherwise: 0 == UNKNOWN)
   private final DocumentCache docCache;             //  cache of paragraphs (only readable by parallel thread)
   private final Map<Integer, String> changedParas;  //  Map of last changed paragraphs;
+  private final Set<Integer> runningParas;         //  List of running checks for paragraphs;
   private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
 
 //  private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
@@ -77,7 +79,7 @@ class CheckRequestAnalysis {
 //  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck, Language fixedLanguage, Language docLanguage,
 //      SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor, Map<Integer, String> changedParas) {
   CheckRequestAnalysis(int numLastVCPara, List<Integer> numLastFlPara, int proofInfo, int numParasToCheck, Language fixedLanguage, Language docLanguage,
-      SingleDocument singleDocument, List<ResultCache> paragraphsCache, Map<Integer, String> changedParas) {
+      SingleDocument singleDocument, List<ResultCache> paragraphsCache, Map<Integer, String> changedParas, Set<Integer> runningParas) {
     debugMode = OfficeTools.DEBUG_MODE_CR;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.singleDocument = singleDocument;
@@ -87,6 +89,7 @@ class CheckRequestAnalysis {
     this.proofInfo = proofInfo;
     this.paragraphsCache = paragraphsCache;
     this.changedParas = changedParas;
+    this.runningParas = runningParas;
     this.fixedLanguage = fixedLanguage;
     this.docLanguage = docLanguage;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
@@ -110,6 +113,9 @@ class CheckRequestAnalysis {
    * get number of paragraph from node index
    */
   int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
+    if (docCache == null) {
+      return -1;
+    }
     //  test if doc cache has changed --> actualize
     if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && !docCache.isActual(documentElementsCount)) {
 //      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
@@ -135,11 +141,11 @@ class CheckRequestAnalysis {
       //  test if paragraph has changed --> actualize all caches for single paragraph
       TextParagraph tPara = docCache.getNumberOfTextParagraph(paraNum);
       DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
-      List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara, config.includeTrackedChanges());
-      
-      if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
-//        singleDocument.getFlatParagraphTools().getFlatParagraphAt(paraNum);
-        handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
+      if (docCursor != null) {
+        List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara, config.includeTrackedChanges());
+        if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
+          handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
+        }
       }
     }
     return paraNum;
@@ -823,6 +829,7 @@ class CheckRequestAnalysis {
     docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
 //    mDocHandler.handleLtDictionary(chPara, locale);
     if (useQueue) {
+      runningParas.add(nPara);
       changedParas.put(nPara, chPara);
       singleDocument.removeResultCache(nPara, true);
       for (int i = 1; i < minToCheckPara.size(); i++) {

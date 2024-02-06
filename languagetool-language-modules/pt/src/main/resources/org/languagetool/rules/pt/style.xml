@@ -8479,6 +8479,58 @@ USA
         </rulegroup>
 
 
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+
+            <!-- #1 - Without d[ao]s? -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>dar</token>
+                        <token regexp='yes'>um|uns|algum|alguns</token>
+                        <token regexp='yes'>exemplos?</token>
+                    </marker>
+                    <token postag='_PUNCT|SPS00|CC|CS' postag_regexp='yes'/>
+                </pattern>
+                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match></suggestion>
+                <example correction="exemplificou">A Ana <marker>deu um exemplo</marker>.</example>
+            </rule>
+
+            <!-- #2 - With d[ao]s? -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>dar</token>
+                        <token regexp='yes'>um|uns|algum|alguns</token>
+                        <token regexp='yes'>exemplos?</token>
+                        <token regexp='yes'>d[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="exemplificou a">A Ana <marker>deu um exemplo da</marker> equação.</example>
+                <example correction="exemplificou o">O Rui <marker>deu um exemplo do</marker> problema.</example>
+            </rule>
+
+        </rulegroup>
+
+
+       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="[Universitário][formal] 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>ficar</token>
+                    <token regexp='yes' >parad[ao]s?</token>
+                    <token>no</token>
+                    <token>tempo</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;estagnar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estagnar</match></suggestion>
+            <example correction="estagnou">A Ana <marker>ficou parada no tempo</marker>.</example>
+            <example correction="estagnaram">Eles <marker>ficaram parados no tempo</marker>.</example>
+        </rule>
+
+
         <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token postag='SENT_START|AQ.+|NC.+|NP.+|CS|CC' postag_regexp='yes'/>
@@ -12855,6 +12907,7 @@ USA
                             <exception case_sensitive='yes'>Aliados</exception>
                             <exception scope='next' regexp='yes'>de|em</exception> <!-- Limited SPS00 -->
                             <exception scope='next' postag_regexp='yes' postag='AQ.+'/> <!-- Exceptions for adjective agreements -->
+                            <exception scope='next' postag_regexp='yes' postag='SPS00:DD0.+|SPS00:PP3.+'/> <!-- Exceptions "dele(s)", "deste(s)"-->
                         </token>
                     </marker>
                 </pattern>
@@ -12869,6 +12922,8 @@ USA
                 <example>No final do ano, o pêndulo da superioridade aérea pendeu mais uma vez a favor dos Aliados.</example>
                 <example>O bispo tomou o cavalo, pondo o rei do adversário em xeque.</example>
                 <example>Enquanto isso, os representantes dos Aliados em Viena, sem o apoio de seus respectivos governos, tentaram derrubar o governo de Kun e substituí-...</example>
+                <example>Para ceifarem as vidas dos inimigos deles e do seu mestre.</example>
+                <example>Para ceifarem as vidas dos inimigos destes e do seu mestre.</example>
             </rule>
 
             <!-- #2: Number/gender agreement depends on using "de|d[ao]s?" -->
@@ -12905,6 +12960,7 @@ USA
                         <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente
                             <exception case_sensitive='yes'>Aliados</exception>
                             <exception scope='next' postag_regexp='yes' postag='AQ.+'/> <!-- Exceptions for adjective agreements -->
+                            <exception scope='next' postag_regexp='yes' postag='SPS00:DD0.+|SPS00:PP3.+'/> <!-- Exceptions "dele(s)", "deste(s)"-->
                         </token>
                     </marker>
                 </pattern>
@@ -14420,7 +14476,7 @@ USA
       -->
 
             <antipattern>
-                <token postag='DA.+|SPS00|SPS00:DA.+|SP000|_PUNCT' postag_regexp='yes'/>
+                <token postag='DA.+|SPS00:DA.+|SP.00_?|_PUNCT' postag_regexp='yes'/>
                 <token postag='DP.+|DI.+|Z0.+|CC' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
@@ -14468,7 +14524,7 @@ USA
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
+                <token postag='SPS00_?' postag_regexp='no'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <example>Eu acho que ela estava planejando ir visitar a mãe, que está no hospital.</example>
@@ -14476,7 +14532,7 @@ USA
             </antipattern>
 
             <pattern>
-                <token postag='NC.+|AQ.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|V.+' postag_regexp='yes'>
+                <token postag='NC.+|AQ.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00_?|V.+' postag_regexp='yes'>
                     <exception scope='previous' postag_regexp='yes' postag='SENT_START|V.+'/>
                     <exception postag_regexp='no' postag='RG'/>
                 </token>
@@ -15860,6 +15916,33 @@ USA
                 <example>O aparecimento “espontâneo” de vida, por outro lado, está a ser estudado.</example>
             </antipattern>
             <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+            <!-- Fixes false positives - Rule needs to be rewritten: 2024-01-13 -->
+            <antipattern>
+                <token regexp='yes'>lhes?</token>
+                <token postag='CS'/>
+                <token inflected='yes'>estar</token>
+                <token>a</token>
+                <token postag='VMN0000'/>
+                <token postag='_PUNCT_PERIOD|_PUNCT_EXCLAMATION' postag_regexp='yes'/>
+                <example>Diga-lhe que estou a chegar.</example>
+                <example>Diga-lhes que estou a chegar.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>[ao]s?
+                    <exception scope="previous" postag_regexp='no' postag='CS'/> <!-- "que" -->
+                </token>
+                <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token inflected='yes'>estar</token>
+                <token>a</token>
+                <token postag='VMN0000'/>
+                <token postag='_PUNCT_PERIOD|_PUNCT_EXCLAMATION' postag_regexp='yes'/>
+                <example>Ena, Shidoshi, a equipa está a aumentar.</example>
+                <example>O trem está a chegar!</example>
+                <example>A esferográfica está a falhar.</example>
+                <example>O telemóvel está a carregar.</example>
+                <example>A dívida nacional está a aumentar.</example>
+            </antipattern>
 
             <!-- estou -->
             <rule>

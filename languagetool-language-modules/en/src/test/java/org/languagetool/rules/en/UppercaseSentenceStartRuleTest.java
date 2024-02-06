@@ -45,6 +45,8 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(0, lt.check("— dash introducing enumeration item!").size());
     lt.disableRule("EN_CASE_AFTER_SALUTATION");
     assertEquals(0, lt.check("Hi Mr. Miller,\n\n\u00A0\n\nhow are you?").size());  // special case for paste from e.g. Outlook
+    assertEquals(0, lt.check("ℹ\uFE0F Tree Structure.").size());
+    assertEquals(0, lt.check("ℹ Tree Structure.").size());
   }
 
 }

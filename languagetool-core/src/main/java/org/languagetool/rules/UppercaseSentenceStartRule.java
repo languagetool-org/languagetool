@@ -179,12 +179,15 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
       if (checkToken.length() > 0) {
         char firstChar = checkToken.charAt(0);
-        if (!preventError && Character.isLowerCase(firstChar) && !EXCEPTIONS.contains(checkToken) && !StringTools.isCamelCase(checkToken)) {
+        String capitalized = StringTools.uppercaseFirstChar(checkToken);
+        if (!capitalized.equals(checkToken) &&
+          !preventError && Character.isLowerCase(firstChar)
+          && !EXCEPTIONS.contains(checkToken) && !StringTools.isCamelCase(checkToken)) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
                   pos+tokens[matchTokenPos].getStartPos(),
                   pos+tokens[matchTokenPos].getEndPos(),
                   messages.getString("incorrect_case"));
-          ruleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(checkToken));
+          ruleMatch.setSuggestedReplacement(capitalized);
           ruleMatches.add(ruleMatch);
         }
       }

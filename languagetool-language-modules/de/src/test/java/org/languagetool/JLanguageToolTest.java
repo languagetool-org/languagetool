@@ -94,7 +94,7 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("i.d.R."), "i.\u00a0d.\u00a0R.");
     assertEquals(lang.toAdvancedTypography("i. d. R."), "i.\u00a0d.\u00a0R."); 
     
-    assertEquals(lang.toAdvancedTypography("Zeichen ohne sein Gegenstück: '\"' scheint zu fehlen"), "Zeichen ohne sein Gegenstück: ‚\"‘ scheint zu fehlen");
+    assertEquals(lang.toAdvancedTypography("Zeichen ohne sein Gegenstück '\"' scheint zu fehlen"), "Zeichen ohne sein Gegenstück ‚\"‘ scheint zu fehlen");
     
   }
   
@@ -112,6 +112,8 @@ public class JLanguageToolTest {
   @Test
   public void testMultitokenSpeller() throws IOException {
     Language lang = new GermanyGerman();
+
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Jochen Striebeck").toString());
     assertEquals("[Ricardo Simonetti]", lang.getMultitokenSpeller().getSuggestions("Ricardo Simoneti").toString());
     //assertEquals("[et al., El Al]", lang.getMultitokenSpeller().getSuggestions("et al").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Clint Eastwoods").toString());

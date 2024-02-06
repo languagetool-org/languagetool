@@ -621,7 +621,7 @@ public class ResultCache implements Serializable {
   /**
    * Class of serializable cache entries
    */
-  private class SerialCacheEntry implements Serializable {
+  class SerialCacheEntry implements Serializable {
     private static final long serialVersionUID = 2L;
     SerialProofreadingError[] errorArray;
     List<Integer> nextSentencePositions = null;
@@ -645,6 +645,13 @@ public class ResultCache implements Serializable {
         eArray[i] = errorArray[i].toSingleProofreadingError();
       }
       return eArray;
+    }
+    
+    /**
+     * Get an SingleProofreadingError array for one entry
+     */
+    int getErrorSize() {
+      return errorArray.length;
     }
     
     /**

@@ -42,8 +42,8 @@ import java.util.List;
  */
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", true, true, MultiWordChunker.tagForNotAddingTags);
+  private final MultiWordChunker chunker = new MultiWordChunker("/en/multiwords.txt", true, true, false);
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
   private final Disambiguator disambiguator;
 
   public EnglishHybridDisambiguator(Language lang) {

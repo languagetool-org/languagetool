@@ -41,6 +41,7 @@ import org.languagetool.JLanguageTool.Mode;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.openoffice.DocumentCache.AnalysedText;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
 import org.languagetool.rules.CategoryId;
@@ -209,13 +210,13 @@ public class SwJLanguageTool {
    * local: LT checks only grammar (spell check is not implemented locally)
    * remote: spell checking is used for LT check dialog (is needed because method getAnalyzedSentence is not supported by remote check)
    */
-  public List<RuleMatch> check(String text, ParagraphHandling paraMode, 
-      TextParagraph from, TextParagraph to, SingleDocument document) throws IOException {
-    return check(text, paraMode, from, to, document, RemoteCheck.ALL);
+  public List<RuleMatch> check(TextParagraph from, TextParagraph to, String text, ParagraphHandling paraMode, 
+      SingleDocument document) throws IOException {
+    return check(from, to, text, paraMode, document, RemoteCheck.ALL);
   }
 
-  public List<RuleMatch> check(String text, ParagraphHandling paraMode, 
-      TextParagraph from, TextParagraph to, SingleDocument document, RemoteCheck checkMode) throws IOException {
+  public List<RuleMatch> check(TextParagraph from, TextParagraph to, String text, ParagraphHandling paraMode, 
+      SingleDocument document, RemoteCheck checkMode) throws IOException {
     if (isRemote) {
       List<RuleMatch> ruleMatches = rlt.check(text, paraMode, checkMode);
       if (ruleMatches == null) {
@@ -235,10 +236,10 @@ public class SwJLanguageTool {
       Set<ToneTag> toneTags = config.enableGoalSpecificRules() ? Collections.singleton(ToneTag.ALL_TONE_RULES) : Collections.emptySet();
       if (isMultiThread) {
         synchronized(mlt) {
-          return mlt.check(text, paraMode, mode, from, to, document, this, toneTags);
+          return mlt.check(from, to, paraMode, mode, document, this, toneTags);
         }
       } else {
-        return lt.check(text, paraMode, mode, from, to, document, this, toneTags);
+        return lt.check(from, to, paraMode, mode, document, this, toneTags);
       }
     }
   }
@@ -397,31 +398,45 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences;
+      List<String> sentences;
       if (nFPara < 0) {
         analyzedSentences = this.analyzeText(text);
+        sentences = new ArrayList<>();
+        for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+          sentences.add(analyzedSentence.getText());
+        }
       } else {
-        text = document.getDocumentCache().getFlatParagraph(nFPara);
-        analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
-      }
-//      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
-      List<String> sentences = new ArrayList<>();
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        sentences.add(analyzedSentence.getText());
+        AnalysedText analysedText = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+        analyzedSentences = analysedText.analyzedSentences;
+        sentences = analysedText.sentences;
+        text = analysedText.text;
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
 
-    public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
-        TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+    public List<RuleMatch> check(TextParagraph from, TextParagraph to, ParagraphHandling paraMode, Mode mode, 
+        SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+      AnalysedText analysedText = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+      if (analysedText == null) {
+        return null;
+      }
+      List<AnalyzedSentence> analyzedSentences = analysedText.analyzedSentences;
+      List<String> sentences = analysedText.sentences;
+      String text = analysedText.text;
+/*      
+      List<AnalyzedSentence> testAnalyzedSentences = this.analyzeText(text);
+      MessageHandler.printToLogFile("From text: ");
+      DocumentCache.printTokenizedSentences(testAnalyzedSentences);
+      MessageHandler.printToLogFile("From AnalyzedSentence: ");
+      DocumentCache.printTokenizedSentences(analyzedSentences);
+/*      
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
-//      text += OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
+*/
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
@@ -438,31 +453,39 @@ public class SwJLanguageTool {
         int nFPara, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
 
       List<AnalyzedSentence> analyzedSentences;
+      List<String> sentences;
       if (nFPara < 0) {
         analyzedSentences = this.analyzeText(text);
+        sentences = new ArrayList<>();
+        for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+          sentences.add(analyzedSentence.getText());
+        }
       } else {
-        text = document.getDocumentCache().getFlatParagraph(nFPara);
-        analyzedSentences = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
-      }
-//      text = document.getDocumentCache().getFlatParagraph(nFPara) + OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
-      List<String> sentences = new ArrayList<>();
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        sentences.add(analyzedSentence.getText());
+        AnalysedText analysedText = document.getDocumentCache().getOrCreateAnalyzedParagraph(nFPara, lt);
+        analyzedSentences = analysedText.analyzedSentences;
+        sentences = analysedText.sentences;
+        text = analysedText.text;
       }
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
 
-    public List<RuleMatch> check(String text, ParagraphHandling paraMode, Mode mode, 
-        TextParagraph from, TextParagraph to, SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+    public List<RuleMatch> check(TextParagraph from, TextParagraph to, ParagraphHandling paraMode, Mode mode, 
+        SingleDocument document, SwJLanguageTool lt, @NotNull Set<ToneTag> toneTags) throws IOException {
+      AnalysedText analysedText = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
+      if (analysedText == null) {
+        return null;
+      }
+      List<AnalyzedSentence> analyzedSentences = analysedText.analyzedSentences;
+      List<String> sentences = analysedText.sentences;
+      String text = analysedText.text;
+/*      
       List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
-//      text += OfficeTools.END_OF_PARAGRAPH;
-//      List<String> sentences = sentenceTokenize(text);
       List<String> sentences = new ArrayList<>();
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         sentences.add(analyzedSentence.getText());
       }
+*/
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }

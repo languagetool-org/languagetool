@@ -86,6 +86,10 @@ public class FrenchTagger extends BaseTagger {
       if (l.isEmpty() && word.toLowerCase().contains("oe")) {
         l = tagWord(word.replaceAll("oe", "œ").replaceAll("OE", "Œ"), word);
       }
+      // emoji
+      if (l.isEmpty() && StringTools.isEmoji(word)) {
+        l.add(new AnalyzedToken(word, "_emoji_", "_emoji_"));
+      }
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
       }

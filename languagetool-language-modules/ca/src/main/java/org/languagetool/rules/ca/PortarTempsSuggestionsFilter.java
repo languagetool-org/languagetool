@@ -58,7 +58,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
     }
     suggestion.append(synthForms[0]);
     int i = posWord + 1;
-    while (tokens[i].getChunkTags().contains(new ChunkTag("PTime"))) {
+    while (i < tokens.length && tokens[i].getChunkTags().contains(new ChunkTag("PTime"))) {
       if (tokens[i].isWhitespaceBefore()) {
         suggestion.append(" ");
       }

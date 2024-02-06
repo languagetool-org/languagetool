@@ -4,6 +4,7 @@
 <!--
 Swedish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2007, 2008 Niklas Johansson
+2023 ljo@fps_gbg
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -19,6 +20,13 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+
+<!DOCTYPE rules [
+    <!ENTITY weekdays "måndags?|tisdags?|onsdags?|torsdags?|fredags?|lördags?|söndags?">
+    <!ENTITY abbrevWeekdays "mån?|tis?|ons?|tor?|fre?|lör?|sön?">
+    <!ENTITY months "januaris?|februaris?|mars'?|aprils?|majs?|junis?|julis?|augustis?|septembers?|oktobers?|novembers?|decembers?">
+    <!ENTITY abbrevMonths "jan|feb|mar|apr|maj|ju[ln]|aug|sept?|okt|nov|dec">
+]>
 <rules lang="sv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
   <!-- ====================================================================== -->
@@ -79,7 +87,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <!-- Grammatik -->
   <!-- ====================================================================== -->
   <category id="GRAMMAR" name="Grammatik">
-    <rule id="JJ.OCH_n-ord" name="Rätt böjning av adjektivet">
+    <rule id="JJ.OCH_n-ord.NN" name="Rätt böjning av adjektivet">
       <pattern>
         <token>ett</token>
         <token postag="JJ:P." postag_regexp="yes">
@@ -90,6 +98,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Adjektivet är böjt i positiv utrum (\2) och bör då föregås av ordet "en" istället för "ett", alternativt böjas i positiv neutrum. Menade du: <suggestion>en \2 \3</suggestion>?</message>
       <example correction="en mörk kväll">Det var <marker>ett mörk kväll</marker>. </example>
+    </rule>
+    <rule id="JJ.OCH_t-ord.NN" name="Rätt böjning av adjektivet">
+      <pattern>
+        <token>en</token>
+        <token postag="JJ:P." postag_regexp="yes">
+          <exception postag="JJ:PU"/>
+        </token>
+        <token postag="NN:OF:S.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Adjektivet "\2" är böjt i positiv neutrum och bör då föregås av ordet "ett" istället för "en", alternativt böjas i positiv utrum. <suggestion>ett \2 \3</suggestion></message>
+      <example correction="ett mörkt rum">Det var <marker>en mörkt rum</marker>. </example>
+    </rule>
+    <rule id="ART_VB.n-ord" name="Rätt kongruensböjning av artikel">
+      <pattern>
+        <token>ett</token>
+        <token postag="VB:PPC:.*" postag_regexp="yes">
+          <exception postag="VB:PPC:NEU"/>
+        </token>
+        <token postag="NN:OF:S.*:UTR" postag_regexp="yes"/>
+      </pattern>
+      <message>Verbet i particip är böjt i utrum (\2) och bör då föregås av ordet "en" istället för "ett", alternativt böjas i neutrum. Menade du: <suggestion>en \2 \3</suggestion>?</message>
+      <example correction="en urholkad sten">Det var <marker>ett urholkad sten</marker>. </example>
+    </rule>
+    <rule id="ART_VB_NN.n-ord" name="Kongruensböjning">
+      <pattern>
+        <token>en</token>
+        <token postag="VB:PPC:.*" postag_regexp="yes">
+          <exception postag="VB:PPC:UTR"/>
+        </token>
+        <token postag="NN:OF:S.*:UTR" postag_regexp="yes"/>
+      </pattern>
+      <message>Verbet i particip är böjt i neutrum (\2) men ska böjas i utrum som huvudordet (och artikeln). Menade du <suggestion>en <match no="2" postag="VB:PPC:UTR" /> \3</suggestion>?</message>
+      <example correction="en urholkad sten">Det var <marker>en urholkat sten</marker>. </example>
+    </rule>
+    <rule id="ART_VB.t-ord" name="Rätt kongruensböjning av artikel">
+      <pattern>
+        <token>en</token>
+        <token postag="VB:PPC:.*" postag_regexp="yes">
+          <exception postag="VB:PPC:UTR"/>
+        </token>
+        <token postag="NN:OF:S.*:NEU" postag_regexp="yes"/>
+      </pattern>
+      <message>Verbet "\2" i particip är böjt i neutrum och bör då föregås av ordet "ett" istället för "en", alternativt böjas i utrum. Menade du <suggestion>ett \2 \3</suggestion>?</message>
+      <example correction="ett förvånat uppvaknande">Det var <marker>en förvånat uppvaknande</marker>. </example>
+    </rule>
+    <rule id="ART_VB_NN.t-ord" name="Kongruensböjning">
+      <pattern>
+        <token>ett</token>
+        <token postag="VB:PPC:.*" postag_regexp="yes">
+          <exception postag="VB:PPC:NEU"/>
+        </token>
+        <token postag="NN:OF:S.*:NEU" postag_regexp="yes"/>
+      </pattern>
+      <message>Verbet i particip är böjt i utrum (\2) men ska böjas i neutrum som huvudordet (och artikeln). Menade du <suggestion>ett <match no="2" postag="VB:PPC:NEU" /> \3</suggestion>?</message>
+      <example correction="ett urladdat batteri">Det var <marker>ett urladdad batteri</marker>. </example>
     </rule>
     <rulegroup id="FORRE_FORE_TITEL" name="Förre före titel">
       <rule>
@@ -111,17 +174,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Infinitivmärket "att" bör inte förekomma efter <suggestion>\1</suggestion>.</message>
       <example correction="brukade">Han <marker>brukade att</marker> komma sent.</example>
     </rule>   
-    <rule id="JJ.OCH_t-ord" name="Rätt böjning av adjektivet">
-      <pattern>
-        <token>en</token>
-        <token postag="JJ:P." postag_regexp="yes">
-          <exception postag="JJ:PU"/>
-        </token>
-        <token postag="NN:OF:S.*" postag_regexp="yes"/>
-      </pattern>
-      <message>Adjektivet "\2" är böjt i positiv neutrum och bör då föregås av ordet "ett" istället för "en", alternativt böjas i positiv utrum. <suggestion>ett \2 \3</suggestion></message>
-      <example correction="ett mörkt rum">Det var <marker>en mörkt rum</marker>. </example>
-    </rule>
     <!-- Ett försök att fånga upp anföringsverb som ska föregås av ett kommatecken -->
     <rule id="KommaFoereAnfoeringsverb" name="Kommatecken före anföringsverb" default="off">
       <pattern>
@@ -223,7 +275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Med det nya API:s fördelar, kan du hitta nya lösningar.</example>
       <example correction="API:s">Med det nya <marker>APIs</marker> fördelar, kan du hitta nya lösningar.</example>
     </rule>
-    <rule id="Ordningstal" name="Ordningstal">
+    <rule id="ORDNINGSTAL" name="Ordningstal">
       <pattern>
         <token regexp="yes">^(1a|2a|[\d]*[1-2]e)</token>
       </pattern>
@@ -232,7 +284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Hon kom på 2:a plats</example>
       <example correction="2:a">Hon kom på <marker>2a</marker> plats</example>
     </rule>
-    <rule id="Ordningstal2" name="Ordningstal2">
+    <rule id="ORDNINGSTAL2" name="Ordningstal2">
       <pattern>
         <token regexp="yes">^([3-90][ae]|[\d]*[3-90][e]|[^1]*[012][ae])</token>
       </pattern>
@@ -250,7 +302,7 @@ Exempelvis "ta självmord" vilket antingen heter:
 "begå självmord" eller "ta sitt liv"
 ===============================================-->
   <category id="CAT7" name="Kontamination">
-    <rule id="PLANER_OM" name="PLANER_OM">
+    <rule id="NEG_PLANER_OM" name="Planer om">
       <pattern case_sensitive="no">
         <token>planer</token>
         <token>om</token>
@@ -271,7 +323,7 @@ Exempelvis "ta självmord" vilket antingen heter:
       <message>Undvik att blanda två konstruktioner. Skriv hellre <suggestion>\1 \2 \3 och \5</suggestion> än \1 \2 \3 \4 \5.</message>
       <example correction="Mellan klockan två och fyra"><marker>Mellan klockan två till fyra</marker>.</example>
     </rule>
-    <rule id="TA_SJALVMORD" name="Ta självmord">
+    <rule id="NEG_TA_SJALVMORD" name="Ta självmord">
       <pattern case_sensitive="no">
         <token>ta</token>
         <token>självmord</token>
@@ -280,7 +332,7 @@ Exempelvis "ta självmord" vilket antingen heter:
       <example correction="begå självmord|ta ditt liv|ta sitt liv">Har du någonsin funderat på att <marker>ta självmord</marker>.</example>
       <example>Har du någonsin funderat på att <marker>begå självmord</marker>.</example>
     </rule>
-    <rule id="MELLAN_SYD_TILL_NORD" name="Mellan syd till nord">
+    <rule id="NEG_MELLAN_SYD_TILL_NORD" name="Mellan syd till nord">
       <pattern>
         <token>mellan</token>
         <token postag="PM.*" postag_regexp="yes"></token>
@@ -300,7 +352,7 @@ Exempelvis "ta självmord" vilket antingen heter:
       <message>Använd hellre <suggestion>i hög grad</suggestion> än "i stor grad".</message>
       <example correction="i hög grad">Affärens kunder är <marker>i stor grad</marker> nöjda med servicen.</example>
     </rule>
-    <rule id="KLAGOMAL_MOT"
+    <rule id="NEG_KLAGOMAL_MOT"
           name="Framföra klagomål &quot;mot&quot; någon ej &quot;över&quot;">
       <pattern case_sensitive="no">
         <token>klagomål</token>
@@ -309,7 +361,7 @@ Exempelvis "ta självmord" vilket antingen heter:
       <message>Man framför <suggestion>klagomål mot</suggestion> någon, inte "över" någon.</message>
       <example correction="klagomål mot">Maria framförde sina <marker>klagomål över</marker> socialen.</example>
     </rule>
-    <rule id="ANGRA_PA_ATT" name="Ångra på att &gt; Ångra att">
+    <rule id="NEG_ANGRA_PA_ATT" name="Ångra på att &gt; Ångra att">
       <pattern case_sensitive="no">
         <token regexp="yes">ångra|ångrar|ångrade</token>
         <token>på</token>
@@ -317,6 +369,36 @@ Exempelvis "ta självmord" vilket antingen heter:
       </pattern>
       <message>Man ångrar inte "på" något utan man ångrar något. Skriv därför inte "\1 \2 \3" utan skriv <suggestion>\1 \3</suggestion>.</message>
       <example correction="ångrade att">Hon <marker>ångrade på att</marker> hon suttit ensam hemma den fredagen.</example>
+    </rule>
+  </category>
+  <category id="SSK_8" name="Stor eller liten bokstav">
+    <rule id="VECKODAGARS_NAMN" name="Veckodagars namn">
+      <antipattern case_sensitive="yes">
+        <token regexp="yes">&weekdays;</token>
+      </antipattern>
+      <antipattern>
+         <token postag="SENT_START" />
+         <token regexp="yes">&weekdays;</token>
+      </antipattern>
+      <pattern>
+        <token regexp="yes">&weekdays;</token>
+      </pattern>
+      <message>Veckodagars namn skrivs med inledande gemen bokstav. Skriv <suggestion><match no="1" case_conversion="startlower" /></suggestion> inte "\1".</message>
+      <example correction="måndag">idag är det <marker>Måndag</marker>.</example>
+    </rule>	
+    <rule id="MÅNADERS_NAMN" name="Månaders namn">
+      <antipattern case_sensitive="yes">
+        <token regexp="yes">&months;</token>
+      </antipattern>
+      <antipattern>
+        <token postag="SENT_START" />
+        <token regexp="yes">&months;</token>
+      </antipattern>
+      <pattern>
+      	<token regexp="yes">&months;</token>
+      </pattern>
+      <message>Månaders namn skrivs med inledande gemen bokstav. Skriv <suggestion><match no="1" case_conversion="startlower" /></suggestion> inte "\1".</message>
+      <example correction="september">Den bästa månaden är <marker>September</marker>.</example>
     </rule>
   </category>
 </rules>

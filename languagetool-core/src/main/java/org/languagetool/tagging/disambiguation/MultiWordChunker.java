@@ -22,6 +22,7 @@ package org.languagetool.tagging.disambiguation;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -36,6 +37,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 /**
  * Multiword tagger-chunker.
@@ -47,6 +49,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private final String filename;
   private final boolean allowFirstCapitalized;
   private final boolean allowAllUppercase;
+  private final boolean allowTitlecase;
 
   private volatile boolean initialized;
   private Map<String, Integer> mStartSpace;
@@ -64,11 +67,13 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   public static String tagForNotAddingTags = "_NONE_";
 
+  private static final Pattern GermanLineExpander = Pattern.compile("^.*/[ESN]+$");
+
   /**
    * @param filename file text with multiwords and tags
    */
   public MultiWordChunker(String filename) {
-    this(filename, false, false);
+    this(filename, false, false, false);
   }
 
   /**
@@ -77,17 +82,21 @@ public class MultiWordChunker extends AbstractDisambiguator {
    *                              multiword can be capitalized
    * @param allowAllUppercase     if set to {@code true}, the all uppercase
    *                              version of the multiword is allowed
+   * @param allowTitlecase        if set to {@code true}, titlecased variants
+   *                              of multi-token words are accepted
    */
-  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase) {
+  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, boolean allowTitlecase) {
     this.filename = filename;
     this.allowFirstCapitalized = allowFirstCapitalized;
     this.allowAllUppercase = allowAllUppercase;
+    this.allowTitlecase = allowTitlecase;
   }
 
-  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, String defaultTag) {
+  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, boolean allowTitlecase, String defaultTag) {
     this.filename = filename;
     this.allowFirstCapitalized = allowFirstCapitalized;
     this.allowAllUppercase = allowAllUppercase;
+    this.allowTitlecase = allowTitlecase;
     this.defaultTag = defaultTag;
   }
 
@@ -137,18 +146,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
         String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());
         String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:tokenAndTag[1]), Function.identity());
         tokens.add(originalToken);
-        if (allowFirstCapitalized) {
-          String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
-          if (!mFull.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
-            tokens.add(tokenFirstCapitalized);
-          }
-        }
-        if (allowAllUppercase) {
-          String tokenAllUppercase = originalToken.toUpperCase();
-          if (!mFull.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
-            tokens.add(tokenAllUppercase);
-          }
-        }
+        tokens.addAll(getTokenLettercaseVariants(originalToken, mFull));
         for (String token : tokens) {
           boolean containsSpace = token.indexOf(' ') > 0;
           String firstToken;
@@ -183,6 +181,36 @@ public class MultiWordChunker extends AbstractDisambiguator {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public List<String> getTokenLettercaseVariants(String originalToken, Map<String, AnalyzedToken> tokenMap) {
+    List<String> newTokens = new ArrayList<>();
+    if (allowAllUppercase) {
+      String tokenAllUppercase = originalToken.toUpperCase();
+      if (!tokenMap.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
+        newTokens.add(tokenAllUppercase);
+      }
+    }
+    if (allowFirstCapitalized) {
+      String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
+      if (!tokenMap.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
+        newTokens.add(tokenFirstCapitalized);
+      }
+      // Titlecasing is only relevant for multi-token entries, and only done for expressions that are entirely lowercase
+      // It is also limited to when first-letter capitalisation is allowed.
+      if (allowTitlecase && originalToken.split(" ").length > 1 && StringTools.allStartWithLowercase(originalToken)) {
+        String tokenNaivelyTitlecased = WordUtils.capitalize(originalToken);
+        if (!tokenNaivelyTitlecased.equals(tokenFirstCapitalized) && !originalToken.equals(tokenNaivelyTitlecased)) {
+          newTokens.add(tokenNaivelyTitlecased);
+        }
+        String tokenSmartlyTitlecased = StringTools.titlecaseGlobal(originalToken);
+        if (!tokenSmartlyTitlecased.equals(tokenFirstCapitalized) && !tokenSmartlyTitlecased.equals(tokenNaivelyTitlecased) &&
+          !originalToken.equals(tokenSmartlyTitlecased)) {
+          newTokens.add(tokenSmartlyTitlecased);
+        }
+      }
+    }
+    return newTokens;
   }
 
   @Override
@@ -325,7 +353,23 @@ public class MultiWordChunker extends AbstractDisambiguator {
           continue;
         }
         line = StringUtils.substringBefore(line, "#").trim();
-        lines.add(line);
+        if (GermanLineExpander.matcher(line).matches()) {
+          //German special case
+          String [] parts = line.split("/");
+          lines.add(parts[0].trim());
+          if (parts[1].contains("E")) {
+            lines.add(parts[0].trim()+"e");
+          }
+          if (parts[1].contains("S")) {
+            lines.add(parts[0].trim()+"s");
+          }
+          if (parts[1].contains("N")) {
+            lines.add(parts[0].trim()+"n");
+          }
+        } else {
+          lines.add(line);
+        }
+
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

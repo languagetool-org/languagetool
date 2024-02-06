@@ -64,6 +64,10 @@ public class MultitokenSpeller {
   }
 
   public List<String> getSuggestions(String originalWord) throws IOException {
+    return getSuggestions(originalWord, false);
+  }
+
+  public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
     originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
     String word = DASH_SPACE.matcher(originalWord).replaceAll("-");
     word = SPACE_DASH.matcher(word).replaceAll("-");
@@ -117,7 +121,7 @@ public class MultitokenSpeller {
       boolean exceedsMaxDistancePerToken = false;
       for (int i=0; i<distances.size(); i++) {
         // usually 2, but 1 for short words
-        int maxDistance = (wordParts[i].length() > 5 ? 2: 1);
+        int maxDistance = (wordParts[i].length() > 5 && candidateParts[i].length() > 4 ? 2: 1);
         if (distances.get(i) > maxDistance) {
           exceedsMaxDistancePerToken = true;
           break;
@@ -136,6 +140,13 @@ public class MultitokenSpeller {
     Collections.sort(weightedCandidates);
     List<String> results = new ArrayList<>();
     int weightFirstCandidate = weightedCandidates.get(0).getWeight();
+    if (areTokensAcceptedBySpeller && weightedCandidates.get(0).getWord().toUpperCase().equals(originalWord)) {
+      // don't correct all-upper case words accepted by the speller
+      return Collections.emptyList();
+    }
+    if (areTokensAcceptedBySpeller && weightFirstCandidate > 1) {
+      return Collections.emptyList();
+    }
     for (WeightedSuggestion weightedCandidate : weightedCandidates) {
       // keep only cadidates with the distance of the first candidate
       if (weightedCandidate.getWeight() - weightFirstCandidate < 1) {
@@ -193,16 +204,31 @@ public class MultitokenSpeller {
     if (a == 'b' && b == 'v' || a == 'v' && b == 'b') {
       return 0.2F;
     }
+    if (a == 'i' && b == 'y' || a == 'y' && b == 'i') {
+      return 0;
+    }
     return 1;
   }
 
   private int levenshteinDistance(String s1, String s2) {
     int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);
+    String ns1= normalizeSimilarChars(s1);
+    String ns2= normalizeSimilarChars(s2);
+    if (!s1.equals(ns1) || !s2.equals(ns2)) {
+      distance = Math.min(distance, LevenshteinDistance.getDefaultInstance().apply(normalizeSimilarChars(s1), normalizeSimilarChars(s2)));
+    }
     // consider transpositions without having a Damerau-Levenshtein method
-    if (distance == 2 && StringTools.isAnagram(s1,s2)) {
+    if (distance > 1 && StringTools.isAnagram(s1,s2)) {
       distance--;
     }
+    if (distance > 0 && s1.length()==s2.length() && StringTools.isAnagram(s1,s2)) {
+      distance = 1;
+    }
     return distance;
+  }
+
+  private String normalizeSimilarChars(String s) {
+    return s.replaceAll("y", "i").replaceAll("ko", "co").replaceAll("ka", "ca");
   }
 
   private int numberOfCorrectTokens(String s1, String s2) {
@@ -244,26 +270,28 @@ public class MultitokenSpeller {
     for (String filePath : filePaths) {
       try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
            BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-          if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
+        String lineOriginal;
+        while ((lineOriginal = reader.readLine()) != null) {
+          if (lineOriginal.isEmpty() || lineOriginal.charAt(0) == '#') { // ignore comments
             continue;
           }
-          line = language.prepareLineForSpeller(StringUtils.substringBefore(line, "#").trim());
-          if (line.isEmpty()) {
-            continue;
-          }
-          int numSpaces = StringTools.numberOf(line, " ");
-          int numHyphens = StringTools.numberOf(line, "-");
-          if (numSpaces==1) {
-            oneSpace.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          } else if (numSpaces==2) {
-            twoSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          } else if (numSpaces>=3) {
-            threeSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          } else if (numSpaces==0 && numHyphens==1) {
-            hyphenated.put(line, StringTools.removeDiacritics(line.toLowerCase()));
-          }
+          for (String line : language.prepareLineForSpeller(StringUtils.substringBefore(lineOriginal, "#").trim())) {
+            if (line.isEmpty()) {
+              continue;
+            }
+            int numSpaces = StringTools.numberOf(line, " ");
+            int numHyphens = StringTools.numberOf(line, "-");
+            if (numSpaces==1) {
+              oneSpace.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            } else if (numSpaces==2) {
+              twoSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            } else if (numSpaces>=3) {
+              threeSpaces.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            } else if (numSpaces==0 && numHyphens==1) {
+              hyphenated.put(line, StringTools.removeDiacritics(line.toLowerCase()));
+            }
+          };
+
         }
       } catch (IOException e) {
         throw new RuntimeException(e);

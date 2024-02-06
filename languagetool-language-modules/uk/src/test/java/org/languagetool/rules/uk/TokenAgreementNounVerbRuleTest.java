@@ -21,9 +21,14 @@ package org.languagetool.rules.uk;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
@@ -504,6 +509,22 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertEquals(1, matches.length);
   }
 
+  @Test
+  public void testRuleDisambigNazInf() throws IOException {
+    ArrayList<AnalyzedTokenReadings> readings = new ArrayList<>();
+    
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("намагання", "noun:inanim:p:v_naz", "намагання"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("спам'ятати", "verb:perf:inf", "спам'ятати"), 0));
+    
+    AnalyzedSentence sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
+
+    assertEquals(0, rule.match(sent).length);
+
+//    readings.clear();
+  }
+
+  
   
   private static final String GOOD_TEXT = "Хоча упродовж десятиліть ширилися численні історії про те, що я був у ряду наступників трону Тембу, щойно наведений простий генеалогічний екскурс викриває міфічність таких тверджень."
       + " Я був членом королівської родини, проте не належав до небагатьох привілейованих, що їх виховували на правителів."

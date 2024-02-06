@@ -209,25 +209,23 @@ public class MorfologikFrenchSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("123 heures", matches[0].getSuggestedReplacements().get(0));
 
+    //⏰
     matches = rule.match(lt.getAnalyzedSentence("\u23F0heures"));
-    assertEquals(1, matches.length);
-    assertEquals("[⏰ heures]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(0, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("\u23F0heuras"));
     assertEquals(1, matches.length);
-    assertEquals("[⏰ heures, ⏰ heurts, ⏰ heurs, ⏰ hourras, ⏰ beurras, ⏰ heurtas, ⏰ hueras, ⏰ leurras, ⏰ heu ras, ⏰ heur as]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[heures, heurts, heurs, hourras, beurras, heurtas, hueras, leurras, heu ras, heur as]", matches[0].getSuggestedReplacements().toString());
     
     matches = rule.match(lt.getAnalyzedSentence("©heures"));
     assertEquals(1, matches.length);
     assertEquals("[© heures]", matches[0].getSuggestedReplacements().toString());
     
     matches = rule.match(lt.getAnalyzedSentence("►heures"));
-    assertEquals(1, matches.length);
-    assertEquals("[► heures]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(0, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("◦heures"));
-    assertEquals(1, matches.length);
-    assertEquals("[◦ heures]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("AAAAAAAAAAAH"));
     assertEquals(1, matches.length);
@@ -246,6 +244,10 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("dIsraël"));
     assertEquals(1, matches.length);
     assertEquals("d'Israël", matches[0].getSuggestedReplacements().get(0).toString());
+
+    // hashtags, url, email
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("(#sensepastanagues)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("C#, F#")).length);
   }
   
   private void assertSuggestion(MorfologikFrenchSpellerRule rule, JLanguageTool lt, String input, String... expected) throws IOException {

@@ -2243,6 +2243,39 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="4-gliedrig" id="ZAHL_GLIEDRIG">
+        <pattern>
+            <token>[1-9]*-gliedrig.*</token>
+            <token postag="SUB.*|EIG.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Smart Cities" id="CITIES"> <!--Wir mögen alle Short Stories, Smart Cities und die Westchester Counties.-->
+        <pattern>
+            <token postag="UNKNOWN"/>
+            <token postag="UNKNOWN" regexp="yes">.+ies</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup name="Graphic" id="GRAPHIC"> <!--Graphic Environment | Latin Dictionary-->
+        <rule><!--1-->
+            <pattern>
+                <token regexp="yes">Graphics?|Latin</token>
+                <token postag="UNKNOWN"/>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token postag="UNKNOWN"/>
+                <token regexp="yes">Graphics?|Latin</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rule name="Schlacht bei" id="SCHLACHTEN">
         <pattern>
             <token>Schlacht</token>
@@ -8325,4 +8358,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rulegroup id="TRADE_REPUBLIC_KEIN_VERB" name="'Trade' kein Verb in Eigennamen (e.g. Trade Republic)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>trade</token>
+                </marker>
+                <token regexp="yes">repu.*|desk.*|air.*|off?|the|deadline.*|mark|martin|policy|sector|unions?|weight.*</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>trade</token>
+                </marker>
+                <token postag="UNKNOWN" />
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+    </rulegroup>
 </rules>

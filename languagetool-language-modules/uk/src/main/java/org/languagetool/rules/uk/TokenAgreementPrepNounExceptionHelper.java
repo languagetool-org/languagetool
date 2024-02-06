@@ -9,6 +9,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.SearchHelper.Condition;
 import org.languagetool.rules.uk.SearchHelper.Match;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.languagetool.rules.uk.TokenAgreementPrepNounRule.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,11 +49,11 @@ public class TokenAgreementPrepNounExceptionHelper {
   }
 
   
-  public static RuleException getExceptionInfl(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind) {
+  public static RuleException getExceptionInfl(AnalyzedTokenReadings[] tokens, int i, State state) {
     AnalyzedTokenReadings tokenReadings = tokens[i];
     String token = tokenReadings.getCleanToken();
     String tokenLower = token.toLowerCase();
-    String prep = prepTokenReadings.getCleanToken().toLowerCase();
+    String prep = state.prepTokenReadings.getCleanToken().toLowerCase();
 
     
     // на дивом уцілілій техніці
@@ -211,7 +212,7 @@ public class TokenAgreementPrepNounExceptionHelper {
     return new RuleException(Type.none);
   }
 
-  public static RuleException getExceptionStrong(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind) {
+  public static RuleException getExceptionStrong(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings prepTokenReadings) {
     AnalyzedTokenReadings tokenReadings = tokens[i];
     String token = tokenReadings.getCleanToken();
     String tokenLower = token.toLowerCase();
@@ -293,7 +294,7 @@ public class TokenAgreementPrepNounExceptionHelper {
     return new RuleException(Type.none);
   }
 
-  public static RuleException getExceptionNonInfl(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind) {
+  public static RuleException getExceptionNonInfl(AnalyzedTokenReadings[] tokens, int i, State state) {
     AnalyzedTokenReadings tokenReadings = tokens[i];
     String token = tokenReadings.getCleanToken();
 //    String prep = prepTokenReadings.getCleanToken().toLowerCase();

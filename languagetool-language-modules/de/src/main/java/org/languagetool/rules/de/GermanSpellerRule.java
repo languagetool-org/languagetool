@@ -110,9 +110,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final Pattern START_WITH_NEGER = compile("neger.*");
   private static final Pattern CONTAINS_NEGER = compile(".+neger(s|n|in|innen)?");
+  private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING = compile("^(hunger|zeit|käse|zwiebel|kommoden?|lager|angst)\\s.+");
+  private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END = compile(".+\\s(hunger|zeit|käse|zwiebel|kommoden?|lager|angst)$");
   private static final Pattern ENDS_WITH_IBELKEIT_IBLICHKEIT= compile(".*ibel[hk]eit$");
   private static final Pattern ALLMAHLLIG = compile("[aA]llmähll?i(g|ch)(e[mnrs]?)?");
   private static final Pattern CONTAINS_MAYONNAISE = compile(".*[mM]a[jy]onn?[äe]se.*");
+  private static final Pattern CONTAINS_MASZNAME = compile(".*[mM]a(ss|ß)namen?.*");
   private static final Pattern CONTAINS_RESERVIERUNG = compile(".*[rR]es(a|er)[vw]i[he]?rung(en)?");
   private static final Pattern STARTS_WITH_RESCHASCHIER= compile("[rR]eschaschier.+");
   private static final Pattern ENDS_WITH_LABORANTS= compile(".*[lL]aborants$");
@@ -177,6 +180,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiederstreb(e|st|t|en|te|ten)?", "wieder", "wider");
     putRepl("zurück(ge|zu)?koppe?l(e|n|t(e(st|n)?)?|nd(e(r|s|m|n)?)?|st|)?", "zurück", "rück");
     put("bekomms", "bekomm es");
+    put("Latin", "Latein");
     put("liegts", "liegt es");
     put("gesynct", "synchronisiert");
     put("gesynced", "synchronisiert");
@@ -2909,6 +2913,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       .filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase()))
       .filter(k -> !START_WITH_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
       .filter(k -> !CONTAINS_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
+      .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END.matcher(k.getReplacement()).matches())
+      .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING.matcher(k.getReplacement()).matches())
       .collect(Collectors.toList());
   }
 
@@ -2922,6 +2928,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     if (RECHTMASIG_WITH_CASES.matcher(word).matches()) {
       return topMatch(word.replaceFirst("mässig", "mäßig"));
+    }
+    if (CONTAINS_MASZNAME.matcher(word).matches()) {
+      return topMatch(word.replaceFirst("a(ss|ß)name", "aßnahme"));
     }
     if (HOLZ_SPIEGEL_PANEL_COMPOUND.matcher(word).matches()){
       return topMatch(word.replaceFirst("panel", "paneel"));
@@ -2945,10 +2954,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Wiederspruch": return topMatch("Widerspruch");
+      case "Wiederspruchs": return topMatch("Widerspruchs");
+      case "Wiedersprüche": return topMatch("Widersprüche");
+      case "Wiedersprüchen": return topMatch("Widersprüchen");
+      case "Vorraussetzung": return topMatch("Voraussetzung");
+      case "Vorraussetzungen": return topMatch("Voraussetzungen");
+      case "Schalosie": return topMatch("Jalousie", "bewegliche Lamellen zum Sicht- und Sonnenschutz");
+      case "Schalosien": return topMatch("Jalousien", "bewegliche Lamellen zum Sicht- und Sonnenschutz");
       case "offensichtlicherweise": return topMatch("offensichtlich");
       case "Offensichtlicherweise": return topMatch("Offensichtlich");
       case "wohlwissend": return topMatch("wohl wissend");
       case "Visas": return topMatch("Visa", "Plural von 'Visum'");
+      case "Interresse": return topMatch("Interesse");
+      case "Interressen": return topMatch("Interessen");
+      case "Terasse": return topMatch("Terrasse");
+      case "Terassen": return topMatch("Terrassen");
+      case "Reisverschluss": return topMatch("Reißverschluss");
+      case "Reisverschlusses": return topMatch("Reißverschlusses");
       case "Reiszwecke": return topMatch("Reißzwecke", "kurzer Nagel mit flachem Kopf");
       case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
       case "up-to-date": return topMatch("up to date");
@@ -3783,6 +3806,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Einfallspinsel": return topMatch("Einfaltspinsel");
       case "Einfallspinseln": return topMatch("Einfaltspinseln");
       case "Parcour": return topMatch("Parcours");
+      case "Sommeliere": return topMatch("Sommelière");
+      case "Sommeliére": return topMatch("Sommelière");
+      case "Kosten-Nutzenanalyse": return topMatch("Kosten-Nutzen-Analyse");
+      case "Kosten-Nutzenanalysen": return topMatch("Kosten-Nutzen-Analysen");
+      case "Kosten-Nutzenverhältnis": return topMatch("Kosten-Nutzen-Verhältnis");
+      case "Kosten-Nutzenverhältnisse": return topMatch("Kosten-Nutzen-Verhältnisse");
+      case "Kosten-Nutzenverhältnisses": return topMatch("Kosten-Nutzen-Verhältnisses");
+      case "Kosten-Nutzenrechnung": return topMatch("Kosten-Nutzen-Rechnung");
+      case "Kosten-Nutzenrechnungen": return topMatch("Kosten-Nutzen-Rechnungen");
     }
     return Collections.emptyList();
   }

@@ -953,11 +953,12 @@ class CompoundTagger {
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
 
       // e.g. 101-го
-      String[] tags = LetterEndingForNumericHelper.findTags(leftWord, rightWord); 
+      String[] tags = LetterEndingForNumericHelper.findTags(leftWord, rightWord);
       if( tags != null ) {
         for (String tag: tags) {
           String lemma = leftWord + "-" + "й";  // lemma is approximate here, we mostly care about the tag
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag + ":&numr", lemma));
+          tag = tag.contains(":bad") ? tag.replace(":bad", ":&numr:bad") : tag + ":&numr";
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag, lemma));
         }
 
         // з 3-ма вікнами - не дуже правильно, але вживають часто
@@ -1027,7 +1028,7 @@ class CompoundTagger {
 
         // e.g. 100-річному, 100-відсотково
         List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
-        if( rightWdList.isEmpty() )
+        if( rightWdList.isEmpty() || PosTagHelper.hasPosTagPart2(rightWdList, "pron"))
           return null;
 
         List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);

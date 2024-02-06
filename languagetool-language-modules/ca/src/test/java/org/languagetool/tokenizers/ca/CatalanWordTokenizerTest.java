@@ -31,7 +31,7 @@ public class CatalanWordTokenizerTest {
   public void testTokenize() {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;
-    
+
     tokens = wordTokenizer.tokenize("-contar-se'n-");
     assertEquals("[-, contar, -se, 'n, -]", tokens.toString());
     tokens = wordTokenizer.tokenize("-M'agradaria.");
@@ -116,6 +116,9 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("col·Laboració");
     assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("COL∙LABORADORES");
+    assertEquals(tokens.size(), 1);
+
     tokens = wordTokenizer.tokenize("abans-d’ahir");
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("abans-d'ahir");
@@ -163,5 +166,33 @@ public class CatalanWordTokenizerTest {
     tokens = wordTokenizer.tokenize("Qui-sap-lo temps");
     assertEquals(tokens.size(), 3);
     assertEquals("[Qui-sap-lo,  , temps]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)");
+    assertEquals("[Sol,  , Picó,  , (, \uD83D\uDC0C, +, \uD83D\uDC1A, )]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("\uD83E\uDDE1prova.");
+    assertEquals("[\uD83E\uDDE1, prova, .]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("\uD83E\uDDE1\uD83E\uDDE1prova\uD83E\uDDE1");
+    assertEquals("[\uD83E\uDDE1, \uD83E\uDDE1, prova, \uD83E\uDDE1]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("❤\uFE0F");
+    assertEquals("[❤\uFE0F]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("❤\uFE0Fprova");
+    assertEquals("[❤\uFE0F, prova]", tokens.toString());
+
+    //H₂O
+    tokens = wordTokenizer.tokenize("H₂O");
+    assertEquals("[H₂O]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("\uD83E\uDDE1");
+    assertEquals("[\uD83E\uDDE1]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("sol∙licitud");
+    assertEquals("[sol.licitud]", tokens.toString());
+
+    tokens = wordTokenizer.tokenize("És ell ㅡva dir.");
+    assertEquals("[És,  , ell,  , ㅡva,  , dir, .]", tokens.toString());
   }
 }

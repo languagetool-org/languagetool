@@ -99,6 +99,16 @@ Copyright (C) 2021 Jaume Ortolà
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{P}</token>
+                <marker>
+                    <token>#</token>
+                    <token spacebefore="no"/>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
     </rulegroup>
     <rulegroup name="Ignore spelling of domain names" id="GLOBAL_IGNORE_DOMAIN_NAMES">
         <rule>
@@ -269,6 +279,14 @@ Copyright (C) 2021 Jaume Ortolà
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule id="GLOBAL_CO_LTD" name="ignore spelling: Co. Ltd.">
+        <pattern>
+            <token>Co</token>
+            <token min="0" max="3" regexp="yes">\p{P}</token>
+            <token>Ltd</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rulegroup id="GLOBAL_CREATIVE_COMMONS" name="Creative Commons">
         <rule>
             <pattern case_sensitive="yes">
@@ -311,8 +329,7 @@ Copyright (C) 2021 Jaume Ortolà
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
-    <rulegroup id="IGNORE_SPELLING_OF_TEXT_IN_BRACKETS" name="ignore spelling of text in brackets">
+    <rulegroup id="GLOBAL_IGNORE_SPELLING_OF_TEXT_IN_BRACKETS" name="ignore spelling of text in brackets">
         <!-- e.g. {user_id} -->
         <rule>
             <pattern>
@@ -341,6 +358,31 @@ Copyright (C) 2021 Jaume Ortolà
                 </marker>
                 <token regexp="yes" min="0">["'`]</token>
                 <token regexp="yes">[\}\]&gt;]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="GLOBAL_IGNORE_CHAR_CODIFICATIONS" name="char codifications (&amp;#x00FF;)">
+        <rule>
+            <pattern>
+                <token regexp="yes">&amp;\d+</token>
+                <token spacebefore="no">;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&amp;#x[\dabcdef]+</token>
+                <token spacebefore="no">;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>&amp;</token>
+                <token spacebefore="no">#</token>
+                <token spacebefore="no" regexp="yes">x[\dabcdef]+</token>
+                <token spacebefore="no">;</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>

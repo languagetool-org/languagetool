@@ -147,7 +147,7 @@ public class SuggestionReplacerTest {
     lt.disableRule("DE_CASE");
     lt.disableRule("ABKUERZUNG_LEERZEICHEN");
     lt.disableRule("TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN");
-    lt.disableRule("OLD_SPELLING");
+    lt.disableRule("OLD_SPELLING_RULE");
     lt.disableRule("DE_TOO_LONG_SENTENCE_40");
     lt.disableRule("TOO_LONG_SENTENCE_DE");
     lt.disableRule("PUNCTUATION_PARAGRAPH_END");

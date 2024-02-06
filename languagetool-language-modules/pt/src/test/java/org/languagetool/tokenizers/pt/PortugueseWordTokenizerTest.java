@@ -67,6 +67,8 @@ public class PortugueseWordTokenizerTest {
     testTokenise("sex-appeal", new String[]{"sex-appeal"});
     testTokenise("Aix-en-Provence", new String[]{"Aix-en-Provence"});
     testTokenise("Montemor-o-Novo", new String[]{"Montemor-o-Novo"});
+    testTokenise("Andorra-a-Velha", new String[]{"Andorra-a-Velha"});
+    testTokenise("Tsé-Tung", new String[]{"Tsé-Tung"});
   }
 
   @Test
@@ -117,6 +119,13 @@ public class PortugueseWordTokenizerTest {
     testTokenise("5£", new String[]{"5", "£"});
     testTokenise("US$249,99", new String[]{"US$", "249,99"});
     testTokenise("€2.000,00", new String[]{"€", "2.000,00"});
+  }
+
+  @Test
+  public void testTokeniseSplitsPercent() {
+    testTokenise("50%OFF", new String[]{"50%", "OFF"});
+    testTokenise("%50", new String[]{"%", "50"});
+    testTokenise("%", new String[]{"%"});
   }
 
   @Test
@@ -171,6 +180,19 @@ public class PortugueseWordTokenizerTest {
     testTokenise("32°Ra", new String[]{"32°Ra"});
     testTokenise("33,1°Rø", new String[]{"33,1°Rø"});
     testTokenise("34°N", new String[]{"34°N"});
+  }
+
+  @Test
+  public void testDoNotTokeniseSpaceSeparatedThousands() {
+    testTokenise("35 000", new String[]{"35 000"});
+    testTokenise("36 000 000", new String[]{"36 000 000"});
+    testTokenise("37 000,00", new String[]{"37 000,00"});
+    testTokenise("38 000 000,00", new String[]{"38 000 000,00"});
+    testTokenise("39 000°", new String[]{"39 000°"});
+    testTokenise("40 000%", new String[]{"40 000%"});
+    testTokenise("41 000º", new String[]{"41 000º"});
+    testTokenise("42 000o", new String[]{"42 000o"});
+    testTokenise("43 00", new String[]{"43", " ", "00"});
   }
 
   @Test

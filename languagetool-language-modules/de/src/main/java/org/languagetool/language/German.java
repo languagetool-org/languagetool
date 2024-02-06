@@ -155,7 +155,7 @@ public class German extends Language implements AutoCloseable {
             new PunctuationMarkAtParagraphEnd(messages, this),
             // specific to German:
             new SimpleReplaceRule(messages, this),
-            new OldSpellingRule(messages),
+            new OldSpellingRule(messages, this),
             new SentenceWhitespaceRule(messages),
             new GermanDoublePunctuationRule(messages),
             new MissingVerbRule(messages, this),
@@ -294,7 +294,7 @@ public class German extends Language implements AutoCloseable {
   static {
     id2prio.put("DE_PROHIBITED_PHRASE", 11);
     id2prio.put("WRONG_SPELLING_PREMIUM_INTERNAL", 10);
-    id2prio.put("OLD_SPELLING", 10);
+    id2prio.put("OLD_SPELLING_RULE", 10);
     id2prio.put("DE_COMPOUNDS", 10);
     id2prio.put("E_MAIL_SIGNATUR", 10);
     id2prio.put("TELEFON_NR", 10);
@@ -423,7 +423,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("VER_ADJ_ZU_SCHLAFEN", -1); // prefer ETWAS_GUTES
     id2prio.put("MIO_PUNKT", -1); // higher prio than spell checker
     id2prio.put("AUSLASSUNGSPUNKTE_LEERZEICHEN", -1); // higher prio than spell checker
-    id2prio.put("IM_ERSCHEINUNG", -1); // prefer ZUM_FEM_NOMEN
+    id2prio.put("IM_ERSCHEINUNG_SPELLING_RULE", -1); // prefer ZUM_FEM_NOMEN
     id2prio.put("SPACE_BEFORE_OG", -1); // higher prio than spell checker
     id2prio.put("VERSEHENTLICHERWEISE", -1); // higher prio than spell checker
     id2prio.put("VERMOD_SKIP_VER_PKT", -1); // less prio than casing rules
@@ -461,7 +461,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN", -4); // prefer speller
     id2prio.put("ZEICHENSETZUNG_DIREKTE_REDE", -4); // prefer speller
     id2prio.put("GROSSSCHREIBUNG_WOERTLICHER_REDE", -4); // prefer speller
-    id2prio.put("IM_IHM", -4);  // lower prio than spell checker
+    id2prio.put("IM_IHM_SPELLING_RULE", -4);  // lower prio than spell checker
     id2prio.put("IN_UNKNOWNKLEIN_VER", -4);  // lower prio than spell checker
     id2prio.put("SEHR_GEEHRTER_NAME", -4);  // lower prio than spell checker
     id2prio.put("DE_PHRASE_REPETITION", -4);  // lower prio than spell checker
@@ -478,7 +478,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("SAGT_SAGT", -9); // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE
     //id2prio.put("PUNKT_ENDE_ABSATZ", -10);  // should never hide other errors, as chance for a false alarm is quite high
     //id2prio.put("KOMMA_VOR_RELATIVSATZ", -10);
-    id2prio.put("VON_LEBENSLAEUFE", -12); // less prio than AI
+    id2prio.put("VON_LEBENSLAEUFE_SPELLING_RULE", -12); // less prio than AI
     id2prio.put("VER_WER_VER_3", -12); // less prio than AI
     id2prio.put("PA_WAS", -12); // less prio than AI
     id2prio.put("ICH_GEHE_DU_BLEIBST", -12); // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI
@@ -514,7 +514,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ", -53);
     id2prio.put("VERB_IST", -53); // less prio than comma rules and spell checker
     id2prio.put("WAR_WERDEN", -53); // less prio than comma rules
-    id2prio.put("INF_VER_MOD", -53); // prefer case, spelling and AI rules
+    id2prio.put("INF_VER_MOD_SPELLING_RULE", -53); // prefer case, spelling and AI rules
     id2prio.put("DOPPELTES_VERB", -53); // prefer comma rules (including AI)
     id2prio.put("VERB_FEM_SUBST", -54); // prefer comma rules (including AI)
     id2prio.put("SUBJUNKTION_KOMMA_2", -54); // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
@@ -603,16 +603,32 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public String prepareLineForSpeller(String line) {
+  public List<String> prepareLineForSpeller(String line) {
+    List<String> results = new ArrayList<>();
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return line;
+      return Arrays.asList(line);
     }
-    String[] formTag = parts[0].split("[\t;/]");
+    String[] formTag = parts[0].split("[/]");
     if (formTag.length == 0) {
-      return "";
+      return Arrays.asList("");
     }
-    return formTag[0].trim();
+    String form = formTag[0];
+    results.add(form);
+    String tag = "";
+    if (formTag.length==2) {
+      tag = formTag[1];
+    }
+    if (tag.contains("E")) {
+      results.add(form + "e");
+    }
+    if (tag.contains("S")) {
+      results.add(form + "s");
+    }
+    if (tag.contains("N")) {
+      results.add(form + "n");
+    }
+    return results;
   }
 
   public MultitokenSpeller getMultitokenSpeller() {

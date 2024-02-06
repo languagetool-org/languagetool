@@ -97,6 +97,104 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
         ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
+        <rule id="HEURES_PILES" name="heures piles avec 00" tags="picky">
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>h</token>
+                    <token>00</token>
+                </pattern>
+                <message>Les minutes ne s'écrivent pas pour les heures piles.</message>
+                <suggestion>\1 \2</suggestion>
+                <example correction="9 h">Il est <marker>9 h 00</marker>.</example>
+        </rule>
+        <rulegroup id="Y_A" name="Expression familière y'a">
+            <antipattern>
+                <token>y'a</token>
+                <token>pas</token>
+                <token inflected="yes">de</token>
+                <token min="0" max="1">'</token>
+                <token>lézard</token>
+            </antipattern>
+            <antipattern>
+                <token>y'a</token>
+                <token>a</token>
+                <token>pas</token>
+                <token>photo</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token>y'a</token>
+                    <token>pas</token>
+                    <token>
+                        <exception>mal</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>y'a</token>
+                    <token>bon</token>
+                    <token case_sensitive="yes">Awards</token>
+                </antipattern>
+                <pattern>
+                    <token>y'a
+                        <exception scope="previous">il</exception>
+                        <exception scope="next" regexp="yes">['-]</exception></token>
+                </pattern>
+                <message>La formulation « y'a » est très familière. Vouliez-vous dire <suggestion>il y a</suggestion> ?</message>
+                <example correction="Il y a"><marker>Y'a</marker> pas mal de gens dehors.</example>
+                <example correction="Il y a"><marker>Y'a</marker> beaucoup de gens dehors.</example>
+                <example>Y'a pas de quoi.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>y'a</token>
+                    <token>pas</token>
+                    <token>
+                        <exception>mal</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>y'a</token>
+                    <token>bon</token>
+                    <token case_sensitive="yes">Awards</token>
+                </antipattern>
+                <pattern>
+                    <token>il</token>
+                    <token>y'a
+                        <exception scope="next" regexp="yes">['-]</exception></token>
+                </pattern>
+                <message>La formulation « y'a » est très familière. Vouliez-vous dire <suggestion>il y a</suggestion> ?</message>
+                <example correction="Il y a"><marker>Il y'a</marker> pas mal de gens dehors.</example>
+                <example correction="Il y a"><marker>Il y'a</marker> beaucoup de gens dehors.</example>
+                <example correction="il y a">Heureusement qu’<marker>il y'a</marker> la mort.</example>
+                <example correction="il y a">Ensuite tu es trop jeune et tu manque de maturité <marker>il y'a</marker> eu plusieurs plaintes sur toi sur le RP et tu as été sanctionné de nombreuses fois, pour moi, ta place n'est pas au sein du staff.</example>
+                <example>Y'a pas de quoi.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>y'a</token>
+                    <token>pas</token>
+                    <token>mal</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>y'a</token>
+                    </marker>
+                    <token min="0" max="1" postag="A"/>
+                    <token>pas</token>
+                </pattern>
+                <message>La formulation « y'a » est très familière. Vouliez-vous dire <suggestion>il n'y a</suggestion> ?</message>
+                <example correction="Il n'y a"><marker>Y'a</marker> pas de quoi.</example>
+                <example correction="Il n'y a"><marker>Y'a</marker> franchement pas de quoi.</example>
+                <example>Y'a pas mal de gens.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>y'a</token>
+                    <token regexp="yes">[-']</token>
+                </pattern>
+                <message>La formulation « y'a » est très familière.</message>
+                <suggestion>y a</suggestion>
+                <example correction="y a">Combien <marker>y'a'</marker> d'examples ?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="POUR_PAS_QUE" name="familier : pour (ne) pas que..." tone_tags="general">
             <rule>
                 <!-- 1 = 1. R.* que ne !V.* -->

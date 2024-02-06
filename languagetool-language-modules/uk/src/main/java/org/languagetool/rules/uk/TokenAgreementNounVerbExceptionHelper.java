@@ -50,8 +50,8 @@ public final class TokenAgreementNounVerbExceptionHelper {
     // Любителі фотографувати їжу
     // навичка збиратися швидко (але не «навички»)
     if( PosTagHelper.hasPosTag(tokens[verbPos], PosTagHelper.VERB_INF_PATTERN) ) {
-      if( CaseGovernmentHelper.hasCaseGovernment(tokens[nounPos], "v_inf") 
-          && ! PosTagHelper.hasPosTagStart(tokens[nounPos], "noun:inanim:p:v_naz") ) {
+      if( CaseGovernmentHelper.hasCaseGovernment(tokens[nounPos], "v_inf") ) { 
+          //&& ! PosTagHelper.hasPosTagStart(tokens[nounPos], "noun:inanim:p:v_naz") ) {
         logException();
         return true;
       }

@@ -28,6 +28,8 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.rules.Rule;
 
+import com.sun.star.uno.XComponentContext;
+
 /**
  * A thread that shows the configuration dialog which lets the
  * user enable/disable rules.

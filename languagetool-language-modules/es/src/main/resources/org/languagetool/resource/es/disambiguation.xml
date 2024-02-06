@@ -746,7 +746,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">pre|pos|post</token>
+                    <token regexp="yes">pre|pos|post|co</token>
                 </marker>
                 <token spacebefore="no">-</token>
                 <token spacebefore="no" regexp="yes">[\p{Lu}\d].*</token>
@@ -1899,6 +1899,16 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="annual" name="desastre de Annual">
+        <pattern>
+            <token regexp="yes" inflected="yes">desastre|batalla|ocupación|victoria|derrota</token>
+            <token>de</token>
+            <marker>
+                <token case_sensitive="yes">Annual</token>
+            </marker>
+        </pattern>
+        <disambig action="add" postag="NPCSG00"/>
+    </rule>
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
             <pattern>

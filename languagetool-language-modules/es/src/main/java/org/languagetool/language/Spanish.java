@@ -195,7 +195,8 @@ public class Spanish extends Language implements AutoCloseable {
   }
   
   private final static Map<String, Integer> id2prio = new HashMap<>();
-  static {
+  static {  
+    id2prio.put("ES_SIMPLE_REPLACE_MULTIWORDS", 50);
     id2prio.put("LOS_MAPUCHE", 50);
     id2prio.put("TE_TILDE", 50);
     id2prio.put("DE_TILDE", 50); // greater than CONTRACCIONES
@@ -230,6 +231,7 @@ public class Spanish extends Language implements AutoCloseable {
     id2prio.put("SEPARADO", 1);
     id2prio.put("ES_SPLIT_WORDS", -10);
     id2prio.put("U_NO", -10);
+    id2prio.put("E_EL", -10);
     id2prio.put("EL_TILDE", -10);
     id2prio.put("SINGLE_CHARACTER", -15); // less than ES_SPLIT_WORDS
     id2prio.put("TOO_LONG_PARAGRAPH", -15);
@@ -293,6 +295,9 @@ public class Spanish extends Language implements AutoCloseable {
       return -101;
     }
     if (id.startsWith("AI_ES_GGEC")) { // prefer more specific rules (also speller)
+      if (id.equals("AI_ES_GGEC_REPLACEMENT_OTHER")) {
+        return -300;
+      }
       return 0;
       //return -102;
     }

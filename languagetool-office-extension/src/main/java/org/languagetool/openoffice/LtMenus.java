@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
@@ -209,12 +210,13 @@ public class LtMenus {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
       }
-      boolean hasStatisticalStyleRules;
+      boolean hasStatisticalStyleRules = false;
       if (document.getDocumentType() == DocumentType.WRITER &&
           !document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
-        hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
-      } else {
-        hasStatisticalStyleRules = false;
+        Language lang = document.getLanguage();
+        if (lang != null) {
+          hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(lang);
+        }
       }
       if (hasStatisticalStyleRules) {
         ltMenu.insertItem((short)(switchOffId + 1), MESSAGES.getString("loStatisticalAnalysis") + " ...", 

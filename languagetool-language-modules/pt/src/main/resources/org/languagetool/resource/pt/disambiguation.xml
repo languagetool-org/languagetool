@@ -3167,6 +3167,23 @@
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
+  <rulegroup id="COMMON_ENGLISH_COMPOUNDS" name="Common English words in named compounds (e.g. XYZ Card, XYZ Center)">
+      <rule>
+          <pattern>
+              <token regexp="yes" case_sensitive="yes">\p{Lu}.+</token>
+              <token case_sensitive="yes" regexp="yes">&english_compounders;</token>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
+
+      <rule>
+          <pattern>
+              <token postag_regexp="yes" postag="UNKNOWN|NULL"/>
+              <token case_sensitive="yes" regexp="yes">&english_compounders;</token>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
+  </rulegroup>
 
   <rulegroup id='LOOSE_UPPERCASES' name='Maiúsculas soltas'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-10-10  	-->

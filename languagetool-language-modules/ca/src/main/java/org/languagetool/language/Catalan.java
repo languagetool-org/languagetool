@@ -291,9 +291,10 @@ public class Catalan extends Language {
       case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "PUNT_FINAL": return -200;
+      case "DICENDI_QUE": return -250;
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
-      case "ELA_GEMINADA_WIKI": return -200;
+      case "ELA_GEMINADA_WIKI": return -500;
     }
     if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
       return -95;
@@ -435,28 +436,29 @@ public class Catalan extends Language {
   }
   
   private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
-    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas");
+    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas",
+    "Mónica Randall");
 
   @Override
-  public String prepareLineForSpeller(String line) {
+  public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return line;
+      return Arrays.asList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     String form = formTag[0].trim();
     if (spellerExceptions.contains(form)) {
-      return "";
+      return Arrays.asList("");
     }
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_")) {
-        return form;
+        return Arrays.asList(form);
       } else {
-        return "";
+        return Arrays.asList("");
       }
     }
-    return line;
+    return Arrays.asList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {

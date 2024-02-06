@@ -25,12 +25,13 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.nl.DutchTagger;
+import org.languagetool.tagging.nl.DutchHybridDisambiguator;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
@@ -74,6 +75,10 @@ public class Dutch extends Language {
     return DutchSynthesizer.INSTANCE;
   }
 
+  public static CompoundAcceptor getCompoundAcceptor() {
+    return CompoundAcceptor.INSTANCE;
+  }
+
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SRXSentenceTokenizer(this);
@@ -86,7 +91,7 @@ public class Dutch extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(getDefaultLanguageVariant());
+    return new DutchHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
@@ -231,4 +236,7 @@ public class Dutch extends Language {
     return new MorfologikDutchSpellerRule(messages, this, null, Collections.emptyList());
   }
 
+  public MultitokenSpeller getMultitokenSpeller() {
+    return DutchMultitokenSpeller.INSTANCE;
+  }
 }

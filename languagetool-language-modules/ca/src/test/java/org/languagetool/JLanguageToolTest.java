@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.language.Catalan;
 import org.languagetool.language.ValencianCatalan;
 import org.languagetool.language.BalearicCatalan;
+import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -167,6 +168,16 @@ public class JLanguageToolTest {
     assertEquals("[José María Aznar]", lang.getMultitokenSpeller().getSuggestions("Jose Maria Asnar").toString());
     assertEquals("[José María Aznar]", lang.getMultitokenSpeller().getSuggestions("José María Asnar").toString());
 
+  }
+
+  @Test
+  public void testCommaWhitespaceRule() throws IOException {
+    Language lang = new Catalan();
+    JLanguageTool lt = new JLanguageTool(lang);
+    CommaWhitespaceRule rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
+
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
+    assertEquals(0, matches.length);
   }
 
 }

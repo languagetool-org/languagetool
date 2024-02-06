@@ -33,9 +33,9 @@ import static org.junit.Assert.fail;
 
 public class OldSpellingRuleTest {
 
-  private static final Language german = Languages.getLanguageForShortCode("de");
-  private static final OldSpellingRule rule = new OldSpellingRule(JLanguageTool.getMessageBundle());
-  private static final JLanguageTool lt = new JLanguageTool(german);
+  private static final Language germanDE = Languages.getLanguageForShortCode("de-DE");
+  private static final OldSpellingRule rule = new OldSpellingRule(JLanguageTool.getMessageBundle(), germanDE);
+  private static final JLanguageTool lt = new JLanguageTool(germanDE);
 
   @Test
   public void test() throws IOException {
@@ -72,6 +72,9 @@ public class OldSpellingRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Schloß"))[0].getSuggestedReplacements().toString(), is("[Schloss]"));
     assertThat(rule.match(lt.getAnalyzedSentence("radfahren"))[0].getSuggestedReplacements().toString(), is("[Rad fahren]"));
     assertThat(rule.match(lt.getAnalyzedSentence("Photo"))[0].getSuggestedReplacements().toString(), is("[Foto]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("Geschoß"))[0].getSuggestedReplacements().toString(), is("[Geschoss]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("Erdgeschoß"))[0].getSuggestedReplacements().toString(), is("[Erdgeschoss]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("Erdgeschoßes"))[0].getSuggestedReplacements().toString(), is("[Erdgeschosses]"));
 
     assertNoMatch("In Russland");
     assertNoMatch("In Russlands Weiten");
@@ -98,6 +101,17 @@ public class OldSpellingRuleTest {
     assertNoMatch("Das mögliche Bestehenbleiben");
     assertNoMatch("Das mögliche Bloßstrampeln verhindern.");
     assertMatch("Bloßstrampeln konnte er sich nicht.");
+  }
+
+  @Test
+  public void testGermanAT() throws IOException {
+    Language germanAT = Languages.getLanguageForShortCode("de-AT");
+    OldSpellingRule rule = new OldSpellingRule(JLanguageTool.getMessageBundle(), germanAT);
+    JLanguageTool lt = new JLanguageTool(germanAT);
+    // this is a special case for Austria because of the pronunciation:
+    assertThat(rule.match(lt.getAnalyzedSentence("Geschoß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Erdgeschoß")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Erdgeschoßes")).length, is(0));
   }
 
   private void assertMatch(String input) throws IOException {

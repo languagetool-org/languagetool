@@ -82,6 +82,7 @@ import org.languagetool.openoffice.OfficeDrawTools.UndoMarkupContainer;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 // import org.languagetool.rules.Rule;
+import org.languagetool.rules.Rule;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
@@ -175,6 +176,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private Language lastLanguage;
   private Locale locale;
   private int checkType = 0;
+  private String checkRuleId = null;
   private DocumentCache docCache;
   private DocumentType docType = DocumentType.WRITER;
   private boolean doInit = true;
@@ -565,9 +567,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
                     + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
           }
         }
-        if ((errType != LoErrorType.SPELL && error.nErrorType != TextMarkupType.SPELLCHECK)
+        if (checkType != 3 && ((errType != LoErrorType.SPELL && error.nErrorType != TextMarkupType.SPELLCHECK)
              || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK
-             && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale))) {
+             && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)))
+            || (checkType == 3 && error.aRuleIdentifier.equals(checkRuleId)) ) {
           if (error.nErrorStart >= x) {
             if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                 && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
@@ -796,11 +799,25 @@ public class SpellAndGrammarCheckDialog extends Thread {
   }
   
   /**
+   * class contains the SingleProofreadingError and the locale of the match
+   */
+  private class RuleIdentification {
+    public String ruleId;
+    public String ruleName;
+    
+    RuleIdentification (String ruleId, String ruleName) {
+      this.ruleId = ruleId;
+      this.ruleName = ruleName;
+    }
+  }
+  
+  /**
    * Class for dialog to check text for spell and grammar errors
    */
   public class LtCheckDialog implements ActionListener {
     private final static String ACORR_PREFIX = "acor_";
     private final static String ACORR_SUFFIX = ".dat";
+    private final static int CHECK_TYPE_NUM = 4;
     private final static int maxUndos = 50;
     private final static int toolTipWidth = 300;
     
@@ -833,6 +850,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JButton deactivateRule;
     private final JComboBox<String> addToDictionary; 
     private final JComboBox<String> activateRule; 
+    private final JComboBox<String> checkRuleBox; 
     private final JButton change; 
     private final JButton changeAll; 
     private final JButton autoCorrect; 
@@ -847,6 +865,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private SingleDocument currentDocument;
     private ViewCursorTools viewCursor;
     private SingleProofreadingError error;
+    private List<RuleIdentification> allDifferentErrors;
     String docId;
     private String[] userDictionaries;
     private String informationUrl;
@@ -895,7 +914,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       suggestionsLabel = new JLabel(labelSuggestions);
       suggestions = new JList<String>();
       checkTypeLabel = new JLabel(Tools.getLabel(messages.getString("guiOOoCheckTypeLabel")));
-      checkTypeButtons = new JRadioButton[3];
+      checkTypeButtons = new JRadioButton[CHECK_TYPE_NUM];
       checkTypeGroup = new ButtonGroup();
       help = new JButton (helpButtonName);
       options = new JButton (optionsButtonName);
@@ -912,6 +931,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       changeAll = new JButton (changeAllButtonName);
       autoCorrect = new JButton (autoCorrectButtonName);
       activateRule = new JComboBox<String> ();
+      checkRuleBox = new JComboBox<String> ();
       checkProgressLabel = new JLabel(labelCheckProgress);
       cacheStatusLabel = new JLabel(" █ ");
       cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel"));
@@ -1078,6 +1098,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkTypeButtons[0].addActionListener(e -> {
           setAtWorkButtonState();
           checkType = 0;
+          checkRuleBox.setEnabled(false);
           Thread t = new Thread(new Runnable() {
             public void run() {
               try {
@@ -1095,6 +1116,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkTypeButtons[1].addActionListener(e -> {
           setAtWorkButtonState();
           checkType = 1;
+          checkRuleBox.setEnabled(false);
           Thread t = new Thread(new Runnable() {
             public void run() {
               try {
@@ -1112,6 +1134,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkTypeButtons[2].addActionListener(e -> {
           setAtWorkButtonState();
           checkType = 2;
+          checkRuleBox.setEnabled(false);
           Thread t = new Thread(new Runnable() {
             public void run() {
               try {
@@ -1125,7 +1148,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
           });
           t.start();
         });
-        for (int i = 0; i < 3; i++) {
+        checkTypeButtons[3] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckOnlyRuleButton")));
+        checkTypeButtons[3].addActionListener(e -> {
+          if (checkType != 3) {
+            checkType = 3;
+//            checkRuleId = null;
+          }
+          checkRuleBox.setEnabled(true);
+        });
+        for (int i = 0; i < CHECK_TYPE_NUM; i++) {
           checkTypeGroup.add(checkTypeButtons[i]);
           checkTypeButtons[i].setFont(dialogFont);
           checkTypeButtons[i].setToolTipText(formatToolTipText(checkTypeHelp));
@@ -1223,7 +1254,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         autoCorrect.setActionCommand("autoCorrect");
         autoCorrect.setEnabled(false);
         autoCorrect.setToolTipText(formatToolTipText(autoCorrectButtonHelp));
-  
+        
         activateRule.setFont(dialogFont);
         activateRule.setToolTipText(formatToolTipText(activateRuleButtonHelp));
         activateRule.setVisible(false);
@@ -1254,6 +1285,33 @@ public class SpellAndGrammarCheckDialog extends Thread {
               }
             });
             t.start();
+          }
+        });
+        
+        checkRuleBox.setFont(dialogFont);
+        checkRuleBox.setVisible(true);
+        checkRuleBox.setEnabled(false);
+        checkRuleBox.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED && checkType == 3 && checkRuleBox.getItemCount() > 0) {
+            String newRuleId = getRuleId((String) checkRuleBox.getSelectedItem(), allDifferentErrors);
+            if (checkRuleId == null || !checkRuleId.equals(newRuleId)) {
+              Thread t = new Thread(new Runnable() {
+                public void run() {
+                  try {
+                    MessageHandler.printToLogFile("checkDialog: Set checkRuleId old: " + checkRuleId + ", new: " + newRuleId);
+                    checkRuleId = newRuleId;
+                    startOfRange = -1;
+                    endOfRange = -1;
+                    lastPara = -1;
+                    gotoNextError();
+                  } catch (Throwable t) {
+                    MessageHandler.showError(t);
+                    closeDialog();
+                  }
+                }
+              });
+              t.start();
+            }
           }
         });
         
@@ -1432,7 +1490,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         cons22.gridy++;
         rightPanel2.add(resetIgnorePermanent, cons22);
         
-        //  Define language panel
+        //  Define check type panel
         JPanel checkTypePanel = new JPanel();
         checkTypePanel.setLayout(new GridBagLayout());
         GridBagConstraints cons12 = new GridBagConstraints();
@@ -1441,13 +1499,42 @@ public class SpellAndGrammarCheckDialog extends Thread {
         cons12.gridy = 0;
         cons12.anchor = GridBagConstraints.NORTHWEST;
         cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.weightx = 1.0f;
+        cons12.weightx = 0.0f;
         cons12.weighty = 0.0f;
         checkTypePanel.add(checkTypeLabel, cons12);
-        for (int i = 0; i < 3; i++) {
-          cons12.gridx++;
-          checkTypePanel.add(checkTypeButtons[i], cons12);
+        JPanel checkTypePanel1 = new JPanel();
+        checkTypePanel1.setLayout(new GridBagLayout());
+        GridBagConstraints cons121 = new GridBagConstraints();
+        cons121.insets = new Insets(2, 2, 2, 2);
+        cons121.gridx = 0;
+        cons121.gridy = 0;
+        cons121.anchor = GridBagConstraints.NORTHWEST;
+        cons121.fill = GridBagConstraints.HORIZONTAL;
+        cons121.weightx = 1.0f;
+        cons121.weighty = 0.0f;
+        for (int i = 0; i < CHECK_TYPE_NUM - 1; i++) {
+          checkTypePanel1.add(checkTypeButtons[i], cons121);
+          cons121.gridx++;
         }
+        cons12.weightx = 1.0f;
+        cons12.gridx++;
+        checkTypePanel.add(checkTypePanel1, cons12);
+        JPanel checkTypePanel2 = new JPanel();
+        checkTypePanel2.setLayout(new GridBagLayout());
+        GridBagConstraints cons122 = new GridBagConstraints();
+        cons122.insets = new Insets(2, 2, 2, 2);
+        cons122.gridx = 0;
+        cons122.gridy = 0;
+        cons122.anchor = GridBagConstraints.NORTHWEST;
+        cons122.fill = GridBagConstraints.HORIZONTAL;
+        cons122.weightx = 0.0f;
+        cons122.weighty = 0.0f;
+        checkTypePanel2.add(checkTypeButtons[3], cons122);
+        cons122.gridx++;
+        cons122.weightx = 1.0f;
+        checkTypePanel2.add(checkRuleBox, cons122);
+        cons12.gridy++;
+        checkTypePanel.add(checkTypePanel2, cons12);
         
         //  Define main panel
         JPanel mainPanel = new JPanel();
@@ -1593,7 +1680,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private void setJComboSelectionBackground(JComboBox<String> comboBox, Color color) {
       Object context = comboBox.getAccessibleContext().getAccessibleChild(0);
       BasicComboPopup popup = (BasicComboPopup)context;
-      @SuppressWarnings("unchecked")
       JList<Object> list = popup.getList();
       list.setSelectionBackground(color);
     }
@@ -1649,18 +1735,22 @@ public class SpellAndGrammarCheckDialog extends Thread {
         size = 100;
       }
       cacheStatusLabel.setToolTipText(messages.getString("loDialogCacheLabel") + ": " + size + "%");
-//      if (debugMode) {
-//        MessageHandler.printToLogFile("CheckDialog: setCacheStatusColor: size = " + size + "%");
-//      }
       if (size < 25) {
-        cacheStatusLabel.setForeground(new Color(145 + 4 * size, 0, 0));
+        cacheStatusLabel.setForeground(new Color(fitToColorboundaries(145 + 4 * size), 0, 0));
       } else if (size < 50) {
-        cacheStatusLabel.setForeground(new Color(255, 5 + 4 * size, 0));
+        cacheStatusLabel.setForeground(new Color(255, fitToColorboundaries(5 + 4 * size), 0));
       } else if (size < 75) {
-        cacheStatusLabel.setForeground(new Color(255 - 4 * (size - 25), 255, 0));
+        cacheStatusLabel.setForeground(new Color(fitToColorboundaries(255 - 4 * (size - 25)), 255, 0));
       } else {
-        cacheStatusLabel.setForeground(new Color(0, 255 - 4 * (size - 70), 0));
+        cacheStatusLabel.setForeground(new Color(0, fitToColorboundaries(255 - 4 * (size - 70)), 0));
       }
+    }
+
+    private int fitToColorboundaries(int col) {
+      if (col < 0 || col > 255) {
+        return 255;
+      }
+      return col;
     }
     
     void errorReturn() {
@@ -1777,6 +1867,75 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
 
     /**
+     * get all different kinds of errors
+     */
+    List<RuleIdentification> getAllDifferentErrors() {
+      List<RuleIdentification> errors = new ArrayList<>();
+      List<Rule> allRules = lt.getAllRules();
+      for (int nFPara = 0; nFPara < docCache.size(); nFPara++) {
+        for (int cacheNum = 0; cacheNum < documents.getNumMinToCheckParas().size(); cacheNum++) {
+          if (!docCache.isAutomaticGenerated(nFPara) && (cacheNum == 0 || (documents.isSortedRuleForIndex(cacheNum) 
+                                  && !currentDocument.getDocumentCache().isSingleParagraph(nFPara)))) {
+            SingleProofreadingError[] pErrors = currentDocument.getParagraphsCache().get(cacheNum).getSafeMatches(nFPara);
+            if (pErrors != null) {
+              for (SingleProofreadingError pError : pErrors) {
+                if (pError.nErrorType != TextMarkupType.SPELLCHECK) {
+                  boolean toAdd = true;
+                  for (RuleIdentification error : errors) {
+                    if (pError.aRuleIdentifier.equals(error.ruleId)) {
+                      toAdd = false;
+                      break;
+                    }
+                  }
+                  if (toAdd) {
+                    for (Rule rule : allRules) {
+                      if (rule.getId().equals(pError.aRuleIdentifier)) {
+                        int n = 0;
+                        for (RuleIdentification error : errors) {
+                          if (rule.getDescription().compareToIgnoreCase(error.ruleName) < 0) {
+                            break;
+                          }
+                          n++;
+                        }
+                        errors.add(n, new RuleIdentification(pError.aRuleIdentifier, rule.getDescription()));
+                        break;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return errors;
+    }
+    
+    /**
+     * get the name of a rule by Id out of a list of RuleIdentification
+     */
+    String getRuleName (String ruleId, List<RuleIdentification> rules) {
+      for (RuleIdentification rule : rules) {
+        if (ruleId.equals(rule.ruleId)) {
+          return rule.ruleName;
+        }
+      }
+      return null;
+    }
+    
+    /**
+     * get the ID of a rule by name out of a list of RuleIdentification
+     */
+    String getRuleId (String ruleName, List<RuleIdentification> rules) {
+      for (RuleIdentification rule : rules) {
+        if (ruleName.equals(rule.ruleName)) {
+          return rule.ruleId;
+        }
+      }
+      return null;
+    }
+    
+    /**
      * Formats the tooltip text
      * The text is given by a text string which is formatted into html:
      * \n are formatted to html paragraph breaks
@@ -1864,6 +2023,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       language.setEnabled(false);
       changeLanguage.setEnabled(false);
       activateRule.setEnabled(false);
+      checkRuleBox.setEnabled(false);
       endOfDokumentMessage = null;
       sentenceIncludeError.setBackground(Color.LIGHT_GRAY);
       sentenceIncludeError.setEnabled(false);
@@ -1897,6 +2057,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
           MessageHandler.printToLogFile("CheckDialog: findNextError: start getNextError");
         }
         removeMarkups();
+        if (checkType == 3) {
+          if (checkRuleId == null) {
+            if (checkRuleBox.getItemCount() > 0) {
+              checkRuleId = getRuleId((String) checkRuleBox.getSelectedItem(), allDifferentErrors);
+            } else {
+              checkTypeButtons[0].setSelected(true);
+              checkType = 0;
+              checkRuleBox.setEnabled(false);
+            }
+          }
+        }
         CheckError checkError = getNextError(startAtBegin);
         if (isDisposed) {
           return;
@@ -1965,6 +2136,21 @@ public class SpellAndGrammarCheckDialog extends Thread {
           if (debugMode) {
             MessageHandler.printToLogFile("CheckDialog: findNextError: Language set");
           }
+          
+          allDifferentErrors = getAllDifferentErrors();
+          if (allDifferentErrors.size() != checkRuleBox.getItemCount()) {
+            checkRuleBox.removeAllItems();
+            for (RuleIdentification error : allDifferentErrors) {
+              checkRuleBox.addItem(error.ruleName);
+            }
+          }
+          if (checkType == 3) {
+            if (checkRuleId != null) {
+              checkRuleBox.setSelectedItem(getRuleName(checkRuleId, allDifferentErrors));
+            }
+            checkRuleBox.setEnabled(true);
+          }
+          
           Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
           if (!isSpellError && !deactivatedRulesMap.isEmpty()) {
             activateRule.removeAllItems();

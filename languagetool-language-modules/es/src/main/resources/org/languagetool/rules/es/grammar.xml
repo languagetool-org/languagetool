@@ -3454,7 +3454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="2">tener|haber</token>
+                    <token inflected="yes" regexp="yes" skip="2">tener|haber<exception scope="next" postag_regexp="yes" postag="V.P.*"/></token>
                     <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio|algo</token>
                     <token postag="SPS00" min="0"/>
                     <marker>
@@ -3474,6 +3474,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Puede explicarme alguien por qué siempre pasa esto?</example>
                 <example>No le dije a nadie a qué hora llegaría.</example>
                 <example>¿Nada de qué?</example>
+                <example>Tom no le ha dicho a nadie por qué ha llegado tarde.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11744,6 +11745,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d\d\d\d</token>
                 <token><exception regexp="yes" inflected="yes">&unidades_tiempo;</exception></token>
             </antipattern>
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>,</token>
+                <token>hacia</token>
+                <token>,</token>
+                <token postag="SPS00"/>
+                <example>Las preposiciones en español son: a, ante, bajo, cabe, con, de, desde, contra, en, entre, hacia, hasta, para, por, según, sin, so, sobre, tras.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -13460,6 +13469,109 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="APOSTROFO_ACENTO" name="cambi'o -> cambió">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes" spacebefore="no">o.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="(?iu)^o" regexp_replace="ó" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="cambió">Él <marker>cambi'o</marker></example>
+                <example correction="camión">Un <marker>cami'on</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes" spacebefore="no">a.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="(?iu)^a" regexp_replace="á" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="repetirá">Él <marker>repetir'a</marker></example>
+                <example>Estaba con Billy D'A ngelo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes" spacebefore="no">e.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="(?iu)^e" regexp_replace="é" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="repetiré">Yo <marker>repetir'e</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes" spacebefore="no">i.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="(?iu)^i" regexp_replace="í" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="viví">Yo <marker>viv'i</marker> allí.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes" spacebefore="no">u.*</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>¿Quería decir <suggestion>\1<match no="3" regexp_match="(?iu)^u" regexp_replace="ú" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="runrún">Un <marker>runr'un</marker> extraño.</example>
+            </rule>
+            <rule>
+                <!-- 6 -->
+                <pattern>
+                    <token postag="UNKNOWN" regexp="yes">[\p{L}]+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Están|Estén">Potser <marker>Est`n</marker> aquí.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}[\p{L}]+</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token postag="UNKNOWN" regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Están|Estén"><marker>Est`n</marker> aquí.</example>
+            </rule>
+            <rule>
+                <!-- foreign terms with apostrophe -->
+                <pattern>
+                    <token regexp="yes">o|l|d</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token postag="UNKNOWN" regexp="yes" spacebefore="no">[\p{L}]+<exception>s</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="O'Neill"><marker>O’neill</marker></example>
+                <example correction="L'ALCOIÀ|L'ALCORA"><marker>L’ALCOIA</marker></example>
+                <example correction="l'Alcoià|l'Alcora"><marker>L’Alcoia</marker></example>
+                <example correction="d'Alembert"><marker>D'Alembert</marker></example>
+                <example correction="d'Alembert"><marker>D'Alambert</marker></example>
+                <example correction="l'Alcúdia"><marker>L´Alcudia</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" postag="UNKNOWN">[\p{L}·]+</token>
+                        <token regexp="yes" spacebefore="no">[´`]</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:inmarker desiredPostag:.* suppressMatch:true removeSuggestionsRegexp:.*[^áéíóú]"/>
+                <message>Posible error de ortografía.</message>
+                <example correction="Está|Esté">Potser <marker>Est`</marker> aquí.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACE_HACE" name="ace -> hace">
             <rule>
                 <pattern case_sensitive="yes">
@@ -15334,6 +15446,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe junto.</message>
                 <suggestion>Indochina</suggestion>
                 <example correction="Indochina">La guerra de <marker>Indo-China</marker>.</example>
+            </rule>
+            <rule id="PREFIJO_CUASI" name="cuasi-veraniego -> cuasiveraniego">
+                <pattern>
+                    <token>cuasi</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>Se escribe junto.</message>
+                <suggestion>cuasi\3</suggestion>
+                <url>https://www.fundeu.es/recomendacion/cuasi-y-casi-diferencias/</url>
+                <example correction="cuasiveraniego">Hacía un tiempo <marker>cuasi veraniego</marker>.</example>
+                <example correction="cuasipartículas">Descubrieron nuevas <marker>cuasi-partículas</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
@@ -18155,6 +18280,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>por</token>
                     <token>que</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">tener|haber</token>
+                    <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio|algo</token>
+                    <token postag="SPS00" min="0"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>por</token>
@@ -18166,13 +18299,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>por qué</suggestion>
                 <example correction="porque|por qué">No le gustan <marker>por que</marker> sabe que son malos.</example>
                 <example correction="porque|por qué">Y también <marker>por que</marker> se había tomado tantas molestias.</example>
+                <example correction="porque|por qué">Tom no le ha dicho a nadie <marker>por que</marker> ha llegado tarde.</example>
                 <example>Optaron por que no hubiera elecciones.</example>
                 <example>Estaban ansiosos por que vinieran.</example>
                 <example>El motivo por que vinimos no es este.</example>
                 <example>Nos expresó su preocupación por que los niños pudieran irse.</example>
                 <example correction="porque|por qué" type="triggers_error">Los premios <marker>por que</marker> competían eran atractivos.</example>
                 <example>Yo estaba impaciente por que el juego comenzara.</example>
-                <!-- No puedo responder por que él sea un deshonesto. -->
+                <example>No tienes nada por que preocuparte.</example>
+                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él es un deshonesto.</example>
+                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él sea un deshonesto.</example>
             </rule>
         </rulegroup>
         <rule id="ENVIO" name="envio -> envío">
@@ -20851,6 +20987,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+|[,'"‘’“”«»]<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
             </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>gracias</token>
+                <example>Quiero decirte un gracias muy fuerte.</example>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>cada</token>
@@ -23449,6 +23590,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>a</token>
                     <token>buen</token>
                     <token>hambre</token>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token postag="AQ.[MC]S." postag_regexp="yes"/>
+                    <token>gracias</token>
+                    <example>Un humilde gracias</example>
+                </antipattern>
+                <antipattern>
+                    <token>un</token>
+                    <token regexp="yes">auténtico|verdadero</token>
+                    <token regexp="yes">pelota|veleta</token>
                 </antipattern>
                 <pattern>
                     <unify negate="yes">
@@ -27603,7 +27755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">tener</token>
                     <token>que</token>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes"><exception postag="V.N.*|V.M..V.*" postag_regexp="yes"/></token>
+                        <token postag="V.[IS].[13]S." postag_regexp="yes"><exception postag="V.N.*|V.M..V.*" postag_regexp="yes"/><exception>hay</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Quería decir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
@@ -32722,7 +32874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Carácter de guion incorrecto.</message>
             <suggestion><match no="1" regexp_match="[&#x2500;&#x3161;]" regexp_replace="—"/></suggestion>
             <example correction="—">Es él <marker>─</marker>dijo.</example>
-            <example correction="—">Es él <marker>ㅡ</marker>dijo.</example>
+            <example correction="—dijo">Es él <marker>ㅡdijo</marker>.</example>
         </rule>
         <rulegroup id="ABREV_HORA" name="abreviatura de horas, gramos" default="on">
             <rule>
@@ -33352,9 +33504,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token spacebefore="no"/>
                 </pattern>
+                <filter class="org.languagetool.rules.patterns.ApostropheTypeFilter" args="wordFrom:1 hasTypographicalApostrophe:false"/>
                 <message>En una tipografía cuidada, use el apóstrofo tipográfico.</message>
                 <suggestion>’</suggestion>
                 <example correction="’">Sotheby<marker>'</marker>s.</example>
+                <example>Sotheby’s</example>
             </rule>
             <rule>
                 <pattern>
@@ -33363,10 +33517,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token spacebefore="no"/>
                 </pattern>
+                <filter class="org.languagetool.rules.patterns.ApostropheTypeFilter" args="wordFrom:1 hasTypographicalApostrophe:false"/>
                 <message>En una tipografía cuidada, use comillas tipográficas.</message>
                 <suggestion>‘</suggestion>
                 <example correction="‘">Es de <marker>'</marker>gran calidad'.</example>
                 <example>De ‘gran calidad’.</example>
+                <example>Marvel’s Spider-Man</example>
             </rule>
             <rule>
                 <pattern>
@@ -33376,10 +33532,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token spacebefore="no">'</token>
                     </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.patterns.ApostropheTypeFilter" args="wordFrom:2 hasTypographicalApostrophe:false"/>
                 <message>En una tipografía cuidada, use comillas tipográficas.</message>
                 <suggestion>’</suggestion>
                 <example correction="’">Es de 'gran calidad<marker>'</marker>.</example>
                 <example>De ‘gran calidad’.</example>
+                <example>Marvel’s Spider-Man</example>
             </rule>
             <rule>
                 <pattern>
@@ -33414,6 +33572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token spacebefore="no" regexp="yes">[\])!?]</token>
                 </pattern>
+                <filter class="org.languagetool.rules.patterns.ApostropheTypeFilter" args="wordFrom:1 hasTypographicalApostrophe:false"/>
                 <message>En una tipografía cuidada, use comillas tipográficas.</message>
                 <suggestion>’</suggestion>
                 <example correction="’">('gran calidad<marker>'</marker>).</example>
@@ -35088,6 +35247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="MULTITOKEN_SPELLING" name="Errores ortográficos" type="misspelling">
         <!-- Avoid antipatterns because the AP doesn't prevent the filter to be executed -->
         <rulegroup id="ES_MULTITOKEN_SPELLING_FOUR" name="errores de ortografía en nombres propios (4 elementos)" default="on">
+            <short>Posible error</short>
             <rule>
                 <pattern>
                     <token postag="UNKNOWN"><exception regexp="yes">&particles_of;</exception></token>
@@ -35159,6 +35319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_THREE" name="errores de ortografía en nombres propios (3 elementos)" default="on">
+            <short>Posible error</short>
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token><match no="0"/></token>
@@ -35178,13 +35339,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Posible error de ortografía.</message>
                 <example correction="Yuval Noah Harari"><marker>Yuval Noha Hariri</marker>.</example>
                 <example correction="Yuval Noah Harari"><marker>Yuval Noha Harari</marker>.</example>
+                <example correction="Alexander von Humboldt"><marker>Alexander Von Humboldt</marker></example>
             </rule>
             <rule>
                 <antipattern>
@@ -35261,6 +35423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_TWO" name="errores de ortografía en nombres propios (dos elementos)" default="on">
+            <short>Posible error</short>
             <antipattern>
                 <token spacebefore="no">-</token>
                 <token spacebefore="no"/>
@@ -35361,6 +35524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios con guion" default="on">
+            <short>Posible error</short>
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token>-</token>

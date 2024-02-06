@@ -39,8 +39,8 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/pt/multiwords.txt", true, true);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, "NPCN000");
+  private final MultiWordChunker chunker = new MultiWordChunker("/pt/multiwords.txt", true, true, true);
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, true,"NPCN000");
   private final Disambiguator disambiguator;
 
   public PortugueseHybridDisambiguator(Language lang) {

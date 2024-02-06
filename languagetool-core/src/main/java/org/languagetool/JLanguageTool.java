@@ -980,7 +980,7 @@ public class JLanguageTool {
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks;
 
     // tone tag and level filtering can not be applied to these rules before processing
-    List<RemoteRule> remoteRules = getAllActiveRules().stream()
+    List<RemoteRule> remoteRules = rules.allRules().stream()
       .filter(RemoteRule.class::isInstance).map(RemoteRule.class::cast)
       .collect(Collectors.toList());
 

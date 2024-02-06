@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import com.google.common.base.Suppliers;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Language;
 import org.languagetool.rules.*;
 
 import java.util.*;
@@ -57,8 +58,11 @@ public class OldSpellingRule extends Rule {
   private static final Supplier<SpellingData> DATA = Suppliers.memoize(() -> new SpellingData(FILE_PATH));
   private static final Pattern CHARS = Pattern.compile("[a-zA-Zöäüß]");
 
-  public OldSpellingRule(ResourceBundle messages) {
-    super.setCategory(Categories.TYPOS.getCategory(messages));
+  private final Language language;
+
+  public OldSpellingRule(ResourceBundle messages, Language language) {
+    this.language = language;
+    setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Der <marker>Abfluß</marker> ist schon wieder verstopft."),
                    Example.fixed("Der <marker>Abfluss</marker> ist schon wieder verstopft."));
@@ -66,7 +70,7 @@ public class OldSpellingRule extends Rule {
 
   @Override
   public String getId() {
-    return "OLD_SPELLING";
+    return "OLD_SPELLING_RULE";
   }
 
   @Override
@@ -110,7 +114,12 @@ public class OldSpellingRule extends Rule {
     match.setSuggestedReplacements(Arrays.asList(suggestions));
     String covered = sentence.getText().substring(hit.begin, hit.end);
     if (suggestions.length > 0 && suggestions[0].replaceFirst("ss", "ß").equals(covered)) {
-      match.setMessage(message + " Das Wort wird mit 'ss' geschrieben, wenn davor eine kurz gesprochene Silbe steht.");
+      if (language.getShortCodeWithCountryAndVariant().equals("de-AT") && covered.toLowerCase().contains("geschoß")) {
+        // special case for Austria: "Geschoß" is correct in both old and new spelling in de-AT (because of the pronunciation)
+        return;
+      } else {
+        match.setMessage(message + " Das Wort wird mit 'ss' geschrieben, wenn davor eine kurz gesprochene Silbe steht.");
+      }
     }
     matches.add(match);
   }

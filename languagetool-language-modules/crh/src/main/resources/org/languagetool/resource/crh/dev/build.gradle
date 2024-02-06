@@ -1,0 +1,252 @@
+plugins {
+    id 'java'
+//    id 'eclipse'
+    id 'maven-publish'
+    id 'signing'
+    id 'base'
+}
+
+String ltToolsVersion = '6.4-SNAPSHOT'
+
+String versionFile="${projectDir}/VERSION"
+version=new File(versionFile).text.trim()
+
+group = 'org.qirimca.nlp'
+ext.artifactId = 'morfologik-crh-lt'
+
+
+base {
+    archivesName = project.artifactId
+}
+
+String langCode="crh"
+
+String packageDir="org/languagetool/resource/" + langCode
+//String resourceDir="${projectDir}/.."
+//String outResDir="${projectDir}/.."
+String resourceDir=sourceSets.main.resources.srcDirs[0].toString() + "/" + packageDir
+String outResDir=sourceSets.main.output.resourcesDir.toString() + "/" + packageDir
+String tmpDir="build/tmp"
+
+String inputDir="${projectDir}"
+String inputDictFile="pos_dict.txt"
+
+
+def ltDir="../../../../../../../../../.."
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+configurations{
+  provided {
+        description = 'Configuration for generating the dictionaries'
+  }
+}
+
+dependencies {
+    provided 'org.languagetool:languagetool-tools:' + ltToolsVersion
+}
+
+// for git-bash
+def convert(String filename) {
+  if( filename.contains(":\\") ) {
+      return filename.replaceFirst(/(?i)([a-z]):\//, '$1/').replace('\\', '/')
+  }
+  return filename
+}
+
+task prepareDict(type: Exec) {
+    def srcDict="${inputDir}/$inputDictFile"
+    def outFile="${tmpDir}/all.tagged.tmp"
+
+    inputs.file srcDict
+    outputs.file outFile
+
+    workingDir "$projectDir"
+
+    doFirst {
+        println "Preparing dict file $inputDictFile"
+        new File("$workingDir/$tmpDir").mkdirs()
+    }
+
+    srcDict = convert(srcDict)
+
+    def exclude = "lat".equals(dict) ? "[ а-я]" : " "
+    def cmd = "grep -v '${exclude}' ${srcDict} | LC_ALL=POSIX sort -u > ${outFile} && [ -f ${outFile} ]"
+
+    commandLine "sh", "-c", "${cmd}"
+}
+
+
+task posDict(type: JavaExec, dependsOn: prepareDict) {
+    def outputDict="${outResDir}/crimean_tatar.dict"
+
+    inputs.files tasks.prepareDict.outputs
+    outputs.file outputDict
+
+    workingDir "$projectDir"
+
+    classpath = files(configurations.provided.files)
+    mainClass = 'org.languagetool.tools.POSDictionaryBuilder'
+    jvmArgs "-Xmx12g"
+    
+    args "-i", "${tmpDir}/all.tagged.tmp"
+    args "-info", "${resourceDir}/crimean_tatar.info"
+    args "-o", "${outputDict}"
+}
+
+task synthDict(type: JavaExec, dependsOn: prepareDict) {
+    def outputDict="${outResDir}/crimean_tatar_synth.dict"
+
+    inputs.files tasks.prepareDict.outputs
+    outputs.file outputDict
+
+    workingDir "$projectDir"
+
+    classpath = files(configurations.provided.files)
+    mainClass = 'org.languagetool.tools.SynthDictionaryBuilder'
+    jvmArgs "-Xmx12g"
+    
+    args "-i", "${tmpDir}/all.tagged.tmp"
+    args "-info", "${resourceDir}/crimean_tatar_synth.info"
+    args "-o", "${outputDict}"
+}
+
+
+task prepareSpellWords(type: Exec) {
+    def srcDict="${inputDir}/$inputDictFile"
+//    def srcDict="${inputDir}/words_spell.txt"
+    def outFile="${tmpDir}/spell.words.tmp"
+
+    inputs.file srcDict
+    outputs.file outFile
+
+    workingDir "$projectDir"
+
+    doFirst {
+        new File(tmpDir).mkdirs()
+    }
+    
+    srcDict = convert(srcDict)
+
+    def cmd = "cat ${srcDict} | cut -f 1 | grep -v ' ' | LC_ALL=POSIX sort -u > ${outFile}"
+
+    commandLine "sh", "-c", "${cmd}"
+}
+
+
+task spellDict(type: JavaExec, dependsOn: prepareSpellWords) {
+    def spellOutDir="${outResDir}/hunspell"
+    def outFile="${spellOutDir}/crh_UA.dict"
+
+    inputs.files tasks.prepareSpellWords.outputs.files
+    outputs.file outFile
+
+    workingDir "$projectDir"
+
+    classpath = files(configurations.provided.files)
+    mainClass = 'org.languagetool.tools.SpellDictionaryBuilder'
+    jvmArgs "-Xmx12g"
+    
+    args "-i", "${tmpDir}/spell.words.tmp"
+    args "-info", "${resourceDir}/hunspell/crh_UA.info"
+    args "-o", "${outFile}"
+
+    doFirst() {
+        new File(spellOutDir).mkdirs()
+    }
+}
+
+
+
+processResources.dependsOn(posDict, synthDict, spellDict)
+compileJava.enabled = false
+
+//
+// Publishing
+//
+
+jar {
+    inputs.file versionFile
+
+    manifest {
+        attributes 'Implementation-Title': 'Binary Morfologik dictionaries for Crimean Tatar for LanguageTool',
+                   'Implementation-Version': project.version
+    }
+
+    setArchiveFileName "${project.artifactId}-${project.version}.jar"
+
+    include 'org/languagetool/**/*.dict'
+    include 'org/languagetool/**/*.info'
+    include 'org/languagetool/**/README*'
+    include 'org/languagetool/**/*tags*.txt'
+
+    includeEmptyDirs false
+}
+
+
+signing {
+    sign configurations.archives
+    sign publishing.publications
+}
+
+
+publishing {
+ //   inputs.files "$projectDir/../../VERSION"
+
+    publications {
+        maven(MavenPublication) {
+            artifactId = project.artifactId
+            from components.java
+
+            pom {
+                name = 'Crimean Tatar Morfologik dictionaries for LanguageTool'
+                description = 'Part-of-speech dictionaries for Crimean Tatar in Morfologik binary format'
+                url = 'https://github.com/qirimca/languagetool'
+
+                licenses {
+                  license {
+                    name = 'GNU Lesser General Public License'
+                    url = 'http://www.gnu.org/licenses/lgpl.txt'
+                  }
+                }
+                
+                developers {
+                  developer {
+                    id = 'arysin'
+                    name = 'Andriy Rysin'
+                    email = 'arysin@gmail.com'
+                  }
+                }
+
+                scm {
+                  url = "https://github.com/qirimca/languagetool.git"
+                }
+            }
+        }
+    }
+
+    repositories {
+//        mavenLocal()
+
+        maven {
+            credentials {
+                username = getProperty('ossrhUsername')
+                password = getProperty('ossrhPassword')
+            }
+
+         url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+         //    url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+}
+
+publish {
+   inputs.files "$projectDir/VERSION"
+}
+publishToMavenLocal {
+   inputs.files "$projectDir/VERSION"
+}

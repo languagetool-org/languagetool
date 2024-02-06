@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+English Grammar and Typo Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de),
+  Andriy Rysin and the LanguageTool contributors
+
+Portions of rules are converted from After The Deadline grammar checker, 
+available at http://open.afterthedeadline.com/, licensed under
+GNU GPL.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+
+<!DOCTYPE rules [
+]>
+
+<rules lang="crh" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <category id="TYPOS" name="Possible Typo" type="misspelling">
+      <rulegroup id="PLURAL_AFFIX_CONFUSION" name="Cemi afiksi hatası">
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[uoa]+[bcdğjlmnñrvyzçfhkpstuoa]+ler</token>
+          </pattern>
+          <message>Cemi afiksi hatası: <suggestion ><match no="1" regexp_match="(.*[uoa]+[bcdğıjlmnñrvyzçfhkpstuoa]+)?(ler)" regexp_replace="$1lar"/></suggestion></message>
+          <example correction="hatalar">Defterimde <marker>hataler</marker> yaptım.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[eüöâ]+[bcdğjlmnñrvyzçfhkpsteüöâ]+lar</token>
+          </pattern>
+          <message>Cemi afiksi hatası: <suggestion ><match no="1" regexp_match="(.*[eüöâ]+[bcdğıjlmnñrvyzçfhkpsteüöâ]+)(lar)" regexp_replace="$1ler"/></suggestion></message>
+          <example correction="Terekler"><marker>Tereklar</marker> kördim.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="PLURAL_AFFIX_CONFUSION_CYR" name="Cemi afiksi hatası (cyr)">
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[ыуоа]+[бджгълмнрвйзчфхкпстыуоа]+лер</token>
+          </pattern>
+          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[ыуоа]+[бджгълмнрвйзчфхкпст]+)?(лер)" regexp_replace="$1лар"/></suggestion></message>
+          <example correction="хаталар">Дефтеримде <marker>хаталер</marker> яптым.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[еюёя]+[бджгълмнрвйзчфхкпстеюёя]+лар</token>
+          </pattern>
+          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[еюёя]+[бджгълмнрвйзчфхкпст]+)(лар)" regexp_replace="$1лер"/></suggestion></message>
+          <example correction="Тереклер"><marker>Тереклар</marker> корьдим.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="MIDDLE_VOWEL_EXCLUSIOON" name="Orta sozuq sesiniñ tüşmesi">
+        <rule> 
+          <pattern>
+            <token regexp="yes">ağızı.*</token>
+          </pattern>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(ağızı)(.*)" regexp_replace="ağzı$2"/></suggestion></message>
+          <example correction="ağzıñnı">Yeter, <marker>ağızıñnı</marker> qapat!</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">vaqıtı.*</token>
+          </pattern> 
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(vaqıtı)(.*)" regexp_replace="vaqtı$2"/></suggestion></message>
+          <example correction="vaqtında">Asan <marker>vaqıtında</marker> yetişmedi.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">oğulu.*</token>
+          </pattern>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(oğulu)(.*)" regexp_replace="oğlu$2"/></suggestion></message>
+          <example correction="oğlum">Menim <marker>oğulum</marker> mektepte oquy.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">ömürü.*</token>
+          </pattern>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(ömürü)(.*)" regexp_replace="ömrü$2"/></suggestion></message>
+          <example correction="ömrü">Bitamnıñ <marker>ömürü</marker> uzun ve bahtlı.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">ilimi.*</token>
+          </pattern>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(ilimi)(.*)" regexp_replace="ilmi$2"/></suggestion></message>
+          <example correction="ilmini">Universitetimizde fizika <marker>ilimini</marker> ögrenemiz.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">şekili.*</token>
+          </pattern>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(şekili)(.*)" regexp_replace="şekli$2"/></suggestion></message>
+          <example correction="şekli">Temel <marker>şekili</marker> yañlış körüne.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">[fF]ikiri.*</token>
+          </pattern>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="([fF])(ikiri)(.*)" regexp_replace="$1ikri$3"/></suggestion></message>
+          <example correction="Fikrim"><marker>Fikirim</marker> uzaqlarda.</example>
+          <example correction="fikrimiz">Bu mevzuda iç <marker>fikirimiz</marker> yoqtur.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">burunı.*</token>
+          </pattern>
+          <message>Bu söz içinde orta sozuq sesi tüşmeli: <suggestion ><match no="1" regexp_match="(burunı)(.*)" regexp_replace="burnu$2"/></suggestion></message>
+          <example correction="burnu">Onıñ <marker>burunı</marker> uzundır.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="SON_WORD_MISSSPELL" name="Orta sozuq sesiniñ tüşmesi">
+        <rule>
+          <pattern>
+            <token>oğlusı</token>
+          </pattern>
+          <message>Oğul sözüni şöyle yazmamalı: <suggestion >oğlu</suggestion></message>
+          <example correction="oğlu">Memetniñ <marker>oğlusı</marker> mektepte oquy!</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="MISSVOCALIZATION" name="Yañğıravuqlıq">
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ]k[uüıi](m|m[ıi]z|ñ|ñ[ıi]z|n)?.*
+            <exception regexp="yes">.*(diki|daki|deki|taki|teki)(m|m[ıi]z|ñ|ñ[ıi]z|n)?.*</exception>
+            </token>
+          </pattern>
+          <message>Yañğıravuqlıq yapılmalı: <suggestion ><match no="1" regexp_match="(.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ])(k)([uüiı](m|m[ıi]z|ñ|ñ[ıi]z|n)?.*)" regexp_replace="$1g$3"/></suggestion></message>
+          <example correction="Elegi"><marker>Eleki</marker> bozulğan edi.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">([Cc]e|[Tt]ü|.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ])p[uüıi](m|m[ıi]z|ñ|ñ[ıi]z|n)?.*</token>
+          </pattern>
+          <message>Yañğıravuqlıq yapılmalı: <suggestion ><match no="1" regexp_match="([Cc]e|[Tt]ü|.*[eiüöâuoıaUOIAEİÜÖÂ]{1,100}.*[eiüöâuoıaUOIAEİÜÖÂ])(p)([uüiı](m|m[ıi]z|ñ|ñ[ıi]z|n)?.*)" regexp_replace="$1b$3"/></suggestion></message>
+          <example correction="Talebimiz"><marker>Talepimiz</marker> acele oldı.</example>
+          <example correction="Cebinde"><marker>Cepinde</marker> aqça çoq.</example>
+          <example correction="tübünde">Terek <marker>tüpünde</marker> mışıçıq yattı.</example>
+        </rule>
+      </rulegroup>
+      
+      <rulegroup id="NOUN_DOUBLING" name="İsim ekileşmesi">
+        <rule>
+          <pattern>
+            <token regexp="yes">ağa|apte</token>
+            <token regexp="yes">qardaş.*</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="ağa-qardaşlarım">Menim <marker>ağa qardaşlarım</marker> Aqmescitte yaşaylar.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>bala</token>
+            <token regexp="yes">çağa.*</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="bala-çağalar">Bala bağçasına çoq <marker>bala çağalar</marker> keldiler.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>soy</token>
+            <token regexp="yes">sop.*</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="soy-soplarımıznı">Toyumızğa çoq <marker>soy soplarımıznı</marker> çağırdıq.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>ana</token>
+            <token regexp="yes">baba.*</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="ana-babalarımnen">Endi <marker>ana babalarımnen</marker> yaşayım.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>çalğı</token>
+            <token regexp="yes">çağana.*</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="çalğı-çağana">Toyumızda <marker>çalğı çağana</marker> çoq çaldı.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>alış</token>
+            <token regexp="yes">veriş.*</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="alış-verişni">Qardaşım <marker>alış verişni</marker> yapa.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>ara</token>
+            <token regexp="yes">sıra.*</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="ara-sıra">Memetnen <marker>ara sıra</marker> körüşemiz.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>aman</token>
+            <token>aman</token>
+          </pattern>
+          <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="aman-aman">Ahtem uçurımdan özenge <marker>aman aman</marker> tüşti.</example>
+        </rule>
+      </rulegroup>
+    </category>
+
+    <category id="GRAMMAR" name="Grammar mistakes" type="grammar">
+
+      <rulegroup id="QUESTION_PARTICLE_SEPARATION" name="Sual edadı ayırması">
+        <rule>
+          <pattern>
+            <token case_sensitive="yes" regexp="yes">.*[uoıaUOIA].*</token>
+            <token regexp="yes">mı|mi</token>
+          </pattern>
+          <message>Sual edatları ögdeki söznen beraber yazılmalı: <suggestion ><match no="1"/>mı</suggestion></message>
+          <example correction="yaptıñmı">İşiñni <marker>yaptıñ mı</marker>?</example>
+          <example correction="qırmızımı">Alma rengi <marker>qırmızı mı</marker>?</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[eiüöâEİÜÖÂ].*</token>
+            <token regexp="yes">mı|mi</token>
+          </pattern>
+          <message>Sual edatları ögdeki söznen beraber yazılmalı: <suggestion ><match no="1"/>mi</suggestion></message>
+          <example correction="Tünevinmi"><marker>Tünevin mi</marker> keldik?</example>
+          <example correction="güzelmi">Alma <marker>güzel mi</marker>?</example>
+        </rule>
+      </rulegroup>
+
+      <rulegroup id="QUESTION_PARTICLE_PERSONALIZED_MISSPOS" name="Sual edadı türk şeklinde yazıldı">
+        <rule>
+          <pattern>
+            <token case_sensitive="yes" regexp="yes">.*[uoıaUOIA].*</token>
+            <token regexp="yes">mı(sıñ|sıñız)</token>
+          </pattern>
+          <message>Sual edadı türk şeklinde yazılmamalı: <suggestion ><match no="1"/><match no="2" regexp_match="(mı)(sıñ|sıñız)" regexp_replace="$2$1"/></suggestion></message>
+          <example correction="yaparsıñmı">Bu <marker>yapar mısıñ</marker>?</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[eiüöâEİÜÖÂ].*</token>
+            <token regexp="yes">mi(siñ|siñiz)</token>
+          </pattern>
+          <message>Sual edadı türk şeklinde yazılmamalı: <suggestion ><match no="1"/><match no="2" regexp_match="(mi)(siñ|siñiz)" regexp_replace="$2$1"/></suggestion></message>
+          <example correction="kelersiñmi">Bizge <marker>keler misiñ</marker>?</example>
+        </rule>
+      </rulegroup>
+
+      <rule id="THANKFULLNESS_COLLOQUIAL" name="Minnetdarlıq forması">
+        <pattern>
+		      <marker>
+            <token postag_regexp="yes" postag=".*datv.*"></token>
+          </marker>
+          <token>sağ</token>
+          <token regexp="yes">ol|oluñız</token>
+        </pattern>
+        <message>Minnetdarliilq formas soyle: <suggestion><match no="1" postag_regexp="yes" postag="(.*)datv(.*)" postag_replace="$1nomn$2" /></suggestion></message>
+        <example correction="Sen"><marker>Saña</marker> sağ ol.</example>
+      </rule> 
+
+      <rulegroup id="PERSON_COORDINATION" name="Şahis uyğulaşması">
+        <rule>
+          <pattern>
+            <token postag_regexp="yes" postag="NPRO.*1per:sing.*"></token>
+            <marker>
+            <token postag_regexp="yes" postag="NOUN.*poss:(2per|3per):(sing|plur)"></token>
+            </marker>
+          </pattern>
+          <message>Şahisler uyğulaşmalılar: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(NOUN.*poss):(2per|3per):sing" postag_replace="$1:1per:sing"/></suggestion>
+          </message>
+          <example correction="dostum">Menim <marker>dostu</marker>.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token postag_regexp="yes" postag="NPRO.*1per:plur.*"></token>
+            <marker>
+            <token postag_regexp="yes" postag="NOUN.*poss:(2per|3per):(sing|plur)"></token>
+            </marker>
+          </pattern>
+          <message>Şahisler uyğulaşmalılar: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(NOUN.*poss):(2per|3per):plur" postag_replace="$1:1per:plur"/></suggestion>
+          </message>
+          <example correction="dostlarımız">Bizim <marker>dostları</marker>.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token postag_regexp="yes" postag="NPRO.*2per:sing.*"></token>
+            <marker>
+            <token postag_regexp="yes" postag="NOUN.*poss:(1per|3per):(sing|plur)"></token>
+            </marker>
+          </pattern>
+          <message>Şahisler uyğulaşmalılar: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(NOUN.*poss):(1per|3per):sing" postag_replace="$1:2per:sing"/></suggestion>
+          </message>
+          <example correction="dostuñ">Seniñ <marker>dostu</marker>.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token postag_regexp="yes" postag="NPRO.*2per:plur.*"></token>
+            <marker>
+            <token postag_regexp="yes" postag="NOUN.*poss:(1per|3per):(sing|plur)"></token>
+            </marker>
+          </pattern>
+          <message>Şahisler uyğulaşmalılar: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(NOUN.*poss):(1per|3per):plur" postag_replace="$1:2per:plur"/></suggestion>
+          </message>
+          <example correction="dostlarıñız">Siziñ <marker>dostları</marker>.</example>
+        </rule> 
+      </rulegroup>
+
+      <rulegroup id="SIMPLE_INFINITIVE" name="Sade infinitiv">
+        <rule>
+          <pattern>
+            <marker>
+              <token regexp="yes">.*mağa</token>
+            </marker>
+            <token>kerek</token>
+          </pattern>
+          <message>Sade infinitiv qullanılmalı: 
+            <suggestion ><match no="1" regexp_match="(.*)(mağa)" regexp_replace="$1maq"/></suggestion>
+          </message>
+          <example correction="yapmaq">Endi <marker>yapmağa</marker> kerek.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token regexp="yes">.*mege</token>
+            </marker>
+            <token>kerek</token>
+          </pattern>
+          <message>Sade infinitiv qullanılmalı: 
+            <suggestion ><match no="1" regexp_match="(.*)(mege)" regexp_replace="$1mek"/></suggestion>
+          </message>
+          <example correction="ketmek">Endi <marker>ketmege</marker> kerek.</example>
+        </rule>
+      </rulegroup>
+
+      <rule id="REASON_PARTICLE_CASE_COLLOCATION" name="Sebep edadındaki keliş uyğulaşması">
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*exod.*"></token>
+          </marker>
+          <token>içün</token>
+        </pattern>
+        <message>Sebep edadındaki keliş uyğulaşmalı: 
+          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)exod(.*)" postag_replace="$1gent$3"/></suggestion>
+        </message>
+        <example correction="sebepniñ">Şu <marker>sebepten</marker> içün.</example>
+      </rule> 
+
+      <rule id="TENSE_PARTICLE_CASE_COLLOCATION" name="Vaqıt edadındaki keliş uyğulaşması">
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*gent.*"></token>
+          </marker>
+          <token>evel</token>
+        </pattern>
+        <message>Vaqıt edadındaki keliş uyğulaşmalı: 
+          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)gent(.*)" postag_replace="$1exod$3"/></suggestion>
+        </message>
+        <example correction="yıldan">O <marker>yılnıñ</marker> evel.</example>
+      </rule> 
+      
+      <rulegroup id="POSTPOSITION_CASE_COLLOCATION" name="Munasebetçi kelişi uyğulaşması">
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NOUN|ADJF|NUMR|PRTF).*(nomn|gent|accs|loct|exod).*"></token>
+            </marker>
+            <token regexp="yes">qarşı|köre|taba|doğru|qadar</token>
+          </pattern>
+          <message>Munasebetçi kelişi şöyle uyğulaşmalı: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)(nomn|gent|accs|loct|exod)(.*)?" postag_replace="$1datv$4"/></suggestion>
+          </message>
+          <example correction="Terekke"><marker>Terekniñ</marker> qarşı oturdı.</example>
+        </rule> 
+      </rulegroup>
+
+      <rule id="EXODIVE_VERB_CASE_COLLOCATION" name="Fiildeki çıqış kelişi uyğulaşması">
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*accs.*"></token>
+          </marker>
+          <token regexp="yes" postag_regexp="yes" postag="VERB.*">sora.*</token>
+        </pattern>
+        <message>Fiildeki çıqış kelişi şöyle uyğulaşmalı: 
+          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)accs(.*)" postag_replace="$1exod$3"/></suggestion>
+        </message>
+        <example correction="Dostumdan"><marker>Dostumnı</marker> soradım.</example>
+      </rule> 
+
+      <rule id="EXODIVE_VERB_ADVB_COLLOCATION" name="Soñ sözündeki çıqış kelişi uyğulaşması">
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*nomn.*"></token>
+          </marker>
+          <token>soñ</token>
+        </pattern>
+        <message>Fiildeki çıqış kelişi şöyle uyğulaşmalı: 
+          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)nomn(.*)" postag_replace="$1exod$3"/></suggestion>
+        </message>
+        <example correction="Kelgenden"><marker>Kelgen</marker> soñ.</example>
+      </rule> 
+
+      <rule id="NUMERAL_PLURAL_COLLOCATION" name="Sayı cemisi uyğulaşması">
+        <pattern>
+          <token postag_regexp="yes" postag="NUMR.*">
+            <exception regexp="yes">.*(ci|cı)</exception>
+            <exception>bir</exception>
+          </token>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF):plur.*"></token>
+          </marker>
+        </pattern>
+        <message>Sayı cemisi şöyle yazılmalı: 
+          <suggestion><match no="2" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF):)plur(.*)" postag_replace="$1sing$3"/></suggestion>
+        </message>
+        <example correction="ay">Beş <marker>aylar</marker>.</example>
+      </rule> 
+      
+      <rulegroup id="VERB_PERSON_COORDINATION" name="Fiil şahisi uyğulaşması">
+        <rule>
+          <pattern>
+            <token postag="NPRO:subst:1per:plur:nomn"></token>
+            <marker>
+            <token postag_regexp="yes" postag="VERB.*:(2per|3per):(sing|plur).*"></token>
+            </marker>
+          </pattern>
+          <message>Fiil şahisleri uyğulaşmalılar: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(VERB.*):(2per|3per):plur(.*)" postag_replace="$1:1per:plur$3"/></suggestion>
+          </message>
+          <example correction="yaptıq">Biz <marker>yaptılar</marker>.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token postag="NPRO:subst:2per:sing:nomn"></token>
+            <marker>
+            <token postag_regexp="yes" postag="VERB.*:(1per|3per):(sing|plur).*"></token>
+            </marker>
+          </pattern>
+          <message>Fiil şahisleri uyğulaşmalılar: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(VERB.*):(1per|3per):sing(.*)" postag_replace="$1:2per:sing$3"/></suggestion>
+          </message>
+          <example correction="yaptıñ">Sen <marker>yaptı</marker>.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token postag="NPRO:subst:2per:plur:nomn"></token>
+            <marker>
+            <token postag_regexp="yes" postag="VERB.*:(1per|3per):(sing|plur).*"></token>
+            </marker>
+          </pattern>
+          <message>Fiil şahisleri uyğulaşmalılar: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(VERB.*):(1per|3per):plur(.*)" postag_replace="$1:2per:plur$3"/></suggestion>
+          </message>
+          <example correction="yaptıñız">Siz <marker>yaptılar</marker>.</example>
+        </rule> 
+      </rulegroup>
+
+    </category>
+</rules>

@@ -22,9 +22,6 @@ class LetterEndingForNumericHelper {
     map2.put("ій", Arrays.asList(
         RegexToCaseList.regex(".*([^3]|13)", ":f:v_dav", ":f:v_mis"), // 5-ій 
         RegexToCaseList.always(":m:v_naz", ":m:v_zna:rinanim", ":f:v_dav", ":f:v_mis"))); // 3-ій
-    map2.put("тій", Arrays.asList(
-        RegexToCaseList.regex(".*([^3]|13)", ":f:v_dav", ":f:v_mis"), // 5-ій 
-        RegexToCaseList.always(":m:v_naz", ":m:v_zna:rinanim", ":f:v_dav", ":f:v_mis"))); // 3-ій
     map2.put("го", Arrays.asList(RegexToCaseList.always(":m:v_rod", ":m:v_zna:ranim", ":n:v_rod")));
     map2.put("му", Arrays.asList(RegexToCaseList.always(":m:v_dav", ":m:v_mis", ":n:v_dav", ":n:v_mis", ":f:v_zna")));
     map2.put("м", Arrays.asList(RegexToCaseList.always(":m:v_oru", ":n:v_oru", ":p:v_dav"))); // theoretically can also be -ім v_mis but rare
@@ -57,13 +54,31 @@ class LetterEndingForNumericHelper {
     map2.put("те", Arrays.asList(RegexToCaseList.always(":n:v_naz", ":n:v_zna"))); // 4-те
     map2.put("ме", Arrays.asList(RegexToCaseList.always(":n:v_naz", ":n:v_zna"))); // 7-те
     map2.put("і", Arrays.asList(RegexToCaseList.always(":p:v_naz", ":p:v_zna:rinanim")));
-    map2.put("ві", Arrays.asList(RegexToCaseList.always(":p:v_naz:bad", ":p:v_zna:rinanim:bad")));
     map2.put("ті", Arrays.asList(RegexToCaseList.always(":p:v_naz", ":p:v_zna:rinanim")));
     map2.put("ні", Arrays.asList(RegexToCaseList.always(":p:v_naz", ":p:v_zna:rinanim")));
     map2.put("х", Arrays.asList(RegexToCaseList.always(":p:v_rod", ":p:v_zna:ranim", ":p:v_mis"))); // 5-х
     map2.put("их", Arrays.asList(RegexToCaseList.always(":p:v_rod", ":p:v_zna:ranim", ":p:v_mis"))); // 5-их
     //TODO: частіше вживають іменником: у 7-ми томах
     map2.put("ми", Arrays.asList(RegexToCaseList.always(":p:v_oru"))); // 8-ми
+
+    // bad
+    map2.put("ві", Arrays.asList(RegexToCaseList.always(":p:v_naz:bad", ":p:v_zna:rinanim:bad")));
+    map2.put("тій", Arrays.asList(
+        RegexToCaseList.regex(".*([^3]|13)", ":f:v_dav:bad", ":f:v_mis:bad"), // 5-тій
+        RegexToCaseList.always(":m:v_naz:bad", ":m:v_zna:rinanim:bad", ":f:v_dav:bad", ":f:v_mis:bad"))); // 3-ій
+    map2.put("мій", Arrays.asList(RegexToCaseList.always(":f:v_dav:bad", ":f:v_mis:bad"))); // 8-мій
+    map2.put("мою", Arrays.asList(RegexToCaseList.always(":f:v_oru:bad")));
+    map2.put("тою", Arrays.asList(RegexToCaseList.always(":f:v_oru:bad")));
+    map2.put("тої", Arrays.asList(RegexToCaseList.always(":f:v_rod:bad")));
+    map2.put("мої", Arrays.asList(RegexToCaseList.always(":f:v_rod:bad")));
+    map2.put("тий", Arrays.asList(RegexToCaseList.always(":m:v_naz:bad", ":m:v_zna:rinanim:bad")));
+    map2.put("мий", Arrays.asList(RegexToCaseList.always(":m:v_naz:bad", ":m:v_zna:rinanim:bad")));
+    map2.put("тих", Arrays.asList(RegexToCaseList.always(":p:v_rod:bad", ":p:v_mis:bad")));
+    map2.put("ого", Arrays.asList(RegexToCaseList.always(":m:v_rod:bad", ":m:v_zna:ranim:bad", ":n:v_rod:bad")));
+    map2.put("ому", Arrays.asList(RegexToCaseList.always(":m:v_dav:bad", ":m:v_mis:bad", ":n:v_dav:bad", ":n:v_mis:bad")));
+    map2.put("тим", Arrays.asList(RegexToCaseList.always(":m:v_oru:bad", ":n:v_oru:bad", ":p:v_dav:bad")));
+    map2.put("ома", Arrays.asList(RegexToCaseList.always(":f:v_naz:bad", ":p:v_oru:bad"))); // 7-ома, 12-ома
+
     NUMR_ENDING_MAP = Collections.unmodifiableMap(map2);
   }
   

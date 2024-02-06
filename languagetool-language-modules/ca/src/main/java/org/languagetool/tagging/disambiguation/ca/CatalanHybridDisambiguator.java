@@ -39,8 +39,8 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/ca/multiwords.txt", true, true);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, "NPCN000");
+  private final MultiWordChunker chunker = new MultiWordChunker("/ca/multiwords.txt", true, true, false);
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,"NPCN000");
   private final Disambiguator disambiguator;
 
   @Override

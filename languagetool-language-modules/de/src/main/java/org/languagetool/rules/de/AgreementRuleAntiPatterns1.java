@@ -877,8 +877,26 @@ class AgreementRuleAntiPatterns1 {
       csRegex(".+e"),
       posRegex("SUB:NOM:PLU.*"),
       csRegex("sind|waren")
+    ),
+    asList(
+      // Er fragte, ob das Frauen auch so toll finden.
+      token("ob"),
+      token("das"),
+      token("Frauen")
+    ),
+    asList(
+      // Ich lese das Korrektur.
+      csRegex("l[ea]sen?|liest|l[ea]st?"),
+      token("das"),
+      token("Korrektur")
+    ),
+    asList(
+      // Ich habe das Korrektur gelesen.
+      csRegex("habe?n?|ha[sb]?t"),
+      token("das"),
+      token("Korrektur"),
+      token("gelesen")
     )
-
   );
 
 }

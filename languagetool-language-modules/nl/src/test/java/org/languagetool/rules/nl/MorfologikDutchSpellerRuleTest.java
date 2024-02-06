@@ -55,7 +55,14 @@ public class MorfologikDutchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("déúr")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("déur")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("deur-knop")).length);
+
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Hartelijke groet en hopelijk tot ziens!")).length);
     
+    //unknown followed by EN, should be accepted as it's not in EN dict
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Deze duifkuiker was vlak onder de oever aan het jagen.")).length);
+    // unknown followed by EN, should get detected as it's in disambig entity
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ik vond het indubitably preposterous, wat vond jij ervan?")).length);
+
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("thailan."));
     assertThat(matches1.length, is(1));
     assertThat(matches1[0].getSuggestedReplacements().get(0), is("Thailand"));

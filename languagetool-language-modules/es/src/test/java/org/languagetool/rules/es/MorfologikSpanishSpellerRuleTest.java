@@ -34,7 +34,7 @@ public class MorfologikSpanishSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     Spanish language = new Spanish();
-    MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("en"), language, null,
+    MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("es"), language, null,
         Collections.emptyList());
     JLanguageTool lt = new JLanguageTool(language);
 
@@ -152,8 +152,8 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("🚴"));
     assertEquals(0, matches.length);
-    // matches = rule.match(langTool.getAnalyzedSentence("🏽"));
-    // assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("🏽"));
+    assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("♂️"));
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("🎉"));
@@ -166,6 +166,16 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️"));
     assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("- Prueva"));
+    assertEquals(1, matches.length);
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(8, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("🧡 Prueva"));
+    assertEquals(1, matches.length);
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(9, matches[0].getToPos());
 
     // Combining diacritics
     matches = rule.match(lt.getAnalyzedSentence("publicacio\u0301n"));
@@ -213,6 +223,30 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("[Martín, Mártir, Martina, Mastín, Marlín, Martiño, Martí, Marvin, Marín, Martini, Marin, Marti, Martins]", matches[0].getSuggestedReplacements().toString());
 
+    matches = rule.match(lt.getAnalyzedSentence("Dnipro"));
+    assertEquals(1, matches.length);
+    assertEquals("[Dnipró]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("Dnepr"));
+    assertEquals(1, matches.length);
+    assertEquals("Dniéper", matches[0].getSuggestedReplacements().get(0).toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("don't, doesn't, don’t, doesn’t"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("l'Alacantí, l’Alacantí"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("medices algo"));
+    assertEquals(1, matches.length);
+    assertEquals("Me dices", matches[0].getSuggestedReplacements().get(0).toString());
+
+    // coloquialism allowed, but not suggested
+    matches = rule.match(lt.getAnalyzedSentence("El munipa"));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("El munipe"));
+    assertEquals(1, matches.length);
+    assertEquals(false, matches[0].getSuggestedReplacements().contains("munipa"));
   }
 
 }

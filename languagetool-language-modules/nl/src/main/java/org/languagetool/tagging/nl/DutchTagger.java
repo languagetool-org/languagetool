@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.nl.CompoundAcceptor;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
+import org.languagetool.language.Dutch;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -92,7 +93,7 @@ public class DutchTagger extends BaseTagger {
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
+    CompoundAcceptor compoundAcceptor = Dutch.getCompoundAcceptor();
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
@@ -189,11 +190,18 @@ public class DutchTagger extends BaseTagger {
             String part1 = parts.get(0);
             String part2 = parts.get(1);
             List<AnalyzedTokenReadings> part2ReadingsList = tag(Collections.singletonList(part2));
-            if (!part2ReadingsList.isEmpty()) {
-              AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
-              String part1lc = part1.toLowerCase();
-              for (AnalyzedToken part2Reading : part2Readings) {
-                if (part2Reading.getPOSTag() != null && part2Reading.getPOSTag().startsWith("ZNW")) {
+            AnalyzedTokenReadings part2Readings = part2ReadingsList.get(0);
+            String part1lc = part1.toLowerCase();
+            for (AnalyzedToken part2Reading : part2Readings) {
+              if (part2Reading.getPOSTag() != null) {
+                // if part1 ends with a hyphen, check if we are dealing with geographical compound word
+                if (part1.endsWith("-")) {
+                  if (part2Reading.getPOSTag().startsWith("ENM:LOC")) {
+                    l.add(new AnalyzedToken(word, part2Reading.getPOSTag(), part2));
+                    break;
+                  }
+                }
+                if (part2Reading.getPOSTag().startsWith("ZNW")) {
                   String tag;
                   if (alwaysNeedsHet.contains(part2)) {
                     tag = "ZNW:EKV:HET";

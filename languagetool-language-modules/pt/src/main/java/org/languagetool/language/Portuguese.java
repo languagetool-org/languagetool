@@ -306,22 +306,22 @@ public class Portuguese extends Language implements AutoCloseable {
   }
 
   @Override
-  public String prepareLineForSpeller(String line) {
+  public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return line;
+      return Arrays.asList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     String form = formTag[0].trim();
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_")) {
-        return form;
+        return Arrays.asList(form);
       } else {
-        return "";
+        return Arrays.asList("");
       }
     }
-    return line;
+    return Arrays.asList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
