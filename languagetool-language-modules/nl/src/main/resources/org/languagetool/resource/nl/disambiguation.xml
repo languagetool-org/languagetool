@@ -12137,9 +12137,11 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="SENT_START"/>
 			<token postag="VGW"><exception negate_pos="yes" postag="VGW"/></token>
 			<token postag="VGW VNW:PER:1EP:EKV:ACT"/>
-			<token postag="WKW:TGW:1EP"/>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			</marker>
 		</pattern>
-		<disambig action="filterall"/>
+		<disambig postag="WKW:TGW:1EP"/>
 	</rule>
 
 	<!--
