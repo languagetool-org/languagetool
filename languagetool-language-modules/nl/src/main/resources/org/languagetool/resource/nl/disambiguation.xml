@@ -11284,13 +11284,16 @@ Copyright (C) 2008-2024 Ruud Baars
 	    44:	En dan komt
 	    19:	En dan volgt
 	    11:	En dan begint
-	4:	En dan gaat-->
+	4:	En dan gaat
+	-->
+	<!--
 	<rule id="NEW_495" name="-">
 		<pattern>
 			<token case_sensitive="yes">dan</token>
 		</pattern>
 		<disambig action="remove" postag="ENM:PER:FST"/>
 	</rule>
+	-->
 
 	<!--
 	?	  4825	(4)	GET:TXT:EKV BNW:STL:ONV|BNW:STL:VRB ZNW:EKV:DE_ ITP:PNT|SENT_END
@@ -12355,7 +12358,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"/>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
 		</pattern>
 		<disambig action="filterall"/>
@@ -12501,6 +12504,43 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 			<token postag="VNW:OND:EKV:HET"/>
 			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  5186	(4)	SENT_START VGW|START BYW|VGW WKW:TGW:3EP
+	    44:	En dan komt
+	    17:	En dan volgt
+	     9:	En dan begint
+	     4:	En dan gaat
+	     2:	En dan valt
+	     2:	En dan klinkt
+	-->
+	<rule id="NEW_566" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="START|VGW"><exception negate_pos="yes" postag_regexp="yes" postag="START|VGW"/></token>
+			<marker>
+				<token postag="BYW"/>
+				<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3820	(4)	VGW VRZ WKW:TGW:INF VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET
+	    20:	 om te weten dat
+	    19:	 om te zien dat
+	    11:	 om te denken dat
+	    11:	 om te zeggen dat
+	-->
+	<rule id="NEW_567" name="-">
+		<pattern>
+			<token postag="VGW">om</token>
+			<token postag="VRZ">te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+			<token postag="VGW">dat</token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
