@@ -12726,6 +12726,184 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<!--
+	?	  3805	(4)	VRZ TYD:DAG|BYW|ZNW:EKV:DE_ VRZ TYD:DAG|BYW|ZNW:EKV:DE_
+	    32:	 van woensdag op donderdag
+	    15:	 van vrijdag op zaterdag
+	     9:	 van zondag op maandag
+	     9:	 van maandag op dinsdag
+	-->
+	<rule id="NEW_578" name="-">
+		<pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="ZNW:EKV:DE_"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3788	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_
+	    13:	De man die
+	     5:	De vrouw die
+	     5:	De commissie die
+	     3:	De agent die
+	     3:	De wolf die
+	-->
+	<rule id="NEW_579" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+				<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+				<token postag="VGW:EKV:DE_">die</token>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3688	(4)	ZNW:EKV:DE_ VGW|VRZ ZNW:EKV:HET ITP:PNT|SENT_END
+	     1:	 depressie tot gevolg.
+	     1:	 kortsluiting tot gevolg.
+	     1:	as met draadeinde.
+	     1:	Ouderslaapkamer met 2-persoonsbed.
+	-->
+	<rule id="NEW_580" name="-">
+		<pattern>
+			<marker>
+				<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+				<token postag="VRZ"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+				<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3686	(4)	VGW|VRZ VNW:OND:MRV:HET|VNW:AWZ:EKV:HET WKW:TGW:1EP|ZNW:EKV:HET ITP:PNT|SENT_END
+	     3:	 voor dit boek.
+	     2:	 voor het onderzoek.
+	     2:	 voor het werk.
+	     2:	 voor dit geval.
+	     1:	 voor dit doel.
+	-->
+	<rule id="NEW_581" name="-">
+		<pattern>
+			<marker>
+				<token postag="VRZ"/>
+				<token postag="VNW:AWZ:EKV:HET"/>
+				<token postag="ZNW:EKV:HET"/>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3671	(4)	SENT_START BNW:STL:VRB ZNW:MRV:DE_ WKW:TGW:INF|ZNW:MRV:DE_
+	     2:	Nieuwe tijden vragen
+	     2:	Bijzondere tijden vragen
+	     2:	Speciale omstandigheden vragen
+	     1:	Lokale autoriteiten willen
+	     1:	Nieuwe laptops kunnen
+	     1:	Echte experts kunnen
+	-->
+	<rule id="NEW_582" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+				<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+				<token postag="WKW:TGW:INF"/>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3665	(4)	VRZ ZNW:EKV|WKW:TGW:1EP|VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF ZNW:MRV:DE_ ITP:PNT|SENT_END
+	    16:	 op haar knieën.
+	    12:	 op haar vingers.
+	    11:	 op haar nagels.
+	     5:	 in haar aantekeningen.
+	     5:	 door haar knieën.
+	-->
+	<rule id="NEW_583" name="-">
+		<pattern>
+			<marker>
+				<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+				<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
+				<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3662	(4)	SENT_START VNW:OBP|BNW:STL:ONV|BYW:GRD|WKW:TGW:1EP ZNW:MRV:DE_ WKW:TGW:INF
+	    11:	Veel mensen zijn
+	     4:	Veel soorten zijn
+	     2:	Veel collega's zijn
+	     1:	Veel mensen vinden
+	     1:	Veel mensen blijven
+	-->
+	<rule id="NEW_584" name="-">
+		<pattern>
+			<marker>
+				<token postag="VNW:OBP">veel</token>
+				<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3654	(4)	VGW|VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:HET ITP:PNT|SENT_END
+	    28:	 met zijn hoofd.
+	     4:	 met zijn glas.
+	     2:	 met zijn servet.
+	     2:	 met zijn pistool.
+	     1:	 voor hun praktijkexamen.
+	     1:	 voor uw project.
+	-->
+	<rule id="NEW_585" name="-">
+		<pattern>
+			<marker>
+				<token postag="VRZ"/>
+				<token postag_regexp="yes" postag=".*:BEZ"><exception negate_pos="yes" postag_regexp="yes" postag=".*:BEZ"/></token>
+				<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3644	(4)	GET:TXT:MRV|ZNW:EKV:DE_ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     1:	 twee andere vrouwen.
+	     1:	 twee grote problemen.
+	     1:	 twee mogelijke oorzaken.
+	     1:	 twee mogelijke scenario's.
+	     1:	 vijf contextuele systemen.
+	-->
+	<rule id="NEW_586" name="-">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="GET:.*:MRV"/>
+				<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+				<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
