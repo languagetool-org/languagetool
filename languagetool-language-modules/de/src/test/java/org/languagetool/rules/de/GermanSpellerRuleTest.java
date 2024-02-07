@@ -155,8 +155,8 @@ public class GermanSpellerRuleTest {
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Jungsnamen")); // 'Jungs' is colloquial for 'Jungen'
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"));
-    //assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase")); // see prohibit.txt
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate")); // see prohibit.txt
   }
 
   @Test
