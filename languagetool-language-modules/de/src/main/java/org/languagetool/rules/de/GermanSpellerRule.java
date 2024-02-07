@@ -2236,6 +2236,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // Exclude cases like weird/irrelevant words and very long words that can cause crashes
       return false;
     }
+    // Check for words that are likely to be typos
     if (word.endsWith("gruße") ||   // too big chance of a "...grüße" typo
         word.endsWith("schaf") ||  // too big chance of a "...schaft" typo
         word.endsWith("schafs") ||
@@ -2244,10 +2245,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ) {
       return false;
     }
-    // Accept compounds with infix-s if both parts are known to the speller AND the first part
-    // ends with some specific chars, which indicate the need for the infix-s.
-    // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
-    // Deals with two-part compounds only and could be extended.
+    // Remove dot
     String wordNoDot = word.endsWith(".") ? word.substring(0, word.length()-1) : word;
 
     // Format gender neutral forms here to make processing easier
@@ -2255,6 +2253,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // "ExpertInnen"  -> "Expertinnen"
     wordNoDot = wordNoDot.replaceFirst("(\\*in|(?<=(\\w))In)", "in");
 
+    // Return false if a word is written in CamelCase
     if (!isValidCamelCase(wordNoDot)) {
       return false;
     }
@@ -2275,7 +2274,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // and preprocess further
     if (wordNoDot.contains("-")) {
       //Split original word by hyphen
-      List<String> splitByHyphen= new ArrayList<String>(Arrays.asList(wordNoDot.split("-")));//  wordNoDot.split("-");
+      List<String> splitByHyphen= new ArrayList<String>(Arrays.asList(wordNoDot.split("-")));
       String last_part = splitByHyphen.get(splitByHyphen.size() - 1);
 
       if (!isNoun(last_part) &&  isNoun(uppercaseFirstChar(last_part))) {
@@ -2371,15 +2370,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return false;
     }
 
+    // TODO distinguish more cases with hyphens
     if (part2ucIsNoun && !part2ucIsMisspelled &&
-      // 's' is the last character in *part1* and is not an infix
+      // 's' is the last character in *part1* and is probably not an infix
       part1WithoutHyphen.endsWith("s") && (isNounNom(part1uc) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
       (!hasNoInfixS(removeInfixS(part1uc)) || needsInfixS(removeInfixS(part1uc)))) {
       return true;
     }
     if (part2ucIsNoun && !part2ucIsMisspelled &&
-      // 's' is the last character in *part1* and is an infix
+      // 's' is the last character in *part1* and is probably an infix
       part1WithoutHyphen.endsWith("s") && isNounNom(removeInfixSAndHyphen(part1uc)) &&
       // check if infix 's' is required or not allowed
       (!hasNoInfixS(removeInfixSAndHyphen(part1uc)) || needsInfixS(removeInfixSAndHyphen(part1uc)))) {
@@ -2428,6 +2428,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private boolean needsSometimesInfixS (String part1, String part2) throws IOException {
+    // Check if *part1* requires or prohibits infix s depending on *part2*
     String part2_lemma = findLemmaForNoun(removeHyphen(part2));
     if (part2_lemma.equals("") && removeHyphen(part2).endsWith("s")) {
       part2_lemma = findLemmaForNoun(removeInfixSAndHyphen(part2));
@@ -2467,10 +2468,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Check if the string contains any instance of camel casing
     boolean containsCamelCase = input.matches(".*(\\p{Ll}\\p{Lu}|\\p{Lu}{2,}\\p{Ll}).*");
 
+    // Add exceptions here
+
     return !containsCamelCase;
   }
 
   private List<String> restoreRemovedHyphens(List<String> parts, String word) {
+      // Restore hyphens that were removed by the tokenizer by appending them to
+      //   individual tokens
       List<String> tokensWithHyphens = new ArrayList<>();
 
       // Find and store the positions of hyphens in the original word
@@ -2499,7 +2504,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private List<String> avoidInfixSAsSingleToken(List<String> parts) {
     // If a part equals "s", append it to its predecessor
-    // example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
+    //   example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
     List<String> fixed_parts = new ArrayList<String>();
     List<Integer> indexes_of_s = indexOfInfixS(parts);
 
