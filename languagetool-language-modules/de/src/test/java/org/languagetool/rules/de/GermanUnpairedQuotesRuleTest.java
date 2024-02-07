@@ -58,6 +58,7 @@ public class GermanUnpairedQuotesRuleTest {
     assertMatches("'Das ist Hans'.'", 0);
     assertMatches("Das Fahrrad hat 26\" Räder.", 0);
     assertMatches("\"Das Fahrrad hat 26\" Räder.\"", 0);
+    assertMatches("und steigern » Datenbankperformance steigern » Tipps zur Performance-Verbesserung", 0);
     // incorrect sentences:
     assertMatches("\"Das Fahrrad hat 26\" Räder.\" \"Und hier fehlt das abschließende doppelte Anführungszeichen.", 1);
     assertMatches("Die „Sätze zum Testen.", 1);
